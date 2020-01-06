@@ -1,0 +1,19 @@
+{
+  "name": "sonora",
+  "version": "0.0.1",
+  "description": "The UI for the CyVerse Discovery Environment.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyverse-de/sonora.git"
+  },
+  "author": "CyVerse Core Software",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/cyverse-de/sonora/issues"
+  },
+  "homepage": "https://github.com/cyverse-de/sonora#readme"
+}

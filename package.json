@@ -43,6 +43,11 @@
     "fsevents": "^1.2.9"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^5.2.8",
+    "@storybook/addon-console": "^1.2.1",
+    "@storybook/addon-knobs": "^5.2.8",
+    "@storybook/addon-links": "^5.2.8",
+    "@storybook/addons": "^5.2.8",
     "@storybook/react": "^5.2.8",
     "cross-env": "^6.0.3",
     "jest": "^24.9.0",

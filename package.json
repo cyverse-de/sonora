@@ -4,7 +4,9 @@
   "description": "The UI for the CyVerse Discovery Environment.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/cyverse-de/sonora/issues"
   },
-  "homepage": "https://github.com/cyverse-de/sonora#readme"
+  "homepage": "https://github.com/cyverse-de/sonora#readme",
+  "dependencies": {
+    "next": "^9.1.7",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  }
 }

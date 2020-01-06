@@ -9,7 +9,8 @@
     "start": "cross-env NODE_ENV=production node server/index.js",
     "storybook": "start-storybook -p 9009 -s public",
     "test": "jest",
-    "test-watch": "jest --watch"
+    "test-watch": "jest --watch",
+    "format": "prettier --write './**/*.js'"
   },
   "repository": {
     "type": "git",
@@ -67,6 +68,19 @@
     "babel-preset-react-app": "^9.1.0",
     "cross-env": "^6.0.3",
     "jest": "^24.9.0",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "prettier": "^1.19.1"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "jsxBracketSameLine": false
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }

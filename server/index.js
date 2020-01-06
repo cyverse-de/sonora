@@ -7,9 +7,7 @@ const port = parseInt(process.env.PORT || "3000", 10);
 const app = next({ dev });
 const nextHandler = app.getRequestHandler();
 
-
-app
-    .prepare()
+app.prepare()
 
     .then(() => {
         const server = express();
@@ -18,13 +16,13 @@ app
             return nextHandler(req, res);
         });
 
-        server.listen(port, err => {
+        server.listen(port, (err) => {
             if (err) throw err;
-            console.log(`> Read on http://localhost:${{port}}`);
+            console.log(`> Read on http://localhost:${{ port }}`);
         });
     })
 
-    .catch(exception => {
+    .catch((exception) => {
         console.error(exception.stack);
         process.exit(1);
     });

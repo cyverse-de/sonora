@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import AppTile from "../src/components/appTile/AppTile";
-import { storiesOf } from "@storybook/react";
+import AppTile from "../components/apps/tile/AppTile";
 import Grid from "@material-ui/core/Grid";
 
-export default class AppTileTest extends Component {
+class AppTileTest extends Component {
     constructor(props) {
         super(props);
         this.props = props;
@@ -335,4 +334,6 @@ export default class AppTileTest extends Component {
     }
 }
 
-storiesOf("AppTile", module).add("with app tile", () => <AppTileTest />);
+export default { title: "Apps" };
+
+export const AppTiles = () => <AppTileTest />;

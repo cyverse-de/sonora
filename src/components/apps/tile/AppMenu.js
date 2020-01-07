@@ -2,16 +2,14 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { IconButton, makeStyles, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import withI18N, { formatMessage, getMessage } from "../../util/I18NWrapper";
 import { injectIntl } from "react-intl";
 import InfoIcon from "@material-ui/icons/InfoOutlined";
 import UnFavoriteIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import CommentsIcon from "@material-ui/icons/CommentOutlined";
 import PlayIcon from "@material-ui/icons/PlayArrow";
-import palette from "../../util/CyVersePalette";
+import { palette, build, withI18N, formatMessage, getMessage } from "@cyverse-de/ui-lib";
 import intlData from "./messages";
-import build from "../../util/DebugIDUtil";
 import ids from "./ids";
 
 /**

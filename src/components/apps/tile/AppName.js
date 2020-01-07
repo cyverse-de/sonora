@@ -2,10 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core";
 import classnames from "classnames";
-import withI18N, { formatMessage } from "../../util/I18NWrapper";
 import { injectIntl } from "react-intl";
 import intlData from "./messages";
-import Highlighter from "../highlighter/Highlighter";
+import { Highlighter, withI18N, formatMessage } from "@cyverse-de/ui-lib";
 
 const useStyles = makeStyles((theme) => ({
     name: {

@@ -11,16 +11,12 @@ import PropTypes from "prop-types";
 
 import AppStatusIcon from "./AppStatusIcon";
 import intlData from "./messages";
-import palette from "../../util/CyVersePalette";
-import Rate from "../rating/Rate";
-import withI18N from "../../util/I18NWrapper";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core";
 import AppName from "./AppName";
 import AppMenu from "./AppMenu";
-import { build } from "../../lib";
 import ids from "./ids";
-import Highlighter from "../highlighter/Highlighter";
+import { Highlighter, build, withI18N, palette, Rate } from "@cyverse-de/ui-lib";
 
 const styles = (theme) => ({
     card: {

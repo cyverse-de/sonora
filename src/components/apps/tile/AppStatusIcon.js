@@ -4,12 +4,11 @@ import PropTypes from "prop-types";
 import betaPng from "./betaSymbol.png";
 import betaSvg from "./betaSymbol.svg";
 import messages from "./messages";
-import withI18N, { getMessage } from "../../util/I18NWrapper";
 
 import Disabled from "@material-ui/icons/Block";
 import Lock from "@material-ui/icons/Lock";
 import ToolTip from "@material-ui/core/Tooltip";
-import palette from "../../util/CyVersePalette";
+import { palette, withI18N, getMessage } from "@cyverse-de/ui-lib";
 
 /**
  * @author aramsey

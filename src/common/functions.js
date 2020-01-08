@@ -1,12 +1,21 @@
 import _ from 'lodash';
 
 /**
+ * A callback that can transform strings passed to it.
+ * @callback stringTransformer
+ * @param {string} s - The string to change.
+ * @returns {string} The string after it's been changed.
+ */
+
+/**
  * deepMapKeys recursively transforms the keys in the map using the provided
  * callback function.
- * 
- * @param obj An object that has keys that require modifying.
- * @param callback A function that transforms the strings passed to it. (x) => string.
- * @returns The new version of the object with the keys modified by the callback.
+ * @param {*} obj - An object that has keys that require modifying. If it's not
+ *      a plain object, it will be returned unchanged.
+ * @param {stringTransformer} callback  - A function that transforms the 
+ *      strings passed to it. (x) => string.
+ * @returns {*} - The new version of the object with the keys modified by the 
+ *      callback.
  */
 export function deepMapKeys(obj, callback) {
     return _.isString(obj) ?

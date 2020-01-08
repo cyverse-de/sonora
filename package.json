@@ -33,23 +33,12 @@
     "exec": "babel-node ./src/server/"
   },
   "eslintConfig": {
-    "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended"
-    ],
-    "rules": {    
-      "react/react-in-jsx-scope": "off",
-      "semi" : ["warn", "always", { "omitLastInOneLineBlock" : true }]
-    },
-    "globals": {    
-      "React": "writable"
-    },
-    "parserOptions": { 
-      "ecmaVersion": 6,
-      "sourceType" : "module",
-      "ecmaFeatures": {
-        "jsx": true,
-        "modules": true
+    "eslintConfig": {
+      "extends": [
+        "react-app"
+      ],
+      "rules": {    
+        "semi" : ["warn", "always"]
       }
     }
   },

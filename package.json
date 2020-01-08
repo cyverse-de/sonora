@@ -89,5 +89,10 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|png|svg)$": "<rootDir>/src/__mocks__/imageMock.js"
+    }
   }
 }

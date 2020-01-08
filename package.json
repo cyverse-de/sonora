@@ -32,6 +32,27 @@
     "ext": "js",
     "exec": "babel-node ./src/server/"
   },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
+    "rules": {    
+      "react/react-in-jsx-scope": "off",
+      "semi" : ["warn", "always", { "omitLastInOneLineBlock" : true }]
+    },
+    "globals": {    
+      "React": "writable"
+    },
+    "parserOptions": { 
+      "ecmaVersion": 6,
+      "sourceType" : "module",
+      "ecmaFeatures": {
+        "jsx": true,
+        "modules": true
+      }
+    }
+  },
   "dependencies": {
     "@cyverse-de/ui-lib": "^1.0.2",
     "@material-ui/core": "^4.8.3",
@@ -71,6 +92,8 @@
     "babel-loader": "^8.0.6",
     "babel-preset-react-app": "^9.1.0",
     "cross-env": "^6.0.3",
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.17.0",
     "jest": "^24.9.0",
     "nodemon": "^2.0.2",
     "npm-run-all": "^4.1.5",

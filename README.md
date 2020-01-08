@@ -1,13 +1,14 @@
 # sonora
+
 The new UI for the Discovery Environment
 
-# Configuration
+## Configuration
 
 Environment variables:
 
 `TERRAIN_URL` - The base URL to the Terrain API. Example: `https://de.cyverse.org/terrain/`.
 
-# Commands
+## Commands
 
 **Start development server** - ```npm run dev```
 

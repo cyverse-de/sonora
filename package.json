@@ -33,11 +33,9 @@
     "exec": "babel-node ./src/server/"
   },
   "eslintConfig": {
-    "eslintConfig": {
-      "extends": [
-        "react-app"
-      ]
-    }
+    "extends": [
+      "react-app"
+    ]
   },
   "dependencies": {
     "@cyverse-de/ui-lib": "^1.0.2",

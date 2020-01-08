@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "build": "next build && babel ./server ./common --out-dir dist",
+    "build": "next build && babel ./src/server ./src/common --out-dir dist",
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "storybook": "start-storybook -p 9009 -s public",
     "test": "jest",
@@ -30,7 +30,7 @@
       "pages"
     ],
     "ext": "js",
-    "exec": "babel-node ./server/"
+    "exec": "babel-node ./src/server/"
   },
   "dependencies": {
     "@cyverse-de/ui-lib": "^1.0.2",

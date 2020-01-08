@@ -31,7 +31,7 @@ export function deepMapKeys(obj, callback) {
             )
         )
     :
-    obj
+    obj;
 }
 
 /**

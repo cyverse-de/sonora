@@ -16,7 +16,13 @@ import { withStyles } from "@material-ui/core";
 import AppName from "./AppName";
 import AppMenu from "./AppMenu";
 import ids from "./ids";
-import { Highlighter, build, withI18N, palette, Rate } from "@cyverse-de/ui-lib";
+import {
+    Highlighter,
+    build,
+    withI18N,
+    palette,
+    Rate,
+} from "@cyverse-de/ui-lib";
 
 const styles = (theme) => ({
     card: {

@@ -1,5 +1,5 @@
-import { RestDataSource, RESTDataSource } from 'apollo-datasource-rest';
-import _ from 'lodash';
+import { RestDataSource, RESTDataSource } from "apollo-datasource-rest";
+import _ from "lodash";
 
 export default class TerrainDataSource extends RESTDataSource {
     constructor() {
@@ -8,10 +8,10 @@ export default class TerrainDataSource extends RESTDataSource {
     }
 
     async getStatus() {
-        return await this.get('/');
+        return await this.get("/");
     }
 
     async getNewUUID() {
-        return await this.get('/uuid');
+        return await this.get("/uuid");
     }
 }

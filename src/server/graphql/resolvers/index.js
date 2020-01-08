@@ -1,7 +1,5 @@
-import { merge } from 'lodash';
+import { merge } from "lodash";
 
-import Query from './Query';
+import Query from "./Query";
 
-export default merge(
-    Query,
-);
+export default merge(Query);

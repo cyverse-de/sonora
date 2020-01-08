@@ -8,7 +8,13 @@ import UnFavoriteIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import CommentsIcon from "@material-ui/icons/CommentOutlined";
 import PlayIcon from "@material-ui/icons/PlayArrow";
-import { palette, build, withI18N, formatMessage, getMessage } from "@cyverse-de/ui-lib";
+import {
+    palette,
+    build,
+    withI18N,
+    formatMessage,
+    getMessage,
+} from "@cyverse-de/ui-lib";
 import intlData from "./messages";
 import ids from "./ids";
 

@@ -1,5 +1,3 @@
-import query from './Query';
+import query from "./Query";
 
-export default [
-    query,
-];
+export default [query];

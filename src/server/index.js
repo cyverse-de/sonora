@@ -7,7 +7,7 @@ import { makeExecutableSchema } from "graphql-tools";
 
 import typeDefs from "./graphql/typesDefs";
 import resolvers from "./graphql/resolvers";
-import camelCaseMiddleware from './graphql/middleware/camelCase';
+import camelCaseMiddleware from "./graphql/middleware/camelCase";
 import TerrainDataSource from "./graphql/dataSources/TerrainDataSource";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -26,8 +26,7 @@ const apolloServer = new ApolloServer({
     }),
 });
 
-app
-    .prepare()
+app.prepare()
 
     .then(() => {
         const server = express();
@@ -41,7 +40,7 @@ app
 
         server.listen(port, (err) => {
             if (err) throw err;
-            console.log(`> Read on http://localhost:${ port }`);
+            console.log(`> Read on http://localhost:${port}`);
         });
     })
 

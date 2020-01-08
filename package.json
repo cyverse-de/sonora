@@ -37,8 +37,11 @@
       "extends": [
         "react-app"
       ],
-      "rules": {    
-        "semi" : ["warn", "always"]
+      "rules": {
+        "semi": [
+          "warn",
+          "always"
+        ]
       }
     }
   },
@@ -77,12 +80,20 @@
     "@storybook/addon-links": "^5.2.8",
     "@storybook/addons": "^5.2.8",
     "@storybook/react": "^5.2.8",
+    "@typescript-eslint/eslint-plugin": "^2.15.0",
+    "@typescript-eslint/parser": "^2.15.0",
+    "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
     "babel-preset-react-app": "^9.1.0",
     "cross-env": "^6.0.3",
     "eslint": "^6.8.0",
+    "eslint-config-react-app": "^5.1.0",
+    "eslint-plugin-flowtype": "^3.13.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
     "jest": "^24.9.0",
     "nodemon": "^2.0.2",
     "npm-run-all": "^4.1.5",

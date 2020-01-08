@@ -5,13 +5,17 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "build": "next build && babel ./src/server ./src/common --out-dir dist",
+    "dev-server": "babel-node ./src/server/",
+    "build-frontend": "next build",
+    "build-server": "babel ./src/server ./src/common --out-dir dist",
+    "build-docs": "jsdoc -r -d generated-docs ./src",
+    "build": "run-p build-frontend build-server build-docs",
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "storybook": "start-storybook -p 9009 -s public",
     "test": "jest",
     "test-watch": "jest --watch",
     "format": "prettier --write './**/*.js'",
-    "clean": "rimraf ./.next ./dist"
+    "clean": "rimraf ./.next ./dist ./generated-docs"
   },
   "repository": {
     "type": "git",
@@ -30,7 +34,7 @@
       "pages"
     ],
     "ext": "js",
-    "exec": "babel-node ./src/server/"
+    "exec": "run-p dev-server build-docs"
   },
   "dependencies": {
     "@cyverse-de/ui-lib": "^1.0.2",
@@ -72,6 +76,7 @@
     "babel-preset-react-app": "^9.1.0",
     "cross-env": "^6.0.3",
     "jest": "^24.9.0",
+    "jsdoc": "^3.6.3",
     "nodemon": "^2.0.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.19.1",

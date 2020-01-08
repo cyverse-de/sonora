@@ -105,3 +105,10 @@ dist
 
 # Idea config
 *.iml
+
+#JSDoc output
+out/
+generated-docs/
+
+#.DS_Store
+.DS_Store

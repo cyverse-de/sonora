@@ -1,7 +1,7 @@
 import express from "express";
 import next from "next";
 
-import { listenPort, isDevelopment } from "./configuration";
+import * as config from "./configuration";
 
 import { ApolloServer } from "apollo-server-express";
 import { applyMiddleware } from "graphql-middleware";
@@ -12,8 +12,10 @@ import resolvers from "./graphql/resolvers";
 import camelCaseMiddleware from "./graphql/middleware/camelCase";
 import TerrainDataSource from "./graphql/dataSources/TerrainDataSource";
 
+config.validate();
+
 const app = next({
-    dev: isDevelopment,
+    dev: config.isDevelopment,
 });
 const nextHandler = app.getRequestHandler();
 
@@ -44,9 +46,9 @@ app.prepare()
             return nextHandler(req, res);
         });
 
-        server.listen(listenPort, (err) => {
+        server.listen(config.listenPort, (err) => {
             if (err) throw err;
-            console.log(`> Ready on http://localhost:${listenPort}`);
+            console.log(`> Ready on http://localhost:${config.listenPort}`);
         });
     })
 

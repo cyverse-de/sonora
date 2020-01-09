@@ -29,9 +29,9 @@
   "homepage": "https://github.com/cyverse-de/sonora#readme",
   "nodemonConfig": {
     "watch": [
-      "server",
-      "common",
-      "pages"
+      "src/server",
+      "src/common",
+      "src/pages"
     ],
     "ext": "js",
     "exec": "run-p dev-server build-docs"

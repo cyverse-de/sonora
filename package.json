@@ -30,8 +30,7 @@
   "nodemonConfig": {
     "watch": [
       "src/server",
-      "src/common",
-      "src/pages"
+      "src/common"
     ],
     "ext": "js",
     "exec": "run-p dev-server build-docs"

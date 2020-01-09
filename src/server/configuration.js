@@ -13,7 +13,11 @@ import config from "config";
  */
 export const validate = () => {
     if (!config.has("terrain_url")) {
-        throw Error("terrain_url must be set in the configuration.");
+        throw Error("terrain_url must be set in the configuration");
+    }
+
+    if (!config.has("listen_port")) {
+        throw Error("listen_port must be set in the configuration");
     }
 };
 
@@ -35,9 +39,8 @@ export const terrainURL = config.get("terrain_url");
 export const isDevelopment = process.env.NODE_ENV !== "production";
 
 /**
- * The port the application listens on for requests. Takes its
- * value from the PORT environment variable. Defaults to 3000 if it's not set.
- *
+ * The port the application listens on for requests. Takes its value from the
+ * 'listen_port' setting in the configuration file.
  * @type {number}
  */
-export const listenPort = parseInt(process.env.PORT || "3000", 10);
+export const listenPort = parseInt(config.get("listen_port"));

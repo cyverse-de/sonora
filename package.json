@@ -39,7 +39,10 @@
   "eslintConfig": {
     "extends": [
       "react-app"
-    ]
+    ],
+    "rules": {
+       "react/react-in-jsx-scope": "off"
+    }
   },
   "dependencies": {
     "@cyverse-de/ui-lib": "^2.0.0",

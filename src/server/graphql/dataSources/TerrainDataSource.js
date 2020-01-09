@@ -1,10 +1,10 @@
 import { RESTDataSource } from "apollo-datasource-rest";
-import _ from "lodash";
+import { terrainURL } from "../../configuration";
 
 export default class TerrainDataSource extends RESTDataSource {
     constructor() {
         super();
-        this.baseURL = process.env.TERRAIN_URL;
+        this.baseURL = terrainURL;
     }
 
     async getStatus() {

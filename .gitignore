@@ -112,3 +112,9 @@ generated-docs/
 
 #.DS_Store
 .DS_Store
+
+# Configuration files
+config/production*
+config/*-production*
+config/local*
+config/*-local*

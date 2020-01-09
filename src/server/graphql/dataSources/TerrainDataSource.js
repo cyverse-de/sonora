@@ -1,4 +1,4 @@
-import { RestDataSource, RESTDataSource } from "apollo-datasource-rest";
+import { RESTDataSource } from "apollo-datasource-rest";
 import _ from "lodash";
 
 export default class TerrainDataSource extends RESTDataSource {

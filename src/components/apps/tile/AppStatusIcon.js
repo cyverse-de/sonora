@@ -1,8 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import betaPng from "./betaSymbol.png";
-import betaSvg from "./betaSymbol.svg";
 import messages from "./messages";
 
 import Disabled from "@material-ui/icons/Block";
@@ -57,7 +54,7 @@ function DisabledIcon(props) {
 function BetaIcon(props) {
     return (
         <ToolTip title={getMessage("betaAppTooltip")}>
-            <img src={betaSvg} alt={betaPng} />
+            <img src="/betaSymbol.svg" alt="/betaSymbol.png" />
         </ToolTip>
     );
 }

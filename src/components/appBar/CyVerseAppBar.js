@@ -104,7 +104,11 @@ function CyverseAppBar(props) {
             <div className={classes.root}>
                 <AppBar position="static" className={classes.appBar}>
                     <Toolbar>
-                        <a href={constants.CYVERSE_URL} target="_blank">
+                        <a
+                            href={constants.CYVERSE_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
                             <img
                                 src="/cyverse_whitelogo.png"
                                 alt="CyVerse"

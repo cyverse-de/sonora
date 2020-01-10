@@ -67,7 +67,7 @@
     "react-select": "^2.4.4"
   },
   "optionalDependencies": {
-    "fsevents": "^1.2.9"
+    "fsevents": "^1.2.11"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",

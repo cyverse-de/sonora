@@ -27,3 +27,9 @@ jobs:
     - name: check format
       run: |
         npx prettier --check ./src/**/*.js ./.storybook/**/*.js ./stories/**/*.js
+    - name: eslint
+      uses: reviewdog/action-eslint@v1
+      with:
+        github_token: ${{ secrets.github_token }}
+        reporter: github-pr-review # Change reporter.
+        eslint_flags: 'src/ .storybook/ stories/'

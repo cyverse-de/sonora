@@ -199,7 +199,7 @@ function SearchOptions(props) {
         setOpen(false);
     };
     return (
-        <paper>
+        <Paper>
             <ButtonGroup
                 variant="contained"
                 ref={anchorRef}
@@ -286,7 +286,7 @@ function SearchOptions(props) {
                     </Grow>
                 )}
             </Popper>
-        </paper>
+        </Paper>
     );
 }
 

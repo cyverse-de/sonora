@@ -43,4 +43,4 @@ export const isDevelopment = process.env.NODE_ENV !== "production";
  * 'listen_port' setting in the configuration file.
  * @type {number}
  */
-export const listenPort = parseInt(config.get("listen_port"));
+export const listenPort = parseInt(config.get("listen_port"), 10);

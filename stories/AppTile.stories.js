@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AppTile from "../components/apps/tile/AppTile";
+import AppTile from "../src/components/apps/tile/AppTile";
 import Grid from "@material-ui/core/Grid";
 
 class AppTileTest extends Component {

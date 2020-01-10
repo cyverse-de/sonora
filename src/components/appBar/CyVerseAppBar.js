@@ -39,7 +39,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
-
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -263,8 +262,8 @@ function SearchOptions(props) {
                                             id={build(
                                                 ids.APP_BAR_BASE_ID,
                                                 ids.SEARCH_FILTER_MENU +
-                                                "." +
-                                                option
+                                                    "." +
+                                                    option
                                             )}
                                             selected={index === selectedIndex}
                                             onClick={(event) =>

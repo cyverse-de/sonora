@@ -1,2 +1,5 @@
 terrain_url: http://terrain
 listen_port: 3000
+session_key: fake_session_key
+cas_url: https://olson.cyverse.org/cas
+service_url: http://localhost:3000

@@ -19,6 +19,18 @@ export const validate = () => {
     if (!config.has("listen_port")) {
         throw Error("listen_port must be set in the configuration");
     }
+
+    if (!config.has("session_key")) {
+        throw Error("session_key must be set in the configuration");
+    }
+
+    if (!config.has("cas_url")) {
+        throw Error("cas_url must be set in the configuration");
+    }
+
+    if (!config.has("service_url")) {
+        throw Error("service_url must be set in the configuration");
+    }
 };
 
 /**
@@ -44,3 +56,24 @@ export const isDevelopment = process.env.NODE_ENV !== "production";
  * @type {number}
  */
 export const listenPort = parseInt(config.get("listen_port"), 10);
+
+/**
+ * The key to use for Express sessions.
+ * 
+ * @type {string}
+ */
+export const sessionKey = config.get("session_key");
+
+/**
+ * The base URL for CAS.
+ * 
+ * @type {string}
+ */
+export const casURL = config.get("cas_url");
+
+/**
+ * The base URL for this app.
+ * 
+ * @type {string}
+ */
+export const serviceURL = config.get("service_url");

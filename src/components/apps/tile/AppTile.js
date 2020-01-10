@@ -146,7 +146,7 @@ function AppTile(props) {
                         id={build(tileId, ids.CARD)}
                         onClick={onAppNameClick}
                         src={getGravatarIconSrc}
-                        alt="avatar image"
+                        alt="avatar"
                     />
                 </div>
                 <div className={classes.type}>{type.toLowerCase()}</div>

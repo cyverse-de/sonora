@@ -3,7 +3,7 @@
  *
  **/
 
-import React, { useState } from "react";
+import React from "react";
 import classnames from "classnames";
 import { injectIntl } from "react-intl";
 import md5 from "md5";

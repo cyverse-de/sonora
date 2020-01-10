@@ -24,3 +24,6 @@ jobs:
         npm test
       env:
         CI: true
+    - name: check format
+      run: |
+        npx prettier --check ./src/**/*.js ./.storybook/**/*.js ./stories/**/*.js

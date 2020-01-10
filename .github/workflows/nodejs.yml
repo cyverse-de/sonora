@@ -28,8 +28,6 @@ jobs:
       run: |
         npx prettier --check ./src/**/*.js ./.storybook/**/*.js ./stories/**/*.js
     - name: eslint
-      uses: reviewdog/action-eslint@v1
+      uses: stefanoeb/eslint-action@1.0.2
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        reporter: github-pr-check
-        eslint_flags: 'src/ .storybook/ stories/'
+        files: src/ .storybook/ stories

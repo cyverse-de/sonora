@@ -1,6 +1,8 @@
 import express from "express";
 import next from "next";
 
+import * as config from "./configuration";
+
 import { ApolloServer } from "apollo-server-express";
 import { applyMiddleware } from "graphql-middleware";
 import { makeExecutableSchema } from "graphql-tools";
@@ -10,13 +12,17 @@ import resolvers from "./graphql/resolvers";
 import camelCaseMiddleware from "./graphql/middleware/camelCase";
 import TerrainDataSource from "./graphql/dataSources/TerrainDataSource";
 
-const dev = process.env.NODE_ENV !== "production";
-const port = parseInt(process.env.PORT || "3000", 10);
+config.validate();
 
-const app = next({ dev });
+const app = next({
+    dev: config.isDevelopment,
+});
 const nextHandler = app.getRequestHandler();
 
-const schema = makeExecutableSchema({ typeDefs, resolvers });
+const schema = makeExecutableSchema({
+    typeDefs,
+    resolvers,
+});
 const schemaWithMiddleware = applyMiddleware(schema, camelCaseMiddleware);
 
 const apolloServer = new ApolloServer({
@@ -32,15 +38,17 @@ app.prepare()
         const server = express();
 
         // Add Apollo as middleware to Express.
-        apolloServer.applyMiddleware({ app: server });
+        apolloServer.applyMiddleware({
+            app: server,
+        });
 
         server.get("*", (req, res) => {
             return nextHandler(req, res);
         });
 
-        server.listen(port, (err) => {
+        server.listen(config.listenPort, (err) => {
             if (err) throw err;
-            console.log(`> Read on http://localhost:${port}`);
+            console.log(`> Ready on http://localhost:${config.listenPort}`);
         });
     })
 

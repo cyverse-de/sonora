@@ -3,7 +3,7 @@
  *
  **/
 
-import React, { useState } from "react";
+import React from "react";
 import classnames from "classnames";
 import { injectIntl } from "react-intl";
 import md5 from "md5";
@@ -146,7 +146,7 @@ function AppTile(props) {
                         id={build(tileId, ids.CARD)}
                         onClick={onAppNameClick}
                         src={getGravatarIconSrc}
-                        alt="avatar image"
+                        alt="avatar"
                     />
                 </div>
                 <div className={classes.type}>{type.toLowerCase()}</div>

@@ -106,6 +106,9 @@ dist
 # Idea config
 *.iml
 
+# VSCode settings
+.vscode/
+
 #JSDoc output
 out/
 generated-docs/

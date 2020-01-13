@@ -59,21 +59,21 @@ export const listenPort = parseInt(config.get("listen_port"), 10);
 
 /**
  * The key to use for Express sessions.
- * 
+ *
  * @type {string}
  */
 export const sessionKey = config.get("session_key");
 
 /**
  * The base URL for CAS.
- * 
+ *
  * @type {string}
  */
 export const casURL = config.get("cas_url");
 
 /**
  * The base URL for this app.
- * 
+ *
  * @type {string}
  */
 export const serviceURL = config.get("service_url");

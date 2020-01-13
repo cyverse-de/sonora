@@ -45,16 +45,18 @@ app.prepare()
         });
 
         // Configure Express sessions.
-        server.use(session({
-            secret: config.sessionKey,
-            resave: false,
-            saveUninitialized: true
-        }));
+        server.use(
+            session({
+                secret: config.sessionKey,
+                resave: false,
+                saveUninitialized: true,
+            })
+        );
 
         // Configure CAS authentication.
         var cas = new CASAuthentication({
             cas_url: config.casURL,
-            service_url: config.serviceURL
+            service_url: config.serviceURL,
         });
 
         // All requests will be authenticated for now.

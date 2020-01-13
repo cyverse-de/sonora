@@ -106,6 +106,7 @@ export default gql`
             offset: Int = 0
             entityType: EntityType = ANY
             sortColumn: SortColumn = NAME
+            SortDirection: SortDirection = ASC
         ): [FolderListingResult]
     }
 `;

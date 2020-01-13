@@ -48,7 +48,7 @@ export default {
     Folder: {
         listing: async (folder, args, { dataSources }) =>
             await dataSources.terrain.listFolder(
-                args.folderPath,
+                folder.path,
                 args.limit,
                 args.offset,
                 args.entityType,

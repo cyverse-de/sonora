@@ -1,11 +1,13 @@
 import express from "express";
 import next from "next";
+import passport from "passport";
 
 import * as config from "./configuration";
 
 import { ApolloServer } from "apollo-server-express";
 import { applyMiddleware } from "graphql-middleware";
 import { makeExecutableSchema } from "graphql-tools";
+import { OAuth2Strategy } from "passport-oauth2";
 
 import typeDefs from "./graphql/typesDefs";
 import resolvers from "./graphql/resolvers";

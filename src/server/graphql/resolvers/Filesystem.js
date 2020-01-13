@@ -28,4 +28,32 @@ export default {
         WRITE: "write",
         OWN: "own",
     },
+
+    FolderListingResult: {
+        __resolveType(obj, _context, _info) {
+            if (obj.type.toUpperCase() === "FILE") return "File";
+            if (obj.type.toUpperCase() === "FOLDER") return "Folder";
+            return null;
+        },
+    },
+
+    FilesystemObject: {
+        __resolveType(obj, _context, _info) {
+            if (obj.type.toUpperCase() === "FILE") return "File";
+            if (obj.type.toUpperCase() === "FOLDER") return "Folder";
+            return null;
+        },
+    },
+
+    Folder: {
+        listing: async (folder, args, { dataSources }) =>
+            await dataSources.terrain.listFolder(
+                args.folderPath,
+                args.limit,
+                args.offset,
+                args.entityType,
+                args.sortColumn,
+                args.sortDirection
+            ),
+    },
 };

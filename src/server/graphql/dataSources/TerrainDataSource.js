@@ -1,6 +1,17 @@
+/**
+ * The Apollo GraphQL REST data source for the terrain service.
+ *
+ * @module
+ */
+
 import { RESTDataSource } from "apollo-datasource-rest";
 import { terrainURL } from "../../configuration";
 
+/**
+ * The data source for the terrain service.
+ *
+ * @extends RESTDataSource
+ */
 export default class TerrainDataSource extends RESTDataSource {
     constructor() {
         super();
@@ -20,5 +31,46 @@ export default class TerrainDataSource extends RESTDataSource {
 
     async getNewUUID() {
         return await this.get("/uuid");
+    }
+
+    /**
+     * Returns info about a file or folder from terrain.
+     * @param {string} fullPath - The full path to the file in the data store.
+     * @returns {(File | Folder)}
+     */
+    async filesystemStat(fullPath) {
+        return await this.post(
+            "/secured/filesystem/stat",
+            JSON.stringify({ paths: [fullPath] })
+        );
+    }
+
+    /**
+     * Returns a folder listing.
+     * @param {string} folderPath - The full path to the folder being listed.
+     * @param {number} limit - The maximum number of items included in the response.
+     * @param {number} offset - The number of items to skip over before starting the list.
+     * @param {string} entityType - The type of items included in the results. Should be one of FILE, FOLDER, or ANY.
+     * @param {string} sortColumn - The column to sort on. One of NAME, ID, LASTMODIFIED, DATECREATED, SIZE, or PATH.
+     * @param {string} sortDirection - One of "ASC" (for ascending order) or "DESC" (for descending order).
+     * @returns {Array<{(File | Folder)}>}
+     */
+    async listFolder(
+        folderPath,
+        limit,
+        offset,
+        entityType,
+        sortColumn,
+        sortDirection
+    ) {
+        let pathParam = `path=${folderPath}`;
+        let limitParam = `limit=${limit}`;
+        let offsetParam = `offset=${offset}`;
+        let entityTypeParam = `entity-type=${entityType}`;
+        let sortColumnParam = `sort-col=${sortColumn}`;
+        let sortDirectionParam = `sort-dir=${sortDirection}`;
+        return await this.get(
+            `/secured/filesystem/paged-directory?${pathParam}&${limitParam}&${offsetParam}&${entityTypeParam}&${sortColumnParam}&${sortDirectionParam}`
+        );
     }
 }

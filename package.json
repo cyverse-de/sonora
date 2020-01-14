@@ -52,6 +52,7 @@
     "apollo-datasource-rest": "^0.6.11",
     "apollo-server-express": "^2.9.15",
     "config": "^3.2.4",
+    "connect-pg-simple": "^6.1.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "formik": "^1.5.8",

@@ -11,7 +11,7 @@ import config from "config";
  * @param {string} name
  */
 function validateConfigSetting(name) {
-    if (!config.has(name)) {
+    if (!config.has(name) || config.get(name) === null) {
         throw Error(`${name} must be set in the configuration`);
     }
 }
@@ -34,6 +34,20 @@ function parseBoolean(value) {
 }
 
 /**
+ * Builds a database connection URI from the configuration values.
+ *
+ * @returns {string}
+ */
+function buildDatabaseURI() {
+    const host = encodeURIComponent(config.get("db.host"));
+    const port = encodeURIComponent(config.get("db.port"));
+    const user = encodeURIComponent(config.get("db.user"));
+    const pass = encodeURIComponent(config.get("db.password"));
+    const database = encodeURIComponent(config.get("db.database"));
+    return `postgresql://${user}:${pass}@${host}:${port}/${database}`;
+}
+
+/**
  * Ensures that the values from the configuration file and the environment
  * variables are generally acceptable. Accepts no parameters. Throws an
  * exception if there is a problem.
@@ -44,9 +58,17 @@ export const validate = () => {
     validateConfigSetting("terrain_url");
     validateConfigSetting("listen_port");
 
+    // Database configuration settings.
+    validateConfigSetting("db.host");
+    validateConfigSetting("db.port");
+    validateConfigSetting("db.user");
+    validateConfigSetting("db.password");
+    validateConfigSetting("db.database");
+
     // Session configuration settings.
     validateConfigSetting("sessions.secret");
     validateConfigSetting("sessions.secure_cookie");
+    validateConfigSetting("sessions.ttl");
 
     // OAuth2 configuration settings.
     validateConfigSetting("oauth2.authorization_url");
@@ -90,6 +112,14 @@ export const isDevelopment = process.env.NODE_ENV !== "production";
 export const listenPort = parseInt(config.get("listen_port"), 10);
 
 /**
+ * The URI to use when connecting to the database. Most database interaction
+ * is managed by the API, but the UI does use the database to store user
+ * session information.
+ * @type {string}
+ */
+export const dbURI = buildDatabaseURI();
+
+/**
  * The secret to use when encoding and decoding secrets. Taken from the
  * 'sessions.secret' setting in the configuration file.
  * @type {string}
@@ -105,6 +135,14 @@ export const sessionSecret = config.get("sessions.secret");
 export const sessionSecureCookie = parseBoolean(
     config.get("sessions.secure_cookie")
 );
+
+/**
+ * The time-to-live for user sessions. Taken from the 'sessions.ttl' setting
+ * in the configuration file. The setting in the configuration file should be
+ * specified in hours.
+ * @type {number}
+ */
+export const sessionTTL = parseInt(config.get("sessions.ttl")) * 3600;
 
 /**
  * The URL to redirect users to for OAuth2 authorization. Taken from the

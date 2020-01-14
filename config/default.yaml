@@ -2,9 +2,17 @@ base_url: http://localhost:3000
 terrain_url: http://terrain
 listen_port: 3000
 
+db:
+    host: localhost
+    port: 5432
+    user: null
+    password: null
+    database: de
+
 sessions:
     secret: "keyboard cat"
     secure_cookie: false
+    ttl: 8
 
 oauth2:
     authorization_url: "https://olson.cyverse.org/cas/oauth2.0/authorize"

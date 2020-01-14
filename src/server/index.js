@@ -2,13 +2,14 @@ import express from "express";
 import next from "next";
 import passport from "passport";
 import session from "express-session";
+import pgsimple from "connect-pg-simple";
 
 import * as config from "./configuration";
+import * as authStrategy from "./authStrategy";
 
 import { ApolloServer, UserInputError } from "apollo-server-express";
 import { applyMiddleware } from "graphql-middleware";
 import { makeExecutableSchema } from "graphql-tools";
-import * as authStrategy from "./authStrategy";
 
 import typeDefs from "./graphql/typesDefs";
 import resolvers from "./graphql/resolvers";
@@ -40,6 +41,14 @@ passport.use(authStrategy.strategy);
 passport.serializeUser(authStrategy.serializeUser);
 passport.deserializeUser(authStrategy.deserializeUser);
 
+// Configure the session store.
+const pgSession = pgsimple(session);
+const sessionStore = new pgSession({
+    conString: config.dbURI,
+    tableName: "session",
+    ttl: config.sessionTTL,
+});
+
 app.prepare()
 
     .then(() => {
@@ -48,6 +57,7 @@ app.prepare()
         // Configure sessions.
         server.use(
             session({
+                store: sessionStore,
                 secret: config.sessionSecret,
                 resave: false,
                 saveUninitialized: true,

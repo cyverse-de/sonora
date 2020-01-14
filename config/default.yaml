@@ -1,2 +1,14 @@
+base_url: http://localhost:3000
 terrain_url: http://terrain
 listen_port: 3000
+
+sessions:
+    secret: "keyboard cat"
+    secure_cookie: false
+
+oauth2:
+    authorization_url: "https://olson.cyverse.org/cas/oauth2.0/authorize"
+    token_url: "https://olson.cyverse.org/cas/oauth2.0/token"
+    profile_url: "https://olson.cyverse.org/cas/oauth2.0/profile"
+    client_id: null
+    client_secret: null

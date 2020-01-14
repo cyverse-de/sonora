@@ -74,6 +74,14 @@ app.prepare()
             })
         );
 
+        server.get("/logout", (req, res) => {
+            req.session.destroy(() =>
+                res.redirect(
+                    `${config.oauth2LogoutURL}?service=${config.baseURL}`
+                )
+            );
+        });
+
         server.get("*", (req, res) => {
             return nextHandler(req, res);
         });

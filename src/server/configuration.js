@@ -52,6 +52,7 @@ export const validate = () => {
     validateConfigSetting("oauth2.authorization_url");
     validateConfigSetting("oauth2.token_url");
     validateConfigSetting("oauth2.profile_url");
+    validateConfigSetting("oauth2.logout_url");
     validateConfigSetting("oauth2.client_id");
     validateConfigSetting("oauth2.client_secret");
 };
@@ -126,6 +127,13 @@ export const oauth2TokenURL = config.get("oauth2.token_url");
  * @type {string}
  */
 export const oauth2ProfileURL = config.get("oauth2.profile_url");
+
+/**
+ * The URL to redirect the user too when logging out. Taken from the
+ * 'oauth2.logout_url' setting in the configuration file.
+ * @type {string}
+ */
+export const oauth2LogoutURL = config.get("oauth2.logout_url");
 
 /**
  * The client ID to use for the OAuth2 provider. Taken from the

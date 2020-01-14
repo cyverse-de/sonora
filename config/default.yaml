@@ -10,5 +10,6 @@ oauth2:
     authorization_url: "https://olson.cyverse.org/cas/oauth2.0/authorize"
     token_url: "https://olson.cyverse.org/cas/oauth2.0/token"
     profile_url: "https://olson.cyverse.org/cas/oauth2.0/profile"
+    logout_url: "https://olson.cyverse.org/cas/logout"
     client_id: null
     client_secret: null

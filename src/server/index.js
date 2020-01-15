@@ -1,9 +1,13 @@
 import express from "express";
 import next from "next";
+import passport from "passport";
+import session from "express-session";
+import pgsimple from "connect-pg-simple";
 
 import * as config from "./configuration";
+import * as authStrategy from "./authStrategy";
 
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer, UserInputError } from "apollo-server-express";
 import { applyMiddleware } from "graphql-middleware";
 import { makeExecutableSchema } from "graphql-tools";
 
@@ -30,6 +34,27 @@ const apolloServer = new ApolloServer({
     dataSources: () => ({
         terrain: new TerrainDataSource(),
     }),
+    context: ({ req }) => {
+        return { user: req.user };
+    },
+    playground: {
+        settings: {
+            "request.credentials": "include",
+        },
+    },
+});
+
+// Configure passport.
+passport.use(authStrategy.strategy);
+passport.serializeUser(authStrategy.serializeUser);
+passport.deserializeUser(authStrategy.deserializeUser);
+
+// Configure the session store.
+const pgSession = pgsimple(session);
+const sessionStore = new pgSession({
+    conString: config.dbURI,
+    tableName: "session",
+    ttl: config.sessionTTL,
 });
 
 app.prepare()
@@ -37,9 +62,42 @@ app.prepare()
     .then(() => {
         const server = express();
 
+        // Configure sessions.
+        server.use(
+            session({
+                store: sessionStore,
+                secret: config.sessionSecret,
+                resave: false,
+                saveUninitialized: true,
+                cookie: {
+                    secure: config.sessionSecureCookie,
+                },
+            })
+        );
+
+        // Configure passport.
+        server.use(passport.initialize());
+        server.use(passport.session());
+
         // Add Apollo as middleware to Express.
         apolloServer.applyMiddleware({
             app: server,
+        });
+
+        server.get(
+            "/login",
+            passport.authenticate("oauth2", {
+                session: true,
+                successReturnToOrRedirect: "/",
+            })
+        );
+
+        server.get("/logout", (req, res) => {
+            req.session.destroy(() =>
+                res.redirect(
+                    `${config.oauth2LogoutURL}?service=${config.baseURL}`
+                )
+            );
         });
 
         server.get("*", (req, res) => {

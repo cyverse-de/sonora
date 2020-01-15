@@ -7,6 +7,13 @@ export default class TerrainDataSource extends RESTDataSource {
         this.baseURL = terrainURL;
     }
 
+    willSendRequest(request) {
+        const token = this.context?.user?.accessToken;
+        if (typeof token !== "undefined") {
+            request.headers.set("Authorization", `Bearer ${token}`);
+        }
+    }
+
     async getStatus() {
         return await this.get("/");
     }

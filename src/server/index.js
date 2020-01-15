@@ -34,6 +34,14 @@ const apolloServer = new ApolloServer({
     dataSources: () => ({
         terrain: new TerrainDataSource(),
     }),
+    context: ({ req }) => {
+        return { user: req.user };
+    },
+    playground: {
+        settings: {
+            "request.credentials": "include",
+        },
+    },
 });
 
 // Configure passport.

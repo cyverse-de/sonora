@@ -1,25 +1,25 @@
 export default {
     // Mapping for the SortColumn enum.
     SortColumn: {
-        NAME: "NAME",
-        ID: "ID",
-        LASTMODIFIED: "LASTMODIFIED",
-        DATECREATED: "DATECREATED",
-        SIZE: "SIZE",
-        PATH: "PATH",
+        NAME: "name",
+        ID: "id",
+        LASTMODIFIED: "lastmodified",
+        DATECREATED: "datecreated",
+        SIZE: "size",
+        PATH: "path",
     },
 
     // Mapping for the EntityType enum.
     EntityType: {
-        FILE: "FILE",
-        FOLDER: "FOLDER",
-        ANY: "ANY",
+        FILE: "file",
+        FOLDER: "folder",
+        ANY: "any",
     },
 
     // Mapping for the SortDirection enum.
     SortDirection: {
-        ASC: "ASC",
-        DESC: "DESC",
+        ASC: "asc",
+        DESC: "desc",
     },
 
     // Mapping for the Permission enum.
@@ -31,29 +31,29 @@ export default {
 
     FolderListingResult: {
         __resolveType(obj, _context, _info) {
-            if (obj.type.toUpperCase() === "FILE") return "File";
-            if (obj.type.toUpperCase() === "FOLDER") return "Folder";
+            if (obj.type) {
+                if (obj.type.toUpperCase() === "FILE") {
+                    return "File"; // File is the name of the concrete GraphQL type.
+                }
+                if (obj.type.toUpperCase() === "FOLDER") {
+                    return "Folder"; // Folder is the name of the concrete GraphQL type.
+                }
+            }
             return null;
         },
     },
 
     FilesystemObject: {
         __resolveType(obj, _context, _info) {
-            if (obj.type.toUpperCase() === "FILE") return "File";
-            if (obj.type.toUpperCase() === "FOLDER") return "Folder";
+            if (obj.type) {
+                if (obj.type.toUpperCase() === "FILE") {
+                    return "File"; // File is the name of the concrete GraphQL type.
+                }
+                if (obj.type.toUpperCase() === "FOLDER") {
+                    return "Folder"; // Folder is the name of the concrete GraphQL type.
+                }
+            }
             return null;
         },
-    },
-
-    Folder: {
-        listing: async (folder, args, { dataSources }) =>
-            await dataSources.terrain.listFolder(
-                folder.path,
-                args.limit,
-                args.offset,
-                args.entityType,
-                args.sortColumn,
-                args.sortDirection
-            ),
     },
 };

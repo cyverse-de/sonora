@@ -6,7 +6,10 @@
 
 import { RESTDataSource } from "apollo-datasource-rest";
 import { terrainURL } from "../../configuration";
+import _ from "lodash";
 
+export const FILE = "file";
+export const FOLDER = "folder";
 /**
  * The data source for the terrain service.
  *
@@ -39,15 +42,15 @@ export default class TerrainDataSource extends RESTDataSource {
      * @returns {(File | Folder)}
      */
     async filesystemStat(fullPath) {
-        return await this.post(
-            "/secured/filesystem/stat",
-            JSON.stringify({ paths: [fullPath] })
-        );
+        let retval = await this.post("/secured/filesystem/stat", {
+            paths: [fullPath],
+        });
+        return retval.paths[fullPath];
     }
 
     /**
      * Returns a folder listing.
-     * @param {string} folderPath - The full path to the folder being listed.
+     * @param {string} path - The full path to the folder being listed.
      * @param {number} limit - The maximum number of items included in the response.
      * @param {number} offset - The number of items to skip over before starting the list.
      * @param {string} entityType - The type of items included in the results. Should be one of FILE, FOLDER, or ANY.
@@ -56,21 +59,35 @@ export default class TerrainDataSource extends RESTDataSource {
      * @returns {Array<{(File | Folder)}>}
      */
     async listFolder(
-        folderPath,
+        path,
         limit,
         offset,
         entityType,
         sortColumn,
         sortDirection
     ) {
-        let pathParam = `path=${folderPath}`;
+        let pathParam = `path=${path}`;
         let limitParam = `limit=${limit}`;
         let offsetParam = `offset=${offset}`;
         let entityTypeParam = `entity-type=${entityType}`;
         let sortColumnParam = `sort-col=${sortColumn}`;
         let sortDirectionParam = `sort-dir=${sortDirection}`;
-        return await this.get(
+
+        let retval = await this.get(
             `/secured/filesystem/paged-directory?${pathParam}&${limitParam}&${offsetParam}&${entityTypeParam}&${sortColumnParam}&${sortDirectionParam}`
         );
+
+        // Unlike the stat endpoint, the page-directory call doesn't include
+        // the type field, so we add it in here for consistency.
+        retval.folders = _.map(retval.folders, (f) => {
+            f.type = FOLDER;
+            return f;
+        });
+        retval.files = _.map(retval.files, (f) => {
+            f.type = FILE;
+            return f;
+        });
+
+        return retval.folders.concat(retval.files);
     }
 }

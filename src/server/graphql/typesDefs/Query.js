@@ -8,5 +8,16 @@ export default gql`
         status: String
 
         newUUID: String
+
+        filesystemStat(path: String): FilesystemObject
+
+        listFolder(
+            path: String
+            limit: Int = 50
+            offset: Int = 0
+            entityType: EntityType = "any"
+            sortColumn: SortColumn = "name"
+            sortDirection: SortDirection = "asc"
+        ): [FilesystemObject]
     }
 `;

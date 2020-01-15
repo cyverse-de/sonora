@@ -101,12 +101,5 @@ export default gql`
 
         # Specific to folders
         fileCount: Int
-        listing(
-            limit: Int = 50
-            offset: Int = 0
-            entityType: EntityType = ANY
-            sortColumn: SortColumn = NAME
-            SortDirection: SortDirection = ASC
-        ): [FolderListingResult]
     }
 `;

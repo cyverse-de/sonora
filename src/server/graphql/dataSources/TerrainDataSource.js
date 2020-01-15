@@ -81,6 +81,7 @@ export default class TerrainDataSource extends RESTDataSource {
         // folder being listed (because you should already know), but for
         // consistency we'll include it here.
         let retval = {
+            listing: [],
             stat: _.set(
                 _.omit(responseValue, ["files", "folders"]), // unify the listing.
                 "type",
@@ -90,11 +91,14 @@ export default class TerrainDataSource extends RESTDataSource {
 
         // Unlike the stat endpoint, the page-directory call doesn't include
         // the type field, so we add it in here for consistency.
-        retval.listing = _.map(responseValue.folders, (f) => {
-            f.type = FOLDER;
-            return f;
-        });
-        retval.listing.concat(
+        retval.listing = retval.listing.concat(
+            _.map(responseValue.folders, (f) => {
+                f.type = FOLDER;
+                return f;
+            })
+        );
+
+        retval.listing = retval.listing.concat(
             _.map(responseValue.files, (f) => {
                 f.type = FILE;
                 return f;

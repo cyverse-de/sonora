@@ -4,8 +4,8 @@ export default {
             await dataSources.terrain.getStatus(),
         newUUID: async (_source, _args, { dataSources }) =>
             await dataSources.terrain.getNewUUID(),
-        filesystemStat: async (_source, { path }, { dataSources }) =>
-            await dataSources.terrain.filesystemStat(path),
+        filesystemStat: async (_source, { paths }, { dataSources }) =>
+            await dataSources.terrain.filesystemStat(paths),
 
         // The defaults for the args don't seem to get passed down, we're setting
         // them here.

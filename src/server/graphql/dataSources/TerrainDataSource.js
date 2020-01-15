@@ -41,11 +41,11 @@ export default class TerrainDataSource extends RESTDataSource {
      * @param {string} fullPath - The full path to the file in the data store.
      * @returns {(File | Folder)}
      */
-    async filesystemStat(fullPath) {
+    async filesystemStat(fullPaths) {
         let retval = await this.post("/secured/filesystem/stat", {
-            paths: [fullPath],
+            paths: fullPaths,
         });
-        return retval.paths[fullPath];
+        return _.values(retval.paths);
     }
 
     /**
@@ -73,21 +73,34 @@ export default class TerrainDataSource extends RESTDataSource {
         let sortColumnParam = `sort-col=${sortColumn}`;
         let sortDirectionParam = `sort-dir=${sortDirection}`;
 
-        let retval = await this.get(
+        let responseValue = await this.get(
             `/secured/filesystem/paged-directory?${pathParam}&${limitParam}&${offsetParam}&${entityTypeParam}&${sortColumnParam}&${sortDirectionParam}`
         );
 
+        // The page-directory endpoint doesn't include a type field for the
+        // folder being listed (because you should already know), but for
+        // consistency we'll include it here.
+        let retval = {
+            stat: _.set(
+                _.omit(responseValue, ["files", "folders"]), // unify the listing.
+                "type",
+                "folder"
+            ),
+        };
+
         // Unlike the stat endpoint, the page-directory call doesn't include
         // the type field, so we add it in here for consistency.
-        retval.folders = _.map(retval.folders, (f) => {
+        retval.listing = _.map(responseValue.folders, (f) => {
             f.type = FOLDER;
             return f;
         });
-        retval.files = _.map(retval.files, (f) => {
-            f.type = FILE;
-            return f;
-        });
+        retval.listing.concat(
+            _.map(responseValue.files, (f) => {
+                f.type = FILE;
+                return f;
+            })
+        );
 
-        return retval.folders.concat(retval.files);
+        return retval;
     }
 }

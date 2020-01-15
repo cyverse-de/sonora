@@ -43,6 +43,7 @@ export default gql`
     enum EntityType {
         FILE
         FOLDER
+        DIR
         ANY
     }
 
@@ -76,7 +77,7 @@ export default gql`
         permission: Permission
         dateCreated: BigInt
         dateModified: BigInt
-        type: EntityType!
+        type: EntityType
         shareCount: Int
 
         # Specific to files
@@ -96,10 +97,17 @@ export default gql`
         permission: Permission
         dateCreated: BigInt
         dateModified: BigInt
-        type: EntityType!
+        type: EntityType
         shareCount: Int
 
         # Specific to folders
         fileCount: Int
+    }
+
+    # Allows us to fetch everything at once without having to cache results or
+    # hit stat a bunch of times.
+    type FolderListing {
+        stat: Folder
+        listing: [FilesystemObject]
     }
 `;

@@ -13,6 +13,7 @@ export default {
     EntityType: {
         FILE: "file",
         FOLDER: "folder",
+        DIR: "dir",
         ANY: "any",
     },
 
@@ -35,7 +36,7 @@ export default {
                 if (obj.type.toUpperCase() === "FILE") {
                     return "File"; // File is the name of the concrete GraphQL type.
                 }
-                if (obj.type.toUpperCase() === "FOLDER") {
+                if (obj.type === "dir" || obj.type.toUpperCase() === "FOLDER") {
                     return "Folder"; // Folder is the name of the concrete GraphQL type.
                 }
             }
@@ -49,7 +50,7 @@ export default {
                 if (obj.type.toUpperCase() === "FILE") {
                     return "File"; // File is the name of the concrete GraphQL type.
                 }
-                if (obj.type.toUpperCase() === "FOLDER") {
+                if (obj.type === "dir" || obj.type.toUpperCase() === "FOLDER") {
                     return "Folder"; // Folder is the name of the concrete GraphQL type.
                 }
             }

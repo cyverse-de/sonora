@@ -9,7 +9,7 @@ export default gql`
 
         newUUID: String
 
-        filesystemStat(path: String): FilesystemObject
+        filesystemStat(paths: [String]): [FilesystemObject]
 
         listFolder(
             path: String
@@ -18,6 +18,6 @@ export default gql`
             entityType: EntityType = "any"
             sortColumn: SortColumn = "name"
             sortDirection: SortDirection = "asc"
-        ): [FilesystemObject]
+        ): FolderListing
     }
 `;

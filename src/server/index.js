@@ -34,9 +34,9 @@ const apolloServer = new ApolloServer({
     dataSources: () => ({
         terrain: new TerrainDataSource(),
     }),
-    context: ({ req }) => {
-        return { user: req.user };
-    },
+    context: ({ req }) => ({
+        user: req.user,
+    }),
     playground: {
         settings: {
             "request.credentials": "include",

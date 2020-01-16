@@ -44,7 +44,30 @@ export default {
         },
     },
 
+    File: {
+        md5: async (file, _args, { dataSources }) => {
+            const stats = await dataSources.terrain.filesystemStat([file.path]);
+            return stats[0]["md5"];
+        },
+        shareCount: async (file, _args, { dataSources }) => {
+            const stats = await dataSources.terrain.filesystemStat([file.path]);
+            return stats[0]["share-count"];
+        },
+    },
+
     Folder: {
+        fileCount: async (folder, _args, { dataSources }) => {
+            const stats = await dataSources.terrain.filesystemStat([
+                folder.path,
+            ]);
+            return stats[0]["file-count"];
+        },
+        shareCount: async (folder, _args, { dataSources }) => {
+            const stats = await dataSources.terrain.filesystemStat([
+                folder.path,
+            ]);
+            return stats[0]["share-count"];
+        },
         contents: async (folder, args, { dataSources }) =>
             await dataSources.terrain.listFolder(
                 folder.path,

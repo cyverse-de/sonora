@@ -18,6 +18,7 @@ import {
     withI18N,
 } from "@cyverse-de/ui-lib";
 
+import { useRouter } from "next/router";
 import { injectIntl } from "react-intl";
 import {
     AppBar,
@@ -98,7 +99,16 @@ const searchOptions = ["All", "Data", "Apps", "Analyses"];
 
 function CyverseAppBar(props) {
     const classes = useStyles();
+    const router = useRouter();
     const { intl, children } = props;
+
+    const handleUserButtonClick = (event) => {
+        const { user } = props.children.props;
+        if (!user) {
+            router.push("/login");
+        }
+    };
+
     return (
         <React.Fragment>
             <div className={classes.root}>
@@ -156,6 +166,9 @@ function CyverseAppBar(props) {
                                     intl,
                                     "userMenuAriaLabel"
                                 )}
+                                onClick={(event) => {
+                                    handleUserButtonClick(event);
+                                }}
                             >
                                 <AccountCircleIcon
                                     fontSize="large"

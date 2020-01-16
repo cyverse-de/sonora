@@ -86,9 +86,6 @@ export default gql`
         fileSize: BigInt
     }
 
-    # Allows us to later extend the kinds of objects returned by a listing
-    union FolderListingResult = File | Folder
-
     type Folder implements FilesystemObject {
         #Interface implementation
         id: String!
@@ -102,12 +99,6 @@ export default gql`
 
         # Specific to folders
         fileCount: Int
-    }
-
-    # Allows us to fetch everything at once without having to cache results or
-    # hit stat a bunch of times.
-    type FolderListing {
-        stat: Folder
-        listing: [FilesystemObject]
+        contents: [FilesystemObject]
     }
 `;

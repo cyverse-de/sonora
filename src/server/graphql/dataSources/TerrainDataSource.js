@@ -77,34 +77,24 @@ export default class TerrainDataSource extends RESTDataSource {
             `/secured/filesystem/paged-directory?${pathParam}&${limitParam}&${offsetParam}&${entityTypeParam}&${sortColumnParam}&${sortDirectionParam}`
         );
 
-        // The page-directory endpoint doesn't include a type field for the
-        // folder being listed (because you should already know), but for
-        // consistency we'll include it here.
-        let retval = {
-            listing: [],
-            stat: _.set(
-                _.omit(responseValue, ["files", "folders"]), // unify the listing.
-                "type",
-                "folder"
-            ),
-        };
+        let listing = [];
 
         // Unlike the stat endpoint, the page-directory call doesn't include
         // the type field, so we add it in here for consistency.
-        retval.listing = retval.listing.concat(
+        listing = listing.concat(
             _.map(responseValue.folders, (f) => {
                 f.type = FOLDER;
                 return f;
             })
         );
 
-        retval.listing = retval.listing.concat(
+        listing = listing.concat(
             _.map(responseValue.files, (f) => {
                 f.type = FILE;
                 return f;
             })
         );
 
-        return retval;
+        return listing;
     }
 }

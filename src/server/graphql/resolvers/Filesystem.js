@@ -60,6 +60,10 @@ export default {
             const stat = await dataSources.terrain.filesystemStat(folder.path);
             return stat["file-count"];
         },
+        folderCount: async (folder, _args, { dataSources }) => {
+            const stat = await dataSources.terrain.filesystemStat(folder.path);
+            return stat["dir-count"];
+        },
         shareCount: async (folder, _args, { dataSources }) => {
             const stat = await dataSources.terrain.filesystemStat(folder.path);
             return stat["share-count"];

@@ -118,6 +118,11 @@ export default gql`
         This is an expensive field, especially when nested inside the contents.
         """
         fileCount: Int
+
+        """
+        This an expensive field to include inside content listings.
+        """
+        folderCount: Int
         contents: [FilesystemObject]
     }
 `;

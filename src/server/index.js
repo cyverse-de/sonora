@@ -7,7 +7,7 @@ import pgsimple from "connect-pg-simple";
 import * as config from "./configuration";
 import * as authStrategy from "./authStrategy";
 
-import { ApolloServer, UserInputError } from "apollo-server-express";
+import { ApolloServer } from "apollo-server-express";
 import { applyMiddleware } from "graphql-middleware";
 import { makeExecutableSchema } from "graphql-tools";
 

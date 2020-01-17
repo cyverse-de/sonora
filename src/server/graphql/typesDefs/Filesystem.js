@@ -87,6 +87,7 @@ export default gql`
 
         # Specific to files
         infoType: String
+        contentType: String
         fileSize: BigInt
 
         """

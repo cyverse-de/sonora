@@ -49,6 +49,10 @@ export default {
             const stat = await dataSources.terrain.filesystemStat(file.path);
             return stat["share-count"];
         },
+        contentType: async (file, _args, { dataSources }) => {
+            const stat = await dataSources.terrain.filesystemStat(file.path);
+            return stat["content-type"];
+        },
         md5: async (file, _args, { dataSources }) => {
             const stat = await dataSources.terrain.filesystemStat(file.path);
             return stat["md5"];

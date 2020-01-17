@@ -49,6 +49,10 @@ export default {
             const stat = await dataSources.terrain.filesystemStat(file.path);
             return stat["share-count"];
         },
+        md5: async (file, _args, { dataSources }) => {
+            const stat = await dataSources.terrain.filesystemStat(file.path);
+            return stat["md5"];
+        },
     },
 
     Folder: {

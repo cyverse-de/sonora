@@ -88,6 +88,11 @@ export default gql`
         # Specific to files
         infoType: String
         fileSize: BigInt
+
+        """
+        This is an expensive field to include in folder listings.
+        """
+        md5: String
     }
 
     type Folder implements FilesystemObject {

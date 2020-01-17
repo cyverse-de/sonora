@@ -7,6 +7,7 @@
 import { RESTDataSource } from "apollo-datasource-rest";
 import { terrainURL } from "../../configuration";
 import _ from "lodash";
+import DataLoader from "dataloader";
 
 export const FILE = "file";
 export const FOLDER = "folder";
@@ -41,12 +42,16 @@ export default class TerrainDataSource extends RESTDataSource {
      * @param {string} fullPath - The full path to the file in the data store.
      * @returns {(File | Folder)}
      */
-    async filesystemStat(fullPaths) {
-        let retval = await this.post("/secured/filesystem/stat", {
+    fsStatDataLoader = new DataLoader(async (fullPaths) => {
+        const resp = await this.post("/secured/filesystem/stat", {
             paths: fullPaths,
         });
-        return _.values(retval.paths);
-    }
+
+        // Guarantees ordering, hopefully
+        return _.map(fullPaths, (path) => resp.paths[path]);
+    });
+
+    filesystemStat = async (path) => this.fsStatDataLoader.load(path);
 
     /**
      * Returns a folder listing.

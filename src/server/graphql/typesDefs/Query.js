@@ -9,6 +9,6 @@ export default gql`
 
         newUUID: String
 
-        filesystem(paths: [String]): [FilesystemObject]
+        filesystem(path: String): FilesystemObject
     }
 `;

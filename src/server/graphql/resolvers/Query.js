@@ -4,7 +4,7 @@ export default {
             await dataSources.terrain.getStatus(),
         newUUID: async (_source, _args, { dataSources }) =>
             await dataSources.terrain.getNewUUID(),
-        filesystem: async (_source, { paths }, { dataSources }) =>
-            await dataSources.terrain.filesystemStat(paths),
+        filesystem: async (_source, { path }, { dataSources }) =>
+            await dataSources.terrain.filesystemStat(path),
     },
 };

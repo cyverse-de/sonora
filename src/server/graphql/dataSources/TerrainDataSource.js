@@ -6,7 +6,6 @@
 
 import { RESTDataSource } from "apollo-datasource-rest";
 import { terrainURL } from "../../configuration";
-import _ from "lodash";
 import DataLoader from "dataloader";
 
 export const FILE = "file";
@@ -48,7 +47,7 @@ export default class TerrainDataSource extends RESTDataSource {
         });
 
         // Guarantees ordering, hopefully
-        return _.map(fullPaths, (path) => resp.paths[path]);
+        return fullPaths.map((path) => resp.paths[path]);
     });
 
     filesystemStat = async (path) => this.fsStatDataLoader.load(path);
@@ -82,24 +81,20 @@ export default class TerrainDataSource extends RESTDataSource {
             `/secured/filesystem/paged-directory?${pathParam}&${limitParam}&${offsetParam}&${entityTypeParam}&${sortColumnParam}&${sortDirectionParam}`
         );
 
-        let listing = [];
-
         // Unlike the stat endpoint, the page-directory call doesn't include
         // the type field, so we add it in here for consistency.
-        listing = listing.concat(
-            _.map(responseValue.folders, (f) => {
-                f.type = FOLDER;
-                return f;
-            })
-        );
+        const { files, folders } = responseValue;
 
-        listing = listing.concat(
-            _.map(responseValue.files, (f) => {
-                f.type = FILE;
-                return f;
-            })
-        );
+        const listingFolders = folders.map((f) => {
+            f.type = FOLDER;
+            return f;
+        });
 
-        return listing;
+        const listingFiles = files.map((f) => {
+            f.type = FILE;
+            return f;
+        });
+
+        return [...listingFolders, ...listingFiles];
     }
 }

@@ -78,11 +78,15 @@ export default gql`
         dateCreated: BigInt
         dateModified: BigInt
         type: EntityType
+
+        """
+        The number of times the file has been shared.
+        This is an expensive field, especially when nested inside of folder contents.
+        """
         shareCount: Int
 
         # Specific to files
         infoType: String
-        md5: String
         fileSize: BigInt
     }
 
@@ -95,9 +99,19 @@ export default gql`
         dateCreated: BigInt
         dateModified: BigInt
         type: EntityType
+
+        """
+        The number of times the file has been shared.
+        This is an expensive field, especially when nested inside the contents.
+        """
         shareCount: Int
 
         # Specific to folders
+
+        """
+        The number of files contained in the folder.
+        This is an expensive field, especially when nested inside the contents.
+        """
         fileCount: Int
         contents: [FilesystemObject]
     }

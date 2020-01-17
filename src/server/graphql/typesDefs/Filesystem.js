@@ -124,6 +124,12 @@ export default gql`
         This an expensive field to include inside content listings.
         """
         folderCount: Int
-        contents: [FilesystemObject]
+        contents: FolderContents
+    }
+
+    type FolderContents {
+        total: Int
+        totalBad: Int
+        listing: [FilesystemObject]
     }
 `;

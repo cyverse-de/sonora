@@ -83,7 +83,7 @@ export default class TerrainDataSource extends RESTDataSource {
 
         // Unlike the stat endpoint, the page-directory call doesn't include
         // the type field, so we add it in here for consistency.
-        const { files, folders } = responseValue;
+        const { files, folders, total, totalBad } = responseValue;
 
         const listingFolders = folders.map((f) => {
             f.type = FOLDER;
@@ -95,6 +95,10 @@ export default class TerrainDataSource extends RESTDataSource {
             return f;
         });
 
-        return [...listingFolders, ...listingFiles];
+        return {
+            total,
+            totalBad,
+            listing: [...listingFolders, ...listingFiles],
+        };
     }
 }

@@ -12,8 +12,16 @@ import { gql } from "apollo-server-express";
  * @property {number} shareCount - The number of users the file has been shared with.
  * @property {string} infoType - The info type of the file.
  * @property {string} md5 - The MD5 hash of the file.
- * @property {fileSize} number - The size of the file in bytes.
+ * @property {string} contentType - The content-type of the file.
+ * @property {number} fileSize - The size of the file in bytes.
  * @
+ */
+
+/**
+ * @typedef {Object} FolderContents
+ * @property {number} total - The total number of items in the folder listing across all pages.
+ * @property {number} totalBad - The total number of items with bad names in the folder listing across all pages.
+ * @property {Array<Object>} listing - The list of files and folders contained in the parent directory.
  */
 
 /**
@@ -27,7 +35,8 @@ import { gql } from "apollo-server-express";
  * @property {string} type - Either "file" or "folder". Should be "folder".
  * @property {number} shareCount - The number of users the folder has been shared with.
  * @property {number} fileCount - The number of files contained in the folder.
- * @property {Array<Object>} listing - A list of files and folders contained in the folder.
+ * @property {number} folderCount - The number of folders contained in the folder.
+ * @property {FolderContents} contents - A list of files and folders contained in the folder.
  */
 
 export default gql`

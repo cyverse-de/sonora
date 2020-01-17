@@ -39,7 +39,9 @@ export default class TerrainDataSource extends RESTDataSource {
     /**
      * Returns info about a file or folder from terrain.
      * @param {string} fullPath - The full path to the file in the data store.
-     * @returns {(File | Folder)}
+     *
+     * Each object in the returned array is either a File or a Folder.
+     * @returns {Array<Object>}
      */
     fsStatDataLoader = new DataLoader(async (fullPaths) => {
         const resp = await this.post("/secured/filesystem/stat", {
@@ -60,7 +62,7 @@ export default class TerrainDataSource extends RESTDataSource {
      * @param {string} entityType - The type of items included in the results. Should be one of FILE, FOLDER, or ANY.
      * @param {string} sortColumn - The column to sort on. One of NAME, ID, LASTMODIFIED, DATECREATED, SIZE, or PATH.
      * @param {string} sortDirection - One of "ASC" (for ascending order) or "DESC" (for descending order).
-     * @returns {Array<{(File | Folder)}>}
+     * @returns {FolderContents}
      */
     async listFolder(
         path,

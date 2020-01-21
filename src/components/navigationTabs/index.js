@@ -53,9 +53,10 @@ const NavigationTabBar = () => {
                 onChange={handleChange}
                 indicatorColor="primary"
                 textColor="primary"
-                variable="scrollable"
+                variant="scrollable"
                 scrollButtons="on"
                 aria-label="scrollable auto tabs"
+                centered
             >
                 <Tab label="Dashboard" {...a11yProps(0)}></Tab>
                 <Tab label="Data" {...a11yProps(1)}></Tab>

@@ -8,6 +8,8 @@ Configuration files are located in the `config/` directory. You can override the
 
 Additionally, the `NODE_ENV` environment variable can be set to `production` if you need to run a production-ready build.
 
+Set the `HUSKY_SKIP_HOOKS` environment variable to `1` to skip the pre-commit hooks configured by `husky` for `git`. Example: ```HUSKY_SKIP_HOOKS=1 git commit ...`.
+
 ## Commands
 
 **Start development server** - ```npm run dev```

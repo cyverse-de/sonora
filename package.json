@@ -131,8 +131,8 @@
   "lint-staged": {
     "*.js": [
       "eslint --fix",
-      "format",
-      "test"
+      "prettier --write",
+      "jest --bail --findRelatedTests"
     ]
   }
 }

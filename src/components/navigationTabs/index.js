@@ -39,12 +39,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const NavigationTabBar = () => {
+const NavigationTabBar = (props) => {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const { dashboard, data, apps, analyses, tools, community, alerts } = props;
 
     return (
         <div className={classes.root}>
@@ -66,25 +68,25 @@ const NavigationTabBar = () => {
                 <Tab label="Alerts" {...a11yProps(6)}></Tab>
             </Tabs>
             <NavigationTabPanel value={value} index={0}>
-                Dashboard goes here.
+                {dashboard()}
             </NavigationTabPanel>
             <NavigationTabPanel value={value} index={1}>
-                Data goes here.
+                {data()}
             </NavigationTabPanel>
             <NavigationTabPanel value={value} index={2}>
-                Apps goes here.
+                {apps()}
             </NavigationTabPanel>
             <NavigationTabPanel value={value} index={3}>
-                Analyses goes here.
+                {analyses()}
             </NavigationTabPanel>
             <NavigationTabPanel value={value} index={4}>
-                Tools goes here.
+                {tools()}
             </NavigationTabPanel>
             <NavigationTabPanel value={value} index={5}>
-                Community goes here.
+                {community()}
             </NavigationTabPanel>
             <NavigationTabPanel value={value} index={6}>
-                Alerts goes here.
+                {alerts()}
             </NavigationTabPanel>
         </div>
     );

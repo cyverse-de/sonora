@@ -1,4 +1,5 @@
-import _ from "lodash";
+import isPlainObject from "is-plain-object";
+import camelCase from "camelcase";
 
 /**
  * A callback that can transform strings passed to it.
@@ -18,13 +19,17 @@ import _ from "lodash";
  *      callback.
  */
 export function deepMapKeys(obj, callback) {
-    return _.isString(obj)
+    if (obj == null) {
+        return null;
+    }
+
+    return typeof obj === "string"
         ? obj
-        : _.isArray(obj)
-        ? _.map(obj, (item) => deepMapKeys(item, callback))
-        : _.isPlainObject(obj)
-        ? _.fromPairs(
-              _.toPairsIn(obj).map(([key, value]) => [
+        : Array.isArray(obj)
+        ? obj.map((item) => deepMapKeys(item, callback))
+        : isPlainObject(obj)
+        ? Object.fromEntries(
+              Object.entries(obj).map(([key, value]) => [
                   callback(key),
                   deepMapKeys(value, callback),
               ])
@@ -39,4 +44,4 @@ export function deepMapKeys(obj, callback) {
  * @param obj An object that has keys that need to be camelCased.
  * @returns A new version of the object with the keys camcelCased.
  */
-export const camelcaseit = (obj) => deepMapKeys(obj, _.camelCase);
+export const camelcaseit = (obj) => deepMapKeys(obj, camelCase);

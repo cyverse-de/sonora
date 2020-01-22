@@ -105,6 +105,7 @@ dist
 
 # Idea config
 *.iml
+.idea
 
 # VSCode config
 .vscode/

@@ -12,7 +12,6 @@ import constants from "../../constants";
 
 import {
     build,
-    palette,
     formatHTMLMessage,
     formatMessage,
     withI18N,
@@ -35,7 +34,7 @@ import {
     Toolbar,
     Typography,
 } from "@material-ui/core";
-import { fade, makeStyles } from "@material-ui/core/styles";
+import { fade, makeStyles, useTheme } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
@@ -45,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     appBar: {
-        backgroundColor: palette.blue,
+        backgroundColor: theme.palette.blue,
     },
     title: {
         flexGrow: 1,
@@ -98,6 +97,7 @@ const useStyles = makeStyles((theme) => ({
 const searchOptions = ["All", "Data", "Apps", "Analyses"];
 
 function CyverseAppBar(props) {
+    const theme = useTheme();
     const classes = useStyles();
     const router = useRouter();
     const { intl, children } = props;
@@ -172,7 +172,7 @@ function CyverseAppBar(props) {
                             >
                                 <AccountCircleIcon
                                     fontSize="large"
-                                    style={{ color: palette.white }}
+                                    style={{ color: theme.palette.white }}
                                 />
                             </IconButton>
                         </div>
@@ -186,6 +186,7 @@ function CyverseAppBar(props) {
 
 function SearchOptions(props) {
     const { intl } = props;
+    const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
     const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -221,7 +222,7 @@ function SearchOptions(props) {
                 <Button
                     id={build(ids.APP_BAR_BASE_ID, ids.SEARCH_FILTER_BTN)}
                     onClick={handleClick}
-                    style={{ backgroundColor: palette.white }}
+                    style={{ backgroundColor: theme.palette.white }}
                 >
                     {searchOptions[selectedIndex]}
                 </Button>
@@ -230,7 +231,7 @@ function SearchOptions(props) {
                         ids.APP_BAR_BASE_ID,
                         ids.SEARCH_FILTER_OPTIONS_BTN
                     )}
-                    style={{ backgroundColor: palette.white }}
+                    style={{ backgroundColor: theme.palette.white }}
                     size="small"
                     aria-controls={
                         open

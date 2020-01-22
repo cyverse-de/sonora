@@ -110,6 +110,9 @@ dist
 # VSCode config
 .vscode/
 
+# IntelliJ config
+.idea/
+
 #JSDoc output
 out/
 generated-docs/

@@ -3,9 +3,7 @@ import BigInt from "graphql-bigint";
 import Filesystem from "./Filesystem";
 
 export default {
-    ...{
-        BigInt: BigInt,
-    },
+    BigInt,
     ...Filesystem,
     ...Query,
 };

@@ -172,7 +172,10 @@ function CyverseAppBar(props) {
                             >
                                 <AccountCircleIcon
                                     fontSize="large"
-                                    style={{ color: theme.palette.white }}
+                                    style={{
+                                        color:
+                                            theme.palette.primary.contrastText,
+                                    }}
                                 />
                             </IconButton>
                         </div>

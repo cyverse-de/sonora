@@ -6,7 +6,7 @@
 
 import { RESTDataSource } from "apollo-datasource-rest";
 import { terrainURL } from "../../configuration";
-import _ from "lodash";
+import DataLoader from "dataloader";
 
 export const FILE = "file";
 export const FOLDER = "folder";
@@ -39,14 +39,20 @@ export default class TerrainDataSource extends RESTDataSource {
     /**
      * Returns info about a file or folder from terrain.
      * @param {string} fullPath - The full path to the file in the data store.
-     * @returns {(File | Folder)}
+     *
+     * Each object in the returned array is either a File or a Folder.
+     * @returns {Array<Object>}
      */
-    async filesystemStat(fullPaths) {
-        let retval = await this.post("/secured/filesystem/stat", {
+    fsStatDataLoader = new DataLoader(async (fullPaths) => {
+        const resp = await this.post("/secured/filesystem/stat", {
             paths: fullPaths,
         });
-        return _.values(retval.paths);
-    }
+
+        // Guarantees ordering, hopefully
+        return fullPaths.map((path) => resp.paths[path]);
+    });
+
+    filesystemStat = async (path) => this.fsStatDataLoader.load(path);
 
     /**
      * Returns a folder listing.
@@ -56,7 +62,7 @@ export default class TerrainDataSource extends RESTDataSource {
      * @param {string} entityType - The type of items included in the results. Should be one of FILE, FOLDER, or ANY.
      * @param {string} sortColumn - The column to sort on. One of NAME, ID, LASTMODIFIED, DATECREATED, SIZE, or PATH.
      * @param {string} sortDirection - One of "ASC" (for ascending order) or "DESC" (for descending order).
-     * @returns {Array<{(File | Folder)}>}
+     * @returns {FolderContents}
      */
     async listFolder(
         path,
@@ -77,34 +83,24 @@ export default class TerrainDataSource extends RESTDataSource {
             `/secured/filesystem/paged-directory?${pathParam}&${limitParam}&${offsetParam}&${entityTypeParam}&${sortColumnParam}&${sortDirectionParam}`
         );
 
-        // The page-directory endpoint doesn't include a type field for the
-        // folder being listed (because you should already know), but for
-        // consistency we'll include it here.
-        let retval = {
-            listing: [],
-            stat: _.set(
-                _.omit(responseValue, ["files", "folders"]), // unify the listing.
-                "type",
-                "folder"
-            ),
-        };
-
         // Unlike the stat endpoint, the page-directory call doesn't include
         // the type field, so we add it in here for consistency.
-        retval.listing = retval.listing.concat(
-            _.map(responseValue.folders, (f) => {
-                f.type = FOLDER;
-                return f;
-            })
-        );
+        const { files, folders, total, totalBad } = responseValue;
 
-        retval.listing = retval.listing.concat(
-            _.map(responseValue.files, (f) => {
-                f.type = FILE;
-                return f;
-            })
-        );
+        const listingFolders = folders.map((f) => {
+            f.type = FOLDER;
+            return f;
+        });
 
-        return retval;
+        const listingFiles = files.map((f) => {
+            f.type = FILE;
+            return f;
+        });
+
+        return {
+            total,
+            totalBad,
+            listing: [...listingFolders, ...listingFiles],
+        };
     }
 }

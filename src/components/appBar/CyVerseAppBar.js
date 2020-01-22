@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     appBar: {
-        backgroundColor: theme.palette.blue,
+        backgroundColor: theme.palette.primary,
     },
     title: {
         flexGrow: 1,

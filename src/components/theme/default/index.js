@@ -9,6 +9,7 @@ const theme = createMuiTheme({
         secondary: {
             main: palette.lightBlue,
         },
+        ...palette,
     },
 });
 

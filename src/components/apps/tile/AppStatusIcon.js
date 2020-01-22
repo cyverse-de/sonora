@@ -41,7 +41,7 @@ function PrivateIcon(props) {
 
     return (
         <ToolTip title={getMessage("privateAppTooltip")}>
-            <Lock {...props} style={{ color: theme.palette.blue }} />
+            <Lock {...props} style={{ color: theme.palette.primary }} />
         </ToolTip>
     );
 }
@@ -51,7 +51,7 @@ function DisabledIcon(props) {
 
     return (
         <ToolTip title={getMessage("disabledAppTooltip")}>
-            <Disabled {...props} style={{ color: theme.palette.red }} />
+            <Disabled {...props} style={{ color: theme.palette.error }} />
         </ToolTip>
     );
 }

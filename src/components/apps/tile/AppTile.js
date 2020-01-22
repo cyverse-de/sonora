@@ -16,13 +16,7 @@ import { withStyles } from "@material-ui/core";
 import AppName from "./AppName";
 import AppMenu from "./AppMenu";
 import ids from "./ids";
-import {
-    Highlighter,
-    build,
-    withI18N,
-    palette,
-    Rate,
-} from "@cyverse-de/ui-lib";
+import { Highlighter, build, withI18N, Rate } from "@cyverse-de/ui-lib";
 
 const styles = (theme) => ({
     card: {
@@ -43,7 +37,7 @@ const styles = (theme) => ({
     selectedCard: {
         backgroundColor:
             theme.palette.type === "light"
-                ? palette.lightBlue
+                ? theme.palette.lightBlue
                 : "rgba(255, 255, 255, 0.16)",
     },
     avatar: {

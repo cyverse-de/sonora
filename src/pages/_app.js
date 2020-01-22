@@ -1,6 +1,8 @@
 import React from "react";
 import App from "next/app";
 import CyverseAppBar from "../components/appBar/CyVerseAppBar";
+import theme from "../components/theme/default";
+import { ThemeProvider } from "@material-ui/core/styles";
 
 export default class MyApp extends App {
     static async getInitialProps({ Component, ctx }) {
@@ -30,9 +32,11 @@ export default class MyApp extends App {
         };
 
         return (
-            <CyverseAppBar>
-                <Component {...props} />
-            </CyverseAppBar>
+            <ThemeProvider theme={theme}>
+                <CyverseAppBar>
+                    <Component {...props} />
+                </CyverseAppBar>
+            </ThemeProvider>
         );
     }
 }

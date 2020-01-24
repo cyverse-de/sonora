@@ -4,8 +4,10 @@ import { storiesOf } from "@storybook/react";
 
 class NavigationTest extends Component {
     render() {
-        return <Navigation/>;
+        return <Navigation />;
     }
 }
 
-storiesOf("Navigation", module).add("with navigation", () => <NavigationTest/>);
+storiesOf("Navigation", module).add("with navigation", () => (
+    <NavigationTest />
+));

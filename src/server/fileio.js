@@ -1,7 +1,4 @@
-//import multiparty from "multiparty";
-import FormData from "form-data";
 import request from "request";
-import BusBoy from "busboy";
 import { terrainURL } from "./configuration";
 import path from "path";
 
@@ -11,7 +8,7 @@ import path from "path";
  * @param {object} - An Express Response object.
  * @returns null
  */
-export const uploadHandler = async (req, res) => {
+export const uploadHandler = (req, res) => {
     const token = req?.user?.accessToken;
 
     if (!token) {

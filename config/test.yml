@@ -1,0 +1,12 @@
+terrain_url: http://terrain
+
+db:
+    host: test-db-host
+    port: 5432
+    user: test-db-user
+    password: test-db-password
+    database: test-db
+
+oauth2:
+  client_id: test-client-id
+  client_secret: test-client-secret

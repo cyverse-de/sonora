@@ -19,7 +19,7 @@ import TerrainDataSource from "./graphql/dataSources/TerrainDataSource";
 
 config.validate();
 
-const app = next({
+export const app = next({
     dev: config.isDevelopment,
 });
 const nextHandler = app.getRequestHandler();

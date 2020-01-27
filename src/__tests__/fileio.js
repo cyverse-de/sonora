@@ -9,11 +9,10 @@ const mockRequest = (destination, token) => {
         query: {
             destination: destination || "",
         },
+        pipe: jest.fn(),
     };
 
-    let pipe = jest.fn();
-    pipe.mockImplementation(() => req);
-    req.pipe = pipe;
+    req.pipe.mockImplementation(() => req);
     return req;
 };
 
@@ -25,15 +24,15 @@ const mockResponse = () => {
     return res;
 };
 
-describe("testing /api/upload handler", () => {
-    test("no authentication provided", async () => {
+describe("/api/upload handler", () => {
+    test("with no authentication provided", async () => {
         const res = mockResponse();
         await configurableUploadHandler({}, res);
         expect(res.status).toHaveBeenCalledWith(401);
         expect(res.send).toHaveBeenCalledWith("Authorization required.");
     });
 
-    test("no destination provided", async () => {
+    test("with no destination provided", async () => {
         const req = mockRequest();
         const res = mockResponse();
         await configurableUploadHandler(req, res, "http://terrain");
@@ -43,7 +42,7 @@ describe("testing /api/upload handler", () => {
         );
     });
 
-    test("successful upload", async () => {
+    test("calls terrain API", async () => {
         const destination = "/iplant/home/test/test-file.txt";
         const req = mockRequest(destination, "test-token");
         let res = mockResponse();

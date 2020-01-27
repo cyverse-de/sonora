@@ -101,7 +101,6 @@ app.prepare()
             );
         });
 
-        server.get("/upload", testUploadForm);
         server.post("/api/upload", uploadHandler);
 
         server.get("*", (req, res) => {

@@ -41,15 +41,3 @@ export const configurableUploadHandler = (req, res, apiBaseURL) => {
  */
 export const uploadHandler = (req, res) =>
     configurableUploadHandler(req, res, terrainURL);
-
-// Ignore this, it's for testing purposes for now.
-export const testUploadForm = (req, res) => {
-    res.send(`
-        <form action="/api/upload?destination=/iplant/home/ipcdev/" method="post" enctype="multipart/form-data"> 
-            Select file to upload:
-            <input type="file" name="file" id="file">
-            <input type="submit" value="Upload File">
-        </form>
-    `);
-    res.end();
-};

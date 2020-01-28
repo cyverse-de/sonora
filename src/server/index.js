@@ -6,7 +6,7 @@ import pgsimple from "connect-pg-simple";
 
 import * as config from "./configuration";
 import * as authStrategy from "./authStrategy";
-import { uploadHandler, testUploadForm } from "./fileio";
+import { uploadHandler } from "./fileio";
 
 import { ApolloServer } from "apollo-server-express";
 import { applyMiddleware } from "graphql-middleware";

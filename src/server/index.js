@@ -6,6 +6,7 @@ import pgsimple from "connect-pg-simple";
 
 import * as config from "./configuration";
 import * as authStrategy from "./authStrategy";
+import { uploadHandler } from "./fileio";
 
 import { ApolloServer } from "apollo-server-express";
 import { applyMiddleware } from "graphql-middleware";
@@ -18,7 +19,7 @@ import TerrainDataSource from "./graphql/dataSources/TerrainDataSource";
 
 config.validate();
 
-const app = next({
+export const app = next({
     dev: config.isDevelopment,
 });
 const nextHandler = app.getRequestHandler();
@@ -99,6 +100,8 @@ app.prepare()
                 )
             );
         });
+
+        server.post("/api/upload", uploadHandler);
 
         server.get("*", (req, res) => {
             return nextHandler(req, res);

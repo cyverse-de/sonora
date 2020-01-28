@@ -28,15 +28,14 @@ const mockResponse = () => {
 };
 
 describe("/api/upload handler", () => {
-    test("with no authentication provided", async (done) => {
+    test("with no authentication provided", async () => {
         const res = mockResponse();
         await configurableUploadHandler({}, res);
         expect(res.status).toHaveBeenCalledWith(401);
         expect(res.send).toHaveBeenCalledWith("Authorization required.");
-        done();
     });
 
-    test("with no destination provided", async (done) => {
+    test("with no destination provided", async () => {
         const req = mockRequest();
         const res = mockResponse();
         await configurableUploadHandler(req, res, "http://terrain");
@@ -44,7 +43,6 @@ describe("/api/upload handler", () => {
         expect(res.send).toHaveBeenCalledWith(
             "destination query parameter must be set."
         );
-        done();
     });
 });
 

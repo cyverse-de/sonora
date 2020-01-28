@@ -45,7 +45,7 @@ describe("/api/upload handler", () => {
     test("calls terrain API", async () => {
         const destination = "/iplant/home/test/test-file.txt";
         const req = mockRequest(destination, "test-token");
-        let res = mockResponse();
+        const res = mockResponse();
         const server = "http://terrain";
         const expected = {
             id: "test-id",

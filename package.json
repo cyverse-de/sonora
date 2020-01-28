@@ -134,7 +134,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "eslint --fix",
+      "eslint --max-warnings=0",
       "prettier --write",
       "jest --bail --findRelatedTests"
     ]

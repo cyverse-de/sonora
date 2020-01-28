@@ -72,6 +72,12 @@ export const configurableDownloadHandler = (req, res, apiBaseURL) => {
 
     console.log(apiURL.href);
 
+    res.set("Content-Type", "application/octet-stream");
+    res.set(
+        "Content-Disposition",
+        `attachment; filename=${path.basename(source)}`
+    );
+
     req.pipe(
         request.get(apiURL.href, {
             headers: {

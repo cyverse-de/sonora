@@ -2,7 +2,7 @@ import { configurableUploadHandler } from "../server/fileio";
 import nock from "nock";
 
 const mockRequest = (destination, token) => {
-    let req = {
+    const req = {
         user: {
             accessToken: token || "test-token",
         },

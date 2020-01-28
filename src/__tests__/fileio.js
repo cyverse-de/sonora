@@ -1,13 +1,17 @@
-import { configurableUploadHandler } from "../server/fileio";
+import {
+    configurableUploadHandler,
+    configurableDownloadHandler,
+} from "../server/fileio";
 import nock from "nock";
 
-const mockRequest = (destination, token) => {
+const mockRequest = (filePath, token) => {
     const req = {
         user: {
             accessToken: token || "test-token",
         },
         query: {
-            destination: destination || "",
+            destination: filePath || "",
+            source: filePath || "",
         },
         pipe: jest.fn(),
     };
@@ -64,5 +68,24 @@ describe("/api/upload handler", () => {
 
         await configurableUploadHandler(req, res, server);
         expect(scope.isDone()); // mocked server was called as expected.
+    });
+});
+
+describe("/api/download handler", () => {
+    test("with no authentication provided", async () => {
+        const res = mockResponse();
+        await configurableDownloadHandler({}, res);
+        expect(res.status).toHaveBeenCalledWith(401);
+        expect(res.send).toHaveBeenCalledWith("Authorization required.");
+    });
+
+    test("with no destination provided", async () => {
+        const req = mockRequest();
+        const res = mockResponse();
+        await configurableDownloadHandler(req, res, "http://terrain");
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.send).toHaveBeenCalledWith(
+            "source query parameter must be set."
+        );
     });
 });

@@ -23,9 +23,11 @@ export const configurableUploadHandler = (req, res, apiBaseURL) => {
         return;
     }
 
-    let apiURL = new URL(apiBaseURL);
+    const apiURL = new URL(apiBaseURL);
     apiURL.pathname = path.join(apiURL.pathname, "/secured/fileio/upload");
     apiURL.search = `dest=${destination}`;
+
+    console.log(apiURL.href);
 
     req.pipe(
         request.post(apiURL.href, {
@@ -76,7 +78,7 @@ export const configurableDownloadHandler = (req, res, apiBaseURL) => {
                 Authorization: `Bearer ${token}`,
             },
         })
-    ).pip(res);
+    ).pipe(res);
 };
 
 /**

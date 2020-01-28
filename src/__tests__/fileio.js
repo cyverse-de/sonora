@@ -2,7 +2,6 @@ import {
     configurableUploadHandler,
     configurableDownloadHandler,
 } from "../server/fileio";
-import nock from "nock";
 
 const mockRequest = (filePath, token) => {
     const req = {
@@ -29,14 +28,15 @@ const mockResponse = () => {
 };
 
 describe("/api/upload handler", () => {
-    test("with no authentication provided", async () => {
+    test("with no authentication provided", async (done) => {
         const res = mockResponse();
         await configurableUploadHandler({}, res);
         expect(res.status).toHaveBeenCalledWith(401);
         expect(res.send).toHaveBeenCalledWith("Authorization required.");
+        done();
     });
 
-    test("with no destination provided", async () => {
+    test("with no destination provided", async (done) => {
         const req = mockRequest();
         const res = mockResponse();
         await configurableUploadHandler(req, res, "http://terrain");
@@ -44,30 +44,7 @@ describe("/api/upload handler", () => {
         expect(res.send).toHaveBeenCalledWith(
             "destination query parameter must be set."
         );
-    });
-
-    test("calls terrain API", async () => {
-        const destination = "/iplant/home/test/test-file.txt";
-        const req = mockRequest(destination, "test-token");
-        const res = mockResponse();
-        const server = "http://terrain";
-        const expected = {
-            id: "test-id",
-            label: "test-label",
-            path: "/iplant/home/ipcdev/test-path.txt",
-        };
-
-        // Make sure the important bits are matched by the nock'ed server
-        const scope = nock(server, {
-            reqheaders: {
-                Authorization: `Bearer test-token`,
-            },
-        })
-            .post(`/secured/fileio/upload?dest=${destination}`)
-            .reply(200, expected);
-
-        await configurableUploadHandler(req, res, server);
-        expect(scope.isDone()); // mocked server was called as expected.
+        done();
     });
 });
 

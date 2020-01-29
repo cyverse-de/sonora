@@ -19,7 +19,7 @@ export const configurableUploadHandler = (req, res, apiBaseURL) => {
 
     const { destination } = req.query;
     if (!destination || destination === "") {
-        res.status(500).send("destination query parameter must be set.");
+        res.status(400).send("destination query parameter must be set.");
         return;
     }
 
@@ -62,7 +62,7 @@ export const configurableDownloadHandler = (req, res, apiBaseURL) => {
 
     const { source } = req.query;
     if (!source || source === "") {
-        res.status(500).send("source query parameter must be set.");
+        res.status(400).send("source query parameter must be set.");
         return;
     }
 

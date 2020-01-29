@@ -39,7 +39,7 @@ describe("/api/upload handler", () => {
         const req = mockRequest();
         const res = mockResponse();
         await configurableUploadHandler(req, res, "http://terrain");
-        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.status).toHaveBeenCalledWith(400);
         expect(res.send).toHaveBeenCalledWith(
             "destination query parameter must be set."
         );
@@ -58,7 +58,7 @@ describe("/api/download handler", () => {
         const req = mockRequest();
         const res = mockResponse();
         await configurableDownloadHandler(req, res, "http://terrain");
-        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.status).toHaveBeenCalledWith(400);
         expect(res.send).toHaveBeenCalledWith(
             "source query parameter must be set."
         );

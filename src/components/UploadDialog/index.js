@@ -10,9 +10,18 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+//import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
 import Link from "@material-ui/core/Link";
-import Paper from "@material-ui/core/Paper";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+//import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListSubheader from "@material-ui/core/ListSubheader";
+//import Paper from "@material-ui/core/Paper";
+import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import { Typography } from "@material-ui/core";
@@ -20,6 +29,7 @@ import { Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        padding: "0px 4px 8px 4px",
     },
     uploadFieldPaper: {
         height: 200,
@@ -46,6 +56,10 @@ const useStyles = makeStyles((theme) => ({
     },
     uploadDialogActions: {
         background: theme.palette.lightSilver,
+    },
+    fileList: {
+        height: "100%",
+        borderLeft: `solid ${theme.palette.lightSilver}`,
     },
 }));
 
@@ -182,19 +196,35 @@ const UploadDialog = (props) => {
                 <DialogTitle className={classes.uploadDialogTitle}>
                     Upload to {destination}
                 </DialogTitle>
-                <DialogContent>
-                    <div className={classes.root}>
-                        <Grid container spacing={1}>
-                            <Grid container item key="upload-area" xs={8}>
-                                <UploadDialogTabs />
-                            </Grid>
-                            <Grid item key="upload-list" xs={4}>
-                                <Paper className={classes.uploadFieldPaper}>
-                                    List
-                                </Paper>
-                            </Grid>
+                <DialogContent className={classes.root}>
+                    <Grid container spacing={1}>
+                        <Grid container item key="upload-area" xs={8}>
+                            <UploadDialogTabs />
                         </Grid>
-                    </div>
+
+                        <Grid item key="upload-list" xs={4}>
+                            <List
+                                subheader={
+                                    <ListSubheader>
+                                        Files to upload
+                                    </ListSubheader>
+                                }
+                                className={classes.fileList}
+                            >
+                                <ListItem>
+                                    <ListItemText
+                                        id="test-filename"
+                                        primary="test-filename"
+                                    />
+                                    <ListItemSecondaryAction>
+                                        <IconButton aria-label="remove">
+                                            <RemoveCircleIcon />
+                                        </IconButton>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            </List>
+                        </Grid>
+                    </Grid>
                 </DialogContent>
                 <DialogActions className={classes.uploadDialogActions}>
                     <Button

@@ -6,7 +6,7 @@ import pgsimple from "connect-pg-simple";
 
 import * as config from "./configuration";
 import * as authStrategy from "./authStrategy";
-import { uploadHandler } from "./fileio";
+import { uploadHandler, downloadHandler } from "./fileio";
 
 import { ApolloServer } from "apollo-server-express";
 import { applyMiddleware } from "graphql-middleware";
@@ -102,6 +102,7 @@ app.prepare()
         });
 
         server.post("/api/upload", uploadHandler);
+        server.get("/api/download", downloadHandler);
 
         server.get("*", (req, res) => {
             return nextHandler(req, res);

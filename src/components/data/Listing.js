@@ -5,7 +5,6 @@ import {
     build,
     DECheckbox,
     DETableRow,
-    DotMenu,
     EmptyTable,
     EnhancedTableHead,
     formatDate,
@@ -14,9 +13,6 @@ import {
     withI18N,
 } from "@cyverse-de/ui-lib";
 import {
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
     Paper,
     Table,
     TableBody,
@@ -26,18 +22,13 @@ import {
     useTheme,
 } from "@material-ui/core";
 
-import {
-    Delete as DeleteIcon,
-    Edit as EditIcon,
-    GetApp as DownloadIcon,
-    Label as MetadataIcon,
-} from "@material-ui/icons";
 import gql from "graphql-tag";
 
+import DataDotMenu from "./DataDotMenu";
+import { getFileSize } from "./FileSize";
 import ids from "./ids";
 import messages from "./messages";
 import ResourceIcon from "./ResourceIcon";
-import { getFileSize } from "./FileSize";
 
 const GET_LISTING = gql`
     query listing($path: String) {
@@ -289,77 +280,20 @@ function Listing(props) {
                                             </TableCell>
                                         )}
                                         <TableCell>
-                                            <DotMenu
-                                                baseId="test"
-                                                ButtonProps={{ size: "small" }}
-                                                render={(onClose) => [
-                                                    <MenuItem
-                                                        onClick={(event) => {
-                                                            onClose(event);
-                                                            console.log(
-                                                                "Download"
-                                                            );
-                                                        }}
-                                                    >
-                                                        <ListItemIcon>
-                                                            <DownloadIcon fontSize="small" />
-                                                        </ListItemIcon>
-                                                        <ListItemText
-                                                            primary={getMessage(
-                                                                "download"
-                                                            )}
-                                                        />
-                                                    </MenuItem>,
-                                                    <MenuItem
-                                                        onClick={() => {
-                                                            onClose();
-                                                            console.log("Edit");
-                                                        }}
-                                                    >
-                                                        <ListItemIcon>
-                                                            <EditIcon fontSize="small" />
-                                                        </ListItemIcon>
-                                                        <ListItemText
-                                                            primary={getMessage(
-                                                                "editFile"
-                                                            )}
-                                                        />
-                                                    </MenuItem>,
-                                                    <MenuItem
-                                                        onClick={() => {
-                                                            onClose();
-                                                            console.log(
-                                                                "Metadata"
-                                                            );
-                                                        }}
-                                                    >
-                                                        <ListItemIcon>
-                                                            <MetadataIcon fontSize="small" />
-                                                        </ListItemIcon>
-                                                        <ListItemText
-                                                            primary={getMessage(
-                                                                "metadata"
-                                                            )}
-                                                        />
-                                                    </MenuItem>,
-                                                    <MenuItem
-                                                        onClick={() => {
-                                                            onClose();
-                                                            console.log(
-                                                                "Delete"
-                                                            );
-                                                        }}
-                                                    >
-                                                        <ListItemIcon>
-                                                            <DeleteIcon fontSize="small" />
-                                                        </ListItemIcon>
-                                                        <ListItemText
-                                                            primary={getMessage(
-                                                                "delete"
-                                                            )}
-                                                        />
-                                                    </MenuItem>,
-                                                ]}
+                                            <DataDotMenu
+                                                baseId={tableId}
+                                                onDownloadSelected={() =>
+                                                    console.log("Download")
+                                                }
+                                                onEditSelected={() =>
+                                                    console.log("Edit")
+                                                }
+                                                onMetadataSeleted={() =>
+                                                    console.log("Metadata")
+                                                }
+                                                onDeleteSelected={() =>
+                                                    console.log("Delete")
+                                                }
                                             />
                                         </TableCell>
                                     </DETableRow>

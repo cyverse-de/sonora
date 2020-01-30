@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { useQuery } from "@apollo/react-hooks";
 import {
     build,
     DECheckbox,
@@ -9,6 +10,7 @@ import {
     EnhancedTableHead,
     formatDate,
     getMessage,
+    LoadingMask,
     withI18N,
 } from "@cyverse-de/ui-lib";
 import {
@@ -30,11 +32,36 @@ import {
     GetApp as DownloadIcon,
     Label as MetadataIcon,
 } from "@material-ui/icons";
+import gql from "graphql-tag";
 
 import ids from "./ids";
 import messages from "./messages";
 import ResourceIcon from "./ResourceIcon";
 import { getFileSize } from "./FileSize";
+
+const GET_LISTING = gql`
+    query listing($path: String) {
+        filesystem(path: $path) {
+            id
+            path
+            label
+            dateModified
+            permission
+            ... on Folder {
+                contents {
+                    listing {
+                        id
+                        label
+                        path
+                        dateModified
+                        permission
+                        type
+                    }
+                }
+            }
+        }
+    }
+`;
 
 function getTableColumns(isMedium, isLarge) {
     let columns = [
@@ -76,7 +103,10 @@ function Listing(props) {
     // const [page, setPage] = useState(0);
     // const [rowsPerPage, setRowsPerPage] = useState(25);
 
-    const { data, baseId } = props;
+    const { baseId, path } = props;
+    const { data, loading } = useQuery(GET_LISTING, {
+        variables: { path: path },
+    });
     const listing = data?.filesystem?.contents?.listing;
 
     const handleRequestSort = (event, property) => {
@@ -175,154 +205,170 @@ function Listing(props) {
     let tableId = build(baseId, ids.listingTable);
 
     return (
-        <TableContainer component={Paper}>
-            <Table
-                stickyHeader
-                id={tableId}
-                aria-label={getMessage("ariaTableListing")}
-            >
-                <EnhancedTableHead
-                    selectable={true}
-                    numSelected={selected.length}
-                    onSelectAllClick={handleSelectAllClick}
-                    rowsInPage={listing?.length}
-                    order={order}
-                    orderBy={orderBy}
-                    baseId={tableId}
-                    columnData={tableColumns}
-                    onRequestSort={handleRequestSort}
-                />
-                <TableBody>
-                    {(!listing || listing.length === 0) && (
-                        <EmptyTable
-                            message={getMessage("emptyDataListing")}
-                            numColumns={tableColumns.length}
-                        />
-                    )}
-                    {listing &&
-                        listing.length > 0 &&
-                        listing.map((resource, index) => {
-                            const resourceId = resource.id;
-                            const isSelected =
-                                selected.indexOf(resourceId) !== -1;
-                            return (
-                                <DETableRow
-                                    role="checkbox"
-                                    tabIndex={-1}
-                                    hover
-                                    id={build(tableId, resourceId)}
-                                    key={resourceId}
-                                    selected={isSelected}
-                                    aria-checked={isSelected}
-                                    onClick={(event) =>
-                                        handleClick(event, resourceId, index)
-                                    }
-                                >
-                                    <TableCell padding="checkbox">
-                                        <DECheckbox
-                                            checked={isSelected}
-                                            inputProps={{
-                                                "aria-labelledby": build(
-                                                    tableId,
-                                                    resourceId
-                                                ),
-                                            }}
-                                        />
-                                    </TableCell>
-                                    <TableCell padding="checkbox">
-                                        <ResourceIcon type={resource.type} />
-                                    </TableCell>
-                                    <TableCell>{resource.label}</TableCell>
-                                    {isMedium && (
-                                        <TableCell>
-                                            {formatDate(
-                                                resource.dateModified,
-                                                "YYYY MMM DD HH:mm:ss"
-                                            )}
+        <LoadingMask loading={loading}>
+            <TableContainer component={Paper}>
+                <Table
+                    stickyHeader
+                    id={tableId}
+                    aria-label={getMessage("ariaTableListing")}
+                >
+                    <EnhancedTableHead
+                        selectable={true}
+                        numSelected={selected.length}
+                        onSelectAllClick={handleSelectAllClick}
+                        rowsInPage={listing?.length}
+                        order={order}
+                        orderBy={orderBy}
+                        baseId={tableId}
+                        columnData={tableColumns}
+                        onRequestSort={handleRequestSort}
+                    />
+                    <TableBody>
+                        {(!listing || listing.length === 0) && (
+                            <EmptyTable
+                                message={getMessage("emptyDataListing")}
+                                numColumns={tableColumns.length}
+                            />
+                        )}
+                        {listing &&
+                            listing.length > 0 &&
+                            listing.map((resource, index) => {
+                                const resourceId = resource.id;
+                                const isSelected =
+                                    selected.indexOf(resourceId) !== -1;
+                                return (
+                                    <DETableRow
+                                        role="checkbox"
+                                        tabIndex={-1}
+                                        hover
+                                        id={build(tableId, resourceId)}
+                                        key={resourceId}
+                                        selected={isSelected}
+                                        aria-checked={isSelected}
+                                        onClick={(event) =>
+                                            handleClick(
+                                                event,
+                                                resourceId,
+                                                index
+                                            )
+                                        }
+                                    >
+                                        <TableCell padding="checkbox">
+                                            <DECheckbox
+                                                checked={isSelected}
+                                                inputProps={{
+                                                    "aria-labelledby": build(
+                                                        tableId,
+                                                        resourceId
+                                                    ),
+                                                }}
+                                            />
                                         </TableCell>
-                                    )}
-                                    {isMedium && (
-                                        <TableCell>
-                                            {getFileSize(resource.fileSize)}
+                                        <TableCell padding="checkbox">
+                                            <ResourceIcon
+                                                type={resource.type}
+                                            />
                                         </TableCell>
-                                    )}
-                                    {isLarge && (
-                                        <TableCell>{resource.path}</TableCell>
-                                    )}
-                                    <TableCell>
-                                        <DotMenu
-                                            baseId="test"
-                                            ButtonProps={{ size: "small" }}
-                                            render={(onClose) => [
-                                                <MenuItem
-                                                    onClick={(event) => {
-                                                        onClose(event);
-                                                        console.log("Download");
-                                                    }}
-                                                >
-                                                    <ListItemIcon>
-                                                        <DownloadIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        primary={getMessage(
-                                                            "download"
-                                                        )}
-                                                    />
-                                                </MenuItem>,
-                                                <MenuItem
-                                                    onClick={() => {
-                                                        onClose();
-                                                        console.log("Edit");
-                                                    }}
-                                                >
-                                                    <ListItemIcon>
-                                                        <EditIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        primary={getMessage(
-                                                            "editFile"
-                                                        )}
-                                                    />
-                                                </MenuItem>,
-                                                <MenuItem
-                                                    onClick={() => {
-                                                        onClose();
-                                                        console.log("Metadata");
-                                                    }}
-                                                >
-                                                    <ListItemIcon>
-                                                        <MetadataIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        primary={getMessage(
-                                                            "metadata"
-                                                        )}
-                                                    />
-                                                </MenuItem>,
-                                                <MenuItem
-                                                    onClick={() => {
-                                                        onClose();
-                                                        console.log("Delete");
-                                                    }}
-                                                >
-                                                    <ListItemIcon>
-                                                        <DeleteIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        primary={getMessage(
-                                                            "delete"
-                                                        )}
-                                                    />
-                                                </MenuItem>,
-                                            ]}
-                                        />
-                                    </TableCell>
-                                </DETableRow>
-                            );
-                        })}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                                        <TableCell>{resource.label}</TableCell>
+                                        {isMedium && (
+                                            <TableCell>
+                                                {formatDate(
+                                                    resource.dateModified,
+                                                    "YYYY MMM DD HH:mm:ss"
+                                                )}
+                                            </TableCell>
+                                        )}
+                                        {isMedium && (
+                                            <TableCell>
+                                                {getFileSize(resource.fileSize)}
+                                            </TableCell>
+                                        )}
+                                        {isLarge && (
+                                            <TableCell>
+                                                {resource.path}
+                                            </TableCell>
+                                        )}
+                                        <TableCell>
+                                            <DotMenu
+                                                baseId="test"
+                                                ButtonProps={{ size: "small" }}
+                                                render={(onClose) => [
+                                                    <MenuItem
+                                                        onClick={(event) => {
+                                                            onClose(event);
+                                                            console.log(
+                                                                "Download"
+                                                            );
+                                                        }}
+                                                    >
+                                                        <ListItemIcon>
+                                                            <DownloadIcon fontSize="small" />
+                                                        </ListItemIcon>
+                                                        <ListItemText
+                                                            primary={getMessage(
+                                                                "download"
+                                                            )}
+                                                        />
+                                                    </MenuItem>,
+                                                    <MenuItem
+                                                        onClick={() => {
+                                                            onClose();
+                                                            console.log("Edit");
+                                                        }}
+                                                    >
+                                                        <ListItemIcon>
+                                                            <EditIcon fontSize="small" />
+                                                        </ListItemIcon>
+                                                        <ListItemText
+                                                            primary={getMessage(
+                                                                "editFile"
+                                                            )}
+                                                        />
+                                                    </MenuItem>,
+                                                    <MenuItem
+                                                        onClick={() => {
+                                                            onClose();
+                                                            console.log(
+                                                                "Metadata"
+                                                            );
+                                                        }}
+                                                    >
+                                                        <ListItemIcon>
+                                                            <MetadataIcon fontSize="small" />
+                                                        </ListItemIcon>
+                                                        <ListItemText
+                                                            primary={getMessage(
+                                                                "metadata"
+                                                            )}
+                                                        />
+                                                    </MenuItem>,
+                                                    <MenuItem
+                                                        onClick={() => {
+                                                            onClose();
+                                                            console.log(
+                                                                "Delete"
+                                                            );
+                                                        }}
+                                                    >
+                                                        <ListItemIcon>
+                                                            <DeleteIcon fontSize="small" />
+                                                        </ListItemIcon>
+                                                        <ListItemText
+                                                            primary={getMessage(
+                                                                "delete"
+                                                            )}
+                                                        />
+                                                    </MenuItem>,
+                                                ]}
+                                            />
+                                        </TableCell>
+                                    </DETableRow>
+                                );
+                            })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </LoadingMask>
     );
 }
 

@@ -195,6 +195,8 @@ function Listing(props) {
 
     let tableId = build(baseId, ids.listingTable);
 
+    console.log("CLIENT HERE HERE HERE HERE ->>>>>>>");
+
     return (
         <LoadingMask loading={loading}>
             <TableContainer component={Paper}>

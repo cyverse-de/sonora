@@ -35,9 +35,12 @@ const apolloServer = new ApolloServer({
     dataSources: () => ({
         terrain: new TerrainDataSource(),
     }),
-    context: ({ req }) => ({
-        user: req.user,
-    }),
+    context: ({ req }) => {
+        console.log("IN SERVER/INDEX APOLLOSERVER CREATION", { token: req.headers.authorization, user: req.user});
+        return ({
+            user: req.user
+        });
+    },
     playground: {
         settings: {
             "request.credentials": "include",

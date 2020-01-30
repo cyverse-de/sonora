@@ -6,6 +6,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import withApolloClient from "../withApolloClient";
 
 import Listing from "../components/data/Listing";
+import UuidTest from "../components/data/test";
 
 class MyApp extends App {
     static async getInitialProps({ Component, ctx }) {
@@ -37,7 +38,7 @@ class MyApp extends App {
         return (
             <ThemeProvider theme={theme}>
                 <CyVerseAppBar>
-                    <Listing path="/iplant/home/aramsey" {...props} />
+                    <UuidTest/>
                 </CyVerseAppBar>
             </ThemeProvider>
         );

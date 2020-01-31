@@ -26,8 +26,6 @@ import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 
-import getUrls from "get-urls";
-
 import { themePalette } from "../theme/default";
 
 const useStyles = makeStyles((theme) => ({
@@ -280,6 +278,14 @@ const convertDTIL = (dtil) => {
     return retval;
 };
 
+const promiseGetAsString = (item) => {
+    return new Promise((resolve, _reject) =>
+        item.getAsString((s) => resolve(s))
+    );
+};
+
+const getURLs = (str) => str.match(/(https?:\/\/[^ ]*)/g);
+
 /**
  * Handles uploads to the data store.
  *
@@ -293,33 +299,26 @@ const UploadDialog = (props) => {
     const { destination } = props;
 
     // Callback for the UploadCard.
-    const dropFn = (_, items) => {
-        // Need to make sure the items list is in a compatible format.
-        const cleanItems = convertDTIL(items)
-            // Convert them into singular Files or lists of URL strings.
-            .map((item) => {
-                if (item.kind === "string") {
-                    return getUrls(item.getAsString());
-                }
-                return item.getAsFile();
-            })
+    const dropFn = async (_, items) => {
+        let allItems = convertDTIL(items);
+        let stringItems = await Promise.all(
+            allItems
+                .filter((i) => i.kind === "string")
+                .map(async (item) => {
+                    const itemString = await promiseGetAsString(item);
+                    return getURLs(itemString);
+                })
+        );
 
-            // Flatten the entire list (list of URLs can be embedded in the list).
-            // flat only recurses to a depth of 1 by default.
-            .flat(Infinity)
+        stringItems = stringItems.flat(Infinity);
 
-            // Make sure there are no null/undefined values in the list.
-            .filter((item) => item !== null && item !== "undefined")
+        let fileItems = allItems
+            .filter((i) => i.kind === "file")
+            .map((i) => i.getAsFile())
+            .filter((f) => f.size > 0);
 
-            // Filter out 0-byte files to prevent directories or empty files from getting uploaded.
-            // File objects have no cross-browser way of detecting directories, apparently?
-            // Also, didn't see a way to list directories.
-            .filter((item) => {
-                if (typeof item !== "object") {
-                    return true;
-                }
-                return item.size > 0; // filters out 0-byte files and, more importantly, directories.
-            });
+        const cleanItems = [...stringItems, ...fileItems];
+        console.log(cleanItems);
 
         // Set the new value of uploadItems.
         setUploadItems([...uploadItems, ...cleanItems]);

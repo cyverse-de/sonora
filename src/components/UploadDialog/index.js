@@ -26,6 +26,10 @@ import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 
+import getUrls from "get-urls";
+
+import { themePalette } from "../theme/default";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -52,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
     },
     uploadDialogActions: {
         background: theme.palette.lightSilver,
+        marginTop: "10px",
     },
     fileList: {
         borderColor: theme.palette.lightSilver,
@@ -70,126 +75,254 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const setupEvent = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+};
+
+/**
+ * Callback that is called in the 'onDrop' event handler for UploadCard.
+ * It's called for each item in the event's dataTransferItems array.
+ *
+ * See the following for references:
+ * - https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem
+ *
+ * @callback dropFn
+ * @params {object} event - The object representing the 'drop' event.
+ * @params {object} item - The DataTransferItem being handled.
+ * @returns null
+ */
+
+/**
+ * UploadCard supports dragging files and URLs into the card and passing the
+ * items to the callback. Adapted from code at https://medium.com/@650egor/simple-drag-and-drop-file-upload-in-react-2cb409d88929.
+ *
+ * @params {object} props
+ * @returns {object}
+ */
+export const UploadCard = (props) => {
+    const classes = useStyles();
+    const [dragCounter, setDragCounter] = useState(0);
+    const { dropFn } = props;
+
+    const handleDrag = (event) => {
+        setupEvent(event);
+    };
+
+    const handleDragIn = (event) => {
+        setupEvent(event);
+
+        if (event.dataTransfer.items && event.dataTransfer.items.length > 0) {
+            setDragCounter(dragCounter + 1);
+        }
+    };
+
+    const handleDragOut = (event) => {
+        setupEvent(event);
+
+        if (dragCounter > 0) {
+            setDragCounter(dragCounter - 1);
+        }
+    };
+
+    const handleDrop = (event) => {
+        setupEvent(event);
+        setDragCounter(0);
+        dropFn(event, event.dataTransfer.items);
+    };
+
+    return (
+        <Card
+            variant="outlined"
+            className={classes.uploadCard}
+            style={{
+                borderColor:
+                    dragCounter > 0
+                        ? themePalette.primary.main
+                        : themePalette.lightSilver,
+            }}
+            onDragEnter={handleDragIn}
+            onDragLeave={handleDragOut}
+            onDragOver={handleDrag}
+            onDrop={handleDrop}
+        >
+            <CardContent style={{ height: "100%" }}>
+                <Typography
+                    align="center"
+                    className={classes.uploadCardTypography}
+                    paragraph={true}
+                    variant="body1"
+                >
+                    Drop files or URLs here to queue them for upload to the data
+                    store
+                </Typography>
+
+                <Typography
+                    align="center"
+                    className={classes.uploadCardTypography}
+                    paragraph={true}
+                    variant="body1"
+                >
+                    or
+                </Typography>
+
+                <div className={classes.browseButtonContainer}>
+                    <Button variant="contained" color="primary">
+                        Browse
+                    </Button>
+                </div>
+
+                <Typography
+                    align="center"
+                    className={classes.uploadCardTypography}
+                    paragraph={true}
+                    variant="caption"
+                >
+                    Manual upload with third-party apps: &nbsp;
+                    <Link href="#" onClick={(event) => event.preventDefault()}>
+                        Learn more.
+                    </Link>
+                </Typography>
+            </CardContent>
+        </Card>
+    );
+};
+
+const UploadList = (props) => {
+    const classes = useStyles();
+    const { items } = props;
+
+    return (
+        <List
+            subheader={
+                <ListSubheader className={classes.listSubheader}>
+                    Files to upload
+                </ListSubheader>
+            }
+            className={classes.fileList}
+        >
+            {items.map((item, index) => (
+                <React.Fragment key={`upload-list-${index}`}>
+                    <ListItem id={`upload-list-${index}`}>
+                        <ListItemIcon>
+                            {typeof item === "object" ? (
+                                // object in this case is a file.
+                                <InsertDriveFileOutlinedIcon />
+                            ) : (
+                                // otherwise it's a string containing a URL
+                                <HttpOutlinedIcon />
+                            )}
+                        </ListItemIcon>
+
+                        {typeof item === "object" ? (
+                            // object in this case is a file
+                            <ListItemText id={item.name} primary={item.name} />
+                        ) : (
+                            // otherwise it's a string containing a URL
+                            <ListItemText id={item} primary={item} />
+                        )}
+
+                        <ListItemSecondaryAction>
+                            <IconButton aria-label="remove">
+                                <RemoveCircleIcon />
+                            </IconButton>
+                        </ListItemSecondaryAction>
+                    </ListItem>
+
+                    {index < items.length - 1 ? (
+                        <Divider variant="inset" />
+                    ) : (
+                        ""
+                    )}
+                </React.Fragment>
+            ))}
+        </List>
+    );
+};
+
+const URLImportTextField = () => {
+    const classes = useStyles();
+
+    return (
+        <div className={classes.textFieldContainer}>
+            <TextField
+                id="url-text-field"
+                label="Add URL to Import"
+                className={classes.textField}
+                variant="outlined"
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <HttpOutlinedIcon />
+                        </InputAdornment>
+                    ),
+                }}
+            />
+            <IconButton aria-label="add-url-import">
+                <AddCircleIcon />
+            </IconButton>
+        </div>
+    );
+};
+
+/**
+ * Turns a DataTransferItemList into an actual array/list.
+ * @param {DataTransferItemList} dtil - The DataTransferItemList to convert.
+ * @returns {Array<object>}
+ */
+const convertDTIL = (dtil) => {
+    let retval = [];
+
+    for (var item of dtil) {
+        retval = [...retval, item];
+    }
+
+    return retval;
+};
+
+/**
+ * Handles uploads to the data store.
+ *
+ * @param {object} props - Contains the 'destination' string.
+ * @return {object}
+ */
 const UploadDialog = (props) => {
     const [open, setOpen] = useState(props.open || false);
+    const [uploadItems, setUploadItems] = useState([]);
     const classes = useStyles();
     const { destination } = props;
 
-    const UploadList = () => {
-        return (
-            <List
-                subheader={
-                    <ListSubheader className={classes.listSubheader}>
-                        Files to upload
-                    </ListSubheader>
+    // Callback for the UploadCard.
+    const dropFn = (_, items) => {
+        // Need to make sure the items list is in a compatible format.
+        const cleanItems = convertDTIL(items)
+            // Convert them into singular Files or lists of URL strings.
+            .map((item) => {
+                if (item.kind === "string") {
+                    return getUrls(item.getAsString());
                 }
-                className={classes.fileList}
-            >
-                <ListItem>
-                    <ListItemIcon>
-                        <InsertDriveFileOutlinedIcon />
-                    </ListItemIcon>
+                return item.getAsFile();
+            })
 
-                    <ListItemText id="test-filename" primary="test-filename" />
+            // Flatten the entire list (list of URLs can be embedded in the list).
+            // flat only recurses to a depth of 1 by default.
+            .flat(Infinity)
 
-                    <ListItemSecondaryAction>
-                        <IconButton aria-label="remove">
-                            <RemoveCircleIcon />
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                </ListItem>
+            // Make sure there are no null/undefined values in the list.
+            .filter((item) => item !== null && item !== "undefined")
 
-                <Divider variant="inset" />
+            // Filter out 0-byte files to prevent directories or empty files from getting uploaded.
+            // File objects have no cross-browser way of detecting directories, apparently?
+            // Also, didn't see a way to list directories.
+            .filter((item) => {
+                if (typeof item !== "object") {
+                    return true;
+                }
+                return item.size > 0; // filters out 0-byte files and, more importantly, directories.
+            });
 
-                <ListItem>
-                    <ListItemIcon>
-                        <HttpOutlinedIcon />
-                    </ListItemIcon>
-
-                    <ListItemText
-                        id="test-URL"
-                        primary="http://de.cyverse.org/terrain/docs"
-                    />
-
-                    <ListItemSecondaryAction>
-                        <IconButton aria-label="remove">
-                            <RemoveCircleIcon />
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                </ListItem>
-            </List>
-        );
-    };
-
-    const URLImportTextField = () => {
-        return (
-            <div className={classes.textFieldContainer}>
-                <TextField
-                    id="url-text-field"
-                    label="Add URL to Import"
-                    className={classes.textField}
-                    variant="outlined"
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <HttpOutlinedIcon />
-                            </InputAdornment>
-                        ),
-                    }}
-                />
-                <IconButton aria-label="add-url-import">
-                    <AddCircleIcon />
-                </IconButton>
-            </div>
-        );
-    };
-
-    const UploadCard = () => {
-        return (
-            <Card variant="outlined" className={classes.uploadCard}>
-                <CardContent style={{ height: "100%" }}>
-                    <Typography
-                        align="center"
-                        className={classes.uploadCardTypography}
-                        paragraph={true}
-                        variant="body1"
-                    >
-                        Drop files or URLs here to queue them for upload to the
-                        data store
-                    </Typography>
-
-                    <Typography
-                        align="center"
-                        className={classes.uploadCardTypography}
-                        paragraph={true}
-                        variant="body1"
-                    >
-                        or
-                    </Typography>
-
-                    <div className={classes.browseButtonContainer}>
-                        <Button variant="contained" color="primary">
-                            Browse
-                        </Button>
-                    </div>
-
-                    <Typography
-                        align="center"
-                        className={classes.uploadCardTypography}
-                        paragraph={true}
-                        variant="caption"
-                    >
-                        Manual upload with third-party apps: &nbsp;
-                        <Link
-                            href="#"
-                            onClick={(event) => event.preventDefault()}
-                        >
-                            Learn more.
-                        </Link>
-                    </Typography>
-                </CardContent>
-            </Card>
-        );
+        // Set the new value of uploadItems.
+        setUploadItems([...uploadItems, ...cleanItems]);
     };
 
     const handleClose = () => {
@@ -211,11 +344,11 @@ const UploadDialog = (props) => {
                 </DialogTitle>
 
                 <DialogContent className={classes.root}>
-                    <UploadCard />
+                    <UploadCard dropFn={dropFn} />
 
                     <URLImportTextField />
 
-                    <UploadList />
+                    <UploadList items={uploadItems} />
                 </DialogContent>
 
                 <DialogActions className={classes.uploadDialogActions}>

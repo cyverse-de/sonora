@@ -61,6 +61,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "formik": "^1.5.8",
+    "get-urls": "^9.2.0",
     "graphql": "^14.5.8",
     "graphql-bigint": "^1.0.0",
     "graphql-middleware": "^4.0.2",

@@ -1,6 +1,6 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import UploadDialog from "../src/components/UploadDialog";
+import UploadDialog, { UploadCard } from "../src/components/UploadDialog";
 
 storiesOf("UploadDialog", module)
     .add("basic dialog", () => (
@@ -12,3 +12,13 @@ storiesOf("UploadDialog", module)
             destination="/iplant/home/this/is/a/test/of/a/really/very/long/destination/directory/omg/it/keeps/going/and/going/and/it/never/ends"
         />
     ));
+
+storiesOf("UploadCard", module).add("basic support", () => (
+    <UploadCard
+        dropFn={(e, items) => {
+            for (let item of items) {
+                console.log(`drop callback item kind '${item.kind}'`);
+            }
+        }}
+    />
+));

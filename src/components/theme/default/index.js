@@ -21,32 +21,34 @@ const cyverseColors = {
     ...palette,
 };
 
-const theme = createMuiTheme({
-    palette: {
-        type: "light",
+export const themePalette = {
+    type: "light",
 
-        // All intentions should be defined with references to colors from the new palette.
-        primary: {
-            main: cyverseColors.cobalt,
-        },
-        secondary: {
-            main: cyverseColors.sky,
-        },
-        error: {
-            main: cyverseColors.redSun,
-        },
-        warning: {
-            main: cyverseColors.yellow,
-        },
-        info: {
-            main: cyverseColors.silver,
-        },
-        success: {
-            main: cyverseColors.grass,
-        },
-
-        ...cyverseColors, // allow all of the colors to be referenced in the palette.
+    // All intentions should be defined with references to colors from the new palette.
+    primary: {
+        main: cyverseColors.cobalt,
     },
+    secondary: {
+        main: cyverseColors.sky,
+    },
+    error: {
+        main: cyverseColors.redSun,
+    },
+    warning: {
+        main: cyverseColors.yellow,
+    },
+    info: {
+        main: cyverseColors.silver,
+    },
+    success: {
+        main: cyverseColors.grass,
+    },
+
+    ...cyverseColors, // allow all of the colors to be referenced in the palette.
+};
+
+const theme = createMuiTheme({
+    palette: themePalette,
     typography: {
         button: {
             textTransform: "none",

@@ -284,7 +284,7 @@ const promiseGetAsString = (item) => {
     );
 };
 
-const getURLs = (str) => str.match(/(https?:\/\/[^ ]*)/g);
+const getURLs = (str) => str.match(/(https?:\/\/[^ \\(\\)]*)/g);
 
 /**
  * Handles uploads to the data store.
@@ -317,8 +317,9 @@ const UploadDialog = (props) => {
             .map((i) => i.getAsFile())
             .filter((f) => f.size > 0);
 
-        const cleanItems = [...stringItems, ...fileItems];
-        console.log(cleanItems);
+        let cleanItems = [...stringItems, ...fileItems];
+
+        cleanItems = cleanItems.filter((i) => i !== null && i !== "undefined");
 
         // Set the new value of uploadItems.
         setUploadItems([...uploadItems, ...cleanItems]);

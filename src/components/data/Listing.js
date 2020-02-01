@@ -25,6 +25,9 @@ const GET_LISTING = gql`
                         dateModified
                         permission
                         type
+                        #                        ... on File {
+                        #                            fileSize
+                        #                        }
                     }
                 }
             }

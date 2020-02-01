@@ -1,5 +1,5 @@
 import React from "react";
-import Listing from "../../src/components/data/Listing";
+import Listing from "../../src/components/data/listing/Listing";
 
 export const DataListingTest = () => {
     const queryResp = {

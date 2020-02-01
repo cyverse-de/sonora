@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useRouter } from "next/router";
-import Listing from "../components/data/Listing";
+import Listing from "../components/data/listing/Listing";
 
 export default function Data() {
     const router = useRouter();

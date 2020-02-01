@@ -5,7 +5,7 @@ import { LoadingMask, withI18N } from "@cyverse-de/ui-lib";
 import { useMediaQuery, useTheme } from "@material-ui/core";
 import gql from "graphql-tag";
 
-import messages from "./messages";
+import messages from "../messages";
 import TableView from "./TableView";
 
 const GET_LISTING = gql`

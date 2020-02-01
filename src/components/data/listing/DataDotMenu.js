@@ -9,8 +9,8 @@ import {
     Label as MetadataIcon,
 } from "@material-ui/icons";
 
-import ids from "./ids";
-import messages from "./messages";
+import ids from "../ids";
+import messages from "../messages";
 
 function DataDotMenu(props) {
     const {

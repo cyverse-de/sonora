@@ -22,10 +22,10 @@ import Link from "next/link";
 
 import DataDotMenu from "./DataDotMenu";
 import { getFileSize } from "./FileSize";
-import ids from "./ids";
-import messages from "./messages";
+import ids from "../ids";
+import messages from "../messages";
 import ResourceIcon from "./ResourceIcon";
-import styles from "./styles";
+import styles from "../styles";
 
 const useStyles = makeStyles(styles);
 

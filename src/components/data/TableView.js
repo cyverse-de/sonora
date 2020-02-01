@@ -10,7 +10,7 @@ import {
     getMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
-import { Paper, Table, TableBody, TableCell, TableContainer } from "@material-ui/core";
+import { makeStyles, Paper, Table, TableBody, TableCell, TableContainer } from "@material-ui/core";
 import Link from "next/link";
 
 import DataDotMenu from "./DataDotMenu";
@@ -18,7 +18,9 @@ import { getFileSize } from "./FileSize";
 import ids from "./ids";
 import messages from "./messages";
 import ResourceIcon from "./ResourceIcon";
+import styles from "./styles";
 
+const useStyles = makeStyles(styles);
 
 function getTableColumns(isMedium, isLarge) {
     let columns = [
@@ -69,6 +71,7 @@ function TableView(props) {
 
     const tableId = build(baseId, ids.listingTable);
     const tableColumns = getTableColumns(isMedium, isLarge);
+    const classes = useStyles();
 
     return (
         <TableContainer component={Paper}>
@@ -136,7 +139,7 @@ function TableView(props) {
                                 </TableCell>
                                 <TableCell>
                                     <Link href={`/data?path=${path}/${resource.label}`}>
-                                        <a>{resource.label}</a>
+                                        <a className={classes.dataLink}>{resource.label}</a>
                                     </Link>
                                 </TableCell>
                                 {isMedium && (

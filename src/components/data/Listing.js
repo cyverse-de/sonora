@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useQuery } from "@apollo/react-hooks";
-import { LoadingMask, withI18N, } from "@cyverse-de/ui-lib";
-import { useMediaQuery, useTheme, } from "@material-ui/core";
+import { LoadingMask, withI18N } from "@cyverse-de/ui-lib";
+import { useMediaQuery, useTheme } from "@material-ui/core";
 import gql from "graphql-tag";
 
 import messages from "./messages";
@@ -32,7 +32,6 @@ const GET_LISTING = gql`
     }
 `;
 
-
 function Listing(props) {
     const theme = useTheme();
     let isMedium = useMediaQuery(theme.breakpoints.up("sm"));
@@ -46,6 +45,9 @@ function Listing(props) {
     // const [rowsPerPage, setRowsPerPage] = useState(25);
 
     const { baseId, path } = props;
+    useEffect(() => {
+        setSelected([]);
+    }, [path]);
     const { data, loading } = useQuery(GET_LISTING, {
         variables: { path: path },
     });
@@ -136,19 +138,19 @@ function Listing(props) {
     };
 
     const onDownloadSelected = (resourceId) => {
-        console.log("Download", resourceId)
+        console.log("Download", resourceId);
     };
 
     const onEditSelected = (resourceId) => {
-        console.log("Edit", resourceId)
+        console.log("Edit", resourceId);
     };
 
     const onMetadataSelected = (resourceId) => {
-        console.log("Metadata", resourceId)
+        console.log("Metadata", resourceId);
     };
 
     const onDeleteSelected = (resourceId) => {
-        console.log("Delete", resourceId)
+        console.log("Delete", resourceId);
     };
 
     // const handleChangePage = (event, newPage) => {

@@ -74,8 +74,7 @@ export const deserializeUser = (user, done) => {
 };
 
 /**
- * Checks for the accessToken in the user object and bounces logic back out to
- * the router if it's not present.
+ * Checks for the accessToken in the user object and returns a 401 if it's not present.
  */
 export const authnTokenMiddleware = (req, res, next) => {
     const token = req?.user?.accessToken;

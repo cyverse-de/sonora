@@ -18,7 +18,6 @@ import {
     TableCell,
     TableContainer,
 } from "@material-ui/core";
-import Link from "next/link";
 
 import DataDotMenu from "./DataDotMenu";
 import { getFileSize } from "./FileSize";
@@ -59,6 +58,7 @@ function getTableColumns(isMedium, isLarge) {
 function TableView(props) {
     const {
         path,
+        PathLink,
         listing,
         isMedium,
         isLarge,
@@ -138,13 +138,13 @@ function TableView(props) {
                                         <ResourceIcon type={resource.type} />
                                     </TableCell>
                                     <TableCell>
-                                        <Link
-                                            href={`/data?path=${path}/${resource.label}`}
+                                        <PathLink
+                                            path={`${path}/${resource.label}`}
                                         >
                                             <span className={classes.dataLink}>
                                                 {resource.label}
                                             </span>
-                                        </Link>
+                                        </PathLink>
                                     </TableCell>
                                     {isMedium && (
                                         <TableCell>

@@ -73,11 +73,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const setupEvent = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-};
-
 /**
  * Callback that is called in the 'onDrop' event handler for UploadCard.
  * It's called for each item in the event's dataTransferItems array.
@@ -90,6 +85,45 @@ const setupEvent = (event) => {
  * @params {object} item - The DataTransferItem being handled.
  * @returns null
  */
+
+const setupEvent = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+};
+
+/**
+ * Turns a DataTransferItemList into an actual array/list.
+ * @param {DataTransferItemList} dtil - The DataTransferItemList to convert.
+ * @returns {Array<object>}
+ */
+const convertDTIL = (dtil) => {
+    let retval = [];
+
+    for (var item of dtil) {
+        retval = [...retval, item];
+    }
+
+    return retval;
+};
+
+const promiseGetAsString = (item) => {
+    return new Promise((resolve, _reject) =>
+        item.getAsString((s) => resolve(s))
+    );
+};
+
+const getURLs = (str) => str.match(/(https?:\/\/[^ \\(\\)]*)/g);
+
+const validURL = (possibleURL) => {
+    const matches = getURLs(possibleURL);
+    if (matches && matches.length > 0) {
+        return true;
+    }
+    return false;
+};
+
+const KindURL = "URL";
+const KindFile = "File";
 
 /**
  * UploadCard supports dragging files and URLs into the card and passing the
@@ -253,13 +287,15 @@ const UploadList = (props) => {
 const URLImportTextField = (props) => {
     const classes = useStyles();
     const [uploadURL, setUploadURL] = useState("");
+    const [isValidURL, setIsValidURL] = useState(false);
+    const [isFocus, setIsFocus] = useState(false);
 
     const { addURLFn } = props;
 
     const clickHandler = (event) => {
-        setupEvent(event);
         addURLFn(event, uploadURL);
         setUploadURL("");
+        setIsValidURL(false);
     };
 
     return (
@@ -276,49 +312,45 @@ const URLImportTextField = (props) => {
                         </InputAdornment>
                     ),
                 }}
+                // Since the field is optional, we only care about the error
+                // value if it's in focus.
+                error={!isValidURL && isFocus}
                 value={uploadURL}
+                onFocus={(e) => setIsFocus(true)}
+                onBlur={(e) => setIsFocus(false)}
                 onChange={(e) => {
                     setupEvent(e);
-                    setUploadURL(e.target.value);
+
+                    const possibleUploadURL = e.target.value.trim();
+
+                    if (!validURL(possibleUploadURL)) {
+                        setIsValidURL(false);
+                    } else {
+                        setIsValidURL(true);
+                    }
+
+                    setUploadURL(possibleUploadURL);
                 }}
                 onKeyPress={(e) => {
-                    if (e.key === "Enter") {
+                    if (e.key === "Enter" && isValidURL) {
+                        setupEvent(e);
                         clickHandler(e);
                     }
                 }}
             />
-            <IconButton aria-label="add-url-import" onClick={clickHandler}>
+            <IconButton
+                aria-label="add-url-import"
+                disabled={!isValidURL}
+                onClick={(e) => {
+                    setupEvent(e);
+                    clickHandler(e);
+                }}
+            >
                 <AddCircleIcon />
             </IconButton>
         </div>
     );
 };
-
-/**
- * Turns a DataTransferItemList into an actual array/list.
- * @param {DataTransferItemList} dtil - The DataTransferItemList to convert.
- * @returns {Array<object>}
- */
-const convertDTIL = (dtil) => {
-    let retval = [];
-
-    for (var item of dtil) {
-        retval = [...retval, item];
-    }
-
-    return retval;
-};
-
-const promiseGetAsString = (item) => {
-    return new Promise((resolve, _reject) =>
-        item.getAsString((s) => resolve(s))
-    );
-};
-
-const getURLs = (str) => str.match(/(https?:\/\/[^ \\(\\)]*)/g);
-
-const KindURL = "URL";
-const KindFile = "File";
 
 /**
  * Handles uploads to the data store.

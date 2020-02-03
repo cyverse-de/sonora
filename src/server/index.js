@@ -102,9 +102,12 @@ app.prepare()
         });
 
         const api = express.Router();
-        api.use(authStrategy.authnTokenMiddleware);
-        api.post("/upload", uploadHandler);
-        api.get("/download", downloadHandler);
+        api.post("/upload", authStrategy.authnTokenMiddleware, uploadHandler);
+        api.get(
+            "/download",
+            authStrategy.authnTokenMiddleware,
+            downloadHandler
+        );
 
         server.use("/api", api, (req, res) => {
             res.sendStatus(401);

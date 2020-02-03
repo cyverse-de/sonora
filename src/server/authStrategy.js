@@ -7,7 +7,6 @@ import * as config from "./configuration";
 
 import OAuth2Strategy from "passport-oauth2";
 import rp from "request-promise";
-import passport from "passport";
 
 /**
  * Defines the authentication strategy used by passport.
@@ -72,4 +71,19 @@ export const serializeUser = (user, done) => {
  */
 export const deserializeUser = (user, done) => {
     done(null, JSON.parse(user));
+};
+
+/**
+ * Checks for the accessToken in the user object and bounces logic back out to
+ * the router if it's not present.
+ */
+export const authnTokenMiddleware = (req, res, next) => {
+    const token = req?.user?.accessToken;
+
+    if (!token) {
+        res.status(401);
+        return next("Authorization required.");
+    }
+
+    next();
 };

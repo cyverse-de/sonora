@@ -101,8 +101,14 @@ app.prepare()
             );
         });
 
-        server.post("/api/upload", uploadHandler);
-        server.get("/api/download", downloadHandler);
+        const api = express.Router();
+        api.use(authStrategy.authnTokenMiddleware);
+        api.post("/upload", uploadHandler);
+        api.get("/download", downloadHandler);
+
+        server.use("/api", api, (req, res) => {
+            res.sendStatus(401);
+        });
 
         server.get("*", (req, res) => {
             return nextHandler(req, res);

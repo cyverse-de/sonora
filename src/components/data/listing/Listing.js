@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { useQuery } from "@apollo/react-hooks";
-import { LoadingMask, withI18N } from "@cyverse-de/ui-lib";
+import { withI18N } from "@cyverse-de/ui-lib";
 import { useMediaQuery, useTheme } from "@material-ui/core";
 import gql from "graphql-tag";
 
@@ -166,26 +166,25 @@ function Listing(props) {
     // };
 
     return (
-        <LoadingMask loading={loading}>
-            <TableView
-                path={path}
-                PathLink={PathLink}
-                listing={listing}
-                isMedium={isMedium}
-                isLarge={isLarge}
-                baseId={baseId}
-                onDownloadSelected={onDownloadSelected}
-                onEditSelected={onEditSelected}
-                onMetadataSelected={onMetadataSelected}
-                onDeleteSelected={onDeleteSelected}
-                handleRequestSort={handleRequestSort}
-                handleSelectAllClick={handleSelectAllClick}
-                handleClick={handleClick}
-                order={order}
-                orderBy={orderBy}
-                selected={selected}
-            />
-        </LoadingMask>
+        <TableView
+            loading={loading}
+            path={path}
+            PathLink={PathLink}
+            listing={listing}
+            isMedium={isMedium}
+            isLarge={isLarge}
+            baseId={baseId}
+            onDownloadSelected={onDownloadSelected}
+            onEditSelected={onEditSelected}
+            onMetadataSelected={onMetadataSelected}
+            onDeleteSelected={onDeleteSelected}
+            handleRequestSort={handleRequestSort}
+            handleSelectAllClick={handleSelectAllClick}
+            handleClick={handleClick}
+            order={order}
+            orderBy={orderBy}
+            selected={selected}
+        />
     );
 }
 

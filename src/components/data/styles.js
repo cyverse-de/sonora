@@ -6,5 +6,8 @@ export default (theme) => ({
             color: theme.palette.primary.main,
         },
     },
-});
 
+    skeleton: {
+        backgroundColor: theme.palette.lightGray,
+    },
+});

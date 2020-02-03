@@ -44,82 +44,80 @@ function Navigation(props) {
     const { navigate } = props;
     console.log("navigate->" + navigate);
     return (
-        <NoSsr>
-            <Paper elevation={10} className={classes.paper}>
-                <Grid container>
-                    <Grid item xs>
-                        <Button
-                            className={
-                                navigate === DASHBOARD
-                                    ? classes.selectedButton
-                                    : classes.button
-                            }
-                            onClick={() => {
-                                router.push("/dashboard");
-                            }}
-                        >
-                            <DashboardIcon /> <Hidden xsDown>Dashboard</Hidden>
-                        </Button>
-                    </Grid>
-                    <Grid item xs>
-                        <Button
-                            className={
-                                navigate === DATA
-                                    ? classes.selectedButton
-                                    : classes.button
-                            }
-                            onClick={() => {
-                                router.push("/data");
-                            }}
-                        >
-                            <CloudUploadIcon /> <Hidden xsDown>Data</Hidden>
-                        </Button>
-                    </Grid>
-                    <Grid item xs>
-                        <Button
-                            className={
-                                navigate === APPS
-                                    ? classes.selectedButton
-                                    : classes.button
-                            }
-                            onClick={() => {
-                                router.push("/apps");
-                            }}
-                        >
-                            <AppsIcon /> <Hidden xsDown>Apps</Hidden>
-                        </Button>
-                    </Grid>
-                    <Grid item xs>
-                        <Button
-                            className={
-                                navigate === ANALYSES
-                                    ? classes.selectedButton
-                                    : classes.button
-                            }
-                            onClick={() => {
-                                router.push("/analyses");
-                            }}
-                        >
-                            <AssessmentIcon /> <Hidden xsDown>Analyses</Hidden>
-                        </Button>
-                    </Grid>
-                    <Grid item xs>
-                        <Button
-                            className={
-                                navigate === MORE
-                                    ? classes.selectedButton
-                                    : classes.button
-                            }
-                            onClick={() => {
-                                router.push("/more");
-                            }}
-                        >
-                            <MoreHorizIcon /> <Hidden xsDown>More</Hidden>
-                        </Button>
-                    </Grid>
+        <Paper elevation={10} className={classes.paper}>
+            <Grid container>
+                <Grid item xs>
+                    <Button
+                        className={
+                            navigate === DASHBOARD
+                                ? classes.selectedButton
+                                : classes.button
+                        }
+                        onClick={() => {
+                            router.push("/dashboard");
+                        }}
+                    >
+                        <DashboardIcon /> <Hidden xsDown>Dashboard</Hidden>
+                    </Button>
                 </Grid>
-            </Paper>
-        </NoSsr>
+                <Grid item xs>
+                    <Button
+                        className={
+                            navigate === DATA
+                                ? classes.selectedButton
+                                : classes.button
+                        }
+                        onClick={() => {
+                            router.push("/data");
+                        }}
+                    >
+                        <CloudUploadIcon /> <Hidden xsDown>Data</Hidden>
+                    </Button>
+                </Grid>
+                <Grid item xs>
+                    <Button
+                        className={
+                            navigate === APPS
+                                ? classes.selectedButton
+                                : classes.button
+                        }
+                        onClick={() => {
+                            router.push("/apps");
+                        }}
+                    >
+                        <AppsIcon /> <Hidden xsDown>Apps</Hidden>
+                    </Button>
+                </Grid>
+                <Grid item xs>
+                    <Button
+                        className={
+                            navigate === ANALYSES
+                                ? classes.selectedButton
+                                : classes.button
+                        }
+                        onClick={() => {
+                            router.push("/analyses");
+                        }}
+                    >
+                        <AssessmentIcon /> <Hidden xsDown>Analyses</Hidden>
+                    </Button>
+                </Grid>
+                <Grid item xs>
+                    <Button
+                        className={
+                            navigate === MORE
+                                ? classes.selectedButton
+                                : classes.button
+                        }
+                        onClick={() => {
+                            router.push("/more");
+                        }}
+                    >
+                        <MoreHorizIcon /> <Hidden xsDown>More</Hidden>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Paper>
     );
 }
 

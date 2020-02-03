@@ -238,8 +238,17 @@ const UploadList = (props) => {
     );
 };
 
-const URLImportTextField = () => {
+const URLImportTextField = (props) => {
     const classes = useStyles();
+    const [uploadURL, setUploadURL] = useState("");
+
+    const { addURLFn } = props;
+
+    const clickHandler = (event) => {
+        setupEvent(event);
+        addURLFn(event, uploadURL);
+        setUploadURL("");
+    };
 
     return (
         <div className={classes.textFieldContainer}>
@@ -255,8 +264,18 @@ const URLImportTextField = () => {
                         </InputAdornment>
                     ),
                 }}
+                value={uploadURL}
+                onChange={(e) => {
+                    setupEvent(e);
+                    setUploadURL(e.target.value);
+                }}
+                onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                        clickHandler(e);
+                    }
+                }}
             />
-            <IconButton aria-label="add-url-import">
+            <IconButton aria-label="add-url-import" onClick={clickHandler}>
                 <AddCircleIcon />
             </IconButton>
         </div>
@@ -300,7 +319,11 @@ const UploadDialog = (props) => {
 
     // Callback for the UploadCard.
     const dropFn = async (_, items) => {
+        // TransferItemLists aren't actually arrays/lists in JS-land.
         let allItems = convertDTIL(items);
+
+        // Get all of the URLs split out into their own list.
+        // Plus, make sure their callbacks are called synchronously.
         let stringItems = await Promise.all(
             allItems
                 .filter((i) => i.kind === "string")
@@ -310,19 +333,29 @@ const UploadDialog = (props) => {
                 })
         );
 
+        // Flatten the list of strings, since each string could turn into
+        // multiple URLs.
         stringItems = stringItems.flat(Infinity);
 
+        // Get all of the files split out into their own list.
         let fileItems = allItems
             .filter((i) => i.kind === "file")
             .map((i) => i.getAsFile())
-            .filter((f) => f.size > 0);
+            .filter((f) => f.size > 0); // filter out 0-byte files and directories.
 
+        // Concat the lists of URLs and files.
         let cleanItems = [...stringItems, ...fileItems];
 
+        // Clear out any nulls from the list. Yes, they do actually creep in and
+        // this really is necessary.
         cleanItems = cleanItems.filter((i) => i !== null && i !== "undefined");
 
-        // Set the new value of uploadItems.
+        // Set the new value of uploadItems, which should trigger a re-render.
         setUploadItems([...uploadItems, ...cleanItems]);
+    };
+
+    const addURLFn = (_event, newURL) => {
+        setUploadItems([...uploadItems, newURL]);
     };
 
     const handleClose = () => {
@@ -346,7 +379,7 @@ const UploadDialog = (props) => {
                 <DialogContent className={classes.root}>
                     <UploadCard dropFn={dropFn} />
 
-                    <URLImportTextField />
+                    <URLImportTextField addURLFn={addURLFn} />
 
                     <UploadList items={uploadItems} />
                 </DialogContent>

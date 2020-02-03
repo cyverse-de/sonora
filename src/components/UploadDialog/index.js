@@ -10,19 +10,10 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Divider from "@material-ui/core/Divider";
 import HttpOutlinedIcon from "@material-ui/icons/HttpOutlined";
 import IconButton from "@material-ui/core/IconButton";
-import InsertDriveFileOutlinedIcon from "@material-ui/icons/InsertDriveFileOutlined";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Link from "@material-ui/core/Link";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 
@@ -52,24 +43,12 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.primary.main,
         color: theme.palette.primary.contrastText,
     },
-    uploadDialogActions: {
-        background: theme.palette.lightSilver,
-        marginTop: "10px",
-    },
-    fileList: {
-        borderColor: theme.palette.lightSilver,
-        border: "solid 1px",
-    },
-    listSubheader: {
-        background: theme.palette.lightSilver,
-    },
     textFieldContainer: {
         marginTop: "20px",
-        marginBottom: "20px",
         display: "flex",
     },
     textField: {
-        width: "88%",
+        width: "100%",
     },
 }));
 
@@ -220,70 +199,6 @@ export const UploadCard = (props) => {
     );
 };
 
-const UploadList = (props) => {
-    const classes = useStyles();
-    const { uploadItems, removeUploadItemFn } = props;
-
-    return (
-        <List
-            subheader={
-                <ListSubheader className={classes.listSubheader}>
-                    Files to upload
-                </ListSubheader>
-            }
-            className={classes.fileList}
-        >
-            {uploadItems.map((item, index) => (
-                <React.Fragment key={`upload-list-${index}`}>
-                    <ListItem id={`upload-list-${index}`}>
-                        <ListItemIcon>
-                            {item.kind === KindFile ? (
-                                // object in this case is a file.
-                                <InsertDriveFileOutlinedIcon />
-                            ) : (
-                                // otherwise it's a string containing a URL
-                                <HttpOutlinedIcon />
-                            )}
-                        </ListItemIcon>
-
-                        {item.kind === KindFile ? (
-                            // object in this case is a file
-                            <ListItemText
-                                id={item.value.name}
-                                primary={item.value.name}
-                            />
-                        ) : (
-                            // otherwise it's a string containing a URL
-                            <ListItemText
-                                id={item.value}
-                                primary={item.value}
-                            />
-                        )}
-
-                        <ListItemSecondaryAction>
-                            <IconButton
-                                aria-label="remove"
-                                onClick={(e) => {
-                                    setupEvent(e);
-                                    removeUploadItemFn(e, index);
-                                }}
-                            >
-                                <RemoveCircleIcon />
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-
-                    {index < uploadItems.length - 1 ? (
-                        <Divider variant="inset" />
-                    ) : (
-                        ""
-                    )}
-                </React.Fragment>
-            ))}
-        </List>
-    );
-};
-
 const URLImportTextField = (props) => {
     const classes = useStyles();
     const [uploadURL, setUploadURL] = useState("");
@@ -413,14 +328,6 @@ const UploadDialog = (props) => {
         setUploadItems([...uploadItems, { kind: KindURL, value: newURL }]);
     };
 
-    // Removes the item at 'index' from the list of items tracked for uploads.
-    // Does not call the stopPropagation() or preventDefault(), it's assumed
-    // that the component knows best when those should be called.
-    const removeUploadItemFn = (_event, index) => {
-        uploadItems.splice(index, 1);
-        setUploadItems([...uploadItems]);
-    };
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -443,28 +350,15 @@ const UploadDialog = (props) => {
                     <UploadCard dropFn={dropFn} />
 
                     <URLImportTextField addURLFn={addURLFn} />
-
-                    <UploadList
-                        uploadItems={uploadItems}
-                        removeUploadItemFn={removeUploadItemFn}
-                    />
                 </DialogContent>
 
-                <DialogActions className={classes.uploadDialogActions}>
+                <DialogActions>
                     <Button
                         onClick={handleClose}
                         color="primary"
                         variant="contained"
                     >
-                        Cancel
-                    </Button>
-
-                    <Button
-                        onClick={handleClose}
-                        color="primary"
-                        variant="contained"
-                    >
-                        Upload
+                        Close
                     </Button>
                 </DialogActions>
             </Dialog>

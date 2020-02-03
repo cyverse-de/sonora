@@ -188,7 +188,7 @@ export const UploadCard = (props) => {
 
 const UploadList = (props) => {
     const classes = useStyles();
-    const { items } = props;
+    const { uploadItems, removeUploadItemFn } = props;
 
     return (
         <List
@@ -199,11 +199,11 @@ const UploadList = (props) => {
             }
             className={classes.fileList}
         >
-            {items.map((item, index) => (
+            {uploadItems.map((item, index) => (
                 <React.Fragment key={`upload-list-${index}`}>
                     <ListItem id={`upload-list-${index}`}>
                         <ListItemIcon>
-                            {typeof item === "object" ? (
+                            {item.kind === KindFile ? (
                                 // object in this case is a file.
                                 <InsertDriveFileOutlinedIcon />
                             ) : (
@@ -212,22 +212,34 @@ const UploadList = (props) => {
                             )}
                         </ListItemIcon>
 
-                        {typeof item === "object" ? (
+                        {item.kind === KindFile ? (
                             // object in this case is a file
-                            <ListItemText id={item.name} primary={item.name} />
+                            <ListItemText
+                                id={item.value.name}
+                                primary={item.value.name}
+                            />
                         ) : (
                             // otherwise it's a string containing a URL
-                            <ListItemText id={item} primary={item} />
+                            <ListItemText
+                                id={item.value}
+                                primary={item.value}
+                            />
                         )}
 
                         <ListItemSecondaryAction>
-                            <IconButton aria-label="remove">
+                            <IconButton
+                                aria-label="remove"
+                                onClick={(e) => {
+                                    setupEvent(e);
+                                    removeUploadItemFn(e, index);
+                                }}
+                            >
                                 <RemoveCircleIcon />
                             </IconButton>
                         </ListItemSecondaryAction>
                     </ListItem>
 
-                    {index < items.length - 1 ? (
+                    {index < uploadItems.length - 1 ? (
                         <Divider variant="inset" />
                     ) : (
                         ""
@@ -305,6 +317,9 @@ const promiseGetAsString = (item) => {
 
 const getURLs = (str) => str.match(/(https?:\/\/[^ \\(\\)]*)/g);
 
+const KindURL = "URL";
+const KindFile = "File";
+
 /**
  * Handles uploads to the data store.
  *
@@ -336,12 +351,17 @@ const UploadDialog = (props) => {
         // Flatten the list of strings, since each string could turn into
         // multiple URLs.
         stringItems = stringItems.flat(Infinity);
+        stringItems = stringItems.map((item) => ({
+            kind: KindURL,
+            value: item,
+        }));
 
         // Get all of the files split out into their own list.
         let fileItems = allItems
             .filter((i) => i.kind === "file")
             .map((i) => i.getAsFile())
-            .filter((f) => f.size > 0); // filter out 0-byte files and directories.
+            .filter((f) => f.size > 0) // filter out 0-byte files and directories.
+            .map((i) => ({ kind: KindFile, value: i }));
 
         // Concat the lists of URLs and files.
         let cleanItems = [...stringItems, ...fileItems];
@@ -354,8 +374,19 @@ const UploadDialog = (props) => {
         setUploadItems([...uploadItems, ...cleanItems]);
     };
 
+    // Adds a new URL to the list of items tracked for uploads.
+    // Does not call the stopPropagation() or preventDefault(), it's assumed
+    // that the component knows best when those should be called.
     const addURLFn = (_event, newURL) => {
-        setUploadItems([...uploadItems, newURL]);
+        setUploadItems([...uploadItems, { kind: KindURL, value: newURL }]);
+    };
+
+    // Removes the item at 'index' from the list of items tracked for uploads.
+    // Does not call the stopPropagation() or preventDefault(), it's assumed
+    // that the component knows best when those should be called.
+    const removeUploadItemFn = (_event, index) => {
+        uploadItems.splice(index, 1);
+        setUploadItems([...uploadItems]);
     };
 
     const handleClose = () => {
@@ -381,7 +412,10 @@ const UploadDialog = (props) => {
 
                     <URLImportTextField addURLFn={addURLFn} />
 
-                    <UploadList items={uploadItems} />
+                    <UploadList
+                        uploadItems={uploadItems}
+                        removeUploadItemFn={removeUploadItemFn}
+                    />
                 </DialogContent>
 
                 <DialogActions className={classes.uploadDialogActions}>

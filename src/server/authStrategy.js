@@ -79,14 +79,9 @@ export const deserializeUser = (user, done) => {
 export const authnTokenMiddleware = (req, res, next) => {
     const token = req?.user?.accessToken;
 
-    if (!token) {
-        res.status(401);
-        return next("Authorization required.");
+    if (token) {
+        req.headers["Authorization"] = `Bearer ${req.user.accessToken}`;
     }
-
-    // Add the Authorization header to the request, that way the request can be piped
-    // to an outgoing request without having to manually set the header.
-    req.headers["Authorization"] = `Bearer ${req.user.accessToken}`;
 
     next();
 };

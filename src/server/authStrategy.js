@@ -84,5 +84,9 @@ export const authnTokenMiddleware = (req, res, next) => {
         return next("Authorization required.");
     }
 
+    // Add the Authorization header to the request, that way the request can be piped
+    // to an outgoing request without having to manually set the header.
+    req.headers["Authorization"] = `Bearer ${req.user.accessToken}`;
+
     next();
 };

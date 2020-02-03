@@ -22,13 +22,7 @@ export const configurableUploadHandler = (req, res, apiBaseURL) => {
 
     console.log(apiURL.href);
 
-    req.pipe(
-        request.post(apiURL.href, {
-            headers: {
-                Authorization: `Bearer ${req.user.accessToken}`,
-            },
-        })
-    ).pipe(res);
+    req.pipe(request.post(apiURL.href)).pipe(res);
 };
 
 /**
@@ -64,13 +58,7 @@ export const configurableDownloadHandler = (req, res, apiBaseURL) => {
         `attachment; filename=${path.basename(source)}`
     );
 
-    req.pipe(
-        request.get(apiURL.href, {
-            headers: {
-                Authorization: `Bearer ${req.user.accessToken}`,
-            },
-        })
-    ).pipe(res);
+    req.pipe(request.get(apiURL.href)).pipe(res);
 };
 
 /**

@@ -1,3 +1,9 @@
+/**
+ * @author aramsey
+ *
+ * A dot menu intended for the Data view.
+ */
+
 import React from "react";
 
 import { build, DotMenu, getMessage, withI18N } from "@cyverse-de/ui-lib";

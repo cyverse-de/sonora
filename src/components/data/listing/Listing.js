@@ -1,3 +1,9 @@
+/**
+ * @author aramsey
+ *
+ * A component intended to be the parent to the data's table view and
+ * thumbnail/tile view.
+ */
 import React, { useEffect, useState } from "react";
 
 import { useQuery } from "@apollo/react-hooks";

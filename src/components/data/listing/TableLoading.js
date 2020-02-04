@@ -1,3 +1,10 @@
+/**
+ * @author aramsey
+ *
+ * A component for showing a loading skeleton for a table.
+ * The skeleton will be text boxes in the shape of however many rows
+ * and columns.
+ */
 import React from "react";
 
 import { makeStyles, TableCell, TableRow } from "@material-ui/core";

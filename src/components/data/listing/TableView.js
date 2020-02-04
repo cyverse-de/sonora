@@ -1,3 +1,9 @@
+/**
+ * @author aramsey
+ *
+ * A component intended for showing a data listing in a table format.
+ */
+
 import React from "react";
 
 import {

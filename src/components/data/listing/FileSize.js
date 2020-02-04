@@ -1,3 +1,8 @@
+/**
+ * @author aramsey
+ *
+ * A component intended for displaying data file sizes in a readable format
+ */
 import numeral from "numeral";
 
 export function getFileSize(size) {

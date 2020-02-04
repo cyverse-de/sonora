@@ -6,7 +6,6 @@ import pgsimple from "connect-pg-simple";
 
 import * as config from "./configuration";
 import * as authStrategy from "./authStrategy";
-import { uploadHandler, downloadHandler } from "./fileio";
 import { terrain } from "./terrainHandler";
 
 import { ApolloServer } from "apollo-server-express";
@@ -103,12 +102,22 @@ app.prepare()
         });
 
         const api = express.Router();
-        api.post("/upload", authStrategy.authnTokenMiddleware, uploadHandler);
+        api.post(
+            "/upload",
+            authStrategy.authnTokenMiddleware,
+            terrain({
+                method: "POST",
+                pathname: "/secured/fileio/upload",
+            })
+        );
 
         api.get(
             "/download",
             authStrategy.authnTokenMiddleware,
-            downloadHandler
+            terrain({
+                method: "GET",
+                pathname: "/secured/fileio/download",
+            })
         );
 
         api.get(

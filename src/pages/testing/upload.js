@@ -7,7 +7,7 @@ const Uploadform = () => {
         setDestination(event.target.value);
     };
 
-    const actionPath = `/api/upload?destination=${destination}`;
+    const actionPath = `/api/upload?dest=${destination}`;
 
     return (
         <form action={actionPath} method="post" encType="multipart/form-data">

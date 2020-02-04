@@ -28,13 +28,6 @@ const mockResponse = () => {
 };
 
 describe("/api/upload handler", () => {
-    test("with no authentication provided", async () => {
-        const res = mockResponse();
-        await configurableUploadHandler({}, res);
-        expect(res.status).toHaveBeenCalledWith(401);
-        expect(res.send).toHaveBeenCalledWith("Authorization required.");
-    });
-
     test("with no destination provided", async () => {
         const req = mockRequest();
         const res = mockResponse();
@@ -47,13 +40,6 @@ describe("/api/upload handler", () => {
 });
 
 describe("/api/download handler", () => {
-    test("with no authentication provided", async () => {
-        const res = mockResponse();
-        await configurableDownloadHandler({}, res);
-        expect(res.status).toHaveBeenCalledWith(401);
-        expect(res.send).toHaveBeenCalledWith("Authorization required.");
-    });
-
     test("with no destination provided", async () => {
         const req = mockRequest();
         const res = mockResponse();

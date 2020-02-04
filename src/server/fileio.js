@@ -10,13 +10,6 @@ import path from "path";
  * @returns null
  */
 export const configurableUploadHandler = (req, res, apiBaseURL) => {
-    const token = req?.user?.accessToken;
-
-    if (!token) {
-        res.status(401).send("Authorization required.");
-        return;
-    }
-
     const { destination } = req.query;
     if (!destination || destination === "") {
         res.status(400).send("destination query parameter must be set.");
@@ -29,13 +22,7 @@ export const configurableUploadHandler = (req, res, apiBaseURL) => {
 
     console.log(apiURL.href);
 
-    req.pipe(
-        request.post(apiURL.href, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-    ).pipe(res);
+    req.pipe(request.post(apiURL.href)).pipe(res);
 };
 
 /**
@@ -53,13 +40,6 @@ export const uploadHandler = (req, res) =>
  * @returns null
  */
 export const configurableDownloadHandler = (req, res, apiBaseURL) => {
-    const token = req?.user?.accessToken;
-
-    if (!token) {
-        res.status(401).send("Authorization required.");
-        return;
-    }
-
     const { source } = req.query;
     if (!source || source === "") {
         res.status(400).send("source query parameter must be set.");
@@ -78,13 +58,7 @@ export const configurableDownloadHandler = (req, res, apiBaseURL) => {
         `attachment; filename=${path.basename(source)}`
     );
 
-    req.pipe(
-        request.get(apiURL.href, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-    ).pipe(res);
+    req.pipe(request.get(apiURL.href)).pipe(res);
 };
 
 /**

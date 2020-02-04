@@ -6,16 +6,19 @@
 
 import React from "react";
 
-import { Description, Folder } from "@material-ui/icons";
+import {
+    InsertDriveFileOutlined as FileIcon,
+    Folder as FolderIcon,
+} from "@material-ui/icons";
 
 function ResourceIcon(props) {
     const { type } = props;
 
     if (type === "FOLDER" || type === "DIR") {
-        return <Folder />;
+        return <FolderIcon />;
     }
     if (type === "FILE") {
-        return <Description />;
+        return <FileIcon />;
     }
 
     return null;

@@ -6,7 +6,7 @@ import {
     Delete as DeleteIcon,
     Edit as EditIcon,
     GetApp as DownloadIcon,
-    Label as MetadataIcon,
+    Description as MetadataIcon,
 } from "@material-ui/icons";
 
 import ids from "../ids";

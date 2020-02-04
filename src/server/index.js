@@ -104,11 +104,13 @@ app.prepare()
 
         const api = express.Router();
         api.post("/upload", authStrategy.authnTokenMiddleware, uploadHandler);
+
         api.get(
             "/download",
             authStrategy.authnTokenMiddleware,
             downloadHandler
         );
+
         api.get(
             "/filesystem/paged-directory",
             authStrategy.authnTokenMiddleware,
@@ -118,6 +120,7 @@ app.prepare()
                 "/secured/filesystem/paged-directory"
             )
         );
+
         api.post(
             "/filesystem/stat",
             authStrategy.authnTokenMiddleware,
@@ -128,6 +131,7 @@ app.prepare()
                 { "Content-Type": "application/json" }
             )
         );
+
         api.get(
             "/filesystem/root",
             authStrategy.authnTokenMiddleware,

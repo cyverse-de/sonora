@@ -10,7 +10,14 @@ import {
     getMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
-import { makeStyles, Paper, Table, TableBody, TableCell, TableContainer } from "@material-ui/core";
+import {
+    makeStyles,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+} from "@material-ui/core";
 import Link from "next/link";
 
 import DataDotMenu from "./DataDotMenu";
@@ -49,7 +56,6 @@ function getTableColumns(isMedium, isLarge) {
     return columns;
 }
 
-
 function TableView(props) {
     const {
         path,
@@ -66,7 +72,7 @@ function TableView(props) {
         handleClick,
         order,
         orderBy,
-        selected
+        selected,
     } = props;
 
     const tableId = build(baseId, ids.listingTable);
@@ -99,81 +105,87 @@ function TableView(props) {
                         />
                     )}
                     {listing &&
-                    listing.length > 0 &&
-                    listing.map((resource, index) => {
-                        const resourceId = resource.id;
-                        const isSelected =
-                            selected.indexOf(resourceId) !== -1;
-                        return (
-                            <DETableRow
-                                role="checkbox"
-                                tabIndex={-1}
-                                hover
-                                id={build(tableId, resourceId)}
-                                key={resourceId}
-                                selected={isSelected}
-                                aria-checked={isSelected}
-                                onClick={(event) =>
-                                    handleClick(
-                                        event,
-                                        resourceId,
-                                        index
-                                    )
-                                }
-                            >
-                                <TableCell padding="checkbox">
-                                    <DECheckbox
-                                        checked={isSelected}
-                                        inputProps={{
-                                            "aria-labelledby": build(
-                                                tableId,
-                                                resourceId
-                                            ),
-                                        }}
-                                    />
-                                </TableCell>
-                                <TableCell padding="checkbox">
-                                    <ResourceIcon
-                                        type={resource.type}
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <Link href={`/data?path=${path}/${resource.label}`}>
-                                        <a className={classes.dataLink}>{resource.label}</a>
-                                    </Link>
-                                </TableCell>
-                                {isMedium && (
-                                    <TableCell>
-                                        {formatDate(
-                                            resource.dateModified,
-                                            "YYYY MMM DD HH:mm:ss"
-                                        )}
+                        listing.length > 0 &&
+                        listing.map((resource, index) => {
+                            const resourceId = resource.id;
+                            const isSelected =
+                                selected.indexOf(resourceId) !== -1;
+                            return (
+                                <DETableRow
+                                    role="checkbox"
+                                    tabIndex={-1}
+                                    hover
+                                    id={build(tableId, resourceId)}
+                                    key={resourceId}
+                                    selected={isSelected}
+                                    aria-checked={isSelected}
+                                    onClick={(event) =>
+                                        handleClick(event, resourceId, index)
+                                    }
+                                >
+                                    <TableCell padding="checkbox">
+                                        <DECheckbox
+                                            checked={isSelected}
+                                            inputProps={{
+                                                "aria-labelledby": build(
+                                                    tableId,
+                                                    resourceId
+                                                ),
+                                            }}
+                                        />
                                     </TableCell>
-                                )}
-                                {isMedium && (
-                                    <TableCell>
-                                        {getFileSize(resource.fileSize)}
+                                    <TableCell padding="checkbox">
+                                        <ResourceIcon type={resource.type} />
                                     </TableCell>
-                                )}
-                                {isLarge && (
-                                    <TableCell>{resource.path}</TableCell>
-                                )}
-                                <TableCell>
-                                    <DataDotMenu
-                                        baseId={tableId}
-                                        onDownloadSelected={() => onDownloadSelected(resourceId)}
-                                        onEditSelected={() => onEditSelected(resourceId)}
-                                        onMetadataSelected={() => onMetadataSelected(resourceId)}
-                                        onDeleteSelected={() => onDeleteSelected(resourceId)}
-                                    />
-                                </TableCell>
-                            </DETableRow>
-                        );
-                    })}
+                                    <TableCell>
+                                        <Link
+                                            href={`/data?path=${path}/${resource.label}`}
+                                        >
+                                            <span className={classes.dataLink}>
+                                                {resource.label}
+                                            </span>
+                                        </Link>
+                                    </TableCell>
+                                    {isMedium && (
+                                        <TableCell>
+                                            {formatDate(
+                                                resource.dateModified,
+                                                "YYYY MMM DD HH:mm:ss"
+                                            )}
+                                        </TableCell>
+                                    )}
+                                    {isMedium && (
+                                        <TableCell>
+                                            {getFileSize(resource.fileSize)}
+                                        </TableCell>
+                                    )}
+                                    {isLarge && (
+                                        <TableCell>{resource.path}</TableCell>
+                                    )}
+                                    <TableCell>
+                                        <DataDotMenu
+                                            baseId={tableId}
+                                            onDownloadSelected={() =>
+                                                onDownloadSelected(resourceId)
+                                            }
+                                            onEditSelected={() =>
+                                                onEditSelected(resourceId)
+                                            }
+                                            onMetadataSelected={() =>
+                                                onMetadataSelected(resourceId)
+                                            }
+                                            onDeleteSelected={() =>
+                                                onDeleteSelected(resourceId)
+                                            }
+                                        />
+                                    </TableCell>
+                                </DETableRow>
+                            );
+                        })}
                 </TableBody>
             </Table>
         </TableContainer>
-    )
+    );
 }
 
 export default withI18N(TableView, messages);

@@ -1,11 +1,14 @@
 import request from "request";
 import path from "path";
 import querystring from "querystring";
+import { terrainURL } from "./configuration";
 
-export const terrainHandler = (method, terrainURL, terrainPath, headers) => {
+export const terrain = ({ method, url, pathname, headers }) => {
+    const baseURL = url || terrainURL;
+
     return (req, res) => {
-        const apiURL = new URL(terrainURL);
-        apiURL.pathname = path.join(apiURL.pathname, terrainPath);
+        const apiURL = new URL(baseURL);
+        apiURL.pathname = path.join(apiURL.pathname, pathname);
         apiURL.search = querystring.stringify(req.query);
 
         const requestOptions = {

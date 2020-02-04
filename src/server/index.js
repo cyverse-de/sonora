@@ -7,7 +7,7 @@ import pgsimple from "connect-pg-simple";
 import * as config from "./configuration";
 import * as authStrategy from "./authStrategy";
 import { uploadHandler, downloadHandler } from "./fileio";
-import { terrainHandler } from "./terrainHandler";
+import { terrain } from "./terrainHandler";
 
 import { ApolloServer } from "apollo-server-express";
 import { applyMiddleware } from "graphql-middleware";
@@ -114,28 +114,28 @@ app.prepare()
         api.get(
             "/filesystem/paged-directory",
             authStrategy.authnTokenMiddleware,
-            terrainHandler(
-                "GET",
-                config.terrainURL,
-                "/secured/filesystem/paged-directory"
-            )
+            terrain({
+                method: "GET",
+                pathname: "/secured/filesystem/paged-directory",
+            })
         );
 
         api.post(
             "/filesystem/stat",
             authStrategy.authnTokenMiddleware,
-            terrainHandler(
-                "POST",
-                config.terrainURL,
-                "/secured/filesystem/stat",
-                { "Content-Type": "application/json" }
-            )
+            terrain({
+                method: "POST",
+                pathname: "/secured/filesystem/stat",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
         );
 
         api.get(
             "/filesystem/root",
             authStrategy.authnTokenMiddleware,
-            terrainHandler("GET", config.terrainURL, "/secured/filesystem/root")
+            terrain({ method: "GET", pathname: "/secured/filesystem/root" })
         );
 
         server.use("/api", api);

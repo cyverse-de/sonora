@@ -7,6 +7,7 @@ import pgsimple from "connect-pg-simple";
 import * as config from "./configuration";
 import * as authStrategy from "./authStrategy";
 import { uploadHandler, downloadHandler } from "./fileio";
+import { pagedListingHandler } from "./filesystem";
 
 import { ApolloServer } from "apollo-server-express";
 import { applyMiddleware } from "graphql-middleware";
@@ -108,6 +109,13 @@ app.prepare()
             authStrategy.authnTokenMiddleware,
             downloadHandler
         );
+        api.get(
+            "/filesystem/paged-directory",
+            authStrategy.authnTokenMiddleware,
+            pagedListingHandler
+        );
+
+        server.use("/api", api);
 
         server.get("*", (req, res) => {
             return nextHandler(req, res);

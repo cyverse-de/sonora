@@ -15,6 +15,7 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "format": "prettier --write './**/*.js'",
+    "lint" : "eslint --max-warnings=0 ./src/",
     "clean": "rimraf ./.next ./dist ./generated-docs"
   },
   "repository": {
@@ -37,11 +38,15 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app"
+      "react-app",
+      "plugin:jsx-a11y/recommended"
     ],
     "rules": {
       "react/react-in-jsx-scope": "off"
-    }
+    },
+    "plugins": [
+      "jsx-a11y"
+    ]
   },
   "dependencies": {
     "@cyverse-de/ui-lib": "^2.0.0",

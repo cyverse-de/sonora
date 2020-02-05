@@ -6,19 +6,18 @@ const Uploadform = () => {
     const [files, setFiles] = useState(null);
     const [uploadData, setUploadData] = useState({});
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         const formData = new FormData();
         formData.append("file", files[0]);
 
-        const uploadData = await fetch(`/api/upload?dest=${destination}`, {
+        fetch(`/api/upload?dest=${destination}`, {
             method: "POST",
             credentials: "include",
             body: formData,
         })
             .then((resp) => resp.json())
+            .then((uploadData) => setUploadData(uploadData))
             .catch((e) => console.log(`error ${e.message}`));
-
-        setUploadData(uploadData);
     };
 
     return (

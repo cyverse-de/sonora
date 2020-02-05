@@ -6,8 +6,7 @@ import pgsimple from "connect-pg-simple";
 
 import * as config from "./configuration";
 import * as authStrategy from "./authStrategy";
-import { uploadHandler, downloadHandler } from "./fileio";
-import { pagedListingHandler } from "./filesystem";
+import { terrain } from "./terrainHandler";
 
 import { ApolloServer } from "apollo-server-express";
 import { applyMiddleware } from "graphql-middleware";
@@ -103,16 +102,49 @@ app.prepare()
         });
 
         const api = express.Router();
-        api.post("/upload", authStrategy.authnTokenMiddleware, uploadHandler);
+        api.post(
+            "/upload",
+            authStrategy.authnTokenMiddleware,
+            terrain({
+                method: "POST",
+                pathname: "/secured/fileio/upload",
+            })
+        );
+
         api.get(
             "/download",
             authStrategy.authnTokenMiddleware,
-            downloadHandler
+            terrain({
+                method: "GET",
+                pathname: "/secured/fileio/download",
+            })
         );
+
         api.get(
             "/filesystem/paged-directory",
             authStrategy.authnTokenMiddleware,
-            pagedListingHandler
+            terrain({
+                method: "GET",
+                pathname: "/secured/filesystem/paged-directory",
+            })
+        );
+
+        api.post(
+            "/filesystem/stat",
+            authStrategy.authnTokenMiddleware,
+            terrain({
+                method: "POST",
+                pathname: "/secured/filesystem/stat",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+        );
+
+        api.get(
+            "/filesystem/root",
+            authStrategy.authnTokenMiddleware,
+            terrain({ method: "GET", pathname: "/secured/filesystem/root" })
         );
 
         server.use("/api", api);

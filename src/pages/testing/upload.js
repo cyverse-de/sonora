@@ -2,15 +2,25 @@ import React, { useState } from "react";
 
 const Uploadform = () => {
     const [destination, setDestination] = useState("");
+    const [files, setFiles] = useState(null);
+    const [uploadData, setUploadData] = useState({});
 
-    const handleDestinationChange = (event) => {
-        setDestination(event.target.value);
+    const handleSubmit = (event) => {
+        const formData = new FormData();
+        formData.append("file", files[0]);
+
+        fetch(`/api/upload?dest=${destination}`, {
+            method: "POST",
+            credentials: "include",
+            body: formData,
+        })
+            .then((resp) => resp.json())
+            .then((uploadData) => setUploadData(uploadData))
+            .catch((e) => console.log(`error ${e.message}`));
     };
 
-    const actionPath = `/api/upload?dest=${destination}`;
-
     return (
-        <form action={actionPath} method="post" encType="multipart/form-data">
+        <div>
             <br />
 
             <label>
@@ -18,7 +28,7 @@ const Uploadform = () => {
                 <input
                     type="text"
                     value={destination}
-                    onChange={handleDestinationChange}
+                    onChange={(e) => setDestination(e.target.value)}
                 />
             </label>
 
@@ -27,14 +37,21 @@ const Uploadform = () => {
 
             <label>
                 File: &nbsp;
-                <input type="file" name="file" id="file" />
+                <input
+                    type="file"
+                    name="file"
+                    id="file"
+                    onChange={(e) => setFiles(e.target.files)}
+                />
             </label>
 
             <br />
             <br />
 
-            <input type="submit" value="Upload File" />
-        </form>
+            <input type="submit" value="Upload File" onClick={handleSubmit} />
+
+            <pre>{JSON.stringify(uploadData, null, 2)}</pre>
+        </div>
     );
 };
 

@@ -1,7 +1,8 @@
 export default {
     locales: "en-us",
     messages: {
-        ariaTableListing: "Data Table",
+        ariaCheckbox: "{label} checkbox",
+        ariaTableListing: "{path} Data Table",
         delete: "Delete",
         download: "Download",
         editFile: "Edit File",

@@ -13,6 +13,7 @@ import {
     EmptyTable,
     EnhancedTableHead,
     formatDate,
+    formatMessage,
     getMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
@@ -23,6 +24,7 @@ import {
     TableCell,
     TableContainer,
 } from "@material-ui/core";
+import { injectIntl } from "react-intl";
 
 import DataDotMenu from "./DataDotMenu";
 import { getFileSize } from "./FileSize";
@@ -78,6 +80,7 @@ function TableView(props) {
         order,
         orderBy,
         selected,
+        intl,
     } = props;
 
     const tableId = build(baseId, ids.listingTable);
@@ -88,7 +91,9 @@ function TableView(props) {
             <Table
                 stickyHeader
                 id={tableId}
-                aria-label={getMessage("ariaTableListing")}
+                aria-label={getMessage("ariaTableListing", {
+                    values: { path: path },
+                })}
             >
                 <EnhancedTableHead
                     selectable={true}
@@ -118,15 +123,16 @@ function TableView(props) {
                         {listing &&
                             listing.length > 0 &&
                             listing.map((resource, index) => {
+                                const resourceName = resource.label;
                                 const resourceId = resource.id;
                                 const isSelected =
                                     selected.indexOf(resourceId) !== -1;
                                 return (
                                     <DETableRow
                                         role="checkbox"
-                                        tabIndex={-1}
+                                        tabIndex={0}
                                         hover
-                                        id={build(tableId, resourceId)}
+                                        id={build(tableId, resourceName)}
                                         key={resourceId}
                                         selected={isSelected}
                                         aria-checked={isSelected}
@@ -141,10 +147,20 @@ function TableView(props) {
                                         <TableCell padding="checkbox">
                                             <DECheckbox
                                                 checked={isSelected}
+                                                tabIndex={0}
+                                                id={build(
+                                                    tableId,
+                                                    resourceName,
+                                                    ids.checkbox
+                                                )}
                                                 inputProps={{
-                                                    "aria-labelledby": build(
-                                                        tableId,
-                                                        resourceId
+                                                    "aria-label": formatMessage(
+                                                        intl,
+                                                        "ariaCheckbox",
+                                                        {
+                                                            label:
+                                                                resource.label,
+                                                        }
                                                     ),
                                                 }}
                                             />
@@ -156,6 +172,11 @@ function TableView(props) {
                                         </TableCell>
                                         <TableCell>
                                             <SpanLink
+                                                id={build(
+                                                    tableId,
+                                                    resourceName,
+                                                    ids.navLink
+                                                )}
                                                 onClick={() =>
                                                     handlePathChange(
                                                         `${path}/${resource.label}`
@@ -185,7 +206,11 @@ function TableView(props) {
                                         )}
                                         <TableCell>
                                             <DataDotMenu
-                                                baseId={tableId}
+                                                baseId={build(
+                                                    tableId,
+                                                    resourceName
+                                                )}
+                                                MenuProps={{ tabIndex: 0 }}
                                                 onDownloadSelected={() =>
                                                     onDownloadSelected(
                                                         resourceId
@@ -214,4 +239,4 @@ function TableView(props) {
     );
 }
 
-export default withI18N(TableView, messages);
+export default withI18N(injectIntl(TableView), messages);

@@ -14,5 +14,11 @@ export default function Data() {
 
     const handlePathChange = (path) => router.push(`/data?path=${path}`);
 
-    return <Listing path={path} handlePathChange={handlePathChange} />;
+    return (
+        <Listing
+            path={path}
+            handlePathChange={handlePathChange}
+            baseId="data"
+        />
+    );
 }

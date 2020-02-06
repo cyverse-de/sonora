@@ -16,7 +16,7 @@ const useStyles = makeStyles(styles);
 
 function SpanLink(props) {
     const classes = useStyles();
-    const { onClick, children } = props;
+    const { onClick, id, children } = props;
 
     const keyboardHandler = (event) => {
         // if space key or enter key
@@ -27,6 +27,8 @@ function SpanLink(props) {
 
     return (
         <span
+            role="link"
+            id={id}
             tabIndex={0}
             onClick={onClick}
             onKeyDown={keyboardHandler}

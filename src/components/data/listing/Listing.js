@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 
 import { useQuery } from "@apollo/react-hooks";
 import { withI18N } from "@cyverse-de/ui-lib";
-import { useMediaQuery, useTheme } from "@material-ui/core";
+import { TablePagination, useMediaQuery, useTheme } from "@material-ui/core";
 import gql from "graphql-tag";
 
 import messages from "../messages";
@@ -50,8 +50,8 @@ function Listing(props) {
     const [orderBy, setOrderBy] = useState("label");
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
-    // const [page, setPage] = useState(0);
-    // const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
 
     const { baseId, path, handlePathChange } = props;
     useEffect(() => {
@@ -162,35 +162,46 @@ function Listing(props) {
         console.log("Delete", resourceId);
     };
 
-    // const handleChangePage = (event, newPage) => {
-    //     setPage(newPage);
-    // };
-    //
-    // const handleChangeRowsPerPage = (event) => {
-    //     setRowsPerPage(parseInt(event.target.value, 10));
-    //     setPage(0);
-    // };
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
 
     return (
-        <TableView
-            loading={loading}
-            path={path}
-            handlePathChange={handlePathChange}
-            listing={listing}
-            isMedium={isMedium}
-            isLarge={isLarge}
-            baseId={baseId}
-            onDownloadSelected={onDownloadSelected}
-            onEditSelected={onEditSelected}
-            onMetadataSelected={onMetadataSelected}
-            onDeleteSelected={onDeleteSelected}
-            handleRequestSort={handleRequestSort}
-            handleSelectAllClick={handleSelectAllClick}
-            handleClick={handleClick}
-            order={order}
-            orderBy={orderBy}
-            selected={selected}
-        />
+        <>
+            <TableView
+                loading={loading}
+                path={path}
+                handlePathChange={handlePathChange}
+                listing={listing}
+                isMedium={isMedium}
+                isLarge={isLarge}
+                baseId={baseId}
+                onDownloadSelected={onDownloadSelected}
+                onEditSelected={onEditSelected}
+                onMetadataSelected={onMetadataSelected}
+                onDeleteSelected={onDeleteSelected}
+                handleRequestSort={handleRequestSort}
+                handleSelectAllClick={handleSelectAllClick}
+                handleClick={handleClick}
+                order={order}
+                orderBy={orderBy}
+                selected={selected}
+            />
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={listing?.length} // will need to change to total
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+        </>
     );
 }
 

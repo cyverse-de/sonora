@@ -12,8 +12,8 @@
     "build": "run-p build-frontend build-server build-docs",
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "storybook": "start-storybook -p 9009 -s public",
-    "test": "jest",
-    "test-watch": "jest --watch",
+    "test": "TZ=UTC jest",
+    "test-watch": "TZ=UTC jest --watch",
     "format": "prettier --write './**/*.js'",
     "lint": "eslint --max-warnings=0 ./src/",
     "clean": "rimraf ./.next ./dist ./generated-docs"

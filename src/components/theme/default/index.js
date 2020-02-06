@@ -50,9 +50,6 @@ export const themePalette = {
 const theme = createMuiTheme({
     palette: themePalette,
     typography: {
-        button: {
-            textTransform: "none",
-        },
         useNextVariants: true,
     },
 });

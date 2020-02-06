@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+import UploadIcon from "mdi-react/UploadIcon";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
@@ -10,9 +10,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import HttpOutlinedIcon from "@material-ui/icons/HttpOutlined";
 import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
@@ -39,12 +37,7 @@ const useStyles = makeStyles((theme) => ({
     uploadCardTypography: {
         color: theme.palette.text.secondary,
     },
-    uploadDialogTitle: {
-        background: theme.palette.primary.main,
-        color: theme.palette.primary.contrastText,
-    },
     textFieldContainer: {
-        marginTop: "20px",
         display: "flex",
     },
     textField: {
@@ -199,7 +192,7 @@ export const UploadCard = (props) => {
     );
 };
 
-const URLImportTextField = (props) => {
+export const URLImportTextField = (props) => {
     const classes = useStyles();
     const [uploadURL, setUploadURL] = useState("");
     const [isValidURL, setIsValidURL] = useState(false);
@@ -208,6 +201,7 @@ const URLImportTextField = (props) => {
     const { addURLFn } = props;
 
     const clickHandler = (event) => {
+        setupEvent(event);
         addURLFn(event, uploadURL);
         setUploadURL("");
         setIsValidURL(false);
@@ -216,19 +210,14 @@ const URLImportTextField = (props) => {
     return (
         <div className={classes.textFieldContainer}>
             <TextField
+                fullWidth
                 id="url-text-field"
-                label="Add URL to Import"
-                className={classes.textField}
-                variant="outlined"
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <HttpOutlinedIcon />
-                        </InputAdornment>
-                    ),
+                placeholder="http://..."
+                helperText="Enter the URL here and either hit Enter or click on the Upload button."
+                InputLabelProps={{
+                    shrink: true,
                 }}
-                // Since the field is optional, we only care about the error
-                // value if it's in focus.
+                className={classes.textField}
                 error={!isValidURL && isFocus}
                 value={uploadURL}
                 onFocus={(e) => setIsFocus(true)}
@@ -260,10 +249,45 @@ const URLImportTextField = (props) => {
                     setupEvent(e);
                     clickHandler(e);
                 }}
+                edge="end"
             >
-                <AddCircleIcon />
+                <UploadIcon />
             </IconButton>
         </div>
+    );
+};
+
+/**
+ * Handle URL import submissions.
+ */
+export const URLImportDialog = (props) => {
+    const [open, setOpen] = useState(props.open || false);
+    const { addURLFn } = props;
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    return (
+        <Dialog
+            fullWidth={true}
+            maxWidth="sm"
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="url-import-dialog"
+        >
+            <DialogTitle>Import file from URL</DialogTitle>
+
+            <DialogContent>
+                <URLImportTextField addURLFn={addURLFn} />
+            </DialogContent>
+
+            <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                    Close
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
 };
 

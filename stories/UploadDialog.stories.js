@@ -1,6 +1,10 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import UploadDialog, { UploadCard } from "../src/components/UploadDialog";
+import UploadDialog, {
+    UploadCard,
+    URLImportTextField,
+    URLImportDialog,
+} from "../src/components/UploadDialog";
 
 storiesOf("UploadDialog", module)
     .add("basic dialog", () => (
@@ -19,6 +23,19 @@ storiesOf("UploadCard", module).add("basic support", () => (
             for (let item of items) {
                 console.log(`drop callback item kind '${item.kind}'`);
             }
+        }}
+    />
+));
+
+storiesOf("URL text field", module).add("placeholder", () => (
+    <URLImportTextField />
+));
+
+storiesOf("URL Import Dialog", module).add("basic", () => (
+    <URLImportDialog
+        open={true}
+        addURLFn={(e, url) => {
+            console.log(`import URL ${url}`);
         }}
     />
 ));

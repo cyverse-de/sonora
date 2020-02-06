@@ -1,13 +1,7 @@
 import React from "react";
 
-import Link from "next/link";
 import { useRouter } from "next/router";
 import Listing from "../components/data/listing/Listing";
-
-function PathLink(props) {
-    const { path, children } = props;
-    return <Link href={`/data?path=${path}`}>{children}</Link>;
-}
 
 export default function Data() {
     const router = useRouter();
@@ -18,5 +12,7 @@ export default function Data() {
         path = path.replace(/\/+$/, "");
     }
 
-    return <Listing path={path} PathLink={PathLink} />;
+    const handlePathChange = (path) => router.push(`/data?path=${path}`);
+
+    return <Listing path={path} handlePathChange={handlePathChange} />;
 }

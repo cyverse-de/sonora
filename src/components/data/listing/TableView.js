@@ -17,7 +17,6 @@ import {
     withI18N,
 } from "@cyverse-de/ui-lib";
 import {
-    makeStyles,
     Paper,
     Table,
     TableBody,
@@ -30,10 +29,8 @@ import { getFileSize } from "./FileSize";
 import ids from "../ids";
 import messages from "../messages";
 import ResourceIcon from "./ResourceIcon";
-import styles from "../styles";
+import SpanLink from "./SpanLink";
 import TableLoading from "./TableLoading";
-
-const useStyles = makeStyles(styles);
 
 function getTableColumns(isMedium, isLarge) {
     let columns = [
@@ -66,7 +63,7 @@ function TableView(props) {
     const {
         loading,
         path,
-        PathLink,
+        handlePathChange,
         listing,
         isMedium,
         isLarge,
@@ -85,7 +82,6 @@ function TableView(props) {
 
     const tableId = build(baseId, ids.listingTable);
     const tableColumns = getTableColumns(isMedium, isLarge);
-    const classes = useStyles();
 
     return (
         <TableContainer component={Paper}>
@@ -159,15 +155,15 @@ function TableView(props) {
                                             />
                                         </TableCell>
                                         <TableCell>
-                                            <PathLink
-                                                path={`${path}/${resource.label}`}
+                                            <SpanLink
+                                                onClick={() =>
+                                                    handlePathChange(
+                                                        `${path}/${resource.label}`
+                                                    )
+                                                }
                                             >
-                                                <span
-                                                    className={classes.dataLink}
-                                                >
-                                                    {resource.label}
-                                                </span>
-                                            </PathLink>
+                                                {resource.label}
+                                            </SpanLink>
                                         </TableCell>
                                         {isMedium && (
                                             <TableCell>

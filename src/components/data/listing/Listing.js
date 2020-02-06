@@ -53,7 +53,7 @@ function Listing(props) {
     // const [page, setPage] = useState(0);
     // const [rowsPerPage, setRowsPerPage] = useState(25);
 
-    const { baseId, path, PathLink } = props;
+    const { baseId, path, handlePathChange } = props;
     useEffect(() => {
         setSelected([]);
     }, [path]);
@@ -175,7 +175,7 @@ function Listing(props) {
         <TableView
             loading={loading}
             path={path}
-            PathLink={PathLink}
+            handlePathChange={handlePathChange}
             listing={listing}
             isMedium={isMedium}
             isLarge={isLarge}

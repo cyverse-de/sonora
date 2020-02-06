@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import UploadIcon from "mdi-react/UploadIcon";
 import Card from "@material-ui/core/Card";
@@ -41,7 +43,14 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.secondary,
     },
     textFieldContainer: {
-        display: "flex",
+        [theme.breakpoints.up("md")]: {
+            display: "flex",
+        },
+        [theme.breakpoints.down("sm")]: {
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+        },
     },
     textField: {
         width: "100%",
@@ -240,6 +249,9 @@ const validURL = (possibleURL) => {
 };
 
 export const URLImportTextField = (props) => {
+    const theme = useTheme();
+    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
     const classes = useStyles();
     const [uploadURL, setUploadURL] = useState("");
     const [isValidURL, setIsValidURL] = useState(false);
@@ -297,7 +309,7 @@ export const URLImportTextField = (props) => {
                     clickHandler(e);
                 }}
                 color="primary"
-                edge="end"
+                edge={isSmall ? false : "end"}
             >
                 <UploadIcon />
             </IconButton>

@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
         border: "dashed lightgray",
         marginBotton: "5px",
     },
+    dialogClose: {
+        color: theme.palette.black,
+    },
     uploadCardTypography: {
         color: theme.palette.text.secondary,
     },
@@ -226,7 +229,7 @@ export const URLImportTextField = (props) => {
                 fullWidth
                 id="url-text-field"
                 placeholder="http://..."
-                helperText="Enter the URL here and either hit Enter or click on the Upload button."
+                helperText="Enter the URL here and either hit Enter or click on the Import button."
                 InputLabelProps={{
                     shrink: true,
                 }}
@@ -256,12 +259,13 @@ export const URLImportTextField = (props) => {
                 }}
             />
             <IconButton
-                aria-label="add-url-import"
+                aria-label="import-file-from-url"
                 disabled={!isValidURL}
                 onClick={(e) => {
                     setupEvent(e);
                     clickHandler(e);
                 }}
+                color="primary"
                 edge="end"
             >
                 <UploadIcon />
@@ -272,6 +276,7 @@ export const URLImportTextField = (props) => {
 
 export const URLImportDialog = (props) => {
     const [open, setOpen] = useState(props.open || false);
+    const classes = useStyles();
     const { addURLFn } = props;
 
     const handleClose = () => {
@@ -293,7 +298,7 @@ export const URLImportDialog = (props) => {
             </DialogContent>
 
             <DialogActions>
-                <Button onClick={handleClose} color="primary">
+                <Button onClick={handleClose} className={classes.dialogClose}>
                     Close
                 </Button>
             </DialogActions>

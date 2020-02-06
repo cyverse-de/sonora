@@ -2,6 +2,10 @@ base_url: http://localhost:3000
 terrain_url: http://terrain
 listen_port: 3000
 
+logging:
+    level: info
+    label: sonora server
+
 db:
     host: localhost
     port: 5432

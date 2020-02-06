@@ -53,10 +53,14 @@ function buildDatabaseURI() {
  * exception if there is a problem.
  * @function
  */
-export const validate = () => {
+const validate = () => {
     validateConfigSetting("base_url");
     validateConfigSetting("terrain_url");
     validateConfigSetting("listen_port");
+
+    // logging configuration settings.
+    validateConfigSetting("logging.level");
+    validateConfigSetting("logging.label");
 
     // Database configuration settings.
     validateConfigSetting("db.host");
@@ -78,6 +82,8 @@ export const validate = () => {
     validateConfigSetting("oauth2.client_id");
     validateConfigSetting("oauth2.client_secret");
 };
+
+validate();
 
 /**
  * The bse URL for the Discovery Environment. Taken from the 'base_url'
@@ -186,3 +192,16 @@ export const oauth2ClientID = config.get("oauth2.client_id");
  * @type {string}
  */
 export const oauth2ClientSecret = config.get("oauth2.client_secret");
+
+/**
+ * The log level to use. See https://github.com/winstonjs/winston#logging-levels.
+ * We're using the Winston defaults.
+ * @type {string}
+ */
+export const logLevel = config.get("logging.level");
+
+/**
+ * The log label to use.
+ * @type {string}
+ */
+export const logLabel = config.get("logging.label");

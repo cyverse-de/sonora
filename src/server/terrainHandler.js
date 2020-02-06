@@ -2,6 +2,7 @@ import request from "request";
 import path from "path";
 import querystring from "querystring";
 import { terrainURL } from "./configuration";
+import logger from "./logging";
 
 export const terrain = ({ method, url, pathname, headers }) => {
     const baseURL = url || terrainURL;
@@ -20,10 +21,8 @@ export const terrain = ({ method, url, pathname, headers }) => {
             requestOptions.headers = headers;
         }
 
-        console.log(
-            `${method} ${JSON.stringify(requestOptions.headers || {})} ${
-                apiURL.href
-            }`
+        logger.info(
+            `TERRAIN ${req?.user?.profile?.id} ${method} ${apiURL.href}`
         );
 
         req.pipe(request(requestOptions)).pipe(res);

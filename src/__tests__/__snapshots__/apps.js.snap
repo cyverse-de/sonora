@@ -22,7 +22,7 @@ exports[`App Tile renders 1`] = `
       >
         <div
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
         >
@@ -43,7 +43,7 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.676846d4-854a-11e4-980d-7f0fcca75dbb.appName"
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
           title="Use this app."
@@ -593,7 +593,7 @@ exports[`App Tile renders 1`] = `
       >
         <div
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
         >
@@ -614,7 +614,7 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.99df0c66-dce5-11e6-a30f-0242ac120003.appName"
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
           title="Use this app."
@@ -1178,7 +1178,7 @@ exports[`App Tile renders 1`] = `
       >
         <div
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
         >
@@ -1199,7 +1199,7 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.7b37bf52-4746-11e8-a53a-008cfa5ae621.appName"
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
           title="Use this app."
@@ -1763,7 +1763,7 @@ exports[`App Tile renders 1`] = `
       >
         <div
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
         >
@@ -1784,7 +1784,7 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.a57f406c-14b7-4601-9bfd-2604a3907bee.appName"
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
           title="Use this app."
@@ -2334,7 +2334,7 @@ exports[`App Tile renders 1`] = `
       >
         <div
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
         >
@@ -2355,7 +2355,7 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.7c1ff290-999e-11e8-acf9-008cfa5ae621.appName"
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
           title="Use this app."
@@ -2919,7 +2919,7 @@ exports[`App Tile renders 1`] = `
       >
         <div
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
         >
@@ -2940,7 +2940,7 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.8b89b178-95aa-11e8-bab5-008cfa5ae621.appName"
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
           title="Use this app."
@@ -3504,7 +3504,7 @@ exports[`App Tile renders 1`] = `
       >
         <div
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
         >
@@ -3525,7 +3525,7 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.b1f3cd8e-e424-11e4-9703-ab68be62b493.appName"
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
           title="Use this app."
@@ -4075,7 +4075,7 @@ exports[`App Tile renders 1`] = `
       >
         <div
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
         >
@@ -4096,7 +4096,7 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.aa65db9e-9a8b-11e4-b9b7-0f1d2deb5049.appName"
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
           title="Use this app."
@@ -4646,7 +4646,7 @@ exports[`App Tile renders 1`] = `
       >
         <div
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
         >
@@ -4667,7 +4667,7 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.efc2819c-83c3-47bd-a2b4-9c96a1f56946.appName"
           onClick={[Function]}
-          onKeyPress={[Function]}
+          onKeyDown={[Function]}
           role="button"
           tabIndex="0"
           title="Use this app."

@@ -51,7 +51,7 @@ function AppName(props) {
             title={title}
             className={classname}
             onClick={handleClick}
-            onKeyPress={(e) => {
+            onKeyDown={(e) => {
                 if (e.key === "Enter") {
                     e.preventDefault();
                     e.stopPropagation();

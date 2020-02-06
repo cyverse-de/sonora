@@ -137,7 +137,7 @@ function AppTile(props) {
             <div className={classes.avatar}>
                 <div
                     onClick={onAppNameClick}
-                    onKeyPress={(e) => {
+                    onKeyDown={(e) => {
                         if (e.key === "Enter") {
                             e.preventDefault();
                             e.stopPropagation();

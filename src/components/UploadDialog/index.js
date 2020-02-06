@@ -78,24 +78,27 @@ const convertDTIL = (dtil) => {
     return retval;
 };
 
-const promiseGetAsString = (item) => {
-    return new Promise((resolve, _reject) =>
-        item.getAsString((s) => resolve(s))
-    );
-};
-
-const getURLs = (str) => str.match(/(https?:\/\/[^ \\(\\)]*)/g);
-
-const validURL = (possibleURL) => {
-    const matches = getURLs(possibleURL);
-    if (matches && matches.length > 0) {
-        return true;
-    }
-    return false;
-};
-
-const KindURL = "URL";
 const KindFile = "File";
+
+// Callback for the UploadCard.
+const processDroppedFiles = async (transferItemList, itemsFn) => {
+    // TransferItemLists aren't actually arrays/lists in JS-land.
+    let allItems = convertDTIL(transferItemList);
+
+    // Get all of the files split out into their own list.
+    let fileItems = allItems
+        .filter((i) => i.kind === "file")
+        .map((i) => i.getAsFile())
+        .filter((f) => f.size > 0) // filter out 0-byte files and directories.
+        .map((i) => ({ kind: KindFile, value: i }));
+
+    // Clear out any nulls from the list. Yes, they do actually creep in and
+    // this really is necessary.
+    fileItems = fileItems.filter((i) => i !== null && i !== "undefined");
+
+    // Set the new value of uploadItems, which should trigger a re-render.
+    itemsFn(fileItems);
+};
 
 /**
  * UploadCard supports dragging files and URLs into the card and passing the
@@ -107,7 +110,7 @@ const KindFile = "File";
 export const UploadCard = (props) => {
     const classes = useStyles();
     const [dragCounter, setDragCounter] = useState(0);
-    const { dropFn } = props;
+    const { itemsFn } = props;
 
     const handleDrag = (event) => {
         setupEvent(event);
@@ -132,7 +135,7 @@ export const UploadCard = (props) => {
     const handleDrop = (event) => {
         setupEvent(event);
         setDragCounter(0);
-        dropFn(event, event.dataTransfer.items);
+        processDroppedFiles(event.dataTransfer.items, itemsFn);
     };
 
     return (
@@ -190,6 +193,16 @@ export const UploadCard = (props) => {
             </CardContent>
         </Card>
     );
+};
+
+const getURLs = (str) => str.match(/(https?:\/\/[^ \\(\\)]*)/g);
+
+const validURL = (possibleURL) => {
+    const matches = getURLs(possibleURL);
+    if (matches && matches.length > 0) {
+        return true;
+    }
+    return false;
 };
 
 export const URLImportTextField = (props) => {
@@ -257,9 +270,6 @@ export const URLImportTextField = (props) => {
     );
 };
 
-/**
- * Handle URL import submissions.
- */
 export const URLImportDialog = (props) => {
     const [open, setOpen] = useState(props.open || false);
     const { addURLFn } = props;
@@ -291,103 +301,4 @@ export const URLImportDialog = (props) => {
     );
 };
 
-/**
- * Handles uploads to the data store.
- *
- * @param {object} props - Contains the 'destination' string.
- * @return {object}
- */
-const UploadDialog = (props) => {
-    const [open, setOpen] = useState(props.open || false);
-    const [uploadItems, setUploadItems] = useState([]);
-    const classes = useStyles();
-    const { destination } = props;
-
-    // Callback for the UploadCard.
-    const dropFn = async (_, items) => {
-        // TransferItemLists aren't actually arrays/lists in JS-land.
-        let allItems = convertDTIL(items);
-
-        // Get all of the URLs split out into their own list.
-        // Plus, make sure their callbacks are called synchronously.
-        let stringItems = await Promise.all(
-            allItems
-                .filter((i) => i.kind === "string")
-                .map(async (item) => {
-                    const itemString = await promiseGetAsString(item);
-                    return getURLs(itemString);
-                })
-        );
-
-        // Flatten the list of strings, since each string could turn into
-        // multiple URLs.
-        stringItems = stringItems.flat(Infinity);
-        stringItems = stringItems.map((item) => ({
-            kind: KindURL,
-            value: item,
-        }));
-
-        // Get all of the files split out into their own list.
-        let fileItems = allItems
-            .filter((i) => i.kind === "file")
-            .map((i) => i.getAsFile())
-            .filter((f) => f.size > 0) // filter out 0-byte files and directories.
-            .map((i) => ({ kind: KindFile, value: i }));
-
-        // Concat the lists of URLs and files.
-        let cleanItems = [...stringItems, ...fileItems];
-
-        // Clear out any nulls from the list. Yes, they do actually creep in and
-        // this really is necessary.
-        cleanItems = cleanItems.filter((i) => i !== null && i !== "undefined");
-
-        // Set the new value of uploadItems, which should trigger a re-render.
-        setUploadItems([...uploadItems, ...cleanItems]);
-    };
-
-    // Adds a new URL to the list of items tracked for uploads.
-    // Does not call the stopPropagation() or preventDefault(), it's assumed
-    // that the component knows best when those should be called.
-    const addURLFn = (_event, newURL) => {
-        setUploadItems([...uploadItems, { kind: KindURL, value: newURL }]);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    return (
-        <div className={classes.root}>
-            <Dialog
-                fullWidth={true}
-                maxWidth="sm"
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="upload-dialog-title"
-                classes={{ paper: classes.uploadDialogPaper }}
-            >
-                <DialogTitle className={classes.uploadDialogTitle}>
-                    Upload to {destination}
-                </DialogTitle>
-
-                <DialogContent className={classes.root}>
-                    <UploadCard dropFn={dropFn} />
-
-                    <URLImportTextField addURLFn={addURLFn} />
-                </DialogContent>
-
-                <DialogActions>
-                    <Button
-                        onClick={handleClose}
-                        color="primary"
-                        variant="contained"
-                    >
-                        Close
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </div>
-    );
-};
-
-export default UploadDialog;
+export default URLImportDialog;

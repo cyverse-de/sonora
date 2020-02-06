@@ -292,7 +292,7 @@ export const URLImportTextField = (props) => {
 
                     setUploadURL(possibleUploadURL);
                 }}
-                onKeyPress={(e) => {
+                onKeyDown={(e) => {
                     if (e.key === "Enter" && isValidURL) {
                         setupEvent(e);
                         clickHandler(e);

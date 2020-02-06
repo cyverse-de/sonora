@@ -17,15 +17,21 @@ const logger = createLogger({
 
 export const requestLogger = expressWinston.logger({
     transports: [new transports.Console()],
-    msg:
-        "HTTP {{req.user.profile.id}} {{req.method}} {{req.url}} {{res.statusCode}} {{res.responseTime}}ms",
+    msg: (req, res) =>
+        `HTTP ${req.ip} ${JSON.stringify(req.ips)} ${req?.user?.profile?.id ||
+            "logged-out-user"} ${req.method} ${req.url} ${res.statusCode} ${
+            res.responseTime
+        }ms`,
     format: combine(label({ label: logLabel }), timestamp(), logFormat),
 });
 
 export const errorLogger = expressWinston.errorLogger({
     transports: [new transports.Console()],
-    msg:
-        "HTTP Error {{req.user.profile.id}} {{req.method}} {{req.url}} {{err.message}} {{res.statusCode}} {{res.responseTime}}ms",
+    msg: (req, res, err) =>
+        `HTTP Error ${req.ip} ${JSON.stringify(req.ips)} ${req?.user?.profile
+            ?.id || "logged-out-user"} ${req.method} ${req.url} ${
+            err.message
+        } ${res.statusCode} ${res.responseTime}ms`,
     format: combine(label({ label: logLabel }), timestamp(), logFormat),
 });
 

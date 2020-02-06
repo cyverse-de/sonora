@@ -135,10 +135,20 @@ function AppTile(props) {
             id={tileId}
         >
             <div className={classes.avatar}>
-                <div>
+                <div
+                    onClick={onAppNameClick}
+                    onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onAppNameClick(e);
+                        }
+                    }}
+                    role="button"
+                    tabIndex="0"
+                >
                     <img
                         id={build(tileId, ids.CARD)}
-                        onClick={onAppNameClick}
                         src={getGravatarIconSrc}
                         alt="avatar"
                     />

@@ -20,11 +20,15 @@ exports[`App Tile renders 1`] = `
       <div
         className="_class-avatar-106"
       >
-        <div>
+        <div
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
+        >
           <img
             alt="avatar"
             id="appListing.676846d4-854a-11e4-980d-7f0fcca75dbb.card"
-            onClick={[Function]}
             src="https://www.gravatar.com/avatar/aa730a06c23a77c4b99f76dc9cc34c5f?d=identicon&s=60"
           />
         </div>
@@ -39,6 +43,9 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.676846d4-854a-11e4-980d-7f0fcca75dbb.appName"
           onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
           title="Use this app."
         >
           <span>
@@ -584,11 +591,15 @@ exports[`App Tile renders 1`] = `
       <div
         className="_class-avatar-106"
       >
-        <div>
+        <div
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
+        >
           <img
             alt="avatar"
             id="appListing.99df0c66-dce5-11e6-a30f-0242ac120003.card"
-            onClick={[Function]}
             src="https://www.gravatar.com/avatar/830c5a67644f5581b60f41456e70ec73?d=identicon&s=60"
           />
         </div>
@@ -603,6 +614,9 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.99df0c66-dce5-11e6-a30f-0242ac120003.appName"
           onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
           title="Use this app."
         >
           <span>
@@ -1162,11 +1176,15 @@ exports[`App Tile renders 1`] = `
       <div
         className="_class-avatar-106"
       >
-        <div>
+        <div
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
+        >
           <img
             alt="avatar"
             id="appListing.7b37bf52-4746-11e8-a53a-008cfa5ae621.card"
-            onClick={[Function]}
             src="https://www.gravatar.com/avatar/cc4c156dc891d68b33f97e531f571963?d=identicon&s=60"
           />
         </div>
@@ -1181,6 +1199,9 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.7b37bf52-4746-11e8-a53a-008cfa5ae621.appName"
           onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
           title="Use this app."
         >
           <span>
@@ -1740,11 +1761,15 @@ exports[`App Tile renders 1`] = `
       <div
         className="_class-avatar-106"
       >
-        <div>
+        <div
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
+        >
           <img
             alt="avatar"
             id="appListing.a57f406c-14b7-4601-9bfd-2604a3907bee.card"
-            onClick={[Function]}
             src="https://www.gravatar.com/avatar/e5424a4d95c1e725426da61779681c99?d=identicon&s=60"
           />
         </div>
@@ -1759,6 +1784,9 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.a57f406c-14b7-4601-9bfd-2604a3907bee.appName"
           onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
           title="Use this app."
         >
           <span>
@@ -2304,11 +2332,15 @@ exports[`App Tile renders 1`] = `
       <div
         className="_class-avatar-106"
       >
-        <div>
+        <div
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
+        >
           <img
             alt="avatar"
             id="appListing.7c1ff290-999e-11e8-acf9-008cfa5ae621.card"
-            onClick={[Function]}
             src="https://www.gravatar.com/avatar/95f9bf0b1ffdb85ef4f99609f1a88dba?d=identicon&s=60"
           />
         </div>
@@ -2323,6 +2355,9 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.7c1ff290-999e-11e8-acf9-008cfa5ae621.appName"
           onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
           title="Use this app."
         >
           <span>
@@ -2882,11 +2917,15 @@ exports[`App Tile renders 1`] = `
       <div
         className="_class-avatar-106"
       >
-        <div>
+        <div
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
+        >
           <img
             alt="avatar"
             id="appListing.8b89b178-95aa-11e8-bab5-008cfa5ae621.card"
-            onClick={[Function]}
             src="https://www.gravatar.com/avatar/e5c803a7d97644ae40e7a285c223f946?d=identicon&s=60"
           />
         </div>
@@ -2901,6 +2940,9 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.8b89b178-95aa-11e8-bab5-008cfa5ae621.appName"
           onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
           title="Use this app."
         >
           <span>
@@ -3460,11 +3502,15 @@ exports[`App Tile renders 1`] = `
       <div
         className="_class-avatar-106"
       >
-        <div>
+        <div
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
+        >
           <img
             alt="avatar"
             id="appListing.b1f3cd8e-e424-11e4-9703-ab68be62b493.card"
-            onClick={[Function]}
             src="https://www.gravatar.com/avatar/51593a4669c3cc96ad3e9049a51ffc09?d=identicon&s=60"
           />
         </div>
@@ -3479,6 +3525,9 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.b1f3cd8e-e424-11e4-9703-ab68be62b493.appName"
           onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
           title="Use this app."
         >
           <span>
@@ -4024,11 +4073,15 @@ exports[`App Tile renders 1`] = `
       <div
         className="_class-avatar-106"
       >
-        <div>
+        <div
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
+        >
           <img
             alt="avatar"
             id="appListing.aa65db9e-9a8b-11e4-b9b7-0f1d2deb5049.card"
-            onClick={[Function]}
             src="https://www.gravatar.com/avatar/a89a7c89fc84a5f7097a64832fcfa584?d=identicon&s=60"
           />
         </div>
@@ -4043,6 +4096,9 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.aa65db9e-9a8b-11e4-b9b7-0f1d2deb5049.appName"
           onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
           title="Use this app."
         >
           <span>
@@ -4588,11 +4644,15 @@ exports[`App Tile renders 1`] = `
       <div
         className="_class-avatar-106"
       >
-        <div>
+        <div
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
+        >
           <img
             alt="avatar"
             id="appListing.efc2819c-83c3-47bd-a2b4-9c96a1f56946.card"
-            onClick={[Function]}
             src="https://www.gravatar.com/avatar/32a87782ce657949097f26fd6119708f?d=identicon&s=60"
           />
         </div>
@@ -4607,6 +4667,9 @@ exports[`App Tile renders 1`] = `
           className="makeStyles-name-142 makeStyles-nameHover-143"
           id="appListing.efc2819c-83c3-47bd-a2b4-9c96a1f56946.appName"
           onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
           title="Use this app."
         >
           <span>

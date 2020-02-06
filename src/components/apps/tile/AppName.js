@@ -51,6 +51,15 @@ function AppName(props) {
             title={title}
             className={classname}
             onClick={handleClick}
+            onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleClick(e);
+                }
+            }}
+            tabIndex="0"
+            role="button"
         >
             <Highlighter search={searchText}>{name}</Highlighter>
         </div>

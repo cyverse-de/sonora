@@ -15,7 +15,7 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "format": "prettier --write './**/*.js'",
-    "lint" : "eslint --max-warnings=0 ./src/",
+    "lint": "eslint --max-warnings=0 ./src/",
     "clean": "rimraf ./.next ./dist ./generated-docs"
   },
   "repository": {

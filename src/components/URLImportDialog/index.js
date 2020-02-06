@@ -43,11 +43,9 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.secondary,
     },
     textFieldContainer: {
-        [theme.breakpoints.up("md")]: {
-            display: "flex",
-        },
+        display: "flex",
+
         [theme.breakpoints.down("sm")]: {
-            display: "flex",
             justifyContent: "center",
             flexDirection: "column",
         },

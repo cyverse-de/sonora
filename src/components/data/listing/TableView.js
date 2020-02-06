@@ -107,10 +107,12 @@ function TableView(props) {
                     onRequestSort={handleRequestSort}
                 />
                 {loading && (
-                    <TableLoading
-                        numColumns={tableColumns.length}
-                        numRows={25}
-                    />
+                    <TableBody>
+                        <TableLoading
+                            numColumns={tableColumns.length}
+                            numRows={25}
+                        />
+                    </TableBody>
                 )}
                 {!loading && (
                     <TableBody>

@@ -69,7 +69,7 @@ function Listing(props) {
     };
 
     const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
+        if (event.target.checked && !selected.length) {
             const newSelecteds = listing?.map((resource) => resource.id) || [];
             setSelected(newSelecteds);
             return;
@@ -80,25 +80,22 @@ function Listing(props) {
     // Simple range select: if you shift-click a range, the range will be
     // selected.  If all items in the range are already selected, all items
     // will be deselected.
-    const rangeSelect = (start, end) => {
+    const rangeSelect = (start, end, targetId) => {
         let rangeIds = [];
         for (let i = start; i <= end; i++) {
             rangeIds.push(listing[i].id);
         }
 
-        let rangeSelected = rangeIds.reduce(
-            (acc, id) => acc && selected.includes(id),
-            true
-        );
+        let isTargetSelected = selected.includes(targetId);
 
-        rangeSelected ? deselect(rangeIds) : select(rangeIds);
+        isTargetSelected ? deselect(rangeIds) : select(rangeIds);
     };
 
     const handleClick = (event, id, index) => {
         if (event.shiftKey) {
             lastSelectIndex > index
-                ? rangeSelect(index, lastSelectIndex)
-                : rangeSelect(lastSelectIndex, index);
+                ? rangeSelect(index, lastSelectIndex, id)
+                : rangeSelect(lastSelectIndex, index, id);
         } else {
             toggleSelection(id);
         }
@@ -127,21 +124,9 @@ function Listing(props) {
     };
 
     const deselect = (resourceIds) => {
-        let newSelected = [...selected];
-        resourceIds.forEach((resourceId) => {
-            const selectedIndex = newSelected.indexOf(resourceId);
-
-            if (selectedIndex === 0) {
-                newSelected = [...newSelected.slice(1)];
-            } else if (selectedIndex === selected.length - 1) {
-                newSelected = [...newSelected.slice(0, -1)];
-            } else if (selectedIndex > 0) {
-                newSelected = [
-                    ...newSelected.slice(0, selectedIndex),
-                    ...newSelected.slice(selectedIndex + 1),
-                ];
-            }
-        });
+        const newSelected = selected.filter(
+            (selectedID) => !resourceIds.includes(selectedID)
+        );
 
         setSelected(newSelected);
     };

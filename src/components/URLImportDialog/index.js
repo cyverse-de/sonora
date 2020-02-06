@@ -83,7 +83,30 @@ const convertDTIL = (dtil) => {
 
 const KindFile = "File";
 
-// Callback for the UploadCard.
+/**
+ * A normalized object representing something dropped into an element.
+ *
+ * @typedef DroppedItem
+ * @property {string} kind - For now, will be set to 'File'.
+ * @property {File} value - The File object.
+ */
+
+/**
+ * The function that the list of dropped files is passed to for further processing.
+ * You should define the return value.
+ *
+ * @callback itemsFn
+ * @param {Array<DroppedItem>}
+ * @returns null
+ */
+
+/**
+ * A handler for processing files dropped into a window. See the usage in UploadCard.
+ * Converts the items in the list into a cleaned up list of DroppedItems objects.
+ *
+ * @param {Array<Object>} transferItemList - The DataTransferItemList created by an onDrop event.
+ * @param {itemsFn} itemsFn - The callback the list of dropped items are passed to.
+ */
 const processDroppedFiles = async (transferItemList, itemsFn) => {
     // TransferItemLists aren't actually arrays/lists in JS-land.
     let allItems = convertDTIL(transferItemList);
@@ -100,7 +123,7 @@ const processDroppedFiles = async (transferItemList, itemsFn) => {
     fileItems = fileItems.filter((i) => i !== null && i !== "undefined");
 
     // Set the new value of uploadItems, which should trigger a re-render.
-    itemsFn(fileItems);
+    return itemsFn(fileItems);
 };
 
 /**

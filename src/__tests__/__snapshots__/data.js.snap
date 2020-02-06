@@ -52,7 +52,6 @@ exports[`Data Table View renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-61"
                 data-indeterminate={false}
-                disabled={false}
                 onChange={[Function]}
                 type="checkbox"
               />
@@ -200,7 +199,6 @@ exports[`Data Table View renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-61"
                 data-indeterminate={false}
-                disabled={false}
                 id="tableView.listingTable.analyses_qa-3.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
@@ -248,6 +246,7 @@ exports[`Data Table View renders 1`] = `
             id="tableView.listingTable.analyses_qa-3.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
+            role="link"
             tabIndex={0}
           >
             analyses_qa-3
@@ -257,7 +256,7 @@ exports[`Data Table View renders 1`] = `
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body"
         >
-          2016 Sep 20 13:27:57
+          2016 Sep 20 20:27:57
         </td>
         <td
           aria-sort={null}
@@ -353,7 +352,6 @@ exports[`Data Table View renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-61"
                 data-indeterminate={false}
-                disabled={false}
                 id="tableView.listingTable.test.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
@@ -401,6 +399,7 @@ exports[`Data Table View renders 1`] = `
             id="tableView.listingTable.test.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
+            role="link"
             tabIndex={0}
           >
             test
@@ -410,7 +409,7 @@ exports[`Data Table View renders 1`] = `
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body"
         >
-          2018 Jun 28 15:49:35
+          2018 Jun 28 22:49:35
         </td>
         <td
           aria-sort={null}
@@ -506,7 +505,6 @@ exports[`Data Table View renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-61"
                 data-indeterminate={false}
-                disabled={false}
                 id="tableView.listingTable.CORE-8424.txt.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
@@ -554,6 +552,7 @@ exports[`Data Table View renders 1`] = `
             id="tableView.listingTable.CORE-8424.txt.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
+            role="link"
             tabIndex={0}
           >
             CORE-8424.txt
@@ -563,7 +562,7 @@ exports[`Data Table View renders 1`] = `
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body"
         >
-          2017 Feb 07 17:03:33
+          2017 Feb 08 00:03:33
         </td>
         <td
           aria-sort={null}
@@ -659,7 +658,6 @@ exports[`Data Table View renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-61"
                 data-indeterminate={false}
-                disabled={false}
                 id="tableView.listingTable.sample.csv.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
@@ -707,6 +705,7 @@ exports[`Data Table View renders 1`] = `
             id="tableView.listingTable.sample.csv.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
+            role="link"
             tabIndex={0}
           >
             sample.csv
@@ -716,7 +715,7 @@ exports[`Data Table View renders 1`] = `
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body"
         >
-          2014 Oct 30 13:23:43
+          2014 Oct 30 20:23:43
         </td>
         <td
           aria-sort={null}

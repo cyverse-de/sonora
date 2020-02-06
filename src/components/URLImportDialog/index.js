@@ -221,14 +221,22 @@ export const UploadCard = (props) => {
     );
 };
 
-const getURLs = (str) => str.match(/(https?:\/\/[^ \\(\\)]*)/g);
-
 const validURL = (possibleURL) => {
-    const matches = getURLs(possibleURL);
-    if (matches && matches.length > 0) {
-        return true;
+    let retval = true;
+
+    try {
+        const u = new URL(possibleURL);
+
+        if (
+            !["http:", "https:", "ftp:", "sftp:", "ftps:"].includes(u.protocol)
+        ) {
+            retval = false;
+        }
+    } catch (e) {
+        retval = false;
+    } finally {
+        return retval;
     }
-    return false;
 };
 
 export const URLImportTextField = (props) => {

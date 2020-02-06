@@ -4,7 +4,7 @@ import {
     UploadCard,
     URLImportTextField,
     URLImportDialog,
-} from "../src/components/UploadDialog";
+} from "../src/components/URLImportDialog";
 
 storiesOf("UploadCard", module).add("basic support", () => (
     <UploadCard

@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
         marginBotton: "5px",
     },
     dialogClose: {
-        color: theme.palette.black,
+        color: theme.palette.blueGrey,
     },
     uploadCardTypography: {
         color: theme.palette.text.secondary,
@@ -259,7 +259,7 @@ export const URLImportTextField = (props) => {
             <TextField
                 fullWidth
                 id="url-text-field"
-                placeholder="http://..."
+                placeholder="http://... or ftp://... or sftp://... or ftps://..."
                 helperText="Enter the URL here and either hit Enter or click on the Import button."
                 InputLabelProps={{
                     shrink: true,

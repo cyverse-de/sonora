@@ -53,7 +53,10 @@ function Listing(props) {
             .catch((e) => console.log(`error ${e.message}`));
     }, [path, rowsPerPage, orderBy, order, page]);
 
-    const listing = [...data.folders, ...data.files]
+    const listing = [
+        ...data.folders.map((f) => ({ ...f, type: "FOLDER" })),
+        ...data.files.map((f) => ({ ...f, type: "FILE" })),
+    ]
         .filter((i) => i !== null && i !== "undefined")
         .map((i) => camelcaseit(i)); // should probably start doing this on the backend...
 

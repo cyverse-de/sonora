@@ -12,8 +12,8 @@
     "build": "run-p build-frontend build-server build-docs",
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "storybook": "start-storybook -p 9009 -s public",
-    "test": "jest",
-    "test-watch": "jest --watch",
+    "test": "TZ=UTC jest",
+    "test-watch": "TZ=UTC jest --watch",
     "format": "prettier --write './**/*.js'",
     "lint": "eslint --max-warnings=0 ./src/",
     "clean": "rimraf ./.next ./dist ./generated-docs"
@@ -49,7 +49,8 @@
     ]
   },
   "dependencies": {
-    "@cyverse-de/ui-lib": "^2.0.0",
+    "@apollo/react-hooks": "^3.1.3",
+    "@cyverse-de/ui-lib": "^2.0.1",
     "@material-ui/core": "^4.8.3",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/lab": "^4.0.0-alpha.39",
@@ -64,6 +65,7 @@
     "js-yaml": "^3.13.1",
     "next": "^9.1.7",
     "node-fetch": "^2.6.0",
+    "numeral": "^2.0.6",
     "passport": "^0.4.1",
     "passport-oauth2": "^1.5.0",
     "react": "^16.12.0",

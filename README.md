@@ -1,6 +1,6 @@
 # sonora
 
-The new UI for the Discovery Environment
+The new UI for the [Discovery Environment](https://github.com/cyverse-de/ui/)
 
 ## Configuration
 
@@ -19,3 +19,7 @@ Set the `HUSKY_SKIP_HOOKS` environment variable to `1` to skip the pre-commit ho
 **Production start** - ```npm run start```
 
 Check the scripts in `packages.json` for more options.
+
+## Contributing to Sonora
+
+For contributing to the Sonora project, please follow our guidelines [here](/guidelines.md).

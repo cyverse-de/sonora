@@ -6,40 +6,13 @@
  */
 import React, { useEffect, useState } from "react";
 
-import { useQuery } from "@apollo/react-hooks";
 import { withI18N } from "@cyverse-de/ui-lib";
 import { TablePagination, useMediaQuery, useTheme } from "@material-ui/core";
-import gql from "graphql-tag";
 
 import messages from "../messages";
 import TableView from "./TableView";
 
-const GET_LISTING = gql`
-    query listing($path: String) {
-        filesystem(path: $path) {
-            id
-            path
-            label
-            dateModified
-            permission
-            ... on Folder {
-                contents {
-                    listing {
-                        id
-                        label
-                        path
-                        dateModified
-                        permission
-                        type
-                        #                        ... on File {
-                        #                            fileSize
-                        #                        }
-                    }
-                }
-            }
-        }
-    }
-`;
+import { camelcaseit } from "../../../common/functions";
 
 function Listing(props) {
     const theme = useTheme();
@@ -47,20 +20,42 @@ function Listing(props) {
     let isLarge = useMediaQuery(theme.breakpoints.up("lg"));
 
     const [order, setOrder] = useState("asc");
-    const [orderBy, setOrderBy] = useState("label");
+    const [orderBy, setOrderBy] = useState("name");
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [data, setData] = useState({ files: [], folders: [] });
 
     const { baseId, path, handlePathChange } = props;
+
     useEffect(() => {
         setSelected([]);
     }, [path]);
-    const { data, loading } = useQuery(GET_LISTING, {
-        variables: { path: path },
-    });
-    const listing = data?.filesystem?.contents?.listing;
+
+    useEffect(() => {
+        fetch(
+            `/api/filesystem/paged-directory?path=${path}&limit=${rowsPerPage}&sort-col=${orderBy}&sort-dir=${order}&offset=${rowsPerPage *
+                page}`,
+            {
+                method: "GET",
+                credentials: "include",
+            }
+        )
+            .then((resp) => {
+                if (resp.status < 200 || resp.status > 299) {
+                    throw Error(resp);
+                }
+                return resp;
+            })
+            .then((resp) => resp.json())
+            .then((respData) => setData(respData))
+            .catch((e) => console.log(`error ${e.message}`));
+    }, [path, rowsPerPage, orderBy, order, page]);
+
+    const listing = [...data.folders, ...data.files]
+        .filter((i) => i !== null && i !== "undefined")
+        .map((i) => camelcaseit(i)); // should probably start doing this on the backend...
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -159,7 +154,7 @@ function Listing(props) {
     return (
         <>
             <TableView
-                loading={loading}
+                // loading={loading}
                 path={path}
                 handlePathChange={handlePathChange}
                 listing={listing}

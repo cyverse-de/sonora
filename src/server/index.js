@@ -8,42 +8,12 @@ import * as config from "./configuration";
 import * as authStrategy from "./authStrategy";
 import { terrain } from "./terrainHandler";
 
-import { ApolloServer } from "apollo-server-express";
-import { applyMiddleware } from "graphql-middleware";
-import { makeExecutableSchema } from "graphql-tools";
-
-import typeDefs from "./graphql/typesDefs";
-import resolvers from "./graphql/resolvers";
-import camelCaseMiddleware from "./graphql/middleware/camelCase";
-import TerrainDataSource from "./graphql/dataSources/TerrainDataSource";
-
 config.validate();
 
 export const app = next({
     dev: config.isDevelopment,
 });
 const nextHandler = app.getRequestHandler();
-
-const schema = makeExecutableSchema({
-    typeDefs,
-    resolvers,
-});
-const schemaWithMiddleware = applyMiddleware(schema, camelCaseMiddleware);
-
-const apolloServer = new ApolloServer({
-    schema: schemaWithMiddleware,
-    dataSources: () => ({
-        terrain: new TerrainDataSource(),
-    }),
-    context: ({ req }) => ({
-        user: req.user,
-    }),
-    playground: {
-        settings: {
-            "request.credentials": "include",
-        },
-    },
-});
 
 // Configure passport.
 passport.use(authStrategy.strategy);
@@ -79,11 +49,6 @@ app.prepare()
         // Configure passport.
         server.use(passport.initialize());
         server.use(passport.session());
-
-        // Add Apollo as middleware to Express.
-        apolloServer.applyMiddleware({
-            app: server,
-        });
 
         server.get(
             "/login",

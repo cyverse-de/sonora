@@ -3,8 +3,6 @@ import CyverseAppBar from "../components/appBar/CyVerseAppBar";
 import theme from "../components/theme/default";
 import { ThemeProvider } from "@material-ui/core/styles";
 
-import withApolloClient from "../withApolloClient";
-
 function MyApp({ Component, pageProps }) {
     return (
         <ThemeProvider theme={theme}>
@@ -15,4 +13,4 @@ function MyApp({ Component, pageProps }) {
     );
 }
 
-export default withApolloClient(MyApp);
+export default MyApp;

@@ -1,14 +1,8 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import URLImportDialog, {
-    URLImportTextFieldI18N,
-} from "../src/components/URLImportDialog";
+import URLImportDialog from "../src/components/URLImportDialog";
 
 import Snackbar from "@material-ui/core/Snackbar";
-
-storiesOf("URL text field", module).add("placeholder", () => (
-    <URLImportTextFieldI18N />
-));
 
 storiesOf("URL Import Dialog", module).add("basic", () => {
     const [msg, setMsg] = React.useState("");

@@ -168,11 +168,6 @@ const URLImportTextField = (props) => {
     );
 };
 
-export const URLImportTextFieldI18N = withI18N(
-    injectIntl(URLImportTextField),
-    intlData
-);
-
 const URLImportDialog = (props) => {
     const [open, setOpen] = useState(props.open || false);
     const classes = useStyles();

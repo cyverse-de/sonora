@@ -92,6 +92,7 @@ export default {
     messages: {
         header: "Welcome",
         namedHeader: "Welcome back {name}",
+        stringTitle: "Something that's not an object",
     }
 }
 ```
@@ -99,39 +100,75 @@ export default {
 2. Export your component while wrapping it with the `withI18N` [higher-order component](https://reactjs.org/docs/higher-order-components.html) from the [helper function](https://github.com/cyverse-de/ui-lib/blob/master/src/util/I18NWrapper.js) file in the `ui-lib` repo and pass in the `messages` file you created. This basically links them together so `react-intl` knows where to look up text.
 
 ```
-import intlData from "./messages";
-import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
-import { injectIntl } from "react-intl";
+import React from "react";
++import intlData from "./messages";
++import { withI18N } from "@cyverse-de/ui-lib";
 
 function MyComponent(props) {
-  return (
-    <span>Welcome</span>
-    <span>Welcome back {props.name}</span>
+    return (
+        <>
+            <span>Welcome</span>
+            <span>Welcome back {props.name}</span>
+        </>
     )
 }
 
-export default withI18N(injectIntl(MyComponent), intlData);
+-export default MyComponent;
++export default withI18N(MyComponent, intlData);
+
 ```
 
 3. Update your component to fetch the internationalized text with the corresponding key you created. The [getMessage(key)](https://github.com/cyverse-de/ui-lib/blob/78880901c263c14ea697a5abd9b607fbd776ec4b/src/util/I18NWrapper.js#L29-L34) helper function covers roughly 80% of the use cases
 
 ```
+import React from "react";
 import intlData from "./messages";
-import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
-import { injectIntl } from "react-intl";
+-import { withI18N } from "@cyverse-de/ui-lib";
++import { getMessage, withI18N } from "@cyverse-de/ui-lib";
 
 function MyComponent(props) {
-  const { intl } = props;
-  
-  return (
-    <span>{formatMessage(intl, "header")}</span>
-    <span>{formatMessage(intl, "namedHeader", { values: {name: props.name} })}</span>
+    return (
+        <>
+-            <span>Welcome</span>
+-            <span>Welcome back {props.name}</span>
++            <span>{getMessage("header")}</span>
++            <span>{getMessage("namedHeader", {values: {name: props.name}})}</span>
+        </>
     )
 }
-export default withI18N(injectIntl(MyComponent), intlData);
+
+export default withI18N(MyComponent, intlData);
 ```
 
-If you have multiple components exported from a single file (not unusual if you want to test a sub-component separately), make sure that you have i18n-wrapped versions of the sub-components exported. That enables you to write Stories in Storybook for the sub-components without having to set up an i18n decorator. The unwrapped version of the sub-component can still be used by the parent components, which should pass in the `intl` prop to the i18n-ized child components.
+4. Since `getMessage` returns the [FormattedMessage](https://github.com/formatjs/react-intl/blob/master/docs/Components.md#formattedmessage) component/object, you may have cases where your component or an attribute, for example, only accepts a direct string. For those cases, you can use `formatMessage` like so:
+
+```
+import React from "react";
+import intlData from "./messages";
+-import { getMessage, withI18N } from "@cyverse-de/ui-lib";
++import { formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
++import { injectIntl } from "react-intl";
+
+function MyComponent(props) {
+    return (
+        <>
+-            <span>{getMessage("header")}</span>
++            <span
++                title={formatMessage(props.intl, "stringTitle")}
++            >
++                {getMessage("header")}
++            </span>
+            <span>{getMessage("namedHeader", {values: {name: props.name}})}</span>
+        </>
+    )
+}
+
+-export default withI18N(MyComponent, intlData);
++export default withI18N(injectIntl(MyComponent), intlData);
+
+```
+
+If you have multiple components exported from a single file (not unusual if you want to test a sub-component separately), make sure that you have i18n-wrapped versions of the sub-components exported. That enables you to write Stories in Storybook for the sub-components without having to set up an i18n decorator. The unwrapped version of the sub-component can still be used by the parent components, which should pass in the `messages` and/or `intl` prop to the i18n-ized child components.
 
 ### Static IDs
 

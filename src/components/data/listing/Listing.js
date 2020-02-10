@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import { withI18N } from "@cyverse-de/ui-lib";
 import { TablePagination, useMediaQuery, useTheme } from "@material-ui/core";
 
+import Header from "../Header";
 import messages from "../messages";
 import TableView from "./TableView";
 
@@ -168,6 +169,14 @@ function Listing(props) {
 
     return (
         <>
+            <Header
+                baseId={baseId}
+                isGridView={false}
+                onDownloadSelected={onDownloadSelected}
+                onEditSelected={onEditSelected}
+                onMetadataSelected={onMetadataSelected}
+                onDeleteSelected={onDeleteSelected}
+            />
             <TableView
                 // loading={loading}
                 path={path}

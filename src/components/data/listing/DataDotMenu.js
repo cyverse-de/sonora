@@ -25,11 +25,12 @@ function DataDotMenu(props) {
         onEditSelected,
         onMetadataSelected,
         onDeleteSelected,
+        ButtonProps,
     } = props;
     return (
         <DotMenu
             baseId={baseId}
-            ButtonProps={{ size: "small" }}
+            ButtonProps={ButtonProps}
             render={(onClose) => [
                 <MenuItem
                     key={build(baseId, ids.downloadMI)}

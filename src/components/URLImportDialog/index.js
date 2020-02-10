@@ -264,9 +264,11 @@ const URLImportTextField = (props) => {
     const classes = useStyles();
     const [uploadURL, setUploadURL] = useState("");
     const [isValidURL, setIsValidURL] = useState(false);
-    const [isFocus, setIsFocus] = useState(false);
+    const [hasFirstFocused, setHasFirstFocused] = useState(false);
 
     const { addURLFn, intl } = props;
+
+    // const isErrored = !isValidURL  isFocus;
 
     const clickHandler = (event) => {
         setupEvent(event);
@@ -281,16 +283,27 @@ const URLImportTextField = (props) => {
                 fullWidth
                 id={buildID(ids.BASE_ID, ids.TEXTFIELD)}
                 placeholder={fmt(intl, "placeholder")}
-                helperText={fmt(intl, "helperText")}
+                helperText={
+                    isValidURL || (!isValidURL && !hasFirstFocused)
+                        ? fmt(intl, "helperText")
+                        : fmt(intl, "helperTextError")
+                }
                 InputLabelProps={{
                     shrink: true,
                 }}
                 aria-label={fmt(intl, "textFieldAriaLabel")}
                 className={classes.textField}
-                error={!isValidURL && isFocus}
+                error={!isValidURL && hasFirstFocused}
                 value={uploadURL}
-                onFocus={(e) => setIsFocus(true)}
-                onBlur={(e) => setIsFocus(false)}
+                onFocus={(e) => {
+                    setHasFirstFocused(true);
+                }}
+                onBlur={(e) => {
+                    // If it's empty, we don't care if it's already been focused on.
+                    if (uploadURL === "") {
+                        setHasFirstFocused(false);
+                    }
+                }}
                 onChange={(e) => {
                     setupEvent(e);
 
@@ -313,10 +326,11 @@ const URLImportTextField = (props) => {
             />
             <IconButton
                 aria-label={fmt(intl, "importButtonAriaLabel")}
-                disabled={!isValidURL}
                 onClick={(e) => {
-                    setupEvent(e);
-                    clickHandler(e);
+                    if (isValidURL) {
+                        setupEvent(e);
+                        clickHandler(e);
+                    }
                 }}
                 color="primary"
                 edge={isSmall ? false : "end"}

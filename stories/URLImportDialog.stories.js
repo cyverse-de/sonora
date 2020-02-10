@@ -1,9 +1,8 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import {
+import URLImportDialog, {
     UploadCard,
-    URLImportTextField,
-    URLImportDialog,
+    URLImportTextFieldI18N,
 } from "../src/components/URLImportDialog";
 
 import Snackbar from "@material-ui/core/Snackbar";
@@ -19,7 +18,7 @@ storiesOf("UploadCard", module).add("basic support", () => (
 ));
 
 storiesOf("URL text field", module).add("placeholder", () => (
-    <URLImportTextField />
+    <URLImportTextFieldI18N />
 ));
 
 storiesOf("URL Import Dialog", module).add("basic", () => {

@@ -19,6 +19,17 @@ import { Typography } from "@material-ui/core";
 
 import { themePalette } from "../theme/default";
 
+import intlData from "./messages";
+import ids from "./ids";
+
+import {
+    build as buildID,
+    formatMessage as fmt,
+    withI18N,
+} from "@cyverse-de/ui-lib";
+
+import { injectIntl } from "react-intl";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -246,7 +257,7 @@ const validURL = (possibleURL) => {
     }
 };
 
-export const URLImportTextField = (props) => {
+const URLImportTextField = (props) => {
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -255,7 +266,7 @@ export const URLImportTextField = (props) => {
     const [isValidURL, setIsValidURL] = useState(false);
     const [isFocus, setIsFocus] = useState(false);
 
-    const { addURLFn } = props;
+    const { addURLFn, intl } = props;
 
     const clickHandler = (event) => {
         setupEvent(event);
@@ -268,12 +279,13 @@ export const URLImportTextField = (props) => {
         <div className={classes.textFieldContainer}>
             <TextField
                 fullWidth
-                id="url-text-field"
-                placeholder="http://... or ftp://... or sftp://... or ftps://..."
-                helperText="Enter the URL here and either hit Enter or click on the Import button."
+                id={buildID(ids.BASE_ID, ids.TEXTFIELD)}
+                placeholder={fmt(intl, "placeholder")}
+                helperText={fmt(intl, "helperText")}
                 InputLabelProps={{
                     shrink: true,
                 }}
+                aria-label={fmt(intl, "textFieldAriaLabel")}
                 className={classes.textField}
                 error={!isValidURL && isFocus}
                 value={uploadURL}
@@ -300,7 +312,7 @@ export const URLImportTextField = (props) => {
                 }}
             />
             <IconButton
-                aria-label="import-file-from-url"
+                aria-label={fmt(intl, "importButtonAriaLabel")}
                 disabled={!isValidURL}
                 onClick={(e) => {
                     setupEvent(e);
@@ -308,6 +320,7 @@ export const URLImportTextField = (props) => {
                 }}
                 color="primary"
                 edge={isSmall ? false : "end"}
+                id={buildID(ids.BASE_ID, ids.IMPORT_BUTTON)}
             >
                 <UploadIcon />
             </IconButton>
@@ -315,10 +328,15 @@ export const URLImportTextField = (props) => {
     );
 };
 
-export const URLImportDialog = (props) => {
+export const URLImportTextFieldI18N = withI18N(
+    injectIntl(URLImportTextField),
+    intlData
+);
+
+const URLImportDialog = (props) => {
     const [open, setOpen] = useState(props.open || false);
     const classes = useStyles();
-    const { addURLFn } = props;
+    const { addURLFn, intl } = props;
 
     const handleClose = () => {
         setOpen(false);
@@ -330,16 +348,23 @@ export const URLImportDialog = (props) => {
             maxWidth="sm"
             open={open}
             onClose={handleClose}
-            aria-labelledby="url-import-dialog"
+            aria-labelledby={buildID(ids.BASE_ID, ids.TITLE)}
         >
-            <DialogTitle>Import file from URL</DialogTitle>
+            <DialogTitle id={buildID(ids.BASE_ID, ids.TITLE)}>
+                {fmt(intl, "title")}
+            </DialogTitle>
 
             <DialogContent>
-                <URLImportTextField addURLFn={addURLFn} />
+                <URLImportTextField intl={intl} addURLFn={addURLFn} />
             </DialogContent>
 
             <DialogActions>
-                <Button onClick={handleClose} className={classes.dialogClose}>
+                <Button
+                    onClick={handleClose}
+                    className={classes.dialogClose}
+                    id={buildID(ids.BASE_ID, ids.CLOSE_DIALOG)}
+                    aria-label={fmt(intl, "closeButtonAriaLabel")}
+                >
                     Close
                 </Button>
             </DialogActions>
@@ -347,4 +372,4 @@ export const URLImportDialog = (props) => {
     );
 };
 
-export default URLImportDialog;
+export default withI18N(injectIntl(URLImportDialog), intlData);

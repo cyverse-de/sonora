@@ -1,21 +1,10 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import URLImportDialog, {
-    UploadCard,
     URLImportTextFieldI18N,
 } from "../src/components/URLImportDialog";
 
 import Snackbar from "@material-ui/core/Snackbar";
-
-storiesOf("UploadCard", module).add("basic support", () => (
-    <UploadCard
-        itemsFn={(items) => {
-            for (let item of items) {
-                console.log(`drop callback item name '${item.value.name}'`);
-            }
-        }}
-    />
-));
 
 storiesOf("URL text field", module).add("placeholder", () => (
     <URLImportTextFieldI18N />

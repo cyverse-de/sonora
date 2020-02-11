@@ -44,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
     urlField: {
         width: "100%",
         margin: "0 10px 0 0",
+
+        [theme.breakpoints.down("sm")]: {
+            margin: 0,
+        },
     },
     closeDialog: {
         position: "absolute",

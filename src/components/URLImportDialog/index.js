@@ -29,26 +29,10 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
-    browseButtonContainer: {
-        display: "flex",
-        justifyContent: "center",
-        marginBottom: "20px",
-    },
-    uploadDialogPaper: {
-        minHeight: "40vh",
-        maxHeight: "66vh",
-    },
-    uploadCard: {
-        border: "dashed lightgray",
-        marginBotton: "5px",
-    },
-    dialogClose: {
+    close: {
         color: theme.palette.blueGrey,
     },
-    uploadCardTypography: {
-        color: theme.palette.text.secondary,
-    },
-    textFieldContainer: {
+    container: {
         display: "flex",
 
         [theme.breakpoints.down("sm")]: {
@@ -56,18 +40,20 @@ const useStyles = makeStyles((theme) => ({
             flexDirection: "column",
         },
     },
-    textField: {
+    urlField: {
         width: "100%",
     },
-    doneButton: {
+    closeDialog: {
         position: "absolute",
         right: theme.spacing(1),
         top: theme.spacing(1),
         color: theme.palette.blueGrey,
     },
-    dialogTitle: {
-        margin: 0,
-        padding: theme.spacing(2),
+    importDefault: {
+        color: theme.palette.primary.main,
+    },
+    importError: {
+        color: theme.palette.error.main,
     },
 }));
 
@@ -105,7 +91,7 @@ const URLImportTextField = (props) => {
 
     const { addURLFn, intl } = props;
 
-    // const isErrored = !isValidURL  isFocus;
+    const errored = !isValidURL && hasFirstFocused;
 
     const clickHandler = (event) => {
         setupEvent(event);
@@ -115,7 +101,7 @@ const URLImportTextField = (props) => {
     };
 
     return (
-        <div className={classes.textFieldContainer}>
+        <div className={classes.container}>
             <TextField
                 fullWidth
                 id={buildID(ids.BASE_ID, ids.TEXTFIELD)}
@@ -129,8 +115,8 @@ const URLImportTextField = (props) => {
                     shrink: true,
                 }}
                 aria-label={fmt(intl, "textFieldAriaLabel")}
-                className={classes.textField}
-                error={!isValidURL && hasFirstFocused}
+                className={classes.urlField}
+                error={errored}
                 value={uploadURL}
                 onFocus={(e) => {
                     setHasFirstFocused(true);
@@ -152,12 +138,18 @@ const URLImportTextField = (props) => {
                         setIsValidURL(true);
                     }
 
+                    // Could happen after submitting a URL with the 'Enter' key.
+                    if (!hasFirstFocused) {
+                        setHasFirstFocused(true);
+                    }
+
                     setUploadURL(possibleUploadURL);
                 }}
                 onKeyDown={(e) => {
                     if (e.key === "Enter" && isValidURL) {
                         setupEvent(e);
                         clickHandler(e);
+                        setHasFirstFocused(false); // Prevents showing an error state after hitting Enter.
                     }
                 }}
             />
@@ -170,6 +162,11 @@ const URLImportTextField = (props) => {
                     }
                 }}
                 color="primary"
+                classes={{
+                    root: !errored
+                        ? classes.importDefault
+                        : classes.importError,
+                }}
                 edge={isSmall ? false : "end"}
                 id={buildID(ids.BASE_ID, ids.IMPORT_BUTTON)}
             >
@@ -200,7 +197,7 @@ const URLImportDialog = (props) => {
                 {fmt(intl, "title")}
                 <IconButton
                     aria-label="close"
-                    className={classes.doneButton}
+                    className={classes.closeDialog}
                     onClick={handleClose}
                 >
                     <CloseIcon />
@@ -214,7 +211,7 @@ const URLImportDialog = (props) => {
             <DialogActions>
                 <Button
                     onClick={handleClose}
-                    className={classes.dialogClose}
+                    className={classes.close}
                     id={buildID(ids.BASE_ID, ids.CLOSE_DIALOG)}
                     aria-label={fmt(intl, "doneButtonAriaLabel")}
                 >

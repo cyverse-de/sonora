@@ -19,7 +19,7 @@ import { injectIntl } from "react-intl";
 
 const useStyles = makeStyles((theme) => ({
     button: {
-        margin: theme.spacing(1),
+        margin: 1,
         "&:hover": {
             backgroundColor: theme.palette.blue,
             color: theme.palette.white,
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     selectedButton: {
-        margin: theme.spacing(1),
+        margin: 1,
         backgroundColor: theme.palette.blue,
         color: theme.palette.white,
     },
@@ -44,7 +44,6 @@ function Navigation(props) {
     const router = useRouter();
     const { navigate } = props;
     const theme = useTheme();
-    console.log("navigate->" + navigate);
     return (
         <Paper elevation={10} style={{ backgroundColor: theme.palette.lightGray }}>
             <Grid container>

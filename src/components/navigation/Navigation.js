@@ -5,6 +5,7 @@
  */
 import React from "react";
 import intlData from "./messages";
+import NavigationConstants from "./NavigationConstants";
 import ids from "./ids";
 import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
@@ -12,10 +13,9 @@ import AppsIcon from "@material-ui/icons/Apps";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import AssessmentIcon from "@material-ui/icons/Assessment";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import { Button, Grid, Hidden, Paper } from "@material-ui/core";
+import { Button, Grid, Hidden, Paper, Tooltip } from "@material-ui/core";
 import { useRouter } from "next/router";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { injectIntl } from "react-intl";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -42,80 +42,98 @@ const MORE = "more";
 function Navigation(props) {
     const classes = useStyles();
     const router = useRouter();
-    const { navigate } = props;
+    const { activeView } = props;
     const theme = useTheme();
     return (
-        <Paper elevation={10} style={{ backgroundColor: theme.palette.lightGray }}>
+        <Paper
+            elevation={10}
+            style={{ backgroundColor: theme.palette.lightGray }}
+        >
             <Grid container>
                 <Grid item xs>
                     <Button
                         id={build(ids.NAVIGATION, ids.DASHBOARD_BTN)}
                         className={
-                            navigate === DASHBOARD
+                            activeView === DASHBOARD
                                 ? classes.selectedButton
                                 : classes.button
                         }
                         onClick={() => {
-                            router.push("/dashboard");
+                            router.push("/" + NavigationConstants.DASHBOARD);
                         }}
                     >
-                        <DashboardIcon/> <Hidden xsDown>{getMessage("dashboard")}</Hidden>
+                        <Tooltip title={getMessage("dashboard")}>
+                            <DashboardIcon />
+                        </Tooltip>
+                        <Hidden xsDown>{getMessage("dashboard")}</Hidden>
                     </Button>
                 </Grid>
                 <Grid item xs>
                     <Button
                         className={
-                            navigate === DATA
+                            activeView === DATA
                                 ? classes.selectedButton
                                 : classes.button
                         }
                         onClick={() => {
-                            router.push("/data");
+                            router.push("/" + NavigationConstants.DATA);
                         }}
                     >
-                        <CloudUploadIcon/> <Hidden xsDown>{getMessage("data")}</Hidden>
+                        <Tooltip title={getMessage("data")}>
+                            <CloudUploadIcon />
+                        </Tooltip>
+                        <Hidden xsDown>{getMessage("data")}</Hidden>
                     </Button>
                 </Grid>
                 <Grid item xs>
                     <Button
                         className={
-                            navigate === APPS
+                            activeView === APPS
                                 ? classes.selectedButton
                                 : classes.button
                         }
                         onClick={() => {
-                            router.push("/apps");
+                            router.push("/" + NavigationConstants.APPS);
                         }}
                     >
-                        <AppsIcon/> <Hidden xsDown>{getMessage("apps")}</Hidden>
+                        <Tooltip title={getMessage("apps")}>
+                            <AppsIcon />
+                        </Tooltip>
+                        <Hidden xsDown>{getMessage("apps")}</Hidden>
                     </Button>
                 </Grid>
                 <Grid item xs>
                     <Button
                         className={
-                            navigate === ANALYSES
+                            activeView === ANALYSES
                                 ? classes.selectedButton
                                 : classes.button
                         }
                         onClick={() => {
-                            router.push("/analyses");
+                            router.push("/" + NavigationConstants.ANALYSES);
                         }}
                     >
-                        <AssessmentIcon/> <Hidden xsDown>{getMessage("analyses")}</Hidden>
+                        <Tooltip title={getMessage("analyses")}>
+                            <AssessmentIcon />
+                        </Tooltip>
+                        <Hidden xsDown>{getMessage("analyses")}</Hidden>
                     </Button>
                 </Grid>
                 <Grid item xs>
                     <Button
                         className={
-                            navigate === MORE
+                            activeView === MORE
                                 ? classes.selectedButton
                                 : classes.button
                         }
                         onClick={() => {
-                            router.push("/more");
+                            router.push("/" + NavigationConstants.MORE);
                         }}
                     >
-                        <MoreHorizIcon/> <Hidden xsDown>{getMessage("more")}</Hidden>
+                        <Tooltip title={getMessage("more")}>
+                            <MoreHorizIcon />
+                        </Tooltip>
+                        <Hidden xsDown>{getMessage("more")}</Hidden>
                     </Button>
                 </Grid>
             </Grid>
@@ -123,4 +141,4 @@ function Navigation(props) {
     );
 }
 
-export default withI18N(injectIntl(Navigation), intlData);
+export default withI18N(Navigation, intlData);

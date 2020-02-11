@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
     container: {
         display: "flex",
+        alignItems: "center",
 
         [theme.breakpoints.down("sm")]: {
             justifyContent: "center",
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
     urlField: {
         width: "100%",
+        margin: "0 10px 0 0",
     },
     closeDialog: {
         position: "absolute",
@@ -50,10 +52,26 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.blueGrey,
     },
     importDefault: {
-        color: theme.palette.primary.main,
+        background: theme.palette.primary.main,
+        height: 40,
+
+        [theme.breakpoints.down("sm")]: {
+            width: "100%",
+            marginTop: 10,
+        },
     },
     importError: {
-        color: theme.palette.error.main,
+        background: theme.palette.error.main,
+        height: 40,
+
+        "&:hover": {
+            backgroundColor: theme.palette.error.dark,
+        },
+
+        [theme.breakpoints.down("sm")]: {
+            width: "100%",
+            marginTop: 10,
+        },
     },
 }));
 
@@ -153,12 +171,13 @@ const URLImportTextField = (props) => {
                     }
                 }}
             />
-            <IconButton
+            <Button
                 aria-label={fmt(intl, "importButtonAriaLabel")}
                 onClick={(e) => {
                     if (isValidURL) {
                         setupEvent(e);
                         clickHandler(e);
+                        setHasFirstFocused(false);
                     }
                 }}
                 color="primary"
@@ -169,9 +188,11 @@ const URLImportTextField = (props) => {
                 }}
                 edge={isSmall ? false : "end"}
                 id={buildID(ids.BASE_ID, ids.IMPORT_BUTTON)}
+                startIcon={<UploadIcon />}
+                variant="contained"
             >
-                <UploadIcon />
-            </IconButton>
+                {fmt(intl, "importButtonText")}
+            </Button>
         </div>
     );
 };

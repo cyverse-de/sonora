@@ -6,7 +6,7 @@ import pgsimple from "connect-pg-simple";
 
 import * as config from "./configuration";
 import * as authStrategy from "./authStrategy";
-import terrainRouter from "./terrainHandler";
+import terrainRouter from "./terrainRouter";
 
 import logger, { errorLogger, requestLogger } from "./logging";
 

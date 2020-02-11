@@ -1,10 +1,12 @@
 import React from "react";
+import "./styles.css";
 import CyverseAppBar from "../components/appBar/CyVerseAppBar";
 import theme from "../components/theme/default";
-import { ThemeProvider } from "@material-ui/core/styles";
 import { UploadTrackingProvider } from "../contexts/uploadTracking";
 import { UserProfileProvider } from "../contexts/userProfile";
+import { ThemeProvider } from "@material-ui/core/styles";
 import getConfig from "next/config";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps, intercomAppId, intercomEnabled }) {
     React.useEffect(() => {
@@ -62,6 +64,18 @@ function MyApp({ Component, pageProps, intercomAppId, intercomEnabled }) {
             <UserProfileProvider>
                 <UploadTrackingProvider>
                     <CyverseAppBar>
+                        <Head>
+                            <title>Discovery Environment</title>
+                            <link
+                                href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&display=swap"
+                                rel="stylesheet"
+                            />
+                            <link
+                                rel="icon"
+                                type="image/x-icon"
+                                href="/cyverse_whitelogo.png"
+                            />
+                        </Head>
                         <Component {...pageProps} />
                     </CyverseAppBar>
                 </UploadTrackingProvider>

@@ -16,7 +16,6 @@ function MyApp({ Component, pageProps, intercomAppId, intercomEnabled }) {
     const pathname = router.pathname
         ? router.pathname.slice(1)
         : NavigationConstants.DASHBOARD;
-
     React.useEffect(() => {
         const jssStyles = document.querySelector("#jss-server-side");
         if (jssStyles) {

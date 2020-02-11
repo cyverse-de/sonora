@@ -64,8 +64,11 @@ function Listing(props) {
                     ].map((i) => camelcaseit(i)) // camelcase the fields for each object, for consistency.
             )
 
+            // Storing the listing here avoids having to regen the
+            // list of items on every render pass.
             .then((listing) => setData(listing))
 
+            // We need to figure out a consistent error handler.
             .catch((e) => console.log(`error ${e.message}`));
     }, [path, rowsPerPage, orderBy, order, page]);
 

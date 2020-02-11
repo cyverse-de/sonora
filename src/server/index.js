@@ -139,7 +139,7 @@ app.prepare()
         logger.info(
             "adding the next.js fallthrough handler to the express server."
         );
-        
+
         server.get("*", (req, res) => {
             return nextHandler(req, res);
         });

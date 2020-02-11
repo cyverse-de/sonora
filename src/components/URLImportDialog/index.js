@@ -6,6 +6,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import UploadIcon from "mdi-react/UploadIcon";
 import Button from "@material-ui/core/Button";
+import CloseIcon from "@material-ui/icons/Close";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -57,6 +58,16 @@ const useStyles = makeStyles((theme) => ({
     },
     textField: {
         width: "100%",
+    },
+    doneButton: {
+        position: "absolute",
+        right: theme.spacing(1),
+        top: theme.spacing(1),
+        color: theme.palette.blueGrey,
+    },
+    dialogTitle: {
+        margin: 0,
+        padding: theme.spacing(2),
     },
 }));
 
@@ -187,6 +198,13 @@ const URLImportDialog = (props) => {
         >
             <DialogTitle id={buildID(ids.BASE_ID, ids.TITLE)}>
                 {fmt(intl, "title")}
+                <IconButton
+                    aria-label="close"
+                    className={classes.doneButton}
+                    onClick={handleClose}
+                >
+                    <CloseIcon />
+                </IconButton>
             </DialogTitle>
 
             <DialogContent>
@@ -198,9 +216,9 @@ const URLImportDialog = (props) => {
                     onClick={handleClose}
                     className={classes.dialogClose}
                     id={buildID(ids.BASE_ID, ids.CLOSE_DIALOG)}
-                    aria-label={fmt(intl, "closeButtonAriaLabel")}
+                    aria-label={fmt(intl, "doneButtonAriaLabel")}
                 >
-                    Close
+                    {fmt(intl, "doneButtonText")}
                 </Button>
             </DialogActions>
         </Dialog>

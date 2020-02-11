@@ -13,9 +13,15 @@ export default class MyDocument extends Document {
                         name="theme-color"
                         content={theme.palette.primary.main}
                     />
+                    <title>Discovery Environment</title>
                     <link
                         rel="stylesheet"
                         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+                    />
+                    <link
+                        rel="icon"
+                        type="image/x-icon"
+                        href="/cyverse_whitelogo.png"
                     />
                 </Head>
                 <body>

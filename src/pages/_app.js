@@ -7,6 +7,7 @@ import { UserProfileProvider } from "../contexts/userProfile";
 import { ThemeProvider } from "@material-ui/core/styles";
 import getConfig from "next/config";
 import Head from "next/head";
+import "./styles.css";
 
 function MyApp({ Component, pageProps, intercomAppId, intercomEnabled }) {
     React.useEffect(() => {

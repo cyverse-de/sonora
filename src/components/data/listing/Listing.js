@@ -26,7 +26,7 @@ function Listing(props) {
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
-    const [data, setData] = useState({ files: [], folders: [] });
+    const [data, setData] = useState({ total: 0, files: [], folders: [] });
 
     const { baseId, path, handlePathChange } = props;
 
@@ -55,19 +55,22 @@ function Listing(props) {
 
             // Unify the data listing, adding type info along the way.
             .then(
-                (respData) =>
-                    [
-                        ...respData.folders.map((f) => ({
-                            ...f,
-                            type: "FOLDER",
-                        })),
-                        ...respData.files.map((f) => ({ ...f, type: "FILE" })),
-                    ].map((i) => camelcaseit(i)) // camelcase the fields for each object, for consistency.
-            )
+                (respData) => {
+                    return {
+                        total: respData.total,
+                        listing: [
+                            ...respData.folders.map((f) => ({
+                                ...f,
+                                type: "FOLDER",
+                            })),
+                            ...respData.files.map((f) => ({...f, type: "FILE"})),
+                        ].map((i) => camelcaseit(i)) // camelcase the fields for each object, for consistency.
+                    }
+                })
 
             // Storing the listing here avoids having to regen the
             // list of items on every render pass.
-            .then((listing) => setData(listing))
+            .then((resp) => setData(resp))
 
             // We need to figure out a consistent error handler.
             .catch((e) => console.log(`error ${e.message}`));
@@ -81,7 +84,7 @@ function Listing(props) {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked && !selected.length) {
-            const newSelecteds = data?.map((resource) => resource.id) || [];
+            const newSelecteds = data?.listing?.map((resource) => resource.id) || [];
             setSelected(newSelecteds);
             return;
         }
@@ -94,7 +97,7 @@ function Listing(props) {
     const rangeSelect = (start, end, targetId) => {
         let rangeIds = [];
         for (let i = start; i <= end; i++) {
-            rangeIds.push(data[i].id);
+            rangeIds.push(data?.listing[i].id);
         }
 
         let isTargetSelected = selected.includes(targetId);
@@ -181,7 +184,7 @@ function Listing(props) {
                 // loading={loading}
                 path={path}
                 handlePathChange={handlePathChange}
-                listing={data}
+                listing={data?.listing}
                 isMedium={isMedium}
                 isLarge={isLarge}
                 baseId={baseId}
@@ -199,7 +202,7 @@ function Listing(props) {
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={data?.length} // will need to change to total
+                count={data?.total}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}

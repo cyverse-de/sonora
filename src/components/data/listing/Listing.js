@@ -12,8 +12,6 @@ import { TablePagination, useMediaQuery, useTheme } from "@material-ui/core";
 import messages from "../messages";
 import TableView from "./TableView";
 
-import { camelcaseit } from "../../../common/functions";
-
 function Listing(props) {
     const theme = useTheme();
     let isMedium = useMediaQuery(theme.breakpoints.up("sm"));
@@ -42,23 +40,10 @@ function Listing(props) {
                 credentials: "include",
             }
         )
-            .then((resp) => {
-                if (resp.status < 200 || resp.status > 299) {
-                    throw Error(resp);
-                }
-                return resp;
-            })
             .then((resp) => resp.json())
             .then((respData) => setData(respData))
             .catch((e) => console.log(`error ${e.message}`));
     }, [path, rowsPerPage, orderBy, order, page]);
-
-    const listing = [
-        ...data.folders.map((f) => ({ ...f, type: "FOLDER" })),
-        ...data.files.map((f) => ({ ...f, type: "FILE" })),
-    ]
-        .filter((i) => i !== null && i !== "undefined")
-        .map((i) => camelcaseit(i)); // should probably start doing this on the backend...
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -68,7 +53,7 @@ function Listing(props) {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked && !selected.length) {
-            const newSelecteds = listing?.map((resource) => resource.id) || [];
+            const newSelecteds = data?.map((resource) => resource.id) || [];
             setSelected(newSelecteds);
             return;
         }
@@ -81,7 +66,7 @@ function Listing(props) {
     const rangeSelect = (start, end, targetId) => {
         let rangeIds = [];
         for (let i = start; i <= end; i++) {
-            rangeIds.push(listing[i].id);
+            rangeIds.push(data[i].id);
         }
 
         let isTargetSelected = selected.includes(targetId);
@@ -160,7 +145,7 @@ function Listing(props) {
                 // loading={loading}
                 path={path}
                 handlePathChange={handlePathChange}
-                listing={listing}
+                listing={data}
                 isMedium={isMedium}
                 isLarge={isLarge}
                 baseId={baseId}
@@ -178,7 +163,7 @@ function Listing(props) {
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={listing?.length} // will need to change to total
+                count={data?.length} // will need to change to total
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}

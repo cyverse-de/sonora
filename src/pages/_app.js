@@ -4,6 +4,7 @@ import theme from "../components/theme/default";
 import { ThemeProvider } from "@material-ui/core/styles";
 import "./styles.css";
 import { useRouter } from "next/router";
+import NavigationConstants from "../components/navigation/NavigationConstants";
 
 function MyApp({ Component, pageProps }) {
     const router = useRouter();
@@ -12,8 +13,7 @@ function MyApp({ Component, pageProps }) {
     React.useEffect(() => {
         //map / to dashboard
         if (!pathname) {
-            console.log("pushing to router==>" + pathname);
-            router.push("/dashboard");
+            router.push("/" + NavigationConstants.DASHBOARD);
         }
         const jssStyles = document.querySelector("#jss-server-side");
         if (jssStyles) {

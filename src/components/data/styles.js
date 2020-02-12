@@ -24,7 +24,7 @@ export default (theme) => ({
     },
 
     menuButton: {
-        color: theme.palette.white,
+        color: theme.palette.primary.contrastText,
     },
 
     skeleton: {
@@ -36,6 +36,6 @@ export default (theme) => ({
     },
 
     whiteDotMenu: {
-        color: theme.palette.white,
+        color: theme.palette.primary.contrastText,
     },
 });

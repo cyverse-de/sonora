@@ -34,8 +34,9 @@ const useStyles = makeStyles((theme) => ({
     },
     container: {
         display: "flex",
-        alignItems: "center",
+        alignItems: "center", // without this the import button balloons in size vertically.
 
+        // Align things vertically on mobile.
         [theme.breakpoints.down("sm")]: {
             justifyContent: "center",
             flexDirection: "column",
@@ -46,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
         margin: "0 10px 0 0",
 
         [theme.breakpoints.down("sm")]: {
-            margin: 0,
+            margin: 0, // The textbox shifts to the left without this.
         },
     },
     closeDialog: {
@@ -57,24 +58,28 @@ const useStyles = makeStyles((theme) => ({
     },
     importDefault: {
         background: theme.palette.primary.main,
-        height: 40,
+        marginBottom: 25,
 
         [theme.breakpoints.down("sm")]: {
-            width: "100%",
+            width: "100%", // Easier to hit on mobile.
             marginTop: 10,
+            marginBottom: 0,
         },
     },
     importError: {
         background: theme.palette.error.main,
-        height: 40,
+        marginBottom: 25,
 
+        // Hover colors get weird after switching to error
+        // without this.
         "&:hover": {
             backgroundColor: theme.palette.error.dark,
         },
 
         [theme.breakpoints.down("sm")]: {
-            width: "100%",
+            width: "100%", // Easier to hit on mobile.
             marginTop: 10,
+            marginBottom: 0,
         },
     },
 }));
@@ -90,9 +95,7 @@ const validURL = (possibleURL) => {
     try {
         const u = new URL(possibleURL);
 
-        if (
-            !["http:", "https:", "ftp:", "sftp:", "ftps:"].includes(u.protocol)
-        ) {
+        if (!["http:", "https:", "ftp:"].includes(u.protocol)) {
             retval = false;
         }
     } catch (e) {
@@ -103,9 +106,6 @@ const validURL = (possibleURL) => {
 };
 
 const URLImportTextField = (props) => {
-    const theme = useTheme();
-    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
-
     const classes = useStyles();
     const [uploadURL, setUploadURL] = useState("");
     const [isValidURL, setIsValidURL] = useState(false);
@@ -190,7 +190,6 @@ const URLImportTextField = (props) => {
                         ? classes.importDefault
                         : classes.importError,
                 }}
-                edge={isSmall ? false : "end"}
                 id={buildID(ids.BASE_ID, ids.IMPORT_BUTTON)}
                 startIcon={<UploadIcon />}
                 variant="contained"
@@ -204,6 +203,8 @@ const URLImportTextField = (props) => {
 const URLImportDialog = (props) => {
     const [open, setOpen] = useState(props.open || false);
     const classes = useStyles();
+    const theme = useTheme();
+    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
     const { addURLFn, intl } = props;
 
     const handleClose = () => {
@@ -220,13 +221,17 @@ const URLImportDialog = (props) => {
         >
             <DialogTitle id={buildID(ids.BASE_ID, ids.TITLE)}>
                 {fmt(intl, "title")}
-                <IconButton
-                    aria-label="close"
-                    className={classes.closeDialog}
-                    onClick={handleClose}
-                >
-                    <CloseIcon />
-                </IconButton>
+                {!isSmall ? ( // The close button looks weird on small screens.
+                    <IconButton
+                        aria-label="close"
+                        className={classes.closeDialog}
+                        onClick={handleClose}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                ) : (
+                    ""
+                )}
             </DialogTitle>
 
             <DialogContent>

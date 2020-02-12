@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
-import UploadIcon from "mdi-react/UploadIcon";
+import PublishIcon from "@material-ui/icons/Publish";
 import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import Dialog from "@material-ui/core/Dialog";
@@ -191,7 +191,7 @@ const URLImportTextField = (props) => {
                         : classes.importError,
                 }}
                 id={buildID(ids.BASE_ID, ids.IMPORT_BUTTON)}
-                startIcon={<UploadIcon />}
+                startIcon={<PublishIcon />}
                 variant="contained"
             >
                 {fmt(intl, "importButtonText")}

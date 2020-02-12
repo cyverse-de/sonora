@@ -1,7 +1,8 @@
 import React from "react";
-
 import { useRouter } from "next/router";
 import Listing from "../components/data/listing/Listing";
+import Navigation from "../components/navigation/Navigation";
+import NavigationConstants from "../components/navigation/NavigationConstants";
 
 export default function Data() {
     const router = useRouter();
@@ -15,10 +16,14 @@ export default function Data() {
     const handlePathChange = (path) => router.push(`/data?path=${path}`);
 
     return (
-        <Listing
-            path={path}
-            handlePathChange={handlePathChange}
-            baseId="data"
-        />
+        <React.Fragment>
+            <Navigation activeView={NavigationConstants.DATA} />
+
+            <Listing
+                path={path}
+                handlePathChange={handlePathChange}
+                baseId="data"
+            />
+        </React.Fragment>
     );
 }

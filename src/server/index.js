@@ -131,9 +131,15 @@ app.prepare()
         logger.info("adding the api router to the express server");
         server.use("/api", api);
 
+        //map root to Dashboard
+        server.get("/", (req, res) => {
+            app.render(req, res, "/dashboard", undefined);
+        });
+
         logger.info(
             "adding the next.js fallthrough handler to the express server."
         );
+
         server.get("*", (req, res) => {
             return nextHandler(req, res);
         });

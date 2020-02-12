@@ -214,7 +214,7 @@ const URLImportDialog = (props) => {
         >
             <DialogTitle id={buildID(ids.BASE_ID, ids.TITLE)}>
                 {fmt(intl, "title")}
-                {!isSmall ? ( // The close button looks weird on small screens.
+                {!isSmall && ( // The close button looks weird on small screens.
                     <IconButton
                         aria-label="close"
                         className={classes.closeDialog}
@@ -222,8 +222,6 @@ const URLImportDialog = (props) => {
                     >
                         <CloseIcon />
                     </IconButton>
-                ) : (
-                    ""
                 )}
             </DialogTitle>
 

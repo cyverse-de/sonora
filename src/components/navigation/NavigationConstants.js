@@ -5,4 +5,4 @@ export default {
     ANALYSES: "analyses",
     DASHBOARD: "dashboard",
     MORE: "more",
-}
+};

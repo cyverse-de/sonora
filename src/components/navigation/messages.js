@@ -5,7 +5,7 @@ const intlData = {
         data: "Data",
         apps: "Apps",
         analyses: "Analyses",
-        more: "More"
+        more: "More",
     },
 };
 export default intlData;

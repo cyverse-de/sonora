@@ -65,6 +65,7 @@ function Navigation(props) {
                         <Tooltip title={getMessage("dashboard")}>
                             <DashboardIcon />
                         </Tooltip>
+
                         <Hidden xsDown>{getMessage("dashboard")}</Hidden>
                     </Button>
                 </Grid>
@@ -82,6 +83,7 @@ function Navigation(props) {
                         <Tooltip title={getMessage("data")}>
                             <CloudUploadIcon />
                         </Tooltip>
+
                         <Hidden xsDown>{getMessage("data")}</Hidden>
                     </Button>
                 </Grid>

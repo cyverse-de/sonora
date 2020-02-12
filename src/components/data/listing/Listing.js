@@ -27,6 +27,7 @@ function Listing(props) {
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [loading, setLoading] = useState(false);
     const [data, setData] = useState({ total: 0, files: [], folders: [] });
 
     const { baseId, path, handlePathChange } = props;
@@ -36,6 +37,7 @@ function Listing(props) {
     }, [path]);
 
     useEffect(() => {
+        setLoading(true);
         fetch(
             `/api/filesystem/paged-directory?path=${path}&limit=${rowsPerPage}&sort-col=${orderBy}&sort-dir=${order}&offset=${rowsPerPage *
                 page}`,
@@ -47,6 +49,7 @@ function Listing(props) {
             // Do something with errors from terrain.
             .then((resp) => {
                 if (resp.status < 200 || resp.status > 299) {
+                    setLoading(false);
                     throw Error(resp);
                 }
                 return resp;
@@ -71,10 +74,16 @@ function Listing(props) {
 
             // Storing the listing here avoids having to regen the
             // list of items on every render pass.
-            .then((resp) => setData(resp))
+            .then((resp) => {
+                setData(resp);
+                setLoading(false);
+            })
 
             // We need to figure out a consistent error handler.
-            .catch((e) => console.log(`error ${e.message}`));
+            .catch((e) => {
+                console.log(`error ${e.message}`)
+                setLoading(false);
+            });
     }, [path, rowsPerPage, orderBy, order, page]);
 
     const handleRequestSort = (event, property) => {
@@ -188,7 +197,7 @@ function Listing(props) {
             />
             {!isGridView && (
                 <TableView
-                    // loading={loading}
+                    loading={loading}
                     path={path}
                     handlePathChange={handlePathChange}
                     listing={data?.listing}

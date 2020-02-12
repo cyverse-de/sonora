@@ -58,17 +58,17 @@ const useStyles = makeStyles((theme) => ({
     },
     importDefault: {
         background: theme.palette.primary.main,
-        marginBottom: 25,
+        marginBottom: theme.spacing(3),
 
         [theme.breakpoints.down("sm")]: {
             width: "100%", // Easier to hit on mobile.
-            marginTop: 10,
-            marginBottom: 0,
+            marginTop: theme.spacing(2),
+            marginBottom: theme.spacing(0),
         },
     },
     importError: {
         background: theme.palette.error.main,
-        marginBottom: 25,
+        marginBottom: theme.spacing(3),
 
         // Hover colors get weird after switching to error
         // without this.
@@ -78,8 +78,8 @@ const useStyles = makeStyles((theme) => ({
 
         [theme.breakpoints.down("sm")]: {
             width: "100%", // Easier to hit on mobile.
-            marginTop: 10,
-            marginBottom: 0,
+            marginTop: theme.spacing(2),
+            marginBottom: theme.spacing(0),
         },
     },
 }));
@@ -94,10 +94,7 @@ const validURL = (possibleURL) => {
 
     try {
         const u = new URL(possibleURL);
-
-        if (!["http:", "https:", "ftp:"].includes(u.protocol)) {
-            retval = false;
-        }
+        retval = ["http:", "https:", "ftp:"].includes(u.protocol);
     } catch (e) {
         retval = false;
     } finally {

@@ -19,17 +19,138 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
     button: {
-        margin: 1,
+        margin: 0,
+        borderRadius: 0,
+        width: 200,
+        height: 50,
+        backgroundColor: theme.palette.white,
+        color: theme.palette.info.main,
         "&:hover": {
-            backgroundColor: theme.palette.blue,
+            backgroundColor: theme.palette.primary.main,
             color: theme.palette.white,
         },
     },
-
     selectedButton: {
-        margin: 1,
-        backgroundColor: theme.palette.blue,
+        margin: 0,
+        borderRadius: 0,
+        width: 200,
+        height: 50,
+        backgroundColor: theme.palette.primary.main,
         color: theme.palette.white,
+    },
+
+    dashboardButton: {
+        backgroundImage: `url("/dashboard.png")`,
+        backgroundPosition: "15px 10px",
+        backgroundRepeat: "no-repeat",
+        margin: 0,
+        borderRadius: 0,
+        width: 200,
+        height: 50,
+        backgroundColor: theme.palette.white,
+        color: theme.palette.info.main,
+        "&:hover": {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.white,
+        },
+    },
+    selectedDashboardButton: {
+        backgroundImage: `url("/dashboard.png")`,
+        backgroundPosition: "15px 10px",
+        backgroundRepeat: "no-repeat",
+        margin: 0,
+        borderRadius: 0,
+        width: 200,
+        height: 50,
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.white,
+    },
+
+    dataButton: {
+        backgroundImage: `url("/data.png")`,
+        backgroundPosition: "15px 10px",
+        backgroundRepeat: "no-repeat",
+        margin: 0,
+        borderRadius: 0,
+        width: 200,
+        height: 50,
+        backgroundColor: theme.palette.white,
+        color: theme.palette.info.main,
+        "&:hover": {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.white,
+        },
+    },
+    selectedDataButton: {
+        backgroundImage: `url("/data.png")`,
+        backgroundPosition: "15px 10px",
+        backgroundRepeat: "no-repeat",
+        margin: 0,
+        borderRadius: 0,
+        width: 200,
+        height: 50,
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.white,
+    },
+
+    appsButton: {
+        backgroundImage: `url("/apps.png")`,
+        backgroundPosition: "15px 10px",
+        backgroundRepeat: "no-repeat",
+        margin: 0,
+        borderRadius: 0,
+        width: 200,
+        height: 50,
+        backgroundColor: theme.palette.white,
+        color: theme.palette.info.main,
+        "&:hover": {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.white,
+        },
+    },
+    selectedAppsButton: {
+        backgroundImage: `url("/apps.png")`,
+        backgroundPosition: "15px 10px",
+        backgroundRepeat: "no-repeat",
+        margin: 0,
+        borderRadius: 0,
+        width: 200,
+        height: 50,
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.white,
+    },
+
+    analysesButton: {
+        backgroundImage: `url("/analyses.png")`,
+        backgroundPosition: "15px 10px",
+        backgroundRepeat: "no-repeat",
+        margin: 0,
+        borderRadius: 0,
+        width: 200,
+        height: 50,
+        backgroundColor: theme.palette.white,
+        color: theme.palette.info.main,
+        "&:hover": {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.white,
+        },
+    },
+    selectedanalysesButton: {
+        backgroundImage: `url("/analyses.png")`,
+        backgroundPosition: "15px 10px",
+        backgroundRepeat: "no-repeat",
+        margin: 0,
+        borderRadius: 0,
+        width: 200,
+        height: 50,
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.white,
+    },
+
+    nav: {
+        backgroundColor: theme.palette.white,
+        height: 50,
+        paddingLeft: 30,
     },
 }));
 
@@ -45,84 +166,82 @@ function Navigation(props) {
     const { activeView } = props;
     const theme = useTheme();
     return (
-        <Paper
-            elevation={10}
-            style={{ backgroundColor: theme.palette.lightGray }}
-        >
+        <Paper elevation={1} className={classes.nav}>
             <Grid container>
                 <Grid item xs>
-                    <Button
-                        id={build(ids.NAVIGATION, ids.DASHBOARD_BTN)}
-                        className={
-                            activeView === DASHBOARD
-                                ? classes.selectedButton
-                                : classes.button
-                        }
-                        onClick={() => {
-                            router.push("/" + NavigationConstants.DASHBOARD);
-                        }}
-                    >
-                        <Tooltip title={getMessage("dashboard")}>
-                            <DashboardIcon />
-                        </Tooltip>
-
-                        <Hidden xsDown>{getMessage("dashboard")}</Hidden>
-                    </Button>
+                    <Tooltip title={getMessage("dashboard")}>
+                        <Button
+                            disableElevation
+                            id={build(ids.NAVIGATION, ids.DASHBOARD_BTN)}
+                            className={
+                                activeView === DASHBOARD
+                                    ? classes.selectedDashboardButton
+                                    : classes.dashboardButton
+                            }
+                            onClick={() => {
+                                router.push(
+                                    "/" + NavigationConstants.DASHBOARD
+                                );
+                            }}
+                        >
+                            <Hidden xsDown>{getMessage("dashboard")}</Hidden>
+                        </Button>
+                    </Tooltip>
+                </Grid>
+                <Grid item xs>
+                    <Tooltip title={getMessage("data")}>
+                        <Button
+                            disableElevation
+                            className={
+                                activeView === DATA
+                                    ? classes.selectedDataButton
+                                    : classes.dataButton
+                            }
+                            onClick={() => {
+                                router.push("/" + NavigationConstants.DATA);
+                            }}
+                        >
+                            <Hidden xsDown>{getMessage("data")}</Hidden>
+                        </Button>
+                    </Tooltip>
+                </Grid>
+                <Grid item xs>
+                    <Tooltip title={getMessage("apps")}>
+                        <Button
+                            disableElevation
+                            className={
+                                activeView === APPS
+                                    ? classes.selectedAppsButton
+                                    : classes.appsButton
+                            }
+                            onClick={() => {
+                                router.push("/" + NavigationConstants.APPS);
+                            }}
+                        >
+                            <Hidden xsDown>{getMessage("apps")}</Hidden>
+                        </Button>
+                    </Tooltip>
+                </Grid>
+                <Grid item xs>
+                    <Tooltip title={getMessage("analyses")}>
+                        <Button
+                            disableElevation
+                            className={
+                                activeView === ANALYSES
+                                    ? classes.selectedAnalysesButton
+                                    : classes.analysesButton
+                            }
+                            onClick={() => {
+                                router.push("/" + NavigationConstants.ANALYSES);
+                            }}
+                        >
+                            <Hidden xsDown>{getMessage("analyses")}</Hidden>
+                        </Button>
+                    </Tooltip>
                 </Grid>
                 <Grid item xs>
                     <Button
-                        className={
-                            activeView === DATA
-                                ? classes.selectedButton
-                                : classes.button
-                        }
-                        onClick={() => {
-                            router.push("/" + NavigationConstants.DATA);
-                        }}
-                    >
-                        <Tooltip title={getMessage("data")}>
-                            <CloudUploadIcon />
-                        </Tooltip>
-
-                        <Hidden xsDown>{getMessage("data")}</Hidden>
-                    </Button>
-                </Grid>
-                <Grid item xs>
-                    <Button
-                        className={
-                            activeView === APPS
-                                ? classes.selectedButton
-                                : classes.button
-                        }
-                        onClick={() => {
-                            router.push("/" + NavigationConstants.APPS);
-                        }}
-                    >
-                        <Tooltip title={getMessage("apps")}>
-                            <AppsIcon />
-                        </Tooltip>
-                        <Hidden xsDown>{getMessage("apps")}</Hidden>
-                    </Button>
-                </Grid>
-                <Grid item xs>
-                    <Button
-                        className={
-                            activeView === ANALYSES
-                                ? classes.selectedButton
-                                : classes.button
-                        }
-                        onClick={() => {
-                            router.push("/" + NavigationConstants.ANALYSES);
-                        }}
-                    >
-                        <Tooltip title={getMessage("analyses")}>
-                            <AssessmentIcon />
-                        </Tooltip>
-                        <Hidden xsDown>{getMessage("analyses")}</Hidden>
-                    </Button>
-                </Grid>
-                <Grid item xs>
-                    <Button
+                        disableElevation
                         className={
                             activeView === MORE
                                 ? classes.selectedButton

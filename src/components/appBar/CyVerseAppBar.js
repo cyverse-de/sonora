@@ -10,61 +10,53 @@ import intlData from "./messages";
 import ids from "./ids";
 import constants from "../../constants";
 
-import {
-    build,
-    formatHTMLMessage,
-    formatMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
 
 import { useRouter } from "next/router";
 import { injectIntl } from "react-intl";
 import {
     AppBar,
-    ButtonGroup,
+    Badge,
     Button,
+    ButtonGroup,
     ClickAwayListener,
     Grow,
-    MenuList,
-    MenuItem,
-    Paper,
-    Popper,
     IconButton,
     InputBase,
+    MenuItem,
+    MenuList,
+    Paper,
+    Popper,
     Toolbar,
-    Typography,
 } from "@material-ui/core";
-import { fade, makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
     appBar: {
-        backgroundColor: theme.palette.primary,
+        backgroundColor: theme.palette.lightGray,
+        boxShadow: 0,
     },
-    title: {
-        flexGrow: 1,
-        display: "none",
-        [theme.breakpoints.up("sm")]: {
-            display: "block",
-        },
-    },
+
     search: {
         position: "relative",
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
+        backgroundColor: theme.palette.white,
         "&:hover": {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
+            backgroundColor: theme.palette.white,
         },
+        marginRight: 0,
         marginLeft: 0,
         width: "100%",
         [theme.breakpoints.up("sm")]: {
-            marginLeft: theme.spacing(1),
-            width: "auto",
+            marginLeft: theme.spacing(2),
+            width: "100%",
         },
     },
     searchIcon: {
@@ -76,11 +68,12 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
         justifyContent: "center",
     },
-    user: {
-        marginLeft: theme.spacing(1),
-    },
-    inputRoot: {
-        color: "inherit",
+
+    sectionDesktop: {
+        display: "none",
+        [theme.breakpoints.up("md")]: {
+            display: "flex",
+        },
     },
     inputInput: {
         padding: theme.spacing(1, 1, 1, 7),
@@ -112,71 +105,55 @@ function CyverseAppBar(props) {
     return (
         <React.Fragment>
             <div className={classes.root}>
-                <AppBar position="static" className={classes.appBar}>
+                <AppBar
+                    position="static"
+                    variant="outlined"
+                    className={classes.appBar}
+                >
                     <Toolbar>
                         <a
                             href={constants.CYVERSE_URL}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <img
-                                src="/cyverse_whitelogo.png"
-                                alt="CyVerse"
-                            ></img>
+                            <img src="/de.png" alt="CyVerse"></img>
                         </a>
-                        <Typography
-                            className={classes.title}
-                            variant="subtitle2"
-                            noWrap
-                        >
-                            {formatHTMLMessage("discovery")}
-                            <br />
-                            {formatHTMLMessage("environment")}
-                        </Typography>
-
-                        <div
-                            className={classes.search}
-                            id={build(ids.APP_BAR_BASE_ID, ids.SEARCH)}
-                        >
+                        <div className={classes.search}>
                             <div className={classes.searchIcon}>
-                                <SearchIcon />
+                                <SearchIcon color="primary" />
                             </div>
                             <InputBase
-                                placeholder={formatMessage(intl, "search")}
+                                placeholder="Search…"
                                 classes={{
                                     root: classes.inputRoot,
                                     input: classes.inputInput,
                                 }}
-                                inputProps={{
-                                    "aria-label": formatMessage(
-                                        intl,
-                                        "searchAriaLabel"
-                                    ),
-                                }}
+                                inputProps={{ "aria-label": "search" }}
                             />
                         </div>
-                        <SearchOptions intl={intl} />
-                        <div className={classes.user}>
+                        <div>
+                            <SearchOptions intl={intl} />
+                        </div>
+
+                        <div className={classes.root} />
+                        <div style={{ display: "flex" }}>
                             <IconButton
-                                id={build(
-                                    ids.APP_BAR_BASE_ID,
-                                    ids.USER_MENU_BTN
-                                )}
-                                aria-label={formatMessage(
-                                    intl,
-                                    "userMenuAriaLabel"
-                                )}
-                                onClick={(event) => {
-                                    handleUserButtonClick(event);
-                                }}
+                                aria-label="show new notifications"
+                                color="primary"
                             >
-                                <AccountCircleIcon
-                                    fontSize="large"
-                                    style={{
-                                        color:
-                                            theme.palette.primary.contrastText,
-                                    }}
-                                />
+                                <Badge badgeContent={17} color="error">
+                                    <NotificationsIcon />
+                                </Badge>
+                            </IconButton>
+                            <IconButton
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls="menudId1"
+                                aria-haspopup="true"
+                                color="primary"
+                                onClick={handleUserButtonClick}
+                            >
+                                <AccountCircle />
                             </IconButton>
                         </div>
                     </Toolbar>
@@ -225,7 +202,10 @@ function SearchOptions(props) {
                 <Button
                     id={build(ids.APP_BAR_BASE_ID, ids.SEARCH_FILTER_BTN)}
                     onClick={handleClick}
-                    style={{ backgroundColor: theme.palette.white }}
+                    style={{
+                        backgroundColor: theme.palette.primary.main,
+                        color: theme.palette.white,
+                    }}
                 >
                     {searchOptions[selectedIndex]}
                 </Button>
@@ -234,7 +214,10 @@ function SearchOptions(props) {
                         ids.APP_BAR_BASE_ID,
                         ids.SEARCH_FILTER_OPTIONS_BTN
                     )}
-                    style={{ backgroundColor: theme.palette.white }}
+                    style={{
+                        backgroundColor: theme.palette.primary.main,
+                        color: theme.palette.white,
+                    }}
                     size="small"
                     aria-controls={
                         open

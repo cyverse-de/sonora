@@ -20,6 +20,7 @@ function Listing(props) {
     let isMedium = useMediaQuery(theme.breakpoints.up("sm"));
     let isLarge = useMediaQuery(theme.breakpoints.up("lg"));
 
+    const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");
     const [selected, setSelected] = useState([]);
@@ -89,6 +90,10 @@ function Listing(props) {
             return;
         }
         setSelected([]);
+    };
+
+    const toggleDisplay = () => {
+        setGridView(!isGridView);
     };
 
     // Simple range select: if you shift-click a range, the range will be
@@ -174,31 +179,35 @@ function Listing(props) {
         <>
             <Header
                 baseId={baseId}
-                isGridView={false}
+                isGridView={isGridView}
+                toggleDisplay={toggleDisplay}
                 onDownloadSelected={onDownloadSelected}
                 onEditSelected={onEditSelected}
                 onMetadataSelected={onMetadataSelected}
                 onDeleteSelected={onDeleteSelected}
             />
-            <TableView
-                // loading={loading}
-                path={path}
-                handlePathChange={handlePathChange}
-                listing={data?.listing}
-                isMedium={isMedium}
-                isLarge={isLarge}
-                baseId={baseId}
-                onDownloadSelected={onDownloadSelected}
-                onEditSelected={onEditSelected}
-                onMetadataSelected={onMetadataSelected}
-                onDeleteSelected={onDeleteSelected}
-                handleRequestSort={handleRequestSort}
-                handleSelectAllClick={handleSelectAllClick}
-                handleClick={handleClick}
-                order={order}
-                orderBy={orderBy}
-                selected={selected}
-            />
+            {!isGridView && (
+                <TableView
+                    // loading={loading}
+                    path={path}
+                    handlePathChange={handlePathChange}
+                    listing={data?.listing}
+                    isMedium={isMedium}
+                    isLarge={isLarge}
+                    baseId={baseId}
+                    onDownloadSelected={onDownloadSelected}
+                    onEditSelected={onEditSelected}
+                    onMetadataSelected={onMetadataSelected}
+                    onDeleteSelected={onDeleteSelected}
+                    handleRequestSort={handleRequestSort}
+                    handleSelectAllClick={handleSelectAllClick}
+                    handleClick={handleClick}
+                    order={order}
+                    orderBy={orderBy}
+                    selected={selected}
+                />
+            )}
+            {isGridView && <span>Coming Soon!</span>}
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"

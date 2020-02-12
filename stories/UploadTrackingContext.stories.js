@@ -55,9 +55,7 @@ export const RemoveAnUpload = () => {
             <div>
                 Should not have test-2:
                 {tracked.uploads.map((u) => (
-                    <div>
-                        test-{u.id} {u.value}
-                    </div>
+                    <div>{u.value}</div>
                 ))}
             </div>
         );

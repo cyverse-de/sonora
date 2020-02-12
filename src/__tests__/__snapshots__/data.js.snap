@@ -5,8 +5,8 @@ exports[`Data Table View renders 1`] = `
   className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
   style={
     Object {
-      "maxHeight": 1024,
-      "minHeight": 480,
+      "maxHeight": 800,
+      "minHeight": 320,
     }
   }
 >

@@ -154,11 +154,7 @@ const URLImportTextField = (props) => {
 
                     const possibleUploadURL = e.target.value.trim();
 
-                    if (!validURL(possibleUploadURL)) {
-                        setIsValidURL(false);
-                    } else {
-                        setIsValidURL(true);
-                    }
+                    setIsValidURL(validURL(possibleUploadURL));
 
                     // Could happen after submitting a URL with the 'Enter' key.
                     if (!hasFirstFocused) {

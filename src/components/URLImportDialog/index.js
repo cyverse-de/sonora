@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { injectIntl } from "react-intl";
 
-import { useTheme, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Publish as PublishIcon, Close as CloseIcon } from "@material-ui/icons";
 
 import {
@@ -12,7 +12,6 @@ import {
     DialogTitle,
     IconButton,
     TextField,
-    useMediaQuery,
 } from "@material-ui/core";
 
 import {
@@ -195,8 +194,6 @@ const URLImportTextField = (props) => {
 const URLImportDialog = (props) => {
     const [open, setOpen] = useState(props.open || false);
     const classes = useStyles();
-    const theme = useTheme();
-    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
     const { addURLFn, intl } = props;
 
     const handleClose = () => {
@@ -213,15 +210,13 @@ const URLImportDialog = (props) => {
         >
             <DialogTitle id={buildID(ids.BASE_ID, ids.TITLE)}>
                 {fmt(intl, "title")}
-                {!isSmall && ( // The close button looks weird on small screens.
-                    <IconButton
-                        aria-label="close"
-                        className={classes.closeDialog}
-                        onClick={handleClose}
-                    >
-                        <CloseIcon />
-                    </IconButton>
-                )}
+                <IconButton
+                    aria-label="close"
+                    className={classes.closeDialog}
+                    onClick={handleClose}
+                >
+                    <CloseIcon />
+                </IconButton>
             </DialogTitle>
 
             <DialogContent>

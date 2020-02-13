@@ -3,6 +3,7 @@ import next from "next";
 import passport from "passport";
 import session from "express-session";
 import pgsimple from "connect-pg-simple";
+import { ensureLoggedIn } from "connect-ensure-login";
 
 import * as config from "./configuration";
 import * as authStrategy from "./authStrategy";
@@ -65,6 +66,11 @@ app.prepare()
                 successReturnToOrRedirect: "/",
             })
         );
+
+        logger.info("adding the /login/* handler");
+        server.get("/login/*", ensureLoggedIn("/login"), (req, res) => {
+            res.redirect(req.url.replace(/^\/login/, ""));
+        });
 
         logger.info("adding the /logout handler");
         server.get("/logout", (req, res) => {

@@ -12,6 +12,7 @@ import {
     DialogTitle,
     IconButton,
     TextField,
+    Typography,
 } from "@material-ui/core";
 
 import {
@@ -56,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
     },
     importDefault: {
         background: theme.palette.primary.main,
-        marginBottom: theme.spacing(3),
 
         [theme.breakpoints.down("sm")]: {
             width: "100%", // Easier to hit on mobile.
@@ -66,7 +66,6 @@ const useStyles = makeStyles((theme) => ({
     },
     importError: {
         background: theme.palette.error.main,
-        marginBottom: theme.spacing(3),
 
         // Hover colors get weird after switching to error
         // without this.
@@ -79,6 +78,9 @@ const useStyles = makeStyles((theme) => ({
             marginTop: theme.spacing(2),
             marginBottom: theme.spacing(0),
         },
+    },
+    instructions: {
+        marginBottom: theme.spacing(2),
     },
 }));
 
@@ -123,11 +125,6 @@ const URLImportTextField = (props) => {
                 fullWidth
                 id={buildID(ids.BASE_ID, ids.TEXTFIELD)}
                 placeholder={fmt(intl, "placeholder")}
-                helperText={
-                    isValidURL || (!isValidURL && !hasFirstFocused)
-                        ? fmt(intl, "helperText")
-                        : fmt(intl, "helperTextError")
-                }
                 InputLabelProps={{
                     shrink: true,
                 }}
@@ -220,6 +217,9 @@ const URLImportDialog = (props) => {
             </DialogTitle>
 
             <DialogContent>
+                <Typography className={classes.instructions}>
+                    {fmt(intl, "instructions")}
+                </Typography>
                 <URLImportTextField intl={intl} addURLFn={addURLFn} />
             </DialogContent>
 

@@ -13,6 +13,13 @@ import React from "react";
 /**
  * @typedef TrackableUpload
  * @property {string} id - Unique identifier for the upload.
+ * @property {boolean} isUploading - Whether or not the file is currently uploading.
+ * @property {boolean} hasUploaded - Whether or not the file has uploaded.
+ * @property {boolean} hasErrored - Whether or not the file upload encountered an error.
+ * @property {string} errorMessage - The error message.
+ * @property {string} parentPath - The path to the directory the file is being uploaded to.
+ * @property {string} filename - The filename of the upload.
+ * @property {string} url - The URL being imported. Will be blank for file uploads.
  */
 
 /**
@@ -51,11 +58,37 @@ const uploadReducer = (state, action) => {
         case "remove": {
             const newState = { ...state };
             const removeIndex = newState.uploads.findIndex(
-                (i) => i.id === action.id
+                (i) => i.id === action.upload.id
             );
             if (removeIndex !== -1) {
                 newState.uploads.splice(removeIndex, 1);
             }
+            return newState;
+        }
+
+        case "setUploadingStatus": {
+            const newState = { ...state };
+            const idx = newState.uploads.findIndex(
+                (i) => i.id === action.upload.id
+            );
+            newState.uploads[idx] = {
+                ...newState.uploads[idx],
+                isUploading: action.upload.isUploading,
+                hasUploaded: action.upload.hasUploaded,
+            };
+            return newState;
+        }
+
+        case "error": {
+            const newState = { ...state };
+            const idx = newState.uploads.findIndex(
+                (i) => i.id === action.upload.id
+            );
+            newState.uploads[idx] = {
+                ...newState.uploads[idx],
+                hasErrored: action.upload.hasErrored,
+                errorMessage: action.upload.errorMessage,
+            };
             return newState;
         }
 

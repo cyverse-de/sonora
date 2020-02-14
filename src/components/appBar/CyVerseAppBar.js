@@ -105,7 +105,7 @@ function CyverseAppBar(props) {
     const handleUserButtonClick = (event) => {
         const { user } = props.children.props;
         if (!user) {
-            router.push("/login");
+            router.push(`/login${router.asPath}`);
         }
     };
 

@@ -9,7 +9,6 @@ import React from "react";
 import {
     build,
     DECheckbox,
-    DETableRow,
     EmptyTable,
     EnhancedTableHead,
     formatDate,
@@ -23,6 +22,7 @@ import {
     TableBody,
     TableCell,
     TableContainer,
+    TableRow,
 } from "@material-ui/core";
 import { injectIntl } from "react-intl";
 
@@ -130,7 +130,7 @@ function TableView(props) {
                                 const isSelected =
                                     selected.indexOf(resourceId) !== -1;
                                 return (
-                                    <DETableRow
+                                    <TableRow
                                         role="checkbox"
                                         tabIndex={0}
                                         hover
@@ -231,7 +231,7 @@ function TableView(props) {
                                                 }
                                             />
                                         </TableCell>
-                                    </DETableRow>
+                                    </TableRow>
                                 );
                             })}
                     </TableBody>

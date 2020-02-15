@@ -85,5 +85,15 @@ export default function terrainRouter() {
         terrain({ method: "GET", pathname: "/secured/filesystem/root" })
     );
 
+    logger.info("adding the /api/profile handler");
+    api.get("/profile", (req, res) => {
+        console.log(req.user);
+        if (req.user) {
+            res.json({ ...req.user.profile, username: req.user.id });
+        } else {
+            res.json(null);
+        }
+    });
+
     return api;
 }

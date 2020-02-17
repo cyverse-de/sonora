@@ -1,51 +1,49 @@
 /**
  *
  * @author sriram
- * A component that displays app level tool bar with search and user menu. Also renders a drawer menu
- * in small screens instead of Navigation bar
+ * A component that displays app level tool bar with search and user menu.
  *
  */
 
 import React, { useState } from "react";
-import ids from "./ids";
 import intlData from "./messages";
+import ids from "./ids";
 import constants from "../../constants";
-import callApi from "../../common/callApi";
-import GlobalSearchField from "../search/GlobalSearchField";
-import NavigationConstants from "./NavigationConstants";
 
-import {
-    build,
-    formatHTMLMessage,
-    formatMessage,
-    getMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
 
 import { useRouter } from "next/router";
 import { injectIntl } from "react-intl";
 import {
     AppBar,
     Badge,
+    Button,
+    ButtonGroup,
+    ClickAwayListener,
     Divider,
     Drawer,
+    Grow,
     Hidden,
     IconButton,
+    InputBase,
     List,
     ListItem,
     ListItemIcon,
     ListItemText,
+    MenuItem,
+    MenuList,
+    Paper,
+    Popper,
     Toolbar,
     Typography,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import SettingsIcon from "@material-ui/icons/Settings";
-
-import { useUserProfile } from "../../contexts/userProfile";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -55,56 +53,68 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.bgGray,
         boxShadow: 0,
     },
+    search: {
+        position: "relative",
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: theme.palette.white,
+        "&:hover": {
+            backgroundColor: theme.palette.white,
+        },
+        marginRight: 0,
+        marginLeft: 0,
+        width: "100%",
+        [theme.breakpoints.up("sm")]: {
+            marginLeft: theme.spacing(2),
+            width: "100%",
+        },
+    },
+    searchIcon: {
+        width: theme.spacing(7),
+        height: "100%",
+        position: "absolute",
+        pointerEvents: "none",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+
+    inputInput: {
+        padding: theme.spacing(1, 1, 1, 7),
+        transition: theme.transitions.create("width"),
+        width: "100%",
+        [theme.breakpoints.up("sm")]: {
+            width: 120,
+            "&:focus": {
+                width: 200,
+            },
+        },
+    },
     drawerIcon: {
         height: 18,
         width: 18,
-        paddingRight: theme.spacing(4),
-    },
-    notification: {
-        [theme.breakpoints.up("sm")]: {
-            marginLeft: theme.spacing(2),
-        },
+        paddingRight: 35,
     },
 }));
+const searchOptions = ["All", "Data", "Apps", "Analyses"];
 
 function CyverseAppBar(props) {
     const classes = useStyles();
     const router = useRouter();
     const { intl, children } = props;
-    const [userProfile, setUserProfile] = useUserProfile();
     const [drawerOpen, setDrawerOpen] = useState(false);
-
-    React.useEffect(() => {
-        const fetchUserProfile = async function() {
-            const profile = await callApi({
-                endpoint: "/api/profile",
-                method: "GET",
-                credentials: "include",
-            });
-            setUserProfile(profile);
-        };
-        fetchUserProfile();
-    }, [setUserProfile]);
-
     const handleUserButtonClick = (event) => {
-        console.log(userProfile);
-        if (!userProfile) {
-            router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
+        const { user } = props.children.props;
+        if (!user) {
+            router.push("/login");
         }
     };
-    const handleSearchClick = (event) => {
-        router.push("/" + NavigationConstants.SEARCH);
-        toggleDrawer(false);
-    };
     const toggleDrawer = (open) => (event) => {
-        console.log("drawer=>" + open);
         setDrawerOpen(open);
     };
     return (
-        <>
+        <React.Fragment>
             <div className={classes.root}>
                 <AppBar
-                    id={ids.APP_BAR_BASE}
                     position="static"
                     variant="outlined"
                     className={classes.appBar}
@@ -113,167 +123,72 @@ function CyverseAppBar(props) {
                         <Hidden only={["sm", "md", "lg", "xl"]}>
                             <div>
                                 <IconButton
-                                    id={build(
-                                        ids.APP_BAR_BASE,
-                                        ids.DRAWER_MENU_BTN
-                                    )}
                                     edge="start"
                                     className={classes.menuButton}
                                     color="primary"
-                                    aria-label={formatMessage(
-                                        intl,
-                                        "drawerMenuAriaLabel"
-                                    )}
+                                    aria-label="open menu"
                                     onClick={toggleDrawer(true)}
                                 >
                                     <MenuIcon />
                                 </IconButton>
                             </div>
                             <Drawer
-                                id={ids.DRAWER_MENU}
                                 open={drawerOpen}
                                 onClose={toggleDrawer(false)}
                             >
-                                <List onClick={toggleDrawer(false)}>
-                                    <ListItem
-                                        id={build(
-                                            ids.DRAWER_MENU,
-                                            ids.ACCOUNT_MI
-                                        )}
-                                        onClick={handleUserButtonClick}
-                                    >
+                                <List>
+                                    <ListItem>
                                         <ListItemIcon>
                                             <AccountCircle />
                                         </ListItemIcon>
-                                        <ListItemText>
-                                            {getMessage("login")}
-                                        </ListItemText>
+                                        <ListItemText>Login</ListItemText>
                                     </ListItem>
                                     <Divider />
-                                    <ListItem
-                                        id={build(
-                                            ids.DRAWER_MENU,
-                                            ids.DASHBOARD_MI
-                                        )}
-                                        onClick={() =>
-                                            router.push(
-                                                "/" +
-                                                    NavigationConstants.DASHBOARD
-                                            )
-                                        }
-                                    >
+                                    <ListItem>
                                         <img
                                             className={classes.drawerIcon}
                                             src="/dashboard.png"
-                                            alt={formatMessage(
-                                                intl,
-                                                "dashboard"
-                                            )}
                                         />
-                                        <ListItemText>
-                                            {getMessage("dashboard")}
-                                        </ListItemText>
+                                        <ListItemText>Dashboard</ListItemText>
                                     </ListItem>
-                                    <ListItem
-                                        id={build(ids.DRAWER_MENU, ids.DATA_MI)}
-                                        onClick={() =>
-                                            router.push(
-                                                "/" + NavigationConstants.DATA
-                                            )
-                                        }
-                                    >
+                                    <ListItem>
                                         <img
                                             className={classes.drawerIcon}
                                             src="/data.png"
-                                            alt={formatMessage(
-                                                intl,
-                                                "dashboard"
-                                            )}
                                         />
-                                        <ListItemText>
-                                            {getMessage("data")}
-                                        </ListItemText>
+                                        <ListItemText>Data</ListItemText>
                                     </ListItem>
-                                    <ListItem
-                                        id={build(ids.DRAWER_MENU, ids.APPS_MI)}
-                                        onClick={() =>
-                                            router.push(
-                                                "/" + NavigationConstants.APPS
-                                            )
-                                        }
-                                    >
+                                    <ListItem>
                                         <img
                                             className={classes.drawerIcon}
                                             src="/apps.png"
-                                            alt={formatMessage(intl, "apps")}
                                         />
-                                        <ListItemText>
-                                            {getMessage("apps")}
-                                        </ListItemText>
+                                        <ListItemText>Apps</ListItemText>
                                     </ListItem>
-                                    <ListItem
-                                        id={build(
-                                            ids.DRAWER_MENU,
-                                            ids.ANALYSES_MI
-                                        )}
-                                        onClick={() =>
-                                            router.push(
-                                                "/" +
-                                                    NavigationConstants.ANALYSES
-                                            )
-                                        }
-                                    >
+                                    <ListItem>
                                         <img
                                             className={classes.drawerIcon}
                                             src="/analyses.png"
-                                            alt={formatMessage(
-                                                intl,
-                                                "analyses"
-                                            )}
                                         />
-                                        <ListItemText>
-                                            {getMessage("analyses")}
-                                        </ListItemText>
+                                        <ListItemText>Analyses</ListItemText>
                                     </ListItem>
-                                    <ListItem
-                                        id={build(
-                                            ids.DRAWER_MENU,
-                                            ids.SEARCH_MI
-                                        )}
-                                        onClick={handleSearchClick}
-                                    >
+                                    <ListItem>
                                         <ListItemIcon>
                                             <SearchIcon />
                                         </ListItemIcon>
-                                        <ListItemText>
-                                            {getMessage("search")}
-                                        </ListItemText>
+                                        <ListItemText>Search</ListItemText>
                                     </ListItem>
                                     <Divider />
-                                    <ListItem
-                                        id={build(
-                                            ids.DRAWER_MENU,
-                                            ids.SETTINGS_MI
-                                        )}
-                                        onClick={() =>
-                                            router.push(
-                                                "/" +
-                                                    NavigationConstants.SETTINGS
-                                            )
-                                        }
-                                    >
+                                    <ListItem>
                                         <ListItemIcon>
                                             <SettingsIcon />
                                         </ListItemIcon>
-                                        <ListItemText>
-                                            {getMessage("settings")}
-                                        </ListItemText>
+                                        <ListItemText>Settings</ListItemText>
                                     </ListItem>
                                 </List>
                             </Drawer>
                             <Typography color="primary">
-                                {formatHTMLMessage("discovery")}
-                                &nbsp;{formatHTMLMessage("environment")}
+                                Discovery Environment
                             </Typography>
                         </Hidden>
                         <Hidden xsDown>
@@ -282,76 +197,177 @@ function CyverseAppBar(props) {
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                <img
-                                    src="/de.png"
-                                    alt={formatMessage(intl, "cyverse")}
-                                ></img>
+                                <img src="/de.png" alt="CyVerse"></img>
                             </a>
-                            <GlobalSearchField />
+                            <div className={classes.search}>
+                                <div className={classes.searchIcon}>
+                                    <SearchIcon color="primary" />
+                                </div>
+                                <InputBase
+                                    placeholder="Search…"
+                                    classes={{
+                                        root: classes.inputRoot,
+                                        input: classes.inputInput,
+                                    }}
+                                    inputProps={{ "aria-label": "search" }}
+                                />
+                            </div>
+                            <div>
+                                <SearchOptions intl={intl} />
+                            </div>
                         </Hidden>
                         <div className={classes.root} />
                         <div style={{ display: "flex" }}>
                             <IconButton
-                                id={build(
-                                    ids.APP_BAR_BASE,
-                                    ids.NOTIFICATION_BTN
-                                )}
-                                className={classes.notification}
-                                aria-label={formatMessage(
-                                    intl,
-                                    "newNotificationAriaLabel"
-                                )}
+                                aria-label="show new notifications"
                                 color="primary"
                             >
-                                <Badge badgeContent={0} color="error">
+                                <Badge badgeContent={17} color="error">
                                     <NotificationsIcon />
                                 </Badge>
                             </IconButton>
-                            <Hidden xsDown>
-                                <IconButton
-                                    id={build(
-                                        ids.APP_BAR_BASE,
-                                        ids.ACCOUNT_BTN
-                                    )}
-                                    edge="end"
-                                    aria-label={formatMessage(
-                                        intl,
-                                        "accountAriaLabel"
-                                    )}
-                                    aria-controls={formatMessage(
-                                        intl,
-                                        "accountAriaControl"
-                                    )}
-                                    color="primary"
-                                    onClick={handleUserButtonClick}
-                                >
-                                    <AccountCircle />
-                                </IconButton>
-                            </Hidden>
-                            <Hidden only={["sm", "md", "lg", "xl"]}>
-                                <IconButton
-                                    id={build(ids.APP_BAR_BASE, ids.SEARCH_BTN)}
-                                    edge="end"
-                                    aria-label={formatMessage(
-                                        intl,
-                                        "searchAriaLabel"
-                                    )}
-                                    aria-controls={formatMessage(
-                                        intl,
-                                        "searchButtonAriaControl"
-                                    )}
-                                    color="primary"
-                                    onClick={handleSearchClick}
-                                >
-                                    <SearchIcon />
-                                </IconButton>
-                            </Hidden>
+                            <IconButton
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls="menudId1"
+                                aria-haspopup="true"
+                                color="primary"
+                                onClick={handleUserButtonClick}
+                            >
+                                <AccountCircle />
+                            </IconButton>
                         </div>
                     </Toolbar>
                 </AppBar>
             </div>
             {children}
-        </>
+        </React.Fragment>
+    );
+}
+
+function SearchOptions(props) {
+    const { intl } = props;
+    const theme = useTheme();
+    const [open, setOpen] = React.useState(false);
+    const anchorRef = React.useRef(null);
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+    const handleClick = () => {
+        //as of now do nothing
+        console.info(`You clicked ${searchOptions[selectedIndex]}`);
+    };
+
+    const handleMenuItemClick = (event, index) => {
+        setSelectedIndex(index);
+        setOpen(false);
+    };
+
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
+
+    const handleClose = (event) => {
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
+
+        setOpen(false);
+    };
+    return (
+        <Paper>
+            <ButtonGroup
+                variant="contained"
+                ref={anchorRef}
+                aria-label={formatMessage(intl, "searchFilterAriaLabel")}
+            >
+                <Button
+                    id={build(ids.APP_BAR_BASE_ID, ids.SEARCH_FILTER_BTN)}
+                    onClick={handleClick}
+                    style={{
+                        backgroundColor: theme.palette.primary.main,
+                        color: theme.palette.white,
+                    }}
+                >
+                    {searchOptions[selectedIndex]}
+                </Button>
+                <Button
+                    id={build(
+                        ids.APP_BAR_BASE_ID,
+                        ids.SEARCH_FILTER_OPTIONS_BTN
+                    )}
+                    style={{
+                        backgroundColor: theme.palette.primary.main,
+                        color: theme.palette.white,
+                    }}
+                    size="small"
+                    aria-controls={
+                        open
+                            ? formatMessage(intl, "searchFilterAriaControl")
+                            : undefined
+                    }
+                    aria-expanded={open ? "true" : undefined}
+                    aria-label={formatMessage(
+                        intl,
+                        "searchFilterMenuAriaLabel"
+                    )}
+                    aria-haspopup="menu"
+                    onClick={handleToggle}
+                >
+                    <ArrowDropDownIcon />
+                </Button>
+            </ButtonGroup>
+            <Popper
+                open={open}
+                anchorEl={anchorRef.current}
+                role={undefined}
+                transition
+                disablePortal
+            >
+                {({ TransitionProps, placement }) => (
+                    <Grow
+                        {...TransitionProps}
+                        style={{
+                            transformOrigin:
+                                placement === "bottom"
+                                    ? "center top"
+                                    : "center bottom",
+                        }}
+                    >
+                        <Paper>
+                            <ClickAwayListener onClickAway={handleClose}>
+                                <MenuList
+                                    id={build(
+                                        ids.APP_BAR_BASE_ID,
+                                        ids.SEARCH_FILTER_MENU
+                                    )}
+                                >
+                                    {searchOptions.map((option, index) => (
+                                        <MenuItem
+                                            key={option}
+                                            id={build(
+                                                ids.APP_BAR_BASE_ID,
+                                                ids.SEARCH_FILTER_MENU +
+                                                    "." +
+                                                    option
+                                            )}
+                                            selected={index === selectedIndex}
+                                            onClick={(event) =>
+                                                handleMenuItemClick(
+                                                    event,
+                                                    index
+                                                )
+                                            }
+                                        >
+                                            {option}
+                                        </MenuItem>
+                                    ))}
+                                </MenuList>
+                            </ClickAwayListener>
+                        </Paper>
+                    </Grow>
+                )}
+            </Popper>
+        </Paper>
     );
 }
 

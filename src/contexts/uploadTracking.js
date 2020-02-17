@@ -6,9 +6,11 @@
  * - https://kentcdodds.com/blog/how-to-use-react-context-effectively
  * - https://reactjs.org/docs/hooks-reference.html#usereducer
  *
+ * @module uploadTracking
  */
 
 import React from "react";
+import UUID from "uuid/v4";
 
 /**
  * @typedef TrackableUpload
@@ -23,18 +25,135 @@ import React from "react";
  */
 
 /**
- * @typedef UploadTrackingReducerAction
- * @property {string} type - One of 'add' or 'remove'.
- * @property {Trackableupload} upload - A trackable upload that is being added or removed.
+ * @typedef AddState
+ * @property {string} id - Same as for TrackableUpload.
+ * @property {boolean} [isUploading] - Whether or not the file is currently uploading.
+ * @property {boolean} [hasUploaded] - Whether or not the file has uploaded.
+ * @property {boolean} [hasErrored] - Whether or not the file upload encountered an error.
+ * @property {string} [errorMessage] - The error message.
+ * @property {string} [parentPath] - The path to the directory the file is being uploaded to.
+ * @property {string} [filename] - The filename of the upload.
+ * @property {string} [url] - The URL being imported. Will be blank for file uploads.
  */
+
+/**
+ * @typedef AddAction
+ * @property {string} type="add" - Defines the type of action.
+ * @property {AddState} upload - The state for the action.
+ */
+
+/**
+ * @typedef RemoveState
+ * @property {string} id - Same as for TrackableUpload.
+ */
+
+/**
+ * @typedef RemoveAction
+ * @property {string} type="remove" - Defines the type of action.
+ * @property {RemoveState} upload - The state for the action.
+ */
+
+/**
+ * @typedef UpdateStatusState
+ * @property {string} id - Same as for TrackableUpload.
+ * @property {boolean} [hasUploaded] - New value for hasUploaded.
+ * @property {boolean} [isUploading] - New value for isUploading.
+ */
+
+/**
+ * @typedef UpdateStatusAction
+ * @property {string} type="updateStatus" - Defines the type of action.
+ * @property {UpdateStatusState} upload - The state for the action.
+ */
+
+/**
+ * @typedef ErrorState
+ * @property {string} id - Same as for TrackableUpload.
+ * @property {string} [errorMessage] - Same as for TrackableUpload.
+ */
+
+/**
+ * @typedef ErrorAction
+ * @property {string} type="error" - Defines the type of action.
+ * @property {ErrorState} upload - The state for the action.
+ */
+
+/**
+ * Returns a new TrackableUpload object filled out with defaults where no custom settings
+ * is provided.
+ *
+ * @params {TrackableUpload} - can be an empty object.
+ * @returns TrackableUpload
+ */
+export const trackableUpload = ({
+    isUploading = false,
+    hasUploaded = false,
+    hasErrored = false,
+    errorMessage = "",
+    parentPath = "",
+    filename = "",
+    url = "",
+}) => ({
+    id: UUID(),
+    isUploading: isUploading,
+    hasUploaded: hasUploaded,
+    hasErrored: hasErrored,
+    errorMessage: errorMessage,
+    parentlPath: parentPath,
+    filename: filename,
+    url,
+});
+
+/**
+ * Creates a new AddAction.
+ * @param {AddState} upload - The state required for the add action.
+ * @returns {AddAction}
+ */
+export const addAction = (upload) => ({
+    type: "add",
+    upload: upload,
+});
+
+/**
+ * Creates a new RemoveAction.
+ * @param {RemoveState} upload - The state required for the remove action.
+ * @returns {RemoveAction}
+ */
+export const removeAction = (upload) => ({
+    type: "remove",
+    upload: upload,
+});
+
+/**
+ * Creates a new UpdateStatusAction.
+ * @param {UpdateStatusState} upload - The state required for the update status action.
+ * @returns {UpdateStatusAction}
+ */
+export const updateStatusAction = (upload) => ({
+    type: "updateStatus",
+    upload: upload,
+});
+
+/**
+ * Creates a new ErrorAction.
+ * @param {ErrorState} upload - The state required for the error action.
+ * @returns {ErrorAction}
+ */
+export const errorAction = (upload) => ({
+    type: "error",
+    upload: upload,
+});
 
 /**
  * @typedef UploadTrackingState
  * @property {Array<TrackableUpload>} uploads - An array of tracked uploads.
  */
 
-const UploadTrackingStateContext = React.createContext();
-const UploadTrackingDispatchContext = React.createContext();
+/**
+ * @typedef UploadTrackingReducerAction
+ * @property {string} type - The type of action.
+ * @property {Object} upload - The new state assocaited with the action.
+ */
 
 /**
  * Processes dispatched actions that change the state of the stored
@@ -66,15 +185,23 @@ const uploadReducer = (state, action) => {
             return newState;
         }
 
-        case "setUploadingStatus": {
+        case "updateStatus": {
             const newState = { ...state };
             const idx = newState.uploads.findIndex(
                 (i) => i.id === action.upload.id
             );
+            const newIsUploading = // Allows isUploading to be optional
+                action.upload.isUploading === undefined
+                    ? newState.uploads[idx].isUploading
+                    : action.upload.isUploading;
+            const newHasUploaded = // Allows hasUploaded to be optional
+                action.upload.hasUploaded === undefined
+                    ? newState.uploads[idx].hasUploaded
+                    : action.upload.hasUploaded;
             newState.uploads[idx] = {
                 ...newState.uploads[idx],
-                isUploading: action.upload.isUploading,
-                hasUploaded: action.upload.hasUploaded,
+                isUploading: newIsUploading,
+                hasUploaded: newHasUploaded,
             };
             return newState;
         }
@@ -84,10 +211,14 @@ const uploadReducer = (state, action) => {
             const idx = newState.uploads.findIndex(
                 (i) => i.id === action.upload.id
             );
+            const newErrorMessage = // Allows the errorMessage to be optional
+                action.upload.errorMessage !== undefined
+                    ? action.upload.errorMessage
+                    : "";
             newState.uploads[idx] = {
                 ...newState.uploads[idx],
-                hasErrored: action.upload.hasErrored,
-                errorMessage: action.upload.errorMessage,
+                hasErrored: true,
+                errorMessage: newErrorMessage,
             };
             return newState;
         }
@@ -97,6 +228,9 @@ const uploadReducer = (state, action) => {
         }
     }
 };
+
+const UploadTrackingStateContext = React.createContext();
+const UploadTrackingDispatchContext = React.createContext();
 
 /**
  * React components that wraps its child components in state and dispatch context providers

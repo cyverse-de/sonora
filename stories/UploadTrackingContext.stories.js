@@ -3,6 +3,8 @@ import {
     UploadTrackingProvider,
     useUploadTrackingDispatch,
     useUploadTrackingState,
+    addAction,
+    removeAction,
 } from "../src/contexts/uploadTracking";
 
 export default {
@@ -28,16 +30,18 @@ export const WithOneUpload = () => {
         return (
             <div>
                 Should be 1 => {tracked.uploads.length} <br /> Should be
-                test-value-0 => {tracked.uploads[0].value}
+                test-value-0 => {tracked.uploads[0].filename}
             </div>
         );
     };
     const TestDispatcher = () => {
         const dispatch = useUploadTrackingDispatch();
-        dispatch({
-            type: "add",
-            upload: { id: "test-0", value: "test-value-0" },
-        });
+        dispatch(
+            addAction({
+                id: "test-0",
+                filename: "test-value-0",
+            })
+        );
         return <div></div>;
     };
     return (
@@ -52,27 +56,26 @@ export const RemoveAnUpload = () => {
     const TestComponent = () => {
         const tracked = useUploadTrackingState();
         return (
-            <div>
+            <ul>
                 Should not have test-2:
                 {tracked.uploads.map((u) => (
-                    <div>{u.value}</div>
+                    <li key={u.filename}>{u.filename}</li>
                 ))}
-            </div>
+            </ul>
         );
     };
     const TestDispatcher = () => {
         const dispatch = useUploadTrackingDispatch();
         for (let upload of [0, 1, 2, 3]) {
-            dispatch({
-                type: "add",
-                upload: { id: `${upload}`, value: `test-${upload}` },
-            });
+            dispatch(
+                addAction({ id: `${upload}`, filename: `test-${upload}` })
+            );
         }
         return <div></div>;
     };
     const TestDeleteTwo = () => {
         const dispatch = useUploadTrackingDispatch();
-        dispatch({ type: "remove", id: "2" });
+        dispatch(removeAction({ id: "2" }));
         return <div></div>;
     };
     return (

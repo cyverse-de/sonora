@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import {
     useUploadTrackingDispatch,
     useUploadTrackingState,
+    addAction,
+    errorAction,
+    updateStatusAction,
 } from "../../contexts/uploadTracking";
 import { Typography } from "@material-ui/core";
+import UUID from "uuid/v4";
 
 const Uploadform = () => {
     const [destination, setDestination] = useState("");
@@ -29,22 +33,17 @@ const Uploadform = () => {
         const formData = new FormData();
         formData.append("file", files[0]);
 
-        const newID = uploadState.uploads.length;
+        const newID = UUID();
         setTrackedUploadID(newID);
 
-        uploadDispatch({
-            type: "add",
-            upload: {
-                id: uploadState.uploads.length,
+        uploadDispatch(
+            addAction({
+                id: newID,
                 parentPath: destination,
                 filename: files[0].name,
                 isUploading: true,
-                hasUploaded: false,
-                hasErrored: false,
-                errorMessage: "",
-                url: "",
-            },
-        });
+            })
+        );
 
         fetch(`/api/upload?dest=${destination}`, {
             method: "POST",
@@ -56,24 +55,21 @@ const Uploadform = () => {
                     const errorMessage = await resp.text();
                     throw new Error(errorMessage);
                 }
-                uploadDispatch({
-                    type: "setUploadingStatus",
-                    upload: {
+                uploadDispatch(
+                    updateStatusAction({
                         id: newID,
-                        isUploading: false,
                         hasUploaded: true,
-                    },
-                });
+                        isUploading: false,
+                    })
+                );
             })
             .catch((e) => {
-                uploadDispatch({
-                    type: "error",
-                    upload: {
+                uploadDispatch(
+                    errorAction({
                         id: newID,
-                        hasErrored: true,
                         errorMessage: e.message,
-                    },
-                });
+                    })
+                );
             });
     };
 

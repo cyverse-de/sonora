@@ -90,8 +90,7 @@ function TableView(props) {
         <TableContainer
             component={Paper}
             style={{
-                minHeight: 320,
-                maxHeight: isMedium || isLarge ? 800 : 320,
+                height: "60vh",
             }}
         >
             <Table

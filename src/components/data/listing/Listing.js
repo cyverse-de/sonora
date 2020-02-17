@@ -197,6 +197,7 @@ function Listing(props) {
                 page={page}
                 onChangePage={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
+                style={{ marginLeft: 0 }}
             />
         </>
     );

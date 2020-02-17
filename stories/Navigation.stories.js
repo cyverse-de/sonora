@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import Navigation from "../src/components/navigation/Navigation";
-import { storiesOf } from "@storybook/react";
+import Navigation from "../src/components/layout/Navigation";
 
 class NavigationTest extends Component {
     render() {
@@ -8,6 +7,5 @@ class NavigationTest extends Component {
     }
 }
 
-storiesOf("Navigation", module).add("with navigation", () => (
-    <NavigationTest />
-));
+export default { title: "Navigation" };
+export const AppNavigation = () => <NavigationTest />;

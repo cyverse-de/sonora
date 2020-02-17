@@ -10,12 +10,11 @@ import ids from "./ids";
 import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import { Button, Grid, Hidden, Paper, Tooltip } from "@material-ui/core";
 import { useRouter } from "next/router";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 function getButtonStyle(theme, imageUrl, selectedImageUrl) {
     return {
         backgroundImage: `url(${imageUrl})`,
-        backgroundPosition: "15px 10px",
         backgroundRepeat: "no-repeat",
         margin: 0,
         borderRadius: 0,
@@ -28,13 +27,15 @@ function getButtonStyle(theme, imageUrl, selectedImageUrl) {
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.white,
         },
+        [theme.breakpoints.down("md")]: {
+            width: 100,
+        },
     };
 }
 
 function getSelectedButtonStyle(theme, imageUrl) {
     return {
         backgroundImage: `url(${imageUrl})`,
-        backgroundPosition: "15px 10px",
         backgroundRepeat: "no-repeat",
         margin: 0,
         borderRadius: 0,
@@ -42,39 +43,58 @@ function getSelectedButtonStyle(theme, imageUrl) {
         height: 50,
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.white,
+        [theme.breakpoints.down("md")]: {
+            width: 100,
+        },
     };
 }
 
 const useStyles = makeStyles((theme) => ({
-    dashboardButton: getButtonStyle(
-        theme,
-        "/dashboard.png",
-        "/dashboard_selected.png"
-    ),
+    dashboardButton: {
+        backgroundPosition: "15px 10px",
+        ...getButtonStyle(theme, "/dashboard.png", "/dashboard_selected.png"),
+    },
 
-    selectedDashboardButton: getSelectedButtonStyle(
-        theme,
-        "/dashboard_selected.png"
-    ),
+    selectedDashboardButton: {
+        backgroundPosition: "15px 10px",
+        ...getSelectedButtonStyle(theme, "/dashboard_selected.png"),
+    },
 
-    dataButton: getButtonStyle(theme, "/data.png", "/data_selected.png"),
-    selectedDataButton: getSelectedButtonStyle(theme, "/data_selected.png"),
+    dataButton: {
+        backgroundPosition: "15px 10px",
+        ...getButtonStyle(theme, "/data.png", "/data_selected.png"),
+    },
+    selectedDataButton: {
+        backgroundPosition: "15px 10px",
+        ...getSelectedButtonStyle(theme, "/data_selected.png"),
+    },
 
-    appsButton: getButtonStyle(theme, "/apps.png", "/apps_selected.png"),
-    selectedAppsButton: getSelectedButtonStyle(theme, "/apps_selected.png"),
+    appsButton: {
+        backgroundPosition: "15px 10px",
+        ...getButtonStyle(theme, "/apps.png", "/apps_selected.png"),
+    },
+    selectedAppsButton: {
+        backgroundPosition: "15px 10px",
+        ...getSelectedButtonStyle(theme, "/apps_selected.png"),
+    },
 
-    analysesButton: getButtonStyle(
-        theme,
-        "/analyses.png",
-        "/analyses_selected.png"
-    ),
-    selectedAnalysesButton: getSelectedButtonStyle(
-        theme,
-        "/analyses_selected.png"
-    ),
+    analysesButton: {
+        backgroundPosition: "10px 5px",
+        ...getButtonStyle(theme, "/analyses.png", "/analyses_selected.png"),
+    },
+    selectedAnalysesButton: {
+        backgroundPosition: "10px 5px",
+        ...getSelectedButtonStyle(theme, "/analyses_selected.png"),
+    },
 
-    moreButton: getButtonStyle(theme, "/more.png", "/more_selected.png"),
-    selectedMoreButton: getSelectedButtonStyle(theme, "/more_selected.png"),
+    moreButton: {
+        backgroundPosition: "30px 20px",
+        ...getButtonStyle(theme, "/more.png", "/more_selected.png"),
+    },
+    selectedMoreButton: {
+        backgroundPosition: "30px 20px",
+        ...getSelectedButtonStyle(theme, "/more_selected.png"),
+    },
 
     nav: {
         backgroundColor: theme.palette.white,
@@ -83,17 +103,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const DASHBOARD = "dashboard";
-const DATA = "data";
-const APPS = "apps";
-const ANALYSES = "analyses";
-const MORE = "more";
-
 function Navigation(props) {
     const classes = useStyles();
     const router = useRouter();
     const { activeView } = props;
-    const theme = useTheme();
+
     return (
         <Hidden xsDown>
             <Paper elevation={1} className={classes.nav}>
@@ -104,7 +118,7 @@ function Navigation(props) {
                                 disableElevation
                                 id={build(ids.NAVIGATION, ids.DASHBOARD_BTN)}
                                 className={
-                                    activeView === DASHBOARD
+                                    activeView === NavigationConstants.DASHBOARD
                                         ? classes.selectedDashboardButton
                                         : classes.dashboardButton
                                 }
@@ -114,7 +128,9 @@ function Navigation(props) {
                                     );
                                 }}
                             >
-                                {getMessage("dashboard")}
+                                <Hidden mdDown>
+                                    {getMessage("dashboard")}
+                                </Hidden>
                             </Button>
                         </Tooltip>
                     </Grid>
@@ -123,7 +139,7 @@ function Navigation(props) {
                             <Button
                                 disableElevation
                                 className={
-                                    activeView === DATA
+                                    activeView === NavigationConstants.DATA
                                         ? classes.selectedDataButton
                                         : classes.dataButton
                                 }
@@ -131,7 +147,7 @@ function Navigation(props) {
                                     router.push("/" + NavigationConstants.DATA);
                                 }}
                             >
-                                {getMessage("data")}
+                                <Hidden mdDown>{getMessage("data")}</Hidden>
                             </Button>
                         </Tooltip>
                     </Grid>
@@ -140,7 +156,7 @@ function Navigation(props) {
                             <Button
                                 disableElevation
                                 className={
-                                    activeView === APPS
+                                    activeView === NavigationConstants.APPS
                                         ? classes.selectedAppsButton
                                         : classes.appsButton
                                 }
@@ -148,7 +164,7 @@ function Navigation(props) {
                                     router.push("/" + NavigationConstants.APPS);
                                 }}
                             >
-                                {getMessage("apps")}
+                                <Hidden mdDown>{getMessage("apps")}</Hidden>
                             </Button>
                         </Tooltip>
                     </Grid>
@@ -157,7 +173,7 @@ function Navigation(props) {
                             <Button
                                 disableElevation
                                 className={
-                                    activeView === ANALYSES
+                                    activeView === NavigationConstants.ANALYSES
                                         ? classes.selectedAnalysesButton
                                         : classes.analysesButton
                                 }
@@ -167,7 +183,7 @@ function Navigation(props) {
                                     );
                                 }}
                             >
-                                {getMessage("analyses")}
+                                <Hidden mdDown>{getMessage("analyses")}</Hidden>
                             </Button>
                         </Tooltip>
                     </Grid>
@@ -176,7 +192,7 @@ function Navigation(props) {
                             <Button
                                 disableElevation
                                 className={
-                                    activeView === MORE
+                                    activeView === NavigationConstants.MORE
                                         ? classes.selectedMoreButton
                                         : classes.moreButton
                                 }
@@ -184,7 +200,7 @@ function Navigation(props) {
                                     router.push("/" + NavigationConstants.MORE);
                                 }}
                             >
-                                {getMessage("more")}
+                                <Hidden mdDown>{getMessage("more")}</Hidden>
                             </Button>
                         </Tooltip>
                     </Grid>

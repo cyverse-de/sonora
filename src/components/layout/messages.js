@@ -1,6 +1,7 @@
 const intlData = {
     locales: "en-US",
     messages: {
+        all: "All",
         dashboard: "Dashboard",
         data: "Data",
         apps: "Apps",
@@ -9,6 +10,20 @@ const intlData = {
         settings: "Settings",
         login: "Login",
         logout: "Logout",
+        search: "Search...",
+        searchAriaLabel: "search",
+        searchFilterMenuAriaLabel: "select search filter",
+        searchFilterAriaLabel: "search filter",
+        searchFilterAriaControl: "search filter menu",
+        searchButtonAriaControl: "search button",
+        userMenuAriaLabel: "user menu",
+        discovery: "<b>D</b>iscovery",
+        environment: "<b>E</b>nvironment",
+        newNotificationAriaLabel: "show new notifications",
+        accountAriaLabel: "account",
+        accountAriaControl: "account button",
+        drawerMenuAriaLabel: "drawer menu",
+        deTitle: "Discovery Environment",
     },
 };
 export default intlData;

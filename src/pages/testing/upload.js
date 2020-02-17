@@ -42,6 +42,7 @@ const Uploadform = () => {
                 parentPath: destination,
                 filename: files[0].name,
                 isUploading: true,
+                hasUploaded: false,
             })
         );
 

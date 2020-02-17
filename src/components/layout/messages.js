@@ -6,6 +6,9 @@ const intlData = {
         apps: "Apps",
         analyses: "Analyses",
         more: "More",
+        settings: "Settings",
+        login: "Login",
+        logout: "Logout",
     },
 };
 export default intlData;

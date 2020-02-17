@@ -5,7 +5,7 @@
  *
  */
 
-import React from "react";
+import React, { useState } from "react";
 import intlData from "./messages";
 import ids from "./ids";
 import constants from "../../constants";
@@ -21,20 +21,30 @@ import {
     Button,
     ButtonGroup,
     ClickAwayListener,
+    Divider,
+    Drawer,
     Grow,
+    Hidden,
     IconButton,
     InputBase,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
     MenuItem,
     MenuList,
     Paper,
     Popper,
     Toolbar,
+    Typography,
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import MenuIcon from "@material-ui/icons/Menu";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 import { useUserProfile } from "../../contexts/userProfile";
 
@@ -43,10 +53,9 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     appBar: {
-        backgroundColor: theme.palette.lightGray,
+        backgroundColor: theme.palette.bgGray,
         boxShadow: 0,
     },
-
     search: {
         position: "relative",
         borderRadius: theme.shape.borderRadius,
@@ -72,12 +81,6 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
     },
 
-    sectionDesktop: {
-        display: "none",
-        [theme.breakpoints.up("md")]: {
-            display: "flex",
-        },
-    },
     inputInput: {
         padding: theme.spacing(1, 1, 1, 7),
         transition: theme.transitions.create("width"),
@@ -89,16 +92,20 @@ const useStyles = makeStyles((theme) => ({
             },
         },
     },
+    drawerIcon: {
+        height: 18,
+        width: 18,
+        paddingRight: 35,
+    },
 }));
 const searchOptions = ["All", "Data", "Apps", "Analyses"];
 
 function CyverseAppBar(props) {
-    const theme = useTheme();
     const classes = useStyles();
     const router = useRouter();
     const { intl, children } = props;
-
     const [userProfile, setUserProfile] = useUserProfile();
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
     React.useEffect(() => {
         const fetchUserProfile = async function() {
@@ -118,7 +125,9 @@ function CyverseAppBar(props) {
             router.push(`/login${router.asPath}`);
         }
     };
-
+    const toggleDrawer = (open) => (event) => {
+        setDrawerOpen(open);
+    };
     return (
         <React.Fragment>
             <div className={classes.root}>
@@ -128,30 +137,102 @@ function CyverseAppBar(props) {
                     className={classes.appBar}
                 >
                     <Toolbar>
-                        <a
-                            href={constants.CYVERSE_URL}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <img src="/de.png" alt="CyVerse"></img>
-                        </a>
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon color="primary" />
+                        <Hidden only={["sm", "md", "lg", "xl"]}>
+                            <div>
+                                <IconButton
+                                    edge="start"
+                                    className={classes.menuButton}
+                                    color="primary"
+                                    aria-label="open menu"
+                                    onClick={toggleDrawer(true)}
+                                >
+                                    <MenuIcon />
+                                </IconButton>
                             </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                inputProps={{ "aria-label": "search" }}
-                            />
-                        </div>
-                        <div>
-                            <SearchOptions intl={intl} />
-                        </div>
-
+                            <Drawer
+                                open={drawerOpen}
+                                onClose={toggleDrawer(false)}
+                            >
+                                <List>
+                                    <ListItem>
+                                        <ListItemIcon>
+                                            <AccountCircle />
+                                        </ListItemIcon>
+                                        <ListItemText>Login</ListItemText>
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem>
+                                        <img
+                                            className={classes.drawerIcon}
+                                            src="/dashboard.png"
+                                        />
+                                        <ListItemText>Dashboard</ListItemText>
+                                    </ListItem>
+                                    <ListItem>
+                                        <img
+                                            className={classes.drawerIcon}
+                                            src="/data.png"
+                                        />
+                                        <ListItemText>Data</ListItemText>
+                                    </ListItem>
+                                    <ListItem>
+                                        <img
+                                            className={classes.drawerIcon}
+                                            src="/apps.png"
+                                        />
+                                        <ListItemText>Apps</ListItemText>
+                                    </ListItem>
+                                    <ListItem>
+                                        <img
+                                            className={classes.drawerIcon}
+                                            src="/analyses.png"
+                                        />
+                                        <ListItemText>Analyses</ListItemText>
+                                    </ListItem>
+                                    <ListItem>
+                                        <ListItemIcon>
+                                            <SearchIcon />
+                                        </ListItemIcon>
+                                        <ListItemText>Search</ListItemText>
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem>
+                                        <ListItemIcon>
+                                            <SettingsIcon />
+                                        </ListItemIcon>
+                                        <ListItemText>Settings</ListItemText>
+                                    </ListItem>
+                                </List>
+                            </Drawer>
+                            <Typography color="primary">
+                                Discovery Environment
+                            </Typography>
+                        </Hidden>
+                        <Hidden xsDown>
+                            <a
+                                href={constants.CYVERSE_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <img src="/de.png" alt="CyVerse"></img>
+                            </a>
+                            <div className={classes.search}>
+                                <div className={classes.searchIcon}>
+                                    <SearchIcon color="primary" />
+                                </div>
+                                <InputBase
+                                    placeholder="Search…"
+                                    classes={{
+                                        root: classes.inputRoot,
+                                        input: classes.inputInput,
+                                    }}
+                                    inputProps={{ "aria-label": "search" }}
+                                />
+                            </div>
+                            <div>
+                                <SearchOptions intl={intl} />
+                            </div>
+                        </Hidden>
                         <div className={classes.root} />
                         <div style={{ display: "flex" }}>
                             <IconButton

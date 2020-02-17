@@ -88,6 +88,11 @@ app.prepare()
             "adding the next.js fallthrough handler to the express server."
         );
 
+        //map root to Dashboard
+        server.get("/", (req, res) => {
+            app.render(req, res, "/dashboard", undefined);
+        });
+
         server.get("*", (req, res) => {
             return nextHandler(req, res);
         });

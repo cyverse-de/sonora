@@ -1,14 +1,22 @@
 import React from "react";
 import "./styles.css";
 import CyverseAppBar from "../components/appBar/CyVerseAppBar";
+import Navigation from "../components/layout/Navigation";
+import NavigationConstants from "../components/layout/NavigationConstants";
 import theme from "../components/theme/default";
 import { UploadTrackingProvider } from "../contexts/uploadTracking";
 import { UserProfileProvider } from "../contexts/userProfile";
 import { ThemeProvider } from "@material-ui/core/styles";
 import getConfig from "next/config";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps, intercomAppId, intercomEnabled }) {
+    const router = useRouter();
+    const pathname = router.pathname
+        ? router.pathname.slice(1)
+        : NavigationConstants.DASHBOARD;
+
     React.useEffect(() => {
         const jssStyles = document.querySelector("#jss-server-side");
         if (jssStyles) {
@@ -76,6 +84,7 @@ function MyApp({ Component, pageProps, intercomAppId, intercomEnabled }) {
                                 href="/cyverse_whitelogo.png"
                             />
                         </Head>
+                        <Navigation activeView={pathname} />
                         <Component {...pageProps} />
                     </CyverseAppBar>
                 </UploadTrackingProvider>

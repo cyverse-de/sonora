@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function Dashboard() {
-    return <div>More Options</div>;
+    return <div>Settings page</div>;
 }

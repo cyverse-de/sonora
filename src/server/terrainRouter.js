@@ -87,7 +87,6 @@ export default function terrainRouter() {
 
     logger.info("adding the /api/profile handler");
     api.get("/profile", (req, res) => {
-        console.log(req.user);
         if (req.user) {
             res.json({ ...req.user.profile, username: req.user.id });
         } else {

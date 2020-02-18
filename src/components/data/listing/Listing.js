@@ -12,13 +12,14 @@ import { TablePagination, useMediaQuery, useTheme } from "@material-ui/core";
 import Header from "../Header";
 import messages from "../messages";
 import TableView from "./TableView";
+import callApi from "../../../common/callApi";
 
 import { camelcaseit } from "../../../common/functions";
 
 function Listing(props) {
     const theme = useTheme();
-    let isMedium = useMediaQuery(theme.breakpoints.up("sm"));
-    let isLarge = useMediaQuery(theme.breakpoints.up("lg"));
+    const isMedium = useMediaQuery(theme.breakpoints.up("sm"));
+    const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
 
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
@@ -37,53 +38,23 @@ function Listing(props) {
     }, [path]);
 
     useEffect(() => {
-        setLoading(true);
-        fetch(
-            `/api/filesystem/paged-directory?path=${path}&limit=${rowsPerPage}&sort-col=${orderBy}&sort-dir=${order}&offset=${rowsPerPage *
+        callApi({
+            endpoint: `/api/filesystem/paged-directory?path=${path}&limit=${rowsPerPage}&sort-col=${orderBy}&sort-dir=${order}&offset=${rowsPerPage *
                 page}`,
-            {
-                method: "GET",
-                credentials: "include",
-            }
-        )
-            // Do something with errors from terrain.
-            .then((resp) => {
-                if (resp.status < 200 || resp.status > 299) {
-                    setLoading(false);
-                    throw Error(resp);
-                }
-                return resp;
-            })
-
-            .then((resp) => resp.json())
-
-            // Unify the data listing, adding type info along the way.
-            .then(
-                (respData) => {
-                    return {
-                        total: respData.total,
-                        listing: [
-                            ...respData.folders.map((f) => ({
-                                ...f,
-                                type: "FOLDER",
-                            })),
-                            ...respData.files.map((f) => ({...f, type: "FILE"})),
-                        ].map((i) => camelcaseit(i)) // camelcase the fields for each object, for consistency.
-                    }
-                })
-
-            // Storing the listing here avoids having to regen the
-            // list of items on every render pass.
-            .then((resp) => {
-                setData(resp);
-                setLoading(false);
-            })
-
-            // We need to figure out a consistent error handler.
-            .catch((e) => {
-                console.log(`error ${e.message}`)
-                setLoading(false);
-            });
+            setLoading,
+        }).then((respData) => {
+            respData &&
+                setData({
+                    total: respData?.total,
+                    listing: [
+                        ...respData?.folders.map((f) => ({
+                            ...f,
+                            type: "FOLDER",
+                        })),
+                        ...respData?.files.map((f) => ({ ...f, type: "FILE" })),
+                    ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
+                });
+        });
     }, [path, rowsPerPage, orderBy, order, page]);
 
     const handleRequestSort = (event, property) => {
@@ -94,7 +65,8 @@ function Listing(props) {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked && !selected.length) {
-            const newSelecteds = data?.listing?.map((resource) => resource.id) || [];
+            const newSelecteds =
+                data?.listing?.map((resource) => resource.id) || [];
             setSelected(newSelecteds);
             return;
         }
@@ -109,7 +81,7 @@ function Listing(props) {
     // selected.  If all items in the range are already selected, all items
     // will be deselected.
     const rangeSelect = (start, end, targetId) => {
-        let rangeIds = [];
+        const rangeIds = [];
         for (let i = start; i <= end; i++) {
             rangeIds.push(data?.listing[i].id);
         }

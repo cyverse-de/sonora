@@ -102,9 +102,24 @@ function CyverseAppBar(props) {
     const router = useRouter();
     const { intl, children } = props;
 
+    const [userProfile, setUserProfile] = React.useState(null);
+
+    async function getUserProfile(setUserProfile) {
+        const profile = await fetch("/api/profile", {
+            method: "GET",
+            credentials: "include",
+        })
+            .then((resp) => resp.json())
+            .catch((e) => console.log(`error ${e.message}`));
+        setUserProfile(profile);
+    }
+
+    React.useEffect(() => {
+        getUserProfile(setUserProfile);
+    }, []);
+
     const handleUserButtonClick = (event) => {
-        const { user } = props.children.props;
-        if (!user) {
+        if (!userProfile) {
             router.push(`/login${router.asPath}`);
         }
     };

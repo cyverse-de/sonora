@@ -1,20 +1,23 @@
 /**
  *
  * @author sriram
- * A component that displays app level tool bar with search and user menu.
+ * A component that displays app level tool bar with search and user menu. Also renders a drawer menu
+ * in small screens instead of Navigation bar
  *
  */
 
 import React, { useState } from "react";
+import ids from "./ids";
 import intlData from "./messages";
 import constants from "../../constants";
 import GlobalSearchField from "../search/GlobalSearchField";
 import NavigationConstants from "./NavigationConstants";
 
 import {
-    getMessage,
-    formatMessage,
+    build,
     formatHTMLMessage,
+    formatMessage,
+    getMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
 
@@ -54,6 +57,11 @@ const useStyles = makeStyles((theme) => ({
         width: 18,
         paddingRight: theme.spacing(4),
     },
+    notification: {
+        [theme.breakpoints.up("sm")]: {
+            marginLeft: theme.spacing(2),
+        },
+    },
 }));
 
 function CyverseAppBar(props) {
@@ -74,9 +82,10 @@ function CyverseAppBar(props) {
         setDrawerOpen(open);
     };
     return (
-        <React.Fragment>
+        <>
             <div className={classes.root}>
                 <AppBar
+                    id={ids.APP_BAR_BASE}
                     position="static"
                     variant="outlined"
                     className={classes.appBar}
@@ -85,6 +94,10 @@ function CyverseAppBar(props) {
                         <Hidden only={["sm", "md", "lg", "xl"]}>
                             <div>
                                 <IconButton
+                                    id={build(
+                                        ids.APP_BAR_BASE,
+                                        ids.DRAWER_MENU_BTN
+                                    )}
                                     edge="start"
                                     className={classes.menuButton}
                                     color="primary"
@@ -98,11 +111,18 @@ function CyverseAppBar(props) {
                                 </IconButton>
                             </div>
                             <Drawer
+                                id={ids.DRAWER_MENU}
                                 open={drawerOpen}
                                 onClose={toggleDrawer(false)}
                             >
                                 <List>
-                                    <ListItem onClick={handleUserButtonClick}>
+                                    <ListItem
+                                        id={build(
+                                            ids.DRAWER_MENU,
+                                            ids.ACCOUNT_MI
+                                        )}
+                                        onClick={handleUserButtonClick}
+                                    >
                                         <ListItemIcon>
                                             <AccountCircle />
                                         </ListItemIcon>
@@ -112,6 +132,10 @@ function CyverseAppBar(props) {
                                     </ListItem>
                                     <Divider />
                                     <ListItem
+                                        id={build(
+                                            ids.DRAWER_MENU,
+                                            ids.DASHBOARD_MI
+                                        )}
                                         onClick={() =>
                                             router.push(
                                                 "/" +
@@ -128,6 +152,7 @@ function CyverseAppBar(props) {
                                         </ListItemText>
                                     </ListItem>
                                     <ListItem
+                                        id={build(ids.DRAWER_MENU, ids.DATA_MI)}
                                         onClick={() =>
                                             router.push(
                                                 "/" + NavigationConstants.DATA
@@ -143,6 +168,7 @@ function CyverseAppBar(props) {
                                         </ListItemText>
                                     </ListItem>
                                     <ListItem
+                                        id={build(ids.DRAWER_MENU, ids.APPS_MI)}
                                         onClick={() =>
                                             router.push(
                                                 "/" + NavigationConstants.APPS
@@ -158,6 +184,10 @@ function CyverseAppBar(props) {
                                         </ListItemText>
                                     </ListItem>
                                     <ListItem
+                                        id={build(
+                                            ids.DRAWER_MENU,
+                                            ids.ANALYSES_MI
+                                        )}
                                         onClick={() =>
                                             router.push(
                                                 "/" +
@@ -173,7 +203,13 @@ function CyverseAppBar(props) {
                                             {getMessage("analyses")}
                                         </ListItemText>
                                     </ListItem>
-                                    <ListItem onClick={handleSearchClick}>
+                                    <ListItem
+                                        id={build(
+                                            ids.DRAWER_MENU,
+                                            ids.SEARCH_MI
+                                        )}
+                                        onClick={handleSearchClick}
+                                    >
                                         <ListItemIcon>
                                             <SearchIcon />
                                         </ListItemIcon>
@@ -183,6 +219,10 @@ function CyverseAppBar(props) {
                                     </ListItem>
                                     <Divider />
                                     <ListItem
+                                        id={build(
+                                            ids.DRAWER_MENU,
+                                            ids.SETTINGS_MI
+                                        )}
                                         onClick={() =>
                                             router.push(
                                                 "/" +
@@ -217,6 +257,11 @@ function CyverseAppBar(props) {
                         <div className={classes.root} />
                         <div style={{ display: "flex" }}>
                             <IconButton
+                                id={build(
+                                    ids.APP_BAR_BASE,
+                                    ids.NOTIFICATION_BTN
+                                )}
+                                className={classes.notification}
                                 aria-label={formatMessage(
                                     intl,
                                     "newNotificationAriaLabel"
@@ -229,6 +274,10 @@ function CyverseAppBar(props) {
                             </IconButton>
                             <Hidden xsDown>
                                 <IconButton
+                                    id={build(
+                                        ids.APP_BAR_BASE,
+                                        ids.ACCOUNT_BTN
+                                    )}
                                     edge="end"
                                     aria-label={formatMessage(
                                         intl,
@@ -246,6 +295,7 @@ function CyverseAppBar(props) {
                             </Hidden>
                             <Hidden only={["sm", "md", "lg", "xl"]}>
                                 <IconButton
+                                    id={build(ids.APP_BAR_BASE, ids.SEARCH_BTN)}
                                     edge="end"
                                     aria-label={formatMessage(
                                         intl,
@@ -266,7 +316,7 @@ function CyverseAppBar(props) {
                 </AppBar>
             </div>
             {children}
-        </React.Fragment>
+        </>
     );
 }
 

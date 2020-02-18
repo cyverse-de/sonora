@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import { withI18N } from "@cyverse-de/ui-lib";
 import { TablePagination, useMediaQuery, useTheme } from "@material-ui/core";
 
+import Header from "../Header";
 import messages from "../messages";
 import TableView from "./TableView";
 
@@ -19,13 +20,15 @@ function Listing(props) {
     let isMedium = useMediaQuery(theme.breakpoints.up("sm"));
     let isLarge = useMediaQuery(theme.breakpoints.up("lg"));
 
+    const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
-    const [data, setData] = useState({ files: [], folders: [] });
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState({ total: 0, files: [], folders: [] });
 
     const { baseId, path, handlePathChange } = props;
 
@@ -34,6 +37,7 @@ function Listing(props) {
     }, [path]);
 
     useEffect(() => {
+        setLoading(true);
         fetch(
             `/api/filesystem/paged-directory?path=${path}&limit=${rowsPerPage}&sort-col=${orderBy}&sort-dir=${order}&offset=${rowsPerPage *
                 page}`,
@@ -45,6 +49,7 @@ function Listing(props) {
             // Do something with errors from terrain.
             .then((resp) => {
                 if (resp.status < 200 || resp.status > 299) {
+                    setLoading(false);
                     throw Error(resp);
                 }
                 return resp;
@@ -54,22 +59,31 @@ function Listing(props) {
 
             // Unify the data listing, adding type info along the way.
             .then(
-                (respData) =>
-                    [
-                        ...respData.folders.map((f) => ({
-                            ...f,
-                            type: "FOLDER",
-                        })),
-                        ...respData.files.map((f) => ({ ...f, type: "FILE" })),
-                    ].map((i) => camelcaseit(i)) // camelcase the fields for each object, for consistency.
-            )
+                (respData) => {
+                    return {
+                        total: respData.total,
+                        listing: [
+                            ...respData.folders.map((f) => ({
+                                ...f,
+                                type: "FOLDER",
+                            })),
+                            ...respData.files.map((f) => ({...f, type: "FILE"})),
+                        ].map((i) => camelcaseit(i)) // camelcase the fields for each object, for consistency.
+                    }
+                })
 
             // Storing the listing here avoids having to regen the
             // list of items on every render pass.
-            .then((listing) => setData(listing))
+            .then((resp) => {
+                setData(resp);
+                setLoading(false);
+            })
 
             // We need to figure out a consistent error handler.
-            .catch((e) => console.log(`error ${e.message}`));
+            .catch((e) => {
+                console.log(`error ${e.message}`)
+                setLoading(false);
+            });
     }, [path, rowsPerPage, orderBy, order, page]);
 
     const handleRequestSort = (event, property) => {
@@ -80,11 +94,15 @@ function Listing(props) {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked && !selected.length) {
-            const newSelecteds = data?.map((resource) => resource.id) || [];
+            const newSelecteds = data?.listing?.map((resource) => resource.id) || [];
             setSelected(newSelecteds);
             return;
         }
         setSelected([]);
+    };
+
+    const toggleDisplay = () => {
+        setGridView(!isGridView);
     };
 
     // Simple range select: if you shift-click a range, the range will be
@@ -93,7 +111,7 @@ function Listing(props) {
     const rangeSelect = (start, end, targetId) => {
         let rangeIds = [];
         for (let i = start; i <= end; i++) {
-            rangeIds.push(data[i].id);
+            rangeIds.push(data?.listing[i].id);
         }
 
         let isTargetSelected = selected.includes(targetId);
@@ -168,29 +186,41 @@ function Listing(props) {
 
     return (
         <>
-            <TableView
-                // loading={loading}
-                path={path}
-                handlePathChange={handlePathChange}
-                listing={data}
-                isMedium={isMedium}
-                isLarge={isLarge}
+            <Header
                 baseId={baseId}
+                isGridView={isGridView}
+                toggleDisplay={toggleDisplay}
                 onDownloadSelected={onDownloadSelected}
                 onEditSelected={onEditSelected}
                 onMetadataSelected={onMetadataSelected}
                 onDeleteSelected={onDeleteSelected}
-                handleRequestSort={handleRequestSort}
-                handleSelectAllClick={handleSelectAllClick}
-                handleClick={handleClick}
-                order={order}
-                orderBy={orderBy}
-                selected={selected}
             />
+            {!isGridView && (
+                <TableView
+                    loading={loading}
+                    path={path}
+                    handlePathChange={handlePathChange}
+                    listing={data?.listing}
+                    isMedium={isMedium}
+                    isLarge={isLarge}
+                    baseId={baseId}
+                    onDownloadSelected={onDownloadSelected}
+                    onEditSelected={onEditSelected}
+                    onMetadataSelected={onMetadataSelected}
+                    onDeleteSelected={onDeleteSelected}
+                    handleRequestSort={handleRequestSort}
+                    handleSelectAllClick={handleSelectAllClick}
+                    handleClick={handleClick}
+                    order={order}
+                    orderBy={orderBy}
+                    selected={selected}
+                />
+            )}
+            {isGridView && <span>Coming Soon!</span>}
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={data?.length} // will need to change to total
+                count={data?.total}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}

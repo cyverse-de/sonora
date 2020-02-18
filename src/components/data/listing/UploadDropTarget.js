@@ -1,12 +1,35 @@
 import React, { useState } from "react";
 import processDroppedFiles, { startUpload } from "./UploadDrop";
 import { useUploadTrackingDispatch } from "../../../contexts/uploadTracking";
+import PropTypes from "prop-types";
 
+/**
+ * Utility function that prevents an event from propagating or using a
+ * default handler.
+ *
+ * @param {object} event - The event that got fired off.
+ * @returns null
+ */
 const setupEvent = (event) => {
     event.preventDefault();
     event.stopPropagation();
 };
 
+/**
+ * @typedef UploadDropTargetProps
+ * @property {Object} children - Child render props.
+ * @property {string} path - The upload directory in the data store.
+ * @property {number} uploadsCompleted - The number of uploads that have completed.
+ * @property {func} setUploadsCompleted - Function that updates uploadsCompleted.
+ */
+
+/**
+ * Performs file uploads to the `path` directory in the data store when
+ * files are dropped onto the child components.
+ *
+ * @param {UploadDropTargetProps} props - The props for the component.
+ * @returns {Object}
+ */
 const UploadDropTarget = (props) => {
     const uploadDispatch = useUploadTrackingDispatch();
     const [dragCounter, setDragCounter] = useState(0);
@@ -48,6 +71,7 @@ const UploadDropTarget = (props) => {
         setDragCounter(0);
         processDroppedFiles(event.dataTransfer.items, startUploads);
     };
+
     return (
         <div
             onDragEnter={handleDragEnter}
@@ -61,6 +85,13 @@ const UploadDropTarget = (props) => {
             {children}
         </div>
     );
+};
+
+UploadDropTarget.propTypes = {
+    children: PropTypes.object.isRequired,
+    path: PropTypes.string.isRequired,
+    uploadsCompleted: PropTypes.number.isRequired,
+    setUploadsCompleted: PropTypes.func.isRequired,
 };
 
 export default UploadDropTarget;

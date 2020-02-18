@@ -31,7 +31,7 @@ const terrain = ({ method, url, pathname, headers }) => {
     };
 };
 
-export default function terrainRouter() {
+export default function apiRouter() {
     logger.info("creating the api router");
     const api = express.Router();
 

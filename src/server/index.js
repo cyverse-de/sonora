@@ -7,7 +7,7 @@ import { ensureLoggedIn } from "connect-ensure-login";
 
 import * as config from "./configuration";
 import * as authStrategy from "./authStrategy";
-import terrainRouter from "./terrainRouter";
+import apiRouter from "./apiRouter";
 
 import logger, { errorLogger, requestLogger } from "./logging";
 
@@ -82,7 +82,7 @@ app.prepare()
         });
 
         logger.info("adding the api router to the express server");
-        server.use("/api", terrainRouter());
+        server.use("/api", apiRouter());
 
         //map root to Dashboard
         server.get("/", (req, res) => {

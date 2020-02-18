@@ -13,6 +13,7 @@ import Header from "../Header";
 import messages from "../messages";
 import TableView from "./TableView";
 import callApi from "../../../common/callApi";
+import UploadDropTarget from "./UploadDropTarget";
 
 import { camelcaseit } from "../../../common/functions";
 
@@ -30,6 +31,7 @@ function Listing(props) {
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({ total: 0, files: [], folders: [] });
+    const [uploadsCompleted, setUploadsCompleted] = useState(0);
 
     const { baseId, path, handlePathChange } = props;
 
@@ -55,7 +57,7 @@ function Listing(props) {
                     ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
                 });
         });
-    }, [path, rowsPerPage, orderBy, order, page]);
+    }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -158,47 +160,52 @@ function Listing(props) {
 
     return (
         <>
-            <Header
-                baseId={baseId}
-                isGridView={isGridView}
-                toggleDisplay={toggleDisplay}
-                onDownloadSelected={onDownloadSelected}
-                onEditSelected={onEditSelected}
-                onMetadataSelected={onMetadataSelected}
-                onDeleteSelected={onDeleteSelected}
-            />
-            {!isGridView && (
-                <TableView
-                    loading={loading}
-                    path={path}
-                    handlePathChange={handlePathChange}
-                    listing={data?.listing}
-                    isMedium={isMedium}
-                    isLarge={isLarge}
+            <UploadDropTarget
+                path={path}
+                uploadsCompleted={uploadsCompleted}
+                setUploadsCompleted={setUploadsCompleted}
+            >
+                <Header
                     baseId={baseId}
+                    isGridView={isGridView}
+                    toggleDisplay={toggleDisplay}
                     onDownloadSelected={onDownloadSelected}
                     onEditSelected={onEditSelected}
                     onMetadataSelected={onMetadataSelected}
                     onDeleteSelected={onDeleteSelected}
-                    handleRequestSort={handleRequestSort}
-                    handleSelectAllClick={handleSelectAllClick}
-                    handleClick={handleClick}
-                    order={order}
-                    orderBy={orderBy}
-                    selected={selected}
                 />
-            )}
-            {isGridView && <span>Coming Soon!</span>}
-            <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={data?.total}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-                style={{ marginLeft: 0 }}
-            />
+                {!isGridView && (
+                    <TableView
+                        loading={loading}
+                        path={path}
+                        handlePathChange={handlePathChange}
+                        listing={data?.listing}
+                        isMedium={isMedium}
+                        isLarge={isLarge}
+                        baseId={baseId}
+                        onDownloadSelected={onDownloadSelected}
+                        onEditSelected={onEditSelected}
+                        onMetadataSelected={onMetadataSelected}
+                        onDeleteSelected={onDeleteSelected}
+                        handleRequestSort={handleRequestSort}
+                        handleSelectAllClick={handleSelectAllClick}
+                        handleClick={handleClick}
+                        order={order}
+                        orderBy={orderBy}
+                        selected={selected}
+                    />
+                )}
+                {isGridView && <span>Coming Soon!</span>}
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={data?.total}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
+            </UploadDropTarget>
         </>
     );
 }

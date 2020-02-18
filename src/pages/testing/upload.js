@@ -59,8 +59,8 @@ const Uploadform = () => {
                 uploadDispatch(
                     updateStatusAction({
                         id: newID,
-                        hasUploaded: true,
                         isUploading: false,
+                        hasUploaded: true,
                     })
                 );
             })

@@ -81,6 +81,12 @@ const validate = () => {
     validateConfigSetting("oauth2.logout_url");
     validateConfigSetting("oauth2.client_id");
     validateConfigSetting("oauth2.client_secret");
+
+    //intercom settings.
+    validateConfigSetting("intercom.app_id");
+    validateConfigSetting("intercom.enabled");
+    validateConfigSetting("intercom.company_id");
+    validateConfigSetting("intercom.company_name");
 };
 
 validate();
@@ -205,3 +211,27 @@ export const logLevel = config.get("logging.level");
  * @type {string}
  */
 export const logLabel = config.get("logging.label");
+
+/**
+ * The intercom app id
+ * @type {string}
+ */
+export const intercomAppId = config.get("intercom.app_id");
+
+/**
+ * Is intercom enabled
+ * @type {boolean}
+ */
+export const intercomEnabled = parseBoolean(config.get("intercom.enabled"));
+
+/**
+ * Is intercom company id
+ * @type {string}
+ */
+export const intercomCompanyId = config.get("intercom.company_id");
+
+/**
+ * Is intercom company name
+ * @type {string}
+ */
+export const intercomCompanyName = config.get("intercom.company_name");

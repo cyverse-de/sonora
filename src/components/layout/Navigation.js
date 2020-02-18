@@ -25,10 +25,10 @@ function getButtonStyle(theme, imageUrl, selectedImageUrl) {
         "&:hover": {
             backgroundImage: `url(${selectedImageUrl})`,
             backgroundColor: theme.palette.primary.main,
-            color: theme.palette.white,
+            color: theme.palette.primary.contrastText,
         },
         [theme.breakpoints.down("md")]: {
-            width: 100,
+            width: 50,
         },
     };
 }
@@ -42,9 +42,9 @@ function getSelectedButtonStyle(theme, imageUrl) {
         width: 200,
         height: 50,
         backgroundColor: theme.palette.primary.main,
-        color: theme.palette.white,
+        color: theme.palette.primary.contrastText,
         [theme.breakpoints.down("md")]: {
-            width: 100,
+            width: 50,
         },
     };
 }
@@ -137,6 +137,7 @@ function Navigation(props) {
                     <Grid item xs>
                         <Tooltip title={getMessage("data")}>
                             <Button
+                                id={build(ids.NAVIGATION, ids.DATA_BTN)}
                                 disableElevation
                                 className={
                                     activeView === NavigationConstants.DATA
@@ -154,6 +155,7 @@ function Navigation(props) {
                     <Grid item xs>
                         <Tooltip title={getMessage("apps")}>
                             <Button
+                                id={build(ids.NAVIGATION, ids.APPS_BTN)}
                                 disableElevation
                                 className={
                                     activeView === NavigationConstants.APPS
@@ -171,6 +173,7 @@ function Navigation(props) {
                     <Grid item xs>
                         <Tooltip title={getMessage("analyses")}>
                             <Button
+                                id={build(ids.NAVIGATION, ids.ANALYSES_BTN)}
                                 disableElevation
                                 className={
                                     activeView === NavigationConstants.ANALYSES
@@ -190,6 +193,7 @@ function Navigation(props) {
                     <Grid item xs>
                         <Tooltip title={getMessage("more")}>
                             <Button
+                                id={build(ids.NAVIGATION, ids.MORE_BTN)}
                                 disableElevation
                                 className={
                                     activeView === NavigationConstants.MORE

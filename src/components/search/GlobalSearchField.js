@@ -1,5 +1,11 @@
+/**
+ *
+ * @author Sriram
+ * A component that global search field with options to filter on apps, analyses and data
+ */
 import React from "react";
-import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import ids from "./ids";
+import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
 import intlData from "../layout/messages";
 import NavigationConstants from "../layout/NavigationConstants";
 
@@ -31,9 +37,10 @@ const useStyles = makeStyles((theme) => ({
             width: "70%",
         },
         [theme.breakpoints.down("xs")]: {
+            backgroundColor: theme.palette.bgGray,
             float: "left",
             margin: theme.spacing(1),
-            width: "50%",
+            width: "60%",
         },
     },
     searchIcon: {
@@ -55,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: 2,
         [theme.breakpoints.down("xs")]: {
             margin: theme.spacing(1),
+            width: 90,
         },
     },
     icon: { color: theme.palette.white },
@@ -87,7 +95,7 @@ function GlobalSearchField(props) {
     };
     return (
         <>
-            <div className={classes.search}>
+            <div id={ids.SEARCH} className={classes.search}>
                 <InputBase
                     placeholder={formatMessage(intl, "search")}
                     value={searchText}
@@ -102,6 +110,7 @@ function GlobalSearchField(props) {
             </div>
             <FormControl>
                 <Select
+                    id={build(ids.SEARCH, ids.SEARCH_FILTER_MENU)}
                     autoWidth={true}
                     value={filter}
                     onChange={handleFilterChange}

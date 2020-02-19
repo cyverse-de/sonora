@@ -11,15 +11,15 @@ import { build, getMessage } from "@cyverse-de/ui-lib";
 import { Button, Hidden, makeStyles, Menu, MenuItem } from "@material-ui/core";
 import { Publish as UploadIcon } from "@material-ui/icons";
 
+import URLImportDialog from "../URLImportDialog";
+
 import ids from "./ids";
 import styles from "./styles";
 
 const useStyles = makeStyles(styles);
 
 function UploadMenuBtn(props) {
-    const {
-        baseId
-    } = props;
+    const { baseId } = props;
     const classes = useStyles();
 
     const [uploadAnchor, setUploadAnchor] = useState(null);
@@ -29,10 +29,12 @@ function UploadMenuBtn(props) {
     };
 
     const onUploadMenuClick = (event) => {
-        setUploadAnchor(event.currentTarget)
+        setUploadAnchor(event.currentTarget);
     };
 
     const uploadMenuId = build(baseId, ids.UPLOAD_MENU);
+
+    const [openURLImportDialog, setOpenURLImportDialog] = useState(false);
 
     return (
         <>
@@ -59,7 +61,7 @@ function UploadMenuBtn(props) {
                     id={build(uploadMenuId, ids.UPLOAD_MI)}
                     onClick={() => {
                         onUploadClose();
-                        console.log("Browse Local")
+                        console.log("Browse Local");
                     }}
                 >
                     {getMessage("browseLocal")}
@@ -69,6 +71,7 @@ function UploadMenuBtn(props) {
                     onClick={() => {
                         onUploadClose();
                         console.log("Import from URL");
+                        setOpenURLImportDialog(true);
                     }}
                 >
                     {getMessage("importUrl")}
@@ -86,7 +89,7 @@ function UploadMenuBtn(props) {
                     id={build(uploadMenuId, ids.MANUAL_UPLOAD_MI)}
                     onClick={() => {
                         onUploadClose();
-                        console.log("Manual Upload")
+                        console.log("Manual Upload");
                     }}
                 >
                     {getMessage("manualUpload")}
@@ -95,14 +98,22 @@ function UploadMenuBtn(props) {
                     id={build(uploadMenuId, ids.UPLOAD_QUEUE_MI)}
                     onClick={() => {
                         onUploadClose();
-                        console.log("View Upload Queue")
+                        console.log("View Upload Queue");
                     }}
                 >
                     {getMessage("uploadQueue")}
                 </MenuItem>
             </Menu>
+
+            <URLImportDialog
+                open={openURLImportDialog}
+                addURLFn={(e, url) => {
+                    console.log(`import of ${url} requested`);
+                }}
+                onClose={() => setOpenURLImportDialog((open) => false)}
+            />
         </>
-    )
+    );
 }
 
 export default UploadMenuBtn;

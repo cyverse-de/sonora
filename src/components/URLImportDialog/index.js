@@ -189,20 +189,15 @@ const URLImportTextField = (props) => {
 };
 
 const URLImportDialog = (props) => {
-    const [open, setOpen] = useState(props.open || false);
     const classes = useStyles();
-    const { addURLFn, intl } = props;
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const { addURLFn, intl, open, onClose } = props;
 
     return (
         <Dialog
             fullWidth={true}
             maxWidth="sm"
             open={open}
-            onClose={handleClose}
+            onClose={onClose}
             aria-labelledby={buildID(ids.BASE_ID, ids.TITLE)}
         >
             <DialogTitle id={buildID(ids.BASE_ID, ids.TITLE)}>
@@ -210,7 +205,7 @@ const URLImportDialog = (props) => {
                 <IconButton
                     aria-label="close"
                     className={classes.closeDialog}
-                    onClick={handleClose}
+                    onClick={onClose}
                 >
                     <CloseIcon />
                 </IconButton>
@@ -225,7 +220,7 @@ const URLImportDialog = (props) => {
 
             <DialogActions>
                 <Button
-                    onClick={handleClose}
+                    onClick={onClose}
                     className={classes.close}
                     id={buildID(ids.BASE_ID, ids.CLOSE_DIALOG)}
                     aria-label={fmt(intl, "doneButtonAriaLabel")}

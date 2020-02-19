@@ -4,6 +4,7 @@ exports[`Search field renders 1`] = `
 Array [
   <div
     className="makeStyles-search-1"
+    id="search"
   >
     <div
       className="MuiInputBase-root MuiInputBase-adornedStart"
@@ -46,8 +47,9 @@ Array [
     >
       <div
         aria-haspopup="listbox"
-        aria-labelledby=" "
+        aria-labelledby=" search.searchFilterMenu"
         className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+        id="search.searchFilterMenu"
         onBlur={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}

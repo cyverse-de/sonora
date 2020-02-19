@@ -6,6 +6,7 @@ exports[`App Bar renders 1`] = `
 >
   <header
     className="MuiPaper-root MuiAppBar-root MuiAppBar-positionStatic MuiAppBar-colorPrimary makeStyles-appBar-2 MuiPaper-outlined"
+    id="appBar"
   >
     <div
       className="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
@@ -22,8 +23,9 @@ exports[`App Bar renders 1`] = `
       >
         <button
           aria-label="show new notifications"
-          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary"
+          className="MuiButtonBase-root MuiIconButton-root makeStyles-notification-4 MuiIconButton-colorPrimary"
           disabled={false}
+          id="appBar.notificationButton"
           onBlur={[Function]}
           onDragLeave={[Function]}
           onFocus={[Function]}

@@ -24,6 +24,7 @@ const intlData = {
         accountAriaControl: "account button",
         drawerMenuAriaLabel: "drawer menu",
         deTitle: "Discovery Environment",
+        cyverse: "CyVerse",
     },
 };
 export default intlData;

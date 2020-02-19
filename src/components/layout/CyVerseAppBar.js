@@ -94,8 +94,10 @@ function CyverseAppBar(props) {
     };
     const handleSearchClick = (event) => {
         router.push("/" + NavigationConstants.SEARCH);
+        toggleDrawer(false);
     };
     const toggleDrawer = (open) => (event) => {
+        console.log("drawer=>" + open);
         setDrawerOpen(open);
     };
     return (
@@ -132,7 +134,7 @@ function CyverseAppBar(props) {
                                 open={drawerOpen}
                                 onClose={toggleDrawer(false)}
                             >
-                                <List>
+                                <List onClick={toggleDrawer(false)}>
                                     <ListItem
                                         id={build(
                                             ids.DRAWER_MENU,
@@ -163,6 +165,10 @@ function CyverseAppBar(props) {
                                         <img
                                             className={classes.drawerIcon}
                                             src="/dashboard.png"
+                                            alt={formatMessage(
+                                                intl,
+                                                "dashboard"
+                                            )}
                                         />
                                         <ListItemText>
                                             {getMessage("dashboard")}
@@ -179,6 +185,10 @@ function CyverseAppBar(props) {
                                         <img
                                             className={classes.drawerIcon}
                                             src="/data.png"
+                                            alt={formatMessage(
+                                                intl,
+                                                "dashboard"
+                                            )}
                                         />
                                         <ListItemText>
                                             {getMessage("data")}
@@ -195,6 +205,7 @@ function CyverseAppBar(props) {
                                         <img
                                             className={classes.drawerIcon}
                                             src="/apps.png"
+                                            alt={formatMessage(intl, "apps")}
                                         />
                                         <ListItemText>
                                             {getMessage("apps")}
@@ -215,6 +226,10 @@ function CyverseAppBar(props) {
                                         <img
                                             className={classes.drawerIcon}
                                             src="/analyses.png"
+                                            alt={formatMessage(
+                                                intl,
+                                                "analyses"
+                                            )}
                                         />
                                         <ListItemText>
                                             {getMessage("analyses")}
@@ -267,7 +282,10 @@ function CyverseAppBar(props) {
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                <img src="/de.png" alt="CyVerse"></img>
+                                <img
+                                    src="/de.png"
+                                    alt={formatMessage(intl, "cyverse")}
+                                ></img>
                             </a>
                             <GlobalSearchField />
                         </Hidden>

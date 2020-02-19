@@ -88,7 +88,10 @@ export default function apiRouter() {
     logger.info("adding the /api/profile handler");
     api.get("/profile", (req, res) => {
         if (req.user) {
-            res.json({ ...req.user.profile, username: req.user.id });
+            res.json({
+                id: req.user.profile.id,
+                attributes: req.user.profile.attributes,
+            });
         } else {
             res.json(null);
         }

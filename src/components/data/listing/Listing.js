@@ -162,8 +162,11 @@ function Listing(props) {
         <>
             <UploadDropTarget
                 path={path}
-                uploadsCompleted={uploadsCompleted}
-                setUploadsCompleted={setUploadsCompleted}
+                uploadCompletedCB={() =>
+                    setUploadsCompleted(
+                        (uploadsCompleted) => uploadsCompleted + 1 // prevents stale values in closures.
+                    )
+                }
             >
                 <Header
                     baseId={baseId}

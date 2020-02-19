@@ -33,14 +33,14 @@ const setupEvent = (event) => {
 const UploadDropTarget = (props) => {
     const uploadDispatch = useUploadTrackingDispatch();
     const [dragCounter, setDragCounter] = useState(0);
-    const { children, path, uploadsCompleted, setUploadsCompleted } = props;
+    const { children, path, uploadCompletedCB } = props;
 
-    const startUploads = (uploadFiles) =>
-        uploadFiles.forEach((aFile) =>
-            startUpload(aFile.value, path, uploadDispatch, () =>
-                setUploadsCompleted(uploadsCompleted + 1)
-            )
-        );
+    const startAllUploads = (uploadFiles) =>
+        uploadFiles.forEach((aFile) => {
+            startUpload(aFile.value, path, uploadDispatch, () => {
+                uploadCompletedCB(aFile.value, path);
+            });
+        });
 
     const handleDragOver = (event) => {
         setupEvent(event);
@@ -69,7 +69,7 @@ const UploadDropTarget = (props) => {
     const handleDrop = (event) => {
         setupEvent(event);
         setDragCounter(0);
-        processDroppedFiles(event.dataTransfer.items, startUploads);
+        processDroppedFiles(event.dataTransfer.items, startAllUploads);
     };
 
     return (
@@ -90,8 +90,7 @@ const UploadDropTarget = (props) => {
 UploadDropTarget.propTypes = {
     children: PropTypes.object.isRequired,
     path: PropTypes.string.isRequired,
-    uploadsCompleted: PropTypes.number.isRequired,
-    setUploadsCompleted: PropTypes.func.isRequired,
+    uploadCompletedCB: PropTypes.func.isRequired,
 };
 
 export default UploadDropTarget;

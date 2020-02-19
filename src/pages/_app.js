@@ -18,9 +18,16 @@ function MyApp({ Component, pageProps, intercomAppId, intercomEnabled }) {
             (function() {
                 var w = window;
                 var ic = w.Intercom;
+                w.intercomSettings = {
+                    app_id: APP_ID,
+                    alignment: "right",
+                    horizontal_padding: 20,
+                    vertical_padding: 45,
+                    custom_launcher_selector: "#help_menu_intercom_link",
+                };
                 if (typeof ic === "function") {
                     ic("reattach_activator");
-                    ic("update", intercomSettings);
+                    ic("update", w.intercomSettings);
                 } else {
                     var d = document;
                     var i = function() {
@@ -46,13 +53,6 @@ function MyApp({ Component, pageProps, intercomAppId, intercomEnabled }) {
                     } else {
                         w.addEventListener("load", l, false);
                     }
-                    w.intercomSettings = {
-                        app_id: APP_ID,
-                        alignment: "right",
-                        horizontal_padding: 20,
-                        vertical_padding: 45,
-                        custom_launcher_selector: "#help_menu_intercom_link",
-                    };
                 }
             })();
         }

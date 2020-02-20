@@ -7,7 +7,7 @@ import { ensureLoggedIn } from "connect-ensure-login";
 
 import * as config from "./configuration";
 import * as authStrategy from "./authStrategy";
-import { terrain } from "./terrainHandler";
+import terrainRouter from "./terrainRouter";
 
 import logger, { errorLogger, requestLogger } from "./logging";
 
@@ -81,61 +81,8 @@ app.prepare()
             );
         });
 
-        logger.info("creating the api router");
-        const api = express.Router();
-
-        logger.info("adding the /api/upload handler ");
-        api.post(
-            "/upload",
-            authStrategy.authnTokenMiddleware,
-            terrain({
-                method: "POST",
-                pathname: "/secured/fileio/upload",
-            })
-        );
-
-        logger.info("adding the /api/download handler");
-        api.get(
-            "/download",
-            authStrategy.authnTokenMiddleware,
-            terrain({
-                method: "GET",
-                pathname: "/secured/fileio/download",
-            })
-        );
-
-        logger.info("adding the /api/filesystem/paged-directory handler");
-        api.get(
-            "/filesystem/paged-directory",
-            authStrategy.authnTokenMiddleware,
-            terrain({
-                method: "GET",
-                pathname: "/secured/filesystem/paged-directory",
-            })
-        );
-
-        logger.info("adding the /api/filesystem/stat handler");
-        api.post(
-            "/filesystem/stat",
-            authStrategy.authnTokenMiddleware,
-            terrain({
-                method: "POST",
-                pathname: "/secured/filesystem/stat",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-        );
-
-        logger.info("adding the /api/filesystem/root handler");
-        api.get(
-            "/filesystem/root",
-            authStrategy.authnTokenMiddleware,
-            terrain({ method: "GET", pathname: "/secured/filesystem/root" })
-        );
-
         logger.info("adding the api router to the express server");
-        server.use("/api", api);
+        server.use("/api", terrainRouter());
 
         //map root to Dashboard
         server.get("/", (req, res) => {

@@ -82,7 +82,13 @@ export const startUpload = (
             completedCB(newID);
         })
         .catch((e) => {
-            console.error(e.message);
+            if (e.details) {
+                console.error(
+                    `${e.details.code} ${JSON.stringify(e.details.context)}`
+                );
+            } else {
+                console.error(e.message);
+            }
 
             dispatch(
                 errorAction({

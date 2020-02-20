@@ -68,9 +68,9 @@ export default callApi;
 
 /**
  * A resuable handler that will throw an APIError if the response is not okay,
- * otherwise it returns the response unchanged. Separated out for the rare instance
- * when the callApi() function isn't sufficient and fetch() is used directly
- * (i.e. file uploads).
+ * otherwise it returns the response unchanged. Separated out for the rare
+ * instances when the callApi() function isn't sufficient and fetch() is used
+ * directly (i.e. file uploads).
  *
  * @param {object} resp - The fetch response object.
  * @param {object} props - An object containing method, endpoint, and headers fields.
@@ -85,6 +85,14 @@ export const checkForError = async (resp, { method, endpoint, headers }) => {
 };
 
 /**
+ * @typedef ErrorDetails
+ * @property {string} code - The error_code returned by the API.
+ * @property {Object} context - Extra details about the error returned as a map.
+ * @property {{method: string, endpoint: string, headers: Object}} request - Details about the API request.
+ * @property {{url: string, status: number, statusText: string, headers: Object}} response - Details about the response from the API.
+ */
+
+/**
  * An Error returned from calls to the API. Indicates whether the message
  * is parseable as JSON or not.
  *
@@ -92,17 +100,17 @@ export const checkForError = async (resp, { method, endpoint, headers }) => {
  */
 export class APIError extends Error {
     /**
-     * @param {boolean} parseable - Whether or not the message is valid JSON.
+     * @param {ErrorDetails} details - Extended information about the Error. Added to prevent the constructor args from being long.
      */
-    constructor(parseable, ...args) {
+    constructor(details, ...args) {
         super(...args);
-        this.parseable = parseable;
+        this.details = details;
     }
 }
 
 /**
  * Returns a new APIError. Needed because it's technically possible for
- * Terrain to not return a JSON-encoded error message. Not a constructor
+ * the api to not return a JSON-encoded error message. Not a constructor
  * because we don't want to tie APIError to responses directly.
  *
  * @param {Object} resp - The Response object returned by fetch().
@@ -124,7 +132,7 @@ export const getAPIErrorFromResponse = async (
     try {
         apiError = JSON.parse(errorMessage);
     } catch (_) {
-        return new APIError(false, errorMessage);
+        return new APIError({}, errorMessage);
     }
 
     // It's easier to work with if the error_code is separate
@@ -136,7 +144,7 @@ export const getAPIErrorFromResponse = async (
 
     // We need an object, but Error() only accepts strings, so serialize
     // it and throw it up.
-    errorMessage = JSON.stringify({
+    const details = {
         code,
         context,
 
@@ -154,7 +162,7 @@ export const getAPIErrorFromResponse = async (
             // turns headers into a POO (plain old object)
             headers: resp.headers,
         },
-    });
+    };
 
-    return new APIError(true, errorMessage);
+    return new APIError(details, code);
 };

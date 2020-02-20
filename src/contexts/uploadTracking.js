@@ -95,12 +95,12 @@ export const trackableUpload = ({
     url = "",
 }) => ({
     id: UUID(),
-    isUploading: isUploading,
-    hasUploaded: hasUploaded,
-    hasErrored: hasErrored,
-    errorMessage: errorMessage,
-    parentlPath: parentPath,
-    filename: filename,
+    isUploading,
+    hasUploaded,
+    hasErrored,
+    errorMessage,
+    parentPath,
+    filename,
     url,
 });
 

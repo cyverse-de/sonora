@@ -116,7 +116,7 @@ function CyverseAppBar(props) {
             });
             setUserProfile(profile);
         };
-        fetchUserProfile(setUserProfile);
+        fetchUserProfile();
     }, [setUserProfile]);
 
     const handleUserButtonClick = (event) => {

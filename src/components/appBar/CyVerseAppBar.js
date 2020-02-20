@@ -9,6 +9,7 @@ import React from "react";
 import intlData from "./messages";
 import ids from "./ids";
 import constants from "../../constants";
+import callApi from "../../common/callApi";
 
 import {
     build,
@@ -108,18 +109,18 @@ function CyverseAppBar(props) {
 
     React.useEffect(() => {
         const fetchUserProfile = async function() {
-            const profile = await fetch("/api/profile", {
+            const profile = await callApi({
+                endpoint: "/api/profile",
                 method: "GET",
                 credentials: "include",
-            })
-                .then((resp) => resp.json())
-                .catch((e) => console.log(`error ${e.message}`));
+            });
             setUserProfile(profile);
         };
         fetchUserProfile(setUserProfile);
     }, [setUserProfile]);
 
     const handleUserButtonClick = (event) => {
+        console.log(userProfile);
         if (!userProfile) {
             router.push(`/login${router.asPath}`);
         }

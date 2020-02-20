@@ -9,6 +9,7 @@ import React from "react";
 import intlData from "./messages";
 import ids from "./ids";
 import constants from "../../constants";
+import callApi from "../../common/callApi";
 
 import {
     build,
@@ -38,6 +39,8 @@ import { fade, makeStyles, useTheme } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+
+import { useUserProfile } from "../../contexts/userProfile";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -102,10 +105,24 @@ function CyverseAppBar(props) {
     const router = useRouter();
     const { intl, children } = props;
 
+    const [userProfile, setUserProfile] = useUserProfile();
+
+    React.useEffect(() => {
+        const fetchUserProfile = async function() {
+            const profile = await callApi({
+                endpoint: "/api/profile",
+                method: "GET",
+                credentials: "include",
+            });
+            setUserProfile(profile);
+        };
+        fetchUserProfile();
+    }, [setUserProfile]);
+
     const handleUserButtonClick = (event) => {
-        const { user } = props.children.props;
-        if (!user) {
-            router.push("/login");
+        console.log(userProfile);
+        if (!userProfile) {
+            router.push(`/login${router.asPath}`);
         }
     };
 

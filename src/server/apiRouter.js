@@ -31,7 +31,7 @@ const terrain = ({ method, url, pathname, headers }) => {
     };
 };
 
-export default function terrainRouter() {
+export default function apiRouter() {
     logger.info("creating the api router");
     const api = express.Router();
 
@@ -84,6 +84,18 @@ export default function terrainRouter() {
         authStrategy.authnTokenMiddleware,
         terrain({ method: "GET", pathname: "/secured/filesystem/root" })
     );
+
+    logger.info("adding the /api/profile handler");
+    api.get("/profile", (req, res) => {
+        if (req.user) {
+            res.json({
+                id: req.user.profile.id,
+                attributes: req.user.profile.attributes,
+            });
+        } else {
+            res.json(null);
+        }
+    });
 
     return api;
 }

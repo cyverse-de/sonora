@@ -1,4 +1,6 @@
 /**
+ * @author johnworth
+ *
  * Contains the logic for handling files dropped into the file listing.
  *
  * @module UploadDrop
@@ -11,6 +13,8 @@ import {
     errorAction,
     updateStatusAction,
 } from "../../../contexts/uploadTracking";
+
+import { checkForError } from "../../../common/callApi";
 
 /**
  * Turns a DataTransferItemList into an actual array/list.
@@ -57,25 +61,16 @@ export const startUpload = (
         })
     );
 
-    fetch(`/api/upload?dest=${destinationPath}`, {
-        method: "POST",
+    const endpoint = `/api/upload?dest=${destinationPath}`;
+    const method = "POST";
+
+    fetch(endpoint, {
+        method,
         credentials: "include",
         body: formData,
     })
-        .then(async (resp) => {
-            if (resp.status < 200 || resp.status > 299) {
-                // Hopefully temporary until we get a global error handler added.
-                const {
-                    error_code: errorCode,
-                    ...errParams
-                } = await resp.json();
-                const errorMessage = `error code: ${errorCode},    error params: ${JSON.stringify(
-                    errParams
-                )}`;
-                throw new Error(errorMessage);
-            }
-
-            // If we get here, the upload completed successfully.
+        .then((resp) => checkForError(resp, { method, endpoint, headers: {} }))
+        .then((resp) => {
             dispatch(
                 updateStatusAction({
                     id: newID,
@@ -87,7 +82,8 @@ export const startUpload = (
             completedCB(newID);
         })
         .catch((e) => {
-            console.log(e.message);
+            console.error(e.message);
+
             dispatch(
                 errorAction({
                     id: newID,

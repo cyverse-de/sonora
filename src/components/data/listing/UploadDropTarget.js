@@ -1,3 +1,11 @@
+/**
+ * @author johnworth
+ *
+ * Component that allows files to be uploaded when they are dropped on child components.
+ *
+ * @module UploadDropTarget
+ */
+
 import React, { useState } from "react";
 import processDroppedFiles, { startUpload } from "./UploadDrop";
 import { useUploadTrackingDispatch } from "../../../contexts/uploadTracking";

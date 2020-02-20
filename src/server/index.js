@@ -7,7 +7,7 @@ import { ensureLoggedIn } from "connect-ensure-login";
 
 import * as config from "./configuration";
 import * as authStrategy from "./authStrategy";
-import apiRouter from "./apiRouter";
+import apiRouter from "./api/router";
 
 import logger, { errorLogger, requestLogger } from "./logging";
 

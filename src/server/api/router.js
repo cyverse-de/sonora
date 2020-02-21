@@ -4,23 +4,14 @@ import * as authStrategy from "../authStrategy";
 import logger from "../logging";
 
 import { handler as terrainHandler } from "./terrain";
+import uploadHandler from "./uploads";
 
 export default function apiRouter() {
     logger.info("creating the api router");
     const api = express.Router();
 
     logger.info("adding the /api/upload handler ");
-    api.post(
-        "/upload",
-        authStrategy.authnTokenMiddleware,
-        terrainHandler({
-            method: "POST",
-            pathname: "/secured/fileio/upload",
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        })
-    );
+    api.post("/upload", authStrategy.authnTokenMiddleware, uploadHandler);
 
     logger.info("adding the /api/download handler");
     api.get(

@@ -1,3 +1,11 @@
+/**
+ * @author johnworth
+ *
+ * Express handler and utility functions for proxying most requests to Terrain.
+ *
+ * @module terrain
+ */
+
 import fetch from "node-fetch";
 import path from "path";
 import querystring from "querystring";
@@ -5,6 +13,16 @@ import querystring from "querystring";
 import { terrainURL } from "../configuration";
 import logger from "../logging";
 
+/**
+ * Returns an Express handler that can proxy most requests to Terrain. Does not handle
+ * file uploads.
+ *
+ * @param {Object} config - The configuration for the handler.
+ * @param {string} config.method - The HTTP method to use for Terrain requests.
+ * @param {string} config.pathname - The request path for the Terrain requests.
+ * @param {Object} config.headers - The headers to include in the Terrain requests.
+ * @return {Function}
+ */
 export const handler = ({ method, pathname, headers }) => {
     return async (req, res) => {
         call(
@@ -28,6 +46,19 @@ export const handler = ({ method, pathname, headers }) => {
     };
 };
 
+/**
+ * Calls a Terrain endpoint. Returns the a Promise.
+ *
+ * @param {Object} requestParam - The request configuration object.
+ * @param {string} requestParam.method - The HTTP method to use for the Terrain request.
+ * @param {string} requestParam.pathname - The path for the Terrain request.
+ * @param {Object} requestParam.headers - The headers to include in the Terrain request.
+ * @param {Object} requestParam.query - The query params to include in the Terrain request.
+ * @param {Object} requestParam.userID - The user ID to include in the Terrain request.
+ * @param {Object} requestParam.accessToken - The access token to use in the Terrain request.
+ * @param {Object} inStream - The ReadableStream to use as the body of the Terrain request.
+ * @returns {Promise}
+ */
 export const call = (
     { method, pathname, headers, query, userID, accessToken },
     inStream

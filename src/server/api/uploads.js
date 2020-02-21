@@ -12,6 +12,15 @@ import logger from "../logging";
 
 import { terrainURL } from "../configuration";
 
+/**
+ * Express handler for file upload requests. The response from this
+ * will be the response from Terrain unless the request validation
+ * fails.
+ *
+ * @param {object} req - An Express request.
+ * @param {object} res - An Express response.
+ * @returns null
+ */
 const handler = async (req, res) => {
     const userID = req?.user?.profile?.id;
     if (!userID) {
@@ -34,6 +43,14 @@ const handler = async (req, res) => {
     req.pipe(doUploadToTerrain(userID, accessToken, destination)).pipe(res);
 };
 
+/**
+ * Formats the URL and returns the request() response.
+ *
+ * @param {string} userID - The userID passed in with the request.
+ * @param {string} accessToken - The access token used for Terrain auth.
+ * @param {string} destination - The destination directory path in the data store.
+ * @returns {object}
+ */
 const doUploadToTerrain = (userID, accessToken, destination) => {
     const apiURL = new URL(terrainURL);
     apiURL.pathname = path.join(apiURL.pathname, "/secured/fileio/upload");

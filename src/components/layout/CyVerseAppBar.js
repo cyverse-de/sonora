@@ -70,10 +70,10 @@ function CyverseAppBar(props) {
     const { intl, children } = props;
     const [drawerOpen, setDrawerOpen] = useState(false);
     const handleUserButtonClick = (event) => {
-        const { user } = props.children.props;
-        if (!user) {
-            router.push("/" + NavigationConstants.LOGIN);
-        }
+        //      const { user } = props.children.props;
+        //    if (!user) {
+        router.push("/" + NavigationConstants.LOGIN);
+        //  }
     };
     const handleSearchClick = (event) => {
         router.push("/" + NavigationConstants.SEARCH);

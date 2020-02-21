@@ -176,7 +176,9 @@ function Listing(props) {
                     onEditSelected={onEditSelected}
                     onMetadataSelected={onMetadataSelected}
                     onDeleteSelected={onDeleteSelected}
+                    path={path}
                 />
+
                 {!isGridView && (
                     <TableView
                         loading={loading}

@@ -18,5 +18,9 @@ export default {
         tableView: "Table View",
         upload: "Upload",
         uploadQueue: "View Upload Queue",
+        trash: "Trash",
+        sharedWithMe: "Shared With Me",
+        communityData: "Community Data",
+        myData: "My Data",
     },
 };

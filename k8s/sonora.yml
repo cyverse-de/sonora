@@ -51,9 +51,6 @@ spec:
             - name: localtime
               mountPath: /etc/localtime
               readOnly: true
-            - name: timezone
-              mountPath: /etc/timezone
-              subPath: timezone
             - name: service-configs
               mountPath: /etc/iplant/de
               readOnly: true

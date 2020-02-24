@@ -36,10 +36,10 @@ const useStyles = makeStyles((theme) => ({
 
 function BreadCrumb({ root, path, userHomePath, userTrashPath }) {
     const router = useRouter();
-    const handleClick = (event, updatedPath, crumb) => {
+    const handleClick = (event, relativePath, crumb) => {
         event.preventDefault();
         let pathToRoute = "";
-        const pathItems = updatedPath.split("/");
+        const pathItems = relativePath.split("/");
         for (let i = 0; i < pathItems.length; i++) {
             if (pathItems[i] === crumb) {
                 console.log("matched");
@@ -59,21 +59,22 @@ function BreadCrumb({ root, path, userHomePath, userTrashPath }) {
         );
     };
 
-    let updatedPath = path;
+    let relaitvePath = path;
     if (path.indexOf(userHomePath) !== -1) {
-        updatedPath = path.replace(userHomePath, "");
+        relaitvePath = path.replace(userHomePath, "");
     } else if (path.indexOf(userTrashPath) !== -1) {
-        updatedPath = path.replace(userTrashPath, "");
+        relaitvePath = path.replace(userTrashPath, "");
     } else if (path.indexOf("/iplant/home/shared") !== -1) {
-        updatedPath = path.replace("/iplant/home/shared", "");
+        relaitvePath = path.replace("/iplant/home/shared", "");
     }
     return (
         <Breadcrumbs maxItems={2} aria-label="breadcrumb">
-            {updatedPath.split("/").map((crumb) => (
+            {relaitvePath.split("/").map((crumb) => (
                 <Link
+                    key={crumb}
                     color="inherit"
                     href="#"
-                    onClick={(event) => handleClick(event, updatedPath, crumb)}
+                    onClick={(event) => handleClick(event, relaitvePath, crumb)}
                 >
                     {crumb}
                 </Link>

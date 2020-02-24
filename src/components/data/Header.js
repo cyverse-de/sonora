@@ -43,6 +43,7 @@ function Header(props) {
         onEditSelected,
         onMetadataSelected,
         onDeleteSelected,
+        path,
         intl,
     } = props;
 

@@ -12,14 +12,12 @@ function MyApp({ Component, pageProps, intercomAppId, intercomEnabled }) {
         if (jssStyles) {
             jssStyles.parentElement.removeChild(jssStyles);
         }
-        const APP_ID = intercomAppId;
-        const enabled = intercomEnabled;
-        if (enabled) {
+        if (intercomEnabled) {
             (function() {
                 var w = window;
                 var ic = w.Intercom;
                 w.intercomSettings = {
-                    app_id: APP_ID,
+                    app_id: intercomAppId,
                     alignment: "right",
                     horizontal_padding: 20,
                     vertical_padding: 45,
@@ -43,7 +41,9 @@ function MyApp({ Component, pageProps, intercomAppId, intercomEnabled }) {
                         var s = d.createElement("script");
                         s.type = "text/javascript";
                         s.async = true;
-                        s.src = "https://widget.intercom.io/widget/" + APP_ID;
+                        s.src =
+                            "https://widget.intercom.io/widget/" +
+                            intercomAppId;
                         var x = d.getElementsByTagName("script")[0];
                         x.parentNode.insertBefore(s, x);
                     }
@@ -56,7 +56,7 @@ function MyApp({ Component, pageProps, intercomAppId, intercomEnabled }) {
                 }
             })();
         }
-    }, []);
+    }, [intercomAppId, intercomEnabled]);
     return (
         <ThemeProvider theme={theme}>
             <UserProfileProvider>

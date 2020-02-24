@@ -58,14 +58,14 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(1),
         border: 1,
         backgroundColor: theme.palette.primary.main,
-        color: theme.palette.white,
+        color: theme.palette.primary.contrastText,
         borderRadius: 2,
         [theme.breakpoints.down("xs")]: {
             margin: theme.spacing(1),
             width: 90,
         },
     },
-    icon: { color: theme.palette.white },
+    icon: { color: theme.palette.primary.contrastText },
 }));
 
 function GlobalSearchField(props) {

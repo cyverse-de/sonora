@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { storiesOf } from "@storybook/react";
-import CyverseAppBar from "../src/components/appBar/CyVerseAppBar";
 import { UserProfileProvider } from "../src/contexts/userProfile";
+import CyverseAppBar from "../src/components/layout/CyVerseAppBar";
 import fetchMock from "fetch-mock";
 
 const mockUser = {
@@ -16,7 +15,7 @@ const mockUser = {
     },
 };
 
-export class AppBarTest extends Component {
+class AppBarTest extends Component {
     render() {
         return (
             <UserProfileProvider>
@@ -26,7 +25,9 @@ export class AppBarTest extends Component {
     }
 }
 
-storiesOf("AppBar", module).add("with appbar", () => {
+export default { title: "App Bar" };
+
+export const AppBar = () => {
     fetchMock.restore().get("/api/profile", mockUser);
     return <AppBarTest />;
-});
+};

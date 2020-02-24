@@ -14,7 +14,7 @@
     "storybook": "start-storybook -p 9009 -s public",
     "test": "TZ=UTC jest",
     "test-watch": "TZ=UTC jest --watch",
-    "format": "prettier --write './**/*.js'",
+    "format": "prettier --write 'src/**/*.js' 'stories/**/*.js'",
     "lint": "eslint --max-warnings=0 ./src/",
     "clean": "rimraf ./.next ./dist ./generated-docs"
   },
@@ -49,7 +49,7 @@
     ]
   },
   "dependencies": {
-    "@cyverse-de/ui-lib": "^4.0.0",
+    "@cyverse-de/ui-lib": "^4.0.1",
     "@material-ui/core": "^4.8.3",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/lab": "^4.0.0-alpha.39",

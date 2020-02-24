@@ -3,6 +3,11 @@
 exports[`Data Table View renders 1`] = `
 <div
   className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
+  style={
+    Object {
+      "height": "60vh",
+    }
+  }
 >
   <table
     aria-label={

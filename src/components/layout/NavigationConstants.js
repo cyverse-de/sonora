@@ -5,4 +5,7 @@ export default {
     ANALYSES: "analyses",
     DASHBOARD: "dashboard",
     MORE: "more",
-}
+    SEARCH: "search",
+    LOGIN: "login",
+    SETTINGS: "settings",
+};

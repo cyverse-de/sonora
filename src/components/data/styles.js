@@ -1,14 +1,14 @@
 export default (theme) => ({
     button: {
-        [theme.breakpoints.up("sm")] : {
+        [theme.breakpoints.up("sm")]: {
             margin: theme.spacing(1),
-        }
+        },
     },
 
     buttonIcon: {
-        [theme.breakpoints.up("sm")] : {
+        [theme.breakpoints.up("sm")]: {
             marginRight: theme.spacing(1),
-        }
+        },
     },
 
     dataLink: {

@@ -1,3 +1,5 @@
 import { getMuiTheme } from "@cyverse-de/ui-lib";
 
-export default getMuiTheme();
+const theme = getMuiTheme();
+
+export default theme;

@@ -87,7 +87,12 @@ function TableView(props) {
     const tableColumns = getTableColumns(isMedium, isLarge);
 
     return (
-        <TableContainer component={Paper}>
+        <TableContainer
+            component={Paper}
+            style={{
+                height: "60vh",
+            }}
+        >
             <Table
                 stickyHeader
                 id={tableId}

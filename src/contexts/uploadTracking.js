@@ -78,6 +78,9 @@ import UUID from "uuid/v4";
  * @property {ErrorState} upload - The state for the action.
  */
 
+export const KindFile = "file";
+export const KindURL = "url";
+
 /**
  * Returns a new TrackableUpload object filled out with defaults where no custom settings
  * is provided.
@@ -86,6 +89,7 @@ import UUID from "uuid/v4";
  * @returns TrackableUpload
  */
 export const trackableUpload = ({
+    kind = KindFile,
     isUploading = false,
     hasUploaded = false,
     hasErrored = false,
@@ -96,6 +100,7 @@ export const trackableUpload = ({
     file = null,
 }) => ({
     id: UUID(),
+    kind,
     isUploading,
     hasUploaded,
     hasErrored,
@@ -113,7 +118,10 @@ export const trackableUpload = ({
  */
 export const addAction = (upload) => ({
     type: "add",
-    upload: upload,
+    upload: {
+        ...trackableUpload({}),
+        ...upload,
+    },
 });
 
 /**

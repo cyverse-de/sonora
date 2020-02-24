@@ -21,7 +21,7 @@ export const UploadQueueTest = () => {
                 id: UUID(),
                 parentPath: "/iplant/home/ipcdev/test-0",
                 filename: "fake-upload-0",
-                isUploading: false,
+                isUploading: true,
                 hasUploaded: false,
                 file: {
                     name: "fake-upload-0",
@@ -35,7 +35,7 @@ export const UploadQueueTest = () => {
                 parentPath: "/iplant/home/ipcdev/test-1",
                 filename: "fake-upload-1",
                 isUploading: false,
-                hasUploaded: false,
+                hasUploaded: true,
                 file: {
                     name: "fake-upload-1",
                 },
@@ -49,8 +49,23 @@ export const UploadQueueTest = () => {
                 filename: "fake-upload-2",
                 isUploading: false,
                 hasUploaded: false,
+                hasErrored: true,
+                errorMessage: "test error message",
                 file: {
                     name: "fake-upload-2",
+                },
+            })
+        );
+
+        dispatch(
+            addAction({
+                id: UUID(),
+                parentPath: "/iplant/home/ipcdev/test-3",
+                filename: "fake-upload-3",
+                isUploading: false,
+                hasUploaded: false,
+                file: {
+                    name: "fake-upload-3",
                 },
             })
         );

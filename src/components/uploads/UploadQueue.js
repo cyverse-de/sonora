@@ -13,6 +13,8 @@ import { checkForError } from "../../common/callApi";
 import {
     //Divider,
     Drawer,
+    CircularProgress,
+    IconButton,
     Paper,
     Table,
     TableBody,
@@ -24,13 +26,22 @@ import {
 } from "@material-ui/core";
 
 import {
+    CheckCircle as CheckCircleIcon,
+    Cancel as CancelIcon,
+    Error as ErrorIcon,
+    Description as DescriptionIcon,
+    Http as HttpIcon,
+} from "@material-ui/icons";
+
+import {
     addAction,
     errorAction,
-    //removeAction,
+    removeAction,
     updateStatusAction,
     useUploadTrackingDispatch,
     useUploadTrackingState,
     UploadTrackingProvider,
+    KindFile,
 } from "../../contexts/uploadTracking";
 
 /**
@@ -99,11 +110,29 @@ export const startUpload = (
         });
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 650,
     },
-});
+}));
+
+const UploadStatus = ({ upload }) => {
+    let statusIcon = <div />;
+
+    if (upload.isUploading) {
+        statusIcon = <CircularProgress size={20} />;
+    }
+
+    if (upload.hasUploaded) {
+        statusIcon = <CheckCircleIcon />;
+    }
+
+    if (upload.hasErrored) {
+        statusIcon = <ErrorIcon />;
+    }
+
+    return statusIcon;
+};
 
 export default function UploadQueue(props) {
     const classes = useStyles();
@@ -150,6 +179,17 @@ export default function UploadQueue(props) {
     //     );
     // });
 
+    const handleCancel = (event, upload) => {
+        event.stopPropagation();
+        event.preventDefault();
+
+        dispatch(
+            removeAction({
+                id: upload.id,
+            })
+        );
+    };
+
     return (
         <Drawer
             anchor="bottom"
@@ -161,22 +201,55 @@ export default function UploadQueue(props) {
                 <Table className={classes.table}>
                     <TableHead>
                         <TableRow>
+                            <TableCell align="center">Type</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>Destination</TableCell>
-                            <TableCell>Status</TableCell>
+                            <TableCell align="center">Status</TableCell>
+                            <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
+
                     <TableBody>
                         {tracker.uploads.map((upload) => (
                             <TableRow key={upload.id}>
+                                <TableCell
+                                    component="th"
+                                    scope="row"
+                                    align="center"
+                                >
+                                    {upload.kind === KindFile ? (
+                                        <DescriptionIcon />
+                                    ) : (
+                                        <HttpIcon />
+                                    )}
+                                </TableCell>
+
                                 <TableCell component="th" scope="row">
                                     {upload.filename}
                                 </TableCell>
+
                                 <TableCell component="th" scope="row">
                                     {upload.parentPath}
                                 </TableCell>
-                                <TableCell component="th" scope="row">
-                                    {upload.isUploading}
+
+                                <TableCell
+                                    component="th"
+                                    scope="row"
+                                    align="center"
+                                >
+                                    <UploadStatus upload={upload} />
+                                </TableCell>
+
+                                <TableCell
+                                    component="th"
+                                    scope="row"
+                                    align="center"
+                                >
+                                    <IconButton
+                                        onClick={(e) => handleCancel(e, upload)}
+                                    >
+                                        <CancelIcon />
+                                    </IconButton>
                                 </TableCell>
                             </TableRow>
                         ))}

@@ -11,7 +11,6 @@ import UUID from "uuid/v4";
 import { checkForError } from "../../common/callApi";
 
 import {
-    //Divider,
     Drawer,
     CircularProgress,
     IconButton,
@@ -22,7 +21,6 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    //Typography,
 } from "@material-ui/core";
 
 import {
@@ -59,8 +57,15 @@ export const startUpload = (
 ) => {
     const newID = UUID();
 
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     const formData = new FormData();
     formData.append("file", uploadFile);
+
+    const cancelFn = () => {
+        controller.abort();
+    };
 
     dispatch(
         addAction({
@@ -69,6 +74,8 @@ export const startUpload = (
             filename: uploadFile.name,
             isUploading: true,
             hasUploaded: false,
+            file: uploadFile,
+            cancelFn,
         })
     );
 
@@ -79,6 +86,7 @@ export const startUpload = (
         method,
         credentials: "include",
         body: formData,
+        signal,
     })
         .then((resp) => checkForError(resp, { method, endpoint, headers: {} }))
         .then((resp) => {
@@ -170,18 +178,11 @@ export default function UploadQueue(props) {
         });
     }
 
-    // Remove completed uploads from the tracker.
-    // completed.forEach((upload) => {
-    //     dispatch(
-    //         removeAction({
-    //             id: upload.id,
-    //         })
-    //     );
-    // });
-
     const handleCancel = (event, upload) => {
         event.stopPropagation();
         event.preventDefault();
+
+        upload.cancelFn();
 
         dispatch(
             removeAction({

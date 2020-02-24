@@ -22,6 +22,8 @@ import UUID from "uuid/v4";
  * @property {string} parentPath - The path to the directory the file is being uploaded to.
  * @property {string} filename - The filename of the upload.
  * @property {string} url - The URL being imported. Will be blank for file uploads.
+ * @property {File} file - The file being uploaded.
+ * @property {Object} cancelFn - The function to call to cancel the import/upload. Should not take any params.
  */
 
 /**
@@ -34,6 +36,8 @@ import UUID from "uuid/v4";
  * @property {string} [parentPath] - The path to the directory the file is being uploaded to.
  * @property {string} [filename] - The filename of the upload.
  * @property {string} [url] - The URL being imported. Will be blank for file uploads.
+ * @property {File} file - The file being uploaded.
+ * @property {Object} cancelFn - The function to call to cancel the import/upload. Should not take params.
  */
 
 /**
@@ -98,6 +102,9 @@ export const trackableUpload = ({
     filename = "",
     url = "",
     file = null,
+    cancelFn = () => {
+        console.log("no-op cancelFn called");
+    },
 }) => ({
     id: UUID(),
     kind,
@@ -109,6 +116,7 @@ export const trackableUpload = ({
     filename,
     url,
     file,
+    cancelFn,
 });
 
 /**

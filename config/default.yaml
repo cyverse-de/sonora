@@ -25,3 +25,8 @@ oauth2:
     logout_url: "https://olson.cyverse.org/cas/logout"
     client_id: null
     client_secret: null
+intercom:
+    app_id: appId
+    enabled: true
+    company_id: DE-DEV
+    company_name: DISCOVERY ENVIRONMENT

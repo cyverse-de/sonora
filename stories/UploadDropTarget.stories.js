@@ -32,7 +32,7 @@ export const UploadDropTargetTest = ({ children }) => {
     );
 };
 
-export const UnwrappedTest = () => {
+const UnwrappedTest = () => {
     const [uploadsCompleted, setUploadsCompleted] = useState(0);
     const uploadState = useUploadTrackingState();
 

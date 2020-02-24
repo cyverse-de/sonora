@@ -35,6 +35,7 @@ app.prepare()
         logger.info("preparing express server");
 
         const server = express();
+        server.enable("trust proxy");
 
         logger.info("configuring the express logging middleware");
         server.use(errorLogger);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import UUID from "uuid/v4";
 
 import {
@@ -74,10 +74,15 @@ export const UploadQueueTest = () => {
 
     const testUploadFn = (file, dest, _dispatcher) =>
         console.log(`fake uploading ${file.name} to ${dest}`);
+    const [open, setOpen] = useState(true);
     return (
         <UploadTrackingProvider>
             <TestDispatch />
-            <UploadQueue open={true} uploadFn={testUploadFn} />
+            <UploadQueue
+                open={open}
+                uploadFn={testUploadFn}
+                onClose={() => setOpen(false)}
+            />
         </UploadTrackingProvider>
     );
 };

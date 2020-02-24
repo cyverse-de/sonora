@@ -5,10 +5,8 @@
  *
  * @module UploadManager
  */
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import UUID from "uuid/v4";
-import { checkForError } from "../../common/callApi";
 
 import {
     Drawer,
@@ -21,6 +19,8 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    Toolbar,
+    Typography,
 } from "@material-ui/core";
 
 import {
@@ -29,98 +29,43 @@ import {
     Error as ErrorIcon,
     Description as DescriptionIcon,
     Http as HttpIcon,
+    KeyboardArrowDown as KeyboardArrowDownIcon,
+    KeyboardArrowUp as KeyboardArrowUpIcon,
 } from "@material-ui/icons";
 
 import {
-    addAction,
-    errorAction,
     removeAction,
-    updateStatusAction,
     useUploadTrackingDispatch,
     useUploadTrackingState,
     UploadTrackingProvider,
     KindFile,
 } from "../../contexts/uploadTracking";
 
-/**
- * Starts a single upload.
- *
- * @param {File} uploadFile - The File object to be uploaded.
- * @param {string} destinationPath - The path to the directory the file should be uploaded to.
- * @return null
- */
-export const startUpload = (
-    uploadFile,
-    destinationPath,
-    dispatch,
-    completedCB = () => {}
-) => {
-    const newID = UUID();
-
-    const controller = new AbortController();
-    const signal = controller.signal;
-
-    const formData = new FormData();
-    formData.append("file", uploadFile);
-
-    const cancelFn = () => {
-        controller.abort();
-    };
-
-    dispatch(
-        addAction({
-            id: newID,
-            parentPath: destinationPath,
-            filename: uploadFile.name,
-            isUploading: true,
-            hasUploaded: false,
-            file: uploadFile,
-            cancelFn,
-        })
-    );
-
-    const endpoint = `/api/upload?dest=${destinationPath}`;
-    const method = "POST";
-
-    fetch(endpoint, {
-        method,
-        credentials: "include",
-        body: formData,
-        signal,
-    })
-        .then((resp) => checkForError(resp, { method, endpoint, headers: {} }))
-        .then((resp) => {
-            dispatch(
-                updateStatusAction({
-                    id: newID,
-                    hasUploaded: true,
-                    isUploading: false,
-                })
-            );
-
-            completedCB(newID);
-        })
-        .catch((e) => {
-            if (e.details) {
-                console.error(
-                    `${e.details.code} ${JSON.stringify(e.details.context)}`
-                );
-            } else {
-                console.error(e.message);
-            }
-
-            dispatch(
-                errorAction({
-                    id: newID,
-                    errorMessage: e.message,
-                })
-            );
-        });
-};
+const drawerMinHeight = 45;
 
 const useStyles = makeStyles((theme) => ({
+    drawerMax: {
+        height: "50%",
+    },
+    drawerMin: {
+        height: drawerMinHeight,
+    },
     table: {
         minWidth: 650,
+    },
+    toolBar: {
+        backgroundColor: theme.palette.primary.main,
+        minHeight: drawerMinHeight,
+    },
+    toolBarRoot: {
+        flexGrow: 1,
+    },
+    uploadTypography: {
+        color: theme.palette.primary.contrastText,
+        flexGrow: 1,
+    },
+    toolBarAction: {
+        color: theme.palette.primary.contrastText,
     },
 }));
 
@@ -144,11 +89,11 @@ const UploadStatus = ({ upload }) => {
 
 export default function UploadQueue(props) {
     const classes = useStyles();
-
     const dispatch = useUploadTrackingDispatch();
     const tracker = useUploadTrackingState();
 
     const { open, onClose, uploadFn } = props;
+    const [isMaximized, setIsMaximized] = useState(open);
 
     const running = tracker.uploads.filter(
         (upload) => upload.isUploading && !upload.hasUploaded
@@ -192,71 +137,116 @@ export default function UploadQueue(props) {
     };
 
     return (
-        <Drawer
-            anchor="bottom"
-            variant="persistent"
-            open={open}
-            onClose={onClose}
-        >
-            <TableContainer component={Paper}>
-                <Table className={classes.table}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="center">Type</TableCell>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Destination</TableCell>
-                            <TableCell align="center">Status</TableCell>
-                            <TableCell></TableCell>
-                        </TableRow>
-                    </TableHead>
+        <>
+            <Drawer
+                anchor="bottom"
+                variant="persistent"
+                open={open}
+                onClose={onClose}
+                classes={{
+                    paper: isMaximized ? classes.drawerMax : classes.drawerMin,
+                }}
+            >
+                <div className={classes.toolBarRoot}>
+                    <Toolbar
+                        variant="dense"
+                        color="primary"
+                        className={classes.toolBar}
+                    >
+                        <Typography
+                            variant="h6"
+                            className={classes.uploadTypography}
+                        >
+                            Uploads
+                        </Typography>
 
-                    <TableBody>
-                        {tracker.uploads.map((upload) => (
-                            <TableRow key={upload.id}>
-                                <TableCell
-                                    component="th"
-                                    scope="row"
-                                    align="center"
-                                >
-                                    {upload.kind === KindFile ? (
-                                        <DescriptionIcon />
-                                    ) : (
-                                        <HttpIcon />
-                                    )}
-                                </TableCell>
+                        <IconButton
+                            onClick={() => setIsMaximized(!isMaximized)}
+                        >
+                            {isMaximized ? (
+                                <KeyboardArrowDownIcon
+                                    className={classes.toolBarAction}
+                                />
+                            ) : (
+                                <KeyboardArrowUpIcon
+                                    className={classes.toolBarAction}
+                                />
+                            )}
+                        </IconButton>
 
-                                <TableCell component="th" scope="row">
-                                    {upload.filename}
-                                </TableCell>
+                        <IconButton
+                            onClick={() => {
+                                setIsMaximized(false);
+                                onClose();
+                            }}
+                        >
+                            <CancelIcon className={classes.toolBarAction} />
+                        </IconButton>
+                    </Toolbar>
+                </div>
 
-                                <TableCell component="th" scope="row">
-                                    {upload.parentPath}
-                                </TableCell>
-
-                                <TableCell
-                                    component="th"
-                                    scope="row"
-                                    align="center"
-                                >
-                                    <UploadStatus upload={upload} />
-                                </TableCell>
-
-                                <TableCell
-                                    component="th"
-                                    scope="row"
-                                    align="center"
-                                >
-                                    <IconButton
-                                        onClick={(e) => handleCancel(e, upload)}
-                                    >
-                                        <CancelIcon />
-                                    </IconButton>
-                                </TableCell>
+                <TableContainer component={Paper}>
+                    <Table className={classes.table}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="center">Type</TableCell>
+                                <TableCell>Name</TableCell>
+                                <TableCell>Destination</TableCell>
+                                <TableCell align="center">Status</TableCell>
+                                <TableCell></TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Drawer>
+                        </TableHead>
+
+                        <TableBody>
+                            {tracker.uploads.map((upload) => (
+                                <TableRow key={upload.id}>
+                                    <TableCell
+                                        component="th"
+                                        scope="row"
+                                        align="center"
+                                    >
+                                        {upload.kind === KindFile ? (
+                                            <DescriptionIcon />
+                                        ) : (
+                                            <HttpIcon />
+                                        )}
+                                    </TableCell>
+
+                                    <TableCell component="th" scope="row">
+                                        {upload.filename}
+                                    </TableCell>
+
+                                    <TableCell component="th" scope="row">
+                                        {upload.parentPath}
+                                    </TableCell>
+
+                                    <TableCell
+                                        component="th"
+                                        scope="row"
+                                        align="center"
+                                    >
+                                        <UploadStatus upload={upload} />
+                                    </TableCell>
+
+                                    <TableCell
+                                        component="th"
+                                        scope="row"
+                                        align="center"
+                                    >
+                                        <IconButton
+                                            onClick={(e) =>
+                                                handleCancel(e, upload)
+                                            }
+                                        >
+                                            <CancelIcon />
+                                        </IconButton>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Drawer>
+        </>
     );
 }

@@ -111,7 +111,8 @@ export class APIError extends Error {
 /**
  * Returns a new APIError. Needed because it's technically possible for
  * the api to not return a JSON-encoded error message. Not a constructor
- * because we don't want to tie APIError to responses directly.
+ * because we don't want to tie APIError to responses directly since it
+ * could be used to request validation or other aspects of API interactions.
  *
  * @param {Object} resp - The Response object returned by fetch().
  * @param {string} method - The request method.
@@ -142,8 +143,8 @@ export const getAPIErrorFromResponse = async (
         ...context // separate the error context into a new object.
     } = apiError;
 
-    // We need an object, but Error() only accepts strings, so serialize
-    // it and throw it up.
+    // Associate as much context with the error as is relatively
+    // workable right now.
     const details = {
         code,
         context,
@@ -158,8 +159,6 @@ export const getAPIErrorFromResponse = async (
             url: resp.url,
             status: resp.status,
             statusText: resp.statusText,
-
-            // turns headers into a POO (plain old object)
             headers: resp.headers,
         },
     };

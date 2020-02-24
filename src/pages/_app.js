@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles.css";
-import CyverseAppBar from "../components/appBar/CyVerseAppBar";
+import CyverseAppBar from "../components/layout/CyVerseAppBar";
 import Navigation from "../components/layout/Navigation";
 import NavigationConstants from "../components/layout/NavigationConstants";
 import theme from "../components/theme/default";
@@ -74,15 +74,6 @@ function MyApp({ Component, pageProps, intercomAppId, intercomEnabled }) {
                     <CyverseAppBar>
                         <Head>
                             <title>Discovery Environment</title>
-                            <link
-                                href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&display=swap"
-                                rel="stylesheet"
-                            />
-                            <link
-                                rel="icon"
-                                type="image/x-icon"
-                                href="/cyverse_whitelogo.png"
-                            />
                         </Head>
                         <Navigation activeView={pathname} />
                         <Component {...pageProps} />

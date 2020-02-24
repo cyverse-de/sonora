@@ -89,7 +89,7 @@ function CyverseAppBar(props) {
     const handleUserButtonClick = (event) => {
         console.log(userProfile);
         if (!userProfile) {
-            router.push(`/${NavigationConstants.LOGIN}` + `${router.asPath}`);
+            router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
         }
     };
     const handleSearchClick = (event) => {

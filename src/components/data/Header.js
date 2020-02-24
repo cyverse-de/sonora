@@ -98,7 +98,7 @@ function Header(props) {
                 <Info className={classes.buttonIcon} />
                 <Hidden xsDown>{getMessage("details")}</Hidden>
             </Button>
-            <UploadMenuBtn baseId={headerId}/>
+            <UploadMenuBtn baseId={headerId} />
             <Button
                 id={build(headerId, ids.SHARE_BTN)}
                 variant="contained"

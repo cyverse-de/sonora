@@ -17,9 +17,7 @@ import styles from "./styles";
 const useStyles = makeStyles(styles);
 
 function UploadMenuBtn(props) {
-    const {
-        baseId
-    } = props;
+    const { baseId } = props;
     const classes = useStyles();
 
     const [uploadAnchor, setUploadAnchor] = useState(null);
@@ -29,7 +27,7 @@ function UploadMenuBtn(props) {
     };
 
     const onUploadMenuClick = (event) => {
-        setUploadAnchor(event.currentTarget)
+        setUploadAnchor(event.currentTarget);
     };
 
     const uploadMenuId = build(baseId, ids.UPLOAD_MENU);
@@ -59,7 +57,7 @@ function UploadMenuBtn(props) {
                     id={build(uploadMenuId, ids.UPLOAD_MI)}
                     onClick={() => {
                         onUploadClose();
-                        console.log("Browse Local")
+                        console.log("Browse Local");
                     }}
                 >
                     {getMessage("browseLocal")}
@@ -86,7 +84,7 @@ function UploadMenuBtn(props) {
                     id={build(uploadMenuId, ids.MANUAL_UPLOAD_MI)}
                     onClick={() => {
                         onUploadClose();
-                        console.log("Manual Upload")
+                        console.log("Manual Upload");
                     }}
                 >
                     {getMessage("manualUpload")}
@@ -95,14 +93,14 @@ function UploadMenuBtn(props) {
                     id={build(uploadMenuId, ids.UPLOAD_QUEUE_MI)}
                     onClick={() => {
                         onUploadClose();
-                        console.log("View Upload Queue")
+                        console.log("View Upload Queue");
                     }}
                 >
                     {getMessage("uploadQueue")}
                 </MenuItem>
             </Menu>
         </>
-    )
+    );
 }
 
 export default UploadMenuBtn;

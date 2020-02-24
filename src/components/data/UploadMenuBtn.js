@@ -11,9 +11,6 @@ import { build, getMessage } from "@cyverse-de/ui-lib";
 import { Button, Hidden, makeStyles, Menu, MenuItem } from "@material-ui/core";
 import { Publish as UploadIcon } from "@material-ui/icons";
 
-import URLImportDialog from "../URLImportDialog";
-import doURLImport from "../URLImportDialog/apiCall";
-
 import ids from "./ids";
 import styles from "./styles";
 
@@ -24,7 +21,6 @@ function UploadMenuBtn(props) {
     const classes = useStyles();
 
     const [uploadAnchor, setUploadAnchor] = useState(null);
-    const [openURLImportDialog, setOpenURLImportDialog] = useState(false);
 
     const onUploadClose = () => {
         setUploadAnchor(null);
@@ -103,19 +99,6 @@ function UploadMenuBtn(props) {
                     {getMessage("uploadQueue")}
                 </MenuItem>
             </Menu>
-
-            <URLImportDialog
-                open={openURLImportDialog}
-                addURLFn={(e, url) => {
-                    console.log(`import of ${url} requested`);
-                    doURLImport({
-                        url: url,
-                        destination: path,
-                        setError: (e) => console.log(e),
-                    });
-                }}
-                onClose={() => setOpenURLImportDialog((open) => false)}
-            />
         </>
     );
 }

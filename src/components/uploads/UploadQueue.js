@@ -111,7 +111,7 @@ export default function UploadQueue(props) {
     const dispatch = useUploadTrackingDispatch();
     const tracker = useUploadTrackingState();
 
-    const { open, onClose } = props;
+    const { open, onClose, uploadFn } = props;
 
     const running = tracker.uploads.filter(
         (upload) => upload.isUploading && !upload.hasUploaded
@@ -136,7 +136,7 @@ export default function UploadQueue(props) {
     ) {
         waiting.forEach((upload, idx) => {
             if (idx <= 2) {
-                startUpload(upload.file, upload.parentPath, dispatch);
+                uploadFn(upload.file, upload.parentPath, dispatch);
             }
         });
     }

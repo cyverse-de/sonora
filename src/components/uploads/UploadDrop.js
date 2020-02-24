@@ -103,6 +103,8 @@ export const startUpload = (
             );
 
             completedCB(newID);
+
+            return resp;
         })
         .catch((e) => {
             if (e.details) {

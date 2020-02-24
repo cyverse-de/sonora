@@ -93,6 +93,7 @@ export const trackableUpload = ({
     parentPath = "",
     filename = "",
     url = "",
+    file = null,
 }) => ({
     id: UUID(),
     isUploading,
@@ -102,6 +103,7 @@ export const trackableUpload = ({
     parentPath,
     filename,
     url,
+    file,
 });
 
 /**

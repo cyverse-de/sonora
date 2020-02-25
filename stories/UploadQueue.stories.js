@@ -94,8 +94,10 @@ export const UploadQueueTest = () => {
             <Button onClick={() => setOpen(!open)}>
                 {open ? "Close" : "Open"}
             </Button>
+
             <UploadTrackingProvider>
                 <TestDispatch />
+
                 <UploadQueue
                     open={open}
                     uploadFn={testUploadFn}

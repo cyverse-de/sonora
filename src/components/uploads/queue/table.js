@@ -35,9 +35,12 @@ import {
     useUploadTrackingDispatch,
 } from "../../../contexts/uploadTracking";
 
+import { useTheme } from "@material-ui/core/styles";
 import useStyles from "./styles";
 
 const UploadStatus = ({ upload }) => {
+    const theme = useTheme();
+
     let statusIcon = <div />;
 
     if (upload.isUploading) {
@@ -45,11 +48,13 @@ const UploadStatus = ({ upload }) => {
     }
 
     if (upload.hasUploaded) {
-        statusIcon = <CheckCircleIcon />;
+        statusIcon = (
+            <CheckCircleIcon style={{ color: theme.palette.success.main }} />
+        );
     }
 
     if (upload.hasErrored) {
-        statusIcon = <ErrorIcon />;
+        statusIcon = <ErrorIcon color="error" />;
     }
 
     return statusIcon;
@@ -58,23 +63,23 @@ const UploadStatus = ({ upload }) => {
 const UploadTableRow = ({ upload, handleCancel }) => {
     return (
         <TableRow key={upload.id}>
-            <TableCell component="th" scope="row" align="center">
+            <TableCell component="th" scope="row" align="center" padding="none">
                 {upload.kind === KindFile ? <DescriptionIcon /> : <HttpIcon />}
             </TableCell>
 
-            <TableCell component="th" scope="row">
+            <TableCell component="th" scope="row" padding="none">
                 {upload.filename}
             </TableCell>
 
-            <TableCell component="th" scope="row">
+            <TableCell component="th" scope="row" padding="none">
                 {upload.parentPath}
             </TableCell>
 
-            <TableCell component="th" scope="row" align="center">
+            <TableCell component="th" scope="row" align="center" padding="none">
                 <UploadStatus upload={upload} />
             </TableCell>
 
-            <TableCell component="th" scope="row" align="center">
+            <TableCell component="th" scope="row" align="center" padding="none">
                 <IconButton onClick={(e) => handleCancel(e, upload)}>
                     <CancelIcon />
                 </IconButton>
@@ -106,10 +111,12 @@ export default function UploadsTable() {
             <Table stickyHeader className={classes.table}>
                 <TableHead>
                     <TableRow>
-                        <TableCell align="center">Type</TableCell>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Destination</TableCell>
-                        <TableCell align="center">Status</TableCell>
+                        <TableCell align="center" padding="none"></TableCell>
+                        <TableCell padding="none">Name</TableCell>
+                        <TableCell padding="none">Destination</TableCell>
+                        <TableCell align="center" padding="none">
+                            Status
+                        </TableCell>
                         <TableCell></TableCell>
                     </TableRow>
                 </TableHead>

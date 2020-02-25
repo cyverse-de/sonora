@@ -9,7 +9,7 @@ import {
 
 import { Button } from "@material-ui/core";
 
-import UploadQueue from "../src/components/uploads/UploadQueue";
+import UploadQueue from "../src/components/uploads/queue";
 
 export default {
     title: "Uploads/UploadQueue",

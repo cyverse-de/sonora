@@ -15,67 +15,79 @@ export default {
     title: "Uploads/UploadQueue",
 };
 
-export const UploadQueueTest = () => {
-    const TestDispatch = () => {
-        const dispatch = useUploadTrackingDispatch();
-        dispatch(
-            addAction({
-                id: UUID(),
-                parentPath: "/iplant/home/ipcdev/test-0",
-                filename: "fake-upload-0",
-                isUploading: true,
-                hasUploaded: false,
-                file: {
-                    name: "fake-upload-0",
-                },
-            })
-        );
+const TestDispatch = () => {
+    const dispatch = useUploadTrackingDispatch();
+    const [hasRun, setHasRun] = useState(false);
 
-        dispatch(
-            addAction({
-                id: UUID(),
-                parentPath: "/iplant/home/ipcdev/test-1",
-                filename: "fake-upload-1",
-                isUploading: false,
-                hasUploaded: true,
-                file: {
-                    name: "fake-upload-1",
-                },
-            })
-        );
-
-        dispatch(
-            addAction({
-                id: UUID(),
-                parentPath: "/iplant/home/ipcdev/test-2",
-                filename: "fake-upload-2",
-                isUploading: false,
-                hasUploaded: false,
-                hasErrored: true,
-                errorMessage: "test error message",
-                file: {
-                    name: "fake-upload-2",
-                },
-            })
-        );
-
-        dispatch(
-            addAction({
-                id: UUID(),
-                parentPath: "/iplant/home/ipcdev/test-3",
-                filename: "fake-upload-3",
-                isUploading: false,
-                hasUploaded: false,
-                file: {
-                    name: "fake-upload-3",
-                },
-            })
-        );
+    if (hasRun) {
         return <></>;
-    };
+    }
 
+    dispatch(
+        addAction({
+            id: UUID(),
+            parentPath: "/iplant/home/ipcdev/test-0",
+            filename: "fake-upload-0",
+            isUploading: true,
+            hasUploaded: false,
+            file: {
+                name: "fake-upload-0",
+            },
+        })
+    );
+
+    dispatch(
+        addAction({
+            id: UUID(),
+            parentPath: "/iplant/home/ipcdev/test-1",
+            filename: "fake-upload-1",
+            isUploading: false,
+            hasUploaded: true,
+            file: {
+                name: "fake-upload-1",
+            },
+        })
+    );
+
+    dispatch(
+        addAction({
+            id: UUID(),
+            parentPath: "/iplant/home/ipcdev/test-2",
+            filename: "fake-upload-2",
+            isUploading: false,
+            hasUploaded: false,
+            hasErrored: true,
+            errorMessage: "test error message",
+            file: {
+                name: "fake-upload-2",
+            },
+        })
+    );
+
+    dispatch(
+        addAction({
+            id: UUID(),
+            parentPath: "/iplant/home/ipcdev/test-3",
+            filename: "fake-upload-3",
+            isUploading: false,
+            hasUploaded: false,
+            file: {
+                name: "fake-upload-3",
+            },
+        })
+    );
+
+    if (!hasRun) {
+        setHasRun(true);
+    }
+
+    return <></>;
+};
+
+export const UploadQueueTest = () => {
     const testUploadFn = (file, dest, _dispatcher) =>
         console.log(`fake uploading ${file.name} to ${dest}`);
+
     const [open, setOpen] = useState(true);
     return (
         <div>

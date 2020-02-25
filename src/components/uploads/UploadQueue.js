@@ -37,15 +37,15 @@ import {
     removeAction,
     useUploadTrackingDispatch,
     useUploadTrackingState,
-    UploadTrackingProvider,
     KindFile,
 } from "../../contexts/uploadTracking";
 
 const drawerMinHeight = 45;
+const drawerMaxHeight = "50%";
 
 const useStyles = makeStyles((theme) => ({
     drawerMax: {
-        height: "50%",
+        height: drawerMaxHeight,
         transition: theme.transitions.create("height", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
@@ -95,41 +95,30 @@ const UploadStatus = ({ upload }) => {
     return statusIcon;
 };
 
+const Closable = ({ open, onClose, children }) => {
+    const [hasOpened, setHasOpened] = useState(false);
+
+    if (!open) {
+        if (hasOpened) {
+            onClose();
+        }
+
+        return null;
+    }
+
+    if (!hasOpened) {
+        setHasOpened(true);
+    }
+    return <div>{children}</div>;
+};
+
 export default function UploadQueue(props) {
     const classes = useStyles();
     const dispatch = useUploadTrackingDispatch();
     const tracker = useUploadTrackingState();
 
-    const { open, onClose, uploadFn } = props;
-    const [isMaximized, setIsMaximized] = useState(open);
-
-    const running = tracker.uploads.filter(
-        (upload) => upload.isUploading && !upload.hasUploaded
-    );
-
-    //const completed = tracker.uploads.filter((upload) => upload.hasUploaded);
-
-    //const errored = tracker.uploads.filter((upload) => upload.hasErrored);
-
-    const waiting = tracker.uploads.filter(
-        (upload) =>
-            !upload.hasErrored &&
-            !upload.isUploading &&
-            !UploadTrackingProvider.hasUploaded
-    );
-
-    // If there aren't three uploads running and there are uploads waiting, run them.
-    if (
-        tracker.uploads.length > 0 &&
-        waiting.length > 0 &&
-        running.length < 3
-    ) {
-        waiting.forEach((upload, idx) => {
-            if (idx <= 2) {
-                uploadFn(upload.file, upload.parentPath, dispatch);
-            }
-        });
-    }
+    const { open, onClose } = props;
+    const [isMaximized, setIsMaximized] = useState(true);
 
     const handleCancel = (event, upload) => {
         event.stopPropagation();
@@ -146,115 +135,113 @@ export default function UploadQueue(props) {
 
     return (
         <>
-            <Drawer
-                anchor="bottom"
-                variant="persistent"
-                open={open}
-                onClose={onClose}
-                classes={{
-                    paper: isMaximized ? classes.drawerMax : classes.drawerMin,
-                }}
-            >
-                <div className={classes.toolBarRoot}>
-                    <Toolbar
-                        variant="dense"
-                        color="primary"
-                        className={classes.toolBar}
-                    >
-                        <Typography
-                            variant="h6"
-                            className={classes.uploadTypography}
+            <Closable open={open} onClose={onClose}>
+                <Drawer
+                    anchor="bottom"
+                    variant="persistent"
+                    open={true}
+                    classes={{
+                        paper: isMaximized
+                            ? classes.drawerMax
+                            : classes.drawerMin,
+                    }}
+                >
+                    <div className={classes.toolBarRoot}>
+                        <Toolbar
+                            variant="dense"
+                            color="primary"
+                            className={classes.toolBar}
                         >
-                            Uploads
-                        </Typography>
+                            <Typography
+                                variant="h6"
+                                className={classes.uploadTypography}
+                            >
+                                Uploads
+                            </Typography>
 
-                        <IconButton
-                            onClick={() => setIsMaximized(!isMaximized)}
-                        >
-                            {isMaximized ? (
-                                <KeyboardArrowDownIcon
-                                    className={classes.toolBarAction}
-                                />
-                            ) : (
-                                <KeyboardArrowUpIcon
-                                    className={classes.toolBarAction}
-                                />
-                            )}
-                        </IconButton>
+                            <IconButton
+                                onClick={() => setIsMaximized(!isMaximized)}
+                            >
+                                {isMaximized ? (
+                                    <KeyboardArrowDownIcon
+                                        className={classes.toolBarAction}
+                                    />
+                                ) : (
+                                    <KeyboardArrowUpIcon
+                                        className={classes.toolBarAction}
+                                    />
+                                )}
+                            </IconButton>
 
-                        <IconButton
-                            onClick={() => {
-                                setIsMaximized(false);
-                                onClose();
-                            }}
-                        >
-                            <CancelIcon className={classes.toolBarAction} />
-                        </IconButton>
-                    </Toolbar>
-                </div>
+                            <IconButton onClick={onClose}>
+                                <CancelIcon className={classes.toolBarAction} />
+                            </IconButton>
+                        </Toolbar>
+                    </div>
 
-                <TableContainer component={Paper}>
-                    <Table className={classes.table}>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="center">Type</TableCell>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Destination</TableCell>
-                                <TableCell align="center">Status</TableCell>
-                                <TableCell></TableCell>
-                            </TableRow>
-                        </TableHead>
-
-                        <TableBody>
-                            {tracker.uploads.map((upload) => (
-                                <TableRow key={upload.id}>
-                                    <TableCell
-                                        component="th"
-                                        scope="row"
-                                        align="center"
-                                    >
-                                        {upload.kind === KindFile ? (
-                                            <DescriptionIcon />
-                                        ) : (
-                                            <HttpIcon />
-                                        )}
-                                    </TableCell>
-
-                                    <TableCell component="th" scope="row">
-                                        {upload.filename}
-                                    </TableCell>
-
-                                    <TableCell component="th" scope="row">
-                                        {upload.parentPath}
-                                    </TableCell>
-
-                                    <TableCell
-                                        component="th"
-                                        scope="row"
-                                        align="center"
-                                    >
-                                        <UploadStatus upload={upload} />
-                                    </TableCell>
-
-                                    <TableCell
-                                        component="th"
-                                        scope="row"
-                                        align="center"
-                                    >
-                                        <IconButton
-                                            onClick={(e) =>
-                                                handleCancel(e, upload)
-                                            }
-                                        >
-                                            <CancelIcon />
-                                        </IconButton>
-                                    </TableCell>
+                    <TableContainer component={Paper}>
+                        <Table className={classes.table}>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="center">Type</TableCell>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell>Destination</TableCell>
+                                    <TableCell align="center">Status</TableCell>
+                                    <TableCell></TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Drawer>
+                            </TableHead>
+
+                            <TableBody>
+                                {tracker.uploads.map((upload) => (
+                                    <TableRow key={upload.id}>
+                                        <TableCell
+                                            component="th"
+                                            scope="row"
+                                            align="center"
+                                        >
+                                            {upload.kind === KindFile ? (
+                                                <DescriptionIcon />
+                                            ) : (
+                                                <HttpIcon />
+                                            )}
+                                        </TableCell>
+
+                                        <TableCell component="th" scope="row">
+                                            {upload.filename}
+                                        </TableCell>
+
+                                        <TableCell component="th" scope="row">
+                                            {upload.parentPath}
+                                        </TableCell>
+
+                                        <TableCell
+                                            component="th"
+                                            scope="row"
+                                            align="center"
+                                        >
+                                            <UploadStatus upload={upload} />
+                                        </TableCell>
+
+                                        <TableCell
+                                            component="th"
+                                            scope="row"
+                                            align="center"
+                                        >
+                                            <IconButton
+                                                onClick={(e) =>
+                                                    handleCancel(e, upload)
+                                                }
+                                            >
+                                                <CancelIcon />
+                                            </IconButton>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Drawer>
+            </Closable>
         </>
     );
 }

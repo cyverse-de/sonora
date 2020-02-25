@@ -7,6 +7,8 @@ import {
     addAction,
 } from "../src/contexts/uploadTracking";
 
+import { Button } from "@material-ui/core";
+
 import UploadQueue from "../src/components/uploads/UploadQueue";
 
 export default {
@@ -76,13 +78,18 @@ export const UploadQueueTest = () => {
         console.log(`fake uploading ${file.name} to ${dest}`);
     const [open, setOpen] = useState(true);
     return (
-        <UploadTrackingProvider>
-            <TestDispatch />
-            <UploadQueue
-                open={open}
-                uploadFn={testUploadFn}
-                onClose={() => setOpen(false)}
-            />
-        </UploadTrackingProvider>
+        <div>
+            <Button onClick={() => setOpen(!open)}>
+                {open ? "Close" : "Open"}
+            </Button>
+            <UploadTrackingProvider>
+                <TestDispatch />
+                <UploadQueue
+                    open={open}
+                    uploadFn={testUploadFn}
+                    onClose={() => setOpen(false)}
+                />
+            </UploadTrackingProvider>
+        </div>
     );
 };

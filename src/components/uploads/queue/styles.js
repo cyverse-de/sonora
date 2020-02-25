@@ -8,7 +8,7 @@
 
 import { makeStyles } from "@material-ui/core/styles";
 
-const drawerMinHeight = 45;
+const drawerMinHeight = 50;
 const drawerMaxHeight = "50%";
 
 const useStyles = makeStyles((theme) => ({

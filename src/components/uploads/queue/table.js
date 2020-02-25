@@ -117,6 +117,7 @@ export default function UploadsTable() {
                 <TableBody>
                     {tracker.uploads.map((upload) => (
                         <UploadTableRow
+                            key={upload.id}
                             upload={upload}
                             handleCancel={handleCancel}
                         />

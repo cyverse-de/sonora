@@ -1,3 +1,11 @@
+/**
+ * @author johnworth
+ *
+ * Styles for the upload queue.
+ *
+ * @module UploadQueue
+ */
+
 import { makeStyles } from "@material-ui/core/styles";
 
 const drawerMinHeight = 45;

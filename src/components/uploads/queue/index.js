@@ -3,17 +3,11 @@
  *
  * A component that pulls items out of the upload tracker and triggers them.
  *
- * @module UploadManager
+ * @module UploadQueue
  */
 import React, { useState } from "react";
 
 import { Drawer } from "@material-ui/core";
-
-import {
-    removeAction,
-    useUploadTrackingDispatch,
-    useUploadTrackingState,
-} from "../../../contexts/uploadTracking";
 
 import UploadsToolbar from "./toolbar";
 import UploadsTable from "./table";
@@ -38,24 +32,9 @@ const Closable = ({ open, onClose, children }) => {
 
 export default function UploadQueue(props) {
     const classes = useStyles();
-    const dispatch = useUploadTrackingDispatch();
-    const tracker = useUploadTrackingState();
 
     const { open, onClose } = props;
     const [isMaximized, setIsMaximized] = useState(true);
-
-    const handleCancel = (event, upload) => {
-        event.stopPropagation();
-        event.preventDefault();
-
-        upload.cancelFn();
-
-        dispatch(
-            removeAction({
-                id: upload.id,
-            })
-        );
-    };
 
     return (
         <>
@@ -76,10 +55,7 @@ export default function UploadQueue(props) {
                         onClose={onClose}
                     />
 
-                    <UploadsTable
-                        tracker={tracker}
-                        handleCancel={handleCancel}
-                    />
+                    <UploadsTable />
                 </Drawer>
             </Closable>
         </>

@@ -1,3 +1,11 @@
+/**
+ * @author johnworth
+ *
+ * A table populated from tracked uploads. Used in the UploadQueue.
+ *
+ * @module UploadQueue
+ */
+
 import React from "react";
 
 import {
@@ -20,7 +28,12 @@ import {
     Http as HttpIcon,
 } from "@material-ui/icons";
 
-import { KindFile } from "../../../contexts/uploadTracking";
+import {
+    KindFile,
+    removeAction,
+    useUploadTrackingState,
+    useUploadTrackingDispatch,
+} from "../../../contexts/uploadTracking";
 
 import useStyles from "./styles";
 
@@ -42,8 +55,51 @@ const UploadStatus = ({ upload }) => {
     return statusIcon;
 };
 
-export default function UploadsTable({ tracker, handleCancel }) {
+const UploadTableRow = ({ upload, handleCancel }) => {
+    return (
+        <TableRow key={upload.id}>
+            <TableCell component="th" scope="row" align="center">
+                {upload.kind === KindFile ? <DescriptionIcon /> : <HttpIcon />}
+            </TableCell>
+
+            <TableCell component="th" scope="row">
+                {upload.filename}
+            </TableCell>
+
+            <TableCell component="th" scope="row">
+                {upload.parentPath}
+            </TableCell>
+
+            <TableCell component="th" scope="row" align="center">
+                <UploadStatus upload={upload} />
+            </TableCell>
+
+            <TableCell component="th" scope="row" align="center">
+                <IconButton onClick={(e) => handleCancel(e, upload)}>
+                    <CancelIcon />
+                </IconButton>
+            </TableCell>
+        </TableRow>
+    );
+};
+
+export default function UploadsTable() {
     const classes = useStyles();
+    const tracker = useUploadTrackingState();
+    const dispatch = useUploadTrackingDispatch();
+
+    const handleCancel = (event, upload) => {
+        event.stopPropagation();
+        event.preventDefault();
+
+        upload.cancelFn();
+
+        dispatch(
+            removeAction({
+                id: upload.id,
+            })
+        );
+    };
 
     return (
         <TableContainer component={Paper}>
@@ -60,47 +116,10 @@ export default function UploadsTable({ tracker, handleCancel }) {
 
                 <TableBody>
                     {tracker.uploads.map((upload) => (
-                        <TableRow key={upload.id}>
-                            <TableCell
-                                component="th"
-                                scope="row"
-                                align="center"
-                            >
-                                {upload.kind === KindFile ? (
-                                    <DescriptionIcon />
-                                ) : (
-                                    <HttpIcon />
-                                )}
-                            </TableCell>
-
-                            <TableCell component="th" scope="row">
-                                {upload.filename}
-                            </TableCell>
-
-                            <TableCell component="th" scope="row">
-                                {upload.parentPath}
-                            </TableCell>
-
-                            <TableCell
-                                component="th"
-                                scope="row"
-                                align="center"
-                            >
-                                <UploadStatus upload={upload} />
-                            </TableCell>
-
-                            <TableCell
-                                component="th"
-                                scope="row"
-                                align="center"
-                            >
-                                <IconButton
-                                    onClick={(e) => handleCancel(e, upload)}
-                                >
-                                    <CancelIcon />
-                                </IconButton>
-                            </TableCell>
-                        </TableRow>
+                        <UploadTableRow
+                            upload={upload}
+                            handleCancel={handleCancel}
+                        />
                     ))}
                 </TableBody>
             </Table>

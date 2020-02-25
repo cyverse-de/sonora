@@ -46,9 +46,17 @@ const drawerMinHeight = 45;
 const useStyles = makeStyles((theme) => ({
     drawerMax: {
         height: "50%",
+        transition: theme.transitions.create("height", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
     },
     drawerMin: {
         height: drawerMinHeight,
+        transition: theme.transitions.create("height", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
     },
     table: {
         minWidth: 650,

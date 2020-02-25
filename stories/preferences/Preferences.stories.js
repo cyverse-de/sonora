@@ -37,27 +37,27 @@ export const PreferencesTest = () => {
             base_trash_path: "/iplant/trash/home/de-irods",
         },
         preferences: {
-            rememberLastPath: false,
+            rememberLastPath: true,
             notificationKBShortcut: "N",
             dataKBShortcut: "D",
             lastFolder: "/iplant/home/jmittelmeier",
             enableImportEmailNotification: true,
-            enableWaitTimeMessage: false,
+            enableWaitTimeMessage: true,
             defaultFileSelectorPath: "/iplant/home/jmittelmeier",
             closeKBShortcut: "Q",
             appsKBShortcut: "A",
-            default_output_folder: {
-                id: "/iplant/home/jmittelmeier/analyses_qa",
-                path: "/iplant/home/jmittelmeier/analyses_qa",
-            },
             system_default_output_dir: {
                 id: "/iplant/home/jmittelmeier/analyses_qa",
                 path: "/iplant/home/jmittelmeier/analyses_qa",
             },
+            default_output_folder: {
+                id: "/iplant/home/jmittelmeier/analyses_qa",
+                path: "/iplant/home/jmittelmeier/analyses_qa",
+            },
             analysisKBShortcut: "Y",
-            saveSession: false,
+            saveSession: true,
             enableAnalysisEmailNotification: true,
-            enableHPCPrompt: false,
+            enableHPCPrompt: true,
         },
     };
 

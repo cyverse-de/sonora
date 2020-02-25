@@ -163,6 +163,24 @@ export const errorAction = (upload) => ({
 });
 
 /**
+ * Create a new ShowQueueAction.
+ * @returns {Object}
+ */
+export const showQueueAction = () => ({
+    type: "setShowQueue",
+    showQueue: true,
+});
+
+/**
+ * Creates a new HideQueueAction.
+ * @return {Object}
+ */
+export const hideQueueAction = () => ({
+    type: "setShowQueue",
+    showQueue: false,
+});
+
+/**
  * @typedef UploadTrackingState
  * @property {Array<TrackableUpload>} uploads - An array of tracked uploads.
  */
@@ -241,6 +259,10 @@ const uploadReducer = (state, action) => {
             return newState;
         }
 
+        case "setShowQueue": {
+            return { ...state, showQueue: action.showQueue };
+        }
+
         default: {
             throw new Error(`unsupported action ${action.type}`);
         }
@@ -259,7 +281,10 @@ const UploadTrackingDispatchContext = React.createContext();
  * provider.
  */
 const UploadTrackingProvider = ({ children }) => {
-    const [state, dispatch] = React.useReducer(uploadReducer, { uploads: [] });
+    const [state, dispatch] = React.useReducer(uploadReducer, {
+        uploads: [],
+        showQueue: false,
+    });
     return (
         <UploadTrackingStateContext.Provider value={state}>
             <UploadTrackingDispatchContext.Provider value={dispatch}>

@@ -56,5 +56,15 @@ export default function apiRouter() {
     logger.info("adding the /api/profile handler");
     api.get("/profile", (req, res) => res.json(auth.getUserProfile(req)));
 
+    logger.info("adding the /api/tags/suggestions handler");
+    api.get(
+        "/tags/suggestions",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/secured/tags/suggestions",
+        })
+    );
+
     return api;
 }

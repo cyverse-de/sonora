@@ -32,6 +32,7 @@ export const handler = ({ method, pathname, headers }) => {
                 pathname,
                 headers,
                 query: req.query,
+                params: req.params,
                 userID: accessToken?.content?.preferred_username,
                 accessToken: accessToken?.token,
             },
@@ -48,24 +49,35 @@ export const handler = ({ method, pathname, headers }) => {
 };
 
 /**
- * Calls a Terrain endpoint. Returns the a Promise.
+ * Calls a Terrain endpoint. Returns a Promise.
  *
- * @param {Object} requestParam - The request configuration object.
- * @param {string} requestParam.method - The HTTP method to use for the Terrain request.
- * @param {string} requestParam.pathname - The path for the Terrain request.
- * @param {Object} requestParam.headers - The headers to include in the Terrain request.
- * @param {Object} requestParam.query - The query params to include in the Terrain request.
- * @param {Object} requestParam.userID - The user ID to include in the Terrain request.
- * @param {Object} requestParam.accessToken - The access token to use in the Terrain request.
+ * @param {Object} request - The request configuration object.
+ * @param {string} request.method - The HTTP method to use for the Terrain request.
+ * @param {string} request.pathname - The path for the Terrain request.
+ * @param {Object} request.headers - The headers to include in the Terrain request.
+ * @param {Object} request.query - The query params to include in the Terrain request.
+ * @param {Object} request.params - The named path segments
+ * @param {Object} request.userID - The user ID to include in the Terrain request.
+ * @param {Object} request.accessToken - The access token to use in the Terrain request.
  * @param {Object} inStream - The ReadableStream to use as the body of the Terrain request.
  * @returns {Promise}
  */
 export const call = (
-    { method, pathname, headers, query, userID, accessToken },
+    { method, pathname, headers, query, params, userID, accessToken },
     inStream
 ) => {
     const apiURL = new URL(terrainURL);
-    apiURL.pathname = path.join(apiURL.pathname, pathname);
+    let updatedPathName = pathname;
+
+    // Replace any named path segments (:variableName) with the
+    // corresponding values
+    if (params) {
+        const keys = Object.keys(params);
+        keys.forEach((key) => {
+            updatedPathName = pathname.replace(`:${key}`, params[key]);
+        });
+    }
+    apiURL.pathname = path.join(apiURL.pathname, updatedPathName);
 
     if (query) {
         apiURL.search = querystring.stringify(query);

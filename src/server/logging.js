@@ -1,3 +1,4 @@
+import { getUserID } from "./auth";
 import { createLogger, format, transports } from "winston";
 import expressWinston from "express-winston";
 import { logLevel, logLabel } from "./configuration";
@@ -15,23 +16,24 @@ const logger = createLogger({
     transports: [new transports.Console()],
 });
 
+const getLoggableUserID = (req) => getUserID(req) || "logged-out-user";
+
 export const requestLogger = expressWinston.logger({
     transports: [new transports.Console()],
     msg: (req, res) =>
-        `HTTP ${req.ip} ${JSON.stringify(req.ips)} ${req?.user?.profile?.id ||
-            "logged-out-user"} ${req.method} ${req.url} ${res.statusCode} ${
-            res.responseTime
-        }ms`,
+        `HTTP ${req.ip} ${JSON.stringify(req.ips)} ${getLoggableUserID(req)}
+            ${req.method} ${req.url} ${res.statusCode} ${res.responseTime}ms`,
     format: combine(label({ label: logLabel }), timestamp(), logFormat),
 });
 
 export const errorLogger = expressWinston.errorLogger({
     transports: [new transports.Console()],
     msg: (req, res, err) =>
-        `HTTP Error ${req.ip} ${JSON.stringify(req.ips)} ${req?.user?.profile
-            ?.id || "logged-out-user"} ${req.method} ${req.url} ${
-            err.message
-        } ${res.statusCode} ${res.responseTime}ms`,
+        `HTTP Error ${req.ip} ${JSON.stringify(req.ips)} ${getLoggableUserID(
+            req
+        )} ${req.method} ${req.url} ${err.message} ${res.statusCode} ${
+            res.responseTime
+        }ms`,
     format: combine(label({ label: logLabel }), timestamp(), logFormat),
 });
 

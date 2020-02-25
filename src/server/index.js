@@ -1,12 +1,10 @@
 import express from "express";
+import keycloak from "keycloak-connect";
 import next from "next";
-import passport from "passport";
-import session from "express-session";
 import pgsimple from "connect-pg-simple";
-import { ensureLoggedIn } from "connect-ensure-login";
+import session from "express-session";
 
 import * as config from "./configuration";
-import * as authStrategy from "./authStrategy";
 import apiRouter from "./api/router";
 
 import logger, { errorLogger, requestLogger } from "./logging";
@@ -16,11 +14,6 @@ export const app = next({
 });
 const nextHandler = app.getRequestHandler();
 
-// Configure passport.
-passport.use(authStrategy.strategy);
-passport.serializeUser(authStrategy.serializeUser);
-passport.deserializeUser(authStrategy.deserializeUser);
-
 // Configure the session store.
 const pgSession = pgsimple(session);
 const sessionStore = new pgSession({
@@ -28,6 +21,19 @@ const sessionStore = new pgSession({
     tableName: "session",
     ttl: config.sessionTTL,
 });
+
+// Configure the Keycloak client.
+const keycloakClient = new keycloak(
+    {
+        store: sessionStore,
+    },
+    {
+        serverUrl: config.keycloakServerURL,
+        realm: config.keycloakRealm,
+        clientId: config.keycloakClientID,
+        secret: config.keycloakClientSecret,
+    }
+);
 
 app.prepare()
 
@@ -55,46 +61,30 @@ app.prepare()
             })
         );
 
-        logger.info("configuring passport");
-        server.use(passport.initialize());
-        server.use(passport.session());
+        logger.info("configuring keycloak");
+        server.use(keycloakClient.middleware());
 
         logger.info("adding the /login handler");
-        server.get(
-            "/login",
-            passport.authenticate("oauth2", {
-                session: true,
-                successReturnToOrRedirect: "/",
-            })
-        );
+        server.get("/login", keycloakClient.protect());
 
         logger.info("adding the /login/* handler");
-        server.get("/login/*", ensureLoggedIn("/login"), (req, res) => {
+        server.get("/login/*", keycloakClient.protect(), (req, res) => {
             res.redirect(req.url.replace(/^\/login/, ""));
         });
 
-        logger.info("adding the /logout handler");
-        server.get("/logout", (req, res) => {
-            req.session.destroy(() =>
-                res.redirect(
-                    `${config.oauth2LogoutURL}?service=${config.baseURL}`
-                )
-            );
-        });
-
         logger.info("adding the api router to the express server");
-        server.use("/api", apiRouter());
+        server.use("/api", keycloakClient.checkSso(), apiRouter());
 
         logger.info(
             "adding the next.js fallthrough handler to the express server."
         );
 
         //map root to Dashboard
-        server.get("/", (req, res) => {
+        server.get("/", keycloakClient.checkSso(), (req, res) => {
             app.render(req, res, "/dashboard", undefined);
         });
 
-        server.get("*", (req, res) => {
+        server.get("*", keycloakClient.checkSso(), (req, res) => {
             return nextHandler(req, res);
         });
 

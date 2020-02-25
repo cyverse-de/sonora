@@ -74,13 +74,11 @@ const validate = () => {
     validateConfigSetting("sessions.secure_cookie");
     validateConfigSetting("sessions.ttl");
 
-    // OAuth2 configuration settings.
-    validateConfigSetting("oauth2.authorization_url");
-    validateConfigSetting("oauth2.token_url");
-    validateConfigSetting("oauth2.profile_url");
-    validateConfigSetting("oauth2.logout_url");
-    validateConfigSetting("oauth2.client_id");
-    validateConfigSetting("oauth2.client_secret");
+    // Keycloak configuration settings.
+    validateConfigSetting("keycloak.server_url");
+    validateConfigSetting("keycloak.realm");
+    validateConfigSetting("keycloak.client_id");
+    validateConfigSetting("keycloak.client_secret");
 
     //intercom settings.
     validateConfigSetting("intercom.app_id");
@@ -157,47 +155,32 @@ export const sessionSecureCookie = parseBoolean(
 export const sessionTTL = parseInt(config.get("sessions.ttl")) * 3600;
 
 /**
- * The URL to redirect users to for OAuth2 authorization. Taken from the
- * 'oauth2.authorization_url' setting in the configuration file.
+ * The Keycloak server URL. Taken from the 'keycloak.server_url' setting in the
+ * configuration file.
  * @type {string}
  */
-export const oauth2AuthorizationURL = config.get("oauth2.authorization_url");
+export const keycloakServerURL = config.get("keycloak.server_url");
 
 /**
- * The URL to connect to in order to get an OAuth2 token. Taken from the
- * 'oauth2.token_url' setting in the configuration file.
+ * The Keycloak realm. Taken from the 'keycloak.realm' setting in the
+ * configuration file.
  * @type {string}
  */
-export const oauth2TokenURL = config.get("oauth2.token_url");
+export const keycloakRealm = config.get("keycloak.realm");
 
 /**
- * The URL to connect to in order to obtain the user profile once an access
- * token has been obtained. Taken from the 'oauth2.profile_url' setting in
- * the configuration file.
+ * The Keycloak client ID. Taken from the 'keycloak.client_id' setting in the
+ * configuration file.
  * @type {string}
  */
-export const oauth2ProfileURL = config.get("oauth2.profile_url");
+export const keycloakClientID = config.get("keycloak.client_id");
 
 /**
- * The URL to redirect the user too when logging out. Taken from the
- * 'oauth2.logout_url' setting in the configuration file.
+ * The Keycloak client secret. Taken from the 'keycloak.client_secret' setting
+ * in the configuration file.
  * @type {string}
  */
-export const oauth2LogoutURL = config.get("oauth2.logout_url");
-
-/**
- * The client ID to use for the OAuth2 provider. Taken from the
- * 'oauth2.client_id' setting in the configuration file.
- * @type {string}
- */
-export const oauth2ClientID = config.get("oauth2.client_id");
-
-/**
- * The client secret to use for the OAuth2 provider. Taken from the
- * 'oauth2.client_secret' setting in the configuration file.
- * @type {string}
- */
-export const oauth2ClientSecret = config.get("oauth2.client_secret");
+export const keycloakClientSecret = config.get("keycloak.client_secret");
 
 /**
  * The log level to use. See https://github.com/winstonjs/winston#logging-levels.

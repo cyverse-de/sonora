@@ -38,7 +38,11 @@ export default function UploadQueue(props) {
 
     return (
         <>
-            <Closable open={open} onClose={onClose}>
+            <Closable
+                open={open}
+                onClose={onClose}
+                className={classes.closable}
+            >
                 <Drawer
                     anchor="bottom"
                     variant="persistent"

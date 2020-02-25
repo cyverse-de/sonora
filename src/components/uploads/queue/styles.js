@@ -12,6 +12,10 @@ const drawerMinHeight = 45;
 const drawerMaxHeight = "50%";
 
 const useStyles = makeStyles((theme) => ({
+    closable: {
+        display: "flex",
+        flexDirection: "column",
+    },
     drawerMax: {
         height: drawerMaxHeight,
         transition: theme.transitions.create("height", {
@@ -34,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
         minHeight: drawerMinHeight,
     },
     toolBarRoot: {
-        flexGrow: 1,
+        flexGrow: 0,
     },
     uploadTypography: {
         color: theme.palette.primary.contrastText,

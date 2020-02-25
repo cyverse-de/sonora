@@ -103,7 +103,7 @@ export default function UploadsTable() {
 
     return (
         <TableContainer component={Paper}>
-            <Table className={classes.table}>
+            <Table stickyHeader className={classes.table}>
                 <TableHead>
                     <TableRow>
                         <TableCell align="center">Type</TableCell>

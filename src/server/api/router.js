@@ -1,55 +1,23 @@
-import request from "request";
-import path from "path";
-import querystring from "querystring";
-import { terrainURL } from "./configuration";
-import * as authStrategy from "./authStrategy";
-import logger from "./logging";
 import express from "express";
 
-const terrain = ({ method, url, pathname, headers }) => {
-    const baseURL = url || terrainURL;
+import * as authStrategy from "../authStrategy";
+import logger from "../logging";
 
-    return (req, res) => {
-        const apiURL = new URL(baseURL);
-        apiURL.pathname = path.join(apiURL.pathname, pathname);
-        apiURL.search = querystring.stringify(req.query);
-
-        const requestOptions = {
-            method: method,
-            url: apiURL.href,
-        };
-
-        if (headers) {
-            requestOptions.headers = headers;
-        }
-
-        logger.info(
-            `TERRAIN ${req?.user?.profile?.id} ${method} ${apiURL.href}`
-        );
-
-        req.pipe(request(requestOptions)).pipe(res);
-    };
-};
+import { handler as terrainHandler } from "./terrain";
+import uploadHandler from "./uploads";
 
 export default function apiRouter() {
     logger.info("creating the api router");
     const api = express.Router();
 
     logger.info("adding the /api/upload handler ");
-    api.post(
-        "/upload",
-        authStrategy.authnTokenMiddleware,
-        terrain({
-            method: "POST",
-            pathname: "/secured/fileio/upload",
-        })
-    );
+    api.post("/upload", authStrategy.authnTokenMiddleware, uploadHandler);
 
     logger.info("adding the /api/download handler");
     api.get(
         "/download",
         authStrategy.authnTokenMiddleware,
-        terrain({
+        terrainHandler({
             method: "GET",
             pathname: "/secured/fileio/download",
         })
@@ -59,7 +27,7 @@ export default function apiRouter() {
     api.get(
         "/filesystem/paged-directory",
         authStrategy.authnTokenMiddleware,
-        terrain({
+        terrainHandler({
             method: "GET",
             pathname: "/secured/filesystem/paged-directory",
         })
@@ -69,7 +37,7 @@ export default function apiRouter() {
     api.post(
         "/filesystem/stat",
         authStrategy.authnTokenMiddleware,
-        terrain({
+        terrainHandler({
             method: "POST",
             pathname: "/secured/filesystem/stat",
             headers: {
@@ -82,7 +50,7 @@ export default function apiRouter() {
     api.get(
         "/filesystem/root",
         authStrategy.authnTokenMiddleware,
-        terrain({ method: "GET", pathname: "/secured/filesystem/root" })
+        terrainHandler({ method: "GET", pathname: "/secured/filesystem/root" })
     );
 
     logger.info("adding the /api/profile handler");

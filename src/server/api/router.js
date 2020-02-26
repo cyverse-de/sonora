@@ -129,5 +129,28 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding the /filetypes/type-list handler");
+    api.get(
+        "/filetypes/type-list",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/secured/filetypes/type-list",
+        })
+    );
+
+    logger.info("adding the /filetypes/type handler");
+    api.post(
+        "/filetypes/type",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/filetypes/type",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

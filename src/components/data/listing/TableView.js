@@ -64,6 +64,7 @@ function getTableColumns(isMedium, isLarge) {
 function TableView(props) {
     const {
         loading,
+        error,
         path,
         handlePathChange,
         listing,
@@ -121,9 +122,15 @@ function TableView(props) {
                 )}
                 {!loading && (
                     <TableBody>
-                        {(!listing || listing.length === 0) && (
+                        {(!listing || listing.length === 0) && !error && (
                             <EmptyTable
                                 message={getMessage("emptyDataListing")}
+                                numColumns={tableColumns.length}
+                            />
+                        )}
+                        {error && (
+                            <EmptyTable
+                                message={error}
                                 numColumns={tableColumns.length}
                             />
                         )}

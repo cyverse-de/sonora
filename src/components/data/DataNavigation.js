@@ -1,8 +1,8 @@
 /**
  * @author sriram
  *
- * A component that displays breadcrumbs for Data navigation.
- *
+ * A component that displays Roots folders and breadcrumbs for Data navigation.
+ * On smaller screens, breadcrumbs are replaced by dropdown menu of folder path.
  *
  */
 
@@ -29,6 +29,7 @@ import GroupIcon from "@material-ui/icons/Group";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FolderSharedIcon from "@material-ui/icons/FolderShared";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import FolderIcon from "@material-ui/icons/Folder";
 import { useRouter } from "next/router";
 import NavigationConstants from "../layout/NavigationConstants";
@@ -60,9 +61,36 @@ const useStyles = makeStyles((theme) => ({
         whiteSpace: "nowrap",
         overflow: "hidden",
         display: "inline-block",
-        maxWidth: 100,
+        maxWidth: 90,
     },
 }));
+
+function getPathItems(relativePath) {
+    let pathItems = [];
+    pathItems = relativePath.split("/").slice(1);
+    return pathItems;
+}
+
+function pathToRoute(root, relativePath, selectedPathItemIndex) {
+    const relativePathItems = getPathItems(relativePath);
+    const reducer = (accumulator, currentVal, idx) => {
+        if (idx <= selectedPathItemIndex) {
+            return accumulator + "/" + currentVal;
+        }
+        return accumulator;
+    };
+    const routerPath = relativePathItems.reduce(reducer);
+    console.log(
+        "reduced path=>" +
+            routerPath +
+            " path index=>" +
+            selectedPathItemIndex +
+            " relative path=>" +
+            relativePathItems.length
+    );
+
+    return "/" + NavigationConstants.DATA + `/?path=${root}/${routerPath}`;
+}
 
 function getRelativePath(path, userHomePath, userTrashPath) {
     let relativePath = "";
@@ -78,20 +106,20 @@ function getRelativePath(path, userHomePath, userTrashPath) {
     return relativePath;
 }
 
-function CurrentLocation({ root, path, userHomePath, userTrashPath }) {
+function PathSelectorMenu({ root, path, userHomePath, userTrashPath }) {
     const classes = useStyles();
-    const [relativePathItems, setRelativePathItems] = useState([]);
+    const router = useRouter();
     const [anchorEl, setAnchorEl] = useState(null);
+    const relativePath = getRelativePath(path, userHomePath, userTrashPath);
+    const pathItems = getPathItems(relativePath);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     useEffect(() => {
-        const relativePath = getRelativePath(path, userHomePath, userTrashPath);
-        const pathItems = relativePath.split("/").slice(1);
-        setRelativePathItems(pathItems);
+        console.log(
+            "selected index=>" + pathItems.length > 0 ? pathItems.length - 1 : 0
+        );
         setSelectedIndex(pathItems.length > 0 ? pathItems.length - 1 : 0);
-        console.log("relative path=>" + pathItems);
-        console.log("path items size=>" + pathItems.length);
-    }, [path]);
+    }, [pathItems]);
 
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
@@ -100,40 +128,45 @@ function CurrentLocation({ root, path, userHomePath, userTrashPath }) {
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
         setAnchorEl(null);
-        /*   router.push(
-            "/" + NavigationConstants.DATA + `?path=${dataRoots[index].path}`
-        );*/
+        const relativePath = getRelativePath(path, userHomePath, userTrashPath);
+        router.push(pathToRoute(root, relativePath, index));
     };
 
     const handleClose = () => {
         setAnchorEl(null);
     };
+    if (pathItems.length === 0) {
+        return null;
+    }
     return (
-        <>
-            <List component="nav" aria-label="Data Current Location">
-                <ListItem
-                    button
-                    aria-haspopup="true"
-                    aria-controls="Data current menu"
-                    aria-label="Current Data Location"
-                    onClick={handleClickListItem}
-                    className={classes.selectedListItem}
-                >
-                    {relativePathItems.length > 0 && (
+        pathItems.length > 0 && (
+            <>
+                <List component="nav" aria-label="Data Current Location">
+                    <ListItem
+                        button
+                        aria-haspopup="true"
+                        aria-controls="Data current menu"
+                        aria-label="Current Data Location"
+                        onClick={handleClickListItem}
+                        className={classes.selectedListItem}
+                    >
                         <>
-                            /{<FolderIcon />}
+                            {
+                                <>
+                                    <ArrowRightIcon /> <FolderIcon />
+                                </>
+                            }
                             <ListItemText
                                 className={classes.currentLocationLink}
-                                primary={relativePathItems[selectedIndex]}
+                                primary={pathItems[selectedIndex]}
                             />
                             <ListItemIcon>
                                 <ArrowDropDownIcon />
                             </ListItemIcon>
                         </>
-                    )}
-                </ListItem>
-            </List>
-            {relativePathItems.length > 0 && (
+                    </ListItem>
+                </List>
+
                 <Menu
                     id="lock-menu"
                     anchorEl={anchorEl}
@@ -141,7 +174,7 @@ function CurrentLocation({ root, path, userHomePath, userTrashPath }) {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    {relativePathItems.map((crumb, index) => (
+                    {pathItems.map((crumb, index) => (
                         <ListItem
                             key={crumb}
                             selected={index === selectedIndex}
@@ -157,37 +190,23 @@ function CurrentLocation({ root, path, userHomePath, userTrashPath }) {
                         </ListItem>
                     ))}
                 </Menu>
-            )}
-        </>
+            </>
+        )
     );
 }
 
 function BreadCrumb({ root, path, userHomePath, userTrashPath }) {
     const router = useRouter();
     const classes = useStyles();
+    const relativePath = getRelativePath(path, userHomePath, userTrashPath);
+
     const handleClick = (event, relativePath, crumb) => {
         event.preventDefault();
-        let pathToRoute = "";
-        const pathItems = relativePath.split("/");
-        for (let i = 0; i < pathItems.length; i++) {
-            if (pathItems[i] === crumb) {
-                console.log("matched");
-                break;
-            } else if (pathItems[i] !== "") {
-                pathToRoute = pathToRoute + "/" + pathItems[i];
-            }
-        }
-        router.push(
-            "/" +
-                NavigationConstants.DATA +
-                "?path=" +
-                root +
-                "/" +
-                pathToRoute +
-                crumb
-        );
+        const relativePathItems = getPathItems(relativePath);
+        const index = relativePathItems.indexOf((item) => item === crumb);
+        router.push(pathToRoute(root, relativePath, index));
     };
-    const relativePath = getRelativePath(path, userHomePath, userTrashPath);
+
     return (
         <Breadcrumbs maxItems={2} aria-label="breadcrumb">
             {relativePath.split("/").map((crumb) => (
@@ -209,8 +228,8 @@ function BreadCrumb({ root, path, userHomePath, userTrashPath }) {
     );
 }
 
-function BreadCrumbs(props) {
-    const { path, intl } = props;
+function DataNavigation(props) {
+    const { path, error, intl } = props;
     const router = useRouter();
     const classes = useStyles();
     const [dataRoots, setDataRoots] = useState([]);
@@ -258,20 +277,23 @@ function BreadCrumbs(props) {
             trash.icon = <DeleteIcon />;
             menuItems.push(home, sharedWithMe, communityData, trash);
         }
-
-        setDefaultPath(0, path ? path : menuItems[0].path);
         return menuItems;
     };
 
     const setBasePaths = (basePaths) => {
-        console.log("user home=>" + basePaths["user_home_path"]);
+        console.log("home=>" + basePaths["user_home_path"]);
+        console.log("trash=>" + basePaths["user_trash_path"]);
         setUserHomePath(basePaths["user_home_path"]);
         setUserTrashPath(basePaths["user_trash_path"]);
     };
 
-    const setDefaultPath = (index, path) => {
+    const setDefaultPath = (roots, path) => {
         //set default path after getting roots.
-        setSelectedIndex(index);
+        const idx = roots.findIndex((root) => path.includes(root.path));
+        console.log("selected index=>" + idx);
+        console.log("path=>" + path);
+        console.log("roots.size=>" + roots.length);
+        setSelectedIndex(idx);
         router.push("/" + NavigationConstants.DATA + `?path=${path}`);
     };
 
@@ -280,24 +302,31 @@ function BreadCrumbs(props) {
             endpoint: `/api/filesystem/root`,
         }).then((respData) => {
             if (respData) {
-                setDataRoots(getDataRoots(respData.roots));
+                const roots = getDataRoots(respData.roots);
+                setDataRoots(roots);
                 setBasePaths(respData["base-paths"]);
+                if (error === null || error.length === 0) {
+                    setDefaultPath(roots, path ? path : roots[0].path);
+                }
             }
         });
     }, []);
 
+    if (dataRoots.length === 0) {
+        return null;
+    }
     return (
-        <>
-            <List component="nav" aria-label="Data Root Location">
-                <ListItem
-                    button
-                    aria-haspopup="true"
-                    aria-controls="Data root menu"
-                    aria-label="Data Location"
-                    onClick={handleClickListItem}
-                    className={classes.selectedListItem}
-                >
-                    {dataRoots.length > 0 && (
+        dataRoots.length > 0 && (
+            <>
+                <List component="nav" aria-label="Data Root Location">
+                    <ListItem
+                        button
+                        aria-haspopup="true"
+                        aria-controls="Data root menu"
+                        aria-label="Data Location"
+                        onClick={handleClickListItem}
+                        className={classes.selectedListItem}
+                    >
                         <>
                             {dataRoots[selectedIndex].icon}
                             <ListItemText
@@ -311,18 +340,16 @@ function BreadCrumbs(props) {
                                 <ArrowDropDownIcon />
                             </ListItemIcon>
                         </>
-                    )}
-                </ListItem>
-            </List>
-            <Menu
-                id="lock-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-            >
-                {dataRoots.length > 0 &&
-                    dataRoots.map((menuItem, index) => (
+                    </ListItem>
+                </List>
+                <Menu
+                    id="lock-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    {dataRoots.map((menuItem, index) => (
                         <ListItem
                             key={menuItem.label}
                             selected={index === selectedIndex}
@@ -335,29 +362,30 @@ function BreadCrumbs(props) {
                             <ListItemText>{menuItem.label}</ListItemText>
                         </ListItem>
                     ))}
-            </Menu>
-            <Hidden xsDown>
-                {dataRoots.length > 0 && path && (
-                    <BreadCrumb
-                        root={dataRoots[selectedIndex].path}
-                        path={path}
-                        userHomePath={userHomePath}
-                        userTrashPath={userTrashPath}
-                    />
-                )}
-            </Hidden>
-            <Hidden only={["sm", "md", "lg", "xl"]}>
-                {dataRoots.length > 0 && path && (
-                    <CurrentLocation
-                        root={dataRoots[selectedIndex].path}
-                        path={path}
-                        userHomePath={userHomePath}
-                        userTrashPath={userTrashPath}
-                    />
-                )}
-            </Hidden>
-        </>
+                </Menu>
+                <Hidden xsDown>
+                    {path && error === null && (
+                        <BreadCrumb
+                            root={dataRoots[selectedIndex].path}
+                            path={path}
+                            userHomePath={userHomePath}
+                            userTrashPath={userTrashPath}
+                        />
+                    )}
+                </Hidden>
+                <Hidden only={["sm", "md", "lg", "xl"]}>
+                    {path && error === null && (
+                        <PathSelectorMenu
+                            root={dataRoots[selectedIndex].path}
+                            path={path}
+                            userHomePath={userHomePath}
+                            userTrashPath={userTrashPath}
+                        />
+                    )}
+                </Hidden>
+            </>
+        )
     );
 }
 
-export default withI18N(injectIntl(BreadCrumbs), intlData);
+export default withI18N(injectIntl(DataNavigation), intlData);

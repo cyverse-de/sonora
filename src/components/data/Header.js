@@ -30,7 +30,7 @@ import ids from "./ids";
 import messages from "./messages";
 import styles from "./styles";
 import UploadMenuBtn from "./UploadMenuBtn";
-import BreadCrumbs from "./BreadCrumbs";
+import DataNavigation from "./DataNavigation";
 
 const useStyles = makeStyles(styles);
 
@@ -38,6 +38,7 @@ function Header(props) {
     const classes = useStyles();
     const {
         baseId,
+        error,
         isGridView,
         toggleDisplay,
         onDownloadSelected,
@@ -53,7 +54,7 @@ function Header(props) {
     return (
         <>
             <Toolbar variant="dense">
-                <BreadCrumbs path={path} />
+                <DataNavigation path={path} error={error} />
             </Toolbar>
             <Toolbar
                 variant="dense"

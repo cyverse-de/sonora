@@ -30,6 +30,7 @@ function Listing(props) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
     const [data, setData] = useState({ total: 0, files: [], folders: [] });
     const [uploadsCompleted, setUploadsCompleted] = useState(0);
 
@@ -44,6 +45,7 @@ function Listing(props) {
             endpoint: `/api/filesystem/paged-directory?path=${path}&limit=${rowsPerPage}&sort-col=${orderBy}&sort-dir=${order}&offset=${rowsPerPage *
                 page}`,
             setLoading,
+            setError,
         }).then((respData) => {
             respData &&
                 setData({
@@ -160,57 +162,58 @@ function Listing(props) {
 
     return (
         <>
-            <UploadDropTarget
-                path={path}
-                uploadCompletedCB={() =>
-                    setUploadsCompleted(
-                        (uploadsCompleted) => uploadsCompleted + 1 // prevents stale values in closures.
-                    )
-                }
-            >
-                <Header
-                    baseId={baseId}
-                    isGridView={isGridView}
-                    toggleDisplay={toggleDisplay}
-                    onDownloadSelected={onDownloadSelected}
-                    onEditSelected={onEditSelected}
-                    onMetadataSelected={onMetadataSelected}
-                    onDeleteSelected={onDeleteSelected}
+            <>
+                <UploadDropTarget
                     path={path}
-                />
-
-                {!isGridView && (
-                    <TableView
-                        loading={loading}
-                        path={path}
-                        handlePathChange={handlePathChange}
-                        listing={data?.listing}
-                        isMedium={isMedium}
-                        isLarge={isLarge}
+                    uploadCompletedCB={() =>
+                        setUploadsCompleted(
+                            (uploadsCompleted) => uploadsCompleted + 1 // prevents stale values in closures.
+                        )
+                    }
+                >
+                    <Header
                         baseId={baseId}
+                        isGridView={isGridView}
+                        toggleDisplay={toggleDisplay}
                         onDownloadSelected={onDownloadSelected}
                         onEditSelected={onEditSelected}
                         onMetadataSelected={onMetadataSelected}
                         onDeleteSelected={onDeleteSelected}
-                        handleRequestSort={handleRequestSort}
-                        handleSelectAllClick={handleSelectAllClick}
-                        handleClick={handleClick}
-                        order={order}
-                        orderBy={orderBy}
-                        selected={selected}
+                        error={error}
                     />
-                )}
-                {isGridView && <span>Coming Soon!</span>}
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={data?.total}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
-                />
-            </UploadDropTarget>
+                    {!isGridView && (
+                        <TableView
+                            loading={loading}
+                            path={path}
+                            handlePathChange={handlePathChange}
+                            listing={data?.listing}
+                            isMedium={isMedium}
+                            isLarge={isLarge}
+                            baseId={baseId}
+                            onDownloadSelected={onDownloadSelected}
+                            onEditSelected={onEditSelected}
+                            onMetadataSelected={onMetadataSelected}
+                            onDeleteSelected={onDeleteSelected}
+                            handleRequestSort={handleRequestSort}
+                            handleSelectAllClick={handleSelectAllClick}
+                            handleClick={handleClick}
+                            order={order}
+                            orderBy={orderBy}
+                            selected={selected}
+                        />
+                    )}
+                    {isGridView && <span>Coming Soon!</span>}
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25]}
+                        component="div"
+                        count={data?.total}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                    />
+                </UploadDropTarget>
+            </>
         </>
     );
 }

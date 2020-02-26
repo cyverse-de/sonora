@@ -79,6 +79,21 @@ export default function apiRouter() {
         })
     );
 
+    logger.info(
+        "adding the PATCH /api/filesystem/entry/:resourceId/tags handler"
+    );
+    api.patch(
+        "/filesystem/entry/:resourceId/tags",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/secured/filesystem/entry/:resourceId/tags",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the /api/filesystem/user-permissions handler");
     api.post(
         "/filesystem/user-permissions",

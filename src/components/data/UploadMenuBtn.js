@@ -11,6 +11,11 @@ import { build, getMessage } from "@cyverse-de/ui-lib";
 import { Button, Hidden, makeStyles, Menu, MenuItem } from "@material-ui/core";
 import { Publish as UploadIcon } from "@material-ui/icons";
 
+import {
+    useUploadTrackingDispatch,
+    showQueueAction,
+} from "../../contexts/uploadTracking";
+
 import ids from "./ids";
 import styles from "./styles";
 
@@ -21,6 +26,8 @@ function UploadMenuBtn(props) {
     const classes = useStyles();
 
     const [uploadAnchor, setUploadAnchor] = useState(null);
+
+    const uploadTrackingDispatch = useUploadTrackingDispatch();
 
     const onUploadClose = () => {
         setUploadAnchor(null);
@@ -94,6 +101,7 @@ function UploadMenuBtn(props) {
                     onClick={() => {
                         onUploadClose();
                         console.log("View Upload Queue");
+                        uploadTrackingDispatch(showQueueAction());
                     }}
                 >
                     {getMessage("uploadQueue")}

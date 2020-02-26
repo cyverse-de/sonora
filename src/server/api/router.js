@@ -119,5 +119,15 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding the /api/user-info handler");
+    api.get(
+        "/user-info",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/secured/user-info",
+        })
+    );
+
     return api;
 }

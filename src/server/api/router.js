@@ -94,6 +94,18 @@ export default function apiRouter() {
         })
     );
 
+    logger.info(
+        "adding the GET /api/filesystem/entry/:resourceId/tags handler"
+    );
+    api.get(
+        "/filesystem/entry/:resourceId/tags",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/secured/filesystem/entry/:resourceId/tags",
+        })
+    );
+
     logger.info("adding the /api/filesystem/user-permissions handler");
     api.post(
         "/filesystem/user-permissions",

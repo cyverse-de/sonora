@@ -1,0 +1,27 @@
+export default {
+    locales: "en-us",
+    messages: {
+        analysisInfo: "Analysis Info",
+        analysisName: "Analysis Name",
+        analysisParameters: "Analysis Parameters",
+        back: "Back",
+        comments: "Comments",
+        launchAnalysis: "Launch Analysis",
+        launchOrSaveAsQL: "Launch or Save as Quick Launch",
+        msgNoAdditionalParameters: "This app has no additional parameters.",
+        minDiskSpace: "Minimum Disk Space",
+        minCPUCores: "Minimum CPU Cores",
+        minMemory: "Minimum Memory",
+        newAnalysisName: "{appName} analysis1",
+        next: "Next",
+        outputFolder: "Output Folder",
+        parameters: "Parameters",
+        required: "Required",
+        resourceRequirements: "Resource Requirements",
+        resourceRequirementsForStep: "Resource Requirements for Step {step}",
+        retainInputsLabel:
+            "Retain inputs? Enabling this flag will copy all the input files into the analysis result folder.",
+        reviewAndLaunch: "Review and Launch",
+        stepLabel: "Step {step}: {label}",
+    },
+};

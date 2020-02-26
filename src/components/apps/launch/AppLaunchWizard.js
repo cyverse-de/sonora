@@ -5,8 +5,12 @@
  * parameters and resource requirements as an alaysis submission.
  */
 import React from "react";
+
 import { Formik, Form, FastField } from "formik";
 import numeral from "numeral";
+import { injectIntl } from "react-intl";
+
+import messages from "./messages";
 
 import {
     FormCheckbox,
@@ -15,6 +19,9 @@ import {
     FormNumberField,
     FormSelectField,
     FormTextField,
+    getMessage,
+    formatMessage,
+    withI18N,
 } from "@cyverse-de/ui-lib";
 
 import {
@@ -30,21 +37,28 @@ import {
 import { ArrowBack, ArrowForward } from "@material-ui/icons";
 
 const steps = [
-    "Analysis Info",
-    "Parameters",
-    "Resource Requests",
-    "Review and Launch",
+    getMessage("analysisInfo"),
+    getMessage("parameters"),
+    getMessage("resourceRequirements"),
+    getMessage("reviewAndLaunch"),
 ];
 
 const StepContent = ({ activeStep, step, label, children }) => (
     <fieldset hidden={activeStep !== step}>
-        <legend>{`Step ${step + 1}: ${label}`}</legend>
+        <legend>
+            {getMessage("stepLabel", { values: { step: step + 1, label } })}
+        </legend>
         {children}
     </fieldset>
 );
 
-const formatAnalysisName = (name) =>
-    name ? `${name} analysis1`.replace(/ /g, "_") : "";
+const formatAnalysisName = (intl, name) =>
+    name
+        ? formatMessage(intl, "newAnalysisName", { appName: name }).replace(
+              / /g,
+              "_"
+          )
+        : "";
 
 const ONE_GB = 1024 * 1024 * 1024;
 
@@ -70,11 +84,11 @@ const validate = (values) => {
     const stepErrors = [];
 
     if (!values.name) {
-        errors.name = "Required";
+        errors.name = getMessage("required");
         stepErrors[0] = true;
     }
     if (!values.output_dir) {
-        errors.output_dir = "Required";
+        errors.output_dir = getMessage("required");
         stepErrors[0] = true;
     }
 
@@ -86,7 +100,9 @@ const validate = (values) => {
             if (group.parameters) {
                 group.parameters.forEach((param, paramIndex) => {
                     if (!param.value && param.required) {
-                        paramErrors[paramIndex] = { value: "Required" };
+                        paramErrors[paramIndex] = {
+                            value: getMessage("required"),
+                        };
                         stepErrors[1] = true;
                     }
                 });
@@ -110,6 +126,7 @@ const validate = (values) => {
 };
 
 const initValues = ({
+    intl,
     notify,
     output_dir,
     app: { id, system_id, name, requirements, groups },
@@ -144,7 +161,7 @@ const initValues = ({
         debug: false,
         notify,
         output_dir,
-        name: formatAnalysisName(name),
+        name: formatAnalysisName(intl, name),
         description: "",
         app_id: id,
         system_id,
@@ -253,28 +270,28 @@ const AppLaunchWizard = (props) => {
 
                     <StepContent
                         step={0}
-                        label="Analysis Info"
+                        label={getMessage("analysisInfo")}
                         activeStep={activeStep}
                     >
                         <FastField
-                            label="Analysis Name"
+                            label={getMessage("analysisName")}
                             required={true}
                             name="name"
                             component={FormTextField}
                         />
                         <FastField
-                            label="Comments"
+                            label={getMessage("comments")}
                             name="description"
                             component={FormMultilineTextField}
                         />
                         <FastField
-                            label="Output Folder"
+                            label={getMessage("outputFolder")}
                             required={true}
                             name="output_dir"
                             component={FormTextField}
                         />
                         <FastField
-                            label="Retain inputs? Enabling this flag will copy all the input files into the analysis result folder."
+                            label={getMessage("retainInputsLabel")}
                             name="debug"
                             component={FormCheckbox}
                         />
@@ -282,7 +299,7 @@ const AppLaunchWizard = (props) => {
 
                     <StepContent
                         step={1}
-                        label="Analysis Parameters"
+                        label={getMessage("analysisParameters")}
                         activeStep={activeStep}
                     >
                         {values.groups && values.groups.length > 0
@@ -333,12 +350,12 @@ const AppLaunchWizard = (props) => {
                                       )}
                                   </fieldset>
                               ))
-                            : "This app has no additional parameters."}
+                            : getMessage("msgNoAdditionalParameters")}
                     </StepContent>
 
                     <StepContent
                         step={2}
-                        label="Resource Requirements"
+                        label={getMessage("resourceRequirements")}
                         activeStep={activeStep}
                     >
                         {values.limits.map((reqs, index) => {
@@ -369,12 +386,18 @@ const AppLaunchWizard = (props) => {
                             return (
                                 <fieldset key={reqs.step_number}>
                                     <legend>
-                                        Resource Requirements for Step{" "}
-                                        {reqs.step_number + 1}
+                                        {getMessage(
+                                            "resourceRequirementsForStep",
+                                            {
+                                                values: {
+                                                    step: reqs.step_number + 1,
+                                                },
+                                            }
+                                        )}
                                     </legend>
                                     <FastField
                                         name={`requirements.${index}.min_cpu_cores`}
-                                        label={"minCPUCores"}
+                                        label={getMessage("minCPUCores")}
                                         component={FormSelectField}
                                     >
                                         {minCPUCoreList.map((size, index) => (
@@ -385,7 +408,7 @@ const AppLaunchWizard = (props) => {
                                     </FastField>
                                     <FastField
                                         name={`requirements.${index}.min_memory_limit`}
-                                        label={"minMemory"}
+                                        label={getMessage("minMemory")}
                                         component={FormSelectField}
                                         renderValue={formatGBValue}
                                     >
@@ -397,7 +420,7 @@ const AppLaunchWizard = (props) => {
                                     </FastField>
                                     <FastField
                                         name={`requirements.${index}.min_disk_space`}
-                                        label={"minDiskSpace"}
+                                        label={getMessage("minDiskSpace")}
                                         component={FormSelectField}
                                         renderValue={formatGBValue}
                                     >
@@ -414,7 +437,7 @@ const AppLaunchWizard = (props) => {
 
                     <StepContent
                         step={3}
-                        label="Launch or Save as Quick Launch"
+                        label={getMessage("launchOrSaveAsQL")}
                         activeStep={activeStep}
                     >
                         {values.groups &&
@@ -440,18 +463,26 @@ const AppLaunchWizard = (props) => {
                                     ) && (
                                         <fieldset key={reqs.step_number}>
                                             <legend>
-                                                Resource Requirements for Step{" "}
-                                                {reqs.step_number + 1}
+                                                {getMessage(
+                                                    "resourceRequirementsForStep",
+                                                    {
+                                                        values: {
+                                                            step:
+                                                                reqs.step_number +
+                                                                1,
+                                                        },
+                                                    }
+                                                )}
                                             </legend>
                                             {!!reqs.min_cpu_cores && (
                                                 <Typography>
-                                                    minCPUCores:{" "}
+                                                    {getMessage("minCPUCores")}:{" "}
                                                     {reqs.min_cpu_cores}
                                                 </Typography>
                                             )}
                                             {!!reqs.min_memory_limit && (
                                                 <Typography>
-                                                    minMemory:{" "}
+                                                    {getMessage("minMemory")}:{" "}
                                                     {formatGBValue(
                                                         reqs.min_memory_limit
                                                     )}
@@ -459,7 +490,8 @@ const AppLaunchWizard = (props) => {
                                             )}
                                             {!!reqs.min_disk_space && (
                                                 <Typography>
-                                                    minDiskSpace:{" "}
+                                                    {getMessage("minDiskSpace")}
+                                                    :{" "}
                                                     {formatGBValue(
                                                         reqs.min_disk_space
                                                     )}
@@ -488,19 +520,19 @@ const AppLaunchWizard = (props) => {
                         }}
                     >
                         <BottomNavigationAction
-                            label="Back"
+                            label={getMessage("back")}
                             value="back"
                             icon={<ArrowBack />}
                         />
                         {isLastStep() ? (
                             <BottomNavigationAction
-                                label="Launch Analysis"
+                                label={getMessage("launchAnalysis")}
                                 value="submit"
                                 disabled={isSubmitting}
                             />
                         ) : (
                             <BottomNavigationAction
-                                label="Next"
+                                label={getMessage("next")}
                                 value="next"
                                 icon={<ArrowForward />}
                             />
@@ -512,4 +544,4 @@ const AppLaunchWizard = (props) => {
     );
 };
 
-export default AppLaunchWizard;
+export default withI18N(injectIntl(AppLaunchWizard), messages);

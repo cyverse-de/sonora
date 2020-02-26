@@ -66,5 +66,18 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding the /api/filesystem/user-permissions handler");
+    api.post(
+        "/filesystem/user-permissions",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/filesystem/user-permissions",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

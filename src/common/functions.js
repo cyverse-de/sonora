@@ -45,3 +45,21 @@ export function deepMapKeys(obj, callback) {
  * @returns A new version of the object with the keys camcelCased.
  */
 export const camelcaseit = (obj) => deepMapKeys(obj, camelCase);
+
+/**
+ * A function that will take a list and group the list based on a
+ * classification function
+ * @param list A list of any type
+ * @param keyFn A function used to classify each item in the list
+ * @returns A map whose keys are the set of classifications and whose
+ * values are an array containing all items that match that classification
+ */
+export const groupBy = (list, keyFn) => {
+    return list.reduce((acc, item) => {
+        const key = keyFn(item);
+        return {
+            ...acc,
+            [key]: [...(acc[key] || []), item],
+        };
+    }, {});
+};

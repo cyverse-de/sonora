@@ -1,15 +1,20 @@
 import React from "react";
-import "./styles.css";
+
+import getConfig from "next/config";
+import Head from "next/head";
+import { useRouter } from "next/router";
+
+import { ThemeProvider } from "@material-ui/core/styles";
+
 import CyverseAppBar from "../components/layout/CyVerseAppBar";
 import Navigation from "../components/layout/Navigation";
 import NavigationConstants from "../components/layout/NavigationConstants";
 import theme from "../components/theme/default";
+
 import { UploadTrackingProvider } from "../contexts/uploadTracking";
 import { UserProfileProvider } from "../contexts/userProfile";
-import { ThemeProvider } from "@material-ui/core/styles";
-import getConfig from "next/config";
-import Head from "next/head";
-import { useRouter } from "next/router";
+
+import "./styles.css";
 
 function MyApp({ Component, pageProps, intercomAppId, intercomEnabled }) {
     const router = useRouter();

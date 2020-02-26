@@ -68,7 +68,7 @@ const UploadDropTarget = (props) => {
     const handleDragLeave = (event) => {
         setupEvent(event);
 
-        // See the comment in handleDragIn() for why we're doing this.
+        // See the comment in handleDragEnter() for why we're doing this.
         if (dragCounter > 0) {
             setDragCounter(dragCounter - 1);
         }

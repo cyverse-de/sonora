@@ -66,6 +66,19 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding the /api/tags/user handler");
+    api.post(
+        "/tags/user",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/tags/user",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the /api/filesystem/user-permissions handler");
     api.post(
         "/filesystem/user-permissions",

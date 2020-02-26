@@ -10,7 +10,6 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import getConfig from "next/config";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { ThemeProvider } from "@material-ui/core/styles";
 
 function MyApp({ Component, pageProps, intercomAppId, intercomEnabled }) {
     const router = useRouter();

@@ -14,6 +14,8 @@ import {
     useUploadTrackingDispatch,
     hideQueueAction,
     showQueueAction,
+    minimizeQueueAction,
+    maximizeQueueAction,
 } from "../../../contexts/uploadTracking";
 
 import { startUpload } from "../api";
@@ -79,8 +81,6 @@ export default function UploadQueue(props) {
     const tracker = useUploadTrackingState();
     const dispatch = useUploadTrackingDispatch();
     const classes = useStyles();
-
-    const [isMaximized, setIsMaximized] = useState(true);
     const [wasClosed, setWasClosed] = useState(false);
 
     const { uploadFn = startUpload, shouldProcessUploads = true } = props;
@@ -138,6 +138,14 @@ export default function UploadQueue(props) {
         setWasClosed(true);
     };
 
+    const setIsMaximized = (isMaximized) => {
+        if (isMaximized) {
+            dispatch(maximizeQueueAction());
+        } else {
+            dispatch(minimizeQueueAction());
+        }
+    };
+
     return (
         <Closable
             open={tracker.showQueue}
@@ -149,11 +157,13 @@ export default function UploadQueue(props) {
                 variant="persistent"
                 open={true}
                 classes={{
-                    paper: isMaximized ? classes.drawerMax : classes.drawerMin,
+                    paper: tracker.queueMinimized
+                        ? classes.drawerMin
+                        : classes.drawerMax,
                 }}
             >
                 <UploadsToolbar
-                    isMaximized={isMaximized}
+                    isMaximized={!tracker.queueMinimized}
                     setIsMaximized={setIsMaximized}
                     onClose={handleClose}
                 />

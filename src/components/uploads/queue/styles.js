@@ -8,8 +8,8 @@
 
 import { makeStyles } from "@material-ui/core/styles";
 
-const drawerMinHeight = 50;
-const drawerMaxHeight = "33%";
+export const drawerMinHeight = 50;
+export const drawerMaxHeight = "33%";
 
 const useStyles = makeStyles((theme) => ({
     closable: {

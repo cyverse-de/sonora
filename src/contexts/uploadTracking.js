@@ -181,6 +181,24 @@ export const hideQueueAction = () => ({
 });
 
 /**
+ * Sets state.queueMinimized to true.
+ * @return {Object}
+ */
+export const minimizeQueueAction = () => ({
+    type: "setQueueMinimized",
+    queueMinimized: true,
+});
+
+/**
+ * Sets state.queueMinimized to false.
+ * @returns {Object}
+ */
+export const maximizeQueueAction = () => ({
+    type: "setQueueMinimized",
+    queueMinimized: false,
+});
+
+/**
  * @typedef UploadTrackingState
  * @property {Array<TrackableUpload>} uploads - An array of tracked uploads.
  */
@@ -263,6 +281,10 @@ const uploadReducer = (state, action) => {
             return { ...state, showQueue: action.showQueue };
         }
 
+        case "setQueueMinimized": {
+            return { ...state, queueMinimized: action.queueMinimized };
+        }
+
         default: {
             throw new Error(`unsupported action ${action.type}`);
         }
@@ -284,6 +306,7 @@ const UploadTrackingProvider = ({ children }) => {
     const [state, dispatch] = React.useReducer(uploadReducer, {
         uploads: [],
         showQueue: false,
+        queueMinimized: false,
     });
     return (
         <UploadTrackingStateContext.Provider value={state}>

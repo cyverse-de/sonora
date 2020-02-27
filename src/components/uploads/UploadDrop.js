@@ -76,10 +76,10 @@ export const trackUpload = (uploadFile, destinationPath, dispatch) => {
  */
 const processDroppedFiles = async (transferItemList, itemsFn) => {
     // TransferItemLists aren't actually arrays/lists in JS-land.
-    let allItems = convertDTIL(transferItemList);
+    const allItems = convertDTIL(transferItemList);
 
     // Get all of the files split out into their own list.
-    let fileItems = allItems
+    const fileItems = allItems
         .filter((i) => i.kind === "file")
         .map((i) => i.getAsFile())
         .filter((f) => f.size > 0) // filter out 0-byte files and directories.

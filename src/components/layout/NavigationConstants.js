@@ -7,5 +7,6 @@ export default {
     MORE: "more",
     SEARCH: "search",
     LOGIN: "login",
+    LOGOUT: "logout",
     SETTINGS: "settings",
 };

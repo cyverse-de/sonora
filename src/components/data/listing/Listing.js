@@ -32,6 +32,7 @@ function Listing(props) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState();
     const [data, setData] = useState({ total: 0, files: [], folders: [] });
 
     const { baseId, path, handlePathChange } = props;
@@ -50,23 +51,29 @@ function Listing(props) {
     }, [path]);
 
     useEffect(() => {
-        callApi({
-            endpoint: `/api/filesystem/paged-directory?path=${path}&limit=${rowsPerPage}&sort-col=${orderBy}&sort-dir=${order}&offset=${rowsPerPage *
-                page}`,
-            setLoading,
-        }).then((respData) => {
-            respData &&
-                setData({
-                    total: respData?.total,
-                    listing: [
-                        ...respData?.folders.map((f) => ({
-                            ...f,
-                            type: "FOLDER",
-                        })),
-                        ...respData?.files.map((f) => ({ ...f, type: "FILE" })),
-                    ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
-                });
-        });
+        if (path) {
+            callApi({
+                endpoint: `/api/filesystem/paged-directory?path=${path}&limit=${rowsPerPage}&sort-col=${orderBy}&sort-dir=${order}&offset=${rowsPerPage *
+                    page}`,
+                setLoading,
+                setError,
+            }).then((respData) => {
+                respData &&
+                    setData({
+                        total: respData?.total,
+                        listing: [
+                            ...respData?.folders.map((f) => ({
+                                ...f,
+                                type: "FOLDER",
+                            })),
+                            ...respData?.files.map((f) => ({
+                                ...f,
+                                type: "FILE",
+                            })),
+                        ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
+                    });
+            });
+        }
     }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
 
     const handleRequestSort = (event, property) => {
@@ -175,6 +182,8 @@ function Listing(props) {
                     baseId={baseId}
                     isGridView={isGridView}
                     toggleDisplay={toggleDisplay}
+                    path={path}
+                    error={error}
                     onDownloadSelected={onDownloadSelected}
                     onEditSelected={onEditSelected}
                     onMetadataSelected={onMetadataSelected}

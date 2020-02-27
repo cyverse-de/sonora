@@ -244,12 +244,12 @@ function DataNavigation(props) {
                 const roots = getDataRoots(respData.roots);
                 setDataRoots(roots);
                 setBasePaths(respData["base-paths"]);
-                if (error === null || error.length === 0) {
-                    setDefaultPath(roots, path ? path : roots[0].path);
+                if ((!error || error.length === 0) && !path) {
+                    setDefaultPath(roots, roots[0].path);
                 }
             }
         });
-    });
+    }, [path]);
 
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
@@ -363,7 +363,7 @@ function DataNavigation(props) {
                 </Menu>
 
                 <Hidden xsDown>
-                    {path && (error === null || error.length === 0) ? (
+                    {path && (!error || error.length === 0) ? (
                         <BreadCrumb
                             root={dataRoots[selectedIndex].path}
                             path={path}
@@ -375,7 +375,7 @@ function DataNavigation(props) {
                     )}
                 </Hidden>
                 <Hidden only={["sm", "md", "lg", "xl"]}>
-                    {path && (error === null || error.length === 0) ? (
+                    {path && (!error || error.length === 0) ? (
                         <PathSelectorMenu
                             root={dataRoots[selectedIndex].path}
                             path={path}

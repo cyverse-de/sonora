@@ -65,6 +65,7 @@ function TableView(props) {
     const {
         loading,
         path,
+        error,
         handlePathChange,
         listing,
         isMedium,
@@ -124,6 +125,12 @@ function TableView(props) {
                         {(!listing || listing.length === 0) && (
                             <EmptyTable
                                 message={getMessage("emptyDataListing")}
+                                numColumns={tableColumns.length}
+                            />
+                        )}
+                        {error && error.length > 0 && (
+                            <EmptyTable
+                                message={error}
                                 numColumns={tableColumns.length}
                             />
                         )}

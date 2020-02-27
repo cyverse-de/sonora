@@ -72,6 +72,7 @@ function Listing(props) {
                             })),
                         ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
                     });
+                setError(null); // clear out previous error state
             });
         }
     }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
@@ -192,6 +193,7 @@ function Listing(props) {
                 {!isGridView && (
                     <TableView
                         loading={loading}
+                        error={error}
                         path={path}
                         handlePathChange={handlePathChange}
                         listing={data?.listing}

@@ -8,13 +8,7 @@
 
 import UUID from "uuid/v4";
 
-import {
-    addAction,
-    errorAction,
-    updateStatusAction,
-} from "../../../contexts/uploadTracking";
-
-import { checkForError } from "../../../common/callApi";
+import { addAction } from "../../contexts/uploadTracking";
 
 /**
  * Turns a DataTransferItemList into an actual array/list.
@@ -34,69 +28,26 @@ const convertDTIL = (dtil) => {
 const KindFile = "File";
 
 /**
- * Starts a single upload.
+ * Adds an upload to the tracker.
  *
  * @param {File} uploadFile - The File object to be uploaded.
  * @param {string} destinationPath - The path to the directory the file should be uploaded to.
- * @return null
+ * @returns null
  */
-export const startUpload = (
-    uploadFile,
-    destinationPath,
-    dispatch,
-    completedCB = () => {}
-) => {
-    const newID = UUID();
 
-    const formData = new FormData();
-    formData.append("file", uploadFile);
+export const trackUpload = (uploadFile, destinationPath, dispatch) => {
+    const newID = UUID();
 
     dispatch(
         addAction({
             id: newID,
             parentPath: destinationPath,
             filename: uploadFile.name,
-            isUploading: true,
+            isUploading: false,
             hasUploaded: false,
+            file: uploadFile,
         })
     );
-
-    const endpoint = `/api/upload?dest=${destinationPath}`;
-    const method = "POST";
-
-    fetch(endpoint, {
-        method,
-        credentials: "include",
-        body: formData,
-    })
-        .then((resp) => checkForError(resp, { method, endpoint, headers: {} }))
-        .then((resp) => {
-            dispatch(
-                updateStatusAction({
-                    id: newID,
-                    hasUploaded: true,
-                    isUploading: false,
-                })
-            );
-
-            completedCB(newID);
-        })
-        .catch((e) => {
-            if (e.details) {
-                console.error(
-                    `${e.details.code} ${JSON.stringify(e.details.context)}`
-                );
-            } else {
-                console.error(e.message);
-            }
-
-            dispatch(
-                errorAction({
-                    id: newID,
-                    errorMessage: e.message,
-                })
-            );
-        });
 };
 
 /**
@@ -125,14 +76,17 @@ export const startUpload = (
  */
 const processDroppedFiles = async (transferItemList, itemsFn) => {
     // TransferItemLists aren't actually arrays/lists in JS-land.
-    const allItems = convertDTIL(transferItemList);
+    let allItems = convertDTIL(transferItemList);
 
     // Get all of the files split out into their own list.
-    const fileItems = allItems
+    let fileItems = allItems
         .filter((i) => i.kind === "file")
         .map((i) => i.getAsFile())
         .filter((f) => f.size > 0) // filter out 0-byte files and directories.
         .map((i) => ({ kind: KindFile, value: i }));
+
+    // Clear out any nulls from the list.
+    fileItems = fileItems.filter((i) => i !== null && i !== "undefined");
 
     // Set the new value of uploadItems, which should trigger a re-render.
     return itemsFn(fileItems);

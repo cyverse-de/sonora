@@ -12,6 +12,9 @@
 import React from "react";
 import UUID from "uuid/v4";
 
+export const KindFile = "file";
+export const KindURL = "url";
+
 /**
  * @typedef TrackableUpload
  * @property {string} id - Unique identifier for the upload.
@@ -22,7 +25,43 @@ import UUID from "uuid/v4";
  * @property {string} parentPath - The path to the directory the file is being uploaded to.
  * @property {string} filename - The filename of the upload.
  * @property {string} url - The URL being imported. Will be blank for file uploads.
+ * @property {File} file - The file being uploaded.
+ * @property {Object} cancelFn - The function to call to cancel the import/upload. Should not take any params.
  */
+
+/**
+ * Returns a new TrackableUpload object filled out with defaults where no custom settings
+ * is provided.
+ *
+ * @params {TrackableUpload} - can be an empty object.
+ * @returns TrackableUpload
+ */
+export const trackableUpload = ({
+    kind = KindFile,
+    isUploading = false,
+    hasUploaded = false,
+    hasErrored = false,
+    errorMessage = "",
+    parentPath = "",
+    filename = "",
+    url = "",
+    file = null,
+    cancelFn = () => {
+        console.log("no-op cancelFn called");
+    },
+}) => ({
+    id: UUID(),
+    kind,
+    isUploading,
+    hasUploaded,
+    hasErrored,
+    errorMessage,
+    parentPath,
+    filename,
+    url,
+    file,
+    cancelFn,
+});
 
 /**
  * @typedef AddState
@@ -34,6 +73,8 @@ import UUID from "uuid/v4";
  * @property {string} [parentPath] - The path to the directory the file is being uploaded to.
  * @property {string} [filename] - The filename of the upload.
  * @property {string} [url] - The URL being imported. Will be blank for file uploads.
+ * @property {File} file - The file being uploaded.
+ * @property {Object} [cancelFn] - The function to call to cancel the import/upload. Should not take params.
  */
 
 /**
@@ -41,6 +82,19 @@ import UUID from "uuid/v4";
  * @property {string} type="add" - Defines the type of action.
  * @property {AddState} upload - The state for the action.
  */
+
+/**
+ * Creates a new AddAction.
+ * @param {AddState} upload - The state required for the add action.
+ * @returns {AddAction}
+ */
+export const addAction = (upload) => ({
+    type: "add",
+    upload: {
+        ...trackableUpload({}),
+        ...upload,
+    },
+});
 
 /**
  * @typedef RemoveState
@@ -52,6 +106,16 @@ import UUID from "uuid/v4";
  * @property {string} type="remove" - Defines the type of action.
  * @property {RemoveState} upload - The state for the action.
  */
+
+/**
+ * Creates a new RemoveAction.
+ * @param {RemoveState} upload - The state required for the remove action.
+ * @returns {RemoveAction}
+ */
+export const removeAction = (upload) => ({
+    type: "remove",
+    upload: upload,
+});
 
 /**
  * @typedef UpdateStatusState
@@ -67,6 +131,16 @@ import UUID from "uuid/v4";
  */
 
 /**
+ * Creates a new UpdateStatusAction.
+ * @param {UpdateStatusState} upload - The state required for the update status action.
+ * @returns {UpdateStatusAction}
+ */
+export const updateStatusAction = (upload) => ({
+    type: "updateStatus",
+    upload: upload,
+});
+
+/**
  * @typedef ErrorState
  * @property {string} id - Same as for TrackableUpload.
  * @property {string} [errorMessage] - Same as for TrackableUpload.
@@ -79,68 +153,33 @@ import UUID from "uuid/v4";
  */
 
 /**
- * Returns a new TrackableUpload object filled out with defaults where no custom settings
- * is provided.
- *
- * @params {TrackableUpload} - can be an empty object.
- * @returns TrackableUpload
- */
-export const trackableUpload = ({
-    isUploading = false,
-    hasUploaded = false,
-    hasErrored = false,
-    errorMessage = "",
-    parentPath = "",
-    filename = "",
-    url = "",
-}) => ({
-    id: UUID(),
-    isUploading,
-    hasUploaded,
-    hasErrored,
-    errorMessage,
-    parentPath,
-    filename,
-    url,
-});
-
-/**
- * Creates a new AddAction.
- * @param {AddState} upload - The state required for the add action.
- * @returns {AddAction}
- */
-export const addAction = (upload) => ({
-    type: "add",
-    upload: upload,
-});
-
-/**
- * Creates a new RemoveAction.
- * @param {RemoveState} upload - The state required for the remove action.
- * @returns {RemoveAction}
- */
-export const removeAction = (upload) => ({
-    type: "remove",
-    upload: upload,
-});
-
-/**
- * Creates a new UpdateStatusAction.
- * @param {UpdateStatusState} upload - The state required for the update status action.
- * @returns {UpdateStatusAction}
- */
-export const updateStatusAction = (upload) => ({
-    type: "updateStatus",
-    upload: upload,
-});
-
-/**
  * Creates a new ErrorAction.
  * @param {ErrorState} upload - The state required for the error action.
  * @returns {ErrorAction}
  */
 export const errorAction = (upload) => ({
     type: "error",
+    upload: upload,
+});
+
+/**
+ * @typedef SetCancelFnState
+ * @property {string} id - Same as for TrackableUpload.
+ * @property {Object} cancelFn - The cancellation callback.
+ */
+
+/**
+ * @typedef SetCancelFnAction
+ * @property {string} type="setCancelFn" - Defines the type of action.
+ * @property {setCancelFnState} upload - The function to call to cancel the import/upload. Should not take params.
+ */
+
+/**
+ * Sets state.cancelFn to a new function.
+ * @returns {SetCancelFnAction}
+ */
+export const setCancelFnAction = (upload) => ({
+    type: "setCancelFn",
     upload: upload,
 });
 
@@ -169,7 +208,7 @@ const uploadReducer = (state, action) => {
         // state.uploads array.
         case "add": {
             const newState = { ...state };
-            newState.uploads.unshift(action.upload);
+            newState.uploads = [...newState.uploads, action.upload];
             return newState;
         }
 
@@ -206,6 +245,18 @@ const uploadReducer = (state, action) => {
             return newState;
         }
 
+        case "setCancelFn": {
+            const newState = { ...state };
+            const idx = newState.uploads.findIndex(
+                (i) => i.id === action.upload.id
+            );
+            newState.uploads[idx] = {
+                ...newState.uploads[idx],
+                cancelFn: action.upload.cancelFn,
+            };
+            return newState;
+        }
+
         case "error": {
             const newState = { ...state };
             const idx = newState.uploads.findIndex(
@@ -221,6 +272,14 @@ const uploadReducer = (state, action) => {
                 errorMessage: newErrorMessage,
             };
             return newState;
+        }
+
+        case "setShowQueue": {
+            return { ...state, showQueue: action.showQueue };
+        }
+
+        case "setQueueMinimized": {
+            return { ...state, queueMinimized: action.queueMinimized };
         }
 
         default: {
@@ -241,7 +300,9 @@ const UploadTrackingDispatchContext = React.createContext();
  * provider.
  */
 const UploadTrackingProvider = ({ children }) => {
-    const [state, dispatch] = React.useReducer(uploadReducer, { uploads: [] });
+    const [state, dispatch] = React.useReducer(uploadReducer, {
+        uploads: [],
+    });
     return (
         <UploadTrackingStateContext.Provider value={state}>
             <UploadTrackingDispatchContext.Provider value={dispatch}>

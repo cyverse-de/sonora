@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import UploadDropTarget from "../src/components/data/listing/UploadDropTarget";
+import UploadDropTarget from "../src/components/uploads/UploadDropTarget";
 import {
     UploadTrackingProvider,
     useUploadTrackingState,

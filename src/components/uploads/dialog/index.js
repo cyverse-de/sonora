@@ -31,6 +31,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+/**
+ * The upload dialog component that displays the list of uploads being tracked.
+ *
+ * @params {Object} props
+ * @params {boolean} props.open - Whether or not the dialog is open.
+ * @params {Object} props.handleClose - Callback that is executed when the dialog is closed.
+ * @returns {Object}
+ */
 const UploadDialog = ({ open, handleClose = () => {} }) => {
     const classes = useStyles();
     const theme = useTheme();

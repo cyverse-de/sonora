@@ -37,6 +37,14 @@ import {
 
 import { useTheme } from "@material-ui/core/styles";
 
+/**
+ * Component for the upload status icon that chooses what to display based on the
+ * state of the upload.
+ *
+ * @params {Object} props
+ * @params {Object} props.upload - An upload from the upload tracker.
+ * @returns {Object}
+ */
 const UploadStatus = ({ upload }) => {
     const theme = useTheme();
 
@@ -59,6 +67,14 @@ const UploadStatus = ({ upload }) => {
     return statusIcon;
 };
 
+/**
+ * Component for an item in the list of uploads.
+ *
+ * @params {Object} props
+ * @params {Object} props.upload - An upload from the upload tracker.
+ * @params {Object} props.handleCancel - A callback called when the cancel button is clicked.
+ * @returns {Object}
+ */
 const UploadItem = ({ upload, handleCancel }) => {
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
@@ -99,6 +115,12 @@ const UploadItem = ({ upload, handleCancel }) => {
     );
 };
 
+/**
+ * Default component that renders a list of uploads being tracked by the upload
+ * tracker.
+ *
+ * @returns {Object}
+ */
 export default function UploadList() {
     const tracker = useUploadTrackingState();
     const dispatch = useUploadTrackingDispatch();
@@ -107,8 +129,10 @@ export default function UploadList() {
         event.stopPropagation();
         event.preventDefault();
 
+        // Terminate the upload. For URL imports it will cancel the running job.
         upload.cancelFn();
 
+        // Remove the upload from the tracker.
         dispatch(
             removeAction({
                 id: upload.id,

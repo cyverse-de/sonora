@@ -14,13 +14,34 @@ import {
 
 import { startUpload } from "../api";
 
+/**
+ * Returns true if the upload passed in is waiting to be uploaded.
+ *
+ * @params {Object} upload - An upload from the tracker.
+ * @returns {boolean}
+ */
 const uploadIsWaiting = (upload) =>
     !upload.hasUploaded && !upload.hasErrored && !upload.isUploading;
 
+/**
+ * Returns true if the upload passed in is currently running.
+ *
+ * @params {Object} upload -An upload from the tracker.
+ * @returns {boolean}
+ */
 const uploadIsRunning = (upload) =>
     upload.isUploading && !upload.hasUploaded && !upload.hasErrored;
 
 // adapted from https://codereview.stackexchange.com/a/162879
+
+/**
+ * Partitions the list of uploads into a trio of lists, one for uploads
+ * that are waiting to run, one for uploads that are currently running,
+ * and one for uploads that are in other states (probably errored).
+ *
+ * @params {Array<Object>} uploads - An array of uploads from the tracker.
+ * @returns {Array<Array<Object>>}
+ */
 const partitionUploads = (uploads) => {
     const [waiting, running, other] = [0, 1, 2];
 
@@ -49,6 +70,12 @@ const partitionUploads = (uploads) => {
     );
 };
 
+/**
+ * A component that is responsible for triggering the actual uploads of items
+ * in the tracker. Doesn't render anything, purely exists to trigger uploads.
+ *
+ * @returns {Object}
+ */
 export default function UploadManager() {
     const tracker = useUploadTrackingState();
     const dispatch = useUploadTrackingDispatch();

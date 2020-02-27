@@ -13,7 +13,7 @@ import Header from "../Header";
 import messages from "../messages";
 import TableView from "./TableView";
 import callApi from "../../../common/callApi";
-import UploadDropTarget from "./UploadDropTarget";
+import UploadDropTarget from "../../uploads/UploadDropTarget";
 
 import { camelcaseit } from "../../../common/functions";
 

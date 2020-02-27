@@ -78,6 +78,7 @@ const UploadDialog = ({ open, handleClose = () => {} }) => {
                     id={buildID(ids.BASE, ids.CLOSE)}
                     onClick={handleClose}
                     color="primary"
+                    aria-label="close"
                 >
                     {getMessage("close")}
                 </Button>

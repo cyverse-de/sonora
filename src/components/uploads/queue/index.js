@@ -12,18 +12,12 @@ import {
     Avatar,
     CircularProgress,
     IconButton,
-    // Paper,
     List,
     ListItem,
     ListItemAvatar,
     ListItemSecondaryAction,
     ListItemText,
-    // Table,
-    // TableBody,
-    // TableCell,
-    // TableContainer,
-    // TableHead,
-    // TableRow,
+    useMediaQuery,
 } from "@material-ui/core";
 
 import {
@@ -42,15 +36,6 @@ import {
 } from "../../../contexts/uploadTracking";
 
 import { useTheme } from "@material-ui/core/styles";
-
-// const useStyles = makeStyles((theme) => ({
-//     table: {
-//         // minWidth: 200,
-//     },
-//     inline: {
-//         display: "inline",
-//     },
-// }));
 
 const UploadStatus = ({ upload }) => {
     const theme = useTheme();
@@ -75,6 +60,9 @@ const UploadStatus = ({ upload }) => {
 };
 
 const UploadItem = ({ upload, handleCancel }) => {
+    const theme = useTheme();
+    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
     return (
         <ListItem>
             <ListItemAvatar>
@@ -87,10 +75,14 @@ const UploadItem = ({ upload, handleCancel }) => {
                 </Avatar>
             </ListItemAvatar>
 
-            <ListItemText
-                primary={upload.filename}
-                secondary={upload.parentPath}
-            />
+            {isSmall ? (
+                <ListItemText primary={upload.filename} />
+            ) : (
+                <ListItemText
+                    primary={upload.filename}
+                    secondary={upload.parentPath}
+                />
+            )}
 
             <UploadStatus upload={upload} />
 

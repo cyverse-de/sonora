@@ -26,6 +26,7 @@ import { useRouter } from "next/router";
 import { injectIntl } from "react-intl";
 import {
     AppBar,
+    Avatar,
     Badge,
     Divider,
     Drawer,
@@ -67,6 +68,14 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up("sm")]: {
             marginLeft: theme.spacing(2),
         },
+    },
+    userIcon: {
+        display: "flex",
+        "& > *": {
+            margin: theme.spacing(1),
+        },
+        backgroundColor: theme.palette.success.main,
+        color: theme.palette.success.contrastText,
     },
 }));
 
@@ -123,6 +132,8 @@ function CyverseAppBar(props) {
     const handleUserButtonClick = (event) => {
         if (!userProfile) {
             router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
+        } else {
+            router.push(`/${NavigationConstants.LOGOUT}`);
         }
     };
     const handleSearchClick = (event) => {
@@ -133,6 +144,11 @@ function CyverseAppBar(props) {
         console.log("drawer=>" + open);
         setDrawerOpen(open);
     };
+
+    const getAvatarLetter = () => {
+        return userProfile.id.charAt(0).toUpperCase();
+    };
+
     return (
         <>
             <div className={classes.root}>
@@ -175,12 +191,35 @@ function CyverseAppBar(props) {
                                         )}
                                         onClick={handleUserButtonClick}
                                     >
-                                        <ListItemIcon>
-                                            <AccountCircle />
-                                        </ListItemIcon>
-                                        <ListItemText>
-                                            {getMessage("login")}
-                                        </ListItemText>
+                                        {userProfile ? (
+                                            <>
+                                                <ListItemIcon>
+                                                    <Avatar
+                                                        className={
+                                                            classes.userIcon
+                                                        }
+                                                    >
+                                                        <Typography
+                                                            variant={"h6"}
+                                                        >
+                                                            {getAvatarLetter()}
+                                                        </Typography>
+                                                    </Avatar>
+                                                </ListItemIcon>
+                                                <ListItemText>
+                                                    {getMessage("logout")}
+                                                </ListItemText>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <ListItemIcon>
+                                                    <AccountCircle />
+                                                </ListItemIcon>
+                                                <ListItemText>
+                                                    {getMessage("login")}
+                                                </ListItemText>
+                                            </>
+                                        )}
                                     </ListItem>
                                     <Divider />
                                     <ListItem
@@ -383,7 +422,15 @@ function CyverseAppBar(props) {
                                     color="primary"
                                     onClick={handleUserButtonClick}
                                 >
-                                    <AccountCircle />
+                                    {userProfile ? (
+                                        <Avatar className={classes.userIcon}>
+                                            <Typography variant={"h6"}>
+                                                {getAvatarLetter()}
+                                            </Typography>
+                                        </Avatar>
+                                    ) : (
+                                        <AccountCircle />
+                                    )}
                                 </IconButton>
                             </Hidden>
                         </div>

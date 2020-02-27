@@ -1,3 +1,10 @@
+/**
+ * @author johnworth
+ *
+ * A dialog displaying the tracked uploads.
+ *
+ * @module uploads/dialog
+ */
 import React from "react";
 
 import {

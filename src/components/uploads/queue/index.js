@@ -3,7 +3,7 @@
  *
  * A table populated from tracked uploads. Used in the UploadQueue.
  *
- * @module UploadQueue
+ * @module uploads/queue
  */
 
 import React from "react";

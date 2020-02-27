@@ -3,7 +3,7 @@
  *
  * A component that pulls items out of the upload tracker and triggers them.
  *
- * @module UploadQueue
+ * @module uploads/manager
  */
 import React, { useEffect } from "react";
 

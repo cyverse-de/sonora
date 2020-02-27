@@ -3,7 +3,7 @@
  *
  * Contains the logic for handling files dropped into the file listing.
  *
- * @module UploadDrop
+ * @module uploads/UploadDrop
  */
 
 import UUID from "uuid/v4";

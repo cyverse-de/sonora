@@ -1,3 +1,11 @@
+/**
+ * @author johnworth
+ *
+ * Contains API interactions concerning uploads.
+ *
+ * @module uploads/api
+ */
+
 import { checkForError } from "../../common/callApi";
 
 import {

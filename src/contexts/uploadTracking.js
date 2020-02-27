@@ -6,7 +6,7 @@
  * - https://kentcdodds.com/blog/how-to-use-react-context-effectively
  * - https://reactjs.org/docs/hooks-reference.html#usereducer
  *
- * @module uploadTracking
+ * @module contexts/uploadTracking
  */
 
 import React from "react";

@@ -3,7 +3,7 @@
  *
  * Component that allows files to be uploaded when they are dropped on child components.
  *
- * @module UploadDropTarget
+ * @module uploads/UploadDropTarget
  */
 
 import React, { useState } from "react";

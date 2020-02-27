@@ -93,7 +93,7 @@ export default function UploadManager() {
         ) {
             waiting.forEach((upload, idx) => {
                 if (idx <= 2) {
-                    startUpload(upload.file, upload.parentPath, dispatch);
+                    startUpload(upload, upload.parentPath, dispatch);
                 }
             });
         }

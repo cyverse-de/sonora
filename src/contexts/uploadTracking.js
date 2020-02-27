@@ -12,6 +12,9 @@
 import React from "react";
 import UUID from "uuid/v4";
 
+export const KindFile = "file";
+export const KindURL = "url";
+
 /**
  * @typedef TrackableUpload
  * @property {string} id - Unique identifier for the upload.
@@ -25,65 +28,6 @@ import UUID from "uuid/v4";
  * @property {File} file - The file being uploaded.
  * @property {Object} cancelFn - The function to call to cancel the import/upload. Should not take any params.
  */
-
-/**
- * @typedef AddState
- * @property {string} id - Same as for TrackableUpload.
- * @property {boolean} [isUploading] - Whether or not the file is currently uploading.
- * @property {boolean} [hasUploaded] - Whether or not the file has uploaded.
- * @property {boolean} [hasErrored] - Whether or not the file upload encountered an error.
- * @property {string} [errorMessage] - The error message.
- * @property {string} [parentPath] - The path to the directory the file is being uploaded to.
- * @property {string} [filename] - The filename of the upload.
- * @property {string} [url] - The URL being imported. Will be blank for file uploads.
- * @property {File} file - The file being uploaded.
- * @property {Object} cancelFn - The function to call to cancel the import/upload. Should not take params.
- */
-
-/**
- * @typedef AddAction
- * @property {string} type="add" - Defines the type of action.
- * @property {AddState} upload - The state for the action.
- */
-
-/**
- * @typedef RemoveState
- * @property {string} id - Same as for TrackableUpload.
- */
-
-/**
- * @typedef RemoveAction
- * @property {string} type="remove" - Defines the type of action.
- * @property {RemoveState} upload - The state for the action.
- */
-
-/**
- * @typedef UpdateStatusState
- * @property {string} id - Same as for TrackableUpload.
- * @property {boolean} [hasUploaded] - New value for hasUploaded.
- * @property {boolean} [isUploading] - New value for isUploading.
- */
-
-/**
- * @typedef UpdateStatusAction
- * @property {string} type="updateStatus" - Defines the type of action.
- * @property {UpdateStatusState} upload - The state for the action.
- */
-
-/**
- * @typedef ErrorState
- * @property {string} id - Same as for TrackableUpload.
- * @property {string} [errorMessage] - Same as for TrackableUpload.
- */
-
-/**
- * @typedef ErrorAction
- * @property {string} type="error" - Defines the type of action.
- * @property {ErrorState} upload - The state for the action.
- */
-
-export const KindFile = "file";
-export const KindURL = "url";
 
 /**
  * Returns a new TrackableUpload object filled out with defaults where no custom settings
@@ -120,6 +64,26 @@ export const trackableUpload = ({
 });
 
 /**
+ * @typedef AddState
+ * @property {string} id - Same as for TrackableUpload.
+ * @property {boolean} [isUploading] - Whether or not the file is currently uploading.
+ * @property {boolean} [hasUploaded] - Whether or not the file has uploaded.
+ * @property {boolean} [hasErrored] - Whether or not the file upload encountered an error.
+ * @property {string} [errorMessage] - The error message.
+ * @property {string} [parentPath] - The path to the directory the file is being uploaded to.
+ * @property {string} [filename] - The filename of the upload.
+ * @property {string} [url] - The URL being imported. Will be blank for file uploads.
+ * @property {File} file - The file being uploaded.
+ * @property {Object} [cancelFn] - The function to call to cancel the import/upload. Should not take params.
+ */
+
+/**
+ * @typedef AddAction
+ * @property {string} type="add" - Defines the type of action.
+ * @property {AddState} upload - The state for the action.
+ */
+
+/**
  * Creates a new AddAction.
  * @param {AddState} upload - The state required for the add action.
  * @returns {AddAction}
@@ -133,6 +97,17 @@ export const addAction = (upload) => ({
 });
 
 /**
+ * @typedef RemoveState
+ * @property {string} id - Same as for TrackableUpload.
+ */
+
+/**
+ * @typedef RemoveAction
+ * @property {string} type="remove" - Defines the type of action.
+ * @property {RemoveState} upload - The state for the action.
+ */
+
+/**
  * Creates a new RemoveAction.
  * @param {RemoveState} upload - The state required for the remove action.
  * @returns {RemoveAction}
@@ -141,6 +116,19 @@ export const removeAction = (upload) => ({
     type: "remove",
     upload: upload,
 });
+
+/**
+ * @typedef UpdateStatusState
+ * @property {string} id - Same as for TrackableUpload.
+ * @property {boolean} [hasUploaded] - New value for hasUploaded.
+ * @property {boolean} [isUploading] - New value for isUploading.
+ */
+
+/**
+ * @typedef UpdateStatusAction
+ * @property {string} type="updateStatus" - Defines the type of action.
+ * @property {UpdateStatusState} upload - The state for the action.
+ */
 
 /**
  * Creates a new UpdateStatusAction.
@@ -153,6 +141,18 @@ export const updateStatusAction = (upload) => ({
 });
 
 /**
+ * @typedef ErrorState
+ * @property {string} id - Same as for TrackableUpload.
+ * @property {string} [errorMessage] - Same as for TrackableUpload.
+ */
+
+/**
+ * @typedef ErrorAction
+ * @property {string} type="error" - Defines the type of action.
+ * @property {ErrorState} upload - The state for the action.
+ */
+
+/**
  * Creates a new ErrorAction.
  * @param {ErrorState} upload - The state required for the error action.
  * @returns {ErrorAction}
@@ -163,39 +163,24 @@ export const errorAction = (upload) => ({
 });
 
 /**
- * Create a new ShowQueueAction.
- * @returns {Object}
+ * @typedef SetCancelFnState
+ * @property {string} id - Same as for TrackableUpload.
+ * @property {Object} cancelFn - The cancellation callback.
  */
-export const showQueueAction = () => ({
-    type: "setShowQueue",
-    showQueue: true,
-});
 
 /**
- * Creates a new HideQueueAction.
- * @return {Object}
+ * @typedef SetCancelFnAction
+ * @property {string} type="setCancelFn" - Defines the type of action.
+ * @property {setCancelFnState} upload - The function to call to cancel the import/upload. Should not take params.
  */
-export const hideQueueAction = () => ({
-    type: "setShowQueue",
-    showQueue: false,
-});
 
 /**
- * Sets state.queueMinimized to true.
- * @return {Object}
+ * Sets state.cancelFn to a new function.
+ * @returns {SetCancelFnAction}
  */
-export const minimizeQueueAction = () => ({
-    type: "setQueueMinimized",
-    queueMinimized: true,
-});
-
-/**
- * Sets state.queueMinimized to false.
- * @returns {Object}
- */
-export const maximizeQueueAction = () => ({
-    type: "setQueueMinimized",
-    queueMinimized: false,
+export const setCancelFnAction = (upload) => ({
+    type: "setCancelFn",
+    upload: upload,
 });
 
 /**
@@ -223,7 +208,7 @@ const uploadReducer = (state, action) => {
         // state.uploads array.
         case "add": {
             const newState = { ...state };
-            newState.uploads.unshift(action.upload);
+            newState.uploads = [...newState.uploads, action.upload];
             return newState;
         }
 
@@ -256,6 +241,18 @@ const uploadReducer = (state, action) => {
                 ...newState.uploads[idx],
                 isUploading: newIsUploading,
                 hasUploaded: newHasUploaded,
+            };
+            return newState;
+        }
+
+        case "setCancelFn": {
+            const newState = { ...state };
+            const idx = newState.uploads.findIndex(
+                (i) => i.id === action.upload.id
+            );
+            newState.uploads[idx] = {
+                ...newState.uploads[idx],
+                cancelFn: action.cancelFn,
             };
             return newState;
         }
@@ -305,8 +302,6 @@ const UploadTrackingDispatchContext = React.createContext();
 const UploadTrackingProvider = ({ children }) => {
     const [state, dispatch] = React.useReducer(uploadReducer, {
         uploads: [],
-        showQueue: false,
-        queueMinimized: false,
     });
     return (
         <UploadTrackingStateContext.Provider value={state}>

@@ -1,27 +1,25 @@
-import UUID from "uuid/v4";
 import { checkForError } from "../../common/callApi";
 
 import {
-    addAction,
     errorAction,
     updateStatusAction,
+    setCancelFnAction,
 } from "../../contexts/uploadTracking";
 
 /**
  * Starts a single upload.
  *
- * @param {File} uploadFile - The File object to be uploaded.
+ * @param {Object} upload - An upload from the tracker.
  * @param {string} destinationPath - The path to the directory the file should be uploaded to.
  * @return null
  */
 export const startUpload = (
-    uploadFile,
+    upload,
     destinationPath,
     dispatch,
     completedCB = () => {}
 ) => {
-    const newID = UUID();
-
+    const uploadFile = upload.file;
     const controller = new AbortController();
     const signal = controller.signal;
 
@@ -33,14 +31,17 @@ export const startUpload = (
     };
 
     dispatch(
-        addAction({
-            id: newID,
-            parentPath: destinationPath,
-            filename: uploadFile.name,
+        setCancelFnAction({
+            id: upload.id,
+            cancelFn: cancelFn,
+        })
+    );
+
+    dispatch(
+        updateStatusAction({
+            id: upload.id,
             isUploading: true,
             hasUploaded: false,
-            file: uploadFile,
-            cancelFn,
         })
     );
 
@@ -57,13 +58,13 @@ export const startUpload = (
         .then((resp) => {
             dispatch(
                 updateStatusAction({
-                    id: newID,
+                    id: upload.id,
                     hasUploaded: true,
                     isUploading: false,
                 })
             );
 
-            completedCB(newID);
+            completedCB(upload.id);
         })
         .catch((e) => {
             if (e.details) {
@@ -76,7 +77,7 @@ export const startUpload = (
 
             dispatch(
                 errorAction({
-                    id: newID,
+                    id: upload.id,
                     errorMessage: e.message,
                 })
             );

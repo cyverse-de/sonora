@@ -2,6 +2,7 @@ import React from "react";
 
 import fetchMock from "fetch-mock";
 import Listing from "../../src/components/data/listing/Listing";
+import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
 
 export default {
     title: "Data",
@@ -13,11 +14,13 @@ function ListingTest(props) {
     };
 
     return (
-        <Listing
-            baseId="tableView"
-            path="/iplant/home/ipcdev"
-            handlePathChange={(path) => logger("Change to path " + path)}
-        />
+        <UploadTrackingProvider>
+            <Listing
+                baseId="tableView"
+                path="/iplant/home/ipcdev"
+                handlePathChange={(path) => logger("Change to path " + path)}
+            />
+        </UploadTrackingProvider>
     );
 }
 

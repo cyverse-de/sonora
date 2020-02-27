@@ -8,7 +8,6 @@ export default {
         comments: "Comments",
         launchAnalysis: "Launch Analysis",
         launchOrSaveAsQL: "Launch or Save as Quick Launch",
-        msgNoAdditionalParameters: "This app has no additional parameters.",
         minDiskSpace: "Minimum Disk Space",
         minCPUCores: "Minimum CPU Cores",
         minMemory: "Minimum Memory",

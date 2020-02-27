@@ -36,15 +36,8 @@ import {
 } from "@material-ui/core";
 import { ArrowBack, ArrowForward } from "@material-ui/icons";
 
-const steps = [
-    getMessage("analysisInfo"),
-    getMessage("parameters"),
-    getMessage("resourceRequirements"),
-    getMessage("reviewAndLaunch"),
-];
-
-const StepContent = ({ activeStep, step, label, children }) => (
-    <fieldset hidden={activeStep !== step}>
+const StepContent = ({ hidden, step, label, children }) => (
+    <fieldset hidden={hidden}>
         <legend>
             {getMessage("stepLabel", { values: { step: step + 1, label } })}
         </legend>
@@ -179,7 +172,36 @@ const AppLaunchWizard = (props) => {
         defaultMaxMemory,
         defaultMaxDiskSpace,
         submitAnalysis,
+        app: { groups },
     } = props;
+
+    const hasParams =
+        groups &&
+        groups.reduce(
+            (hasParams, group) =>
+                hasParams || (group.parameters && group.parameters.length > 0),
+            false
+        );
+
+    const stepAnalysisInfo = { label: getMessage("analysisInfo"), step: 0 };
+    const stepParameters = { label: getMessage("parameters"), step: 1 };
+    const stepResourceRequirements = {
+        label: getMessage("resourceRequirements"),
+        step: hasParams ? 2 : 1,
+    };
+    const stepReviewAndLaunch = {
+        label: getMessage("reviewAndLaunch"),
+        step: hasParams ? 3 : 2,
+    };
+
+    const steps = hasParams
+        ? [
+              stepAnalysisInfo,
+              stepParameters,
+              stepResourceRequirements,
+              stepReviewAndLaunch,
+          ]
+        : [stepAnalysisInfo, stepResourceRequirements, stepReviewAndLaunch];
 
     const isLastStep = () => {
         return activeStep === steps.length - 1;
@@ -250,9 +272,9 @@ const AppLaunchWizard = (props) => {
             {({ values, errors, handleSubmit, isSubmitting }) => (
                 <Form>
                     <Stepper alternativeLabel nonLinear activeStep={activeStep}>
-                        {steps.map((label, index) => {
+                        {steps.map((step, index) => {
                             return (
-                                <Step key={label}>
+                                <Step key={step.label}>
                                     <StepButton onClick={handleStep(index)}>
                                         <StepLabel
                                             error={
@@ -260,7 +282,7 @@ const AppLaunchWizard = (props) => {
                                                 errors.steps[index]
                                             }
                                         >
-                                            {label}
+                                            {step.label}
                                         </StepLabel>
                                     </StepButton>
                                 </Step>
@@ -269,9 +291,9 @@ const AppLaunchWizard = (props) => {
                     </Stepper>
 
                     <StepContent
-                        step={0}
+                        step={stepAnalysisInfo.step}
                         label={getMessage("analysisInfo")}
-                        activeStep={activeStep}
+                        hidden={activeStep !== stepAnalysisInfo.step}
                     >
                         <FastField
                             label={getMessage("analysisName")}
@@ -298,65 +320,66 @@ const AppLaunchWizard = (props) => {
                     </StepContent>
 
                     <StepContent
-                        step={1}
+                        step={stepParameters.step}
                         label={getMessage("analysisParameters")}
-                        activeStep={activeStep}
+                        hidden={
+                            !hasParams || activeStep !== stepParameters.step
+                        }
                     >
-                        {values.groups && values.groups.length > 0
-                            ? values.groups.map((group, index) => (
-                                  <fieldset key={group.id}>
-                                      <legend>{group.label}</legend>
-                                      {group.parameters.map(
-                                          (param, paramIndex) => {
-                                              if (!param.isVisible) return null;
+                        {values.groups &&
+                            values.groups.map((group, index) => (
+                                <fieldset key={group.id}>
+                                    <legend>{group.label}</legend>
+                                    {group.parameters.map(
+                                        (param, paramIndex) => {
+                                            if (!param.isVisible) return null;
 
-                                              const name = `groups.${index}.parameters.${paramIndex}.value`;
+                                            const name = `groups.${index}.parameters.${paramIndex}.value`;
 
-                                              let fieldProps = {
-                                                  name,
-                                                  label: param.label,
-                                                  required: param.required,
-                                              };
+                                            let fieldProps = {
+                                                name,
+                                                label: param.label,
+                                                required: param.required,
+                                            };
 
-                                              switch (param.type) {
-                                                  case "Info":
-                                                      fieldProps = {
-                                                          name,
-                                                          component: "div",
-                                                          children: param.label,
-                                                      };
-                                                      break;
+                                            switch (param.type) {
+                                                case "Info":
+                                                    fieldProps = {
+                                                        name,
+                                                        component: "div",
+                                                        children: param.label,
+                                                    };
+                                                    break;
 
-                                                  case "Integer":
-                                                      fieldProps.component = FormIntegerField;
-                                                      break;
+                                                case "Integer":
+                                                    fieldProps.component = FormIntegerField;
+                                                    break;
 
-                                                  case "Double":
-                                                      fieldProps.component = FormNumberField;
-                                                      break;
+                                                case "Double":
+                                                    fieldProps.component = FormNumberField;
+                                                    break;
 
-                                                  default:
-                                                      fieldProps.component = FormTextField;
-                                                      break;
-                                              }
+                                                default:
+                                                    fieldProps.component = FormTextField;
+                                                    break;
+                                            }
 
-                                              return (
-                                                  <FastField
-                                                      key={param.id}
-                                                      {...fieldProps}
-                                                  />
-                                              );
-                                          }
-                                      )}
-                                  </fieldset>
-                              ))
-                            : getMessage("msgNoAdditionalParameters")}
+                                            return (
+                                                <FastField
+                                                    key={param.id}
+                                                    {...fieldProps}
+                                                />
+                                            );
+                                        }
+                                    )}
+                                </fieldset>
+                            ))}
                     </StepContent>
 
                     <StepContent
-                        step={2}
+                        step={stepResourceRequirements.step}
                         label={getMessage("resourceRequirements")}
-                        activeStep={activeStep}
+                        hidden={activeStep !== stepResourceRequirements.step}
                     >
                         {values.limits.map((reqs, index) => {
                             const {
@@ -436,9 +459,9 @@ const AppLaunchWizard = (props) => {
                     </StepContent>
 
                     <StepContent
-                        step={3}
+                        step={stepReviewAndLaunch.step}
                         label={getMessage("launchOrSaveAsQL")}
-                        activeStep={activeStep}
+                        hidden={activeStep !== stepReviewAndLaunch.step}
                     >
                         {values.groups &&
                             values.groups.map((group) =>
@@ -503,7 +526,6 @@ const AppLaunchWizard = (props) => {
                     </StepContent>
 
                     <BottomNavigation
-                        value={activeStep}
                         showLabels
                         onChange={(event, value) => {
                             switch (value) {

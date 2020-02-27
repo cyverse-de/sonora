@@ -4,15 +4,12 @@ import UUID from "uuid/v4";
 import {
     UploadTrackingProvider,
     useUploadTrackingDispatch,
-    useUploadTrackingState,
-    showQueueAction,
-    hideQueueAction,
     addAction,
 } from "../src/contexts/uploadTracking";
 
 import { Button } from "@material-ui/core";
 
-import UploadQueue from "../src/components/uploads/queue";
+import UploadDialog from "../src/components/uploads/dialog";
 
 export default {
     title: "Uploads/UploadQueue",
@@ -20,7 +17,6 @@ export default {
 
 const TestDispatch = () => {
     const dispatch = useUploadTrackingDispatch();
-    const state = useUploadTrackingState();
 
     const [hasRun, setHasRun] = useState(false);
 
@@ -79,35 +75,23 @@ const TestDispatch = () => {
             })
         );
 
-        dispatch(showQueueAction());
-
         setHasRun(true);
     }
 
-    return (
-        <>
-            <Button
-                onClick={() =>
-                    state.showQueue
-                        ? dispatch(hideQueueAction())
-                        : dispatch(showQueueAction())
-                }
-            >
-                {state.showQueue ? "Close" : "Open"}
-            </Button>
-        </>
-    );
+    return <></>;
 };
 
 export const UploadQueueTest = () => {
-    const testUploadFn = (file, dest, _dispatcher) =>
-        console.log(`fake uploading ${file.name} to ${dest}`);
+    const [open, setOpen] = useState(true);
+    const handleClose = () => setOpen(!open);
 
     return (
         <UploadTrackingProvider>
+            <Button onClick={() => setOpen(true)}>Open</Button>
+
             <TestDispatch />
 
-            <UploadQueue uploadFn={testUploadFn} />
+            <UploadDialog open={open} handleClose={handleClose} />
         </UploadTrackingProvider>
     );
 };

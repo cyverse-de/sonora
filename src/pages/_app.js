@@ -9,7 +9,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import CyverseAppBar from "../components/layout/CyVerseAppBar";
 import Navigation from "../components/layout/Navigation";
 import NavigationConstants from "../components/layout/NavigationConstants";
-import UploadQueue from "../components/uploads/queue";
+import UploadManager from "../components/uploads/manager";
 import theme from "../components/theme/default";
 
 import { UploadTrackingProvider } from "../contexts/uploadTracking";
@@ -79,7 +79,7 @@ function MyApp({ Component, pageProps, intercomAppId, intercomEnabled }) {
                         </Head>
                         <Navigation activeView={pathname} />
                         <Component {...pageProps} />
-                        <UploadQueue />
+                        <UploadManager />
                     </CyverseAppBar>
                 </UploadTrackingProvider>
             </UserProfileProvider>

@@ -1,175 +1,141 @@
 /**
  * @author johnworth
  *
- * A component that pulls items out of the upload tracker and triggers them.
+ * A table populated from tracked uploads. Used in the UploadQueue.
  *
  * @module UploadQueue
  */
-import React, { useState, useEffect } from "react";
 
-import { Drawer } from "@material-ui/core";
+import React from "react";
 
 import {
+    CircularProgress,
+    IconButton,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+} from "@material-ui/core";
+
+import {
+    CheckCircle as CheckCircleIcon,
+    Cancel as CancelIcon,
+    Error as ErrorIcon,
+    Description as DescriptionIcon,
+    Http as HttpIcon,
+} from "@material-ui/icons";
+
+import {
+    KindFile,
+    removeAction,
     useUploadTrackingState,
     useUploadTrackingDispatch,
-    hideQueueAction,
-    showQueueAction,
-    minimizeQueueAction,
-    maximizeQueueAction,
 } from "../../../contexts/uploadTracking";
 
-import { startUpload } from "../api";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 
-import UploadsToolbar from "./toolbar";
-import UploadsTable from "./table";
-import useStyles from "./styles";
+const useStyles = makeStyles((theme) => ({
+    table: {
+        minWidth: 650,
+    },
+}));
 
-const Closable = ({ open, onClose, children }) => {
-    const [hasOpened, setHasOpened] = useState(false);
+const UploadStatus = ({ upload }) => {
+    const theme = useTheme();
 
-    if (!open) {
-        if (hasOpened) {
-            onClose();
-            setHasOpened(false);
-        }
+    let statusIcon = <div />;
 
-        return null;
+    if (upload.isUploading) {
+        statusIcon = <CircularProgress size={20} />;
     }
 
-    if (!hasOpened) {
-        setHasOpened(true);
+    if (upload.hasUploaded) {
+        statusIcon = (
+            <CheckCircleIcon style={{ color: theme.palette.success.main }} />
+        );
     }
-    return <div>{children}</div>;
+
+    if (upload.hasErrored) {
+        statusIcon = <ErrorIcon color="error" />;
+    }
+
+    return statusIcon;
 };
 
-const uploadIsWaiting = (upload) =>
-    !upload.hasUploaded && !upload.hasErrored && !upload.isUploading;
+const UploadTableRow = ({ upload, handleCancel }) => {
+    return (
+        <TableRow key={upload.id}>
+            <TableCell component="th" scope="row" align="center" padding="none">
+                {upload.kind === KindFile ? <DescriptionIcon /> : <HttpIcon />}
+            </TableCell>
 
-const uploadIsRunning = (upload) =>
-    upload.isUploading && !upload.hasUploaded && !upload.hasErrored;
+            <TableCell component="th" scope="row" padding="none">
+                {upload.filename}
+            </TableCell>
 
-// adapted from https://codereview.stackexchange.com/a/162879
-const partitionUploads = (uploads) => {
-    const [waiting, running, other] = [0, 1, 2];
+            <TableCell component="th" scope="row" padding="none">
+                {upload.parentPath}
+            </TableCell>
 
-    const uploadIndex = (upload) => {
-        if (uploadIsWaiting(upload)) return waiting;
-        if (uploadIsRunning(upload)) return running;
-        return other;
-    };
+            <TableCell component="th" scope="row" align="center" padding="none">
+                <UploadStatus upload={upload} />
+            </TableCell>
 
-    return uploads.reduce(
-        (acc, upload) => {
-            switch (uploadIndex(upload)) {
-                case waiting:
-                    acc[waiting].push(upload);
-                    break;
-                case running:
-                    acc[running].push(upload);
-                    break;
-                default:
-                    acc[other].push(upload);
-            }
-
-            return acc;
-        },
-        [[], [], []]
+            <TableCell component="th" scope="row" align="center" padding="none">
+                <IconButton onClick={(e) => handleCancel(e, upload)}>
+                    <CancelIcon />
+                </IconButton>
+            </TableCell>
+        </TableRow>
     );
 };
 
-export default function UploadQueue(props) {
+export default function UploadsTable() {
+    const classes = useStyles();
     const tracker = useUploadTrackingState();
     const dispatch = useUploadTrackingDispatch();
-    const classes = useStyles();
-    const [wasClosed, setWasClosed] = useState(false);
 
-    const { uploadFn = startUpload, shouldProcessUploads = true } = props;
+    const handleCancel = (event, upload) => {
+        event.stopPropagation();
+        event.preventDefault();
 
-    const [waiting, running] = partitionUploads(tracker.uploads);
+        upload.cancelFn();
 
-    // Controls starting the uploads.
-    useEffect(() => {
-        // Making the upload triggers conditional makes the stories/tests a bit
-        // easier to write.
-        if (shouldProcessUploads) {
-            // Browser can technically do more than 3 uploads at once now, but
-            // we're limiting it here to prevent hammering our API too much.
-            if (
-                tracker.uploads.length > 0 &&
-                waiting.length > 0 &&
-                running.length < 3
-            ) {
-                waiting.forEach((upload, idx) => {
-                    if (idx <= 2) {
-                        uploadFn(upload.file, upload.parentPath, dispatch);
-                    }
-                });
-            }
-        }
-    }, [
-        tracker.uploads,
-        waiting,
-        running,
-        shouldProcessUploads,
-        dispatch,
-        uploadFn,
-    ]);
-
-    // Controls whether to pop open the upload queue or not.
-    useEffect(() => {
-        if (!wasClosed) {
-            // If the queue was not actively closed and there are new uploads
-            // started, open the queue.
-            if (running.length > 0) {
-                dispatch(showQueueAction());
-            }
-        } else {
-            // If the queue was closed but the number of running and waiting
-            // uploads is now zero, reset the wasClosed state to false so the
-            // queue will open again if new uploads are added.
-            if (running.length === 0 && waiting.length === 0) {
-                setWasClosed(false);
-            }
-        }
-    }, [wasClosed, running, waiting, dispatch]);
-
-    const handleClose = () => {
-        dispatch(hideQueueAction());
-        setWasClosed(true);
-    };
-
-    const setIsMaximized = (isMaximized) => {
-        if (isMaximized) {
-            dispatch(maximizeQueueAction());
-        } else {
-            dispatch(minimizeQueueAction());
-        }
+        dispatch(
+            removeAction({
+                id: upload.id,
+            })
+        );
     };
 
     return (
-        <Closable
-            open={tracker.showQueue}
-            onClose={handleClose}
-            className={classes.closable}
-        >
-            <Drawer
-                anchor="bottom"
-                variant="persistent"
-                open={true}
-                classes={{
-                    paper: tracker.queueMinimized
-                        ? classes.drawerMin
-                        : classes.drawerMax,
-                }}
-            >
-                <UploadsToolbar
-                    isMaximized={!tracker.queueMinimized}
-                    setIsMaximized={setIsMaximized}
-                    onClose={handleClose}
-                />
+        <TableContainer component={Paper}>
+            <Table stickyHeader className={classes.table}>
+                <TableHead>
+                    <TableRow>
+                        <TableCell align="center" padding="none"></TableCell>
+                        <TableCell padding="none">Name</TableCell>
+                        <TableCell padding="none">Destination</TableCell>
+                        <TableCell align="center" padding="none">
+                            Status
+                        </TableCell>
+                        <TableCell></TableCell>
+                    </TableRow>
+                </TableHead>
 
-                <UploadsTable />
-            </Drawer>
-        </Closable>
+                <TableBody>
+                    {tracker.uploads.map((upload) => (
+                        <UploadTableRow
+                            key={upload.id}
+                            upload={upload}
+                            handleCancel={handleCancel}
+                        />
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 }

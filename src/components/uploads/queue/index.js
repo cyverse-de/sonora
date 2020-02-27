@@ -9,15 +9,21 @@
 import React from "react";
 
 import {
+    Avatar,
     CircularProgress,
     IconButton,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
+    // Paper,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemSecondaryAction,
+    ListItemText,
+    // Table,
+    // TableBody,
+    // TableCell,
+    // TableContainer,
+    // TableHead,
+    // TableRow,
 } from "@material-ui/core";
 
 import {
@@ -35,13 +41,16 @@ import {
     useUploadTrackingDispatch,
 } from "../../../contexts/uploadTracking";
 
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
-    table: {
-        minWidth: 650,
-    },
-}));
+// const useStyles = makeStyles((theme) => ({
+//     table: {
+//         // minWidth: 200,
+//     },
+//     inline: {
+//         display: "inline",
+//     },
+// }));
 
 const UploadStatus = ({ upload }) => {
     const theme = useTheme();
@@ -65,36 +74,40 @@ const UploadStatus = ({ upload }) => {
     return statusIcon;
 };
 
-const UploadTableRow = ({ upload, handleCancel }) => {
+const UploadItem = ({ upload, handleCancel }) => {
     return (
-        <TableRow key={upload.id}>
-            <TableCell component="th" scope="row" align="center" padding="none">
-                {upload.kind === KindFile ? <DescriptionIcon /> : <HttpIcon />}
-            </TableCell>
+        <ListItem>
+            <ListItemAvatar>
+                <Avatar>
+                    {upload.kind === KindFile ? (
+                        <DescriptionIcon />
+                    ) : (
+                        <HttpIcon />
+                    )}
+                </Avatar>
+            </ListItemAvatar>
 
-            <TableCell component="th" scope="row" padding="none">
-                {upload.filename}
-            </TableCell>
+            <ListItemText
+                primary={upload.filename}
+                secondary={upload.parentPath}
+            />
 
-            <TableCell component="th" scope="row" padding="none">
-                {upload.parentPath}
-            </TableCell>
+            <UploadStatus upload={upload} />
 
-            <TableCell component="th" scope="row" align="center" padding="none">
-                <UploadStatus upload={upload} />
-            </TableCell>
-
-            <TableCell component="th" scope="row" align="center" padding="none">
-                <IconButton onClick={(e) => handleCancel(e, upload)}>
+            <ListItemSecondaryAction>
+                <IconButton
+                    edge="end"
+                    aria-label="cancel-upload"
+                    onClick={(e) => handleCancel(e, upload)}
+                >
                     <CancelIcon />
                 </IconButton>
-            </TableCell>
-        </TableRow>
+            </ListItemSecondaryAction>
+        </ListItem>
     );
 };
 
-export default function UploadsTable() {
-    const classes = useStyles();
+export default function UploadList() {
     const tracker = useUploadTrackingState();
     const dispatch = useUploadTrackingDispatch();
 
@@ -112,30 +125,14 @@ export default function UploadsTable() {
     };
 
     return (
-        <TableContainer component={Paper}>
-            <Table stickyHeader className={classes.table}>
-                <TableHead>
-                    <TableRow>
-                        <TableCell align="center" padding="none"></TableCell>
-                        <TableCell padding="none">Name</TableCell>
-                        <TableCell padding="none">Destination</TableCell>
-                        <TableCell align="center" padding="none">
-                            Status
-                        </TableCell>
-                        <TableCell></TableCell>
-                    </TableRow>
-                </TableHead>
-
-                <TableBody>
-                    {tracker.uploads.map((upload) => (
-                        <UploadTableRow
-                            key={upload.id}
-                            upload={upload}
-                            handleCancel={handleCancel}
-                        />
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <List dense={true}>
+            {tracker.uploads.map((upload) => (
+                <UploadItem
+                    key={upload.id}
+                    upload={upload}
+                    handleCancel={handleCancel}
+                />
+            ))}
+        </List>
     );
 }

@@ -24,7 +24,8 @@ const TestDispatch = () => {
         dispatch(
             addAction({
                 id: UUID(),
-                parentPath: "/iplant/home/ipcdev/test-0",
+                parentPath:
+                    "/iplant/home/ipcdev/test-0/foo/bar/baz/blippy/this/should/be/really/long",
                 filename: "fake-upload-0",
                 isUploading: true,
                 hasUploaded: false,

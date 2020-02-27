@@ -96,7 +96,6 @@ const UploadDropTarget = (props) => {
 UploadDropTarget.propTypes = {
     children: PropTypes.object.isRequired,
     path: PropTypes.string.isRequired,
-    uploadCompletedCB: PropTypes.func.isRequired,
 };
 
 export default UploadDropTarget;

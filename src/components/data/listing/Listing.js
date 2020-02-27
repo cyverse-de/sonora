@@ -14,6 +14,7 @@ import messages from "../messages";
 import TableView from "./TableView";
 import callApi from "../../../common/callApi";
 import UploadDropTarget from "../../uploads/UploadDropTarget";
+import { useUploadTrackingState } from "../../../contexts/uploadTracking";
 
 import { camelcaseit } from "../../../common/functions";
 
@@ -21,6 +22,7 @@ function Listing(props) {
     const theme = useTheme();
     const isMedium = useMediaQuery(theme.breakpoints.up("sm"));
     const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
+    const uploadTracker = useUploadTrackingState();
 
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
@@ -31,9 +33,16 @@ function Listing(props) {
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({ total: 0, files: [], folders: [] });
-    const [uploadsCompleted, setUploadsCompleted] = useState(0);
 
     const { baseId, path, handlePathChange } = props;
+
+    const uploadsCompleted = uploadTracker.uploads.filter((upload) => {
+        return (
+            upload.parentPath === path &&
+            upload.hasUploaded &&
+            !upload.hasErrored
+        );
+    }).length;
 
     useEffect(() => {
         setSelected([]);
@@ -160,14 +169,7 @@ function Listing(props) {
 
     return (
         <>
-            <UploadDropTarget
-                path={path}
-                uploadCompletedCB={() =>
-                    setUploadsCompleted(
-                        (uploadsCompleted) => uploadsCompleted + 1 // prevents stale values in closures.
-                    )
-                }
-            >
+            <UploadDropTarget path={path}>
                 <Header
                     baseId={baseId}
                     isGridView={isGridView}

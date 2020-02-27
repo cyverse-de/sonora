@@ -252,7 +252,7 @@ const uploadReducer = (state, action) => {
             );
             newState.uploads[idx] = {
                 ...newState.uploads[idx],
-                cancelFn: action.cancelFn,
+                cancelFn: action.upload.cancelFn,
             };
             return newState;
         }

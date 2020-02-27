@@ -54,7 +54,7 @@ function Header(props) {
     return (
         <>
             <Toolbar variant="dense">
-                <DataNavigation path={path} error={error} />
+                <DataNavigation path={path} error={error} baseId={baseId} />
             </Toolbar>
             <Toolbar
                 variant="dense"

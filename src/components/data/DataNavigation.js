@@ -2,13 +2,13 @@
  * @author sriram
  *
  * A component that displays Roots folders and breadcrumbs for Data navigation.
- * On smaller screens, breadcrumbs are replaced by dropdown menu of folder path.
+ * On smaller screens, breadcrumbs are replaced by dropdown menu of folder paths.
  *
  */
 
 import React, { useEffect, useState } from "react";
 import callApi from "../../common/callApi";
-import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
 import intlData from "./messages";
 import {
     Breadcrumbs,
@@ -34,6 +34,7 @@ import FolderIcon from "@material-ui/icons/Folder";
 import { useRouter } from "next/router";
 import NavigationConstants from "../layout/NavigationConstants";
 import constants from "../../constants";
+import ids from "./ids";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
@@ -65,12 +66,30 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+/**
+ * Splits a path into an array of path items.
+ * @example
+ * // returns [analyses,wordcount,logs]
+ * getPathItems("/analyses/wordcount/logs");
+ * @param {string }relativePath - relative path to CyVerse Data Store e.g: /analyses/wordcount/logs
+ * @returns {string[]} - path items as a string array  e.g: [analyses,wordcount,logs]
+ */
 function getPathItems(relativePath) {
     let pathItems = [];
     pathItems = relativePath.split("/").slice(1);
     return pathItems;
 }
 
+/**
+ * Computes the path for routing.
+ *  * @example
+ * // returns "/data?path=/iplant/home/ipctest/analyses"
+ * getPathItems("/iplant/home/ipctest","/analyses/wordcount/logs", 0);
+ * @param {string }root - CyVerse Data Store root path e.g: /iplant/home/ipctest
+ * @param {string} relativePath - relative path to CyVerse Data Store e.g: /analyses/wordcount/logs
+ * @param {integer} selectedPathItemIndex - index of the selected path item
+ * @returns {string} - path to be used by the nextjs router
+ */
 function pathToRoute(root, relativePath, selectedPathItemIndex) {
     const relativePathItems = getPathItems(relativePath);
     const reducer = (accumulator, currentVal, idx) => {
@@ -92,6 +111,17 @@ function pathToRoute(root, relativePath, selectedPathItemIndex) {
     return "/" + NavigationConstants.DATA + `/?path=${root}/${routerPath}`;
 }
 
+/**
+ * Get relative path to CyVerse Data Store path.
+ *  * @example
+ * // returns "/analyses/wordcount/logs"
+ * getRelativePath("/iplant/home/ipctest/analyses/wordcount/logs","/iplant/home/ipctest",
+ * "/iplant/trash/home/de-irods/ipctest");
+ * @param {string} path -  CyVerse Data Store path
+ * @param {string} userHomePath - Users home folder path
+ * @param {string} userTrashPath - Users trash folder path
+ * @returns {string} relativePath - relative path to CyVerse Data Store e.g: /analyses/wordcount/logs
+ */
 function getRelativePath(path, userHomePath, userTrashPath) {
     let relativePath = "";
     if (path.indexOf(userHomePath) !== -1) {
@@ -106,7 +136,7 @@ function getRelativePath(path, userHomePath, userTrashPath) {
     return relativePath;
 }
 
-function PathSelectorMenu({ root, path, userHomePath, userTrashPath }) {
+function PathSelectorMenu({ root, path, userHomePath, userTrashPath, baseId }) {
     const classes = useStyles();
     const router = useRouter();
     const [anchorEl, setAnchorEl] = useState(null);
@@ -139,7 +169,11 @@ function PathSelectorMenu({ root, path, userHomePath, userTrashPath }) {
     return (
         pathItems.length > 0 && (
             <>
-                <List component="nav" aria-label="Data Current Location">
+                <List
+                    component="nav"
+                    aria-label="Data Current Location"
+                    id={build(baseId, ids.PATH_ITEMS)}
+                >
                     <ListItem
                         button
                         aria-haspopup="true"
@@ -155,6 +189,11 @@ function PathSelectorMenu({ root, path, userHomePath, userTrashPath }) {
                                 </>
                             }
                             <ListItemText
+                                id={build(
+                                    baseId,
+                                    ids.PATH_ITEMS,
+                                    ids.SELECTED_PATH_ITEM
+                                )}
                                 className={classes.currentLocationLink}
                                 primary={pathItems[selectedIndex]}
                             />
@@ -166,7 +205,7 @@ function PathSelectorMenu({ root, path, userHomePath, userTrashPath }) {
                 </List>
 
                 <Menu
-                    id="lock-menu"
+                    id={build(baseId, ids.PATH_ITEMS_MENU)}
                     anchorEl={anchorEl}
                     keepMounted
                     open={Boolean(anchorEl)}
@@ -174,6 +213,11 @@ function PathSelectorMenu({ root, path, userHomePath, userTrashPath }) {
                 >
                     {pathItems.map((crumb, index) => (
                         <ListItem
+                            id={build(
+                                baseId,
+                                ids.PATH_ITEMS_MENU,
+                                ids.PATH_ITEMS_MENU_ITEM
+                            )}
                             key={crumb}
                             selected={index === selectedIndex}
                             onClick={(event) =>
@@ -193,7 +237,7 @@ function PathSelectorMenu({ root, path, userHomePath, userTrashPath }) {
     );
 }
 
-function BreadCrumb({ root, path, userHomePath, userTrashPath }) {
+function BreadCrumb({ root, path, userHomePath, userTrashPath, baseId }) {
     const router = useRouter();
     const classes = useStyles();
     const relativePath = getRelativePath(path, userHomePath, userTrashPath);
@@ -206,12 +250,22 @@ function BreadCrumb({ root, path, userHomePath, userTrashPath }) {
     };
 
     return (
-        <Breadcrumbs maxItems={2} aria-label="breadcrumb">
+        <Breadcrumbs
+            maxItems={2}
+            aria-label="breadcrumb"
+            id={build(baseId, ids.BREADCRUMBS)}
+        >
             {getPathItems(relativePath).map((crumb) => (
                 <>
                     <FolderIcon color="primary" />
                     <Tooltip title={crumb}>
                         <Link
+                            id={build(
+                                baseId,
+                                ids.BREADCRUMBS,
+                                ids.PATH_ITEM,
+                                crumb
+                            )}
                             key={crumb}
                             color="inherit"
                             href="#"
@@ -230,7 +284,7 @@ function BreadCrumb({ root, path, userHomePath, userTrashPath }) {
 }
 
 function DataNavigation(props) {
-    const { path, error, intl } = props;
+    const { path, error, baseId, intl } = props;
     const router = useRouter();
     const classes = useStyles();
     const [dataRoots, setDataRoots] = useState([]);
@@ -238,6 +292,7 @@ function DataNavigation(props) {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [userHomePath, setUserHomePath] = useState("");
     const [userTrashPath, setUserTrashPath] = useState("");
+    const dataNavId = build(baseId, ids.DATA_NAVIGATION);
 
     useEffect(() => {
         callApi({
@@ -319,7 +374,11 @@ function DataNavigation(props) {
     return (
         dataRoots.length > 0 && (
             <>
-                <List component="nav" aria-label="Data Root Location">
+                <List
+                    component="nav"
+                    aria-label="Data Root Location"
+                    id={build(dataNavId, ids.DATA_ROOTS)}
+                >
                     <ListItem
                         button
                         aria-haspopup="true"
@@ -331,6 +390,11 @@ function DataNavigation(props) {
                         <>
                             {dataRoots[selectedIndex].icon}
                             <ListItemText
+                                id={build(
+                                    baseId,
+                                    ids.DATA_ROOTS,
+                                    dataRoots[selectedIndex].label
+                                )}
                                 primary={
                                     dataRoots.length > 0
                                         ? dataRoots[selectedIndex].label
@@ -344,7 +408,7 @@ function DataNavigation(props) {
                     </ListItem>
                 </List>
                 <Menu
-                    id="lock-menu"
+                    id={build(baseId, ids.DATA_ROOTS_MENU)}
                     anchorEl={anchorEl}
                     keepMounted
                     open={Boolean(anchorEl)}
@@ -352,6 +416,12 @@ function DataNavigation(props) {
                 >
                     {dataRoots.map((menuItem, index) => (
                         <ListItem
+                            id={build(
+                                dataNavId,
+                                ids.DATA_ROOTS_MENU,
+                                ids.DATA_ROOTS_MENU_ITEM,
+                                dataRoots[selectedIndex].label
+                            )}
                             key={menuItem.label}
                             selected={index === selectedIndex}
                             onClick={(event) =>
@@ -368,6 +438,7 @@ function DataNavigation(props) {
                 <Hidden xsDown>
                     {path && (!error || error.toString().length === 0) ? (
                         <BreadCrumb
+                            baseId={dataNavId}
                             root={dataRoots[selectedIndex].path}
                             path={path}
                             userHomePath={userHomePath}
@@ -380,6 +451,7 @@ function DataNavigation(props) {
                 <Hidden only={["sm", "md", "lg", "xl"]}>
                     {path && (!error || error.toString().length === 0) ? (
                         <PathSelectorMenu
+                            baseId={dataNavId}
                             root={dataRoots[selectedIndex].path}
                             path={path}
                             userHomePath={userHomePath}

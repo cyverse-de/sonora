@@ -366,7 +366,7 @@ function DataNavigation(props) {
                 </Menu>
 
                 <Hidden xsDown>
-                    {path && (!error || error.length === 0) ? (
+                    {path && (!error || error.toString().length === 0) ? (
                         <BreadCrumb
                             root={dataRoots[selectedIndex].path}
                             path={path}
@@ -378,7 +378,7 @@ function DataNavigation(props) {
                     )}
                 </Hidden>
                 <Hidden only={["sm", "md", "lg", "xl"]}>
-                    {path && (!error || error.length === 0) ? (
+                    {path && (!error || error.toString().length === 0) ? (
                         <PathSelectorMenu
                             root={dataRoots[selectedIndex].path}
                             path={path}

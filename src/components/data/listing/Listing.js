@@ -32,7 +32,7 @@ function Listing(props) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState();
+    const [error, setError] = useState("");
     const [data, setData] = useState({ total: 0, files: [], folders: [] });
 
     const { baseId, path, handlePathChange } = props;
@@ -72,7 +72,6 @@ function Listing(props) {
                             })),
                         ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
                     });
-                setError(null); // clear out previous error state
             });
         }
     }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);

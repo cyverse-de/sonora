@@ -86,7 +86,7 @@ function TableView(props) {
 
     const tableId = build(baseId, ids.listingTable);
     const tableColumns = getTableColumns(isMedium, isLarge);
-
+    console.log("Error=>" + error + "<==");
     return (
         <TableContainer
             component={Paper}
@@ -122,15 +122,15 @@ function TableView(props) {
                 )}
                 {!loading && (
                     <TableBody>
-                        {(!listing || listing.length === 0) && (
+                        {(!listing || listing.length === 0) && !error && (
                             <EmptyTable
                                 message={getMessage("emptyDataListing")}
                                 numColumns={tableColumns.length}
                             />
                         )}
-                        {error && error.length > 0 && (
+                        {error && (
                             <EmptyTable
-                                message={error}
+                                message={error.toString()}
                                 numColumns={tableColumns.length}
                             />
                         )}

@@ -9,7 +9,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import CyverseAppBar from "../components/layout/CyVerseAppBar";
 import Navigation from "../components/layout/Navigation";
 import NavigationConstants from "../components/layout/NavigationConstants";
-import PageContent from "../components/PageContent";
+import UploadQueue from "../components/uploads/queue";
 import theme from "../components/theme/default";
 
 import { UploadTrackingProvider } from "../contexts/uploadTracking";
@@ -78,9 +78,8 @@ function MyApp({ Component, pageProps, intercomAppId, intercomEnabled }) {
                             <title>Discovery Environment</title>
                         </Head>
                         <Navigation activeView={pathname} />
-                        <PageContent>
-                            <Component {...pageProps} />
-                        </PageContent>
+                        <Component {...pageProps} />
+                        <UploadQueue />
                     </CyverseAppBar>
                 </UploadTrackingProvider>
             </UserProfileProvider>

@@ -28,11 +28,16 @@ import {
     BottomNavigation,
     BottomNavigationAction,
     MenuItem,
+    Paper,
     Stepper,
     Step,
     StepButton,
     StepLabel,
-    Typography,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableRow,
 } from "@material-ui/core";
 import { ArrowBack, ArrowForward } from "@material-ui/icons";
 
@@ -381,6 +386,7 @@ const AppLaunchWizard = (props) => {
                         label={getMessage("resourceRequirements")}
                         hidden={activeStep !== stepResourceRequirements.step}
                     >
+                        {getMessage("helpMsgResourceRequirements")}
                         {values.limits.map((reqs, index) => {
                             const {
                                 min_cpu_cores,
@@ -463,19 +469,32 @@ const AppLaunchWizard = (props) => {
                         label={getMessage("launchOrSaveAsQL")}
                         hidden={activeStep !== stepReviewAndLaunch.step}
                     >
-                        {values.groups &&
-                            values.groups.map((group) =>
-                                group.parameters.map(
-                                    (param) =>
-                                        param.isVisible &&
-                                        (!!param.value ||
-                                            param.value === 0) && (
-                                            <Typography key={param.id}>
-                                                {param.label}: {param.value}
-                                            </Typography>
-                                        )
-                                )
-                            )}
+                        <TableContainer component={Paper}>
+                            <Table>
+                                <TableBody>
+                                    {values.groups &&
+                                        values.groups.map((group) =>
+                                            group.parameters.map(
+                                                (param) =>
+                                                    param.isVisible &&
+                                                    (!!param.value ||
+                                                        param.value === 0) && (
+                                                        <TableRow
+                                                            key={param.id}
+                                                        >
+                                                            <TableCell>
+                                                                {param.label}
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                {param.value}
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    )
+                                            )
+                                        )}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                         {values.requirements &&
                             values.requirements.map(
                                 (reqs) =>
@@ -497,29 +516,54 @@ const AppLaunchWizard = (props) => {
                                                     }
                                                 )}
                                             </legend>
-                                            {!!reqs.min_cpu_cores && (
-                                                <Typography>
-                                                    {getMessage("minCPUCores")}:{" "}
-                                                    {reqs.min_cpu_cores}
-                                                </Typography>
-                                            )}
-                                            {!!reqs.min_memory_limit && (
-                                                <Typography>
-                                                    {getMessage("minMemory")}:{" "}
-                                                    {formatGBValue(
-                                                        reqs.min_memory_limit
-                                                    )}
-                                                </Typography>
-                                            )}
-                                            {!!reqs.min_disk_space && (
-                                                <Typography>
-                                                    {getMessage("minDiskSpace")}
-                                                    :{" "}
-                                                    {formatGBValue(
-                                                        reqs.min_disk_space
-                                                    )}
-                                                </Typography>
-                                            )}
+                                            <TableContainer component={Paper}>
+                                                <Table>
+                                                    <TableBody>
+                                                        {!!reqs.min_cpu_cores && (
+                                                            <TableRow>
+                                                                <TableCell>
+                                                                    {getMessage(
+                                                                        "minCPUCores"
+                                                                    )}
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    {
+                                                                        reqs.min_cpu_cores
+                                                                    }
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        )}
+                                                        {!!reqs.min_memory_limit && (
+                                                            <TableRow>
+                                                                <TableCell>
+                                                                    {getMessage(
+                                                                        "minMemory"
+                                                                    )}
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    {formatGBValue(
+                                                                        reqs.min_memory_limit
+                                                                    )}
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        )}
+                                                        {!!reqs.min_disk_space && (
+                                                            <TableRow>
+                                                                <TableCell>
+                                                                    {getMessage(
+                                                                        "minDiskSpace"
+                                                                    )}
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    {formatGBValue(
+                                                                        reqs.min_disk_space
+                                                                    )}
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        )}
+                                                    </TableBody>
+                                                </Table>
+                                            </TableContainer>
                                         </fieldset>
                                     )
                             )}

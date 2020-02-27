@@ -36,6 +36,7 @@ function Listing(props) {
 
     const { baseId, path, handlePathChange } = props;
 
+    // Used to force the data listing to refresh when uploads are completed.
     const uploadsCompleted = uploadTracker.uploads.filter((upload) => {
         return (
             upload.parentPath === path &&

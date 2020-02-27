@@ -207,20 +207,23 @@ function BreadCrumb({ root, path, userHomePath, userTrashPath }) {
 
     return (
         <Breadcrumbs maxItems={2} aria-label="breadcrumb">
-            {relativePath.split("/").map((crumb) => (
-                <Tooltip title={crumb}>
-                    <Link
-                        key={crumb}
-                        color="inherit"
-                        href="#"
-                        onClick={(event) =>
-                            handleClick(event, relativePath, crumb)
-                        }
-                        className={classes.breadCrumbLink}
-                    >
-                        {crumb}
-                    </Link>
-                </Tooltip>
+            {getPathItems(relativePath).map((crumb) => (
+                <>
+                    <FolderIcon color="primary" />
+                    <Tooltip title={crumb}>
+                        <Link
+                            key={crumb}
+                            color="inherit"
+                            href="#"
+                            onClick={(event) =>
+                                handleClick(event, relativePath, crumb)
+                            }
+                            className={classes.breadCrumbLink}
+                        >
+                            {crumb}
+                        </Link>
+                    </Tooltip>
+                </>
             ))}
         </Breadcrumbs>
     );

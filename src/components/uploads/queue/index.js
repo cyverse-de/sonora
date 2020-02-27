@@ -35,7 +35,15 @@ import {
     useUploadTrackingDispatch,
 } from "../../../contexts/uploadTracking";
 
-import { useTheme } from "@material-ui/core/styles";
+import { useTheme, makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+    ellipsis: {
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        paddingRight: theme.spacing(1),
+    },
+}));
 
 /**
  * Component for the upload status icon that chooses what to display based on the
@@ -67,6 +75,12 @@ const UploadStatus = ({ upload }) => {
     return statusIcon;
 };
 
+const EllipsisField = ({ children }) => {
+    const classes = useStyles();
+
+    return <div className={classes.ellipsis}>{children}</div>;
+};
+
 /**
  * Component for an item in the list of uploads.
  *
@@ -92,10 +106,12 @@ const UploadItem = ({ upload, handleCancel }) => {
             </ListItemAvatar>
 
             {isSmall ? (
-                <ListItemText primary={upload.filename} />
+                <ListItemText
+                    primary={<EllipsisField>{upload.filename}</EllipsisField>}
+                />
             ) : (
                 <ListItemText
-                    primary={upload.filename}
+                    primary={<EllipsisField>{upload.filename}</EllipsisField>}
                     secondary={upload.parentPath}
                 />
             )}

@@ -1,12 +1,12 @@
 import React from "react";
-import Header from "../../src/components/data/Header";
 import fetchMock from "fetch-mock";
+import DataNavigation from "../../src/components/data/DataNavigation";
 const successResp = {
     roots: [
         {
             id: "3afc8c52-e10a-11e3-8335-6abdce5a08d5",
-            path: "/iplant/home/sriram",
-            label: "sriram",
+            path: "/iplant/home/ipctest",
+            label: "ipctest",
             "date-created": 1322887233000,
             "date-modified": 1463599086000,
             permission: "own",
@@ -32,7 +32,7 @@ const successResp = {
         },
         {
             id: "754ab2dc-6de9-11e9-80c4-d8d385e427d4",
-            path: "/iplant/trash/home/de-irods/sriram",
+            path: "/iplant/trash/home/de-irods/ipctest",
             label: "Trash",
             "date-created": 1556918507000,
             "date-modified": 1556918507000,
@@ -41,26 +41,15 @@ const successResp = {
         },
     ],
     "base-paths": {
-        user_home_path: "/iplant/home/sriram",
-        user_trash_path: "/iplant/trash/home/de-irods/sriram",
+        user_home_path: "/iplant/home/ipctest",
+        user_trash_path: "/iplant/trash/home/de-irods/ipctest",
         base_trash_path: "/iplant/trash/home/de-irods",
     },
 };
-export const HeaderTest = () => {
-    const logger = (message) => {
-        console.log(message);
-    };
+export const DataNavigationTest = () => {
     fetchMock.restore().get(/\/api\/filesystem\/root.*/, successResp);
     return (
-        <Header
-            baseId="data.header"
-            isGridView={false}
-            toggleDisplay={() => logger("Toggle data display")}
-            onDownloadSelected={() => logger("Download")}
-            onEditSelected={() => logger("Edit")}
-            onMetadataSelected={() => logger("Metadata")}
-            onDeleteSelected={() => logger("Delete")}
-        />
+        <DataNavigation path="/iplant/home/ipctest/analyses/foo/barborkborkborkbarborkborkbork" />
     );
 };
 

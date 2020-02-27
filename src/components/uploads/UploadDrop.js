@@ -85,9 +85,6 @@ const processDroppedFiles = async (transferItemList, itemsFn) => {
         .filter((f) => f.size > 0) // filter out 0-byte files and directories.
         .map((i) => ({ kind: KindFile, value: i }));
 
-    // Clear out any nulls from the list.
-    fileItems = fileItems.filter((i) => i !== null && i !== "undefined");
-
     // Set the new value of uploadItems, which should trigger a re-render.
     return itemsFn(fileItems);
 };

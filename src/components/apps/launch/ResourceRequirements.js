@@ -13,10 +13,15 @@ import { FastField } from "formik";
 import numeral from "numeral";
 
 import messages from "./messages";
+import styles from "./styles";
 
 import { FormSelectField, getMessage, withI18N } from "@cyverse-de/ui-lib";
 
 import {
+    makeStyles,
+    ExpansionPanel,
+    ExpansionPanelSummary,
+    ExpansionPanelDetails,
     MenuItem,
     Paper,
     Table,
@@ -26,6 +31,10 @@ import {
     TableRow,
     Typography,
 } from "@material-ui/core";
+
+import { ExpandMore } from "@material-ui/icons";
+
+const useStyles = makeStyles(styles);
 
 const ONE_GB = 1024 * 1024 * 1024;
 
@@ -118,8 +127,13 @@ const StepResourceRequirementsForm = ({
     );
 };
 
+const ResourceRequirementsHeader = ({ headerMessageKey, step }) =>
+    getMessage(headerMessageKey, { values: { step } });
+
 const ResourceRequirementsForm = withI18N(
     ({ defaultMaxCPUCores, defaultMaxMemory, defaultMaxDiskSpace, limits }) => {
+        const classes = useStyles();
+
         return (
             <>
                 <Typography variant="body1" gutterBottom>
@@ -137,22 +151,31 @@ const ResourceRequirementsForm = withI18N(
                 ) : (
                     limits.map((reqs, index) => {
                         return (
-                            <fieldset key={reqs.step_number}>
-                                <legend>
-                                    {getMessage("resourceRequirementsForStep", {
-                                        values: {
-                                            step: reqs.step_number + 1,
-                                        },
-                                    })}
-                                </legend>
-                                <StepResourceRequirementsForm
-                                    requirements={reqs}
-                                    index={index}
-                                    defaultMaxCPUCores={defaultMaxCPUCores}
-                                    defaultMaxMemory={defaultMaxMemory}
-                                    defaultMaxDiskSpace={defaultMaxDiskSpace}
-                                />
-                            </fieldset>
+                            <ExpansionPanel key={reqs.step_number}>
+                                <ExpansionPanelSummary
+                                    expandIcon={<ExpandMore />}
+                                >
+                                    <Typography variant="subtitle1">
+                                        <ResourceRequirementsHeader
+                                            headerMessageKey="resourceRequirementsForStep"
+                                            step={reqs.step_number + 1}
+                                        />
+                                    </Typography>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails
+                                    className={classes.expansionPanelDetails}
+                                >
+                                    <StepResourceRequirementsForm
+                                        requirements={reqs}
+                                        index={index}
+                                        defaultMaxCPUCores={defaultMaxCPUCores}
+                                        defaultMaxMemory={defaultMaxMemory}
+                                        defaultMaxDiskSpace={
+                                            defaultMaxDiskSpace
+                                        }
+                                    />
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
                         );
                     })
                 )}
@@ -175,50 +198,53 @@ const StepResourceRequirementsReview = ({
 
     return (
         !!(min_cpu_cores || min_memory_limit || min_disk_space) && (
-            <fieldset>
-                <legend>
-                    {getMessage(headerMessageKey, {
-                        values: {
-                            step: step_number + 1,
-                        },
-                    })}
-                </legend>
+            <ExpansionPanel defaultExpanded>
+                <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+                    <Typography variant="subtitle1">
+                        <ResourceRequirementsHeader
+                            headerMessageKey={headerMessageKey}
+                            step={step_number + 1}
+                        />
+                    </Typography>
+                </ExpansionPanelSummary>
 
-                <TableContainer component={Paper}>
-                    <Table>
-                        <TableBody>
-                            {!!min_cpu_cores && (
-                                <TableRow>
-                                    <TableCell>
-                                        {getMessage("minCPUCores")}
-                                    </TableCell>
-                                    <TableCell>{min_cpu_cores}</TableCell>
-                                </TableRow>
-                            )}
-                            {!!min_memory_limit && (
-                                <TableRow>
-                                    <TableCell>
-                                        {getMessage("minMemory")}
-                                    </TableCell>
-                                    <TableCell>
-                                        {formatGBValue(min_memory_limit)}
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                            {!!min_disk_space && (
-                                <TableRow>
-                                    <TableCell>
-                                        {getMessage("minDiskSpace")}
-                                    </TableCell>
-                                    <TableCell>
-                                        {formatGBValue(min_disk_space)}
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </fieldset>
+                <ExpansionPanelDetails>
+                    <TableContainer component={Paper}>
+                        <Table>
+                            <TableBody>
+                                {!!min_cpu_cores && (
+                                    <TableRow>
+                                        <TableCell>
+                                            {getMessage("minCPUCores")}
+                                        </TableCell>
+                                        <TableCell>{min_cpu_cores}</TableCell>
+                                    </TableRow>
+                                )}
+                                {!!min_memory_limit && (
+                                    <TableRow>
+                                        <TableCell>
+                                            {getMessage("minMemory")}
+                                        </TableCell>
+                                        <TableCell>
+                                            {formatGBValue(min_memory_limit)}
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                                {!!min_disk_space && (
+                                    <TableRow>
+                                        <TableCell>
+                                            {getMessage("minDiskSpace")}
+                                        </TableCell>
+                                        <TableCell>
+                                            {formatGBValue(min_disk_space)}
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </ExpansionPanelDetails>
+            </ExpansionPanel>
         )
     );
 };

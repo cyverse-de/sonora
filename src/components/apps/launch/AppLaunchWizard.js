@@ -10,6 +10,7 @@ import { Formik, Form, FastField } from "formik";
 import { injectIntl } from "react-intl";
 
 import messages from "./messages";
+import styles from "./styles";
 
 import {
     ResourceRequirementsForm,
@@ -28,8 +29,12 @@ import {
 } from "@cyverse-de/ui-lib";
 
 import {
+    makeStyles,
     BottomNavigation,
     BottomNavigationAction,
+    ExpansionPanel,
+    ExpansionPanelSummary,
+    ExpansionPanelDetails,
     Paper,
     Stepper,
     Step,
@@ -40,8 +45,12 @@ import {
     TableCell,
     TableContainer,
     TableRow,
+    Typography,
 } from "@material-ui/core";
-import { ArrowBack, ArrowForward } from "@material-ui/icons";
+
+import { ArrowBack, ArrowForward, ExpandMore } from "@material-ui/icons";
+
+const useStyles = makeStyles(styles);
 
 const StepContent = ({ hidden, step, label, children }) => (
     <fieldset hidden={hidden}>
@@ -154,6 +163,8 @@ const initValues = ({
 
 const AppLaunchWizard = (props) => {
     const [activeStep, setActiveStep] = React.useState(0);
+
+    const classes = useStyles();
 
     const {
         defaultMaxCPUCores,
@@ -316,51 +327,68 @@ const AppLaunchWizard = (props) => {
                     >
                         {values.groups &&
                             values.groups.map((group, index) => (
-                                <fieldset key={group.id}>
-                                    <legend>{group.label}</legend>
-                                    {group.parameters.map(
-                                        (param, paramIndex) => {
-                                            if (!param.isVisible) return null;
-
-                                            const name = `groups.${index}.parameters.${paramIndex}.value`;
-
-                                            let fieldProps = {
-                                                name,
-                                                label: param.label,
-                                                required: param.required,
-                                            };
-
-                                            switch (param.type) {
-                                                case "Info":
-                                                    fieldProps = {
-                                                        name,
-                                                        component: "div",
-                                                        children: param.label,
-                                                    };
-                                                    break;
-
-                                                case "Integer":
-                                                    fieldProps.component = FormIntegerField;
-                                                    break;
-
-                                                case "Double":
-                                                    fieldProps.component = FormNumberField;
-                                                    break;
-
-                                                default:
-                                                    fieldProps.component = FormTextField;
-                                                    break;
-                                            }
-
-                                            return (
-                                                <FastField
-                                                    key={param.id}
-                                                    {...fieldProps}
-                                                />
-                                            );
+                                <ExpansionPanel key={group.id} defaultExpanded>
+                                    <ExpansionPanelSummary
+                                        expandIcon={<ExpandMore />}
+                                    >
+                                        <Typography variant="subtitle1">
+                                            {group.label}
+                                        </Typography>
+                                    </ExpansionPanelSummary>
+                                    <ExpansionPanelDetails
+                                        className={
+                                            classes.expansionPanelDetails
                                         }
-                                    )}
-                                </fieldset>
+                                    >
+                                        {group.parameters.map(
+                                            (param, paramIndex) => {
+                                                if (!param.isVisible) {
+                                                    return null;
+                                                }
+
+                                                const name = `groups.${index}.parameters.${paramIndex}.value`;
+
+                                                let fieldProps = {
+                                                    name,
+                                                    label: param.label,
+                                                    required: param.required,
+                                                };
+
+                                                switch (param.type) {
+                                                    case "Info":
+                                                        fieldProps = {
+                                                            name,
+                                                            component: Typography,
+                                                            variant: "body1",
+                                                            gutterBottom: true,
+                                                            children:
+                                                                param.label,
+                                                        };
+                                                        break;
+
+                                                    case "Integer":
+                                                        fieldProps.component = FormIntegerField;
+                                                        break;
+
+                                                    case "Double":
+                                                        fieldProps.component = FormNumberField;
+                                                        break;
+
+                                                    default:
+                                                        fieldProps.component = FormTextField;
+                                                        break;
+                                                }
+
+                                                return (
+                                                    <FastField
+                                                        key={param.id}
+                                                        {...fieldProps}
+                                                    />
+                                                );
+                                            }
+                                        )}
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
                             ))}
                     </StepContent>
 

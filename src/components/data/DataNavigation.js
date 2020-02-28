@@ -87,7 +87,7 @@ function getPathItems(relativePath) {
  * getPathItems("/iplant/home/ipctest","/analyses/wordcount/logs", 0);
  * @param {string }root - CyVerse Data Store root path e.g: /iplant/home/ipctest
  * @param {string} relativePath - relative path to CyVerse Data Store e.g: /analyses/wordcount/logs
- * @param {integer} selectedPathItemIndex - index of the selected path item
+ * @param {number} selectedPathItemIndex - index of the selected path item
  * @returns {string} - path to be used by the nextjs router
  */
 function pathToRoute(root, relativePath, selectedPathItemIndex) {
@@ -136,7 +136,14 @@ function getRelativePath(path, userHomePath, userTrashPath) {
     return relativePath;
 }
 
-function PathSelectorMenu({ root, path, userHomePath, userTrashPath, baseId }) {
+function PathSelectorMenu({
+    root,
+    path,
+    userHomePath,
+    userTrashPath,
+    baseId,
+    intl,
+}) {
     const classes = useStyles();
     const router = useRouter();
     const [anchorEl, setAnchorEl] = useState(null);
@@ -171,14 +178,21 @@ function PathSelectorMenu({ root, path, userHomePath, userTrashPath, baseId }) {
             <>
                 <List
                     component="nav"
-                    aria-label="Data Current Location"
+                    aria-controls={formatMessage(
+                        intl,
+                        "selectedFolderAriaControl"
+                    )}
+                    aria-label={formatMessage(intl, "selectedFolderAriaLabel")}
                     id={build(baseId, ids.PATH_ITEMS)}
                 >
                     <ListItem
                         button
                         aria-haspopup="true"
-                        aria-controls="Data current menu"
-                        aria-label="Current Data Location"
+                        aria-controls={formatMessage(
+                            intl,
+                            "selectedFolderAriaMenuItemControl"
+                        )}
+                        aria-label={pathItems[selectedIndex]}
                         onClick={handleClickListItem}
                         className={classes.selectedListItem}
                     >
@@ -206,6 +220,12 @@ function PathSelectorMenu({ root, path, userHomePath, userTrashPath, baseId }) {
 
                 <Menu
                     id={build(baseId, ids.PATH_ITEMS_MENU)}
+                    aria-haspopup="true"
+                    aria-controls={formatMessage(
+                        intl,
+                        "FolderPathsMenuAriaControl"
+                    )}
+                    aria-label={formatMessage(intl, "FolderPathsMenuAriaLabel")}
                     anchorEl={anchorEl}
                     keepMounted
                     open={Boolean(anchorEl)}
@@ -218,6 +238,7 @@ function PathSelectorMenu({ root, path, userHomePath, userTrashPath, baseId }) {
                                 ids.PATH_ITEMS_MENU,
                                 ids.PATH_ITEMS_MENU_ITEM
                             )}
+                            aria-label={pathItems[selectedIndex]}
                             key={crumb}
                             selected={index === selectedIndex}
                             onClick={(event) =>
@@ -237,7 +258,7 @@ function PathSelectorMenu({ root, path, userHomePath, userTrashPath, baseId }) {
     );
 }
 
-function BreadCrumb({ root, path, userHomePath, userTrashPath, baseId }) {
+function BreadCrumb({ root, path, userHomePath, userTrashPath, baseId, intl }) {
     const router = useRouter();
     const classes = useStyles();
     const relativePath = getRelativePath(path, userHomePath, userTrashPath);
@@ -245,7 +266,7 @@ function BreadCrumb({ root, path, userHomePath, userTrashPath, baseId }) {
     const handleClick = (event, relativePath, crumb) => {
         event.preventDefault();
         const relativePathItems = getPathItems(relativePath);
-        const index = relativePathItems.indexOf((item) => item === crumb);
+        const index = relativePathItems.indexOf(crumb);
         router.push(pathToRoute(root, relativePath, index));
     };
 
@@ -254,12 +275,20 @@ function BreadCrumb({ root, path, userHomePath, userTrashPath, baseId }) {
             maxItems={2}
             aria-label="breadcrumb"
             id={build(baseId, ids.BREADCRUMBS)}
+            aria-controls={formatMessage(
+                intl,
+                "dataNavigationBreadcrumbsControl"
+            )}
         >
             {getPathItems(relativePath).map((crumb) => (
                 <>
                     <FolderIcon color="primary" />
                     <Tooltip title={crumb}>
                         <Link
+                            aria-controls={formatMessage(
+                                intl,
+                                "folderPathAriaControl"
+                            )}
                             id={build(
                                 baseId,
                                 ids.BREADCRUMBS,
@@ -294,21 +323,6 @@ function DataNavigation(props) {
     const [userTrashPath, setUserTrashPath] = useState("");
     const dataNavId = build(baseId, ids.DATA_NAVIGATION);
 
-    useEffect(() => {
-        callApi({
-            endpoint: `/api/filesystem/root`,
-        }).then((respData) => {
-            if (respData) {
-                const roots = getDataRoots(respData.roots);
-                setDataRoots(roots);
-                setBasePaths(respData["base-paths"]);
-                if ((!error || error.length === 0) && !path) {
-                    setDefaultPath(roots, roots[0].path);
-                }
-            }
-        });
-    }, [path]);
-
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -324,66 +338,74 @@ function DataNavigation(props) {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const getDataRoots = (roots) => {
-        const menuItems = [];
-        if (roots) {
-            const home = roots.find(
-                (root) =>
-                    root.label !== formatMessage(intl, "trash") &&
-                    root.label !== formatMessage(intl, "sharedWithMe") &&
-                    root.label !== formatMessage(intl, "communityData")
-            );
-            home.icon = <HomeIcon />;
-            const sharedWithMe = roots.find((root) => {
-                return root.label === formatMessage(intl, "sharedWithMe");
-            });
-            sharedWithMe.icon = <FolderSharedIcon />;
-            const communityData = roots.find(
-                (root) => root.label === formatMessage(intl, "communityData")
-            );
-            communityData.icon = <GroupIcon />;
-            const trash = roots.find(
-                (root) => root.label === formatMessage(intl, "trash")
-            );
-            trash.icon = <DeleteIcon />;
-            menuItems.push(home, sharedWithMe, communityData, trash);
-        }
-        return menuItems;
-    };
 
-    const setBasePaths = (basePaths) => {
-        console.log("home=>" + basePaths["user_home_path"]);
-        console.log("trash=>" + basePaths["user_trash_path"]);
-        setUserHomePath(basePaths["user_home_path"]);
-        setUserTrashPath(basePaths["user_trash_path"]);
-    };
+    useEffect(() => {
+        callApi({
+            endpoint: `/api/filesystem/root`,
+        }).then((respData) => {
+            if (respData) {
+                const respRoots = respData.roots;
+                const home = respRoots.find(
+                    (root) =>
+                        root.label !== formatMessage(intl, "trash") &&
+                        root.label !== formatMessage(intl, "sharedWithMe") &&
+                        root.label !== formatMessage(intl, "communityData")
+                );
+                home.icon = <HomeIcon />;
+                const sharedWithMe = respRoots.find((root) => {
+                    return root.label === formatMessage(intl, "sharedWithMe");
+                });
+                sharedWithMe.icon = <FolderSharedIcon />;
+                const communityData = respRoots.find(
+                    (root) =>
+                        root.label === formatMessage(intl, "communityData")
+                );
+                communityData.icon = <GroupIcon />;
+                const trash = respRoots.find(
+                    (root) => root.label === formatMessage(intl, "trash")
+                );
+                trash.icon = <DeleteIcon />;
 
-    const setDefaultPath = (roots, path) => {
-        //set default path after getting roots.
-        const idx = roots.findIndex((root) => path.includes(root.path));
-        console.log("selected index=>" + idx);
-        console.log("path=>" + path);
-        console.log("roots.size=>" + roots.length);
-        setSelectedIndex(idx);
-        router.push("/" + NavigationConstants.DATA + `?path=${path}`);
-    };
+                const basePaths = respData["base-paths"];
+                setUserHomePath(basePaths["user_home_path"]);
+                setUserTrashPath(basePaths["user_trash_path"]);
+                setDataRoots([home, sharedWithMe, communityData, trash]);
+            }
+        });
+    }, [path, intl]);
 
     if (dataRoots.length === 0) {
         return null;
+    }
+    //route to default path
+    if ((!error || error.length === 0) && !path) {
+        router.push(
+            "/" + NavigationConstants.DATA + `?path=${dataRoots[0].path}`
+        );
     }
     return (
         dataRoots.length > 0 && (
             <>
                 <List
                     component="nav"
-                    aria-label="Data Root Location"
+                    aria-controls={formatMessage(
+                        intl,
+                        "selectedDataRootMenuAriaControl"
+                    )}
+                    aria-label={formatMessage(
+                        intl,
+                        "selectedDataRootMenuAriaLabel"
+                    )}
                     id={build(dataNavId, ids.DATA_ROOTS)}
                 >
                     <ListItem
                         button
                         aria-haspopup="true"
-                        aria-controls="Data root menu"
-                        aria-label="Data Location"
+                        aria-controls={formatMessage(
+                            intl,
+                            "selectedDataRootAriaMenuItemControl"
+                        )}
+                        aria-label={dataRoots[selectedIndex].label}
                         onClick={handleClickListItem}
                         className={classes.selectedListItem}
                     >
@@ -395,11 +417,7 @@ function DataNavigation(props) {
                                     ids.DATA_ROOTS,
                                     dataRoots[selectedIndex].label
                                 )}
-                                primary={
-                                    dataRoots.length > 0
-                                        ? dataRoots[selectedIndex].label
-                                        : ""
-                                }
+                                primary={dataRoots[selectedIndex].label}
                             />
                             <ListItemIcon>
                                 <ArrowDropDownIcon />
@@ -409,6 +427,12 @@ function DataNavigation(props) {
                 </List>
                 <Menu
                     id={build(baseId, ids.DATA_ROOTS_MENU)}
+                    aria-haspopup="true"
+                    aria-controls={formatMessage(
+                        intl,
+                        "dataRootMenuAriaControl"
+                    )}
+                    aria-label={formatMessage(intl, "dataRootsMenuAriaLabel")}
                     anchorEl={anchorEl}
                     keepMounted
                     open={Boolean(anchorEl)}
@@ -422,6 +446,11 @@ function DataNavigation(props) {
                                 ids.DATA_ROOTS_MENU_ITEM,
                                 dataRoots[selectedIndex].label
                             )}
+                            aria-controls={formatMessage(
+                                intl,
+                                "dataRootsMenuItemAriaControl"
+                            )}
+                            aria-label={menuItem.label}
                             key={menuItem.label}
                             selected={index === selectedIndex}
                             onClick={(event) =>
@@ -436,26 +465,28 @@ function DataNavigation(props) {
                 </Menu>
 
                 <Hidden xsDown>
-                    {path && (!error || error.toString().length === 0) ? (
+                    {path && (!error || error.length === 0) ? (
                         <BreadCrumb
                             baseId={dataNavId}
                             root={dataRoots[selectedIndex].path}
                             path={path}
                             userHomePath={userHomePath}
                             userTrashPath={userTrashPath}
+                            intl={intl}
                         />
                     ) : (
                         <div></div>
                     )}
                 </Hidden>
                 <Hidden only={["sm", "md", "lg", "xl"]}>
-                    {path && (!error || error.toString().length === 0) ? (
+                    {path && (!error || error.length === 0) ? (
                         <PathSelectorMenu
                             baseId={dataNavId}
                             root={dataRoots[selectedIndex].path}
                             path={path}
                             userHomePath={userHomePath}
                             userTrashPath={userTrashPath}
+                            intl={intl}
                         />
                     ) : (
                         <div></div>

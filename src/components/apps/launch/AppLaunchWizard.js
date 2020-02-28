@@ -7,17 +7,20 @@
 import React from "react";
 
 import { Formik, Form, FastField } from "formik";
-import numeral from "numeral";
 import { injectIntl } from "react-intl";
 
 import messages from "./messages";
+
+import {
+    ResourceRequirementsForm,
+    ResourceRequirementsReview,
+} from "./ResourceRequirements";
 
 import {
     FormCheckbox,
     FormMultilineTextField,
     FormIntegerField,
     FormNumberField,
-    FormSelectField,
     FormTextField,
     getMessage,
     formatMessage,
@@ -27,7 +30,6 @@ import {
 import {
     BottomNavigation,
     BottomNavigationAction,
-    MenuItem,
     Paper,
     Stepper,
     Step,
@@ -57,25 +59,6 @@ const formatAnalysisName = (intl, name) =>
               "_"
           )
         : "";
-
-const ONE_GB = 1024 * 1024 * 1024;
-
-const formatGBListItem = (size) => size && numeral(size).format("0 ib");
-const formatGBValue = (size) => size && numeral(size).format("0.0 ib");
-
-function buildLimitList(startValue, minValue, maxValue) {
-    const limits = [0];
-
-    let value = startValue;
-    while (value <= maxValue) {
-        if (value >= minValue) {
-            limits.push(value);
-        }
-        value *= 2;
-    }
-
-    return limits;
-}
 
 const validate = (values) => {
     const errors = {};
@@ -386,82 +369,12 @@ const AppLaunchWizard = (props) => {
                         label={getMessage("resourceRequirements")}
                         hidden={activeStep !== stepResourceRequirements.step}
                     >
-                        {getMessage("helpMsgResourceRequirements")}
-                        {values.limits.map((reqs, index) => {
-                            const {
-                                min_cpu_cores,
-                                max_cpu_cores,
-                                min_memory_limit,
-                                memory_limit,
-                                min_disk_space,
-                            } = reqs;
-
-                            const minCPUCoreList = buildLimitList(
-                                1,
-                                min_cpu_cores || 0,
-                                max_cpu_cores || defaultMaxCPUCores || 8
-                            );
-                            const minMemoryList = buildLimitList(
-                                2 * ONE_GB,
-                                min_memory_limit || 0,
-                                memory_limit || defaultMaxMemory || 16 * ONE_GB
-                            );
-                            const minDiskSpaceList = buildLimitList(
-                                ONE_GB,
-                                min_disk_space || 0,
-                                defaultMaxDiskSpace || 512 * ONE_GB
-                            );
-
-                            return (
-                                <fieldset key={reqs.step_number}>
-                                    <legend>
-                                        {getMessage(
-                                            "resourceRequirementsForStep",
-                                            {
-                                                values: {
-                                                    step: reqs.step_number + 1,
-                                                },
-                                            }
-                                        )}
-                                    </legend>
-                                    <FastField
-                                        name={`requirements.${index}.min_cpu_cores`}
-                                        label={getMessage("minCPUCores")}
-                                        component={FormSelectField}
-                                    >
-                                        {minCPUCoreList.map((size, index) => (
-                                            <MenuItem key={index} value={size}>
-                                                {size}
-                                            </MenuItem>
-                                        ))}
-                                    </FastField>
-                                    <FastField
-                                        name={`requirements.${index}.min_memory_limit`}
-                                        label={getMessage("minMemory")}
-                                        component={FormSelectField}
-                                        renderValue={formatGBValue}
-                                    >
-                                        {minMemoryList.map((size, index) => (
-                                            <MenuItem key={index} value={size}>
-                                                {formatGBListItem(size)}
-                                            </MenuItem>
-                                        ))}
-                                    </FastField>
-                                    <FastField
-                                        name={`requirements.${index}.min_disk_space`}
-                                        label={getMessage("minDiskSpace")}
-                                        component={FormSelectField}
-                                        renderValue={formatGBValue}
-                                    >
-                                        {minDiskSpaceList.map((size, index) => (
-                                            <MenuItem key={index} value={size}>
-                                                {formatGBListItem(size)}
-                                            </MenuItem>
-                                        ))}
-                                    </FastField>
-                                </fieldset>
-                            );
-                        })}
+                        <ResourceRequirementsForm
+                            limits={values.limits}
+                            defaultMaxCPUCores={defaultMaxCPUCores}
+                            defaultMaxMemory={defaultMaxMemory}
+                            defaultMaxDiskSpace={defaultMaxDiskSpace}
+                        />
                     </StepContent>
 
                     <StepContent
@@ -495,78 +408,10 @@ const AppLaunchWizard = (props) => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                        {values.requirements &&
-                            values.requirements.map(
-                                (reqs) =>
-                                    !!(
-                                        reqs.min_cpu_cores ||
-                                        reqs.min_memory_limit ||
-                                        reqs.min_disk_space
-                                    ) && (
-                                        <fieldset key={reqs.step_number}>
-                                            <legend>
-                                                {getMessage(
-                                                    "resourceRequirementsForStep",
-                                                    {
-                                                        values: {
-                                                            step:
-                                                                reqs.step_number +
-                                                                1,
-                                                        },
-                                                    }
-                                                )}
-                                            </legend>
-                                            <TableContainer component={Paper}>
-                                                <Table>
-                                                    <TableBody>
-                                                        {!!reqs.min_cpu_cores && (
-                                                            <TableRow>
-                                                                <TableCell>
-                                                                    {getMessage(
-                                                                        "minCPUCores"
-                                                                    )}
-                                                                </TableCell>
-                                                                <TableCell>
-                                                                    {
-                                                                        reqs.min_cpu_cores
-                                                                    }
-                                                                </TableCell>
-                                                            </TableRow>
-                                                        )}
-                                                        {!!reqs.min_memory_limit && (
-                                                            <TableRow>
-                                                                <TableCell>
-                                                                    {getMessage(
-                                                                        "minMemory"
-                                                                    )}
-                                                                </TableCell>
-                                                                <TableCell>
-                                                                    {formatGBValue(
-                                                                        reqs.min_memory_limit
-                                                                    )}
-                                                                </TableCell>
-                                                            </TableRow>
-                                                        )}
-                                                        {!!reqs.min_disk_space && (
-                                                            <TableRow>
-                                                                <TableCell>
-                                                                    {getMessage(
-                                                                        "minDiskSpace"
-                                                                    )}
-                                                                </TableCell>
-                                                                <TableCell>
-                                                                    {formatGBValue(
-                                                                        reqs.min_disk_space
-                                                                    )}
-                                                                </TableCell>
-                                                            </TableRow>
-                                                        )}
-                                                    </TableBody>
-                                                </Table>
-                                            </TableContainer>
-                                        </fieldset>
-                                    )
-                            )}
+
+                        <ResourceRequirementsReview
+                            requirements={values.requirements}
+                        />
                     </StepContent>
 
                     <BottomNavigation

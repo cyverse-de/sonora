@@ -6,7 +6,7 @@
  */
 import React, { useEffect, useState } from "react";
 
-import { withI18N } from "@cyverse-de/ui-lib";
+import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
 import { TablePagination, useMediaQuery, useTheme } from "@material-ui/core";
 
 import Header from "../Header";
@@ -17,9 +17,17 @@ import UploadDropTarget from "../../uploads/UploadDropTarget";
 import { useUploadTrackingState } from "../../../contexts/uploadTracking";
 
 import { camelcaseit } from "../../../common/functions";
+import HomeIcon from "@material-ui/icons/Home";
+import FolderSharedIcon from "@material-ui/icons/FolderShared";
+import GroupIcon from "@material-ui/icons/Group";
+import DeleteIcon from "@material-ui/icons/Delete";
+import NavigationConstants from "../../layout/NavigationConstants";
+import { injectIntl } from "react-intl";
+import { useRouter } from "next/router";
 
 function Listing(props) {
     const theme = useTheme();
+    const router = useRouter();
     const isMedium = useMediaQuery(theme.breakpoints.up("sm"));
     const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
     const uploadTracker = useUploadTrackingState();
@@ -35,7 +43,11 @@ function Listing(props) {
     const [error, setError] = useState("");
     const [data, setData] = useState({ total: 0, files: [], folders: [] });
 
-    const { baseId, path, handlePathChange } = props;
+    const [dataRoots, setDataRoots] = useState([]);
+    const [userHomePath, setUserHomePath] = useState("");
+    const [userTrashPath, setUserTrashPath] = useState("");
+
+    const { baseId, path, handlePathChange, intl } = props;
 
     // Used to force the data listing to refresh when uploads are completed.
     const uploadsCompleted = uploadTracker.uploads.filter((upload) => {
@@ -75,6 +87,43 @@ function Listing(props) {
             });
         }
     }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
+
+    useEffect(() => {
+        callApi({
+            endpoint: `/api/filesystem/root`,
+            setLoading,
+            setError,
+        }).then((respData) => {
+            if (respData) {
+                const respRoots = respData.roots;
+                const home = respRoots.find(
+                    (root) =>
+                        root.label !== formatMessage(intl, "trash") &&
+                        root.label !== formatMessage(intl, "sharedWithMe") &&
+                        root.label !== formatMessage(intl, "communityData")
+                );
+                home.icon = <HomeIcon />;
+                const sharedWithMe = respRoots.find((root) => {
+                    return root.label === formatMessage(intl, "sharedWithMe");
+                });
+                sharedWithMe.icon = <FolderSharedIcon />;
+                const communityData = respRoots.find(
+                    (root) =>
+                        root.label === formatMessage(intl, "communityData")
+                );
+                communityData.icon = <GroupIcon />;
+                const trash = respRoots.find(
+                    (root) => root.label === formatMessage(intl, "trash")
+                );
+                trash.icon = <DeleteIcon />;
+
+                const basePaths = respData["base-paths"];
+                setUserHomePath(basePaths["user_home_path"]);
+                setUserTrashPath(basePaths["user_trash_path"]);
+                setDataRoots([home, sharedWithMe, communityData, trash]);
+            }
+        });
+    }, [path, intl]);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -175,6 +224,13 @@ function Listing(props) {
         setPage(0);
     };
 
+    //route to default path
+    if (dataRoots.length > 0 && (!error || error.length === 0) && !path) {
+        router.push(
+            "/" + NavigationConstants.DATA + `?path=${dataRoots[0].path}`
+        );
+    }
+
     return (
         <>
             <UploadDropTarget path={path}>
@@ -188,6 +244,9 @@ function Listing(props) {
                     onEditSelected={onEditSelected}
                     onMetadataSelected={onMetadataSelected}
                     onDeleteSelected={onDeleteSelected}
+                    dataRoots={dataRoots}
+                    userHomePath={userHomePath}
+                    userTrashPath={userTrashPath}
                 />
                 {!isGridView && (
                     <TableView
@@ -226,4 +285,4 @@ function Listing(props) {
     );
 }
 
-export default withI18N(Listing, messages);
+export default withI18N(injectIntl(Listing), messages);

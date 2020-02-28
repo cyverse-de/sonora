@@ -47,6 +47,9 @@ function Header(props) {
         onMetadataSelected,
         onDeleteSelected,
         intl,
+        dataRoots,
+        userHomePath,
+        userTrashPath,
     } = props;
 
     let headerId = build(baseId, ids.HEADER);
@@ -54,7 +57,14 @@ function Header(props) {
     return (
         <>
             <Toolbar variant="dense">
-                <DataNavigation path={path} error={error} baseId={baseId} />
+                <DataNavigation
+                    path={path}
+                    error={error}
+                    baseId={baseId}
+                    dataRoots={dataRoots}
+                    userHomePath={userHomePath}
+                    userTrashPath={userTrashPath}
+                />
             </Toolbar>
             <Toolbar
                 variant="dense"

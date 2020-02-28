@@ -7,7 +7,6 @@
  */
 
 import React, { useEffect, useState } from "react";
-import callApi from "../../common/callApi";
 import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
 import intlData from "./messages";
 import {
@@ -23,11 +22,6 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { injectIntl } from "react-intl";
-
-import HomeIcon from "@material-ui/icons/Home";
-import GroupIcon from "@material-ui/icons/Group";
-import DeleteIcon from "@material-ui/icons/Delete";
-import FolderSharedIcon from "@material-ui/icons/FolderShared";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import FolderIcon from "@material-ui/icons/Folder";
@@ -136,7 +130,7 @@ function getRelativePath(path, userHomePath, userTrashPath) {
     return relativePath;
 }
 
-function PathSelectorMenu({
+function FolderSelectorMenu({
     root,
     path,
     userHomePath,
@@ -273,6 +267,7 @@ function BreadCrumb({ root, path, userHomePath, userTrashPath, baseId, intl }) {
     return (
         <Breadcrumbs
             maxItems={2}
+            style={{ paddingTop: 8 }}
             aria-label="breadcrumb"
             id={build(baseId, ids.BREADCRUMBS)}
             aria-controls={formatMessage(
@@ -313,14 +308,19 @@ function BreadCrumb({ root, path, userHomePath, userTrashPath, baseId, intl }) {
 }
 
 function DataNavigation(props) {
-    const { path, error, baseId, intl } = props;
+    const {
+        path,
+        error,
+        baseId,
+        dataRoots,
+        userHomePath,
+        userTrashPath,
+        intl,
+    } = props;
     const router = useRouter();
     const classes = useStyles();
-    const [dataRoots, setDataRoots] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [userHomePath, setUserHomePath] = useState("");
-    const [userTrashPath, setUserTrashPath] = useState("");
     const dataNavId = build(baseId, ids.DATA_NAVIGATION);
 
     const handleClickListItem = (event) => {
@@ -339,49 +339,8 @@ function DataNavigation(props) {
         setAnchorEl(null);
     };
 
-    useEffect(() => {
-        callApi({
-            endpoint: `/api/filesystem/root`,
-        }).then((respData) => {
-            if (respData) {
-                const respRoots = respData.roots;
-                const home = respRoots.find(
-                    (root) =>
-                        root.label !== formatMessage(intl, "trash") &&
-                        root.label !== formatMessage(intl, "sharedWithMe") &&
-                        root.label !== formatMessage(intl, "communityData")
-                );
-                home.icon = <HomeIcon />;
-                const sharedWithMe = respRoots.find((root) => {
-                    return root.label === formatMessage(intl, "sharedWithMe");
-                });
-                sharedWithMe.icon = <FolderSharedIcon />;
-                const communityData = respRoots.find(
-                    (root) =>
-                        root.label === formatMessage(intl, "communityData")
-                );
-                communityData.icon = <GroupIcon />;
-                const trash = respRoots.find(
-                    (root) => root.label === formatMessage(intl, "trash")
-                );
-                trash.icon = <DeleteIcon />;
-
-                const basePaths = respData["base-paths"];
-                setUserHomePath(basePaths["user_home_path"]);
-                setUserTrashPath(basePaths["user_trash_path"]);
-                setDataRoots([home, sharedWithMe, communityData, trash]);
-            }
-        });
-    }, [path, intl]);
-
     if (dataRoots.length === 0) {
         return null;
-    }
-    //route to default path
-    if ((!error || error.length === 0) && !path) {
-        router.push(
-            "/" + NavigationConstants.DATA + `?path=${dataRoots[0].path}`
-        );
     }
     return (
         dataRoots.length > 0 && (
@@ -480,7 +439,7 @@ function DataNavigation(props) {
                 </Hidden>
                 <Hidden only={["sm", "md", "lg", "xl"]}>
                     {path && (!error || error.length === 0) ? (
-                        <PathSelectorMenu
+                        <FolderSelectorMenu
                             baseId={dataNavId}
                             root={dataRoots[selectedIndex].path}
                             path={path}

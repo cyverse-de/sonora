@@ -14,6 +14,8 @@ import {
 
 import { startUpload } from "../api";
 
+import { MAX_RUNNING_UPLOADS } from "./constants";
+
 /**
  * Returns true if the upload passed in is waiting to be uploaded.
  *
@@ -89,7 +91,7 @@ export default function UploadManager() {
         if (
             tracker.uploads.length > 0 &&
             waiting.length > 0 &&
-            running.length < 3
+            running.length < MAX_RUNNING_UPLOADS
         ) {
             waiting.forEach((upload, idx) => {
                 if (idx <= 2) {

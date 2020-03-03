@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
 function CustomIntercom({ unreadIntercomMsgCount }) {
     console.log("intercom msg count update=>" + unreadIntercomMsgCount);
     return (
-        <IconButton id="cyverse_intercom_support" color="primary">
+        <IconButton id={ids.INTERCOM_WIDGET} color="primary">
             <Badge badgeContent={unreadIntercomMsgCount} color="error">
                 <LiveHelpIcon />
             </Badge>

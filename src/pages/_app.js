@@ -15,6 +15,7 @@ import theme from "../components/theme/default";
 import { UploadTrackingProvider } from "../contexts/uploadTracking";
 import { UserProfileProvider } from "../contexts/userProfile";
 import { IntercomProvider } from "../contexts/intercom";
+import ids from "../components/layout/ids";
 
 const setupIntercom = (intercomAppId) => {
     window.intercomSettings = {
@@ -22,7 +23,8 @@ const setupIntercom = (intercomAppId) => {
         alignment: "right",
         horizontal_padding: 20,
         vertical_padding: 45,
-        custom_launcher_selector: "#help_menu_intercom_link",
+        custom_launcher_selector: `#${ids.INTERCOM_WIDGET}`,
+        hide_default_launcher: true,
     };
 
     if (typeof window.Intercom === "function") {

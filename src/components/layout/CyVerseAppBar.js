@@ -115,7 +115,7 @@ function CyverseAppBar(props) {
             setUserProfile(profile);
         };
         fetchUserProfile();
-    }, [setUserProfile]);
+    }, [setUserProfile, intercomDetails]);
 
     const handleUserButtonClick = (event) => {
         console.log(userProfile);

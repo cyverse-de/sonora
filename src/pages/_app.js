@@ -12,10 +12,11 @@ import Navigation from "../components/layout/Navigation";
 import NavigationConstants from "../components/layout/NavigationConstants";
 import UploadManager from "../components/uploads/manager";
 import theme from "../components/theme/default";
+import ids from "../components/layout/ids";
+
 import { UploadTrackingProvider } from "../contexts/uploadTracking";
 import { UserProfileProvider } from "../contexts/userProfile";
 import { IntercomProvider } from "../contexts/intercom";
-import ids from "../components/layout/ids";
 
 const setupIntercom = (intercomAppId) => {
     window.intercomSettings = {
@@ -92,7 +93,6 @@ function MyApp({
             }
         }
     }, [intercomAppId, intercomEnabled]);
-
     return (
         <ThemeProvider theme={theme}>
             <IntercomProvider value={intercomDetails}>

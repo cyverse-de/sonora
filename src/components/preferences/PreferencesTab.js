@@ -6,26 +6,28 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
+import { Field } from "formik";
 
 const useStyles = makeStyles(styles);
 
-export default function PreferencesTab() {
+export default function PreferencesTab(props) {
     const classes = useStyles();
 
-    const [state, setState] = React.useState({
-        //TODO load default preferences
-        //TODO rename these?
-        checkedA: true,
-        checkedB: true,
-        checkedC: false,
-        checkedD: true,
-        checkedE: true,
-        checkedF: true,
-    });
-
-    const handleSwitchChange = (name) => (event) => {
-        setState({ ...state, [name]: event.target.checked });
+    const onSwitchChange = (setFieldValue, fieldName) => (event, checked) => {
+        setFieldValue(fieldName, checked);
     };
+
+    const FormSwitch = ({
+        field: { value, onChange, ...field },
+        form: { setFieldValue },
+        ...custom
+    }) => (
+        <Switch
+            checked={!!value}
+            onChange={onSwitchChange(setFieldValue, field.name)}
+            {...custom}
+        />
+    );
 
     //TODO add on change function for each switch that sends API request to change preference
     //TODO make headers look more like headers
@@ -34,10 +36,10 @@ export default function PreferencesTab() {
             <Typography className={classes.sectionHeader}>General</Typography>
             <br />
             Remember last file path for Apps
-            <Switch
-                checked={state.checkedA}
-                onChange={handleSwitchChange("checkedA")}
-                value="checkedA"
+            <Field
+                component={FormSwitch}
+                name="preferences.rememberLastPath"
+                value="rememberLastPath"
                 color="primary"
                 inputProps={{ "aria-label": "primary checkbox" }}
                 className={classes.toggle}
@@ -45,10 +47,10 @@ export default function PreferencesTab() {
             <br />
             <br />
             Save Session
-            <Switch
-                checked={state.checkedB}
-                onChange={handleSwitchChange("checkedB")}
-                value="checkedB"
+            <Field
+                component={FormSwitch}
+                name="preferences.saveSession"
+                value="saveSession"
                 color="primary"
                 inputProps={{ "aria-label": "another checkbox" }}
                 className={classes.toggle}
@@ -56,10 +58,10 @@ export default function PreferencesTab() {
             <br />
             <br />
             Prompt for HPC apps authentication after log-on,
-            <Switch
-                checked={state.checkedC}
-                onChange={handleSwitchChange("checkedC")}
-                value="checkedC"
+            <Field
+                component={FormSwitch}
+                name="preferences.enableHPCPrompt"
+                value="enableHPCPrompt"
                 color="primary"
                 inputProps={{ "aria-label": "another checkbox" }}
                 className={classes.toggle}
@@ -69,10 +71,10 @@ export default function PreferencesTab() {
             <br />
             <br />
             Display Warning about wait times for submitting HPC apps
-            <Switch
-                checked={state.checkedD}
-                onChange={handleSwitchChange("checkedD")}
-                value="checkedD"
+            <Field
+                component={FormSwitch}
+                name="preferences.enableWaitTimeMessage"
+                value="enableWaitTimeMessage"
                 color="primary"
                 inputProps={{ "aria-label": "another checkbox" }}
                 className={classes.toggle}
@@ -102,10 +104,10 @@ export default function PreferencesTab() {
             </Typography>
             <br />
             Email me when my analysis status changes
-            <Switch
-                checked={state.checkedE}
-                onChange={handleSwitchChange("checkedE")}
-                value="checkedE"
+            <Field
+                component={FormSwitch}
+                name="preferences.enableAnalysisEmailNotification"
+                value="enableAnalysisEmail"
                 color="primary"
                 inputProps={{ "aria-label": "another checkbox" }}
                 className={classes.toggle}
@@ -113,10 +115,10 @@ export default function PreferencesTab() {
             <br />
             <br />
             Email me when my URL import status changes
-            <Switch
-                checked={state.checkedF}
-                onChange={handleSwitchChange("checkedF")}
-                value="checkedF"
+            <Field
+                component={FormSwitch}
+                name="preferences.enableImportEmailNotification"
+                value="enableImportEmail"
                 color="primary"
                 inputProps={{ "aria-label": "another checkbox" }}
                 className={classes.toggle}

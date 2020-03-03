@@ -12,7 +12,8 @@ import PreferencesTab from "./PreferencesTab";
 import ShortcutsTab from "./ShortcutsTab";
 import { DialogActions } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-
+import { Formik, Form } from "formik";
+import WebhooksTab from "./WebhooksTab";
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -45,10 +46,11 @@ function a11yProps(index) {
 
 const useStyles = makeStyles(styles);
 
-export default function FullWidthTabs() {
+export default function FullWidthTabs(props) {
     const classes = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
+    const { config } = props;
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -56,6 +58,11 @@ export default function FullWidthTabs() {
 
     const handleChangeIndex = (index) => {
         setValue(index);
+    };
+
+    const handleSubmit = (values, actions) => {
+        actions.setSubmitting = true;
+        console.log(values);
     };
 
     return (
@@ -74,32 +81,42 @@ export default function FullWidthTabs() {
                     <Tab label="Webhooks" {...a11yProps(2)} />
                 </Tabs>
             </AppBar>
-            <SwipeableViews
-                axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-                index={value}
-                onChangeIndex={handleChangeIndex}
-            >
-                <TabPanel value={value} index={0} dir={theme.direction}>
-                    <PreferencesTab />
-                    {/* TODO preferences element */}
-                </TabPanel>
-                <TabPanel value={value} index={1} dir={theme.direction}>
-                    {/* TODO shortcuts element */}
-                    <ShortcutsTab />
-                </TabPanel>
-                <TabPanel value={value} index={2} dir={theme.direction}>
-                    Item Three
-                    {/* TODO webhooks element */}
-                </TabPanel>
-            </SwipeableViews>
-            <DialogActions>
-                <Button className={classes.actionButton} color="primary">
-                    RESTORE DEFAULTS
-                </Button>
-                <Button className={classes.actionButton} color="primary">
-                    SAVE
-                </Button>
-            </DialogActions>
+            <Formik initialValues={config} onSubmit={handleSubmit}>
+                <Form>
+                    <SwipeableViews
+                        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+                        index={value}
+                        onChangeIndex={handleChangeIndex}
+                    >
+                        <TabPanel value={value} index={0} dir={theme.direction}>
+                            <PreferencesTab config={props} />
+                            {/* TODO preferences element */}
+                        </TabPanel>
+                        <TabPanel value={value} index={1} dir={theme.direction}>
+                            {/* TODO shortcuts element */}
+                            <ShortcutsTab />
+                        </TabPanel>
+                        <TabPanel value={value} index={2} dir={theme.direction}>
+                            <WebhooksTab />
+                        </TabPanel>
+                    </SwipeableViews>
+                    <DialogActions>
+                        <Button
+                            className={classes.actionButton}
+                            color="primary"
+                        >
+                            RESTORE DEFAULTS
+                        </Button>
+                        <Button
+                            className={classes.actionButton}
+                            color="primary"
+                            type="submit"
+                        >
+                            SAVE
+                        </Button>
+                    </DialogActions>
+                </Form>
+            </Formik>
         </div>
     );
 }

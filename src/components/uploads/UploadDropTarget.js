@@ -3,12 +3,12 @@
  *
  * Component that allows files to be uploaded when they are dropped on child components.
  *
- * @module UploadDropTarget
+ * @module uploads/UploadDropTarget
  */
 
 import React, { useState } from "react";
-import processDroppedFiles, { startUpload } from "./UploadDrop";
-import { useUploadTrackingDispatch } from "../../../contexts/uploadTracking";
+import processDroppedFiles, { trackUpload } from "./UploadDrop";
+import { useUploadTrackingDispatch } from "../../contexts/uploadTracking";
 import PropTypes from "prop-types";
 
 /**
@@ -41,13 +41,11 @@ const setupEvent = (event) => {
 const UploadDropTarget = (props) => {
     const uploadDispatch = useUploadTrackingDispatch();
     const [dragCounter, setDragCounter] = useState(0);
-    const { children, path, uploadCompletedCB } = props;
+    const { children, path } = props;
 
-    const startAllUploads = (uploadFiles) =>
+    const trackAllUploads = (uploadFiles) =>
         uploadFiles.forEach((aFile) => {
-            startUpload(aFile.value, path, uploadDispatch, () => {
-                uploadCompletedCB(aFile.value, path);
-            });
+            trackUpload(aFile.value, path, uploadDispatch);
         });
 
     const handleDragOver = (event) => {
@@ -77,7 +75,7 @@ const UploadDropTarget = (props) => {
     const handleDrop = (event) => {
         setupEvent(event);
         setDragCounter(0);
-        processDroppedFiles(event.dataTransfer.items, startAllUploads);
+        processDroppedFiles(event.dataTransfer.items, trackAllUploads);
     };
 
     return (
@@ -98,7 +96,6 @@ const UploadDropTarget = (props) => {
 UploadDropTarget.propTypes = {
     children: PropTypes.object.isRequired,
     path: PropTypes.string.isRequired,
-    uploadCompletedCB: PropTypes.func.isRequired,
 };
 
 export default UploadDropTarget;

@@ -61,7 +61,7 @@ const UploadDialog = ({ open, handleClose = () => {} }) => {
                 <DialogContentText>
                     {getMessage("help")}
                     <IconButton
-                        aria-label="close"
+                        aria-label={getMessage("closeAria")}
                         id={buildID(ids.BASE, ids.CLOSE_X)}
                         className={classes.closeDialog}
                         onClick={handleClose}
@@ -78,7 +78,7 @@ const UploadDialog = ({ open, handleClose = () => {} }) => {
                     id={buildID(ids.BASE, ids.CLOSE)}
                     onClick={handleClose}
                     color="primary"
-                    aria-label="close"
+                    aria-label={getMessage("closeAria")}
                 >
                     {getMessage("close")}
                 </Button>

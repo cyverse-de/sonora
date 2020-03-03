@@ -37,6 +37,10 @@ import {
 
 import { useTheme, makeStyles } from "@material-ui/core/styles";
 
+import { getMessage, withI18N } from "@cyverse-de/ui-lib";
+
+import messages from "./messages";
+
 const useStyles = makeStyles((theme) => ({
     ellipsis: {
         overflow: "hidden",
@@ -121,7 +125,7 @@ const UploadItem = ({ upload, handleCancel }) => {
             <ListItemSecondaryAction>
                 <IconButton
                     edge="end"
-                    aria-label="cancel-upload"
+                    aria-label={getMessage("cancelUploadAria")}
                     onClick={(e) => handleCancel(e, upload)}
                 >
                     <CancelIcon />
@@ -137,7 +141,7 @@ const UploadItem = ({ upload, handleCancel }) => {
  *
  * @returns {Object}
  */
-export default function UploadList() {
+const UploadList = () => {
     const tracker = useUploadTrackingState();
     const dispatch = useUploadTrackingDispatch();
 
@@ -167,4 +171,6 @@ export default function UploadList() {
             ))}
         </List>
     );
-}
+};
+
+export default withI18N(UploadList, messages);

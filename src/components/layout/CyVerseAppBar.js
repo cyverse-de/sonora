@@ -63,17 +63,23 @@ const useStyles = makeStyles((theme) => ({
         width: 18,
         paddingRight: theme.spacing(4),
     },
-    notification: {
+    margin: {
         [theme.breakpoints.up("sm")]: {
             marginLeft: theme.spacing(2),
         },
     },
 }));
 
-function CustomIntercom({ unreadIntercomMsgCount }) {
+function CustomIntercom({ unreadIntercomMsgCount, intl, classes }) {
     console.log("intercom msg count update=>" + unreadIntercomMsgCount);
     return (
-        <IconButton id={ids.INTERCOM_WIDGET} color="primary">
+        <IconButton
+            className={classes.margin}
+            id={ids.INTERCOM_WIDGET}
+            color="primary"
+            aria-label={formatMessage(intl, "intercomAriaLabel")}
+            aria-controls={formatMessage(intl, "intercomAriaControl")}
+        >
             <Badge badgeContent={unreadIntercomMsgCount} color="error">
                 <LiveHelpIcon />
             </Badge>
@@ -312,11 +318,15 @@ function CyverseAppBar(props) {
                                     alt={formatMessage(intl, "cyverse")}
                                 ></img>
                             </a>
+                        </Hidden>
+                        <Hidden smDown>
                             <GlobalSearchField />
                         </Hidden>
                         <div className={classes.root} />
                         <div style={{ display: "flex" }}>
                             <CustomIntercom
+                                classes={classes}
+                                intl={intl}
                                 unreadIntercomMsgCount={unreadIntercomMsgCount}
                             />
                             <IconButton
@@ -324,7 +334,7 @@ function CyverseAppBar(props) {
                                     ids.APP_BAR_BASE,
                                     ids.NOTIFICATION_BTN
                                 )}
-                                className={classes.notification}
+                                className={classes.margin}
                                 aria-label={formatMessage(
                                     intl,
                                     "newNotificationAriaLabel"
@@ -335,31 +345,9 @@ function CyverseAppBar(props) {
                                     <NotificationsIcon />
                                 </Badge>
                             </IconButton>
-                            <Hidden xsDown>
-                                <IconButton
-                                    id={build(
-                                        ids.APP_BAR_BASE,
-                                        ids.ACCOUNT_BTN
-                                    )}
-                                    edge="end"
-                                    aria-label={formatMessage(
-                                        intl,
-                                        "accountAriaLabel"
-                                    )}
-                                    aria-controls={formatMessage(
-                                        intl,
-                                        "accountAriaControl"
-                                    )}
-                                    color="primary"
-                                    onClick={handleUserButtonClick}
-                                >
-                                    <AccountCircle />
-                                </IconButton>
-                            </Hidden>
-                            <Hidden only={["sm", "md", "lg", "xl"]}>
+                            <Hidden only={["md", "lg", "xl"]}>
                                 <IconButton
                                     id={build(ids.APP_BAR_BASE, ids.SEARCH_BTN)}
-                                    edge="end"
                                     aria-label={formatMessage(
                                         intl,
                                         "searchAriaLabel"
@@ -372,6 +360,26 @@ function CyverseAppBar(props) {
                                     onClick={handleSearchClick}
                                 >
                                     <SearchIcon />
+                                </IconButton>
+                            </Hidden>
+                            <Hidden xsDown>
+                                <IconButton
+                                    id={build(
+                                        ids.APP_BAR_BASE,
+                                        ids.ACCOUNT_BTN
+                                    )}
+                                    aria-label={formatMessage(
+                                        intl,
+                                        "accountAriaLabel"
+                                    )}
+                                    aria-controls={formatMessage(
+                                        intl,
+                                        "accountAriaControl"
+                                    )}
+                                    color="primary"
+                                    onClick={handleUserButtonClick}
+                                >
+                                    <AccountCircle />
                                 </IconButton>
                             </Hidden>
                         </div>

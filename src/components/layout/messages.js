@@ -20,11 +20,14 @@ const intlData = {
         discovery: "<b>D</b>iscovery",
         environment: "<b>E</b>nvironment",
         newNotificationAriaLabel: "show new notifications",
+        newNotificationAriaControl: "notification button",
         accountAriaLabel: "account",
         accountAriaControl: "account button",
         drawerMenuAriaLabel: "drawer menu",
         deTitle: "Discovery Environment",
         cyverse: "CyVerse",
+        intercomAriaLabel: "chat with CyVerse support",
+        intercomAriaControl: "chat support button",
     },
 };
 export default intlData;

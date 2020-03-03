@@ -106,6 +106,7 @@ function MyApp({
                             </Head>
                             <Navigation activeView={pathname} />
                             <Component {...pageProps} />
+                            <UploadManager />
                         </CyverseAppBar>
                     </UploadTrackingProvider>
                 </UserProfileProvider>

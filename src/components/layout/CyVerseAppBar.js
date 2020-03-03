@@ -70,8 +70,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function CustomIntercom({ unreadIntercomMsgCount, intl, classes }) {
-    console.log("intercom msg count update=>" + unreadIntercomMsgCount);
+function CustomIntercom({ intl, classes }) {
+    const { unReadCount } = useIntercom();
+    console.log("intercom msg count update=>" + unReadCount);
     return (
         <IconButton
             className={classes.margin}
@@ -80,7 +81,7 @@ function CustomIntercom({ unreadIntercomMsgCount, intl, classes }) {
             aria-label={formatMessage(intl, "intercomAriaLabel")}
             aria-controls={formatMessage(intl, "intercomAriaControl")}
         >
-            <Badge badgeContent={unreadIntercomMsgCount} color="error">
+            <Badge badgeContent={unReadCount} color="error">
                 <LiveHelpIcon />
             </Badge>
         </IconButton>
@@ -90,7 +91,7 @@ function CustomIntercom({ unreadIntercomMsgCount, intl, classes }) {
 function CyverseAppBar(props) {
     const classes = useStyles();
     const router = useRouter();
-    const { unreadIntercomMsgCount, intl, children } = props;
+    const { intl, children } = props;
     const [userProfile, setUserProfile] = useUserProfile();
     const intercomDetails = useIntercom();
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -324,11 +325,7 @@ function CyverseAppBar(props) {
                         </Hidden>
                         <div className={classes.root} />
                         <div style={{ display: "flex" }}>
-                            <CustomIntercom
-                                classes={classes}
-                                intl={intl}
-                                unreadIntercomMsgCount={unreadIntercomMsgCount}
-                            />
+                            <CustomIntercom classes={classes} intl={intl} />
                             <IconButton
                                 id={build(
                                     ids.APP_BAR_BASE,

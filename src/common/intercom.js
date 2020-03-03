@@ -1,3 +1,12 @@
+/**
+ * Login user to intercom with their profile
+ *
+ * @param {string} userId - User Id of the logged in user
+ * @param {string} email - Email of the logged in user
+ * @param {string} appId - Intercom app id
+ * @param {string} companyId - Intercom company id
+ * @param {string} companyName - Intercom company name
+ */
 function intercomLogin(userId, email, appId, companyId, companyName) {
     console.log(
         "logging in user => " + userId + " for company=>" + companyName

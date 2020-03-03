@@ -17,6 +17,7 @@ import ids from "../components/layout/ids";
 import { UploadTrackingProvider } from "../contexts/uploadTracking";
 import { UserProfileProvider } from "../contexts/userProfile";
 import { IntercomProvider } from "../contexts/intercom";
+import { object } from "@storybook/addon-knobs";
 
 const setupIntercom = (intercomAppId) => {
     window.intercomSettings = {
@@ -69,13 +70,14 @@ function MyApp({
     const pathname = router.pathname
         ? router.pathname.slice(1)
         : NavigationConstants.DASHBOARD;
-    const intercomSettings = {
+    const [intercomSettings, setIntercomSettings] = useState({
         appId: intercomAppId,
         enabled: intercomEnabled,
         companyId: companyId,
         companyName: companyName,
-    };
-    const [unreadIntercomMsgCount, setUnreadIntercomMsgCount] = useState(0);
+        unReadCount: 0,
+    });
+
     React.useEffect(() => {
         const jssStyles = document.querySelector("#jss-server-side");
         if (jssStyles) {
@@ -88,7 +90,10 @@ function MyApp({
                     console.log(
                         "there are unread intercom messages=>" + unreadCount
                     );
-                    setUnreadIntercomMsgCount(unreadCount);
+                    const newSettings = Object.assign(intercomSettings, {
+                        unReadCount: unreadCount,
+                    });
+                    setIntercomSettings(newSettings);
                 });
             }
         }
@@ -98,9 +103,7 @@ function MyApp({
             <IntercomProvider value={intercomSettings}>
                 <UserProfileProvider>
                     <UploadTrackingProvider>
-                        <CyverseAppBar
-                            unreadIntercomMsgCount={unreadIntercomMsgCount}
-                        >
+                        <CyverseAppBar>
                             <Head>
                                 <title>Discovery Environment</title>
                             </Head>

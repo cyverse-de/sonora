@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { UserProfileProvider } from "../src/contexts/userProfile";
+import { IntercomProvider } from "../src/contexts/intercom";
 import CyverseAppBar from "../src/components/layout/CyVerseAppBar";
 import fetchMock from "fetch-mock";
 
@@ -14,13 +15,20 @@ const mockUser = {
         name: "Mock User",
     },
 };
-
+const intercomSettings = {
+    appId: "appId",
+    enabled: true,
+    companyId: "companyId",
+    companyName: "companyName",
+};
 class AppBarTest extends Component {
     render() {
         return (
-            <UserProfileProvider>
-                <CyverseAppBar />
-            </UserProfileProvider>
+            <IntercomProvider value={intercomSettings}>
+                <UserProfileProvider>
+                    <CyverseAppBar />
+                </UserProfileProvider>
+            </IntercomProvider>
         );
     }
 }

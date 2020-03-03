@@ -69,7 +69,7 @@ function MyApp({
     const pathname = router.pathname
         ? router.pathname.slice(1)
         : NavigationConstants.DASHBOARD;
-    const intercomDetails = {
+    const intercomSettings = {
         appId: intercomAppId,
         enabled: intercomEnabled,
         companyId: companyId,
@@ -95,7 +95,7 @@ function MyApp({
     }, [intercomAppId, intercomEnabled]);
     return (
         <ThemeProvider theme={theme}>
-            <IntercomProvider value={intercomDetails}>
+            <IntercomProvider value={intercomSettings}>
                 <UserProfileProvider>
                     <UploadTrackingProvider>
                         <CyverseAppBar

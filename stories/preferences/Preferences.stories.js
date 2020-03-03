@@ -11,14 +11,31 @@ export const PreferencesTest = () => {
             last_name: "Mittelmeier",
         },
         session: {
-            login_time: 1582665707490,
+            login_time: 1583266197702,
             auth_redirect: {
                 agave:
-                    "https://agave.iplantc.org/oauth2/authorize?client_id=6CtVeTM3OvPnffaFbjo6TqxG5e4a&redirect_uri=https%3A%2F%2Fqa.cyverse.org%2Fde%2Foauth%2Fcallback%2Fagave&response_type=code&state=64352391-19fc-4aae-baba-2d8dce497ebd",
+                    "https://agave.iplantc.org/oauth2/authorize?client_id=6CtVeTM3OvPnffaFbjo6TqxG5e4a&redirect_uri=https%3A%2F%2Fqa.cyverse.org%2Fde%2Foauth%2Fcallback%2Fagave&response_type=code&state=dd773bf2-75f1-4098-bd0c-b44383d6f439",
             },
         },
         apps_info: {
-            webhooks: [],
+            webhooks: [
+                {
+                    id: "c5b7c2aa-5d8a-11ea-810a-c2a97b34bb42",
+                    type: {
+                        id: "32aaf1c4-91db-11e9-857c-008cfa5ae621",
+                        type: "Custom",
+                        template: "",
+                    },
+                    url: "https://testing.com",
+                    topics: [
+                        "data",
+                        "apps",
+                        "analysis",
+                        "team",
+                        "tool_request",
+                    ],
+                },
+            ],
             system_ids: {
                 de_system_id: "de",
                 all_system_ids: ["interactive", "osg", "de", "agave"],
@@ -61,7 +78,7 @@ export const PreferencesTest = () => {
         },
     };
 
-    return <NavBar props={props} />;
+    return <NavBar config={props} />;
 };
 
 export default { title: "Preferences" };

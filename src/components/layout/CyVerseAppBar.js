@@ -44,8 +44,11 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import SettingsIcon from "@material-ui/icons/Settings";
+import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 
 import { useUserProfile } from "../../contexts/userProfile";
+import { intercomLogin } from "../../common/intercom";
+import { useIntercom } from "../../contexts/intercom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -67,11 +70,23 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function CustomIntercom({ unreadIntercomMsgCount }) {
+    console.log("intercom msg count update=>" + unreadIntercomMsgCount);
+    return (
+        <IconButton id="cyverse_intercom_support" color="primary">
+            <Badge badgeContent={unreadIntercomMsgCount} color="error">
+                <LiveHelpIcon />
+            </Badge>
+        </IconButton>
+    );
+}
+
 function CyverseAppBar(props) {
     const classes = useStyles();
     const router = useRouter();
-    const { intl, children } = props;
+    const { unreadIntercomMsgCount, intl, children } = props;
     const [userProfile, setUserProfile] = useUserProfile();
+    const intercomDetails = useIntercom();
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     React.useEffect(() => {
@@ -81,6 +96,16 @@ function CyverseAppBar(props) {
                 method: "GET",
                 credentials: "include",
             });
+            console.log("intercom from provider=>" + intercomDetails.appId);
+            if (profile && profile.id) {
+                intercomLogin(
+                    profile.id,
+                    profile.attributes.email,
+                    intercomDetails.appId,
+                    intercomDetails.companyId,
+                    intercomDetails.companyName
+                );
+            }
             setUserProfile(profile);
         };
         fetchUserProfile();
@@ -291,6 +316,9 @@ function CyverseAppBar(props) {
                         </Hidden>
                         <div className={classes.root} />
                         <div style={{ display: "flex" }}>
+                            <CustomIntercom
+                                unreadIntercomMsgCount={unreadIntercomMsgCount}
+                            />
                             <IconButton
                                 id={build(
                                     ids.APP_BAR_BASE,

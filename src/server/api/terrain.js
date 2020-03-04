@@ -32,8 +32,8 @@ export const handler = ({ method, pathname, headers }) => {
                 pathname,
                 headers,
                 query: req.query,
-                userID: accessToken,
-                accessToken: accessToken?.content?.preferred_username,
+                userID: accessToken?.content?.preferred_username,
+                accessToken: accessToken?.token,
             },
             req
         )

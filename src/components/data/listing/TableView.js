@@ -86,7 +86,6 @@ function TableView(props) {
 
     const tableId = build(baseId, ids.listingTable);
     const tableColumns = getTableColumns(isMedium, isLarge);
-    console.log("Error=>" + error + "<==");
     return (
         <TableContainer
             component={Paper}

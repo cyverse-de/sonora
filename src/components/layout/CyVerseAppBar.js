@@ -421,6 +421,7 @@ function CyverseAppBar(props) {
                                     )}
                                     color="primary"
                                     onClick={handleUserButtonClick}
+                                    size="small"
                                 >
                                     {userProfile ? (
                                         <Avatar className={classes.userIcon}>

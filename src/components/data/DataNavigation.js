@@ -277,6 +277,7 @@ function BreadCrumb({ root, path, userHomePath, userTrashPath, baseId, intl }) {
         >
             {getPathItems(relativePath).map((crumb) => (
                 <>
+                    <ArrowRightIcon />
                     <FolderIcon color="primary" />
                     <Tooltip title={crumb}>
                         <Link

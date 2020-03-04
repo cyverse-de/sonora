@@ -24,6 +24,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import NavigationConstants from "../../layout/NavigationConstants";
 import { injectIntl } from "react-intl";
 import { useRouter } from "next/router";
+import { useUserProfile } from "../../../contexts/userProfile";
 
 function Listing(props) {
     const theme = useTheme();
@@ -31,6 +32,7 @@ function Listing(props) {
     const isMedium = useMediaQuery(theme.breakpoints.up("sm"));
     const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
     const uploadTracker = useUploadTrackingState();
+    const [userProfile, setUserProfile] = useUserProfile();
 
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
@@ -84,6 +86,7 @@ function Listing(props) {
                             })),
                         ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
                     });
+                setError("");
             });
         }
     }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
@@ -94,13 +97,10 @@ function Listing(props) {
             setLoading,
             setError,
         }).then((respData) => {
-            if (respData) {
+            if (respData && userProfile) {
                 const respRoots = respData.roots;
                 const home = respRoots.find(
-                    (root) =>
-                        root.label !== formatMessage(intl, "trash") &&
-                        root.label !== formatMessage(intl, "sharedWithMe") &&
-                        root.label !== formatMessage(intl, "communityData")
+                    (root) => root.label === userProfile.id
                 );
                 home.icon = <HomeIcon />;
                 const sharedWithMe = respRoots.find((root) => {
@@ -122,8 +122,9 @@ function Listing(props) {
                 setUserTrashPath(basePaths["user_trash_path"]);
                 setDataRoots([home, sharedWithMe, communityData, trash]);
             }
+            setError("");
         });
-    }, [path, intl]);
+    }, [path, intl, userProfile]);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";

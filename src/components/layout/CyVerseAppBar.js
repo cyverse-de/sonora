@@ -70,9 +70,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function CustomIntercom({ intl, classes }) {
-    const { unReadCount } = useIntercom();
-    console.log("intercom msg count update=>" + unReadCount);
+function CustomIntercom({ intl, classes, unReadCount }) {
     return (
         <IconButton
             className={classes.margin}
@@ -93,9 +91,14 @@ function CyverseAppBar(props) {
     const router = useRouter();
     const { intl, children } = props;
     const [userProfile, setUserProfile] = useUserProfile();
-    const intercomDetails = useIntercom();
+    const {
+        appId,
+        enabled,
+        companyId,
+        companyName,
+        unReadCount,
+    } = useIntercom();
     const [drawerOpen, setDrawerOpen] = useState(false);
-
     React.useEffect(() => {
         const fetchUserProfile = async function() {
             const profile = await callApi({
@@ -103,23 +106,21 @@ function CyverseAppBar(props) {
                 method: "GET",
                 credentials: "include",
             });
-            console.log("intercom from provider=>" + intercomDetails.appId);
-            if (profile && profile.id) {
+            if (enabled && profile && profile.id) {
                 intercomLogin(
                     profile.id,
                     profile.attributes.email,
-                    intercomDetails.appId,
-                    intercomDetails.companyId,
-                    intercomDetails.companyName
+                    appId,
+                    companyId,
+                    companyName
                 );
             }
             setUserProfile(profile);
         };
         fetchUserProfile();
-    }, [setUserProfile, intercomDetails]);
+    }, [setUserProfile, appId, enabled, companyId, companyName]);
 
     const handleUserButtonClick = (event) => {
-        console.log(userProfile);
         if (!userProfile) {
             router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
         }
@@ -325,7 +326,13 @@ function CyverseAppBar(props) {
                         </Hidden>
                         <div className={classes.root} />
                         <div style={{ display: "flex" }}>
-                            <CustomIntercom classes={classes} intl={intl} />
+                            {enabled && (
+                                <CustomIntercom
+                                    classes={classes}
+                                    intl={intl}
+                                    unReadCount={unReadCount}
+                                />
+                            )}
                             <IconButton
                                 id={build(
                                     ids.APP_BAR_BASE,

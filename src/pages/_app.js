@@ -17,7 +17,6 @@ import ids from "../components/layout/ids";
 import { UploadTrackingProvider } from "../contexts/uploadTracking";
 import { UserProfileProvider } from "../contexts/userProfile";
 import { IntercomProvider } from "../contexts/intercom";
-import { object } from "@storybook/addon-knobs";
 
 const setupIntercom = (intercomAppId) => {
     window.intercomSettings = {
@@ -83,21 +82,21 @@ function MyApp({
         if (jssStyles) {
             jssStyles.parentElement.removeChild(jssStyles);
         }
-        if (intercomEnabled) {
-            setupIntercom(intercomAppId);
+        if (intercomSettings.enabled) {
+            setupIntercom(intercomSettings.appId);
             if (window.Intercom) {
                 window.Intercom("onUnreadCountChange", function(unreadCount) {
-                    console.log(
-                        "there are unread intercom messages=>" + unreadCount
-                    );
-                    const newSettings = Object.assign(intercomSettings, {
-                        unReadCount: unreadCount,
-                    });
-                    setIntercomSettings(newSettings);
+                    if (intercomSettings.unReadCount !== unreadCount) {
+                        const newSettings = {
+                            ...intercomSettings,
+                            unReadCount: unreadCount,
+                        };
+                        setIntercomSettings(newSettings);
+                    }
                 });
             }
         }
-    }, [intercomAppId, intercomEnabled]);
+    }, [intercomSettings]);
     return (
         <ThemeProvider theme={theme}>
             <IntercomProvider value={intercomSettings}>

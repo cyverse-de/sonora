@@ -72,7 +72,7 @@
     "postman-request": "^2.88.1-postman.18",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-intl": "^2.9.0",
+    "react-intl": "^3.12.0",
     "react-select": "^2.4.4",
     "request": "^2.88.0",
     "request-promise": "^4.2.5",

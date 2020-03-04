@@ -20,4 +20,5 @@ export default {
     MORE_MI: "moreMenuItem",
     SEARCH_MI: "searchMenuItem",
     SETTINGS_MI: "settingsMenuItem",
+    INTERCOM_WIDGET: "cyverse_intercom_support",
 };

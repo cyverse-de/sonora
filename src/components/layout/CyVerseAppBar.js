@@ -44,8 +44,11 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import SettingsIcon from "@material-ui/icons/Settings";
+import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 
 import { useUserProfile } from "../../contexts/userProfile";
+import { intercomLogin } from "../../common/intercom";
+import { useIntercom } from "../../contexts/intercom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -60,20 +63,42 @@ const useStyles = makeStyles((theme) => ({
         width: 18,
         paddingRight: theme.spacing(4),
     },
-    notification: {
+    margin: {
         [theme.breakpoints.up("sm")]: {
             marginLeft: theme.spacing(2),
         },
     },
 }));
 
+function CustomIntercom({ intl, classes, unReadCount }) {
+    return (
+        <IconButton
+            className={classes.margin}
+            id={ids.INTERCOM_WIDGET}
+            color="primary"
+            aria-label={formatMessage(intl, "intercomAriaLabel")}
+            aria-controls={formatMessage(intl, "intercomAriaControl")}
+        >
+            <Badge badgeContent={unReadCount} color="error">
+                <LiveHelpIcon />
+            </Badge>
+        </IconButton>
+    );
+}
+
 function CyverseAppBar(props) {
     const classes = useStyles();
     const router = useRouter();
     const { intl, children } = props;
     const [userProfile, setUserProfile] = useUserProfile();
+    const {
+        appId,
+        enabled,
+        companyId,
+        companyName,
+        unReadCount,
+    } = useIntercom();
     const [drawerOpen, setDrawerOpen] = useState(false);
-
     React.useEffect(() => {
         const fetchUserProfile = async function() {
             const profile = await callApi({
@@ -81,13 +106,21 @@ function CyverseAppBar(props) {
                 method: "GET",
                 credentials: "include",
             });
+            if (enabled && profile && profile.id) {
+                intercomLogin(
+                    profile.id,
+                    profile.attributes.email,
+                    appId,
+                    companyId,
+                    companyName
+                );
+            }
             setUserProfile(profile);
         };
         fetchUserProfile();
-    }, [setUserProfile]);
+    }, [setUserProfile, appId, enabled, companyId, companyName]);
 
     const handleUserButtonClick = (event) => {
-        console.log(userProfile);
         if (!userProfile) {
             router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
         }
@@ -287,16 +320,25 @@ function CyverseAppBar(props) {
                                     alt={formatMessage(intl, "cyverse")}
                                 ></img>
                             </a>
+                        </Hidden>
+                        <Hidden smDown>
                             <GlobalSearchField />
                         </Hidden>
                         <div className={classes.root} />
                         <div style={{ display: "flex" }}>
+                            {enabled && (
+                                <CustomIntercom
+                                    classes={classes}
+                                    intl={intl}
+                                    unReadCount={unReadCount}
+                                />
+                            )}
                             <IconButton
                                 id={build(
                                     ids.APP_BAR_BASE,
                                     ids.NOTIFICATION_BTN
                                 )}
-                                className={classes.notification}
+                                className={classes.margin}
                                 aria-label={formatMessage(
                                     intl,
                                     "newNotificationAriaLabel"
@@ -307,31 +349,9 @@ function CyverseAppBar(props) {
                                     <NotificationsIcon />
                                 </Badge>
                             </IconButton>
-                            <Hidden xsDown>
-                                <IconButton
-                                    id={build(
-                                        ids.APP_BAR_BASE,
-                                        ids.ACCOUNT_BTN
-                                    )}
-                                    edge="end"
-                                    aria-label={formatMessage(
-                                        intl,
-                                        "accountAriaLabel"
-                                    )}
-                                    aria-controls={formatMessage(
-                                        intl,
-                                        "accountAriaControl"
-                                    )}
-                                    color="primary"
-                                    onClick={handleUserButtonClick}
-                                >
-                                    <AccountCircle />
-                                </IconButton>
-                            </Hidden>
-                            <Hidden only={["sm", "md", "lg", "xl"]}>
+                            <Hidden only={["md", "lg", "xl"]}>
                                 <IconButton
                                     id={build(ids.APP_BAR_BASE, ids.SEARCH_BTN)}
-                                    edge="end"
                                     aria-label={formatMessage(
                                         intl,
                                         "searchAriaLabel"
@@ -344,6 +364,26 @@ function CyverseAppBar(props) {
                                     onClick={handleSearchClick}
                                 >
                                     <SearchIcon />
+                                </IconButton>
+                            </Hidden>
+                            <Hidden xsDown>
+                                <IconButton
+                                    id={build(
+                                        ids.APP_BAR_BASE,
+                                        ids.ACCOUNT_BTN
+                                    )}
+                                    aria-label={formatMessage(
+                                        intl,
+                                        "accountAriaLabel"
+                                    )}
+                                    aria-controls={formatMessage(
+                                        intl,
+                                        "accountAriaControl"
+                                    )}
+                                    color="primary"
+                                    onClick={handleUserButtonClick}
+                                >
+                                    <AccountCircle />
                                 </IconButton>
                             </Hidden>
                         </div>

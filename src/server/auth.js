@@ -19,16 +19,16 @@ export const getUserID = (req) => {
  * @param {Object} req
  */
 export const getUserProfile = (req) => {
-    const access_token = req?.kauth?.grant?.access_token;
-    if (access_token) {
+    const accessToken = req?.kauth?.grant?.access_token;
+    if (accessToken) {
         return {
-            id: access_token.content.preferred_username,
+            id: accessToken.content.preferred_username,
             attributes: {
-                email: access_token.content.email,
-                entitlement: access_token.content.entitlement,
-                firstName: access_token.content.given_name,
-                lastName: access_token.content.family_name,
-                name: access_token.content.name,
+                email: accessToken.content.email,
+                entitlement: accessToken.content.entitlement,
+                firstName: accessToken.content.given_name,
+                lastName: accessToken.content.family_name,
+                name: accessToken.content.name,
             },
         };
     } else {

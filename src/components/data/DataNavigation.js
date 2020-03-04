@@ -102,7 +102,7 @@ function pathToRoute(root, relativePath, selectedPathItemIndex) {
             relativePathItems.length
     );
 
-    return "/" + NavigationConstants.DATA + `/?path=${root}/${routerPath}`;
+    return "/" + NavigationConstants.DATA + `?path=${root}/${routerPath}`;
 }
 
 /**

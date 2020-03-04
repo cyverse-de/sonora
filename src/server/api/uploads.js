@@ -22,14 +22,14 @@ import { terrainURL } from "../configuration";
  * @returns null
  */
 const handler = async (req, res) => {
-    const userID = req?.user?.profile?.id;
-    if (!userID) {
+    const accessToken = req?.kauth?.grant?.access_token;
+    if (!accessToken) {
         res.status(401).send("authorization required");
         return;
     }
 
-    const accessToken = req?.user?.accessToken;
-    if (!accessToken) {
+    const userID = accessToken?.content?.preferred_username;
+    if (!userID) {
         res.status(401).send("authorization required");
         return;
     }

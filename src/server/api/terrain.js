@@ -25,14 +25,15 @@ import logger from "../logging";
  */
 export const handler = ({ method, pathname, headers }) => {
     return async (req, res) => {
+        const accessToken = req?.kauth?.grant?.access_token;
         call(
             {
                 method,
                 pathname,
                 headers,
                 query: req.query,
-                userID: req?.user?.profile?.id,
-                accessToken: req?.user?.accessToken,
+                userID: accessToken?.content?.preferred_username,
+                accessToken: accessToken?.token,
             },
             req
         )

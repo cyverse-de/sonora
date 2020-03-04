@@ -18,13 +18,12 @@ sessions:
     secure_cookie: false
     ttl: 8
 
-oauth2:
-    authorization_url: "https://olson.cyverse.org/cas/oauth2.0/authorize"
-    token_url: "https://olson.cyverse.org/cas/oauth2.0/token"
-    profile_url: "https://olson.cyverse.org/cas/oauth2.0/profile"
-    logout_url: "https://olson.cyverse.org/cas/logout"
+keycloak:
+    server_url: "https://kc.cyverse.org/auth"
+    realm: "CyVerse"
     client_id: null
     client_secret: null
+
 intercom:
     app_id: appId
     enabled: true

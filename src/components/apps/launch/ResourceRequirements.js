@@ -12,10 +12,16 @@ import React from "react";
 import { FastField } from "formik";
 import numeral from "numeral";
 
+import ids from "./ids";
 import messages from "./messages";
 import styles from "./styles";
 
-import { FormSelectField, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import {
+    FormSelectField,
+    build as buildDebugId,
+    getMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
 
 import {
     makeStyles,
@@ -55,7 +61,25 @@ function buildLimitList(startValue, minValue, maxValue) {
     return limits;
 }
 
+/**
+ * Form fields for selecting a step's resource requirements.
+ *
+ * @param {Object} props
+ * @param {string} props.baseId
+ * @param {number} props.index
+ * @param {number} props.defaultMaxCPUCores
+ * @param {number} props.defaultMaxMemory
+ * @param {number} props.defaultMaxDiskSpace
+ *
+ * @param {Object} props.requirements - Step resource requirements and limits.
+ * @param {number} props.requirements.min_cpu_cores
+ * @param {number} props.requirements.max_cpu_cores
+ * @param {number} props.requirements.min_memory_limit
+ * @param {number} props.requirements.memory_limit
+ * @param {number} props.requirements.min_disk_space
+ */
 const StepResourceRequirementsForm = ({
+    baseId,
     requirements,
     index,
     defaultMaxCPUCores,
@@ -89,6 +113,7 @@ const StepResourceRequirementsForm = ({
     return (
         <>
             <FastField
+                id={buildDebugId(baseId, ids.RESOURCE_REQUESTS.TOOL_CPU)}
                 name={`requirements.${index}.min_cpu_cores`}
                 label={getMessage("minCPUCores")}
                 component={FormSelectField}
@@ -100,6 +125,7 @@ const StepResourceRequirementsForm = ({
                 ))}
             </FastField>
             <FastField
+                id={buildDebugId(baseId, ids.RESOURCE_REQUESTS.TOOL_MEM)}
                 name={`requirements.${index}.min_memory_limit`}
                 label={getMessage("minMemory")}
                 component={FormSelectField}
@@ -112,6 +138,7 @@ const StepResourceRequirementsForm = ({
                 ))}
             </FastField>
             <FastField
+                id={buildDebugId(baseId, ids.RESOURCE_REQUESTS.MIN_DISK_SPACE)}
                 name={`requirements.${index}.min_disk_space`}
                 label={getMessage("minDiskSpace")}
                 component={FormSelectField}
@@ -131,7 +158,13 @@ const ResourceRequirementsHeader = ({ headerMessageKey, step }) =>
     getMessage(headerMessageKey, { values: { step } });
 
 const ResourceRequirementsForm = withI18N(
-    ({ defaultMaxCPUCores, defaultMaxMemory, defaultMaxDiskSpace, limits }) => {
+    ({
+        baseId,
+        defaultMaxCPUCores,
+        defaultMaxMemory,
+        defaultMaxDiskSpace,
+        limits,
+    }) => {
         const classes = useStyles();
 
         return (
@@ -142,6 +175,7 @@ const ResourceRequirementsForm = withI18N(
 
                 {limits.length === 1 ? (
                     <StepResourceRequirementsForm
+                        baseId={buildDebugId(baseId, limits[0].step_number)}
                         requirements={limits[0]}
                         index={0}
                         defaultMaxCPUCores={defaultMaxCPUCores}
@@ -153,7 +187,15 @@ const ResourceRequirementsForm = withI18N(
                         return (
                             <ExpansionPanel key={reqs.step_number}>
                                 <ExpansionPanelSummary
-                                    expandIcon={<ExpandMore />}
+                                    expandIcon={
+                                        <ExpandMore
+                                            id={buildDebugId(
+                                                baseId,
+                                                reqs.step_number,
+                                                ids.BUTTONS.EXPAND
+                                            )}
+                                        />
+                                    }
                                 >
                                     <Typography variant="subtitle1">
                                         <ResourceRequirementsHeader
@@ -166,6 +208,10 @@ const ResourceRequirementsForm = withI18N(
                                     className={classes.expansionPanelDetails}
                                 >
                                     <StepResourceRequirementsForm
+                                        baseId={buildDebugId(
+                                            baseId,
+                                            reqs.step_number
+                                        )}
                                         requirements={reqs}
                                         index={index}
                                         defaultMaxCPUCores={defaultMaxCPUCores}
@@ -186,6 +232,7 @@ const ResourceRequirementsForm = withI18N(
 );
 
 const StepResourceRequirementsReview = ({
+    baseId,
     stepRequirements,
     headerMessageKey,
 }) => {
@@ -199,7 +246,17 @@ const StepResourceRequirementsReview = ({
     return (
         !!(min_cpu_cores || min_memory_limit || min_disk_space) && (
             <ExpansionPanel defaultExpanded>
-                <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+                <ExpansionPanelSummary
+                    expandIcon={
+                        <ExpandMore
+                            id={buildDebugId(
+                                baseId,
+                                step_number,
+                                ids.BUTTONS.EXPAND
+                            )}
+                        />
+                    }
+                >
                     <Typography variant="subtitle1">
                         <ResourceRequirementsHeader
                             headerMessageKey={headerMessageKey}
@@ -249,22 +306,32 @@ const StepResourceRequirementsReview = ({
     );
 };
 
-const ResourceRequirementsReview = withI18N(({ requirements }) => {
-    return requirements.length === 1 ? (
+/**
+ * Displays a table listing each step's resource requirements if its value is
+ * greater than 0.
+ *
+ * @param {Object} props
+ * @param {string} props.baseId
+ * @param {Object[]} props.requirements - Resource requirements for each step.
+ * @param {number} props.requirements[].step_number
+ * @param {number} props.requirements[].min_cpu_cores
+ * @param {number} props.requirements[].min_memory_limit
+ * @param {number} props.requirements[].min_disk_space
+ */
+const ResourceRequirementsReview = withI18N(({ baseId, requirements }) => {
+    const headerMessageKey =
+        requirements.length === 1
+            ? "resourceRequirements"
+            : "resourceRequirementsForStep";
+
+    return requirements.map((stepRequirements) => (
         <StepResourceRequirementsReview
-            key={requirements[0].step_number}
-            stepRequirements={requirements[0]}
-            headerMessageKey={"resourceRequirements"}
+            baseId={baseId}
+            key={stepRequirements.step_number}
+            stepRequirements={stepRequirements}
+            headerMessageKey={headerMessageKey}
         />
-    ) : (
-        requirements.map((stepRequirements) => (
-            <StepResourceRequirementsReview
-                key={stepRequirements.step_number}
-                stepRequirements={stepRequirements}
-                headerMessageKey={"resourceRequirementsForStep"}
-            />
-        ))
-    );
+    ));
 }, messages);
 
 export { ResourceRequirementsForm, ResourceRequirementsReview };

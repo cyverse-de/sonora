@@ -9,6 +9,7 @@ import React from "react";
 import { Formik, Form, FastField } from "formik";
 import { injectIntl } from "react-intl";
 
+import ids from "./ids";
 import messages from "./messages";
 import styles from "./styles";
 
@@ -18,6 +19,7 @@ import {
 } from "./ResourceRequirements";
 
 import {
+    build as buildDebugId,
     FormCheckbox,
     FormMultilineTextField,
     FormIntegerField,
@@ -52,8 +54,8 @@ import { ArrowBack, ArrowForward, ExpandMore } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
-const StepContent = ({ hidden, step, label, children }) => (
-    <fieldset hidden={hidden}>
+const StepContent = ({ id, hidden, step, label, children }) => (
+    <fieldset id={id} hidden={hidden}>
         <legend>
             {getMessage("stepLabel", { values: { step: step + 1, label } })}
         </legend>
@@ -167,12 +169,21 @@ const AppLaunchWizard = (props) => {
     const classes = useStyles();
 
     const {
+        baseId,
         defaultMaxCPUCores,
         defaultMaxMemory,
         defaultMaxDiskSpace,
         submitAnalysis,
         app: { groups },
     } = props;
+
+    const formId = buildDebugId(baseId, ids.APP_LAUNCH_FORM);
+    const stepIdParams = buildDebugId(formId, ids.TEMPLATE_GROUP);
+    const stepIdResources = buildDebugId(
+        formId,
+        ids.APP_LAUNCH_RESOURCE_REQUESTS
+    );
+    const stepIdReview = buildDebugId(formId, ids.APP_LAUNCH_REVIEW);
 
     const hasParams =
         groups &&
@@ -269,49 +280,74 @@ const AppLaunchWizard = (props) => {
             }}
         >
             {({ values, errors, handleSubmit, isSubmitting }) => (
-                <Form>
+                <Form id={formId}>
                     <Stepper alternativeLabel nonLinear activeStep={activeStep}>
-                        {steps.map((step, index) => {
-                            return (
-                                <Step key={step.label}>
-                                    <StepButton onClick={handleStep(index)}>
-                                        <StepLabel
-                                            error={
-                                                errors.steps &&
-                                                errors.steps[index]
-                                            }
-                                        >
-                                            {step.label}
-                                        </StepLabel>
-                                    </StepButton>
-                                </Step>
-                            );
-                        })}
+                        {steps.map((step, index) => (
+                            <Step key={step.label}>
+                                <StepButton
+                                    id={buildDebugId(
+                                        formId,
+                                        ids.BUTTONS.STEP,
+                                        index + 1
+                                    )}
+                                    onClick={handleStep(index)}
+                                >
+                                    <StepLabel
+                                        error={
+                                            errors.steps && errors.steps[index]
+                                        }
+                                    >
+                                        {step.label}
+                                    </StepLabel>
+                                </StepButton>
+                            </Step>
+                        ))}
                     </Stepper>
 
                     <StepContent
+                        id={buildDebugId(formId, ids.LAUNCH_ANALYSIS_GROUP)}
                         step={stepAnalysisInfo.step}
                         label={getMessage("analysisInfo")}
                         hidden={activeStep !== stepAnalysisInfo.step}
                     >
                         <FastField
+                            id={buildDebugId(
+                                formId,
+                                ids.LAUNCH_ANALYSIS_GROUP,
+                                ids.APP_LAUNCH_NAME
+                            )}
                             label={getMessage("analysisName")}
                             required={true}
                             name="name"
                             component={FormTextField}
                         />
                         <FastField
+                            id={buildDebugId(
+                                formId,
+                                ids.LAUNCH_ANALYSIS_GROUP,
+                                ids.APP_LAUNCH_COMMENTS
+                            )}
                             label={getMessage("comments")}
                             name="description"
                             component={FormMultilineTextField}
                         />
                         <FastField
+                            id={buildDebugId(
+                                formId,
+                                ids.LAUNCH_ANALYSIS_GROUP,
+                                ids.APP_LAUNCH_OUTPUT_FOLDER
+                            )}
                             label={getMessage("outputFolder")}
                             required={true}
                             name="output_dir"
                             component={FormTextField}
                         />
                         <FastField
+                            id={buildDebugId(
+                                formId,
+                                ids.LAUNCH_ANALYSIS_GROUP,
+                                ids.APP_LAUNCH_RETAIN_INPUTS
+                            )}
                             label={getMessage("retainInputsLabel")}
                             name="debug"
                             component={FormCheckbox}
@@ -319,6 +355,7 @@ const AppLaunchWizard = (props) => {
                     </StepContent>
 
                     <StepContent
+                        id={stepIdParams}
                         step={stepParameters.step}
                         label={getMessage("analysisParameters")}
                         hidden={
@@ -326,78 +363,106 @@ const AppLaunchWizard = (props) => {
                         }
                     >
                         {values.groups &&
-                            values.groups.map((group, index) => (
-                                <ExpansionPanel key={group.id} defaultExpanded>
-                                    <ExpansionPanelSummary
-                                        expandIcon={<ExpandMore />}
+                            values.groups.map((group, index) => {
+                                const groupFormId = buildDebugId(
+                                    stepIdParams,
+                                    index + 1
+                                );
+
+                                return (
+                                    <ExpansionPanel
+                                        key={group.id}
+                                        id={groupFormId}
+                                        defaultExpanded
                                     >
-                                        <Typography variant="subtitle1">
-                                            {group.label}
-                                        </Typography>
-                                    </ExpansionPanelSummary>
-                                    <ExpansionPanelDetails
-                                        className={
-                                            classes.expansionPanelDetails
-                                        }
-                                    >
-                                        {group.parameters.map(
-                                            (param, paramIndex) => {
-                                                if (!param.isVisible) {
-                                                    return null;
-                                                }
-
-                                                const name = `groups.${index}.parameters.${paramIndex}.value`;
-
-                                                let fieldProps = {
-                                                    name,
-                                                    label: param.label,
-                                                    required: param.required,
-                                                };
-
-                                                switch (param.type) {
-                                                    case "Info":
-                                                        fieldProps = {
-                                                            name,
-                                                            component: Typography,
-                                                            variant: "body1",
-                                                            gutterBottom: true,
-                                                            children:
-                                                                param.label,
-                                                        };
-                                                        break;
-
-                                                    case "Integer":
-                                                        fieldProps.component = FormIntegerField;
-                                                        break;
-
-                                                    case "Double":
-                                                        fieldProps.component = FormNumberField;
-                                                        break;
-
-                                                    default:
-                                                        fieldProps.component = FormTextField;
-                                                        break;
-                                                }
-
-                                                return (
-                                                    <FastField
-                                                        key={param.id}
-                                                        {...fieldProps}
-                                                    />
-                                                );
+                                        <ExpansionPanelSummary
+                                            expandIcon={
+                                                <ExpandMore
+                                                    id={buildDebugId(
+                                                        groupFormId,
+                                                        ids.BUTTONS.EXPAND
+                                                    )}
+                                                />
                                             }
-                                        )}
-                                    </ExpansionPanelDetails>
-                                </ExpansionPanel>
-                            ))}
+                                        >
+                                            <Typography variant="subtitle1">
+                                                {group.label}
+                                            </Typography>
+                                        </ExpansionPanelSummary>
+                                        <ExpansionPanelDetails
+                                            className={
+                                                classes.expansionPanelDetails
+                                            }
+                                        >
+                                            {group.parameters.map(
+                                                (param, paramIndex) => {
+                                                    if (!param.isVisible) {
+                                                        return null;
+                                                    }
+
+                                                    const name = `groups.${index}.parameters.${paramIndex}.value`;
+                                                    const paramFormId = buildDebugId(
+                                                        groupFormId,
+                                                        paramIndex
+                                                    );
+
+                                                    let fieldProps = {
+                                                        id: paramFormId,
+                                                        name,
+                                                        label: param.label,
+                                                        required:
+                                                            param.required,
+                                                    };
+
+                                                    switch (param.type) {
+                                                        case "Info":
+                                                            fieldProps = {
+                                                                id: paramFormId,
+                                                                name,
+                                                                component: Typography,
+                                                                variant:
+                                                                    "body1",
+                                                                gutterBottom: true,
+                                                                children:
+                                                                    param.label,
+                                                            };
+                                                            break;
+
+                                                        case "Integer":
+                                                            fieldProps.component = FormIntegerField;
+                                                            break;
+
+                                                        case "Double":
+                                                            fieldProps.component = FormNumberField;
+                                                            break;
+
+                                                        default:
+                                                            fieldProps.component = FormTextField;
+                                                            break;
+                                                    }
+
+                                                    return (
+                                                        <FastField
+                                                            key={param.id}
+                                                            {...fieldProps}
+                                                        />
+                                                    );
+                                                }
+                                            )}
+                                        </ExpansionPanelDetails>
+                                    </ExpansionPanel>
+                                );
+                            })}
                     </StepContent>
 
                     <StepContent
+                        id={stepIdResources}
                         step={stepResourceRequirements.step}
                         label={getMessage("resourceRequirements")}
                         hidden={activeStep !== stepResourceRequirements.step}
                     >
                         <ResourceRequirementsForm
+                            baseId={stepIdResources}
                             limits={values.limits}
                             defaultMaxCPUCores={defaultMaxCPUCores}
                             defaultMaxMemory={defaultMaxMemory}
@@ -406,6 +471,7 @@ const AppLaunchWizard = (props) => {
                     </StepContent>
 
                     <StepContent
+                        id={stepIdReview}
                         step={stepReviewAndLaunch.step}
                         label={getMessage("launchOrSaveAsQL")}
                         hidden={activeStep !== stepReviewAndLaunch.step}
@@ -438,6 +504,7 @@ const AppLaunchWizard = (props) => {
                         </TableContainer>
 
                         <ResourceRequirementsReview
+                            baseId={stepIdReview}
                             requirements={values.requirements}
                         />
                     </StepContent>
@@ -459,18 +526,21 @@ const AppLaunchWizard = (props) => {
                         }}
                     >
                         <BottomNavigationAction
+                            id={buildDebugId(formId, ids.BUTTONS.STEP_BACK)}
                             label={getMessage("back")}
                             value="back"
                             icon={<ArrowBack />}
                         />
                         {isLastStep() ? (
                             <BottomNavigationAction
+                                id={buildDebugId(formId, ids.BUTTONS.SUBMIT)}
                                 label={getMessage("launchAnalysis")}
                                 value="submit"
                                 disabled={isSubmitting}
                             />
                         ) : (
                             <BottomNavigationAction
+                                id={buildDebugId(formId, ids.BUTTONS.STEP_NEXT)}
                                 label={getMessage("next")}
                                 value="next"
                                 icon={<ArrowForward />}

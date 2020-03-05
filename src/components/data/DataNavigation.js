@@ -88,15 +88,6 @@ function pathToRoute(root, relativePath, selectedPathItemIndex) {
         return accumulator;
     };
     const routerPath = relativePathItems.reduce(reducer);
-    console.log(
-        "reduced path=>" +
-            routerPath +
-            " path index=>" +
-            selectedPathItemIndex +
-            " relative path=>" +
-            relativePathItems.length
-    );
-
     return (
         "/" +
         NavigationConstants.DATA +
@@ -165,9 +156,6 @@ function FolderSelectorMenu({
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     useEffect(() => {
-        console.log(
-            "selected index=>" + pathItems.length > 0 ? pathItems.length - 1 : 0
-        );
         setSelectedIndex(pathItems.length > 0 ? pathItems.length - 1 : 0);
     }, [pathItems]);
 

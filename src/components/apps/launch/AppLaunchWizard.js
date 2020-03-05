@@ -6,12 +6,15 @@
  */
 import React from "react";
 
-import { Formik, Form, FastField } from "formik";
+import { Formik, Form } from "formik";
 import { injectIntl } from "react-intl";
 
+import constants from "./constants";
 import ids from "./ids";
 import messages from "./messages";
-import styles from "./styles";
+
+import AnalysisInfoForm from "./AnalysisInfoForm";
+import { ParamGroupForm, ParamsReview } from "./ParamGroups";
 
 import {
     ResourceRequirementsForm,
@@ -20,39 +23,21 @@ import {
 
 import {
     build as buildDebugId,
-    FormCheckbox,
-    FormMultilineTextField,
-    FormIntegerField,
-    FormNumberField,
-    FormTextField,
     getMessage,
     formatMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
 
 import {
-    makeStyles,
     BottomNavigation,
     BottomNavigationAction,
-    ExpansionPanel,
-    ExpansionPanelSummary,
-    ExpansionPanelDetails,
-    Paper,
     Stepper,
     Step,
     StepButton,
     StepLabel,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableRow,
-    Typography,
 } from "@material-ui/core";
 
-import { ArrowBack, ArrowForward, ExpandMore } from "@material-ui/icons";
-
-const useStyles = makeStyles(styles);
+import { ArrowBack, ArrowForward } from "@material-ui/icons";
 
 const StepContent = ({ id, hidden, step, label, children }) => (
     <fieldset id={id} hidden={hidden}>
@@ -166,8 +151,6 @@ const initValues = ({
 const AppLaunchWizard = (props) => {
     const [activeStep, setActiveStep] = React.useState(0);
 
-    const classes = useStyles();
-
     const {
         baseId,
         defaultMaxCPUCores,
@@ -264,7 +247,7 @@ const AppLaunchWizard = (props) => {
                         groups &&
                         groups.reduce((configs, group) => {
                             group.parameters.forEach((param) => {
-                                if (param.type !== "Info") {
+                                if (param.type !== constants.PARAM_TYPE.INFO) {
                                     configs[param.id] = param.value;
                                 }
                             });
@@ -310,48 +293,7 @@ const AppLaunchWizard = (props) => {
                         label={getMessage("analysisInfo")}
                         hidden={activeStep !== stepAnalysisInfo.step}
                     >
-                        <FastField
-                            id={buildDebugId(
-                                formId,
-                                ids.LAUNCH_ANALYSIS_GROUP,
-                                ids.APP_LAUNCH_NAME
-                            )}
-                            label={getMessage("analysisName")}
-                            required={true}
-                            name="name"
-                            component={FormTextField}
-                        />
-                        <FastField
-                            id={buildDebugId(
-                                formId,
-                                ids.LAUNCH_ANALYSIS_GROUP,
-                                ids.APP_LAUNCH_COMMENTS
-                            )}
-                            label={getMessage("comments")}
-                            name="description"
-                            component={FormMultilineTextField}
-                        />
-                        <FastField
-                            id={buildDebugId(
-                                formId,
-                                ids.LAUNCH_ANALYSIS_GROUP,
-                                ids.APP_LAUNCH_OUTPUT_FOLDER
-                            )}
-                            label={getMessage("outputFolder")}
-                            required={true}
-                            name="output_dir"
-                            component={FormTextField}
-                        />
-                        <FastField
-                            id={buildDebugId(
-                                formId,
-                                ids.LAUNCH_ANALYSIS_GROUP,
-                                ids.APP_LAUNCH_RETAIN_INPUTS
-                            )}
-                            label={getMessage("retainInputsLabel")}
-                            name="debug"
-                            component={FormCheckbox}
-                        />
+                        <AnalysisInfoForm formId={formId} />
                     </StepContent>
 
                     <StepContent
@@ -363,96 +305,17 @@ const AppLaunchWizard = (props) => {
                         }
                     >
                         {values.groups &&
-                            values.groups.map((group, index) => {
-                                const groupFormId = buildDebugId(
-                                    stepIdParams,
-                                    index + 1
-                                );
-
-                                return (
-                                    <ExpansionPanel
-                                        key={group.id}
-                                        id={groupFormId}
-                                        defaultExpanded
-                                    >
-                                        <ExpansionPanelSummary
-                                            expandIcon={
-                                                <ExpandMore
-                                                    id={buildDebugId(
-                                                        groupFormId,
-                                                        ids.BUTTONS.EXPAND
-                                                    )}
-                                                />
-                                            }
-                                        >
-                                            <Typography variant="subtitle1">
-                                                {group.label}
-                                            </Typography>
-                                        </ExpansionPanelSummary>
-                                        <ExpansionPanelDetails
-                                            className={
-                                                classes.expansionPanelDetails
-                                            }
-                                        >
-                                            {group.parameters.map(
-                                                (param, paramIndex) => {
-                                                    if (!param.isVisible) {
-                                                        return null;
-                                                    }
-
-                                                    const name = `groups.${index}.parameters.${paramIndex}.value`;
-                                                    const paramFormId = buildDebugId(
-                                                        groupFormId,
-                                                        paramIndex
-                                                    );
-
-                                                    let fieldProps = {
-                                                        id: paramFormId,
-                                                        name,
-                                                        label: param.label,
-                                                        required:
-                                                            param.required,
-                                                    };
-
-                                                    switch (param.type) {
-                                                        case "Info":
-                                                            fieldProps = {
-                                                                id: paramFormId,
-                                                                name,
-                                                                component: Typography,
-                                                                variant:
-                                                                    "body1",
-                                                                gutterBottom: true,
-                                                                children:
-                                                                    param.label,
-                                                            };
-                                                            break;
-
-                                                        case "Integer":
-                                                            fieldProps.component = FormIntegerField;
-                                                            break;
-
-                                                        case "Double":
-                                                            fieldProps.component = FormNumberField;
-                                                            break;
-
-                                                        default:
-                                                            fieldProps.component = FormTextField;
-                                                            break;
-                                                    }
-
-                                                    return (
-                                                        <FastField
-                                                            key={param.id}
-                                                            {...fieldProps}
-                                                        />
-                                                    );
-                                                }
-                                            )}
-                                        </ExpansionPanelDetails>
-                                    </ExpansionPanel>
-                                );
-                            })}
+                            values.groups.map((group, index) => (
+                                <ParamGroupForm
+                                    key={group.id}
+                                    baseId={buildDebugId(
+                                        stepIdParams,
+                                        index + 1
+                                    )}
+                                    fieldName={`groups.${index}`}
+                                    group={group}
+                                />
+                            ))}
                     </StepContent>
 
                     <StepContent
@@ -476,32 +339,7 @@ const AppLaunchWizard = (props) => {
                         label={getMessage("launchOrSaveAsQL")}
                         hidden={activeStep !== stepReviewAndLaunch.step}
                     >
-                        <TableContainer component={Paper}>
-                            <Table>
-                                <TableBody>
-                                    {values.groups &&
-                                        values.groups.map((group) =>
-                                            group.parameters.map(
-                                                (param) =>
-                                                    param.isVisible &&
-                                                    (!!param.value ||
-                                                        param.value === 0) && (
-                                                        <TableRow
-                                                            key={param.id}
-                                                        >
-                                                            <TableCell>
-                                                                {param.label}
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                {param.value}
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    )
-                                            )
-                                        )}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        <ParamsReview groups={values.groups} />
 
                         <ResourceRequirementsReview
                             baseId={stepIdReview}

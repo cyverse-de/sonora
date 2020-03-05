@@ -25,6 +25,7 @@ import NavigationConstants from "../../layout/NavigationConstants";
 import { injectIntl } from "react-intl";
 import { useRouter } from "next/router";
 import { useUserProfile } from "../../../contexts/userProfile";
+import constants from "../../../constants";
 
 function Listing(props) {
     const theme = useTheme();
@@ -32,7 +33,7 @@ function Listing(props) {
     const isMedium = useMediaQuery(theme.breakpoints.up("sm"));
     const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
     const uploadTracker = useUploadTrackingState();
-    const [userProfile, setUserProfile] = useUserProfile();
+    const [userProfile] = useUserProfile();
 
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
@@ -48,7 +49,8 @@ function Listing(props) {
     const [dataRoots, setDataRoots] = useState([]);
     const [userHomePath, setUserHomePath] = useState("");
     const [userTrashPath, setUserTrashPath] = useState("");
-
+    const [sharedWithMePath, setSharedWithMePath] = useState("");
+    const [communityDataPath, setCommunityDataPath] = useState("");
     const { baseId, path, handlePathChange, intl } = props;
 
     // Used to force the data listing to refresh when uploads are completed.
@@ -103,14 +105,15 @@ function Listing(props) {
                     (root) => root.label === userProfile.id
                 );
                 home.icon = <HomeIcon />;
-                const sharedWithMe = respRoots.find((root) => {
-                    return root.label === formatMessage(intl, "sharedWithMe");
-                });
+                const sharedWithMe = respRoots.find(
+                    (root) => root.label === constants.SHARED_WITH_ME
+                );
+                setSharedWithMePath(sharedWithMe.path);
                 sharedWithMe.icon = <FolderSharedIcon />;
                 const communityData = respRoots.find(
-                    (root) =>
-                        root.label === formatMessage(intl, "communityData")
+                    (root) => root.label === constants.COMMUNITY_DATA
                 );
+                setCommunityDataPath(communityData.path);
                 communityData.icon = <GroupIcon />;
                 const trash = respRoots.find(
                     (root) => root.label === formatMessage(intl, "trash")
@@ -248,6 +251,8 @@ function Listing(props) {
                     dataRoots={dataRoots}
                     userHomePath={userHomePath}
                     userTrashPath={userTrashPath}
+                    sharedWithMePath={sharedWithMePath}
+                    communityDataPath={communityDataPath}
                 />
                 {!isGridView && (
                     <TableView

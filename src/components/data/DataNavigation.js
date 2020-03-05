@@ -12,13 +12,14 @@ import intlData from "./messages";
 import {
     Breadcrumbs,
     Hidden,
-    Link,
+    Button,
     List,
     ListItem,
     ListItemIcon,
     ListItemText,
     Menu,
     Tooltip,
+    Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { injectIntl } from "react-intl";
@@ -27,8 +28,9 @@ import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import FolderIcon from "@material-ui/icons/Folder";
 import { useRouter } from "next/router";
 import NavigationConstants from "../layout/NavigationConstants";
-import constants from "../../constants";
 import ids from "./ids";
+
+const PATH_SEPARATOR = "/";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
@@ -43,13 +45,6 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.primary.contrastText,
         },
-    },
-    breadCrumbLink: {
-        textOverflow: "ellipsis",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        display: "inline-block",
-        maxWidth: 150,
     },
     currentLocationLink: {
         textOverflow: "ellipsis",
@@ -70,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
  */
 function getPathItems(relativePath) {
     let pathItems = [];
-    pathItems = relativePath.split("/").slice(1);
+    pathItems = relativePath.split(PATH_SEPARATOR).slice(1);
     return pathItems;
 }
 
@@ -88,7 +83,7 @@ function pathToRoute(root, relativePath, selectedPathItemIndex) {
     const relativePathItems = getPathItems(relativePath);
     const reducer = (accumulator, currentVal, idx) => {
         if (idx <= selectedPathItemIndex) {
-            return accumulator + "/" + currentVal;
+            return accumulator + PATH_SEPARATOR + currentVal;
         }
         return accumulator;
     };
@@ -102,11 +97,19 @@ function pathToRoute(root, relativePath, selectedPathItemIndex) {
             relativePathItems.length
     );
 
-    return "/" + NavigationConstants.DATA + `?path=${root}/${routerPath}`;
+    return (
+        "/" +
+        NavigationConstants.DATA +
+        `?path=${root}${PATH_SEPARATOR}${routerPath}`
+    );
 }
 
 /**
  * Get relative path to CyVerse Data Store path.
+ * Note: - Swapping community data path check and shared with me path check will result in incorrect
+ * relative path since their path overlaps
+ * COMMUNITY_DATA_PATH: "/iplant/home/shared",
+ * SHARED_WITH_ME_PATH: "/iplant/home",
  *  * @example
  * // returns "/analyses/wordcount/logs"
  * getRelativePath("/iplant/home/ipctest/analyses/wordcount/logs","/iplant/home/ipctest",
@@ -114,18 +117,26 @@ function pathToRoute(root, relativePath, selectedPathItemIndex) {
  * @param {string} path -  CyVerse Data Store path
  * @param {string} userHomePath - Users home folder path
  * @param {string} userTrashPath - Users trash folder path
+ * @param {string} sharedWithMePath - Data stores shared with me path
+ * @param {string}  communityDataPath - Data stores community data path
  * @returns {string} relativePath - relative path to CyVerse Data Store e.g: /analyses/wordcount/logs
  */
-function getRelativePath(path, userHomePath, userTrashPath) {
+function getRelativePath(
+    path,
+    userHomePath,
+    userTrashPath,
+    sharedWithMePath,
+    communityDataPath
+) {
     let relativePath = "";
-    if (path.indexOf(userHomePath) !== -1) {
+    if (path.startsWith(userHomePath)) {
         relativePath = path.replace(userHomePath, "");
-    } else if (path.indexOf(userTrashPath) !== -1) {
+    } else if (path.startsWith(userTrashPath)) {
         relativePath = path.replace(userTrashPath, "");
-    } else if (path.indexOf(constants.COMMUNITY_DATA_PATH) !== -1) {
-        relativePath = path.replace(constants.COMMUNITY_DATA_PATH, "");
-    } else if (path.indexOf(constants.SHARED_WITH_ME_PATH) !== -1) {
-        relativePath = path.replace(constants.SHARED_WITH_ME_PATH, "");
+    } else if (path.startsWith(communityDataPath)) {
+        relativePath = path.replace(communityDataPath, "");
+    } else if (path.startsWith(sharedWithMePath)) {
+        relativePath = path.replace(sharedWithMePath, "");
     }
     return relativePath;
 }
@@ -135,13 +146,21 @@ function FolderSelectorMenu({
     path,
     userHomePath,
     userTrashPath,
+    sharedWithMePath,
+    communityDataPath,
     baseId,
     intl,
 }) {
     const classes = useStyles();
     const router = useRouter();
     const [anchorEl, setAnchorEl] = useState(null);
-    const relativePath = getRelativePath(path, userHomePath, userTrashPath);
+    const relativePath = getRelativePath(
+        path,
+        userHomePath,
+        userTrashPath,
+        sharedWithMePath,
+        communityDataPath
+    );
     const pathItems = getPathItems(relativePath);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -159,7 +178,13 @@ function FolderSelectorMenu({
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
         setAnchorEl(null);
-        const relativePath = getRelativePath(path, userHomePath, userTrashPath);
+        const relativePath = getRelativePath(
+            path,
+            userHomePath,
+            userTrashPath,
+            sharedWithMePath,
+            communityDataPath
+        );
         router.push(pathToRoute(root, relativePath, index));
     };
 
@@ -190,25 +215,23 @@ function FolderSelectorMenu({
                         onClick={handleClickListItem}
                         className={classes.selectedListItem}
                     >
-                        <>
-                            {
-                                <>
-                                    <ArrowRightIcon /> <FolderIcon />
-                                </>
-                            }
-                            <ListItemText
-                                id={build(
-                                    baseId,
-                                    ids.PATH_ITEMS,
-                                    ids.SELECTED_PATH_ITEM
-                                )}
-                                className={classes.currentLocationLink}
-                                primary={pathItems[selectedIndex]}
-                            />
-                            <ListItemIcon>
-                                <ArrowDropDownIcon />
-                            </ListItemIcon>
-                        </>
+                        {
+                            <>
+                                <ArrowRightIcon /> <FolderIcon />
+                            </>
+                        }
+                        <ListItemText
+                            id={build(
+                                baseId,
+                                ids.PATH_ITEMS,
+                                ids.SELECTED_PATH_ITEM
+                            )}
+                            className={classes.currentLocationLink}
+                            primary={pathItems[selectedIndex]}
+                        />
+                        <ListItemIcon>
+                            <ArrowDropDownIcon />
+                        </ListItemIcon>
                     </ListItem>
                 </List>
 
@@ -252,10 +275,25 @@ function FolderSelectorMenu({
     );
 }
 
-function BreadCrumb({ root, path, userHomePath, userTrashPath, baseId, intl }) {
-    const router = useRouter();
+function BreadCrumb({
+    root,
+    path,
+    userHomePath,
+    userTrashPath,
+    sharedWithMePath,
+    communityDataPath,
+    baseId,
+    intl,
+}) {
     const classes = useStyles();
-    const relativePath = getRelativePath(path, userHomePath, userTrashPath);
+    const router = useRouter();
+    const relativePath = getRelativePath(
+        path,
+        userHomePath,
+        userTrashPath,
+        sharedWithMePath,
+        communityDataPath
+    );
 
     const handleClick = (event, relativePath, crumb) => {
         event.preventDefault();
@@ -265,22 +303,22 @@ function BreadCrumb({ root, path, userHomePath, userTrashPath, baseId, intl }) {
     };
 
     return (
-        <Breadcrumbs
-            maxItems={2}
-            style={{ paddingTop: 8 }}
-            aria-label="breadcrumb"
-            id={build(baseId, ids.BREADCRUMBS)}
-            aria-controls={formatMessage(
-                intl,
-                "dataNavigationBreadcrumbsControl"
-            )}
-        >
-            {getPathItems(relativePath).map((crumb) => (
-                <>
-                    <ArrowRightIcon />
-                    <FolderIcon color="primary" />
-                    <Tooltip title={crumb}>
-                        <Link
+        <>
+            {relativePath && <ArrowRightIcon color="primary" />}
+            <Breadcrumbs
+                maxItems={2}
+                aria-label="breadcrumb"
+                id={build(baseId, ids.BREADCRUMBS)}
+                aria-controls={formatMessage(
+                    intl,
+                    "dataNavigationBreadcrumbsControl"
+                )}
+            >
+                {getPathItems(relativePath).map((crumb) => (
+                    <Tooltip title={crumb} key={crumb}>
+                        <Button
+                            variant="text"
+                            startIcon={<FolderIcon color="primary" />}
                             aria-controls={formatMessage(
                                 intl,
                                 "folderPathAriaControl"
@@ -293,18 +331,18 @@ function BreadCrumb({ root, path, userHomePath, userTrashPath, baseId, intl }) {
                             )}
                             key={crumb}
                             color="inherit"
-                            href="#"
                             onClick={(event) =>
                                 handleClick(event, relativePath, crumb)
                             }
-                            className={classes.breadCrumbLink}
                         >
-                            {crumb}
-                        </Link>
+                            <Typography className={classes.currentLocationLink}>
+                                {crumb}
+                            </Typography>
+                        </Button>
                     </Tooltip>
-                </>
-            ))}
-        </Breadcrumbs>
+                ))}
+            </Breadcrumbs>
+        </>
     );
 }
 
@@ -316,6 +354,8 @@ function DataNavigation(props) {
         dataRoots,
         userHomePath,
         userTrashPath,
+        sharedWithMePath,
+        communityDataPath,
         intl,
     } = props;
     const router = useRouter();
@@ -324,15 +364,55 @@ function DataNavigation(props) {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const dataNavId = build(baseId, ids.DATA_NAVIGATION);
 
+    useEffect(() => {
+        /**
+         * Note: - Swapping community data path check and shared with me path check will result in
+         * incorrect relative path since their path overlaps
+         * COMMUNITY_DATA_PATH: "/iplant/home/shared",
+         * SHARED_WITH_ME_PATH: "/iplant/home",
+         */
+        if (dataRoots.length > 0 && path) {
+            if (path.startsWith(userHomePath)) {
+                setSelectedIndex(
+                    dataRoots.findIndex((root) => root.path === userHomePath)
+                );
+            } else if (path.startsWith(userTrashPath)) {
+                setSelectedIndex(
+                    dataRoots.findIndex((root) => root.path === userTrashPath)
+                );
+            } else if (path.startsWith(communityDataPath)) {
+                setSelectedIndex(
+                    dataRoots.findIndex(
+                        (root) => root.path === communityDataPath
+                    )
+                );
+            } else if (path.startsWith(sharedWithMePath)) {
+                setSelectedIndex(
+                    dataRoots.findIndex(
+                        (root) => root.path === sharedWithMePath
+                    )
+                );
+            }
+        }
+    }, [
+        dataRoots,
+        path,
+        userHomePath,
+        userTrashPath,
+        sharedWithMePath,
+        communityDataPath,
+    ]);
+
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
     const handleMenuItemClick = (event, index) => {
-        setSelectedIndex(index);
         setAnchorEl(null);
         router.push(
-            "/" + NavigationConstants.DATA + `?path=${dataRoots[index].path}`
+            PATH_SEPARATOR +
+                NavigationConstants.DATA +
+                `?path=${dataRoots[index].path}`
         );
     };
 
@@ -344,116 +424,111 @@ function DataNavigation(props) {
         return null;
     }
     return (
-        dataRoots.length > 0 && (
-            <>
-                <List
-                    component="nav"
-                    aria-controls={formatMessage(
-                        intl,
-                        "selectedDataRootMenuAriaControl"
-                    )}
-                    aria-label={formatMessage(
-                        intl,
-                        "selectedDataRootMenuAriaLabel"
-                    )}
-                    id={build(dataNavId, ids.DATA_ROOTS)}
-                >
-                    <ListItem
-                        button
-                        aria-haspopup="true"
-                        aria-controls={formatMessage(
-                            intl,
-                            "selectedDataRootAriaMenuItemControl"
-                        )}
-                        aria-label={dataRoots[selectedIndex].label}
-                        onClick={handleClickListItem}
-                        className={classes.selectedListItem}
-                    >
-                        <>
-                            {dataRoots[selectedIndex].icon}
-                            <ListItemText
-                                id={build(
-                                    baseId,
-                                    ids.DATA_ROOTS,
-                                    dataRoots[selectedIndex].label
-                                )}
-                                primary={dataRoots[selectedIndex].label}
-                            />
-                            <ListItemIcon>
-                                <ArrowDropDownIcon />
-                            </ListItemIcon>
-                        </>
-                    </ListItem>
-                </List>
-                <Menu
-                    id={build(baseId, ids.DATA_ROOTS_MENU)}
+        <>
+            <List
+                component="nav"
+                aria-controls={formatMessage(
+                    intl,
+                    "selectedDataRootMenuAriaControl"
+                )}
+                aria-label={formatMessage(
+                    intl,
+                    "selectedDataRootMenuAriaLabel"
+                )}
+                id={build(dataNavId, ids.DATA_ROOTS)}
+            >
+                <ListItem
+                    button
                     aria-haspopup="true"
                     aria-controls={formatMessage(
                         intl,
-                        "dataRootMenuAriaControl"
+                        "selectedDataRootAriaMenuItemControl"
                     )}
-                    aria-label={formatMessage(intl, "dataRootsMenuAriaLabel")}
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
+                    aria-label={dataRoots[selectedIndex].label}
+                    onClick={handleClickListItem}
+                    className={classes.selectedListItem}
                 >
-                    {dataRoots.map((menuItem, index) => (
-                        <ListItem
-                            id={build(
-                                dataNavId,
-                                ids.DATA_ROOTS_MENU,
-                                ids.DATA_ROOTS_MENU_ITEM,
-                                dataRoots[selectedIndex].label
-                            )}
-                            aria-controls={formatMessage(
-                                intl,
-                                "dataRootsMenuItemAriaControl"
-                            )}
-                            aria-label={menuItem.label}
-                            key={menuItem.label}
-                            selected={index === selectedIndex}
-                            onClick={(event) =>
-                                handleMenuItemClick(event, index)
-                            }
-                            className={classes.list}
-                        >
-                            <ListItemIcon>{menuItem.icon}</ListItemIcon>
-                            <ListItemText>{menuItem.label}</ListItemText>
-                        </ListItem>
-                    ))}
-                </Menu>
+                    {dataRoots[selectedIndex].icon}
+                    <ListItemText
+                        id={build(
+                            baseId,
+                            ids.DATA_ROOTS,
+                            dataRoots[selectedIndex].label
+                        )}
+                        primary={dataRoots[selectedIndex].label}
+                    />
+                    <ListItemIcon style={{ minWidth: 20 }}>
+                        <ArrowDropDownIcon />
+                    </ListItemIcon>
+                </ListItem>
+            </List>
+            <Menu
+                id={build(baseId, ids.DATA_ROOTS_MENU)}
+                aria-haspopup="true"
+                aria-controls={formatMessage(intl, "dataRootMenuAriaControl")}
+                aria-label={formatMessage(intl, "dataRootsMenuAriaLabel")}
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+                {dataRoots.map((menuItem, index) => (
+                    <ListItem
+                        id={build(
+                            dataNavId,
+                            ids.DATA_ROOTS_MENU,
+                            ids.DATA_ROOTS_MENU_ITEM,
+                            menuItem.label
+                        )}
+                        aria-controls={formatMessage(
+                            intl,
+                            "dataRootsMenuItemAriaControl"
+                        )}
+                        aria-label={menuItem.label}
+                        key={menuItem.label}
+                        selected={index === selectedIndex}
+                        onClick={(event) => handleMenuItemClick(event, index)}
+                        className={classes.list}
+                    >
+                        <ListItemIcon>{menuItem.icon}</ListItemIcon>
+                        <ListItemText>{menuItem.label}</ListItemText>
+                    </ListItem>
+                ))}
+            </Menu>
 
-                <Hidden xsDown>
-                    {path && (!error || error.length === 0) ? (
-                        <BreadCrumb
-                            baseId={dataNavId}
-                            root={dataRoots[selectedIndex].path}
-                            path={path}
-                            userHomePath={userHomePath}
-                            userTrashPath={userTrashPath}
-                            intl={intl}
-                        />
-                    ) : (
-                        <div></div>
-                    )}
-                </Hidden>
-                <Hidden only={["sm", "md", "lg", "xl"]}>
-                    {path && (!error || error.length === 0) ? (
-                        <FolderSelectorMenu
-                            baseId={dataNavId}
-                            root={dataRoots[selectedIndex].path}
-                            path={path}
-                            userHomePath={userHomePath}
-                            userTrashPath={userTrashPath}
-                            intl={intl}
-                        />
-                    ) : (
-                        <div></div>
-                    )}
-                </Hidden>
-            </>
-        )
+            <Hidden xsDown>
+                {path && (!error || error.length === 0) ? (
+                    <BreadCrumb
+                        baseId={dataNavId}
+                        root={dataRoots[selectedIndex].path}
+                        path={path}
+                        userHomePath={userHomePath}
+                        userTrashPath={userTrashPath}
+                        sharedWithMePath={sharedWithMePath}
+                        communityDataPath={communityDataPath}
+                        intl={intl}
+                    />
+                ) : (
+                    <div></div>
+                )}
+            </Hidden>
+            <Hidden only={["sm", "md", "lg", "xl"]}>
+                {path && (!error || error.length === 0) ? (
+                    <FolderSelectorMenu
+                        baseId={dataNavId}
+                        root={dataRoots[selectedIndex].path}
+                        path={path}
+                        userHomePath={userHomePath}
+                        userTrashPath={userTrashPath}
+                        sharedWithMePath={sharedWithMePath}
+                        communityDataPath={communityDataPath}
+                        intl={intl}
+                    />
+                ) : (
+                    <div></div>
+                )}
+            </Hidden>
+        </>
     );
 }
 

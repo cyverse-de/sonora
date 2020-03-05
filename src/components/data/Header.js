@@ -50,6 +50,8 @@ function Header(props) {
         dataRoots,
         userHomePath,
         userTrashPath,
+        sharedWithMePath,
+        communityDataPath,
     } = props;
 
     let headerId = build(baseId, ids.HEADER);
@@ -64,6 +66,8 @@ function Header(props) {
                     dataRoots={dataRoots}
                     userHomePath={userHomePath}
                     userTrashPath={userTrashPath}
+                    sharedWithMePath={sharedWithMePath}
+                    communityDataPath={communityDataPath}
                 />
             </Toolbar>
             <Toolbar

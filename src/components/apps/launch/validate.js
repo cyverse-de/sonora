@@ -5,6 +5,56 @@
  */
 import { getMessage } from "@cyverse-de/ui-lib";
 
+import constants from "./constants";
+
+const validateInteger = ({ value, validators }) => {
+    let errorMsg = null;
+
+    if (validators && validators.length > 0) {
+        validators.forEach((validator) => {
+            if (validator.params && validator.params.length > 0) {
+                switch (validator.type) {
+                    case constants.VALIDATOR_TYPE.INT_ABOVE:
+                        if (value <= validator.params[0]) {
+                            errorMsg = getMessage("validationIntAbove", {
+                                values: { min: validator.params[0] },
+                            });
+                        }
+                        break;
+
+                    case constants.VALIDATOR_TYPE.INT_BELOW:
+                        if (value >= validator.params[0]) {
+                            errorMsg = getMessage("validationIntBelow", {
+                                values: { max: validator.params[0] },
+                            });
+                        }
+                        break;
+
+                    case constants.VALIDATOR_TYPE.INT_RANGE:
+                        if (validator.params.length >= 2) {
+                            let [rangeMin, rangeMax] = validator.params;
+                            if (rangeMin > rangeMax) {
+                                [rangeMax, rangeMin] = validator.params;
+                            }
+
+                            if (value < rangeMin || rangeMax < value) {
+                                errorMsg = getMessage("validationIntRange", {
+                                    values: { min: rangeMin, max: rangeMax },
+                                });
+                            }
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+    return errorMsg;
+};
+
 /**
  * The Formik validation function for the App Launch Form.
  *
@@ -39,9 +89,23 @@ const validate = (values) => {
 
             if (group.parameters) {
                 group.parameters.forEach((param, paramIndex) => {
-                    if (!param.value && param.required) {
+                    let valueError = null;
+
+                    if (param.required && !param.value && param.value !== 0) {
+                        valueError = getMessage("required");
+                    } else {
+                        switch (param.type) {
+                            case constants.PARAM_TYPE.INTEGER:
+                                valueError = validateInteger(param);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    if (valueError) {
                         paramErrors[paramIndex] = {
-                            value: getMessage("required"),
+                            value: valueError,
                         };
                         stepErrors[1] = true;
                     }

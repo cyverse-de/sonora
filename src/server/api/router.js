@@ -152,5 +152,18 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding the /share handler");
+    api.post(
+        "/share",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/share",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

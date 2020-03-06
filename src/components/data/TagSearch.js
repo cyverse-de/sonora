@@ -20,12 +20,17 @@ import { HighlightOff } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
 import { injectIntl } from "react-intl";
 
-import callApi from "../../common/callApi";
 import ids from "./ids";
+import {
+    attachTagsToResource,
+    createUserTag,
+    detachTagsFromResource,
+    getTagSuggestions,
+    getTagsForResource,
+} from "../endpoints/Tags";
 import messages from "./messages";
 import styles from "./styles";
 
-const SEARCH_LIMIT = 10;
 const useStyles = makeStyles(styles);
 
 function TagSearch(props) {
@@ -39,35 +44,23 @@ function TagSearch(props) {
 
     useEffect(() => {
         setLoading(true);
-        callApi({
-            endpoint: `/api/filesystem/entry/${resource.id}/tags`,
-        }).then((resp) => {
+        getTagsForResource(resource.id).then((resp) => {
             setSelectedTags(resp.tags);
             setLoading(false);
         });
     }, [resource]);
 
-    const getTagSuggestions = (searchTerm) => {
+    const fetchTagSuggestions = (searchTerm) => {
         setLoading(true);
-        callApi({
-            endpoint: `/api/tags/suggestions?contains=${searchTerm}&limit=${SEARCH_LIMIT}`,
-        }).then((resp) => {
+        getTagSuggestions(searchTerm).then((resp) => {
             setOptions(resp.tags);
             setLoading(false);
         });
     };
 
     const onTagRemove = (selectedTag) => {
-        const body = {
-            tags: [selectedTag.id],
-        };
-
         setLoading(true);
-        callApi({
-            endpoint: `/api/filesystem/entry/${resource.id}/tags?type=detach`,
-            method: "PATCH",
-            body,
-        }).then((resp) => {
+        detachTagsFromResource([selectedTag.id], resource.id).then((resp) => {
             const newTagList = [...selectedTags];
             const tagIndex = selectedTags.findIndex(
                 (tag) => tag.id === selectedTag.id
@@ -79,16 +72,8 @@ function TagSearch(props) {
     };
 
     const createTag = (tagValue) => {
-        const body = {
-            value: tagValue,
-        };
-
         setLoading(true);
-        callApi({
-            endpoint: `/api/tags/user`,
-            method: "POST",
-            body,
-        }).then((resp) => {
+        createUserTag(tagValue).then((resp) => {
             const newTag = {
                 id: resp.id,
                 value: tagValue,
@@ -105,21 +90,16 @@ function TagSearch(props) {
                 createTag(selectedTag.tagValue);
                 return;
             }
-            const body = {
-                tags: [selectedTag.id],
-            };
 
             // Check if a tag has already been added
             if (selectedTags.findIndex((tag) => tag.id === tagId) === -1) {
-                callApi({
-                    endpoint: `/api/filesystem/entry/${resource.id}/tags?type=attach`,
-                    method: "PATCH",
-                    body,
-                }).then((resp) => {
-                    setSelectedTags([...selectedTags, selectedTag]);
-                    setSearchTerm("");
-                    setLoading(false);
-                });
+                attachTagsToResource([selectedTag.id], resource.id).then(
+                    (resp) => {
+                        setSelectedTags([...selectedTags, selectedTag]);
+                        setSearchTerm("");
+                        setLoading(false);
+                    }
+                );
             } else {
                 setSearchTerm("");
                 setLoading(false);
@@ -131,7 +111,7 @@ function TagSearch(props) {
         if (event) {
             const newSearchTerm = event.target.value;
             setSearchTerm(newSearchTerm);
-            getTagSuggestions(newSearchTerm);
+            fetchTagSuggestions(newSearchTerm);
         }
     };
 

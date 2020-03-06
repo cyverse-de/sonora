@@ -22,11 +22,13 @@ import { Skeleton } from "@material-ui/lab";
 
 import Identity from "../Identity";
 import ids from "../ids";
-import callApi from "../../../common/callApi";
 import { groupBy } from "../../../common/functions";
 import styles from "../styles";
 import PermissionSelector from "./PermissionSelector";
 import Permissions from "../../models/Permissions";
+import { getUserInfo } from "../../endpoints/Users";
+import { getResourcePermissions } from "../../endpoints/Filesystem";
+import { updateSharing } from "../../endpoints/Sharing";
 
 const useStyles = makeStyles(styles);
 
@@ -73,10 +75,7 @@ function PermissionsTabPanel(props) {
     // updating and causes infinite re-renders
     const fetchUserInfo = useCallback((permissions) => {
         const users = new Set(permissions.map((item) => item.user));
-        const userQuery = [...users].join("&username=");
-        callApi({
-            endpoint: `/api/user-info?username=${userQuery}`,
-        }).then((userInfos) => {
+        getUserInfo([...users]).then((userInfos) => {
             const mergedInfo = mergeUsersWithPerms(permissions, userInfos);
             setPermissions(mergedInfo);
             setLoading(false);
@@ -86,11 +85,7 @@ function PermissionsTabPanel(props) {
     useEffect(() => {
         const resourcePath = resource.path;
         setLoading(true);
-        callApi({
-            endpoint: "/api/filesystem/user-permissions",
-            method: "POST",
-            body: { paths: [resourcePath] },
-        }).then((permissionResp) => {
+        getResourcePermissions([resourcePath]).then((permissionResp) => {
             const permissions = permissionResp?.paths[0]["user-permissions"];
             if (permissions) {
                 fetchUserInfo(permissions);
@@ -103,7 +98,7 @@ function PermissionsTabPanel(props) {
 
     const onPermissionChange = (currentPermission, newPermissionValue) => {
         setPermissionLoadingId(currentPermission.user);
-        const body = {
+        const sharingReq = {
             sharing: [
                 {
                     user: currentPermission.id,
@@ -117,11 +112,7 @@ function PermissionsTabPanel(props) {
             ],
         };
 
-        callApi({
-            endpoint: "/api/share",
-            method: "POST",
-            body,
-        }).then((resp) => {
+        updateSharing(sharingReq).then((resp) => {
             const userPerm = resp?.sharing?.find(
                 (item) => item.user === currentPermission.user
             );

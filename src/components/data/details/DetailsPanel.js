@@ -28,7 +28,7 @@ import ids from "../ids";
 import messages from "../messages";
 import styles from "../styles";
 import TagSearch from "../TagSearch";
-import callApi from "../../../common/callApi";
+import { getResourceDetails, updateInfoType } from "../../endpoints/Filesystem";
 
 const useStyles = makeStyles(styles);
 
@@ -60,11 +60,7 @@ function DetailsTabPanel(props) {
     useEffect(() => {
         const resourcePath = resource.path;
         setLoading(true);
-        callApi({
-            endpoint: "/api/filesystem/stat",
-            method: "POST",
-            body: { paths: [resourcePath] },
-        }).then((resp) => {
+        getResourceDetails([resourcePath]).then((resp) => {
             const details = resp?.paths[resourcePath];
             setDetails(details);
             setSelfPermission(details?.permission);
@@ -74,16 +70,8 @@ function DetailsTabPanel(props) {
 
     const onInfoTypeChange = (event) => {
         const type = event.target.value;
-        const body = {
-            path: resource.path,
-            type,
-        };
         setLoading(true);
-        callApi({
-            endpoint: `/api/filetypes/type`,
-            method: "POST",
-            body,
-        }).then((resp) => {
+        updateInfoType(resource.path, type).then((resp) => {
             const updatedDetails = { ...details };
             updatedDetails.infoType = resp.type;
             setDetails(updatedDetails);
@@ -127,8 +115,8 @@ function DetailsTabPanel(props) {
                             </InputLabel>
                         }
                     >
-                        {infoTypes
-                        ? <Select
+                        {infoTypes ? (
+                            <Select
                                 labelId={build(
                                     baseId,
                                     ids.INFO_TYPES,
@@ -144,14 +132,15 @@ function DetailsTabPanel(props) {
                                     </MenuItem>
                                 ))}
                             </Select>
-                        : <>{details.infoType}</>
-                        }
+                        ) : (
+                            <>{details.infoType}</>
+                        )}
                     </FormRow>
                 )}
                 <FormRow
                     label={
                         <InputLabel
-                            classes={{root: classes.inputLabel}}
+                            classes={{ root: classes.inputLabel }}
                             id={build(baseId, ids.PATH, ids.LABEL)}
                         >
                             {getMessage("path")}

@@ -14,6 +14,7 @@ import styles from "./styles";
 
 import {
     build as buildDebugId,
+    FormMultilineTextField,
     FormIntegerField,
     FormNumberField,
     FormTextField,
@@ -31,6 +32,7 @@ import {
     TableCell,
     TableContainer,
     TableRow,
+    TextField,
     Typography,
 } from "@material-ui/core";
 
@@ -91,6 +93,10 @@ const ParamGroupForm = withI18N((props) => {
                             fieldProps.component = FormNumberField;
                             break;
 
+                        case constants.PARAM_TYPE.MULTILINE_TEXT:
+                            fieldProps.component = FormMultilineTextField;
+                            break;
+
                         default:
                             fieldProps.component = FormTextField;
                             break;
@@ -102,6 +108,26 @@ const ParamGroupForm = withI18N((props) => {
         </ExpansionPanel>
     );
 }, messages);
+
+const ParamsReviewValue = ({ param }) => {
+    if (param.type === constants.PARAM_TYPE.MULTILINE_TEXT) {
+        return (
+            <TextField
+                multiline
+                rows={3}
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                InputProps={{
+                    readOnly: true,
+                }}
+                value={param.value}
+            />
+        );
+    }
+
+    return param.value;
+};
 
 /**
  * A table summarizing the app parameter values and step resource requirements
@@ -119,7 +145,9 @@ const ParamsReview = ({ groups }) => (
                                 (!!param.value || param.value === 0) && (
                                     <TableRow key={param.id}>
                                         <TableCell>{param.label}</TableCell>
-                                        <TableCell>{param.value}</TableCell>
+                                        <TableCell>
+                                            <ParamsReviewValue param={param} />
+                                        </TableCell>
                                     </TableRow>
                                 )
                         )

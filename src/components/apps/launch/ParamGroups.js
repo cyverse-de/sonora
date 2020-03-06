@@ -5,6 +5,7 @@
  */
 import React from "react";
 
+import sanitizeHtml from "sanitize-html";
 import { FastField } from "formik";
 
 import constants from "./constants";
@@ -81,7 +82,9 @@ const ParamGroupForm = withI18N((props) => {
                                 component: Typography,
                                 variant: "body1",
                                 gutterBottom: true,
-                                children: param.label,
+                                dangerouslySetInnerHTML: {
+                                    __html: sanitizeHtml(param.label),
+                                },
                             };
                             break;
 

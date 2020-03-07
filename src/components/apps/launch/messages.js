@@ -27,8 +27,8 @@ export default {
             "Retain inputs? Enabling this flag will copy all the input files into the analysis result folder.",
         reviewAndLaunch: "Review and Launch",
         stepLabel: "Step {step}: {label}",
-        validationIntAbove: "Must be an integer greater than {min}",
-        validationIntBelow: "Must be an integer less than {max}",
-        validationIntRange: "Must be an integer between {min} and {max}",
+        validationAbove: "Must be greater than {min}",
+        validationBelow: "Must be less than {max}",
+        validationRange: "Must be between {min} and {max}",
     },
 };

@@ -7,46 +7,125 @@ import { getMessage } from "@cyverse-de/ui-lib";
 
 import constants from "./constants";
 
+const validateAbove = (value, min) => {
+    if (value <= min) {
+        return getMessage("validationAbove", {
+            values: { min },
+        });
+    }
+
+    return null;
+};
+
+const validateBelow = (value, max) => {
+    if (value >= max) {
+        return getMessage("validationBelow", {
+            values: { max },
+        });
+    }
+
+    return null;
+};
+
+const validateRange = (value, params) => {
+    let [min, max] = params;
+    if (min > max) {
+        [max, min] = params;
+    }
+
+    if (value < min || max < value) {
+        return getMessage("validationRange", {
+            values: { min, max },
+        });
+    }
+
+    return null;
+};
+
 const validateInteger = ({ value, validators }) => {
     let errorMsg = null;
 
     if (validators && validators.length > 0) {
         validators.forEach((validator) => {
             if (validator.params && validator.params.length > 0) {
+                let validatorMsg = null;
+
                 switch (validator.type) {
                     case constants.VALIDATOR_TYPE.INT_ABOVE:
-                        if (value <= validator.params[0]) {
-                            errorMsg = getMessage("validationIntAbove", {
-                                values: { min: validator.params[0] },
-                            });
-                        }
+                        validatorMsg = validateAbove(
+                            value,
+                            validator.params[0]
+                        );
                         break;
 
                     case constants.VALIDATOR_TYPE.INT_BELOW:
-                        if (value >= validator.params[0]) {
-                            errorMsg = getMessage("validationIntBelow", {
-                                values: { max: validator.params[0] },
-                            });
-                        }
+                        validatorMsg = validateBelow(
+                            value,
+                            validator.params[0]
+                        );
                         break;
 
                     case constants.VALIDATOR_TYPE.INT_RANGE:
                         if (validator.params.length >= 2) {
-                            let [rangeMin, rangeMax] = validator.params;
-                            if (rangeMin > rangeMax) {
-                                [rangeMax, rangeMin] = validator.params;
-                            }
-
-                            if (value < rangeMin || rangeMax < value) {
-                                errorMsg = getMessage("validationIntRange", {
-                                    values: { min: rangeMin, max: rangeMax },
-                                });
-                            }
+                            validatorMsg = validateRange(
+                                value,
+                                validator.params
+                            );
                         }
                         break;
 
                     default:
                         break;
+                }
+
+                if (validatorMsg) {
+                    errorMsg = validatorMsg;
+                }
+            }
+        });
+    }
+
+    return errorMsg;
+};
+
+const validateDouble = ({ value, validators }) => {
+    let errorMsg = null;
+
+    if (validators && validators.length > 0) {
+        validators.forEach((validator) => {
+            if (validator.params && validator.params.length > 0) {
+                let validatorMsg = null;
+
+                switch (validator.type) {
+                    case constants.VALIDATOR_TYPE.DOUBLE_ABOVE:
+                        validatorMsg = validateAbove(
+                            value,
+                            validator.params[0]
+                        );
+                        break;
+
+                    case constants.VALIDATOR_TYPE.DOUBLE_BELOW:
+                        validatorMsg = validateBelow(
+                            value,
+                            validator.params[0]
+                        );
+                        break;
+
+                    case constants.VALIDATOR_TYPE.DOUBLE_RANGE:
+                        if (validator.params.length >= 2) {
+                            validatorMsg = validateRange(
+                                value,
+                                validator.params
+                            );
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+
+                if (validatorMsg) {
+                    errorMsg = validatorMsg;
                 }
             }
         });
@@ -97,6 +176,9 @@ const validate = (values) => {
                         switch (param.type) {
                             case constants.PARAM_TYPE.INTEGER:
                                 valueError = validateInteger(param);
+                                break;
+                            case constants.PARAM_TYPE.DOUBLE:
+                                valueError = validateDouble(param);
                                 break;
                             default:
                                 break;

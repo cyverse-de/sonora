@@ -88,6 +88,26 @@ const ParamGroupForm = withI18N((props) => {
                             };
                             break;
 
+                        case constants.PARAM_TYPE.TEXT:
+                            fieldProps.component = FormTextField;
+
+                            if (
+                                param.validators &&
+                                param.validators.length > 0
+                            ) {
+                                const charLimitValidator = param.validators.find(
+                                    (validator) =>
+                                        validator.type ===
+                                        constants.VALIDATOR_TYPE.CHARACTER_LIMIT
+                                );
+                                if (charLimitValidator) {
+                                    fieldProps.inputProps = {
+                                        maxLength: charLimitValidator.params[0],
+                                    };
+                                }
+                            }
+                            break;
+
                         case constants.PARAM_TYPE.INTEGER:
                             fieldProps.component = FormIntegerField;
                             break;

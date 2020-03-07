@@ -30,5 +30,7 @@ export default {
         validationAbove: "Must be greater than {min}",
         validationBelow: "Must be less than {max}",
         validationRange: "Must be between {min} and {max}",
+        validationCharLimit: "Cannot exceed {limit} characters",
+        validationRegex: "Does not match the expression {regexPattern}",
     },
 };

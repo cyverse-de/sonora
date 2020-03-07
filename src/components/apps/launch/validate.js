@@ -7,6 +7,50 @@ import { getMessage } from "@cyverse-de/ui-lib";
 
 import constants from "./constants";
 
+const validateText = ({ value, validators }) => {
+    let errorMsg = null;
+
+    if (validators && validators.length > 0) {
+        validators.forEach((validator) => {
+            if (validator.params && validator.params.length > 0) {
+                let validatorMsg = null;
+
+                switch (validator.type) {
+                    case constants.VALIDATOR_TYPE.REGEX:
+                        const regexPattern = validator.params[0];
+                        try {
+                            const regex = new RegExp(regexPattern);
+                            if (!regex.test(value)) {
+                                validatorMsg = getMessage("validationRegex", {
+                                    values: { regexPattern },
+                                });
+                            }
+                        } catch (invalidRegex) {}
+                        break;
+
+                    case constants.VALIDATOR_TYPE.CHARACTER_LIMIT:
+                        const limit = validator.params[0];
+                        if (value.length > limit) {
+                            validatorMsg = getMessage("validationCharLimit", {
+                                values: { limit },
+                            });
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+
+                if (validatorMsg) {
+                    errorMsg = validatorMsg;
+                }
+            }
+        });
+    }
+
+    return errorMsg;
+};
+
 const validateAbove = (value, min) => {
     if (value <= min) {
         return getMessage("validationAbove", {
@@ -174,6 +218,9 @@ const validate = (values) => {
                         valueError = getMessage("required");
                     } else {
                         switch (param.type) {
+                            case constants.PARAM_TYPE.TEXT:
+                                valueError = validateText(param);
+                                break;
                             case constants.PARAM_TYPE.INTEGER:
                                 valueError = validateInteger(param);
                                 break;

@@ -204,5 +204,5 @@ export const DataListingTest = () => {
         .get(/\/api\/filesystem\/paged-directory.*/, successResp)
         .get(/\/api\/filesystem\/root.*/, rootsResp)
         .get(/\/api\/filetypes\/type-list/, fileTypesResp);
-    return <ListingTest/>;
+    return <ListingTest />;
 };

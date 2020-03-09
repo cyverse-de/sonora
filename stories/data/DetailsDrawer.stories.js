@@ -69,7 +69,10 @@ export const DetailsDrawerTest = () => {
     const permissionsResp = {
         paths: [
             {
-                path: resourceTypeSelect.type === "FOLDER" ? dirResource.path : fileResource.path,
+                path:
+                    resourceTypeSelect.type === "FOLDER"
+                        ? dirResource.path
+                        : fileResource.path,
                 "user-permissions": [
                     { user: "batman", permission: "read" },
                     { user: "robin", permission: "write" },
@@ -157,14 +160,21 @@ export const DetailsDrawerTest = () => {
     };
 
     const sharingResp = {
-        "sharing": [{
-            "user": "alfred",
-            "sharing": [{
-                "path": resourceTypeSelect.type === "FOLDER" ? dirResource.path : fileResource.path,
-                "permission": "read",
-                "success": true,
-            }]
-        }]
+        sharing: [
+            {
+                user: "alfred",
+                sharing: [
+                    {
+                        path:
+                            resourceTypeSelect.type === "FOLDER"
+                                ? dirResource.path
+                                : fileResource.path,
+                        permission: "read",
+                        success: true,
+                    },
+                ],
+            },
+        ],
     };
 
     fetchMock

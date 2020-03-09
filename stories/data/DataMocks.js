@@ -91,5 +91,5 @@ export const resourceTagResp = {
 export const resourceUpdatedInfoTypeResp = {
     type: "ace",
     user: "ipcdev",
-    path: "/iplant/home/ipcdev/CORE-8424.txt"
+    path: "/iplant/home/ipcdev/CORE-8424.txt",
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../../src/components/data/Header";
+import DataNavigation from "../../src/components/data/DataNavigation";
 import HomeIcon from "@material-ui/icons/Home";
 import FolderSharedIcon from "@material-ui/icons/FolderShared";
 import GroupIcon from "@material-ui/icons/Group";
@@ -54,24 +54,14 @@ const successResp = {
         base_trash_path: "/iplant/trash/home/de-irods",
     },
 };
-export const HeaderTest = () => {
-    const logger = (message) => {
-        console.log(message);
-    };
+export const DataNavigationTest = () => {
     const basePaths = successResp["base-paths"];
     return (
-        <Header
-            baseId="data.header"
-            isGridView={false}
-            toggleDisplay={() => logger("Toggle data display")}
-            onDownloadSelected={() => logger("Download")}
-            onEditSelected={() => logger("Edit")}
-            onMetadataSelected={() => logger("Metadata")}
-            onDeleteSelected={() => logger("Delete")}
+        <DataNavigation
+            path="/iplant/home/ipctest/analyses/foo/barborkborkborkbarborkborkbork"
             dataRoots={successResp.roots}
             userHomePath={basePaths["user_home_path"]}
             userTrashPath={basePaths["user_trash_path"]}
-            path="/iplant/home/ipctest/analyses/foo/barborkborkborkbarborkborkbork"
         />
     );
 };

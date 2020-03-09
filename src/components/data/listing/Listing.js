@@ -6,7 +6,7 @@
  */
 import React, { useEffect, useState } from "react";
 
-import { withI18N } from "@cyverse-de/ui-lib";
+import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
 import { TablePagination, useMediaQuery, useTheme } from "@material-ui/core";
 
 import Header from "../Header";
@@ -17,12 +17,23 @@ import UploadDropTarget from "../../uploads/UploadDropTarget";
 import { useUploadTrackingState } from "../../../contexts/uploadTracking";
 
 import { camelcaseit } from "../../../common/functions";
+import HomeIcon from "@material-ui/icons/Home";
+import FolderSharedIcon from "@material-ui/icons/FolderShared";
+import GroupIcon from "@material-ui/icons/Group";
+import DeleteIcon from "@material-ui/icons/Delete";
+import NavigationConstants from "../../layout/NavigationConstants";
+import { injectIntl } from "react-intl";
+import { useRouter } from "next/router";
+import { useUserProfile } from "../../../contexts/userProfile";
+import constants from "../../../constants";
 
 function Listing(props) {
     const theme = useTheme();
+    const router = useRouter();
     const isMedium = useMediaQuery(theme.breakpoints.up("sm"));
     const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
     const uploadTracker = useUploadTrackingState();
+    const [userProfile] = useUserProfile();
 
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
@@ -32,9 +43,15 @@ function Listing(props) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
     const [data, setData] = useState({ total: 0, files: [], folders: [] });
 
-    const { baseId, path, handlePathChange } = props;
+    const [dataRoots, setDataRoots] = useState([]);
+    const [userHomePath, setUserHomePath] = useState("");
+    const [userTrashPath, setUserTrashPath] = useState("");
+    const [sharedWithMePath, setSharedWithMePath] = useState("");
+    const [communityDataPath, setCommunityDataPath] = useState("");
+    const { baseId, path, handlePathChange, intl } = props;
 
     // Used to force the data listing to refresh when uploads are completed.
     const uploadsCompleted = uploadTracker.uploads.filter((upload) => {
@@ -50,24 +67,67 @@ function Listing(props) {
     }, [path]);
 
     useEffect(() => {
-        callApi({
-            endpoint: `/api/filesystem/paged-directory?path=${path}&limit=${rowsPerPage}&sort-col=${orderBy}&sort-dir=${order}&offset=${rowsPerPage *
-                page}`,
-            setLoading,
-        }).then((respData) => {
-            respData &&
-                setData({
-                    total: respData?.total,
-                    listing: [
-                        ...respData?.folders.map((f) => ({
-                            ...f,
-                            type: "FOLDER",
-                        })),
-                        ...respData?.files.map((f) => ({ ...f, type: "FILE" })),
-                    ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
-                });
-        });
+        if (path) {
+            callApi({
+                endpoint: `/api/filesystem/paged-directory?path=${path}&limit=${rowsPerPage}&sort-col=${orderBy}&sort-dir=${order}&offset=${rowsPerPage *
+                    page}`,
+                setLoading,
+                setError,
+            }).then((respData) => {
+                respData &&
+                    setData({
+                        total: respData?.total,
+                        listing: [
+                            ...respData?.folders.map((f) => ({
+                                ...f,
+                                type: "FOLDER",
+                            })),
+                            ...respData?.files.map((f) => ({
+                                ...f,
+                                type: "FILE",
+                            })),
+                        ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
+                    });
+                setError("");
+            });
+        }
     }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
+
+    useEffect(() => {
+        callApi({
+            endpoint: `/api/filesystem/root`,
+            setLoading,
+            setError,
+        }).then((respData) => {
+            if (respData && userProfile) {
+                const respRoots = respData.roots;
+                const home = respRoots.find(
+                    (root) => root.label === userProfile.id
+                );
+                home.icon = <HomeIcon />;
+                const sharedWithMe = respRoots.find(
+                    (root) => root.label === constants.SHARED_WITH_ME
+                );
+                setSharedWithMePath(sharedWithMe.path);
+                sharedWithMe.icon = <FolderSharedIcon />;
+                const communityData = respRoots.find(
+                    (root) => root.label === constants.COMMUNITY_DATA
+                );
+                setCommunityDataPath(communityData.path);
+                communityData.icon = <GroupIcon />;
+                const trash = respRoots.find(
+                    (root) => root.label === formatMessage(intl, "trash")
+                );
+                trash.icon = <DeleteIcon />;
+
+                const basePaths = respData["base-paths"];
+                setUserHomePath(basePaths["user_home_path"]);
+                setUserTrashPath(basePaths["user_trash_path"]);
+                setDataRoots([home, sharedWithMe, communityData, trash]);
+            }
+            setError("");
+        });
+    }, [path, intl, userProfile]);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -168,6 +228,13 @@ function Listing(props) {
         setPage(0);
     };
 
+    //route to default path
+    if (dataRoots.length > 0 && (!error || error.length === 0) && !path) {
+        router.push(
+            "/" + NavigationConstants.DATA + `?path=${dataRoots[0].path}`
+        );
+    }
+
     return (
         <>
             <UploadDropTarget path={path}>
@@ -175,14 +242,22 @@ function Listing(props) {
                     baseId={baseId}
                     isGridView={isGridView}
                     toggleDisplay={toggleDisplay}
+                    path={path}
+                    error={error}
                     onDownloadSelected={onDownloadSelected}
                     onEditSelected={onEditSelected}
                     onMetadataSelected={onMetadataSelected}
                     onDeleteSelected={onDeleteSelected}
+                    dataRoots={dataRoots}
+                    userHomePath={userHomePath}
+                    userTrashPath={userTrashPath}
+                    sharedWithMePath={sharedWithMePath}
+                    communityDataPath={communityDataPath}
                 />
                 {!isGridView && (
                     <TableView
                         loading={loading}
+                        error={error}
                         path={path}
                         handlePathChange={handlePathChange}
                         listing={data?.listing}
@@ -216,4 +291,4 @@ function Listing(props) {
     );
 }
 
-export default withI18N(Listing, messages);
+export default withI18N(injectIntl(Listing), messages);

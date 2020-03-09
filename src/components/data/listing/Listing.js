@@ -7,13 +7,17 @@
 import React, { useEffect, useState } from "react";
 
 import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
-import { TablePagination, useMediaQuery, useTheme } from "@material-ui/core";
+import {
+    Hidden,
+    TablePagination,
+    useMediaQuery,
+    useTheme,
+} from "@material-ui/core";
 
 import Header from "../Header";
 import messages from "../messages";
 import TableView from "./TableView";
 import UploadDropTarget from "../../uploads/UploadDropTarget";
-import { useUploadTrackingState } from "../../../contexts/uploadTracking";
 import {
     getDataListing,
     getDataRoots,
@@ -28,6 +32,7 @@ import NavigationConstants from "../../layout/NavigationConstants";
 import { injectIntl } from "react-intl";
 import { useRouter } from "next/router";
 import { useUserProfile } from "../../../contexts/userProfile";
+import { useUploadTrackingState } from "../../../contexts/uploadTracking";
 import constants from "../../../constants";
 import { useQuery } from "react-query";
 
@@ -36,8 +41,9 @@ function Listing(props) {
     const router = useRouter();
     const isMedium = useMediaQuery(theme.breakpoints.up("sm"));
     const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
-    const uploadTracker = useUploadTrackingState();
+
     const [userProfile] = useUserProfile();
+    const uploadTracker = useUploadTrackingState();
 
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
@@ -46,6 +52,7 @@ function Listing(props) {
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [uploadsCompleted, setUploadsCompleted] = useState(0);
 
     let dataRoots = [];
     let userHomePath = "";
@@ -55,15 +62,26 @@ function Listing(props) {
     let listingData = { total: 0, files: [], folders: [] };
 
     const { baseId, path, handlePathChange, intl } = props;
+    const { data, error: rootsError } = useQuery("dataRoots", getDataRoots);
+    const {
+        status: listingStatus,
+        data: respData,
+        error: listingError,
+    } = useQuery(
+        ["dataListing", { path, rowsPerPage, orderBy, order, page }],
+        getDataListing
+    );
 
-    // Used to force the data listing to refresh when uploads are completed.
-    const uploadsCompleted = uploadTracker.uploads.filter((upload) => {
-        return (
-            upload.parentPath === path &&
-            upload.hasUploaded &&
-            !upload.hasErrored
-        );
-    }).length;
+    useEffect(() => {
+        const completed = uploadTracker.uploads.filter((upload) => {
+            return (
+                upload.parentPath === path &&
+                upload.hasUploaded &&
+                !upload.hasErrored
+            );
+        }).length;
+        setUploadsCompleted(completed);
+    }, [uploadTracker, path]);
 
     useEffect(() => {
         setSelected([]);
@@ -168,14 +186,6 @@ function Listing(props) {
         setPage(0);
     };
 
-    const {
-        status: listingStatus,
-        data: respData,
-        error: listingError,
-    } = useQuery(
-        ["dataListing", { path, rowsPerPage, orderBy, order, page }],
-        getDataListing
-    );
     if (respData) {
         listingData.total = respData?.total;
         listingData.listing = [
@@ -190,7 +200,6 @@ function Listing(props) {
         ].map((i) => camelcaseit(i)); // camelcase the fields for each object, for consistency.
     }
 
-    const { data, error } = useQuery("dataRoots", getDataRoots);
     if (data && userProfile) {
         const respRoots = data.roots;
         const home = respRoots.find((root) => root.label === userProfile.id);
@@ -217,7 +226,11 @@ function Listing(props) {
     }
 
     //route to default path
-    if (dataRoots.length > 0 && (!error || error.length === 0) && !path) {
+    if (
+        dataRoots.length > 0 &&
+        (!rootsError || rootsError.length === 0) &&
+        !path
+    ) {
         router.push(
             "/" + NavigationConstants.DATA + `?path=${dataRoots[0].path}`
         );
@@ -230,7 +243,7 @@ function Listing(props) {
                     isGridView={isGridView}
                     toggleDisplay={toggleDisplay}
                     path={path}
-                    error={error || listingError}
+                    error={rootsError || listingError}
                     onDownloadSelected={onDownloadSelected}
                     onEditSelected={onEditSelected}
                     onMetadataSelected={onMetadataSelected}
@@ -244,7 +257,7 @@ function Listing(props) {
                 {!isGridView && (
                     <TableView
                         loading={listingStatus === "loading"}
-                        error={error || listingError}
+                        error={rootsError || listingError}
                         path={path}
                         handlePathChange={handlePathChange}
                         listing={listingData?.listing}
@@ -274,6 +287,8 @@ function Listing(props) {
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                 />
             </UploadDropTarget>
+            {/*can this trigger rerender ?*/}
+            <Hidden>{uploadsCompleted}</Hidden>
         </>
     );
 }

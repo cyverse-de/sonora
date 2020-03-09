@@ -5,7 +5,7 @@
  * when clicked
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { build, getMessage } from "@cyverse-de/ui-lib";
 import { Button, Hidden, makeStyles, Menu, MenuItem } from "@material-ui/core";
@@ -15,15 +15,23 @@ import UploadDialog from "../uploads/dialog";
 
 import ids from "./ids";
 import styles from "./styles";
+import { useUploadTrackingState } from "../../contexts/uploadTracking";
 
 const useStyles = makeStyles(styles);
 
 function UploadMenuBtn(props) {
     const { baseId } = props;
     const classes = useStyles();
+    const tracker = useUploadTrackingState();
 
     const [uploadAnchor, setUploadAnchor] = useState(null);
     const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+
+    useEffect(() => {
+        if (tracker.uploads.length > 0) {
+            setUploadDialogOpen(true);
+        }
+    }, [tracker]);
 
     const onUploadClose = () => {
         setUploadAnchor(null);

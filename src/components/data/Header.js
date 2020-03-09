@@ -46,6 +46,8 @@ function Header(props) {
         onEditSelected,
         onMetadataSelected,
         onDeleteSelected,
+        detailsEnabled,
+        onDetailsSelected,
         intl,
         dataRoots,
         userHomePath,
@@ -108,17 +110,19 @@ function Header(props) {
                     </Tooltip>
                 )}
                 <div className={classes.divider} />
-                <Button
-                    id={build(headerId, ids.DETAILS_BTN)}
-                    variant="contained"
-                    disableElevation
-                    color="primary"
-                    className={classes.button}
-                    onClick={() => console.log("Details")}
-                >
-                    <Info className={classes.buttonIcon} />
-                    <Hidden xsDown>{getMessage("details")}</Hidden>
-                </Button>
+                {detailsEnabled && (
+                    <Button
+                        id={build(headerId, ids.DETAILS_BTN)}
+                        variant="contained"
+                        disableElevation
+                        color="primary"
+                        className={classes.button}
+                        onClick={onDetailsSelected}
+                    >
+                        <Info className={classes.buttonIcon} />
+                        <Hidden xsDown>{getMessage("details")}</Hidden>
+                    </Button>
+                )}
                 <UploadMenuBtn baseId={headerId} />
                 <Button
                     id={build(headerId, ids.SHARE_BTN)}

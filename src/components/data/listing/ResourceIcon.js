@@ -12,13 +12,13 @@ import {
 } from "@material-ui/icons";
 
 function ResourceIcon(props) {
-    const { type } = props;
+    const { type, ...rest } = props;
 
     if (type === "FOLDER" || type === "DIR") {
-        return <FolderIcon />;
+        return <FolderIcon {...rest} />;
     }
     if (type === "FILE") {
-        return <FileIcon />;
+        return <FileIcon {...rest} />;
     }
 
     return null;

@@ -77,6 +77,12 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.success.main,
         color: theme.palette.success.contrastText,
     },
+    appBarIcon: {
+        display: "flex",
+        "& > *": {
+            margin: theme.spacing(1),
+        },
+    },
 }));
 
 function CustomIntercom({ intl, classes, unReadCount }) {
@@ -87,6 +93,7 @@ function CustomIntercom({ intl, classes, unReadCount }) {
             color="primary"
             aria-label={formatMessage(intl, "intercomAriaLabel")}
             aria-controls={formatMessage(intl, "intercomAriaControl")}
+            className={classes.appBarIcon}
         >
             <Badge badgeContent={unReadCount} color="error">
                 <LiveHelpIcon />
@@ -383,6 +390,7 @@ function CyverseAppBar(props) {
                                     "newNotificationAriaLabel"
                                 )}
                                 color="primary"
+                                className={classes.appBarIcon}
                             >
                                 <Badge badgeContent={0} color="error">
                                     <NotificationsIcon />
@@ -401,6 +409,7 @@ function CyverseAppBar(props) {
                                     )}
                                     color="primary"
                                     onClick={handleSearchClick}
+                                    className={classes.appBarIcon}
                                 >
                                     <SearchIcon />
                                 </IconButton>
@@ -421,7 +430,7 @@ function CyverseAppBar(props) {
                                     )}
                                     color="primary"
                                     onClick={handleUserButtonClick}
-                                    size="small"
+                                    className={classes.appBarIcon}
                                 >
                                     {userProfile ? (
                                         <Avatar className={classes.userIcon}>

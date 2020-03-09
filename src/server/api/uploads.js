@@ -62,7 +62,7 @@ const doUploadToTerrain = (userID, accessToken, destination) => {
         method: "POST",
         url: apiURL,
         headers: {
-            Authorization: `Bearer ${accessToken.signed}`,
+            Authorization: `Bearer ${accessToken.token}`,
         },
     };
 

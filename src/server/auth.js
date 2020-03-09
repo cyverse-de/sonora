@@ -40,7 +40,7 @@ export const getUserProfile = (req) => {
  * Adds the access token to the Authorization header if it's present in the request.
  */
 export const authnTokenMiddleware = (req, res, next) => {
-    const token = req?.kauth?.grant?.access_token?.signed;
+    const token = req?.kauth?.grant?.access_token?.token;
 
     if (token) {
         req.headers["Authorization"] = `Bearer ${token}`;

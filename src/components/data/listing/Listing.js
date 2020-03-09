@@ -290,8 +290,6 @@ function Listing(props) {
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                 />
             </UploadDropTarget>
-            {/*can this trigger rerender ?*/}
-            <Hidden>{uploadsCompleted}</Hidden>
         </>
     );
 }

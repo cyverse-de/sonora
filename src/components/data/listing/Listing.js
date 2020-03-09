@@ -232,7 +232,10 @@ function Listing(props) {
         !path
     ) {
         router.push(
-            "/" + NavigationConstants.DATA + `?path=${dataRoots[0].path}`
+            constants.PATH_SEPARATOR +
+                NavigationConstants.DATA +
+                constants.PATH_SEPARATOR +
+                `ds${dataRoots[0].path}`
         );
     }
     return (

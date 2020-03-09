@@ -23,6 +23,16 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding the /api/dashboard handler");
+    api.get(
+        "/dashboard",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/dashboard",
+        })
+    );
+
     logger.info("adding the /api/filesystem/paged-directory handler");
     api.get(
         "/filesystem/paged-directory",

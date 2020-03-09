@@ -71,17 +71,10 @@ const useStyles = makeStyles((theme) => ({
     },
     userIcon: {
         display: "flex",
-        "& > *": {
-            margin: theme.spacing(1),
-        },
         backgroundColor: theme.palette.success.main,
         color: theme.palette.success.contrastText,
-    },
-    appBarIcon: {
-        display: "flex",
-        "& > *": {
-            margin: theme.spacing(1),
-        },
+        cursor: "pointer",
+        margin: theme.spacing(1),
     },
 }));
 
@@ -93,7 +86,6 @@ function CustomIntercom({ intl, classes, unReadCount }) {
             color="primary"
             aria-label={formatMessage(intl, "intercomAriaLabel")}
             aria-controls={formatMessage(intl, "intercomAriaControl")}
-            className={classes.appBarIcon}
         >
             <Badge badgeContent={unReadCount} color="error">
                 <LiveHelpIcon />
@@ -390,7 +382,6 @@ function CyverseAppBar(props) {
                                     "newNotificationAriaLabel"
                                 )}
                                 color="primary"
-                                className={classes.appBarIcon}
                             >
                                 <Badge badgeContent={0} color="error">
                                     <NotificationsIcon />
@@ -409,39 +400,44 @@ function CyverseAppBar(props) {
                                     )}
                                     color="primary"
                                     onClick={handleSearchClick}
-                                    className={classes.appBarIcon}
                                 >
                                     <SearchIcon />
                                 </IconButton>
                             </Hidden>
                             <Hidden xsDown>
-                                <IconButton
-                                    id={build(
-                                        ids.APP_BAR_BASE,
-                                        ids.ACCOUNT_BTN
-                                    )}
-                                    aria-label={formatMessage(
-                                        intl,
-                                        "accountAriaLabel"
-                                    )}
-                                    aria-controls={formatMessage(
-                                        intl,
-                                        "accountAriaControl"
-                                    )}
-                                    color="primary"
-                                    onClick={handleUserButtonClick}
-                                    className={classes.appBarIcon}
-                                >
-                                    {userProfile ? (
-                                        <Avatar className={classes.userIcon}>
-                                            <Typography variant={"h6"}>
-                                                {getAvatarLetter()}
-                                            </Typography>
-                                        </Avatar>
-                                    ) : (
+                                {userProfile ? (
+                                    <Avatar
+                                        id={build(
+                                            ids.APP_BAR_BASE,
+                                            ids.AVATAR_BTN
+                                        )}
+                                        className={classes.userIcon}
+                                        onClick={handleUserButtonClick}
+                                    >
+                                        <Typography variant={"h6"}>
+                                            {getAvatarLetter()}
+                                        </Typography>
+                                    </Avatar>
+                                ) : (
+                                    <IconButton
+                                        id={build(
+                                            ids.APP_BAR_BASE,
+                                            ids.ACCOUNT_BTN
+                                        )}
+                                        aria-label={formatMessage(
+                                            intl,
+                                            "accountAriaLabel"
+                                        )}
+                                        aria-controls={formatMessage(
+                                            intl,
+                                            "accountAriaControl"
+                                        )}
+                                        color="primary"
+                                        onClick={handleUserButtonClick}
+                                    >
                                         <AccountCircle />
-                                    )}
-                                </IconButton>
+                                    </IconButton>
+                                )}
                             </Hidden>
                         </div>
                     </Toolbar>

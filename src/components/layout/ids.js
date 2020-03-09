@@ -1,6 +1,7 @@
 export default {
     APP_BAR_BASE: "appBar",
     ACCOUNT_BTN: "accountButton",
+    AVATAR_BTN: "avatarButton",
     NOTIFICATION_BTN: "notificationButton",
     SEARCH_BTN: "searchButton",
     DRAWER_MENU_BTN: "drawerMenuButton",

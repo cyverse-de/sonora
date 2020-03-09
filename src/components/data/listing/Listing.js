@@ -247,7 +247,10 @@ function Listing(props) {
     //route to default path
     if (dataRoots.length > 0 && (!error || error.length === 0) && !path) {
         router.push(
-            "/" + NavigationConstants.DATA + `?path=${dataRoots[0].path}`
+            constants.PATH_SEPARATOR +
+                NavigationConstants.DATA +
+                constants.PATH_SEPARATOR +
+                `ds${dataRoots[0].path}`
         );
     }
 

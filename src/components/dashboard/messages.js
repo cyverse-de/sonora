@@ -5,7 +5,7 @@ export default {
         recentlyAddedApps: "Recently Added Apps",
         recentAnalyses: "Recent Analyses",
         runningAnalyses: "Running Analyses",
-        more: "More",
+        open: "Open",
         changeSettings: "Change Settings",
     },
 };

@@ -29,7 +29,13 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     dashboardCard: {
-        width: 276,
+        width: 375,
+        height: 200,
+        display: "flex",
+        flexDirection: "column",
+    },
+    actionsRoot: {
+        marginLeft: "auto",
     },
 }));
 
@@ -46,21 +52,38 @@ export const DashboardItem = (props) => {
     const { kind, content } = props;
     const cardID = `${kind}-${content.id}`;
 
+    let description = content.description;
+    if (description.length > 140) {
+        description = description.slice(0, 140) + "...";
+    }
+
     return (
         <Card
             className={classes.dashboardCard}
             id={buildID(ids.ITEM_BASE, cardID)}
         >
-            <CardContent>
-                <Typography variant="h5" component="h2">
+            <CardContent
+                classes={{
+                    root: classes.root,
+                }}
+            >
+                <Typography noWrap gutterBottom variant="h6" component="h6">
                     {content.name}
                 </Typography>
-                <Typography variant="body2" component="p">
-                    {content.description}
+
+                <Typography color="textSecondary" variant="body2" component="p">
+                    {description}
                 </Typography>
             </CardContent>
-            <CardActions>
-                <Button size="small">{getMessage("More")}</Button>
+
+            <CardActions
+                classes={{
+                    root: classes.actionsRoot,
+                }}
+            >
+                <Button size="small" color="primary">
+                    {getMessage("open")}
+                </Button>
             </CardActions>
         </Card>
     );
@@ -71,12 +94,12 @@ const DashboardSection = ({ name, kind, items }) => {
     return (
         <Grid container item xs={12}>
             <Grid item xs={12}>
-                <Typography variant="h3" component="h3">
+                <Typography gutterBottom variant="h5" component="h5">
                     {name}
                 </Typography>
             </Grid>
 
-            <Grid container item xs={12}>
+            <Grid container item xs={12} spacing={2}>
                 {items.map((item) => (
                     <Grid item key={item.id}>
                         <DashboardItem kind={kind} content={item} />
@@ -138,7 +161,7 @@ const Dashboard = () => {
     }, [setData]);
 
     return (
-        <Grid container className={classes.root} spacing={2}>
+        <Grid container className={classes.root} spacing={7}>
             {Object.keys(data).map((kind) =>
                 Object.keys(data[kind]).map((section) => (
                     <DashboardSection

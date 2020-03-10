@@ -67,6 +67,7 @@ export const DashboardItem = (props) => {
 };
 
 const DashboardSection = ({ name, kind, items }) => {
+    console.log(items);
     return (
         <Grid container item xs={12}>
             <Grid item xs={12}>
@@ -90,49 +91,39 @@ const Dashboard = () => {
     const classes = useStyles();
     const [data, setData] = useState({});
 
+    const getAppsSectionName = (section, defaultValue) => {
+        let retval = defaultValue;
+        if (section === "public") {
+            retval = getMessage("publicApps");
+        } else if (section === "recentlyAdded") {
+            retval = getMessage("recentlyAddedApps");
+        }
+        return retval;
+    };
+
+    const getAnalysesSectionName = (section, defaultValue) => {
+        let retval = defaultValue;
+        if (section === "recent") {
+            retval = getMessage("recentAnalyses");
+        } else if (section === "running") {
+            retval = getMessage("runningAnalyses");
+        }
+        return retval;
+    };
+
     const getName = (kind, section) => {
-        const defaultVal = `${section
-            .charAt(0)
-            .toUpperString()}${section.splice(1)} ${kind
-            .charAt(0)
-            .toUpperString()}${kind.splice(1)}`;
+        const defaultVal = `${section.charAt(0).toUpperCase()}${section.slice(
+            1
+        )} ${kind.charAt(0).toUpperCase()}${kind.slice(1)}`;
+
         let retval = defaultVal;
 
-        switch (kind) {
-            case "apps": {
-                switch (section) {
-                    case "public":
-                        retval = getMessage("publicApps");
-                        break;
+        if (kind === "apps") {
+            retval = getAppsSectionName(section, defaultVal);
+        }
 
-                    case "recentlyAdded":
-                        retval = getMessage("recentlyAddedApps");
-                        break;
-
-                    default:
-                        break;
-                }
-                break;
-            }
-
-            case "analyses": {
-                switch (section) {
-                    case "recent":
-                        retval = getMessage("recentAnalyses");
-                        break;
-
-                    case "running":
-                        retval = getMessage("runningAnalyses");
-                        break;
-
-                    default:
-                        break;
-                }
-                break;
-            }
-
-            default:
-                break;
+        if (kind === "analyses") {
+            retval = getAnalysesSectionName(section, defaultVal);
         }
 
         return retval;
@@ -148,19 +139,15 @@ const Dashboard = () => {
 
     return (
         <Grid container className={classes.root} spacing={2}>
-            {data
-                .keys()
-                .map((kind) =>
-                    data[kind]
-                        .keys()
-                        .map((section) => (
-                            <DashboardSection
-                                kind={kind}
-                                items={data[kind]}
-                                name={getName(kind, section)}
-                            />
-                        ))
-                )}
+            {Object.keys(data).map((kind) =>
+                Object.keys(data[kind]).map((section) => (
+                    <DashboardSection
+                        kind={kind}
+                        items={data[kind][section]}
+                        name={getName(kind, section)}
+                    />
+                ))
+            )}
         </Grid>
     );
 };

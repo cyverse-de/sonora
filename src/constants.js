@@ -13,7 +13,7 @@ export default {
     MY_PUBLIC_APPS: "My public apps",
     HPC: "High-Performance Computing",
     BROWSE_ALL_APPS: "Browse All Apps",
-    EXTERNAL_APP_TYPE: "External",
+    APP_TYPE_EXTERNAL: "External",
     LOADING: "loading",
     NOTIFICATION_WS: "/websocket/notifications",
     WS_PROTOCOL: "ws://",

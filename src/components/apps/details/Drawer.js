@@ -168,7 +168,7 @@ function DetailsDrawer(props) {
 
     const isExternal =
         selectedApp.app_type.toUpperCase() ===
-        constants.EXTERNAL_APP_TYPE.toUpperCase();
+        constants.APP_TYPE_EXTERNAL.toUpperCase();
 
     const appId = selectedApp.id;
     const appName = selectedApp.name;

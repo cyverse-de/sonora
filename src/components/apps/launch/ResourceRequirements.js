@@ -168,64 +168,84 @@ const ResourceRequirementsForm = withI18N(
         const classes = useStyles();
 
         return (
-            <>
-                <Typography variant="body1" gutterBottom>
-                    {getMessage("helpMsgResourceRequirements")}
-                </Typography>
+            <ExpansionPanel defaultExpanded={false}>
+                <ExpansionPanelSummary
+                    expandIcon={
+                        <ExpandMore
+                            id={buildDebugId(baseId, ids.BUTTONS.EXPAND)}
+                        />
+                    }
+                >
+                    <Typography variant="subtitle1">
+                        <ResourceRequirementsHeader headerMessageKey="resourceRequirements" />
+                    </Typography>
+                </ExpansionPanelSummary>
 
-                {limits.length === 1 ? (
-                    <StepResourceRequirementsForm
-                        baseId={buildDebugId(baseId, limits[0].step_number)}
-                        requirements={limits[0]}
-                        index={0}
-                        defaultMaxCPUCores={defaultMaxCPUCores}
-                        defaultMaxMemory={defaultMaxMemory}
-                        defaultMaxDiskSpace={defaultMaxDiskSpace}
-                    />
-                ) : (
-                    limits.map((reqs, index) => {
-                        return (
-                            <ExpansionPanel key={reqs.step_number}>
-                                <ExpansionPanelSummary
-                                    expandIcon={
-                                        <ExpandMore
-                                            id={buildDebugId(
-                                                baseId,
-                                                reqs.step_number,
-                                                ids.BUTTONS.EXPAND
-                                            )}
-                                        />
-                                    }
-                                >
-                                    <Typography variant="subtitle1">
-                                        <ResourceRequirementsHeader
-                                            headerMessageKey="resourceRequirementsForStep"
-                                            step={reqs.step_number + 1}
-                                        />
-                                    </Typography>
-                                </ExpansionPanelSummary>
-                                <ExpansionPanelDetails
-                                    className={classes.expansionPanelDetails}
-                                >
-                                    <StepResourceRequirementsForm
-                                        baseId={buildDebugId(
-                                            baseId,
-                                            reqs.step_number
-                                        )}
-                                        requirements={reqs}
-                                        index={index}
-                                        defaultMaxCPUCores={defaultMaxCPUCores}
-                                        defaultMaxMemory={defaultMaxMemory}
-                                        defaultMaxDiskSpace={
-                                            defaultMaxDiskSpace
+                <ExpansionPanelDetails
+                    className={classes.expansionPanelDetails}
+                >
+                    <Typography variant="body1" gutterBottom>
+                        {getMessage("helpMsgResourceRequirements")}
+                    </Typography>
+
+                    {limits.length === 1 ? (
+                        <StepResourceRequirementsForm
+                            baseId={buildDebugId(baseId, limits[0].step_number)}
+                            requirements={limits[0]}
+                            index={0}
+                            defaultMaxCPUCores={defaultMaxCPUCores}
+                            defaultMaxMemory={defaultMaxMemory}
+                            defaultMaxDiskSpace={defaultMaxDiskSpace}
+                        />
+                    ) : (
+                        limits.map((reqs, index) => {
+                            return (
+                                <ExpansionPanel key={reqs.step_number}>
+                                    <ExpansionPanelSummary
+                                        expandIcon={
+                                            <ExpandMore
+                                                id={buildDebugId(
+                                                    baseId,
+                                                    reqs.step_number,
+                                                    ids.BUTTONS.EXPAND
+                                                )}
+                                            />
                                         }
-                                    />
-                                </ExpansionPanelDetails>
-                            </ExpansionPanel>
-                        );
-                    })
-                )}
-            </>
+                                    >
+                                        <Typography variant="subtitle1">
+                                            <ResourceRequirementsHeader
+                                                headerMessageKey="resourceRequirementsForStep"
+                                                step={reqs.step_number + 1}
+                                            />
+                                        </Typography>
+                                    </ExpansionPanelSummary>
+                                    <ExpansionPanelDetails
+                                        className={
+                                            classes.expansionPanelDetails
+                                        }
+                                    >
+                                        <StepResourceRequirementsForm
+                                            baseId={buildDebugId(
+                                                baseId,
+                                                reqs.step_number
+                                            )}
+                                            requirements={reqs}
+                                            index={index}
+                                            defaultMaxCPUCores={
+                                                defaultMaxCPUCores
+                                            }
+                                            defaultMaxMemory={defaultMaxMemory}
+                                            defaultMaxDiskSpace={
+                                                defaultMaxDiskSpace
+                                            }
+                                        />
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
+                            );
+                        })
+                    )}
+                </ExpansionPanelDetails>
+            </ExpansionPanel>
         );
     },
     messages

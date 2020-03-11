@@ -8,6 +8,7 @@ import React from "react";
 
 import { FastField } from "formik";
 
+import constants from "../../../constants";
 import ids from "./ids";
 import messages from "./messages";
 
@@ -20,7 +21,7 @@ import {
     withI18N,
 } from "@cyverse-de/ui-lib";
 
-const AnalysisInfoForm = ({ formId }) => (
+const AnalysisInfoForm = ({ formId, appType }) => (
     <>
         <FastField
             id={buildDebugId(
@@ -54,16 +55,18 @@ const AnalysisInfoForm = ({ formId }) => (
             name="output_dir"
             component={FormTextField}
         />
-        <FastField
-            id={buildDebugId(
-                formId,
-                ids.LAUNCH_ANALYSIS_GROUP,
-                ids.APP_LAUNCH_RETAIN_INPUTS
-            )}
-            label={getMessage("retainInputsLabel")}
-            name="debug"
-            component={FormCheckbox}
-        />
+        {appType !== constants.APP_TYPE_EXTERNAL && (
+            <FastField
+                id={buildDebugId(
+                    formId,
+                    ids.LAUNCH_ANALYSIS_GROUP,
+                    ids.APP_LAUNCH_RETAIN_INPUTS
+                )}
+                label={getMessage("retainInputsLabel")}
+                name="debug"
+                component={FormCheckbox}
+            />
+        )}
     </>
 );
 

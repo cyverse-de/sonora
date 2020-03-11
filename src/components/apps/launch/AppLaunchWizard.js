@@ -75,19 +75,21 @@ const initValues = ({
                 })),
         }));
 
-    const reqInitValues = requirements.map(
-        ({
-            step_number,
-            default_cpu_cores = 0,
-            default_memory = 0,
-            default_disk_space = 0,
-        }) => ({
-            step_number,
-            min_cpu_cores: default_cpu_cores,
-            min_memory_limit: default_memory,
-            min_disk_space: default_disk_space,
-        })
-    );
+    const reqInitValues =
+        requirements &&
+        requirements.map(
+            ({
+                step_number,
+                default_cpu_cores = 0,
+                default_memory = 0,
+                default_disk_space = 0,
+            }) => ({
+                step_number,
+                min_cpu_cores: default_cpu_cores,
+                min_memory_limit: default_memory,
+                min_disk_space: default_disk_space,
+            })
+        );
 
     return {
         debug: false,
@@ -99,7 +101,7 @@ const initValues = ({
         system_id,
         groups: groupInitValues,
         limits: requirements,
-        requirements: reqInitValues,
+        requirements: reqInitValues || [],
     };
 };
 
@@ -112,7 +114,7 @@ const AppLaunchWizard = (props) => {
         defaultMaxMemory,
         defaultMaxDiskSpace,
         submitAnalysis,
-        app: { groups },
+        app: { app_type, groups, requirements },
     } = props;
 
     const formId = buildDebugId(baseId, ids.APP_LAUNCH_FORM);
@@ -124,32 +126,25 @@ const AppLaunchWizard = (props) => {
     const stepIdReview = buildDebugId(formId, ids.APP_LAUNCH_REVIEW);
 
     const hasParams =
-        groups &&
-        groups.reduce(
-            (hasParams, group) =>
-                hasParams || (group.parameters && group.parameters.length > 0),
-            false
-        );
+        (groups &&
+            groups.reduce(
+                (hasParams, group) =>
+                    hasParams ||
+                    (group.parameters && group.parameters.length > 0),
+                false
+            )) ||
+        (requirements && requirements.length > 0);
 
     const stepAnalysisInfo = { label: getMessage("analysisInfo"), step: 0 };
     const stepParameters = { label: getMessage("parameters"), step: 1 };
-    const stepResourceRequirements = {
-        label: getMessage("resourceRequirements"),
-        step: hasParams ? 2 : 1,
-    };
     const stepReviewAndLaunch = {
         label: getMessage("reviewAndLaunch"),
-        step: hasParams ? 3 : 2,
+        step: hasParams ? 2 : 1,
     };
 
     const steps = hasParams
-        ? [
-              stepAnalysisInfo,
-              stepParameters,
-              stepResourceRequirements,
-              stepReviewAndLaunch,
-          ]
-        : [stepAnalysisInfo, stepResourceRequirements, stepReviewAndLaunch];
+        ? [stepAnalysisInfo, stepParameters, stepReviewAndLaunch]
+        : [stepAnalysisInfo, stepReviewAndLaunch];
 
     const isLastStep = () => {
         return activeStep === steps.length - 1;
@@ -248,7 +243,7 @@ const AppLaunchWizard = (props) => {
                         label={getMessage("analysisInfo")}
                         hidden={activeStep !== stepAnalysisInfo.step}
                     >
-                        <AnalysisInfoForm formId={formId} />
+                        <AnalysisInfoForm formId={formId} appType={app_type} />
                     </StepContent>
 
                     <StepContent
@@ -271,21 +266,16 @@ const AppLaunchWizard = (props) => {
                                     group={group}
                                 />
                             ))}
-                    </StepContent>
 
-                    <StepContent
-                        id={stepIdResources}
-                        step={stepResourceRequirements.step}
-                        label={getMessage("resourceRequirements")}
-                        hidden={activeStep !== stepResourceRequirements.step}
-                    >
-                        <ResourceRequirementsForm
-                            baseId={stepIdResources}
-                            limits={values.limits}
-                            defaultMaxCPUCores={defaultMaxCPUCores}
-                            defaultMaxMemory={defaultMaxMemory}
-                            defaultMaxDiskSpace={defaultMaxDiskSpace}
-                        />
+                        {values.limits && (
+                            <ResourceRequirementsForm
+                                baseId={stepIdResources}
+                                limits={values.limits}
+                                defaultMaxCPUCores={defaultMaxCPUCores}
+                                defaultMaxMemory={defaultMaxMemory}
+                                defaultMaxDiskSpace={defaultMaxDiskSpace}
+                            />
+                        )}
                     </StepContent>
 
                     <StepContent
@@ -296,10 +286,12 @@ const AppLaunchWizard = (props) => {
                     >
                         <ParamsReview groups={values.groups} />
 
-                        <ResourceRequirementsReview
-                            baseId={stepIdReview}
-                            requirements={values.requirements}
-                        />
+                        {values.requirements && (
+                            <ResourceRequirementsReview
+                                baseId={stepIdReview}
+                                requirements={values.requirements}
+                            />
+                        )}
                     </StepContent>
 
                     <BottomNavigation

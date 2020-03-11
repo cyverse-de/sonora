@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from "react";
 
 import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
-import { TablePagination, useMediaQuery, useTheme } from "@material-ui/core";
+import { TablePagination } from "@material-ui/core";
 
 import Header from "../Header";
 import messages from "../messages";
@@ -29,10 +29,7 @@ import constants from "../../../constants";
 import Drawer from "../details/Drawer";
 
 function Listing(props) {
-    const theme = useTheme();
     const router = useRouter();
-    const isMedium = useMediaQuery(theme.breakpoints.up("sm"));
-    const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
     const uploadTracker = useUploadTrackingState();
     const [userProfile] = useUserProfile();
 
@@ -292,8 +289,6 @@ function Listing(props) {
                         path={path}
                         handlePathChange={handlePathChange}
                         listing={data?.listing}
-                        isMedium={isMedium}
-                        isLarge={isLarge}
                         baseId={baseId}
                         onDownloadSelected={onDownloadSelected}
                         onEditSelected={onEditSelected}

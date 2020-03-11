@@ -4,7 +4,7 @@
  * A component intended for showing a data listing in a table format.
  */
 
-import React from "react";
+import React, { Fragment, useState } from "react";
 
 import {
     build,
@@ -26,6 +26,7 @@ import {
 } from "@material-ui/core";
 import { injectIntl } from "react-intl";
 
+import CustomizeColumns from "./CustomizeColumns";
 import DataDotMenu from "./DataDotMenu";
 import { getFileSize } from "./FileSize";
 import ids from "../ids";
@@ -34,31 +35,67 @@ import ResourceIcon from "./ResourceIcon";
 import SpanLink from "./SpanLink";
 import TableLoading from "./TableLoading";
 
-function getTableColumns(isMedium, isLarge) {
-    let columns = [
-        { name: "", align: "center", enableSorting: false, key: "icon" },
-        { name: "Name", align: "left", enableSorting: true },
-    ];
+const COL_KEYS = {
+    CHECKBOX: "checkbox",
+    DOT_MENU: "dotMenu",
+    NAME: "name",
+    SIZE: "size",
+    LAST_MODIFIED: "datemodified",
+    INFO_TYPE: "infoType",
+    PERMISSION: "permission",
+    CREATED: "datecreated",
+    PATH: "path",
+};
 
-    if (isMedium) {
-        columns.push(
-            { name: "Size", align: "left", enableSorting: true, key: "size" },
-            {
-                name: "Last Modified",
-                align: "left",
-                enableSorting: true,
-                key: "datemodified",
-            },
-        );
+function SizeCell({ resource }) {
+    return <TableCell>{getFileSize(resource.fileSize)}</TableCell>;
+}
+
+function ModifiedCell({ resource }) {
+    return (
+        <TableCell>
+            {formatDate(resource.dateModified, "YYYY MMM DD HH:mm:ss")}
+        </TableCell>
+    );
+}
+
+function InfoTypeCell({ resource }) {
+    return <TableCell>{resource.infoType}</TableCell>;
+}
+
+function PermissionCell({ resource }) {
+    return <TableCell>{resource.permission}</TableCell>;
+}
+
+function CreatedCell({ resource }) {
+    return (
+        <TableCell>
+            {formatDate(resource.dateCreated, "YYYY MMM DD HH:mm:ss")}
+        </TableCell>
+    );
+}
+
+function PathCell({ resource }) {
+    return <TableCell>{resource.path}</TableCell>;
+}
+
+function getColumnCell(key, resource) {
+    switch (key) {
+        case COL_KEYS.SIZE:
+            return <SizeCell resource={resource} />;
+        case COL_KEYS.LAST_MODIFIED:
+            return <ModifiedCell resource={resource} />;
+        case COL_KEYS.CREATED:
+            return <CreatedCell resource={resource} />;
+        case COL_KEYS.PATH:
+            return <PathCell resource={resource} />;
+        case COL_KEYS.PERMISSION:
+            return <PermissionCell resource={resource} />;
+        case COL_KEYS.INFO_TYPE:
+            return <InfoTypeCell resource={resource} />;
+        default:
+            return null;
     }
-
-    if (isLarge) {
-        columns.push({ name: "Date Submitted", align: "left", enableSorting: true, key: "datecreated" });
-    }
-
-    columns.push({ name: "", align: "left", enableSorting: false });
-
-    return columns;
 }
 
 function TableView(props) {
@@ -68,8 +105,6 @@ function TableView(props) {
         error,
         handlePathChange,
         listing,
-        isMedium,
-        isLarge,
         baseId,
         onDownloadSelected,
         onEditSelected,
@@ -85,7 +120,99 @@ function TableView(props) {
     } = props;
 
     const tableId = build(baseId, ids.listingTable);
-    const tableColumns = getTableColumns(isMedium, isLarge);
+    const [displayColumns, setDisplayColumns] = useState([
+        COL_KEYS.CHECKBOX,
+        COL_KEYS.NAME,
+        COL_KEYS.DOT_MENU,
+    ]);
+
+    const optionalColumns = () => {
+        return [
+            {
+                name: "Last Modified",
+                align: "left",
+                enableSorting: true,
+                key: COL_KEYS.LAST_MODIFIED,
+                id: COL_KEYS.LAST_MODIFIED,
+            },
+            {
+                name: "Date Submitted",
+                align: "left",
+                enableSorting: true,
+                key: COL_KEYS.CREATED,
+                id: COL_KEYS.CREATED,
+            },
+            {
+                name: "Size",
+                align: "left",
+                enableSorting: true,
+                key: COL_KEYS.SIZE,
+                id: COL_KEYS.SIZE,
+            },
+            {
+                name: "Info Type",
+                align: "left",
+                enableSorting: false,
+                key: COL_KEYS.INFO_TYPE,
+                id: COL_KEYS.INFO_TYPE,
+            },
+            {
+                name: "Permission",
+                align: "left",
+                enableSorting: false,
+                key: COL_KEYS.PERMISSION,
+                id: COL_KEYS.PERMISSION,
+            },
+            {
+                name: "Path",
+                align: "left",
+                enableSorting: true,
+                key: COL_KEYS.PATH,
+                id: COL_KEYS.PATH,
+            },
+        ];
+    };
+
+    const getTableColumns = () => {
+        return [
+            {
+                name: "",
+                align: "center",
+                enableSorting: false,
+                key: COL_KEYS.CHECKBOX,
+                id: COL_KEYS.CHECKBOX,
+            },
+            {
+                name: "Name",
+                align: "left",
+                enableSorting: true,
+                key: COL_KEYS.NAME,
+                id: COL_KEYS.NAME,
+            },
+            ...optionalColumns(),
+            {
+                name: (
+                    <CustomizeColumns
+                        baseId={tableId}
+                        allTableColumns={optionalColumns()}
+                        displayColumns={displayColumns}
+                        setDisplayColumns={setDisplayColumns}
+                    />
+                ),
+                align: "left",
+                enableSorting: false,
+                key: COL_KEYS.DOT_MENU,
+                id: COL_KEYS.DOT_MENU,
+            },
+        ];
+    };
+
+    const getColumnDetails = (keys) => {
+        return keys.map((key) =>
+            getTableColumns().find((col) => col.key === key)
+        );
+    };
+
     return (
         <TableContainer
             component={Paper}
@@ -108,13 +235,13 @@ function TableView(props) {
                     order={order}
                     orderBy={orderBy}
                     baseId={tableId}
-                    columnData={tableColumns}
+                    columnData={getColumnDetails(displayColumns)}
                     onRequestSort={handleRequestSort}
                 />
                 {loading && (
                     <TableBody>
                         <TableLoading
-                            numColumns={tableColumns.length}
+                            numColumns={displayColumns.length}
                             numRows={25}
                         />
                     </TableBody>
@@ -124,13 +251,13 @@ function TableView(props) {
                         {(!listing || listing.length === 0) && !error && (
                             <EmptyTable
                                 message={getMessage("emptyDataListing")}
-                                numColumns={tableColumns.length}
+                                numColumns={displayColumns.length}
                             />
                         )}
                         {error && (
                             <EmptyTable
                                 message={error.toString()}
-                                numColumns={tableColumns.length}
+                                numColumns={displayColumns.length}
                             />
                         )}
                         {listing &&
@@ -199,26 +326,15 @@ function TableView(props) {
                                                 {resource.label}
                                             </SpanLink>
                                         </TableCell>
-                                        {isMedium && (
-                                            <TableCell>
-                                                {getFileSize(resource.fileSize)}
-                                            </TableCell>
-                                        )}
-                                        {isMedium && (
-                                            <TableCell>
-                                                {formatDate(
-                                                    resource.dateModified,
-                                                    "YYYY MMM DD HH:mm:ss"
-                                                )}
-                                            </TableCell>
-                                        )}
-                                        {isLarge && (
-                                            <TableCell>
-                                                {formatDate(
-                                                    resource.dateCreated,
-                                                    "YYYY MMM DD HH:mm:ss"
-                                                )}
-                                            </TableCell>
+                                        {getColumnDetails(displayColumns).map(
+                                            (column, index) => (
+                                                <Fragment key={index}>
+                                                    {getColumnCell(
+                                                        column.key,
+                                                        resource
+                                                    )}
+                                                </Fragment>
+                                            )
                                         )}
                                         <TableCell>
                                             <DataDotMenu

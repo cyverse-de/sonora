@@ -187,7 +187,7 @@ const AppLaunchWizard = (props) => {
                 const submission = {
                     notify,
                     debug,
-                    name,
+                    name: name.trim(),
                     description,
                     output_dir,
                     system_id,

@@ -5,7 +5,29 @@
  */
 import { getMessage } from "@cyverse-de/ui-lib";
 
+import DataConstants from "../../data/constants";
 import constants from "./constants";
+
+const validateAnalysisName = (name) => {
+    const illeagalChars =
+        name && name.match(DataConstants.NAME_INVALID_CHARS_REGEX);
+
+    if (illeagalChars) {
+        const charList = [...new Set(illeagalChars)]
+            .map((c) => {
+                if (c === "\n") return "\\n";
+                if (c === "\t") return "\\t";
+                return c;
+            })
+            .join("");
+
+        return getMessage("validationInvalidCharacters", {
+            values: { charList },
+        });
+    }
+
+    return null;
+};
 
 const validateText = ({ value, validators }) => {
     let errorMsg = null;
@@ -199,7 +221,14 @@ const validate = (values) => {
     if (!values.name) {
         errors.name = getMessage("required");
         stepErrors[0] = true;
+    } else {
+        const nameError = validateAnalysisName(values.name);
+        if (nameError) {
+            errors.name = nameError;
+            stepErrors[0] = true;
+        }
     }
+
     if (!values.output_dir) {
         errors.output_dir = getMessage("required");
         stepErrors[0] = true;

@@ -33,6 +33,7 @@ const AnalysisInfoForm = ({ formId, appType }) => (
             required={true}
             name="name"
             component={FormTextField}
+            inputProps={{ maxLength: 255 }}
         />
         <FastField
             id={buildDebugId(

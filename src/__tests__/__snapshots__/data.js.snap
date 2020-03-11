@@ -138,7 +138,40 @@ exports[`Data Table View renders 1`] = `
           id="tableView.listingTable."
           scope="col"
         >
-          Last Modified
+          <span
+            aria-describedby={null}
+            aria-disabled={false}
+            className="MuiButtonBase-root MuiTableSortLabel-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseOver={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+            tabIndex={0}
+            title={null}
+          >
+            Size
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+              />
+            </svg>
+          </span>
         </th>
         <th
           aria-sort={null}
@@ -146,7 +179,40 @@ exports[`Data Table View renders 1`] = `
           id="tableView.listingTable."
           scope="col"
         >
-          Size
+          <span
+            aria-describedby={null}
+            aria-disabled={false}
+            className="MuiButtonBase-root MuiTableSortLabel-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseOver={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+            tabIndex={0}
+            title={null}
+          >
+            Last Modified
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+              />
+            </svg>
+          </span>
         </th>
         <th
           aria-sort={null}
@@ -154,7 +220,40 @@ exports[`Data Table View renders 1`] = `
           id="tableView.listingTable."
           scope="col"
         >
-          Path
+          <span
+            aria-describedby={null}
+            aria-disabled={false}
+            className="MuiButtonBase-root MuiTableSortLabel-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseOver={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+            tabIndex={0}
+            title={null}
+          >
+            Created
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+              />
+            </svg>
+          </span>
         </th>
         <th
           aria-sort={null}
@@ -262,6 +361,12 @@ exports[`Data Table View renders 1`] = `
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body"
         >
+          -
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body"
+        >
           2016 Sep 20 20:27:57
         </td>
         <td
@@ -269,12 +374,6 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body"
         >
           -
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body"
-        >
-          /iplant/home/ipcdev/analyses_qa-3
         </td>
         <td
           aria-sort={null}
@@ -415,6 +514,12 @@ exports[`Data Table View renders 1`] = `
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body"
         >
+          -
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body"
+        >
           2018 Jun 28 22:49:35
         </td>
         <td
@@ -422,12 +527,6 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body"
         >
           -
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body"
-        >
-          /iplant/home/ipcdev/test
         </td>
         <td
           aria-sort={null}
@@ -568,19 +667,19 @@ exports[`Data Table View renders 1`] = `
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body"
         >
-          2017 Feb 08 00:03:33
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body"
-        >
           9 B
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body"
         >
-          /iplant/home/ipcdev/CORE-8424.txt
+          2017 Feb 08 00:03:33
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body"
+        >
+          -
         </td>
         <td
           aria-sort={null}
@@ -721,19 +820,19 @@ exports[`Data Table View renders 1`] = `
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body"
         >
-          2014 Oct 30 20:23:43
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body"
-        >
           15 B
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body"
         >
-          /iplant/home/ipcdev/sample.csv
+          2014 Oct 30 20:23:43
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body"
+        >
+          -
         </td>
         <td
           aria-sort={null}

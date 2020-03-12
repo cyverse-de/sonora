@@ -8,7 +8,11 @@ import { getMessage } from "@cyverse-de/ui-lib";
 import DataConstants from "../../data/constants";
 import constants from "./constants";
 
-const validateAnalysisName = (name) => {
+const validateDiskResourceName = (name) => {
+    if (name === "." || name === "..") {
+        return getMessage("validationDiskResourceName");
+    }
+
     const illeagalChars =
         name && name.match(DataConstants.NAME_INVALID_CHARS_REGEX);
 
@@ -24,6 +28,14 @@ const validateAnalysisName = (name) => {
         return getMessage("validationInvalidCharacters", {
             values: { charList },
         });
+    }
+
+    return null;
+};
+
+const validateUnixGlob = (pattern) => {
+    if (pattern && (pattern.startsWith("/") || pattern.indexOf("../") >= 0)) {
+        return getMessage("validationUnixGlob");
     }
 
     return null;
@@ -222,7 +234,7 @@ const validate = (values) => {
         errors.name = getMessage("required");
         stepErrors[0] = true;
     } else {
-        const nameError = validateAnalysisName(values.name);
+        const nameError = validateDiskResourceName(values.name);
         if (nameError) {
             errors.name = nameError;
             stepErrors[0] = true;
@@ -250,12 +262,26 @@ const validate = (values) => {
                             case constants.PARAM_TYPE.TEXT:
                                 valueError = validateText(param);
                                 break;
+
                             case constants.PARAM_TYPE.INTEGER:
                                 valueError = validateInteger(param);
                                 break;
+
                             case constants.PARAM_TYPE.DOUBLE:
                                 valueError = validateDouble(param);
                                 break;
+
+                            case constants.PARAM_TYPE.FILE_OUTPUT:
+                            case constants.PARAM_TYPE.FOLDER_OUTPUT:
+                                valueError = validateDiskResourceName(
+                                    param.value
+                                );
+                                break;
+
+                            case constants.PARAM_TYPE.MULTIFILE_OUTPUT:
+                                valueError = validateUnixGlob(param.value);
+                                break;
+
                             default:
                                 break;
                         }

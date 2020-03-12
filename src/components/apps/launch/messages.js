@@ -33,5 +33,8 @@ export default {
         validationCharLimit: "Cannot exceed {limit} characters",
         validationRegex: "Does not match the expression {regexPattern}",
         validationInvalidCharacters: "Invalid characters: {charList}",
+        validationDiskResourceName: "Can not be named . or ..",
+        validationUnixGlob:
+            'Can not start with a slash ("/") and can not contain a parent directory pattern ("../")',
     },
 };

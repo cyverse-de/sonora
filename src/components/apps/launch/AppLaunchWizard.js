@@ -197,8 +197,26 @@ const AppLaunchWizard = (props) => {
                         groups &&
                         groups.reduce((configs, group) => {
                             group.parameters.forEach((param) => {
-                                if (param.type !== constants.PARAM_TYPE.INFO) {
-                                    configs[param.id] = param.value;
+                                const { id, type } = param;
+
+                                if (type !== constants.PARAM_TYPE.INFO) {
+                                    let { value } = param;
+
+                                    switch (type) {
+                                        case constants.PARAM_TYPE.FILE_OUTPUT:
+                                        case constants.PARAM_TYPE.FOLDER_OUTPUT:
+                                        case constants.PARAM_TYPE
+                                            .MULTIFILE_OUTPUT:
+                                            if (value) {
+                                                value = value.trim();
+                                            }
+                                            break;
+
+                                        default:
+                                            break;
+                                    }
+
+                                    configs[id] = value;
                                 }
                             });
                             return configs;

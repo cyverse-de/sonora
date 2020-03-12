@@ -1,8 +1,11 @@
 export default {
     PARAM_TYPE: {
         DOUBLE: "Double",
+        FILE_OUTPUT: "FileOutput",
+        FOLDER_OUTPUT: "FolderOutput",
         INFO: "Info",
         INTEGER: "Integer",
+        MULTIFILE_OUTPUT: "MultiFileOutput",
         MULTILINE_TEXT: "MultiLineText",
         TEXT: "Text",
     },

@@ -15,6 +15,7 @@ import styles from "./styles";
 
 import {
     build as buildDebugId,
+    FormCheckboxStringValue,
     FormMultilineTextField,
     FormIntegerField,
     FormNumberField,
@@ -118,6 +119,10 @@ const ParamGroupForm = withI18N((props) => {
 
                         case constants.PARAM_TYPE.MULTILINE_TEXT:
                             fieldProps.component = FormMultilineTextField;
+                            break;
+
+                        case constants.PARAM_TYPE.FLAG:
+                            fieldProps.component = FormCheckboxStringValue;
                             break;
 
                         default:

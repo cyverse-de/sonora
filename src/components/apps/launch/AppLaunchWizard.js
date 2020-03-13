@@ -203,6 +203,10 @@ const AppLaunchWizard = (props) => {
                                     let { value } = param;
 
                                     switch (type) {
+                                        case constants.PARAM_TYPE.FLAG:
+                                            value = value && value !== "false";
+                                            break;
+
                                         case constants.PARAM_TYPE.FILE_OUTPUT:
                                         case constants.PARAM_TYPE.FOLDER_OUTPUT:
                                         case constants.PARAM_TYPE

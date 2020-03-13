@@ -2,6 +2,7 @@ export default {
     PARAM_TYPE: {
         DOUBLE: "Double",
         FILE_OUTPUT: "FileOutput",
+        FLAG: "Flag",
         FOLDER_OUTPUT: "FolderOutput",
         INFO: "Info",
         INTEGER: "Integer",

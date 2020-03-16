@@ -7,5 +7,7 @@ export default {
         runningAnalyses: "Running Analyses",
         open: "Open",
         changeSettings: "Change Settings",
+        newsFeed: "News",
+        eventsFeed: "Events",
     },
 };

@@ -95,15 +95,15 @@ export const call = (
 
     logger.info(`TERRAIN ${userID} ${method} ${apiURL.href}`);
 
-    const buildRequestOptionHeaders = () => {
-        return accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
-    };
-
     let requestOptions = {
         withCredentials: true,
-        headers: buildRequestOptionHeaders(),
+        headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
         maxRedirects: 0,
     };
+
+    if (!["GET", "HEAD"].includes(method)) {
+        requestOptions.body = inStream;
+    }
 
     if (headers) {
         requestOptions.headers = {

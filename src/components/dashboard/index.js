@@ -9,11 +9,12 @@ import React, { useState, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/styles";
 import {
-    Button,
+    //Button,
     Card,
     CardActions,
     CardContent,
     Grid,
+    Link,
     Typography,
 } from "@material-ui/core";
 
@@ -33,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
         height: 200,
         display: "flex",
         flexDirection: "column",
+
+        [theme.breakpoints.down("sm")]: {
+            width: 300,
+        },
     },
     actionsRoot: {
         marginLeft: "auto",
@@ -81,20 +86,21 @@ export const DashboardItem = (props) => {
                     root: classes.actionsRoot,
                 }}
             >
-                <Button size="small" color="primary">
-                    {getMessage("open")}
-                </Button>
+                <Link href={content.link} color="primary">
+                    <Typography variant="body2">
+                        {getMessage("open")}
+                    </Typography>
+                </Link>
             </CardActions>
         </Card>
     );
 };
 
 const DashboardSection = ({ name, kind, items }) => {
-    console.log(items);
     return (
         <Grid container item xs={12}>
             <Grid item xs={12}>
-                <Typography gutterBottom variant="h5" component="h5">
+                <Typography noWrap gutterBottom variant="h5" component="h5">
                     {name}
                 </Typography>
             </Grid>
@@ -114,44 +120,6 @@ const Dashboard = () => {
     const classes = useStyles();
     const [data, setData] = useState({});
 
-    const getAppsSectionName = (section, defaultValue) => {
-        let retval = defaultValue;
-        if (section === "public") {
-            retval = getMessage("publicApps");
-        } else if (section === "recentlyAdded") {
-            retval = getMessage("recentlyAddedApps");
-        }
-        return retval;
-    };
-
-    const getAnalysesSectionName = (section, defaultValue) => {
-        let retval = defaultValue;
-        if (section === "recent") {
-            retval = getMessage("recentAnalyses");
-        } else if (section === "running") {
-            retval = getMessage("runningAnalyses");
-        }
-        return retval;
-    };
-
-    const getName = (kind, section) => {
-        const defaultVal = `${section.charAt(0).toUpperCase()}${section.slice(
-            1
-        )} ${kind.charAt(0).toUpperCase()}${kind.slice(1)}`;
-
-        let retval = defaultVal;
-
-        if (kind === "apps") {
-            retval = getAppsSectionName(section, defaultVal);
-        }
-
-        if (kind === "analyses") {
-            retval = getAnalysesSectionName(section, defaultVal);
-        }
-
-        return retval;
-    };
-
     useEffect(() => {
         callApi({
             endpoint: "/api/dashboard",
@@ -160,17 +128,36 @@ const Dashboard = () => {
         });
     }, [setData]);
 
+    const sections = [
+        ["analyses", "recent", getMessage("recentAnalyses")],
+        ["analyses", "running", getMessage("runningAnalyses")],
+        ["apps", "recentlyAdded", getMessage("recentlyAddedApps")],
+        ["apps", "public", getMessage("publicApps")],
+        ["feeds", "news", getMessage("newsFeed")],
+        ["feeds", "events", getMessage("eventsFeed")],
+    ];
+
     return (
-        <Grid container className={classes.root} spacing={7}>
-            {Object.keys(data).map((kind) =>
-                Object.keys(data[kind]).map((section) => (
-                    <DashboardSection
-                        kind={kind}
-                        items={data[kind][section]}
-                        name={getName(kind, section)}
-                    />
-                ))
-            )}
+        <Grid container classes={{ root: classes.root }} spacing={7}>
+            {sections
+                .filter(
+                    ([kind, section, _label]) =>
+                        data[kind] !== undefined &&
+                        data[kind][section] !== undefined
+                )
+                .filter(
+                    ([kind, section, _label]) => data[kind][section].length > 0
+                )
+                .map(([kind, section, label]) => {
+                    return (
+                        <DashboardSection
+                            kind={kind}
+                            key={`${kind}-${section}`}
+                            items={data[kind][section]}
+                            name={label}
+                        />
+                    );
+                })}
         </Grid>
     );
 };

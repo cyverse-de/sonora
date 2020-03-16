@@ -96,6 +96,8 @@ export const call = (
     logger.info(`TERRAIN ${userID} ${method} ${apiURL.href}`);
 
     let requestOptions = {
+        method: method,
+        url: apiURL.toString(),
         withCredentials: true,
         headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
         maxRedirects: 0,
@@ -112,23 +114,5 @@ export const call = (
         };
     }
 
-    const axiosUrl = apiURL.toString();
-    switch (method) {
-        case "GET":
-            return axiosInstance.get(axiosUrl, requestOptions);
-        case "POST":
-            return axiosInstance.post(axiosUrl, inStream, requestOptions);
-
-        case "PUT":
-            return axiosInstance.put(axiosUrl, inStream, requestOptions);
-
-        case "DELETE":
-            return axiosInstance.delete(axiosUrl, requestOptions);
-
-        case "HEAD":
-            return axiosInstance.head(axiosUrl, requestOptions);
-
-        default:
-            throw Error("Unsupported method " + method);
-    }
+    return axiosInstance.request(requestOptions);
 };

@@ -4,6 +4,12 @@
  * @module auth
  */
 
+import session from "express-session";
+import pgsimple from "connect-pg-simple";
+import keycloak from "keycloak-connect";
+
+import * as config from "./configuration";
+
 /**
  * Extracts the username from the calims in the JWT access token.
  *
@@ -47,4 +53,59 @@ export const authnTokenMiddleware = (req, res, next) => {
     }
 
     next();
+};
+
+// Configure the session store.
+const pgSession = pgsimple(session);
+let sessionStore;
+
+/**
+ * Returns the session store instance for the application.
+ *
+ * @returns {Object}
+ */
+const getSessionStore = () => {
+    if (!sessionStore) {
+        sessionStore = new pgSession({
+            conString: config.dbURI,
+            tableName: "session",
+            ttl: config.sessionTTL,
+        });
+    }
+    return sessionStore;
+};
+
+/**
+ * Returns Express middleware for session management.
+ *
+ * @returns {Object}
+ */
+export const sessionMiddleware = () =>
+    session({
+        store: getSessionStore(),
+        secret: config.sessionSecret,
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            secure: config.sessionSecureCookie,
+        },
+    });
+
+/**
+ * Returns a newly instantiated Keycloak client.
+ *
+ * @returns {Object}
+ */
+export const getKeycloakClient = () => {
+    return new keycloak(
+        {
+            store: getSessionStore(),
+        },
+        {
+            serverUrl: config.keycloakServerURL,
+            realm: config.keycloakRealm,
+            clientId: config.keycloakClientID,
+            secret: config.keycloakClientSecret,
+        }
+    );
 };

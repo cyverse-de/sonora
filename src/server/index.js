@@ -1,12 +1,10 @@
 import express from "express";
-import keycloak from "keycloak-connect";
 import next from "next";
-import pgsimple from "connect-pg-simple";
-import session from "express-session";
 
 import * as config from "./configuration";
 import apiRouter from "./api/router";
 import NavigationConstants from "../common/NavigationConstants";
+import * as authn from "./auth";
 
 import logger, { errorLogger, requestLogger } from "./logging";
 
@@ -33,26 +31,8 @@ function buildNavigationRouteRegexp() {
     return new RegExp(`^/(${routeAlternation})`);
 }
 
-// Configure the session store.
-const pgSession = pgsimple(session);
-const sessionStore = new pgSession({
-    conString: config.dbURI,
-    tableName: "session",
-    ttl: config.sessionTTL,
-});
-
 // Configure the Keycloak client.
-const keycloakClient = new keycloak(
-    {
-        store: sessionStore,
-    },
-    {
-        serverUrl: config.keycloakServerURL,
-        realm: config.keycloakRealm,
-        clientId: config.keycloakClientID,
-        secret: config.keycloakClientSecret,
-    }
-);
+const keycloakClient = authn.getKeycloakClient();
 
 app.prepare()
 
@@ -67,18 +47,7 @@ app.prepare()
         server.use(requestLogger);
 
         logger.info("configuring express sessions");
-        // Configure sessions.
-        server.use(
-            session({
-                store: sessionStore,
-                secret: config.sessionSecret,
-                resave: false,
-                saveUninitialized: true,
-                cookie: {
-                    secure: config.sessionSecureCookie,
-                },
-            })
-        );
+        server.use(authn.sessionMiddleware());
 
         logger.info("configuring keycloak");
         server.use(keycloakClient.middleware());
@@ -98,8 +67,8 @@ app.prepare()
             "adding the next.js fallthrough handler to the express server."
         );
 
-        //map root to Dashboard
-        server.get("/", keycloakClient.checkSso(), (req, res) => {
+        logger.info("mapping / to /dashboard in the app");
+        server.get("/", (req, res) => {
             app.render(req, res, "/dashboard", undefined);
         });
 

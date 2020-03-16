@@ -28,6 +28,7 @@ import ids from "./ids";
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        margin: "10px 20px 10px 20px",
     },
     dashboardCard: {
         width: 375,

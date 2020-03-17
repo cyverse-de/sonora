@@ -91,21 +91,26 @@ export const sessionMiddleware = () =>
         },
     });
 
+let keycloakClient;
 /**
  * Returns a newly instantiated Keycloak client.
  *
  * @returns {Object}
  */
 export const getKeycloakClient = () => {
-    return new keycloak(
-        {
-            store: getSessionStore(),
-        },
-        {
-            serverUrl: config.keycloakServerURL,
-            realm: config.keycloakRealm,
-            clientId: config.keycloakClientID,
-            secret: config.keycloakClientSecret,
-        }
-    );
+    if (!keycloakClient) {
+        keycloakClient = new keycloak(
+            {
+                store: getSessionStore(),
+            },
+            {
+                serverUrl: config.keycloakServerURL,
+                realm: config.keycloakRealm,
+                clientId: config.keycloakClientID,
+                secret: config.keycloakClientSecret,
+            }
+        );
+    }
+
+    return keycloakClient;
 };

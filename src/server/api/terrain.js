@@ -40,7 +40,12 @@ export const handler = ({ method, pathname, headers }) => {
         )
             .then((apiResponse) => {
                 res.status(apiResponse.status);
+<<<<<<< HEAD
                 res.send(apiResponse.data);
+=======
+                res.set("Content-Type", "application/json");
+                apiResponse.body.pipe(res);
+>>>>>>> Set content-type on responses from terrain
             })
             .catch((e) => {
                 if (e.response && e.response.status === 302) {

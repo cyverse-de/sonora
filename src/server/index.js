@@ -84,7 +84,7 @@ app.prepare()
             app.render(req, res, "/dashboard", undefined);
         });
 
-        server.get("*", keycloakClient.checkSso(), (req, res) => {
+        server.get("*", (req, res) => {
             return nextHandler(req, res);
         });
 

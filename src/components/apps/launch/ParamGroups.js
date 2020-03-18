@@ -19,6 +19,7 @@ import {
     FormMultilineTextField,
     FormIntegerField,
     FormNumberField,
+    FormSelectField,
     FormTextField,
     withI18N,
 } from "@cyverse-de/ui-lib";
@@ -28,6 +29,7 @@ import {
     ExpansionPanel,
     ExpansionPanelSummary,
     ExpansionPanelDetails,
+    MenuItem,
     Paper,
     Table,
     TableBody,
@@ -125,6 +127,19 @@ const ParamGroupForm = withI18N((props) => {
                             fieldProps.component = FormCheckboxStringValue;
                             break;
 
+                        case constants.PARAM_TYPE.TEXT_SELECTION:
+                        case constants.PARAM_TYPE.INTEGER_SELECTION:
+                        case constants.PARAM_TYPE.DOUBLE_SELECTION:
+                            fieldProps.component = FormSelectField;
+                            fieldProps.children =
+                                param.arguments &&
+                                param.arguments.map((arg) => (
+                                    <MenuItem key={arg.value} value={arg}>
+                                        {arg.display}
+                                    </MenuItem>
+                                ));
+                            break;
+
                         default:
                             fieldProps.component = FormTextField;
                             break;
@@ -138,23 +153,37 @@ const ParamGroupForm = withI18N((props) => {
 }, messages);
 
 const ParamsReviewValue = ({ param }) => {
-    if (param.type === constants.PARAM_TYPE.MULTILINE_TEXT) {
-        return (
-            <TextField
-                multiline
-                rows={3}
-                variant="outlined"
-                margin="dense"
-                fullWidth
-                InputProps={{
-                    readOnly: true,
-                }}
-                value={param.value}
-            />
-        );
+    const { value, type } = param;
+
+    switch (type) {
+        case constants.PARAM_TYPE.MULTILINE_TEXT:
+            return (
+                <TextField
+                    multiline
+                    rows={3}
+                    variant="outlined"
+                    margin="dense"
+                    fullWidth
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                    value={value}
+                />
+            );
+
+        case constants.PARAM_TYPE.TEXT_SELECTION:
+        case constants.PARAM_TYPE.INTEGER_SELECTION:
+        case constants.PARAM_TYPE.DOUBLE_SELECTION:
+            if (value && value.display) {
+                return value.display;
+            }
+            break;
+
+        default:
+            break;
     }
 
-    return param.value;
+    return value;
 };
 
 /**

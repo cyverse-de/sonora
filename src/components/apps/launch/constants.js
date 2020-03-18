@@ -1,14 +1,17 @@
 export default {
     PARAM_TYPE: {
         DOUBLE: "Double",
+        DOUBLE_SELECTION: "DoubleSelection",
         FILE_OUTPUT: "FileOutput",
         FLAG: "Flag",
         FOLDER_OUTPUT: "FolderOutput",
         INFO: "Info",
         INTEGER: "Integer",
+        INTEGER_SELECTION: "IntegerSelection",
         MULTIFILE_OUTPUT: "MultiFileOutput",
         MULTILINE_TEXT: "MultiLineText",
         TEXT: "Text",
+        TEXT_SELECTION: "TextSelection",
     },
     VALIDATOR_TYPE: {
         CHARACTER_LIMIT: "CharacterLimit",

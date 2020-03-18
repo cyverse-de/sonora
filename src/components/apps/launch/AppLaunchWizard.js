@@ -69,10 +69,24 @@ const initValues = ({
             ...group,
             parameters:
                 group.parameters &&
-                group.parameters.map((param) => ({
-                    ...param,
-                    value: param.defaultValue || "",
-                })),
+                group.parameters.map((param) => {
+                    const { arguments: paramArgs, defaultValue } = param;
+
+                    const value =
+                        paramArgs && paramArgs.length > 0
+                            ? paramArgs.find(
+                                  (arg) =>
+                                      arg.isDefault ||
+                                      (defaultValue &&
+                                          defaultValue.id === arg.id)
+                              )
+                            : defaultValue || "";
+
+                    return {
+                        ...param,
+                        value,
+                    };
+                }),
         }));
 
     const reqInitValues =

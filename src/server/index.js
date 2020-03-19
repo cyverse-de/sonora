@@ -73,7 +73,7 @@ app.prepare()
         });
 
         logger.info("adding the api router to the express server");
-        server.use("/api", keycloakClient.checkSso(), apiRouter());
+        server.use("/api", apiRouter());
 
         logger.info(
             "adding the next.js fallthrough handler to the express server."
@@ -84,7 +84,13 @@ app.prepare()
             app.render(req, res, "/dashboard", undefined);
         });
 
-        server.get("*", keycloakClient.checkSso(), (req, res) => {
+        // URL paths that might appear in the browser address bar should match this route.
+        const userRouteRegexp = /^\/(dashboard|data|apps|analyses|more)/;
+        server.get(userRouteRegexp, keycloakClient.checkSso(), (req, res) => {
+            return nextHandler(req, res);
+        });
+
+        server.get("*", (req, res) => {
             return nextHandler(req, res);
         });
 

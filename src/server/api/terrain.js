@@ -73,12 +73,14 @@ export const call = (
 
     logger.info(`TERRAIN ${userID} ${method} ${apiURL.href}`);
 
+    const buildRequestOptionHeaders = () => {
+        return accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
+    };
+
     let requestOptions = {
         method,
         credentials: "include",
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-        },
+        headers: buildRequestOptionHeaders(),
     };
 
     if (!["GET", "HEAD"].includes(method)) {

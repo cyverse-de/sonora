@@ -29,7 +29,7 @@ export default function apiRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
-            pathname: "/secured/filesystem/paged-directory",
+            pathname: "/filesystem/paged-directory",
         })
     );
 

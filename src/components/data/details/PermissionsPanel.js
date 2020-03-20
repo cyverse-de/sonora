@@ -33,16 +33,21 @@ import { updateSharing } from "../../endpoints/Sharing";
 const useStyles = makeStyles(styles);
 
 function getAvatarLetters(permission) {
-    return (
-        permission.first_name[0].toUpperCase() +
-        permission.last_name[0].toUpperCase()
-    );
+    const firstName = permission.first_name;
+    const lastName = permission.last_name;
+    let letters = [];
+
+    firstName &&
+        firstName.length > 0 &&
+        letters.push(firstName[0].toUpperCase());
+    lastName && lastName.length > 0 && letters.push(lastName[0].toUpperCase());
+    return letters.join("");
 }
 
 function sortPerms(permissions) {
     return permissions.sort((a, b) => {
-        const first = a.last_name.toLowerCase();
-        const second = b.last_name.toLowerCase();
+        const first = a?.last_name?.toLowerCase();
+        const second = b?.last_name?.toLowerCase();
         if (first < second) return -1;
         return first > second;
     });
@@ -119,7 +124,7 @@ function PermissionsTabPanel(props) {
             const pathPerm = userPerm?.sharing?.find(
                 (item) => item.path === resource.path
             );
-            if (pathPerm.success) {
+            if (pathPerm?.success) {
                 const newPerms = [...permissions];
                 const permIndex = permissions.findIndex(
                     (perm) => perm.user === currentPermission.user

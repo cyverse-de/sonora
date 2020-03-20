@@ -72,8 +72,7 @@ function DetailsTabPanel(props) {
         const type = event.target.value;
         setLoading(true);
         updateInfoType(resource.path, type).then((resp) => {
-            const updatedDetails = { ...details };
-            updatedDetails.infoType = resp.type;
+            const updatedDetails = { ...details, infoType: resp.type };
             setDetails(updatedDetails);
             setLoading(false);
         });

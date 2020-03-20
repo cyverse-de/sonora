@@ -61,11 +61,9 @@ function TagSearch(props) {
     const onTagRemove = (selectedTag) => {
         setLoading(true);
         detachTagsFromResource([selectedTag.id], resource.id).then((resp) => {
-            const newTagList = [...selectedTags];
-            const tagIndex = selectedTags.findIndex(
-                (tag) => tag.id === selectedTag.id
+            const newTagList = selectedTags.filter(
+                (tag) => tag.id !== selectedTag.id
             );
-            newTagList.splice(tagIndex, 1);
             setSelectedTags(newTagList);
             setLoading(false);
         });
@@ -92,7 +90,7 @@ function TagSearch(props) {
             }
 
             // Check if a tag has already been added
-            if (selectedTags.findIndex((tag) => tag.id === tagId) === -1) {
+            if (!selectedTags.find((tag) => tag.id === tagId)) {
                 attachTagsToResource([selectedTag.id], resource.id).then(
                     (resp) => {
                         setSelectedTags([...selectedTags, selectedTag]);
@@ -135,9 +133,9 @@ function TagSearch(props) {
                 filterOptions={(options, params) => {
                     // add an option which allows the user to add a new tag
                     // when no option matches the search term
-                    const hasOption =
-                        options.findIndex((tag) => tag.value === searchTerm) !==
-                        -1;
+                    const hasOption = options.find(
+                        (tag) => tag.value === searchTerm
+                    );
                     if (searchTerm !== "" && !hasOption) {
                         const fakeAdderTag = {
                             id: null,

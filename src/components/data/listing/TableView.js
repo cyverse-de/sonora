@@ -42,18 +42,18 @@ function getTableColumns(isMedium, isLarge) {
 
     if (isMedium) {
         columns.push(
+            { name: "Size", align: "left", enableSorting: true, key: "size" },
             {
                 name: "Last Modified",
                 align: "left",
-                enableSorting: false,
-                key: "creator",
+                enableSorting: true,
+                key: "datemodified",
             },
-            { name: "Size", align: "left", enableSorting: false }
         );
     }
 
     if (isLarge) {
-        columns.push({ name: "Path", align: "left", enableSorting: false });
+        columns.push({ name: "Date Submitted", align: "left", enableSorting: true, key: "datecreated" });
     }
 
     columns.push({ name: "", align: "left", enableSorting: false });
@@ -201,20 +201,23 @@ function TableView(props) {
                                         </TableCell>
                                         {isMedium && (
                                             <TableCell>
+                                                {getFileSize(resource.fileSize)}
+                                            </TableCell>
+                                        )}
+                                        {isMedium && (
+                                            <TableCell>
                                                 {formatDate(
                                                     resource.dateModified,
                                                     "YYYY MMM DD HH:mm:ss"
                                                 )}
                                             </TableCell>
                                         )}
-                                        {isMedium && (
-                                            <TableCell>
-                                                {getFileSize(resource.fileSize)}
-                                            </TableCell>
-                                        )}
                                         {isLarge && (
                                             <TableCell>
-                                                {resource.path}
+                                                {formatDate(
+                                                    resource.dateCreated,
+                                                    "YYYY MMM DD HH:mm:ss"
+                                                )}
                                             </TableCell>
                                         )}
                                         <TableCell>

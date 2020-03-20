@@ -26,6 +26,7 @@ import { injectIntl } from "react-intl";
 import { useRouter } from "next/router";
 import { useUserProfile } from "../../../contexts/userProfile";
 import constants from "../../../constants";
+import Drawer from "../details/Drawer";
 
 function Listing(props) {
     const theme = useTheme();
@@ -45,6 +46,10 @@ function Listing(props) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [data, setData] = useState({ total: 0, files: [], folders: [] });
+    const [detailsEnabled, setDetailsEnabled] = useState(false);
+    const [detailsOpen, setDetailsOpen] = useState(false);
+    const [detailsResource, setDetailsResource] = useState(null);
+    const [infoTypes, setInfoTypes] = useState([]);
 
     const [dataRoots, setDataRoots] = useState([]);
     const [userHomePath, setUserHomePath] = useState("");
@@ -128,6 +133,20 @@ function Listing(props) {
             setError("");
         });
     }, [path, intl, userProfile]);
+
+    useEffect(() => {
+        callApi({
+            endpoint: `/api/filetypes/type-list`,
+        }).then(resp => {
+            if (resp) {
+                setInfoTypes(resp.types);
+            }
+        });
+    }, []);
+
+    useEffect(() => {
+        setDetailsEnabled(selected && selected.length === 1);
+    }, [selected]);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -235,6 +254,16 @@ function Listing(props) {
         );
     }
 
+    const onDetailsSelected = () => {
+        setDetailsOpen(true);
+        const selectedId = selected[0];
+        const resourceIndex = data.listing.findIndex(
+            (item) => item.id === selectedId
+        );
+        const resource = data.listing[resourceIndex];
+        setDetailsResource(resource);
+    };
+
     return (
         <>
             <UploadDropTarget path={path}>
@@ -253,6 +282,8 @@ function Listing(props) {
                     userTrashPath={userTrashPath}
                     sharedWithMePath={sharedWithMePath}
                     communityDataPath={communityDataPath}
+                    detailsEnabled={detailsEnabled}
+                    onDetailsSelected={onDetailsSelected}
                 />
                 {!isGridView && (
                     <TableView
@@ -287,6 +318,15 @@ function Listing(props) {
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                 />
             </UploadDropTarget>
+            {detailsOpen && (
+                <Drawer
+                    resource={detailsResource}
+                    open={detailsOpen}
+                    baseId={baseId}
+                    infoTypes={infoTypes}
+                    onClose={() => setDetailsOpen(false)}
+                />
+            )}
         </>
     );
 }

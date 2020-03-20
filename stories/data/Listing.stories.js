@@ -3,6 +3,7 @@ import React from "react";
 import fetchMock from "fetch-mock";
 import Listing from "../../src/components/data/listing/Listing";
 import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
+import { fileTypesResp } from "./DataMocks";
 
 export default {
     title: "Data",
@@ -199,7 +200,9 @@ const rootsResp = {
 };
 
 export const DataListingTest = () => {
-    fetchMock.get(/\/api\/filesystem\/paged-directory.*/, successResp);
-    fetchMock.get(/\/api\/filesystem\/root.*/, rootsResp);
+    fetchMock
+        .get(/\/api\/filesystem\/paged-directory.*/, successResp)
+        .get(/\/api\/filesystem\/root.*/, rootsResp)
+        .get(/\/api\/filetypes\/type-list/, fileTypesResp);
     return <ListingTest />;
 };

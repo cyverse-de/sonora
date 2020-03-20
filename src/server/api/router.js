@@ -56,5 +56,114 @@ export default function apiRouter() {
     logger.info("adding the /api/profile handler");
     api.get("/profile", (req, res) => res.json(auth.getUserProfile(req)));
 
+    logger.info("adding the /api/tags/suggestions handler");
+    api.get(
+        "/tags/suggestions",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/secured/tags/suggestions",
+        })
+    );
+
+    logger.info("adding the /api/tags/user handler");
+    api.post(
+        "/tags/user",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/tags/user",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info(
+        "adding the PATCH /api/filesystem/entry/:resourceId/tags handler"
+    );
+    api.patch(
+        "/filesystem/entry/:resourceId/tags",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/secured/filesystem/entry/:resourceId/tags",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info(
+        "adding the GET /api/filesystem/entry/:resourceId/tags handler"
+    );
+    api.get(
+        "/filesystem/entry/:resourceId/tags",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/secured/filesystem/entry/:resourceId/tags",
+        })
+    );
+
+    logger.info("adding the /api/filesystem/user-permissions handler");
+    api.post(
+        "/filesystem/user-permissions",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/filesystem/user-permissions",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the /api/user-info handler");
+    api.get(
+        "/user-info",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/secured/user-info",
+        })
+    );
+
+    logger.info("adding the /filetypes/type-list handler");
+    api.get(
+        "/filetypes/type-list",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/secured/filetypes/type-list",
+        })
+    );
+
+    logger.info("adding the /filetypes/type handler");
+    api.post(
+        "/filetypes/type",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/filetypes/type",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the /share handler");
+    api.post(
+        "/share",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/share",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

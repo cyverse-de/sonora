@@ -59,7 +59,7 @@ function PermissionsTabPanel(props) {
 
     const [permissions, setPermissions] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [permissionLoadingId, setPermissionLoadingId] = useState(null);
+    const [permissionLoadingIds, setPermissionLoadingIds] = useState([]);
 
     const mergeUsersWithPerms = (permissions, userInfo) => {
         let merged = [];
@@ -102,7 +102,11 @@ function PermissionsTabPanel(props) {
     }, [resource, fetchUserInfo]); // lint error without fetchUserInfo
 
     const onPermissionChange = (currentPermission, newPermissionValue) => {
-        setPermissionLoadingId(currentPermission.user);
+        setPermissionLoadingIds((prevLoadingIds) => [
+            ...prevLoadingIds,
+            currentPermission.user,
+        ]);
+
         const sharingReq = {
             sharing: [
                 {
@@ -132,7 +136,10 @@ function PermissionsTabPanel(props) {
                 newPerms[permIndex].permission = newPermissionValue;
                 setPermissions(newPerms);
             }
-            setPermissionLoadingId(null);
+
+            setPermissionLoadingIds((prevLoadingIds) =>
+                prevLoadingIds.filter((id) => id !== currentPermission.id)
+            );
         });
     };
 
@@ -206,8 +213,9 @@ function PermissionsTabPanel(props) {
                                     }
                                     secondaryAction={
                                         <>
-                                            {permissionLoadingId ===
-                                            permission.user ? (
+                                            {permissionLoadingIds.includes(
+                                                permission.user
+                                            ) ? (
                                                 <CircularProgress
                                                     color="inherit"
                                                     size={20}

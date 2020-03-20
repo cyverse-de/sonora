@@ -190,7 +190,7 @@ export const DetailsDrawerTest = () => {
         .get(/\/api\/filesystem\/entry\/.*/, resourceTagResp)
         .post(/\/api\/tags\/user/, addTagResp)
         .post(/\/api\/filetypes\/type/, resourceUpdatedInfoTypeResp)
-        .post(/\/api\/share/, sharingResp);
+        .post(/\/api\/share/, sharingResp, { delay: 1000 });
 
     return (
         <DetailsDrawer

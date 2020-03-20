@@ -241,7 +241,7 @@ exports[`Data Table View renders 1`] = `
             tabIndex={0}
             title={null}
           >
-            Created
+            Date Submitted
             <svg
               aria-hidden="true"
               className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"

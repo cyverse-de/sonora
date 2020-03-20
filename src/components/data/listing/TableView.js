@@ -53,7 +53,7 @@ function getTableColumns(isMedium, isLarge) {
     }
 
     if (isLarge) {
-        columns.push({ name: "Created", align: "left", enableSorting: true, key: "datecreated" });
+        columns.push({ name: "Date Submitted", align: "left", enableSorting: true, key: "datecreated" });
     }
 
     columns.push({ name: "", align: "left", enableSorting: false });

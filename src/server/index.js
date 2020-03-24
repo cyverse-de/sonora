@@ -6,6 +6,7 @@ import session from "express-session";
 
 import * as config from "./configuration";
 import apiRouter from "./api/router";
+import NavigationConstants from "../components/layout/NavigationConstants";
 
 import logger, { errorLogger, requestLogger } from "./logging";
 
@@ -13,6 +14,31 @@ export const app = next({
     dev: config.isDevelopment,
 });
 const nextHandler = app.getRequestHandler();
+
+// Copied from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+function escapeRegExp(string) {
+    return string.replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&");
+}
+
+// buildNavigationRouteRegexp builds a regular expression that can be used to detect one of the
+// navigation routes that isn't explicitly handled elsewhere.
+function buildNavigationRouteRegexp() {
+    // Build the alternation expression for each of the navigation routes.
+    let routeAlternation = "";
+    for (let k in NavigationConstants) {
+        if (k !== "LOGIN" && k !== "LOGOUT") {
+            let v = escapeRegExp(NavigationConstants[k]);
+            if (routeAlternation === "") {
+                routeAlternation = v;
+            } else {
+                routeAlternation = `${routeAlternation}|${NavigationConstants[k]}`;
+            }
+        }
+    }
+
+    // Build and compile the full regular expression.
+    return new RegExp(`^/(${routeAlternation})`);
+}
 
 // Configure the session store.
 const pgSession = pgsimple(session);
@@ -85,7 +111,7 @@ app.prepare()
         });
 
         // URL paths that might appear in the browser address bar should match this route.
-        const userRouteRegexp = /^\/(dashboard|data|apps|analyses|more)/;
+        const userRouteRegexp = buildNavigationRouteRegexp();
         server.get(userRouteRegexp, keycloakClient.checkSso(), (req, res) => {
             return nextHandler(req, res);
         });

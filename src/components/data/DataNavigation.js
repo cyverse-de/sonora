@@ -30,6 +30,7 @@ import { useRouter } from "next/router";
 import NavigationConstants from "../layout/NavigationConstants";
 import ids from "./ids";
 import constants from "../../constants";
+import { getEncodedPath, getStorageIdFromPath } from "./utils";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
@@ -89,12 +90,11 @@ function pathToRoute(storageId, root, relativePath, selectedPathItemIndex) {
         return accumulator;
     };
     const routerPath = relativePathItems.reduce(reducer);
-    return (
-        constants.PATH_SEPARATOR +
-        NavigationConstants.DATA +
-        constants.PATH_SEPARATOR +
-        `${storageId}${root}${constants.PATH_SEPARATOR}${routerPath}`
-    );
+    return `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${
+        constants.PATH_SEPARATOR
+    }${storageId}${root}${constants.PATH_SEPARATOR}${getEncodedPath(
+        routerPath
+    )}`;
 }
 
 /**
@@ -168,7 +168,7 @@ function FolderSelectorMenu({
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
         setAnchorEl(null);
-        const storageId = router.pathname.split(constants.PATH_SEPARATOR)[2];
+        const storageId = getStorageIdFromPath(router.pathname);
         const relativePath = getRelativePath(
             path,
             userHomePath,
@@ -290,7 +290,7 @@ function BreadCrumb({
         event.preventDefault();
         const relativePathItems = getPathItems(relativePath);
         const index = relativePathItems.indexOf(crumb);
-        const storageId = router.pathname.split(constants.PATH_SEPARATOR)[2];
+        const storageId = getStorageIdFromPath(router.pathname);
         router.push(pathToRoute(storageId, root, relativePath, index));
     };
 
@@ -401,12 +401,9 @@ function DataNavigation(props) {
 
     const handleMenuItemClick = (event, index) => {
         setAnchorEl(null);
-        const storageId = router.pathname.split(constants.PATH_SEPARATOR)[2];
+        const storageId = getStorageIdFromPath(router.pathname);
         router.push(
-            constants.PATH_SEPARATOR +
-                NavigationConstants.DATA +
-                constants.PATH_SEPARATOR +
-                `${storageId}${dataRoots[index].path}`
+            `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}${storageId}${dataRoots[index].path}`
         );
     };
 

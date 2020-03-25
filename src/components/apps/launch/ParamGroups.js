@@ -45,6 +45,51 @@ import { ExpandMore } from "@material-ui/icons";
 const useStyles = makeStyles(styles);
 
 /**
+ * @param {string} baseId
+ * @param {number} paramIndex
+ * @param {string} type
+ *
+ * @returns {string} A debug ID appropriate for the given parameter type, index,
+ * and baseId.
+ */
+const buildParamId = (baseId, paramIndex, type) => {
+    const baseParamId = buildDebugId(baseId, paramIndex);
+
+    switch (type) {
+        case constants.PARAM_TYPE.DOUBLE:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_DOUBLE_SPINNER);
+        case constants.PARAM_TYPE.DOUBLE_SELECTION:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_DOUBLE_SELECTION);
+        case constants.PARAM_TYPE.ENV_VAR:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_ENV_VAR);
+        case constants.PARAM_TYPE.FILE_INPUT:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_FILE_SELECTOR);
+        case constants.PARAM_TYPE.FILE_OUTPUT:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_OUTPUT_FILE);
+        case constants.PARAM_TYPE.FLAG:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_FLAG);
+        case constants.PARAM_TYPE.FOLDER_OUTPUT:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_OUTPUT_FOLDER);
+        case constants.PARAM_TYPE.INFO:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_INFO_LABEL);
+        case constants.PARAM_TYPE.INTEGER:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_INTEGER_SPINNER);
+        case constants.PARAM_TYPE.INTEGER_SELECTION:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_INTEGER_SELECTION);
+        case constants.PARAM_TYPE.MULTIFILE_OUTPUT:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_MULTI_FILE_OUTPUT);
+        case constants.PARAM_TYPE.MULTILINE_TEXT:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_MULTI_LINE_TEXT);
+        case constants.PARAM_TYPE.TEXT:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_TEXT_INPUT);
+        case constants.PARAM_TYPE.TEXT_SELECTION:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_TEXT_SELECTION);
+        default:
+            return baseParamId;
+    }
+};
+
+/**
  * Form fields and info display for an app parameter group.
  */
 const ParamGroupForm = withI18N((props) => {
@@ -68,7 +113,11 @@ const ParamGroupForm = withI18N((props) => {
                     }
 
                     const name = `${fieldName}.parameters.${paramIndex}.value`;
-                    const paramFormId = buildDebugId(baseId, paramIndex);
+                    const paramFormId = buildParamId(
+                        baseId,
+                        paramIndex,
+                        param.type
+                    );
 
                     let fieldProps = {
                         id: paramFormId,

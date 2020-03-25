@@ -2,6 +2,8 @@ export default {
     PARAM_TYPE: {
         DOUBLE: "Double",
         DOUBLE_SELECTION: "DoubleSelection",
+        ENV_VAR: "EnvironmentVariable",
+        FILE_INPUT: "FileInput",
         FILE_OUTPUT: "FileOutput",
         FLAG: "Flag",
         FOLDER_OUTPUT: "FolderOutput",

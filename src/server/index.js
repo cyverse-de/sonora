@@ -24,17 +24,10 @@ function escapeRegExp(string) {
 // navigation routes that isn't explicitly handled elsewhere.
 function buildNavigationRouteRegexp() {
     // Build the alternation expression for each of the navigation routes.
-    let routeAlternation = "";
-    for (let k in NavigationConstants) {
-        if (k !== "LOGIN" && k !== "LOGOUT") {
-            let v = escapeRegExp(NavigationConstants[k]);
-            if (routeAlternation === "") {
-                routeAlternation = v;
-            } else {
-                routeAlternation = `${routeAlternation}|${NavigationConstants[k]}`;
-            }
-        }
-    }
+    let routeAlternation = Object.entries(NavigationConstants)
+        .filter(([k]) => k !== "LOGIN" && k !== "LOGOUT")
+        .map(([_, v]) => escapeRegExp(v))
+        .join("|");
 
     // Build and compile the full regular expression.
     return new RegExp(`^/(${routeAlternation})`);

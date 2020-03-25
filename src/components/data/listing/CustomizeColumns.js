@@ -27,12 +27,8 @@ function CustomizeColumns(props) {
     const [columnSettingEl, setColumnSettingEl] = useState(null);
     const [columnSettingsOpen, setColumnSettingsOpen] = useState(false);
 
-    const getColumnIndex = (key) => {
-        return displayColumns.findIndex((colKey) => colKey === key);
-    };
-
     const isDisplayColumn = (key) => {
-        return getColumnIndex(key) !== -1;
+        return Boolean(displayColumns.find((colKey) => colKey === key));
     };
 
     const handleColumnSettingClick = (event) => {
@@ -45,14 +41,14 @@ function CustomizeColumns(props) {
     };
 
     const onColumnSelected = (selectedColumn) => {
-        const colIndex = getColumnIndex(selectedColumn.key);
-        const newDisplayColumns = [...displayColumns];
-        if (colIndex !== -1) {
+        if (isDisplayColumn(selectedColumn.key)) {
             // Remove column
-            newDisplayColumns.splice(colIndex, 1);
-            setDisplayColumns(newDisplayColumns);
+            setDisplayColumns(
+                displayColumns.filter((key) => key !== selectedColumn.key)
+            );
         } else {
             // Add column
+            const newDisplayColumns = [...displayColumns];
             newDisplayColumns.splice(
                 displayColumns.length - 1,
                 0,

@@ -251,7 +251,7 @@ function TableView(props) {
                         {(!listing || listing.length === 0) && !error && (
                             <EmptyTable
                                 message={getMessage("emptyDataListing")}
-                                numColumns={displayColumns.length}
+                                numColumns={displayColumns.length + 1} // extra for checkbox col
                             />
                         )}
                         {error && (

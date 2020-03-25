@@ -1,6 +1,7 @@
 export default {
     checkbox: "checkbox",
     COGE_MI: "cogeMenuItem",
+    CUSTOM_COLS: "customCols",
     DELETE: "delete",
     deleteMI: "delete",
     DETAILS_BTN: "detailsBtn",

@@ -2,6 +2,7 @@ export default {
     locales: "en-us",
     messages: {
         ariaCheckbox: "{label} checkbox",
+        ariaCustomCols: "Customize table columns",
         ariaTableListing: "{path} Data Table",
         browseLocal: "Browse Local",
         created: "Created",

@@ -7,9 +7,9 @@
 
 import React, { useState } from "react";
 
-import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build, DECheckbox, formatMessage, withI18N } from "@cyverse-de/ui-lib";
 import { IconButton, ListItemIcon, Menu, MenuItem } from "@material-ui/core";
-import { Check, Settings } from "@material-ui/icons";
+import { Settings } from "@material-ui/icons";
 import { injectIntl } from "react-intl";
 
 import ids from "../ids";
@@ -85,11 +85,14 @@ function CustomizeColumns(props) {
                             onColumnSelected(col);
                         }}
                     >
-                        {isDisplayColumn(col.key) && (
-                            <ListItemIcon>
-                                <Check />
-                            </ListItemIcon>
-                        )}
+                        <ListItemIcon>
+                            <DECheckbox
+                                checked={isDisplayColumn(col.key)}
+                                onChange={() => {
+                                    onColumnSelected(col);
+                                }}
+                            />
+                        </ListItemIcon>
                         {col.name}
                     </MenuItem>
                 ))}

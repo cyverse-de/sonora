@@ -134,7 +134,7 @@ function Listing(props) {
     useEffect(() => {
         callApi({
             endpoint: `/api/filetypes/type-list`,
-        }).then(resp => {
+        }).then((resp) => {
             if (resp) {
                 setInfoTypes(resp.types);
             }

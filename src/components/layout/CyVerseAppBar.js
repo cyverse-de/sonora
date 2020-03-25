@@ -20,6 +20,7 @@ import {
     formatMessage,
     getMessage,
     withI18N,
+    CyVerseAnnouncer,
 } from "@cyverse-de/ui-lib";
 
 import { useRouter } from "next/router";
@@ -437,6 +438,7 @@ function CyverseAppBar(props) {
                         </div>
                     </Toolbar>
                 </AppBar>
+                <CyVerseAnnouncer />
             </div>
             {children}
         </>

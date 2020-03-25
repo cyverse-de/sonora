@@ -261,109 +261,109 @@ function TableView(props) {
                             />
                         )}
                         {listing &&
-                            listing.length > 0 &&
-                            listing.map((resource, index) => {
-                                const resourceName = resource.label;
-                                const resourceId = resource.id;
-                                const isSelected =
-                                    selected.indexOf(resourceId) !== -1;
-                                return (
-                                    <TableRow
-                                        role="checkbox"
-                                        tabIndex={0}
-                                        hover
-                                        id={build(tableId, resourceName)}
-                                        key={resourceId}
-                                        selected={isSelected}
-                                        aria-checked={isSelected}
-                                        onClick={(event) =>
-                                            handleClick(
-                                                event,
-                                                resourceId,
-                                                index
-                                            )
-                                        }
-                                    >
-                                        <TableCell padding="checkbox">
-                                            <DECheckbox
-                                                checked={isSelected}
-                                                tabIndex={0}
-                                                id={build(
-                                                    tableId,
-                                                    resourceName,
-                                                    ids.checkbox
+                        listing.length > 0 &&
+                        listing.map((resource, index) => {
+                            const resourceName = resource.label;
+                            const resourceId = resource.id;
+                            const isSelected =
+                                selected.indexOf(resourceId) !== -1;
+                            return (
+                                <TableRow
+                                    role="checkbox"
+                                    tabIndex={0}
+                                    hover
+                                    id={build(tableId, resourceName)}
+                                    key={resourceId}
+                                    selected={isSelected}
+                                    aria-checked={isSelected}
+                                    onClick={(event) =>
+                                        handleClick(
+                                            event,
+                                            resourceId,
+                                            index
+                                        )
+                                    }
+                                >
+                                    <TableCell padding="checkbox">
+                                        <DECheckbox
+                                            checked={isSelected}
+                                            tabIndex={0}
+                                            id={build(
+                                                tableId,
+                                                resourceName,
+                                                ids.checkbox
+                                            )}
+                                            inputProps={{
+                                                "aria-label": formatMessage(
+                                                    intl,
+                                                    "ariaCheckbox",
+                                                    {
+                                                        label:
+                                                        resource.label,
+                                                    }
+                                                ),
+                                            }}
+                                        />
+                                    </TableCell>
+                                    <TableCell padding="checkbox">
+                                        <ResourceIcon
+                                            type={resource.type}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <SpanLink
+                                            id={build(
+                                                tableId,
+                                                resourceName,
+                                                ids.navLink
+                                            )}
+                                            onClick={() =>
+                                                handlePathChange(
+                                                    `${path}/${resource.label}`
+                                                )
+                                            }
+                                        >
+                                            {resource.label}
+                                        </SpanLink>
+                                    </TableCell>
+                                    {getColumnDetails(displayColumns).map(
+                                        (column, index) => (
+                                            <Fragment key={index}>
+                                                {getColumnCell(
+                                                    column.key,
+                                                    resource
                                                 )}
-                                                inputProps={{
-                                                    "aria-label": formatMessage(
-                                                        intl,
-                                                        "ariaCheckbox",
-                                                        {
-                                                            label:
-                                                                resource.label,
-                                                        }
-                                                    ),
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell padding="checkbox">
-                                            <ResourceIcon
-                                                type={resource.type}
-                                            />
-                                        </TableCell>
-                                        <TableCell>
-                                            <SpanLink
-                                                id={build(
-                                                    tableId,
-                                                    resourceName,
-                                                    ids.navLink
-                                                )}
-                                                onClick={() =>
-                                                    handlePathChange(
-                                                        `${path}/${resource.label}`
-                                                    )
-                                                }
-                                            >
-                                                {resource.label}
-                                            </SpanLink>
-                                        </TableCell>
-                                        {getColumnDetails(displayColumns).map(
-                                            (column, index) => (
-                                                <Fragment key={index}>
-                                                    {getColumnCell(
-                                                        column.key,
-                                                        resource
-                                                    )}
-                                                </Fragment>
-                                            )
-                                        )}
-                                        <TableCell>
-                                            <DataDotMenu
-                                                baseId={build(
-                                                    tableId,
-                                                    resourceName
-                                                )}
-                                                MenuProps={{ tabIndex: 0 }}
-                                                onDownloadSelected={() =>
-                                                    onDownloadSelected(
-                                                        resourceId
-                                                    )
-                                                }
-                                                onEditSelected={() =>
-                                                    onEditSelected(resourceId)
-                                                }
-                                                onMetadataSelected={() =>
-                                                    onMetadataSelected(
-                                                        resourceId
-                                                    )
-                                                }
-                                                onDeleteSelected={() =>
-                                                    onDeleteSelected(resourceId)
-                                                }
-                                            />
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
+                                            </Fragment>
+                                        )
+                                    )}
+                                    <TableCell>
+                                        <DataDotMenu
+                                            baseId={build(
+                                                tableId,
+                                                resourceName
+                                            )}
+                                            MenuProps={{ tabIndex: 0 }}
+                                            onDownloadSelected={() =>
+                                                onDownloadSelected(
+                                                    resourceId
+                                                )
+                                            }
+                                            onEditSelected={() =>
+                                                onEditSelected(resourceId)
+                                            }
+                                            onMetadataSelected={() =>
+                                                onMetadataSelected(
+                                                    resourceId
+                                                )
+                                            }
+                                            onDeleteSelected={() =>
+                                                onDeleteSelected(resourceId)
+                                            }
+                                        />
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
                     </TableBody>
                 )}
             </Table>

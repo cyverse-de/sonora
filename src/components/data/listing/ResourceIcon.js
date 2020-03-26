@@ -15,10 +15,10 @@ function ResourceIcon(props) {
     const { type, ...rest } = props;
 
     if (type === "FOLDER" || type === "DIR") {
-        return <FolderIcon {...rest} />;
+        return <FolderIcon color="primary" {...rest} />;
     }
     if (type === "FILE") {
-        return <FileIcon {...rest} />;
+        return <FileIcon color="primary" {...rest} />;
     }
 
     return null;

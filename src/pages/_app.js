@@ -9,7 +9,7 @@ import "./styles.css";
 
 import CyverseAppBar from "../components/layout/CyVerseAppBar";
 import Navigation from "../components/layout/Navigation";
-import NavigationConstants from "../components/layout/NavigationConstants";
+import NavigationConstants from "../common/NavigationConstants";
 import UploadManager from "../components/uploads/manager";
 import theme from "../components/theme/default";
 import ids from "../components/layout/ids";

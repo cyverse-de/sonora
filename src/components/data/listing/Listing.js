@@ -21,7 +21,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import FolderSharedIcon from "@material-ui/icons/FolderShared";
 import GroupIcon from "@material-ui/icons/Group";
 import DeleteIcon from "@material-ui/icons/Delete";
-import NavigationConstants from "../../layout/NavigationConstants";
+import NavigationConstants from "../../../common/NavigationConstants";
 import { injectIntl } from "react-intl";
 import { useRouter } from "next/router";
 import { useUserProfile } from "../../../contexts/userProfile";

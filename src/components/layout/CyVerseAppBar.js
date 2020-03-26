@@ -12,7 +12,7 @@ import intlData from "./messages";
 import constants from "../../constants";
 import callApi from "../../common/callApi";
 import GlobalSearchField from "../search/GlobalSearchField";
-import NavigationConstants from "./NavigationConstants";
+import NavigationConstants from "../../common/NavigationConstants";
 
 import {
     build,

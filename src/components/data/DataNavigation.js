@@ -27,7 +27,7 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import FolderIcon from "@material-ui/icons/Folder";
 import { useRouter } from "next/router";
-import NavigationConstants from "../layout/NavigationConstants";
+import NavigationConstants from "../../common/NavigationConstants";
 import ids from "./ids";
 import constants from "../../constants";
 import { getEncodedPath, getStorageIdFromPath } from "./utils";

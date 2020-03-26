@@ -7,7 +7,7 @@ import React from "react";
 import ids from "./ids";
 import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
 import intlData from "../layout/messages";
-import NavigationConstants from "../layout/NavigationConstants";
+import NavigationConstants from "../../common/NavigationConstants";
 
 import SearchIcon from "@material-ui/icons/Search";
 import {

@@ -5,7 +5,7 @@
  */
 import React from "react";
 import intlData from "./messages";
-import NavigationConstants from "./NavigationConstants";
+import NavigationConstants from "../../common/NavigationConstants";
 import ids from "./ids";
 import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import { Button, Grid, Hidden, Paper, Tooltip } from "@material-ui/core";

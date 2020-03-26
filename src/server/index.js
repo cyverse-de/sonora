@@ -6,7 +6,7 @@ import session from "express-session";
 
 import * as config from "./configuration";
 import apiRouter from "./api/router";
-import NavigationConstants from "../components/layout/NavigationConstants";
+import NavigationConstants from "../common/NavigationConstants";
 
 import logger, { errorLogger, requestLogger } from "./logging";
 

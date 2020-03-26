@@ -5,7 +5,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import Listing from "../../components/data/listing/Listing";
-import NavigationConstants from "../../components/layout/NavigationConstants";
+import NavigationConstants from "../../common/NavigationConstants";
 import constants from "../../constants";
 import {
     getEncodedPath,

@@ -33,7 +33,12 @@ to help get started.
 of middleware you want for things like body parsing, error handling, logging, etc.
 
 ## Keycloak
-[Keycloak](https://www.keycloak.org/) is an open-source tool for authentication. It works with LDAP, has
-single-sign on capabilities, and can be customized to match a theme. 
-We're using [Keycloak Connect](https://github.com/keycloak/keycloak-nodejs-connect) to integrate Keycloak 
+[Keycloak](https://www.keycloak.org/) is an open-source identity provider with support for single
+sign-on. It works with several user storage backends, including LDAP. It also supports integration with
+other identity providers, which will be potentially useful if we want to allow users to log in using
+their home institution's credentials. The login page can also be customized without being coupled too
+tightly with the version of Keycloak being used.
+
+Keycloak supports SAML and openid-connect along with a few other protocols. We're using openid-connect in
+conjunction with [Keycloak Connect](https://github.com/keycloak/keycloak-nodejs-connect) to integrate Keycloak
 into Sonora.

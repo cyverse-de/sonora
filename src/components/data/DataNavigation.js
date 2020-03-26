@@ -29,8 +29,8 @@ import FolderIcon from "@material-ui/icons/Folder";
 import { useRouter } from "next/router";
 import NavigationConstants from "../layout/NavigationConstants";
 import ids from "./ids";
-
-const PATH_SEPARATOR = "/";
+import constants from "../../constants";
+import { getEncodedPath, getStorageIdFromPath } from "./utils";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
@@ -65,34 +65,36 @@ const useStyles = makeStyles((theme) => ({
  */
 function getPathItems(relativePath) {
     let pathItems = [];
-    pathItems = relativePath.split(PATH_SEPARATOR).slice(1);
+    pathItems = relativePath.split(constants.PATH_SEPARATOR).slice(1);
     return pathItems;
 }
 
 /**
  * Computes the path for routing.
  *  * @example
- * // returns "/data?path=/iplant/home/ipctest/analyses"
- * getPathItems("/iplant/home/ipctest","/analyses/wordcount/logs", 0);
- * @param {string }root - CyVerse Data Store root path e.g: /iplant/home/ipctest
+ * // returns "/data/ds/iplant/home/ipctest/analyses"
+ * getPathItems("ds","/iplant/home/ipctest","/analyses/wordcount/logs", 0);
+ * @param {string} storageId - storage id of data storage that is being browsed. e.g. : "ds" for
+ * CyVerse Data Store
+ * @param {string } root - CyVerse Data Store root path e.g: /iplant/home/ipctest
  * @param {string} relativePath - relative path to CyVerse Data Store e.g: /analyses/wordcount/logs
  * @param {number} selectedPathItemIndex - index of the selected path item
  * @returns {string} - path to be used by the nextjs router
  */
-function pathToRoute(root, relativePath, selectedPathItemIndex) {
+function pathToRoute(storageId, root, relativePath, selectedPathItemIndex) {
     const relativePathItems = getPathItems(relativePath);
     const reducer = (accumulator, currentVal, idx) => {
         if (idx <= selectedPathItemIndex) {
-            return accumulator + PATH_SEPARATOR + currentVal;
+            return accumulator + constants.PATH_SEPARATOR + currentVal;
         }
         return accumulator;
     };
     const routerPath = relativePathItems.reduce(reducer);
-    return (
-        "/" +
-        NavigationConstants.DATA +
-        `?path=${root}${PATH_SEPARATOR}${routerPath}`
-    );
+    return `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${
+        constants.PATH_SEPARATOR
+    }${storageId}${root}${constants.PATH_SEPARATOR}${getEncodedPath(
+        routerPath
+    )}`;
 }
 
 /**
@@ -166,6 +168,7 @@ function FolderSelectorMenu({
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
         setAnchorEl(null);
+        const storageId = getStorageIdFromPath(router.pathname);
         const relativePath = getRelativePath(
             path,
             userHomePath,
@@ -173,7 +176,7 @@ function FolderSelectorMenu({
             sharedWithMePath,
             communityDataPath
         );
-        router.push(pathToRoute(root, relativePath, index));
+        router.push(pathToRoute(storageId, root, relativePath, index));
     };
 
     const handleClose = () => {
@@ -287,7 +290,8 @@ function BreadCrumb({
         event.preventDefault();
         const relativePathItems = getPathItems(relativePath);
         const index = relativePathItems.indexOf(crumb);
-        router.push(pathToRoute(root, relativePath, index));
+        const storageId = getStorageIdFromPath(router.pathname);
+        router.push(pathToRoute(storageId, root, relativePath, index));
     };
 
     return (
@@ -397,10 +401,9 @@ function DataNavigation(props) {
 
     const handleMenuItemClick = (event, index) => {
         setAnchorEl(null);
+        const storageId = getStorageIdFromPath(router.pathname);
         router.push(
-            PATH_SEPARATOR +
-                NavigationConstants.DATA +
-                `?path=${dataRoots[index].path}`
+            `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}${storageId}${dataRoots[index].path}`
         );
     };
 

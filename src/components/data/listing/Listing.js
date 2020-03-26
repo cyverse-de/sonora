@@ -71,7 +71,9 @@ function Listing(props) {
     useEffect(() => {
         if (path) {
             callApi({
-                endpoint: `/api/filesystem/paged-directory?path=${path}&limit=${rowsPerPage}&sort-col=${orderBy}&sort-dir=${order}&offset=${rowsPerPage *
+                endpoint: `/api/filesystem/paged-directory?path=${encodeURIComponent(
+                    path
+                )}&limit=${rowsPerPage}&sort-col=${orderBy}&sort-dir=${order}&offset=${rowsPerPage *
                     page}`,
                 setLoading,
                 setError,
@@ -247,7 +249,9 @@ function Listing(props) {
     //route to default path
     if (dataRoots.length > 0 && (!error || error.length === 0) && !path) {
         router.push(
-            "/" + NavigationConstants.DATA + `?path=${dataRoots[0].path}`
+            encodeURI(
+                `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}ds${dataRoots[0].path}`
+            )
         );
     }
 

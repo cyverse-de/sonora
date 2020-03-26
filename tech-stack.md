@@ -31,3 +31,9 @@ to help get started.
 [Express](https://expressjs.com/) is an open-source web framework for Node.js and handles requests and 
 [routing](https://expressjs.com/en/guide/routing.html) in Sonora.  It allows you to add whatever kind 
 of middleware you want for things like body parsing, error handling, logging, etc.
+
+## Keycloak
+[Keycloak](https://www.keycloak.org/) is an open-source tool for authentication. It works with LDAP, has
+single-sign on capabilities, and can be customized to match a theme. 
+We're using [Keycloak Connect](https://github.com/keycloak/keycloak-nodejs-connect) to integrate Keycloak 
+into Sonora.

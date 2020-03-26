@@ -20,6 +20,10 @@ Set the `HUSKY_SKIP_HOOKS` environment variable to `1` to skip the pre-commit ho
 
 Check the scripts in `packages.json` for more options.
 
+## Tech Stack
+
+For information on the tech stack in Sonora, go [here](/tech-stack.md).
+
 ## Contributing to Sonora
 
 For contributing to the Sonora project, please follow our guidelines [here](/guidelines.md).

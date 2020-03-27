@@ -17,7 +17,9 @@ import ids from "../components/layout/ids";
 import { UploadTrackingProvider } from "../contexts/uploadTracking";
 import { UserProfileProvider } from "../contexts/userProfile";
 import { IntercomProvider } from "../contexts/intercom";
+
 import constants from "../constants";
+import { ReactQueryDevtools } from 'react-query-devtools';
 
 const setupIntercom = (intercomAppId) => {
     window.intercomSettings = {
@@ -107,6 +109,7 @@ function MyApp({
                             <Head>
                                 <title>Discovery Environment</title>
                             </Head>
+                            <ReactQueryDevtools initialIsOpen={false} />
                             <Navigation activeView={pathname} />
                             <Component {...pageProps} />
                             <UploadManager />

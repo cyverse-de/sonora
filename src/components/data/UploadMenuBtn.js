@@ -63,10 +63,9 @@ function UploadMenuBtn(props) {
     useEffect(() => {
         if (tracker.uploads.length > 0) {
             announce({
-                text: `${tracker.uploads.length} ${formatMessage(
-                    intl,
-                    "filesQueuedForUploadMsg"
-                )}`,
+                text: formatMessage(intl, "filesQueuedForUploadMsg", {
+                    total: tracker.uploads.length,
+                }),
                 customAction: viewUploadQueue,
             });
         }

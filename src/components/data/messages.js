@@ -51,6 +51,6 @@ export default {
         FolderPathsMenuAriaLabel: "Current folder path",
         dataNavigationBreadcrumbsControl: "Data navigation breadcrumbs",
         folderPathAriaControl: "Folder link",
-        filesQueuedForUploadMsg: "file(s) queued for upload",
+        filesQueuedForUploadMsg: "{total} file(s) queued for upload",
     },
 };

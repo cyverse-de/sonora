@@ -6,6 +6,10 @@ Sonora Tech Stack
 
 We chose to use React in Sonora in part because the dev team had already gotten familiar with it in the 
 old [Discovery Environment](https://github.com/cyverse-de/ui/) code and found success there.
+Especially with the improved and simplified
+[event](https://reactjs.org/docs/handling-events.html)
+and [state management](https://reactjs.org/docs/state-and-lifecycle.html)
+in React, compared to the older GWT framework.
 
 Additionally, React is declarative, can be functional, has a lot of active support, and a growing 
 ecosystem of tools. Their overall philosophy of building small, reusable components was also appealing 
@@ -18,6 +22,13 @@ It has helped us accomplish some of the big goals we wanted in the Discovery Env
 accessibility, theming, and mobile-friendliness.  
 The look and feel of Material-UI's components also have an element of familiarity which hopefully adds 
 to how intuitive Sonora feels to new users.
+
+[Jest](https://facebook.github.io/jest/)
+is the testing framework included by React's
+[create-react-app](https://reactjs.org/docs/create-a-new-react-app.html#create-react-app)
+tool that allows for unit testing and snapshot comparisons.
+It also can run on the command-line watching for changes in files,
+re-runing any related tests as changes are made.
 
 ## NextJs
 [NextJs](https://nextjs.org/) is an open-source React framework built by Zeit.  It enables Sonora to have 

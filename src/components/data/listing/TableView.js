@@ -33,7 +33,7 @@ import ids from "../ids";
 import messages from "../messages";
 import ResourceIcon from "./ResourceIcon";
 import SpanLink from "./SpanLink";
-import TableLoading from "./TableLoading";
+import TableLoading from "../../utils/TableLoading";
 
 const COL_KEYS = {
     CHECKBOX: "checkbox",

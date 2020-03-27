@@ -4,6 +4,8 @@ import getConfig from "next/config";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
+import { ReactQueryDevtools } from "react-query-devtools";
+
 import { ThemeProvider } from "@material-ui/core/styles";
 import "./styles.css";
 
@@ -17,9 +19,7 @@ import ids from "../components/layout/ids";
 import { UploadTrackingProvider } from "../contexts/uploadTracking";
 import { UserProfileProvider } from "../contexts/userProfile";
 import { IntercomProvider } from "../contexts/intercom";
-
 import constants from "../constants";
-import { ReactQueryDevtools } from 'react-query-devtools';
 
 const setupIntercom = (intercomAppId) => {
     window.intercomSettings = {

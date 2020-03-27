@@ -6,4 +6,5 @@ export default {
     APP_COMMENTS: "appComments",
     CARD: "card",
     APP_QUICK_LAUNCH: "appQuickLaunch",
+    LISTING_TABLE: "listingTable",
 };

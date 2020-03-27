@@ -14,6 +14,7 @@ const intlData = {
         commentsNotSupported: "Comments not supported for external apps!",
         more: "More",
         quickLaunch: "Quick Launch",
+        ariaCheckbox: "{label} checkbox",
     },
 };
 

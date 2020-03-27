@@ -87,10 +87,6 @@ export default (theme) => ({
         wordBreak: "break-word",
     },
 
-    skeleton: {
-        backgroundColor: theme.palette.lightGray,
-    },
-
     tabIndicator: {
         backgroundColor: theme.palette.secondary.main,
     },

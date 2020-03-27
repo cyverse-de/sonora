@@ -21,6 +21,7 @@ import { UserProfileProvider } from "../contexts/userProfile";
 import { IntercomProvider } from "../contexts/intercom";
 import constants from "../constants";
 
+
 const setupIntercom = (intercomAppId) => {
     window.intercomSettings = {
         app_id: intercomAppId,

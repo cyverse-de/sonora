@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * @author sriram
  *
@@ -5,6 +6,8 @@
  *
  */
 
+=======
+>>>>>>> a5e0f9d... Basic app listing using react-query
 import React from "react";
 import {
     build,
@@ -34,6 +37,7 @@ import messages from "../messages";
 
 function getTableColumns(deletable, enableMenu) {
     let tableColumns = [
+<<<<<<< HEAD
         {
             name: "",
             numeric: false,
@@ -41,29 +45,44 @@ function getTableColumns(deletable, enableMenu) {
             key: AppFields.STATUS.key,
             id: AppFields.STATUS.key,
         },
+=======
+        { name: "", numeric: false, enableSorting: false, key: "status" },
+>>>>>>> a5e0f9d... Basic app listing using react-query
         {
             name: AppFields.NAME.fieldName,
             enableSorting: true,
             key: AppFields.NAME.key,
+<<<<<<< HEAD
             id: AppFields.NAME.key,
+=======
+>>>>>>> a5e0f9d... Basic app listing using react-query
         },
         {
             name: AppFields.INTEGRATOR.fieldName,
             enableSorting: true,
             key: AppFields.INTEGRATOR.key,
+<<<<<<< HEAD
             id: AppFields.INTEGRATOR.key,
+=======
+>>>>>>> a5e0f9d... Basic app listing using react-query
         },
         {
             name: AppFields.RATING.fieldName,
             enableSorting: true,
             key: AppFields.RATING.key,
+<<<<<<< HEAD
             id: AppFields.RATING.key,
+=======
+>>>>>>> a5e0f9d... Basic app listing using react-query
         },
         {
             name: AppFields.SYSTEM.fieldName,
             enableSorting: false,
             key: AppFields.SYSTEM.key,
+<<<<<<< HEAD
             id: AppFields.SYSTEM.key,
+=======
+>>>>>>> a5e0f9d... Basic app listing using react-query
             align: "right",
         },
     ];
@@ -104,7 +123,11 @@ function TableView(props) {
     } = props;
     const apps = listing?.apps;
     const columnData = getTableColumns(false, false);
+<<<<<<< HEAD
     const tableId = build(baseId, ids.LISTING_TABLE);
+=======
+    const tableId = build(baseId, ids.listingTable);
+>>>>>>> a5e0f9d... Basic app listing using react-query
     return (
         <TableContainer
             component={Paper}
@@ -119,7 +142,11 @@ function TableView(props) {
                     rowsInPage={listing?.apps.length}
                     order={order}
                     orderBy={orderBy}
+<<<<<<< HEAD
                     baseId={tableId}
+=======
+                    baseId="appTableView"
+>>>>>>> a5e0f9d... Basic app listing using react-query
                     columnData={columnData}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
@@ -189,6 +216,7 @@ function TableView(props) {
                                                 }}
                                             />
                                         </TableCell>
+<<<<<<< HEAD
                                         <TableCell
                                             padding="none"
                                             id={build(
@@ -196,6 +224,9 @@ function TableView(props) {
                                                 ids.APP_STATUS_ICON
                                             )}
                                         >
+=======
+                                        <TableCell padding="none">
+>>>>>>> a5e0f9d... Basic app listing using react-query
                                             <AppStatusIcon
                                                 isPublic={app.is_public}
                                                 isBeta={app.beta}
@@ -212,6 +243,7 @@ function TableView(props) {
                                                 name={app.name}
                                             />
                                         </TableCell>
+<<<<<<< HEAD
                                         <TableCell
                                             id={build(
                                                 rowId,
@@ -223,6 +255,12 @@ function TableView(props) {
                                         <TableCell
                                             id={build(rowId, ids.RATING)}
                                         >
+=======
+                                        <TableCell>
+                                            {app.integrator_name}
+                                        </TableCell>
+                                        <TableCell>
+>>>>>>> a5e0f9d... Basic app listing using react-query
                                             <Rate
                                                 name={app.id}
                                                 value={
@@ -232,10 +270,14 @@ function TableView(props) {
                                                 total={totalRating}
                                             />
                                         </TableCell>
+<<<<<<< HEAD
                                         <TableCell
                                             align="right"
                                             id={build(rowId, ids.SYSTEM_ID)}
                                         >
+=======
+                                        <TableCell align="right">
+>>>>>>> a5e0f9d... Basic app listing using react-query
                                             {app.system_id}
                                         </TableCell>
                                     </TableRow>

@@ -24,8 +24,8 @@ function getAppsInCategory(
     { systemId, categoryId, rowsPerPage, orderBy, order, page }
 ) {
     return callApi({
-        endpoint: `/api/apps/categories/${systemId}/${categoryId}?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${rowsPerPage *
-            page}`,
+        endpoint: `/api/apps/categories/${systemId}/${categoryId}?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=
+        ${rowsPerPage * page}`,
         method: "GET",
     });
 }

@@ -13,6 +13,8 @@ import ids from "./ids";
 import messages from "./messages";
 import styles from "./styles";
 
+import ReferenceGenomeSelect from "./ReferenceGenomeSelect";
+
 import {
     build as buildDebugId,
     FormCheckboxStringValue,
@@ -80,6 +82,15 @@ const buildParamId = (baseId, paramIndex, type) => {
             return buildDebugId(baseParamId, ids.APP_LAUNCH_MULTI_FILE_OUTPUT);
         case constants.PARAM_TYPE.MULTILINE_TEXT:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_MULTI_LINE_TEXT);
+        case constants.PARAM_TYPE.REFERENCE_ANNOTATION:
+            return buildDebugId(
+                baseParamId,
+                ids.APP_LAUNCH_REFERENCE_ANNOTATION
+            );
+        case constants.PARAM_TYPE.REFERENCE_GENOME:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_REFERENCE_GENOME);
+        case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_REFERENCE_SEQUENCE);
         case constants.PARAM_TYPE.TEXT:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_TEXT_INPUT);
         case constants.PARAM_TYPE.TEXT_SELECTION:
@@ -188,6 +199,11 @@ const ParamGroupForm = withI18N((props) => {
                                     </MenuItem>
                                 ));
                             break;
+                        case constants.PARAM_TYPE.REFERENCE_GENOME:
+                        case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
+                        case constants.PARAM_TYPE.REFERENCE_ANNOTATION:
+                            fieldProps.component = ReferenceGenomeSelect;
+                            break;
 
                         default:
                             fieldProps.component = FormTextField;
@@ -225,6 +241,14 @@ const ParamsReviewValue = ({ param }) => {
         case constants.PARAM_TYPE.DOUBLE_SELECTION:
             if (value && value.display) {
                 return value.display;
+            }
+            break;
+
+        case constants.PARAM_TYPE.REFERENCE_GENOME:
+        case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
+        case constants.PARAM_TYPE.REFERENCE_ANNOTATION:
+            if (value && value.name) {
+                return value.name;
             }
             break;
 

@@ -8,25 +8,28 @@ import React, { useEffect, useState } from "react";
 
 import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
 import { TablePagination } from "@material-ui/core";
-
-import Header from "../Header";
-import messages from "../messages";
-import TableView from "./TableView";
-import callApi from "../../../common/callApi";
-import UploadDropTarget from "../../uploads/UploadDropTarget";
-import { useUploadTrackingState } from "../../../contexts/uploadTracking";
-
-import { camelcaseit } from "../../../common/functions";
 import HomeIcon from "@material-ui/icons/Home";
 import FolderSharedIcon from "@material-ui/icons/FolderShared";
 import GroupIcon from "@material-ui/icons/Group";
 import DeleteIcon from "@material-ui/icons/Delete";
-import NavigationConstants from "../../../common/NavigationConstants";
-import { injectIntl } from "react-intl";
 import { useRouter } from "next/router";
+import { injectIntl } from "react-intl";
+
+import Header from "../Header";
+import messages from "../messages";
+import TableView from "./TableView";
+import UploadDropTarget from "../../uploads/UploadDropTarget";
+import { useUploadTrackingState } from "../../../contexts/uploadTracking";
+import { camelcaseit } from "../../../common/functions";
+import NavigationConstants from "../../../common/NavigationConstants";
 import { useUserProfile } from "../../../contexts/userProfile";
 import constants from "../../../constants";
 import Drawer from "../details/Drawer";
+import {
+    getFilesystemRoots,
+    getInfoTypes,
+    getPagedListing,
+} from "../../endpoints/Filesystem";
 
 function Listing(props) {
     const router = useRouter();
@@ -70,39 +73,32 @@ function Listing(props) {
 
     useEffect(() => {
         if (path) {
-            callApi({
-                endpoint: `/api/filesystem/paged-directory?path=${encodeURIComponent(
-                    path
-                )}&limit=${rowsPerPage}&sort-col=${orderBy}&sort-dir=${order}&offset=${rowsPerPage *
-                    page}`,
-                setLoading,
-                setError,
-            }).then((respData) => {
-                respData &&
-                    setData({
-                        total: respData?.total,
-                        listing: [
-                            ...respData?.folders.map((f) => ({
-                                ...f,
-                                type: "FOLDER",
-                            })),
-                            ...respData?.files.map((f) => ({
-                                ...f,
-                                type: "FILE",
-                            })),
-                        ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
-                    });
-                setError("");
-            });
+            setLoading(true);
+            getPagedListing(path, rowsPerPage, orderBy, order, page).then(
+                (respData) => {
+                    respData &&
+                        setData({
+                            total: respData?.total,
+                            listing: [
+                                ...respData?.folders.map((f) => ({
+                                    ...f,
+                                    type: "FOLDER",
+                                })),
+                                ...respData?.files.map((f) => ({
+                                    ...f,
+                                    type: "FILE",
+                                })),
+                            ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
+                        });
+                    setError("");
+                    setLoading(false);
+                }
+            );
         }
     }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
 
     useEffect(() => {
-        callApi({
-            endpoint: `/api/filesystem/root`,
-            setLoading,
-            setError,
-        }).then((respData) => {
+        getFilesystemRoots().then((respData) => {
             if (respData && userProfile) {
                 const respRoots = respData.roots;
                 const home = respRoots.find(
@@ -134,9 +130,7 @@ function Listing(props) {
     }, [path, intl, userProfile]);
 
     useEffect(() => {
-        callApi({
-            endpoint: `/api/filetypes/type-list`,
-        }).then((resp) => {
+        getInfoTypes().then((resp) => {
             if (resp) {
                 setInfoTypes(resp.types);
             }

@@ -3,7 +3,7 @@ import Navigation from "../src/components/layout/Navigation";
 
 class NavigationTest extends Component {
     render() {
-        return <Navigation />;
+        return <Navigation activeView="data" />;
     }
 }
 

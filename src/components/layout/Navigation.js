@@ -140,7 +140,9 @@ function Navigation(props) {
                                 id={build(ids.NAVIGATION, ids.DATA_BTN)}
                                 disableElevation
                                 className={
-                                    activeView === NavigationConstants.DATA
+                                    activeView.includes(
+                                        NavigationConstants.DATA
+                                    )
                                         ? classes.selectedDataButton
                                         : classes.dataButton
                                 }

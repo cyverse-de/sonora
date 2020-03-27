@@ -1,5 +1,8 @@
 import React from "react";
+import Listing from "../components/apps/listing/Listing";
 
 export default function Apps() {
-    return <div>Launch an app from here</div>;
+    return (
+        <Listing baseId="apps" />
+    );
 }

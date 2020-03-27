@@ -165,5 +165,25 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding the /apps/categories handler");
+    api.get(
+        "/apps/categories",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/secured/apps/categories",
+        })
+    );
+
+    logger.info("adding the /apps handler");
+    api.get(
+        "/apps",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps",
+        })
+    );
+
     return api;
 }

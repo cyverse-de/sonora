@@ -15,6 +15,9 @@ const intlData = {
         more: "More",
         quickLaunch: "Quick Launch",
         ariaCheckbox: "{label} checkbox",
+        gridView: "Grid View",
+        tableView: "Table View",
+        noApps: "No Apps to display"
     },
 };
 

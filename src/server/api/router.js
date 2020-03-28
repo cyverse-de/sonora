@@ -171,7 +171,7 @@ export default function apiRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
-            pathname: "/secured/apps/categories",
+            pathname: "/apps/categories",
         })
     );
 

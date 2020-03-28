@@ -1,3 +1,7 @@
+/**
+ * @author sriram
+ *
+ */
 import callApi from "../common/callApi";
 
 function getApps(key, { rowsPerPage, orderBy, order, page }) {
@@ -8,4 +12,11 @@ function getApps(key, { rowsPerPage, orderBy, order, page }) {
     });
 }
 
-export { getApps };
+function getPrivateCategories(key) {
+    return callApi({
+        endpoint:"/api/apps/categories?public=false",
+        method: "GET",
+    })
+}
+
+export { getApps, getPrivateCategories };

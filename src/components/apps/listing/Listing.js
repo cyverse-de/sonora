@@ -10,8 +10,11 @@ import { usePaginatedQuery } from "react-query";
 import { getApps } from "../../../serviceFacade/appServiceFacade";
 import TableView from "./TableView";
 import { TablePagination } from "@material-ui/core";
+import Header from "../Header";
 
 function Listing(props) {
+    const {baseId} = props;
+    const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");
     const [selected, setSelected] = useState([]);
@@ -22,6 +25,10 @@ function Listing(props) {
         ["getApps", { rowsPerPage, orderBy, order, page }],
         getApps
     );
+
+    const toggleDisplay = () => {
+        setGridView(!isGridView);
+    };
 
     const select = (appIds) => {
         let newSelected = [...selected];
@@ -103,11 +110,14 @@ function Listing(props) {
 
     return (
         <>
+            <Header  baseId={baseId}
+                     isGridView={isGridView}
+                     toggleDisplay={toggleDisplay}/>
             <TableView
                 loading={status === "loading"}
                 error={status === "error" ? error : ""}
                 listing={data}
-                baseId="appListing"
+                baseId={baseId}
                 order={order}
                 orderBy={orderBy}
                 selected={selected}

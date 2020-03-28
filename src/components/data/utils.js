@@ -21,6 +21,8 @@ function getEncodedPath(path) {
 /**
  *  Get storage id from router path
  *
+ *  Sample path: /data/ds/iplant/home/ipcdev
+ *
  * @param {string} pathname - path from the router
  * @returns {string|*} storage id
  */
@@ -28,7 +30,14 @@ function getStorageIdFromPath(pathname) {
     if (!pathname) {
         return "";
     }
-    return pathname.split(constants.PATH_SEPARATOR)[2];
+
+    const paths = pathname.split(constants.PATH_SEPARATOR);
+    if (paths.length > 2) {
+        return paths[2];
+    } else {
+        // Default to data store.  Needed if user navigates to just /data.
+        return "ds";
+    }
 }
 
 export { getEncodedPath, getStorageIdFromPath };

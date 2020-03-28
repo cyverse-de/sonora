@@ -30,11 +30,8 @@ import { injectIntl } from "react-intl";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import FolderIcon from "@material-ui/icons/Folder";
-import { useRouter } from "next/router";
-import NavigationConstants from "../../common/NavigationConstants";
 import ids from "./ids";
 import constants from "../../constants";
-import { getEncodedPath, getStorageIdFromPath } from "./utils";
 import { getFilesystemRoots } from "../endpoints/Filesystem";
 import { useUserProfile } from "../../contexts/userProfile";
 
@@ -77,34 +74,6 @@ function getPathItems(relativePath) {
 }
 
 /**
- * Computes the path for routing.
- *  * @example
- * // returns "/data/ds/iplant/home/ipctest/analyses"
- * getPathItems("ds","/iplant/home/ipctest","/analyses/wordcount/logs", 0);
- * @param {string} storageId - storage id of data storage that is being browsed. e.g. : "ds" for
- * CyVerse Data Store
- * @param {string } root - CyVerse Data Store root path e.g: /iplant/home/ipctest
- * @param {string} relativePath - relative path to CyVerse Data Store e.g: /analyses/wordcount/logs
- * @param {number} selectedPathItemIndex - index of the selected path item
- * @returns {string} - path to be used by the nextjs router
- */
-function pathToRoute(storageId, root, relativePath, selectedPathItemIndex) {
-    const relativePathItems = getPathItems(relativePath);
-    const reducer = (accumulator, currentVal, idx) => {
-        if (idx <= selectedPathItemIndex) {
-            return accumulator + constants.PATH_SEPARATOR + currentVal;
-        }
-        return accumulator;
-    };
-    const routerPath = relativePathItems.reduce(reducer);
-    return `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${
-        constants.PATH_SEPARATOR
-    }${storageId}${root}${constants.PATH_SEPARATOR}${getEncodedPath(
-        routerPath
-    )}`;
-}
-
-/**
  * Get relative path to CyVerse Data Store path.
  * Note: - Swapping community data path check and shared with me path check will result in incorrect
  * relative path since their path overlaps
@@ -142,8 +111,8 @@ function getRelativePath(
 }
 
 function FolderSelectorMenu({
-    root,
     path,
+    handlePathChange,
     userHomePath,
     userTrashPath,
     sharedWithMePath,
@@ -152,7 +121,6 @@ function FolderSelectorMenu({
     intl,
 }) {
     const classes = useStyles();
-    const router = useRouter();
     const [anchorEl, setAnchorEl] = useState(null);
     const relativePath = getRelativePath(
         path,
@@ -175,7 +143,6 @@ function FolderSelectorMenu({
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
         setAnchorEl(null);
-        const storageId = getStorageIdFromPath(router.pathname);
         const relativePath = getRelativePath(
             path,
             userHomePath,
@@ -183,7 +150,7 @@ function FolderSelectorMenu({
             sharedWithMePath,
             communityDataPath
         );
-        router.push(pathToRoute(storageId, root, relativePath, index));
+        handlePathChange(`${relativePath}${constants.PATH_SEPARATOR}${index}`);
     };
 
     const handleClose = () => {
@@ -279,8 +246,8 @@ function FolderSelectorMenu({
 }
 
 function BreadCrumb({
-    root,
     path,
+    handlePathChange,
     userHomePath,
     userTrashPath,
     sharedWithMePath,
@@ -289,7 +256,6 @@ function BreadCrumb({
     intl,
 }) {
     const classes = useStyles();
-    const router = useRouter();
     const relativePath = getRelativePath(
         path,
         userHomePath,
@@ -302,8 +268,7 @@ function BreadCrumb({
         event.preventDefault();
         const relativePathItems = getPathItems(relativePath);
         const index = relativePathItems.indexOf(crumb);
-        const storageId = getStorageIdFromPath(router.pathname);
-        router.push(pathToRoute(storageId, root, relativePath, index));
+        handlePathChange(`${relativePath}${constants.PATH_SEPARATOR}${index}`);
     };
 
     return (
@@ -351,12 +316,7 @@ function BreadCrumb({
 }
 
 function DataNavigation(props) {
-    const {
-        path,
-        baseId,
-        intl,
-    } = props;
-    const router = useRouter();
+    const { path, handlePathChange, baseId, intl } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -367,6 +327,13 @@ function DataNavigation(props) {
     const [communityDataPath, setCommunityDataPath] = useState("");
     const dataNavId = build(baseId, ids.DATA_NAVIGATION);
     const [userProfile] = useUserProfile();
+
+    useEffect(() => {
+        //route to default path
+        if (dataRoots.length > 0 && !path) {
+            handlePathChange(dataRoots[0].path);
+        }
+    }, [dataRoots, handlePathChange, path]);
 
     useEffect(() => {
         getFilesystemRoots().then((respData) => {
@@ -395,7 +362,8 @@ function DataNavigation(props) {
                 setUserHomePath(basePaths["user_home_path"]);
                 setUserTrashPath(basePaths["user_trash_path"]);
                 setDataRoots([home, sharedWithMe, communityData, trash]);
-        }})
+            }
+        });
     }, [userProfile]);
 
     useEffect(() => {
@@ -437,25 +405,13 @@ function DataNavigation(props) {
         communityDataPath,
     ]);
 
-    //route to default path
-    if (dataRoots.length > 0 && !path) {
-        router.push(
-            encodeURI(
-                `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}ds${dataRoots[0].path}`
-            )
-        );
-    }
-
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
     const handleMenuItemClick = (event, index) => {
         setAnchorEl(null);
-        const storageId = getStorageIdFromPath(router.pathname);
-        router.push(
-            `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}${storageId}${dataRoots[index].path}`
-        );
+        handlePathChange(dataRoots[index].path);
     };
 
     const handleClose = () => {
@@ -546,8 +502,8 @@ function DataNavigation(props) {
                 {path ? (
                     <BreadCrumb
                         baseId={dataNavId}
-                        root={dataRoots[selectedIndex].path}
                         path={path}
+                        handlePathChange={handlePathChange}
                         userHomePath={userHomePath}
                         userTrashPath={userTrashPath}
                         sharedWithMePath={sharedWithMePath}
@@ -562,8 +518,8 @@ function DataNavigation(props) {
                 {path ? (
                     <FolderSelectorMenu
                         baseId={dataNavId}
-                        root={dataRoots[selectedIndex].path}
                         path={path}
+                        handlePathChange={handlePathChange}
                         userHomePath={userHomePath}
                         userTrashPath={userTrashPath}
                         sharedWithMePath={sharedWithMePath}

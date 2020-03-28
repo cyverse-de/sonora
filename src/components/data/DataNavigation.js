@@ -21,6 +21,10 @@ import {
     Tooltip,
     Typography,
 } from "@material-ui/core";
+import HomeIcon from "@material-ui/icons/Home";
+import FolderSharedIcon from "@material-ui/icons/FolderShared";
+import GroupIcon from "@material-ui/icons/Group";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { makeStyles } from "@material-ui/core/styles";
 import { injectIntl } from "react-intl";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -31,6 +35,8 @@ import NavigationConstants from "../../common/NavigationConstants";
 import ids from "./ids";
 import constants from "../../constants";
 import { getEncodedPath, getStorageIdFromPath } from "./utils";
+import { getFilesystemRoots } from "../endpoints/Filesystem";
+import { useUserProfile } from "../../contexts/userProfile";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
@@ -347,20 +353,50 @@ function BreadCrumb({
 function DataNavigation(props) {
     const {
         path,
-        error,
         baseId,
-        dataRoots,
-        userHomePath,
-        userTrashPath,
-        sharedWithMePath,
-        communityDataPath,
         intl,
     } = props;
     const router = useRouter();
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [dataRoots, setDataRoots] = useState([]);
+    const [userHomePath, setUserHomePath] = useState("");
+    const [userTrashPath, setUserTrashPath] = useState("");
+    const [sharedWithMePath, setSharedWithMePath] = useState("");
+    const [communityDataPath, setCommunityDataPath] = useState("");
     const dataNavId = build(baseId, ids.DATA_NAVIGATION);
+    const [userProfile] = useUserProfile();
+
+    useEffect(() => {
+        getFilesystemRoots().then((respData) => {
+            if (respData && userProfile) {
+                const respRoots = respData.roots;
+                const home = respRoots.find(
+                    (root) => root.label === userProfile.id
+                );
+                home.icon = <HomeIcon />;
+                const sharedWithMe = respRoots.find(
+                    (root) => root.label === constants.SHARED_WITH_ME
+                );
+                setSharedWithMePath(sharedWithMe.path);
+                sharedWithMe.icon = <FolderSharedIcon />;
+                const communityData = respRoots.find(
+                    (root) => root.label === constants.COMMUNITY_DATA
+                );
+                setCommunityDataPath(communityData.path);
+                communityData.icon = <GroupIcon />;
+                const trash = respRoots.find(
+                    (root) => root.label === constants.TRASH
+                );
+                trash.icon = <DeleteIcon />;
+
+                const basePaths = respData["base-paths"];
+                setUserHomePath(basePaths["user_home_path"]);
+                setUserTrashPath(basePaths["user_trash_path"]);
+                setDataRoots([home, sharedWithMe, communityData, trash]);
+        }})
+    }, [userProfile]);
 
     useEffect(() => {
         /**
@@ -400,6 +436,15 @@ function DataNavigation(props) {
         sharedWithMePath,
         communityDataPath,
     ]);
+
+    //route to default path
+    if (dataRoots.length > 0 && !path) {
+        router.push(
+            encodeURI(
+                `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}ds${dataRoots[0].path}`
+            )
+        );
+    }
 
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
@@ -498,7 +543,7 @@ function DataNavigation(props) {
             </Menu>
 
             <Hidden xsDown>
-                {path && (!error || error.length === 0) ? (
+                {path ? (
                     <BreadCrumb
                         baseId={dataNavId}
                         root={dataRoots[selectedIndex].path}
@@ -514,7 +559,7 @@ function DataNavigation(props) {
                 )}
             </Hidden>
             <Hidden only={["sm", "md", "lg", "xl"]}>
-                {path && (!error || error.length === 0) ? (
+                {path ? (
                     <FolderSelectorMenu
                         baseId={dataNavId}
                         root={dataRoots[selectedIndex].path}

@@ -34,7 +34,6 @@ export default {
         write: "Write",
         upload: "Upload",
         uploadQueue: "View Upload Queue",
-        trash: "Trash",
         sharedWithMe: "Shared With Me",
         communityData: "Community Data",
         myData: "My Data",

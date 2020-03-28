@@ -17,6 +17,7 @@ import ids from "../components/layout/ids";
 import { UploadTrackingProvider } from "../contexts/uploadTracking";
 import { UserProfileProvider } from "../contexts/userProfile";
 import { IntercomProvider } from "../contexts/intercom";
+import constants from "../constants";
 
 const setupIntercom = (intercomAppId) => {
     window.intercomSettings = {
@@ -67,7 +68,7 @@ function MyApp({
 }) {
     const router = useRouter();
     const pathname = router.pathname
-        ? router.pathname.slice(1)
+        ? router.pathname.split(constants.PATH_SEPARATOR)[1]
         : NavigationConstants.DASHBOARD;
     const [intercomSettings, setIntercomSettings] = useState({
         appId: intercomAppId,

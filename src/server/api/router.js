@@ -185,5 +185,16 @@ export default function apiRouter() {
         })
     );
 
+
+    logger.info("adding the /apps/categories/:systemId/:categoryId handler");
+    api.get(
+        "/apps/categories/:systemId/:categoryId",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/categories/:systemId/:categoryId",
+        })
+    );
+
     return api;
 }

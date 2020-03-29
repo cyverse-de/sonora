@@ -185,7 +185,6 @@ export default function apiRouter() {
         })
     );
 
-
     logger.info("adding the /apps/categories/:systemId/:categoryId handler");
     api.get(
         "/apps/categories/:systemId/:categoryId",

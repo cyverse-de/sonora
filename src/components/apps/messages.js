@@ -17,7 +17,7 @@ const intlData = {
         ariaCheckbox: "{label} checkbox",
         gridView: "Grid View",
         tableView: "Table View",
-        noApps: "No Apps to display"
+        noApps: "No Apps to display",
     },
 };
 

@@ -13,7 +13,8 @@ import {
     ListItem,
     ListItemIcon,
     ListItemText,
-    Menu, Toolbar,
+    Menu,
+    Toolbar,
 } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { makeStyles } from "@material-ui/core/styles";
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AppNavigation(props) {
-    const {handleCategoryChange} = props;
+    const { handleCategoryChange } = props;
     const [categories, setCategories] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);

@@ -5,15 +5,16 @@
  * thumbnail/tile view.
  *
  */
-import React, { useState } from "react";
-import { usePaginatedQuery } from "react-query";
-import { getApps } from "../../../serviceFacade/appServiceFacade";
+import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { getAppsInCategory } from "../../../serviceFacade/appServiceFacade";
 import TableView from "./TableView";
 import { TablePagination } from "@material-ui/core";
 import Header from "../Header";
+import AppNavigation from "../AppNavigation";
 
 function Listing(props) {
-    const {baseId} = props;
+    const { baseId } = props;
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");
@@ -21,10 +22,21 @@ function Listing(props) {
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
-    const { status, resolvedData: data, error } = usePaginatedQuery(
-        ["getApps", { rowsPerPage, orderBy, order, page }],
-        getApps
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [appsInCategoryKey, setAppsInCategoryKey] = useState(null);
+    const { status, data, error } = useQuery(
+        appsInCategoryKey,
+        getAppsInCategory
     );
+
+    useEffect(() => {
+        const systemId = selectedCategory?.system_id;
+        const categoryId = selectedCategory?.id;
+        setAppsInCategoryKey([
+            "getAppsInCategory",
+            { systemId, rowsPerPage, orderBy, order, page, categoryId },
+        ]);
+    }, [order, orderBy, page, rowsPerPage, selectedCategory]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);
@@ -108,11 +120,18 @@ function Listing(props) {
         setOrderBy(property);
     };
 
+    const handleCategoryChange = (selectedCategory) => {
+        setSelectedCategory(selectedCategory);
+    };
+
     return (
         <>
-            <Header  baseId={baseId}
-                     isGridView={isGridView}
-                     toggleDisplay={toggleDisplay}/>
+            <AppNavigation handleCategoryChange={handleCategoryChange} />
+            <Header
+                baseId={baseId}
+                isGridView={isGridView}
+                toggleDisplay={toggleDisplay}
+            />
             <TableView
                 loading={status === "loading"}
                 error={status === "error" ? error : ""}

@@ -16,7 +16,7 @@ import {
 } from "@material-ui/icons";
 import { injectIntl } from "react-intl";
 import messages from "./messages";
-import AppsNavigation from "./AppsNavigation";
+import AppNavigation from "./AppNavigation";
 
 const useStyles = makeStyles((theme) => ({
     toolbar: {
@@ -32,9 +32,6 @@ function Header(props) {
     const headerId = build(baseId, ids.HEADER);
     return (
         <>
-            <Toolbar variant="dense">
-                <AppsNavigation />
-            </Toolbar>
             <Toolbar
                 variant="dense"
                 classes={{ root: classes.toolbar }}

@@ -74,7 +74,7 @@ export const call = (
     if (params) {
         const keys = Object.keys(params);
         keys.forEach((key) => {
-            updatedPathName = pathname.replace(`:${key}`, params[key]);
+            updatedPathName = updatedPathName.replace(`:${key}`, params[key]);
         });
     }
     apiURL.pathname = path.join(apiURL.pathname, updatedPathName);

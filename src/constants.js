@@ -6,4 +6,8 @@ export default {
     SHARED_WITH_ME: "Shared With Me",
     COMMUNITY_DATA: "Community Data",
     PATH_SEPARATOR: "/",
+    APPS_UNDER_DEV: "Apps under development",
+    FAV_APPS: "Favorite Apps",
+    MY_PUBLIC_APPS: "My public apps",
+    HPC: "High-Performance Computing",
 };

@@ -249,7 +249,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..16sblaster."
+                id="tableView..16sblaster.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -274,6 +274,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.13ad5f48-bfb4-11e5-a5df-4b1d67d0fef0.appStatusIcon"
         />
         <td
           aria-sort={null}
@@ -295,12 +296,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.13ad5f48-bfb4-11e5-a5df-4b1d67d0fef0.integratorName"
         >
           Ken Youensclark
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.13ad5f48-bfb4-11e5-a5df-4b1d67d0fef0.rating"
         >
           <div
             className="Rate-rating-174"
@@ -570,6 +573,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.13ad5f48-bfb4-11e5-a5df-4b1d67d0fef0.systemId"
         >
           de
         </td>
@@ -610,7 +614,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..3.1 dev GEA Leptin RNA Seq Lab."
+                id="tableView..3.1 dev GEA Leptin RNA Seq Lab.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -635,6 +639,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.2b9d31fe-3162-11ea-a78a-008cfa5ae621.appStatusIcon"
         >
           <img
             alt="/betaSymbol.png"
@@ -670,12 +675,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.2b9d31fe-3162-11ea-a78a-008cfa5ae621.integratorName"
         >
           williams
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.2b9d31fe-3162-11ea-a78a-008cfa5ae621.rating"
         >
           <div
             className="Rate-rating-174"
@@ -945,6 +952,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.2b9d31fe-3162-11ea-a78a-008cfa5ae621.systemId"
         >
           de
         </td>
@@ -985,7 +993,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..AAARFv1.0.1."
+                id="tableView..AAARFv1.0.1.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -1010,6 +1018,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.bf750284-d659-11e5-9346-eb45ddf114f9.appStatusIcon"
         >
           <img
             alt="/betaSymbol.png"
@@ -1045,12 +1054,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.bf750284-d659-11e5-9346-eb45ddf114f9.integratorName"
         >
           Jeremy Debarry
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.bf750284-d659-11e5-9346-eb45ddf114f9.rating"
         >
           <div
             className="Rate-rating-174"
@@ -1320,6 +1331,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.bf750284-d659-11e5-9346-eb45ddf114f9.systemId"
         >
           de
         </td>
@@ -1360,7 +1372,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..add column to file."
+                id="tableView..add column to file.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -1385,6 +1397,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.0f1b6b9a-bb92-4ef1-ae73-344fd35ae82f.appStatusIcon"
         >
           <img
             alt="/betaSymbol.png"
@@ -1420,12 +1433,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.0f1b6b9a-bb92-4ef1-ae73-344fd35ae82f.integratorName"
         >
           Laura Gardiner
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.0f1b6b9a-bb92-4ef1-ae73-344fd35ae82f.rating"
         >
           <div
             className="Rate-rating-174"
@@ -1695,6 +1710,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.0f1b6b9a-bb92-4ef1-ae73-344fd35ae82f.systemId"
         >
           de
         </td>
@@ -1735,7 +1751,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..add column to file2."
+                id="tableView..add column to file2.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -1760,6 +1776,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.5707bdf5-67f6-4c18-a0d6-5986fa019681.appStatusIcon"
         >
           <img
             alt="/betaSymbol.png"
@@ -1795,12 +1812,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.5707bdf5-67f6-4c18-a0d6-5986fa019681.integratorName"
         >
           Laura Gardiner
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.5707bdf5-67f6-4c18-a0d6-5986fa019681.rating"
         >
           <div
             className="Rate-rating-174"
@@ -2070,6 +2089,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.5707bdf5-67f6-4c18-a0d6-5986fa019681.systemId"
         >
           de
         </td>
@@ -2110,7 +2130,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..Admixture."
+                id="tableView..Admixture.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -2135,6 +2155,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.6768773a-854a-11e4-9c72-7fd0f0b43075.appStatusIcon"
         />
         <td
           aria-sort={null}
@@ -2156,12 +2177,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.6768773a-854a-11e4-9c72-7fd0f0b43075.integratorName"
         >
           Liya Wang
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.6768773a-854a-11e4-9c72-7fd0f0b43075.rating"
         >
           <div
             className="Rate-rating-174"
@@ -2431,6 +2454,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.6768773a-854a-11e4-9c72-7fd0f0b43075.systemId"
         >
           de
         </td>
@@ -2471,7 +2495,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..ALLMAPS."
+                id="tableView..ALLMAPS.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -2496,6 +2520,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.58f783bc-5c95-11ea-b10d-008cfa5ae621.appStatusIcon"
         >
           <img
             alt="/betaSymbol.png"
@@ -2531,12 +2556,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.58f783bc-5c95-11ea-b10d-008cfa5ae621.integratorName"
         >
           Amanda Cooksey
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.58f783bc-5c95-11ea-b10d-008cfa5ae621.rating"
         >
           <div
             className="Rate-rating-174"
@@ -2806,6 +2833,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.58f783bc-5c95-11ea-b10d-008cfa5ae621.systemId"
         >
           de
         </td>
@@ -2846,7 +2874,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..ALLMAPS merge."
+                id="tableView..ALLMAPS merge.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -2871,6 +2899,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.6ff82cda-5c98-11ea-aad3-008cfa5ae621.appStatusIcon"
         >
           <img
             alt="/betaSymbol.png"
@@ -2906,12 +2935,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.6ff82cda-5c98-11ea-aad3-008cfa5ae621.integratorName"
         >
           Amanda Cooksey
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.6ff82cda-5c98-11ea-aad3-008cfa5ae621.rating"
         >
           <div
             className="Rate-rating-174"
@@ -3181,6 +3212,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.6ff82cda-5c98-11ea-aad3-008cfa5ae621.systemId"
         >
           de
         </td>
@@ -3221,7 +3253,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..ALLMAPS path."
+                id="tableView..ALLMAPS path.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -3246,6 +3278,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.0adf9b82-3c66-11ea-9a20-008cfa5ae621.appStatusIcon"
         >
           <img
             alt="/betaSymbol.png"
@@ -3281,12 +3314,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.0adf9b82-3c66-11ea-9a20-008cfa5ae621.integratorName"
         >
           Amanda Cooksey
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.0adf9b82-3c66-11ea-9a20-008cfa5ae621.rating"
         >
           <div
             className="Rate-rating-174"
@@ -3556,6 +3591,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.0adf9b82-3c66-11ea-9a20-008cfa5ae621.systemId"
         >
           de
         </td>
@@ -3596,7 +3632,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..Annotate transcripts."
+                id="tableView..Annotate transcripts.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -3621,6 +3657,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.676846d4-854a-11e4-980d-7f0fcca75dbb.appStatusIcon"
         />
         <td
           aria-sort={null}
@@ -3642,12 +3679,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.676846d4-854a-11e4-980d-7f0fcca75dbb.integratorName"
         >
           Roger Barthelson
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.676846d4-854a-11e4-980d-7f0fcca75dbb.rating"
         >
           <div
             className="Rate-rating-174"
@@ -3917,6 +3956,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.676846d4-854a-11e4-980d-7f0fcca75dbb.systemId"
         >
           de
         </td>
@@ -3957,7 +3997,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..AntEpiSeeker 2.0."
+                id="tableView..AntEpiSeeker 2.0.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -3982,6 +4022,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.e328b780-49e4-4421-ac2e-12b49504bcd2.appStatusIcon"
         />
         <td
           aria-sort={null}
@@ -4003,12 +4044,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.e328b780-49e4-4421-ac2e-12b49504bcd2.integratorName"
         >
           Kurt Michels
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.e328b780-49e4-4421-ac2e-12b49504bcd2.rating"
         >
           <div
             className="Rate-rating-174"
@@ -4278,6 +4321,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.e328b780-49e4-4421-ac2e-12b49504bcd2.systemId"
         >
           de
         </td>
@@ -4318,7 +4362,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..appendUnclustered."
+                id="tableView..appendUnclustered.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -4343,6 +4387,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.e0937512-1535-11ea-b8be-008cfa5ae621.appStatusIcon"
         >
           <img
             alt="/betaSymbol.png"
@@ -4378,12 +4423,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.e0937512-1535-11ea-b8be-008cfa5ae621.integratorName"
         >
           Amanda Cooksey
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.e0937512-1535-11ea-b8be-008cfa5ae621.rating"
         >
           <div
             className="Rate-rating-174"
@@ -4653,6 +4700,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.e0937512-1535-11ea-b8be-008cfa5ae621.systemId"
         >
           de
         </td>
@@ -4693,7 +4741,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..APPLES_conservation."
+                id="tableView..APPLES_conservation.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -4718,6 +4766,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.d99ca952-dbe2-11e6-9e37-0242ac120003.appStatusIcon"
         >
           <img
             alt="/betaSymbol.png"
@@ -4753,12 +4802,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.d99ca952-dbe2-11e6-9e37-0242ac120003.integratorName"
         >
           Uk Cyverse
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.d99ca952-dbe2-11e6-9e37-0242ac120003.rating"
         >
           <div
             className="Rate-rating-174"
@@ -5028,6 +5079,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.d99ca952-dbe2-11e6-9e37-0242ac120003.systemId"
         >
           de
         </td>
@@ -5068,7 +5120,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..APPLES_rbh."
+                id="tableView..APPLES_rbh.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -5093,6 +5145,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.99df0c66-dce5-11e6-a30f-0242ac120003.appStatusIcon"
         >
           <img
             alt="/betaSymbol.png"
@@ -5128,12 +5181,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.99df0c66-dce5-11e6-a30f-0242ac120003.integratorName"
         >
           Uk Cyverse
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.99df0c66-dce5-11e6-a30f-0242ac120003.rating"
         >
           <div
             className="Rate-rating-174"
@@ -5403,6 +5458,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.99df0c66-dce5-11e6-a30f-0242ac120003.systemId"
         >
           de
         </td>
@@ -5443,7 +5499,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..Assembly Stats (assemblathon tool)."
+                id="tableView..Assembly Stats (assemblathon tool).checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -5468,6 +5524,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.21d1eee5-364f-4384-b00b-c19fcd2ca488.appStatusIcon"
         />
         <td
           aria-sort={null}
@@ -5489,12 +5546,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.21d1eee5-364f-4384-b00b-c19fcd2ca488.integratorName"
         >
           Roger Barthelson
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.21d1eee5-364f-4384-b00b-c19fcd2ca488.rating"
         >
           <div
             className="Rate-rating-174"
@@ -5764,6 +5823,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.21d1eee5-364f-4384-b00b-c19fcd2ca488.systemId"
         >
           de
         </td>
@@ -5804,7 +5864,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..Assess Assembly vs whole genome."
+                id="tableView..Assess Assembly vs whole genome.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -5829,6 +5889,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.ec009883-b5c5-4605-9d78-17dcab530184.appStatusIcon"
         />
         <td
           aria-sort={null}
@@ -5850,12 +5911,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.ec009883-b5c5-4605-9d78-17dcab530184.integratorName"
         >
           Roger Barthelson
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.ec009883-b5c5-4605-9d78-17dcab530184.rating"
         >
           <div
             className="Rate-rating-174"
@@ -6125,6 +6188,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.ec009883-b5c5-4605-9d78-17dcab530184.systemId"
         >
           de
         </td>
@@ -6165,7 +6229,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..Austria Demo."
+                id="tableView..Austria Demo.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -6190,6 +6254,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.5b52c412-6b8e-11e9-81f7-008cfa5ae621.appStatusIcon"
         >
           <svg
             aria-describedby={null}
@@ -6202,6 +6267,9 @@ exports[`App Table view renders 1`] = `
                 "appInfo": "App Info",
                 "ariaCheckbox": "{label} checkbox",
                 "betaAppTooltip": "This app is in beta.",
+                "categoriesMenuAriaControl": "App categories menu",
+                "categoriesMenuAriaLabel": "App categories",
+                "categoriesMenuItemAriaControl": "App categories menu item",
                 "comments": "Comments",
                 "commentsNotSupported": "Comments not supported for external apps!",
                 "disabledAppTooltip": "This app is disabled.",
@@ -6212,6 +6280,9 @@ exports[`App Table view renders 1`] = `
                 "privateAppTooltip": "This app is only visible to you and people you share it with.",
                 "quickLaunch": "Quick Launch",
                 "removeFromFavorites": "Remove From Favorites",
+                "selectedCategoryAriaLabel": "Selected app category",
+                "selectedCategoryAriaMenuItemControl": "Selected app category menu items",
+                "selectedCategoryMenuAriaControl": "Selected app category menu",
                 "tableView": "Table View",
                 "useAppTooltip": "Use this app.",
               }
@@ -6261,12 +6332,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.5b52c412-6b8e-11e9-81f7-008cfa5ae621.integratorName"
         >
           sriram
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.5b52c412-6b8e-11e9-81f7-008cfa5ae621.rating"
         >
           <div
             className="Rate-rating-174"
@@ -6536,6 +6609,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.5b52c412-6b8e-11e9-81f7-008cfa5ae621.systemId"
         >
           de
         </td>
@@ -6576,7 +6650,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..austria-wf."
+                id="tableView..austria-wf.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -6601,6 +6675,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.dab9d998-6b8e-11e9-b782-008cfa5ae621.appStatusIcon"
         >
           <svg
             aria-describedby={null}
@@ -6613,6 +6688,9 @@ exports[`App Table view renders 1`] = `
                 "appInfo": "App Info",
                 "ariaCheckbox": "{label} checkbox",
                 "betaAppTooltip": "This app is in beta.",
+                "categoriesMenuAriaControl": "App categories menu",
+                "categoriesMenuAriaLabel": "App categories",
+                "categoriesMenuItemAriaControl": "App categories menu item",
                 "comments": "Comments",
                 "commentsNotSupported": "Comments not supported for external apps!",
                 "disabledAppTooltip": "This app is disabled.",
@@ -6623,6 +6701,9 @@ exports[`App Table view renders 1`] = `
                 "privateAppTooltip": "This app is only visible to you and people you share it with.",
                 "quickLaunch": "Quick Launch",
                 "removeFromFavorites": "Remove From Favorites",
+                "selectedCategoryAriaLabel": "Selected app category",
+                "selectedCategoryAriaMenuItemControl": "Selected app category menu items",
+                "selectedCategoryMenuAriaControl": "Selected app category menu",
                 "tableView": "Table View",
                 "useAppTooltip": "Use this app.",
               }
@@ -6672,12 +6753,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.dab9d998-6b8e-11e9-b782-008cfa5ae621.integratorName"
         >
           sriram
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.dab9d998-6b8e-11e9-b782-008cfa5ae621.rating"
         >
           <div
             className="Rate-rating-174"
@@ -6947,6 +7030,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.dab9d998-6b8e-11e9-b782-008cfa5ae621.systemId"
         >
           de
         </td>
@@ -6987,7 +7071,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..Ballgown."
+                id="tableView..Ballgown.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -7012,6 +7096,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.685a0588-64de-11e8-af6e-008cfa5ae621.appStatusIcon"
         >
           <img
             alt="/betaSymbol.png"
@@ -7047,12 +7132,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.685a0588-64de-11e8-af6e-008cfa5ae621.integratorName"
         >
           Kapeel Chougule
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.685a0588-64de-11e8-af6e-008cfa5ae621.rating"
         >
           <div
             className="Rate-rating-174"
@@ -7322,6 +7409,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.685a0588-64de-11e8-af6e-008cfa5ae621.systemId"
         >
           de
         </td>
@@ -7362,7 +7450,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..Ballgown-2.0."
+                id="tableView..Ballgown-2.0.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -7387,6 +7475,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.ed197e38-6d9a-11e8-91a1-008cfa5ae621.appStatusIcon"
         />
         <td
           aria-sort={null}
@@ -7408,12 +7497,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.ed197e38-6d9a-11e8-91a1-008cfa5ae621.integratorName"
         >
           Upendra Kumar Devisetty
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.ed197e38-6d9a-11e8-91a1-008cfa5ae621.rating"
         >
           <div
             className="Rate-rating-174"
@@ -7683,6 +7774,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.ed197e38-6d9a-11e8-91a1-008cfa5ae621.systemId"
         >
           de
         </td>
@@ -7723,7 +7815,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..Bam to Counts (general)."
+                id="tableView..Bam to Counts (general).checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -7748,6 +7840,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.51000872-1c9b-4d1a-b582-e46926c98aa3.appStatusIcon"
         />
         <td
           aria-sort={null}
@@ -7769,12 +7862,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.51000872-1c9b-4d1a-b582-e46926c98aa3.integratorName"
         >
           Roger Barthelson
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.51000872-1c9b-4d1a-b582-e46926c98aa3.rating"
         >
           <div
             className="Rate-rating-174"
@@ -8044,6 +8139,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.51000872-1c9b-4d1a-b582-e46926c98aa3.systemId"
         >
           de
         </td>
@@ -8084,7 +8180,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..BAM to Counts (named outputs)."
+                id="tableView..BAM to Counts (named outputs).checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -8109,6 +8205,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.581dfdf9-653f-4db7-8fb2-d64438fbddf1.appStatusIcon"
         />
         <td
           aria-sort={null}
@@ -8130,12 +8227,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.581dfdf9-653f-4db7-8fb2-d64438fbddf1.integratorName"
         >
           Matthew Vaughn
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.581dfdf9-653f-4db7-8fb2-d64438fbddf1.rating"
         >
           <div
             className="Rate-rating-174"
@@ -8405,6 +8504,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.581dfdf9-653f-4db7-8fb2-d64438fbddf1.systemId"
         >
           de
         </td>
@@ -8445,7 +8545,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..bam2fastq_unmapped."
+                id="tableView..bam2fastq_unmapped.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -8470,6 +8570,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.f2c26674-c460-11e4-af99-3b9dd34014f8.appStatusIcon"
         >
           <img
             alt="/betaSymbol.png"
@@ -8505,12 +8606,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.f2c26674-c460-11e4-af99-3b9dd34014f8.integratorName"
         >
           Dongliang Wu
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.f2c26674-c460-11e4-af99-3b9dd34014f8.rating"
         >
           <div
             className="Rate-rating-174"
@@ -8780,6 +8883,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.f2c26674-c460-11e4-af99-3b9dd34014f8.systemId"
         >
           de
         </td>
@@ -8820,7 +8924,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..Bayesian BiClustering."
+                id="tableView..Bayesian BiClustering.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -8845,6 +8949,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.cca286bd-3471-879b-7298-d79751635482.appStatusIcon"
         />
         <td
           aria-sort={null}
@@ -8866,12 +8971,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.cca286bd-3471-879b-7298-d79751635482.integratorName"
         >
           Elijah Meyers
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.cca286bd-3471-879b-7298-d79751635482.rating"
         >
           <div
             className="Rate-rating-174"
@@ -9141,6 +9248,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.cca286bd-3471-879b-7298-d79751635482.systemId"
         >
           de
         </td>
@@ -9181,7 +9289,7 @@ exports[`App Table view renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-242"
                 data-indeterminate={false}
-                id="tableView..BCFtools 1.8 call."
+                id="tableView..BCFtools 1.8 call.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -9206,6 +9314,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeSmall"
+          id="tableView.17434bb4-9058-11e8-87dd-008cfa5ae621.appStatusIcon"
         >
           <img
             alt="/betaSymbol.png"
@@ -9241,12 +9350,14 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.17434bb4-9058-11e8-87dd-008cfa5ae621.integratorName"
         >
           Amanda Cooksey
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="tableView.17434bb4-9058-11e8-87dd-008cfa5ae621.rating"
         >
           <div
             className="Rate-rating-174"
@@ -9516,6 +9627,7 @@ exports[`App Table view renders 1`] = `
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+          id="tableView.17434bb4-9058-11e8-87dd-008cfa5ae621.systemId"
         >
           de
         </td>

@@ -32,10 +32,12 @@ function Listing(props) {
     useEffect(() => {
         const systemId = selectedCategory?.system_id;
         const categoryId = selectedCategory?.id;
-        setAppsInCategoryKey([
-            "getAppsInCategory",
-            { systemId, rowsPerPage, orderBy, order, page, categoryId },
-        ]);
+        if (systemId && categoryId) {
+            setAppsInCategoryKey([
+                "getAppsInCategory",
+                { systemId, rowsPerPage, orderBy, order, page, categoryId },
+            ]);
+        }
     }, [order, orderBy, page, rowsPerPage, selectedCategory]);
 
     const toggleDisplay = () => {

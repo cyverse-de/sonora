@@ -20,4 +20,5 @@ export default {
     RATING: "rating",
     SYSTEM_ID: "systemId",
     APP_STATUS_ICON: "appStatusIcon",
+    BROWSE_ALL_APPS:"browseAllApps"
 };

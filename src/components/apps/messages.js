@@ -22,6 +22,7 @@ const intlData = {
         selectedCategoryAriaMenuItemLabel: "Selected app category menu items",
         categoriesMenuAriaLabel: "App categories",
         categoriesMenuItemAriaControl: "App categories menu item",
+        browseAllApps: "Browse All Apps"
     },
 };
 

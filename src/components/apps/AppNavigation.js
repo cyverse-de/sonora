@@ -17,9 +17,11 @@ import LockIcon from "@material-ui/icons/Lock";
 import FolderSharedIcon from "@material-ui/icons/FolderShared";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import AppsIcon from "@material-ui/icons/Apps";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import constants from "../../constants";
 import {
+    Divider,
     List,
     ListItem,
     ListItemIcon,
@@ -54,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
             textOverflow: "ellipsis",
             whiteSpace: "nowrap",
             overflow: "hidden",
-            display: "inline-block",
             maxWidth: 75,
         },
     },
@@ -66,6 +67,13 @@ function getFilters() {
             name: appType[type],
         };
     });
+}
+
+function getAllAppsCategory(categoryName) {
+    return {
+        name: categoryName,
+        icon: <AppsIcon />,
+    };
 }
 
 function AppNavigation(props) {
@@ -81,6 +89,7 @@ function AppNavigation(props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const classes = useStyles();
     const appNavId = build(baseId, ids.APP_NAVIGATION);
+    const allAppsCategory = getAllAppsCategory(constants.BROWSE_ALL_APPS);
 
     const preProcessData = (data) => {
         const privateCat = data.categories.find(
@@ -194,6 +203,30 @@ function AppNavigation(props) {
                         <ListItemText>{menuItem.name}</ListItemText>
                     </ListItem>
                 ))}
+                <Divider />
+                <ListItem
+                    id={build(
+                        appNavId,
+                        ids.APP_CATEGORIES_MENU,
+                        ids.APP_CATEGORIES_MENU_ITEM,
+                        ids.BROWSE_ALL_APPS
+                    )}
+                    key={allAppsCategory.name}
+                    selected={selectedCategory.name === allAppsCategory.name}
+                    onClick={() => {
+                        setAnchorEl(null);
+                        handleCategoryChange(allAppsCategory);
+                    }}
+                    className={classes.list}
+                    aria-controls={formatMessage(
+                        intl,
+                        "categoriesMenuItemAriaControl"
+                    )}
+                    aria-label={allAppsCategory.name}
+                >
+                    <ListItemIcon>{allAppsCategory.icon}</ListItemIcon>
+                    <ListItemText>{allAppsCategory.name}</ListItemText>
+                </ListItem>
             </Menu>
             <div className={classes.divider} />
             <Autocomplete

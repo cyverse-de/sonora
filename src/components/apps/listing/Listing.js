@@ -118,15 +118,17 @@ function Listing(props) {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
         setOrderBy(property);
+        setPage(0);
     };
 
     const handleCategoryChange = (selectedCategory) => {
         setSelectedCategory(selectedCategory);
+        setPage(0);
     };
 
     return (
         <>
-            <AppNavigation handleCategoryChange={handleCategoryChange} />
+            <AppNavigation handleCategoryChange={handleCategoryChange} baseId={baseId}/>
             <Header
                 baseId={baseId}
                 isGridView={isGridView}

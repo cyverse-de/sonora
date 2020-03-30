@@ -1,7 +1,15 @@
+/**
+ *
+ * @author sriram
+ * A list that allow users to browse different app categories.
+ *
+ */
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { getPrivateCategories } from "../../serviceFacade/appServiceFacade";
-
+import { injectIntl } from "react-intl";
+import intlData from "./messages";
+import ids from "./ids";
 import StorageIcon from "@material-ui/icons/Storage";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import LockIcon from "@material-ui/icons/Lock";
@@ -18,12 +26,8 @@ import {
 } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { makeStyles } from "@material-ui/core/styles";
+import { formatMessage, build, withI18N } from "@cyverse-de/ui-lib";
 
-/**
- *
- * @author sriram
- *
- */
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
         paddingLeft: 0,
@@ -41,20 +45,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AppNavigation(props) {
-    const { handleCategoryChange } = props;
+    const { handleCategoryChange, intl, baseId } = props;
     const [categories, setCategories] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const classes = useStyles();
+    const appNavId = build(baseId, ids.APP_NAVIGATION);
 
     const preProcessData = (data) => {
         const privateCat = data.categories.find(
             (cat) => cat.system_id === "de"
         );
         const hpcCat = data.categories.find((cat) => cat.system_id === "agave");
-
-        console.log("de cat==> " + privateCat.name);
-        console.log("hpc cat===>" + hpcCat.name);
 
         privateCat.categories.forEach((category) => {
             if (category.name === constants.APPS_UNDER_DEV) {
@@ -103,33 +105,66 @@ function AppNavigation(props) {
 
     return (
         <Toolbar variant="dense">
-            <List component="nav">
+            <List
+                component="nav"
+                aria-controls={formatMessage(
+                    intl,
+                    "selectedCategoryMenuAriaControl"
+                )}
+                aria-label={formatMessage(intl, "selectedCategoryAriaLabel")}
+                id={build(appNavId, ids.APP_CATEGORIES)}
+            >
                 <ListItem
                     button
                     aria-haspopup="true"
                     onClick={handleClickListItem}
                     className={classes.selectedListItem}
+                    aria-label={formatMessage(
+                        intl,
+                        "selectedCategoryAriaMenuItemControl"
+                    )}
                 >
                     {categories[selectedIndex].icon}
-                    <ListItemText primary={categories[selectedIndex].name} />
+                    <ListItemText
+                        id={build(
+                            appNavId,
+                            ids.APP_CATEGORIES,
+                            categories[selectedIndex].name
+                        )}
+                        primary={categories[selectedIndex].name}
+                    />
                     <ListItemIcon style={{ minWidth: 20 }}>
                         <ArrowDropDownIcon />
                     </ListItemIcon>
                 </ListItem>
             </List>
             <Menu
+                id={build(appNavId, ids.APP_CATEGORIES_MENU)}
                 aria-haspopup="true"
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
+                aria-controls={formatMessage(intl, "categoriesMenuAriaControl")}
+                aria-label={formatMessage(intl, "categoriesMenuAriaLabel")}
             >
                 {categories.map((menuItem, index) => (
                     <ListItem
+                        id={build(
+                            appNavId,
+                            ids.APP_CATEGORIES_MENU,
+                            ids.APP_CATEGORIES_MENU_ITEM,
+                            menuItem.name
+                        )}
                         key={menuItem.label}
                         selected={index === selectedIndex}
                         onClick={(event) => handleMenuItemClick(event, index)}
                         className={classes.list}
+                        aria-controls={formatMessage(
+                            intl,
+                            "categoriesMenuItemAriaControl"
+                        )}
+                        aria-label={menuItem.name}
                     >
                         <ListItemIcon>{menuItem.icon}</ListItemIcon>
                         <ListItemText>{menuItem.name}</ListItemText>
@@ -139,4 +174,4 @@ function AppNavigation(props) {
         </Toolbar>
     );
 }
-export default AppNavigation;
+export default withI18N(injectIntl(AppNavigation), intlData);

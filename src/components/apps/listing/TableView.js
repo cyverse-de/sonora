@@ -1,3 +1,10 @@
+/**
+ * @author sriram
+ *
+ * A tabular view of apps
+ *
+ */
+
 import React from "react";
 import {
     build,
@@ -172,7 +179,13 @@ function TableView(props) {
                                                 }}
                                             />
                                         </TableCell>
-                                        <TableCell padding="none">
+                                        <TableCell
+                                            padding="none"
+                                            id={build(
+                                                rowId,
+                                                ids.APP_STATUS_ICON
+                                            )}
+                                        >
                                             <AppStatusIcon
                                                 isPublic={app.is_public}
                                                 isBeta={app.beta}
@@ -189,10 +202,17 @@ function TableView(props) {
                                                 name={app.name}
                                             />
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell
+                                            id={build(
+                                                rowId,
+                                                ids.integratorName
+                                            )}
+                                        >
                                             {app.integrator_name}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell
+                                            id={build(rowId, ids.RATING)}
+                                        >
                                             <Rate
                                                 name={app.id}
                                                 value={
@@ -202,7 +222,10 @@ function TableView(props) {
                                                 total={totalRating}
                                             />
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell
+                                            align="right"
+                                            id={build(rowId, ids.SYSTEM_ID)}
+                                        >
                                             {app.system_id}
                                         </TableCell>
                                     </TableRow>

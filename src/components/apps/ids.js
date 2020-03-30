@@ -11,4 +11,13 @@ export default {
     GRID_VIEW_BTN: "gridViewBtn",
     TABLE_VIEW_BTN: "tableViewBtn",
     TOOLTIP: "tooltip",
+    APP_NAVIGATION: "appNavigation",
+    APP_CATEGORIES: "appCategories",
+    APP_CATEGORIES_MENU: "appCategoriesMenu",
+    APP_CATEGORIES_MENU_ITEM: "appCategoriesMenuItem",
+    checkbox: "checkbox",
+    integratorName: "integratorName",
+    RATING: "rating",
+    SYSTEM_ID: "systemId",
+    APP_STATUS_ICON: "appStatusIcon",
 };

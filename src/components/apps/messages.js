@@ -18,6 +18,12 @@ const intlData = {
         gridView: "Grid View",
         tableView: "Table View",
         noApps: "No Apps to display",
+        selectedCategoryAriaLabel: "Selected app category",
+        selectedCategoryMenuAriaControl: "Selected app category menu",
+        selectedCategoryAriaMenuItemControl: "Selected app category menu items",
+        categoriesMenuAriaControl: "App categories menu",
+        categoriesMenuAriaLabel: "App categories",
+        categoriesMenuItemAriaControl: "App categories menu item",
     },
 };
 

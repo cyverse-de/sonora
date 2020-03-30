@@ -74,6 +74,28 @@ function getPathItems(relativePath) {
 }
 
 /**
+ * Computes the path for routing.
+ *  * @example
+ * // returns "/iplant/home/ipctest/analyses"
+ * getPathItems("/iplant/home/ipctest","/analyses/wordcount/logs", 0);
+ * @param {string } root - CyVerse Data Store root path e.g: /iplant/home/ipctest
+ * @param {string} relativePath - relative path to CyVerse Data Store e.g: /analyses/wordcount/logs
+ * @param {number} selectedPathItemIndex - index of the selected path item
+ * @returns {string} - path to be used by the nextjs router
+ */
+function pathToRoute(root, relativePath, selectedPathItemIndex) {
+    const relativePathItems = getPathItems(relativePath);
+    const reducer = (accumulator, currentVal, idx) => {
+        if (idx <= selectedPathItemIndex) {
+            return accumulator + constants.PATH_SEPARATOR + currentVal;
+        }
+        return accumulator;
+    };
+    const routerPath = relativePathItems.reduce(reducer);
+    return `${root}${constants.PATH_SEPARATOR}${routerPath}`;
+}
+
+/**
  * Get relative path to CyVerse Data Store path.
  * Note: - Swapping community data path check and shared with me path check will result in incorrect
  * relative path since their path overlaps
@@ -111,6 +133,7 @@ function getRelativePath(
 }
 
 function FolderSelectorMenu({
+    root,
     path,
     handlePathChange,
     userHomePath,
@@ -150,7 +173,7 @@ function FolderSelectorMenu({
             sharedWithMePath,
             communityDataPath
         );
-        handlePathChange(`${relativePath}${constants.PATH_SEPARATOR}${index}`);
+        handlePathChange(pathToRoute(root, relativePath, index));
     };
 
     const handleClose = () => {
@@ -246,6 +269,7 @@ function FolderSelectorMenu({
 }
 
 function BreadCrumb({
+    root,
     path,
     handlePathChange,
     userHomePath,
@@ -268,7 +292,7 @@ function BreadCrumb({
         event.preventDefault();
         const relativePathItems = getPathItems(relativePath);
         const index = relativePathItems.indexOf(crumb);
-        handlePathChange(`${relativePath}${constants.PATH_SEPARATOR}${index}`);
+        handlePathChange(pathToRoute(root, relativePath, index));
     };
 
     return (
@@ -502,6 +526,7 @@ function DataNavigation(props) {
                 {path ? (
                     <BreadCrumb
                         baseId={dataNavId}
+                        root={dataRoots[selectedIndex].path}
                         path={path}
                         handlePathChange={handlePathChange}
                         userHomePath={userHomePath}
@@ -518,6 +543,7 @@ function DataNavigation(props) {
                 {path ? (
                     <FolderSelectorMenu
                         baseId={dataNavId}
+                        root={dataRoots[selectedIndex].path}
                         path={path}
                         handlePathChange={handlePathChange}
                         userHomePath={userHomePath}

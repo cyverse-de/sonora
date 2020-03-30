@@ -10,11 +10,14 @@ import { getPrivateCategories } from "../../serviceFacade/appServiceFacade";
 import { injectIntl } from "react-intl";
 import intlData from "./messages";
 import ids from "./ids";
+import appType from "../models/AppType";
 import StorageIcon from "@material-ui/icons/Storage";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import LockIcon from "@material-ui/icons/Lock";
 import FolderSharedIcon from "@material-ui/icons/FolderShared";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import constants from "../../constants";
 import {
     List,
@@ -22,11 +25,12 @@ import {
     ListItemIcon,
     ListItemText,
     Menu,
+    TextField,
     Toolbar,
+    Typography,
 } from "@material-ui/core";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { makeStyles } from "@material-ui/core/styles";
-import { formatMessage, build, withI18N } from "@cyverse-de/ui-lib";
+import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
@@ -42,13 +46,39 @@ const useStyles = makeStyles((theme) => ({
             color: theme.palette.primary.contrastText,
         },
     },
+    divider: {
+        flexGrow: 1,
+    },
+    selectedCategory: {
+        [theme.breakpoints.down("sm")]: {
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            display: "inline-block",
+            maxWidth: 75,
+        },
+    },
 }));
 
+function getFilters() {
+    return Object.keys(appType).map((type) => {
+        return {
+            name: appType[type],
+        };
+    });
+}
+
 function AppNavigation(props) {
-    const { handleCategoryChange, intl, baseId } = props;
+    const {
+        handleCategoryChange,
+        handleFilterChange,
+        filter,
+        selectedCategory,
+        intl,
+        baseId,
+    } = props;
     const [categories, setCategories] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
-    const [selectedIndex, setSelectedIndex] = useState(0);
     const classes = useStyles();
     const appNavId = build(baseId, ids.APP_NAVIGATION);
 
@@ -74,9 +104,9 @@ function AppNavigation(props) {
         });
 
         hpcCat.icon = <StorageIcon />;
-        setCategories(privateCat.categories.concat(hpcCat));
-        setSelectedIndex(0);
+        setCategories(privateCat.categories);
         handleCategoryChange(privateCat.categories[0]);
+        handleFilterChange(getFilters()[0]);
     };
 
     useQuery({
@@ -91,7 +121,6 @@ function AppNavigation(props) {
 
     const handleMenuItemClick = (event, index) => {
         setAnchorEl(null);
-        setSelectedIndex(index);
         handleCategoryChange(categories[index]);
     };
 
@@ -99,7 +128,7 @@ function AppNavigation(props) {
         setAnchorEl(null);
     };
 
-    if (!categories || categories.length === 0) {
+    if (!categories || categories.length === 0 || !selectedCategory) {
         return null;
     }
 
@@ -120,16 +149,20 @@ function AppNavigation(props) {
                         "selectedCategoryAriaMenuItemLabel"
                     )}
                 >
-                    {categories[selectedIndex].icon}
+                    {selectedCategory.icon}
                     <ListItemText
                         id={build(
                             appNavId,
                             ids.APP_CATEGORIES,
-                            categories[selectedIndex].name
+                            selectedCategory.name
                         )}
-                        primary={categories[selectedIndex].name}
+                        primary={
+                            <Typography className={classes.selectedCategory}>
+                                {selectedCategory.name}
+                            </Typography>
+                        }
                     />
-                    <ListItemIcon style={{ minWidth: 20 }}>
+                    <ListItemIcon>
                         <ArrowDropDownIcon />
                     </ListItemIcon>
                 </ListItem>
@@ -151,8 +184,8 @@ function AppNavigation(props) {
                             ids.APP_CATEGORIES_MENU_ITEM,
                             menuItem.name
                         )}
-                        key={menuItem.label}
-                        selected={index === selectedIndex}
+                        key={menuItem.name}
+                        selected={selectedCategory.name === menuItem.name}
                         onClick={(event) => handleMenuItemClick(event, index)}
                         className={classes.list}
                         aria-label={menuItem.name}
@@ -162,6 +195,20 @@ function AppNavigation(props) {
                     </ListItem>
                 ))}
             </Menu>
+            <div className={classes.divider} />
+            <Autocomplete
+                value={filter}
+                options={getFilters()}
+                size="small"
+                onChange={(event, newValue) => {
+                    handleFilterChange(newValue);
+                }}
+                getOptionLabel={(option) => option.name}
+                style={{ minWidth: 150 }}
+                renderInput={(params) => (
+                    <TextField {...params} label="Filter" variant="outlined" />
+                )}
+            />
         </Toolbar>
     );
 }

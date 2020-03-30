@@ -35,7 +35,7 @@
       "src/common"
     ],
     "ext": "js",
-    "exec": "run-p dev-server build-docs"
+    "exec": "run-p dev-server"
   },
   "eslintConfig": {
     "extends": [

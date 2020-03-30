@@ -68,7 +68,7 @@ function AppNavigation(props) {
                 category.icon = <FolderSharedIcon />;
             } else if (category.name === constants.FAV_APPS) {
                 category.icon = <FavoriteIcon />;
-            } else if (category.name == constants.MY_PUBLIC_APPS) {
+            } else if (category.name === constants.MY_PUBLIC_APPS) {
                 category.icon = <GroupWorkIcon />;
             }
         });
@@ -79,7 +79,7 @@ function AppNavigation(props) {
         handleCategoryChange(privateCat.categories[0]);
     };
 
-    const { status, data, error } = useQuery({
+    useQuery({
         queryKey: "getPrivateCategories",
         queryFn: getPrivateCategories,
         config: { onSuccess: preProcessData, refetchOnWindowFocus: false },

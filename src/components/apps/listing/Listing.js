@@ -128,7 +128,10 @@ function Listing(props) {
 
     return (
         <>
-            <AppNavigation handleCategoryChange={handleCategoryChange} baseId={baseId}/>
+            <AppNavigation
+                handleCategoryChange={handleCategoryChange}
+                baseId={baseId}
+            />
             <Header
                 baseId={baseId}
                 isGridView={isGridView}

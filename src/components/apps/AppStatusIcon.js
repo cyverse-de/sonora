@@ -19,10 +19,10 @@ function AppStatusIcon(props) {
     const isPrivate = !isPublic;
 
     if (isPrivate) {
-        return <PrivateIcon {...custom} />;
+        return <PrivateIcon {...custom} color="primary"/>;
     }
     if (isDisabled) {
-        return <DisabledIcon {...custom} />;
+        return <DisabledIcon {...custom} color="error"/>;
     }
     if (isBeta) {
         return <BetaIcon {...custom} />;
@@ -37,21 +37,17 @@ AppStatusIcon.propTypes = {
 };
 
 function PrivateIcon(props) {
-    const theme = useTheme();
-
     return (
         <ToolTip title={getMessage("privateAppTooltip")}>
-            <Lock {...props} style={{ color: theme.palette.primary }} />
+            <Lock {...props}  />
         </ToolTip>
     );
 }
 
 function DisabledIcon(props) {
-    const theme = useTheme();
-
     return (
         <ToolTip title={getMessage("disabledAppTooltip")}>
-            <Disabled {...props} style={{ color: theme.palette.error }} />
+            <Disabled {...props} />
         </ToolTip>
     );
 }

@@ -47,11 +47,12 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     currentLocationLink: {
-        textOverflow: "ellipsis",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        display: "inline-block",
-        maxWidth: 90,
+        [theme.breakpoints.down("sm")]: {
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            maxWidth: 70,
+        },
     },
 }));
 
@@ -217,8 +218,13 @@ function FolderSelectorMenu({
                                 ids.PATH_ITEMS,
                                 ids.SELECTED_PATH_ITEM
                             )}
-                            className={classes.currentLocationLink}
-                            primary={pathItems[selectedIndex]}
+                            primary={
+                                <Typography
+                                    className={classes.currentLocationLink}
+                                >
+                                    {pathItems[selectedIndex]}
+                                </Typography>
+                            }
                         />
                         <ListItemIcon>
                             <ArrowDropDownIcon />
@@ -446,7 +452,11 @@ function DataNavigation(props) {
                             ids.DATA_ROOTS,
                             dataRoots[selectedIndex].label
                         )}
-                        primary={dataRoots[selectedIndex].label}
+                        primary={
+                            <Typography className={classes.currentLocationLink}>
+                                {dataRoots[selectedIndex].label}
+                            </Typography>
+                        }
                     />
                     <ListItemIcon style={{ minWidth: 20 }}>
                         <ArrowDropDownIcon />

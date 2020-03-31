@@ -249,7 +249,7 @@ exports[`Data Table View renders 1`] = `
         >
           <svg
             aria-hidden="true"
-            className="MuiSvgIcon-root"
+            className="MuiSvgIcon-root MuiSvgIcon-colorPrimary"
             focusable="false"
             role="presentation"
             viewBox="0 0 24 24"
@@ -384,7 +384,7 @@ exports[`Data Table View renders 1`] = `
         >
           <svg
             aria-hidden="true"
-            className="MuiSvgIcon-root"
+            className="MuiSvgIcon-root MuiSvgIcon-colorPrimary"
             focusable="false"
             role="presentation"
             viewBox="0 0 24 24"
@@ -519,7 +519,7 @@ exports[`Data Table View renders 1`] = `
         >
           <svg
             aria-hidden="true"
-            className="MuiSvgIcon-root"
+            className="MuiSvgIcon-root MuiSvgIcon-colorPrimary"
             focusable="false"
             role="presentation"
             viewBox="0 0 24 24"
@@ -654,7 +654,7 @@ exports[`Data Table View renders 1`] = `
         >
           <svg
             aria-hidden="true"
-            className="MuiSvgIcon-root"
+            className="MuiSvgIcon-root MuiSvgIcon-colorPrimary"
             focusable="false"
             role="presentation"
             viewBox="0 0 24 24"

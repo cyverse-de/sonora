@@ -10,5 +10,5 @@ export default {
     FAV_APPS: "Favorite Apps",
     MY_PUBLIC_APPS: "My public apps",
     HPC: "High-Performance Computing",
-    BROWSE_ALL_APPS: "Browse All Apps"
+    BROWSE_ALL_APPS: "Browse All Apps",
 };

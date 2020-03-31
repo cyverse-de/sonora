@@ -113,7 +113,7 @@ function AppNavigation(props) {
         });
 
         hpcCat.icon = <StorageIcon />;
-        setCategories(privateCat.categories);
+        setCategories(privateCat.categories.concat(hpcCat));
         handleCategoryChange(privateCat.categories[0]);
         handleFilterChange(getFilters()[0]);
     };
@@ -230,6 +230,7 @@ function AppNavigation(props) {
             </Menu>
             <div className={classes.divider} />
             <Autocomplete
+                disabled={selectedCategory.system_id === "agave"}
                 value={filter}
                 options={getFilters()}
                 size="small"

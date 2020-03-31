@@ -5,8 +5,7 @@ import messages from "./messages";
 import Disabled from "@material-ui/icons/Block";
 import Lock from "@material-ui/icons/Lock";
 import ToolTip from "@material-ui/core/Tooltip";
-import { withI18N, getMessage } from "@cyverse-de/ui-lib";
-import { useTheme } from "@material-ui/core";
+import { getMessage, withI18N } from "@cyverse-de/ui-lib";
 
 /**
  * @author aramsey
@@ -19,10 +18,10 @@ function AppStatusIcon(props) {
     const isPrivate = !isPublic;
 
     if (isPrivate) {
-        return <PrivateIcon {...custom} color="primary"/>;
+        return <PrivateIcon {...custom} color="primary" />;
     }
     if (isDisabled) {
-        return <DisabledIcon {...custom} color="error"/>;
+        return <DisabledIcon {...custom} color="error" />;
     }
     if (isBeta) {
         return <BetaIcon {...custom} />;
@@ -39,7 +38,7 @@ AppStatusIcon.propTypes = {
 function PrivateIcon(props) {
     return (
         <ToolTip title={getMessage("privateAppTooltip")}>
-            <Lock {...props}  />
+            <Lock {...props} />
         </ToolTip>
     );
 }

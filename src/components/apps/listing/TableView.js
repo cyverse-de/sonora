@@ -34,26 +34,36 @@ import messages from "../messages";
 
 function getTableColumns(deletable, enableMenu) {
     let tableColumns = [
-        { name: "", numeric: false, enableSorting: false, key: "status" },
+        {
+            name: "",
+            numeric: false,
+            enableSorting: false,
+            key: AppFields.STATUS.key,
+            id: AppFields.STATUS.key,
+        },
         {
             name: AppFields.NAME.fieldName,
             enableSorting: true,
             key: AppFields.NAME.key,
+            id: AppFields.NAME.key,
         },
         {
             name: AppFields.INTEGRATOR.fieldName,
             enableSorting: true,
             key: AppFields.INTEGRATOR.key,
+            id: AppFields.INTEGRATOR.key,
         },
         {
             name: AppFields.RATING.fieldName,
             enableSorting: true,
             key: AppFields.RATING.key,
+            id: AppFields.RATING.key,
         },
         {
             name: AppFields.SYSTEM.fieldName,
             enableSorting: false,
             key: AppFields.SYSTEM.key,
+            id: AppFields.SYSTEM.key,
             align: "right",
         },
     ];
@@ -94,7 +104,7 @@ function TableView(props) {
     } = props;
     const apps = listing?.apps;
     const columnData = getTableColumns(false, false);
-    const tableId = build(baseId, ids.listingTable);
+    const tableId = build(baseId, ids.LISTING_TABLE);
     return (
         <TableContainer
             component={Paper}
@@ -113,7 +123,6 @@ function TableView(props) {
                     columnData={columnData}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
-                    ids={ids.FIELD}
                 />
                 {loading && (
                     <TableBody>

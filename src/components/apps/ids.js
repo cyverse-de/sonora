@@ -20,4 +20,10 @@ export default {
     RATING: "rating",
     SYSTEM_ID: "systemId",
     APP_STATUS_ICON: "appStatusIcon",
+    FIELD: {
+        NAME: "name",
+        INTEGRATED_BY: "integratedBy",
+        SYSTEM: "system",
+        RATING: "rating",
+    },
 };

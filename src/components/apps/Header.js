@@ -10,7 +10,10 @@ import { IconButton, makeStyles, Toolbar, Tooltip } from "@material-ui/core";
 import React from "react";
 import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import ids from "./ids";
-import { Apps as GridIcon, FormatListBulleted as TableIcon } from "@material-ui/icons";
+import {
+    Apps as GridIcon,
+    FormatListBulleted as TableIcon,
+} from "@material-ui/icons";
 import { injectIntl } from "react-intl";
 import messages from "./messages";
 

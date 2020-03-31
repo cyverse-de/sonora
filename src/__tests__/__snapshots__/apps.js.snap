@@ -75,7 +75,7 @@ exports[`App Table view renders 1`] = `
         <th
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-          id="appTableView."
+          id="tableView.."
           scope="col"
         >
           
@@ -83,7 +83,7 @@ exports[`App Table view renders 1`] = `
         <th
           aria-sort="ascending"
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-          id="appTableView."
+          id="tableView.."
           scope="col"
         >
           <span
@@ -123,7 +123,7 @@ exports[`App Table view renders 1`] = `
         <th
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-          id="appTableView."
+          id="tableView.."
           scope="col"
         >
           <span
@@ -163,7 +163,7 @@ exports[`App Table view renders 1`] = `
         <th
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-          id="appTableView."
+          id="tableView.."
           scope="col"
         >
           <span
@@ -203,7 +203,7 @@ exports[`App Table view renders 1`] = `
         <th
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-          id="appTableView."
+          id="tableView.."
           scope="col"
         >
           System Id
@@ -6267,7 +6267,6 @@ exports[`App Table view renders 1`] = `
                 "appInfo": "App Info",
                 "ariaCheckbox": "{label} checkbox",
                 "betaAppTooltip": "This app is in beta.",
-                "categoriesMenuAriaControl": "App categories menu",
                 "categoriesMenuAriaLabel": "App categories",
                 "categoriesMenuItemAriaControl": "App categories menu item",
                 "comments": "Comments",
@@ -6281,8 +6280,7 @@ exports[`App Table view renders 1`] = `
                 "quickLaunch": "Quick Launch",
                 "removeFromFavorites": "Remove From Favorites",
                 "selectedCategoryAriaLabel": "Selected app category",
-                "selectedCategoryAriaMenuItemControl": "Selected app category menu items",
-                "selectedCategoryMenuAriaControl": "Selected app category menu",
+                "selectedCategoryAriaMenuItemLabel": "Selected app category menu items",
                 "tableView": "Table View",
                 "useAppTooltip": "Use this app.",
               }
@@ -6688,7 +6686,6 @@ exports[`App Table view renders 1`] = `
                 "appInfo": "App Info",
                 "ariaCheckbox": "{label} checkbox",
                 "betaAppTooltip": "This app is in beta.",
-                "categoriesMenuAriaControl": "App categories menu",
                 "categoriesMenuAriaLabel": "App categories",
                 "categoriesMenuItemAriaControl": "App categories menu item",
                 "comments": "Comments",
@@ -6702,8 +6699,7 @@ exports[`App Table view renders 1`] = `
                 "quickLaunch": "Quick Launch",
                 "removeFromFavorites": "Remove From Favorites",
                 "selectedCategoryAriaLabel": "Selected app category",
-                "selectedCategoryAriaMenuItemControl": "Selected app category menu items",
-                "selectedCategoryMenuAriaControl": "Selected app category menu",
+                "selectedCategoryAriaMenuItemLabel": "Selected app category menu items",
                 "tableView": "Table View",
                 "useAppTooltip": "Use this app.",
               }

@@ -107,10 +107,6 @@ function AppNavigation(props) {
         <Toolbar variant="dense">
             <List
                 component="nav"
-                aria-controls={formatMessage(
-                    intl,
-                    "selectedCategoryMenuAriaControl"
-                )}
                 aria-label={formatMessage(intl, "selectedCategoryAriaLabel")}
                 id={build(appNavId, ids.APP_CATEGORIES)}
             >
@@ -121,7 +117,7 @@ function AppNavigation(props) {
                     className={classes.selectedListItem}
                     aria-label={formatMessage(
                         intl,
-                        "selectedCategoryAriaMenuItemControl"
+                        "selectedCategoryAriaMenuItemLabel"
                     )}
                 >
                     {categories[selectedIndex].icon}
@@ -145,7 +141,6 @@ function AppNavigation(props) {
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
-                aria-controls={formatMessage(intl, "categoriesMenuAriaControl")}
                 aria-label={formatMessage(intl, "categoriesMenuAriaLabel")}
             >
                 {categories.map((menuItem, index) => (
@@ -160,10 +155,6 @@ function AppNavigation(props) {
                         selected={index === selectedIndex}
                         onClick={(event) => handleMenuItemClick(event, index)}
                         className={classes.list}
-                        aria-controls={formatMessage(
-                            intl,
-                            "categoriesMenuItemAriaControl"
-                        )}
                         aria-label={menuItem.name}
                     >
                         <ListItemIcon>{menuItem.icon}</ListItemIcon>

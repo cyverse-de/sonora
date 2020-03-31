@@ -109,10 +109,11 @@ function TableView(props) {
                     rowsInPage={listing?.apps.length}
                     order={order}
                     orderBy={orderBy}
-                    baseId="appTableView"
+                    baseId={tableId}
                     columnData={columnData}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
+                    ids={ids.FIELD}
                 />
                 {loading && (
                     <TableBody>

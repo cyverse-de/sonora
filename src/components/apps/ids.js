@@ -20,5 +20,8 @@ export default {
     RATING: "rating",
     SYSTEM_ID: "systemId",
     APP_STATUS_ICON: "appStatusIcon",
-    BROWSE_ALL_APPS:"browseAllApps"
+    BROWSE_ALL_APPS: "browseAllApps",
+    AGAVE_AUTH_PROMPT_DIALOG: "agaveAuthPromptDialog",
+    AGAVE_AUTH_PROMPT_DIALOG_AUTH_BTN: "authenticateBtn",
+    AGAVE_AUTH_PROMPT_DIALOG_DENY_BTN: "notNowBtn",
 };

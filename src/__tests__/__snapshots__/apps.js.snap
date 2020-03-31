@@ -6259,7 +6259,7 @@ exports[`App Table view renders 1`] = `
           <svg
             aria-describedby={null}
             aria-hidden="true"
-            className="MuiSvgIcon-root"
+            className="MuiSvgIcon-root MuiSvgIcon-colorPrimary"
             focusable="false"
             messages={
               Object {
@@ -6270,6 +6270,7 @@ exports[`App Table view renders 1`] = `
                 "ariaCheckbox": "{label} checkbox",
                 "authenticateBtnText": "Authenticate",
                 "betaAppTooltip": "This app is in beta.",
+                "browseAllApps": "Browse All Apps",
                 "categoriesMenuAriaLabel": "App categories",
                 "categoriesMenuItemAriaControl": "App categories menu item",
                 "comments": "Comments",
@@ -6296,16 +6297,6 @@ exports[`App Table view renders 1`] = `
             onTouchEnd={[Function]}
             onTouchStart={[Function]}
             role="presentation"
-            style={
-              Object {
-                "color": Object {
-                  "contrastText": "#fff",
-                  "dark": "#303f9f",
-                  "light": "#7986cb",
-                  "main": "#3f51b5",
-                },
-              }
-            }
             title={null}
             viewBox="0 0 24 24"
           >
@@ -6682,7 +6673,7 @@ exports[`App Table view renders 1`] = `
           <svg
             aria-describedby={null}
             aria-hidden="true"
-            className="MuiSvgIcon-root"
+            className="MuiSvgIcon-root MuiSvgIcon-colorPrimary"
             focusable="false"
             messages={
               Object {
@@ -6693,6 +6684,7 @@ exports[`App Table view renders 1`] = `
                 "ariaCheckbox": "{label} checkbox",
                 "authenticateBtnText": "Authenticate",
                 "betaAppTooltip": "This app is in beta.",
+                "browseAllApps": "Browse All Apps",
                 "categoriesMenuAriaLabel": "App categories",
                 "categoriesMenuItemAriaControl": "App categories menu item",
                 "comments": "Comments",
@@ -6719,16 +6711,6 @@ exports[`App Table view renders 1`] = `
             onTouchEnd={[Function]}
             onTouchStart={[Function]}
             role="presentation"
-            style={
-              Object {
-                "color": Object {
-                  "contrastText": "#fff",
-                  "dark": "#303f9f",
-                  "light": "#7986cb",
-                  "main": "#3f51b5",
-                },
-              }
-            }
             title={null}
             viewBox="0 0 24 24"
           >

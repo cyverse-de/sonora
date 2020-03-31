@@ -39,8 +39,17 @@ export const handler = ({ method, pathname, headers }) => {
             req
         )
             .then((apiResponse) => {
-                res.status(apiResponse.status);
-                apiResponse.body.pipe(res);
+                if (apiResponse.status === 302) {
+                    //if we don't set it to 200, react-query wont get the custom response with Location
+                    res.status(200);
+                    res.send({
+                        Location: apiResponse.headers.get("Location"),
+                        status: 302,
+                    });
+                } else {
+                    res.status(apiResponse.status);
+                    apiResponse.body.pipe(res);
+                }
             })
             .catch((e) => {
                 res.status(500).send(e.message);
@@ -93,6 +102,7 @@ export const call = (
         method,
         credentials: "include",
         headers: buildRequestOptionHeaders(),
+        redirect: "manual",
     };
 
     if (!["GET", "HEAD"].includes(method)) {

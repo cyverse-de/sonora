@@ -23,6 +23,7 @@ import messages from "../messages";
 import ResourceIcon from "../listing/ResourceIcon";
 import styles from "../styles";
 import PermissionsTabPanel from "./PermissionsPanel";
+import DETabPanel from "../../utils/DETabPanel";
 
 const TABS = {
     details: "DETAILS",
@@ -30,25 +31,6 @@ const TABS = {
 };
 
 const useStyles = makeStyles(styles);
-
-function TabPanel(props) {
-    const { children, value, selectedTab, tabId } = props;
-
-    return (
-        <>
-            <Divider />
-            <Typography
-                component="div"
-                role="tabpanel"
-                hidden={value !== selectedTab}
-                id={build(tabId, ids.PANEL)}
-                aria-labelledby={tabId}
-            >
-                <Box p={3}>{children}</Box>
-            </Typography>
-        </>
-    );
-}
 
 function DetailsDrawer(props) {
     const { resource, open, onClose, baseId, infoTypes } = props;
@@ -106,7 +88,7 @@ function DetailsDrawer(props) {
                     aria-controls={build(permissionsTabId, ids.PANEL)}
                 />
             </Tabs>
-            <TabPanel
+            <DETabPanel
                 tabId={detailsTabId}
                 value={TABS.details}
                 selectedTab={selectedTab}
@@ -117,8 +99,8 @@ function DetailsDrawer(props) {
                     infoTypes={infoTypes}
                     setSelfPermission={setSelfPermission}
                 />
-            </TabPanel>
-            <TabPanel
+            </DETabPanel>
+            <DETabPanel
                 tabId={permissionsTabId}
                 value={TABS.permissions}
                 selectedTab={selectedTab}
@@ -128,7 +110,7 @@ function DetailsDrawer(props) {
                     resource={resource}
                     selfPermission={selfPermission}
                 />
-            </TabPanel>
+            </DETabPanel>
         </Drawer>
     );
 }

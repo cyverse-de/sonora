@@ -17,6 +17,7 @@ import Header from "../Header";
 import AppNavigation from "../AppNavigation";
 import constants from "../../../constants";
 import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
+import Drawer from "../details/Drawer";
 
 function Listing(props) {
     const { baseId } = props;
@@ -34,6 +35,9 @@ function Listing(props) {
     const [error, setError] = useState(null);
     const [data, setData] = useState(null);
     const [agaveAuthDialogOpen, setAgaveAuthDialogOpen] = useState(false);
+    const [detailsEnabled, setDetailsEnabled] = useState(false);
+    const [detailsOpen, setDetailsOpen] = useState(false);
+    const [detailsApp, setDetailsApp] = useState(null);
 
     //a query with falsy key will not execute until key is set truthy val
     const { status } = useQuery({
@@ -95,6 +99,10 @@ function Listing(props) {
             setAgaveAuthDialogOpen(true);
         }
     }, [data, setAgaveAuthDialogOpen]);
+
+    useEffect(() => {
+        setDetailsEnabled(selected && selected.length === 1);
+    }, [selected]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);
@@ -169,6 +177,7 @@ function Listing(props) {
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
+        setSelected([]);
         setPage(0);
     };
 
@@ -177,6 +186,7 @@ function Listing(props) {
         setOrder(isAsc ? "desc" : "asc");
         setOrderBy(property);
         setPage(0);
+        setSelected([]);
     };
 
     const handleCategoryChange = (selectedCategory) => {
@@ -184,12 +194,22 @@ function Listing(props) {
             setFilter(null);
         }
         setSelectedCategory(selectedCategory);
+        setSelected([]);
         setPage(0);
     };
 
     const handleFilterChange = (filter) => {
         setFilter(filter);
+        setSelected([]);
         setPage(0);
+    };
+
+    const onDetailsSelected = () => {
+        setDetailsOpen(true);
+        const selectedId = selected[0];
+        const appIndex = data.apps.findIndex((item) => item.id === selectedId);
+        const resource = data.apps[appIndex];
+        setDetailsApp(resource);
     };
 
     return (
@@ -211,9 +231,11 @@ function Listing(props) {
                 baseId={baseId}
                 isGridView={isGridView}
                 toggleDisplay={toggleDisplay}
+                detailsEnabled={detailsEnabled}
+                onDetailsSelected={onDetailsSelected}
             />
             <TableView
-                loading={status === "loading" || allAppsStatus === "loading"}
+                loading={status === constants.LOADING || allAppsStatus === constants.LOADING}
                 error={error}
                 listing={data}
                 baseId={baseId}
@@ -233,6 +255,14 @@ function Listing(props) {
                 onChangePage={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
             />
+            {detailsOpen && (
+                <Drawer
+                    selectedApp={detailsApp}
+                    open={detailsOpen}
+                    baseId={baseId}
+                    onClose={() => setDetailsOpen(false)}
+                />
+            )}
         </>
     );
 }

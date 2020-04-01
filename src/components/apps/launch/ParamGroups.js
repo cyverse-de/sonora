@@ -6,7 +6,7 @@
 import React from "react";
 
 import sanitizeHtml from "sanitize-html";
-import { FastField } from "formik";
+import { FastField, Field } from "formik";
 
 import constants from "./constants";
 import ids from "./ids";
@@ -106,7 +106,13 @@ const buildParamId = (baseId, paramIndex, type) => {
 const ParamGroupForm = withI18N((props) => {
     const classes = useStyles();
 
-    const { baseId, fieldName, group } = props;
+    const {
+        baseId,
+        fieldName,
+        group,
+        referenceGenomes,
+        referenceGenomesLoading,
+    } = props;
 
     return (
         <ExpansionPanel id={baseId} defaultExpanded>
@@ -203,7 +209,18 @@ const ParamGroupForm = withI18N((props) => {
                         case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
                         case constants.PARAM_TYPE.REFERENCE_ANNOTATION:
                             fieldProps.component = ReferenceGenomeSelect;
-                            break;
+
+                            // Can't be a FastField since it renders with custom props.
+                            return (
+                                <Field
+                                    key={param.id}
+                                    {...fieldProps}
+                                    referenceGenomes={referenceGenomes}
+                                    referenceGenomesLoading={
+                                        referenceGenomesLoading
+                                    }
+                                />
+                            );
 
                         default:
                             fieldProps.component = FormTextField;

@@ -22,10 +22,13 @@ import {
     ResourceRequirementsReview,
 } from "./ResourceRequirements";
 
+import { getReferenceGenomes } from "../../endpoints/ReferenceGenomes";
+
 import {
     build as buildDebugId,
     getMessage,
     formatMessage,
+    stableSort,
     withI18N,
 } from "@cyverse-de/ui-lib";
 
@@ -121,6 +124,11 @@ const initValues = ({
 
 const AppLaunchWizard = (props) => {
     const [activeStep, setActiveStep] = React.useState(0);
+    const [referenceGenomes, setReferenceGenomes] = React.useState([]);
+    const [
+        referenceGenomesLoading,
+        setReferenceGenomesLoading,
+    ] = React.useState(false);
 
     const {
         baseId,
@@ -139,24 +147,59 @@ const AppLaunchWizard = (props) => {
     );
     const stepIdReview = buildDebugId(formId, ids.APP_LAUNCH_REVIEW);
 
-    const hasParams =
-        (groups &&
-            groups.reduce(
-                (hasParams, group) =>
-                    hasParams ||
-                    (group.parameters && group.parameters.length > 0),
-                false
-            )) ||
-        (requirements && requirements.length > 0);
+    const hasParams = groups?.reduce(
+        (hasParams, group) => hasParams || group.parameters?.length > 0,
+        false
+    );
+
+    const hasReferenceGenomes =
+        hasParams &&
+        groups?.reduce(
+            (hasReferenceGenomes, group) =>
+                hasReferenceGenomes ||
+                group.parameters?.find(
+                    (param) =>
+                        param.type === constants.PARAM_TYPE.REFERENCE_GENOME ||
+                        param.type ===
+                            constants.PARAM_TYPE.REFERENCE_SEQUENCE ||
+                        param.type === constants.PARAM_TYPE.REFERENCE_ANNOTATION
+                ),
+            false
+        );
+
+    React.useEffect(() => {
+        let unmounted = false;
+
+        if (hasReferenceGenomes) {
+            setReferenceGenomesLoading(true);
+            getReferenceGenomes().then((resp) => {
+                if (!unmounted) {
+                    const genomes = resp?.genomes || [];
+                    setReferenceGenomes(
+                        stableSort(genomes, (a, b) =>
+                            a.name.localeCompare(b.name)
+                        )
+                    );
+                    setReferenceGenomesLoading(false);
+                }
+            });
+        }
+
+        return () => {
+            unmounted = true;
+        };
+    }, [props.app, hasReferenceGenomes]);
+
+    const hasParamsStep = hasParams || requirements?.length > 0;
 
     const stepAnalysisInfo = { label: getMessage("analysisInfo"), step: 0 };
     const stepParameters = { label: getMessage("parameters"), step: 1 };
     const stepReviewAndLaunch = {
         label: getMessage("reviewAndLaunch"),
-        step: hasParams ? 2 : 1,
+        step: hasParamsStep ? 2 : 1,
     };
 
-    const steps = hasParams
+    const steps = hasParamsStep
         ? [stepAnalysisInfo, stepParameters, stepReviewAndLaunch]
         : [stepAnalysisInfo, stepReviewAndLaunch];
 
@@ -287,7 +330,7 @@ const AppLaunchWizard = (props) => {
                         step={stepParameters.step}
                         label={getMessage("analysisParameters")}
                         hidden={
-                            !hasParams || activeStep !== stepParameters.step
+                            !hasParamsStep || activeStep !== stepParameters.step
                         }
                     >
                         {values.groups &&
@@ -300,6 +343,10 @@ const AppLaunchWizard = (props) => {
                                     )}
                                     fieldName={`groups.${index}`}
                                     group={group}
+                                    referenceGenomes={referenceGenomes}
+                                    referenceGenomesLoading={
+                                        referenceGenomesLoading
+                                    }
                                 />
                             ))}
 

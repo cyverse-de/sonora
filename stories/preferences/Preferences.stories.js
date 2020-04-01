@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "../../src/components/preferences/NavBar.js";
+import PreferencesPage from "../../src/components/preferences/NavBar.js";
 
 export const PreferencesTest = () => {
     const props = {
@@ -54,7 +54,7 @@ export const PreferencesTest = () => {
             base_trash_path: "/iplant/trash/home/de-irods",
         },
         preferences: {
-            rememberLastPath: true,
+            rememberLastPath: false,
             notificationKBShortcut: "N",
             dataKBShortcut: "D",
             lastFolder: "/iplant/home/jmittelmeier",
@@ -78,7 +78,7 @@ export const PreferencesTest = () => {
         },
     };
 
-    return <NavBar config={props} />;
+    return <PreferencesPage config={props} />;
 };
 
 export default { title: "Preferences" };

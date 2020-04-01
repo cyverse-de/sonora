@@ -15,11 +15,23 @@ export default (theme) => ({
 
     sectionHeader: {
         fontFamily: "roboto",
+        marginLeft: "2%",
         fontSize: 20,
     },
 
     textField: {
         width: "60%",
+        marginLeft: "5%",
+    },
+
+    webhooksTextField: {
+        width: "50%",
+    },
+
+    dropDown: {
+        width: "20%",
+        marginLeft: "3%",
+        marginRight: "3%",
     },
 
     actionButton: {
@@ -41,10 +53,18 @@ export default (theme) => ({
 
     shortcutField: {
         marginLeft: 3,
-        paddingBottom: 10,
+        marginTop: -1,
         width: "6%",
-        fullWidth: true,
+        fullWidth: false,
         size: "small",
         textAlign: "center",
+    },
+
+    blackButton: {
+        backgroundColor: "black",
+    },
+
+    section: {
+        marginLeft: "3%",
     },
 });

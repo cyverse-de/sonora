@@ -1,5 +1,5 @@
 import React from "react";
-import PreferencesPage from "../../src/components/preferences/NavBar.js";
+import PreferencesPage from "../../src/components/preferences/PreferencesPage.js";
 
 export const PreferencesTest = () => {
     const props = {

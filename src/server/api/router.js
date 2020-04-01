@@ -195,5 +195,15 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding the /apps/:systemId/:appId/details handler");
+    api.get(
+        "/apps/:systemId/:appId/details",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/:systemId/:appId/details",
+        })
+    );
+
     return api;
 }

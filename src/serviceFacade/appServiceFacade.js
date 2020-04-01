@@ -39,4 +39,11 @@ function getAppsInCategory(
     });
 }
 
-export { getApps, getPrivateCategories, getAppsInCategory };
+function getAppDetails(key, { systemId, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}/details`,
+        method: "GET",
+    });
+}
+
+export { getApps, getPrivateCategories, getAppsInCategory, getAppDetails };

@@ -21,16 +21,19 @@ import {
     Tooltip,
     Typography,
 } from "@material-ui/core";
+import HomeIcon from "@material-ui/icons/Home";
+import FolderSharedIcon from "@material-ui/icons/FolderShared";
+import GroupIcon from "@material-ui/icons/Group";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { makeStyles } from "@material-ui/core/styles";
 import { injectIntl } from "react-intl";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import FolderIcon from "@material-ui/icons/Folder";
-import { useRouter } from "next/router";
-import NavigationConstants from "../../common/NavigationConstants";
 import ids from "./ids";
 import constants from "../../constants";
-import { getEncodedPath, getStorageIdFromPath } from "./utils";
+import { getFilesystemRoots } from "../endpoints/Filesystem";
+import { useUserProfile } from "../../contexts/userProfile";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
@@ -73,16 +76,14 @@ function getPathItems(relativePath) {
 /**
  * Computes the path for routing.
  *  * @example
- * // returns "/data/ds/iplant/home/ipctest/analyses"
- * getPathItems("ds","/iplant/home/ipctest","/analyses/wordcount/logs", 0);
- * @param {string} storageId - storage id of data storage that is being browsed. e.g. : "ds" for
- * CyVerse Data Store
+ * // returns "/iplant/home/ipctest/analyses"
+ * getPathItems("/iplant/home/ipctest","/analyses/wordcount/logs", 0);
  * @param {string } root - CyVerse Data Store root path e.g: /iplant/home/ipctest
  * @param {string} relativePath - relative path to CyVerse Data Store e.g: /analyses/wordcount/logs
  * @param {number} selectedPathItemIndex - index of the selected path item
  * @returns {string} - path to be used by the nextjs router
  */
-function pathToRoute(storageId, root, relativePath, selectedPathItemIndex) {
+function pathToRoute(root, relativePath, selectedPathItemIndex) {
     const relativePathItems = getPathItems(relativePath);
     const reducer = (accumulator, currentVal, idx) => {
         if (idx <= selectedPathItemIndex) {
@@ -91,11 +92,7 @@ function pathToRoute(storageId, root, relativePath, selectedPathItemIndex) {
         return accumulator;
     };
     const routerPath = relativePathItems.reduce(reducer);
-    return `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${
-        constants.PATH_SEPARATOR
-    }${storageId}${root}${constants.PATH_SEPARATOR}${getEncodedPath(
-        routerPath
-    )}`;
+    return `${root}${constants.PATH_SEPARATOR}${routerPath}`;
 }
 
 /**
@@ -138,6 +135,7 @@ function getRelativePath(
 function FolderSelectorMenu({
     root,
     path,
+    handlePathChange,
     userHomePath,
     userTrashPath,
     sharedWithMePath,
@@ -146,7 +144,6 @@ function FolderSelectorMenu({
     intl,
 }) {
     const classes = useStyles();
-    const router = useRouter();
     const [anchorEl, setAnchorEl] = useState(null);
     const relativePath = getRelativePath(
         path,
@@ -169,7 +166,6 @@ function FolderSelectorMenu({
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
         setAnchorEl(null);
-        const storageId = getStorageIdFromPath(router.pathname);
         const relativePath = getRelativePath(
             path,
             userHomePath,
@@ -177,7 +173,7 @@ function FolderSelectorMenu({
             sharedWithMePath,
             communityDataPath
         );
-        router.push(pathToRoute(storageId, root, relativePath, index));
+        handlePathChange(pathToRoute(root, relativePath, index));
     };
 
     const handleClose = () => {
@@ -275,6 +271,7 @@ function FolderSelectorMenu({
 function BreadCrumb({
     root,
     path,
+    handlePathChange,
     userHomePath,
     userTrashPath,
     sharedWithMePath,
@@ -283,7 +280,6 @@ function BreadCrumb({
     intl,
 }) {
     const classes = useStyles();
-    const router = useRouter();
     const relativePath = getRelativePath(
         path,
         userHomePath,
@@ -296,8 +292,7 @@ function BreadCrumb({
         event.preventDefault();
         const relativePathItems = getPathItems(relativePath);
         const index = relativePathItems.indexOf(crumb);
-        const storageId = getStorageIdFromPath(router.pathname);
-        router.push(pathToRoute(storageId, root, relativePath, index));
+        handlePathChange(pathToRoute(root, relativePath, index));
     };
 
     return (
@@ -345,22 +340,55 @@ function BreadCrumb({
 }
 
 function DataNavigation(props) {
-    const {
-        path,
-        error,
-        baseId,
-        dataRoots,
-        userHomePath,
-        userTrashPath,
-        sharedWithMePath,
-        communityDataPath,
-        intl,
-    } = props;
-    const router = useRouter();
+    const { path, handlePathChange, baseId, intl } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [dataRoots, setDataRoots] = useState([]);
+    const [userHomePath, setUserHomePath] = useState("");
+    const [userTrashPath, setUserTrashPath] = useState("");
+    const [sharedWithMePath, setSharedWithMePath] = useState("");
+    const [communityDataPath, setCommunityDataPath] = useState("");
     const dataNavId = build(baseId, ids.DATA_NAVIGATION);
+    const [userProfile] = useUserProfile();
+
+    useEffect(() => {
+        //route to default path
+        if (dataRoots.length > 0 && !path) {
+            handlePathChange(dataRoots[0].path);
+        }
+    }, [dataRoots, handlePathChange, path]);
+
+    useEffect(() => {
+        getFilesystemRoots().then((respData) => {
+            if (respData && userProfile) {
+                const respRoots = respData.roots;
+                const home = respRoots.find(
+                    (root) => root.label === userProfile.id
+                );
+                home.icon = <HomeIcon />;
+                const sharedWithMe = respRoots.find(
+                    (root) => root.label === constants.SHARED_WITH_ME
+                );
+                setSharedWithMePath(sharedWithMe.path);
+                sharedWithMe.icon = <FolderSharedIcon />;
+                const communityData = respRoots.find(
+                    (root) => root.label === constants.COMMUNITY_DATA
+                );
+                setCommunityDataPath(communityData.path);
+                communityData.icon = <GroupIcon />;
+                const trash = respRoots.find(
+                    (root) => root.label === constants.TRASH
+                );
+                trash.icon = <DeleteIcon />;
+
+                const basePaths = respData["base-paths"];
+                setUserHomePath(basePaths["user_home_path"]);
+                setUserTrashPath(basePaths["user_trash_path"]);
+                setDataRoots([home, sharedWithMe, communityData, trash]);
+            }
+        });
+    }, [userProfile]);
 
     useEffect(() => {
         /**
@@ -407,10 +435,7 @@ function DataNavigation(props) {
 
     const handleMenuItemClick = (event, index) => {
         setAnchorEl(null);
-        const storageId = getStorageIdFromPath(router.pathname);
-        router.push(
-            `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}${storageId}${dataRoots[index].path}`
-        );
+        handlePathChange(dataRoots[index].path);
     };
 
     const handleClose = () => {
@@ -498,11 +523,12 @@ function DataNavigation(props) {
             </Menu>
 
             <Hidden xsDown>
-                {path && (!error || error.length === 0) ? (
+                {path ? (
                     <BreadCrumb
                         baseId={dataNavId}
                         root={dataRoots[selectedIndex].path}
                         path={path}
+                        handlePathChange={handlePathChange}
                         userHomePath={userHomePath}
                         userTrashPath={userTrashPath}
                         sharedWithMePath={sharedWithMePath}
@@ -514,11 +540,12 @@ function DataNavigation(props) {
                 )}
             </Hidden>
             <Hidden only={["sm", "md", "lg", "xl"]}>
-                {path && (!error || error.length === 0) ? (
+                {path ? (
                     <FolderSelectorMenu
                         baseId={dataNavId}
                         root={dataRoots[selectedIndex].path}
                         path={path}
+                        handlePathChange={handlePathChange}
                         userHomePath={userHomePath}
                         userTrashPath={userTrashPath}
                         sharedWithMePath={sharedWithMePath}

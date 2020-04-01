@@ -42,3 +42,41 @@ export const updateInfoType = (path, infoType) => {
         },
     });
 };
+
+/**
+ * Get a paged directory listing
+ * @param path - The resource path
+ * @param rowsPerPage - The number of rows per page
+ * @param orderBy - A column to order items by
+ * @param order - Ascending or Descending
+ * @param page - The page number or offset
+ * @returns {Promise<any>}
+ */
+export const getPagedListing = (path, rowsPerPage, orderBy, order, page) => {
+    return callApi({
+        endpoint: `/api/filesystem/paged-directory?path=${encodeURIComponent(
+            path
+        )}&limit=${rowsPerPage}&sort-col=${orderBy}&sort-dir=${order}&offset=${rowsPerPage *
+        page}`,
+    });
+};
+
+/**
+ * Get the list of directory roots available to a user
+ * @returns {Promise<any>}
+ */
+export const getFilesystemRoots = () => {
+    return callApi({
+        endpoint: `/api/filesystem/root`,
+    });
+};
+
+/**
+ * Get a list of all accepted info types
+ * @returns {Promise<any>}
+ */
+export const getInfoTypes = () => {
+    return callApi({
+        endpoint: `/api/filetypes/type-list`,
+    });
+};

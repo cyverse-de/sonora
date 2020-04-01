@@ -25,4 +25,9 @@ export default {
     AGAVE_AUTH_PROMPT_DIALOG_AUTH_BTN: "authenticateBtn",
     AGAVE_AUTH_PROMPT_DIALOG_DENY_BTN: "notNowBtn",
     AGAVE_AUTH_PROMPT_DIALOG_TITLE: "agaveAuthPromptDialogTitle",
+    DETAILS_BTN: "detailsBtn",
+    DETAILS_DRAWER: "detailsDrawer",
+    DETAILS_TAB: "detailsTab",
+    TOOLS_INFO_TAB: "toolsInfoTab",
+    PANEL: "panel",
 };

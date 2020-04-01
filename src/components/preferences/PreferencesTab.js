@@ -10,10 +10,17 @@ import { Field } from "formik";
 
 const useStyles = makeStyles(styles);
 
+function browseFiles() {
+    console.log("User clicked the file browser.");
+    //TODO figure out what happens here
+    //DATA VIEW IN A DRAWER?
+}
+
 export default function PreferencesTab(props) {
     const classes = useStyles();
 
     const onSwitchChange = (setFieldValue, fieldName) => (event, checked) => {
+        console.log(fieldName);
         setFieldValue(fieldName, checked);
     };
 
@@ -29,13 +36,13 @@ export default function PreferencesTab(props) {
         />
     );
 
-    //TODO add on change function for each switch that sends API request to change preference
-    //TODO make headers look more like headers
     return (
         <div className={classes.preferences}>
             <Typography className={classes.sectionHeader}>General</Typography>
             <br />
-            Remember last file path for Apps
+            <Typography className={classes.section} display="inline">
+                Remember last file path for Apps
+            </Typography>
             <Field
                 component={FormSwitch}
                 name="preferences.rememberLastPath"
@@ -46,7 +53,9 @@ export default function PreferencesTab(props) {
             />
             <br />
             <br />
-            Save Session
+            <Typography className={classes.section} display="inline">
+                Save Session
+            </Typography>
             <Field
                 component={FormSwitch}
                 name="preferences.saveSession"
@@ -57,7 +66,9 @@ export default function PreferencesTab(props) {
             />
             <br />
             <br />
-            Prompt for HPC apps authentication after log-on,
+            <Typography className={classes.section} display="inline">
+                Prompt for HPC apps authentication after log-on,
+            </Typography>
             <Field
                 component={FormSwitch}
                 name="preferences.enableHPCPrompt"
@@ -67,10 +78,14 @@ export default function PreferencesTab(props) {
                 className={classes.toggle}
             />
             <br />
-            or when apps window is opened
+            <Typography className={classes.section} display="inline">
+                or when apps window is opened
+            </Typography>
             <br />
             <br />
-            Display Warning about wait times for submitting HPC apps
+            <Typography className={classes.section} display="inline">
+                Display Warning about wait times for submitting HPC apps
+            </Typography>
             <Field
                 component={FormSwitch}
                 name="preferences.enableWaitTimeMessage"
@@ -93,9 +108,14 @@ export default function PreferencesTab(props) {
                 defaultValue="/iplant/home/mgwall/analyses"
                 variant="outlined"
             />
-            <Button color="primary" className={classes.actionButton}>
+            <Button
+                color="primary"
+                className={classes.actionButton}
+                onClick={browseFiles}
+            >
                 BROWSE
             </Button>
+
             <br />
             <br />
             <Divider className={classes.dividers} />
@@ -103,7 +123,9 @@ export default function PreferencesTab(props) {
                 Email Notifications
             </Typography>
             <br />
-            Email me when my analysis status changes
+            <Typography className={classes.section} display="inline">
+                Email me when my analysis status changes
+            </Typography>
             <Field
                 component={FormSwitch}
                 name="preferences.enableAnalysisEmailNotification"
@@ -114,7 +136,9 @@ export default function PreferencesTab(props) {
             />
             <br />
             <br />
-            Email me when my URL import status changes
+            <Typography className={classes.section} display="inline">
+                Email me when my URL import status changes
+            </Typography>
             <Field
                 component={FormSwitch}
                 name="preferences.enableImportEmailNotification"

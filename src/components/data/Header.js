@@ -30,7 +30,6 @@ import ids from "./ids";
 import messages from "./messages";
 import styles from "./styles";
 import UploadMenuBtn from "./UploadMenuBtn";
-import DataNavigation from "./DataNavigation";
 
 const useStyles = makeStyles(styles);
 

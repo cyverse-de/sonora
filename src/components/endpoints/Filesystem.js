@@ -57,7 +57,7 @@ export const getPagedListing = (path, rowsPerPage, orderBy, order, page) => {
         endpoint: `/api/filesystem/paged-directory?path=${encodeURIComponent(
             path
         )}&limit=${rowsPerPage}&sort-col=${orderBy}&sort-dir=${order}&offset=${rowsPerPage *
-        page}`,
+            page}`,
     });
 };
 

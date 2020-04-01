@@ -106,7 +106,7 @@ export const call = (
     };
 
     if (!["GET", "HEAD"].includes(method)) {
-        requestOptions.body = inStream;
+        requestOptions.data = inStream;
     }
 
     if (headers) {

@@ -206,7 +206,7 @@ export default function apiRouter() {
     );
 
     logger.info("adding the PUT /apps/:systemId/:appId/favorite handler");
-    api.get(
+    api.put(
         "/apps/:systemId/:appId/favorite",
         auth.authnTokenMiddleware,
         terrainHandler({
@@ -216,7 +216,7 @@ export default function apiRouter() {
     );
 
     logger.info("adding the DELETE /apps/:systemId/:appId/favorite handler");
-    api.get(
+    api.delete(
         "/apps/:systemId/:appId/favorite",
         auth.authnTokenMiddleware,
         terrainHandler({
@@ -226,17 +226,20 @@ export default function apiRouter() {
     );
 
     logger.info("adding the POST /apps/:systemId/:appId/rating handler");
-    api.get(
+    api.post(
         "/apps/:systemId/:appId/rating",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
             pathname: "/apps/:systemId/:appId/rating",
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
     );
 
     logger.info("adding the DELETE /apps/:systemId/:appId/rating handler");
-    api.get(
+    api.delete(
         "/apps/:systemId/:appId/rating",
         auth.authnTokenMiddleware,
         terrainHandler({

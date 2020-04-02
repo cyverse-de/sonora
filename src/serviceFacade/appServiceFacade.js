@@ -46,35 +46,35 @@ function getAppDetails(key, { systemId, appId }) {
     });
 }
 
-function addToFavorite(key, { systemId, appId }) {
-    return callApi({
-        endpoint: `/api/apps/${systemId}/${appId}/favorite`,
-        method: "PUT",
-    });
+function appFavorite({ isFav, systemId, appId }) {
+    if (isFav) {
+        return callApi({
+            endpoint: `/api/apps/${systemId}/${appId}/favorite`,
+            method: "PUT",
+        });
+    } else {
+        return callApi({
+            endpoint: `/api/apps/${systemId}/${appId}/favorite`,
+            method: "DELETE",
+        });
+    }
 }
 
-function removeFromFavorite(key, { systemId, appId }) {
-    return callApi({
-        endpoint: `/api/apps/${systemId}/${appId}/favorite`,
-        method: "DELETE",
-    });
-}
-
-function rateApp(key, { systemId, appId, rating }) {
-    return callApi({
-        endpoint: `/api/apps/${systemId}/${appId}/rating`,
-        method: "POST",
-        body: {
-            rating: rating,
-        },
-    });
-}
-
-function unRateApp(key, { systemId, appId }) {
-    return callApi({
-        endpoint: `/api/apps/${systemId}/${appId}/rating`,
-        method: "DELETE",
-    });
+function rateApp({ systemId, appId, rating }) {
+    if (rating) {
+        return callApi({
+            endpoint: `/api/apps/${systemId}/${appId}/rating`,
+            method: "POST",
+            body: {
+                rating: rating,
+            },
+        });
+    } else {
+        return callApi({
+            endpoint: `/api/apps/${systemId}/${appId}/rating`,
+            method: "DELETE",
+        });
+    }
 }
 
 export {
@@ -82,8 +82,6 @@ export {
     getPrivateCategories,
     getAppsInCategory,
     getAppDetails,
-    addToFavorite,
-    removeFromFavorite,
+    appFavorite,
     rateApp,
-    unRateApp,
 };

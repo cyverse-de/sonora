@@ -205,5 +205,45 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding the PUT /apps/:systemId/:appId/favorite handler");
+    api.get(
+        "/apps/:systemId/:appId/favorite",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PUT",
+            pathname: "/apps/:systemId/:appId/favorite",
+        })
+    );
+
+    logger.info("adding the DELETE /apps/:systemId/:appId/favorite handler");
+    api.get(
+        "/apps/:systemId/:appId/favorite",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/apps/:systemId/:appId/favorite",
+        })
+    );
+
+    logger.info("adding the POST /apps/:systemId/:appId/rating handler");
+    api.get(
+        "/apps/:systemId/:appId/rating",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/apps/:systemId/:appId/rating",
+        })
+    );
+
+    logger.info("adding the DELETE /apps/:systemId/:appId/rating handler");
+    api.get(
+        "/apps/:systemId/:appId/rating",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/apps/:systemId/:appId/rating",
+        })
+    );
+
     return api;
 }

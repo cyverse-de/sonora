@@ -46,4 +46,44 @@ function getAppDetails(key, { systemId, appId }) {
     });
 }
 
-export { getApps, getPrivateCategories, getAppsInCategory, getAppDetails };
+function addToFavorite(key, { systemId, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}/favorite`,
+        method: "PUT",
+    });
+}
+
+function removeFromFavorite(key, { systemId, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}/favorite`,
+        method: "DELETE",
+    });
+}
+
+function rateApp(key, { systemId, appId, rating }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}/rating`,
+        method: "POST",
+        body: {
+            rating: rating,
+        },
+    });
+}
+
+function unRateApp(key, { systemId, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}/rating`,
+        method: "DELETE",
+    });
+}
+
+export {
+    getApps,
+    getPrivateCategories,
+    getAppsInCategory,
+    getAppDetails,
+    addToFavorite,
+    removeFromFavorite,
+    rateApp,
+    unRateApp,
+};

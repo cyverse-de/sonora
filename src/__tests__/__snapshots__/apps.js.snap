@@ -6351,6 +6351,7 @@ exports[`App Table view renders 1`] = `
                 "viewTools": "View Tools",
                 "wikiURLInstructions": "Creating wiki documentation instructions",
                 "wikiUrl": "CyVerse wiki documentation URL",
+                "yourRating": "Your Rating:",
               }
             }
             onBlur={[Function]}
@@ -6828,6 +6829,7 @@ exports[`App Table view renders 1`] = `
                 "viewTools": "View Tools",
                 "wikiURLInstructions": "Creating wiki documentation instructions",
                 "wikiUrl": "CyVerse wiki documentation URL",
+                "yourRating": "Your Rating:",
               }
             }
             onBlur={[Function]}

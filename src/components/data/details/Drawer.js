@@ -7,15 +7,7 @@
 import React, { useState } from "react";
 
 import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
-import {
-    Box,
-    Divider,
-    Drawer,
-    makeStyles,
-    Tab,
-    Tabs,
-    Typography,
-} from "@material-ui/core";
+import { Drawer, makeStyles, Tab, Tabs, Typography } from "@material-ui/core";
 
 import DetailsTabPanel from "./DetailsPanel";
 import ids from "../ids";

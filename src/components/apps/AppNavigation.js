@@ -59,6 +59,13 @@ const useStyles = makeStyles((theme) => ({
             maxWidth: 75,
         },
     },
+    filter: {
+        minWidth: 150,
+        [theme.breakpoints.down("sm")]: {
+            minWidth: 100,
+            maxWidth: 100,
+        },
+    },
 }));
 
 function getFilters() {
@@ -238,7 +245,7 @@ function AppNavigation(props) {
                     handleFilterChange(newValue);
                 }}
                 getOptionLabel={(option) => option.name}
-                style={{ minWidth: 150 }}
+                className={classes.filter}
                 renderInput={(params) => (
                     <TextField
                         {...params}

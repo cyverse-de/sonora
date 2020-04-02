@@ -30,4 +30,9 @@ export default {
     DETAILS_TAB: "detailsTab",
     TOOLS_INFO_TAB: "toolsInfoTab",
     PANEL: "panel",
+    APP_DETAILS: "appDetails",
+    APP_FAVORITE: "appFavorite",
+    APP_UNFAVORITE: "appUnFavorite",
+    TOOLS_USED: "toolsUsed",
+    AVERAGE_RATING: "averageRating",
 };

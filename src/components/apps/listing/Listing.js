@@ -235,7 +235,10 @@ function Listing(props) {
                 onDetailsSelected={onDetailsSelected}
             />
             <TableView
-                loading={status === constants.LOADING || allAppsStatus === constants.LOADING}
+                loading={
+                    status === constants.LOADING ||
+                    allAppsStatus === constants.LOADING
+                }
                 error={error}
                 listing={data}
                 baseId={baseId}

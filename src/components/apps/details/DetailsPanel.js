@@ -2,29 +2,11 @@ import React from "react";
 
 import messages from "../messages";
 import GridLabelValue from "../../utils/GridLabelValue";
-import constants from "../../../constants";
+import ids from "../ids";
 
-import {
-    formatDate,
-    formatMessage,
-    getMessage,
-    Highlighter,
-    Rate,
-    withI18N,
-} from "@cyverse-de/ui-lib";
-import { useTheme } from "@material-ui/core/styles";
-import UnFavoriteIcon from "@material-ui/icons/FavoriteBorderOutlined";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+import { build, formatDate, getMessage, Rate, withI18N } from "@cyverse-de/ui-lib";
 
-import { injectIntl } from "react-intl";
-
-import {
-    Grid,
-    IconButton,
-    Paper,
-    Tooltip,
-    Typography,
-} from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import GridLoading from "../../utils/GridLoading";
 
 /**
@@ -33,69 +15,51 @@ import GridLoading from "../../utils/GridLoading";
  * A panel that displays app details
  */
 
-function Favorite(props) {
-    const { is_favorite } = props.details;
-    const { isExternal, onFavoriteClick, intl } = props;
-    const theme = useTheme();
-
-    if (is_favorite) {
-        return (
-            <Tooltip title={formatMessage(intl, "removeFromFavorites")}>
-                <IconButton
-                    onClick={() => onFavoriteClick(isExternal)}
-                    disabled={isExternal}
-                >
-                    <FavoriteIcon style={{ color: theme.palette.primary }} />
-                </IconButton>
-            </Tooltip>
-        );
-    } else {
-        return (
-            <Tooltip title={formatMessage(intl, "addToFavorites")}>
-                <IconButton
-                    onClick={() => onFavoriteClick(isExternal)}
-                    disabled={isExternal}
-                >
-                    <UnFavoriteIcon style={{ color: theme.palette.primary }} />
-                </IconButton>
-            </Tooltip>
-        );
-    }
-}
-
 function DetailsPanel(props) {
-    const { app, details, loading, error, searchText, baseId, intl } = props;
     const {
-        average: averageRating,
-        user: userRating,
-        total: totalRating,
-    } = app.rating;
-
-    const isExternal =
-        app.app_type.toUpperCase() ===
-        constants.EXTERNAL_APP_TYPE.toUpperCase();
+        app,
+        details,
+        loading,
+        error,
+        baseId,
+        onRatingChange,
+        onDeleteRatingClick,
+        isPublic,
+        isExternal,
+    } = props;
 
     if (loading) {
-        return <GridLoading rows={10} />;
+        return <GridLoading rows={10}/>;
     }
 
+    if (error) {
+        return <span>{error}</span>;
+    }
+
+    const { user: userRating, total: totalRating } = app.rating;
+
     if (details) {
+        const detailsBaseId = build(baseId, details.id, ids.APP_DETAILS);
         return (
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <Favorite
-                        intl={intl}
-                        baseId={baseId}
-                        details={details}
-                        isExternal={isExternal}
-                    />
-                </Grid>
+            <Grid container spacing={3} id={detailsBaseId}>
                 <Grid item xs={12}>
                     {details.description}
                 </Grid>
                 <Grid item xs={12}>
                     {getMessage("details")}
                 </Grid>
+                {!isExternal && isPublic && (
+                    <GridLabelValue label={getMessage("yourRating")}>
+                        <Rate
+                            name={"user." + details.id}
+                            value={userRating}
+                            readOnly={false}
+                            total={totalRating}
+                            onChange={onRatingChange}
+                            onDelete={onDeleteRatingClick}
+                        />
+                    </GridLabelValue>
+                )}
                 <GridLabelValue label={getMessage("publishedOn")}>
                     {formatDate(details.integration_date)}
                 </GridLabelValue>
@@ -113,14 +77,6 @@ function DetailsPanel(props) {
                 <GridLabelValue label={getMessage("detailsLastCompleted")}>
                     {formatDate(details.job_stats.job_last_completed)}
                 </GridLabelValue>
-                <GridLabelValue label={getMessage("detailsRatingLbl")}>
-                    <Rate
-                        name={details.id}
-                        value={userRating || averageRating}
-                        readOnly={isExternal || !details.is_public}
-                        total={totalRating}
-                    />
-                </GridLabelValue>
             </Grid>
         );
     } else {
@@ -128,4 +84,4 @@ function DetailsPanel(props) {
     }
 }
 
-export default withI18N(injectIntl(DetailsPanel), messages);
+export default withI18N(DetailsPanel, messages);

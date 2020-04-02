@@ -14,13 +14,15 @@ import DetailsPanel from "./DetailsPanel";
 import { getAppDetails } from "../../../serviceFacade/appServiceFacade";
 import constants from "../../../constants";
 
-import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
-import { Drawer, Tab, Tabs, Typography } from "@material-ui/core";
+import { build, getMessage, Rate, withI18N } from "@cyverse-de/ui-lib";
+import { Drawer, IconButton, Tab, Tabs, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { useQuery } from "react-query";
 import ToolsUsedPanel from "./ToolUsedPanel";
-
+import { AppFavorite } from "../AppFavorite";
+import { injectIntl } from "react-intl";
+import LinkIcon from "@material-ui/icons/Link";
 
 const TABS = {
     appInfo: "APP INFORMATION",
@@ -40,8 +42,13 @@ const useStyles = makeStyles((theme) => ({
     },
 
     drawerHeader: {
-        paddingTop: theme.spacing(2),
-        paddingBottom: theme.spacing(2),
+        padding: theme.spacing(1),
+        display: "flex",
+        flexDirection: "row",
+        maxWidth: "100%",
+    },
+    drawerSubHeader: {
+        paddingLeft: theme.spacing(2),
         display: "flex",
         flexDirection: "row",
         maxWidth: "100%",
@@ -57,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DetailsDrawer(props) {
-    const { selectedApp, open, onClose, baseId } = props;
+    const { selectedApp, open, onClose, baseId, intl } = props;
     const classes = useStyles();
 
     const [selectedTab, setSelectedTab] = useState(TABS.appInfo);
@@ -84,9 +91,30 @@ function DetailsDrawer(props) {
             ]);
         }
     }, [selectedApp]);
+
     const onTabSelectionChange = (event, selectedTab) => {
         setSelectedTab(selectedTab);
     };
+
+    const onDeleteRatingClick = () => {
+    };
+
+    const onRatingChange = () => {
+    };
+
+    const onFavoriteClick = () => {
+    };
+
+    const isExternal =
+        selectedApp.app_type.toUpperCase() ===
+        constants.EXTERNAL_APP_TYPE.toUpperCase();
+
+    const isPublic = selectedApp.is_public;
+
+    const {
+        average: averageRating,
+        total: totalRating,
+    } = selectedApp.rating;
 
     const drawerId = build(baseId, ids.DETAILS_DRAWER);
     const detailsTabId = build(drawerId, ids.DETAILS_TAB);
@@ -104,11 +132,33 @@ function DetailsDrawer(props) {
             }}
         >
             <div className={classes.drawerHeader}>
-                <Typography variant="h6" className={classes.restrictWidth}>
+                <Typography variant="h6" component="span">
                     {selectedApp.name}
                 </Typography>
+                {!isExternal && isPublic && (
+                    <>
+                        <AppFavorite
+                            intl={intl}
+                            baseId={baseId}
+                            isFavorite={selectedApp.is_favorite}
+                            isExternal={isExternal}
+                        />
+                        <IconButton size="small">
+                            <LinkIcon color="primary"/>
+                        </IconButton>
+                    </>
+                )}
             </div>
-
+            {!isExternal && isPublic && (
+                <div className={classes.drawerSubHeader}>
+                    <Rate
+                        name={selectedApp.id}
+                        value={averageRating}
+                        readOnly={true}
+                        total={totalRating}
+                    />
+                </div>
+            )}
             <Tabs
                 value={selectedTab}
                 onChange={onTabSelectionChange}
@@ -137,9 +187,14 @@ function DetailsDrawer(props) {
                 <DetailsPanel
                     app={selectedApp}
                     details={details}
+                    isPublic={isPublic}
+                    isExternal={isExternal}
                     loading={status === constants.LOADING}
                     error={error}
                     baseId={baseId}
+                    onRatingChange={onRatingChange}
+                    onDeleteRatingClick={onDeleteRatingClick}
+                    onFavoriteClick={onFavoriteClick}
                 />
             </DETabPanel>
             <DETabPanel
@@ -157,4 +212,4 @@ function DetailsDrawer(props) {
     );
 }
 
-export default withI18N(DetailsDrawer, messages);
+export default withI18N(injectIntl(DetailsDrawer), messages);

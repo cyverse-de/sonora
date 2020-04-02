@@ -4,7 +4,7 @@
  */
 import React from "react";
 import intlData from "../messages";
-import { build, getMessage, Highlighter, withI18N } from "@cyverse-de/ui-lib";
+import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
 
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -15,26 +15,27 @@ import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
 import GridLabelValue from "../../utils/GridLabelValue";
 import GridLoading from "../../utils/GridLoading";
+import ids from "../ids";
 
-function ToolsUsedPanel({ details, loading, baseId, searchText }) {
+function ToolsUsedPanel({ details, loading, baseId, error }) {
     if (loading) {
-        return <GridLoading rows={10} />;
+        return <GridLoading rows={10}/>;
+    }
+    if (error) {
+        return <span>{error}</span>;
     }
     if (details) {
+        const toolUsedBaseId = build(baseId, details.id, ids.TOOLS_USED);
         return details.tools.map((toolInfo, index) => (
             <ExpansionPanel
                 key={index}
-                id={build(baseId, index, toolInfo.name)}
+                id={build(toolUsedBaseId, index, toolInfo.name)}
             >
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon color="primary"/>}
+                >
                     <Typography variant="caption">
-                        <Highlighter search={searchText}>
-                            {toolInfo.name}
-                        </Highlighter>
-                        :
-                        <Highlighter search={searchText}>
-                            {toolInfo.description}
-                        </Highlighter>
+                        {toolInfo.name}:{toolInfo.description}
                     </Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>

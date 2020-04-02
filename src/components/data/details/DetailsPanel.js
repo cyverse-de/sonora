@@ -4,24 +4,10 @@
  * A component for displaying the details on a data resource.
  * Intended to be within a TabPanel.
  */
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import {
-    build,
-    CopyTextArea,
-    formatDate,
-    getMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
-import {
-    Divider,
-    Grid,
-    InputLabel,
-    makeStyles,
-    MenuItem,
-    Select,
-} from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { build, CopyTextArea, formatDate, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { Divider, Grid, InputLabel, makeStyles, MenuItem, Select } from "@material-ui/core";
 
 import { getFileSize } from "../listing/FileSize";
 import ids from "../ids";

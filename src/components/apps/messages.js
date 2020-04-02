@@ -98,6 +98,7 @@ const intlData = {
         imageLabel: "Image",
         toolVersionLabel: "Version",
         toolAttributionLabel: "Attribution",
+        yourRating: "Your Rating:",
     },
 };
 

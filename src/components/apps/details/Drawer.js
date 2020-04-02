@@ -5,20 +5,30 @@
  *
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import ids from "../../apps/ids";
 import DETabPanel from "../../utils/DETabPanel";
 import messages from "../../apps/messages";
 import DetailsPanel from "./DetailsPanel";
-import { getAppDetails } from "../../../serviceFacade/appServiceFacade";
 import constants from "../../../constants";
 
-import { build, getMessage, Rate, withI18N } from "@cyverse-de/ui-lib";
-import { Drawer, IconButton, Tab, Tabs, Typography } from "@material-ui/core";
+import {
+    build,
+    formatMessage,
+    getMessage,
+    Rate,
+    withI18N,
+} from "@cyverse-de/ui-lib";
+import {
+    Drawer,
+    IconButton,
+    Tab,
+    Tabs,
+    Tooltip,
+    Typography,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-
-import { useQuery } from "react-query";
 import ToolsUsedPanel from "./ToolUsedPanel";
 import { AppFavorite } from "../AppFavorite";
 import { injectIntl } from "react-intl";
@@ -42,13 +52,13 @@ const useStyles = makeStyles((theme) => ({
     },
 
     drawerHeader: {
-        padding: theme.spacing(1),
+        margin: theme.spacing(1),
         display: "flex",
         flexDirection: "row",
         maxWidth: "100%",
     },
     drawerSubHeader: {
-        paddingLeft: theme.spacing(2),
+        marginLeft: theme.spacing(2),
         display: "flex",
         flexDirection: "row",
         maxWidth: "100%",
@@ -61,48 +71,30 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.primary.contrastText,
         backgroundColor: theme.palette.primary.main,
     },
+    headerOperations: {
+        marginLeft: theme.spacing(1),
+    },
 }));
 
 function DetailsDrawer(props) {
-    const { selectedApp, open, onClose, baseId, intl } = props;
     const classes = useStyles();
-
+    const {
+        selectedApp,
+        details,
+        loading,
+        error,
+        open,
+        onClose,
+        baseId,
+        intl,
+        onFavoriteClick,
+        onRatingChange,
+        onDeleteRatingClick,
+    } = props;
     const [selectedTab, setSelectedTab] = useState(TABS.appInfo);
-    const [details, setDetails] = useState(null);
-    const [error, setError] = useState(null);
-    const [detailsKey, setDetailsKey] = useState(null);
-    const { status } = useQuery({
-        queryKey: detailsKey,
-        queryFn: getAppDetails,
-        config: {
-            onSuccess: setDetails,
-            refetchOnWindowFocus: false,
-            onError: setError,
-        },
-    });
-    useEffect(() => {
-        if (selectedApp) {
-            setDetailsKey([
-                "getAppsDetails",
-                {
-                    systemId: selectedApp.system_id,
-                    appId: selectedApp.id,
-                },
-            ]);
-        }
-    }, [selectedApp]);
 
     const onTabSelectionChange = (event, selectedTab) => {
         setSelectedTab(selectedTab);
-    };
-
-    const onDeleteRatingClick = () => {
-    };
-
-    const onRatingChange = () => {
-    };
-
-    const onFavoriteClick = () => {
     };
 
     const isExternal =
@@ -111,10 +103,7 @@ function DetailsDrawer(props) {
 
     const isPublic = selectedApp.is_public;
 
-    const {
-        average: averageRating,
-        total: totalRating,
-    } = selectedApp.rating;
+    const { average: averageRating, total: totalRating } = selectedApp.rating;
 
     const drawerId = build(baseId, ids.DETAILS_DRAWER);
     const detailsTabId = build(drawerId, ids.DETAILS_TAB);
@@ -136,17 +125,20 @@ function DetailsDrawer(props) {
                     {selectedApp.name}
                 </Typography>
                 {!isExternal && isPublic && (
-                    <>
+                    <div className={classes.headerOperations}>
                         <AppFavorite
                             intl={intl}
                             baseId={baseId}
                             isFavorite={selectedApp.is_favorite}
                             isExternal={isExternal}
+                            onFavoriteClick={onFavoriteClick}
                         />
-                        <IconButton size="small">
-                            <LinkIcon color="primary"/>
-                        </IconButton>
-                    </>
+                        <Tooltip title={formatMessage(intl, "linkToThisApp")}>
+                            <IconButton size="small">
+                                <LinkIcon color="primary" />
+                            </IconButton>
+                        </Tooltip>
+                    </div>
                 )}
             </div>
             {!isExternal && isPublic && (
@@ -189,7 +181,7 @@ function DetailsDrawer(props) {
                     details={details}
                     isPublic={isPublic}
                     isExternal={isExternal}
-                    loading={status === constants.LOADING}
+                    loading={loading}
                     error={error}
                     baseId={baseId}
                     onRatingChange={onRatingChange}
@@ -205,7 +197,7 @@ function DetailsDrawer(props) {
                 <ToolsUsedPanel
                     details={details}
                     baseId={baseId}
-                    loading={status === constants.LOADING}
+                    loading={loading}
                 />
             </DETabPanel>
         </Drawer>

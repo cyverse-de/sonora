@@ -5,11 +5,14 @@
  * thumbnail/tile view.
  *
  */
-import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import React, { useEffect, useState, useCallback } from "react";
+import { queryCache, useMutation, useQuery } from "react-query";
 import {
+    appFavorite,
+    getAppDetails,
     getApps,
     getAppsInCategory,
+    rateApp,
 } from "../../../serviceFacade/appServiceFacade";
 import TableView from "./TableView";
 import { TablePagination } from "@material-ui/core";
@@ -29,15 +32,18 @@ function Listing(props) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [appsInCategoryKey, setAppsInCategoryKey] = useState(null);
     const [filter, setFilter] = useState(null);
+    const [appsInCategoryKey, setAppsInCategoryKey] = useState(null);
     const [allAppsKey, setAllAppsKey] = useState(null);
-    const [error, setError] = useState(null);
     const [data, setData] = useState(null);
     const [agaveAuthDialogOpen, setAgaveAuthDialogOpen] = useState(false);
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [detailsApp, setDetailsApp] = useState(null);
+    const [details, setDetails] = useState(null);
+    const [listingError, setListingError] = useState(null);
+    const [detailsError, setDetailsError] = useState(null);
+    const [detailsKey, setDetailsKey] = useState(null);
 
     //a query with falsy key will not execute until key is set truthy val
     const { status } = useQuery({
@@ -46,7 +52,7 @@ function Listing(props) {
         config: {
             onSuccess: setData,
             refetchOnWindowFocus: false,
-            onError: setError,
+            onError: setListingError,
         },
     });
 
@@ -56,9 +62,57 @@ function Listing(props) {
         config: {
             onSuccess: setData,
             refetchOnWindowFocus: false,
-            onError: setError,
+            onError: setListingError,
         },
     });
+
+    const { status: detailsStatus } = useQuery({
+        queryKey: detailsKey,
+        queryFn: getAppDetails,
+        config: {
+            onSuccess: setDetails,
+            refetchOnWindowFocus: false,
+            onError: setDetailsError,
+        },
+    });
+
+    const [favorite] = useMutation(appFavorite, {
+        onSuccess: () =>
+            //return a promise so mutate() only resolves after the onSuccess callback
+            queryCache.refetchQueries(
+                appsInCategoryKey ? appsInCategoryKey : allAppsKey
+            ),
+    });
+
+    const [rating] = useMutation(rateApp, {
+        onSuccess: () =>
+            //return a promise so mutate() only resolves after the onSuccess callback
+            queryCache.refetchQueries(
+                appsInCategoryKey ? appsInCategoryKey : allAppsKey
+            ),
+    });
+
+    const onFavoriteClick = () => {
+        favorite({
+            isFav: !detailsApp.is_favorite,
+            appId: detailsApp.id,
+            systemId: detailsApp.system_id,
+        });
+    };
+
+    const onRatingChange = (event, value) => {
+        rating({
+            appId: detailsApp.id,
+            systemId: detailsApp.system_id,
+            rating: value,
+        });
+    };
+
+    const getSelectedAppFromIndex = useCallback(() => {
+        const selectedId = selected[0];
+        const appIndex = data.apps.findIndex((item) => item.id === selectedId);
+        return data.apps[appIndex];
+    }, [data.apps, selected]);
 
     useEffect(() => {
         const systemId = selectedCategory?.system_id;
@@ -98,11 +152,26 @@ function Listing(props) {
         if (data && data.Location && data.status === 302) {
             setAgaveAuthDialogOpen(true);
         }
-    }, [data, setAgaveAuthDialogOpen]);
+        if (detailsOpen) {
+            setDetailsApp(getSelectedAppFromIndex());
+        }
+    }, [data, setAgaveAuthDialogOpen, detailsOpen, getSelectedAppFromIndex]);
 
     useEffect(() => {
         setDetailsEnabled(selected && selected.length === 1);
     }, [selected]);
+
+    useEffect(() => {
+        if (detailsApp) {
+            setDetailsKey([
+                "getAppsDetails",
+                {
+                    systemId: detailsApp.system_id,
+                    appId: detailsApp.id,
+                },
+            ]);
+        }
+    }, [detailsApp]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);
@@ -206,10 +275,7 @@ function Listing(props) {
 
     const onDetailsSelected = () => {
         setDetailsOpen(true);
-        const selectedId = selected[0];
-        const appIndex = data.apps.findIndex((item) => item.id === selectedId);
-        const resource = data.apps[appIndex];
-        setDetailsApp(resource);
+        setDetailsApp(getSelectedAppFromIndex());
     };
 
     return (
@@ -239,7 +305,7 @@ function Listing(props) {
                     status === constants.LOADING ||
                     allAppsStatus === constants.LOADING
                 }
-                error={error}
+                error={listingError}
                 listing={data}
                 baseId={baseId}
                 order={order}
@@ -264,6 +330,11 @@ function Listing(props) {
                     open={detailsOpen}
                     baseId={baseId}
                     onClose={() => setDetailsOpen(false)}
+                    onFavoriteClick={onFavoriteClick}
+                    details={details}
+                    loading={detailsStatus === constants.LOADING}
+                    error={detailsError}
+                    onRatingChange={onRatingChange}
                 />
             )}
         </>

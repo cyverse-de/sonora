@@ -19,7 +19,7 @@ import ids from "../ids";
 
 function ToolsUsedPanel({ details, loading, baseId, error }) {
     if (loading) {
-        return <GridLoading rows={10}/>;
+        return <GridLoading rows={10} />;
     }
     if (error) {
         return <span>{error}</span>;
@@ -32,7 +32,7 @@ function ToolsUsedPanel({ details, loading, baseId, error }) {
                 id={build(toolUsedBaseId, index, toolInfo.name)}
             >
                 <ExpansionPanelSummary
-                    expandIcon={<ExpandMoreIcon color="primary"/>}
+                    expandIcon={<ExpandMoreIcon color="primary" />}
                 >
                     <Typography variant="caption">
                         {toolInfo.name}:{toolInfo.description}

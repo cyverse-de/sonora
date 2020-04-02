@@ -4,7 +4,13 @@ import messages from "../messages";
 import GridLabelValue from "../../utils/GridLabelValue";
 import ids from "../ids";
 
-import { build, formatDate, getMessage, Rate, withI18N } from "@cyverse-de/ui-lib";
+import {
+    build,
+    formatDate,
+    getMessage,
+    Rate,
+    withI18N,
+} from "@cyverse-de/ui-lib";
 
 import { Grid } from "@material-ui/core";
 import GridLoading from "../../utils/GridLoading";
@@ -29,14 +35,14 @@ function DetailsPanel(props) {
     } = props;
 
     if (loading) {
-        return <GridLoading rows={10}/>;
+        return <GridLoading rows={10} />;
     }
 
     if (error) {
         return <span>{error}</span>;
     }
 
-    const { user: userRating, total: totalRating } = app.rating;
+    const { user: userRating } = app.rating;
 
     if (details) {
         const detailsBaseId = build(baseId, details.id, ids.APP_DETAILS);
@@ -54,9 +60,10 @@ function DetailsPanel(props) {
                             name={"user." + details.id}
                             value={userRating}
                             readOnly={false}
-                            total={totalRating}
                             onChange={onRatingChange}
-                            onDelete={onDeleteRatingClick}
+                            onDelete={
+                                userRating ? onDeleteRatingClick : undefined
+                            }
                         />
                     </GridLabelValue>
                 )}

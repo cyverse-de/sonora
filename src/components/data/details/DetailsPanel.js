@@ -6,8 +6,21 @@
  */
 import React, { useEffect, useState } from "react";
 
-import { build, CopyTextArea, formatDate, getMessage, withI18N } from "@cyverse-de/ui-lib";
-import { Divider, Grid, InputLabel, makeStyles, MenuItem, Select } from "@material-ui/core";
+import {
+    build,
+    CopyTextArea,
+    formatDate,
+    getMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
+import {
+    Divider,
+    Grid,
+    InputLabel,
+    makeStyles,
+    MenuItem,
+    Select,
+} from "@material-ui/core";
 
 import { getFileSize } from "../listing/FileSize";
 import ids from "../ids";

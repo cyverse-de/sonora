@@ -41,8 +41,9 @@ const callApi = (props) => {
         body,
         headers,
         setLoading,
-        setError,
+        setError
     } = props;
+
 
     const requestOptions = {
         headers: headers

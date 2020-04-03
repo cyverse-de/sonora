@@ -38,7 +38,13 @@ function Listing(props) {
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
 
-    const { baseId, path, handlePathChange } = props;
+    const {
+        baseId,
+        path,
+        handlePathChange,
+        multiSelect = true,
+        render,
+    } = props;
 
     // Used to force the data listing to refresh when uploads are completed.
     const uploadsCompleted = uploadTracker.uploads.filter((upload) => {
@@ -98,7 +104,7 @@ function Listing(props) {
     };
 
     const handleSelectAllClick = (event) => {
-        if (event.target.checked && !selected.length) {
+        if (event.target.checked && !selected.length && multiSelect) {
             const newSelecteds =
                 data?.listing?.map((resource) => resource.id) || [];
             setSelected(newSelecteds);
@@ -126,7 +132,7 @@ function Listing(props) {
     };
 
     const handleClick = (event, id, index) => {
-        if (event.shiftKey) {
+        if (event.shiftKey && multiSelect) {
             lastSelectIndex > index
                 ? rangeSelect(index, lastSelectIndex, id)
                 : rangeSelect(lastSelectIndex, index, id);
@@ -146,15 +152,18 @@ function Listing(props) {
     };
 
     const select = (resourceIds) => {
-        let newSelected = [...selected];
-        resourceIds.forEach((resourceId) => {
-            const selectedIndex = selected.indexOf(resourceId);
-            if (selectedIndex === -1) {
-                newSelected.push(resourceId);
-            }
-        });
-
-        setSelected(newSelected);
+        if (multiSelect) {
+            let newSelected = [...selected];
+            resourceIds.forEach((resourceId) => {
+                const selectedIndex = selected.indexOf(resourceId);
+                if (selectedIndex === -1) {
+                    newSelected.push(resourceId);
+                }
+            });
+            setSelected(newSelected);
+        } else {
+            setSelected(resourceIds);
+        }
     };
 
     const deselect = (resourceIds) => {
@@ -200,8 +209,15 @@ function Listing(props) {
         setDetailsResource(resource);
     };
 
+    const getSelectedResources = () => {
+        return selected.map((id) =>
+            data?.listing?.find((resource) => resource.id === id)
+        );
+    };
+
     return (
         <>
+            {render && render(selected.length, getSelectedResources)}
             <UploadDropTarget path={path}>
                 <Toolbar variant="dense">
                     <DataNavigation

@@ -7,4 +7,8 @@ export default {
     COMMUNITY_DATA: "Community Data",
     TRASH: "Trash",
     PATH_SEPARATOR: "/",
+    APPS_UNDER_DEV: "Apps under development",
+    FAV_APPS: "Favorite Apps",
+    MY_PUBLIC_APPS: "My public apps",
+    HPC: "High-Performance Computing",
 };

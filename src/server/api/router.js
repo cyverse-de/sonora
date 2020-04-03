@@ -165,5 +165,35 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding the /apps/categories handler");
+    api.get(
+        "/apps/categories",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/categories",
+        })
+    );
+
+    logger.info("adding the /apps handler");
+    api.get(
+        "/apps",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps",
+        })
+    );
+
+    logger.info("adding the /apps/categories/:systemId/:categoryId handler");
+    api.get(
+        "/apps/categories/:systemId/:categoryId",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/categories/:systemId/:categoryId",
+        })
+    );
+
     return api;
 }

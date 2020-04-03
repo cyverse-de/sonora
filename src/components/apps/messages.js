@@ -14,6 +14,14 @@ const intlData = {
         commentsNotSupported: "Comments not supported for external apps!",
         more: "More",
         quickLaunch: "Quick Launch",
+        ariaCheckbox: "{label} checkbox",
+        gridView: "Grid View",
+        tableView: "Table View",
+        noApps: "No Apps to display",
+        selectedCategoryAriaLabel: "Selected app category",
+        selectedCategoryAriaMenuItemLabel: "Selected app category menu items",
+        categoriesMenuAriaLabel: "App categories",
+        categoriesMenuItemAriaControl: "App categories menu item",
     },
 };
 

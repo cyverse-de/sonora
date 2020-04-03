@@ -9,13 +9,13 @@ import { injectIntl } from "react-intl";
 import md5 from "md5";
 import PropTypes from "prop-types";
 
-import AppStatusIcon from "./AppStatusIcon";
-import intlData from "./messages";
+import AppStatusIcon from "../AppStatusIcon";
+import intlData from "../messages";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core";
-import AppName from "./AppName";
-import AppMenu from "./AppMenu";
-import ids from "./ids";
+import AppName from "../AppName";
+import AppMenu from "../AppMenu";
+import ids from "../ids";
 import { Highlighter, build, withI18N, Rate } from "@cyverse-de/ui-lib";
 
 const styles = (theme) => ({

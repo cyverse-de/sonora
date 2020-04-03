@@ -4,6 +4,8 @@ import getConfig from "next/config";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
+import { ReactQueryDevtools } from "react-query-devtools";
+
 import { ThemeProvider } from "@material-ui/core/styles";
 import "./styles.css";
 
@@ -107,6 +109,7 @@ function MyApp({
                             <Head>
                                 <title>Discovery Environment</title>
                             </Head>
+                            <ReactQueryDevtools initialIsOpen={false} />
                             <Navigation activeView={pathname} />
                             <Component {...pageProps} />
                             <UploadManager />

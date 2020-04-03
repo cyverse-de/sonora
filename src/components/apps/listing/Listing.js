@@ -22,9 +22,12 @@ import constants from "../../../constants";
 import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
 import Drawer from "../details/Drawer";
 import appType from "../../models/AppType";
+import { announce, ERROR, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import { injectIntl } from "react-intl";
+import intlData from "../messages";
 
 function Listing(props) {
-    const { baseId } = props;
+    const { baseId, intl } = props;
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");
@@ -42,38 +45,36 @@ function Listing(props) {
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [detailsApp, setDetailsApp] = useState(null);
     const [details, setDetails] = useState(null);
-    const [listingError, setListingError] = useState(null);
-    const [detailsError, setDetailsError] = useState(null);
     const [detailsKey, setDetailsKey] = useState(null);
 
     //a query with falsy key will not execute until key is set truthy val
-    const { status } = useQuery({
+    const { status, error: appsInCategoryError } = useQuery({
         queryKey: appsInCategoryKey,
         queryFn: getAppsInCategory,
         config: {
             onSuccess: setData,
             refetchOnWindowFocus: false,
-            onError: setListingError,
+            throwOnError: true,
         },
     });
 
-    const { status: allAppsStatus } = useQuery({
+    const { status: allAppsStatus, error: listingError } = useQuery({
         queryKey: allAppsKey,
         queryFn: getApps,
         config: {
             onSuccess: setData,
             refetchOnWindowFocus: false,
-            onError: setListingError,
+            throwOnError: true,
         },
     });
 
-    const { status: detailsStatus } = useQuery({
+    const { status: detailsStatus, error: detailsError } = useQuery({
         queryKey: detailsKey,
         queryFn: getAppDetails,
         config: {
             onSuccess: setDetails,
             refetchOnWindowFocus: false,
-            onError: setDetailsError,
+            throwOnError: true,
         },
     });
 
@@ -188,6 +189,40 @@ function Listing(props) {
             ]);
         }
     }, [detailsApp]);
+
+    useEffect(() => {
+        if (appsInCategoryError || listingError) {
+            announce({
+                text: formatMessage(intl, "appListingError"),
+                variant: ERROR,
+            });
+        }
+        if (detailsError) {
+            announce({
+                text: formatMessage(intl, "appDetailsError"),
+                variant: ERROR,
+            });
+        }
+        if (favMutationError) {
+            announce({
+                text: formatMessage(intl, "favMutationError"),
+                variant: ERROR,
+            });
+        }
+        if (ratingMutationError) {
+            announce({
+                text: formatMessage(intl, "ratingMutationError"),
+                variant: ERROR,
+            });
+        }
+    }, [
+        appsInCategoryError,
+        listingError,
+        detailsError,
+        favMutationError,
+        ratingMutationError,
+        announce,
+    ]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);
@@ -351,7 +386,9 @@ function Listing(props) {
                     onFavoriteClick={onFavoriteClick}
                     details={details}
                     detailsLoadingStatus={detailsStatus === constants.LOADING}
-                    ratingMutationStatus={ratingMutationStatus === constants.LOADING}
+                    ratingMutationStatus={
+                        ratingMutationStatus === constants.LOADING
+                    }
                     favMutationStatus={favMutationStatus === constants.LOADING}
                     error={
                         detailsError || favMutationError || ratingMutationError
@@ -363,4 +400,5 @@ function Listing(props) {
         </>
     );
 }
-export default Listing;
+
+export default withI18N(injectIntl(Listing), intlData);

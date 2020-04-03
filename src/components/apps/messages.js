@@ -93,6 +93,10 @@ const intlData = {
         toolAttributionLabel: "Attribution",
         yourRating: "Your Rating:",
         linkToThisApp: "Link to this App",
+        appListingError: "Unable to get Apps. Please try again.",
+        appDetailsError: "Unable to get App details. Please try again.",
+        favMutationError: "Unable to update favorites. Please try again.",
+        ratingMutationError: "Unable to update rating. Please try again.",
     },
 };
 

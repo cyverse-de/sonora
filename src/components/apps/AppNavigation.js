@@ -237,7 +237,10 @@ function AppNavigation(props) {
             </Menu>
             <div className={classes.divider} />
             <Autocomplete
-                disabled={selectedCategory.system_id === "agave"}
+                disabled={
+                    selectedCategory.system_id?.toLowerCase() ===
+                    appType.agave.toLowerCase()
+                }
                 value={filter}
                 options={getFilters()}
                 size="small"
@@ -245,6 +248,9 @@ function AppNavigation(props) {
                     handleFilterChange(newValue);
                 }}
                 getOptionLabel={(option) => option.name}
+                getOptionSelected={(option, value) =>
+                    option.name === value.name
+                }
                 className={classes.filter}
                 renderInput={(params) => (
                     <TextField

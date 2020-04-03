@@ -12,7 +12,7 @@ import {
     withI18N,
 } from "@cyverse-de/ui-lib";
 
-import { Grid } from "@material-ui/core";
+import { CircularProgress, Grid } from "@material-ui/core";
 import GridLoading from "../../utils/GridLoading";
 
 /**
@@ -25,7 +25,8 @@ function DetailsPanel(props) {
     const {
         app,
         details,
-        loading,
+        detailsLoadingStatus,
+        ratingMutationStatus,
         error,
         baseId,
         onRatingChange,
@@ -34,7 +35,7 @@ function DetailsPanel(props) {
         isExternal,
     } = props;
 
-    if (loading) {
+    if (detailsLoadingStatus) {
         return <GridLoading rows={10} />;
     }
 
@@ -47,44 +48,47 @@ function DetailsPanel(props) {
     if (details) {
         const detailsBaseId = build(baseId, details.id, ids.APP_DETAILS);
         return (
-            <Grid container spacing={3} id={detailsBaseId}>
-                <Grid item xs={12}>
-                    {details.description}
-                </Grid>
-                <Grid item xs={12}>
-                    {getMessage("details")}
-                </Grid>
-                {!isExternal && isPublic && (
-                    <GridLabelValue label={getMessage("yourRating")}>
-                        <Rate
-                            name={"user." + details.id}
-                            value={userRating}
-                            readOnly={false}
-                            onChange={onRatingChange}
-                            onDelete={
-                                userRating ? onDeleteRatingClick : undefined
-                            }
-                        />
+            <>
+                {ratingMutationStatus && <CircularProgress />}
+                <Grid container spacing={3} id={detailsBaseId}>
+                    <Grid item xs={12}>
+                        {details.description}
+                    </Grid>
+                    <Grid item xs={12}>
+                        {getMessage("details")}
+                    </Grid>
+                    {!isExternal && isPublic && (
+                        <GridLabelValue label={getMessage("yourRating")}>
+                            <Rate
+                                name={"user." + details.id}
+                                value={userRating}
+                                readOnly={false}
+                                onChange={onRatingChange}
+                                onDelete={
+                                    userRating ? onDeleteRatingClick : undefined
+                                }
+                            />
+                        </GridLabelValue>
+                    )}
+                    <GridLabelValue label={getMessage("publishedOn")}>
+                        {formatDate(details.integration_date)}
                     </GridLabelValue>
-                )}
-                <GridLabelValue label={getMessage("publishedOn")}>
-                    {formatDate(details.integration_date)}
-                </GridLabelValue>
-                <GridLabelValue label={getMessage("integratorName")}>
-                    {details.integrator_name}
-                </GridLabelValue>
-                <GridLabelValue label={getMessage("integratorEmail")}>
-                    {details.integrator_email}
-                </GridLabelValue>
-                <GridLabelValue label={getMessage("analysesCompleted")}>
-                    {details.job_stats.job_count_completed
-                        ? details.job_stats.job_count_completed
-                        : 0}
-                </GridLabelValue>
-                <GridLabelValue label={getMessage("detailsLastCompleted")}>
-                    {formatDate(details.job_stats.job_last_completed)}
-                </GridLabelValue>
-            </Grid>
+                    <GridLabelValue label={getMessage("integratorName")}>
+                        {details.integrator_name}
+                    </GridLabelValue>
+                    <GridLabelValue label={getMessage("integratorEmail")}>
+                        {details.integrator_email}
+                    </GridLabelValue>
+                    <GridLabelValue label={getMessage("analysesCompleted")}>
+                        {details.job_stats.job_count_completed
+                            ? details.job_stats.job_count_completed
+                            : 0}
+                    </GridLabelValue>
+                    <GridLabelValue label={getMessage("detailsLastCompleted")}>
+                        {formatDate(details.job_stats.job_last_completed)}
+                    </GridLabelValue>
+                </Grid>
+            </>
         );
     } else {
         return null;

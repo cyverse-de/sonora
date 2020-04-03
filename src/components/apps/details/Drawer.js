@@ -13,14 +13,9 @@ import messages from "../../apps/messages";
 import DetailsPanel from "./DetailsPanel";
 import constants from "../../../constants";
 
+import { build, formatMessage, getMessage, Rate, withI18N } from "@cyverse-de/ui-lib";
 import {
-    build,
-    formatMessage,
-    getMessage,
-    Rate,
-    withI18N,
-} from "@cyverse-de/ui-lib";
-import {
+    CircularProgress,
     Drawer,
     IconButton,
     Tab,
@@ -30,7 +25,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ToolsUsedPanel from "./ToolUsedPanel";
-import { AppFavorite } from "../AppFavorite";
+import AppFavorite from "../AppFavorite";
 import { injectIntl } from "react-intl";
 import LinkIcon from "@material-ui/icons/Link";
 
@@ -76,12 +71,70 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function DetailsHeader({
+                           loading,
+                           appName,
+                           isExternal,
+                           isPublic,
+                           isFavorite,
+                           onFavoriteClick,
+                           intl,
+                           classes,
+                           baseId,
+                       }) {
+    return (
+        <>
+            <Typography variant="h6" component="span">
+                {appName}
+            </Typography>
+            {!isExternal && isPublic && (
+                <div className={classes.headerOperations}>
+                    <AppFavorite
+                        intl={intl}
+                        baseId={baseId}
+                        isFavorite={isFavorite}
+                        isExternal={isExternal}
+                        onFavoriteClick={onFavoriteClick}
+                    />
+                    {/*TODO: Sriram - implement app link*/}
+                    <Tooltip title={formatMessage(intl, "linkToThisApp")}>
+                        <IconButton size="small">
+                            <LinkIcon color="primary"/>
+                        </IconButton>
+                    </Tooltip>
+                </div>
+            )}
+            {loading && <CircularProgress/>}
+        </>
+    );
+}
+
+function DetailsSubHeader({
+                              appId,
+                              isExternal,
+                              isPublic,
+                              averageRating,
+                              totalRating,
+                          }) {
+    if (!isExternal && isPublic) {
+        return (
+            <Rate
+                name={appId}
+                value={averageRating}
+                readOnly={true}
+                total={totalRating}
+            />
+        );
+    } else {
+        return null;
+    }
+}
+
 function DetailsDrawer(props) {
     const classes = useStyles();
     const {
         selectedApp,
         details,
-        loading,
         error,
         open,
         onClose,
@@ -90,6 +143,9 @@ function DetailsDrawer(props) {
         onFavoriteClick,
         onRatingChange,
         onDeleteRatingClick,
+        detailsLoadingStatus,
+        ratingMutationStatus,
+        favMutationStatus,
     } = props;
     const [selectedTab, setSelectedTab] = useState(TABS.appInfo);
 
@@ -97,12 +153,18 @@ function DetailsDrawer(props) {
         setSelectedTab(selectedTab);
     };
 
+    if (!selectedApp) {
+        return null;
+    }
+
     const isExternal =
         selectedApp.app_type.toUpperCase() ===
         constants.EXTERNAL_APP_TYPE.toUpperCase();
 
+    const appId = selectedApp.id;
+    const appName = selectedApp.name;
     const isPublic = selectedApp.is_public;
-
+    const isFavorite = selectedApp.is_favorite;
     const { average: averageRating, total: totalRating } = selectedApp.rating;
 
     const drawerId = build(baseId, ids.DETAILS_DRAWER);
@@ -121,36 +183,27 @@ function DetailsDrawer(props) {
             }}
         >
             <div className={classes.drawerHeader}>
-                <Typography variant="h6" component="span">
-                    {selectedApp.name}
-                </Typography>
-                {!isExternal && isPublic && (
-                    <div className={classes.headerOperations}>
-                        <AppFavorite
-                            intl={intl}
-                            baseId={baseId}
-                            isFavorite={selectedApp.is_favorite}
-                            isExternal={isExternal}
-                            onFavoriteClick={onFavoriteClick}
-                        />
-                        <Tooltip title={formatMessage(intl, "linkToThisApp")}>
-                            <IconButton size="small">
-                                <LinkIcon color="primary" />
-                            </IconButton>
-                        </Tooltip>
-                    </div>
-                )}
+                <DetailsHeader
+                    loading={favMutationStatus}
+                    appName={appName}
+                    isExternal={isExternal}
+                    isPublic={isPublic}
+                    isFavorite={isFavorite}
+                    onFavoriteClick={onFavoriteClick}
+                    intl={intl}
+                    classes={classes}
+                    baseId={baseId}
+                />
             </div>
-            {!isExternal && isPublic && (
-                <div className={classes.drawerSubHeader}>
-                    <Rate
-                        name={selectedApp.id}
-                        value={averageRating}
-                        readOnly={true}
-                        total={totalRating}
-                    />
-                </div>
-            )}
+            <div className={classes.drawerSubHeader}>
+                <DetailsSubHeader
+                    appId={appId}
+                    averageRating={averageRating}
+                    isExternal={isExternal}
+                    isPublic={isPublic}
+                    totalRating={totalRating}
+                />
+            </div>
             <Tabs
                 value={selectedTab}
                 onChange={onTabSelectionChange}
@@ -181,7 +234,8 @@ function DetailsDrawer(props) {
                     details={details}
                     isPublic={isPublic}
                     isExternal={isExternal}
-                    loading={loading}
+                    detailsLoadingStatus={detailsLoadingStatus}
+                    ratingMutationStatus={ratingMutationStatus}
                     error={error}
                     baseId={baseId}
                     onRatingChange={onRatingChange}
@@ -197,7 +251,7 @@ function DetailsDrawer(props) {
                 <ToolsUsedPanel
                     details={details}
                     baseId={baseId}
-                    loading={loading}
+                    loading={detailsLoadingStatus}
                 />
             </DETabPanel>
         </Drawer>

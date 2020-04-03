@@ -5,7 +5,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import UnFavoriteIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import React from "react";
 
-export function AppFavorite(props) {
+export default function AppFavorite(props) {
     const { isFavorite, isExternal, onFavoriteClick, intl, baseId } = props;
 
     if (isFavorite) {

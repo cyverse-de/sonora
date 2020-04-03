@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core";
 import classnames from "classnames";
 import { injectIntl } from "react-intl";
 import intlData from "./messages";
-import { Highlighter, withI18N, formatMessage } from "@cyverse-de/ui-lib";
+import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
 
 const useStyles = makeStyles((theme) => ({
     name: {
@@ -61,7 +61,7 @@ function AppName(props) {
             tabIndex="0"
             role="button"
         >
-            <Highlighter search={searchText}>{name}</Highlighter>
+            {name}
         </div>
     );
 }

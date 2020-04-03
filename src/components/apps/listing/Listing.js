@@ -5,7 +5,7 @@
  * thumbnail/tile view.
  *
  */
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { queryCache, useMutation, useQuery } from "react-query";
 import {
     appFavorite,
@@ -21,6 +21,7 @@ import AppNavigation from "../AppNavigation";
 import constants from "../../../constants";
 import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
 import Drawer from "../details/Drawer";
+import appType from "../../models/AppType";
 
 function Listing(props) {
     const { baseId } = props;
@@ -76,7 +77,10 @@ function Listing(props) {
         },
     });
 
-    const [favorite] = useMutation(appFavorite, {
+    const [
+        favorite,
+        { status: favMutationStatus, error: favMutationError },
+    ] = useMutation(appFavorite, {
         onSuccess: () =>
             //return a promise so mutate() only resolves after the onSuccess callback
             queryCache.refetchQueries(
@@ -84,7 +88,10 @@ function Listing(props) {
             ),
     });
 
-    const [rating] = useMutation(rateApp, {
+    const [
+        rating,
+        { status: ratingMutationStatus, error: ratingMutationError },
+    ] = useMutation(rateApp, {
         onSuccess: () =>
             //return a promise so mutate() only resolves after the onSuccess callback
             queryCache.refetchQueries(
@@ -108,11 +115,13 @@ function Listing(props) {
         });
     };
 
-    const getSelectedAppFromIndex = useCallback(() => {
-        const selectedId = selected[0];
-        const appIndex = data.apps.findIndex((item) => item.id === selectedId);
-        return data.apps[appIndex];
-    }, [data.apps, selected]);
+    const onDeleteRating = () => {
+        rating({
+            appId: detailsApp.id,
+            systemId: detailsApp.system_id,
+            rating: null,
+        });
+    };
 
     useEffect(() => {
         const systemId = selectedCategory?.system_id;
@@ -152,10 +161,17 @@ function Listing(props) {
         if (data && data.Location && data.status === 302) {
             setAgaveAuthDialogOpen(true);
         }
-        if (detailsOpen) {
-            setDetailsApp(getSelectedAppFromIndex());
+    }, [data, setAgaveAuthDialogOpen]);
+
+    useEffect(() => {
+        if (detailsOpen && data && data.apps) {
+            const selectedId = selected[0];
+            const appIndex = data.apps.findIndex(
+                (item) => item.id === selectedId
+            );
+            setDetailsApp(data.apps[appIndex]);
         }
-    }, [data, setAgaveAuthDialogOpen, detailsOpen, getSelectedAppFromIndex]);
+    }, [data, detailsOpen, selected]);
 
     useEffect(() => {
         setDetailsEnabled(selected && selected.length === 1);
@@ -259,7 +275,10 @@ function Listing(props) {
     };
 
     const handleCategoryChange = (selectedCategory) => {
-        if (selectedCategory.system_id === "agave") {
+        if (
+            selectedCategory.system_id?.toLowerCase() ===
+            appType.agave.toLowerCase()
+        ) {
             setFilter(null);
         }
         setSelectedCategory(selectedCategory);
@@ -275,7 +294,6 @@ function Listing(props) {
 
     const onDetailsSelected = () => {
         setDetailsOpen(true);
-        setDetailsApp(getSelectedAppFromIndex());
     };
 
     return (
@@ -332,9 +350,14 @@ function Listing(props) {
                     onClose={() => setDetailsOpen(false)}
                     onFavoriteClick={onFavoriteClick}
                     details={details}
-                    loading={detailsStatus === constants.LOADING}
-                    error={detailsError}
+                    detailsLoadingStatus={detailsStatus === constants.LOADING}
+                    ratingMutationStatus={ratingMutationStatus === constants.LOADING}
+                    favMutationStatus={favMutationStatus === constants.LOADING}
+                    error={
+                        detailsError || favMutationError || ratingMutationError
+                    }
                     onRatingChange={onRatingChange}
+                    onDeleteRatingClick={onDeleteRating}
                 />
             )}
         </>

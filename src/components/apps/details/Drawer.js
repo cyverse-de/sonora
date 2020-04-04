@@ -13,7 +13,13 @@ import messages from "../../apps/messages";
 import DetailsPanel from "./DetailsPanel";
 import constants from "../../../constants";
 
-import { build, formatMessage, getMessage, Rate, withI18N } from "@cyverse-de/ui-lib";
+import {
+    build,
+    formatMessage,
+    getMessage,
+    Rate,
+    withI18N,
+} from "@cyverse-de/ui-lib";
 import {
     CircularProgress,
     Drawer,
@@ -72,16 +78,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DetailsHeader({
-                           loading,
-                           appName,
-                           isExternal,
-                           isPublic,
-                           isFavorite,
-                           onFavoriteClick,
-                           intl,
-                           classes,
-                           baseId,
-                       }) {
+    loading,
+    appName,
+    isExternal,
+    isPublic,
+    isFavorite,
+    onFavoriteClick,
+    intl,
+    classes,
+    baseId,
+}) {
     return (
         <>
             <Typography variant="h6" component="span">
@@ -99,23 +105,23 @@ function DetailsHeader({
                     {/*TODO: Sriram - implement app link*/}
                     <Tooltip title={formatMessage(intl, "linkToThisApp")}>
                         <IconButton size="small">
-                            <LinkIcon color="primary"/>
+                            <LinkIcon color="primary" />
                         </IconButton>
                     </Tooltip>
                 </div>
             )}
-            {loading && <CircularProgress/>}
+            {loading && <CircularProgress />}
         </>
     );
 }
 
 function DetailsSubHeader({
-                              appId,
-                              isExternal,
-                              isPublic,
-                              averageRating,
-                              totalRating,
-                          }) {
+    appId,
+    isExternal,
+    isPublic,
+    averageRating,
+    totalRating,
+}) {
     if (!isExternal && isPublic) {
         return (
             <Rate

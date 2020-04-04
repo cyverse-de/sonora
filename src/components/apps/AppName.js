@@ -31,7 +31,6 @@ function AppName(props) {
         name,
         onAppNameClicked,
         intl,
-        searchText,
     } = props;
     const classes = useStyles();
     const classname =

@@ -53,7 +53,10 @@ function Listing(props) {
     const [detailsKey, setDetailsKey] = useState(null);
 
     //a query with falsy key will not execute until key is set truthy val
-    const { status: appInCategoryStatus, error: appsInCategoryError } = useQuery({
+    const {
+        status: appInCategoryStatus,
+        error: appsInCategoryError,
+    } = useQuery({
         queryKey: appsInCategoryKey,
         queryFn: getAppsInCategory,
         config: {
@@ -222,7 +225,7 @@ function Listing(props) {
         detailsError,
         favMutationError,
         ratingMutationError,
-        announce,
+        intl
     ]);
 
     const toggleDisplay = () => {

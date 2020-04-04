@@ -50,7 +50,7 @@ import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import { useUserProfile } from "../../contexts/userProfile";
 import { intercomLogin } from "../../common/intercom";
 import { useIntercom } from "../../contexts/intercom";
-import {getUserProfile} from "../../serviceFacade/userServiceFacade";
+import { getUserProfile } from "../../serviceFacade/userServiceFacade";
 import { useQuery } from "react-query";
 
 const useStyles = makeStyles((theme) => ({
@@ -129,7 +129,7 @@ function CyverseAppBar(props) {
                 userProfile.attributes.email,
                 appId,
                 companyId,
-                companyName,
+                companyName
             );
             setAvatarLetter(userProfile.id.charAt(0).toUpperCase());
         }

@@ -137,8 +137,8 @@ export const dataRootsResp = {
     roots: [
         {
             id: "3afc8c52-e10a-11e3-8335-6abdce5a08d5",
-            path: "/iplant/home/sriram",
-            label: "sriram",
+            path: "/iplant/home/ipcdev",
+            label: "ipcdev",
             "date-created": 1322887233000,
             "date-modified": 1463599086000,
             permission: "own",

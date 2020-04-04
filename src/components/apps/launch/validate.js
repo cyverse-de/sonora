@@ -13,8 +13,7 @@ const validateDiskResourceName = (name) => {
         return getMessage("validationDiskResourceName");
     }
 
-    const illeagalChars =
-        name && name.match(DataConstants.NAME_INVALID_CHARS_REGEX);
+    const illeagalChars = name?.match(DataConstants.NAME_INVALID_CHARS_REGEX);
 
     if (illeagalChars) {
         const charList = [...new Set(illeagalChars)]
@@ -44,9 +43,9 @@ const validateUnixGlob = (pattern) => {
 const validateText = ({ value, validators }) => {
     let errorMsg = null;
 
-    if (validators && validators.length > 0) {
+    if (validators?.length > 0) {
         validators.forEach((validator) => {
-            if (validator.params && validator.params.length > 0) {
+            if (validator.params?.length > 0) {
                 let validatorMsg = null;
 
                 switch (validator.type) {
@@ -123,9 +122,9 @@ const validateRange = (value, params) => {
 const validateInteger = ({ value, validators }) => {
     let errorMsg = null;
 
-    if (validators && validators.length > 0) {
+    if (validators?.length > 0) {
         validators.forEach((validator) => {
-            if (validator.params && validator.params.length > 0) {
+            if (validator.params?.length > 0) {
                 let validatorMsg = null;
 
                 switch (validator.type) {
@@ -169,9 +168,9 @@ const validateInteger = ({ value, validators }) => {
 const validateDouble = ({ value, validators }) => {
     let errorMsg = null;
 
-    if (validators && validators.length > 0) {
+    if (validators?.length > 0) {
         validators.forEach((validator) => {
-            if (validator.params && validator.params.length > 0) {
+            if (validator.params?.length > 0) {
                 let validatorMsg = null;
 
                 switch (validator.type) {

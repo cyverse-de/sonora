@@ -66,47 +66,38 @@ const initValues = ({
     output_dir,
     app: { id, system_id, name, requirements, groups },
 }) => {
-    const groupInitValues =
-        groups &&
-        groups.map((group) => ({
-            ...group,
-            parameters:
-                group.parameters &&
-                group.parameters.map((param) => {
-                    const { arguments: paramArgs, defaultValue } = param;
+    const groupInitValues = groups?.map((group) => ({
+        ...group,
+        parameters: group.parameters?.map((param) => {
+            const { arguments: paramArgs, defaultValue } = param;
 
-                    const value =
-                        paramArgs && paramArgs.length > 0
-                            ? paramArgs.find(
-                                  (arg) =>
-                                      arg.isDefault ||
-                                      (defaultValue &&
-                                          defaultValue.id === arg.id)
-                              )
-                            : defaultValue || "";
+            const value =
+                paramArgs?.length > 0
+                    ? paramArgs.find(
+                          (arg) => arg.isDefault || defaultValue?.id === arg.id
+                      )
+                    : defaultValue || "";
 
-                    return {
-                        ...param,
-                        value,
-                    };
-                }),
-        }));
+            return {
+                ...param,
+                value,
+            };
+        }),
+    }));
 
-    const reqInitValues =
-        requirements &&
-        requirements.map(
-            ({
-                step_number,
-                default_cpu_cores = 0,
-                default_memory = 0,
-                default_disk_space = 0,
-            }) => ({
-                step_number,
-                min_cpu_cores: default_cpu_cores,
-                min_memory_limit: default_memory,
-                min_disk_space: default_disk_space,
-            })
-        );
+    const reqInitValues = requirements?.map(
+        ({
+            step_number,
+            default_cpu_cores = 0,
+            default_memory = 0,
+            default_disk_space = 0,
+        }) => ({
+            step_number,
+            min_cpu_cores: default_cpu_cores,
+            min_memory_limit: default_memory,
+            min_disk_space: default_disk_space,
+        })
+    );
 
     return {
         debug: false,
@@ -250,38 +241,35 @@ const AppLaunchWizard = (props) => {
                     system_id,
                     app_id,
                     requirements,
-                    config:
-                        groups &&
-                        groups.reduce((configs, group) => {
-                            group.parameters.forEach((param) => {
-                                const { id, type } = param;
+                    config: groups?.reduce((configs, group) => {
+                        group.parameters.forEach((param) => {
+                            const { id, type } = param;
 
-                                if (type !== constants.PARAM_TYPE.INFO) {
-                                    let { value } = param;
+                            if (type !== constants.PARAM_TYPE.INFO) {
+                                let { value } = param;
 
-                                    switch (type) {
-                                        case constants.PARAM_TYPE.FLAG:
-                                            value = value && value !== "false";
-                                            break;
+                                switch (type) {
+                                    case constants.PARAM_TYPE.FLAG:
+                                        value = value && value !== "false";
+                                        break;
 
-                                        case constants.PARAM_TYPE.FILE_OUTPUT:
-                                        case constants.PARAM_TYPE.FOLDER_OUTPUT:
-                                        case constants.PARAM_TYPE
-                                            .MULTIFILE_OUTPUT:
-                                            if (value) {
-                                                value = value.trim();
-                                            }
-                                            break;
+                                    case constants.PARAM_TYPE.FILE_OUTPUT:
+                                    case constants.PARAM_TYPE.FOLDER_OUTPUT:
+                                    case constants.PARAM_TYPE.MULTIFILE_OUTPUT:
+                                        if (value) {
+                                            value = value.trim();
+                                        }
+                                        break;
 
-                                        default:
-                                            break;
-                                    }
-
-                                    configs[id] = value;
+                                    default:
+                                        break;
                                 }
-                            });
-                            return configs;
-                        }, {}),
+
+                                configs[id] = value;
+                            }
+                        });
+                        return configs;
+                    }, {}),
                 };
 
                 submitAnalysis(
@@ -333,22 +321,18 @@ const AppLaunchWizard = (props) => {
                             !hasParamsStep || activeStep !== stepParameters.step
                         }
                     >
-                        {values.groups &&
-                            values.groups.map((group, index) => (
-                                <ParamGroupForm
-                                    key={group.id}
-                                    baseId={buildDebugId(
-                                        stepIdParams,
-                                        index + 1
-                                    )}
-                                    fieldName={`groups.${index}`}
-                                    group={group}
-                                    referenceGenomes={referenceGenomes}
-                                    referenceGenomesLoading={
-                                        referenceGenomesLoading
-                                    }
-                                />
-                            ))}
+                        {values.groups?.map((group, index) => (
+                            <ParamGroupForm
+                                key={group.id}
+                                baseId={buildDebugId(stepIdParams, index + 1)}
+                                fieldName={`groups.${index}`}
+                                group={group}
+                                referenceGenomes={referenceGenomes}
+                                referenceGenomesLoading={
+                                    referenceGenomesLoading
+                                }
+                            />
+                        ))}
 
                         {values.limits && (
                             <ResourceRequirementsForm

@@ -124,7 +124,7 @@ const ParamGroupForm = withI18N((props) => {
                 <Typography variant="subtitle1">{group.label}</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={classes.expansionPanelDetails}>
-                {group.parameters.map((param, paramIndex) => {
+                {group.parameters?.map((param, paramIndex) => {
                     if (!param.isVisible) {
                         return null;
                     }
@@ -160,10 +160,7 @@ const ParamGroupForm = withI18N((props) => {
                         case constants.PARAM_TYPE.TEXT:
                             fieldProps.component = FormTextField;
 
-                            if (
-                                param.validators &&
-                                param.validators.length > 0
-                            ) {
+                            if (param.validators?.length > 0) {
                                 const charLimitValidator = param.validators.find(
                                     (validator) =>
                                         validator.type ===
@@ -197,13 +194,13 @@ const ParamGroupForm = withI18N((props) => {
                         case constants.PARAM_TYPE.INTEGER_SELECTION:
                         case constants.PARAM_TYPE.DOUBLE_SELECTION:
                             fieldProps.component = FormSelectField;
-                            fieldProps.children =
-                                param.arguments &&
-                                param.arguments.map((arg) => (
+                            fieldProps.children = param.arguments?.map(
+                                (arg) => (
                                     <MenuItem key={arg.value} value={arg}>
                                         {arg.display}
                                     </MenuItem>
-                                ));
+                                )
+                            );
                             break;
                         case constants.PARAM_TYPE.REFERENCE_GENOME:
                         case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
@@ -256,7 +253,7 @@ const ParamsReviewValue = ({ param }) => {
         case constants.PARAM_TYPE.TEXT_SELECTION:
         case constants.PARAM_TYPE.INTEGER_SELECTION:
         case constants.PARAM_TYPE.DOUBLE_SELECTION:
-            if (value && value.display) {
+            if (value?.display) {
                 return value.display;
             }
             break;
@@ -264,7 +261,7 @@ const ParamsReviewValue = ({ param }) => {
         case constants.PARAM_TYPE.REFERENCE_GENOME:
         case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
         case constants.PARAM_TYPE.REFERENCE_ANNOTATION:
-            if (value && value.name) {
+            if (value?.name) {
                 return value.name;
             }
             break;
@@ -284,21 +281,20 @@ const ParamsReview = ({ groups }) => (
     <TableContainer component={Paper}>
         <Table>
             <TableBody>
-                {groups &&
-                    groups.map((group) =>
-                        group.parameters.map(
-                            (param) =>
-                                param.isVisible &&
-                                (!!param.value || param.value === 0) && (
-                                    <TableRow key={param.id}>
-                                        <TableCell>{param.label}</TableCell>
-                                        <TableCell>
-                                            <ParamsReviewValue param={param} />
-                                        </TableCell>
-                                    </TableRow>
-                                )
-                        )
-                    )}
+                {groups?.map((group) =>
+                    group.parameters.map(
+                        (param) =>
+                            param.isVisible &&
+                            (!!param.value || param.value === 0) && (
+                                <TableRow key={param.id}>
+                                    <TableCell>{param.label}</TableCell>
+                                    <TableCell>
+                                        <ParamsReviewValue param={param} />
+                                    </TableCell>
+                                </TableRow>
+                            )
+                    )
+                )}
             </TableBody>
         </Table>
     </TableContainer>

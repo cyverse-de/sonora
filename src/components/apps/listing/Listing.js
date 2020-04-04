@@ -22,7 +22,12 @@ import constants from "../../../constants";
 import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
 import Drawer from "../details/Drawer";
 import appType from "../../models/AppType";
-import { announce, ERROR, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    formatMessage,
+    withI18N,
+    AnnouncerConstants,
+} from "@cyverse-de/ui-lib";
 import { injectIntl } from "react-intl";
 import intlData from "../messages";
 
@@ -48,13 +53,11 @@ function Listing(props) {
     const [detailsKey, setDetailsKey] = useState(null);
 
     //a query with falsy key will not execute until key is set truthy val
-    const { status, error: appsInCategoryError } = useQuery({
+    const { status: appInCategoryStatus, error: appsInCategoryError } = useQuery({
         queryKey: appsInCategoryKey,
         queryFn: getAppsInCategory,
         config: {
             onSuccess: setData,
-            refetchOnWindowFocus: false,
-            throwOnError: true,
         },
     });
 
@@ -63,8 +66,6 @@ function Listing(props) {
         queryFn: getApps,
         config: {
             onSuccess: setData,
-            refetchOnWindowFocus: false,
-            throwOnError: true,
         },
     });
 
@@ -73,8 +74,6 @@ function Listing(props) {
         queryFn: getAppDetails,
         config: {
             onSuccess: setDetails,
-            refetchOnWindowFocus: false,
-            throwOnError: true,
         },
     });
 
@@ -194,25 +193,27 @@ function Listing(props) {
         if (appsInCategoryError || listingError) {
             announce({
                 text: formatMessage(intl, "appListingError"),
-                variant: ERROR,
+                variant: AnnouncerConstants.ERROR,
             });
+            setData(null);
         }
         if (detailsError) {
             announce({
                 text: formatMessage(intl, "appDetailsError"),
-                variant: ERROR,
+                variant: AnnouncerConstants.ERROR,
             });
+            setDetails(null);
         }
         if (favMutationError) {
             announce({
                 text: formatMessage(intl, "favMutationError"),
-                variant: ERROR,
+                variant: AnnouncerConstants.ERROR,
             });
         }
         if (ratingMutationError) {
             announce({
                 text: formatMessage(intl, "ratingMutationError"),
-                variant: ERROR,
+                variant: AnnouncerConstants.ERROR,
             });
         }
     }, [
@@ -355,10 +356,10 @@ function Listing(props) {
             />
             <TableView
                 loading={
-                    status === constants.LOADING ||
+                    appInCategoryStatus === constants.LOADING ||
                     allAppsStatus === constants.LOADING
                 }
-                error={listingError}
+                error={appsInCategoryError || listingError}
                 listing={data}
                 baseId={baseId}
                 order={order}

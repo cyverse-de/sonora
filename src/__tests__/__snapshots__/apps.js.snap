@@ -25,7 +25,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -50,7 +50,7 @@ exports[`App Table view renders 1`] = `
                   />
                 }
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 onChange={[Function]}
                 type="checkbox"
@@ -59,7 +59,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -111,7 +110,6 @@ exports[`App Table view renders 1`] = `
               aria-hidden="true"
               className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
               focusable="false"
-              role="presentation"
               viewBox="0 0 24 24"
             >
               <path
@@ -151,7 +149,6 @@ exports[`App Table view renders 1`] = `
               aria-hidden="true"
               className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
               focusable="false"
-              role="presentation"
               viewBox="0 0 24 24"
             >
               <path
@@ -191,7 +188,6 @@ exports[`App Table view renders 1`] = `
               aria-hidden="true"
               className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
               focusable="false"
-              role="presentation"
               viewBox="0 0 24 24"
             >
               <path
@@ -227,7 +223,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -247,7 +243,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="16sblaster checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.13ad5f48-bfb4-11e5-a5df-4b1d67d0fef0.checkbox"
                 onChange={[Function]}
@@ -258,7 +254,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -288,9 +283,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              16sblaster
-            </span>
+            16sblaster
           </div>
         </td>
         <td
@@ -306,7 +299,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.13ad5f48-bfb4-11e5-a5df-4b1d67d0fef0.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="5 Stars"
@@ -335,7 +328,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -354,7 +346,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -384,7 +375,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -403,7 +393,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -433,7 +422,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -452,7 +440,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -482,7 +469,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -501,7 +487,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -531,7 +516,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -550,7 +534,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -565,9 +548,13 @@ exports[`App Table view renders 1`] = `
           <div
             className="Rate-total-173"
           >
-            (
-            1
-            )
+            <span
+              className="MuiTypography-root MuiTypography-caption"
+            >
+              (
+              1
+              )
+            </span>
           </div>
         </td>
         <td
@@ -592,7 +579,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -612,7 +599,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="3.1 dev GEA Leptin RNA Seq Lab checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.2b9d31fe-3162-11ea-a78a-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -623,7 +610,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -667,9 +653,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              3.1 dev GEA Leptin RNA Seq Lab
-            </span>
+            3.1 dev GEA Leptin RNA Seq Lab
           </div>
         </td>
         <td
@@ -685,7 +669,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.2b9d31fe-3162-11ea-a78a-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="0 Stars"
@@ -714,7 +698,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -733,7 +716,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -763,7 +745,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -782,7 +763,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -812,7 +792,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -831,7 +810,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -861,7 +839,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -880,7 +857,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -910,7 +886,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -929,7 +904,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -943,11 +917,7 @@ exports[`App Table view renders 1`] = `
           </div>
           <div
             className="Rate-total-173"
-          >
-            (
-            0
-            )
-          </div>
+          />
         </td>
         <td
           aria-sort={null}
@@ -971,7 +941,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -991,7 +961,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="AAARFv1.0.1 checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.bf750284-d659-11e5-9346-eb45ddf114f9.checkbox"
                 onChange={[Function]}
@@ -1002,7 +972,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -1046,9 +1015,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              AAARFv1.0.1
-            </span>
+            AAARFv1.0.1
           </div>
         </td>
         <td
@@ -1064,7 +1031,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.bf750284-d659-11e5-9346-eb45ddf114f9.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="4.5 Stars"
@@ -1093,7 +1060,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1112,7 +1078,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1142,7 +1107,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1161,7 +1125,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1191,7 +1154,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1210,7 +1172,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1240,7 +1201,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1259,7 +1219,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1289,7 +1248,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1308,7 +1266,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1323,9 +1280,13 @@ exports[`App Table view renders 1`] = `
           <div
             className="Rate-total-173"
           >
-            (
-            4
-            )
+            <span
+              className="MuiTypography-root MuiTypography-caption"
+            >
+              (
+              4
+              )
+            </span>
           </div>
         </td>
         <td
@@ -1350,7 +1311,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -1370,7 +1331,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="add column to file checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.0f1b6b9a-bb92-4ef1-ae73-344fd35ae82f.checkbox"
                 onChange={[Function]}
@@ -1381,7 +1342,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -1425,9 +1385,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              add column to file
-            </span>
+            add column to file
           </div>
         </td>
         <td
@@ -1443,7 +1401,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.0f1b6b9a-bb92-4ef1-ae73-344fd35ae82f.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="5 Stars"
@@ -1472,7 +1430,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1491,7 +1448,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1521,7 +1477,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1540,7 +1495,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1570,7 +1524,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1589,7 +1542,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1619,7 +1571,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1638,7 +1589,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1668,7 +1618,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1687,7 +1636,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1702,9 +1650,13 @@ exports[`App Table view renders 1`] = `
           <div
             className="Rate-total-173"
           >
-            (
-            2
-            )
+            <span
+              className="MuiTypography-root MuiTypography-caption"
+            >
+              (
+              2
+              )
+            </span>
           </div>
         </td>
         <td
@@ -1729,7 +1681,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -1749,7 +1701,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="add column to file2 checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.5707bdf5-67f6-4c18-a0d6-5986fa019681.checkbox"
                 onChange={[Function]}
@@ -1760,7 +1712,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -1804,9 +1755,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              add column to file2
-            </span>
+            add column to file2
           </div>
         </td>
         <td
@@ -1822,7 +1771,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.5707bdf5-67f6-4c18-a0d6-5986fa019681.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="5 Stars"
@@ -1851,7 +1800,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1870,7 +1818,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1900,7 +1847,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1919,7 +1865,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1949,7 +1894,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1968,7 +1912,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -1998,7 +1941,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2017,7 +1959,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2047,7 +1988,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2066,7 +2006,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2081,9 +2020,13 @@ exports[`App Table view renders 1`] = `
           <div
             className="Rate-total-173"
           >
-            (
-            1
-            )
+            <span
+              className="MuiTypography-root MuiTypography-caption"
+            >
+              (
+              1
+              )
+            </span>
           </div>
         </td>
         <td
@@ -2108,7 +2051,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -2128,7 +2071,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Admixture checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.6768773a-854a-11e4-9c72-7fd0f0b43075.checkbox"
                 onChange={[Function]}
@@ -2139,7 +2082,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -2169,9 +2111,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              Admixture
-            </span>
+            Admixture
           </div>
         </td>
         <td
@@ -2187,7 +2127,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.6768773a-854a-11e4-9c72-7fd0f0b43075.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="1 Star"
@@ -2216,7 +2156,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2235,7 +2174,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2265,7 +2203,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2284,7 +2221,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2314,7 +2250,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2333,7 +2268,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2363,7 +2297,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2382,7 +2315,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2412,7 +2344,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2431,7 +2362,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2446,9 +2376,13 @@ exports[`App Table view renders 1`] = `
           <div
             className="Rate-total-173"
           >
-            (
-            1
-            )
+            <span
+              className="MuiTypography-root MuiTypography-caption"
+            >
+              (
+              1
+              )
+            </span>
           </div>
         </td>
         <td
@@ -2473,7 +2407,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -2493,7 +2427,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="ALLMAPS checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.58f783bc-5c95-11ea-b10d-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -2504,7 +2438,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -2548,9 +2481,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              ALLMAPS
-            </span>
+            ALLMAPS
           </div>
         </td>
         <td
@@ -2566,7 +2497,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.58f783bc-5c95-11ea-b10d-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="0 Stars"
@@ -2595,7 +2526,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2614,7 +2544,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2644,7 +2573,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2663,7 +2591,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2693,7 +2620,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2712,7 +2638,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2742,7 +2667,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2761,7 +2685,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2791,7 +2714,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2810,7 +2732,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2824,11 +2745,7 @@ exports[`App Table view renders 1`] = `
           </div>
           <div
             className="Rate-total-173"
-          >
-            (
-            0
-            )
-          </div>
+          />
         </td>
         <td
           aria-sort={null}
@@ -2852,7 +2769,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -2872,7 +2789,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="ALLMAPS merge checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.6ff82cda-5c98-11ea-aad3-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -2883,7 +2800,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -2927,9 +2843,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              ALLMAPS merge
-            </span>
+            ALLMAPS merge
           </div>
         </td>
         <td
@@ -2945,7 +2859,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.6ff82cda-5c98-11ea-aad3-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="0 Stars"
@@ -2974,7 +2888,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -2993,7 +2906,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3023,7 +2935,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3042,7 +2953,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3072,7 +2982,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3091,7 +3000,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3121,7 +3029,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3140,7 +3047,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3170,7 +3076,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3189,7 +3094,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3203,11 +3107,7 @@ exports[`App Table view renders 1`] = `
           </div>
           <div
             className="Rate-total-173"
-          >
-            (
-            0
-            )
-          </div>
+          />
         </td>
         <td
           aria-sort={null}
@@ -3231,7 +3131,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -3251,7 +3151,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="ALLMAPS path checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.0adf9b82-3c66-11ea-9a20-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -3262,7 +3162,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -3306,9 +3205,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              ALLMAPS path
-            </span>
+            ALLMAPS path
           </div>
         </td>
         <td
@@ -3324,7 +3221,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.0adf9b82-3c66-11ea-9a20-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="0 Stars"
@@ -3353,7 +3250,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3372,7 +3268,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3402,7 +3297,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3421,7 +3315,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3451,7 +3344,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3470,7 +3362,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3500,7 +3391,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3519,7 +3409,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3549,7 +3438,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3568,7 +3456,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3582,11 +3469,7 @@ exports[`App Table view renders 1`] = `
           </div>
           <div
             className="Rate-total-173"
-          >
-            (
-            0
-            )
-          </div>
+          />
         </td>
         <td
           aria-sort={null}
@@ -3610,7 +3493,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -3630,7 +3513,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Annotate transcripts checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.676846d4-854a-11e4-980d-7f0fcca75dbb.checkbox"
                 onChange={[Function]}
@@ -3641,7 +3524,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -3671,9 +3553,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              Annotate transcripts
-            </span>
+            Annotate transcripts
           </div>
         </td>
         <td
@@ -3689,7 +3569,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.676846d4-854a-11e4-980d-7f0fcca75dbb.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="1 Star"
@@ -3718,7 +3598,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3737,7 +3616,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3767,7 +3645,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3786,7 +3663,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3816,7 +3692,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3835,7 +3710,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3865,7 +3739,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3884,7 +3757,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3914,7 +3786,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3933,7 +3804,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -3948,9 +3818,13 @@ exports[`App Table view renders 1`] = `
           <div
             className="Rate-total-173"
           >
-            (
-            1
-            )
+            <span
+              className="MuiTypography-root MuiTypography-caption"
+            >
+              (
+              1
+              )
+            </span>
           </div>
         </td>
         <td
@@ -3975,7 +3849,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -3995,7 +3869,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="AntEpiSeeker 2.0 checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.e328b780-49e4-4421-ac2e-12b49504bcd2.checkbox"
                 onChange={[Function]}
@@ -4006,7 +3880,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -4036,9 +3909,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              AntEpiSeeker 2.0
-            </span>
+            AntEpiSeeker 2.0
           </div>
         </td>
         <td
@@ -4054,7 +3925,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.e328b780-49e4-4421-ac2e-12b49504bcd2.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="0 Stars"
@@ -4083,7 +3954,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4102,7 +3972,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4132,7 +4001,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4151,7 +4019,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4181,7 +4048,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4200,7 +4066,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4230,7 +4095,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4249,7 +4113,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4279,7 +4142,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4298,7 +4160,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4312,11 +4173,7 @@ exports[`App Table view renders 1`] = `
           </div>
           <div
             className="Rate-total-173"
-          >
-            (
-            0
-            )
-          </div>
+          />
         </td>
         <td
           aria-sort={null}
@@ -4340,7 +4197,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -4360,7 +4217,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="appendUnclustered checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.e0937512-1535-11ea-b8be-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -4371,7 +4228,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -4415,9 +4271,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              appendUnclustered
-            </span>
+            appendUnclustered
           </div>
         </td>
         <td
@@ -4433,7 +4287,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.e0937512-1535-11ea-b8be-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="0 Stars"
@@ -4462,7 +4316,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4481,7 +4334,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4511,7 +4363,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4530,7 +4381,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4560,7 +4410,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4579,7 +4428,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4609,7 +4457,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4628,7 +4475,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4658,7 +4504,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4677,7 +4522,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4691,11 +4535,7 @@ exports[`App Table view renders 1`] = `
           </div>
           <div
             className="Rate-total-173"
-          >
-            (
-            0
-            )
-          </div>
+          />
         </td>
         <td
           aria-sort={null}
@@ -4719,7 +4559,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -4739,7 +4579,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="APPLES_conservation checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.d99ca952-dbe2-11e6-9e37-0242ac120003.checkbox"
                 onChange={[Function]}
@@ -4750,7 +4590,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -4794,9 +4633,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              APPLES_conservation
-            </span>
+            APPLES_conservation
           </div>
         </td>
         <td
@@ -4812,7 +4649,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.d99ca952-dbe2-11e6-9e37-0242ac120003.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="0 Stars"
@@ -4841,7 +4678,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4860,7 +4696,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4890,7 +4725,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4909,7 +4743,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4939,7 +4772,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4958,7 +4790,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -4988,7 +4819,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5007,7 +4837,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5037,7 +4866,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5056,7 +4884,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5070,11 +4897,7 @@ exports[`App Table view renders 1`] = `
           </div>
           <div
             className="Rate-total-173"
-          >
-            (
-            0
-            )
-          </div>
+          />
         </td>
         <td
           aria-sort={null}
@@ -5098,7 +4921,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -5118,7 +4941,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="APPLES_rbh checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.99df0c66-dce5-11e6-a30f-0242ac120003.checkbox"
                 onChange={[Function]}
@@ -5129,7 +4952,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -5173,9 +4995,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              APPLES_rbh
-            </span>
+            APPLES_rbh
           </div>
         </td>
         <td
@@ -5191,7 +5011,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.99df0c66-dce5-11e6-a30f-0242ac120003.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="2 Stars"
@@ -5220,7 +5040,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5239,7 +5058,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5269,7 +5087,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5288,7 +5105,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5318,7 +5134,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5337,7 +5152,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5367,7 +5181,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5386,7 +5199,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5416,7 +5228,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5435,7 +5246,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5450,9 +5260,13 @@ exports[`App Table view renders 1`] = `
           <div
             className="Rate-total-173"
           >
-            (
-            2
-            )
+            <span
+              className="MuiTypography-root MuiTypography-caption"
+            >
+              (
+              2
+              )
+            </span>
           </div>
         </td>
         <td
@@ -5477,7 +5291,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -5497,7 +5311,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Assembly Stats (assemblathon tool) checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.21d1eee5-364f-4384-b00b-c19fcd2ca488.checkbox"
                 onChange={[Function]}
@@ -5508,7 +5322,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -5538,9 +5351,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              Assembly Stats (assemblathon tool)
-            </span>
+            Assembly Stats (assemblathon tool)
           </div>
         </td>
         <td
@@ -5556,7 +5367,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.21d1eee5-364f-4384-b00b-c19fcd2ca488.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="3.5 Stars"
@@ -5585,7 +5396,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5604,7 +5414,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5634,7 +5443,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5653,7 +5461,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5683,7 +5490,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5702,7 +5508,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5732,7 +5537,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5751,7 +5555,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5781,7 +5584,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5800,7 +5602,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5815,9 +5616,13 @@ exports[`App Table view renders 1`] = `
           <div
             className="Rate-total-173"
           >
-            (
-            3
-            )
+            <span
+              className="MuiTypography-root MuiTypography-caption"
+            >
+              (
+              3
+              )
+            </span>
           </div>
         </td>
         <td
@@ -5842,7 +5647,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -5862,7 +5667,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Assess Assembly vs whole genome checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.ec009883-b5c5-4605-9d78-17dcab530184.checkbox"
                 onChange={[Function]}
@@ -5873,7 +5678,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -5903,9 +5707,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              Assess Assembly vs whole genome
-            </span>
+            Assess Assembly vs whole genome
           </div>
         </td>
         <td
@@ -5921,7 +5723,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.ec009883-b5c5-4605-9d78-17dcab530184.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="4 Stars"
@@ -5950,7 +5752,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5969,7 +5770,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -5999,7 +5799,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6018,7 +5817,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6048,7 +5846,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6067,7 +5864,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6097,7 +5893,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6116,7 +5911,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6146,7 +5940,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6165,7 +5958,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6180,9 +5972,13 @@ exports[`App Table view renders 1`] = `
           <div
             className="Rate-total-173"
           >
-            (
-            2
-            )
+            <span
+              className="MuiTypography-root MuiTypography-caption"
+            >
+              (
+              2
+              )
+            </span>
           </div>
         </td>
         <td
@@ -6207,7 +6003,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -6227,7 +6023,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Austria Demo checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.5b52c412-6b8e-11e9-81f7-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -6238,7 +6034,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -6267,10 +6062,12 @@ exports[`App Table view renders 1`] = `
                 "agaveRedirectMessage": "Click \`Authenticate\` to be redirected to an external login page for access to CyVerse high performance computing (HPC) applications. After supplying your CyVerse user name and password, you will be returned to the Discovery Environment. You only need to do this once. HPC apps will not show up in search or browse until you authenticate.",
                 "agaveRedirectTitle": "Agave - High Performance Computing Apps",
                 "analysesCompleted": "Analyses Completed:",
+                "appDetailsError": "Unable to get App details. Please try again.",
                 "appDocLabel": "App Documentation",
                 "appDocumentation": "DE App Documentation",
                 "appInfo": "App Info",
                 "appInformationLbl": "App Information",
+                "appListingError": "Unable to get Apps. Please try again.",
                 "appType": "Type",
                 "ariaCheckbox": "{label} checkbox",
                 "authenticateBtnText": "Authenticate",
@@ -6304,6 +6101,7 @@ exports[`App Table view renders 1`] = `
                 "documentationTemplate": "View Documentation Template",
                 "edit": "Edit",
                 "embedLbl": "Embed",
+                "favMutationError": "Unable to update favorites. Please try again.",
                 "favoriteNotSupported": "Favorites not supported for external apps!",
                 "filterLbl": "Filter",
                 "gridView": "Grid View",
@@ -6329,6 +6127,7 @@ exports[`App Table view renders 1`] = `
                 "quickLaunchLabel": "Quick Launch",
                 "quickLaunchNameLabel": "Name",
                 "quickLaunchNotSupportedMessage": "Quick Launch not supported for agave apps!",
+                "ratingMutationError": "Unable to update rating. Please try again.",
                 "references": "References",
                 "removeFromFavorites": "Remove From Favorites",
                 "save": "Save",
@@ -6354,7 +6153,6 @@ exports[`App Table view renders 1`] = `
             onMouseOver={[Function]}
             onTouchEnd={[Function]}
             onTouchStart={[Function]}
-            role="presentation"
             title={null}
             viewBox="0 0 24 24"
           >
@@ -6375,9 +6173,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              Austria Demo
-            </span>
+            Austria Demo
           </div>
         </td>
         <td
@@ -6393,7 +6189,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.5b52c412-6b8e-11e9-81f7-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="0 Stars"
@@ -6422,7 +6218,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6441,7 +6236,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6471,7 +6265,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6490,7 +6283,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6520,7 +6312,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6539,7 +6330,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6569,7 +6359,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6588,7 +6377,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6618,7 +6406,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6637,7 +6424,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6651,11 +6437,7 @@ exports[`App Table view renders 1`] = `
           </div>
           <div
             className="Rate-total-173"
-          >
-            (
-            0
-            )
-          </div>
+          />
         </td>
         <td
           aria-sort={null}
@@ -6679,7 +6461,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -6699,7 +6481,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="austria-wf checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.dab9d998-6b8e-11e9-b782-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -6710,7 +6492,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -6739,10 +6520,12 @@ exports[`App Table view renders 1`] = `
                 "agaveRedirectMessage": "Click \`Authenticate\` to be redirected to an external login page for access to CyVerse high performance computing (HPC) applications. After supplying your CyVerse user name and password, you will be returned to the Discovery Environment. You only need to do this once. HPC apps will not show up in search or browse until you authenticate.",
                 "agaveRedirectTitle": "Agave - High Performance Computing Apps",
                 "analysesCompleted": "Analyses Completed:",
+                "appDetailsError": "Unable to get App details. Please try again.",
                 "appDocLabel": "App Documentation",
                 "appDocumentation": "DE App Documentation",
                 "appInfo": "App Info",
                 "appInformationLbl": "App Information",
+                "appListingError": "Unable to get Apps. Please try again.",
                 "appType": "Type",
                 "ariaCheckbox": "{label} checkbox",
                 "authenticateBtnText": "Authenticate",
@@ -6776,6 +6559,7 @@ exports[`App Table view renders 1`] = `
                 "documentationTemplate": "View Documentation Template",
                 "edit": "Edit",
                 "embedLbl": "Embed",
+                "favMutationError": "Unable to update favorites. Please try again.",
                 "favoriteNotSupported": "Favorites not supported for external apps!",
                 "filterLbl": "Filter",
                 "gridView": "Grid View",
@@ -6801,6 +6585,7 @@ exports[`App Table view renders 1`] = `
                 "quickLaunchLabel": "Quick Launch",
                 "quickLaunchNameLabel": "Name",
                 "quickLaunchNotSupportedMessage": "Quick Launch not supported for agave apps!",
+                "ratingMutationError": "Unable to update rating. Please try again.",
                 "references": "References",
                 "removeFromFavorites": "Remove From Favorites",
                 "save": "Save",
@@ -6826,7 +6611,6 @@ exports[`App Table view renders 1`] = `
             onMouseOver={[Function]}
             onTouchEnd={[Function]}
             onTouchStart={[Function]}
-            role="presentation"
             title={null}
             viewBox="0 0 24 24"
           >
@@ -6847,9 +6631,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              austria-wf
-            </span>
+            austria-wf
           </div>
         </td>
         <td
@@ -6865,7 +6647,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.dab9d998-6b8e-11e9-b782-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="0 Stars"
@@ -6894,7 +6676,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6913,7 +6694,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6943,7 +6723,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6962,7 +6741,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -6992,7 +6770,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7011,7 +6788,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7041,7 +6817,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7060,7 +6835,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7090,7 +6864,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7109,7 +6882,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7123,11 +6895,7 @@ exports[`App Table view renders 1`] = `
           </div>
           <div
             className="Rate-total-173"
-          >
-            (
-            0
-            )
-          </div>
+          />
         </td>
         <td
           aria-sort={null}
@@ -7151,7 +6919,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -7171,7 +6939,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Ballgown checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.685a0588-64de-11e8-af6e-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -7182,7 +6950,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -7226,9 +6993,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              Ballgown
-            </span>
+            Ballgown
           </div>
         </td>
         <td
@@ -7244,7 +7009,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.685a0588-64de-11e8-af6e-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="5 Stars"
@@ -7273,7 +7038,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7292,7 +7056,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7322,7 +7085,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7341,7 +7103,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7371,7 +7132,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7390,7 +7150,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7420,7 +7179,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7439,7 +7197,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7469,7 +7226,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7488,7 +7244,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7503,9 +7258,13 @@ exports[`App Table view renders 1`] = `
           <div
             className="Rate-total-173"
           >
-            (
-            3
-            )
+            <span
+              className="MuiTypography-root MuiTypography-caption"
+            >
+              (
+              3
+              )
+            </span>
           </div>
         </td>
         <td
@@ -7530,7 +7289,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -7550,7 +7309,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Ballgown-2.0 checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.ed197e38-6d9a-11e8-91a1-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -7561,7 +7320,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -7591,9 +7349,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              Ballgown-2.0
-            </span>
+            Ballgown-2.0
           </div>
         </td>
         <td
@@ -7609,7 +7365,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.ed197e38-6d9a-11e8-91a1-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="5 Stars"
@@ -7638,7 +7394,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7657,7 +7412,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7687,7 +7441,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7706,7 +7459,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7736,7 +7488,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7755,7 +7506,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7785,7 +7535,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7804,7 +7553,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7834,7 +7582,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7853,7 +7600,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -7868,9 +7614,13 @@ exports[`App Table view renders 1`] = `
           <div
             className="Rate-total-173"
           >
-            (
-            1
-            )
+            <span
+              className="MuiTypography-root MuiTypography-caption"
+            >
+              (
+              1
+              )
+            </span>
           </div>
         </td>
         <td
@@ -7895,7 +7645,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -7915,7 +7665,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Bam to Counts (general) checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.51000872-1c9b-4d1a-b582-e46926c98aa3.checkbox"
                 onChange={[Function]}
@@ -7926,7 +7676,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -7956,9 +7705,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              Bam to Counts (general)
-            </span>
+            Bam to Counts (general)
           </div>
         </td>
         <td
@@ -7974,7 +7721,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.51000872-1c9b-4d1a-b582-e46926c98aa3.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="3.5 Stars"
@@ -8003,7 +7750,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8022,7 +7768,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8052,7 +7797,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8071,7 +7815,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8101,7 +7844,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8120,7 +7862,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8150,7 +7891,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8169,7 +7909,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8199,7 +7938,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8218,7 +7956,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8233,9 +7970,13 @@ exports[`App Table view renders 1`] = `
           <div
             className="Rate-total-173"
           >
-            (
-            2
-            )
+            <span
+              className="MuiTypography-root MuiTypography-caption"
+            >
+              (
+              2
+              )
+            </span>
           </div>
         </td>
         <td
@@ -8260,7 +8001,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -8280,7 +8021,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="BAM to Counts (named outputs) checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.581dfdf9-653f-4db7-8fb2-d64438fbddf1.checkbox"
                 onChange={[Function]}
@@ -8291,7 +8032,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -8321,9 +8061,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              BAM to Counts (named outputs)
-            </span>
+            BAM to Counts (named outputs)
           </div>
         </td>
         <td
@@ -8339,7 +8077,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.581dfdf9-653f-4db7-8fb2-d64438fbddf1.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="0 Stars"
@@ -8368,7 +8106,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8387,7 +8124,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8417,7 +8153,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8436,7 +8171,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8466,7 +8200,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8485,7 +8218,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8515,7 +8247,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8534,7 +8265,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8564,7 +8294,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8583,7 +8312,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8597,11 +8325,7 @@ exports[`App Table view renders 1`] = `
           </div>
           <div
             className="Rate-total-173"
-          >
-            (
-            0
-            )
-          </div>
+          />
         </td>
         <td
           aria-sort={null}
@@ -8625,7 +8349,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -8645,7 +8369,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="bam2fastq_unmapped checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.f2c26674-c460-11e4-af99-3b9dd34014f8.checkbox"
                 onChange={[Function]}
@@ -8656,7 +8380,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -8700,9 +8423,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              bam2fastq_unmapped
-            </span>
+            bam2fastq_unmapped
           </div>
         </td>
         <td
@@ -8718,7 +8439,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.f2c26674-c460-11e4-af99-3b9dd34014f8.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="5 Stars"
@@ -8747,7 +8468,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8766,7 +8486,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8796,7 +8515,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8815,7 +8533,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8845,7 +8562,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8864,7 +8580,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8894,7 +8609,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8913,7 +8627,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8943,7 +8656,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8962,7 +8674,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -8977,9 +8688,13 @@ exports[`App Table view renders 1`] = `
           <div
             className="Rate-total-173"
           >
-            (
-            1
-            )
+            <span
+              className="MuiTypography-root MuiTypography-caption"
+            >
+              (
+              1
+              )
+            </span>
           </div>
         </td>
         <td
@@ -9004,7 +8719,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -9024,7 +8739,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Bayesian BiClustering checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.cca286bd-3471-879b-7298-d79751635482.checkbox"
                 onChange={[Function]}
@@ -9035,7 +8750,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -9065,9 +8779,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              Bayesian BiClustering
-            </span>
+            Bayesian BiClustering
           </div>
         </td>
         <td
@@ -9083,7 +8795,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.cca286bd-3471-879b-7298-d79751635482.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="3 Stars"
@@ -9112,7 +8824,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9131,7 +8842,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9161,7 +8871,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9180,7 +8889,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9210,7 +8918,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9229,7 +8936,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9259,7 +8965,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9278,7 +8983,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9308,7 +9012,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9327,7 +9030,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9342,9 +9044,13 @@ exports[`App Table view renders 1`] = `
           <div
             className="Rate-total-173"
           >
-            (
-            3
-            )
+            <span
+              className="MuiTypography-root MuiTypography-caption"
+            >
+              (
+              3
+              )
+            </span>
           </div>
         </td>
         <td
@@ -9369,7 +9075,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-239 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -9389,7 +9095,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="BCFtools 1.8 call checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-242"
+                className="PrivateSwitchBase-input-272"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.17434bb4-9058-11e8-87dd-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -9400,7 +9106,6 @@ exports[`App Table view renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -9444,9 +9149,7 @@ exports[`App Table view renders 1`] = `
             tabIndex="0"
             title=""
           >
-            <span>
-              BCFtools 1.8 call
-            </span>
+            BCFtools 1.8 call
           </div>
         </td>
         <td
@@ -9462,7 +9165,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.17434bb4-9058-11e8-87dd-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-174"
+            className="Rate-rating-172"
           >
             <span
               aria-label="0 Stars"
@@ -9491,7 +9194,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9510,7 +9212,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9540,7 +9241,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9559,7 +9259,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9589,7 +9288,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9608,7 +9306,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9638,7 +9335,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9657,7 +9353,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9687,7 +9382,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9706,7 +9400,6 @@ exports[`App Table view renders 1`] = `
                       aria-hidden="true"
                       className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                       focusable="false"
-                      role="presentation"
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -9720,11 +9413,7 @@ exports[`App Table view renders 1`] = `
           </div>
           <div
             className="Rate-total-173"
-          >
-            (
-            0
-            )
-          </div>
+          />
         </td>
         <td
           aria-sort={null}
@@ -9787,9 +9476,7 @@ exports[`App Tile renders 1`] = `
           tabIndex="0"
           title="Use this app."
         >
-          <span>
-            Bowtie-2.2.1--Build-and-Map for workflows Bowtie-2.2.1--Build-and-Map for workflowsBowtie-2.2.1--Build-and-Map for workflows
-          </span>
+          Bowtie-2.2.1--Build-and-Map for workflows Bowtie-2.2.1--Build-and-Map for workflowsBowtie-2.2.1--Build-and-Map for workflows
         </div>
         <div
           className="Component-more-110"
@@ -9824,7 +9511,6 @@ exports[`App Tile renders 1`] = `
                   aria-hidden="true"
                   className="MuiSvgIcon-root"
                   focusable="false"
-                  role="presentation"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -9853,7 +9539,7 @@ exports[`App Tile renders 1`] = `
         className="Component-rating-113"
       >
         <div
-          className="Rate-rating-174"
+          className="Rate-rating-172"
         >
           <span
             aria-label={null}
@@ -9884,7 +9570,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -9923,7 +9608,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -9973,7 +9657,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10012,7 +9695,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10062,7 +9744,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10101,7 +9782,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10151,7 +9831,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10190,7 +9869,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10240,7 +9918,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10279,7 +9956,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10311,11 +9987,7 @@ exports[`App Tile renders 1`] = `
         </div>
         <div
           className="Rate-total-173"
-        >
-          (
-          0
-          )
-        </div>
+        />
       </div>
     </div>
   </div>
@@ -10358,9 +10030,7 @@ exports[`App Tile renders 1`] = `
           tabIndex="0"
           title="Use this app."
         >
-          <span>
-            APPLES_rbh
-          </span>
+          APPLES_rbh
         </div>
         <div
           className="Component-more-110"
@@ -10395,7 +10065,6 @@ exports[`App Tile renders 1`] = `
                   aria-hidden="true"
                   className="MuiSvgIcon-root"
                   focusable="false"
-                  role="presentation"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -10438,7 +10107,7 @@ exports[`App Tile renders 1`] = `
         className="Component-rating-113"
       >
         <div
-          className="Rate-rating-174"
+          className="Rate-rating-172"
         >
           <span
             aria-label={null}
@@ -10469,7 +10138,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10508,7 +10176,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10558,7 +10225,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10597,7 +10263,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10647,7 +10312,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10686,7 +10350,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10736,7 +10399,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10775,7 +10437,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10825,7 +10486,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10864,7 +10524,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -10897,9 +10556,13 @@ exports[`App Tile renders 1`] = `
         <div
           className="Rate-total-173"
         >
-          (
-          2
-          )
+          <span
+            className="MuiTypography-root MuiTypography-caption"
+          >
+            (
+            2
+            )
+          </span>
         </div>
       </div>
     </div>
@@ -10943,9 +10606,7 @@ exports[`App Tile renders 1`] = `
           tabIndex="0"
           title="Use this app."
         >
-          <span>
-            BCFtools 1.8 view
-          </span>
+          BCFtools 1.8 view
         </div>
         <div
           className="Component-more-110"
@@ -10980,7 +10641,6 @@ exports[`App Tile renders 1`] = `
                   aria-hidden="true"
                   className="MuiSvgIcon-root"
                   focusable="false"
-                  role="presentation"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -11023,7 +10683,7 @@ exports[`App Tile renders 1`] = `
         className="Component-rating-113"
       >
         <div
-          className="Rate-rating-174"
+          className="Rate-rating-172"
         >
           <span
             aria-label={null}
@@ -11054,7 +10714,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11093,7 +10752,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11143,7 +10801,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11182,7 +10839,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11232,7 +10888,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11271,7 +10926,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11321,7 +10975,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11360,7 +11013,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11410,7 +11062,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11449,7 +11100,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11481,11 +11131,7 @@ exports[`App Tile renders 1`] = `
         </div>
         <div
           className="Rate-total-173"
-        >
-          (
-          0
-          )
-        </div>
+        />
       </div>
     </div>
   </div>
@@ -11528,9 +11174,7 @@ exports[`App Tile renders 1`] = `
           tabIndex="0"
           title="Use this app."
         >
-          <span>
-            bcftools view
-          </span>
+          bcftools view
         </div>
         <div
           className="Component-more-110"
@@ -11565,7 +11209,6 @@ exports[`App Tile renders 1`] = `
                   aria-hidden="true"
                   className="MuiSvgIcon-root"
                   focusable="false"
-                  role="presentation"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -11594,7 +11237,7 @@ exports[`App Tile renders 1`] = `
         className="Component-rating-113"
       >
         <div
-          className="Rate-rating-174"
+          className="Rate-rating-172"
         >
           <span
             aria-label={null}
@@ -11625,7 +11268,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11664,7 +11306,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11714,7 +11355,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11753,7 +11393,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11803,7 +11442,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11842,7 +11480,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11892,7 +11529,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11931,7 +11567,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -11981,7 +11616,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -12020,7 +11654,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -12052,11 +11685,7 @@ exports[`App Tile renders 1`] = `
         </div>
         <div
           className="Rate-total-173"
-        >
-          (
-          0
-          )
-        </div>
+        />
       </div>
     </div>
   </div>
@@ -12099,9 +11728,7 @@ exports[`App Tile renders 1`] = `
           tabIndex="0"
           title="Use this app."
         >
-          <span>
-            bedtools 2.26.0 bam2fastq
-          </span>
+          bedtools 2.26.0 bam2fastq
         </div>
         <div
           className="Component-more-110"
@@ -12136,7 +11763,6 @@ exports[`App Tile renders 1`] = `
                   aria-hidden="true"
                   className="MuiSvgIcon-root"
                   focusable="false"
-                  role="presentation"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -12179,7 +11805,7 @@ exports[`App Tile renders 1`] = `
         className="Component-rating-113"
       >
         <div
-          className="Rate-rating-174"
+          className="Rate-rating-172"
         >
           <span
             aria-label={null}
@@ -12210,7 +11836,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -12249,7 +11874,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -12299,7 +11923,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -12338,7 +11961,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -12388,7 +12010,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -12427,7 +12048,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -12477,7 +12097,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -12516,7 +12135,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -12566,7 +12184,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -12605,7 +12222,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -12637,11 +12253,7 @@ exports[`App Tile renders 1`] = `
         </div>
         <div
           className="Rate-total-173"
-        >
-          (
-          0
-          )
-        </div>
+        />
       </div>
     </div>
   </div>
@@ -12684,9 +12296,7 @@ exports[`App Tile renders 1`] = `
           tabIndex="0"
           title="Use this app."
         >
-          <span>
-            Blat 36 (with options)
-          </span>
+          Blat 36 (with options)
         </div>
         <div
           className="Component-more-110"
@@ -12721,7 +12331,6 @@ exports[`App Tile renders 1`] = `
                   aria-hidden="true"
                   className="MuiSvgIcon-root"
                   focusable="false"
-                  role="presentation"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -12764,7 +12373,7 @@ exports[`App Tile renders 1`] = `
         className="Component-rating-113"
       >
         <div
-          className="Rate-rating-174"
+          className="Rate-rating-172"
         >
           <span
             aria-label={null}
@@ -12795,7 +12404,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -12834,7 +12442,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -12884,7 +12491,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -12923,7 +12529,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -12973,7 +12578,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13012,7 +12616,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13062,7 +12665,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13101,7 +12703,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13151,7 +12752,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13190,7 +12790,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13222,11 +12821,7 @@ exports[`App Tile renders 1`] = `
         </div>
         <div
           className="Rate-total-173"
-        >
-          (
-          0
-          )
-        </div>
+        />
       </div>
     </div>
   </div>
@@ -13269,9 +12864,7 @@ exports[`App Tile renders 1`] = `
           tabIndex="0"
           title="Use this app."
         >
-          <span>
-            Bowtie-2.2.1--Build-and-Map for workflows
-          </span>
+          Bowtie-2.2.1--Build-and-Map for workflows
         </div>
         <div
           className="Component-more-110"
@@ -13306,7 +12899,6 @@ exports[`App Tile renders 1`] = `
                   aria-hidden="true"
                   className="MuiSvgIcon-root"
                   focusable="false"
-                  role="presentation"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -13335,7 +12927,7 @@ exports[`App Tile renders 1`] = `
         className="Component-rating-113"
       >
         <div
-          className="Rate-rating-174"
+          className="Rate-rating-172"
         >
           <span
             aria-label={null}
@@ -13366,7 +12958,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13405,7 +12996,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13455,7 +13045,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13494,7 +13083,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13544,7 +13132,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13583,7 +13170,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13633,7 +13219,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13672,7 +13257,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13722,7 +13306,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13761,7 +13344,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13793,11 +13375,7 @@ exports[`App Tile renders 1`] = `
         </div>
         <div
           className="Rate-total-173"
-        >
-          (
-          0
-          )
-        </div>
+        />
       </div>
     </div>
   </div>
@@ -13840,9 +13418,7 @@ exports[`App Tile renders 1`] = `
           tabIndex="0"
           title="Use this app."
         >
-          <span>
-            Bowtie2Build-2.2.4 indexer
-          </span>
+          Bowtie2Build-2.2.4 indexer
         </div>
         <div
           className="Component-more-110"
@@ -13877,7 +13453,6 @@ exports[`App Tile renders 1`] = `
                   aria-hidden="true"
                   className="MuiSvgIcon-root"
                   focusable="false"
-                  role="presentation"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -13906,7 +13481,7 @@ exports[`App Tile renders 1`] = `
         className="Component-rating-113"
       >
         <div
-          className="Rate-rating-174"
+          className="Rate-rating-172"
         >
           <span
             aria-label={null}
@@ -13937,7 +13512,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -13976,7 +13550,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14026,7 +13599,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14065,7 +13637,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14115,7 +13686,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14154,7 +13724,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14204,7 +13773,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14243,7 +13811,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14293,7 +13860,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14332,7 +13898,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14365,9 +13930,13 @@ exports[`App Tile renders 1`] = `
         <div
           className="Rate-total-173"
         >
-          (
-          2
-          )
+          <span
+            className="MuiTypography-root MuiTypography-caption"
+          >
+            (
+            2
+            )
+          </span>
         </div>
       </div>
     </div>
@@ -14411,9 +13980,7 @@ exports[`App Tile renders 1`] = `
           tabIndex="0"
           title="Use this app."
         >
-          <span>
-            BWA 0.7.4 non-model species
-          </span>
+          BWA 0.7.4 non-model species
         </div>
         <div
           className="Component-more-110"
@@ -14448,7 +14015,6 @@ exports[`App Tile renders 1`] = `
                   aria-hidden="true"
                   className="MuiSvgIcon-root"
                   focusable="false"
-                  role="presentation"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -14477,7 +14043,7 @@ exports[`App Tile renders 1`] = `
         className="Component-rating-113"
       >
         <div
-          className="Rate-rating-174"
+          className="Rate-rating-172"
         >
           <span
             aria-label={null}
@@ -14508,7 +14074,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14547,7 +14112,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14597,7 +14161,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14636,7 +14199,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14686,7 +14248,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14725,7 +14286,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14775,7 +14335,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14814,7 +14373,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14864,7 +14422,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14903,7 +14460,6 @@ exports[`App Tile renders 1`] = `
                     aria-hidden="true"
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
                     focusable="false"
-                    role="presentation"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -14936,49 +14492,56 @@ exports[`App Tile renders 1`] = `
         <div
           className="Rate-total-173"
         >
-          (
-          2
-          )
-          <button
-            aria-describedby={null}
-            className="MuiButtonBase-root MuiIconButton-root Rate-ratingDelete-172 MuiIconButton-sizeSmall"
-            disabled={false}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseOver={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            tabIndex={0}
-            title="Delete Rating"
-            type="button"
+          <span
+            className="MuiTypography-root MuiTypography-caption"
           >
-            <span
-              className="MuiIconButton-label"
+            (
+            2
+            )
+          </span>
+          <span
+            className="Rate-delete-174"
+          >
+            <button
+              aria-describedby={null}
+              className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseOver={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={0}
+              title="Delete Rating"
+              type="button"
             >
-              <svg
-                aria-hidden="true"
-                className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit"
-                focusable="false"
-                role="presentation"
-                viewBox="0 0 24 24"
+              <span
+                className="MuiIconButton-label"
               >
-                <path
-                  d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
-                />
-              </svg>
-            </span>
-            <span
-              className="MuiTouchRipple-root"
-            />
-          </button>
+                <svg
+                  aria-hidden="true"
+                  className="MuiSvgIcon-root MuiSvgIcon-colorError MuiSvgIcon-fontSizeSmall"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                  />
+                </svg>
+              </span>
+              <span
+                className="MuiTouchRipple-root"
+              />
+            </button>
+          </span>
         </div>
       </div>
     </div>

@@ -18,7 +18,6 @@ Array [
           aria-hidden="true"
           className="MuiSvgIcon-root MuiSvgIcon-colorPrimary"
           focusable="false"
-          role="presentation"
           viewBox="0 0 24 24"
         >
           <path
@@ -68,7 +67,6 @@ Array [
         aria-hidden="true"
         className="MuiSvgIcon-root MuiSelect-icon makeStyles-icon-4"
         focusable="false"
-        role="presentation"
         viewBox="0 0 24 24"
       >
         <path

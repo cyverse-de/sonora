@@ -236,7 +236,11 @@ function AppNavigation(props) {
                 getOptionLabel={(option) => option.name}
                 style={{ minWidth: 150 }}
                 renderInput={(params) => (
-                    <TextField {...params} label={formatMessage(intl, "filterLbl")} variant="outlined" />
+                    <TextField
+                        {...params}
+                        label={formatMessage(intl, "filterLbl")}
+                        variant="outlined"
+                    />
                 )}
             />
         </Toolbar>

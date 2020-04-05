@@ -27,45 +27,43 @@ function AgaveAuthPromptDialog(props) {
         handleClose();
     };
     return (
-        <div>
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                id={build(baseId, ids.AGAVE_AUTH_PROMPT_DIALOG)}
-                fullScreen={fullScreen}
-                aria-labelledby={formatMessage(intl, "agaveRedirectTitle")}
-            >
-                <DialogTitle>{getMessage("agaveRedirectTitle")}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        {getMessage("agaveRedirectMessage")}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        onClick={handleClose}
-                        id={build(
-                            baseId,
-                            ids.AGAVE_AUTH_PROMPT_DIALOG,
-                            ids.AGAVE_AUTH_PROMPT_DIALOG_DENY_BTN
-                        )}
-                    >
-                        {getMessage("declineAuthBtnText")}
-                    </Button>
-                    <Button
-                        onClick={redirectUser}
-                        color="primary"
-                        id={build(
-                            baseId,
-                            ids.AGAVE_AUTH_PROMPT_DIALOG,
-                            ids.AGAVE_AUTH_PROMPT_DIALOG_AUTH_BTN
-                        )}
-                    >
-                        {getMessage("authenticateBtnText")}
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </div>
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            id={build(baseId, ids.AGAVE_AUTH_PROMPT_DIALOG)}
+            fullScreen={fullScreen}
+            aria-labelledby={formatMessage(intl, "agaveRedirectTitle")}
+        >
+            <DialogTitle>{getMessage("agaveRedirectTitle")}</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                    {getMessage("agaveRedirectMessage")}
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button
+                    onClick={handleClose}
+                    id={build(
+                        baseId,
+                        ids.AGAVE_AUTH_PROMPT_DIALOG,
+                        ids.AGAVE_AUTH_PROMPT_DIALOG_DENY_BTN
+                    )}
+                >
+                    {getMessage("declineAuthBtnText")}
+                </Button>
+                <Button
+                    onClick={redirectUser}
+                    color="primary"
+                    id={build(
+                        baseId,
+                        ids.AGAVE_AUTH_PROMPT_DIALOG,
+                        ids.AGAVE_AUTH_PROMPT_DIALOG_AUTH_BTN
+                    )}
+                >
+                    {getMessage("authenticateBtnText")}
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
 }
 

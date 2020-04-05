@@ -28,6 +28,7 @@ const intlData = {
             "Click `Authenticate` to be redirected to an external login page for access to CyVerse high performance computing (HPC) applications. After supplying your CyVerse user name and password, you will be returned to the Discovery Environment. You only need to do this once. HPC apps will not show up in search or browse until you authenticate.",
         authenticateBtnText: "Authenticate",
         declineAuthBtnText: "Not Now",
+        filterLbl: "Filter",
     },
 };
 

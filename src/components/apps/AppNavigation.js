@@ -218,10 +218,6 @@ function AppNavigation(props) {
                         handleCategoryChange(allAppsCategory);
                     }}
                     className={classes.list}
-                    aria-controls={formatMessage(
-                        intl,
-                        "categoriesMenuItemAriaControl"
-                    )}
                     aria-label={allAppsCategory.name}
                 >
                     <ListItemIcon>{allAppsCategory.icon}</ListItemIcon>
@@ -240,7 +236,7 @@ function AppNavigation(props) {
                 getOptionLabel={(option) => option.name}
                 style={{ minWidth: 150 }}
                 renderInput={(params) => (
-                    <TextField {...params} label="Filter" variant="outlined" />
+                    <TextField {...params} label={formatMessage(intl, "filterLbl")} variant="outlined" />
                 )}
             />
         </Toolbar>

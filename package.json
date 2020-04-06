@@ -98,6 +98,7 @@
     "@storybook/react": "^5.2.8",
     "@typescript-eslint/eslint-plugin": "^2.15.0",
     "@typescript-eslint/parser": "^2.15.0",
+    "axios-mock-adapter": "^1.18.1",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",

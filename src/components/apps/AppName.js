@@ -25,13 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AppName(props) {
-    const {
-        baseDebugId,
-        isDisabled,
-        name,
-        onAppNameClicked,
-        intl,
-    } = props;
+    const { baseDebugId, isDisabled, name, onAppNameClicked, intl } = props;
     const classes = useStyles();
     const classname =
         isDisabled || !onAppNameClicked

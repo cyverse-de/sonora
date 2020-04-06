@@ -225,7 +225,7 @@ function Listing(props) {
         detailsError,
         favMutationError,
         ratingMutationError,
-        intl
+        intl,
     ]);
 
     const toggleDisplay = () => {

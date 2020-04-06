@@ -112,8 +112,12 @@ function AppNavigation(props) {
             }
         });
 
-        hpcCat.icon = <StorageIcon />;
-        setCategories(privateCat.categories.concat(hpcCat));
+        if(hpcCat) {
+            hpcCat.icon = <StorageIcon/>;
+            setCategories(privateCat.categories.concat(hpcCat));
+        } else {
+            setCategories(privateCat.categories);
+        }
         handleCategoryChange(privateCat.categories[0]);
         handleFilterChange(getFilters()[0]);
     };

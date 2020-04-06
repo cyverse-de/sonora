@@ -11,8 +11,7 @@ import querystring from "querystring";
 
 import { terrainURL } from "../configuration";
 import logger from "../logging";
-
-import axios from "axios";
+import axiosInstance from "../../common/getAxios";
 
 /**
  * Returns an Express handler that can proxy most requests to Terrain. Does not handle
@@ -99,7 +98,6 @@ export const call = (
     };
 
     let requestOptions = {
-        method,
         withCredentials: true,
         headers: buildRequestOptionHeaders(),
         maxRedirects: 0,
@@ -116,7 +114,19 @@ export const call = (
         };
     }
 
-    requestOptions.url = apiURL.toString();
-
-    return axios(requestOptions);
+    const axiosUrl = apiURL.toString();
+    switch (method) {
+        case "GET":
+            return axiosInstance.get(axiosUrl, requestOptions);
+        case "POST":
+            return axiosInstance.post(axiosUrl, inStream, requestOptions);
+        case "PUT":
+            return axiosInstance.put(axiosUrl, inStream, requestOptions);
+        case "DELETE":
+            return axiosInstance.delete(axiosUrl, requestOptions);
+        case "HEAD":
+            return axiosInstance.head(axiosUrl, requestOptions);
+        default:
+            throw Error("Unsupported method " + method);
+    }
 };

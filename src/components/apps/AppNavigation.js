@@ -112,8 +112,8 @@ function AppNavigation(props) {
             }
         });
 
-        if(hpcCat) {
-            hpcCat.icon = <StorageIcon/>;
+        if (hpcCat) {
+            hpcCat.icon = <StorageIcon />;
             setCategories(privateCat.categories.concat(hpcCat));
         } else {
             setCategories(privateCat.categories);

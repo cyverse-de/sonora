@@ -128,7 +128,7 @@ export default callApi;
  * @returns {object}
  */
 export const checkForError = async (resp, { method, endpoint, headers }) => {
-    if (resp.status > 399 ) {
+    if (resp.status > 399) {
         throw await getAPIErrorFromResponse(resp, method, endpoint, headers);
     }
 

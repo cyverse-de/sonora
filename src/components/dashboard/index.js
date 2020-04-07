@@ -28,7 +28,18 @@ import ids from "./ids";
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        margin: "10px 20px 10px 20px",
+    },
+    gridRoot: {
+        // I have no idea why this gets rid of the horizontal scrolling and I'm past caring.
+        padding: "0 30px 0 30px",
+
+        overflow: "auto",
+        height: "100vh",
+
+        // This causes horizontal scrolling in storybook, but not in the actual app.
+        // Changing it to calc(100% - 200) seems to fix it for both, but seems too
+        // magical.
+        width: "100%",
     },
     dashboardCard: {
         width: 375,
@@ -127,7 +138,7 @@ const Dashboard = () => {
         }).then((data) => {
             setData(data);
         });
-    }, [setData]);
+    }, []);
 
     const sections = [
         ["analyses", "recent", getMessage("recentAnalyses")],
@@ -139,27 +150,30 @@ const Dashboard = () => {
     ];
 
     return (
-        <Grid container classes={{ root: classes.root }} spacing={7}>
-            {sections
-                .filter(
-                    ([kind, section, _label]) =>
-                        data[kind] !== undefined &&
-                        data[kind][section] !== undefined
-                )
-                .filter(
-                    ([kind, section, _label]) => data[kind][section].length > 0
-                )
-                .map(([kind, section, label]) => {
-                    return (
-                        <DashboardSection
-                            kind={kind}
-                            key={`${kind}-${section}`}
-                            items={data[kind][section]}
-                            name={label}
-                        />
-                    );
-                })}
-        </Grid>
+        <div className={classes.gridRoot}>
+            <Grid container classes={{ root: classes.root }} spacing={7}>
+                {sections
+                    .filter(
+                        ([kind, section, _label]) =>
+                            data[kind] !== undefined &&
+                            data[kind][section] !== undefined
+                    )
+                    .filter(
+                        ([kind, section, _label]) =>
+                            data[kind][section].length > 0
+                    )
+                    .map(([kind, section, label]) => {
+                        return (
+                            <DashboardSection
+                                kind={kind}
+                                key={`${kind}-${section}`}
+                                items={data[kind][section]}
+                                name={label}
+                            />
+                        );
+                    })}
+            </Grid>
+        </div>
     );
 };
 

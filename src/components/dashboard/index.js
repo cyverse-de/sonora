@@ -29,17 +29,14 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
+    spacing: {
+        width: "calc(100% + 56px)", // This is the original setting from MUI itself
+        margin: "0px -28px 128px -28px", // This is needed to get the vertical scrolling to stop cutting off the bottom of the content.
+    },
     gridRoot: {
-        // I have no idea why this gets rid of the horizontal scrolling and I'm past caring.
+        overflow: "auto", // Needed for vertical scrolling.
+        height: "100vh", // Needed to get the vertical scrolling working.
         padding: "0 30px 0 30px",
-
-        overflow: "auto",
-        height: "100vh",
-
-        // This causes horizontal scrolling in storybook, but not in the actual app.
-        // Changing it to calc(100% - 200) seems to fix it for both, but seems too
-        // magical.
-        width: "100%",
     },
     dashboardCard: {
         width: 375,
@@ -151,7 +148,15 @@ const Dashboard = () => {
 
     return (
         <div className={classes.gridRoot}>
-            <Grid container classes={{ root: classes.root }} spacing={7}>
+            <Grid
+                container
+                item
+                classes={{
+                    root: classes.root,
+                    "spacing-xs-7": classes.spacing,
+                }}
+                spacing={7}
+            >
                 {sections
                     .filter(
                         ([kind, section, _label]) =>

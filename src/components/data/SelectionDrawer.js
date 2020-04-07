@@ -24,7 +24,7 @@ import PropTypes from "prop-types";
 import ids from "./ids";
 import Listing from "./listing/Listing";
 import messages from "./messages";
-import EntityTypes from "../models/EntityTypes";
+import ResourceTypes from "../models/ResourceTypes";
 import styles from "./styles";
 
 const useStyles = makeStyles(styles);
@@ -64,7 +64,7 @@ function SelectionToolbar(props) {
     };
 
     let invalidNames = "";
-    if (EntityTypes.ANY !== acceptedType) {
+    if (ResourceTypes.ANY !== acceptedType) {
         invalidNames = selectedResources
             .filter((resource) => resource.type.toLowerCase() !== acceptedType)
             .map((resource) => resource.label)
@@ -159,7 +159,7 @@ function SelectionToolbar(props) {
 function SelectionDrawer(props) {
     const {
         startingPath,
-        acceptedType = EntityTypes.ANY,
+        acceptedType = ResourceTypes.ANY,
         open,
         multiSelect,
         onConfirm,
@@ -214,7 +214,7 @@ SelectionDrawer.propTypes = {
     // a bool to indicate whether the drawer is open
     open: PropTypes.bool.isRequired,
     // limits the data resource selection to that type
-    acceptedType: PropTypes.oneOf(Object.values(EntityTypes)),
+    acceptedType: PropTypes.oneOf(Object.values(ResourceTypes)),
     // whether multiple resources can be selected or not
     multiSelect: PropTypes.bool,
 };

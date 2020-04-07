@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import Drawer from "../../src/components/data/SelectionDrawer";
 import { fileTypesResp, pagedDirectoryResp, dataRootsResp } from "./DataMocks";
-import EntityTypes from "../../src/components/models/EntityTypes";
+import ResourceTypes from "../../src/components/models/ResourceTypes";
 import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
 
 import { Button, TextField } from "@material-ui/core";
@@ -94,7 +94,7 @@ export const SelectionDrawer = () => {
                     <Field
                         name="anySingleResource"
                         label="Any Single Resource"
-                        acceptedType={EntityTypes.ANY}
+                        acceptedType={ResourceTypes.ANY}
                         multiSelect={false}
                         startingPath="/iplant/home/ipcdev"
                         component={FormResourceSelector}
@@ -102,7 +102,7 @@ export const SelectionDrawer = () => {
                     <Field
                         name="singleFileOnly"
                         label="Single File Only"
-                        acceptedType={EntityTypes.FILE}
+                        acceptedType={ResourceTypes.FILE}
                         multiSelect={false}
                         startingPath="/iplant/home/ipcdev"
                         component={FormResourceSelector}
@@ -110,7 +110,7 @@ export const SelectionDrawer = () => {
                     <Field
                         name="singleFolderOnly"
                         label="Single Folder Only"
-                        acceptedType={EntityTypes.FOLDER}
+                        acceptedType={ResourceTypes.FOLDER}
                         multiSelect={false}
                         startingPath="/iplant/home/ipcdev"
                         component={FormResourceSelector}
@@ -118,7 +118,7 @@ export const SelectionDrawer = () => {
                     <Field
                         name="filesOnly"
                         label="Files Only"
-                        acceptedType={EntityTypes.FILE}
+                        acceptedType={ResourceTypes.FILE}
                         multiSelect={true}
                         startingPath="/iplant/home/ipcdev"
                         component={FormResourceSelector}
@@ -126,7 +126,7 @@ export const SelectionDrawer = () => {
                     <Field
                         name="foldersOnly"
                         label="Folders Only"
-                        acceptedType={EntityTypes.FOLDER}
+                        acceptedType={ResourceTypes.FOLDER}
                         multiSelect={true}
                         startingPath="/iplant/home/ipcdev"
                         component={FormResourceSelector}

@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from "react";
 
 import { withI18N } from "@cyverse-de/ui-lib";
-import { TablePagination, Toolbar } from "@material-ui/core";
+import { Toolbar } from "@material-ui/core";
 import { injectIntl } from "react-intl";
 
 import Header from "../Header";
@@ -19,6 +19,7 @@ import { camelcaseit } from "../../../common/functions";
 import Drawer from "../details/Drawer";
 import { getInfoTypes, getPagedListing } from "../../endpoints/Filesystem";
 import DataNavigation from "../DataNavigation";
+import DEPagination from "../../utils/DEPagination";
 
 function Listing(props) {
     const uploadTracker = useUploadTrackingState();
@@ -28,7 +29,7 @@ function Listing(props) {
     const [orderBy, setOrderBy] = useState("name");
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -63,7 +64,8 @@ function Listing(props) {
     useEffect(() => {
         if (path) {
             setLoading(true);
-            getPagedListing(path, rowsPerPage, orderBy, order, page).then(
+            //page starts at 0
+            getPagedListing(path, rowsPerPage, orderBy, order, page - 1).then(
                 (respData) => {
                     respData &&
                         setData({
@@ -195,9 +197,9 @@ function Listing(props) {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
+    const handleChangeRowsPerPage = (newPageSize) => {
+        setRowsPerPage(parseInt(newPageSize, 10));
+        setPage(1);
     };
 
     const onDetailsSelected = () => {
@@ -260,15 +262,15 @@ function Listing(props) {
                     />
                 )}
                 {isGridView && <span>Coming Soon!</span>}
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={data?.total}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
-                />
+                {data && data.total > 0 && (
+                    <DEPagination
+                        page={page}
+                        onChange={handleChangePage}
+                        totalPages={Math.ceil(data.total / rowsPerPage)}
+                        onPageSizeChange={handleChangeRowsPerPage}
+                        pageSize={rowsPerPage}
+                    />
+                )}
             </UploadDropTarget>
             {detailsOpen && (
                 <Drawer

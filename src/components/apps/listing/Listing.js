@@ -15,7 +15,6 @@ import {
     rateApp,
 } from "../../../serviceFacade/appServiceFacade";
 import TableView from "./TableView";
-import { TablePagination } from "@material-ui/core";
 import Header from "../Header";
 import AppNavigation from "../AppNavigation";
 import constants from "../../../constants";
@@ -30,6 +29,7 @@ import {
 } from "@cyverse-de/ui-lib";
 import { injectIntl } from "react-intl";
 import intlData from "../messages";
+import DEPagination from "../../utils/DEPagination";
 
 function Listing(props) {
     const { baseId, intl } = props;
@@ -38,7 +38,7 @@ function Listing(props) {
     const [orderBy, setOrderBy] = useState("name");
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [filter, setFilter] = useState(null);
@@ -151,9 +151,9 @@ function Listing(props) {
                     rowsPerPage,
                     orderBy,
                     order,
-                    page,
-                    categoryId,
                     appTypeFilter,
+                    page: page - 1,
+                    categoryId,
                 },
             ]);
             setAllAppsKey(null);
@@ -297,21 +297,22 @@ function Listing(props) {
     };
 
     const handleChangePage = (event, newPage) => {
-        setPage(newPage);
+        setPage(newPage); //page starts at 0
     };
+
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setSelected([]);
-        setPage(0);
+        setPage(1);
     };
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
         setOrderBy(property);
-        setPage(0);
         setSelected([]);
+        setPage(1);
     };
 
     const handleCategoryChange = (selectedCategory) => {
@@ -323,7 +324,7 @@ function Listing(props) {
         }
         setSelectedCategory(selectedCategory);
         setSelected([]);
-        setPage(0);
+        setPage(1);
     };
 
     const handleFilterChange = (filter) => {
@@ -373,15 +374,6 @@ function Listing(props) {
                 handleClick={handleClick}
                 handleRequestSort={handleRequestSort}
             />
-            <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={data?.total ? data.total : 0}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
             {detailsOpen && (
                 <Drawer
                     selectedApp={detailsApp}
@@ -400,6 +392,14 @@ function Listing(props) {
                     }
                     onRatingChange={onRatingChange}
                     onDeleteRatingClick={onDeleteRating}
+                    />)}
+            {data && data.total > 0 && (
+                <DEPagination
+                    page={page}
+                    onChange={handleChangePage}
+                    totalPages={Math.ceil(data.total / rowsPerPage)}
+                    onPageSizeChange={handleChangeRowsPerPage}
+                    pageSize={rowsPerPage}
                 />
             )}
         </>

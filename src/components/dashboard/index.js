@@ -9,12 +9,11 @@ import React, { useState, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/styles";
 import {
-    //Button,
+    Button,
     Card,
     CardActions,
     CardContent,
     Grid,
-    Link,
     Typography,
 } from "@material-ui/core";
 
@@ -95,11 +94,14 @@ export const DashboardItem = (props) => {
                     root: classes.actionsRoot,
                 }}
             >
-                <Link href={content.link} color="primary">
-                    <Typography variant="body2">
-                        {getMessage("open")}
-                    </Typography>
-                </Link>
+                <Button
+                    href={content.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    color="primary"
+                >
+                    {getMessage("open")}
+                </Button>
             </CardActions>
         </Card>
     );

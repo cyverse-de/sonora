@@ -11,9 +11,14 @@ import {
     MenuList,
     Paper,
     Popper,
+    Tooltip,
     useMediaQuery,
 } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import { injectIntl } from "react-intl";
+import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import ids from "./ids";
+import intlData from "./messages";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -32,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const options = [25, 50, 100, 200, 500];
 
 function ItemsPerPage(props) {
-    const { onPageSizeChange, selectedPageSize } = props;
+    const { onPageSizeChange, selectedPageSize, baseId, intl } = props;
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
@@ -52,23 +57,24 @@ function ItemsPerPage(props) {
         }
         setOpen(false);
     };
-
+    const menuId = build(baseId, ids.PAGE_SIZE_MENU);
     return (
         <>
-            <Button
-                className={classes.buttonPadding}
-                color="primary"
-                size="small"
-                ref={anchorRef}
-                aria-controls={open ? "page-size-button-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-label="select page size"
-                aria-haspopup="menu"
-                onClick={handleToggle}
-            >
-                {selectedPageSize} <ArrowDropDownIcon />
-            </Button>
-
+            <Tooltip title={formatMessage(intl, "selectPageSize")}>
+                <Button
+                    className={classes.buttonPadding}
+                    color="primary"
+                    size="small"
+                    ref={anchorRef}
+                    aria-controls={open ? menuId : undefined}
+                    aria-expanded={open ? "true" : undefined}
+                    aria-label={formatMessage(intl, "selectPageSize")}
+                    aria-haspopup="menu"
+                    onClick={handleToggle}
+                >
+                    {selectedPageSize} <ArrowDropDownIcon/>
+                </Button>
+            </Tooltip>
             <Popper
                 open={open}
                 anchorEl={anchorRef.current}
@@ -88,7 +94,7 @@ function ItemsPerPage(props) {
                     >
                         <Paper>
                             <ClickAwayListener onClickAway={handleClose}>
-                                <MenuList id="page-size-button-menu">
+                                <MenuList id={menuId}>
                                     {options.map((option, index) => (
                                         <MenuItem
                                             key={option}
@@ -98,7 +104,7 @@ function ItemsPerPage(props) {
                                             onClick={(event) =>
                                                 handleMenuItemClick(
                                                     event,
-                                                    index
+                                                    index,
                                                 )
                                             }
                                         >
@@ -115,10 +121,18 @@ function ItemsPerPage(props) {
     );
 }
 
-export default function DEPagination(props) {
+function DEPagination(props) {
     const classes = useStyles();
     const theme = useTheme();
-    const { onChange, page, totalPages, onPageSizeChange, pageSize } = props;
+    const {
+        onChange,
+        page,
+        totalPages,
+        onPageSizeChange,
+        pageSize,
+        baseId,
+        intl,
+    } = props;
     const matches = useMediaQuery(theme.breakpoints.down("sm"));
     return (
         <Paper className={classes.paper}>
@@ -128,6 +142,7 @@ export default function DEPagination(props) {
                 </Hidden>
                 <Grid item>
                     <Pagination
+                        id={build(baseId, ids.PAGINATION_TOOLBAR)}
                         size={matches ? "small" : "medium"}
                         className={classes.paginationItems}
                         count={totalPages}
@@ -140,9 +155,13 @@ export default function DEPagination(props) {
                     <ItemsPerPage
                         onPageSizeChange={onPageSizeChange}
                         selectedPageSize={pageSize}
+                        baseId={baseId}
+                        intl={intl}
                     />
                 </Grid>
             </Grid>
         </Paper>
     );
 }
+
+export default withI18N(injectIntl(DEPagination), intlData);

@@ -269,6 +269,7 @@ function Listing(props) {
                         totalPages={Math.ceil(data.total / rowsPerPage)}
                         onPageSizeChange={handleChangeRowsPerPage}
                         pageSize={rowsPerPage}
+                        baseId={baseId}
                     />
                 )}
             </UploadDropTarget>

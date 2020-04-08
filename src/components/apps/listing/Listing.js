@@ -17,6 +17,7 @@ import {
 import TableView from "./TableView";
 import Header from "../Header";
 import AppNavigation from "../AppNavigation";
+import { getFilters } from "../AppNavigation";
 import constants from "../../../constants";
 import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
 import Drawer from "../details/Drawer";
@@ -41,8 +42,8 @@ function Listing(props) {
     const [page, setPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [filter, setFilter] = useState(null);
     const [appsInCategoryKey, setAppsInCategoryKey] = useState(null);
+    const [filter, setFilter] = useState(getFilters()[0]);
     const [allAppsKey, setAllAppsKey] = useState(null);
     const [data, setData] = useState(null);
     const [agaveAuthDialogOpen, setAgaveAuthDialogOpen] = useState(false);
@@ -138,7 +139,7 @@ function Listing(props) {
                     rowsPerPage,
                     orderBy,
                     order,
-                    page,
+                    page: page - 1,
                     appTypeFilter,
                 },
             ]);
@@ -297,7 +298,7 @@ function Listing(props) {
     };
 
     const handleChangePage = (event, newPage) => {
-        setPage(newPage); //page starts at 0
+        setPage(newPage);
     };
 
 
@@ -330,7 +331,7 @@ function Listing(props) {
     const handleFilterChange = (filter) => {
         setFilter(filter);
         setSelected([]);
-        setPage(0);
+        setPage(1);
     };
 
     const onDetailsSelected = () => {
@@ -400,6 +401,7 @@ function Listing(props) {
                     totalPages={Math.ceil(data.total / rowsPerPage)}
                     onPageSizeChange={handleChangeRowsPerPage}
                     pageSize={rowsPerPage}
+                    baseId={baseId}
                 />
             )}
         </>

@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function getFilters() {
+export function getFilters() {
     return Object.keys(appType).map((type) => {
         return {
             name: appType[type],
@@ -125,7 +125,6 @@ function AppNavigation(props) {
             setCategories(privateCat.categories);
         }
         handleCategoryChange(privateCat.categories[0]);
-        handleFilterChange(getFilters()[0]);
     };
 
     useQuery({

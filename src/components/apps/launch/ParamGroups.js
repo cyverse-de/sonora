@@ -6,7 +6,7 @@
 import React from "react";
 
 import sanitizeHtml from "sanitize-html";
-import { FastField, Field } from "formik";
+import { FastField, Field, getIn } from "formik";
 
 import constants from "./constants";
 import ids from "./ids";
@@ -231,6 +231,10 @@ const ParamGroupForm = withI18N((props) => {
     );
 }, messages);
 
+const ParamsReviewLabel = ({ error, label }) => {
+    return <Typography color={error ? "error" : "initial"}>{label}</Typography>;
+};
+
 const ParamsReviewValue = ({ param }) => {
     const { value, type } = param;
 
@@ -277,23 +281,35 @@ const ParamsReviewValue = ({ param }) => {
  * A table summarizing the app parameter values and step resource requirements
  * that will be included in the final analysis submission.
  */
-const ParamsReview = ({ groups }) => (
+const ParamsReview = ({ groups, errors }) => (
     <TableContainer component={Paper}>
         <Table>
             <TableBody>
-                {groups?.map((group) =>
-                    group.parameters.map(
-                        (param) =>
+                {groups?.map((group, groupIndex) =>
+                    group.parameters.map((param, paramIndex) => {
+                        const fieldName = `groups.${groupIndex}.parameters.${paramIndex}`;
+                        const paramError = getIn(errors, fieldName);
+                        const hasValue = !!param.value || param.value === 0;
+
+                        return (
                             param.isVisible &&
-                            (!!param.value || param.value === 0) && (
+                            (paramError || hasValue) && (
                                 <TableRow key={param.id}>
-                                    <TableCell>{param.label}</TableCell>
                                     <TableCell>
-                                        <ParamsReviewValue param={param} />
+                                        <ParamsReviewLabel
+                                            error={!!paramError}
+                                            label={param.label}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        {hasValue && (
+                                            <ParamsReviewValue param={param} />
+                                        )}
                                     </TableCell>
                                 </TableRow>
                             )
-                    )
+                        );
+                    })
                 )}
             </TableBody>
         </Table>

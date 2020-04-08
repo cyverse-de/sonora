@@ -29,6 +29,7 @@ import {
     getMessage,
     formatMessage,
     stableSort,
+    getFormError,
     withI18N,
 } from "@cyverse-de/ui-lib";
 
@@ -112,6 +113,92 @@ const initValues = ({
         requirements: reqInitValues || [],
     };
 };
+
+const formatSubmission = ({
+    notify,
+    debug,
+    name,
+    description,
+    output_dir,
+    system_id,
+    app_id,
+    requirements,
+    groups,
+}) => ({
+    notify,
+    debug,
+    name: name.trim(),
+    description,
+    output_dir,
+    system_id,
+    app_id,
+    requirements,
+    config: groups?.reduce(paramConfigsReducer, {}),
+});
+
+const paramConfigsReducer = (configs, group) => {
+    group.parameters.forEach((param) => {
+        const { id, type } = param;
+
+        if (type !== constants.PARAM_TYPE.INFO) {
+            let { value } = param;
+
+            switch (type) {
+                case constants.PARAM_TYPE.FLAG:
+                    value = value && value !== "false";
+                    break;
+
+                case constants.PARAM_TYPE.FILE_OUTPUT:
+                case constants.PARAM_TYPE.FOLDER_OUTPUT:
+                case constants.PARAM_TYPE.MULTIFILE_OUTPUT:
+                    if (value) {
+                        value = value.trim();
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            configs[id] = value;
+        }
+    });
+
+    return configs;
+};
+
+const displayStepError = (stepIndex, errors, touched, groups) => {
+    if (stepIndex === 0) {
+        return (
+            getFormError("name", touched, errors) ||
+            getFormError("output_dir", touched, errors)
+        );
+    }
+
+    if (stepIndex === 1) {
+        return anyParamErrorAndTouched(errors, touched, groups);
+    }
+
+    return false;
+};
+
+const anyParamErrorAndTouched = (errors, touched, groups) =>
+    groups?.reduce(
+        (anyErrorAndTouched, group, groupIndex) =>
+            anyErrorAndTouched ||
+            group.parameters.reduce(
+                (groupErrorAndTouched, param, paramIndex) => {
+                    const fieldName = `groups.${groupIndex}.parameters.${paramIndex}`;
+
+                    return (
+                        groupErrorAndTouched ||
+                        getFormError(fieldName, touched, errors)
+                    );
+                },
+                false
+            ),
+        false
+    );
 
 const AppLaunchWizard = (props) => {
     const [activeStep, setActiveStep] = React.useState(0);
@@ -220,66 +307,14 @@ const AppLaunchWizard = (props) => {
             initialValues={initValues(props)}
             validate={validate}
             onSubmit={(values, { setSubmitting }) => {
-                const {
-                    notify,
-                    debug,
-                    name,
-                    description,
-                    output_dir,
-                    system_id,
-                    app_id,
-                    requirements,
-                    groups,
-                } = values;
-
-                const submission = {
-                    notify,
-                    debug,
-                    name: name.trim(),
-                    description,
-                    output_dir,
-                    system_id,
-                    app_id,
-                    requirements,
-                    config: groups?.reduce((configs, group) => {
-                        group.parameters.forEach((param) => {
-                            const { id, type } = param;
-
-                            if (type !== constants.PARAM_TYPE.INFO) {
-                                let { value } = param;
-
-                                switch (type) {
-                                    case constants.PARAM_TYPE.FLAG:
-                                        value = value && value !== "false";
-                                        break;
-
-                                    case constants.PARAM_TYPE.FILE_OUTPUT:
-                                    case constants.PARAM_TYPE.FOLDER_OUTPUT:
-                                    case constants.PARAM_TYPE.MULTIFILE_OUTPUT:
-                                        if (value) {
-                                            value = value.trim();
-                                        }
-                                        break;
-
-                                    default:
-                                        break;
-                                }
-
-                                configs[id] = value;
-                            }
-                        });
-                        return configs;
-                    }, {}),
-                };
-
                 submitAnalysis(
-                    submission,
+                    formatSubmission(values),
                     () => setSubmitting(false),
                     (errorMsg) => setSubmitting(false)
                 );
             }}
         >
-            {({ values, errors, handleSubmit, isSubmitting }) => (
+            {({ values, errors, touched, handleSubmit, isSubmitting }) => (
                 <Form id={formId}>
                     <Stepper alternativeLabel nonLinear activeStep={activeStep}>
                         {steps.map((step, index) => (
@@ -294,7 +329,12 @@ const AppLaunchWizard = (props) => {
                                 >
                                     <StepLabel
                                         error={
-                                            errors.steps && errors.steps[index]
+                                            !!displayStepError(
+                                                index,
+                                                errors,
+                                                touched,
+                                                groups
+                                            )
                                         }
                                     >
                                         {step.label}
@@ -351,7 +391,11 @@ const AppLaunchWizard = (props) => {
                         label={getMessage("launchOrSaveAsQL")}
                         hidden={activeStep !== stepReviewAndLaunch.step}
                     >
-                        <ParamsReview groups={values.groups} />
+                        <ParamsReview
+                            groups={values.groups}
+                            errors={errors}
+                            touched={touched}
+                        />
 
                         {values.requirements && (
                             <ResourceRequirementsReview

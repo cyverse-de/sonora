@@ -17,6 +17,8 @@ import {
     withI18N,
 } from "@cyverse-de/ui-lib";
 import {
+    fade,
+    makeStyles,
     Paper,
     Table,
     TableBody,
@@ -98,6 +100,22 @@ function getColumnCell(key, resource) {
     }
 }
 
+// Copied from MUI's TableRow code, changed the selected color to error intention
+const invalidRowStyles = makeStyles((theme) => ({
+    root: {
+        "&$selected, &$selected:hover": {
+            backgroundColor: fade(
+                theme.palette.error.main,
+                theme.palette.action.selectedOpacity
+            ),
+        },
+    },
+    /* Pseudo-class applied to the root element if `selected={true}`. */
+    selected: {},
+    /* Pseudo-class applied to the root element if `hover={true}`. */
+    hover: {},
+}));
+
 function TableView(props) {
     const {
         loading,
@@ -106,6 +124,7 @@ function TableView(props) {
         handlePathChange,
         listing,
         baseId,
+        isInvalidSelection = () => false,
         onDownloadSelected,
         onEditSelected,
         onMetadataSelected,
@@ -118,6 +137,7 @@ function TableView(props) {
         selected,
         intl,
     } = props;
+    const invalidRowClass = invalidRowStyles();
 
     const tableId = build(baseId, ids.listingTable);
     const [displayColumns, setDisplayColumns] = useState([
@@ -267,8 +287,29 @@ function TableView(props) {
                                 const resourceId = resource.id;
                                 const isSelected =
                                     selected.indexOf(resourceId) !== -1;
+                                const isInvalid =
+                                    isSelected && isInvalidSelection(resource);
                                 return (
                                     <TableRow
+                                        classes={
+                                            isInvalid ? invalidRowClass : null
+                                        }
+                                        title={
+                                            isInvalid
+                                                ? formatMessage(
+                                                      intl,
+                                                      "invalidSelectionRowTitle"
+                                                  )
+                                                : null
+                                        }
+                                        aria-label={
+                                            isInvalid
+                                                ? formatMessage(
+                                                      intl,
+                                                      "invalidSelectionRowTitle"
+                                                  )
+                                                : null
+                                        }
                                         role="checkbox"
                                         tabIndex={0}
                                         hover

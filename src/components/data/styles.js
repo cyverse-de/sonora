@@ -87,6 +87,15 @@ export default (theme) => ({
         wordBreak: "break-word",
     },
 
+    selectionDrawer: {
+        [theme.breakpoints.up("sm")]: {
+            width: "50%",
+        },
+        [theme.breakpoints.down("sm")]: {
+            width: "90%",
+        },
+    },
+
     tabIndicator: {
         backgroundColor: theme.palette.secondary.main,
     },

@@ -1,6 +1,5 @@
 import React from "react";
 
-import fetchMock from "fetch-mock";
 import { withKnobs, boolean, select } from "@storybook/addon-knobs";
 import DetailsDrawer from "../../src/components/data/details/Drawer";
 import {
@@ -12,6 +11,7 @@ import {
     resourceTagResp,
     resourceUpdatedInfoTypeResp,
 } from "./DataMocks";
+import { mockAxios } from "../axiosMock";
 
 export const DetailsDrawerTest = () => {
     const logger = (message) => {
@@ -177,20 +177,24 @@ export const DetailsDrawerTest = () => {
         ],
     };
 
-    fetchMock
-        .restore()
-        .post(
-            /\/api\/filesystem\/stat/,
+    mockAxios
+        .onPost(/\/api\/filesystem\/stat/)
+        .reply(
+            200,
             resourceTypeSelect.type === "FOLDER" ? dirStatResp : fileStatResp
-        )
-        .get(/\/api\/tags\/suggestions.*/, tagResp)
-        .post(/\/api\/filesystem\/user-permissions.*/, permissionsResp)
-        .get(/\/api\/user-info.*/, userInfoResp)
-        .patch(/\/api\/filesystem\/entry\/.*/, {})
-        .get(/\/api\/filesystem\/entry\/.*/, resourceTagResp)
-        .post(/\/api\/tags\/user/, addTagResp)
-        .post(/\/api\/filetypes\/type/, resourceUpdatedInfoTypeResp)
-        .post(/\/api\/share/, sharingResp, { delay: 1000 });
+        );
+    mockAxios.onGet(/\/api\/tags\/suggestions.*/).reply(200, tagResp);
+    mockAxios
+        .onPost(/\/api\/filesystem\/user-permissions.*/)
+        .reply(200, permissionsResp);
+    mockAxios.onGet(/\/api\/user-info.*/).reply(200, userInfoResp);
+    mockAxios.onPatch(/\/api\/filesystem\/entry\/.*/).reply(200, {});
+    mockAxios.onGet(/\/api\/filesystem\/entry\/.*/).reply(200, resourceTagResp);
+    mockAxios.onPost(/\/api\/tags\/user/).reply(200, addTagResp);
+    mockAxios
+        .onPost(/\/api\/filetypes\/type/)
+        .reply(200, resourceUpdatedInfoTypeResp);
+    mockAxios.onPost(/\/api\/share/, sharingResp).reply(200, { delay: 1000 });
 
     return (
         <DetailsDrawer

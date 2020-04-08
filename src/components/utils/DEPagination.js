@@ -72,7 +72,7 @@ function ItemsPerPage(props) {
                     aria-haspopup="menu"
                     onClick={handleToggle}
                 >
-                    {selectedPageSize} <ArrowDropDownIcon/>
+                    {selectedPageSize} <ArrowDropDownIcon />
                 </Button>
             </Tooltip>
             <Popper
@@ -104,7 +104,7 @@ function ItemsPerPage(props) {
                                             onClick={(event) =>
                                                 handleMenuItemClick(
                                                     event,
-                                                    index,
+                                                    index
                                                 )
                                             }
                                         >

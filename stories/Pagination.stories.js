@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import DEPagination from "../src/components/utils/DEPagination";
 
 export default { title: "Pagination" };

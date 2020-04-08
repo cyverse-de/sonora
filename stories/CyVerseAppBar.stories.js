@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { UserProfileProvider } from "../src/contexts/userProfile";
 import { IntercomProvider } from "../src/contexts/intercom";
 import CyverseAppBar from "../src/components/layout/CyVerseAppBar";

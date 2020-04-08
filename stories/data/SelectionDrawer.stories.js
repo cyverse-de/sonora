@@ -4,16 +4,17 @@ import Drawer from "../../src/components/data/SelectionDrawer";
 import { fileTypesResp, pagedDirectoryResp, dataRootsResp } from "./DataMocks";
 import ResourceTypes from "../../src/components/models/ResourceTypes";
 import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
+import { mockAxios } from "../axiosMock";
 
 import { Button, TextField } from "@material-ui/core";
-import fetchMock from "fetch-mock";
 import { Field, Form, Formik } from "formik";
 
 export const SelectionDrawer = () => {
-    fetchMock
-        .get(/\/api\/filesystem\/paged-directory.*/, pagedDirectoryResp)
-        .get(/\/api\/filesystem\/root.*/, dataRootsResp)
-        .get(/\/api\/filetypes\/type-list/, fileTypesResp);
+    mockAxios
+        .onGet(/\/api\/filesystem\/paged-directory.*/)
+        .reply(200, pagedDirectoryResp);
+    mockAxios.onGet(/\/api\/filesystem\/root.*/).reply(200, dataRootsResp);
+    mockAxios.onGet(/\/api\/filetypes\/type-list/).reply(200, fileTypesResp);
 
     function BrowseButton(props) {
         const {

@@ -1,9 +1,9 @@
 import React from "react";
 
-import fetchMock from "fetch-mock";
 import Listing from "../../src/components/data/listing/Listing";
 import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
 import { fileTypesResp, dataRootsResp } from "./DataMocks";
+import { mockAxios } from "../axiosMock";
 
 export default {
     title: "Data",
@@ -154,9 +154,10 @@ const successResp = {
 };
 
 export const DataListingTest = () => {
-    fetchMock
-        .get(/\/api\/filesystem\/paged-directory.*/, successResp)
-        .get(/\/api\/filesystem\/root.*/, dataRootsResp)
-        .get(/\/api\/filetypes\/type-list/, fileTypesResp);
+    mockAxios
+        .onGet(/\/api\/filesystem\/paged-directory.*/)
+        .reply(200, successResp);
+    mockAxios.onGet(/\/api\/filesystem\/root.*/).reply(200, dataRootsResp);
+    mockAxios.onGet(/\/api\/filetypes\/type-list/).reply(200, fileTypesResp);
     return <ListingTest />;
 };

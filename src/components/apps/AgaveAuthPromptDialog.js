@@ -26,15 +26,20 @@ function AgaveAuthPromptDialog(props) {
         window.location.replace(location);
         handleClose();
     };
+    const dialogTitleId = build(
+        baseId,
+        ids.AGAVE_AUTH_PROMPT_DIALOG,
+        ids.AGAVE_AUTH_PROMPT_DIALOG_TITLE
+    );
     return (
         <Dialog
             open={open}
             onClose={handleClose}
             id={build(baseId, ids.AGAVE_AUTH_PROMPT_DIALOG)}
             fullScreen={fullScreen}
-            aria-labelledby={formatMessage(intl, "agaveRedirectTitle")}
+            aria-labelledby={dialogTitleId}
         >
-            <DialogTitle>{getMessage("agaveRedirectTitle")}</DialogTitle>
+            <DialogTitle id={dialogTitleId}>{getMessage("agaveRedirectTitle")}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
                     {getMessage("agaveRedirectMessage")}

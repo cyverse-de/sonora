@@ -9,5 +9,10 @@ export default {
         changeSettings: "Change Settings",
         newsFeed: "News",
         eventsFeed: "Events",
+        integratedBy: "Integrated by",
+        editedBy: "Edited by",
+        startedBy: "Started by",
+        publishedBy: "Published by",
+        by: "By",
     },
 };

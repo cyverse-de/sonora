@@ -68,24 +68,24 @@ const getOrigination = (kind, content) => {
 
     switch (kind) {
         case constants.KIND_ANALYSES:
-            origination = "Started by";
+            origination = getMessage("startedBy");
             date = content.start_date;
             break;
         case constants.KIND_APPS:
             if (content.integration_date) {
-                origination = "Integrated by";
+                origination = getMessage("integratedBy");
                 date = content.integration_date;
             } else {
-                origination = "Edited by";
+                origination = getMessage("editedBy");
                 date = content.edited_date;
             }
             break;
         case constants.KIND_FEEDS:
-            origination = "Published by";
+            origination = getMessage("publishedBy");
             date = content.date_added;
             break;
         default:
-            origination = "By";
+            origination = getMessage("by");
             date = moment();
     }
 
@@ -97,21 +97,21 @@ const getOrigination = (kind, content) => {
 const cleanUsername = (username) => {
     let user;
     if (username) {
-        if (username.endsWith("@iplantcollaborative.org")) {
-            user = username.replace("@iplantcollaborative.org", "");
+        if (username.endsWith(constants.USER_SUFFIX)) {
+            user = username.replace(constants.USER_SUFFIX, "");
         } else {
             user = username;
         }
     } else {
-        user = "CyVerse";
+        user = constants.CYVERSE;
     }
     return user;
 };
 
 const cleanDescription = (description) => {
     let desc;
-    if (description.length > 140) {
-        desc = description.slice(0, 140) + "...";
+    if (description.length > constants.DESC_MAX_LENGTH) {
+        desc = description.slice(0, constants.DESC_MAX_LENGTH) + "...";
     } else {
         desc = description;
     }

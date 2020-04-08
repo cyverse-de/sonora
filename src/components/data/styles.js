@@ -63,14 +63,6 @@ export default (theme) => ({
         maxWidth: "100%",
     },
 
-    errorBackground: {
-        color: theme.palette.error.contrastText,
-        backgroundColor: theme.palette.error.main,
-        marginBottom: theme.spacing(1),
-        paddingTop: theme.spacing(1),
-        paddingBottom: theme.spacing(1),
-    },
-
     inputLabel: {
         marginTop: theme.spacing(1),
         color: theme.palette.text.primary,

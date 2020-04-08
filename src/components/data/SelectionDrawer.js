@@ -63,25 +63,19 @@ function SelectionToolbar(props) {
         }
     };
 
-    let invalidNames = "";
-    if (ResourceTypes.ANY !== acceptedType) {
-        invalidNames = selectedResources
-            .filter((resource) => resource.type.toLowerCase() !== acceptedType)
-            .map((resource) => resource.label)
-            .join(", ");
-    }
+    const invalidTotal =
+        ResourceTypes.ANY !== acceptedType
+            ? selectedResources.filter(
+                  (resource) => resource.type.toLowerCase() !== acceptedType
+              ).length
+            : 0;
 
-    const hasValidSelection = Boolean(selectedTotal && !invalidNames.length);
-    const hasInvalidSelection = selectedTotal && invalidNames.length;
+    const hasValidSelection = Boolean(selectedTotal && !invalidTotal);
+    const hasInvalidSelection = selectedTotal && invalidTotal;
 
     return (
         <>
-            <Toolbar
-                id={build(baseId, ids.SELECTION_TOOLBAR)}
-                className={
-                    invalidNames.length > 0 ? classes.errorBackground : null
-                }
-            >
+            <Toolbar id={build(baseId, ids.SELECTION_TOOLBAR)}>
                 <Typography>
                     {hasValidSelection
                         ? getMessage("selectedItems", {
@@ -91,7 +85,7 @@ function SelectionToolbar(props) {
                         ? getMessage("invalidSelection", {
                               values: {
                                   type: acceptedType,
-                                  items: invalidNames,
+                                  total: invalidTotal,
                               },
                           })
                         : getMessage("selectionSuggestion", {
@@ -161,7 +155,7 @@ function SelectionDrawer(props) {
         startingPath,
         acceptedType = ResourceTypes.ANY,
         open,
-        multiSelect,
+        multiSelect = false,
         onConfirm,
         onClose,
     } = props;
@@ -169,6 +163,12 @@ function SelectionDrawer(props) {
 
     const [currentPath, setCurrentPath] = useState(startingPath);
     const id = ids.SELECTION_DRAWER;
+
+    const isInvalidSelection = (resource) => {
+        return ResourceTypes.ANY !== acceptedType
+            ? resource.type.toLowerCase() !== acceptedType
+            : false;
+    };
 
     return (
         <Drawer
@@ -186,6 +186,7 @@ function SelectionDrawer(props) {
                 handlePathChange={setCurrentPath}
                 baseId={build(id, ids.DATA_VIEW)}
                 multiSelect={multiSelect}
+                isInvalidSelection={isInvalidSelection}
                 render={(selectedTotal, getSelectedResources) => (
                     <SelectionToolbar
                         baseId={id}

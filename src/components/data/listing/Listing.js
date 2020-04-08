@@ -43,6 +43,7 @@ function Listing(props) {
         path,
         handlePathChange,
         multiSelect = true,
+        isInvalidSelection = () => false,
         render,
     } = props;
 
@@ -245,6 +246,7 @@ function Listing(props) {
                         handlePathChange={handlePathChange}
                         listing={data?.listing}
                         baseId={baseId}
+                        isInvalidSelection={isInvalidSelection}
                         onDownloadSelected={onDownloadSelected}
                         onEditSelected={onEditSelected}
                         onMetadataSelected={onMetadataSelected}

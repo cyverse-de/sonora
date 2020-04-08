@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
         overflow: "auto", // Needed for vertical scrolling.
         height: "100vh", // Needed to get the vertical scrolling working.
         padding: "0 30px 0 30px",
+        backgroundColor: theme.palette.bgGray,
     },
     dashboardCard: {
         width: 450,
@@ -155,7 +156,7 @@ export const DashboardItem = (props) => {
                     noWrap
                     color="textSecondary"
                 >
-                    {`${origination} ${user} on ${date}`}
+                    {origination} {`${user} on ${date}`}
                 </Typography>
 
                 <Typography color="textSecondary" variant="body2" component="p">

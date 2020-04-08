@@ -6,6 +6,8 @@
  * @module callApi
  */
 
+import axiosInstance from "./getAxios";
+
 /**
  * A function which should help standardize how fetch calls are handled.
  * The promise returned from fetch is returned to the caller so more
@@ -36,32 +38,81 @@ const callApi = (props) => {
     const {
         method = "GET",
         endpoint,
-        body = false,
+        body,
         headers,
         setLoading,
         setError,
     } = props;
 
-    setLoading && setLoading(true);
-
-    return fetch(endpoint, {
-        method,
-        body: body ? JSON.stringify(body) : null,
+    const requestOptions = {
         headers: headers
             ? headers
             : {
                   "Content-Type": "application/json",
               },
         credentials: "include",
-    })
-        .then((resp) => checkForError(resp, props))
-        .then((resp) => resp.json())
-        .catch((error) => {
-            setError && setError(error);
-        })
-        .finally(() => {
-            setLoading && setLoading(false);
-        });
+    };
+    //TODO: Remove loading and error handling from this code once everything is ported to react-query
+    setLoading && setLoading(true);
+    switch (method) {
+        case "GET":
+            return axiosInstance
+                .get(endpoint, requestOptions)
+                .then((resp) => checkForError(resp, props))
+                .then((apiResponse) => apiResponse.data)
+                .catch((error) => {
+                    setError && setError(error);
+                })
+                .finally(() => {
+                    setLoading && setLoading(false);
+                });
+        case "POST":
+            return axiosInstance
+                .post(endpoint, body, requestOptions)
+                .then((resp) => checkForError(resp, props))
+                .then((apiResponse) => apiResponse.data)
+                .catch((error) => {
+                    setError && setError(error);
+                })
+                .finally(() => {
+                    setLoading && setLoading(false);
+                });
+        case "PUT":
+            return axiosInstance
+                .put(endpoint, body, requestOptions)
+                .then((resp) => checkForError(resp, props))
+                .then((apiResponse) => apiResponse.data)
+                .catch((error) => {
+                    setError && setError(error);
+                })
+                .finally(() => {
+                    setLoading && setLoading(false);
+                });
+        case "DELETE":
+            return axiosInstance
+                .delete(endpoint, requestOptions)
+                .then((resp) => checkForError(resp, props))
+                .then((apiResponse) => apiResponse.data)
+                .catch((error) => {
+                    setError && setError(error);
+                })
+                .finally(() => {
+                    setLoading && setLoading(false);
+                });
+        case "HEAD":
+            return axiosInstance
+                .head(endpoint, requestOptions)
+                .then((resp) => checkForError(resp, props))
+                .then((apiResponse) => apiResponse.data)
+                .catch((error) => {
+                    setError && setError(error);
+                })
+                .finally(() => {
+                    setLoading && setLoading(false);
+                });
+        default:
+            throw Error("Unsupported method " + method);
+    }
 };
 
 export default callApi;
@@ -77,7 +128,7 @@ export default callApi;
  * @returns {object}
  */
 export const checkForError = async (resp, { method, endpoint, headers }) => {
-    if (!resp.ok) {
+    if (resp.status > 399) {
         throw await getAPIErrorFromResponse(resp, method, endpoint, headers);
     }
 
@@ -127,7 +178,7 @@ export const getAPIErrorFromResponse = async (
     endpoint,
     headers
 ) => {
-    let errorMessage = await resp.text();
+    let errorMessage = await resp.data;
     let apiError;
 
     try {

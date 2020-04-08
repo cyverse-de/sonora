@@ -41,6 +41,7 @@ function getTableColumns(deletable, enableMenu) {
             key: AppFields.STATUS.key,
             id: AppFields.STATUS.key,
         },
+
         {
             name: AppFields.NAME.fieldName,
             enableSorting: true,
@@ -116,7 +117,7 @@ function TableView(props) {
                 <EnhancedTableHead
                     selectable={true}
                     numSelected={selected.length}
-                    rowsInPage={listing?.apps.length}
+                    rowsInPage={listing?.apps ? listing.apps.length : 0}
                     order={order}
                     orderBy={orderBy}
                     baseId={tableId}
@@ -155,7 +156,7 @@ function TableView(props) {
                                 const appName = app.name;
                                 const isSelected =
                                     selected.indexOf(appId) !== -1;
-                                const rowId = build(baseId, appId);
+                                const rowId = build(baseId, tableId, appId);
                                 return (
                                     <TableRow
                                         role="checkbox"
@@ -173,11 +174,7 @@ function TableView(props) {
                                             <DECheckbox
                                                 checked={isSelected}
                                                 tabIndex={0}
-                                                id={build(
-                                                    tableId,
-                                                    appName,
-                                                    ids.checkbox
-                                                )}
+                                                id={build(rowId, ids.checkbox)}
                                                 inputProps={{
                                                     "aria-label": formatMessage(
                                                         intl,

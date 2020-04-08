@@ -6,12 +6,12 @@
  * @module terrain
  */
 
-import fetch from "node-fetch";
 import path from "path";
 import querystring from "querystring";
 
 import { terrainURL } from "../configuration";
 import logger from "../logging";
+import axiosInstance from "../../common/getAxios";
 
 /**
  * Returns an Express handler that can proxy most requests to Terrain. Does not handle
@@ -40,10 +40,20 @@ export const handler = ({ method, pathname, headers }) => {
         )
             .then((apiResponse) => {
                 res.status(apiResponse.status);
-                apiResponse.body.pipe(res);
+                res.send(apiResponse.data);
             })
             .catch((e) => {
-                res.status(500).send(e.message);
+                if (e.response && e.response.status === 302) {
+                    //if we don't set it to 200, react-query wont get the custom response with Location
+                    res.status(200);
+                    res.send({
+                        Location: e.response.headers.location,
+                        status: 302,
+                    });
+                } else {
+                    res.status(500);
+                    res.send(e.response.data);
+                }
             });
     };
 };
@@ -90,14 +100,10 @@ export const call = (
     };
 
     let requestOptions = {
-        method,
-        credentials: "include",
+        withCredentials: true,
         headers: buildRequestOptionHeaders(),
+        maxRedirects: 0,
     };
-
-    if (!["GET", "HEAD"].includes(method)) {
-        requestOptions.body = inStream;
-    }
 
     if (headers) {
         requestOptions.headers = {
@@ -106,5 +112,23 @@ export const call = (
         };
     }
 
-    return fetch(apiURL, requestOptions);
+    const axiosUrl = apiURL.toString();
+    switch (method) {
+        case "GET":
+            return axiosInstance.get(axiosUrl, requestOptions);
+        case "POST":
+            return axiosInstance.post(axiosUrl, inStream, requestOptions);
+
+        case "PUT":
+            return axiosInstance.put(axiosUrl, inStream, requestOptions);
+
+        case "DELETE":
+            return axiosInstance.delete(axiosUrl, requestOptions);
+
+        case "HEAD":
+            return axiosInstance.head(axiosUrl, requestOptions);
+
+        default:
+            throw Error("Unsupported method " + method);
+    }
 };

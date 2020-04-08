@@ -3,6 +3,15 @@ import renderer from "react-test-renderer";
 
 import { AppTiles } from "../../stories/apps/AppTile.stories";
 import { AppsTableViewTest } from "../../stories/apps/TableView.stories";
+import { mockAxios } from "../../stories/axiosMock";
+
+beforeEach(() => {
+    mockAxios.reset();
+});
+
+afterEach(() => {
+    mockAxios.reset();
+});
 
 test("App Tile renders", () => {
     const component = renderer.create(<AppTiles />);

@@ -23,7 +23,7 @@ function MockUserProfile() {
                 },
             });
         }
-    }, [setUserProfile]);
+    }, [setUserProfile, userProfile]);
 
     return <div />;
 }

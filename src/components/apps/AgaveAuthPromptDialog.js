@@ -13,13 +13,12 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
-import { build, getMessage, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import intlData from "./messages";
 import ids from "./ids";
-import { injectIntl } from "react-intl";
 
 function AgaveAuthPromptDialog(props) {
-    const { baseId, location, open, handleClose, intl } = props;
+    const { baseId, location, open, handleClose } = props;
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
     const redirectUser = () => {
@@ -39,7 +38,9 @@ function AgaveAuthPromptDialog(props) {
             fullScreen={fullScreen}
             aria-labelledby={dialogTitleId}
         >
-            <DialogTitle id={dialogTitleId}>{getMessage("agaveRedirectTitle")}</DialogTitle>
+            <DialogTitle id={dialogTitleId}>
+                {getMessage("agaveRedirectTitle")}
+            </DialogTitle>
             <DialogContent>
                 <DialogContentText>
                     {getMessage("agaveRedirectMessage")}
@@ -72,4 +73,4 @@ function AgaveAuthPromptDialog(props) {
     );
 }
 
-export default withI18N(injectIntl(AgaveAuthPromptDialog), intlData);
+export default withI18N(AgaveAuthPromptDialog, intlData);

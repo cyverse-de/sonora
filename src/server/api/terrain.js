@@ -50,8 +50,10 @@ export const handler = ({ method, pathname, headers }) => {
                         Location: e.response.headers.location,
                         status: 302,
                     });
+                } else {
+                    res.status(500);
+                    res.send(e.response.data);
                 }
-                res.status(500).send(e.message);
             });
     };
 };
@@ -103,10 +105,6 @@ export const call = (
         maxRedirects: 0,
     };
 
-    if (!["GET", "HEAD"].includes(method)) {
-        requestOptions.data = inStream;
-    }
-
     if (headers) {
         requestOptions.headers = {
             ...requestOptions.headers,
@@ -120,12 +118,16 @@ export const call = (
             return axiosInstance.get(axiosUrl, requestOptions);
         case "POST":
             return axiosInstance.post(axiosUrl, inStream, requestOptions);
+
         case "PUT":
             return axiosInstance.put(axiosUrl, inStream, requestOptions);
+
         case "DELETE":
             return axiosInstance.delete(axiosUrl, requestOptions);
+
         case "HEAD":
             return axiosInstance.head(axiosUrl, requestOptions);
+
         default:
             throw Error("Unsupported method " + method);
     }

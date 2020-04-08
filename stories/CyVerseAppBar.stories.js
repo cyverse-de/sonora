@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { UserProfileProvider } from "../src/contexts/userProfile";
 import { IntercomProvider } from "../src/contexts/intercom";
 import CyverseAppBar from "../src/components/layout/CyVerseAppBar";
-import fetchMock from "fetch-mock";
+import { mockAxios } from "./axiosMock";
 
 const mockUser = {
     id: "mockUser",
@@ -21,21 +21,19 @@ const intercomSettings = {
     companyId: "companyId",
     companyName: "companyName",
 };
-class AppBarTest extends Component {
-    render() {
-        return (
-            <IntercomProvider value={intercomSettings}>
-                <UserProfileProvider>
-                    <CyverseAppBar />
-                </UserProfileProvider>
-            </IntercomProvider>
-        );
-    }
+function AppBarTest() {
+    mockAxios.onGet("/api/profile").reply(200, mockUser);
+    return (
+        <IntercomProvider value={intercomSettings}>
+            <UserProfileProvider>
+                <CyverseAppBar />
+            </UserProfileProvider>
+        </IntercomProvider>
+    );
 }
 
 export default { title: "App Bar" };
 
 export const AppBar = () => {
-    fetchMock.restore().get("/api/profile", mockUser);
     return <AppBarTest />;
 };

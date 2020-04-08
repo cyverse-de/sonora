@@ -13,9 +13,12 @@ import {
     Card,
     CardActions,
     CardContent,
+    Divider,
     Grid,
     Typography,
 } from "@material-ui/core";
+
+import moment from "moment";
 
 import { getMessage, withI18N, build as buildID } from "@cyverse-de/ui-lib";
 
@@ -23,10 +26,17 @@ import callApi from "../../common/callApi";
 
 import messages from "./messages";
 import ids from "./ids";
+import * as constants from "./constants";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+    },
+    dividerRoot: {
+        marginBottom: 15,
+    },
+    subtitle: {
+        marginBottom: 15,
     },
     spacing: {
         width: "calc(100% + 56px)", // This is the original setting from MUI itself
@@ -38,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
         padding: "0 30px 0 30px",
     },
     dashboardCard: {
-        width: 375,
-        height: 200,
+        width: 450,
+        height: 225,
         display: "flex",
         flexDirection: "column",
 
@@ -51,6 +61,62 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: "auto",
     },
 }));
+
+const getOrigination = (kind, content) => {
+    let origination;
+    let date;
+
+    switch (kind) {
+        case constants.KIND_ANALYSES:
+            origination = "Started by";
+            date = content.start_date;
+            break;
+        case constants.KIND_APPS:
+            if (content.integration_date) {
+                origination = "Integrated by";
+                date = content.integration_date;
+            } else {
+                origination = "Edited by";
+                date = content.edited_date;
+            }
+            break;
+        case constants.KIND_FEEDS:
+            origination = "Published by";
+            date = content.date_added;
+            break;
+        default:
+            origination = "By";
+            date = moment();
+    }
+
+    date = moment(date).format("MMMM Do YYYY, h:mm:ss a");
+
+    return [origination, date];
+};
+
+const cleanUsername = (username) => {
+    let user;
+    if (username) {
+        if (username.endsWith("@iplantcollaborative.org")) {
+            user = username.replace("@iplantcollaborative.org", "");
+        } else {
+            user = username;
+        }
+    } else {
+        user = "CyVerse";
+    }
+    return user;
+};
+
+const cleanDescription = (description) => {
+    let desc;
+    if (description.length > 140) {
+        desc = description.slice(0, 140) + "...";
+    } else {
+        desc = description;
+    }
+    return desc;
+};
 
 /**
  * An item in the dashboard.
@@ -65,10 +131,9 @@ export const DashboardItem = (props) => {
     const { kind, content } = props;
     const cardID = `${kind}-${content.id}`;
 
-    let description = content.description;
-    if (description.length > 140) {
-        description = description.slice(0, 140) + "...";
-    }
+    const description = cleanDescription(content.description);
+    const [origination, date] = getOrigination(kind, content);
+    const user = cleanUsername(content.username);
 
     return (
         <Card
@@ -80,8 +145,17 @@ export const DashboardItem = (props) => {
                     root: classes.root,
                 }}
             >
-                <Typography noWrap gutterBottom variant="h6" component="h6">
+                <Typography noWrap variant="h6" component="h6">
                     {content.name}
+                </Typography>
+
+                <Typography
+                    classes={{ root: classes.subtitle }}
+                    gutterBottom
+                    noWrap
+                    color="textSecondary"
+                >
+                    {`${origination} ${user} on ${date}`}
                 </Typography>
 
                 <Typography color="textSecondary" variant="body2" component="p">
@@ -108,15 +182,25 @@ export const DashboardItem = (props) => {
 };
 
 const DashboardSection = ({ name, kind, items }) => {
+    const classes = useStyles();
+
     return (
         <Grid container item xs={12}>
             <Grid item xs={12}>
-                <Typography noWrap gutterBottom variant="h5" component="h5">
+                <Typography
+                    noWrap
+                    gutterBottom
+                    variant="h5"
+                    component="h5"
+                    color="primary"
+                >
                     {name}
                 </Typography>
+
+                <Divider classes={{ root: classes.dividerRoot }} />
             </Grid>
 
-            <Grid container item xs={12} spacing={2}>
+            <Grid container item xs={12} spacing={1}>
                 {items.map((item) => (
                     <Grid item key={item.id}>
                         <DashboardItem kind={kind} content={item} />
@@ -140,12 +224,32 @@ const Dashboard = () => {
     }, []);
 
     const sections = [
-        ["analyses", "recent", getMessage("recentAnalyses")],
-        ["analyses", "running", getMessage("runningAnalyses")],
-        ["apps", "recentlyAdded", getMessage("recentlyAddedApps")],
-        ["apps", "public", getMessage("publicApps")],
-        ["feeds", "news", getMessage("newsFeed")],
-        ["feeds", "events", getMessage("eventsFeed")],
+        [
+            constants.KIND_ANALYSES,
+            constants.SECTION_RECENT,
+            getMessage("recentAnalyses"),
+        ],
+        [
+            constants.KIND_ANALYSES,
+            constants.SECTION_RUNNING,
+            getMessage("runningAnalyses"),
+        ],
+        [
+            constants.KIND_APPS,
+            constants.SECTION_RECENTLY_ADDED,
+            getMessage("recentlyAddedApps"),
+        ],
+        [
+            constants.KIND_APPS,
+            constants.SECTION_PUBLIC,
+            getMessage("publicApps"),
+        ],
+        [constants.KIND_FEEDS, constants.SECTION_NEWS, getMessage("newsFeed")],
+        [
+            constants.KIND_FEEDS,
+            constants.SECTION_EVENTS,
+            getMessage("eventsFeed"),
+        ],
     ];
 
     return (

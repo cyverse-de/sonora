@@ -18,6 +18,7 @@ export const DashboardTest = () => {
                     description: "Rstudio DESeq2 VICE image",
                     wiki_url: null,
                     integration_date: null,
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2020-02-03T22:30:53.789Z",
                 },
                 {
@@ -26,6 +27,7 @@ export const DashboardTest = () => {
                     description: "asdf",
                     wiki_url: null,
                     integration_date: null,
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2014-12-08T06:01:37.242Z",
                 },
                 {
@@ -34,6 +36,7 @@ export const DashboardTest = () => {
                     description: "sequenceserver test app",
                     wiki_url: null,
                     integration_date: null,
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2019-10-29T21:04:26.403Z",
                 },
                 {
@@ -42,6 +45,7 @@ export const DashboardTest = () => {
                     description: "asdf",
                     wiki_url: null,
                     integration_date: null,
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2017-05-17T23:54:54.624Z",
                 },
                 {
@@ -51,6 +55,7 @@ export const DashboardTest = () => {
                         "A test app for testing a tool that has a significant delay or amount of processing to perform in its entrpoint.",
                     wiki_url: null,
                     integration_date: null,
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2019-03-25T15:36:04.700Z",
                 },
                 {
@@ -59,6 +64,7 @@ export const DashboardTest = () => {
                     description: "testing testing testing",
                     wiki_url: null,
                     integration_date: null,
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2019-03-26T18:39:53.693Z",
                 },
                 {
@@ -67,6 +73,7 @@ export const DashboardTest = () => {
                     description: "testing",
                     wiki_url: null,
                     integration_date: null,
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2019-04-17T18:58:46.260Z",
                 },
                 {
@@ -76,6 +83,7 @@ export const DashboardTest = () => {
                         "This is a demonstration application for the genomics education alliance RNA-Seq pipeline",
                     wiki_url: null,
                     integration_date: null,
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2019-05-20T17:21:07.223Z",
                 },
                 {
@@ -85,6 +93,7 @@ export const DashboardTest = () => {
                         "A Dockerized Jupyter Notebook for Interactive Oxford Nanopore MinION Sequence Manipulation and Genome Assembly",
                     wiki_url: null,
                     integration_date: null,
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2019-09-13T05:28:39.256Z",
                 },
                 {
@@ -93,6 +102,7 @@ export const DashboardTest = () => {
                     description: "Demo of ssh and ttyd",
                     wiki_url: null,
                     integration_date: null,
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2019-09-13T17:27:41.445Z",
                 },
             ],
@@ -103,6 +113,7 @@ export const DashboardTest = () => {
                     description: "Testing new app endpoints.  Modified.",
                     wiki_url: null,
                     integration_date: "2020-03-16T07:14:46.656Z",
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2020-03-16T07:14:56.813Z",
                 },
                 {
@@ -112,6 +123,7 @@ export const DashboardTest = () => {
                         "This is a new description for the shared app.",
                     wiki_url: null,
                     integration_date: "2020-03-16T07:14:35.636Z",
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2020-03-16T07:14:35.636Z",
                 },
                 {
@@ -121,6 +133,7 @@ export const DashboardTest = () => {
                         "VICE app with jupyter lab and snakemake-minimal. Also conda and RNAseq analysis tools",
                     wiki_url: null,
                     integration_date: "2020-03-10T21:48:05.803Z",
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2020-03-10T21:48:05.803Z",
                 },
                 {
@@ -130,6 +143,7 @@ export const DashboardTest = () => {
                         "HTSeqQC is an automated quality control analysis tool for a single and paired-end high-throughput sequencing data (HTS) generated from Illumina sequencing platforms.",
                     wiki_url: null,
                     integration_date: "2020-03-09T21:13:54.884Z",
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2020-03-09T21:13:54.884Z",
                 },
                 {
@@ -139,6 +153,7 @@ export const DashboardTest = () => {
                         "Compares statistical properties of two sets of protein sequences.",
                     wiki_url: null,
                     integration_date: "2020-03-04T18:40:22.199Z",
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2020-03-04T18:40:22.199Z",
                 },
                 {
@@ -147,6 +162,7 @@ export const DashboardTest = () => {
                     description: "Performs ALLMAPS merge and path",
                     wiki_url: null,
                     integration_date: "2020-03-02T15:36:48.063Z",
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2020-03-02T15:36:48.063Z",
                 },
                 {
@@ -156,6 +172,7 @@ export const DashboardTest = () => {
                         "ALLMAPS orders scaffolds by maximizing colinearity to a collection of genetic/genomic maps into the final chromosome build.  This is step one: merging maps into a bed file and generating the weights file. http://goo.gl/KI61Ow",
                     wiki_url: null,
                     integration_date: "2020-03-02T15:33:49.287Z",
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2020-03-02T15:33:49.287Z",
                 },
                 {
@@ -165,6 +182,7 @@ export const DashboardTest = () => {
                         "desktop running Xpra with QGIS, SAGA-GIS, GRASS, GDAL, PDAL",
                     wiki_url: null,
                     integration_date: "2020-02-17T22:20:28.291Z",
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2020-02-17T22:20:28.291Z",
                 },
                 {
@@ -174,6 +192,7 @@ export const DashboardTest = () => {
                         "Image-based plant disease prediction app that uses CNNs http://plantmd.onrender.com",
                     wiki_url: null,
                     integration_date: "2020-02-17T21:33:53.387Z",
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2020-02-17T21:33:53.387Z",
                 },
                 {
@@ -183,6 +202,7 @@ export const DashboardTest = () => {
                         "Point Data Abstraction Library (PDAL) - https://pdal.io/ \n\nUSGS Entwine Point Tile (EPT) archive: https://usgs.entwine.io/ \n\nTool uses a pre-existing JSON file that extracts data from the USGS EPT archive \n\nPipeline needs to follow the EPT format example https://pdal.io/tutorial/iowa-entwine.html#pipeline",
                     wiki_url: null,
                     integration_date: "2020-01-29T23:15:52.339Z",
+                    username: "ipctest@iplantcollaborative.org",
                     edited_date: "2020-01-29T23:15:52.339Z",
                 },
             ],

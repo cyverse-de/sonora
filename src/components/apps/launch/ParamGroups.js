@@ -7,6 +7,9 @@ import React from "react";
 
 import sanitizeHtml from "sanitize-html";
 import { FastField, Field, getIn } from "formik";
+import { injectIntl } from "react-intl";
+
+import GlobalConstants from "../../../constants";
 
 import constants from "./constants";
 import ids from "./ids";
@@ -23,6 +26,7 @@ import {
     FormNumberField,
     FormSelectField,
     FormTextField,
+    formatMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
 
@@ -281,39 +285,53 @@ const ParamsReviewValue = ({ param }) => {
  * A table summarizing the app parameter values and step resource requirements
  * that will be included in the final analysis submission.
  */
-const ParamsReview = ({ groups, errors }) => (
-    <TableContainer component={Paper}>
-        <Table>
-            <TableBody>
-                {groups?.map((group, groupIndex) =>
-                    group.parameters.map((param, paramIndex) => {
-                        const fieldName = `groups.${groupIndex}.parameters.${paramIndex}`;
-                        const paramError = getIn(errors, fieldName);
-                        const hasValue = !!param.value || param.value === 0;
+const ParamsReview = injectIntl(({ appType, groups, errors, intl }) => (
+    <>
+        {appType === GlobalConstants.APP_TYPE_EXTERNAL && (
+            <Typography
+                variant="body1"
+                gutterBottom
+                dangerouslySetInnerHTML={{
+                    __html: formatMessage(intl, "hpcAppWaitTimes"),
+                }}
+            />
+        )}
 
-                        return (
-                            param.isVisible &&
-                            (paramError || hasValue) && (
-                                <TableRow key={param.id}>
-                                    <TableCell>
-                                        <ParamsReviewLabel
-                                            error={!!paramError}
-                                            label={param.label}
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        {hasValue && (
-                                            <ParamsReviewValue param={param} />
-                                        )}
-                                    </TableCell>
-                                </TableRow>
-                            )
-                        );
-                    })
-                )}
-            </TableBody>
-        </Table>
-    </TableContainer>
-);
+        <TableContainer component={Paper}>
+            <Table>
+                <TableBody>
+                    {groups?.map((group, groupIndex) =>
+                        group.parameters.map((param, paramIndex) => {
+                            const fieldName = `groups.${groupIndex}.parameters.${paramIndex}`;
+                            const paramError = getIn(errors, fieldName);
+                            const hasValue = !!param.value || param.value === 0;
+
+                            return (
+                                param.isVisible &&
+                                (paramError || hasValue) && (
+                                    <TableRow key={param.id}>
+                                        <TableCell>
+                                            <ParamsReviewLabel
+                                                error={!!paramError}
+                                                label={param.label}
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                            {hasValue && (
+                                                <ParamsReviewValue
+                                                    param={param}
+                                                />
+                                            )}
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                            );
+                        })
+                    )}
+                </TableBody>
+            </Table>
+        </TableContainer>
+    </>
+));
 
 export { ParamGroupForm, ParamsReview };

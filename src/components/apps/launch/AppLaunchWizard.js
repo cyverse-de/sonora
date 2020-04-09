@@ -392,6 +392,7 @@ const AppLaunchWizard = (props) => {
                         hidden={activeStep !== stepReviewAndLaunch.step}
                     >
                         <ParamsReview
+                            appType={app_type}
                             groups={values.groups}
                             errors={errors}
                             touched={touched}

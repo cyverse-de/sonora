@@ -2,6 +2,19 @@ const helpMsgResourceRequirements = `These Resource Requirements may be adjusted
 Note that this may cause the analysis to wait longer in the submission queue until a node that matches those minimum requirements becomes available.
 So generally it is advisable to leave the resource requests set to the defaults that the tool or app integrator has set.`;
 
+const hpcAppWaitTimes = `This application runs on XSEDE, the U.S. National Supercomputing Network.
+Analyses run on this system enter a queue that includes many non-CyVerse users.
+Wait times for your analyses (jobs) to submit and run may be up to several days for large-memory applications.
+Please do not resubmit your analysis.
+If the status of your analysis has not changed from Submitted to Running after several days, contact
+<a href="mailto:support@cyverse.org">support@cyverse.org</a>.
+To learn more about HPC apps, see
+<a href="https://pods.iplantcollaborative.org/wiki/x/MYOdAQ" target="_blank" rel="noopener">Using HPC Apps in the DE</a>.
+<br/>
+Apply for your own XSEDE allocation to gain access to additional resources at
+<a href="https://portal.xsede.org/allocation-request-steps" target="_blank" rel="noopener">XRAS - Submit Allocation Request</a>.
+Access to this powerful system is made available to CyVerse users at no cost through a grant from the National Science Foundation.`;
+
 export default {
     locales: "en-us",
     messages: {
@@ -11,6 +24,7 @@ export default {
         back: "Back",
         comments: "Comments",
         helpMsgResourceRequirements,
+        hpcAppWaitTimes,
         launchAnalysis: "Launch Analysis",
         launchOrSaveAsQL: "Launch or Save as Quick Launch",
         minDiskSpace: "Minimum Disk Space",

@@ -50,7 +50,13 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexWrap: "wrap",
         justifyContent: "flex-start",
-        padding: 5,
+        padding: 10,
+
+        // Try to eek as much space out of the iPhone SE cards as possible.
+        [theme.breakpoints.down("sm")]: {
+            padding: 0,
+            justifyContent: "center",
+        },
     },
     subtitle: {
         marginBottom: 15,
@@ -59,10 +65,9 @@ const useStyles = makeStyles((theme) => ({
         overflow: "auto", // Needed for vertical scrolling.
         height: "100vh", // Needed to get the vertical scrolling working.
         padding: "0 30px 0 30px",
-        backgroundColor: theme.palette.bgGray,
 
         [theme.breakpoints.down("sm")]: {
-            padding: "0 0 0 10px",
+            padding: "0 5px 0 5px",
         },
     },
     dashboardCard: {
@@ -73,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
         margin: 5,
 
         [theme.breakpoints.down("sm")]: {
-            width: 275,
+            width: 300,
         },
     },
     actionsRoot: {
@@ -159,6 +164,7 @@ export const DashboardItem = (props) => {
         <Card
             className={classes.dashboardCard}
             id={buildID(ids.ITEM_BASE, cardID)}
+            elevation={4}
         >
             <CardContent
                 classes={{

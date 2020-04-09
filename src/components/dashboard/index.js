@@ -18,7 +18,7 @@ import {
     Typography,
 } from "@material-ui/core";
 
-import moment from "moment";
+import { parse, format } from "date-fns";
 
 import { getMessage, withI18N, build as buildID } from "@cyverse-de/ui-lib";
 
@@ -87,10 +87,11 @@ const getOrigination = (kind, content) => {
             break;
         default:
             origination = getMessage("by");
-            date = moment();
+            date = new Date();
     }
 
-    date = moment(date).format("MMMM Do YYYY, h:mm:ss a");
+    date = parse(date);
+    date = format(date, "MMMM Do YYYY, h:mm:ss a");
 
     return [origination, date];
 };

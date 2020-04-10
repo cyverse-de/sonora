@@ -194,7 +194,7 @@ export const DetailsDrawerTest = () => {
     mockAxios
         .onPost(/\/api\/filetypes\/type/)
         .reply(200, resourceUpdatedInfoTypeResp);
-    mockAxios.onPost(/\/api\/share/, sharingResp).reply(200, { delay: 1000 });
+    mockAxios.onPost(/\/api\/share/).reply(200, sharingResp);
 
     return (
         <DetailsDrawer

@@ -5,9 +5,15 @@
  * creating, and applying tags to a resource.
  * Also contains a Paper component for displaying current tags.
  */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    build,
+    formatMessage,
+    getMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
 import {
     Chip,
     CircularProgress,
@@ -19,6 +25,7 @@ import {
 import { HighlightOff } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
 import { injectIntl } from "react-intl";
+import { queryCache, useMutation, useQuery } from "react-query";
 
 import ids from "./ids";
 import {
@@ -30,6 +37,7 @@ import {
 } from "../endpoints/Tags";
 import messages from "./messages";
 import styles from "./styles";
+import isQueryLoading from "../utils/isQueryLoading";
 
 const useStyles = makeStyles(styles);
 
@@ -39,68 +47,99 @@ function TagSearch(props) {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [options, setOptions] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [selectedTags, setSelectedTags] = useState([]);
 
-    useEffect(() => {
-        setLoading(true);
-        getTagsForResource(resource.id).then((resp) => {
-            setSelectedTags(resp.tags);
-            setLoading(false);
-        });
-    }, [resource]);
+    const resourceId = resource.id;
+    const fetchTagsQueryKey = ["dataTagsForResource", { resourceId }];
 
-    const fetchTagSuggestions = (searchTerm) => {
-        setLoading(true);
-        getTagSuggestions(searchTerm).then((resp) => {
-            setOptions(resp.tags);
-            setLoading(false);
-        });
-    };
+    const { isFetching: isFetchingTags } = useQuery({
+        queryKey: fetchTagsQueryKey,
+        queryFn: getTagsForResource,
+        config: {
+            onSuccess: (resp) => setSelectedTags(resp.tags),
+            onError: () =>
+                announce({
+                    text: formatMessage(intl, "fetchTagSuggestionsError"),
+                    variant: "error",
+                }),
+        },
+    });
+
+    const [fetchTagSuggestions, { status: tagSuggestionStatus }] = useMutation(
+        getTagSuggestions,
+        {
+            onSuccess: (resp) => {
+                setOptions(resp.tags);
+            },
+        }
+    );
+
+    const [removeTag, { status: tagDetachStatus }] = useMutation(
+        detachTagsFromResource,
+        {
+            onSuccess: () => queryCache.refetchQueries(fetchTagsQueryKey),
+            onError: () =>
+                announce({
+                    text: formatMessage(intl, "modifyTagsError"),
+                    variant: "error",
+                }),
+        }
+    );
 
     const onTagRemove = (selectedTag) => {
-        setLoading(true);
-        detachTagsFromResource([selectedTag.id], resource.id).then((resp) => {
-            const newTagList = selectedTags.filter(
-                (tag) => tag.id !== selectedTag.id
-            );
-            setSelectedTags(newTagList);
-            setLoading(false);
-        });
+        removeTag({ tagIds: [selectedTag.id], resourceId: resource.id });
     };
 
-    const createTag = (tagValue) => {
-        setLoading(true);
-        createUserTag(tagValue).then((resp) => {
-            const newTag = {
-                id: resp.id,
-                value: tagValue,
-            };
-            onTagSelected(null, newTag);
-        });
-    };
+    const [createTag, { status: tagCreationStatus }] = useMutation(
+        createUserTag,
+        {
+            onSuccess: (resp, variables) => {
+                const { value } = variables;
+                const newTag = {
+                    id: resp.id,
+                    value,
+                };
+                onTagSelected(null, newTag);
+            },
+            onError: () =>
+                announce({
+                    text: formatMessage(intl, "modifyTagsError"),
+                    variant: "error",
+                }),
+        }
+    );
+
+    const [attachTagToResource, { status: tagAttachStatus }] = useMutation(
+        attachTagsToResource,
+        {
+            onSuccess: () => {
+                setSearchTerm("");
+                return queryCache.refetchQueries(fetchTagsQueryKey);
+            },
+            onError: () =>
+                announce({
+                    text: formatMessage(intl, "modifyTagsError"),
+                    variant: "error",
+                }),
+        }
+    );
 
     const onTagSelected = (event, selectedTag) => {
         if (selectedTag) {
             const tagId = selectedTag.id;
-            setLoading(true);
             if (!tagId) {
-                createTag(selectedTag.tagValue);
+                createTag({ value: selectedTag.tagValue });
                 return;
             }
 
             // Check if a tag has already been added
             if (!selectedTags.find((tag) => tag.id === tagId)) {
-                attachTagsToResource([selectedTag.id], resource.id).then(
-                    (resp) => {
-                        setSelectedTags([...selectedTags, selectedTag]);
-                        setSearchTerm("");
-                        setLoading(false);
-                    }
-                );
+                attachTagToResource({
+                    tagIds: [selectedTag.id],
+                    resourceId: resource.id,
+                });
             } else {
                 setSearchTerm("");
-                setLoading(false);
             }
         }
     };
@@ -109,9 +148,17 @@ function TagSearch(props) {
         if (event) {
             const newSearchTerm = event.target.value;
             setSearchTerm(newSearchTerm);
-            fetchTagSuggestions(newSearchTerm);
+            fetchTagSuggestions({ searchTerm: newSearchTerm });
         }
     };
+
+    const loading = isQueryLoading([
+        tagAttachStatus,
+        tagCreationStatus,
+        tagDetachStatus,
+        isFetchingTags,
+        tagSuggestionStatus,
+    ]);
 
     return (
         <>

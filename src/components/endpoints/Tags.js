@@ -6,7 +6,7 @@ import callApi from "../../common/callApi";
  * @param searchLimit The max number of suggestions to return
  * @returns {Promise<any>}
  */
-export const getTagSuggestions = (searchTerm, searchLimit = 10) => {
+export const getTagSuggestions = ({ searchTerm, searchLimit = 10 }) => {
     return callApi({
         endpoint: `/api/tags/suggestions?contains=${searchTerm}&limit=${searchLimit}`,
     });
@@ -14,10 +14,11 @@ export const getTagSuggestions = (searchTerm, searchLimit = 10) => {
 
 /**
  * Get the tags currently attached to a resource
+ * @param key - Query key for react-query
  * @param resourceId The UUID of a resource
  * @returns {Promise<any>}
  */
-export const getTagsForResource = (resourceId) => {
+export const getTagsForResource = (key, { resourceId }) => {
     return callApi({
         endpoint: `/api/filesystem/entry/${resourceId}/tags`,
     });
@@ -25,12 +26,12 @@ export const getTagsForResource = (resourceId) => {
 
 /**
  * Create a tag for the user
- * @param tagValue A string value for the tag
+ * @param value A string value for the tag
  * @returns {Promise<any>}
  */
-export const createUserTag = (tagValue) => {
+export const createUserTag = ({ value }) => {
     const body = {
-        value: tagValue,
+        value,
     };
 
     return callApi({
@@ -46,7 +47,7 @@ export const createUserTag = (tagValue) => {
  * @param resourceId The UUID of a resource
  * @returns {Promise<any>}
  */
-export const attachTagsToResource = (tagIds, resourceId) => {
+export const attachTagsToResource = ({ tagIds, resourceId }) => {
     const body = {
         tags: tagIds,
     };
@@ -64,7 +65,7 @@ export const attachTagsToResource = (tagIds, resourceId) => {
  * @param resourceId The UUID of a resource
  * @returns {Promise<any>}
  */
-export const detachTagsFromResource = (tagIds, resourceId) => {
+export const detachTagsFromResource = ({ tagIds, resourceId }) => {
     const body = {
         tags: tagIds,
     };

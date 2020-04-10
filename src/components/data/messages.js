@@ -14,6 +14,9 @@ export default {
         download: "Download",
         editFile: "Edit File",
         emptyDataListing: "No files/folders",
+        fetchTagsError: "Unable to fetch tags. Please try again.",
+        fetchTagSuggestionsError:
+            "Unable to fetch tag suggestions.  Please try again.",
         fileSize: "File Size",
         gridView: "Grid View",
         importCoge: "Import Genome from CoGe",
@@ -25,6 +28,7 @@ export default {
         md5: "md5 Checksum",
         metadata: "Metadata",
         modified: "Modified",
+        modifyTagsError: "Unable to update tags. Please try again.",
         ok: "OK",
         own: "Own",
         path: "Path",

@@ -23,6 +23,7 @@ export default {
         analysisParameters: "Analysis Parameters",
         back: "Back",
         comments: "Comments",
+        errorLoadingReferenceGenomes: "Error loading Reference Genomes",
         helpMsgResourceRequirements,
         hpcAppWaitTimes,
         launchAnalysis: "Launch Analysis",

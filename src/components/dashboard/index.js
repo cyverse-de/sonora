@@ -21,8 +21,6 @@ import { parse, format } from "date-fns";
 
 import { getMessage, withI18N, build as buildID } from "@cyverse-de/ui-lib";
 
-import callApi from "../../common/callApi";
-
 import messages from "./messages";
 import ids from "./ids";
 import * as constants from "./constants";
@@ -238,11 +236,38 @@ const Dashboard = () => {
     const [data, setData] = useState({});
 
     useEffect(() => {
-        callApi({
-            endpoint: `/api/dashboard?limit=${constants.SECTION_ITEM_LIMIT}`,
-        }).then((data) => {
+        const fetcher = async () => {
+            let data = await fetch(
+                `/api/dashboard?limit=${constants.SECTION_ITEM_LIMIT}`,
+                {
+                    method: "GET",
+                    cache: "no-cache",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+                .then((resp) => {
+                    if (resp.status < 200 || resp.status > 299) {
+                        throw new Error(
+                            `${resp.status} ${resp.statusText} ${resp.text()}`
+                        );
+                    }
+                    return resp;
+                })
+                .then((resp) => resp.json())
+                .catch((e) => {
+                    console.log(e);
+                });
+
+            if (!data) {
+                data = {};
+            }
+
             setData(data);
-        });
+        };
+        fetcher();
     }, []);
 
     const sections = [

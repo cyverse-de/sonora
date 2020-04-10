@@ -39,11 +39,14 @@ export const handler = ({ method, pathname, headers }) => {
             req
         )
             .then((apiResponse) => {
+                res.set(apiResponse.headers);
                 res.status(apiResponse.status);
-                res.set("Content-Type", "application/json");
-                apiResponse.body.pipe(res);
+                res.send(apiResponse.data);
             })
-            .catch((e) => {
+            .catch(async (err) => {
+                console.log(err);
+                const e = await err;
+
                 if (e.response && e.response.status === 302) {
                     //if we don't set it to 200, react-query wont get the custom response with Location
                     res.status(200);

@@ -77,6 +77,17 @@ const callApi = (props) => {
                 .finally(() => {
                     setLoading && setLoading(false);
                 });
+        case "PATCH":
+            return axiosInstance
+                .patch(endpoint, body, requestOptions)
+                .then((resp) => checkForError(resp, props))
+                .then((apiResponse) => apiResponse.data)
+                .catch((error) => {
+                    setError && setError(error);
+                })
+                .finally(() => {
+                    setLoading && setLoading(false);
+                });
         case "PUT":
             return axiosInstance
                 .put(endpoint, body, requestOptions)

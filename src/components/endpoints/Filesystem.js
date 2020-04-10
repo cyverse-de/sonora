@@ -15,10 +15,11 @@ export const getResourceDetails = (paths) => {
 
 /**
  * Get permissions for data resources
+ * @param key - Query key for react-query
  * @param paths - An array of strings which are resource paths
  * @returns {Promise<any>}
  */
-export const getResourcePermissions = (paths) => {
+export const getResourcePermissions = (key, { paths }) => {
     return callApi({
         endpoint: "/api/filesystem/user-permissions",
         method: "POST",

@@ -14,6 +14,7 @@ export default {
         download: "Download",
         editFile: "Edit File",
         emptyDataListing: "No files/folders",
+        fetchPermissionsError: "Unable to fetch permissions. Please try again.",
         fetchTagsError: "Unable to fetch tags. Please try again.",
         fetchTagSuggestionsError:
             "Unable to fetch tag suggestions.  Please try again.",

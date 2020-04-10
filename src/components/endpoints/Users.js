@@ -5,7 +5,7 @@ import callApi from "../../common/callApi";
  * @param userIds An array of user ids
  * @returns {Promise<any>}
  */
-export const getUserInfo = (userIds) => {
+export const getUserInfo = ({ userIds }) => {
     const userQuery = userIds.join("&username=");
 
     return callApi({

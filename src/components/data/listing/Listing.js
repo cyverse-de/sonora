@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import { withI18N } from "@cyverse-de/ui-lib";
 import { Toolbar } from "@material-ui/core";
 import { injectIntl } from "react-intl";
+import { useQuery } from "react-query";
 
 import Header from "../Header";
 import messages from "../messages";
@@ -31,9 +32,7 @@ function Listing(props) {
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
-    const [data, setData] = useState({ total: 0, files: [], folders: [] });
+    const [data, setData] = useState({ total: 0, listing: [] });
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [detailsResource, setDetailsResource] = useState(null);
@@ -57,44 +56,48 @@ function Listing(props) {
         );
     }).length;
 
+    const { error, isFetching } = useQuery({
+        queryKey: [
+            "dataPagedListing",
+            path,
+            rowsPerPage,
+            orderBy,
+            order,
+            page,
+            uploadsCompleted,
+        ],
+        queryFn: getPagedListing,
+        config: {
+            onSuccess: (respData) => {
+                setData({
+                    total: respData?.total,
+                    listing: [
+                        ...respData?.folders.map((f) => ({
+                            ...f,
+                            type: "FOLDER",
+                        })),
+                        ...respData?.files.map((f) => ({
+                            ...f,
+                            type: "FILE",
+                        })),
+                    ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
+                });
+            },
+        },
+    });
+
     useEffect(() => {
         setSelected([]);
     }, [path]);
 
-    useEffect(() => {
-        if (path) {
-            setLoading(true);
-            //page starts at 0
-            getPagedListing(path, rowsPerPage, orderBy, order, page).then(
-                (respData) => {
-                    respData &&
-                        setData({
-                            total: respData?.total,
-                            listing: [
-                                ...respData?.folders.map((f) => ({
-                                    ...f,
-                                    type: "FOLDER",
-                                })),
-                                ...respData?.files.map((f) => ({
-                                    ...f,
-                                    type: "FILE",
-                                })),
-                            ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
-                        });
-                    setError("");
-                    setLoading(false);
-                }
-            );
-        }
-    }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
-
-    useEffect(() => {
-        getInfoTypes().then((resp) => {
-            if (resp) {
-                setInfoTypes(resp.types);
-            }
-        });
-    }, []);
+    useQuery({
+        queryKey: "dataFetchInfoTypes",
+        queryFn: getInfoTypes,
+        config: {
+            onSuccess: (resp) => setInfoTypes(resp.types),
+            staleTime: "Infinity",
+        },
+    });
 
     useEffect(() => {
         setDetailsEnabled(selected && selected.length === 1);
@@ -242,7 +245,7 @@ function Listing(props) {
                 />
                 {!isGridView && (
                     <TableView
-                        loading={loading}
+                        loading={isFetching}
                         error={error}
                         path={path}
                         handlePathChange={handlePathChange}

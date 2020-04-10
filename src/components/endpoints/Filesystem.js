@@ -46,6 +46,7 @@ export const updateInfoType = (path, infoType) => {
 
 /**
  * Get a paged directory listing
+ * @param key - Query key for react-query
  * @param path - The resource path
  * @param rowsPerPage - The number of rows per page
  * @param orderBy - A column to order items by
@@ -53,7 +54,14 @@ export const updateInfoType = (path, infoType) => {
  * @param page - The page number or offset
  * @returns {Promise<any>}
  */
-export const getPagedListing = (path, rowsPerPage, orderBy, order, page) => {
+export const getPagedListing = (
+    key,
+    path,
+    rowsPerPage,
+    orderBy,
+    order,
+    page
+) => {
     return callApi({
         endpoint: `/api/filesystem/paged-directory?path=${encodeURIComponent(
             path

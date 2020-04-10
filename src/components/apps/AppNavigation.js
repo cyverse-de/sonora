@@ -62,8 +62,7 @@ const useStyles = makeStyles((theme) => ({
     filter: {
         minWidth: 150,
         [theme.breakpoints.down("sm")]: {
-            minWidth: 100,
-            maxWidth: 100,
+            width: 100,
         },
     },
 }));

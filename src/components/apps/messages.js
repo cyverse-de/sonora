@@ -68,11 +68,11 @@ const intlData = {
         deleteLbl: "Delete",
         qLaunchShareToolTip: "Share Quick Launch URL",
         quickLaunchDeleteConfirmation:
-            "Do you wish to delete this Quick Launch? Note: Deleting" +
+            "Do you wish to delete this Quick Launch? Note: Deleting a" +
             " public Quick Launch will break embedded and shared links.",
         noQuickLaunches: "No Quick Launch(s) to display.",
         quickLaunchNotSupportedMessage:
-            "Quick Launch not supported for agave apps!",
+            "Quick Launch not supported for Agave apps!",
         deleted: "Deleted",
         disabled: "Temporarily Disabled",
         beta: "Beta Tag Applied",

@@ -226,7 +226,7 @@ const DashboardSection = ({ name, kind, items }) => {
 
             <div className={classes.sectionItems}>
                 {items.map((item) => (
-                    <DashboardItem kind={kind} content={item} />
+                    <DashboardItem kind={kind} content={item} key={item.id} />
                 ))}
             </div>
         </div>
@@ -239,7 +239,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         callApi({
-            endpoint: "/api/dashboard",
+            endpoint: `/api/dashboard?limit=${constants.SECTION_ITEM_LIMIT}`,
         }).then((data) => {
             setData(data);
         });

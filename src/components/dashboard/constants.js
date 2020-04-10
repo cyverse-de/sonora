@@ -16,6 +16,7 @@ export const SECTION_RECENTLY_ADDED = "recentlyAdded";
 export const SECTION_PUBLIC = "public";
 export const SECTION_NEWS = "news";
 export const SECTION_EVENTS = "events";
+export const SECTION_ITEM_LIMIT = 8;
 
 export const USER_SUFFIX = "@iplantcollaborative.org";
 export const CYVERSE = "CyVerse";

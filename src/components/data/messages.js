@@ -8,6 +8,7 @@ export default {
         cancel: "Cancel",
         created: "Created",
         createTag: "Create tag: {label}",
+        dataSignIn: "Please sign in to browse data",
         delete: "Delete",
         details: "Details",
         download: "Download",

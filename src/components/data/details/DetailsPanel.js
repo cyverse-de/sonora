@@ -4,7 +4,7 @@
  * A component for displaying the details on a data resource.
  * Intended to be within a TabPanel.
  */
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
     build,
@@ -21,7 +21,6 @@ import {
     MenuItem,
     Select,
 } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
 
 import { getFileSize } from "../listing/FileSize";
 import ids from "../ids";
@@ -29,26 +28,10 @@ import messages from "../messages";
 import styles from "../styles";
 import TagSearch from "../TagSearch";
 import { getResourceDetails, updateInfoType } from "../../endpoints/Filesystem";
+import GridLabelValue from "../../utils/GridLabelValue";
+import GridLoading from "../../utils/GridLoading";
 
 const useStyles = makeStyles(styles);
-
-// A grid where the secondary column, values, intentionally take up more
-// space than the first column, labels
-function FormRow(props) {
-    const classes = useStyles();
-    const { label, children } = props;
-
-    return (
-        <>
-            <Grid item sm={3} xs={6}>
-                {label}
-            </Grid>
-            <Grid item sm={9} xs={6} className={classes.restrictWidth}>
-                {children}
-            </Grid>
-        </>
-    );
-}
 
 function DetailsTabPanel(props) {
     const classes = useStyles();
@@ -79,32 +62,20 @@ function DetailsTabPanel(props) {
     };
 
     if (loading) {
-        const arrayRows = [...Array(10)];
-        return (
-            <Grid container spacing={2}>
-                {arrayRows.map((el, index) => (
-                    <Fragment key={index}>
-                        <FormRow label={<Skeleton variant="text" />}>
-                            <Skeleton variant="text" />
-                        </FormRow>
-                    </Fragment>
-                ))}
-            </Grid>
-        );
+        return <GridLoading rows={10} />;
     }
 
     const isFile = details.type !== "dir";
-
     return (
         <>
             <Grid container spacing={2}>
                 {isFile && (
-                    <FormRow label={getMessage("type")}>
+                    <GridLabelValue label={getMessage("type")}>
                         {details["content-type"]}
-                    </FormRow>
+                    </GridLabelValue>
                 )}
                 {isFile && (
-                    <FormRow
+                    <GridLabelValue
                         label={
                             <InputLabel
                                 classes={{ root: classes.inputLabel }}
@@ -134,9 +105,9 @@ function DetailsTabPanel(props) {
                         ) : (
                             <>{details.infoType}</>
                         )}
-                    </FormRow>
+                    </GridLabelValue>
                 )}
-                <FormRow
+                <GridLabelValue
                     label={
                         <InputLabel
                             classes={{ root: classes.inputLabel }}
@@ -151,20 +122,22 @@ function DetailsTabPanel(props) {
                         multiline
                         debugIdPrefix={build(baseId, ids.PATH)}
                     />
-                </FormRow>
+                </GridLabelValue>
                 {isFile && (
-                    <FormRow label={getMessage("fileSize")}>
+                    <GridLabelValue label={getMessage("fileSize")}>
                         {getFileSize(details["file-size"])}
-                    </FormRow>
+                    </GridLabelValue>
                 )}
-                <FormRow label={getMessage("modified")}>
+                <GridLabelValue label={getMessage("modified")}>
                     {formatDate(details["date-modified"])}
-                </FormRow>
-                <FormRow label={getMessage("created")}>
+                </GridLabelValue>
+                <GridLabelValue label={getMessage("created")}>
                     {formatDate(details["date-created"])}
-                </FormRow>
+                </GridLabelValue>
                 {isFile && (
-                    <FormRow label={getMessage("md5")}>{details.md5}</FormRow>
+                    <GridLabelValue label={getMessage("md5")}>
+                        {details.md5}
+                    </GridLabelValue>
                 )}
             </Grid>
 

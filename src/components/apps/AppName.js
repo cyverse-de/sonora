@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core";
 import classnames from "classnames";
 import { injectIntl } from "react-intl";
 import intlData from "./messages";
-import { Highlighter, withI18N, formatMessage } from "@cyverse-de/ui-lib";
+import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
 
 const useStyles = makeStyles((theme) => ({
     name: {
@@ -25,14 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AppName(props) {
-    const {
-        baseDebugId,
-        isDisabled,
-        name,
-        onAppNameClicked,
-        intl,
-        searchText,
-    } = props;
+    const { baseDebugId, isDisabled, name, onAppNameClicked, intl } = props;
     const classes = useStyles();
     const classname =
         isDisabled || !onAppNameClicked
@@ -61,7 +54,7 @@ function AppName(props) {
             tabIndex="0"
             role="button"
         >
-            <Highlighter search={searchText}>{name}</Highlighter>
+            {name}
         </div>
     );
 }

@@ -195,5 +195,58 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding the /apps/:systemId/:appId/details handler");
+    api.get(
+        "/apps/:systemId/:appId/details",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/:systemId/:appId/details",
+        })
+    );
+
+    logger.info("adding the PUT /apps/:systemId/:appId/favorite handler");
+    api.put(
+        "/apps/:systemId/:appId/favorite",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PUT",
+            pathname: "/apps/:systemId/:appId/favorite",
+        })
+    );
+
+    logger.info("adding the DELETE /apps/:systemId/:appId/favorite handler");
+    api.delete(
+        "/apps/:systemId/:appId/favorite",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/apps/:systemId/:appId/favorite",
+        })
+    );
+
+    logger.info("adding the POST /apps/:systemId/:appId/rating handler");
+    api.post(
+        "/apps/:systemId/:appId/rating",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/apps/:systemId/:appId/rating",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the DELETE /apps/:systemId/:appId/rating handler");
+    api.delete(
+        "/apps/:systemId/:appId/rating",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/apps/:systemId/:appId/rating",
+        })
+    );
+
     return api;
 }

@@ -5,6 +5,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 import { ReactQueryDevtools } from "react-query-devtools";
+import { ReactQueryConfigProvider } from "react-query";
 
 import { ThemeProvider } from "@material-ui/core/styles";
 import "./styles.css";
@@ -80,6 +81,11 @@ function MyApp({
         unReadCount: 0,
     });
 
+    const queryConfig = {
+        refetchOnWindowFocus: false,
+        retry: false,
+    };
+
     React.useEffect(() => {
         const jssStyles = document.querySelector("#jss-server-side");
         if (jssStyles) {
@@ -105,15 +111,17 @@ function MyApp({
             <IntercomProvider value={intercomSettings}>
                 <UserProfileProvider>
                     <UploadTrackingProvider>
-                        <CyverseAppBar>
-                            <Head>
-                                <title>Discovery Environment</title>
-                            </Head>
-                            <ReactQueryDevtools initialIsOpen={false} />
-                            <Navigation activeView={pathname} />
-                            <Component {...pageProps} />
-                            <UploadManager />
-                        </CyverseAppBar>
+                        <ReactQueryConfigProvider config={queryConfig}>
+                            <CyverseAppBar>
+                                <Head>
+                                    <title>Discovery Environment</title>
+                                </Head>
+                                <ReactQueryDevtools initialIsOpen={false} />
+                                <Navigation activeView={pathname} />
+                                <Component {...pageProps} />
+                                <UploadManager />
+                            </CyverseAppBar>
+                        </ReactQueryConfigProvider>
                     </UploadTrackingProvider>
                 </UserProfileProvider>
             </IntercomProvider>

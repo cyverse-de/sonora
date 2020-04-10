@@ -6,10 +6,13 @@
  *
  */
 import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { queryCache, useMutation, useQuery } from "react-query";
 import {
+    appFavorite,
+    getAppDetails,
     getApps,
     getAppsInCategory,
+    rateApp,
 } from "../../../serviceFacade/appServiceFacade";
 import TableView from "./TableView";
 import { TablePagination } from "@material-ui/core";
@@ -17,9 +20,19 @@ import Header from "../Header";
 import AppNavigation from "../AppNavigation";
 import constants from "../../../constants";
 import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
+import Drawer from "../details/Drawer";
+import appType from "../../models/AppType";
+import {
+    announce,
+    formatMessage,
+    withI18N,
+    AnnouncerConstants,
+} from "@cyverse-de/ui-lib";
+import { injectIntl } from "react-intl";
+import intlData from "../messages";
 
 function Listing(props) {
-    const { baseId } = props;
+    const { baseId, intl } = props;
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");
@@ -28,33 +41,90 @@ function Listing(props) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [appsInCategoryKey, setAppsInCategoryKey] = useState(null);
     const [filter, setFilter] = useState(null);
+    const [appsInCategoryKey, setAppsInCategoryKey] = useState(null);
     const [allAppsKey, setAllAppsKey] = useState(null);
-    const [error, setError] = useState(null);
     const [data, setData] = useState(null);
     const [agaveAuthDialogOpen, setAgaveAuthDialogOpen] = useState(false);
+    const [detailsEnabled, setDetailsEnabled] = useState(false);
+    const [detailsOpen, setDetailsOpen] = useState(false);
+    const [detailsApp, setDetailsApp] = useState(null);
+    const [details, setDetails] = useState(null);
+    const [detailsKey, setDetailsKey] = useState(null);
 
     //a query with falsy key will not execute until key is set truthy val
-    const { status } = useQuery({
+    const {
+        status: appInCategoryStatus,
+        error: appsInCategoryError,
+    } = useQuery({
         queryKey: appsInCategoryKey,
         queryFn: getAppsInCategory,
         config: {
             onSuccess: setData,
-            refetchOnWindowFocus: false,
-            onError: setError,
         },
     });
 
-    const { status: allAppsStatus } = useQuery({
+    const { status: allAppsStatus, error: listingError } = useQuery({
         queryKey: allAppsKey,
         queryFn: getApps,
         config: {
             onSuccess: setData,
-            refetchOnWindowFocus: false,
-            onError: setError,
         },
     });
+
+    const { status: detailsStatus, error: detailsError } = useQuery({
+        queryKey: detailsKey,
+        queryFn: getAppDetails,
+        config: {
+            onSuccess: setDetails,
+        },
+    });
+
+    const [
+        favorite,
+        { status: favMutationStatus, error: favMutationError },
+    ] = useMutation(appFavorite, {
+        onSuccess: () =>
+            //return a promise so mutate() only resolves after the onSuccess callback
+            queryCache.refetchQueries(
+                appsInCategoryKey ? appsInCategoryKey : allAppsKey
+            ),
+    });
+
+    const [
+        rating,
+        { status: ratingMutationStatus, error: ratingMutationError },
+    ] = useMutation(rateApp, {
+        onSuccess: () =>
+            //return a promise so mutate() only resolves after the onSuccess callback
+            queryCache.refetchQueries(
+                appsInCategoryKey ? appsInCategoryKey : allAppsKey
+            ),
+    });
+
+    const onFavoriteClick = () => {
+        favorite({
+            isFav: !detailsApp.is_favorite,
+            appId: detailsApp.id,
+            systemId: detailsApp.system_id,
+        });
+    };
+
+    const onRatingChange = (event, value) => {
+        rating({
+            appId: detailsApp.id,
+            systemId: detailsApp.system_id,
+            rating: value,
+        });
+    };
+
+    const onDeleteRating = () => {
+        rating({
+            appId: detailsApp.id,
+            systemId: detailsApp.system_id,
+            rating: null,
+        });
+    };
 
     useEffect(() => {
         const systemId = selectedCategory?.system_id;
@@ -95,6 +165,68 @@ function Listing(props) {
             setAgaveAuthDialogOpen(true);
         }
     }, [data, setAgaveAuthDialogOpen]);
+
+    useEffect(() => {
+        if (detailsOpen && data && data.apps) {
+            const selectedId = selected[0];
+            const appIndex = data.apps.findIndex(
+                (item) => item.id === selectedId
+            );
+            setDetailsApp(data.apps[appIndex]);
+        }
+    }, [data, detailsOpen, selected]);
+
+    useEffect(() => {
+        setDetailsEnabled(selected && selected.length === 1);
+    }, [selected]);
+
+    useEffect(() => {
+        if (detailsApp) {
+            setDetailsKey([
+                "getAppsDetails",
+                {
+                    systemId: detailsApp.system_id,
+                    appId: detailsApp.id,
+                },
+            ]);
+        }
+    }, [detailsApp]);
+
+    useEffect(() => {
+        if (appsInCategoryError || listingError) {
+            announce({
+                text: formatMessage(intl, "appListingError"),
+                variant: AnnouncerConstants.ERROR,
+            });
+            setData(null);
+        }
+        if (detailsError) {
+            announce({
+                text: formatMessage(intl, "appDetailsError"),
+                variant: AnnouncerConstants.ERROR,
+            });
+            setDetails(null);
+        }
+        if (favMutationError) {
+            announce({
+                text: formatMessage(intl, "favMutationError"),
+                variant: AnnouncerConstants.ERROR,
+            });
+        }
+        if (ratingMutationError) {
+            announce({
+                text: formatMessage(intl, "ratingMutationError"),
+                variant: AnnouncerConstants.ERROR,
+            });
+        }
+    }, [
+        appsInCategoryError,
+        listingError,
+        detailsError,
+        favMutationError,
+        ratingMutationError,
+        intl,
+    ]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);
@@ -169,6 +301,7 @@ function Listing(props) {
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
+        setSelected([]);
         setPage(0);
     };
 
@@ -177,19 +310,29 @@ function Listing(props) {
         setOrder(isAsc ? "desc" : "asc");
         setOrderBy(property);
         setPage(0);
+        setSelected([]);
     };
 
     const handleCategoryChange = (selectedCategory) => {
-        if (selectedCategory.system_id === "agave") {
+        if (
+            selectedCategory.system_id?.toLowerCase() ===
+            appType.agave.toLowerCase()
+        ) {
             setFilter(null);
         }
         setSelectedCategory(selectedCategory);
+        setSelected([]);
         setPage(0);
     };
 
     const handleFilterChange = (filter) => {
         setFilter(filter);
+        setSelected([]);
         setPage(0);
+    };
+
+    const onDetailsSelected = () => {
+        setDetailsOpen(true);
     };
 
     return (
@@ -211,10 +354,15 @@ function Listing(props) {
                 baseId={baseId}
                 isGridView={isGridView}
                 toggleDisplay={toggleDisplay}
+                detailsEnabled={detailsEnabled}
+                onDetailsSelected={onDetailsSelected}
             />
             <TableView
-                loading={status === "loading" || allAppsStatus === "loading"}
-                error={error}
+                loading={
+                    appInCategoryStatus === constants.LOADING ||
+                    allAppsStatus === constants.LOADING
+                }
+                error={appsInCategoryError || listingError}
                 listing={data}
                 baseId={baseId}
                 order={order}
@@ -233,7 +381,28 @@ function Listing(props) {
                 onChangePage={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
             />
+            {detailsOpen && (
+                <Drawer
+                    selectedApp={detailsApp}
+                    open={detailsOpen}
+                    baseId={baseId}
+                    onClose={() => setDetailsOpen(false)}
+                    onFavoriteClick={onFavoriteClick}
+                    details={details}
+                    detailsLoadingStatus={detailsStatus === constants.LOADING}
+                    ratingMutationStatus={
+                        ratingMutationStatus === constants.LOADING
+                    }
+                    favMutationStatus={favMutationStatus === constants.LOADING}
+                    error={
+                        detailsError || favMutationError || ratingMutationError
+                    }
+                    onRatingChange={onRatingChange}
+                    onDeleteRatingClick={onDeleteRating}
+                />
+            )}
         </>
     );
 }
-export default Listing;
+
+export default withI18N(injectIntl(Listing), intlData);

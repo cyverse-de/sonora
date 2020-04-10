@@ -6,13 +6,21 @@
  * apps and also allows toggling the table or grid view.
  *
  */
-import { IconButton, makeStyles, Toolbar, Tooltip } from "@material-ui/core";
+import {
+    Button,
+    Hidden,
+    IconButton,
+    makeStyles,
+    Toolbar,
+    Tooltip,
+} from "@material-ui/core";
 import React from "react";
 import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import ids from "./ids";
 import {
     Apps as GridIcon,
     FormatListBulleted as TableIcon,
+    Info,
 } from "@material-ui/icons";
 import { injectIntl } from "react-intl";
 import messages from "./messages";
@@ -24,10 +32,25 @@ const useStyles = makeStyles((theme) => ({
     menuButton: {
         color: theme.palette.primary.contrastText,
     },
+    divider: {
+        flexGrow: 1,
+    },
+    button: {
+        [theme.breakpoints.up("sm")]: {
+            margin: theme.spacing(1),
+        },
+    },
 }));
 function Header(props) {
     const classes = useStyles();
-    const { baseId, isGridView, toggleDisplay, intl } = props;
+    const {
+        baseId,
+        isGridView,
+        toggleDisplay,
+        detailsEnabled,
+        onDetailsSelected,
+        intl,
+    } = props;
     const headerId = build(baseId, ids.HEADER);
     return (
         <>
@@ -67,6 +90,20 @@ function Header(props) {
                             <GridIcon />
                         </IconButton>
                     </Tooltip>
+                )}
+                <div className={classes.divider} />
+                {detailsEnabled && (
+                    <Button
+                        id={build(headerId, ids.DETAILS_BTN)}
+                        variant="contained"
+                        disableElevation
+                        color="primary"
+                        className={classes.button}
+                        onClick={onDetailsSelected}
+                        startIcon={<Info className={classes.buttonIcon} />}
+                    >
+                        <Hidden xsDown>{getMessage("details")}</Hidden>
+                    </Button>
                 )}
             </Toolbar>
         </>

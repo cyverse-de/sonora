@@ -10,17 +10,16 @@ import React, { useState } from "react";
 import ids from "./ids";
 import intlData from "./messages";
 import constants from "../../constants";
-import callApi from "../../common/callApi";
 import GlobalSearchField from "../search/GlobalSearchField";
 import NavigationConstants from "../../common/NavigationConstants";
 
 import {
     build,
+    CyVerseAnnouncer,
     formatHTMLMessage,
     formatMessage,
     getMessage,
     withI18N,
-    CyVerseAnnouncer,
 } from "@cyverse-de/ui-lib";
 
 import { useRouter } from "next/router";
@@ -51,6 +50,8 @@ import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import { useUserProfile } from "../../contexts/userProfile";
 import { intercomLogin } from "../../common/intercom";
 import { useIntercom } from "../../contexts/intercom";
+import { getUserProfile } from "../../serviceFacade/userServiceFacade";
+import { useQuery } from "react-query";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -103,6 +104,7 @@ function CyverseAppBar(props) {
     const router = useRouter();
     const { intl, children } = props;
     const [userProfile, setUserProfile] = useUserProfile();
+    const [avatarLetter, setAvatarLetter] = useState("");
     const {
         appId,
         enabled,
@@ -111,26 +113,27 @@ function CyverseAppBar(props) {
         unReadCount,
     } = useIntercom();
     const [drawerOpen, setDrawerOpen] = useState(false);
+    useQuery({
+        queryKey: "getUserProfile",
+        queryFn: getUserProfile,
+        config: {
+            onSuccess: setUserProfile,
+            refetchOnWindowFocus: false,
+            throwOnError: true,
+        },
+    });
     React.useEffect(() => {
-        const fetchUserProfile = async function() {
-            const profile = await callApi({
-                endpoint: "/api/profile",
-                method: "GET",
-                credentials: "include",
-            });
-            if (enabled && profile && profile.id) {
-                intercomLogin(
-                    profile.id,
-                    profile.attributes.email,
-                    appId,
-                    companyId,
-                    companyName
-                );
-            }
-            setUserProfile(profile);
-        };
-        fetchUserProfile();
-    }, [setUserProfile, appId, enabled, companyId, companyName]);
+        if (enabled && userProfile && userProfile.id) {
+            intercomLogin(
+                userProfile.id,
+                userProfile.attributes.email,
+                appId,
+                companyId,
+                companyName
+            );
+            setAvatarLetter(userProfile.id.charAt(0).toUpperCase());
+        }
+    }, [userProfile, appId, enabled, companyId, companyName, setAvatarLetter]);
 
     const handleUserButtonClick = (event) => {
         if (!userProfile) {
@@ -146,10 +149,6 @@ function CyverseAppBar(props) {
     const toggleDrawer = (open) => (event) => {
         console.log("drawer=>" + open);
         setDrawerOpen(open);
-    };
-
-    const getAvatarLetter = () => {
-        return userProfile.id.charAt(0).toUpperCase();
     };
 
     return (
@@ -205,7 +204,7 @@ function CyverseAppBar(props) {
                                                         <Typography
                                                             variant={"h6"}
                                                         >
-                                                            {getAvatarLetter()}
+                                                            {avatarLetter}
                                                         </Typography>
                                                     </Avatar>
                                                 </ListItemIcon>
@@ -422,7 +421,7 @@ function CyverseAppBar(props) {
                                         className={classes.userIcon}
                                     >
                                         <Typography variant={"h6"}>
-                                            {getAvatarLetter()}
+                                            {avatarLetter}
                                         </Typography>
                                     </Avatar>
                                 ) : (

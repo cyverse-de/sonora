@@ -132,7 +132,7 @@ function TableView(props) {
                 )}
                 {!loading && (
                     <TableBody>
-                        {(!apps || apps.length === 0) && (
+                        {(!apps || apps.length === 0) && !error && (
                             <EmptyTable
                                 message={getMessage("noApps")}
                                 numColumns={columnData.length}

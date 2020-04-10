@@ -39,4 +39,49 @@ function getAppsInCategory(
     });
 }
 
-export { getApps, getPrivateCategories, getAppsInCategory };
+function getAppDetails(key, { systemId, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}/details`,
+        method: "GET",
+    });
+}
+
+function appFavorite({ isFav, systemId, appId }) {
+    if (isFav) {
+        return callApi({
+            endpoint: `/api/apps/${systemId}/${appId}/favorite`,
+            method: "PUT",
+        });
+    } else {
+        return callApi({
+            endpoint: `/api/apps/${systemId}/${appId}/favorite`,
+            method: "DELETE",
+        });
+    }
+}
+
+function rateApp({ systemId, appId, rating }) {
+    if (rating) {
+        return callApi({
+            endpoint: `/api/apps/${systemId}/${appId}/rating`,
+            method: "POST",
+            body: {
+                rating: rating,
+            },
+        });
+    } else {
+        return callApi({
+            endpoint: `/api/apps/${systemId}/${appId}/rating`,
+            method: "DELETE",
+        });
+    }
+}
+
+export {
+    getApps,
+    getPrivateCategories,
+    getAppsInCategory,
+    getAppDetails,
+    appFavorite,
+    rateApp,
+};

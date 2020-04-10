@@ -30,9 +30,9 @@ function AppStatusIcon(props) {
 }
 
 AppStatusIcon.propTypes = {
-    isPublic: PropTypes.bool.isRequired,
-    isDisabled: PropTypes.bool.isRequired,
-    isBeta: PropTypes.bool.isRequired,
+    isPublic: PropTypes.bool,
+    isDisabled: PropTypes.bool,
+    isBeta: PropTypes.bool,
 };
 
 function PrivateIcon(props) {

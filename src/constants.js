@@ -12,4 +12,6 @@ export default {
     MY_PUBLIC_APPS: "My public apps",
     HPC: "High-Performance Computing",
     BROWSE_ALL_APPS: "Browse All Apps",
+    EXTERNAL_APP_TYPE: "External",
+    LOADING: "loading",
 };

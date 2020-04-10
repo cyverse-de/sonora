@@ -59,6 +59,13 @@ const useStyles = makeStyles((theme) => ({
             maxWidth: 75,
         },
     },
+    filter: {
+        minWidth: 150,
+        [theme.breakpoints.down("sm")]: {
+            minWidth: 100,
+            maxWidth: 100,
+        },
+    },
 }));
 
 function getFilters() {
@@ -230,7 +237,10 @@ function AppNavigation(props) {
             </Menu>
             <div className={classes.divider} />
             <Autocomplete
-                disabled={selectedCategory.system_id === "agave"}
+                disabled={
+                    selectedCategory.system_id?.toLowerCase() ===
+                    appType.agave.toLowerCase()
+                }
                 value={filter}
                 options={getFilters()}
                 size="small"
@@ -238,7 +248,10 @@ function AppNavigation(props) {
                     handleFilterChange(newValue);
                 }}
                 getOptionLabel={(option) => option.name}
-                style={{ minWidth: 150 }}
+                getOptionSelected={(option, value) =>
+                    option.name === value.name
+                }
+                className={classes.filter}
                 renderInput={(params) => (
                     <TextField
                         {...params}

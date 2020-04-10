@@ -2,10 +2,11 @@ import callApi from "../../common/callApi";
 
 /**
  * Get details on data resources
+ * @param key - Query key for react-query
  * @param paths - An array of strings which are resource paths
  * @returns {Promise<any>}
  */
-export const getResourceDetails = (paths) => {
+export const getResourceDetails = (key, { paths }) => {
     return callApi({
         endpoint: "/api/filesystem/stat",
         method: "POST",
@@ -33,7 +34,7 @@ export const getResourcePermissions = (key, { paths }) => {
  * @param infoType - The new info type
  * @returns {Promise<any>}
  */
-export const updateInfoType = (path, infoType) => {
+export const updateInfoType = ({ path, infoType }) => {
     return callApi({
         endpoint: `/api/filetypes/type`,
         method: "POST",

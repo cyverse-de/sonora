@@ -7,6 +7,7 @@ import {
     UserProfileProvider,
     useUserProfile,
 } from "../src/contexts/userProfile";
+import { ReactQueryConfigProvider } from "react-query";
 
 function MockUserProfile() {
     const [userProfile, setUserProfile] = useUserProfile();
@@ -25,14 +26,20 @@ function MockUserProfile() {
         }
     }, [setUserProfile, userProfile]);
 
-    return <div />;
+    return <div/>;
 }
 
+const queryConfig = {
+    refetchOnWindowFocus: false,
+    retry: false,
+};
 addDecorator((storyFn) => (
     <ThemeProvider theme={theme}>
         <UserProfileProvider>
-            <MockUserProfile />
-            {storyFn()}
+            <ReactQueryConfigProvider config={queryConfig}>
+                <MockUserProfile/>
+                {storyFn()}
+            </ReactQueryConfigProvider>
         </UserProfileProvider>
     </ThemeProvider>
 ));

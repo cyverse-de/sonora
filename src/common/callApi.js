@@ -44,7 +44,9 @@ const callApi = (props) => {
         setError,
     } = props;
 
-    const requestOptions = {
+    let requestOptions = {
+        method: method,
+        url: endpoint,
         headers: headers
             ? headers
             : {
@@ -52,78 +54,24 @@ const callApi = (props) => {
               },
         credentials: "include",
     };
+
+    if (body) {
+        requestOptions.body = body;
+    }
+
     //TODO: Remove loading and error handling from this code once everything is ported to react-query
     setLoading && setLoading(true);
-    switch (method) {
-        case "GET":
-            return axiosInstance
-                .get(endpoint, requestOptions)
-                .then((resp) => checkForError(resp, props))
-                .then((apiResponse) => apiResponse.data)
-                .catch((error) => {
-                    setError && setError(error);
-                })
-                .finally(() => {
-                    setLoading && setLoading(false);
-                });
-        case "POST":
-            return axiosInstance
-                .post(endpoint, body, requestOptions)
-                .then((resp) => checkForError(resp, props))
-                .then((apiResponse) => apiResponse.data)
-                .catch((error) => {
-                    setError && setError(error);
-                })
-                .finally(() => {
-                    setLoading && setLoading(false);
-                });
-        case "PATCH":
-            return axiosInstance
-                .patch(endpoint, body, requestOptions)
-                .then((resp) => checkForError(resp, props))
-                .then((apiResponse) => apiResponse.data)
-                .catch((error) => {
-                    setError && setError(error);
-                })
-                .finally(() => {
-                    setLoading && setLoading(false);
-                });
-        case "PUT":
-            return axiosInstance
-                .put(endpoint, body, requestOptions)
-                .then((resp) => checkForError(resp, props))
-                .then((apiResponse) => apiResponse.data)
-                .catch((error) => {
-                    setError && setError(error);
-                })
-                .finally(() => {
-                    setLoading && setLoading(false);
-                });
-        case "DELETE":
-            return axiosInstance
-                .delete(endpoint, requestOptions)
-                .then((resp) => checkForError(resp, props))
-                .then((apiResponse) => apiResponse.data)
-                .catch((error) => {
-                    setError && setError(error);
-                })
-                .finally(() => {
-                    setLoading && setLoading(false);
-                });
-        case "HEAD":
-            return axiosInstance
-                .head(endpoint, requestOptions)
-                .then((resp) => checkForError(resp, props))
-                .then((apiResponse) => apiResponse.data)
-                .catch((error) => {
-                    setError && setError(error);
-                })
-                .finally(() => {
-                    setLoading && setLoading(false);
-                });
-        default:
-            throw Error("Unsupported method " + method);
-    }
+
+    return axiosInstance
+        .request(requestOptions)
+        .then((resp) => checkForError(resp, props))
+        .then((apiResponse) => apiResponse.data)
+        .catch((error) => {
+            setError && setError(error);
+        })
+        .finally(() => {
+            setLoading && setLoading(false);
+        });
 };
 
 export default callApi;

@@ -12,7 +12,7 @@ import intlData from "./messages";
 import constants from "../../constants";
 import GlobalSearchField from "../search/GlobalSearchField";
 import NavigationConstants from "../../common/NavigationConstants";
-
+import Sockette from "sockette";
 import {
     build,
     CyVerseAnnouncer,
@@ -133,6 +133,17 @@ function CyverseAppBar(props) {
             );
             setAvatarLetter(userProfile.id.charAt(0).toUpperCase());
         }
+
+        const ws = new Sockette('ws://localhost:3000/api/websocket/notifications', {
+            maxAttempts: 10,
+            onopen: e => console.log('Connected!', e),
+            onmessage: e => console.log('Received:', e),
+            onreconnect: e => console.log('Reconnecting...', e),
+            onmaximum: e => console.log('Stop Attempting!', e),
+            onclose: e => console.log('Closed!', e),
+            onerror: e => console.log('Error:', e)
+        });
+
     }, [userProfile, appId, enabled, companyId, companyName, setAvatarLetter]);
 
     const handleUserButtonClick = (event) => {

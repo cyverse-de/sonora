@@ -5,6 +5,7 @@ import logger from "../logging";
 
 import { handler as terrainHandler } from "./terrain";
 import uploadHandler from "./uploads";
+import websocketHandler from "./websocket";
 
 export default function apiRouter() {
     logger.info("creating the api router");
@@ -257,6 +258,11 @@ export default function apiRouter() {
             pathname: "/apps/:systemId/:appId/rating",
         })
     );
+
+    logger.info(
+        "Setting up websockets for notifications"
+    );
+    api.ws("/websocket/notifications", websocketHandler);
 
     return api;
 }

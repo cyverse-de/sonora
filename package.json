@@ -54,6 +54,7 @@
     "@material-ui/core": "^4.9.7",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.46",
+    "amqplib": "^0.5.5",
     "axios": "^0.19.2",
     "camelcase": "^5.3.1",
     "config": "^3.2.4",
@@ -62,6 +63,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "express-winston": "^4.0.2",
+    "express-ws": "^4.0.0",
     "formik": "^1.5.8",
     "is-plain-object": "^3.0.0",
     "js-yaml": "^3.13.1",
@@ -77,6 +79,7 @@
     "react-select": "^2.4.4",
     "request": "^2.88.0",
     "request-promise": "^4.2.5",
+    "sockette": "^2.0.6",
     "uuid": "^3.4.0",
     "winston": "^3.2.1"
   },

@@ -167,12 +167,11 @@ function Listing(props) {
     }, [data, setAgaveAuthDialogOpen]);
 
     useEffect(() => {
-        if (detailsOpen && data && data.apps) {
+        if (detailsOpen && data?.apps) {
             const selectedId = selected[0];
-            const appIndex = data.apps.findIndex(
-                (item) => item.id === selectedId
-            );
-            setDetailsApp(data.apps[appIndex]);
+            setDetailsApp(data.apps.find((item) => item.id === selectedId));
+        } else {
+            setDetailsApp(null);
         }
     }, [data, detailsOpen, selected]);
 
@@ -194,39 +193,41 @@ function Listing(props) {
 
     useEffect(() => {
         if (appsInCategoryError || listingError) {
+            setData(null);
             announce({
                 text: formatMessage(intl, "appListingError"),
                 variant: AnnouncerConstants.ERROR,
             });
-            setData(null);
         }
+    }, [appsInCategoryError, listingError, intl]);
+
+    useEffect(() => {
         if (detailsError) {
+            setDetails(null);
             announce({
                 text: formatMessage(intl, "appDetailsError"),
                 variant: AnnouncerConstants.ERROR,
             });
-            setDetails(null);
         }
+    }, [detailsError, intl]);
+
+    useEffect(() => {
         if (favMutationError) {
             announce({
                 text: formatMessage(intl, "favMutationError"),
                 variant: AnnouncerConstants.ERROR,
             });
         }
+    }, [favMutationError, intl]);
+
+    useEffect(() => {
         if (ratingMutationError) {
             announce({
                 text: formatMessage(intl, "ratingMutationError"),
                 variant: AnnouncerConstants.ERROR,
             });
         }
-    }, [
-        appsInCategoryError,
-        listingError,
-        detailsError,
-        favMutationError,
-        ratingMutationError,
-        intl,
-    ]);
+    }, [ratingMutationError, intl]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);

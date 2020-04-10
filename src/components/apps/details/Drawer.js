@@ -67,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
 
     tabIndicator: {
         backgroundColor: theme.palette.secondary.main,
+        color: theme.palette.secondary.contrastText,
     },
     tabSelected: {
         color: theme.palette.primary.contrastText,

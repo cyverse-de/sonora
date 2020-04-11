@@ -1,17 +1,17 @@
 import React from "react";
 import AppLaunchWizard from "../../../src/components/apps/launch/AppLaunchWizard";
 
-import WordCountApp from "./data/WordCountApp";
+import DeprecatedParamsApp from "./data/DeprecatedParamsApp";
 
-import { ONE_GB, ANALYSIS_OUTPUT_DIR, submitAnalysis } from "./constants";
+import { ANALYSIS_OUTPUT_DIR, submitAnalysis } from "./constants";
 
 import { withKnobs, boolean } from "@storybook/addon-knobs";
 
-export const DEWordCount = () => {
+export const DeprecatedParams = () => {
     const deleted = boolean("App deleted", false);
     const disabled = boolean("App disabled", false);
 
-    const app = { ...WordCountApp, deleted, disabled };
+    const app = { ...DeprecatedParamsApp, deleted, disabled };
 
     return (
         <AppLaunchWizard
@@ -19,9 +19,6 @@ export const DEWordCount = () => {
             output_dir={ANALYSIS_OUTPUT_DIR}
             submitAnalysis={submitAnalysis}
             app={app}
-            defaultMaxCPUCores={8}
-            defaultMaxMemory={4 * ONE_GB}
-            defaultMaxDiskSpace={64 * ONE_GB}
         />
     );
 };

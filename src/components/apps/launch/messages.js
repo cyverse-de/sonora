@@ -21,6 +21,15 @@ export default {
         analysisInfo: "Analysis Info",
         analysisName: "Analysis Name",
         analysisParameters: "Analysis Parameters",
+        appDeprecated:
+            "This application has been deprecated." +
+            " If you need access to it, please contact" +
+            ' <a href="mailto:support@cyverse.org">support@cyverse.org</a>.',
+        appParamsDeprecated:
+            "This application uses 1 or more parameters that have been deprecated." +
+            " If you still need access to this application, please contact" +
+            ' <a href="mailto:support@cyverse.org">support@cyverse.org</a>.',
+        appUnavailable: "This app is temporarily unavailable.",
         back: "Back",
         comments: "Comments",
         errorLoadingReferenceGenomes: "Error loading Reference Genomes",

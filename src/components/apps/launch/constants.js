@@ -18,6 +18,9 @@ export default {
         TEXT: "Text",
         TEXT_SELECTION: "TextSelection",
     },
+    DEPRECATED_PARAM_TYPE: {
+        TREE_SELECTION: "TreeSelection",
+    },
     VALIDATOR_TYPE: {
         CHARACTER_LIMIT: "CharacterLimit",
         DOUBLE_ABOVE: "DoubleAbove",

@@ -6,7 +6,6 @@ import {
     ClickAwayListener,
     Grid,
     Grow,
-    Hidden,
     MenuItem,
     MenuList,
     Paper,
@@ -23,14 +22,16 @@ import intlData from "./messages";
 const useStyles = makeStyles((theme) => ({
     paper: {
         flexGrow: 1,
-        marinTop: theme.spacing(1),
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
     },
     paginationItems: {
         paddingTop: theme.spacing(1),
+        paddingBottom: theme.spacing(1),
         color: theme.palette.info,
     },
     buttonPadding: {
-        paddingTop: theme.spacing(1),
+        paddingTop: theme.spacing(1.5),
     },
 }));
 
@@ -136,10 +137,8 @@ function DEPagination(props) {
     const matches = useMediaQuery(theme.breakpoints.down("sm"));
     return (
         <Paper className={classes.paper}>
-            <Grid container spacing={1}>
-                <Hidden mdDown>
-                    <Grid item xs={1} sm={4}></Grid>
-                </Hidden>
+            <Grid container>
+                <Grid item sm={4} md={5}></Grid>
                 <Grid item>
                     <Pagination
                         id={build(baseId, ids.PAGINATION_TOOLBAR)}
@@ -151,7 +150,7 @@ function DEPagination(props) {
                         page={page}
                     />
                 </Grid>
-                <Grid item xs={1} sm={4}>
+                <Grid item>
                     <ItemsPerPage
                         onPageSizeChange={onPageSizeChange}
                         selectedPageSize={pageSize}

@@ -29,7 +29,7 @@ function Listing(props) {
     const [orderBy, setOrderBy] = useState("name");
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -65,7 +65,7 @@ function Listing(props) {
         if (path) {
             setLoading(true);
             //page starts at 0
-            getPagedListing(path, rowsPerPage, orderBy, order, page - 1).then(
+            getPagedListing(path, rowsPerPage, orderBy, order, page).then(
                 (respData) => {
                     respData &&
                         setData({
@@ -194,12 +194,12 @@ function Listing(props) {
     };
 
     const handleChangePage = (event, newPage) => {
-        setPage(newPage);
+        setPage(newPage - 1);
     };
 
     const handleChangeRowsPerPage = (newPageSize) => {
         setRowsPerPage(parseInt(newPageSize, 10));
-        setPage(1);
+        setPage(0);
     };
 
     const onDetailsSelected = () => {
@@ -264,7 +264,7 @@ function Listing(props) {
                 {isGridView && <span>Coming Soon!</span>}
                 {data && data.total > 0 && (
                     <DEPagination
-                        page={page}
+                        page={page + 1}
                         onChange={handleChangePage}
                         totalPages={Math.ceil(data.total / rowsPerPage)}
                         onPageSizeChange={handleChangeRowsPerPage}

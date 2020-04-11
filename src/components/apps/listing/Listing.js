@@ -39,7 +39,7 @@ function Listing(props) {
     const [orderBy, setOrderBy] = useState("name");
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [appsInCategoryKey, setAppsInCategoryKey] = useState(null);
@@ -139,7 +139,7 @@ function Listing(props) {
                     rowsPerPage,
                     orderBy,
                     order,
-                    page: page - 1,
+                    page,
                     appTypeFilter,
                 },
             ]);
@@ -153,7 +153,7 @@ function Listing(props) {
                     orderBy,
                     order,
                     appTypeFilter,
-                    page: page - 1,
+                    page,
                     categoryId,
                 },
             ]);
@@ -298,14 +298,14 @@ function Listing(props) {
     };
 
     const handleChangePage = (event, newPage) => {
-        setPage(newPage);
+        setPage(newPage - 1);
     };
 
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setSelected([]);
-        setPage(1);
+        setPage(0);
     };
 
     const handleRequestSort = (event, property) => {
@@ -313,7 +313,7 @@ function Listing(props) {
         setOrder(isAsc ? "desc" : "asc");
         setOrderBy(property);
         setSelected([]);
-        setPage(1);
+        setPage(0);
     };
 
     const handleCategoryChange = (selectedCategory) => {
@@ -325,13 +325,13 @@ function Listing(props) {
         }
         setSelectedCategory(selectedCategory);
         setSelected([]);
-        setPage(1);
+        setPage(0);
     };
 
     const handleFilterChange = (filter) => {
         setFilter(filter);
         setSelected([]);
-        setPage(1);
+        setPage(0);
     };
 
     const onDetailsSelected = () => {
@@ -396,7 +396,7 @@ function Listing(props) {
                     />)}
             {data && data.total > 0 && (
                 <DEPagination
-                    page={page}
+                    page={page + 1}
                     onChange={handleChangePage}
                     totalPages={Math.ceil(data.total / rowsPerPage)}
                     onPageSizeChange={handleChangeRowsPerPage}

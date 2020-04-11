@@ -97,6 +97,7 @@ const intlData = {
         appDetailsError: "Unable to get App details. Please try again.",
         favMutationError: "Unable to update favorites. Please try again.",
         ratingMutationError: "Unable to update rating. Please try again.",
+        ariaTableListing: "Apps table listing"
     },
 };
 

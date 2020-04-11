@@ -113,7 +113,7 @@ function TableView(props) {
                 height: "60vh",
             }}
         >
-            <Table stickyHeader={true} size="small">
+            <Table stickyHeader={true} size="small"  aria-label={getMessage("ariaTableListing")}>
                 <EnhancedTableHead
                     selectable={true}
                     numSelected={selected.length}

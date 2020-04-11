@@ -301,7 +301,6 @@ function Listing(props) {
         setPage(newPage - 1);
     };
 
-
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setSelected([]);
@@ -393,7 +392,8 @@ function Listing(props) {
                     }
                     onRatingChange={onRatingChange}
                     onDeleteRatingClick={onDeleteRating}
-                    />)}
+                />
+            )}
             {data && data.total > 0 && (
                 <DEPagination
                     page={page + 1}

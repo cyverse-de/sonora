@@ -1,7 +1,6 @@
 import express from "express";
 import next from "next";
 import expressWs from "express-ws";
-
 import * as config from "./configuration";
 import apiRouter from "./api/router";
 import NavigationConstants from "../common/NavigationConstants";

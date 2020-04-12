@@ -132,18 +132,23 @@ function CyverseAppBar(props) {
                 companyName
             );
             setAvatarLetter(userProfile.id.charAt(0).toUpperCase());
+            const ws = new Sockette(
+                "ws://localhost:3000/wesbocket/notification?user=" +
+                    userProfile.id,
+                {
+                    maxAttempts: 10,
+                    onopen: (e) => {
+                        console.log("connected!");
+                        ws.send("Connected by " + userProfile.id);
+                    },
+                    onmessage: (e) => console.log("Received:", e),
+                    onreconnect: (e) => console.log("Reconnecting...", e),
+                    onmaximum: (e) => console.log("Stop Attempting!", e),
+                    onclose: (e) => console.log("Closed!", e),
+                    onerror: (e) => console.log("Error:", e),
+                }
+            );
         }
-
-        const ws = new Sockette('ws://localhost:3000/api/websocket/notifications', {
-            maxAttempts: 10,
-            onopen: e => console.log('Connected!', e),
-            onmessage: e => console.log('Received:', e),
-            onreconnect: e => console.log('Reconnecting...', e),
-            onmaximum: e => console.log('Stop Attempting!', e),
-            onclose: e => console.log('Closed!', e),
-            onerror: e => console.log('Error:', e)
-        });
-
     }, [userProfile, appId, enabled, companyId, companyName, setAvatarLetter]);
 
     const handleUserButtonClick = (event) => {

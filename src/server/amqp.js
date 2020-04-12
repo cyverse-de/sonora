@@ -65,7 +65,6 @@ export function getNotifications(user, ws) {
                 logger.info("Received message:" + msg.content.toString());
                 waitForSocketConnection(ws, function() {
                     ws.send(msg.content.toString());
-                    console.log("message sent!!!");
                 });
             },
             {

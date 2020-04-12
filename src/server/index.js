@@ -6,7 +6,6 @@ import apiRouter from "./api/router";
 import NavigationConstants from "../common/NavigationConstants";
 import * as authn from "./auth";
 import { setUpAmqpForNotifications, getNotifications } from "./amqp";
-
 import logger, { errorLogger, requestLogger } from "./logging";
 
 export const app = next({

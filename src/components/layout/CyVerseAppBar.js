@@ -14,6 +14,7 @@ import GlobalSearchField from "../search/GlobalSearchField";
 import NavigationConstants from "../../common/NavigationConstants";
 import Sockette from "sockette";
 import {
+    announce,
     build,
     CyVerseAnnouncer,
     formatHTMLMessage,
@@ -105,6 +106,8 @@ function CyverseAppBar(props) {
     const { intl, children } = props;
     const [userProfile, setUserProfile] = useUserProfile();
     const [avatarLetter, setAvatarLetter] = useState("");
+    const [unSeenCount, setUnSeenCount] = useState(0);
+    const [wsInstance, setWsInstance] = useState();
     const {
         appId,
         enabled,
@@ -123,38 +126,80 @@ function CyverseAppBar(props) {
         },
     });
     React.useEffect(() => {
-        if (enabled && userProfile && userProfile.id) {
-            intercomLogin(
-                userProfile.id,
-                userProfile.attributes.email,
-                appId,
-                companyId,
-                companyName
-            );
-            setAvatarLetter(userProfile.id.charAt(0).toUpperCase());
-            const ws = new Sockette(
-                "ws://localhost:3000/wesbocket/notification?user=" +
+        if (userProfile && userProfile.id) {
+            if (enabled) {
+                intercomLogin(
                     userProfile.id,
-                {
-                    maxAttempts: 10,
-                    onopen: (e) => {
-                        console.log("connected!");
-                        ws.send("Connected by " + userProfile.id);
-                    },
-                    onmessage: (e) => console.log("Received:", e),
-                    onreconnect: (e) => console.log("Reconnecting...", e),
-                    onmaximum: (e) => console.log("Stop Attempting!", e),
-                    onclose: (e) => console.log("Closed!", e),
-                    onerror: (e) => console.log("Error:", e),
-                }
-            );
+                    userProfile.attributes.email,
+                    appId,
+                    companyId,
+                    companyName
+                );
+            }
+            setAvatarLetter(userProfile.id.charAt(0).toUpperCase());
+
+            let location = window.location;
+            let protocol =
+                location.protocol.toLowerCase() === "https:"
+                    ? constants.WSS_PROTOCOL
+                    : constants.WS_PROTOCOL;
+            let host = location.hostname;
+            let port = location.port;
+            const notificationUrl =
+                protocol +
+                host +
+                (port ? ":" + port : "") +
+                NavigationConstants.NOTIFICATION_WS;
+            console.log("Connecting websocket to " + notificationUrl);
+
+            const ws = new Sockette(notificationUrl, {
+                maxAttempts: 10,
+                onopen: (e) => {
+                    console.log("connected!");
+                    ws.send("Connected by " + userProfile.id);
+                },
+                onmessage: (e) => handleMessage(e),
+                onreconnect: (e) => console.log("Reconnecting...", e),
+                onmaximum: (e) => console.log("Stop Attempting!", e),
+                onclose: (e) => console.log("Closed!", e),
+                onerror: (e) => console.log("Error:", e),
+            });
+            setWsInstance(ws);
         }
     }, [userProfile, appId, enabled, companyId, companyName, setAvatarLetter]);
+
+    const handleMessage = (event) => {
+        console.log(event.data);
+        let push_msg = null;
+        try {
+            push_msg = JSON.parse(event.data);
+        } catch (e) {
+            return;
+        }
+        if (push_msg.total) {
+            setUnSeenCount(push_msg.total);
+        }
+
+        const message = push_msg.message;
+        if (message) {
+            const category = message.type;
+            displayNotification(message, category);
+        }
+    };
+
+    const displayNotification = (notification, category) => {
+        announce({
+            text: notification.message.text,
+        });
+    };
 
     const handleUserButtonClick = (event) => {
         if (!userProfile) {
             router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
         } else {
+            if (wsInstance) {
+                wsInstance.close(); //close websocket
+            }
             router.push(`/${NavigationConstants.LOGOUT}`);
         }
     };
@@ -403,7 +448,7 @@ function CyverseAppBar(props) {
                                 color="primary"
                                 size="small"
                             >
-                                <Badge badgeContent={0} color="error">
+                                <Badge badgeContent={unSeenCount} color="error">
                                     <NotificationsIcon />
                                 </Badge>
                             </IconButton>

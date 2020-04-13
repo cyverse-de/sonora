@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     dividerRoot: {
-        marginBottom: 15,
+        marginBottom: theme.spacing(1),
     },
     footer: {
         width: "100%",
@@ -41,14 +41,14 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     section: {
-        marginTop: 25,
-        marginBottom: 50,
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(5),
     },
     sectionItems: {
         display: "flex",
         flexWrap: "wrap",
         justifyContent: "flex-start",
-        padding: 10,
+        padding: theme.spacing(2),
 
         // Try to eek as much space out of the iPhone SE cards as possible.
         [theme.breakpoints.down("sm")]: {
@@ -57,15 +57,23 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     subtitle: {
-        marginBottom: 15,
+        marginBottom: theme.spacing(2),
     },
     gridRoot: {
         overflow: "auto", // Needed for vertical scrolling.
         height: "100vh", // Needed to get the vertical scrolling working.
-        padding: "0 30px 0 30px",
+        //padding: "0 30px 0 30px",
+        paddingTop: 0,
+        paddingLeft: theme.spacing(3),
+        paddingBottom: 0,
+        paddingRight: theme.spacing(3),
 
         [theme.breakpoints.down("sm")]: {
-            padding: "0 5px 0 5px",
+            //padding: "0 5px 0 5px",
+            paddingTop: 0,
+            paddingLeft: theme.spacing(1),
+            paddingBottom: 0,
+            paddingRight: theme.spacing(1),
         },
     },
     dashboardCard: {
@@ -73,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
         height: 225,
         display: "flex",
         flexDirection: "column",
-        margin: 5,
+        margin: theme.spacing(1),
 
         [theme.breakpoints.down("sm")]: {
             width: 300,

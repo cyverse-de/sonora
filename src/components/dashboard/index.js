@@ -62,14 +62,12 @@ const useStyles = makeStyles((theme) => ({
     gridRoot: {
         overflow: "auto", // Needed for vertical scrolling.
         height: "100vh", // Needed to get the vertical scrolling working.
-        //padding: "0 30px 0 30px",
         paddingTop: 0,
         paddingLeft: theme.spacing(3),
         paddingBottom: 0,
         paddingRight: theme.spacing(3),
 
         [theme.breakpoints.down("sm")]: {
-            //padding: "0 5px 0 5px",
             paddingTop: 0,
             paddingLeft: theme.spacing(1),
             paddingBottom: 0,

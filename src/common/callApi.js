@@ -25,8 +25,6 @@ import axiosInstance from "./getAxios";
  *     endpoint `/api/apps/${appId}/publish`,
  *     method: "POST",
  *     body: appInfo,
- *     setLoading,
- *     setError,
  * }).then(resp => {
  *     showPublishMessage()
  * }
@@ -35,14 +33,7 @@ import axiosInstance from "./getAxios";
  * @returns {Promise<any>}
  */
 const callApi = (props) => {
-    const {
-        method = "GET",
-        endpoint,
-        body,
-        headers,
-        setLoading,
-        setError,
-    } = props;
+    const { method = "GET", endpoint, body, headers } = props;
 
     let requestOptions = {
         method: method,
@@ -59,19 +50,10 @@ const callApi = (props) => {
         requestOptions.data = body;
     }
 
-    //TODO: Remove loading and error handling from this code once everything is ported to react-query
-    setLoading && setLoading(true);
-
     return axiosInstance
         .request(requestOptions)
         .then((resp) => checkForError(resp, props))
-        .then((apiResponse) => apiResponse.data)
-        .catch((error) => {
-            setError && setError(error);
-        })
-        .finally(() => {
-            setLoading && setLoading(false);
-        });
+        .then((apiResponse) => apiResponse.data);
 };
 
 export default callApi;

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { withConsole } from "@storybook/addon-console";
 import { addDecorator, configure } from "@storybook/react";
+import { CyVerseAnnouncer } from "@cyverse-de/ui-lib";
 import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "../src/components/theme/default";
 import {
@@ -26,7 +27,7 @@ function MockUserProfile() {
         }
     }, [setUserProfile, userProfile]);
 
-    return <div/>;
+    return <div />;
 }
 
 const queryConfig = {
@@ -37,8 +38,9 @@ addDecorator((storyFn) => (
     <ThemeProvider theme={theme}>
         <UserProfileProvider>
             <ReactQueryConfigProvider config={queryConfig}>
-                <MockUserProfile/>
+                <MockUserProfile />
                 {storyFn()}
+                <CyVerseAnnouncer />
             </ReactQueryConfigProvider>
         </UserProfileProvider>
     </ThemeProvider>

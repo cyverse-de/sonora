@@ -44,7 +44,7 @@ export const handler = ({ method, pathname, headers }) => {
                 res.send(apiResponse.data);
             })
             .catch(async (err) => {
-                console.log(err);
+                logger.error(err);
                 const e = await err;
 
                 if (e.response && e.response.status === 302) {

@@ -18,4 +18,13 @@ export default {
     NOTIFICATION_WS: "/websocket/notifications",
     WS_PROTOCOL: "ws://",
     WSS_PROTOCOL: "wss://",
+    notificationCategory: {
+        ANALYSIS: "Analysis",
+    },
+    analysisStatus: {
+        SUBMITTED: "Submitted",
+        RUNNING: "Running",
+        COMPLETED: "Completed",
+        FAILED: "Failed",
+    },
 };

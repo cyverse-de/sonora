@@ -50,30 +50,30 @@ export function getNotifications(user, ws) {
     if (!user) {
         logger.error("User not found. Unable to get notification!");
     }
-    const QUEUE = NOTIFICATION_QUEUE + user;
-    if (msgChannel) {
-        msgChannel.assertQueue(QUEUE);
-        msgChannel.bindQueue(
-            QUEUE,
-            config.amqpExchangeName,
-            NOTIFICATION_ROUTING_KEY + user
-        );
-        logger.info("Channel bound for user " + user);
-        msgChannel.consume(
-            QUEUE,
-            function(msg) {
-                logger.info("Received message:" + msg.content.toString());
-                waitForSocketConnection(ws, function() {
+    waitForSocketConnection(ws, function() {
+        const QUEUE = NOTIFICATION_QUEUE + user;
+        if (msgChannel) {
+            msgChannel.assertQueue(QUEUE);
+            msgChannel.bindQueue(
+                QUEUE,
+                config.amqpExchangeName,
+                NOTIFICATION_ROUTING_KEY + user
+            );
+            logger.info("Channel bound for user: " + user);
+            msgChannel.consume(
+                QUEUE,
+                function(msg) {
+                    logger.info("Received message:" + msg.content.toString());
                     ws.send(msg.content.toString());
-                });
-            },
-            {
-                noAck: true,
-            }
-        );
-    } else {
-        logger.error("No channel found");
-    }
+                },
+                {
+                    noAck: true,
+                }
+            );
+        } else {
+            logger.error("No channel found");
+        }
+    });
 }
 
 /**
@@ -81,18 +81,19 @@ export function getNotifications(user, ws) {
  * Make the websocket.send wait until the connection is made...
  *
  * @param {Object} socket - Websocket instance
- * @param {function} callback - Function callback when websocket connection is made.
+ * @param {function} connectedCallback - Function callback when websocket connection is made.
+ *
  */
-function waitForSocketConnection(socket, callback) {
+function waitForSocketConnection(socket, connectedCallback) {
     setTimeout(function() {
         if (socket.readyState === 1) {
-            logger.info("Websocket connection is open...");
-            if (callback != null) {
-                callback();
+            logger.info("Websocket connection is open!");
+            if (connectedCallback) {
+                connectedCallback();
             }
         } else {
-            logger.info("waiting for websocket connection...");
-            waitForSocketConnection(socket, callback);
+            logger.info("Waiting for websocket connection...");
+            waitForSocketConnection(socket, connectedCallback);
         }
-    }, 5); // wait 5 ms for the connection...
+    }, 5000); // wait 5s for the connection...
 }

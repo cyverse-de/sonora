@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import ids from "./ids";
 import intlData from "./messages";
 import constants from "../../constants";
@@ -17,6 +17,7 @@ import {
     announce,
     build,
     CyVerseAnnouncer,
+    AnnouncerConstants,
     formatHTMLMessage,
     formatMessage,
     getMessage,
@@ -29,6 +30,7 @@ import {
     AppBar,
     Avatar,
     Badge,
+    Button,
     Divider,
     Drawer,
     Hidden,
@@ -40,7 +42,7 @@ import {
     Toolbar,
     Typography,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -49,7 +51,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 
 import { useUserProfile } from "../../contexts/userProfile";
-import { intercomLogin } from "../../common/intercom";
+import { intercomLogin, intercomLogout } from "../../common/intercom";
 import { useIntercom } from "../../contexts/intercom";
 import { getUserProfile } from "../../serviceFacade/userServiceFacade";
 import { useQuery } from "react-query";
@@ -102,12 +104,12 @@ function CustomIntercom({ intl, classes, unReadCount }) {
 
 function CyverseAppBar(props) {
     const classes = useStyles();
+    const theme = useTheme();
     const router = useRouter();
     const { intl, children } = props;
     const [userProfile, setUserProfile] = useUserProfile();
     const [avatarLetter, setAvatarLetter] = useState("");
     const [unSeenCount, setUnSeenCount] = useState(0);
-    const [wsInstance, setWsInstance] = useState();
     const {
         appId,
         enabled,
@@ -125,6 +127,103 @@ function CyverseAppBar(props) {
             throwOnError: true,
         },
     });
+
+    const gotToOutputFolder = useCallback(
+        (outputFolder) => {
+            router.push(
+                `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}ds${outputFolder}`
+            );
+        },
+        [router]
+    );
+
+    const analysisCustomAction = useCallback(
+        (outputFolderPath) => {
+            return (
+                <Button
+                    variant="outlined"
+                    onClick={() => {
+                        console.log("output folder path=>" + outputFolderPath);
+                        gotToOutputFolder(outputFolderPath); //gotcha - I cannot do router.push from here
+                    }}
+                >
+                    <Typography
+                        variant="button"
+                        style={{ color: theme.palette.primary.contrastText }}
+                    >
+                        {formatMessage(intl, "viewOutput")}
+                    </Typography>
+                </Button>
+            );
+        },
+        [gotToOutputFolder, intl, theme.palette.primary.contrastText]
+    );
+
+    const displayAnalysisNotification = useCallback(
+        (notification, analysisStatus) => {
+            let variant = AnnouncerConstants.INFO;
+            if (analysisStatus === constants.analysisStatus.COMPLETED) {
+                variant = AnnouncerConstants.SUCCESS;
+            } else if (analysisStatus === constants.analysisStatus.FAILED) {
+                variant = AnnouncerConstants.ERROR;
+            }
+            announce({
+                text: notification.message.text,
+                variant,
+                customAction:
+                    analysisStatus === constants.analysisStatus.COMPLETED ||
+                    analysisStatus === constants.analysisStatus.FAILED
+                        ? () =>
+                              analysisCustomAction(
+                                  notification.payload.analysisresultsfolder
+                              )
+                        : null,
+            });
+        },
+        [analysisCustomAction]
+    );
+
+    const displayNotification = useCallback(
+        (notification, category) => {
+            let analysisStatus =
+                category.toLowerCase() ===
+                constants.notificationCategory.ANALYSIS.toLowerCase()
+                    ? notification.payload.status
+                    : "";
+
+            if (analysisStatus) {
+                displayAnalysisNotification(notification, analysisStatus);
+            } else {
+                announce({
+                    text: notification.message.text,
+                });
+            }
+        },
+        [displayAnalysisNotification]
+    );
+
+    const handleMessage = useCallback(
+        (event) => {
+            console.log(event.data);
+            let push_msg = null;
+            try {
+                push_msg = JSON.parse(event.data);
+            } catch (e) {
+                return;
+            }
+            if (push_msg.total) {
+                setUnSeenCount(push_msg.total);
+            }
+
+            const message = push_msg.message;
+            if (message) {
+                const category = message.type;
+                displayNotification(message, category);
+            }
+        },
+        [displayNotification]
+    );
+
     React.useEffect(() => {
         if (userProfile && userProfile.id) {
             if (enabled) {
@@ -155,7 +254,7 @@ function CyverseAppBar(props) {
             const ws = new Sockette(notificationUrl, {
                 maxAttempts: 10,
                 onopen: (e) => {
-                    console.log("connected!");
+                    console.log("Websocket connected!");
                     ws.send("Connected by " + userProfile.id);
                 },
                 onmessage: (e) => handleMessage(e),
@@ -164,42 +263,25 @@ function CyverseAppBar(props) {
                 onclose: (e) => console.log("Closed!", e),
                 onerror: (e) => console.log("Error:", e),
             });
-            setWsInstance(ws);
+            return () => {
+                intercomLogout();
+                ws.close();
+            };
         }
-    }, [userProfile, appId, enabled, companyId, companyName, setAvatarLetter]);
-
-    const handleMessage = (event) => {
-        console.log(event.data);
-        let push_msg = null;
-        try {
-            push_msg = JSON.parse(event.data);
-        } catch (e) {
-            return;
-        }
-        if (push_msg.total) {
-            setUnSeenCount(push_msg.total);
-        }
-
-        const message = push_msg.message;
-        if (message) {
-            const category = message.type;
-            displayNotification(message, category);
-        }
-    };
-
-    const displayNotification = (notification, category) => {
-        announce({
-            text: notification.message.text,
-        });
-    };
+    }, [
+        userProfile,
+        appId,
+        enabled,
+        companyId,
+        companyName,
+        setAvatarLetter,
+        handleMessage,
+    ]);
 
     const handleUserButtonClick = (event) => {
         if (!userProfile) {
             router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
         } else {
-            if (wsInstance) {
-                wsInstance.close(); //close websocket
-            }
             router.push(`/${NavigationConstants.LOGOUT}`);
         }
     };

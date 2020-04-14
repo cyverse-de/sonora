@@ -62,7 +62,7 @@ function DetailsTabPanel(props) {
     };
 
     if (loading) {
-        return <GridLoading rows={10} />;
+        return <GridLoading baseId={baseId} rows={10} />;
     }
 
     const isFile = details.type !== "dir";

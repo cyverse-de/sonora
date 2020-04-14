@@ -19,7 +19,7 @@ import ids from "../ids";
 
 function ToolsUsedPanel({ details, loading, baseId, error }) {
     if (loading) {
-        return <GridLoading rows={10} />;
+        return <GridLoading baseId={baseId} rows={10} />;
     }
     if (error) {
         return <span>{error}</span>;

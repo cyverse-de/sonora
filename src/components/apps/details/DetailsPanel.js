@@ -36,7 +36,7 @@ function DetailsPanel(props) {
     } = props;
 
     if (detailsLoadingStatus) {
-        return <GridLoading rows={10} />;
+        return <GridLoading baseId={baseId} rows={10} />;
     }
 
     if (error) {

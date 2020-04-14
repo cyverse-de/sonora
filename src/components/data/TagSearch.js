@@ -46,7 +46,7 @@ function TagSearch(props) {
     const { id, resource, intl } = props;
     const classes = useStyles();
 
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useState(null);
     const [options, setOptions] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
 
@@ -66,14 +66,15 @@ function TagSearch(props) {
         },
     });
 
-    const [fetchTagSuggestions, { status: tagSuggestionStatus }] = useMutation(
-        getTagSuggestions,
-        {
+    const { status: tagSuggestionStatus } = useQuery({
+        queryKey: { searchTerm },
+        queryFn: getTagSuggestions,
+        config: {
             onSuccess: (resp) => {
                 setOptions(resp.tags);
-            },
+            }
         }
-    );
+    });
 
     const [removeTag, { status: tagDetachStatus }] = useMutation(
         detachTagsFromResource,
@@ -114,7 +115,7 @@ function TagSearch(props) {
         attachTagsToResource,
         {
             onSuccess: () => {
-                setSearchTerm("");
+                setSearchTerm(null);
                 return queryCache.refetchQueries(fetchTagsQueryKey);
             },
             onError: () =>
@@ -149,7 +150,6 @@ function TagSearch(props) {
         if (event) {
             const newSearchTerm = event.target.value;
             setSearchTerm(newSearchTerm);
-            fetchTagSuggestions({ searchTerm: newSearchTerm });
         }
     };
 
@@ -184,7 +184,7 @@ function TagSearch(props) {
                     const hasOption = options.find(
                         (tag) => tag.value === searchTerm
                     );
-                    if (searchTerm !== "" && !hasOption) {
+                    if (searchTerm && !hasOption) {
                         const fakeAdderTag = {
                             id: null,
                             value: formatMessage(intl, "createTag", {

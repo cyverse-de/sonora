@@ -68,6 +68,8 @@ function PermissionsTabPanel(props) {
     const classes = useStyles();
     const { baseId, resource, selfPermission, intl } = props;
 
+    const [fetchUserInfoKey, setFetchUserInfoKey] = useState(null);
+    const [userlessPermissions, setUserlessPermissions] = useState([]);
     const [permissions, setPermissions] = useState([]);
     const [permissionLoadingIds, setPermissionLoadingIds] = useState([]);
     const resourcePath = resource.path;
@@ -91,12 +93,14 @@ function PermissionsTabPanel(props) {
         return merged;
     };
 
-    const [fetchUserInfo, { status: fetchUserInfoStatus }] = useMutation(
-        getUserInfo,
-        {
-            onSuccess: (userInfos, { permissions }) => {
-                const mergedInfo = mergeUsersWithPerms(permissions, userInfos);
+    const { status: fetchUserInfoStatus } = useQuery({
+        queryKey: fetchUserInfoKey,
+        queryFn: getUserInfo,
+        config: {
+            onSuccess: (userInfos) => {
+                const mergedInfo = mergeUsersWithPerms(userlessPermissions, userInfos);
                 setPermissions(mergedInfo);
+                setFetchUserInfoKey(null);
             },
             onError: () =>
                 announce({
@@ -104,20 +108,21 @@ function PermissionsTabPanel(props) {
                     variant: AnnouncerConstants.ERROR,
                 }),
         }
-    );
+    });
 
     const { status: fetchResourcePermissionsStatus } = useQuery({
         queryKey: fetchResourcePermissionsKey,
         queryFn: getResourcePermissions,
         config: {
             onSuccess: (permissionResp) => {
-                const permissions =
+                const userlessPermissions =
                     permissionResp?.paths[0]["user-permissions"];
-                if (permissions) {
+                if (userlessPermissions && userlessPermissions.length > 0) {
                     const userIds = new Set(
-                        permissions.map((item) => item.user)
+                        userlessPermissions.map((item) => item.user)
                     );
-                    fetchUserInfo({ userIds: [...userIds], permissions });
+                    setUserlessPermissions(userlessPermissions);
+                    setFetchUserInfoKey({ userIds: [...userIds] });
                 } else {
                     setPermissions([]);
                 }

@@ -32,7 +32,7 @@ import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import FolderIcon from "@material-ui/icons/Folder";
 import ids from "./ids";
 import constants from "../../constants";
-import { getFilesystemRoots } from "../endpoints/Filesystem";
+import { getFilesystemRoots } from "../../serviceFacade/filesystemServiceFacade";
 import { useUserProfile } from "../../contexts/userProfile";
 import { useQuery } from "react-query";
 

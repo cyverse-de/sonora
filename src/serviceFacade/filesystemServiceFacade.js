@@ -1,4 +1,4 @@
-import callApi from "../../common/callApi";
+import callApi from "../common/callApi";
 
 /**
  * Get details on data resources

@@ -1,4 +1,4 @@
-import callApi from "../../common/callApi";
+import callApi from "../common/callApi";
 
 /**
  * Get tag suggestions based on a search term

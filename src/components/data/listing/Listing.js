@@ -18,7 +18,10 @@ import UploadDropTarget from "../../uploads/UploadDropTarget";
 import { useUploadTrackingState } from "../../../contexts/uploadTracking";
 import { camelcaseit } from "../../../common/functions";
 import Drawer from "../details/Drawer";
-import { getInfoTypes, getPagedListing } from "../../endpoints/Filesystem";
+import {
+    getInfoTypes,
+    getPagedListing,
+} from "../../../serviceFacade/filesystemServiceFacade";
 import DataNavigation from "../DataNavigation";
 import DEPagination from "../../utils/DEPagination";
 

@@ -34,7 +34,7 @@ import {
     detachTagsFromResource,
     getTagSuggestions,
     getTagsForResource,
-} from "../endpoints/Tags";
+} from "../../serviceFacade/tagsServiceFacade";
 import messages from "./messages";
 import styles from "./styles";
 import isQueryLoading from "../utils/isQueryLoading";

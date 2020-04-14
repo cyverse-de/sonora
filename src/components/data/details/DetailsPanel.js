@@ -32,7 +32,10 @@ import ids from "../ids";
 import messages from "../messages";
 import styles from "../styles";
 import TagSearch from "../TagSearch";
-import { getResourceDetails, updateInfoType } from "../../endpoints/Filesystem";
+import {
+    getResourceDetails,
+    updateInfoType,
+} from "../../../serviceFacade/filesystemServiceFacade";
 import GridLabelValue from "../../utils/GridLabelValue";
 import GridLoading from "../../utils/GridLoading";
 import isQueryLoading from "../../utils/isQueryLoading";

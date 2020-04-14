@@ -130,9 +130,11 @@ function TableView(props) {
                     onSelectAllClick={handleSelectAllClick}
                 />
                 {loading && (
-                    <TableBody>
-                        <TableLoading numColumns={6} numRows={25} />
-                    </TableBody>
+                    <TableLoading
+                        numColumns={6}
+                        numRows={25}
+                        baseId={tableId}
+                    />
                 )}
                 {!loading && (
                     <TableBody>

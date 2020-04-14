@@ -162,6 +162,7 @@ function TagSearch(props) {
                                 <>
                                     {loading ? (
                                         <CircularProgress
+                                            id={build(id, ids.LOADING_SKELETON)}
                                             color="inherit"
                                             size={20}
                                         />

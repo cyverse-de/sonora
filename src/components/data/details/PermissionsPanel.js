@@ -146,7 +146,11 @@ function PermissionsTabPanel(props) {
     if (loading) {
         const arrayRows = [...Array(10)];
         return (
-            <Grid container spacing={1}>
+            <Grid
+                id={build(baseId, ids.LOADING_SKELETON)}
+                container
+                spacing={1}
+            >
                 {arrayRows.map((el, index) => (
                     <Fragment key={index}>
                         <Grid item sm={6} xs={6}>

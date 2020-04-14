@@ -19,6 +19,7 @@ export default {
     INFO_TYPES: "infoTypes",
     LABEL: "label",
     listingTable: "listingTable",
+    LOADING_SKELETON: "loadingSkeleton",
     MANUAL_UPLOAD_MI: "manualUploadMenuItem",
     metadataMI: "metadata",
     navLink: "navigationLink",

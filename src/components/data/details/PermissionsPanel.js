@@ -10,6 +10,7 @@ import React, { Fragment, useState } from "react";
 
 import {
     announce,
+    AnnouncerConstants,
     build,
     formatMessage,
     getMessage,
@@ -100,7 +101,7 @@ function PermissionsTabPanel(props) {
             onError: () =>
                 announce({
                     text: formatMessage(intl, "fetchPermissionsError"),
-                    variant: "error",
+                    variant: AnnouncerConstants.ERROR,
                 }),
         }
     );
@@ -124,7 +125,7 @@ function PermissionsTabPanel(props) {
             onError: () =>
                 announce({
                     text: formatMessage(intl, "fetchPermissionsError"),
-                    variant: "error",
+                    variant: AnnouncerConstants.ERROR,
                 }),
         },
     });

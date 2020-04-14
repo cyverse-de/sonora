@@ -7,7 +7,13 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { announce, build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    AnnouncerConstants,
+    build,
+    formatMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
 import intlData from "./messages";
 import {
     Breadcrumbs,
@@ -396,8 +402,7 @@ function DataNavigation(props) {
                 //temporary workaround -> should still display community data
                 announce({
                     text: formatMessage(intl, "dataSignIn"),
-                    variant: "info",
-                    vertical: "bottom",
+                    variant: AnnouncerConstants.INFO,
                 });
             },
         },

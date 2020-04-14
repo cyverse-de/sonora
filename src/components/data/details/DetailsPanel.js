@@ -8,6 +8,7 @@ import React, { useState } from "react";
 
 import {
     announce,
+    AnnouncerConstants,
     build,
     CopyTextArea,
     formatDate,
@@ -72,7 +73,7 @@ function DetailsTabPanel(props) {
             onError: () =>
                 announce({
                     text: formatMessage(intl, "updateInfoTypeError"),
-                    variant: "error",
+                    variant: AnnouncerConstants.ERROR,
                 }),
         }
     );

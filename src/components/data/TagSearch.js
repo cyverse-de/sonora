@@ -9,6 +9,7 @@ import React, { useState } from "react";
 
 import {
     announce,
+    AnnouncerConstants,
     build,
     formatMessage,
     getMessage,
@@ -60,7 +61,7 @@ function TagSearch(props) {
             onError: () =>
                 announce({
                     text: formatMessage(intl, "fetchTagSuggestionsError"),
-                    variant: "error",
+                    variant: AnnouncerConstants.ERROR,
                 }),
         },
     });
@@ -81,7 +82,7 @@ function TagSearch(props) {
             onError: () =>
                 announce({
                     text: formatMessage(intl, "modifyTagsError"),
-                    variant: "error",
+                    variant: AnnouncerConstants.ERROR,
                 }),
         }
     );
@@ -104,7 +105,7 @@ function TagSearch(props) {
             onError: () =>
                 announce({
                     text: formatMessage(intl, "modifyTagsError"),
-                    variant: "error",
+                    variant: AnnouncerConstants.ERROR,
                 }),
         }
     );
@@ -119,7 +120,7 @@ function TagSearch(props) {
             onError: () =>
                 announce({
                     text: formatMessage(intl, "modifyTagsError"),
-                    variant: "error",
+                    variant: AnnouncerConstants.ERROR,
                 }),
         }
     );

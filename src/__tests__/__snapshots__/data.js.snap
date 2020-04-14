@@ -10,16 +10,7 @@ exports[`Data Table View renders 1`] = `
   }
 >
   <table
-    aria-label={
-      <FormattedMessage
-        id="ariaTableListing"
-        values={
-          Object {
-            "path": "/iplant/home/ipcdev",
-          }
-        }
-      />
-    }
+    aria-label="/iplant/home/ipcdev Data Table"
     className="MuiTable-root MuiTable-stickyHeader"
     id="tableView.listingTable"
   >
@@ -31,7 +22,7 @@ exports[`Data Table View renders 1`] = `
       >
         <th
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingCheckbox MuiTableCell-stickyHeader"
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingCheckbox MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
           scope="col"
         >
           <span
@@ -85,7 +76,7 @@ exports[`Data Table View renders 1`] = `
         </th>
         <th
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignCenter MuiTableCell-stickyHeader"
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignCenter MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
           id="tableView.listingTable.checkbox"
           scope="col"
         >
@@ -93,7 +84,7 @@ exports[`Data Table View renders 1`] = `
         </th>
         <th
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-stickyHeader"
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
           id="tableView.listingTable.name"
           scope="col"
         >
@@ -134,7 +125,7 @@ exports[`Data Table View renders 1`] = `
         </th>
         <th
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-stickyHeader"
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
           id="tableView.listingTable.dotMenu"
           scope="col"
         >
@@ -197,7 +188,7 @@ exports[`Data Table View renders 1`] = `
       >
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox MuiTableCell-sizeSmall"
         >
           <span
             aria-disabled={false}
@@ -247,7 +238,7 @@ exports[`Data Table View renders 1`] = `
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox MuiTableCell-sizeSmall"
         >
           <svg
             aria-hidden="true"
@@ -263,7 +254,7 @@ exports[`Data Table View renders 1`] = `
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
             className="makeStyles-dataLink-110"
@@ -278,7 +269,7 @@ exports[`Data Table View renders 1`] = `
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <button
             aria-controls="tableView.listingTable.analyses_qa-3.moreMenu"
@@ -334,7 +325,7 @@ exports[`Data Table View renders 1`] = `
       >
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox MuiTableCell-sizeSmall"
         >
           <span
             aria-disabled={false}
@@ -384,7 +375,7 @@ exports[`Data Table View renders 1`] = `
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox MuiTableCell-sizeSmall"
         >
           <svg
             aria-hidden="true"
@@ -400,7 +391,7 @@ exports[`Data Table View renders 1`] = `
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
             className="makeStyles-dataLink-110"
@@ -415,7 +406,7 @@ exports[`Data Table View renders 1`] = `
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <button
             aria-controls="tableView.listingTable.test.moreMenu"
@@ -471,7 +462,7 @@ exports[`Data Table View renders 1`] = `
       >
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox MuiTableCell-sizeSmall"
         >
           <span
             aria-disabled={false}
@@ -521,7 +512,7 @@ exports[`Data Table View renders 1`] = `
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox MuiTableCell-sizeSmall"
         >
           <svg
             aria-hidden="true"
@@ -537,7 +528,7 @@ exports[`Data Table View renders 1`] = `
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
             className="makeStyles-dataLink-110"
@@ -552,7 +543,7 @@ exports[`Data Table View renders 1`] = `
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <button
             aria-controls="tableView.listingTable.CORE-8424.txt.moreMenu"
@@ -608,7 +599,7 @@ exports[`Data Table View renders 1`] = `
       >
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox MuiTableCell-sizeSmall"
         >
           <span
             aria-disabled={false}
@@ -658,7 +649,7 @@ exports[`Data Table View renders 1`] = `
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox MuiTableCell-sizeSmall"
         >
           <svg
             aria-hidden="true"
@@ -674,7 +665,7 @@ exports[`Data Table View renders 1`] = `
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
             className="makeStyles-dataLink-110"
@@ -689,7 +680,7 @@ exports[`Data Table View renders 1`] = `
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <button
             aria-controls="tableView.listingTable.sample.csv.moreMenu"

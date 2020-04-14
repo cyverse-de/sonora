@@ -15,9 +15,9 @@ import {
     rateApp,
 } from "../../../serviceFacade/appServiceFacade";
 import TableView from "./TableView";
-import { TablePagination } from "@material-ui/core";
 import Header from "../Header";
 import AppNavigation from "../AppNavigation";
+import { getFilters } from "../AppNavigation";
 import constants from "../../../constants";
 import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
 import Drawer from "../details/Drawer";
@@ -30,6 +30,7 @@ import {
 } from "@cyverse-de/ui-lib";
 import { injectIntl } from "react-intl";
 import intlData from "../messages";
+import DEPagination from "../../utils/DEPagination";
 
 function Listing(props) {
     const { baseId, intl } = props;
@@ -41,8 +42,8 @@ function Listing(props) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [filter, setFilter] = useState(null);
     const [appsInCategoryKey, setAppsInCategoryKey] = useState(null);
+    const [filter, setFilter] = useState(getFilters()[0]);
     const [allAppsKey, setAllAppsKey] = useState(null);
     const [data, setData] = useState(null);
     const [agaveAuthDialogOpen, setAgaveAuthDialogOpen] = useState(false);
@@ -151,9 +152,9 @@ function Listing(props) {
                     rowsPerPage,
                     orderBy,
                     order,
+                    appTypeFilter,
                     page,
                     categoryId,
-                    appTypeFilter,
                 },
             ]);
             setAllAppsKey(null);
@@ -297,7 +298,7 @@ function Listing(props) {
     };
 
     const handleChangePage = (event, newPage) => {
-        setPage(newPage);
+        setPage(newPage - 1);
     };
 
     const handleChangeRowsPerPage = (event) => {
@@ -310,8 +311,8 @@ function Listing(props) {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
         setOrderBy(property);
-        setPage(0);
         setSelected([]);
+        setPage(0);
     };
 
     const handleCategoryChange = (selectedCategory) => {
@@ -373,15 +374,6 @@ function Listing(props) {
                 handleClick={handleClick}
                 handleRequestSort={handleRequestSort}
             />
-            <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={data?.total ? data.total : 0}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
             {detailsOpen && (
                 <Drawer
                     selectedApp={detailsApp}
@@ -400,6 +392,16 @@ function Listing(props) {
                     }
                     onRatingChange={onRatingChange}
                     onDeleteRatingClick={onDeleteRating}
+                />
+            )}
+            {data && data.total > 0 && (
+                <DEPagination
+                    page={page + 1}
+                    onChange={handleChangePage}
+                    totalPages={Math.ceil(data.total / rowsPerPage)}
+                    onPageSizeChange={handleChangeRowsPerPage}
+                    pageSize={rowsPerPage}
+                    baseId={baseId}
                 />
             )}
         </>

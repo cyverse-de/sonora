@@ -242,9 +242,10 @@ function TableView(props) {
         >
             <Table
                 stickyHeader
+                size="small"
                 id={tableId}
-                aria-label={getMessage("ariaTableListing", {
-                    values: { path: path },
+                aria-label={formatMessage(intl, "ariaTableListing", {
+                    path: path,
                 })}
             >
                 <EnhancedTableHead

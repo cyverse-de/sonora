@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from "react";
 
 import { withI18N } from "@cyverse-de/ui-lib";
-import { TablePagination, Toolbar } from "@material-ui/core";
+import { Toolbar } from "@material-ui/core";
 import { injectIntl } from "react-intl";
 
 import Header from "../Header";
@@ -19,6 +19,7 @@ import { camelcaseit } from "../../../common/functions";
 import Drawer from "../details/Drawer";
 import { getInfoTypes, getPagedListing } from "../../endpoints/Filesystem";
 import DataNavigation from "../DataNavigation";
+import DEPagination from "../../utils/DEPagination";
 
 function Listing(props) {
     const uploadTracker = useUploadTrackingState();
@@ -63,6 +64,7 @@ function Listing(props) {
     useEffect(() => {
         if (path) {
             setLoading(true);
+            //page starts at 0
             getPagedListing(path, rowsPerPage, orderBy, order, page).then(
                 (respData) => {
                     respData &&
@@ -192,11 +194,11 @@ function Listing(props) {
     };
 
     const handleChangePage = (event, newPage) => {
-        setPage(newPage);
+        setPage(newPage - 1);
     };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
+    const handleChangeRowsPerPage = (newPageSize) => {
+        setRowsPerPage(parseInt(newPageSize, 10));
         setPage(0);
     };
 
@@ -260,15 +262,16 @@ function Listing(props) {
                     />
                 )}
                 {isGridView && <span>Coming Soon!</span>}
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={data?.total}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
-                />
+                {data && data.total > 0 && (
+                    <DEPagination
+                        page={page + 1}
+                        onChange={handleChangePage}
+                        totalPages={Math.ceil(data.total / rowsPerPage)}
+                        onPageSizeChange={handleChangeRowsPerPage}
+                        pageSize={rowsPerPage}
+                        baseId={baseId}
+                    />
+                )}
             </UploadDropTarget>
             {detailsOpen && (
                 <Drawer

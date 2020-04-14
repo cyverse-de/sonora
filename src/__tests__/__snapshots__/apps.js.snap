@@ -61,6 +61,7 @@ Array [
     }
   >
     <table
+      aria-label="Apps table listing"
       className="MuiTable-root MuiTable-stickyHeader"
     >
       <thead
@@ -285,137 +286,6 @@ Array [
       </tbody>
     </table>
   </div>,
-  <div
-    className="MuiTablePagination-root"
-  >
-    <div
-      className="MuiToolbar-root MuiToolbar-regular MuiTablePagination-toolbar MuiToolbar-gutters"
-    >
-      <div
-        className="MuiTablePagination-spacer"
-      />
-      <p
-        className="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
-      >
-        Rows per page:
-      </p>
-      <div
-        className="MuiInputBase-root MuiTablePagination-input MuiTablePagination-selectRoot"
-        onClick={[Function]}
-      >
-        <div
-          aria-haspopup="listbox"
-          aria-labelledby=" "
-          className="MuiSelect-root MuiSelect-select MuiTablePagination-select MuiSelect-selectMenu MuiInputBase-input"
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onMouseDown={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          25
-        </div>
-        <input
-          onAnimationStart={[Function]}
-          type="hidden"
-          value={25}
-        />
-        <svg
-          aria-hidden="true"
-          className="MuiSvgIcon-root MuiSelect-icon MuiTablePagination-selectIcon"
-          focusable="false"
-          role="presentation"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M7 10l5 5 5-5z"
-          />
-        </svg>
-      </div>
-      <p
-        className="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
-      >
-        0-0 of 0
-      </p>
-      <div
-        className="MuiTablePagination-actions"
-      >
-        <button
-          aria-label="Previous page"
-          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
-          disabled={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={-1}
-          title="Previous page"
-          type="button"
-        >
-          <span
-            className="MuiIconButton-label"
-          >
-            <svg
-              aria-hidden="true"
-              className="MuiSvgIcon-root"
-              focusable="false"
-              role="presentation"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
-              />
-            </svg>
-          </span>
-        </button>
-        <button
-          aria-label="Next page"
-          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
-          disabled={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={-1}
-          title="Next page"
-          type="button"
-        >
-          <span
-            className="MuiIconButton-label"
-          >
-            <svg
-              aria-hidden="true"
-              className="MuiSvgIcon-root"
-              focusable="false"
-              role="presentation"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
-              />
-            </svg>
-          </span>
-        </button>
-      </div>
-    </div>
-  </div>,
 ]
 `;
 
@@ -429,6 +299,7 @@ exports[`App Table view renders 1`] = `
   }
 >
   <table
+    aria-label="Apps table listing"
     className="MuiTable-root MuiTable-stickyHeader"
   >
     <thead
@@ -6670,6 +6541,7 @@ exports[`App Table view renders 1`] = `
                 "appListingError": "Unable to get Apps. Please try again.",
                 "appType": "Type",
                 "ariaCheckbox": "{label} checkbox",
+                "ariaTableListing": "Apps table listing",
                 "authenticateBtnText": "Authenticate",
                 "beta": "Beta Tag Applied",
                 "betaAppTooltip": "This app is in beta.",
@@ -7140,6 +7012,7 @@ exports[`App Table view renders 1`] = `
                 "appListingError": "Unable to get Apps. Please try again.",
                 "appType": "Type",
                 "ariaCheckbox": "{label} checkbox",
+                "ariaTableListing": "Apps table listing",
                 "authenticateBtnText": "Authenticate",
                 "beta": "Beta Tag Applied",
                 "betaAppTooltip": "This app is in beta.",

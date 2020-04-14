@@ -60,9 +60,11 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     filter: {
-        minWidth: 150,
-        [theme.breakpoints.down("sm")]: {
-            width: 100,
+        [theme.breakpoints.down("xs")]: {
+            width: 130,
+        },
+        [theme.breakpoints.up("sm")]: {
+            width: 150,
         },
     },
 }));
@@ -125,7 +127,6 @@ function AppNavigation(props) {
             setCategories(privateCat.categories);
         }
         handleCategoryChange(privateCat.categories[0]);
-        handleFilterChange(getFilters()[0]);
     };
 
     useQuery({
@@ -263,3 +264,4 @@ function AppNavigation(props) {
     );
 }
 export default withI18N(injectIntl(AppNavigation), intlData);
+export { getFilters };

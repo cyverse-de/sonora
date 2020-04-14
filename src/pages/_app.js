@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from "react-query-devtools";
 import { ReactQueryConfigProvider } from "react-query";
 
 import { ThemeProvider } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import "./styles.css";
 
 import CyverseAppBar from "../components/layout/CyVerseAppBar";
@@ -112,6 +113,7 @@ function MyApp({
                 <UserProfileProvider>
                     <UploadTrackingProvider>
                         <ReactQueryConfigProvider config={queryConfig}>
+                            <CssBaseline />
                             <CyverseAppBar>
                                 <Head>
                                     <title>Discovery Environment</title>

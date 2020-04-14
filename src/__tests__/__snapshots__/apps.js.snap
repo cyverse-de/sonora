@@ -61,12 +61,7 @@ Array [
     }
   >
     <table
-      aria-label={
-        <FormattedMessage
-          id="ariaTableListing"
-          values={Object {}}
-        />
-      }
+      aria-label="Apps table listing"
       className="MuiTable-root MuiTable-stickyHeader"
     >
       <thead
@@ -304,12 +299,7 @@ exports[`App Table view renders 1`] = `
   }
 >
   <table
-    aria-label={
-      <FormattedMessage
-        id="ariaTableListing"
-        values={Object {}}
-      />
-    }
+    aria-label="Apps table listing"
     className="MuiTable-root MuiTable-stickyHeader"
   >
     <thead

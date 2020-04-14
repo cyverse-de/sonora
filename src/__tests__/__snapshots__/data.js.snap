@@ -10,16 +10,7 @@ exports[`Data Table View renders 1`] = `
   }
 >
   <table
-    aria-label={
-      <FormattedMessage
-        id="ariaTableListing"
-        values={
-          Object {
-            "path": "/iplant/home/ipcdev",
-          }
-        }
-      />
-    }
+    aria-label="/iplant/home/ipcdev Data Table"
     className="MuiTable-root MuiTable-stickyHeader"
     id="tableView.listingTable"
   >

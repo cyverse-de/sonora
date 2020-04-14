@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export function getFilters() {
+function getFilters() {
     return Object.keys(appType).map((type) => {
         return {
             name: appType[type],
@@ -264,3 +264,4 @@ function AppNavigation(props) {
     );
 }
 export default withI18N(injectIntl(AppNavigation), intlData);
+export { getFilters };

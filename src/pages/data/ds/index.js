@@ -12,7 +12,5 @@ import DataStore from "./[...pathItems]";
  * Go directly to the dynamic path
  */
 export default function Data() {
-    return (
-        <DataStore/>
-    );
+    return <DataStore />;
 }

@@ -34,12 +34,16 @@ export default function DataStore() {
 
     let path = "";
     if (pathItems && pathItems.length > 0) {
-        path = constants.PATH_SEPARATOR + pathItems.join(constants.PATH_SEPARATOR);
+        path =
+            constants.PATH_SEPARATOR + pathItems.join(constants.PATH_SEPARATOR);
     }
 
     const handlePathChange = (path) => {
         const encodedPath = getEncodedPath(path);
-        router.push(`${baseRoutingPath}${dynamicPathName}`, `${baseRoutingPath}${encodedPath}`);
+        router.push(
+            `${baseRoutingPath}${dynamicPathName}`,
+            `${baseRoutingPath}${encodedPath}`
+        );
     };
 
     return (

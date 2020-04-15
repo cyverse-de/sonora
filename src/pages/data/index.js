@@ -15,10 +15,8 @@ export default function Data() {
     const router = useRouter();
 
     useEffect(() => {
-        router.push(`${router.pathname}/ds`)
-    }, [router])
+        router.push(`${router.pathname}/ds`);
+    }, [router]);
 
-    return (
-        <Fragment/>
-    );
+    return <Fragment />;
 }

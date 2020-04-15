@@ -37,6 +37,7 @@ function Header(props) {
     const classes = useStyles();
     const {
         baseId,
+        path,
         isGridView,
         toggleDisplay,
         onDownloadSelected,
@@ -102,7 +103,7 @@ function Header(props) {
                     <Hidden xsDown>{getMessage("details")}</Hidden>
                 </Button>
             )}
-            <UploadMenuBtn baseId={headerId} />
+            <UploadMenuBtn baseId={headerId} path={path} />
             <Button
                 id={build(headerId, ids.SHARE_BTN)}
                 variant="contained"

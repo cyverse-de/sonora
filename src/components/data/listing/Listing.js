@@ -245,6 +245,7 @@ function Listing(props) {
                 </Toolbar>
                 <Header
                     baseId={baseId}
+                    path={path}
                     isGridView={isGridView}
                     toggleDisplay={toggleDisplay}
                     onDownloadSelected={onDownloadSelected}

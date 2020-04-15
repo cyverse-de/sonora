@@ -29,17 +29,46 @@ import UploadDialog from "../uploads/dialog";
 
 import ids from "./ids";
 import styles from "./styles";
-import { useUploadTrackingState } from "../../contexts/uploadTracking";
+import {
+    useUploadTrackingDispatch,
+    useUploadTrackingState,
+} from "../../contexts/uploadTracking";
 import { injectIntl } from "react-intl";
 import intlData from "./messages";
+import { processSelectedFiles, trackUpload } from "../uploads/UploadDrop";
 
 const useStyles = makeStyles(styles);
 
+/**
+ * A component that remains hidden, but enables file browsing via the browser
+ * and passes back the selected files in onChange.  It's activated via the shared
+ * element id with the Browse Local menu item.
+ *
+ * @param id
+ * @param handleUploadFiles
+ * @returns {*}
+ * @constructor
+ */
+function FileBrowser({ id, handleUploadFiles }) {
+    return (
+        <input
+            id={id}
+            type="file"
+            multiple
+            onChange={(event) => {
+                handleUploadFiles(event.target.files);
+            }}
+            style={{ display: "none" }}
+        />
+    );
+}
+
 function UploadMenuBtn(props) {
-    const { baseId, intl } = props;
+    const { baseId, path, intl } = props;
     const theme = useTheme();
     const classes = useStyles();
     const tracker = useUploadTrackingState();
+    const uploadDispatch = useUploadTrackingDispatch();
 
     const [uploadAnchor, setUploadAnchor] = useState(null);
     const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
@@ -79,10 +108,25 @@ function UploadMenuBtn(props) {
         setUploadAnchor(event.currentTarget);
     };
 
+    const trackAllUploads = (uploadFiles) => {
+        uploadFiles.forEach((aFile) => {
+            trackUpload(aFile.value, path, uploadDispatch);
+        });
+    };
+
+    const handleUploadFiles = (files) => {
+        processSelectedFiles(files, trackAllUploads);
+    };
+
     const uploadMenuId = build(baseId, ids.UPLOAD_MENU);
+    const localUploadId = build(baseId, ids.UPLOAD_MI, ids.UPLOAD_INPUT);
 
     return (
         <>
+            <FileBrowser
+                id={localUploadId}
+                handleUploadFiles={handleUploadFiles}
+            />
             <Button
                 id={build(baseId, ids.UPLOAD_BTN)}
                 variant="contained"
@@ -102,15 +146,16 @@ function UploadMenuBtn(props) {
                 open={Boolean(uploadAnchor)}
                 onClose={onUploadClose}
             >
-                <MenuItem
-                    id={build(uploadMenuId, ids.UPLOAD_MI)}
-                    onClick={() => {
-                        onUploadClose();
-                        console.log("Browse Local");
-                    }}
-                >
-                    {getMessage("browseLocal")}
-                </MenuItem>
+                <label htmlFor={localUploadId}>
+                    <MenuItem
+                        id={build(uploadMenuId, ids.UPLOAD_MI)}
+                        onClick={() => {
+                            onUploadClose();
+                        }}
+                    >
+                        {getMessage("browseLocal")}
+                    </MenuItem>
+                </label>
                 <MenuItem
                     id={build(uploadMenuId, ids.IMPORT_MI)}
                     onClick={() => {

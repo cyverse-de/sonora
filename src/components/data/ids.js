@@ -56,4 +56,6 @@ export default {
     SELECTED_PATH_ITEM: "selectedPathItem",
     PATH_ITEMS_MENU: "pathItemsMenu",
     PATH_ITEMS_MENU_ITEM: "pathItemsMenuItem",
+    UPLOAD_INPUT: "input",
+
 };

@@ -1,5 +1,6 @@
 import React from "react";
+import Listing from "../components/analyses/listing/listing";
 
 export default function Analyses() {
-    return <div>View your analyses here</div>;
+    return <Listing baseId="analyses" />;
 }

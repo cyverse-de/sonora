@@ -17,7 +17,7 @@ import {
 import TableView from "./TableView";
 import Header from "../Header";
 import AppNavigation from "../AppNavigation";
-import { getFilters } from "../AppNavigation";
+import { getAppTypeFilters } from "../AppNavigation";
 import constants from "../../../constants";
 import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
 import Drawer from "../details/Drawer";
@@ -31,9 +31,11 @@ import {
 import { injectIntl } from "react-intl";
 import intlData from "../messages";
 import DEPagination from "../../utils/DEPagination";
+import { useUserProfile } from "../../../contexts/userProfile";
 
 function Listing(props) {
     const { baseId, intl } = props;
+    const [userProfile] = useUserProfile();
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");
@@ -43,7 +45,7 @@ function Listing(props) {
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [appsInCategoryKey, setAppsInCategoryKey] = useState(null);
-    const [filter, setFilter] = useState(getFilters()[0]);
+    const [filter, setFilter] = useState(getAppTypeFilters()[0]);
     const [allAppsKey, setAllAppsKey] = useState(null);
     const [data, setData] = useState(null);
     const [agaveAuthDialogOpen, setAgaveAuthDialogOpen] = useState(false);

@@ -261,5 +261,15 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding the /analyses");
+    api.get(
+        "/analyses",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/analyses",
+        })
+    );
+
     return api;
 }

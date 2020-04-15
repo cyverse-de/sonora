@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function getFilters() {
+function getAppTypeFilters() {
     return Object.keys(appType).map((type) => {
         return {
             name: appType[type],
@@ -242,7 +242,7 @@ function AppNavigation(props) {
                     appType.agave.toLowerCase()
                 }
                 value={filter}
-                options={getFilters()}
+                options={getAppTypeFilters()}
                 size="small"
                 onChange={(event, newValue) => {
                     handleFilterChange(newValue);
@@ -264,4 +264,4 @@ function AppNavigation(props) {
     );
 }
 export default withI18N(injectIntl(AppNavigation), intlData);
-export { getFilters };
+export { getAppTypeFilters };

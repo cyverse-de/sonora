@@ -27,4 +27,5 @@ export default {
         COMPLETED: "Completed",
         FAILED: "Failed",
     },
+    IPLANT: "iplantcollaborative",
 };

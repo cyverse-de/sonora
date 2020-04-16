@@ -306,7 +306,7 @@ const Dashboard = () => {
     ];
 
     return (
-        <div className={classes.gridRoot}>
+        <div id={buildID(ids.BASE, ids.ROOT)} className={classes.gridRoot}>
             {sections
                 .filter(
                     ([kind, section, _label]) =>

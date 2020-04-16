@@ -6,7 +6,6 @@
 import React from "react";
 import { useRouter } from "next/router";
 import Listing from "../../../components/data/listing/Listing";
-import constants from "../../../constants";
 import { getEncodedPath } from "../../../components/data/utils";
 
 /**
@@ -26,17 +25,12 @@ const dynamicPathName = "/[...pathItems]";
  */
 export default function DataStore() {
     const router = useRouter();
-    const pathItems = router?.query?.pathItems;
     const routerPathname = router.pathname;
+    const fullPath = router.asPath;
     // Remove the dynamic part of the path if it's there
     // (it won't be there if user navigates directly to /data/ds)
     const baseRoutingPath = routerPathname.replace(dynamicPathName, "");
-
-    let path = "";
-    if (pathItems && pathItems.length > 0) {
-        path =
-            constants.PATH_SEPARATOR + pathItems.join(constants.PATH_SEPARATOR);
-    }
+    const path = fullPath.replace(baseRoutingPath, "");
 
     const handlePathChange = (path) => {
         const encodedPath = getEncodedPath(path);

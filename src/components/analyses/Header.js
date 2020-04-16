@@ -10,11 +10,13 @@ import React from "react";
 
 import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import { IconButton, makeStyles, Toolbar, Tooltip } from "@material-ui/core";
-import { Apps as GridIcon, FormatListBulleted as TableIcon } from "@material-ui/icons";
+import {
+    Apps as GridIcon,
+    FormatListBulleted as TableIcon,
+} from "@material-ui/icons";
 import { injectIntl } from "react-intl";
 import ids from "./ids";
 import messages from "./messages";
-
 
 const useStyles = makeStyles((theme) => ({
     toolbar: {
@@ -27,12 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Header(props) {
     const classes = useStyles();
-    const {
-        baseId,
-        isGridView,
-        toggleDisplay,
-        intl,
-    } = props;
+    const { baseId, isGridView, toggleDisplay, intl } = props;
 
     let headerId = build(baseId, ids.HEADER);
 
@@ -54,7 +51,7 @@ function Header(props) {
                         className={classes.menuButton}
                         onClick={() => toggleDisplay()}
                     >
-                        <TableIcon/>
+                        <TableIcon />
                     </IconButton>
                 </Tooltip>
             )}
@@ -70,11 +67,10 @@ function Header(props) {
                         className={classes.menuButton}
                         onClick={() => toggleDisplay()}
                     >
-                        <GridIcon/>
+                        <GridIcon />
                     </IconButton>
                 </Tooltip>
             )}
-
         </Toolbar>
     );
 }

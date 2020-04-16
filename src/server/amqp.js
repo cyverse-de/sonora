@@ -67,7 +67,9 @@ export function getNotifications(user, ws) {
                     try {
                         ws.send(msg.content.toString());
                     } catch (e) {
-                        logger.error("Unable to send the message to client: " + e);
+                        logger.error(
+                            "Unable to send the message to client: " + e
+                        );
                     }
                 },
                 {

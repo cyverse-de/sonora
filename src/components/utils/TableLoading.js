@@ -7,8 +7,11 @@
  */
 import React from "react";
 
-import { makeStyles, TableCell, TableRow } from "@material-ui/core";
+import { build } from "@cyverse-de/ui-lib";
+import { makeStyles, TableBody, TableCell, TableRow } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+
+import ids from "./ids";
 
 const useStyles = makeStyles((theme) => ({
     skeleton: {
@@ -17,23 +20,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function TableLoading(props) {
-    const { numColumns, numRows } = props;
+    const { numColumns, numRows, baseId } = props;
     const classes = useStyles();
     const arrayRows = [...Array(numRows)];
     const arrayColumns = [...Array(numColumns)];
 
-    return arrayRows.map((element, rowIndex) => (
-        <TableRow key={rowIndex}>
-            {arrayColumns.map((element, colIndex) => (
-                <TableCell key={colIndex}>
-                    <Skeleton
-                        variant="text"
-                        classes={{ text: classes.skeleton }}
-                    />
-                </TableCell>
+    return (
+        <TableBody id={build(baseId, ids.LOADING_SKELETON)}>
+            {arrayRows.map((element, rowIndex) => (
+                <TableRow key={rowIndex}>
+                    {arrayColumns.map((element, colIndex) => (
+                        <TableCell key={colIndex}>
+                            <Skeleton
+                                variant="text"
+                                classes={{ text: classes.skeleton }}
+                            />
+                        </TableCell>
+                    ))}
+                </TableRow>
             ))}
-        </TableRow>
-    ));
+        </TableBody>
+    );
 }
 
 export default TableLoading;

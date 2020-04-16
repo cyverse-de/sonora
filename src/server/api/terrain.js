@@ -107,8 +107,8 @@ export const call = (
         maxRedirects: 0,
     };
 
-    if (!["GET", "HEAD"].includes(method)) {
-        requestOptions.body = inStream;
+    if (inStream) {
+        requestOptions.data = inStream;
     }
 
     if (headers) {

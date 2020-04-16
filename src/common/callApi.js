@@ -55,8 +55,8 @@ const callApi = (props) => {
         credentials: "include",
     };
 
-    if (body) {
-        requestOptions.body = body;
+    if (body !== null && body !== undefined) {
+        requestOptions.data = body;
     }
 
     //TODO: Remove loading and error handling from this code once everything is ported to react-query

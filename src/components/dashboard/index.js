@@ -263,7 +263,7 @@ const DashboardSkeleton = () => {
         </div>
     ));
 
-    return <>{skellies}</>;
+    return <div id={buildID(ids.BASE, ids.LOADING)}>{skellies}</div>;
 };
 
 const Dashboard = () => {

@@ -13,6 +13,7 @@ import "./styles.css";
 
 import CyverseAppBar from "../components/layout/CyVerseAppBar";
 import Navigation from "../components/layout/Navigation";
+import PageSpacer from "../components/pageSpacer";
 import NavigationConstants from "../common/NavigationConstants";
 import UploadManager from "../components/uploads/manager";
 import theme from "../components/theme/default";
@@ -120,6 +121,7 @@ function MyApp({
                                 </Head>
                                 <ReactQueryDevtools initialIsOpen={false} />
                                 <Navigation activeView={pathname} />
+                                <PageSpacer />
                                 <Component {...pageProps} />
                                 <UploadManager />
                             </CyverseAppBar>

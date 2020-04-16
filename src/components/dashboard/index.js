@@ -5,7 +5,8 @@
  *
  * @module dashboard
  */
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useQuery } from "react-query";
 
 import { makeStyles } from "@material-ui/styles";
 import {
@@ -17,6 +18,8 @@ import {
     Typography,
 } from "@material-ui/core";
 
+import { Skeleton } from "@material-ui/lab";
+
 import { parse, format } from "date-fns";
 
 import { getMessage, withI18N, build as buildID } from "@cyverse-de/ui-lib";
@@ -24,6 +27,7 @@ import { getMessage, withI18N, build as buildID } from "@cyverse-de/ui-lib";
 import messages from "./messages";
 import ids from "./ids";
 import * as constants from "./constants";
+import getData from "./queries";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -237,44 +241,44 @@ const DashboardSection = ({ name, kind, items }) => {
     );
 };
 
+const DashboardSkeleton = () => {
+    const classes = useStyles();
+    const numSkellies = [0, 1, 2];
+    const skellies = numSkellies.map((n) => (
+        <div className={classes.section}>
+            <Skeleton
+                variant="rect"
+                animation="wave"
+                height={50}
+                width="100%"
+            />
+            <div className={classes.sectionItems}>
+                <Skeleton
+                    variant="rect"
+                    animation="wave"
+                    height={225}
+                    width="100%"
+                />
+            </div>
+        </div>
+    ));
+
+    return <>{skellies}</>;
+};
+
 const Dashboard = () => {
     const classes = useStyles();
-    const [data, setData] = useState({});
+    const { status, data, error } = useQuery(
+        ["dashboard", constants.SECTION_ITEM_LIMIT],
+        getData
+    );
+    const isLoading = status === "loading";
+    const hasErrored = status === "error";
 
-    useEffect(() => {
-        const fetcher = async () => {
-            let data = await fetch(
-                `/api/dashboard?limit=${constants.SECTION_ITEM_LIMIT}`,
-                {
-                    method: "GET",
-                    cache: "no-cache",
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            )
-                .then((resp) => {
-                    if (resp.status < 200 || resp.status > 299) {
-                        throw new Error(
-                            `${resp.status} ${resp.statusText} ${resp.text()}`
-                        );
-                    }
-                    return resp;
-                })
-                .then((resp) => resp.json())
-                .catch((e) => {
-                    console.log(e);
-                });
-
-            if (!data) {
-                data = {};
-            }
-
-            setData(data);
-        };
-        fetcher();
-    }, []);
+    // TODO: Unify error handling across components, somehow.
+    if (hasErrored) {
+        console.log(error.message);
+    }
 
     const sections = [
         [
@@ -307,25 +311,30 @@ const Dashboard = () => {
 
     return (
         <div id={buildID(ids.BASE, ids.ROOT)} className={classes.gridRoot}>
-            {sections
-                .filter(
-                    ([kind, section, _label]) =>
-                        data[kind] !== undefined &&
-                        data[kind][section] !== undefined
-                )
-                .filter(
-                    ([kind, section, _label]) => data[kind][section].length > 0
-                )
-                .map(([kind, section, label]) => {
-                    return (
-                        <DashboardSection
-                            kind={kind}
-                            key={`${kind}-${section}`}
-                            items={data[kind][section]}
-                            name={label}
-                        />
-                    );
-                })}
+            {isLoading ? (
+                <DashboardSkeleton />
+            ) : (
+                sections
+                    .filter(
+                        ([kind, section, _label]) =>
+                            data[kind] !== undefined &&
+                            data[kind][section] !== undefined
+                    )
+                    .filter(
+                        ([kind, section, _label]) =>
+                            data[kind][section].length > 0
+                    )
+                    .map(([kind, section, label]) => {
+                        return (
+                            <DashboardSection
+                                kind={kind}
+                                key={`${kind}-${section}`}
+                                items={data[kind][section]}
+                                name={label}
+                            />
+                        );
+                    })
+            )}
 
             <div className={classes.footer} />
         </div>

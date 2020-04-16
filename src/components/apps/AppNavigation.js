@@ -132,7 +132,7 @@ function AppNavigation(props) {
     useQuery({
         queryKey: "getPrivateCategories",
         queryFn: getPrivateCategories,
-        config: { onSuccess: preProcessData, refetchOnWindowFocus: false },
+        config: { onSuccess: preProcessData },
     });
 
     const handleClickListItem = (event) => {

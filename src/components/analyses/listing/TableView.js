@@ -39,11 +39,13 @@ import analysisStatus from "../model/analysisStatus";
 import TableLoading from "../../utils/TableLoading";
 
 function AnalysisName(props) {
+    const analysis = props.analysis;
     const name = props.analysis.name;
     const isBatch = props.analysis.batch;
     const interactiveUrls = props.analysis.interactive_urls;
     const handleInteractiveUrlClick = props.handleInteractiveUrlClick;
     const handleGoToOutputFolder = props.handleGoToOutputFolder;
+    const handleBatchIconClick = props.handleBatchIconClick;
     const status = props.analysis.status;
     const intl = props.intl;
     const baseId = props.baseId;
@@ -54,7 +56,7 @@ function AnalysisName(props) {
                 title={formatMessage(intl, "goOutputFolderOf") + " " + name}
             >
                 <Link
-                    onClick={() => handleGoToOutputFolder(props.analysis)}
+                    onClick={() => handleGoToOutputFolder(analysis)}
                     color="primary"
                 >
                     <span style={{ paddingLeft: 8, cursor: "pointer" }}>
@@ -69,7 +71,10 @@ function AnalysisName(props) {
         return (
             <>
                 <Tooltip title={getMessage("htDetails")}>
-                    <IconButton size="small" color="secondary">
+                    <IconButton
+                        size="small"
+                        onClick={() => handleBatchIconClick(analysis)}
+                    >
                         <UnfoldMoreIcon />
                     </IconButton>
                 </Tooltip>
@@ -89,7 +94,6 @@ function AnalysisName(props) {
                         onClick={() =>
                             handleInteractiveUrlClick(interactiveUrls[0])
                         }
-                        color="secondary"
                         size="small"
                         id={build(baseId, ids.ICONS.INTERACTIVE)}
                     >
@@ -210,6 +214,7 @@ function TableView(props) {
         handleClick,
         handleInteractiveUrlClick,
         handleGoToOutputFolder,
+        handleBatchIconClick,
         intl,
     } = props;
 
@@ -266,14 +271,16 @@ function TableView(props) {
                                 const rowId = build(baseId, tableId, id);
                                 return (
                                     <TableRow
-                                        onClick={() => handleClick(index)}
+                                        onClick={(event) =>
+                                            handleClick(event, id, index)
+                                        }
                                         role="checkbox"
                                         aria-checked={isSelected}
                                         tabIndex={-1}
                                         selected={isSelected}
                                         hover
                                         key={id}
-                                        title={analysis.name}
+                                        id={rowId}
                                     >
                                         <TableCell padding="none">
                                             <DECheckbox
@@ -310,6 +317,9 @@ function TableView(props) {
                                                 }
                                                 handleGoToOutputFolder={
                                                     handleGoToOutputFolder
+                                                }
+                                                handleBatchIconClick={
+                                                    handleBatchIconClick
                                                 }
                                             />
                                         </TableCell>

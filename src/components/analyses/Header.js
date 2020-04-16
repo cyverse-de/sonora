@@ -9,7 +9,14 @@
 import React from "react";
 
 import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
-import { IconButton, makeStyles, Toolbar, Tooltip } from "@material-ui/core";
+import {
+    IconButton,
+    makeStyles,
+    TextField,
+    Toolbar,
+    Tooltip,
+    Typography,
+} from "@material-ui/core";
 import {
     Apps as GridIcon,
     FormatListBulleted as TableIcon,
@@ -17,6 +24,10 @@ import {
 import { injectIntl } from "react-intl";
 import ids from "./ids";
 import messages from "./messages";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { getAppTypeFilters } from "../apps/AppNavigation";
+import ownershipFilter from "./model/ownershipFilter";
+import ClearIcon from "@material-ui/icons/Clear";
 
 const useStyles = makeStyles((theme) => ({
     toolbar: {
@@ -25,11 +36,47 @@ const useStyles = makeStyles((theme) => ({
     menuButton: {
         color: theme.palette.primary.contrastText,
     },
+    divider: {
+        flexGrow: 1,
+    },
+    filter: {
+        backgroundColor: theme.palette.primary.contrastText,
+        [theme.breakpoints.down("xs")]: {
+            width: 130,
+        },
+        [theme.breakpoints.up("sm")]: {
+            width: 150,
+        },
+        padding: theme.spacing(0.2),
+        margin: theme.spacing(1.5),
+    },
+    batchFilter: {
+        color: theme.palette.primary.contrastText,
+    },
 }));
+
+function getOwnershipFilters() {
+    return Object.keys(ownershipFilter).map((filter) => {
+        return {
+            name: ownershipFilter[filter],
+        };
+    });
+}
 
 function Header(props) {
     const classes = useStyles();
-    const { baseId, isGridView, toggleDisplay, intl } = props;
+    const {
+        baseId,
+        appTypeFilter,
+        ownershipFilter,
+        isGridView,
+        toggleDisplay,
+        handleAppTypeFilterChange,
+        handleOwnershipFilterChange,
+        viewBatch,
+        onClearBatch,
+        intl,
+    } = props;
 
     let headerId = build(baseId, ids.HEADER);
 
@@ -71,8 +118,69 @@ function Header(props) {
                     </IconButton>
                 </Tooltip>
             )}
+            {viewBatch && (
+                <>
+                    <Typography className={classes.batchFilter}>
+                        {getMessage("viewingBatch")}: {viewBatch.name}
+                    </Typography>
+                    <Tooltip title={getMessage("clearBatch")}>
+                        <IconButton
+                            size="small"
+                            color="secondary"
+                            onClick={onClearBatch}
+                        >
+                            <ClearIcon />
+                        </IconButton>
+                    </Tooltip>
+                </>
+            )}
+            <div className={classes.divider} />
+            <Autocomplete
+                disabled={false}
+                value={ownershipFilter}
+                options={getOwnershipFilters()}
+                size="small"
+                onChange={(event, newValue) => {
+                    handleOwnershipFilterChange(newValue);
+                }}
+                getOptionLabel={(option) => option.name}
+                getOptionSelected={(option, value) =>
+                    option.name === value.name
+                }
+                className={classes.filter}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label={formatMessage(intl, "viewFilter")}
+                        variant="outlined"
+                    />
+                )}
+            />
+
+            <Autocomplete
+                disabled={false}
+                value={appTypeFilter}
+                options={getAppTypeFilters()}
+                size="small"
+                onChange={(event, newValue) => {
+                    handleAppTypeFilterChange(newValue);
+                }}
+                getOptionLabel={(option) => option.name}
+                getOptionSelected={(option, value) =>
+                    option.name === value.name
+                }
+                className={classes.filter}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label={formatMessage(intl, "filterLbl")}
+                        variant="outlined"
+                    />
+                )}
+            />
         </Toolbar>
     );
 }
 
+export { getOwnershipFilters };
 export default withI18N(injectIntl(Header), messages);

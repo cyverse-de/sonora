@@ -16,9 +16,10 @@ import DEPagination from "../../utils/DEPagination";
 
 import intlData from "../messages";
 import TableView from "./TableView";
-import viewFilter from "../model/viewFilterOptions";
+import { getOwnershipFilters } from "../Header";
 import { getAppTypeFilters } from "../../apps/AppNavigation";
 import appType from "../../models/AppType";
+import ownershipFilter from "../model/ownershipFilter";
 
 import NavigationConstants from "../../../common/NavigationConstants";
 import Header from "../Header";
@@ -47,20 +48,20 @@ function Listing(props) {
     const router = useRouter();
     const { baseId } = props;
     const [isGridView, setGridView] = useState(false);
-    const [order, setOrder] = useState("asc");
-    const [orderBy, setOrderBy] = useState("name");
+    const [order, setOrder] = useState("desc");
+    const [orderBy, setOrderBy] = useState("startdate");
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [data, setData] = useState(null);
     const [analysesKey, setAnalysesKey] = useState(null);
-    const [parentId, setParentId] = useState(null);
-    const [viewPermFilter, setViewPermFilter] = useState(viewFilter.all);
+    const [parentAnalysis, setParentAnalyses] = useState(null);
+    const [permFilter, setPermFilter] = useState(getOwnershipFilters()[0]);
     const [appTypeFilter, setAppTypeFilter] = useState(getAppTypeFilters()[0]);
     const [userProfile] = useUserProfile();
 
-    const { status, error } = useQuery({
+    const { isFetching, error } = useQuery({
         queryKey: analysesKey,
         queryFn: getAnalyses,
         config: {
@@ -73,26 +74,26 @@ function Listing(props) {
 
         const idParentFilter = Object.create(filter);
         idParentFilter.field = PARENT_ID_FILTER;
-        idParentFilter.value = parentId;
+        idParentFilter.value = parentAnalysis?.id;
         filters.push(idParentFilter);
 
-        if (appTypeFilter.name !== appType.all) {
+        if (appTypeFilter && appTypeFilter.name !== appType.all) {
             const typeFilter = Object.create(filter);
             typeFilter.field = TYPE_FILTER;
             typeFilter.value = appTypeFilter.name;
             filters.push(typeFilter);
         }
 
-        if (viewPermFilter) {
+        if (permFilter) {
             let val;
-            switch (viewPermFilter) {
-                case viewFilter.all:
+            switch (permFilter.name) {
+                case ownershipFilter.all:
                     val = ALL;
                     break;
-                case viewFilter.mine:
+                case ownershipFilter.mine:
                     val = MINE;
                     break;
-                case viewFilter.theirs:
+                case ownershipFilter.theirs:
                     val = THEIRS;
                     break;
                 default:
@@ -120,8 +121,8 @@ function Listing(props) {
         orderBy,
         page,
         rowsPerPage,
-        parentId,
-        viewPermFilter,
+        parentAnalysis,
+        permFilter,
         appTypeFilter,
     ]);
 
@@ -217,15 +218,45 @@ function Listing(props) {
         }
     };
 
+    const handleAppTypeFilterChange = (appTypeFilter) => {
+        setAppTypeFilter(appTypeFilter);
+        setSelected([]);
+        setPage(0);
+    };
+
+    const handleOwnershipFilterChange = (viewFilter) => {
+        setPermFilter(viewFilter);
+        setSelected([]);
+        setPage(0);
+    };
+
+    const handleBatchIconClick = (analysis) => {
+        setParentAnalyses(analysis);
+        setPermFilter(null);
+        setAppTypeFilter(null);
+    };
+
+    const handleClearBatch = () => {
+        setParentAnalyses(null);
+        setPermFilter(getOwnershipFilters()[0]);
+        setAppTypeFilter(getAppTypeFilters()[0]);
+    };
+
     return (
         <>
             <Header
                 baseId={baseId}
                 isGridView={isGridView}
                 toggleDisplay={toggleDisplay}
+                handleAppTypeFilterChange={handleAppTypeFilterChange}
+                handleOwnershipFilterChange={handleOwnershipFilterChange}
+                appTypeFilter={appTypeFilter}
+                ownershipFilter={permFilter}
+                viewBatch={parentAnalysis}
+                onClearBatch={handleClearBatch}
             />
             <TableView
-                loading={status === constants.LOADING}
+                loading={isFetching}
                 error={error}
                 listing={data}
                 baseId={baseId}
@@ -238,6 +269,7 @@ function Listing(props) {
                 handleRequestSort={handleRequestSort}
                 handleInteractiveUrlClick={handleInteractiveUrlClick}
                 handleGoToOutputFolder={handleGoToOutputFolder}
+                handleBatchIconClick={handleBatchIconClick}
             />
             {data && data.total > 0 && (
                 <DEPagination

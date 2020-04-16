@@ -6,31 +6,34 @@
  *
  */
 
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
+
+import { useQuery } from "react-query";
+import { useRouter } from "next/router";
+import { injectIntl } from "react-intl";
+
 import ids from "./ids";
 import intlData from "./messages";
 import constants from "../../constants";
 import GlobalSearchField from "../search/GlobalSearchField";
 import NavigationConstants from "../../common/NavigationConstants";
-import Sockette from "sockette";
+import Notifications from "./Notifications";
+import CustomIntercom from "./CustomIntercom";
+import { useUserProfile } from "../../contexts/userProfile";
+import { getUserProfile } from "../../serviceFacade/userServiceFacade";
+
 import {
-    announce,
     build,
     CyVerseAnnouncer,
-    AnnouncerConstants,
     formatHTMLMessage,
     formatMessage,
     getMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
 
-import { useRouter } from "next/router";
-import { injectIntl } from "react-intl";
 import {
     AppBar,
     Avatar,
-    Badge,
-    Button,
     Divider,
     Drawer,
     Hidden,
@@ -42,19 +45,11 @@ import {
     Toolbar,
     Typography,
 } from "@material-ui/core";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import SettingsIcon from "@material-ui/icons/Settings";
-import LiveHelpIcon from "@material-ui/icons/LiveHelp";
-
-import { useUserProfile } from "../../contexts/userProfile";
-import { intercomLogin, intercomLogout } from "../../common/intercom";
-import { useIntercom } from "../../contexts/intercom";
-import { getUserProfile } from "../../serviceFacade/userServiceFacade";
-import { useQuery } from "react-query";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -85,198 +80,27 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function CustomIntercom({ intl, classes, unReadCount }) {
-    return (
-        <IconButton
-            className={classes.margin}
-            id={ids.INTERCOM_WIDGET}
-            color="primary"
-            aria-label={formatMessage(intl, "intercomAriaLabel")}
-            aria-controls={formatMessage(intl, "intercomAriaControl")}
-            size="small"
-        >
-            <Badge badgeContent={unReadCount} color="error">
-                <LiveHelpIcon />
-            </Badge>
-        </IconButton>
-    );
-}
-
 function CyverseAppBar(props) {
     const classes = useStyles();
-    const theme = useTheme();
     const router = useRouter();
     const { intl, children } = props;
     const [userProfile, setUserProfile] = useUserProfile();
     const [avatarLetter, setAvatarLetter] = useState("");
-    const [unSeenCount, setUnSeenCount] = useState(0);
-    const {
-        appId,
-        enabled,
-        companyId,
-        companyName,
-        unReadCount,
-    } = useIntercom();
+
     const [drawerOpen, setDrawerOpen] = useState(false);
     useQuery({
         queryKey: "getUserProfile",
         queryFn: getUserProfile,
         config: {
             onSuccess: setUserProfile,
-            refetchOnWindowFocus: false,
-            throwOnError: true,
         },
     });
 
-    const gotToOutputFolder = useCallback(
-        (outputFolder) => {
-            router.push(
-                `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}ds${outputFolder}`
-            );
-        },
-        [router]
-    );
-
-    const analysisCustomAction = useCallback(
-        (outputFolderPath) => {
-            return (
-                <Button
-                    variant="outlined"
-                    onClick={() => {
-                        console.log("output folder path=>" + outputFolderPath);
-                        gotToOutputFolder(outputFolderPath); //gotcha - I cannot do router.push from here
-                    }}
-                >
-                    <Typography
-                        variant="button"
-                        style={{ color: theme.palette.primary.contrastText }}
-                    >
-                        {formatMessage(intl, "viewOutput")}
-                    </Typography>
-                </Button>
-            );
-        },
-        [gotToOutputFolder, intl, theme.palette.primary.contrastText]
-    );
-
-    const displayAnalysisNotification = useCallback(
-        (notification, analysisStatus) => {
-            let variant = AnnouncerConstants.INFO;
-            if (analysisStatus === constants.analysisStatus.COMPLETED) {
-                variant = AnnouncerConstants.SUCCESS;
-            } else if (analysisStatus === constants.analysisStatus.FAILED) {
-                variant = AnnouncerConstants.ERROR;
-            }
-            announce({
-                text: notification.message.text,
-                variant,
-                customAction:
-                    analysisStatus === constants.analysisStatus.COMPLETED ||
-                    analysisStatus === constants.analysisStatus.FAILED
-                        ? () =>
-                              analysisCustomAction(
-                                  notification.payload.analysisresultsfolder
-                              )
-                        : null,
-            });
-        },
-        [analysisCustomAction]
-    );
-
-    const displayNotification = useCallback(
-        (notification, category) => {
-            let analysisStatus =
-                category.toLowerCase() ===
-                constants.notificationCategory.ANALYSIS.toLowerCase()
-                    ? notification.payload.status
-                    : "";
-
-            if (analysisStatus) {
-                displayAnalysisNotification(notification, analysisStatus);
-            } else {
-                announce({
-                    text: notification.message.text,
-                });
-            }
-        },
-        [displayAnalysisNotification]
-    );
-
-    const handleMessage = useCallback(
-        (event) => {
-            console.log(event.data);
-            let push_msg = null;
-            try {
-                push_msg = JSON.parse(event.data);
-            } catch (e) {
-                return;
-            }
-            if (push_msg.total) {
-                setUnSeenCount(push_msg.total);
-            }
-
-            const message = push_msg.message;
-            if (message) {
-                const category = message.type;
-                displayNotification(message, category);
-            }
-        },
-        [displayNotification]
-    );
-
     React.useEffect(() => {
-        if (userProfile && userProfile.id) {
-            if (enabled) {
-                intercomLogin(
-                    userProfile.id,
-                    userProfile.attributes.email,
-                    appId,
-                    companyId,
-                    companyName
-                );
-            }
+        if (userProfile?.id) {
             setAvatarLetter(userProfile.id.charAt(0).toUpperCase());
-
-            let location = window.location;
-            let protocol =
-                location.protocol.toLowerCase() === "https:"
-                    ? constants.WSS_PROTOCOL
-                    : constants.WS_PROTOCOL;
-            let host = location.hostname;
-            let port = location.port;
-            const notificationUrl =
-                protocol +
-                host +
-                (port ? ":" + port : "") +
-                NavigationConstants.NOTIFICATION_WS;
-            console.log("Connecting websocket to " + notificationUrl);
-
-            const ws = new Sockette(notificationUrl, {
-                maxAttempts: 10,
-                onopen: (e) => {
-                    console.log("Websocket connected!");
-                    ws.send("Connected by " + userProfile.id);
-                },
-                onmessage: (e) => handleMessage(e),
-                onreconnect: (e) => console.log("Reconnecting...", e),
-                onmaximum: (e) => console.log("Stop Attempting!", e),
-                onclose: (e) => console.log("Closed!", e),
-                onerror: (e) => console.log("Error:", e),
-            });
-            return () => {
-                intercomLogout();
-                ws.close();
-            };
         }
-    }, [
-        userProfile,
-        appId,
-        enabled,
-        companyId,
-        companyName,
-        setAvatarLetter,
-        handleMessage,
-    ]);
+    }, [userProfile, setAvatarLetter]);
 
     const handleUserButtonClick = (event) => {
         if (!userProfile) {
@@ -290,7 +114,6 @@ function CyverseAppBar(props) {
         toggleDrawer(false);
     };
     const toggleDrawer = (open) => (event) => {
-        console.log("drawer=>" + open);
         setDrawerOpen(open);
     };
 
@@ -510,30 +333,8 @@ function CyverseAppBar(props) {
                         </Hidden>
                         <div className={classes.root} />
                         <div style={{ display: "flex" }}>
-                            {enabled && (
-                                <CustomIntercom
-                                    classes={classes}
-                                    intl={intl}
-                                    unReadCount={unReadCount}
-                                />
-                            )}
-                            <IconButton
-                                id={build(
-                                    ids.APP_BAR_BASE,
-                                    ids.NOTIFICATION_BTN
-                                )}
-                                className={classes.margin}
-                                aria-label={formatMessage(
-                                    intl,
-                                    "newNotificationAriaLabel"
-                                )}
-                                color="primary"
-                                size="small"
-                            >
-                                <Badge badgeContent={unSeenCount} color="error">
-                                    <NotificationsIcon />
-                                </Badge>
-                            </IconButton>
+                            <CustomIntercom classes={classes} intl={intl} />
+                            <Notifications intl={intl} classes={classes} />
                             <Hidden only={["xs", "md", "lg", "xl"]}>
                                 <IconButton
                                     id={build(ids.APP_BAR_BASE, ids.SEARCH_BTN)}

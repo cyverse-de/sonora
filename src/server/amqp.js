@@ -48,7 +48,7 @@ export function setUpAmqpForNotifications() {
  */
 export function getNotifications(user, ws) {
     if (!user) {
-        logger.error("User not found. Unable to get notification!");
+        logger.error("User not found. Unable to get notifications!");
     }
     waitForSocketConnection(ws, function() {
         const QUEUE = NOTIFICATION_QUEUE + user;
@@ -64,7 +64,11 @@ export function getNotifications(user, ws) {
                 QUEUE,
                 function(msg) {
                     logger.info("Received message:" + msg.content.toString());
-                    ws.send(msg.content.toString());
+                    try {
+                        ws.send(msg.content.toString());
+                    } catch (e) {
+                        logger.error("Unable to send the message to client: " + e);
+                    }
                 },
                 {
                     noAck: true,

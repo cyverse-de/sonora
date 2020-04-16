@@ -28,7 +28,7 @@ const intlData = {
         cyverse: "CyVerse",
         intercomAriaLabel: "chat with CyVerse support",
         intercomAriaControl: "chat support button",
-        goToOutputFolder: "View output",
+        viewOutput: "View output",
     },
 };
 export default intlData;

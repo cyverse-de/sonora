@@ -6,6 +6,7 @@ export default {
     SHARED_WITH_ME: "Shared With Me",
     COMMUNITY_DATA: "Community Data",
     TRASH: "Trash",
+    DATA_STORE_STORAGE_ID: "ds",
     PATH_SEPARATOR: "/",
     APPS_UNDER_DEV: "Apps under development",
     FAV_APPS: "Favorite Apps",

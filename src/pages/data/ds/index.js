@@ -1,23 +1,16 @@
 /**
  *
- * @author sriram
+ * @author sriram, aramsey
  */
 import React from "react";
-import { useRouter } from "next/router";
-import Listing from "../../../components/data/listing/Listing";
-import { getRoutingPath } from "../index";
+import DataStore from "./[...pathItems]";
 
 /**
  *
  * Handle default routing to /data/ds
  *
+ * Go directly to the dynamic path
  */
 export default function Data() {
-    const router = useRouter();
-    const handlePathChange = (path) => {
-        router.push(getRoutingPath(router.pathname, path));
-    };
-    return (
-        <Listing path="" handlePathChange={handlePathChange} baseId="data" />
-    );
+    return <DataStore />;
 }

@@ -17,6 +17,9 @@ export default {
     GRID_VIEW_BTN: "gridViewBtn",
     TABLE_VIEW_BTN: "tableViewBtn",
     TOOLTIP: "tooltip",
+    ANALYSES_NAVIGATION: "analysesNavigation",
+    BATCH_FILTER: "viewBatchAnalysesFilter",
+    CLEAR_BATCH_FILTER: "clearBatchAnalysesFilter",
 
     MENUITEM_ANALYSES: "analyses",
     MENUITEM_GO_TO_FOLDER: "goToFolder",

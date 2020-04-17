@@ -31,11 +31,9 @@ import {
 import { injectIntl } from "react-intl";
 import intlData from "../messages";
 import DEPagination from "../../utils/DEPagination";
-import { useUserProfile } from "../../../contexts/userProfile";
 
 function Listing(props) {
     const { baseId, intl } = props;
-    const [userProfile] = useUserProfile();
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");

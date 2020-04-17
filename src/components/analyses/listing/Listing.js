@@ -24,6 +24,7 @@ import ownershipFilter from "../model/ownershipFilter";
 import NavigationConstants from "../../../common/NavigationConstants";
 import Header from "../Header";
 import { useUserProfile } from "../../../contexts/userProfile";
+import AnalysesNavigation from "../AnalysesNavigation";
 
 /**
  * Filters
@@ -111,7 +112,6 @@ function Listing(props) {
             .map((filterItem) => JSON.stringify(filterItem))
             .join(",");
 
-        console.log(`[${filterString}]`);
         setAnalysesKey([
             "getAnalyses",
             { rowsPerPage, orderBy, order, page, filter: filterString },
@@ -244,16 +244,18 @@ function Listing(props) {
 
     return (
         <>
-            <Header
-                baseId={baseId}
-                isGridView={isGridView}
-                toggleDisplay={toggleDisplay}
+            <AnalysesNavigation
                 handleAppTypeFilterChange={handleAppTypeFilterChange}
                 handleOwnershipFilterChange={handleOwnershipFilterChange}
                 appTypeFilter={appTypeFilter}
                 ownershipFilter={permFilter}
                 viewBatch={parentAnalysis}
                 onClearBatch={handleClearBatch}
+            />
+            <Header
+                baseId={baseId}
+                isGridView={isGridView}
+                toggleDisplay={toggleDisplay}
             />
             <TableView
                 loading={isFetching}

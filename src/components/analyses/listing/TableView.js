@@ -40,13 +40,13 @@ import TableLoading from "../../utils/TableLoading";
 
 function AnalysisName(props) {
     const analysis = props.analysis;
-    const name = props.analysis.name;
-    const isBatch = props.analysis.batch;
-    const interactiveUrls = props.analysis.interactive_urls;
+    const name = analysis.name;
+    const isBatch = analysis.batch;
+    const interactiveUrls = analysis.interactive_urls;
+    const status = analysis.status;
     const handleInteractiveUrlClick = props.handleInteractiveUrlClick;
     const handleGoToOutputFolder = props.handleGoToOutputFolder;
     const handleBatchIconClick = props.handleBatchIconClick;
-    const status = props.analysis.status;
     const intl = props.intl;
     const baseId = props.baseId;
 
@@ -74,6 +74,7 @@ function AnalysisName(props) {
                     <IconButton
                         size="small"
                         onClick={() => handleBatchIconClick(analysis)}
+                        id={build(baseId, ids.ICONS.BATCH)}
                     >
                         <UnfoldMoreIcon />
                     </IconButton>
@@ -111,7 +112,7 @@ function AnalysisName(props) {
 function AppName(props) {
     const analysis = props.analysis;
     const name = analysis.app_name;
-    return <span>{name}</span>;
+    return <Link>{name}</Link>;
 }
 
 function Status(props) {
@@ -119,33 +120,23 @@ function Status(props) {
     const allowTimeExtn =
         analysis.interactive_urls &&
         analysis.interactive_urls.length > 0 &&
-        analysis.status === analysisStatus.RUNNING;
-    if (
-        username === analysisUser &&
-        analysis.status !== analysisStatus.CANCELED
-    ) {
-        return (
-            <React.Fragment>
-                <Link>{analysis.status} </Link>
-                {allowTimeExtn && (
-                    <Tooltip title={getMessage("extendTime")}>
-                        <IconButton
-                            id={build(baseId, ids.BUTTON_EXTEND_TIME_LIMIT)}
-                            size="small"
-                        >
-                            <HourGlass />
-                        </IconButton>
-                    </Tooltip>
-                )}
-            </React.Fragment>
-        );
-    } else {
-        return (
-            <span style={{ textAlign: "left", fontSize: "11px" }}>
-                {analysis.status}
-            </span>
-        );
-    }
+        analysis.status === analysisStatus.RUNNING &&
+        username === analysisUser;
+    return (
+        <React.Fragment>
+            <Link id={build(baseId, ids.STATUS)}>{analysis.status} </Link>
+            {allowTimeExtn && (
+                <Tooltip title={getMessage("extendTime")}>
+                    <IconButton
+                        id={build(baseId, ids.BUTTON_EXTEND_TIME_LIMIT)}
+                        size="small"
+                    >
+                        <HourGlass />
+                    </IconButton>
+                </Tooltip>
+            )}
+        </React.Fragment>
+    );
 }
 
 const columnData = [
@@ -191,11 +182,6 @@ const columnData = [
         enableSorting: true,
         key: "status",
     },
-    {
-        name: "",
-        numeric: false,
-        enableSorting: false,
-    },
 ];
 
 function TableView(props) {
@@ -220,6 +206,7 @@ function TableView(props) {
 
     const analyses = listing?.analyses;
     const tableId = build(baseId, ids.LISTING_TABLE);
+
     return (
         <TableContainer
             component={Paper}
@@ -241,7 +228,10 @@ function TableView(props) {
                 />
                 {loading && (
                     <TableBody>
-                        <TableLoading numColumns={6} numRows={25} />
+                        <TableLoading
+                            numColumns={columnData.length + 1}
+                            numRows={25}
+                        />
                     </TableBody>
                 )}
                 {!loading && (
@@ -282,7 +272,7 @@ function TableView(props) {
                                         key={id}
                                         id={rowId}
                                     >
-                                        <TableCell padding="none">
+                                        <TableCell>
                                             <DECheckbox
                                                 id={build(rowId + ids.CHECKBOX)}
                                                 checked={isSelected}
@@ -329,10 +319,10 @@ function TableView(props) {
                                         >
                                             <AppName analysis={analysis} />
                                         </TableCell>
-                                        <TableCell padding="none">
+                                        <TableCell>
                                             {formatDate(analysis.startdate)}
                                         </TableCell>
-                                        <TableCell padding="none">
+                                        <TableCell>
                                             {formatDate(analysis.enddate)}
                                         </TableCell>
                                         <TableCell

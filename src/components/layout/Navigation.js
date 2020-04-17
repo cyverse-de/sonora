@@ -214,5 +214,4 @@ function Navigation(props) {
     );
 }
 
-export default
-withI18N(Navigation, intlData);
+export default withI18N(Navigation, intlData);

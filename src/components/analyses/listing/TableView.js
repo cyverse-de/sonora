@@ -214,7 +214,12 @@ function TableView(props) {
                 height: "60vh",
             }}
         >
-            <Table stickyHeader={true} size="small">
+            <Table
+                id={tableId}
+                stickyHeader={true}
+                size="small"
+                aria-label={formatMessage(intl, "ariaTableListing")}
+            >
                 <EnhancedTableHead
                     baseId={baseId}
                     selectable={true}
@@ -227,12 +232,11 @@ function TableView(props) {
                     onSelectAllClick={handleSelectAllClick}
                 />
                 {loading && (
-                    <TableBody>
-                        <TableLoading
-                            numColumns={columnData.length + 1}
-                            numRows={25}
-                        />
-                    </TableBody>
+                    <TableLoading
+                        numColumns={6}
+                        numRows={25}
+                        baseId={tableId}
+                    />
                 )}
                 {!loading && (
                     <TableBody>
@@ -272,7 +276,7 @@ function TableView(props) {
                                         key={id}
                                         id={rowId}
                                     >
-                                        <TableCell>
+                                        <TableCell padding="checkbox">
                                             <DECheckbox
                                                 id={build(rowId + ids.CHECKBOX)}
                                                 checked={isSelected}

@@ -50,6 +50,7 @@ var intlData = {
         viewFilter: "View",
         appTypeFilter: "App Type",
         viewingBatch: "Viewing Batch: {name}",
+        ariaTableListing: "Analyses table listing",
         needHelp: "I still need help!",
         noAnalysis: "No Analyses!",
         htDetails: "View HT Analyses details",

@@ -35,11 +35,11 @@ import { groupBy } from "../../../common/functions";
 import styles from "../styles";
 import PermissionSelector from "./PermissionSelector";
 import Permissions from "../../models/Permissions";
-import { getResourcePermissions } from "../../../serviceFacade/filesystemServiceFacade";
-import { updateSharing } from "../../../serviceFacade/sharingServiceFacade";
+import { getResourcePermissions } from "../../../serviceFacades/filesystem";
+import { updateSharing } from "../../../serviceFacades/sharing";
 import messages from "../messages";
 import isQueryLoading from "../../utils/isQueryLoading";
-import { getUserInfo } from "../../../serviceFacade/userServiceFacade";
+import { getUserInfo } from "../../../serviceFacades/users";
 
 const useStyles = makeStyles(styles);
 

@@ -21,7 +21,7 @@ import Drawer from "../details/Drawer";
 import {
     getInfoTypes,
     getPagedListing,
-} from "../../../serviceFacade/filesystemServiceFacade";
+} from "../../../serviceFacades/filesystem";
 import DataNavigation from "../DataNavigation";
 import DEPagination from "../../utils/DEPagination";
 

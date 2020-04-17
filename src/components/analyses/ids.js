@@ -20,6 +20,10 @@ export default {
     ANALYSES_NAVIGATION: "analysesNavigation",
     BATCH_FILTER: "viewBatchAnalysesFilter",
     CLEAR_BATCH_FILTER: "clearBatchAnalysesFilter",
+    VIEW_FILTER_FIELD: "viewFilterTextInputField",
+    APP_TYPE_FILTER_FIELD: "appTypeFilterTextInputFiled",
+    VIEW_FILTER: "viewFilter",
+    APP_TYPE_FILTER: "appTypeFilter",
 
     MENUITEM_ANALYSES: "analyses",
     MENUITEM_GO_TO_FOLDER: "goToFolder",
@@ -53,7 +57,6 @@ export default {
 
     PERMISSIONS: "permissions",
     APP_TYPE: "appType",
-    VIEW_FILTER: "viewFilter",
 
     ALL: ".all",
     MINE: ".mine",

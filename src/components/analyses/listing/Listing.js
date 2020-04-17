@@ -245,6 +245,7 @@ function Listing(props) {
     return (
         <>
             <AnalysesNavigation
+                baseId={baseId}
                 handleAppTypeFilterChange={handleAppTypeFilterChange}
                 handleOwnershipFilterChange={handleOwnershipFilterChange}
                 appTypeFilter={appTypeFilter}

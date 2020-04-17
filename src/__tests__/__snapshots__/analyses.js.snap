@@ -4,7 +4,7 @@ exports[`Analyses Listing view 1`] = `
 Array [
   <div
     className="MuiToolbar-root MuiToolbar-dense MuiToolbar-gutters"
-    id=".analysesNavigation"
+    id="tableView.analysesNavigation"
   >
     <div
       className="makeStyles-divider-2"
@@ -24,8 +24,8 @@ Array [
         <label
           className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-marginDense MuiInputLabel-outlined MuiFormLabel-filled"
           data-shrink={true}
-          htmlFor="mui-autocomplete-54336"
-          id="mui-autocomplete-54336-label"
+          htmlFor="tableView.analysesNavigation.viewFilter"
+          id="tableView.analysesNavigation.viewFilter-label"
         >
           View
         </label>
@@ -43,7 +43,7 @@ Array [
             autoFocus={false}
             className="MuiInputBase-input MuiOutlinedInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused MuiInputBase-inputAdornedEnd MuiOutlinedInput-inputAdornedEnd MuiInputBase-inputMarginDense MuiOutlinedInput-inputMarginDense"
             disabled={false}
-            id="mui-autocomplete-54336"
+            id="tableView.analysesNavigation.viewFilter"
             onAnimationStart={[Function]}
             onBlur={[Function]}
             onChange={[Function]}
@@ -166,8 +166,8 @@ Array [
         <label
           className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-marginDense MuiInputLabel-outlined MuiFormLabel-filled"
           data-shrink={true}
-          htmlFor="mui-autocomplete-42584"
-          id="mui-autocomplete-42584-label"
+          htmlFor="tableView.analysesNavigation.appTypeFilter"
+          id="tableView.analysesNavigation.appTypeFilter-label"
         >
           App Type
         </label>
@@ -185,7 +185,7 @@ Array [
             autoFocus={false}
             className="MuiInputBase-input MuiOutlinedInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused MuiInputBase-inputAdornedEnd MuiOutlinedInput-inputAdornedEnd MuiInputBase-inputMarginDense MuiOutlinedInput-inputMarginDense"
             disabled={false}
-            id="mui-autocomplete-42584"
+            id="tableView.analysesNavigation.appTypeFilter"
             onAnimationStart={[Function]}
             onBlur={[Function]}
             onChange={[Function]}

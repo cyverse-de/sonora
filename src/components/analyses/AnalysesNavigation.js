@@ -135,6 +135,7 @@ function AnalysesNavigation(props) {
             )}
             <div className={classes.divider} />
             <Autocomplete
+                id={build(analysesNavId, ids.VIEW_FILTER)}
                 disabled={false}
                 value={ownershipFilter}
                 options={getOwnershipFilters()}
@@ -150,6 +151,7 @@ function AnalysesNavigation(props) {
                 renderInput={(params) => (
                     <TextField
                         {...params}
+                        id={build(analysesNavId, ids.VIEW_FILTER_FIELD)}
                         label={formatMessage(intl, "viewFilter")}
                         variant="outlined"
                     />
@@ -157,6 +159,7 @@ function AnalysesNavigation(props) {
             />
 
             <Autocomplete
+                id={build(analysesNavId, ids.APP_TYPE_FILTER)}
                 disabled={false}
                 value={appTypeFilter}
                 options={getAppTypeFilters()}
@@ -172,6 +175,7 @@ function AnalysesNavigation(props) {
                 renderInput={(params) => (
                     <TextField
                         {...params}
+                        id={build(analysesNavId, ids.APP_TYPE_FILTER_FIELD)}
                         label={formatMessage(intl, "appTypeFilter")}
                         variant="outlined"
                     />

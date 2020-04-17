@@ -7,7 +7,13 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    AnnouncerConstants,
+    build,
+    formatMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
 import intlData from "./messages";
 import {
     Breadcrumbs,
@@ -32,8 +38,9 @@ import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import FolderIcon from "@material-ui/icons/Folder";
 import ids from "./ids";
 import constants from "../../constants";
-import { getFilesystemRoots } from "../endpoints/Filesystem";
+import { getFilesystemRoots } from "../../serviceFacade/filesystemServiceFacade";
 import { useUserProfile } from "../../contexts/userProfile";
+import { useQuery } from "react-query";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
@@ -359,36 +366,47 @@ function DataNavigation(props) {
         }
     }, [dataRoots, handlePathChange, path]);
 
-    useEffect(() => {
-        getFilesystemRoots().then((respData) => {
-            if (respData && userProfile) {
-                const respRoots = respData.roots;
-                const home = respRoots.find(
-                    (root) => root.label === userProfile.id
-                );
-                home.icon = <HomeIcon />;
-                const sharedWithMe = respRoots.find(
-                    (root) => root.label === constants.SHARED_WITH_ME
-                );
-                setSharedWithMePath(sharedWithMe.path);
-                sharedWithMe.icon = <FolderSharedIcon />;
-                const communityData = respRoots.find(
-                    (root) => root.label === constants.COMMUNITY_DATA
-                );
-                setCommunityDataPath(communityData.path);
-                communityData.icon = <GroupIcon />;
-                const trash = respRoots.find(
-                    (root) => root.label === constants.TRASH
-                );
-                trash.icon = <DeleteIcon />;
+    const { error } = useQuery({
+        queryKey: ["dataFileSystemRoots", userProfile],
+        queryFn: getFilesystemRoots,
+        config: {
+            onSuccess: (respData) => {
+                if (respData && userProfile) {
+                    const respRoots = respData.roots;
+                    const home = respRoots.find(
+                        (root) => root.label === userProfile.id
+                    );
+                    home.icon = <HomeIcon />;
+                    const sharedWithMe = respRoots.find(
+                        (root) => root.label === constants.SHARED_WITH_ME
+                    );
+                    setSharedWithMePath(sharedWithMe.path);
+                    sharedWithMe.icon = <FolderSharedIcon />;
+                    const communityData = respRoots.find(
+                        (root) => root.label === constants.COMMUNITY_DATA
+                    );
+                    setCommunityDataPath(communityData.path);
+                    communityData.icon = <GroupIcon />;
+                    const trash = respRoots.find(
+                        (root) => root.label === constants.TRASH
+                    );
+                    trash.icon = <DeleteIcon />;
 
-                const basePaths = respData["base-paths"];
-                setUserHomePath(basePaths["user_home_path"]);
-                setUserTrashPath(basePaths["user_trash_path"]);
-                setDataRoots([home, sharedWithMe, communityData, trash]);
-            }
-        });
-    }, [userProfile]);
+                    const basePaths = respData["base-paths"];
+                    setUserHomePath(basePaths["user_home_path"]);
+                    setUserTrashPath(basePaths["user_trash_path"]);
+                    setDataRoots([home, sharedWithMe, communityData, trash]);
+                }
+            },
+            onError: () => {
+                //temporary workaround -> should still display community data
+                announce({
+                    text: formatMessage(intl, "dataSignIn"),
+                    variant: AnnouncerConstants.INFO,
+                });
+            },
+        },
+    });
 
     useEffect(() => {
         /**
@@ -523,7 +541,7 @@ function DataNavigation(props) {
             </Menu>
 
             <Hidden xsDown>
-                {path ? (
+                {path && (!error || error.length === 0) ? (
                     <BreadCrumb
                         baseId={dataNavId}
                         root={dataRoots[selectedIndex].path}
@@ -540,7 +558,7 @@ function DataNavigation(props) {
                 )}
             </Hidden>
             <Hidden only={["sm", "md", "lg", "xl"]}>
-                {path ? (
+                {path && (!error || error.length === 0) ? (
                     <FolderSelectorMenu
                         baseId={dataNavId}
                         root={dataRoots[selectedIndex].path}

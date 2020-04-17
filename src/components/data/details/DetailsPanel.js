@@ -4,12 +4,15 @@
  * A component for displaying the details on a data resource.
  * Intended to be within a TabPanel.
  */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import {
+    announce,
+    AnnouncerConstants,
     build,
     CopyTextArea,
     formatDate,
+    formatMessage,
     getMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
@@ -20,49 +23,73 @@ import {
     makeStyles,
     MenuItem,
     Select,
+    Typography,
 } from "@material-ui/core";
+import { injectIntl } from "react-intl";
+import { queryCache, useMutation, useQuery } from "react-query";
 
 import { getFileSize } from "../listing/FileSize";
 import ids from "../ids";
 import messages from "../messages";
 import styles from "../styles";
 import TagSearch from "../TagSearch";
-import { getResourceDetails, updateInfoType } from "../../endpoints/Filesystem";
+import {
+    getResourceDetails,
+    updateInfoType,
+} from "../../../serviceFacade/filesystemServiceFacade";
 import GridLabelValue from "../../utils/GridLabelValue";
 import GridLoading from "../../utils/GridLoading";
+import isQueryLoading from "../../utils/isQueryLoading";
 
 const useStyles = makeStyles(styles);
 
 function DetailsTabPanel(props) {
     const classes = useStyles();
-    const { baseId, resource, infoTypes, setSelfPermission } = props;
+    const { baseId, resource, infoTypes, setSelfPermission, intl } = props;
 
     const [details, setDetails] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    const resourcePath = resource.path;
 
-    useEffect(() => {
-        const resourcePath = resource.path;
-        setLoading(true);
-        getResourceDetails([resourcePath]).then((resp) => {
-            const details = resp?.paths[resourcePath];
-            setDetails(details);
-            setSelfPermission(details?.permission);
-            setLoading(false);
-        });
-    }, [resource, setSelfPermission]); // lint error without setSelfPermission
+    const fetchDetailsKey = ["dataResourceDetails", { paths: [resourcePath] }];
+
+    const { isFetching } = useQuery({
+        queryKey: fetchDetailsKey,
+        queryFn: getResourceDetails,
+        config: {
+            onSuccess: (resp) => {
+                const details = resp?.paths[resourcePath];
+                setDetails(details);
+                setSelfPermission(details?.permission);
+            },
+            onError: setError,
+        },
+    });
+
+    const [changeInfoType, { status: updateInfoTypeStatus }] = useMutation(
+        updateInfoType,
+        {
+            onSuccess: () => queryCache.refetchQueries(fetchDetailsKey),
+            onError: () =>
+                announce({
+                    text: formatMessage(intl, "updateInfoTypeError"),
+                    variant: AnnouncerConstants.ERROR,
+                }),
+        }
+    );
 
     const onInfoTypeChange = (event) => {
         const type = event.target.value;
-        setLoading(true);
-        updateInfoType(resource.path, type).then((resp) => {
-            const updatedDetails = { ...details, infoType: resp.type };
-            setDetails(updatedDetails);
-            setLoading(false);
-        });
+        changeInfoType({ path: resourcePath, infoType: type });
     };
 
-    if (loading) {
+
+    if (isQueryLoading([isFetching, updateInfoTypeStatus])) {
         return <GridLoading baseId={baseId} rows={10} />;
+    }
+
+    if (error || !details) {
+        return <Typography>{getMessage("detailsError")}</Typography>;
     }
 
     const isFile = details.type !== "dir";
@@ -147,4 +174,4 @@ function DetailsTabPanel(props) {
     );
 }
 
-export default withI18N(DetailsTabPanel, messages);
+export default withI18N(injectIntl(DetailsTabPanel), messages);

@@ -6,9 +6,16 @@
  * current permissions.
  */
 
-import React, { Fragment, useCallback, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 
-import { build, getMessage } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    AnnouncerConstants,
+    build,
+    formatMessage,
+    getMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
 import {
     Avatar,
     CircularProgress,
@@ -19,6 +26,8 @@ import {
     Typography,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { injectIntl } from "react-intl";
+import { useMutation, useQuery } from "react-query";
 
 import Identity from "../Identity";
 import ids from "../ids";
@@ -26,9 +35,11 @@ import { groupBy } from "../../../common/functions";
 import styles from "../styles";
 import PermissionSelector from "./PermissionSelector";
 import Permissions from "../../models/Permissions";
-import { getUserInfo } from "../../endpoints/Users";
-import { getResourcePermissions } from "../../endpoints/Filesystem";
-import { updateSharing } from "../../endpoints/Sharing";
+import { getResourcePermissions } from "../../../serviceFacade/filesystemServiceFacade";
+import { updateSharing } from "../../../serviceFacade/sharingServiceFacade";
+import messages from "../messages";
+import isQueryLoading from "../../utils/isQueryLoading";
+import { getUserInfo } from "../../../serviceFacade/userServiceFacade";
 
 const useStyles = makeStyles(styles);
 
@@ -55,11 +66,19 @@ function sortPerms(permissions) {
 
 function PermissionsTabPanel(props) {
     const classes = useStyles();
-    const { baseId, resource, selfPermission } = props;
+    const { baseId, resource, selfPermission, intl } = props;
 
+    const [fetchUserInfoKey, setFetchUserInfoKey] = useState(null);
+    const [userlessPermissions, setUserlessPermissions] = useState([]);
     const [permissions, setPermissions] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [permissionLoadingIds, setPermissionLoadingIds] = useState([]);
+    const resourcePath = resource.path;
+
+    // Only users with `own` permission can list permissions
+    const fetchResourcePermissionsKey =
+        selfPermission && selfPermission === Permissions.OWN
+            ? ["dataResourcePermissions", { paths: [resourcePath] }]
+            : false;
 
     const mergeUsersWithPerms = (permissions, userInfo) => {
         let merged = [];
@@ -74,32 +93,70 @@ function PermissionsTabPanel(props) {
         return merged;
     };
 
-    // The permissions endpoint returns only the user ID and the permission value.
-    // Fetch the rest of each user's details.
-    // Without useCallback, useEffect thinks this function is constantly
-    // updating and causes infinite re-renders
-    const fetchUserInfo = useCallback((permissions) => {
-        const users = new Set(permissions.map((item) => item.user));
-        getUserInfo([...users]).then((userInfos) => {
-            const mergedInfo = mergeUsersWithPerms(permissions, userInfos);
-            setPermissions(mergedInfo);
-            setLoading(false);
-        });
-    }, []);
+    const { status: fetchUserInfoStatus } = useQuery({
+        queryKey: fetchUserInfoKey,
+        queryFn: getUserInfo,
+        config: {
+            onSuccess: (userInfos) => {
+                const mergedInfo = mergeUsersWithPerms(userlessPermissions, userInfos);
+                setPermissions(mergedInfo);
+                setFetchUserInfoKey(null);
+            },
+            onError: () =>
+                announce({
+                    text: formatMessage(intl, "fetchPermissionsError"),
+                    variant: AnnouncerConstants.ERROR,
+                }),
+        }
+    });
 
-    useEffect(() => {
-        const resourcePath = resource.path;
-        setLoading(true);
-        getResourcePermissions([resourcePath]).then((permissionResp) => {
-            const permissions = permissionResp?.paths[0]["user-permissions"];
-            if (permissions) {
-                fetchUserInfo(permissions);
-            } else {
-                setPermissions([]);
-                setLoading(false);
+    const { status: fetchResourcePermissionsStatus } = useQuery({
+        queryKey: fetchResourcePermissionsKey,
+        queryFn: getResourcePermissions,
+        config: {
+            onSuccess: (permissionResp) => {
+                const userlessPermissions =
+                    permissionResp?.paths[0]["user-permissions"];
+                if (userlessPermissions && userlessPermissions.length > 0) {
+                    const userIds = new Set(
+                        userlessPermissions.map((item) => item.user)
+                    );
+                    setUserlessPermissions(userlessPermissions);
+                    setFetchUserInfoKey({ userIds: [...userIds] });
+                } else {
+                    setPermissions([]);
+                }
+            },
+            onError: () =>
+                announce({
+                    text: formatMessage(intl, "fetchPermissionsError"),
+                    variant: AnnouncerConstants.ERROR,
+                }),
+        },
+    });
+
+    const [updatePermissions] = useMutation(updateSharing, {
+        onSuccess: (resp, { currentPermission, newPermissionValue }) => {
+            const userPerm = resp?.sharing?.find(
+                (item) => item.user === currentPermission.user
+            );
+            const pathPerm = userPerm?.sharing?.find(
+                (item) => item.path === resource.path
+            );
+            if (pathPerm?.success) {
+                const newPerms = [...permissions];
+                const permIndex = permissions.findIndex(
+                    (perm) => perm.user === currentPermission.user
+                );
+                newPerms[permIndex].permission = newPermissionValue;
+                setPermissions(newPerms);
             }
-        });
-    }, [resource, fetchUserInfo]); // lint error without fetchUserInfo
+
+            setPermissionLoadingIds((prevLoadingIds) =>
+                prevLoadingIds.filter((id) => id !== currentPermission.id)
+            );
+        },
+    });
 
     const onPermissionChange = (currentPermission, newPermissionValue) => {
         setPermissionLoadingIds((prevLoadingIds) => [
@@ -121,27 +178,17 @@ function PermissionsTabPanel(props) {
             ],
         };
 
-        updateSharing(sharingReq).then((resp) => {
-            const userPerm = resp?.sharing?.find(
-                (item) => item.user === currentPermission.user
-            );
-            const pathPerm = userPerm?.sharing?.find(
-                (item) => item.path === resource.path
-            );
-            if (pathPerm?.success) {
-                const newPerms = [...permissions];
-                const permIndex = permissions.findIndex(
-                    (perm) => perm.user === currentPermission.user
-                );
-                newPerms[permIndex].permission = newPermissionValue;
-                setPermissions(newPerms);
-            }
-
-            setPermissionLoadingIds((prevLoadingIds) =>
-                prevLoadingIds.filter((id) => id !== currentPermission.id)
-            );
+        updatePermissions({
+            sharingReq,
+            currentPermission,
+            newPermissionValue,
         });
     };
+
+    const loading = isQueryLoading([
+        fetchResourcePermissionsStatus,
+        fetchUserInfoStatus,
+    ]);
 
     if (loading) {
         const arrayRows = [...Array(10)];
@@ -188,80 +235,88 @@ function PermissionsTabPanel(props) {
                 })}
             </Typography>
 
-            <List
-                className={classes.list}
-                id={build(baseId, ids.PERMISSION_LIST)}
-            >
-                {Object.values(Permissions).map((permissionValue, index) => (
-                    <Fragment key={index}>
-                        <ListSubheader>
-                            {permissionValue} (
-                            {groupedPermissions[permissionValue]?.length || 0})
-                        </ListSubheader>
-                        {groupedPermissions &&
-                            groupedPermissions[
-                                permissionValue
-                            ]?.map((permission, index) => (
-                                <Identity
-                                    id={build(
-                                        baseId,
-                                        ids.PERMISSION_LIST,
-                                        permission.user
-                                    )}
-                                    key={index}
-                                    primaryText={permission.name}
-                                    secondaryText={
-                                        permission.institution
-                                            ? permission.institution
-                                            : permission.description
-                                    }
-                                    secondaryAction={
-                                        <>
-                                            {permissionLoadingIds.includes(
+            {fetchResourcePermissionsKey && (
+                <List
+                    className={classes.list}
+                    id={build(baseId, ids.PERMISSION_LIST)}
+                >
+                    {Object.values(Permissions).map(
+                        (permissionValue, index) => (
+                            <Fragment key={index}>
+                                <ListSubheader>
+                                    {permissionValue} (
+                                    {groupedPermissions[permissionValue]
+                                        ?.length || 0}
+                                    )
+                                </ListSubheader>
+                                {groupedPermissions &&
+                                    groupedPermissions[
+                                        permissionValue
+                                    ]?.map((permission, index) => (
+                                        <Identity
+                                            id={build(
+                                                baseId,
+                                                ids.PERMISSION_LIST,
                                                 permission.user
-                                            ) ? (
-                                                <CircularProgress
-                                                    color="inherit"
-                                                    size={20}
-                                                />
-                                            ) : (
-                                                <PermissionSelector
-                                                    baseId={build(
-                                                        baseId,
-                                                        ids.PERMISSION_LIST,
+                                            )}
+                                            key={index}
+                                            primaryText={permission.name}
+                                            secondaryText={
+                                                permission.institution
+                                                    ? permission.institution
+                                                    : permission.description
+                                            }
+                                            secondaryAction={
+                                                <>
+                                                    {permissionLoadingIds.includes(
                                                         permission.user
+                                                    ) ? (
+                                                        <CircularProgress
+                                                            color="inherit"
+                                                            size={20}
+                                                        />
+                                                    ) : (
+                                                        <PermissionSelector
+                                                            baseId={build(
+                                                                baseId,
+                                                                ids.PERMISSION_LIST,
+                                                                permission.user
+                                                            )}
+                                                            currentPermission={
+                                                                permission.permission
+                                                            }
+                                                            onPermissionChange={(
+                                                                updatedPermissionValue
+                                                            ) =>
+                                                                onPermissionChange(
+                                                                    permission,
+                                                                    updatedPermissionValue
+                                                                )
+                                                            }
+                                                        />
                                                     )}
-                                                    currentPermission={
-                                                        permission.permission
-                                                    }
-                                                    onPermissionChange={(
-                                                        updatedPermissionValue
-                                                    ) =>
-                                                        onPermissionChange(
-                                                            permission,
-                                                            updatedPermissionValue
-                                                        )
-                                                    }
-                                                />
-                                            )}
-                                        </>
-                                    }
-                                    avatar={
-                                        <Avatar
-                                            className={getAvatarClass(
-                                                permissionValue
-                                            )}
-                                        >
-                                            {getAvatarLetters(permission)}
-                                        </Avatar>
-                                    }
-                                />
-                            ))}
-                    </Fragment>
-                ))}
-            </List>
+                                                </>
+                                            }
+                                            avatar={
+                                                <Avatar
+                                                    className={getAvatarClass(
+                                                        permissionValue
+                                                    )}
+                                                >
+                                                    {getAvatarLetters(
+                                                        permission
+                                                    )}
+                                                </Avatar>
+                                            }
+                                        />
+                                    ))}
+                            </Fragment>
+                        )
+                    )}
+                </List>
+            )}
         </>
     );
 }
 
-export default PermissionsTabPanel;
+export default withI18N(injectIntl(PermissionsTabPanel), messages);

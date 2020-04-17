@@ -1,11 +1,12 @@
-import callApi from "../../common/callApi";
+import callApi from "../common/callApi";
 
 /**
  * Get details on data resources
+ * @param key - Query key for react-query
  * @param paths - An array of strings which are resource paths
  * @returns {Promise<any>}
  */
-export const getResourceDetails = (paths) => {
+export const getResourceDetails = (key, { paths }) => {
     return callApi({
         endpoint: "/api/filesystem/stat",
         method: "POST",
@@ -15,10 +16,11 @@ export const getResourceDetails = (paths) => {
 
 /**
  * Get permissions for data resources
+ * @param key - Query key for react-query
  * @param paths - An array of strings which are resource paths
  * @returns {Promise<any>}
  */
-export const getResourcePermissions = (paths) => {
+export const getResourcePermissions = (key, { paths }) => {
     return callApi({
         endpoint: "/api/filesystem/user-permissions",
         method: "POST",
@@ -32,7 +34,7 @@ export const getResourcePermissions = (paths) => {
  * @param infoType - The new info type
  * @returns {Promise<any>}
  */
-export const updateInfoType = (path, infoType) => {
+export const updateInfoType = ({ path, infoType }) => {
     return callApi({
         endpoint: `/api/filetypes/type`,
         method: "POST",
@@ -45,6 +47,7 @@ export const updateInfoType = (path, infoType) => {
 
 /**
  * Get a paged directory listing
+ * @param key - Query key for react-query
  * @param path - The resource path
  * @param rowsPerPage - The number of rows per page
  * @param orderBy - A column to order items by
@@ -52,7 +55,14 @@ export const updateInfoType = (path, infoType) => {
  * @param page - The page number or offset
  * @returns {Promise<any>}
  */
-export const getPagedListing = (path, rowsPerPage, orderBy, order, page) => {
+export const getPagedListing = (
+    key,
+    path,
+    rowsPerPage,
+    orderBy,
+    order,
+    page
+) => {
     return callApi({
         endpoint: `/api/filesystem/paged-directory?path=${encodeURIComponent(
             path

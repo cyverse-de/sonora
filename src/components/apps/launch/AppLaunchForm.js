@@ -309,17 +309,27 @@ const AppLaunchForm = (props) => {
 
         if (hasReferenceGenomes) {
             setReferenceGenomesLoading(true);
-            getReferenceGenomes().then((resp) => {
-                if (!unmounted) {
-                    const genomes = resp?.genomes || [];
-                    setReferenceGenomes(
-                        stableSort(genomes, (a, b) =>
-                            a.name.localeCompare(b.name)
-                        )
-                    );
+            getReferenceGenomes()
+                .then((resp) => {
+                    if (!unmounted) {
+                        const genomes = resp?.genomes || [];
+                        setReferenceGenomes(
+                            stableSort(genomes, (a, b) =>
+                                a.name.localeCompare(b.name)
+                            )
+                        );
+                        setReferenceGenomesLoading(false);
+                    }
+                })
+                .catch((error) => {
+                    error?.isAxiosError
+                        ? console.error(
+                              error.response.status,
+                              error.response.data
+                          )
+                        : console.error(error);
                     setReferenceGenomesLoading(false);
-                }
-            });
+                });
         }
 
         return () => {

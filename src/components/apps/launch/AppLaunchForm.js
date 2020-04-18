@@ -78,7 +78,7 @@ const formatAnalysisName = (intl, name) =>
  *
  * @param {Object} props
  * @param {boolean} props.notify
- * @param {string} props.output_dir
+ * @param {string} props.defaultOutputDir
  * @param {Object} props.app
  * @param {string} props.app.id
  * @param {string} props.app.system_id
@@ -91,7 +91,7 @@ const formatAnalysisName = (intl, name) =>
 const initValues = ({
     intl,
     notify,
-    output_dir,
+    defaultOutputDir,
     app: { id, system_id, name, requirements, groups },
 }) => {
     const groupInitValues = groups?.map((group) => ({
@@ -130,7 +130,7 @@ const initValues = ({
     return {
         debug: false,
         notify,
-        output_dir,
+        output_dir: defaultOutputDir,
         name: formatAnalysisName(intl, name),
         description: "",
         app_id: id,
@@ -144,6 +144,7 @@ const initValues = ({
 /**
  * Formats the analysis submission from props and the form values.
  *
+ * @param {string} defaultOutputDir
  * @param {Object} formValues
  * @param {boolean} formValues.notify
  * @param {boolean} formValues.debug
@@ -157,19 +158,23 @@ const initValues = ({
  *
  * @returns The formatted submission for launching or saving as a quick launch.
  */
-const formatSubmission = ({
+const formatSubmission = (
+    defaultOutputDir,
+    {
+        notify,
+        debug,
+        name,
+        description,
+        output_dir,
+        system_id,
+        app_id,
+        requirements,
+        groups,
+    }
+) => ({
     notify,
     debug,
-    name,
-    description,
-    output_dir,
-    system_id,
-    app_id,
-    requirements,
-    groups,
-}) => ({
-    notify,
-    debug,
+    create_output_subdir: output_dir === defaultOutputDir,
     name: name.trim(),
     description,
     output_dir,
@@ -272,6 +277,8 @@ const AppLaunchForm = (props) => {
         defaultMaxCPUCores,
         defaultMaxMemory,
         defaultMaxDiskSpace,
+        defaultOutputDir,
+        startingPath,
         submitAnalysis,
         app: { app_type, groups, requirements },
     } = props;
@@ -377,7 +384,7 @@ const AppLaunchForm = (props) => {
             validate={validate}
             onSubmit={(values, { setSubmitting }) => {
                 submitAnalysis(
-                    formatSubmission(values),
+                    formatSubmission(defaultOutputDir, values),
                     () => setSubmitting(false),
                     (errorMsg) => setSubmitting(false)
                 );
@@ -419,7 +426,11 @@ const AppLaunchForm = (props) => {
                         label={getMessage("analysisInfo")}
                         hidden={activeStep !== stepAnalysisInfo.step}
                     >
-                        <AnalysisInfoForm formId={formId} appType={app_type} />
+                        <AnalysisInfoForm
+                            formId={formId}
+                            appType={app_type}
+                            startingPath={startingPath}
+                        />
                     </StepContent>
 
                     <StepContent
@@ -436,6 +447,7 @@ const AppLaunchForm = (props) => {
                                 baseId={buildDebugId(stepIdParams, index + 1)}
                                 fieldName={`groups.${index}`}
                                 group={group}
+                                startingPath={startingPath}
                                 referenceGenomes={referenceGenomes}
                                 referenceGenomesLoading={
                                     referenceGenomesLoading

@@ -9,8 +9,12 @@ import React from "react";
 import { FastField } from "formik";
 
 import constants from "../../../constants";
+import ResourceTypes from "../../models/ResourceTypes";
+
 import ids from "./ids";
 import messages from "./messages";
+
+import InputSelector from "./InputSelector";
 
 import {
     build as buildDebugId,
@@ -21,7 +25,7 @@ import {
     withI18N,
 } from "@cyverse-de/ui-lib";
 
-const AnalysisInfoForm = ({ formId, appType }) => (
+const AnalysisInfoForm = ({ formId, appType, startingPath }) => (
     <>
         <FastField
             id={buildDebugId(
@@ -54,7 +58,10 @@ const AnalysisInfoForm = ({ formId, appType }) => (
             label={getMessage("outputFolder")}
             required={true}
             name="output_dir"
-            component={FormTextField}
+            component={InputSelector}
+            startingPath={startingPath}
+            acceptedType={ResourceTypes.FOLDER}
+            multiSelect={false}
         />
         {appType !== constants.APP_TYPE_EXTERNAL && (
             <FastField

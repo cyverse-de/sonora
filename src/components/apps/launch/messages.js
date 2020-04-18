@@ -31,6 +31,7 @@ export default {
             ' <a href="mailto:support@cyverse.org">support@cyverse.org</a>.',
         appUnavailable: "This app is temporarily unavailable.",
         back: "Back",
+        browse: "Browse",
         comments: "Comments",
         errorLoadingReferenceGenomes: "Error loading Reference Genomes",
         helpMsgResourceRequirements,

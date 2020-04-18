@@ -3,11 +3,18 @@ import AppLaunchWizard from "../../../src/components/apps/launch/AppLaunchWizard
 
 import DeprecatedParamsApp from "./data/DeprecatedParamsApp";
 
-import { ANALYSIS_OUTPUT_DIR, submitAnalysis } from "./constants";
+import {
+    ANALYSIS_OUTPUT_DIR,
+    STARTING_PATH,
+    initMockAxiosFileFolderSelector,
+    submitAnalysis,
+} from "./constants";
 
 import { withKnobs, boolean } from "@storybook/addon-knobs";
 
 export const DeprecatedParams = () => {
+    initMockAxiosFileFolderSelector();
+
     const deleted = boolean("App deleted", false);
     const disabled = boolean("App disabled", false);
 
@@ -16,7 +23,8 @@ export const DeprecatedParams = () => {
     return (
         <AppLaunchWizard
             notify={false}
-            output_dir={ANALYSIS_OUTPUT_DIR}
+            defaultOutputDir={ANALYSIS_OUTPUT_DIR}
+            startingPath={STARTING_PATH}
             submitAnalysis={submitAnalysis}
             app={app}
         />

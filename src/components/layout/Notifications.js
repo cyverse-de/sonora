@@ -34,7 +34,7 @@ function Notifications(props) {
     const goToOutputFolder = useCallback(
         (outputFolder) => {
             router.push(
-                `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}ds${outputFolder}`
+                `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}${constants.DATA_STORE_STORAGE_ID}${outputFolder}`
             );
         },
         [router]

@@ -31,7 +31,7 @@ function Notifications(props) {
     const theme = useTheme();
     const router = useRouter();
     const [unSeenCount, setUnSeenCount] = useState(0);
-    const gotToOutputFolder = useCallback(
+    const goToOutputFolder = useCallback(
         (outputFolder) => {
             router.push(
                 `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}ds${outputFolder}`
@@ -47,8 +47,7 @@ function Notifications(props) {
                     key={outputFolderPath}
                     variant="outlined"
                     onClick={() => {
-                        console.log("output folder path=>" + outputFolderPath);
-                        gotToOutputFolder(outputFolderPath); //gotcha - I cannot do router.push from here
+                        goToOutputFolder(outputFolderPath); //gotcha - I cannot do router.push from here
                     }}
                 >
                     <Typography
@@ -60,23 +59,23 @@ function Notifications(props) {
                 </Button>
             );
         },
-        [gotToOutputFolder, intl, theme.palette.primary.contrastText]
+        [goToOutputFolder, intl, theme.palette.primary.contrastText]
     );
 
     const displayAnalysisNotification = useCallback(
         (notification, analysisStatus) => {
             let variant = AnnouncerConstants.INFO;
-            if (analysisStatus === constants.analysisStatus.COMPLETED) {
+            if (analysisStatus === constants.ANALYSIS_STATUS.COMPLETED) {
                 variant = AnnouncerConstants.SUCCESS;
-            } else if (analysisStatus === constants.analysisStatus.FAILED) {
+            } else if (analysisStatus === constants.ANALYSIS_STATUS.FAILED) {
                 variant = AnnouncerConstants.ERROR;
             }
             announce({
                 text: notification.message.text,
                 variant,
                 customAction:
-                    analysisStatus === constants.analysisStatus.COMPLETED ||
-                    analysisStatus === constants.analysisStatus.FAILED
+                    analysisStatus === constants.ANALYSIS_STATUS.COMPLETED ||
+                    analysisStatus === constants.ANALYSIS_STATUS.FAILED
                         ? () =>
                               analysisCustomAction(
                                   notification.payload.analysisresultsfolder
@@ -91,7 +90,7 @@ function Notifications(props) {
         (notification, category) => {
             let analysisStatus =
                 category.toLowerCase() ===
-                constants.notificationCategory.ANALYSIS.toLowerCase()
+                constants.NOTIFICATION_CATEGORY.ANALYSIS.toLowerCase()
                     ? notification.payload.status
                     : "";
 
@@ -150,10 +149,10 @@ function Notifications(props) {
                     ws.send("Connected by " + userProfile.id);
                 },
                 onmessage: (e) => handleMessage(e),
-                onreconnect: (e) => console.log("Reconnecting...", e),
-                onmaximum: (e) => console.log("Stop Attempting!", e),
-                onclose: (e) => console.log("Closed!", e),
-                onerror: (e) => console.log("Error:", e),
+                onreconnect: (e) => console.log("Websocket Reconnecting...", e),
+                onmaximum: (e) => console.log("Websocket Stop Attempting!", e),
+                onclose: (e) => console.log("Websocket Closed!", e),
+                onerror: (e) => console.log("Websocket Error:", e),
             });
             return () => {
                 ws.close();

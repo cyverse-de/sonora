@@ -30,6 +30,9 @@ export default function apiRouter() {
         terrainHandler({
             method: "GET",
             pathname: "/dashboard",
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
     );
 

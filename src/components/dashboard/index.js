@@ -20,14 +20,14 @@ import {
 
 import { Skeleton } from "@material-ui/lab";
 
-import { parse, format } from "date-fns";
+import { format, parse } from "date-fns";
 
-import { getMessage, withI18N, build as buildID } from "@cyverse-de/ui-lib";
+import { build as buildID, getMessage, withI18N } from "@cyverse-de/ui-lib";
 
 import messages from "./messages";
 import ids from "./ids";
 import * as constants from "./constants";
-import getData from "./queries";
+import { getDashboard } from "../../serviceFacade/dashboard";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -269,8 +269,8 @@ const DashboardSkeleton = () => {
 const Dashboard = () => {
     const classes = useStyles();
     const { status, data, error } = useQuery(
-        ["dashboard", constants.SECTION_ITEM_LIMIT],
-        getData
+        ["dashboard", { limit: constants.SECTION_ITEM_LIMIT }],
+        getDashboard
     );
     const isLoading = status === "loading";
     const hasErrored = status === "error";

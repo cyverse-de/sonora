@@ -2,14 +2,14 @@ import React from "react";
 
 import Dashboard from "../src/components/dashboard";
 
-import fetchMock from "fetch-mock";
+import { mockAxios } from "./axiosMock";
 
 export default {
     title: "Dashboard",
 };
 
 export const DashboardTest = () => {
-    fetchMock.restore().get("/api/dashboard", {
+    mockAxios.onGet("/api/dashboard?limit=8").reply(200, {
         apps: {
             recentlyAdded: [
                 {

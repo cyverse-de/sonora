@@ -27,7 +27,7 @@ import { build as buildID, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import messages from "./messages";
 import ids from "./ids";
 import * as constants from "./constants";
-import { getDashboard } from "../../serviceFacade/dashboardServiceFacade";
+import { getDashboard } from "../../serviceFacade/dashboard";
 
 const useStyles = makeStyles((theme) => ({
     root: {

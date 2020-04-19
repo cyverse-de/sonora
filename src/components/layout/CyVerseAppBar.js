@@ -7,11 +7,20 @@
  */
 
 import React, { useState } from "react";
+
+import { useQuery } from "react-query";
+import { useRouter } from "next/router";
+import { injectIntl } from "react-intl";
+
 import ids from "./ids";
 import intlData from "./messages";
 import constants from "../../constants";
 import GlobalSearchField from "../search/GlobalSearchField";
 import NavigationConstants from "../../common/NavigationConstants";
+import Notifications from "./Notifications";
+import CustomIntercom from "./CustomIntercom";
+import { useUserProfile } from "../../contexts/userProfile";
+import { getUserProfile } from "../../serviceFacade/userServiceFacade";
 
 import {
     build,
@@ -22,12 +31,9 @@ import {
     withI18N,
 } from "@cyverse-de/ui-lib";
 
-import { useRouter } from "next/router";
-import { injectIntl } from "react-intl";
 import {
     AppBar,
     Avatar,
-    Badge,
     Divider,
     Drawer,
     Hidden,
@@ -41,17 +47,9 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import SettingsIcon from "@material-ui/icons/Settings";
-import LiveHelpIcon from "@material-ui/icons/LiveHelp";
-
-import { useUserProfile } from "../../contexts/userProfile";
-import { intercomLogin } from "../../common/intercom";
-import { useIntercom } from "../../contexts/intercom";
-import { getUserProfile } from "../../serviceFacade/userServiceFacade";
-import { useQuery } from "react-query";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -82,58 +80,27 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function CustomIntercom({ intl, classes, unReadCount }) {
-    return (
-        <IconButton
-            className={classes.margin}
-            id={ids.INTERCOM_WIDGET}
-            color="primary"
-            aria-label={formatMessage(intl, "intercomAriaLabel")}
-            aria-controls={formatMessage(intl, "intercomAriaControl")}
-            size="small"
-        >
-            <Badge badgeContent={unReadCount} color="error">
-                <LiveHelpIcon />
-            </Badge>
-        </IconButton>
-    );
-}
-
 function CyverseAppBar(props) {
     const classes = useStyles();
     const router = useRouter();
     const { intl, children } = props;
     const [userProfile, setUserProfile] = useUserProfile();
     const [avatarLetter, setAvatarLetter] = useState("");
-    const {
-        appId,
-        enabled,
-        companyId,
-        companyName,
-        unReadCount,
-    } = useIntercom();
+
     const [drawerOpen, setDrawerOpen] = useState(false);
     useQuery({
         queryKey: "getUserProfile",
         queryFn: getUserProfile,
         config: {
             onSuccess: setUserProfile,
-            refetchOnWindowFocus: false,
-            throwOnError: true,
         },
     });
+
     React.useEffect(() => {
-        if (enabled && userProfile && userProfile.id) {
-            intercomLogin(
-                userProfile.id,
-                userProfile.attributes.email,
-                appId,
-                companyId,
-                companyName
-            );
+        if (userProfile?.id) {
             setAvatarLetter(userProfile.id.charAt(0).toUpperCase());
         }
-    }, [userProfile, appId, enabled, companyId, companyName, setAvatarLetter]);
+    }, [userProfile, setAvatarLetter]);
 
     const handleUserButtonClick = (event) => {
         if (!userProfile) {
@@ -147,7 +114,6 @@ function CyverseAppBar(props) {
         toggleDrawer(false);
     };
     const toggleDrawer = (open) => (event) => {
-        console.log("drawer=>" + open);
         setDrawerOpen(open);
     };
 
@@ -367,30 +333,8 @@ function CyverseAppBar(props) {
                         </Hidden>
                         <div className={classes.root} />
                         <div style={{ display: "flex" }}>
-                            {enabled && (
-                                <CustomIntercom
-                                    classes={classes}
-                                    intl={intl}
-                                    unReadCount={unReadCount}
-                                />
-                            )}
-                            <IconButton
-                                id={build(
-                                    ids.APP_BAR_BASE,
-                                    ids.NOTIFICATION_BTN
-                                )}
-                                className={classes.margin}
-                                aria-label={formatMessage(
-                                    intl,
-                                    "newNotificationAriaLabel"
-                                )}
-                                color="primary"
-                                size="small"
-                            >
-                                <Badge badgeContent={0} color="error">
-                                    <NotificationsIcon />
-                                </Badge>
-                            </IconButton>
+                            <CustomIntercom classes={classes} intl={intl} />
+                            <Notifications intl={intl} classes={classes} />
                             <Hidden only={["xs", "md", "lg", "xl"]}>
                                 <IconButton
                                     id={build(ids.APP_BAR_BASE, ids.SEARCH_BTN)}

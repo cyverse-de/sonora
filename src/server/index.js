@@ -1,11 +1,11 @@
 import express from "express";
 import next from "next";
-
+import expressWs from "express-ws";
 import * as config from "./configuration";
 import apiRouter from "./api/router";
 import NavigationConstants from "../common/NavigationConstants";
 import * as authn from "./auth";
-
+import { setUpAmqpForNotifications, getNotifications } from "./amqp";
 import logger, { errorLogger, requestLogger } from "./logging";
 
 export const app = next({
@@ -58,6 +58,14 @@ app.prepare()
         logger.info("adding the /login/* handler");
         server.get("/login/*", keycloakClient.protect(), (req, res) => {
             res.redirect(req.url.replace(/^\/login/, ""));
+        });
+
+        //get notifications from amqp
+        logger.info("Set up notification queue and websocket");
+        setUpAmqpForNotifications();
+        expressWs(server);
+        server.ws(NavigationConstants.NOTIFICATION_WS, function(ws, request) {
+            getNotifications(authn.getUserID(request), ws);
         });
 
         logger.info("adding the api router to the express server");

@@ -9,4 +9,5 @@ export default {
     LOGIN: "login",
     LOGOUT: "logout",
     SETTINGS: "settings",
+    NOTIFICATION_WS: "/websocket/notifications",
 };

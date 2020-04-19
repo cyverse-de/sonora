@@ -15,4 +15,16 @@ export default {
     BROWSE_ALL_APPS: "Browse All Apps",
     EXTERNAL_APP_TYPE: "External",
     LOADING: "loading",
+    NOTIFICATION_WS: "/websocket/notifications",
+    WS_PROTOCOL: "ws://",
+    WSS_PROTOCOL: "wss://",
+    NOTIFICATION_CATEGORY: {
+        ANALYSIS: "Analysis",
+    },
+    ANALYSIS_STATUS: {
+        SUBMITTED: "Submitted",
+        RUNNING: "Running",
+        COMPLETED: "Completed",
+        FAILED: "Failed",
+    },
 };

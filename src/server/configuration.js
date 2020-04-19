@@ -85,6 +85,10 @@ const validate = () => {
     validateConfigSetting("intercom.enabled");
     validateConfigSetting("intercom.company_id");
     validateConfigSetting("intercom.company_name");
+
+    //amqp settings
+    validateConfigSetting("amqp.amqp_uri");
+    validateConfigSetting("amqp.exchange_name");
 };
 
 validate();
@@ -218,3 +222,16 @@ export const intercomCompanyId = config.get("intercom.company_id");
  * @type {string}
  */
 export const intercomCompanyName = config.get("intercom.company_name");
+
+/**
+ * AMQP URI
+ * @type {string}
+ */
+export const amqpUri = config.get("amqp.amqp_uri");
+
+/**
+ * AMQP exchange name
+ * @type {string}
+ *
+ */
+export const amqpExchangeName = config.get("amqp.exchange_name");

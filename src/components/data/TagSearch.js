@@ -72,8 +72,8 @@ function TagSearch(props) {
         config: {
             onSuccess: (resp) => {
                 setOptions(resp.tags);
-            }
-        }
+            },
+        },
     });
 
     const [removeTag, { status: tagDetachStatus }] = useMutation(

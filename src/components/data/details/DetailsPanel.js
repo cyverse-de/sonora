@@ -83,7 +83,6 @@ function DetailsTabPanel(props) {
         changeInfoType({ path: resourcePath, infoType: type });
     };
 
-
     if (isQueryLoading([isFetching, updateInfoTypeStatus])) {
         return <GridLoading baseId={baseId} rows={10} />;
     }

@@ -20,9 +20,12 @@ import {
 
 import { Skeleton } from "@material-ui/lab";
 
-import { format, parse } from "date-fns";
-
-import { build as buildID, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import {
+    build as buildID,
+    formatDate,
+    getMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
 
 import messages from "./messages";
 import ids from "./ids";
@@ -118,13 +121,11 @@ const getOrigination = (kind, content) => {
             break;
         default:
             origination = getMessage("by");
-            date = new Date();
     }
-
-    date = parse(date);
-    date = format(date, "MMMM Do YYYY, h:mm:ss a");
-
-    return [origination, date];
+    return [
+        origination,
+        formatDate(date ? new Date(date).valueOf() : new Date().valueOf()),
+    ];
 };
 
 const cleanUsername = (username) => {

@@ -11,7 +11,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import "./styles.css";
 
 import CyverseAppBar from "../components/layout/CyVerseAppBar";
-import Navigation from "../components/layout/Navigation";
 import NavigationConstants from "../common/NavigationConstants";
 import UploadManager from "../components/uploads/manager";
 import theme from "../components/theme/default";
@@ -68,8 +67,6 @@ function MyApp({ Component, pageProps }) {
     const router = useRouter();
 
     const [appBarHeight, setAppBarRef] = useComponentHeight();
-    const [navBarHeight, setNavBarRef] = useComponentHeight();
-
     const pathname = router.pathname
         ? router.pathname.split(constants.PATH_SEPARATOR)[1]
         : NavigationConstants.DASHBOARD;
@@ -120,13 +117,8 @@ function MyApp({ Component, pageProps }) {
                                         <title>Discovery Environment</title>
                                     </Head>
                                     <ReactQueryDevtools initialIsOpen={false} />
-                                    <Navigation
-                                        activeView={pathname}
-                                        setNavBarRef={setNavBarRef}
-                                    />
                                     <PageWrapper
                                         appBarHeight={appBarHeight}
-                                        navBarHeight={navBarHeight}
                                     >
                                         <Component {...pageProps} />
                                     </PageWrapper>

@@ -48,7 +48,7 @@ function CustomIntercom({ intl, classes }) {
     if (enabled) {
         return (
             <IconButton
-                className={classes.margin}
+                className={classes.appBarIcon}
                 id={ids.INTERCOM_WIDGET}
                 color="primary"
                 aria-label={formatMessage(intl, "intercomAriaLabel")}

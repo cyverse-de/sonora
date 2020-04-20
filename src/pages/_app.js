@@ -11,7 +11,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import "./styles.css";
 
 import CyverseAppBar from "../components/layout/CyVerseAppBar";
-import Navigation from "../components/layout/Navigation";
 import NavigationConstants from "../common/NavigationConstants";
 import UploadManager from "../components/uploads/manager";
 import theme from "../components/theme/default";
@@ -106,12 +105,11 @@ function MyApp({ Component, pageProps }) {
                     <UploadTrackingProvider>
                         <ReactQueryConfigProvider config={queryConfig}>
                             <CssBaseline />
-                            <CyverseAppBar>
+                            <CyverseAppBar activeView={pathname}>
                                 <Head>
                                     <title>Discovery Environment</title>
                                 </Head>
                                 <ReactQueryDevtools initialIsOpen={false} />
-                                <Navigation activeView={pathname} />
                                 <Component {...pageProps} />
                                 <UploadManager />
                             </CyverseAppBar>

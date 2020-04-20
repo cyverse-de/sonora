@@ -6,7 +6,7 @@
  */
 import React, { useState } from "react";
 import { useQuery } from "react-query";
-import { getPrivateCategories } from "../../serviceFacade/appServiceFacade";
+import { getPrivateCategories } from "../../serviceFacades/apps";
 import { injectIntl } from "react-intl";
 import intlData from "./messages";
 import ids from "./ids";

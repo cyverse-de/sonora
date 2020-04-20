@@ -20,7 +20,7 @@ import NavigationConstants from "../../common/NavigationConstants";
 import Notifications from "./Notifications";
 import CustomIntercom from "./CustomIntercom";
 import { useUserProfile } from "../../contexts/userProfile";
-import { getUserProfile } from "../../serviceFacade/userServiceFacade";
+import { getUserProfile } from "../../serviceFacades/users";
 
 import {
     build,

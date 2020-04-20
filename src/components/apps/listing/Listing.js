@@ -13,7 +13,7 @@ import {
     getApps,
     getAppsInCategory,
     rateApp,
-} from "../../../serviceFacade/appServiceFacade";
+} from "../../../serviceFacades/apps";
 import TableView from "./TableView";
 import Header from "../Header";
 import AppNavigation from "../AppNavigation";

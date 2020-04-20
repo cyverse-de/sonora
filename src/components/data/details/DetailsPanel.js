@@ -36,7 +36,7 @@ import TagSearch from "../TagSearch";
 import {
     getResourceDetails,
     updateInfoType,
-} from "../../../serviceFacade/filesystemServiceFacade";
+} from "../../../serviceFacades/filesystem";
 import GridLabelValue from "../../utils/GridLabelValue";
 import GridLoading from "../../utils/GridLoading";
 import isQueryLoading from "../../utils/isQueryLoading";

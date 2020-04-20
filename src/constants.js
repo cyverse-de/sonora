@@ -21,11 +21,5 @@ export default {
     NOTIFICATION_CATEGORY: {
         ANALYSIS: "Analysis",
     },
-    ANALYSIS_STATUS: {
-        SUBMITTED: "Submitted",
-        RUNNING: "Running",
-        COMPLETED: "Completed",
-        FAILED: "Failed",
-    },
     IPLANT: "iplantcollaborative",
 };

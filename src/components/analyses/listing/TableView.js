@@ -35,7 +35,7 @@ import ids from "../ids";
 import { injectIntl } from "react-intl";
 import messages from "../messages";
 import constants from "../../../constants";
-import analysisStatus from "../model/analysisStatus";
+import analysisStatus from "../../models/analysisStatus";
 import TableLoading from "../../utils/TableLoading";
 
 function AnalysisName(props) {

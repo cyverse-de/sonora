@@ -11,18 +11,20 @@ import { useRouter } from "next/router";
 import Sockette from "sockette";
 
 import constants from "../../constants";
+import analysisStatus from "../models/analysisStatus";
 import NavigationConstants from "../../common/NavigationConstants";
 import { useUserProfile } from "../../contexts/userProfile";
 import ids from "./ids";
 
-import { Badge, Button, IconButton, Typography } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
 import {
     announce,
     AnnouncerConstants,
     build,
     formatMessage,
 } from "@cyverse-de/ui-lib";
+
+import { Badge, Button, IconButton, Typography } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 
 function Notifications(props) {
@@ -63,19 +65,19 @@ function Notifications(props) {
     );
 
     const displayAnalysisNotification = useCallback(
-        (notification, analysisStatus) => {
+        (notification, status) => {
             let variant = AnnouncerConstants.INFO;
-            if (analysisStatus === constants.ANALYSIS_STATUS.COMPLETED) {
+            if (status === analysisStatus.COMPLETED) {
                 variant = AnnouncerConstants.SUCCESS;
-            } else if (analysisStatus === constants.ANALYSIS_STATUS.FAILED) {
+            } else if (status === analysisStatus.FAILED) {
                 variant = AnnouncerConstants.ERROR;
             }
             announce({
                 text: notification.message.text,
                 variant,
                 CustomAction:
-                    analysisStatus === constants.ANALYSIS_STATUS.COMPLETED ||
-                    analysisStatus === constants.ANALYSIS_STATUS.FAILED
+                    status === analysisStatus.COMPLETED ||
+                    status === analysisStatus.FAILED
                         ? () =>
                               analysisCustomAction(
                                   notification.payload.analysisresultsfolder

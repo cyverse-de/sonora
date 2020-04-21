@@ -1,5 +1,5 @@
 export default {
-    locales: "en-us",
+    locales: "en-US",
     messages: {
         nameColumn: "Name",
         namespaceColumn: "Namespace",

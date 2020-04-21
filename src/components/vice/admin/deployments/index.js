@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import {
     build as buildID,
     withI18N,
-    getMessage as msg,
     EnhancedTableHead,
     //EmptyTable,
 } from "@cyverse-de/ui-lib";
@@ -34,16 +33,16 @@ const defineColumn = (name, keyID, align = "left", enableSorting = true) => ({
 
 // The column definitions for the table.
 const tableColumns = [
-    defineColumn(msg("usernameColumn"), COLUMNS.USERNAME),
-    defineColumn(msg("nameColumn"), COLUMNS.NAME),
-    defineColumn(msg("appNameColumn"), COLUMNS.APP_NAME),
-    defineColumn(msg("analysisNameColumn"), COLUMNS.ANALYSIS_NAME),
-    defineColumn(msg("imageColumn"), COLUMNS.IMAGE),
-    defineColumn(msg("portColumn"), COLUMNS.PORT),
-    defineColumn(msg("uidColumn"), COLUMNS.UID),
-    defineColumn(msg("gidColumn"), COLUMNS.GID),
-    defineColumn(msg("commandColumn"), COLUMNS.COMMAND),
-    defineColumn(msg("creationTimestampColumn"), COLUMNS.CREATION_TIMESTAMP),
+    defineColumn("Username", COLUMNS.USERNAME),
+    defineColumn("Name", COLUMNS.NAME),
+    defineColumn("App Name", COLUMNS.APP_NAME),
+    defineColumn("Analysis Name", COLUMNS.ANALYSIS_NAME),
+    defineColumn("Image", COLUMNS.IMAGE),
+    defineColumn("Port", COLUMNS.PORT),
+    defineColumn("UID", COLUMNS.UID),
+    defineColumn("GID", COLUMNS.GID),
+    defineColumn("Command", COLUMNS.COMMAND),
+    defineColumn("Date Created", COLUMNS.CREATION_TIMESTAMP),
 ];
 
 const DeploymentTable = ({ deployments }) => {

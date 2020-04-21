@@ -55,7 +55,7 @@ export const handler = ({ method, pathname, headers }) => {
                         status: 302,
                     });
                 } else {
-                    res.status(500);
+                    res.status(e.response.status);
                     res.send(e.response.data);
                 }
             });

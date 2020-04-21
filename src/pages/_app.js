@@ -23,6 +23,7 @@ import { UploadTrackingProvider } from "../contexts/uploadTracking";
 import { UserProfileProvider } from "../contexts/userProfile";
 import { IntercomProvider } from "../contexts/intercom";
 import constants from "../constants";
+import { DataRootsProvider } from "../contexts/dataRoots";
 
 const setupIntercom = (intercomAppId) => {
     window.intercomSettings = {
@@ -115,16 +116,19 @@ function MyApp({
                     <UploadTrackingProvider>
                         <ReactQueryConfigProvider config={queryConfig}>
                             <CssBaseline />
-                            <CyverseAppBar>
-                                <Head>
-                                    <title>Discovery Environment</title>
-                                </Head>
-                                <ReactQueryDevtools initialIsOpen={false} />
-                                <Navigation activeView={pathname} />
-                                <PageSpacer />
-                                <Component {...pageProps} />
-                                <UploadManager />
-                            </CyverseAppBar>
+                            <DataRootsProvider>
+                                <CyverseAppBar>
+                                    <Head>
+                                        <title>Discovery Environment</title>
+                                    </Head>
+                                    <ReactQueryDevtools initialIsOpen={false} />
+                                    <Navigation activeView={pathname} />
+                                    <PageSpacer />
+
+                                    <Component {...pageProps} />
+                                    <UploadManager />
+                                </CyverseAppBar>
+                            </DataRootsProvider>
                         </ReactQueryConfigProvider>
                     </UploadTrackingProvider>
                 </UserProfileProvider>

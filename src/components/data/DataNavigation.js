@@ -41,6 +41,7 @@ import constants from "../../constants";
 import { getFilesystemRoots } from "../../serviceFacades/filesystem";
 import { useUserProfile } from "../../contexts/userProfile";
 import { useQuery } from "react-query";
+import { useDataRoots } from "../../contexts/dataRoots";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
@@ -351,22 +352,28 @@ function DataNavigation(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [dataRoots, setDataRoots] = useState([]);
-    const [userHomePath, setUserHomePath] = useState("");
-    const [userTrashPath, setUserTrashPath] = useState("");
-    const [sharedWithMePath, setSharedWithMePath] = useState("");
-    const [communityDataPath, setCommunityDataPath] = useState("");
     const dataNavId = build(baseId, ids.DATA_NAVIGATION);
     const [userProfile] = useUserProfile();
+    const [
+        {
+            dataRoots,
+            userHomePath,
+            userTrashPath,
+            sharedWithMePath,
+            communityDataPath,
+            error,
+        },
+        setRoots,
+    ] = useDataRoots();
 
     useEffect(() => {
         //route to default path
-        if (dataRoots.length > 0 && !path) {
+        if (dataRoots?.length > 0 && !path) {
             handlePathChange(dataRoots[0].path);
         }
     }, [dataRoots, handlePathChange, path]);
 
-    const { error } = useQuery({
+    useQuery({
         queryKey: ["dataFileSystemRoots", userProfile],
         queryFn: getFilesystemRoots,
         config: {
@@ -380,33 +387,42 @@ function DataNavigation(props) {
                     const sharedWithMe = respRoots.find(
                         (root) => root.label === constants.SHARED_WITH_ME
                     );
-                    setSharedWithMePath(sharedWithMe.path);
                     sharedWithMe.icon = <FolderSharedIcon />;
                     const communityData = respRoots.find(
                         (root) => root.label === constants.COMMUNITY_DATA
                     );
-                    setCommunityDataPath(communityData.path);
                     communityData.icon = <GroupIcon />;
                     const trash = respRoots.find(
                         (root) => root.label === constants.TRASH
                     );
                     trash.icon = <DeleteIcon />;
-
                     const basePaths = respData["base-paths"];
-                    setUserHomePath(basePaths["user_home_path"]);
-                    setUserTrashPath(basePaths["user_trash_path"]);
-                    setDataRoots([home, sharedWithMe, communityData, trash]);
+                    setRoots({
+                        dataRoots: [home, sharedWithMe, communityData, trash],
+                        sharedWithMePath: sharedWithMe.path,
+                        communityDataPath: communityData.path,
+                        userHomePath: basePaths["user_home_path"],
+                        userTrashPath: basePaths["user_trash_path"],
+                    });
                 }
             },
-            onError: () => {
-                //temporary workaround -> should still display community data
-                announce({
-                    text: formatMessage(intl, "dataSignIn"),
-                    variant: AnnouncerConstants.INFO,
+            onError: (error) => {
+                setRoots({
+                    error: error,
                 });
             },
         },
     });
+
+    useEffect(() => {
+        if (error) {
+            //temporary workaround -> should still display community data
+            announce({
+                text: formatMessage(intl, "dataSignIn"),
+                variant: AnnouncerConstants.INFO,
+            });
+        }
+    }, [error, intl]);
 
     useEffect(() => {
         /**
@@ -415,7 +431,7 @@ function DataNavigation(props) {
          * COMMUNITY_DATA_PATH: "/iplant/home/shared",
          * SHARED_WITH_ME_PATH: "/iplant/home",
          */
-        if (dataRoots.length > 0 && path) {
+        if (dataRoots?.length > 0 && path) {
             if (path.startsWith(userHomePath)) {
                 setSelectedIndex(
                     dataRoots.findIndex((root) => root.path === userHomePath)
@@ -460,7 +476,7 @@ function DataNavigation(props) {
         setAnchorEl(null);
     };
 
-    if (dataRoots.length === 0) {
+    if (!dataRoots || dataRoots.length === 0) {
         return null;
     }
     return (

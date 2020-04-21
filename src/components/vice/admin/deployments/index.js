@@ -10,10 +10,11 @@ import {
 import {
     //makeStyles,
     Table,
-    //TableBody,
-    //TableCell,
+    TableBody,
+    TableCell,
     TableContainer,
-    //TableRow,
+    Paper,
+    TableRow,
 } from "@material-ui/core";
 
 import messages from "./messages";
@@ -54,11 +55,11 @@ const DeploymentTable = ({ deployments }) => {
     const handleRequestSort = (_event, property) => {
         const isAscending = orderColumn === property && order === "asc";
         setOrder(isAscending ? "desc" : "asc");
-        setOrderColumn(orderColumn);
+        setOrderColumn(property);
     };
 
     return (
-        <TableContainer>
+        <TableContainer component={Paper}>
             <Table id={tableID}>
                 <EnhancedTableHead
                     selectable={false}
@@ -68,6 +69,22 @@ const DeploymentTable = ({ deployments }) => {
                     columnData={tableColumns}
                     onRequestSort={handleRequestSort}
                 ></EnhancedTableHead>
+                <TableBody>
+                    {deployments.map((row) => (
+                        <TableRow key={row.externalID} id={id(row.externalID)}>
+                            <TableCell>{row.username}</TableCell>
+                            <TableCell>{row.name}</TableCell>
+                            <TableCell>{row.appName}</TableCell>
+                            <TableCell>{row.analysisName}</TableCell>
+                            <TableCell>{row.image}</TableCell>
+                            <TableCell>{row.port}</TableCell>
+                            <TableCell>{row.user}</TableCell>
+                            <TableCell>{row.group}</TableCell>
+                            <TableCell>{row.command.join("")}</TableCell>
+                            <TableCell>{row.creationTimestamp}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
             </Table>
         </TableContainer>
     );

@@ -24,26 +24,37 @@ import { COLUMNS } from "./constants";
 // Constructs an ID for an element.
 const id = (name) => buildID(ids.BASE, name);
 
-const defineColumn = (name, keyID, align = "left", enableSorting = true) => ({
+const defineColumn = (
+    name,
+    keyID,
+    field,
+    align = "left",
+    enableSorting = true
+) => ({
     name,
     align,
     enableSorting,
     key: keyID,
     id: keyID,
+    field,
 });
 
 // The column definitions for the table.
 const tableColumns = [
-    defineColumn("Username", COLUMNS.USERNAME),
-    defineColumn("Name", COLUMNS.NAME),
-    defineColumn("App Name", COLUMNS.APP_NAME),
-    defineColumn("Analysis Name", COLUMNS.ANALYSIS_NAME),
-    defineColumn("Image", COLUMNS.IMAGE),
-    defineColumn("Port", COLUMNS.PORT),
-    defineColumn("UID", COLUMNS.UID),
-    defineColumn("GID", COLUMNS.GID),
-    defineColumn("Command", COLUMNS.COMMAND),
-    defineColumn("Date Created", COLUMNS.CREATION_TIMESTAMP),
+    defineColumn("Username", COLUMNS.USERNAME, "username"),
+    defineColumn("Name", COLUMNS.NAME, "name"),
+    defineColumn("App Name", COLUMNS.APP_NAME, "appName"),
+    defineColumn("Analysis Name", COLUMNS.ANALYSIS_NAME, "analysisName"),
+    defineColumn("Image", COLUMNS.IMAGE, "image"),
+    defineColumn("Port", COLUMNS.PORT, "port"),
+    defineColumn("UID", COLUMNS.UID, "user"),
+    defineColumn("GID", COLUMNS.GID, "group"),
+    defineColumn("Command", COLUMNS.COMMAND, "command"),
+    defineColumn(
+        "Date Created",
+        COLUMNS.CREATION_TIMESTAMP,
+        "creationTimestamp"
+    ),
 ];
 
 const DeploymentTable = ({ deployments }) => {
@@ -72,16 +83,15 @@ const DeploymentTable = ({ deployments }) => {
                 <TableBody>
                     {deployments.map((row) => (
                         <TableRow key={row.externalID} id={id(row.externalID)}>
-                            <TableCell>{row.username}</TableCell>
-                            <TableCell>{row.name}</TableCell>
-                            <TableCell>{row.appName}</TableCell>
-                            <TableCell>{row.analysisName}</TableCell>
-                            <TableCell>{row.image}</TableCell>
-                            <TableCell>{row.port}</TableCell>
-                            <TableCell>{row.user}</TableCell>
-                            <TableCell>{row.group}</TableCell>
-                            <TableCell>{row.command.join("")}</TableCell>
-                            <TableCell>{row.creationTimestamp}</TableCell>
+                            {tableColumns.map((column) => (
+                                <TableCell
+                                    key={id(
+                                        `${row.externalID}.${column.field}`
+                                    )}
+                                >
+                                    {row[column.field]}
+                                </TableCell>
+                            ))}
                         </TableRow>
                     ))}
                 </TableBody>

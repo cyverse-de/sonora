@@ -70,9 +70,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getAppTypeFilters() {
-    return Object.keys(appType).map((type) => {
+    return Object.values(appType).map((type) => {
         return {
-            name: appType[type],
+            name: type,
         };
     });
 }

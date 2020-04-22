@@ -4,7 +4,7 @@ var intlData = {
         emptyValue: "-",
         goOutputFolder: "Go to output folder",
         viewLogs: "View logs",
-        goOutputFolderOf: "Go to output folder of",
+        goOutputFolderOf: "Go to output folder of {name}",
         viewParam: "View Parameters",
         relaunch: "Relaunch...",
         noAnalyses: "No analyses to display",

@@ -1,5 +1,5 @@
 export default {
-    CHECKBOX: ".checkbox",
+    CHECKBOX: "checkbox",
     NAME: "name",
     OWNER: "owner",
     APP: "app",

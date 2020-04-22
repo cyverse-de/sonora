@@ -18,6 +18,7 @@ import {
 import {
     IconButton,
     Link,
+    makeStyles,
     Paper,
     Table,
     TableBody,
@@ -38,7 +39,15 @@ import constants from "../../../constants";
 import analysisStatus from "../../models/analysisStatus";
 import TableLoading from "../../utils/TableLoading";
 
+const useStyles = makeStyles((theme) => ({
+    name: {
+        paddingLeft: theme.spacing(1),
+        cursor: "pointer",
+    },
+}));
+
 function AnalysisName(props) {
+    const classes = useStyles();
     const analysis = props.analysis;
     const name = analysis.name;
     const isBatch = analysis.batch;
@@ -53,15 +62,14 @@ function AnalysisName(props) {
     const NameLink = () => {
         return (
             <Tooltip
-                title={formatMessage(intl, "goOutputFolderOf") + " " + name}
+                title={formatMessage(intl, "goOutputFolderOf", { name: name })}
             >
                 <Link
                     onClick={() => handleGoToOutputFolder(analysis)}
                     color="primary"
+                    component="button"
                 >
-                    <span style={{ paddingLeft: 8, cursor: "pointer" }}>
-                        {name}
-                    </span>
+                    <span className={classes.name}>{name}</span>
                 </Link>
             </Tooltip>
         );
@@ -70,16 +78,17 @@ function AnalysisName(props) {
     if (isBatch) {
         return (
             <>
+                <NameLink />
                 <Tooltip title={getMessage("htDetails")}>
                     <IconButton
                         size="small"
                         onClick={() => handleBatchIconClick(analysis)}
                         id={build(baseId, ids.ICONS.BATCH)}
+                        aria-label={formatMessage(intl, "htDetails")}
                     >
                         <UnfoldMoreIcon />
                     </IconButton>
                 </Tooltip>
-                <NameLink />
             </>
         );
     } else if (
@@ -90,8 +99,10 @@ function AnalysisName(props) {
     ) {
         return (
             <>
+                <NameLink />
                 <Tooltip title={getMessage("goToVice")}>
                     <IconButton
+                        aria-label={formatMessage(intl, "goToVice")}
                         onClick={() =>
                             handleInteractiveUrlClick(interactiveUrls[0])
                         }
@@ -101,7 +112,6 @@ function AnalysisName(props) {
                         <LaunchIcon />
                     </IconButton>
                 </Tooltip>
-                <NameLink />
             </>
         );
     } else {
@@ -112,11 +122,11 @@ function AnalysisName(props) {
 function AppName(props) {
     const analysis = props.analysis;
     const name = analysis.app_name;
-    return <Link>{name}</Link>;
+    return <Link component="button">{name}</Link>;
 }
 
 function Status(props) {
-    const { analysis, username, baseId, analysisUser } = props;
+    const { analysis, username, baseId, analysisUser, intl } = props;
     const allowTimeExtn =
         analysis.interactive_urls &&
         analysis.interactive_urls.length > 0 &&
@@ -124,12 +134,15 @@ function Status(props) {
         username === analysisUser;
     return (
         <React.Fragment>
-            <Link id={build(baseId, ids.STATUS)}>{analysis.status} </Link>
+            <Link component="button" id={build(baseId, ids.STATUS)}>
+                {analysis.status}{" "}
+            </Link>
             {allowTimeExtn && (
                 <Tooltip title={getMessage("extendTime")}>
                     <IconButton
                         id={build(baseId, ids.BUTTON_EXTEND_TIME_LIMIT)}
                         size="small"
+                        aria-label={formatMessage(intl, "extendTime")}
                     >
                         <HourGlass />
                     </IconButton>
@@ -233,7 +246,7 @@ function TableView(props) {
                 />
                 {loading && (
                     <TableLoading
-                        numColumns={6}
+                        numColumns={columnData.length}
                         numRows={25}
                         baseId={tableId}
                     />
@@ -278,7 +291,7 @@ function TableView(props) {
                                     >
                                         <TableCell padding="checkbox">
                                             <DECheckbox
-                                                id={build(rowId + ids.CHECKBOX)}
+                                                id={build(rowId, ids.CHECKBOX)}
                                                 checked={isSelected}
                                                 tabIndex={0}
                                                 inputProps={{
@@ -337,6 +350,7 @@ function TableView(props) {
                                                 baseId={baseId}
                                                 analysisUser={user}
                                                 username={username}
+                                                intl={intl}
                                             />
                                         </TableCell>
                                     </TableRow>

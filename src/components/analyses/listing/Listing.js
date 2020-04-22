@@ -10,7 +10,7 @@ import { injectIntl } from "react-intl";
 import { useRouter } from "next/router";
 
 import { withI18N } from "@cyverse-de/ui-lib";
-import { getAnalyses } from "../../../serviceFacade/analysesServiceFacade";
+import { getAnalyses } from "../../../serviceFacade/analyses";
 import constants from "../../../constants";
 import DEPagination from "../../utils/DEPagination";
 
@@ -75,7 +75,7 @@ function Listing(props) {
 
         const idParentFilter = Object.create(filter);
         idParentFilter.field = PARENT_ID_FILTER;
-        idParentFilter.value = parentAnalysis?.id;
+        idParentFilter.value = parentAnalysis ? parentAnalysis.id : "";
         filters.push(idParentFilter);
 
         if (appTypeFilter && appTypeFilter.name !== appType.all) {

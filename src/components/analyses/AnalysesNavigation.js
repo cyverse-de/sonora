@@ -36,12 +36,13 @@ const useStyles = makeStyles((theme) => ({
     },
     filter: {
         [theme.breakpoints.down("xs")]: {
-            width: 130,
+            width: 125,
+            margin: theme.spacing(1),
         },
         [theme.breakpoints.up("sm")]: {
             width: 150,
+            margin: theme.spacing(1.5),
         },
-        margin: theme.spacing(1.5),
     },
     batchFilter: {
         [theme.breakpoints.down("sm")]: {
@@ -51,18 +52,22 @@ const useStyles = makeStyles((theme) => ({
             maxWidth: 75,
         },
     },
+    verticalDivider: {
+        margin: theme.spacing(1),
+    },
 }));
 
 function getOwnershipFilters() {
-    return Object.keys(ownershipFilter).map((filter) => {
+    return Object.values(ownershipFilter).map((filter) => {
         return {
-            name: ownershipFilter[filter],
+            name: filter,
         };
     });
 }
 
 function BatchFilter(props) {
     const { baseId, name, classes, onClearBatch } = props;
+
     return (
         <>
             <Tooltip
@@ -81,7 +86,7 @@ function BatchFilter(props) {
                 </Typography>
 
                 <Divider
-                    style={{ margin: 8 }}
+                    className={classes.verticalDivider}
                     orientation="vertical"
                     flexItem
                 />
@@ -99,7 +104,8 @@ function BatchFilter(props) {
             </Hidden>
             <Hidden xsDown>
                 <Link
-                    id={build(baseId, ids.clearBatchFilter, name)}
+                    component="button"
+                    id={build(baseId, ids.CLEAR_BATCH_FILTER, name)}
                     style={{ cursor: "pointer" }}
                     onClick={onClearBatch}
                 >

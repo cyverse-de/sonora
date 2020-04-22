@@ -18,6 +18,7 @@ export default {
     NOTIFICATION_WS: "/websocket/notifications",
     WS_PROTOCOL: "ws://",
     WSS_PROTOCOL: "wss://",
+    USER_PORTAL: "https://user.cyverse.org/register",
     NOTIFICATION_CATEGORY: {
         ANALYSIS: "Analysis",
     },

@@ -1,4 +1,5 @@
 import React from "react";
+import { select, withKnobs } from "@storybook/addon-knobs";
 import ErrorHandler from "../src/components/utils/ErrorHandler";
 
 const errorResponse = {
@@ -59,7 +60,6 @@ const errorObject = {
     response: errorResponse,
 };
 
-
 const loginErrorResponse = {
     data: {
         error_code: "ERR_NOT_AUTHORIZED",
@@ -110,8 +110,20 @@ const loginErrorObject = {
     response: loginErrorResponse,
 };
 
-export default { title: "Error Handler" };
+export default { title: "Error Handler", decorators: [withKnobs] };
 
 export function ErrorHandlerTest() {
-    return <ErrorHandler errorObject={errorObject} />;
+    const label = "Type";
+    const options = ["empty", "401", "500"];
+    const defaultValue = "empty";
+    const groupId = "errors";
+    const value = select(label, options, defaultValue, groupId);
+    let errObj = null;
+    if (value === "401") {
+        errObj = loginErrorObject;
+    } else if (value === "500") {
+        errObj = errorObject;
+    }
+
+    return <ErrorHandler errorObject={errObj} baseId="errorBase" />;
 }

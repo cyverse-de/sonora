@@ -17,8 +17,10 @@ import constants from "./constants";
 import ids from "./ids";
 import messages from "./messages";
 import styles from "./styles";
+import { isEmptyParamValue } from "./validate";
 
 import InputSelector from "./InputSelector";
+import MultiInputSelector from "./MultiInputSelector";
 import ReferenceGenomeSelect from "./ReferenceGenomeSelect";
 
 import {
@@ -91,6 +93,8 @@ const buildParamId = (baseId, paramIndex, type) => {
             return buildDebugId(baseParamId, ids.APP_LAUNCH_INTEGER_SELECTION);
         case constants.PARAM_TYPE.MULTIFILE_OUTPUT:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_MULTI_FILE_OUTPUT);
+        case constants.PARAM_TYPE.MULTIFILE_SELECTOR:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_MULTI_FILE_INPUT);
         case constants.PARAM_TYPE.MULTILINE_TEXT:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_MULTI_LINE_TEXT);
         case constants.PARAM_TYPE.REFERENCE_ANNOTATION:
@@ -219,21 +223,24 @@ const ParamGroupForm = withI18N((props) => {
                             fieldProps.component = InputSelector;
                             fieldProps.startingPath = startingPath;
                             fieldProps.acceptedType = ResourceTypes.FILE;
-                            fieldProps.multiSelect = false;
                             break;
 
                         case constants.PARAM_TYPE.FOLDER_INPUT:
                             fieldProps.component = InputSelector;
                             fieldProps.startingPath = startingPath;
                             fieldProps.acceptedType = ResourceTypes.FOLDER;
-                            fieldProps.multiSelect = false;
                             break;
 
                         case constants.PARAM_TYPE.FILE_FOLDER_INPUT:
                             fieldProps.component = InputSelector;
                             fieldProps.startingPath = startingPath;
                             fieldProps.acceptedType = ResourceTypes.ANY;
-                            fieldProps.multiSelect = false;
+                            break;
+
+                        case constants.PARAM_TYPE.MULTIFILE_SELECTOR:
+                            fieldProps.component = MultiInputSelector;
+                            fieldProps.startingPath = startingPath;
+                            fieldProps.acceptedType = ResourceTypes.FILE;
                             break;
 
                         case constants.PARAM_TYPE.REFERENCE_GENOME:
@@ -274,6 +281,7 @@ const ParamsReviewValue = ({ param }) => {
 
     switch (type) {
         case constants.PARAM_TYPE.MULTILINE_TEXT:
+        case constants.PARAM_TYPE.MULTIFILE_SELECTOR:
             return (
                 <TextField
                     multiline
@@ -284,7 +292,7 @@ const ParamsReviewValue = ({ param }) => {
                     InputProps={{
                         readOnly: true,
                     }}
-                    value={value}
+                    value={Array.isArray(value) ? value.join("\n") : value}
                 />
             );
 
@@ -334,7 +342,7 @@ const ParamsReview = injectIntl(({ appType, groups, errors, intl }) => (
                         group.parameters.map((param, paramIndex) => {
                             const fieldName = `groups.${groupIndex}.parameters.${paramIndex}`;
                             const paramError = getIn(errors, fieldName);
-                            const hasValue = !!param.value || param.value === 0;
+                            const hasValue = !isEmptyParamValue(param.value);
 
                             return (
                                 param.isVisible &&

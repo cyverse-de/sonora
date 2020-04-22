@@ -61,7 +61,6 @@ const AnalysisInfoForm = ({ formId, appType, startingPath }) => (
             component={InputSelector}
             startingPath={startingPath}
             acceptedType={ResourceTypes.FOLDER}
-            multiSelect={false}
         />
         {appType !== constants.APP_TYPE_EXTERNAL && (
             <FastField

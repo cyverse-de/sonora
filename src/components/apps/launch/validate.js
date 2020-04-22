@@ -8,6 +8,13 @@ import { getMessage } from "@cyverse-de/ui-lib";
 import DataConstants from "../../data/constants";
 import constants from "./constants";
 
+/**
+ * @param {*} value - The app parameter value to check.
+ * @return {boolean} True if `value` is falsey, with the exception that Numbers can be exactly 0, and Arrays should have at least 1 item.
+ */
+const isEmptyParamValue = (value) =>
+    (!value && value !== 0) || (Array.isArray(value) && value.length < 1);
+
 const validateDiskResourceName = (name) => {
     if (name === "." || name === "..") {
         return getMessage("validationDiskResourceName");
@@ -250,7 +257,7 @@ const validate = (values) => {
                 group.parameters.forEach((param, paramIndex) => {
                     let valueError = null;
 
-                    if (param.required && !param.value && param.value !== 0) {
+                    if (param.required && isEmptyParamValue(param.value)) {
                         valueError = getMessage("required");
                     } else {
                         switch (param.type) {
@@ -303,4 +310,5 @@ const validate = (values) => {
     return errors;
 };
 
+export { isEmptyParamValue };
 export default validate;

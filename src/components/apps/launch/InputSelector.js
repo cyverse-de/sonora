@@ -22,6 +22,7 @@ import {
 } from "@cyverse-de/ui-lib";
 
 import { Button, Grid, IconButton } from "@material-ui/core";
+
 import ClearIcon from "@material-ui/icons/Clear";
 
 /**
@@ -68,13 +69,7 @@ const BrowseButton = (props) => {
 /**
  * An Input Selector form field for picking data store file or folder paths.
  */
-const InputSelector = ({
-    intl,
-    acceptedType,
-    multiSelect,
-    startingPath,
-    ...props
-}) => {
+const InputSelector = ({ intl, acceptedType, startingPath, ...props }) => {
     // These props need to be spread down into the FormTextField
     const { id, field, form, required } = props;
 
@@ -112,7 +107,7 @@ const InputSelector = ({
                     baseId={id}
                     startingPath={startingPath}
                     acceptedType={acceptedType}
-                    multiSelect={multiSelect}
+                    multiSelect={false}
                     name={field.name}
                     onConfirm={(selections) => {
                         setFieldValue(field.name, selections);
@@ -122,5 +117,7 @@ const InputSelector = ({
         </Grid>
     );
 };
+
+export { BrowseButton };
 
 export default injectIntl(withI18N(InputSelector, messages));

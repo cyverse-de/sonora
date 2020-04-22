@@ -12,6 +12,7 @@ export default {
     APP_LAUNCH_INTEGER_SELECTION: "integerSelection",
     APP_LAUNCH_INTEGER_SPINNER: "integerSpinner",
     APP_LAUNCH_MULTI_FILE_OUTPUT: "multiFileOutput",
+    APP_LAUNCH_MULTI_FILE_INPUT: "multiFileSelector",
     APP_LAUNCH_MULTI_LINE_TEXT: "multiLineText",
     APP_LAUNCH_NAME: "name",
     APP_LAUNCH_OUTPUT_FILE: "outputFile",
@@ -25,6 +26,8 @@ export default {
     APP_LAUNCH_TEXT_INPUT: "textInput",
     APP_LAUNCH_TEXT_SELECTION: "textSelection",
     BUTTONS: {
+        ADD: "addBtn",
+        DELETE: "deleteBtn",
         EXPAND: "expand",
         SUBMIT: "submit",
         STEP: "stepButton",

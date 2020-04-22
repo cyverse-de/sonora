@@ -13,6 +13,7 @@ export default {
         INTEGER: "Integer",
         INTEGER_SELECTION: "IntegerSelection",
         MULTIFILE_OUTPUT: "MultiFileOutput",
+        MULTIFILE_SELECTOR: "MultiFileSelector",
         MULTILINE_TEXT: "MultiLineText",
         REFERENCE_ANNOTATION: "ReferenceAnnotation",
         REFERENCE_GENOME: "ReferenceGenome",

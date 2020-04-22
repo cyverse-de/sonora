@@ -97,10 +97,16 @@ const initValues = ({
     const groupInitValues = groups?.map((group) => ({
         ...group,
         parameters: group.parameters?.map((param) => {
-            const { arguments: paramArgs, defaultValue } = param;
+            const {
+                arguments: paramArgs,
+                defaultValue,
+                type: paramType,
+            } = param;
 
             const value =
-                paramArgs?.length > 0
+                paramType === constants.PARAM_TYPE.MULTIFILE_SELECTOR
+                    ? defaultValue || []
+                    : paramArgs?.length > 0
                     ? paramArgs.find(
                           (arg) => arg.isDefault || defaultValue?.id === arg.id
                       )

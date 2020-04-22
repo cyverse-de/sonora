@@ -3,7 +3,7 @@ import React from "react";
 import AnalysisTable from "../../../src/components/vice/admin/analyses";
 
 export default {
-    title: "VICE/admin/DeploymentTable",
+    title: "VICE/admin/AnalysisTable",
 };
 
 const testData = {

@@ -11,11 +11,14 @@ import { injectIntl } from "react-intl";
 
 import GlobalConstants from "../../../constants";
 
+import ResourceTypes from "../../models/ResourceTypes";
+
 import constants from "./constants";
 import ids from "./ids";
 import messages from "./messages";
 import styles from "./styles";
 
+import InputSelector from "./InputSelector";
 import ReferenceGenomeSelect from "./ReferenceGenomeSelect";
 
 import {
@@ -116,6 +119,7 @@ const ParamGroupForm = withI18N((props) => {
         group,
         referenceGenomes,
         referenceGenomesLoading,
+        startingPath,
     } = props;
 
     return (
@@ -206,6 +210,14 @@ const ParamGroupForm = withI18N((props) => {
                                 )
                             );
                             break;
+
+                        case constants.PARAM_TYPE.FILE_INPUT:
+                            fieldProps.component = InputSelector;
+                            fieldProps.startingPath = startingPath;
+                            fieldProps.acceptedType = ResourceTypes.FILE;
+                            fieldProps.multiSelect = false;
+                            break;
+
                         case constants.PARAM_TYPE.REFERENCE_GENOME:
                         case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
                         case constants.PARAM_TYPE.REFERENCE_ANNOTATION:

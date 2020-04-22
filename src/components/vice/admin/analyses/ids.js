@@ -1,4 +1,4 @@
 export default {
-    BASE: "vice.admin.deployments",
+    BASE: "vice.admin.analyses",
     ROOT: "root",
 };

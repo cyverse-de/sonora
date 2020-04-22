@@ -1,6 +1,6 @@
 import React from "react";
 
-import DeploymentTable from "../../../src/components/vice/admin/deployments";
+import AnalysisTable from "../../../src/components/vice/admin/analyses";
 
 export default {
     title: "VICE/admin/DeploymentTable",
@@ -59,6 +59,6 @@ const testData = {
     ],
 };
 
-export const DeploymentTableTest = () => {
-    return <DeploymentTable deployments={testData.deployments} />;
+export const AnalysisTableTest = () => {
+    return <AnalysisTable data={testData} />;
 };

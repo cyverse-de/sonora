@@ -42,14 +42,8 @@ const defineColumn = (
 // The column definitions for the table.
 const tableColumns = [
     defineColumn("Username", COLUMNS.USERNAME, "username"),
-    defineColumn("Name", COLUMNS.NAME, "name"),
-    defineColumn("App Name", COLUMNS.APP_NAME, "appName"),
     defineColumn("Analysis Name", COLUMNS.ANALYSIS_NAME, "analysisName"),
-    defineColumn("Image", COLUMNS.IMAGE, "image"),
-    defineColumn("Port", COLUMNS.PORT, "port"),
-    defineColumn("UID", COLUMNS.UID, "user"),
-    defineColumn("GID", COLUMNS.GID, "group"),
-    defineColumn("Command", COLUMNS.COMMAND, "command"),
+    defineColumn("App Name", COLUMNS.APP_NAME, "appName"),
     defineColumn(
         "Date Created",
         COLUMNS.CREATION_TIMESTAMP,
@@ -57,9 +51,30 @@ const tableColumns = [
     ),
 ];
 
-const DeploymentTable = ({ deployments }) => {
+const getAnalyses = ({ deployments }) => {
+    let analyses = {};
+
+    // Should only need to interate through the deployments to find the
+    // list of analyses in the data.
+    deployments.forEach((element) => {
+        if (!analyses.hasOwnProperty(element.externalID)) {
+            analyses[element.externalID] = {
+                externalID: element.externalID,
+                username: element.username,
+                analysisName: element.analysisName,
+                appName: element.appName,
+                creationTimestamp: element.creationTimestamp,
+            };
+        }
+    });
+
+    return Object.values(analyses);
+};
+
+const AnalysisTable = ({ data }) => {
     const [orderColumn, setOrderColumn] = useState(COLUMNS.USERNAME);
     const [order, setOrder] = useState("asc");
+    const analyses = getAnalyses(data);
 
     const tableID = id(ids.ROOT);
 
@@ -81,7 +96,7 @@ const DeploymentTable = ({ deployments }) => {
                     onRequestSort={handleRequestSort}
                 ></EnhancedTableHead>
                 <TableBody>
-                    {deployments.map((row) => (
+                    {analyses.map((row) => (
                         <TableRow key={row.externalID} id={id(row.externalID)}>
                             {tableColumns.map((column) => (
                                 <TableCell
@@ -100,4 +115,4 @@ const DeploymentTable = ({ deployments }) => {
     );
 };
 
-export default withI18N(DeploymentTable, messages);
+export default withI18N(AnalysisTable, messages);

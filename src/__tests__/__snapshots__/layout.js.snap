@@ -51,7 +51,6 @@ exports[`App Bar renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -96,7 +95,6 @@ exports[`App Bar renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path

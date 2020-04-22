@@ -10,7 +10,7 @@ import { injectIntl } from "react-intl";
 import { useRouter } from "next/router";
 
 import { withI18N } from "@cyverse-de/ui-lib";
-import { getAnalyses } from "../../../serviceFacade/analyses";
+import { getAnalyses } from "../../../serviceFacades/analyses";
 import constants from "../../../constants";
 import DEPagination from "../../utils/DEPagination";
 

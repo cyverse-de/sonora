@@ -3,6 +3,7 @@ export default {
         DOUBLE: "Double",
         DOUBLE_SELECTION: "DoubleSelection",
         ENV_VAR: "EnvironmentVariable",
+        FILE_FOLDER_INPUT: "FileFolderInput",
         FILE_INPUT: "FileInput",
         FILE_OUTPUT: "FileOutput",
         FLAG: "Flag",

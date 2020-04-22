@@ -5,6 +5,7 @@ export default {
     APP_LAUNCH_DOUBLE_SPINNER: "doubleSpinner",
     APP_LAUNCH_ENV_VAR: "envVar",
     APP_LAUNCH_FILE_SELECTOR: "fileSelector",
+    APP_LAUNCH_FILE_FOLDER_INPUT: "inputFileFolder",
     APP_LAUNCH_FLAG: "flag",
     APP_LAUNCH_INFO_LABEL: "info",
     APP_LAUNCH_INPUT_FOLDER: "inputFolder",

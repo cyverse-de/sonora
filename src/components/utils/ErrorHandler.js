@@ -34,9 +34,15 @@ import constants from "../../constants";
 const useStyles = makeStyles((theme) => ({
     cardContent: {
         padding: theme.spacing(1),
+        [theme.breakpoints.down("xs")]: {
+            padding: theme.spacing(0),
+        },
     },
     container: {
         margin: theme.spacing(1),
+        [theme.breakpoints.down("xs")]: {
+            margin: theme.spacing(0),
+        },
     },
     signIn: {
         padding: theme.spacing(1),
@@ -106,7 +112,7 @@ function ErrorHandler(props) {
                 />
                 <Divider oritentation="horizontal" />
                 <CardContent className={classes.cardContent}>
-                    <Grid container spacing={3} className={classes.container}>
+                    <Grid container spacing={2} className={classes.container}>
                         <ClientInfo baseId={baseId} />
                     </Grid>
                 </CardContent>
@@ -182,7 +188,7 @@ function ErrorHandler(props) {
                 />
                 <Divider oritentation="horizontal" />
                 <CardContent className={classes.cardContent}>
-                    <Grid container spacing={3} className={classes.container}>
+                    <Grid container spacing={2} className={classes.container}>
                         <GridLabelValue label={getMessage("requestedURL")}>
                             <span id={build(errBaseId, ids.REQUESTED_URL)}>
                                 {errorObject.config?.url}

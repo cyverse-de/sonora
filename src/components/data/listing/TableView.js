@@ -36,6 +36,7 @@ import messages from "../messages";
 import ResourceIcon from "./ResourceIcon";
 import SpanLink from "./SpanLink";
 import TableLoading from "../../utils/TableLoading";
+import ResourceTypes from "../../models/ResourceTypes";
 
 const COL_KEYS = {
     CHECKBOX: "checkbox",
@@ -358,11 +359,16 @@ function TableView(props) {
                                                     resourceName,
                                                     ids.navLink
                                                 )}
-                                                onClick={() =>
-                                                    handlePathChange(
-                                                        `${path}/${resource.label}`
-                                                    )
-                                                }
+                                                onClick={() => {
+                                                    if (
+                                                        resource.type ===
+                                                        ResourceTypes.FOLDER
+                                                    ) {
+                                                        handlePathChange(
+                                                            `${path}/${resource.label}`
+                                                        );
+                                                    }
+                                                }}
                                             >
                                                 {resource.label}
                                             </SpanLink>

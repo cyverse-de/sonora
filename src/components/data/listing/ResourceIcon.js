@@ -10,14 +10,15 @@ import {
     InsertDriveFileOutlined as FileIcon,
     Folder as FolderIcon,
 } from "@material-ui/icons";
+import ResourceTypes from "../../models/ResourceTypes";
 
 function ResourceIcon(props) {
     const { type, ...rest } = props;
 
-    if (type === "FOLDER" || type === "DIR") {
+    if (type === ResourceTypes.FOLDER || type === "DIR") {
         return <FolderIcon color="primary" {...rest} />;
     }
-    if (type === "FILE") {
+    if (type === ResourceTypes.FILE) {
         return <FileIcon color="primary" {...rest} />;
     }
 

@@ -24,6 +24,7 @@ import {
 } from "../../../serviceFacades/filesystem";
 import DataNavigation from "../DataNavigation";
 import DEPagination from "../../utils/DEPagination";
+import ResourceTypes from "../../models/ResourceTypes";
 
 function Listing(props) {
     const uploadTracker = useUploadTrackingState();
@@ -77,11 +78,11 @@ function Listing(props) {
                     listing: [
                         ...respData?.folders.map((f) => ({
                             ...f,
-                            type: "FOLDER",
+                            type: ResourceTypes.FOLDER,
                         })),
                         ...respData?.files.map((f) => ({
                             ...f,
-                            type: "FILE",
+                            type: ResourceTypes.FILE,
                         })),
                     ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
                 });

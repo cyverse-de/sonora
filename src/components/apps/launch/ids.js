@@ -7,6 +7,7 @@ export default {
     APP_LAUNCH_FILE_SELECTOR: "fileSelector",
     APP_LAUNCH_FLAG: "flag",
     APP_LAUNCH_INFO_LABEL: "info",
+    APP_LAUNCH_INPUT_FOLDER: "inputFolder",
     APP_LAUNCH_INTEGER_SELECTION: "integerSelection",
     APP_LAUNCH_INTEGER_SPINNER: "integerSpinner",
     APP_LAUNCH_MULTI_FILE_OUTPUT: "multiFileOutput",

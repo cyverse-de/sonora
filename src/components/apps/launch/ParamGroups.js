@@ -77,6 +77,8 @@ const buildParamId = (baseId, paramIndex, type) => {
             return buildDebugId(baseParamId, ids.APP_LAUNCH_OUTPUT_FILE);
         case constants.PARAM_TYPE.FLAG:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_FLAG);
+        case constants.PARAM_TYPE.FOLDER_INPUT:
+            return buildDebugId(baseParamId, ids.APP_LAUNCH_INPUT_FOLDER);
         case constants.PARAM_TYPE.FOLDER_OUTPUT:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_OUTPUT_FOLDER);
         case constants.PARAM_TYPE.INFO:
@@ -215,6 +217,13 @@ const ParamGroupForm = withI18N((props) => {
                             fieldProps.component = InputSelector;
                             fieldProps.startingPath = startingPath;
                             fieldProps.acceptedType = ResourceTypes.FILE;
+                            fieldProps.multiSelect = false;
+                            break;
+
+                        case constants.PARAM_TYPE.FOLDER_INPUT:
+                            fieldProps.component = InputSelector;
+                            fieldProps.startingPath = startingPath;
+                            fieldProps.acceptedType = ResourceTypes.FOLDER;
                             fieldProps.multiSelect = false;
                             break;
 

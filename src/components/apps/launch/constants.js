@@ -6,6 +6,7 @@ export default {
         FILE_INPUT: "FileInput",
         FILE_OUTPUT: "FileOutput",
         FLAG: "Flag",
+        FOLDER_INPUT: "FolderInput",
         FOLDER_OUTPUT: "FolderOutput",
         INFO: "Info",
         INTEGER: "Integer",

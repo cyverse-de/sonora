@@ -63,6 +63,9 @@ const DeploymentFieldSelect = ({ value, handleChange }) => {
     const fields = {
         image: constants.IMAGE,
         port: constants.PORT,
+        uid: constants.UID,
+        gid: constants.GID,
+        command: constants.COMMAND,
     };
 
     return (

@@ -7,7 +7,13 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { announce, AnnouncerConstants, build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    AnnouncerConstants,
+    build,
+    formatMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
 import intlData from "./messages";
 import {
     Breadcrumbs,

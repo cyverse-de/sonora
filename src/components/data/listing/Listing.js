@@ -18,7 +18,10 @@ import UploadDropTarget from "../../uploads/UploadDropTarget";
 import { useUploadTrackingState } from "../../../contexts/uploadTracking";
 import { camelcaseit } from "../../../common/functions";
 import Drawer from "../details/Drawer";
-import { getInfoTypes, getPagedListing } from "../../../serviceFacades/filesystem";
+import {
+    getInfoTypes,
+    getPagedListing,
+} from "../../../serviceFacades/filesystem";
 import DataNavigation from "../DataNavigation";
 import DEPagination from "../../utils/DEPagination";
 import ResourceTypes from "../../models/ResourceTypes";
@@ -218,7 +221,7 @@ function Listing(props) {
 
     const getSelectedResources = () => {
         return selected.map((id) =>
-            data?.listing?.find((resource) => resource.id === id),
+            data?.listing?.find((resource) => resource.id === id)
         );
     };
 

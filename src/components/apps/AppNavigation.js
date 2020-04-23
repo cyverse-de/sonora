@@ -4,8 +4,8 @@
  * A list that allow users to browse different app categories.
  *
  */
-import React, { useState } from "react";
-import { useQuery } from "react-query";
+import React, { useEffect, useState } from "react";
+import { queryCache, useQuery } from "react-query";
 import { getPrivateCategories } from "../../serviceFacades/apps";
 import { injectIntl } from "react-intl";
 import intlData from "./messages";
@@ -32,7 +32,13 @@ import {
     Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    AnnouncerConstants,
+    build,
+    formatMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
@@ -88,6 +94,7 @@ function AppNavigation(props) {
     const {
         handleCategoryChange,
         handleFilterChange,
+        setCategoryStatus,
         filter,
         selectedCategory,
         intl,
@@ -126,14 +133,39 @@ function AppNavigation(props) {
         } else {
             setCategories(privateCat.categories);
         }
-        handleCategoryChange(privateCat.categories[0]);
     };
 
-    useQuery({
+    const { isFetching } = useQuery({
         queryKey: "getPrivateCategories",
         queryFn: getPrivateCategories,
-        config: { onSuccess: preProcessData },
+        config: {
+            onSuccess: preProcessData,
+            onError: () => {
+                //temporary workaround -> should still display community data
+                announce({
+                    text: "Unable to fetch categories",
+                    variant: AnnouncerConstants.ERROR,
+                });
+            },
+            staleTime: Infinity,
+            cacheTime: Infinity,
+        },
     });
+
+    useEffect(() => {
+        setCategoryStatus(isFetching);
+    }, [isFetching, setCategoryStatus]);
+
+    useEffect(() => {
+        if (categories && categories.length > 0) {
+            handleCategoryChange(categories[0]);
+        } else {
+            const cacheCat = queryCache.getQueryData("getPrivateCategories");
+            if (cacheCat) {
+                preProcessData(cacheCat);
+            }
+        }
+    }, [categories, handleCategoryChange]);
 
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);

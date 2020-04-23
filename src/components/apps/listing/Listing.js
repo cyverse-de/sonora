@@ -5,7 +5,7 @@
  * thumbnail/tile view.
  *
  */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { queryCache, useMutation, useQuery } from "react-query";
 import {
     appFavorite,
@@ -52,6 +52,7 @@ function Listing(props) {
     const [detailsApp, setDetailsApp] = useState(null);
     const [details, setDetails] = useState(null);
     const [detailsKey, setDetailsKey] = useState(null);
+    const [categoryStatus, setCategoryStatus] = useState(false);
 
     //a query with falsy key will not execute until key is set truthy val
     const {
@@ -309,17 +310,20 @@ function Listing(props) {
         setPage(0);
     };
 
-    const handleCategoryChange = (selectedCategory) => {
-        if (
-            selectedCategory.system_id?.toLowerCase() ===
-            appType.agave.toLowerCase()
-        ) {
-            setFilter(null);
-        }
-        setSelectedCategory(selectedCategory);
-        setSelected([]);
-        setPage(0);
-    };
+    const handleCategoryChange = useCallback(
+        (selectedCategory) => {
+            if (
+                selectedCategory.system_id?.toLowerCase() ===
+                appType.agave.toLowerCase()
+            ) {
+                setFilter(null);
+            }
+            setSelectedCategory(selectedCategory);
+            setSelected([]);
+            setPage(0);
+        },
+        [setFilter, setSelectedCategory, setPage]
+    );
 
     const handleFilterChange = (filter) => {
         setFilter(filter);
@@ -345,6 +349,7 @@ function Listing(props) {
                 baseId={baseId}
                 filter={filter}
                 selectedCategory={selectedCategory}
+                setCategoryStatus={setCategoryStatus}
             />
             <Header
                 baseId={baseId}
@@ -356,7 +361,8 @@ function Listing(props) {
             <TableView
                 loading={
                     appInCategoryStatus === constants.LOADING ||
-                    allAppsStatus === constants.LOADING
+                    allAppsStatus === constants.LOADING ||
+                    categoryStatus
                 }
                 error={appsInCategoryError || listingError}
                 listing={data}

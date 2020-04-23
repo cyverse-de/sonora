@@ -7,4 +7,9 @@ export default {
     INGRESS: "ingress",
     PODS: "pods",
     DEPLOYMENT_FIELD_SELECT: "deploymentFieldSelect",
+    SERVICE_FIELD_SELECT: "serviceFieldSelect",
+    POD_FIELD_SELECT: "podFieldSelect",
+    CONFIGMAP_FIELD_SELECT: "configmapFieldSelect",
+    INGRESS_FIELD_SELECT: "ingressFieldSelect",
+    ANALYSIS_FIELD_SELECT: "analysisFieldSelect",
 };

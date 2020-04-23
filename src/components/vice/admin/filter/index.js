@@ -183,6 +183,13 @@ const PodFieldSelect = ({ value, handleChange }) => {
         phase: constants.PHASE,
         message: constants.MESSAGE,
         reason: constants.REASON,
+        containerStatusName: constants.CONTAINER_STATUS_NAME,
+        containerStatusReady: constants.CONTAINER_STATUS_READY,
+        containerStatusRestartCount: constants.CONTAINER_STATUS_RESTART_COUNT,
+        containerStatusImage: constants.CONTAINER_STATUS_IMAGE,
+        containerStatusImageID: constants.CONTAINER_STATUS_IMAGE_ID,
+        containerStatusContainerID: constants.CONTAINER_STATUS_CONTAINER_ID,
+        containerStatusStarted: constants.CONTAINER_STATUS_STARTED,
     };
     const idValue = id(ids.POD_FIELD_SELECT);
 

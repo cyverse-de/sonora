@@ -43,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
     expandOpen: {
         transform: "rotate(180deg)",
     },
+    root: {
+        marginBottom: theme.spacing(4),
+    },
 }));
 
 const FilterChip = ({ label, handleDelete }) => {
@@ -75,7 +78,7 @@ const AnalysesFilter = () => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
-        <Card id={id(ids.ROOT)}>
+        <Card id={id(ids.ROOT)} className={classes.root}>
             <CardContent>
                 <div className={classes.chips}>
                     <FilterChip label="test0" />

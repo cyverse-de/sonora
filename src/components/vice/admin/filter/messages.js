@@ -32,5 +32,12 @@ export default {
         phase: "Phase",
         message: "Message",
         reason: "Reason",
+        containerStatusName: "Container Status - Name",
+        containerStatusReady: "Container Status - Ready",
+        containerStatusRestartCount: "Container Status - Restart Count",
+        containerStatusImage: "Container Status - Image",
+        containerStatusImageID: "Container Status - Image ID",
+        containerStatusContainerID: "Container Status - Container ID",
+        containerStatusStarted: "Container Status - Started",
     },
 };

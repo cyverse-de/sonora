@@ -28,5 +28,9 @@ export default {
         services: "Services",
         configMaps: "ConfigMaps",
         ingresses: "Ingresses",
+        pods: "Pods",
+        phase: "Phase",
+        message: "Message",
+        reason: "Reason",
     },
 };

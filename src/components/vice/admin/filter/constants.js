@@ -23,3 +23,8 @@ export const EXTERNAL_ID = "externalID";
 export const USER_ID = "userID";
 export const USERNAME = "username";
 export const CREATION_TIMESTAMP = "creationTimestamp";
+
+// Pod constants.
+export const PHASE = "phase";
+export const MESSAGE = "message";
+export const REASON = "reason";

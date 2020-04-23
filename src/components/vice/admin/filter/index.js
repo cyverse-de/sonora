@@ -177,6 +177,25 @@ const AnalysisFieldSelect = ({ value, handleChange }) => {
     );
 };
 
+const PodFieldSelect = ({ value, handleChange }) => {
+    const fields = {
+        ...defaultFields,
+        phase: constants.PHASE,
+        message: constants.MESSAGE,
+        reason: constants.REASON,
+    };
+    const idValue = id(ids.POD_FIELD_SELECT);
+
+    return (
+        <FieldSelect
+            id={idValue}
+            fields={fields}
+            value={value}
+            handleChange={handleChange}
+        />
+    );
+};
+
 const FilterChip = ({ label, handleDelete }) => {
     const [deleted, setDeleted] = useState(false);
     const classes = useStyles();
@@ -221,6 +240,7 @@ const AnalysesFilter = () => {
     const [configMapField, setConfigMapField] = useState("");
     const [ingressField, setIngressField] = useState("");
     const [analysisField, setAnalysisField] = useState("");
+    const [podField, setPodField] = useState("");
 
     return (
         <Card id={id(ids.ROOT)} className={classes.root}>
@@ -263,6 +283,13 @@ const AnalysesFilter = () => {
                         <DeploymentFieldSelect
                             value={depField}
                             handleChange={(e) => setDepField(e.target.value)}
+                        />
+                    </FilterSection>
+
+                    <FilterSection section={msg("pods")}>
+                        <PodFieldSelect
+                            value={podField}
+                            handleChange={(e) => setPodField(e.target.value)}
                         />
                     </FilterSection>
 

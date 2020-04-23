@@ -34,6 +34,8 @@ var intlData = {
         analysis: "Analysis",
         analysisId: "Analysis ID",
         app: "App",
+        owner: "Owner",
+        status: "Status",
         currentStatus: "Current Status",
         outputFolder: "Output folder",
         startDate: "Start date",

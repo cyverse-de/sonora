@@ -1,7 +1,7 @@
 import { mockAxios } from "../../stories/axiosMock";
 import renderer from "react-test-renderer";
 import React from "react";
-import { AnalysesListingTest } from "../../stories/analyses/Listing.stories";
+import { AnalysesTableViewTest } from "../../stories/analyses/TableView.stories";
 
 beforeEach(() => {
     mockAxios.reset();
@@ -12,7 +12,7 @@ afterEach(() => {
 });
 
 test("Analyses Listing view", () => {
-    const component = renderer.create(<AnalysesListingTest />);
+    const component = renderer.create(<AnalysesTableViewTest />);
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
 });

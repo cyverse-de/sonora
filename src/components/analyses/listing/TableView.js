@@ -62,12 +62,22 @@ function AnalysisName(props) {
     const NameLink = () => {
         return (
             <Tooltip
+                id={build(baseId, ids.ANALYSIS_NAME_CELL, ids.TOOLTIP)}
+                aria-label={formatMessage(intl, "goOutputFolderOf", {
+                    name: name,
+                })}
                 title={formatMessage(intl, "goOutputFolderOf", { name: name })}
             >
                 <Link
+                    id={build(baseId, ids.ANALYSIS_NAME_CELL)}
                     onClick={() => handleGoToOutputFolder(analysis)}
                     color="primary"
                     component="button"
+                    aria-describedby={build(
+                        baseId,
+                        ids.ANALYSIS_NAME_CELL,
+                        ids.TOOLTIP
+                    )}
                 >
                     <span className={classes.name}>{name}</span>
                 </Link>
@@ -79,12 +89,20 @@ function AnalysisName(props) {
         return (
             <>
                 <NameLink />
-                <Tooltip title={getMessage("htDetails")}>
+                <Tooltip
+                    aria-label={formatMessage(intl, "htDetails")}
+                    title={getMessage("htDetails")}
+                    id={build(baseId, ids.ICONS.BATCH, ids.TOOLTIP)}
+                >
                     <IconButton
                         size="small"
                         onClick={() => handleBatchIconClick(analysis)}
                         id={build(baseId, ids.ICONS.BATCH)}
-                        aria-label={formatMessage(intl, "htDetails")}
+                        aria-describedby={build(
+                            baseId,
+                            ids.ICONS.BATCH,
+                            ids.TOOLTIP
+                        )}
                     >
                         <UnfoldMoreIcon />
                     </IconButton>
@@ -100,14 +118,22 @@ function AnalysisName(props) {
         return (
             <>
                 <NameLink />
-                <Tooltip title={getMessage("goToVice")}>
+                <Tooltip
+                    id={build(baseId, ids.ICONS.INTERACTIVE, ids.TOOLTIP)}
+                    aria-label={formatMessage(intl, "goToVice")}
+                    title={getMessage("goToVice")}
+                >
                     <IconButton
-                        aria-label={formatMessage(intl, "goToVice")}
                         onClick={() =>
                             handleInteractiveUrlClick(interactiveUrls[0])
                         }
                         size="small"
                         id={build(baseId, ids.ICONS.INTERACTIVE)}
+                        aria-describedby={build(
+                            baseId,
+                            ids.ICONS.INTERACTIVE,
+                            ids.TOOLTIP
+                        )}
                     >
                         <LaunchIcon />
                     </IconButton>
@@ -138,11 +164,23 @@ function Status(props) {
                 {analysis.status}{" "}
             </Link>
             {allowTimeExtn && (
-                <Tooltip title={getMessage("extendTime")}>
+                <Tooltip
+                    aria-label={formatMessage(intl, "extendTime")}
+                    title={getMessage("extendTime")}
+                    id={build(
+                        baseId,
+                        ids.BUTTON_EXTEND_TIME_LIMIT,
+                        ids.TOOLTIP
+                    )}
+                >
                     <IconButton
                         id={build(baseId, ids.BUTTON_EXTEND_TIME_LIMIT)}
                         size="small"
-                        aria-label={formatMessage(intl, "extendTime")}
+                        aria-describedby={build(
+                            baseId,
+                            ids.BUTTON_EXTEND_TIME_LIMIT,
+                            ids.TOOLTIP
+                        )}
                     >
                         <HourGlass />
                     </IconButton>
@@ -152,45 +190,45 @@ function Status(props) {
     );
 }
 
-const columnData = [
+const columnData = (intl) => [
     {
         id: ids.NAME,
-        name: "Name",
+        name: formatMessage(intl, "name"),
         numeric: false,
         enableSorting: true,
         key: "name",
     },
     {
         id: ids.OWNER,
-        name: "Owner",
+        name: formatMessage(intl, "owner"),
         numeric: false,
         enableSorting: false,
         key: "owner",
     },
     {
         id: ids.APP,
-        name: "App",
+        name: formatMessage(intl, "app"),
         numeric: false,
         enableSorting: false,
         key: "app",
     },
     {
         id: ids.START_DATE,
-        name: "Start Date",
+        name: formatMessage(intl, "startDate"),
         numeric: false,
         enableSorting: true,
         key: "startdate",
     },
     {
         id: ids.END_DATE,
-        name: "End Date",
+        name: formatMessage(intl, "endDate"),
         numeric: false,
         enableSorting: true,
         key: "enddate",
     },
     {
         id: ids.STATUS,
-        name: "Status",
+        name: formatMessage(intl, "status"),
         numeric: false,
         enableSorting: true,
         key: "status",
@@ -237,16 +275,16 @@ function TableView(props) {
                     baseId={baseId}
                     selectable={true}
                     numSelected={selected.length}
-                    rowsInPage={listing?.analyses ? listing.analyses.length : 0}
+                    rowsInPage={listing?.analyses?.length || 0}
                     order={order}
                     orderBy={orderBy}
-                    columnData={columnData}
+                    columnData={columnData(intl)}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
                 />
                 {loading && (
                     <TableLoading
-                        numColumns={columnData.length}
+                        numColumns={columnData(intl).length}
                         numRows={25}
                         baseId={tableId}
                     />
@@ -256,13 +294,13 @@ function TableView(props) {
                         {(!analyses || analyses.length === 0) && !error && (
                             <EmptyTable
                                 message={getMessage("noAnalyses")}
-                                numColumns={columnData.length}
+                                numColumns={columnData(intl).length}
                             />
                         )}
                         {error && (
                             <EmptyTable
                                 message={error.toString()}
-                                numColumns={columnData.length}
+                                numColumns={columnData(intl).length}
                             />
                         )}
                         {analyses &&

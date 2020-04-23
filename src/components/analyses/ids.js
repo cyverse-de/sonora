@@ -33,7 +33,7 @@ export default {
     MENUITEM_RELAUNCH: "relaunch",
     MENUITEM_DELETE: "delete",
     MENUITEM_CANCEL: "cancel",
-    MENUITEM_COMPLETE: ".complete",
+    MENUITEM_COMPLETE: "complete",
     MENUITEM_EDIT: "edit",
     MENUITEM_RENAME: "rename",
     MENUITEM_UPDATE_COMMENTS: "updateComments",
@@ -46,26 +46,26 @@ export default {
 
     FIELD_SEARCH: "search",
 
-    ANALYSIS_DOT_MENU: ".dotMenu",
-    GRID: ".grid",
+    ANALYSIS_DOT_MENU: "dotMenu",
+    GRID: "grid",
     MENUBAR: "menuBar",
-    ANALYSIS_NAME_CELL: ".nameCell",
-    APP_NAME_CELL: ".appNameCell",
-    SUPPORT_CELL: ".supportCell",
+    ANALYSIS_NAME_CELL: "nameCell",
+    APP_NAME_CELL: "appNameCell",
+    SUPPORT_CELL: "supportCell",
     SHARE_WITH_SUPPORT: "shareWithSupport",
     COMMENTS: "comments",
 
     PERMISSIONS: "permissions",
     APP_TYPE: "appType",
 
-    ALL: ".all",
-    MINE: ".mine",
-    THEIRS: ".theirs",
+    ALL: "all",
+    MINE: "mine",
+    THEIRS: "theirs",
 
-    AGAVE: ".agave",
-    DE: ".de",
-    INTERACTIVE: ".interactive",
-    OSG: ".osg",
+    AGAVE: "agave",
+    DE: "de",
+    INTERACTIVE: "interactive",
+    OSG: "osg",
 
     ICONS: {
         INTERACTIVE: "interactive",

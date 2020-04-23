@@ -17,7 +17,6 @@ import {
 import { injectIntl } from "react-intl";
 import ids from "./ids";
 import messages from "./messages";
-import ownershipFilter from "./model/ownershipFilter";
 
 const useStyles = makeStyles((theme) => ({
     toolbar: {
@@ -27,14 +26,6 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.primary.contrastText,
     },
 }));
-
-function getOwnershipFilters() {
-    return Object.keys(ownershipFilter).map((filter) => {
-        return {
-            name: ownershipFilter[filter],
-        };
-    });
-}
 
 function Header(props) {
     const classes = useStyles();
@@ -84,5 +75,4 @@ function Header(props) {
     );
 }
 
-export { getOwnershipFilters };
 export default withI18N(injectIntl(Header), messages);

@@ -16,7 +16,7 @@ import DEPagination from "../../utils/DEPagination";
 
 import intlData from "../messages";
 import TableView from "./TableView";
-import { getOwnershipFilters } from "../Header";
+import { getOwnershipFilters } from "../AnalysesNavigation";
 import { getAppTypeFilters } from "../../apps/AppNavigation";
 import appType from "../../models/AppType";
 import ownershipFilter from "../model/ownershipFilter";
@@ -75,7 +75,7 @@ function Listing(props) {
 
         const idParentFilter = Object.create(filter);
         idParentFilter.field = PARENT_ID_FILTER;
-        idParentFilter.value = parentAnalysis ? parentAnalysis.id : "";
+        idParentFilter.value = parentAnalysis?.id || "";
         filters.push(idParentFilter);
 
         if (appTypeFilter && appTypeFilter.name !== appType.all) {
@@ -131,14 +131,7 @@ function Listing(props) {
     };
 
     const select = (analysesIds) => {
-        let newSelected = [...selected];
-        analysesIds.forEach((analysisId) => {
-            const selectedIndex = selected.indexOf(analysisId);
-            if (selectedIndex === -1) {
-                newSelected.push(analysisId);
-            }
-        });
-
+        let newSelected = [...new Set([...selected, ...analysesIds])];
         setSelected(newSelected);
     };
 
@@ -159,13 +152,17 @@ function Listing(props) {
     };
 
     const rangeSelect = (start, end, targetId) => {
-        const rangeIds = [];
-        for (let i = start; i <= end; i++) {
-            rangeIds.push(data?.analyses[i].id);
+        // when a user first click on a row with shift key pressed,
+        // start is -1 (which is lastSelectIndex) and
+        // results in an error (data.analyses[-1].id)
+        if (start > -1) {
+            const rangeIds = [];
+            for (let i = start; i <= end; i++) {
+                rangeIds.push(data?.analyses[i].id);
+            }
+            let isTargetSelected = selected.includes(targetId);
+            isTargetSelected ? deselect(rangeIds) : select(rangeIds);
         }
-        let isTargetSelected = selected.includes(targetId);
-
-        isTargetSelected ? deselect(rangeIds) : select(rangeIds);
     };
 
     const handleClick = (event, id, index) => {

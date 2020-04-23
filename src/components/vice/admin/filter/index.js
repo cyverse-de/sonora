@@ -250,7 +250,7 @@ const AnalysesFilter = () => {
 
             <Collapse in={isExpanded} timeout="auto" unmountOnExit>
                 <div className={classes.collapse}>
-                    <FilterSection section={"Analyses"}>
+                    <FilterSection section={msg("analyses")}>
                         <AnalysisFieldSelect
                             value={analysisField}
                             handleChange={(e) =>
@@ -259,14 +259,14 @@ const AnalysesFilter = () => {
                         />
                     </FilterSection>
 
-                    <FilterSection section={"Deployments"}>
+                    <FilterSection section={msg("deployments")}>
                         <DeploymentFieldSelect
                             value={depField}
                             handleChange={(e) => setDepField(e.target.value)}
                         />
                     </FilterSection>
 
-                    <FilterSection section={"Services"}>
+                    <FilterSection section={msg("services")}>
                         <ServiceFieldSelect
                             value={serviceField}
                             handleChange={(e) =>
@@ -275,7 +275,7 @@ const AnalysesFilter = () => {
                         />
                     </FilterSection>
 
-                    <FilterSection section={"ConfigMaps"}>
+                    <FilterSection section={msg("configMaps")}>
                         <ConfigMapFieldSelect
                             value={configMapField}
                             handleChange={(e) =>
@@ -284,7 +284,7 @@ const AnalysesFilter = () => {
                         />
                     </FilterSection>
 
-                    <FilterSection section={"Ingresses"}>
+                    <FilterSection section={msg("ingresses")}>
                         <IngressFieldSelect
                             value={ingressField}
                             handleChange={(e) =>

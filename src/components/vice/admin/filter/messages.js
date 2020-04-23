@@ -23,5 +23,10 @@ export default {
         userID: "User ID",
         username: "Username",
         dateCreated: "Date Created",
+        analyses: "Analyses",
+        deployments: "Deployments",
+        services: "Services",
+        configMaps: "ConfigMaps",
+        ingresses: "Ingresses",
     },
 };

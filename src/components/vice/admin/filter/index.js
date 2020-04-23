@@ -145,7 +145,12 @@ const IngressFieldSelect = ({ value, handleChange }) => {
     const idValue = id(ids.INGRESS_FIELD_SELECT);
 
     return (
-        <FieldSelect id={idValue} fields={fields} handleChange={handleChange} />
+        <FieldSelect
+            id={idValue}
+            fields={fields}
+            value={value}
+            handleChange={handleChange}
+        />
     );
 };
 
@@ -250,7 +255,7 @@ const AnalysesFilter = () => {
                         <IngressFieldSelect
                             value={ingressField}
                             handleChange={(e) =>
-                                setIngressField(e.target.Value)
+                                setIngressField(e.target.value)
                             }
                         />
                     </FilterSection>

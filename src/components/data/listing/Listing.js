@@ -41,6 +41,7 @@ function Listing(props) {
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
+    const [pagedListingKey, setPagedListingKey] = useState(null);
 
     const {
         baseId,
@@ -61,15 +62,7 @@ function Listing(props) {
     }).length;
 
     const { error, isFetching } = useQuery({
-        queryKey: [
-            "dataPagedListing",
-            path,
-            rowsPerPage,
-            orderBy,
-            order,
-            page,
-            uploadsCompleted,
-        ],
+        queryKey: pagedListingKey,
         queryFn: getPagedListing,
         config: {
             onSuccess: (respData) => {
@@ -92,7 +85,18 @@ function Listing(props) {
 
     useEffect(() => {
         setSelected([]);
-    }, [path]);
+        if (path) {
+            setPagedListingKey([
+                "dataPagedListing",
+                path,
+                rowsPerPage,
+                orderBy,
+                order,
+                page,
+                uploadsCompleted,
+            ]);
+        }
+    }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
 
     useQuery({
         queryKey: "dataFetchInfoTypes",

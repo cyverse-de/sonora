@@ -6,16 +6,15 @@ import ShortcutsTab from "./ShortcutsTab";
 import { DialogActions, Button } from "@material-ui/core";
 import { Formik, Form } from "formik";
 import { DEConfirmationDialog, LoadingMask } from "@cyverse-de/ui-lib";
-import { irodsHomePath } from "../../server/configuration";
-import { useUserProfile } from "../../contexts/userProfile";
+import getConfig from "next/config";
 
 const useStyles = makeStyles(styles);
 
-export default function PreferencesPage(props) {
+export default function PreferencesPage(props, { irodsHomePath }) {
     const [restoreDef, setRestoreDef] = useState(false);
     const classes = useStyles();
     const { config } = props;
-    const [userProfile] = useUserProfile();
+    const homePath = irodsHomePath;
 
     const handleSubmit = (values, actions) => {
         actions.setSubmitting = true;
@@ -23,7 +22,7 @@ export default function PreferencesPage(props) {
     };
 
     const restoreDefaults = (setFieldValue) => (event) => {
-        console.log(irodsHomePath + userProfile);
+        console.log(homePath);
         setFieldValue("preferences.rememberLastPath", true);
         setFieldValue("preferences.saveSession", true);
         setFieldValue("preferences.enableImportEmailNotification", true);
@@ -35,10 +34,7 @@ export default function PreferencesPage(props) {
         setFieldValue("preferences.closeKBShortcut", "Q");
         setFieldValue("preferences.appsKBShortcut", "A");
         setFieldValue("preferences.analysisKBShortcut", "Y");
-        setFieldValue(
-            "preferences.default_output_folder",
-            irodsHomePath + userProfile
-        );
+        setFieldValue("preferences.default_output_folder", "test");
         setRestoreDef(false);
     };
 
@@ -91,3 +87,11 @@ export default function PreferencesPage(props) {
         </div>
     );
 }
+
+PreferencesPage.getInitialProps = async (ctx) => {
+    const { serverRuntimeConfig } = getConfig();
+    console.log(serverRuntimeConfig);
+    return {
+        irodsHomePath: serverRuntimeConfig.IRODS_HOME_PATH,
+    };
+};

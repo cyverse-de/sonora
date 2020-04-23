@@ -154,6 +154,29 @@ const IngressFieldSelect = ({ value, handleChange }) => {
     );
 };
 
+const AnalysisFieldSelect = ({ value, handleChange }) => {
+    const fields = {
+        ...defaultFields,
+        analysisName: constants.ANALYSIS_NAME,
+        appName: constants.APP_NAME,
+        appID: constants.APP_ID,
+        externalID: constants.EXTERNAL_ID,
+        userID: constants.USER_ID,
+        username: constants.USERNAME,
+        dateCreated: constants.CREATION_TIMESTAMP,
+    };
+    const idValue = id(ids.ANALYSIS_FIELD_SELECT);
+
+    return (
+        <FieldSelect
+            id={idValue}
+            fields={fields}
+            value={value}
+            handleChange={handleChange}
+        />
+    );
+};
+
 const FilterChip = ({ label, handleDelete }) => {
     const [deleted, setDeleted] = useState(false);
     const classes = useStyles();
@@ -197,6 +220,7 @@ const AnalysesFilter = () => {
     const [serviceField, setServiceField] = useState("");
     const [configMapField, setConfigMapField] = useState("");
     const [ingressField, setIngressField] = useState("");
+    const [analysisField, setAnalysisField] = useState("");
 
     return (
         <Card id={id(ids.ROOT)} className={classes.root}>
@@ -226,6 +250,15 @@ const AnalysesFilter = () => {
 
             <Collapse in={isExpanded} timeout="auto" unmountOnExit>
                 <div className={classes.collapse}>
+                    <FilterSection section={"Analyses"}>
+                        <AnalysisFieldSelect
+                            value={analysisField}
+                            handleChange={(e) =>
+                                setAnalysisField(e.target.value)
+                            }
+                        />
+                    </FilterSection>
+
                     <FilterSection section={"Deployments"}>
                         <DeploymentFieldSelect
                             value={depField}

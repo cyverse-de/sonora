@@ -125,6 +125,30 @@ const ServiceFieldSelect = ({ value, handleChange }) => {
     );
 };
 
+const ConfigMapFieldSelect = ({ value, handleChange }) => {
+    const fields = defaultFields;
+
+    const idValue = id(ids.CONFIGMAP_FIELD_SELECT);
+
+    return (
+        <FieldSelect
+            id={idValue}
+            fields={fields}
+            value={value}
+            handleChange={handleChange}
+        />
+    );
+};
+
+const IngressFieldSelect = ({ value, handleChange }) => {
+    const fields = defaultFields;
+    const idValue = id(ids.INGRESS_FIELD_SELECT);
+
+    return (
+        <FieldSelect id={idValue} fields={fields} handleChange={handleChange} />
+    );
+};
+
 const FilterChip = ({ label, handleDelete }) => {
     const [deleted, setDeleted] = useState(false);
     const classes = useStyles();
@@ -166,6 +190,8 @@ const AnalysesFilter = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [depField, setDepField] = useState("");
     const [serviceField, setServiceField] = useState("");
+    const [configMapField, setConfigMapField] = useState("");
+    const [ingressField, setIngressField] = useState("");
 
     return (
         <Card id={id(ids.ROOT)} className={classes.root}>
@@ -207,6 +233,24 @@ const AnalysesFilter = () => {
                             value={serviceField}
                             handleChange={(e) =>
                                 setServiceField(e.target.value)
+                            }
+                        />
+                    </FilterSection>
+
+                    <FilterSection section={"ConfigMaps"}>
+                        <ConfigMapFieldSelect
+                            value={configMapField}
+                            handleChange={(e) =>
+                                setConfigMapField(e.target.value)
+                            }
+                        />
+                    </FilterSection>
+
+                    <FilterSection section={"Ingresses"}>
+                        <IngressFieldSelect
+                            value={ingressField}
+                            handleChange={(e) =>
+                                setIngressField(e.target.Value)
                             }
                         />
                     </FilterSection>

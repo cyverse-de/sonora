@@ -141,9 +141,8 @@ function AppNavigation(props) {
         config: {
             onSuccess: preProcessData,
             onError: () => {
-                //temporary workaround -> should still display community data
                 announce({
-                    text: "Unable to fetch categories",
+                    text: formatMessage(intl, "fetchCategoryError"),
                     variant: AnnouncerConstants.ERROR,
                 });
             },

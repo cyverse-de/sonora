@@ -98,6 +98,7 @@ const intlData = {
         favMutationError: "Unable to update favorites. Please try again.",
         ratingMutationError: "Unable to update rating. Please try again.",
         ariaTableListing: "Apps table listing",
+        fetchCategoryError: "Unable to get App categories. Please try again."
     },
 };
 

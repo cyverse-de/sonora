@@ -466,7 +466,9 @@ function DataNavigation(props) {
 
     if (dataRoots.length === 0) {
         const cacheRoots = queryCache.getQueryData("dataFileSystemRoots");
-        preProcessData(cacheRoots);
+        if (cacheRoots) {
+            preProcessData(cacheRoots);
+        }
         return null;
     }
 

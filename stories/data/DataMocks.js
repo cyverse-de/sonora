@@ -278,3 +278,21 @@ export const resourceUpdatedInfoTypeResp = {
     user: "ipcdev",
     path: "/iplant/home/ipcdev/CORE-8424.txt",
 };
+
+export const createFolderSuccessResp = {
+    path: "/iplant/home/ipcdev/test",
+    "share-count": 0,
+    "date-created": 1587585065000,
+    permission: "own",
+    "date-modified": 1587585065000,
+    type: "dir",
+    "dir-count": 0,
+    label: "blah",
+    id: "9a841114-84d2-11ea-a8b6-fa163e806578",
+    "file-count": 0,
+};
+
+export const createFolderFailResp = {
+    path: "/iplant/home/ipcdev/test",
+    error_code: "ERR_EXISTS",
+};

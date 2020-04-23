@@ -245,7 +245,7 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
-            className="makeStyles-dataLink-110"
+            className="makeStyles-dataLink-111"
             id="tableView.listingTable.analyses_qa-3.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -368,7 +368,7 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
-            className="makeStyles-dataLink-110"
+            className="makeStyles-dataLink-111"
             id="tableView.listingTable.test.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -491,7 +491,7 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
-            className="makeStyles-dataLink-110"
+            className="makeStyles-dataLink-111"
             id="tableView.listingTable.CORE-8424.txt.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -614,7 +614,7 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
-            className="makeStyles-dataLink-110"
+            className="makeStyles-dataLink-111"
             id="tableView.listingTable.sample.csv.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}

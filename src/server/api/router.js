@@ -145,6 +145,19 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding the POST /api/filesystem/directory/create handler");
+    api.post(
+        "/filesystem/directory/create",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/filesystem/directory/create",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the /api/user-info handler");
     api.get(
         "/user-info",

@@ -26,6 +26,10 @@ export default (theme) => ({
         },
     },
 
+    closeButton: {
+        float: "right",
+    },
+
     dataLink: {
         cursor: "pointer",
         "&:hover": {

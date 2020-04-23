@@ -103,3 +103,16 @@ export const deleteResources = ({ paths }) => {
         body: { paths },
     });
 };
+
+/**
+ * Create a data directory
+ * @param path - The resource path
+ * @returns {Promise<*>}
+ */
+export const createFolder = ({ path }) => {
+    return callApi({
+        endpoint: "/api/filesystem/directory/create",
+        method: "POST",
+        body: { path },
+    });
+};

@@ -4,10 +4,10 @@ export default {
     locales: common.locales,
     messages: {
         ...common.messages,
-        imageColumn: "Image",
-        portColumn: "Port",
-        uidColumn: "UID",
-        gidColumn: "GID",
-        commandColumn: "Command",
+        image: "Image",
+        port: "Port",
+        uid: "UID",
+        gid: "GID",
+        command: "Command",
     },
 };

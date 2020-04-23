@@ -6,4 +6,5 @@ export default {
     CONFIGMAPS: "configmaps",
     INGRESS: "ingress",
     PODS: "pods",
+    DEPLOYMENT_FIELD_SELECT: "deploymentFieldSelect",
 };

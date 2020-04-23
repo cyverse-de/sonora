@@ -90,3 +90,16 @@ export const getInfoTypes = () => {
         endpoint: `/api/filetypes/type-list`,
     });
 };
+
+/**
+ * Delete a resource
+ * @param paths - An array of strings which are resource paths
+ * @returns {Promise<*>}
+ */
+export const deleteResources = ({ paths }) => {
+    return callApi({
+        endpoint: "/api/filesystem/delete",
+        method: "POST",
+        body: { paths },
+    });
+};

@@ -159,5 +159,6 @@ export const DataListingTest = () => {
         .reply(200, successResp);
     mockAxios.onGet(/\/api\/filesystem\/root.*/).reply(200, dataRootsResp);
     mockAxios.onGet(/\/api\/filetypes\/type-list/).reply(200, fileTypesResp);
+    mockAxios.onPost(/\/api\/filesystem\/delete/).reply(200, {});
     return <ListingTest />;
 };

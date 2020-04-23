@@ -132,6 +132,19 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding the POST /api/filesystem/delete handler");
+    api.post(
+        "/filesystem/delete",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/filesystem/delete",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the /api/user-info handler");
     api.get(
         "/user-info",

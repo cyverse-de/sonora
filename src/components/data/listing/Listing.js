@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import { withI18N } from "@cyverse-de/ui-lib";
 import { Toolbar } from "@material-ui/core";
 import { injectIntl } from "react-intl";
-import { useQuery } from "react-query";
+import { queryCache, useQuery } from "react-query";
 
 import Header from "../Header";
 import messages from "../messages";
@@ -18,10 +18,7 @@ import UploadDropTarget from "../../uploads/UploadDropTarget";
 import { useUploadTrackingState } from "../../../contexts/uploadTracking";
 import { camelcaseit } from "../../../common/functions";
 import Drawer from "../details/Drawer";
-import {
-    getInfoTypes,
-    getPagedListing,
-} from "../../../serviceFacades/filesystem";
+import { getInfoTypes, getPagedListing } from "../../../serviceFacades/filesystem";
 import DataNavigation from "../DataNavigation";
 import DEPagination from "../../utils/DEPagination";
 import ResourceTypes from "../../models/ResourceTypes";
@@ -103,7 +100,8 @@ function Listing(props) {
         queryFn: getInfoTypes,
         config: {
             onSuccess: (resp) => setInfoTypes(resp.types),
-            staleTime: "Infinity",
+            staleTime: Infinity,
+            cacheTime: Infinity,
         },
     });
 
@@ -220,9 +218,16 @@ function Listing(props) {
 
     const getSelectedResources = () => {
         return selected.map((id) =>
-            data?.listing?.find((resource) => resource.id === id)
+            data?.listing?.find((resource) => resource.id === id),
         );
     };
+
+    if (!infoTypes || infoTypes.length === 0) {
+        const infoTypesCache = queryCache.getQueryData("dataFetchInfoTypes");
+        if (infoTypesCache) {
+            setInfoTypes(infoTypesCache.types);
+        }
+    }
 
     return (
         <>

@@ -59,19 +59,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const DeploymentFieldSelect = ({ value, handleChange }) => {
-    const fields = {
-        image: constants.IMAGE,
-        port: constants.PORT,
-        uid: constants.UID,
-        gid: constants.GID,
-        command: constants.COMMAND,
-    };
-
+const FieldSelect = ({ id, kind, fields, value, handleChange }) => {
     return (
         <Select
-            labelId="deployment-field-select-label"
-            id={id(ids.DEPLOYMENT_FIELD_SELECT)}
+            labelId={`${kind}-field-select-label`}
+            id={id}
             value={value}
             onChange={handleChange}
         >
@@ -81,6 +73,55 @@ const DeploymentFieldSelect = ({ value, handleChange }) => {
                 </MenuItem>
             ))}
         </Select>
+    );
+};
+
+const defaultFields = {
+    name: constants.NAME,
+    namespace: constants.NAMESPACE,
+};
+
+const DeploymentFieldSelect = ({ value, handleChange }) => {
+    const fields = {
+        ...defaultFields,
+        image: constants.IMAGE,
+        port: constants.PORT,
+        uid: constants.UID,
+        gid: constants.GID,
+        command: constants.COMMAND,
+    };
+
+    const idValue = id(ids.DEPLOYMENT_FIELD_SELECT);
+    return (
+        <FieldSelect
+            id={idValue}
+            fields={fields}
+            value={value}
+            handleChange={handleChange}
+        />
+    );
+};
+
+const ServiceFieldSelect = ({ value, handleChange }) => {
+    const fields = {
+        ...defaultFields,
+        portName: constants.PORT_NAME,
+        nodePort: constants.NODE_PORT,
+        targetPort: constants.TARGET_PORT,
+        targetPortName: constants.TARGET_PORT_NAME,
+        port: constants.PORT,
+        protocol: constants.PROTOCOL,
+    };
+
+    const idValue = id(ids.SERVICE_FIELD_SELECT);
+
+    return (
+        <FieldSelect
+            id={idValue}
+            fields={fields}
+            value={value}
+            handleChange={handleChange}
+        />
     );
 };
 
@@ -109,10 +150,22 @@ const FilterChip = ({ label, handleDelete }) => {
     return <></>;
 };
 
+const FilterSection = ({ section, children }) => {
+    return (
+        <>
+            <Typography noWrap variant="h6" component="h6">
+                {section}
+            </Typography>
+            {children}
+        </>
+    );
+};
+
 const AnalysesFilter = () => {
     const classes = useStyles();
     const [isExpanded, setIsExpanded] = useState(false);
     const [depField, setDepField] = useState("");
+    const [serviceField, setServiceField] = useState("");
 
     return (
         <Card id={id(ids.ROOT)} className={classes.root}>
@@ -142,13 +195,21 @@ const AnalysesFilter = () => {
 
             <Collapse in={isExpanded} timeout="auto" unmountOnExit>
                 <div className={classes.collapse}>
-                    <Typography noWrap variant="h6" component="h6">
-                        Deployments
-                    </Typography>
-                    <DeploymentFieldSelect
-                        value={depField}
-                        handleChange={(e) => setDepField(e.target.value)}
-                    />
+                    <FilterSection section={"Deployments"}>
+                        <DeploymentFieldSelect
+                            value={depField}
+                            handleChange={(e) => setDepField(e.target.value)}
+                        />
+                    </FilterSection>
+
+                    <FilterSection section={"Services"}>
+                        <ServiceFieldSelect
+                            value={serviceField}
+                            handleChange={(e) =>
+                                setServiceField(e.target.value)
+                            }
+                        />
+                    </FilterSection>
                 </div>
             </Collapse>
         </Card>

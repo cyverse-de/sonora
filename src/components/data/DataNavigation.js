@@ -17,8 +17,8 @@ import {
 import intlData from "./messages";
 import {
     Breadcrumbs,
-    Hidden,
     Button,
+    Hidden,
     List,
     ListItem,
     ListItemIcon,
@@ -40,7 +40,7 @@ import ids from "./ids";
 import constants from "../../constants";
 import { getFilesystemRoots } from "../../serviceFacades/filesystem";
 import { useUserProfile } from "../../contexts/userProfile";
-import { useQuery } from "react-query";
+import { queryCache, useQuery } from "react-query";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
@@ -359,6 +359,35 @@ function DataNavigation(props) {
     const dataNavId = build(baseId, ids.DATA_NAVIGATION);
     const [userProfile] = useUserProfile();
 
+    const preProcessData = (respData) => {
+        if (respData && userProfile) {
+            const respRoots = respData.roots;
+            const home = respRoots.find(
+                (root) => root.label === userProfile.id
+            );
+            home.icon = <HomeIcon />;
+            const sharedWithMe = respRoots.find(
+                (root) => root.label === constants.SHARED_WITH_ME
+            );
+            setSharedWithMePath(sharedWithMe.path);
+            sharedWithMe.icon = <FolderSharedIcon />;
+            const communityData = respRoots.find(
+                (root) => root.label === constants.COMMUNITY_DATA
+            );
+            setCommunityDataPath(communityData.path);
+            communityData.icon = <GroupIcon />;
+            const trash = respRoots.find(
+                (root) => root.label === constants.TRASH
+            );
+            trash.icon = <DeleteIcon />;
+
+            const basePaths = respData["base-paths"];
+            setUserHomePath(basePaths["user_home_path"]);
+            setUserTrashPath(basePaths["user_trash_path"]);
+            setDataRoots([home, sharedWithMe, communityData, trash]);
+        }
+    };
+
     useEffect(() => {
         //route to default path
         if (dataRoots.length > 0 && !path) {
@@ -367,37 +396,10 @@ function DataNavigation(props) {
     }, [dataRoots, handlePathChange, path]);
 
     const { error } = useQuery({
-        queryKey: ["dataFileSystemRoots", userProfile],
+        queryKey: "dataFileSystemRoots",
         queryFn: getFilesystemRoots,
         config: {
-            onSuccess: (respData) => {
-                if (respData && userProfile) {
-                    const respRoots = respData.roots;
-                    const home = respRoots.find(
-                        (root) => root.label === userProfile.id
-                    );
-                    home.icon = <HomeIcon />;
-                    const sharedWithMe = respRoots.find(
-                        (root) => root.label === constants.SHARED_WITH_ME
-                    );
-                    setSharedWithMePath(sharedWithMe.path);
-                    sharedWithMe.icon = <FolderSharedIcon />;
-                    const communityData = respRoots.find(
-                        (root) => root.label === constants.COMMUNITY_DATA
-                    );
-                    setCommunityDataPath(communityData.path);
-                    communityData.icon = <GroupIcon />;
-                    const trash = respRoots.find(
-                        (root) => root.label === constants.TRASH
-                    );
-                    trash.icon = <DeleteIcon />;
-
-                    const basePaths = respData["base-paths"];
-                    setUserHomePath(basePaths["user_home_path"]);
-                    setUserTrashPath(basePaths["user_trash_path"]);
-                    setDataRoots([home, sharedWithMe, communityData, trash]);
-                }
-            },
+            onSuccess: preProcessData,
             onError: () => {
                 //temporary workaround -> should still display community data
                 announce({
@@ -405,6 +407,8 @@ function DataNavigation(props) {
                     variant: AnnouncerConstants.INFO,
                 });
             },
+            staleTime: Infinity,
+            cacheTime: Infinity,
         },
     });
 
@@ -461,8 +465,11 @@ function DataNavigation(props) {
     };
 
     if (dataRoots.length === 0) {
+        const cacheRoots = queryCache.getQueryData("dataFileSystemRoots");
+        preProcessData(cacheRoots);
         return null;
     }
+
     return (
         <>
             <List

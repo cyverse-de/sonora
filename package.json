@@ -1,152 +1,165 @@
 {
-  "name": "sonora",
-  "version": "0.0.1",
-  "description": "The UI for the CyVerse Discovery Environment.",
-  "main": "index.js",
-  "scripts": {
-    "dev": "nodemon",
-    "dev-server": "cross-env NODE_ENV=development babel-node ./src/server/",
-    "build-frontend": "next build",
-    "build-server": "babel ./src/server --out-dir dist/server && babel ./src/common --out-dir dist/common",
-    "build-docs": "jsdoc -r -d generated-docs ./src",
-    "build": "run-p build-frontend build-server build-docs",
-    "start": "cross-env NODE_ENV=production node dist/server/index.js",
-    "storybook": "start-storybook -p 9009 -s public",
-    "test": "TZ=UTC jest",
-    "test-watch": "TZ=UTC jest --watch",
-    "test-update": "TZ=UTC jest -u",
-    "format": "prettier --write 'src/**/*.js' 'stories/**/*.js'",
-    "lint": "eslint --max-warnings=0 ./src/ ./stories/",
-    "clean": "rimraf ./.next ./dist ./generated-docs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cyverse-de/sonora.git"
-  },
-  "author": "CyVerse Core Software",
-  "license": "BSD-3-Clause",
-  "bugs": {
-    "url": "https://github.com/cyverse-de/sonora/issues"
-  },
-  "homepage": "https://github.com/cyverse-de/sonora#readme",
-  "nodemonConfig": {
-    "watch": [
-      "src/server",
-      "src/common"
-    ],
-    "ext": "js",
-    "exec": "run-p dev-server"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "plugin:jsx-a11y/recommended"
-    ],
-    "rules": {
-      "react/react-in-jsx-scope": "off"
+    "name": "sonora",
+    "version": "0.0.1",
+    "description": "The UI for the CyVerse Discovery Environment.",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon",
+        "dev-server": "cross-env NODE_ENV=development babel-node ./src/server/",
+        "build-frontend": "next build",
+        "build-server": "babel ./src/server --out-dir dist/server && babel ./src/common --out-dir dist/common",
+        "build-docs": "jsdoc -r -d generated-docs ./src",
+        "build": "run-p build-frontend build-server build-docs",
+        "start": "cross-env NODE_ENV=production node dist/server/index.js",
+        "storybook": "start-storybook -p 9009 -s public",
+        "test": "TZ=UTC jest",
+        "test-watch": "TZ=UTC jest --watch",
+        "test-update": "TZ=UTC jest -u",
+        "format": "prettier --write 'src/**/*.js' 'stories/**/*.js'",
+        "lint": "eslint --max-warnings=0 ./src/ ./stories/",
+        "clean": "rimraf ./.next ./dist ./generated-docs"
     },
-    "plugins": [
-      "jsx-a11y"
-    ]
-  },
-  "dependencies": {
-    "@cyverse-de/ui-lib": "^4.0.9",
-    "@material-ui/core": "^4.9.11",
-    "@material-ui/icons": "^4.9.1",
-    "@material-ui/lab": "^4.0.0-alpha.50",
-    "amqplib": "^0.5.5",
-    "axios": "^0.19.2",
-    "bowser": "^2.9.0",
-    "camelcase": "^5.3.1",
-    "config": "^3.2.4",
-    "connect-pg-simple": "^6.1.0",
-    "dataloader": "^2.0.0",
-    "express": "^4.17.1",
-    "express-session": "^1.17.0",
-    "express-winston": "^4.0.2",
-    "express-ws": "^4.0.0",
-    "formik": "^1.5.8",
-    "is-plain-object": "^3.0.0",
-    "js-yaml": "^3.13.1",
-    "keycloak-connect": "^7.0.1",
-    "next": "^9.3.5",
-    "numeral": "^2.0.6",
-    "postman-request": "^2.88.1-postman.18",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-intl": "^3.12.0",
-    "react-query": "^1.2.9",
-    "react-query-devtools": "^1.1.5",
-    "react-select": "^2.4.4",
-    "request": "^2.88.0",
-    "request-promise": "^4.2.5",
-    "sockette": "^2.0.6",
-    "uuid": "^3.4.0",
-    "winston": "^3.2.1"
-  },
-  "optionalDependencies": {
-    "fsevents": "^1.2.11"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.7.7",
-    "@babel/core": "^7.7.7",
-    "@babel/node": "^7.7.7",
-    "@babel/preset-env": "^7.7.7",
-    "@babel/runtime-corejs2": "^7.9.2",
-    "@storybook/addon-actions": "^5.2.8",
-    "@storybook/addon-console": "^1.2.1",
-    "@storybook/addon-knobs": "^5.2.8",
-    "@storybook/addon-links": "^5.2.8",
-    "@storybook/addons": "^5.2.8",
-    "@storybook/react": "^5.2.8",
-    "@typescript-eslint/eslint-plugin": "^2.15.0",
-    "@typescript-eslint/parser": "^2.15.0",
-    "axios-mock-adapter": "^1.18.1",
-    "babel-eslint": "^10.0.3",
-    "babel-jest": "^24.9.0",
-    "babel-loader": "^8.0.6",
-    "babel-preset-react-app": "^9.1.0",
-    "cross-env": "^6.0.3",
-    "eslint": "^6.8.0",
-    "eslint-config-react-app": "^5.1.0",
-    "eslint-plugin-flowtype": "^3.13.0",
-    "eslint-plugin-import": "^2.19.1",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.17.0",
-    "eslint-plugin-react-hooks": "^1.7.0",
-    "fetch-mock": "^9.0.0-beta.2",
-    "husky": "^4.0.10",
-    "jest": "^24.9.0",
-    "jsdoc": "^3.6.3",
-    "lint-staged": "^10.0.1",
-    "nodemon": "^2.0.2",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^1.19.1",
-    "react-test-renderer": "^16.12.0",
-    "rimraf": "^3.0.0"
-  },
-  "prettier": {
-    "trailingComma": "es5",
-    "tabWidth": 4,
-    "bracketSpacing": true,
-    "arrowParens": "always",
-    "jsxBracketSameLine": false
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/cyverse-de/sonora.git"
+    },
+    "author": "CyVerse Core Software",
+    "license": "BSD-3-Clause",
+    "bugs": {
+        "url": "https://github.com/cyverse-de/sonora/issues"
+    },
+    "homepage": "https://github.com/cyverse-de/sonora#readme",
+    "nodemonConfig": {
+        "watch": [
+            "src/server",
+            "src/common"
+        ],
+        "ext": "js",
+        "exec": "run-p dev-server"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "plugin:jsx-a11y/recommended"
+        ],
+        "rules": {
+            "react/react-in-jsx-scope": "off"
+        },
+        "plugins": [
+            "jsx-a11y"
+        ]
+    },
+    "dependencies": {
+        "@cyverse-de/ui-lib": "^4.0.9",
+        "@material-ui/core": "^4.9.11",
+        "@material-ui/icons": "^4.9.1",
+        "@material-ui/lab": "^4.0.0-alpha.50",
+        "amqplib": "^0.5.5",
+        "axios": "^0.19.2",
+        "bowser": "^2.9.0",
+        "camelcase": "^5.3.1",
+        "config": "^3.2.4",
+        "connect-pg-simple": "^6.1.0",
+        "dataloader": "^2.0.0",
+        "express": "^4.17.1",
+        "express-session": "^1.17.0",
+        "express-winston": "^4.0.2",
+        "express-ws": "^4.0.0",
+        "formik": "^1.5.8",
+        "is-plain-object": "^3.0.0",
+        "js-yaml": "^3.13.1",
+        "keycloak-connect": "^7.0.1",
+        "next": "^9.3.5",
+        "numeral": "^2.0.6",
+        "postman-request": "^2.88.1-postman.18",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "react-intl": "^3.12.0",
+        "react-query": "^1.2.9",
+        "react-query-devtools": "^1.1.5",
+        "react-select": "^2.4.4",
+        "request": "^2.88.0",
+        "request-promise": "^4.2.5",
+        "sockette": "^2.0.6",
+        "uuid": "^3.4.0",
+        "winston": "^3.2.1"
+    },
+    "optionalDependencies": {
+        "fsevents": "^1.2.11"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.7.7",
+        "@babel/core": "^7.7.7",
+        "@babel/node": "^7.7.7",
+        "@babel/preset-env": "^7.7.7",
+        "@babel/runtime-corejs2": "^7.9.2",
+        "@storybook/addon-actions": "^5.2.8",
+        "@storybook/addon-console": "^1.2.1",
+        "@storybook/addon-knobs": "^5.2.8",
+        "@storybook/addon-links": "^5.2.8",
+        "@storybook/addons": "^5.2.8",
+        "@storybook/react": "^5.2.8",
+        "@typescript-eslint/eslint-plugin": "^2.15.0",
+        "@typescript-eslint/parser": "^2.15.0",
+        "axios-mock-adapter": "^1.18.1",
+        "babel-eslint": "^10.0.3",
+        "babel-jest": "^24.9.0",
+        "babel-loader": "^8.0.6",
+        "babel-preset-react-app": "^9.1.0",
+        "cross-env": "^6.0.3",
+        "eslint": "^6.8.0",
+        "eslint-config-react-app": "^5.1.0",
+        "eslint-plugin-flowtype": "^3.13.0",
+        "eslint-plugin-import": "^2.19.1",
+        "eslint-plugin-jsx-a11y": "^6.2.3",
+        "eslint-plugin-react": "^7.17.0",
+        "eslint-plugin-react-hooks": "^1.7.0",
+        "fetch-mock": "^9.0.0-beta.2",
+        "husky": "^4.0.10",
+        "jest": "^24.9.0",
+        "jsdoc": "^3.6.3",
+        "lint-staged": "^10.0.1",
+        "nodemon": "^2.0.2",
+        "npm-run-all": "^4.1.5",
+        "prettier": "^1.19.1",
+        "react-test-renderer": "^16.12.0",
+        "rimraf": "^3.0.0"
+    },
+    "prettier": {
+        "trailingComma": "es5",
+        "tabWidth": 4,
+        "bracketSpacing": true,
+        "arrowParens": "always",
+        "jsxBracketSameLine": false
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "jest": {
+        "moduleNameMapper": {
+            "\\.(jpg|png|svg)$": "<rootDir>/src/__mocks__/imageMock.js"
+        }
+    },
+    "lint-staged": {
+        "*.js": [
+            "eslint --max-warnings=0",
+            "prettier --write",
+            "jest --bail --findRelatedTests"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not ie <= 11",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
     }
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "\\.(jpg|png|svg)$": "<rootDir>/src/__mocks__/imageMock.js"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --max-warnings=0",
-      "prettier --write",
-      "jest --bail --findRelatedTests"
-    ]
-  }
 }

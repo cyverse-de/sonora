@@ -10,14 +10,22 @@ import {
     Collapse,
     IconButton,
     makeStyles,
+    MenuItem,
+    Select,
+    Typography,
 } from "@material-ui/core";
 
 import { ExpandMore } from "@material-ui/icons";
 
-import { build as buildID, withI18N } from "@cyverse-de/ui-lib";
+import {
+    build as buildID,
+    getMessage as msg,
+    withI18N,
+} from "@cyverse-de/ui-lib";
 
 import messages from "./messages";
 import ids from "./ids";
+import * as constants from "./constants";
 
 const id = (name) => buildID(ids.BASE, name);
 
@@ -33,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: "wrap",
         justifyContent: "flex-start",
     },
+    collapse: {
+        margin: theme.spacing(2),
+    },
     expand: {
         transform: "rotate(0deg)",
         marginLeft: "auto",
@@ -47,6 +58,28 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(4),
     },
 }));
+
+const DeploymentFieldSelect = ({ value, handleChange }) => {
+    const fields = {
+        image: constants.IMAGE,
+        port: constants.PORT,
+    };
+
+    return (
+        <Select
+            labelId="deployment-field-select-label"
+            id={id(ids.DEPLOYMENT_FIELD_SELECT)}
+            value={value}
+            onChange={handleChange}
+        >
+            {Object.keys(fields).map((key) => (
+                <MenuItem key={key} value={fields[key]}>
+                    {msg(key)}
+                </MenuItem>
+            ))}
+        </Select>
+    );
+};
 
 const FilterChip = ({ label, handleDelete }) => {
     const [deleted, setDeleted] = useState(false);
@@ -76,6 +109,7 @@ const FilterChip = ({ label, handleDelete }) => {
 const AnalysesFilter = () => {
     const classes = useStyles();
     const [isExpanded, setIsExpanded] = useState(false);
+    const [depField, setDepField] = useState("");
 
     return (
         <Card id={id(ids.ROOT)} className={classes.root}>
@@ -104,7 +138,15 @@ const AnalysesFilter = () => {
             </CardActions>
 
             <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-                First pass content, nothing to see here. Move along!
+                <div className={classes.collapse}>
+                    <Typography noWrap variant="h6" component="h6">
+                        Deployments
+                    </Typography>
+                    <DeploymentFieldSelect
+                        value={depField}
+                        handleChange={(e) => setDepField(e.target.value)}
+                    />
+                </div>
             </Collapse>
         </Card>
     );

@@ -58,6 +58,13 @@ const useStyles = makeStyles((theme) => ({
     root: {
         marginBottom: theme.spacing(4),
     },
+    sectionRoot: {
+        display: "flex",
+        marginBottom: theme.spacing(5),
+    },
+    selectRoot: {
+        width: 250,
+    },
     textField: {
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
@@ -66,12 +73,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FieldSelect = ({ id, kind, fields, value, handleChange }) => {
+    const classes = useStyles();
+
     return (
         <Select
             labelId={`${kind}-field-select-label`}
             id={id}
             value={value}
             onChange={handleChange}
+            classes={{ root: classes.selectRoot }}
         >
             {Object.keys(fields).map((key) => (
                 <MenuItem key={key} value={fields[key]}>
@@ -79,6 +89,21 @@ const FieldSelect = ({ id, kind, fields, value, handleChange }) => {
                 </MenuItem>
             ))}
         </Select>
+    );
+};
+
+const FilterSection = ({ section, children }) => {
+    const classes = useStyles();
+
+    return (
+        <>
+            <Typography noWrap variant="h6" component="h6">
+                {section}
+            </Typography>
+            <div id={id(`section.${section}`)} className={classes.sectionRoot}>
+                {children}
+            </div>
+        </>
     );
 };
 
@@ -372,20 +397,9 @@ const FilterChip = ({ label, handleDelete }) => {
     return <></>;
 };
 
-const FilterSection = ({ section, children }) => {
-    return (
-        <>
-            <Typography noWrap variant="h6" component="h6">
-                {section}
-            </Typography>
-            {children}
-        </>
-    );
-};
-
 const AnalysesFilter = () => {
     const classes = useStyles();
-    const [isExpanded, setIsExpanded] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(true);
 
     return (
         <Card id={id(ids.ROOT)} className={classes.root}>

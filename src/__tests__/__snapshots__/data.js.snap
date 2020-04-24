@@ -13,12 +13,15 @@ exports[`Data Table View renders 1`] = `
     aria-label="/iplant/home/ipcdev Data Table"
     className="MuiTable-root MuiTable-stickyHeader"
     id="tableView.listingTable"
+    role={null}
   >
     <thead
       className="MuiTableHead-root"
+      role={null}
     >
       <tr
         className="MuiTableRow-root MuiTableRow-head"
+        role={null}
       >
         <th
           aria-sort={null}
@@ -61,7 +64,6 @@ exports[`Data Table View renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -114,7 +116,6 @@ exports[`Data Table View renders 1`] = `
               aria-hidden="true"
               className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
               focusable="false"
-              role="presentation"
               viewBox="0 0 24 24"
             >
               <path
@@ -157,7 +158,6 @@ exports[`Data Table View renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -175,6 +175,7 @@ exports[`Data Table View renders 1`] = `
     </thead>
     <tbody
       className="MuiTableBody-root"
+      role={null}
     >
       <tr
         aria-checked={false}
@@ -223,7 +224,6 @@ exports[`Data Table View renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -287,7 +287,6 @@ exports[`Data Table View renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -348,7 +347,6 @@ exports[`Data Table View renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -412,7 +410,6 @@ exports[`Data Table View renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -473,7 +470,6 @@ exports[`Data Table View renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -537,7 +533,6 @@ exports[`Data Table View renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -598,7 +593,6 @@ exports[`Data Table View renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -662,7 +656,6 @@ exports[`Data Table View renders 1`] = `
                 aria-hidden="true"
                 className="MuiSvgIcon-root"
                 focusable="false"
-                role="presentation"
                 viewBox="0 0 24 24"
               >
                 <path

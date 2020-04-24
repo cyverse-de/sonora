@@ -66,7 +66,7 @@ function UploadMenuBtn(props) {
                 text: formatMessage(intl, "filesQueuedForUploadMsg", {
                     total: tracker.uploads.length,
                 }),
-                customAction: viewUploadQueue,
+                CustomAction: viewUploadQueue,
             });
         }
     }, [tracker, intl, viewUploadQueue]);

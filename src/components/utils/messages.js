@@ -20,7 +20,8 @@ const intlData = {
         browser: "Browser",
         os: "OS",
         contactSupport: "Contact Support",
-        host: "Host"
+        host: "Host",
+        timestamp: "Timestamp",
     },
 };
 

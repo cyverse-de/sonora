@@ -24,4 +24,9 @@ export default {
     },
     IPLANT: "iplantcollaborative",
     WEBSOCKET_MAX_CONNECTION_ATTEMPTS: 10,
+    LOCAL_STORAGE: {
+        DATA: {
+            COLUMNS: "sonora.data.columns",
+        },
+    },
 };

@@ -37,6 +37,7 @@ import ResourceIcon from "./ResourceIcon";
 import SpanLink from "./SpanLink";
 import TableLoading from "../../utils/TableLoading";
 import ResourceTypes from "../../models/ResourceTypes";
+import constants from "../../../constants";
 
 const COL_KEYS = {
     CHECKBOX: "checkbox",
@@ -109,6 +110,33 @@ const invalidRowStyles = makeStyles((theme) => ({
     hover: {},
 }));
 
+/**
+ * Pull out the selected data columns from the browser's local storage
+ * At least in dev mode, with HMR, `window` can sometimes be undefined. Wrapped
+ * in try/catch due to this.
+ * @returns {null|string[]}
+ */
+function getLocalStorageCols() {
+    try {
+        return window.localStorage
+            .getItem(constants.LOCAL_STORAGE.DATA.COLUMNS)
+            ?.split(",");
+    } catch (error) {
+        return null;
+    }
+}
+
+function setLocalStorageCols(columns) {
+    try {
+        return window.localStorage.setItem(
+            constants.LOCAL_STORAGE.DATA.COLUMNS,
+            columns
+        );
+    } catch (error) {
+        return;
+    }
+}
+
 function TableView(props) {
     const {
         loading,
@@ -133,11 +161,18 @@ function TableView(props) {
     const invalidRowClass = invalidRowStyles();
 
     const tableId = build(baseId, ids.listingTable);
-    const [displayColumns, setDisplayColumns] = useState([
-        COL_KEYS.CHECKBOX,
-        COL_KEYS.NAME,
-        COL_KEYS.DOT_MENU,
-    ]);
+    const [displayColumns, setDisplayColumns] = useState(
+        getLocalStorageCols() || [
+            COL_KEYS.CHECKBOX,
+            COL_KEYS.NAME,
+            COL_KEYS.DOT_MENU,
+        ]
+    );
+
+    const onSetDisplayColumns = (columns) => {
+        setLocalStorageCols(columns);
+        setDisplayColumns(columns);
+    };
 
     const optionalColumns = () => {
         return [
@@ -209,7 +244,7 @@ function TableView(props) {
                         baseId={tableId}
                         allTableColumns={optionalColumns()}
                         displayColumns={displayColumns}
-                        setDisplayColumns={setDisplayColumns}
+                        setDisplayColumns={onSetDisplayColumns}
                     />
                 ),
                 align: "left",

@@ -12,6 +12,7 @@ import {
     makeStyles,
     MenuItem,
     Select,
+    TextField,
     Typography,
 } from "@material-ui/core";
 
@@ -56,6 +57,11 @@ const useStyles = makeStyles((theme) => ({
     },
     root: {
         marginBottom: theme.spacing(4),
+    },
+    textField: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        width: "50ch",
     },
 }));
 
@@ -102,6 +108,29 @@ const DeploymentFieldSelect = ({ value, handleChange }) => {
     );
 };
 
+const DeploymentFilterSection = () => {
+    const classes = useStyles();
+
+    const [depField, setDepField] = useState("");
+    const [depValue, setDepValue] = useState("");
+
+    return (
+        <FilterSection section={msg("deployments")}>
+            <DeploymentFieldSelect
+                value={depField}
+                handleChange={(e) => setDepField(e.target.value)}
+            />
+            <TextField
+                id={id(ids.DEPLOYMENT_FIELD_VALUE)}
+                label={msg("filterValue")}
+                className={classes.textField}
+                value={depValue}
+                onChange={(e) => setDepValue(e.target.value)}
+            />
+        </FilterSection>
+    );
+};
+
 const ServiceFieldSelect = ({ value, handleChange }) => {
     const fields = {
         ...defaultFields,
@@ -125,6 +154,29 @@ const ServiceFieldSelect = ({ value, handleChange }) => {
     );
 };
 
+const ServiceFilterSection = () => {
+    const classes = useStyles();
+
+    const [serviceField, setServiceField] = useState("");
+    const [serviceValue, setServiceValue] = useState("");
+
+    return (
+        <FilterSection section={msg("services")}>
+            <ServiceFieldSelect
+                value={serviceField}
+                handleChange={(e) => setServiceField(e.target.value)}
+            />
+            <TextField
+                id={id(ids.SERVICE_FIELD_VALUE)}
+                label={msg("filterValue")}
+                className={classes.textField}
+                value={serviceValue}
+                onChange={(e) => setServiceValue(e.target.value)}
+            />
+        </FilterSection>
+    );
+};
+
 const ConfigMapFieldSelect = ({ value, handleChange }) => {
     const fields = defaultFields;
 
@@ -140,6 +192,29 @@ const ConfigMapFieldSelect = ({ value, handleChange }) => {
     );
 };
 
+const ConfigMapFilterSection = () => {
+    const classes = useStyles();
+
+    const [configMapField, setConfigMapField] = useState("");
+    const [configMapValue, setConfigMapValue] = useState("");
+
+    return (
+        <FilterSection section={msg("configMaps")}>
+            <ConfigMapFieldSelect
+                value={configMapField}
+                handleChange={(e) => setConfigMapField(e.target.value)}
+            />
+            <TextField
+                id={id(ids.CONFIGMAP_FIELD_VALUE)}
+                label={msg("filterValue")}
+                className={classes.textField}
+                value={configMapValue}
+                onChange={(e) => setConfigMapValue(e.target.value)}
+            />
+        </FilterSection>
+    );
+};
+
 const IngressFieldSelect = ({ value, handleChange }) => {
     const fields = defaultFields;
     const idValue = id(ids.INGRESS_FIELD_SELECT);
@@ -151,6 +226,29 @@ const IngressFieldSelect = ({ value, handleChange }) => {
             value={value}
             handleChange={handleChange}
         />
+    );
+};
+
+const IngressFilterSection = () => {
+    const classes = useStyles();
+
+    const [ingressField, setIngressField] = useState("");
+    const [ingressValue, setIngressValue] = useState("");
+
+    return (
+        <FilterSection section={msg("ingresses")}>
+            <IngressFieldSelect
+                value={ingressField}
+                handleChange={(e) => setIngressField(e.target.value)}
+            />
+            <TextField
+                id={id(ids.INGRESS_FIELD_VALUE)}
+                label={msg("filterValue")}
+                className={classes.textField}
+                value={ingressValue}
+                onChange={(e) => setIngressValue(e.target.value)}
+            />
+        </FilterSection>
     );
 };
 
@@ -177,6 +275,29 @@ const AnalysisFieldSelect = ({ value, handleChange }) => {
     );
 };
 
+const AnalysisFilterSection = () => {
+    const classes = useStyles();
+
+    const [analysisField, setAnalysisField] = useState("");
+    const [analysisValue, setAnalysisValue] = useState("");
+
+    return (
+        <FilterSection section={msg("analyses")}>
+            <AnalysisFieldSelect
+                value={analysisField}
+                handleChange={(e) => setAnalysisField(e.target.value)}
+            />
+            <TextField
+                id={id(ids.ANALYSIS_FIELD_VALUE)}
+                label={msg("filterValue")}
+                className={classes.textField}
+                value={analysisValue}
+                onChange={(e) => setAnalysisValue(e.target.value)}
+            />
+        </FilterSection>
+    );
+};
+
 const PodFieldSelect = ({ value, handleChange }) => {
     const fields = {
         ...defaultFields,
@@ -200,6 +321,29 @@ const PodFieldSelect = ({ value, handleChange }) => {
             value={value}
             handleChange={handleChange}
         />
+    );
+};
+
+const PodFilterSection = () => {
+    const classes = useStyles();
+
+    const [podField, setPodField] = useState("");
+    const [podValue, setPodValue] = useState("");
+
+    return (
+        <FilterSection section={msg("pods")}>
+            <PodFieldSelect
+                value={podField}
+                handleChange={(e) => setPodField(e.target.value)}
+            />
+            <TextField
+                id={id(ids.POD_FIELD_VALUE)}
+                label={msg("filterValue")}
+                className={classes.textField}
+                value={podValue}
+                onChange={(e) => setPodValue(e.target.value)}
+            />
+        </FilterSection>
     );
 };
 
@@ -242,12 +386,6 @@ const FilterSection = ({ section, children }) => {
 const AnalysesFilter = () => {
     const classes = useStyles();
     const [isExpanded, setIsExpanded] = useState(false);
-    const [depField, setDepField] = useState("");
-    const [serviceField, setServiceField] = useState("");
-    const [configMapField, setConfigMapField] = useState("");
-    const [ingressField, setIngressField] = useState("");
-    const [analysisField, setAnalysisField] = useState("");
-    const [podField, setPodField] = useState("");
 
     return (
         <Card id={id(ids.ROOT)} className={classes.root}>
@@ -277,55 +415,12 @@ const AnalysesFilter = () => {
 
             <Collapse in={isExpanded} timeout="auto" unmountOnExit>
                 <div className={classes.collapse}>
-                    <FilterSection section={msg("analyses")}>
-                        <AnalysisFieldSelect
-                            value={analysisField}
-                            handleChange={(e) =>
-                                setAnalysisField(e.target.value)
-                            }
-                        />
-                    </FilterSection>
-
-                    <FilterSection section={msg("deployments")}>
-                        <DeploymentFieldSelect
-                            value={depField}
-                            handleChange={(e) => setDepField(e.target.value)}
-                        />
-                    </FilterSection>
-
-                    <FilterSection section={msg("pods")}>
-                        <PodFieldSelect
-                            value={podField}
-                            handleChange={(e) => setPodField(e.target.value)}
-                        />
-                    </FilterSection>
-
-                    <FilterSection section={msg("services")}>
-                        <ServiceFieldSelect
-                            value={serviceField}
-                            handleChange={(e) =>
-                                setServiceField(e.target.value)
-                            }
-                        />
-                    </FilterSection>
-
-                    <FilterSection section={msg("configMaps")}>
-                        <ConfigMapFieldSelect
-                            value={configMapField}
-                            handleChange={(e) =>
-                                setConfigMapField(e.target.value)
-                            }
-                        />
-                    </FilterSection>
-
-                    <FilterSection section={msg("ingresses")}>
-                        <IngressFieldSelect
-                            value={ingressField}
-                            handleChange={(e) =>
-                                setIngressField(e.target.value)
-                            }
-                        />
-                    </FilterSection>
+                    <AnalysisFilterSection />
+                    <DeploymentFilterSection />
+                    <ServiceFilterSection />
+                    <PodFilterSection />
+                    <ConfigMapFilterSection />
+                    <IngressFilterSection />
                 </div>
             </Collapse>
         </Card>

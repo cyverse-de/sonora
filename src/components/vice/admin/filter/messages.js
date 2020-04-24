@@ -39,5 +39,7 @@ export default {
         containerStatusImageID: "Container Status - Image ID",
         containerStatusContainerID: "Container Status - Container ID",
         containerStatusStarted: "Container Status - Started",
+        filterValue: "Filter Value",
+        value: "Value",
     },
 };

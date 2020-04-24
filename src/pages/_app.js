@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import getConfig from "next/config";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
@@ -63,23 +62,16 @@ const setupIntercom = (intercomAppId) => {
     }
 };
 
-function MyApp({
-    Component,
-    pageProps,
-    intercomAppId,
-    intercomEnabled,
-    companyId,
-    companyName,
-}) {
+function MyApp({ Component, pageProps }) {
     const router = useRouter();
     const pathname = router.pathname
         ? router.pathname.split(constants.PATH_SEPARATOR)[1]
         : NavigationConstants.DASHBOARD;
     const [intercomSettings, setIntercomSettings] = useState({
-        appId: intercomAppId,
-        enabled: intercomEnabled,
-        companyId: companyId,
-        companyName: companyName,
+        appId: process.env.INTERCOM_APP_ID,
+        enabled: process.env.INTERCOM_ENABLED,
+        companyId: process.env.INTERCOM_COMPANY_ID,
+        companyName: process.env.INTERCOM_COMPANY_NAME,
         unReadCount: 0,
     });
 
@@ -132,15 +124,5 @@ function MyApp({
         </ThemeProvider>
     );
 }
-
-MyApp.getInitialProps = async (ctx) => {
-    const { serverRuntimeConfig } = getConfig();
-    return {
-        intercomAppId: serverRuntimeConfig.INTERCOM_APP_ID,
-        intercomEnabled: serverRuntimeConfig.INTERCOM_ENABLED,
-        companyId: serverRuntimeConfig.INTERCOM_COMPANY_ID,
-        companyName: serverRuntimeConfig.INTERCOM_COMPANY_NAME,
-    };
-};
 
 export default MyApp;

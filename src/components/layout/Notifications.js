@@ -73,7 +73,7 @@ function Notifications(props) {
             announce({
                 text: notification.message.text,
                 variant,
-                customAction:
+                CustomAction:
                     analysisStatus === constants.ANALYSIS_STATUS.COMPLETED ||
                     analysisStatus === constants.ANALYSIS_STATUS.FAILED
                         ? () =>

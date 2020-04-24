@@ -18,7 +18,6 @@ Array [
           aria-hidden="true"
           className="MuiSvgIcon-root MuiSvgIcon-colorPrimary"
           focusable="false"
-          role="presentation"
           viewBox="0 0 24 24"
         >
           <path
@@ -47,7 +46,7 @@ Array [
     >
       <div
         aria-haspopup="listbox"
-        aria-labelledby=" search.searchFilterMenu"
+        aria-labelledby="search.searchFilterMenu"
         className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
         id="search.searchFilterMenu"
         onBlur={[Function]}
@@ -68,7 +67,6 @@ Array [
         aria-hidden="true"
         className="MuiSvgIcon-root MuiSelect-icon makeStyles-icon-4"
         focusable="false"
-        role="presentation"
         viewBox="0 0 24 24"
       >
         <path

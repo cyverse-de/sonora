@@ -1,7 +1,7 @@
 const config = require("config");
 
 module.exports = {
-    serverRuntimeConfig: {
+    env: {
         INTERCOM_APP_ID: config.get("intercom.app_id"),
         INTERCOM_ENABLED: config.get("intercom.enabled"),
         INTERCOM_COMPANY_ID: config.get("intercom.company_id"),

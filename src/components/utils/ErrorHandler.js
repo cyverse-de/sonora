@@ -140,13 +140,13 @@ function ErrorHandler(props) {
                     title={
                         <>
                             <Typography component="span" variant="h5">
-                                <ErrorIcon color="primary"/>
+                                <ErrorIcon color="primary" />
                                 {getMessage("signInReqd")}
                             </Typography>
                         </>
                     }
                 />
-                <Divider orientation="horizontal"/>
+                <Divider orientation="horizontal" />
                 <CardContent className={classes.cardContent}>
                     <Typography variant="h6" className={classes.signIn}>
                         {getMessage("youMust")}
@@ -155,7 +155,7 @@ function ErrorHandler(props) {
                             color="primary"
                             onClick={() => {
                                 router.push(
-                                    `/${NavigationConstants.LOGIN}${router.asPath}`,
+                                    `/${NavigationConstants.LOGIN}${router.asPath}`
                                 );
                             }}
                         >
@@ -176,9 +176,9 @@ function ErrorHandler(props) {
                         </Link>
                     </Typography>
                 </CardContent>
-                <Divider orientation="horizontal"/>
+                <Divider orientation="horizontal" />
                 <CardActions>
-                    <ContactSupport baseId={baseId}/>
+                    <ContactSupport baseId={baseId} />
                 </CardActions>
             </Card>
         );
@@ -188,7 +188,7 @@ function ErrorHandler(props) {
                 <CardHeader
                     title={
                         <Typography color="error" variant="h5">
-                            <ErrorIcon/> {getMessage("error")}
+                            <ErrorIcon /> {getMessage("error")}
                         </Typography>
                     }
                     subheader={
@@ -197,7 +197,7 @@ function ErrorHandler(props) {
                         </Typography>
                     }
                 />
-                <Divider orientation="horizontal"/>
+                <Divider orientation="horizontal" />
                 <CardContent className={classes.cardContent}>
                     <Grid container spacing={2} className={classes.container}>
                         <GridLabelValue label={getMessage("requestedURL")}>
@@ -220,12 +220,12 @@ function ErrorHandler(props) {
                                 {JSON.stringify(errorResponse?.data?.reason)}
                             </span>
                         </GridLabelValue>
-                        <ClientInfo/>
+                        <ClientInfo />
                     </Grid>
                 </CardContent>
-                <Divider orientation="horizontal"/>
+                <Divider orientation="horizontal" />
                 <CardActions>
-                    <ContactSupport baseId={errBaseId}/>
+                    <ContactSupport baseId={errBaseId} />
                 </CardActions>
             </Card>
         );

@@ -99,10 +99,7 @@ const useStyles = makeStyles((theme) => ({
     nav: {
         backgroundColor: theme.palette.white,
         height: 50,
-        width: "100%",
         paddingLeft: 30,
-        position: "fixed",
-        zIndex: 4,
     },
 }));
 

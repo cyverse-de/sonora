@@ -69,10 +69,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function getFilters() {
-    return Object.keys(appType).map((type) => {
+function getAppTypeFilters() {
+    return Object.values(appType).map((type) => {
         return {
-            name: appType[type],
+            name: type,
         };
     });
 }
@@ -132,7 +132,7 @@ function AppNavigation(props) {
     useQuery({
         queryKey: "getPrivateCategories",
         queryFn: getPrivateCategories,
-        config: { onSuccess: preProcessData, refetchOnWindowFocus: false },
+        config: { onSuccess: preProcessData },
     });
 
     const handleClickListItem = (event) => {
@@ -242,7 +242,7 @@ function AppNavigation(props) {
                     appType.agave.toLowerCase()
                 }
                 value={filter}
-                options={getFilters()}
+                options={getAppTypeFilters()}
                 size="small"
                 onChange={(event, newValue) => {
                     handleFilterChange(newValue);
@@ -264,4 +264,4 @@ function AppNavigation(props) {
     );
 }
 export default withI18N(injectIntl(AppNavigation), intlData);
-export { getFilters };
+export { getAppTypeFilters };

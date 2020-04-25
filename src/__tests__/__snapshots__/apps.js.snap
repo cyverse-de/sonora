@@ -62,6 +62,7 @@ Array [
     <table
       aria-label="Apps table listing"
       className="MuiTable-root MuiTable-stickyHeader"
+      id="tableView.listingTable"
       role={null}
     >
       <thead
@@ -301,6 +302,7 @@ exports[`App Table view renders 1`] = `
   <table
     aria-label="Apps table listing"
     className="MuiTable-root MuiTable-stickyHeader"
+    id="tableView.listingTable"
     role={null}
   >
     <thead

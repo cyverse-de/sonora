@@ -117,6 +117,7 @@ function TableView(props) {
                 stickyHeader={true}
                 size="small"
                 aria-label={formatMessage(intl, "ariaTableListing")}
+                id={tableId}
             >
                 <EnhancedTableHead
                     selectable={true}

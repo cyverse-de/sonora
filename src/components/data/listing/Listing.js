@@ -131,14 +131,15 @@ function Listing(props) {
     // selected.  If all items in the range are already selected, all items
     // will be deselected.
     const rangeSelect = (start, end, targetId) => {
-        const rangeIds = [];
-        for (let i = start; i <= end; i++) {
-            rangeIds.push(data?.listing[i].id);
+        if (start > -1) {
+            const rangeIds = [];
+            for (let i = start; i <= end; i++) {
+                rangeIds.push(data?.listing[i].id);
+            }
+
+            let isTargetSelected = selected.includes(targetId);
+            isTargetSelected ? deselect(rangeIds) : select(rangeIds);
         }
-
-        let isTargetSelected = selected.includes(targetId);
-
-        isTargetSelected ? deselect(rangeIds) : select(rangeIds);
     };
 
     const handleClick = (event, id, index) => {
@@ -163,13 +164,7 @@ function Listing(props) {
 
     const select = (resourceIds) => {
         if (multiSelect) {
-            let newSelected = [...selected];
-            resourceIds.forEach((resourceId) => {
-                const selectedIndex = selected.indexOf(resourceId);
-                if (selectedIndex === -1) {
-                    newSelected.push(resourceId);
-                }
-            });
+            let newSelected = [...new Set([...selected, ...resourceIds])];
             setSelected(newSelected);
         } else {
             setSelected(resourceIds);

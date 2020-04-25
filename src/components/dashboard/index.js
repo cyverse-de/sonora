@@ -20,9 +20,12 @@ import {
 
 import { Skeleton } from "@material-ui/lab";
 
-import { format, parse } from "date-fns";
-
-import { build as buildID, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import {
+    build as buildID,
+    formatDate,
+    getMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
 
 import messages from "./messages";
 import ids from "./ids";
@@ -65,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     },
     gridRoot: {
         overflow: "auto", // Needed for vertical scrolling.
-        height: "100vh", // Needed to get the vertical scrolling working.
+        height: "90vh", // Needed to get the vertical scrolling working.
         paddingTop: 0,
         paddingLeft: theme.spacing(3),
         paddingBottom: 0,
@@ -118,13 +121,11 @@ const getOrigination = (kind, content) => {
             break;
         default:
             origination = getMessage("by");
-            date = new Date();
     }
-
-    date = parse(date);
-    date = format(date, "MMMM Do YYYY, h:mm:ss a");
-
-    return [origination, date];
+    return [
+        origination,
+        formatDate(date ? new Date(date).valueOf() : new Date().valueOf()),
+    ];
 };
 
 const cleanUsername = (username) => {

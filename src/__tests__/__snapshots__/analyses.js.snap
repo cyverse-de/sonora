@@ -321,7 +321,7 @@ exports[`Analyses Listing view 1`] = `
           id="analysesTable.analysesTable.listingTable.c1e6c4e8-7fb6-11ea-be0a-c2a97b34bb42nameCell"
         >
           <button
-            aria-describedby="analysesTable.analysesTable.listingTable.c1e6c4e8-7fb6-11ea-be0a-c2a97b34bb42nameCell.nameCell.tooltip"
+            aria-describedby={null}
             aria-label="Go to output folder of DE_Word_Count_analysis1"
             className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
             id="analysesTable.analysesTable.listingTable.c1e6c4e8-7fb6-11ea-be0a-c2a97b34bb42nameCell.nameCell"
@@ -451,7 +451,7 @@ exports[`Analyses Listing view 1`] = `
           id="analysesTable.analysesTable.listingTable.fbfa7d8e-7fb4-11ea-9730-c2a97b34bb42nameCell"
         >
           <button
-            aria-describedby="analysesTable.analysesTable.listingTable.fbfa7d8e-7fb4-11ea-9730-c2a97b34bb42nameCell.nameCell.tooltip"
+            aria-describedby={null}
             aria-label="Go to output folder of DE_Word_Count_analysis1"
             className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
             id="analysesTable.analysesTable.listingTable.fbfa7d8e-7fb4-11ea-9730-c2a97b34bb42nameCell.nameCell"
@@ -581,7 +581,7 @@ exports[`Analyses Listing view 1`] = `
           id="analysesTable.analysesTable.listingTable.a5e68c74-7f0c-11ea-be65-c2a97b34bb42nameCell"
         >
           <button
-            aria-describedby="analysesTable.analysesTable.listingTable.a5e68c74-7f0c-11ea-be65-c2a97b34bb42nameCell.nameCell.tooltip"
+            aria-describedby={null}
             aria-label="Go to output folder of DE_Word_Count_analysis1"
             className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
             id="analysesTable.analysesTable.listingTable.a5e68c74-7f0c-11ea-be65-c2a97b34bb42nameCell.nameCell"
@@ -601,7 +601,7 @@ exports[`Analyses Listing view 1`] = `
             </span>
           </button>
           <button
-            aria-describedby="analysesTable.analysesTable.listingTable.a5e68c74-7f0c-11ea-be65-c2a97b34bb42nameCell.batch.tooltip"
+            aria-describedby={null}
             aria-label="View HT Analyses details"
             className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
             disabled={false}
@@ -752,7 +752,7 @@ exports[`Analyses Listing view 1`] = `
           id="analysesTable.analysesTable.listingTable.8712ea7c-7f0c-11ea-be65-c2a97b34bb42nameCell"
         >
           <button
-            aria-describedby="analysesTable.analysesTable.listingTable.8712ea7c-7f0c-11ea-be65-c2a97b34bb42nameCell.nameCell.tooltip"
+            aria-describedby={null}
             aria-label="Go to output folder of ten-rules-jupyter_analysis1"
             className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
             id="analysesTable.analysesTable.listingTable.8712ea7c-7f0c-11ea-be65-c2a97b34bb42nameCell.nameCell"
@@ -772,7 +772,7 @@ exports[`Analyses Listing view 1`] = `
             </span>
           </button>
           <button
-            aria-describedby="analysesTable.analysesTable.listingTable.8712ea7c-7f0c-11ea-be65-c2a97b34bb42nameCell.interactive.tooltip"
+            aria-describedby={null}
             aria-label="Go to analysis"
             className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
             disabled={false}
@@ -923,7 +923,7 @@ exports[`Analyses Listing view 1`] = `
           id="analysesTable.analysesTable.listingTable.727c6ffe-7d8e-11ea-bedd-c2a97b34bb42nameCell"
         >
           <button
-            aria-describedby="analysesTable.analysesTable.listingTable.727c6ffe-7d8e-11ea-bedd-c2a97b34bb42nameCell.nameCell.tooltip"
+            aria-describedby={null}
             aria-label="Go to output folder of DE_Word_Count_analysis1"
             className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
             id="analysesTable.analysesTable.listingTable.727c6ffe-7d8e-11ea-bedd-c2a97b34bb42nameCell.nameCell"

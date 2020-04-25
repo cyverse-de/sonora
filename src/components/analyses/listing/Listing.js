@@ -122,6 +122,7 @@ function Listing(props) {
         parentAnalysis,
         permFilter,
         appTypeFilter,
+        intl,
     ]);
 
     const toggleDisplay = () => {

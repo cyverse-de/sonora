@@ -78,6 +78,9 @@ var intlData = {
             " and their output folders will also be grouped under that parent HT analysis' output folder," +
             " but the relaunched sub-jobs will be renamed with a `-redo-#` suffix to differentiate them from their original sub-jobs." +
             " Otherwise, relaunched analyses will be treated as new analyses, even though they reuse the same name and parameters as their original analyses.",
+        all: "All",
+        mine: "Only my analyses",
+        theirs: "Analyses shared with me",
     },
 };
 

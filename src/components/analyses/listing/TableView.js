@@ -73,11 +73,6 @@ function AnalysisName(props) {
                     onClick={() => handleGoToOutputFolder(analysis)}
                     color="primary"
                     component="button"
-                    aria-describedby={build(
-                        baseId,
-                        ids.ANALYSIS_NAME_CELL,
-                        ids.TOOLTIP
-                    )}
                 >
                     <span className={classes.name}>{name}</span>
                 </Link>
@@ -98,11 +93,6 @@ function AnalysisName(props) {
                         size="small"
                         onClick={() => handleBatchIconClick(analysis)}
                         id={build(baseId, ids.ICONS.BATCH)}
-                        aria-describedby={build(
-                            baseId,
-                            ids.ICONS.BATCH,
-                            ids.TOOLTIP
-                        )}
                     >
                         <UnfoldMoreIcon />
                     </IconButton>
@@ -129,11 +119,6 @@ function AnalysisName(props) {
                         }
                         size="small"
                         id={build(baseId, ids.ICONS.INTERACTIVE)}
-                        aria-describedby={build(
-                            baseId,
-                            ids.ICONS.INTERACTIVE,
-                            ids.TOOLTIP
-                        )}
                     >
                         <LaunchIcon />
                     </IconButton>
@@ -176,11 +161,6 @@ function Status(props) {
                     <IconButton
                         id={build(baseId, ids.BUTTON_EXTEND_TIME_LIMIT)}
                         size="small"
-                        aria-describedby={build(
-                            baseId,
-                            ids.BUTTON_EXTEND_TIME_LIMIT,
-                            ids.TOOLTIP
-                        )}
                     >
                         <HourGlass />
                     </IconButton>

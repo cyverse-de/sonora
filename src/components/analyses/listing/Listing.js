@@ -9,22 +9,20 @@ import { useQuery } from "react-query";
 import { injectIntl } from "react-intl";
 import { useRouter } from "next/router";
 
-import { withI18N } from "@cyverse-de/ui-lib";
+import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
 import { getAnalyses } from "../../../serviceFacades/analyses";
 import constants from "../../../constants";
 import DEPagination from "../../utils/DEPagination";
 
 import intlData from "../messages";
 import TableView from "./TableView";
-import { getOwnershipFilters } from "../AnalysesNavigation";
+import AnalysesNavigation, { getOwnershipFilters } from "../AnalysesNavigation";
 import { getAppTypeFilters } from "../../apps/AppNavigation";
 import appType from "../../models/AppType";
-import ownershipFilter from "../model/ownershipFilter";
 
 import NavigationConstants from "../../../common/NavigationConstants";
 import Header from "../Header";
 import { useUserProfile } from "../../../contexts/userProfile";
-import AnalysesNavigation from "../AnalysesNavigation";
 
 /**
  * Filters
@@ -47,7 +45,7 @@ const filter = {
 
 function Listing(props) {
     const router = useRouter();
-    const { baseId } = props;
+    const { baseId, intl } = props;
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("desc");
     const [orderBy, setOrderBy] = useState("startdate");
@@ -58,7 +56,7 @@ function Listing(props) {
     const [data, setData] = useState(null);
     const [analysesKey, setAnalysesKey] = useState(null);
     const [parentAnalysis, setParentAnalyses] = useState(null);
-    const [permFilter, setPermFilter] = useState(getOwnershipFilters()[0]);
+    const [permFilter, setPermFilter] = useState(getOwnershipFilters(intl)[0]);
     const [appTypeFilter, setAppTypeFilter] = useState(getAppTypeFilters()[0]);
     const [userProfile] = useUserProfile();
 
@@ -88,13 +86,13 @@ function Listing(props) {
         if (permFilter) {
             let val;
             switch (permFilter.name) {
-                case ownershipFilter.all:
+                case formatMessage(intl, "all"):
                     val = ALL;
                     break;
-                case ownershipFilter.mine:
+                case formatMessage(intl, "mine"):
                     val = MINE;
                     break;
-                case ownershipFilter.theirs:
+                case formatMessage(intl, "theirs"):
                     val = THEIRS;
                     break;
                 default:

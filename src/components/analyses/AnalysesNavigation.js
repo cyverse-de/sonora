@@ -23,7 +23,6 @@ import { injectIntl } from "react-intl";
 import messages from "./messages";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { getAppTypeFilters } from "../apps/AppNavigation";
-import ownershipFilter from "./model/ownershipFilter";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import ClearIcon from "@material-ui/icons/Clear";
 
@@ -57,8 +56,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function getOwnershipFilters() {
-    return Object.values(ownershipFilter).map((filter) => {
+function getOwnershipFilters(intl) {
+    return Object.values([
+        formatMessage(intl, "all"),
+        formatMessage(intl, "mine"),
+        formatMessage(intl, "theirs"),
+    ]).map((filter) => {
         return {
             name: filter,
         };
@@ -144,7 +147,7 @@ function AnalysesNavigation(props) {
                 id={build(analysesNavId, ids.VIEW_FILTER)}
                 disabled={false}
                 value={ownershipFilter}
-                options={getOwnershipFilters()}
+                options={getOwnershipFilters(intl)}
                 size="small"
                 onChange={(event, newValue) => {
                     handleOwnershipFilterChange(newValue);

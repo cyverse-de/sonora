@@ -81,17 +81,15 @@ const testData = {
 const VICEAdmin = () => {
     const classes = useStyles();
 
-    const [filters, setFilters] = useState([]);
+    const [filters, setFilters] = useState({});
 
     const addToFilters = (key, value) =>
-        setFilters([...filters, { key, value }]);
+        setFilters({ ...filters, [key]: value });
 
-    const deleteFromFilters = (filter) =>
-        setFilters(
-            filters.filter(
-                (f) => f.key !== filter.key && f.value !== filter.value
-            )
-        );
+    const deleteFromFilters = (key) => {
+        const { [key]: _, ...deletedFrom } = filters;
+        setFilters(deletedFrom);
+    };
 
     return (
         <div id={id(ids.ROOT)} className={classes.root}>

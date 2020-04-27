@@ -3,6 +3,7 @@ import { UserProfileProvider } from "../src/contexts/userProfile";
 import { IntercomProvider } from "../src/contexts/intercom";
 import CyverseAppBar from "../src/components/layout/CyVerseAppBar";
 import { mockAxios } from "./axiosMock";
+import { NotificationsProvider } from "../src/contexts/pushNotifications";
 
 const mockUser = {
     id: "mockUser",
@@ -26,7 +27,9 @@ function AppBarTest() {
     return (
         <IntercomProvider value={intercomSettings}>
             <UserProfileProvider>
-                <CyverseAppBar />
+                <NotificationsProvider>
+                    <CyverseAppBar />
+                </NotificationsProvider>
             </UserProfileProvider>
         </IntercomProvider>
     );

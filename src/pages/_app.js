@@ -20,6 +20,7 @@ import ids from "../components/layout/ids";
 import { UploadTrackingProvider } from "../contexts/uploadTracking";
 import { UserProfileProvider } from "../contexts/userProfile";
 import { IntercomProvider } from "../contexts/intercom";
+import { NotificationsProvider } from "../contexts/pushNotifications";
 import constants from "../constants";
 
 const setupIntercom = (intercomAppId) => {
@@ -99,6 +100,7 @@ function MyApp({ Component, pageProps }) {
             }
         }
     }, [intercomSettings]);
+
     return (
         <ThemeProvider theme={theme}>
             <IntercomProvider value={intercomSettings}>
@@ -106,15 +108,17 @@ function MyApp({ Component, pageProps }) {
                     <UploadTrackingProvider>
                         <ReactQueryConfigProvider config={queryConfig}>
                             <CssBaseline />
-                            <CyverseAppBar>
-                                <Head>
-                                    <title>Discovery Environment</title>
-                                </Head>
-                                <ReactQueryDevtools initialIsOpen={false} />
-                                <Navigation activeView={pathname} />
-                                <Component {...pageProps} />
-                                <UploadManager />
-                            </CyverseAppBar>
+                            <NotificationsProvider>
+                                <CyverseAppBar>
+                                    <Head>
+                                        <title>Discovery Environment</title>
+                                    </Head>
+                                    <ReactQueryDevtools initialIsOpen={false} />
+                                    <Navigation activeView={pathname} />
+                                    <Component {...pageProps} />
+                                    <UploadManager />
+                                </CyverseAppBar>
+                            </NotificationsProvider>
                         </ReactQueryConfigProvider>
                     </UploadTrackingProvider>
                 </UserProfileProvider>

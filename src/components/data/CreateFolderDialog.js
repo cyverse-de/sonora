@@ -3,11 +3,9 @@
  *
  * A dialog that allows users to create a data folder
  */
-import React from "react";
+import React, { useState } from "react";
 
 import {
-    announce,
-    AnnouncerConstants,
     build,
     formatMessage,
     FormTextField,
@@ -23,6 +21,7 @@ import {
     DialogTitle,
     IconButton,
     InputAdornment,
+    Typography,
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import { Field, Form, Formik } from "formik";
@@ -42,6 +41,7 @@ const useStyles = makeStyles(styles);
 
 function CreateFolderDialog(props) {
     const { path, open, onClose, onFolderCreated, intl } = props;
+    const [createFolderError, setCreateFolderError] = useState(null);
     const classes = useStyles();
     const baseId = ids.CREATE_DLG;
 
@@ -55,12 +55,9 @@ function CreateFolderDialog(props) {
             onError: (error) => {
                 const text =
                     getErrorCode(error) === ERROR_CODES.ERR_EXISTS
-                        ? formatMessage(intl, "folderExists")
+                        ? formatMessage(intl, "folderExists", { path: path })
                         : formatMessage(intl, "folderCreationFail");
-                announce({
-                    text,
-                    variant: AnnouncerConstants.ERROR,
-                });
+                setCreateFolderError(text);
             },
         }
     );
@@ -72,7 +69,9 @@ function CreateFolderDialog(props) {
 
     const validate = ({ name }) => {
         const validationError = validateDiskResourceName(name);
-        return validationError ? { name: validationError } : {};
+        return validationError || createFolderError
+            ? { name: validationError || createFolderError }
+            : {};
     };
 
     const isLoading = isQueryLoading(createFolderStatus);
@@ -83,81 +82,94 @@ function CreateFolderDialog(props) {
             validate={validate}
             onSubmit={handleCreateFolder}
         >
-            {({ handleSubmit }) => (
-                <Form>
-                    <Dialog
-                        open={open}
-                        onClose={onClose}
-                        maxWidth="xs"
-                        fullWidth
-                    >
-                        <DialogTitle>
-                            {getMessage("createFolder")}
-                            <IconButton
-                                aria-label={formatMessage(intl, "cancel")}
-                                onClick={onClose}
-                                size="small"
-                                edge="end"
-                                classes={{ root: classes.closeButton }}
-                            >
-                                <Close />
-                            </IconButton>
-                        </DialogTitle>
-                        <DialogContent>
-                            <Field
-                                id={build(baseId, ids.FOLDER_NAME)}
-                                name="name"
-                                multiline
-                                required={true}
-                                label={getMessage("folderName")}
-                                onKeyDown={(event) => {
-                                    if (event.key === "Enter") {
-                                        handleSubmit();
-                                    }
-                                }}
-                                InputProps={{
-                                    readOnly: isLoading,
-                                    endAdornment: (
-                                        <>
-                                            {isLoading && (
-                                                <InputAdornment position="start">
-                                                    <CircularProgress
-                                                        id={build(
-                                                            baseId,
-                                                            ids.FOLDER_NAME,
-                                                            ids.LOADING_SKELETON
-                                                        )}
-                                                        color="inherit"
-                                                        size={20}
-                                                    />
-                                                </InputAdornment>
-                                            )}
-                                        </>
-                                    ),
-                                }}
-                                component={FormTextField}
-                            />
-                        </DialogContent>
+            {({ handleSubmit, validateForm }) => {
+                if (createFolderError) {
+                    validateForm();
+                    setCreateFolderError(null);
+                }
+                return (
+                    <Form>
+                        <Dialog
+                            open={open}
+                            onClose={onClose}
+                            maxWidth="xs"
+                            fullWidth
+                        >
+                            <DialogTitle>
+                                {getMessage("createFolder")}
+                                <IconButton
+                                    aria-label={formatMessage(intl, "cancel")}
+                                    onClick={onClose}
+                                    size="small"
+                                    edge="end"
+                                    classes={{ root: classes.closeButton }}
+                                >
+                                    <Close />
+                                </IconButton>
+                            </DialogTitle>
+                            <DialogContent>
+                                <Typography
+                                    classes={{ root: classes.bottomPadding }}
+                                >
+                                    {getMessage("newFolderLocation", {
+                                        values: { path: path },
+                                    })}
+                                </Typography>
+                                <Field
+                                    id={build(baseId, ids.FOLDER_NAME)}
+                                    name="name"
+                                    multiline
+                                    required={true}
+                                    label={getMessage("folderName")}
+                                    onKeyDown={(event) => {
+                                        if (event.key === "Enter") {
+                                            handleSubmit();
+                                        }
+                                    }}
+                                    InputProps={{
+                                        readOnly: isLoading,
+                                        endAdornment: (
+                                            <>
+                                                {isLoading && (
+                                                    <InputAdornment position="start">
+                                                        <CircularProgress
+                                                            id={build(
+                                                                baseId,
+                                                                ids.FOLDER_NAME,
+                                                                ids.LOADING_SKELETON
+                                                            )}
+                                                            color="inherit"
+                                                            size={20}
+                                                        />
+                                                    </InputAdornment>
+                                                )}
+                                            </>
+                                        ),
+                                    }}
+                                    component={FormTextField}
+                                />
+                            </DialogContent>
 
-                        <DialogActions>
-                            <Button
-                                id={build(baseId, ids.CANCEL_BTN)}
-                                onClick={onClose}
-                            >
-                                {getMessage("cancel")}
-                            </Button>
-                            <Button
-                                id={build(baseId, ids.CREATE_BTN)}
-                                color="primary"
-                                type="submit"
-                                onClick={handleSubmit}
-                            >
-                                {getMessage("create")}
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
-                </Form>
-            )}
+                            <DialogActions>
+                                <Button
+                                    id={build(baseId, ids.CANCEL_BTN)}
+                                    onClick={onClose}
+                                >
+                                    {getMessage("cancel")}
+                                </Button>
+                                <Button
+                                    id={build(baseId, ids.CREATE_BTN)}
+                                    color="primary"
+                                    type="submit"
+                                    onClick={handleSubmit}
+                                >
+                                    {getMessage("create")}
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                    </Form>
+                );
+            }}
         </Formik>
     );
 }

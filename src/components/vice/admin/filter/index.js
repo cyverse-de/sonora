@@ -150,7 +150,11 @@ const DeploymentFilterSection = ({ addToFilters }) => {
     return (
         <FilterSection
             section={msg("deployments")}
-            handleAddClick={() => addToFilters(depField, depValue)}
+            handleAddClick={() => {
+                addToFilters(depField, depValue);
+                setDepField("");
+                setDepValue("");
+            }}
         >
             <DeploymentFieldSelect
                 value={depField}
@@ -199,7 +203,11 @@ const ServiceFilterSection = ({ addToFilters }) => {
     return (
         <FilterSection
             section={msg("services")}
-            handleAddClick={() => addToFilters(serviceField, serviceValue)}
+            handleAddClick={() => {
+                addToFilters(serviceField, serviceValue);
+                setServiceField("");
+                setServiceValue("");
+            }}
         >
             <ServiceFieldSelect
                 value={serviceField}
@@ -240,7 +248,11 @@ const ConfigMapFilterSection = ({ addToFilters }) => {
     return (
         <FilterSection
             section={msg("configMaps")}
-            handleAddClick={() => addToFilters(configMapField, configMapValue)}
+            handleAddClick={() => {
+                addToFilters(configMapField, configMapValue);
+                setConfigMapField("");
+                setConfigMapValue("");
+            }}
         >
             <ConfigMapFieldSelect
                 value={configMapField}
@@ -280,7 +292,11 @@ const IngressFilterSection = ({ addToFilters }) => {
     return (
         <FilterSection
             section={msg("ingresses")}
-            handleAddClick={() => addToFilters(ingressField, ingressValue)}
+            handleAddClick={() => {
+                addToFilters(ingressField, ingressValue);
+                setIngressField("");
+                setIngressValue("");
+            }}
         >
             <IngressFieldSelect
                 value={ingressField}
@@ -329,7 +345,11 @@ const AnalysisFilterSection = ({ addToFilters }) => {
     return (
         <FilterSection
             section={msg("analyses")}
-            handleAddClick={() => addToFilters(analysisField, analysisValue)}
+            handleAddClick={() => {
+                addToFilters(analysisField, analysisValue);
+                setAnalysisField("");
+                setAnalysisValue("");
+            }}
         >
             <AnalysisFieldSelect
                 value={analysisField}
@@ -381,7 +401,11 @@ const PodFilterSection = ({ addToFilters }) => {
     return (
         <FilterSection
             section={msg("pods")}
-            handleAddClick={() => addToFilters(podField, podValue)}
+            handleAddClick={() => {
+                addToFilters(podField, podValue);
+                setPodField("");
+                setPodValue("");
+            }}
         >
             <PodFieldSelect
                 value={podField}

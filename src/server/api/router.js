@@ -307,5 +307,15 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("add the GET /admin/vice/resources handler");
+    api.get(
+        "/admin/vice/resources",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/vice/resources",
+        })
+    );
+
     return api;
 }

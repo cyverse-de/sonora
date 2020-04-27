@@ -455,13 +455,11 @@ const AnalysesFilter = ({ filters, addToFilters, deleteFromFilters }) => {
         <Card id={id(ids.ROOT)} className={classes.root}>
             <CardContent>
                 <div className={classes.chips}>
-                    {filters.map((filter, index) => (
+                    {Object.entries(filters).map(([key, value], index) => (
                         <FilterChip
-                            key={`${filter.key}-${index}`}
-                            label={`${filter.key}=${filter.value}`}
-                            handleDelete={(_ev, _el) =>
-                                deleteFromFilters(filter)
-                            }
+                            key={`${key}-${index}`}
+                            label={`${key}=${value}`}
+                            handleDelete={(_ev, _el) => deleteFromFilters(key)}
                         />
                     ))}
                 </div>

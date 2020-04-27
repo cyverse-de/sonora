@@ -41,5 +41,6 @@ export default {
         containerStatusStarted: "Container Status - Started",
         filterValue: "Filter Value",
         value: "Value",
+        add: "Add",
     },
 };

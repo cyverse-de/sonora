@@ -14,6 +14,7 @@ import {
     Select,
     TextField,
     Typography,
+    Button,
 } from "@material-ui/core";
 
 import { ExpandMore } from "@material-ui/icons";
@@ -92,7 +93,7 @@ const FieldSelect = ({ id, kind, fields, value, handleChange }) => {
     );
 };
 
-const FilterSection = ({ section, children }) => {
+const FilterSection = ({ section, children, handleAddClick }) => {
     const classes = useStyles();
 
     return (
@@ -102,6 +103,13 @@ const FilterSection = ({ section, children }) => {
             </Typography>
             <div id={id(`section.${section}`)} className={classes.sectionRoot}>
                 {children}
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleAddClick}
+                >
+                    {msg("add")}
+                </Button>
             </div>
         </>
     );
@@ -133,14 +141,17 @@ const DeploymentFieldSelect = ({ value, handleChange }) => {
     );
 };
 
-const DeploymentFilterSection = () => {
+const DeploymentFilterSection = ({ addToFilters }) => {
     const classes = useStyles();
 
     const [depField, setDepField] = useState("");
     const [depValue, setDepValue] = useState("");
 
     return (
-        <FilterSection section={msg("deployments")}>
+        <FilterSection
+            section={msg("deployments")}
+            handleAddClick={() => addToFilters(depField, depValue)}
+        >
             <DeploymentFieldSelect
                 value={depField}
                 handleChange={(e) => setDepField(e.target.value)}
@@ -179,14 +190,17 @@ const ServiceFieldSelect = ({ value, handleChange }) => {
     );
 };
 
-const ServiceFilterSection = () => {
+const ServiceFilterSection = ({ addToFilters }) => {
     const classes = useStyles();
 
     const [serviceField, setServiceField] = useState("");
     const [serviceValue, setServiceValue] = useState("");
 
     return (
-        <FilterSection section={msg("services")}>
+        <FilterSection
+            section={msg("services")}
+            handleAddClick={() => addToFilters(serviceField, serviceValue)}
+        >
             <ServiceFieldSelect
                 value={serviceField}
                 handleChange={(e) => setServiceField(e.target.value)}
@@ -217,14 +231,17 @@ const ConfigMapFieldSelect = ({ value, handleChange }) => {
     );
 };
 
-const ConfigMapFilterSection = () => {
+const ConfigMapFilterSection = ({ addToFilters }) => {
     const classes = useStyles();
 
     const [configMapField, setConfigMapField] = useState("");
     const [configMapValue, setConfigMapValue] = useState("");
 
     return (
-        <FilterSection section={msg("configMaps")}>
+        <FilterSection
+            section={msg("configMaps")}
+            handleAddClick={() => addToFilters(configMapField, configMapValue)}
+        >
             <ConfigMapFieldSelect
                 value={configMapField}
                 handleChange={(e) => setConfigMapField(e.target.value)}
@@ -254,14 +271,17 @@ const IngressFieldSelect = ({ value, handleChange }) => {
     );
 };
 
-const IngressFilterSection = () => {
+const IngressFilterSection = ({ addToFilters }) => {
     const classes = useStyles();
 
     const [ingressField, setIngressField] = useState("");
     const [ingressValue, setIngressValue] = useState("");
 
     return (
-        <FilterSection section={msg("ingresses")}>
+        <FilterSection
+            section={msg("ingresses")}
+            handleAddClick={() => addToFilters(ingressField, ingressValue)}
+        >
             <IngressFieldSelect
                 value={ingressField}
                 handleChange={(e) => setIngressField(e.target.value)}
@@ -300,14 +320,17 @@ const AnalysisFieldSelect = ({ value, handleChange }) => {
     );
 };
 
-const AnalysisFilterSection = () => {
+const AnalysisFilterSection = ({ addToFilters }) => {
     const classes = useStyles();
 
     const [analysisField, setAnalysisField] = useState("");
     const [analysisValue, setAnalysisValue] = useState("");
 
     return (
-        <FilterSection section={msg("analyses")}>
+        <FilterSection
+            section={msg("analyses")}
+            handleAddClick={() => addToFilters(analysisField, analysisValue)}
+        >
             <AnalysisFieldSelect
                 value={analysisField}
                 handleChange={(e) => setAnalysisField(e.target.value)}
@@ -349,14 +372,17 @@ const PodFieldSelect = ({ value, handleChange }) => {
     );
 };
 
-const PodFilterSection = () => {
+const PodFilterSection = ({ addToFilters }) => {
     const classes = useStyles();
 
     const [podField, setPodField] = useState("");
     const [podValue, setPodValue] = useState("");
 
     return (
-        <FilterSection section={msg("pods")}>
+        <FilterSection
+            section={msg("pods")}
+            handleAddClick={() => addToFilters(podField, podValue)}
+        >
             <PodFieldSelect
                 value={podField}
                 handleChange={(e) => setPodField(e.target.value)}
@@ -397,7 +423,7 @@ const FilterChip = ({ label, handleDelete }) => {
     return <></>;
 };
 
-const AnalysesFilter = () => {
+const AnalysesFilter = ({ filters, addToFilters, deleteFromFilters }) => {
     const classes = useStyles();
     const [isExpanded, setIsExpanded] = useState(true);
 
@@ -405,12 +431,15 @@ const AnalysesFilter = () => {
         <Card id={id(ids.ROOT)} className={classes.root}>
             <CardContent>
                 <div className={classes.chips}>
-                    <FilterChip label="test0" />
-                    <FilterChip label="test1" />
-                    <FilterChip label="test2" />
-                    <FilterChip label="test3" />
-                    <FilterChip label="test4" />
-                    <FilterChip label="test5" />
+                    {filters.map((filter, index) => (
+                        <FilterChip
+                            key={`${filter.key}-${index}`}
+                            label={`${filter.key}=${filter.value}`}
+                            handleDelete={(_ev, _el) =>
+                                deleteFromFilters(filter)
+                            }
+                        />
+                    ))}
                 </div>
             </CardContent>
 
@@ -429,12 +458,12 @@ const AnalysesFilter = () => {
 
             <Collapse in={isExpanded} timeout="auto" unmountOnExit>
                 <div className={classes.collapse}>
-                    <AnalysisFilterSection />
-                    <DeploymentFilterSection />
-                    <ServiceFilterSection />
-                    <PodFilterSection />
-                    <ConfigMapFilterSection />
-                    <IngressFilterSection />
+                    <AnalysisFilterSection addToFilters={addToFilters} />
+                    <DeploymentFilterSection addToFilters={addToFilters} />
+                    <ServiceFilterSection addToFilters={addToFilters} />
+                    <PodFilterSection addToFilters={addToFilters} />
+                    <ConfigMapFilterSection addToFilters={addToFilters} />
+                    <IngressFilterSection addToFilters={addToFilters} />
                 </div>
             </Collapse>
         </Card>

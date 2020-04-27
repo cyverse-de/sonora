@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { makeStyles } from "@material-ui/styles";
 
@@ -81,9 +81,25 @@ const testData = {
 const VICEAdmin = () => {
     const classes = useStyles();
 
+    const [filters, setFilters] = useState([]);
+
+    const addToFilters = (key, value) =>
+        setFilters([...filters, { key, value }]);
+
+    const deleteFromFilters = (filter) =>
+        setFilters(
+            filters.filter(
+                (f) => f.key !== filter.key && f.value !== filter.value
+            )
+        );
+
     return (
         <div id={id(ids.ROOT)} className={classes.root}>
-            <AnalysesFilter />
+            <AnalysesFilter
+                filters={filters}
+                addToFilters={addToFilters}
+                deleteFromFilters={deleteFromFilters}
+            />
             <AnalysisTable data={testData} />
         </div>
     );

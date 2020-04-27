@@ -66,6 +66,7 @@ exports[`App Bar renders 1`] = `
             className="MuiTouchRipple-root"
           />
         </button>
+        <div />
         <button
           aria-label="show new notifications"
           className="MuiButtonBase-root MuiIconButton-root makeStyles-margin-4 MuiIconButton-colorPrimary MuiIconButton-sizeSmall"

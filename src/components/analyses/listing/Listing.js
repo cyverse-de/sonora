@@ -23,6 +23,7 @@ import appType from "../../models/AppType";
 import NavigationConstants from "../../../common/NavigationConstants";
 import Header from "../Header";
 import { useUserProfile } from "../../../contexts/userProfile";
+import { useNotifications } from "../../../contexts/pushNotifications";
 
 /**
  * Filters
@@ -59,6 +60,7 @@ function Listing(props) {
     const [permFilter, setPermFilter] = useState(getOwnershipFilters(intl)[0]);
     const [appTypeFilter, setAppTypeFilter] = useState(getAppTypeFilters()[0]);
     const [userProfile] = useUserProfile();
+    const [notifications] = useNotifications();
 
     const { isFetching, error } = useQuery({
         queryKey: analysesKey,
@@ -124,6 +126,37 @@ function Listing(props) {
         appTypeFilter,
         intl,
     ]);
+
+    useEffect(() => {
+        const notifiMessage = notifications.message;
+        let push_msg = null;
+        try {
+            push_msg = JSON.parse(notifiMessage);
+        } catch (e) {
+            return;
+        }
+
+        const message = push_msg?.message;
+        if (message) {
+            const category = message.type;
+            let analysisStatus =
+                category.toLowerCase() ===
+                constants.NOTIFICATION_CATEGORY.ANALYSIS.toLowerCase()
+                    ? message.payload.status
+                    : "";
+
+            let found = data?.analyses?.find(
+                (analysis) => analysis.id === message.payload.id,
+            );
+            console.log("found->" + found?.id);
+
+            if (found && analysisStatus) {
+                found.status = analysisStatus;
+                found.enddate = message.payload.enddate;
+            }
+            setData({ analyses: [...data?.analyses] });
+        }
+    }, [data,notifications]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);

@@ -10,6 +10,7 @@ import logger from "./logging";
 
 const NOTIFICATION_ROUTING_KEY = "notification.";
 const NOTIFICATION_QUEUE = "de_notifications.";
+
 let connection, msgChannel;
 
 /**
@@ -49,57 +50,44 @@ export function setUpAmqpForNotifications() {
 export function getNotifications(user, ws) {
     if (!user) {
         logger.error("User not found. Unable to get notifications!");
+        ws.close();
+        return;
     }
-    waitForSocketConnection(ws, function() {
-        const QUEUE = NOTIFICATION_QUEUE + user;
-        if (msgChannel) {
-            msgChannel.assertQueue(QUEUE);
-            msgChannel.bindQueue(
-                QUEUE,
-                config.amqpExchangeName,
-                NOTIFICATION_ROUTING_KEY + user
-            );
-            logger.info("Channel bound for user: " + user);
-            msgChannel.consume(
-                QUEUE,
-                function(msg) {
-                    logger.info("Received message:" + msg.content.toString());
-                    try {
-                        ws.send(msg.content.toString());
-                    } catch (e) {
-                        logger.error(
-                            "Unable to send the message to client: " + e
-                        );
-                    }
-                },
-                {
-                    noAck: true,
-                }
-            );
-        } else {
-            logger.error("No channel found");
-        }
-    });
-}
 
-/**
- *
- * Make the websocket.send wait until the connection is made...
- *
- * @param {Object} socket - Websocket instance
- * @param {function} connectedCallback - Function callback when websocket connection is made.
- *
- */
-function waitForSocketConnection(socket, connectedCallback) {
-    setTimeout(function() {
-        if (socket.readyState === 1) {
-            logger.info("Websocket connection is open!");
-            if (connectedCallback) {
-                connectedCallback();
+    const QUEUE = NOTIFICATION_QUEUE + user;
+    ws.on("close", function() {
+        msgChannel.unbindQueue(
+            QUEUE,
+            config.amqpExchangeName,
+            NOTIFICATION_ROUTING_KEY + user
+        );
+        logger.info("Channel unbound for user: " + user);
+    });
+
+    if (msgChannel) {
+        msgChannel.assertQueue(QUEUE);
+        msgChannel.bindQueue(
+            QUEUE,
+            config.amqpExchangeName,
+            NOTIFICATION_ROUTING_KEY + user
+        );
+        logger.info("Channel bound for user: " + user);
+        msgChannel.consume(
+            QUEUE,
+            function(msg) {
+                logger.info("Received message:" + msg.content.toString());
+                try {
+                    ws.send(msg.content.toString());
+                } catch (e) {
+                    logger.error("Unable to send the message to client: " + e);
+                    ws.close();
+                }
+            },
+            {
+                noAck: true,
             }
-        } else {
-            logger.info("Waiting for websocket connection...");
-            waitForSocketConnection(socket, connectedCallback);
-        }
-    }, 5000); // wait 5s for the connection...
+        );
+    } else {
+        logger.error("No channel found");
+    }
 }

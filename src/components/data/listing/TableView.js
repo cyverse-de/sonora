@@ -55,11 +55,7 @@ function SizeCell({ resource }) {
 }
 
 function ModifiedCell({ resource }) {
-    return (
-        <TableCell>
-            {formatDate(resource.dateModified, "YYYY MMM DD HH:mm:ss")}
-        </TableCell>
-    );
+    return <TableCell>{formatDate(resource.dateModified)}</TableCell>;
 }
 
 function InfoTypeCell({ resource }) {
@@ -71,11 +67,7 @@ function PermissionCell({ resource }) {
 }
 
 function CreatedCell({ resource }) {
-    return (
-        <TableCell>
-            {formatDate(resource.dateCreated, "YYYY MMM DD HH:mm:ss")}
-        </TableCell>
-    );
+    return <TableCell>{formatDate(resource.dateCreated)}</TableCell>;
 }
 
 function PathCell({ resource }) {

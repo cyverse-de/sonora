@@ -70,6 +70,7 @@ function Listing(props) {
             onSuccess: (respData) => {
                 setData({
                     total: respData?.total,
+                    permission: respData?.permission,
                     listing: [
                         ...respData?.folders.map((f) => ({
                             ...f,
@@ -264,6 +265,7 @@ function Listing(props) {
                 <Header
                     baseId={baseId}
                     path={path}
+                    permission={data?.permission}
                     refreshListing={refreshListing}
                     isGridView={isGridView}
                     toggleDisplay={toggleDisplay}

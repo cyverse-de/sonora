@@ -32,6 +32,7 @@ import messages from "./messages";
 import styles from "./styles";
 import UploadMenuBtn from "./UploadMenuBtn";
 import CreateFolderDialog from "./CreateFolderDialog";
+import { isWritable } from "./utils";
 
 const useStyles = makeStyles(styles);
 
@@ -40,6 +41,7 @@ function Header(props) {
     const {
         baseId,
         path,
+        permission,
         refreshListing,
         isGridView,
         toggleDisplay,
@@ -111,17 +113,19 @@ function Header(props) {
                         <Hidden xsDown>{getMessage("details")}</Hidden>
                     </Button>
                 )}
-                <Button
-                    id={build(baseId, ids.CREATE_BTN)}
-                    variant="contained"
-                    disableElevation
-                    color="primary"
-                    className={classes.button}
-                    onClick={onCreateFolderClicked}
-                >
-                    <CreateNewFolder className={classes.buttonIcon} />
-                    <Hidden xsDown>{getMessage("folder")}</Hidden>
-                </Button>
+                {isWritable(permission) && (
+                    <Button
+                        id={build(baseId, ids.CREATE_BTN)}
+                        variant="contained"
+                        disableElevation
+                        color="primary"
+                        className={classes.button}
+                        onClick={onCreateFolderClicked}
+                    >
+                        <CreateNewFolder className={classes.buttonIcon} />
+                        <Hidden xsDown>{getMessage("folder")}</Hidden>
+                    </Button>
+                )}
                 <UploadMenuBtn baseId={headerId} path={path} />
                 <Button
                     id={build(headerId, ids.SHARE_BTN)}

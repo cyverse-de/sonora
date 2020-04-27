@@ -6,6 +6,7 @@ import { getMessage } from "@cyverse-de/ui-lib";
 
 import constants from "../../constants";
 import DataConstants from "./constants";
+import Permissions, { permissionHierarchy } from "../models/Permissions";
 
 /**
  * Encode given path
@@ -48,4 +49,27 @@ const validateDiskResourceName = (name) => {
     return null;
 };
 
-export { getEncodedPath, validateDiskResourceName };
+const hasOwn = (permission) => {
+    return Permissions.OWN === permission;
+};
+
+const isWritable = (permission) => {
+    return (
+        permissionHierarchy(permission) >=
+        permissionHierarchy(Permissions.WRITE)
+    );
+};
+
+const isReadable = (permission) => {
+    return (
+        permissionHierarchy(permission) >= permissionHierarchy(Permissions.READ)
+    );
+};
+
+export {
+    getEncodedPath,
+    validateDiskResourceName,
+    hasOwn,
+    isWritable,
+    isReadable,
+};

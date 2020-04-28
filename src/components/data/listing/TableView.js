@@ -153,6 +153,7 @@ function TableView(props) {
         handleRequestSort,
         handleSelectAllClick,
         handleClick,
+        handleCheckboxClick,
         order,
         orderBy,
         selected,
@@ -362,6 +363,13 @@ function TableView(props) {
                                                     resourceName,
                                                     ids.checkbox
                                                 )}
+                                                onChange={(event) =>
+                                                    handleCheckboxClick(
+                                                        event,
+                                                        resourceId,
+                                                        index
+                                                    )
+                                                }
                                                 inputProps={{
                                                     "aria-label": formatMessage(
                                                         intl,

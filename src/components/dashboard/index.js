@@ -32,6 +32,8 @@ import ids from "./ids";
 import * as constants from "./constants";
 import { getDashboard } from "../../serviceFacades/dashboard";
 
+const makeID = (...names) => buildID(ids.BASE, ...names);
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -163,7 +165,7 @@ const cleanDescription = (description) => {
 export const DashboardItem = (props) => {
     const classes = useStyles();
     const { kind, content } = props;
-    const cardID = `${kind}-${content.id}`;
+    const cardID = buildID(kind, content.id);
 
     const description = cleanDescription(content.description);
     const [origination, date] = getOrigination(kind, content);
@@ -172,7 +174,7 @@ export const DashboardItem = (props) => {
     return (
         <Card
             className={classes.dashboardCard}
-            id={buildID(ids.ITEM_BASE, cardID)}
+            id={makeID(ids.ITEM, cardID)}
             elevation={4}
         >
             <CardContent
@@ -216,11 +218,11 @@ export const DashboardItem = (props) => {
     );
 };
 
-const DashboardSection = ({ name, kind, items }) => {
+const DashboardSection = ({ name, kind, items, id }) => {
     const classes = useStyles();
 
     return (
-        <div className={classes.section}>
+        <div className={classes.section} id={id}>
             <Typography
                 noWrap
                 gutterBottom
@@ -264,7 +266,7 @@ const DashboardSkeleton = () => {
         </div>
     ));
 
-    return <div id={buildID(ids.BASE, ids.LOADING)}>{skellies}</div>;
+    return <div id={makeID(ids.LOADING)}>{skellies}</div>;
 };
 
 const Dashboard = () => {
@@ -286,32 +288,42 @@ const Dashboard = () => {
             constants.KIND_ANALYSES,
             constants.SECTION_RECENT,
             getMessage("recentAnalyses"),
+            makeID(ids.SECTION_RECENT_ANALYSES),
         ],
         [
             constants.KIND_ANALYSES,
             constants.SECTION_RUNNING,
             getMessage("runningAnalyses"),
+            makeID(ids.SECTION_RUNNING_ANALYSES),
         ],
         [
             constants.KIND_APPS,
             constants.SECTION_RECENTLY_ADDED,
             getMessage("recentlyAddedApps"),
+            makeID(ids.SECTION_RECENTLY_ADDED_APPS),
         ],
         [
             constants.KIND_APPS,
             constants.SECTION_PUBLIC,
             getMessage("publicApps"),
+            makeID(ids.SECTION_PUBLIC_APPS),
         ],
-        [constants.KIND_FEEDS, constants.SECTION_NEWS, getMessage("newsFeed")],
+        [
+            constants.KIND_FEEDS,
+            constants.SECTION_NEWS,
+            getMessage("newsFeed"),
+            makeID(ids.SECTION_NEWS),
+        ],
         [
             constants.KIND_FEEDS,
             constants.SECTION_EVENTS,
             getMessage("eventsFeed"),
+            makeID(ids.SECTION_EVENTS),
         ],
     ];
 
     return (
-        <div id={buildID(ids.BASE, ids.ROOT)} className={classes.gridRoot}>
+        <div id={makeID(ids.ROOT)} className={classes.gridRoot}>
             {isLoading ? (
                 <DashboardSkeleton />
             ) : (
@@ -325,9 +337,10 @@ const Dashboard = () => {
                         ([kind, section, _label]) =>
                             data[kind][section].length > 0
                     )
-                    .map(([kind, section, label]) => {
+                    .map(([kind, section, label, sectionID]) => {
                         return (
                             <DashboardSection
+                                id={sectionID}
                                 kind={kind}
                                 key={`${kind}-${section}`}
                                 items={data[kind][section]}

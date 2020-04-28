@@ -2,7 +2,7 @@
  * Permissions a user can have for a resource
  */
 
-export default {
+const Permissions = {
     OWN: "own",
     WRITE: "write",
     READ: "read",
@@ -20,3 +20,5 @@ export const permissionHierarchy = (permission) => {
             return 0;
     }
 };
+
+export default Permissions;

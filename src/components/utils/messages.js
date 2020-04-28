@@ -7,7 +7,7 @@ const intlData = {
             "This wasn't supposed to happen. Please try again or contact support!",
         signInReqd: "Sign In Required",
         youMust: "You must ",
-        signIn: "SIGN IN ",
+        signIn: "You must SIGN IN to view this page!",
         viewThisPage: "to view this page!",
         needAccount: "Need a free account? ",
         register: "REGISTER",

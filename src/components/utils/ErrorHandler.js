@@ -47,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
     signIn: {
         padding: theme.spacing(1),
     },
+    link: {
+        cursor: "pointer",
+    },
 }));
 
 function ClientInfo(props) {
@@ -104,53 +107,39 @@ function ErrorHandler(props) {
     const router = useRouter();
     const classes = useStyles();
     const errBaseId = build(baseId, ids.ERROR_HANDLER);
-    if (!errorObject || !errorObject.response) {
-        return (
-            <Card id={errBaseId}>
-                <CardHeader
-                    title={
-                        <Typography color="error" variant="h6">
-                            <ErrorIcon /> {getMessage("oops")}
-                        </Typography>
-                    }
-                    subheader={
-                        <Typography color="error">
-                            {getMessage("unexpectedError")}
-                        </Typography>
-                    }
-                />
-                <Divider oritentation="horizontal" />
-                <CardContent className={classes.cardContent}>
-                    <Grid container spacing={2} className={classes.container}>
-                        <ClientInfo baseId={baseId} />
-                    </Grid>
-                </CardContent>
-                <Divider oritentation="horizontal" />
-                <CardActions>
-                    <ContactSupport baseId={baseId} />
-                </CardActions>
-            </Card>
+    let title, subHeader, contents;
+
+    if (!errorObject?.response) {
+        title = (
+            <Typography color="error" variant="h6">
+                <ErrorIcon /> {getMessage("oops")}
+            </Typography>
         );
-    }
-    const errorResponse = errorObject.response;
-    if (errorResponse?.status === 401) {
-        return (
-            <Card>
-                <CardHeader
-                    title={
-                        <>
-                            <Typography component="span" variant="h5">
-                                <ErrorIcon color="primary" />
-                                {getMessage("signInReqd")}
-                            </Typography>
-                        </>
-                    }
-                />
-                <Divider orientation="horizontal" />
-                <CardContent className={classes.cardContent}>
+        subHeader = (
+            <Typography color="error">
+                {getMessage("unexpectedError")}
+            </Typography>
+        );
+
+        contents = (
+            <Grid container spacing={2} className={classes.container}>
+                <ClientInfo baseId={baseId} />
+            </Grid>
+        );
+    } else {
+        const errorResponse = errorObject.response;
+        if (errorResponse?.status === 401) {
+            title = (
+                <Typography component="span" variant="h5">
+                    <ErrorIcon color="primary" />
+                    {getMessage("signInReqd")}
+                </Typography>
+            );
+            contents = (
+                <>
                     <Typography variant="h6" className={classes.signIn}>
-                        {getMessage("youMust")}
                         <Link
+                            className={classes.link}
                             id={build(errBaseId, ids.SIGN_IN_LINK)}
                             color="primary"
                             onClick={() => {
@@ -161,11 +150,11 @@ function ErrorHandler(props) {
                         >
                             {getMessage("signIn")}
                         </Link>
-                        {getMessage("viewThisPage")}
                     </Typography>
                     <Typography variant="subtitle2" className={classes.signIn}>
                         {getMessage("needAccount")}
                         <Link
+                            className={classes.link}
                             id={build(errBaseId, ids.REGISTER_LINK)}
                             color="primary"
                             onClick={() => {
@@ -175,61 +164,59 @@ function ErrorHandler(props) {
                             {getMessage("register")}
                         </Link>
                     </Typography>
-                </CardContent>
-                <Divider orientation="horizontal" />
-                <CardActions>
-                    <ContactSupport baseId={baseId} />
-                </CardActions>
-            </Card>
-        );
-    } else {
-        return (
-            <Card>
-                <CardHeader
-                    title={
-                        <Typography color="error" variant="h5">
-                            <ErrorIcon /> {getMessage("error")}
-                        </Typography>
-                    }
-                    subheader={
-                        <Typography color="error" variant="subtitle2">
-                            {errorObject.message}
-                        </Typography>
-                    }
-                />
-                <Divider orientation="horizontal" />
-                <CardContent className={classes.cardContent}>
-                    <Grid container spacing={2} className={classes.container}>
-                        <GridLabelValue label={getMessage("requestedURL")}>
-                            <span id={build(errBaseId, ids.REQUESTED_URL)}>
-                                {errorObject.config?.url}
-                            </span>
-                        </GridLabelValue>
-                        <GridLabelValue label={getMessage("statusCode")}>
-                            <span id={build(errBaseId, ids.STATUS_CODE)}>
-                                {errorResponse?.status}
-                            </span>
-                        </GridLabelValue>
-                        <GridLabelValue label={getMessage("errorCode")}>
-                            <span id={build(errBaseId, ids.ERROR_CODE)}>
-                                {errorResponse?.data?.error_code}
-                            </span>
-                        </GridLabelValue>
-                        <GridLabelValue label={getMessage("reason")}>
-                            <span id={build(errBaseId, ids.REASON)}>
-                                {JSON.stringify(errorResponse?.data?.reason)}
-                            </span>
-                        </GridLabelValue>
-                        <ClientInfo />
-                    </Grid>
-                </CardContent>
-                <Divider orientation="horizontal" />
-                <CardActions>
-                    <ContactSupport baseId={errBaseId} />
-                </CardActions>
-            </Card>
-        );
+                </>
+            );
+        } else {
+            title = (
+                <Typography color="error" variant="h5">
+                    <ErrorIcon /> {getMessage("error")}
+                </Typography>
+            );
+            subHeader = (
+                <Typography color="error" variant="subtitle2">
+                    {errorObject.message}
+                </Typography>
+            );
+            contents = (
+                <Grid container spacing={2} className={classes.container}>
+                    <GridLabelValue label={getMessage("requestedURL")}>
+                        <span id={build(errBaseId, ids.REQUESTED_URL)}>
+                            {errorObject.config?.url}
+                        </span>
+                    </GridLabelValue>
+                    <GridLabelValue label={getMessage("statusCode")}>
+                        <span id={build(errBaseId, ids.STATUS_CODE)}>
+                            {errorResponse?.status}
+                        </span>
+                    </GridLabelValue>
+                    <GridLabelValue label={getMessage("errorCode")}>
+                        <span id={build(errBaseId, ids.ERROR_CODE)}>
+                            {errorResponse?.data?.error_code}
+                        </span>
+                    </GridLabelValue>
+                    <GridLabelValue label={getMessage("reason")}>
+                        <span id={build(errBaseId, ids.REASON)}>
+                            {JSON.stringify(errorResponse?.data?.reason)}
+                        </span>
+                    </GridLabelValue>
+                    <ClientInfo />
+                </Grid>
+            );
+        }
     }
+    return (
+        <Card id={errBaseId}>
+            <CardHeader title={title} subheader={subHeader} />
+            <Divider orientation="horizontal" />
+            <CardContent className={classes.cardContent}>
+                {contents}
+            </CardContent>
+            <Divider orientation="horizontal" />
+            <CardActions>
+                <ContactSupport baseId={errBaseId} />
+            </CardActions>
+        </Card>
+    );
 }
 
 export default withI18N(injectIntl(ErrorHandler), messages);

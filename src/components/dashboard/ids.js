@@ -1,6 +1,12 @@
 export default {
     BASE: "dashboard",
-    ITEM_BASE: "dashboard-item",
+    ITEM: "item",
     ROOT: "root",
     LOADING: "loading",
+    SECTION_RUNNING_ANALYSES: "section.running-analyses",
+    SECTION_RECENTLY_ADDED_APPS: "section.recently-added-apps",
+    SECTION_RECENT_ANALYSES: "section.recent-analyses",
+    SECTION_PUBLIC_APPS: "section.public-apps",
+    SECTION_NEWS: "section.news",
+    SECTION_EVENTS: "section.events",
 };

@@ -11,6 +11,7 @@ export default {
         created: "Created",
         createFolder: "Create Folder",
         createTag: "Create tag: {label}",
+        customizeColumns: "Customize Columns",
         dataNavigationBreadcrumbsControl: "Data navigation breadcrumbs",
         dataRootMenuAriaControl: "Data root menu",
         dataRootsMenuAriaLabel: "Data root",

@@ -247,7 +247,7 @@ function TableView(props) {
                         setDisplayColumns={onSetDisplayColumns}
                     />
                 ),
-                align: "left",
+                align: "right",
                 enableSorting: false,
                 key: COL_KEYS.DOT_MENU,
                 id: COL_KEYS.DOT_MENU,
@@ -410,7 +410,7 @@ function TableView(props) {
                                                 </Fragment>
                                             )
                                         )}
-                                        <TableCell>
+                                        <TableCell align="right">
                                             <DataDotMenu
                                                 baseId={build(
                                                     tableId,

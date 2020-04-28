@@ -190,8 +190,8 @@ function Listing(props) {
         setPage(newPage - 1);
     };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
+    const handleChangeRowsPerPage = (newPageSize) => {
+        setRowsPerPage(parseInt(newPageSize, 10));
         setSelected([]);
         setPage(0);
     };

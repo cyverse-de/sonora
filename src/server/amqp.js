@@ -37,6 +37,8 @@ export function setUpAmqpForNotifications() {
                 logger.info("!!!!!!!!!!!!Closing amqp connection!!!!!!!!!");
                 connection.close();
             }
+            logger.info("Attempting to reconnect to amqp...");
+            setUpAmqpForNotifications();
         });
 }
 
@@ -61,7 +63,12 @@ export function getNotifications(user, ws) {
             config.amqpExchangeName,
             NOTIFICATION_ROUTING_KEY + user
         );
-        logger.info("Channel unbound for user: " + user);
+        logger.info("Websocket closed. Channel unbound for user: " + user);
+    });
+
+    ws.on("error", function(error) {
+        logger.info("Websocket error: " + error);
+        ws.close();
     });
 
     if (msgChannel) {
@@ -78,13 +85,14 @@ export function getNotifications(user, ws) {
                 logger.info("Received message:" + msg.content.toString());
                 try {
                     ws.send(msg.content.toString());
+                    msgChannel.ack(msg);
                 } catch (e) {
-                    logger.error("Unable to send the message to client: " + e);
-                    ws.close();
+                    logger.error("Error when sending message: " + e);
+                    msgChannel.nack(msg);
                 }
             },
             {
-                noAck: true,
+                noAck: false,
             }
         );
     } else {

@@ -6,7 +6,7 @@
  * new message.
  */
 
-import React from "react";
+import React, { useCallback } from "react";
 import constants from "../../constants";
 import NavigationConstants from "../../common/NavigationConstants";
 import Sockette from "sockette";
@@ -14,8 +14,27 @@ import { useNotifications } from "../../contexts/pushNotifications";
 
 export default function WebsocketManager() {
     const [notifications, setNotifications] = useNotifications();
+
+    const onOpen = useCallback(
+        (ws) => {
+            console.log("Websocket connected!");
+            setNotifications({ connection: ws, message: {}, connected: true });
+        },
+        [setNotifications]
+    );
+    const onMessage = useCallback(
+        (event) => {
+            console.log(event.data);
+            setNotifications({
+                ...notifications,
+                message: event.data,
+            });
+        },
+        [setNotifications, notifications.connection]
+    );
+
     React.useEffect(() => {
-        if (!notifications.connection) {
+        if (!notifications.connected) {
             let location = window.location;
             let protocol =
                 location.protocol.toLowerCase() === "https:"
@@ -31,27 +50,21 @@ export default function WebsocketManager() {
             console.log("Connecting websocket to " + notificationUrl);
             const ws = new Sockette(notificationUrl, {
                 maxAttempts: 10,
-                onopen: (e) => {
-                    console.log("Websocket connected!");
-                    setNotifications({ connection: ws, message: {} });
-                },
-                onmessage: (e) => {
-                    console.log(e.data);
-                    const savedConnection = notifications.connection;
-                    setNotifications({
-                        connection: savedConnection,
-                        message: e.data,
-                    });
-                },
-                onreconnect: (e) => console.log("Websocket Reconnecting...", e),
-                onmaximum: (e) => console.log("Websocket Stop Attempting!", e),
-                onclose: (e) => console.log("Websocket Closed!", e),
-                onerror: (e) => console.log("Websocket Error:", e),
+                onopen: (e) => onOpen(ws),
+                onmessage: onMessage,
+                onclose: (e) =>
+                    setNotifications({ ...notifications, connected: false }),
             });
         } else {
             console.log("reusing connection: " + notifications.connection);
         }
-    }, [notifications, setNotifications]);
+    }, [
+        notifications,
+        setNotifications,
+        onMessage,
+        onOpen,
+        notifications.connected,
+    ]);
 
     return <div />;
 }

@@ -146,17 +146,17 @@ function Listing(props) {
                     : "";
 
             let found = data?.analyses?.find(
-                (analysis) => analysis.id === message.payload.id,
+                (analysis) => analysis.id === message.payload.id
             );
             console.log("found->" + found?.id);
 
             if (found && analysisStatus) {
                 found.status = analysisStatus;
                 found.enddate = message.payload.enddate;
+                setData({ analyses: [...data?.analyses] });
             }
-            setData({ analyses: [...data?.analyses] });
         }
-    }, [data,notifications]);
+    }, [data, notifications]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);
@@ -267,7 +267,7 @@ function Listing(props) {
 
     const handleClearBatch = () => {
         setParentAnalyses(null);
-        setPermFilter(getOwnershipFilters()[0]);
+        setPermFilter(getOwnershipFilters(intl)[0]);
         setAppTypeFilter(getAppTypeFilters()[0]);
     };
 

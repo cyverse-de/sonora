@@ -246,7 +246,7 @@ const DashboardSkeleton = () => {
     const classes = useStyles();
     const numSkellies = [0, 1, 2];
     const skellies = numSkellies.map((n) => (
-        <div className={classes.section}>
+        <div className={classes.section} key={n}>
             <Skeleton
                 variant="rect"
                 animation="wave"

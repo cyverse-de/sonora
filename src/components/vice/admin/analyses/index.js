@@ -15,6 +15,7 @@ import {
     TableContainer,
     Paper,
     TableRow,
+    makeStyles,
 } from "@material-ui/core";
 
 import messages from "./messages";
@@ -38,6 +39,12 @@ const defineColumn = (
     id: keyID,
     field,
 });
+
+const useStyles = makeStyles((theme) => ({
+    table: {
+        height: "100%",
+    },
+}));
 
 // The column definitions for the table.
 const tableColumns = [
@@ -72,6 +79,7 @@ const getAnalyses = ({ deployments }) => {
 };
 
 const AnalysisTable = ({ data }) => {
+    const classes = useStyles();
     const [orderColumn, setOrderColumn] = useState(COLUMNS.USERNAME);
     const [order, setOrder] = useState("asc");
     const analyses = getAnalyses(data);
@@ -86,7 +94,7 @@ const AnalysisTable = ({ data }) => {
 
     return (
         <TableContainer component={Paper}>
-            <Table id={tableID}>
+            <Table id={tableID} classes={{ root: classes.table }}>
                 <EnhancedTableHead
                     selectable={false}
                     baseId={tableID}

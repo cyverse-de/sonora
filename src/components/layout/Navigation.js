@@ -49,6 +49,8 @@ function getSelectedButtonStyle(theme, imageUrl) {
     };
 }
 
+export const NAV_BAR_HEIGHT = "50";
+
 const useStyles = makeStyles((theme) => ({
     dashboardButton: {
         backgroundPosition: "15px 10px",
@@ -98,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
 
     nav: {
         backgroundColor: theme.palette.white,
-        height: 50,
+        height: NAV_BAR_HEIGHT,
         paddingLeft: 30,
     },
 }));

@@ -86,6 +86,9 @@ const UploadDropTarget = (props) => {
             onDrop={handleDrop}
             style={{
                 filter: dragCounter > 0 && "opacity(50%)",
+                maxHeight: "inherit",
+                display: "flex",
+                flexDirection: "column",
             }}
         >
             {children}

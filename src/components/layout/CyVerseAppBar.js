@@ -51,6 +51,10 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import SettingsIcon from "@material-ui/icons/Settings";
 
+export const APP_BAR_HEIGHT = (theme) => {
+    return theme.breakpoints.up("sm") ? 64 : 56;
+};
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -58,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
     appBar: {
         backgroundColor: theme.palette.bgGray,
         boxShadow: 0,
+        height: APP_BAR_HEIGHT(theme),
     },
     drawerIcon: {
         height: 18,

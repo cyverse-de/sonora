@@ -263,12 +263,7 @@ function TableView(props) {
     };
 
     return (
-        <TableContainer
-            component={Paper}
-            style={{
-                height: "60vh",
-            }}
-        >
+        <TableContainer component={Paper} style={{ overflow: "auto" }}>
             <Table
                 stickyHeader
                 size="small"

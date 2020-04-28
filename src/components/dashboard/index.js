@@ -32,7 +32,7 @@ import ids from "./ids";
 import * as constants from "./constants";
 import { getDashboard } from "../../serviceFacades/dashboard";
 
-const makeID = (name) => buildID(ids.BASE, name);
+const makeID = (...names) => buildID(ids.BASE, ...names);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -165,7 +165,7 @@ const cleanDescription = (description) => {
 export const DashboardItem = (props) => {
     const classes = useStyles();
     const { kind, content } = props;
-    const cardID = `${kind}.${content.id}`;
+    const cardID = buildID(kind, content.id);
 
     const description = cleanDescription(content.description);
     const [origination, date] = getOrigination(kind, content);
@@ -174,7 +174,7 @@ export const DashboardItem = (props) => {
     return (
         <Card
             className={classes.dashboardCard}
-            id={makeID(`${ids.ITEM}.${cardID}`)}
+            id={makeID(ids.ITEM, cardID)}
             elevation={4}
         >
             <CardContent

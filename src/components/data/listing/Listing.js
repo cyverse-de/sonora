@@ -86,7 +86,8 @@ function Listing(props) {
         },
     });
 
-    const refreshListing = () => queryCache.refetchQueries(pagedListingKey);
+    const refreshListing = () =>
+        queryCache.refetchQueries(pagedListingKey, { force: true });
 
     const [removeResources, { status: removeResourceStatus }] = useMutation(
         deleteResources,

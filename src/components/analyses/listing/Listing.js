@@ -4,7 +4,7 @@
  * A component intended to be the parent to the analyses table view and thumbnail/tile view
  *
  */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { injectIntl } from "react-intl";
 import { useRouter } from "next/router";
@@ -127,36 +127,41 @@ function Listing(props) {
         intl,
     ]);
 
-    useEffect(() => {
-        const notifiMessage = notifications.message;
-        let push_msg = null;
-        try {
-            push_msg = JSON.parse(notifiMessage);
-        } catch (e) {
-            return;
-        }
-
-        const message = push_msg?.message;
-        if (message) {
-            const category = message.type;
-            let analysisStatus =
-                category.toLowerCase() ===
-                constants.NOTIFICATION_CATEGORY.ANALYSIS.toLowerCase()
-                    ? message.payload.status
-                    : "";
-
-            let found = data?.analyses?.find(
-                (analysis) => analysis.id === message.payload.id
-            );
-            console.log("found->" + found?.id);
-
-            if (found && analysisStatus) {
-                found.status = analysisStatus;
-                found.enddate = message.payload.enddate;
-                setData({ analyses: [...data?.analyses] });
+    const updateAnalyses = useCallback(
+        (notifiMessage) => {
+            let push_msg = null;
+            try {
+                push_msg = JSON.parse(notifiMessage);
+            } catch (e) {
+                return;
             }
-        }
-    }, [data, notifications]);
+
+            const message = push_msg?.message;
+            if (message) {
+                const category = message.type;
+                let analysisStatus =
+                    category.toLowerCase() ===
+                    constants.NOTIFICATION_CATEGORY.ANALYSIS.toLowerCase()
+                        ? message.payload.status
+                        : "";
+
+                let found = data?.analyses?.find(
+                    (analysis) => analysis.id === message.payload.id
+                );
+
+                if (found && analysisStatus !== found.status) {
+                    found.status = analysisStatus;
+                    found.enddate = message.payload.enddate;
+                    setData({ analyses: [...data?.analyses] });
+                }
+            }
+        },
+        [data, setData]
+    );
+
+    useEffect(() => {
+        updateAnalyses(notifications);
+    }, [notifications, updateAnalyses]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);

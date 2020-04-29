@@ -42,5 +42,7 @@ export default {
         filterValue: "Filter Value",
         value: "Value",
         add: "Add",
+        activeFilters: "Active Filters",
+        noActiveFilters: "There are no active filters.",
     },
 };

@@ -3,7 +3,7 @@
  * @author Sriram
  * A component that displays app level navigation
  */
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import intlData from "./messages";
 import NavigationConstants from "../../common/NavigationConstants";
 import ids from "./ids";
@@ -48,8 +48,6 @@ function getSelectedButtonStyle(theme, imageUrl) {
         },
     };
 }
-
-export const NAV_BAR_HEIGHT = "50";
 
 const useStyles = makeStyles((theme) => ({
     dashboardButton: {
@@ -100,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
 
     nav: {
         backgroundColor: theme.palette.white,
-        height: NAV_BAR_HEIGHT,
+        height: 50,
         paddingLeft: 30,
     },
 }));
@@ -108,11 +106,16 @@ const useStyles = makeStyles((theme) => ({
 function Navigation(props) {
     const classes = useStyles();
     const router = useRouter();
-    const { activeView } = props;
+    const ref = useRef();
+    const { activeView, setNavBarRef } = props;
+
+    useEffect(() => {
+        setNavBarRef(ref);
+    }, [ref, setNavBarRef]);
 
     return (
         <Hidden xsDown>
-            <Paper elevation={1} className={classes.nav}>
+            <Paper elevation={1} className={classes.nav} ref={ref}>
                 <Grid container>
                     <Grid item xs>
                         <Tooltip title={getMessage("dashboard")}>

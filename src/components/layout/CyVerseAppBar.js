@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
@@ -51,10 +51,6 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import SettingsIcon from "@material-ui/icons/Settings";
 
-export const APP_BAR_HEIGHT = (theme) => {
-    return theme.breakpoints.up("sm") ? 64 : 56;
-};
-
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -62,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
     appBar: {
         backgroundColor: theme.palette.bgGray,
         boxShadow: 0,
-        height: APP_BAR_HEIGHT(theme),
     },
     drawerIcon: {
         height: 18,
@@ -88,7 +83,9 @@ const useStyles = makeStyles((theme) => ({
 function CyverseAppBar(props) {
     const classes = useStyles();
     const router = useRouter();
-    const { intl, children } = props;
+    const ref = useRef();
+
+    const { intl, children, setAppBarRef } = props;
     const [userProfile, setUserProfile] = useUserProfile();
     const [avatarLetter, setAvatarLetter] = useState("");
 
@@ -100,6 +97,10 @@ function CyverseAppBar(props) {
             onSuccess: setUserProfile,
         },
     });
+
+    useEffect(() => {
+        setAppBarRef(ref);
+    }, [ref, setAppBarRef]);
 
     React.useEffect(() => {
         if (userProfile?.id) {
@@ -130,6 +131,7 @@ function CyverseAppBar(props) {
                     position="static"
                     variant="outlined"
                     className={classes.appBar}
+                    ref={ref}
                 >
                     <Toolbar>
                         <Hidden only={["sm", "md", "lg", "xl"]}>

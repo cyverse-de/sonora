@@ -77,13 +77,15 @@ function NotificationsProvider(props) {
             });
         }
         return () => {
-            if (wsConn.current) {
-                wsConn.current.close();
-                wsConn.current = null;
-            }
             setNotifications(null);
         };
-    }, [notifications, userProfile, onMessage]);
+    }, [notifications, userProfile, onMessage, wsConn]);
+
+    useEffect(() => {
+        if (!userProfile && wsConn.current) {
+            wsConn.current.close();
+        }
+    }, [userProfile]);
 
     return <NotificationsContext.Provider value={value} {...props} />;
 }

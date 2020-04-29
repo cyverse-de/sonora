@@ -5,7 +5,11 @@
  *
  */
 
-import React from "react";
+import React, { useCallback, useEffect, useRef } from "react";
+import constants from "../constants";
+import NavigationConstants from "../common/NavigationConstants";
+import Sockette from "sockette";
+import { useUserProfile } from "./userProfile";
 
 const NotificationsContext = React.createContext();
 
@@ -35,13 +39,52 @@ function useNotifications() {
  * @constructor
  */
 function NotificationsProvider(props) {
-    const [notifications, setNotifications] = React.useState({
-        connection: null,
-        message: null,
-    });
+    const [userProfile] = useUserProfile();
+    const [notifications, setNotifications] = React.useState();
     const value = React.useMemo(() => [notifications, setNotifications], [
         notifications,
     ]);
+    const onMessage = useCallback(
+        (event) => {
+            console.log(event.data);
+            setNotifications(event.data);
+        },
+        [setNotifications]
+    );
+    const wsConn = useRef(null);
+    useEffect(() => {
+        if (userProfile?.id && !wsConn.current) {
+            let location = window.location;
+            let protocol =
+                location.protocol.toLowerCase() === "https:"
+                    ? constants.WSS_PROTOCOL
+                    : constants.WS_PROTOCOL;
+            let host = location.hostname;
+            let port = location.port;
+            const notificationUrl =
+                protocol +
+                host +
+                (port ? ":" + port : "") +
+                NavigationConstants.NOTIFICATION_WS;
+            console.log("Connecting websocket to " + notificationUrl);
+            const ws = new Sockette(notificationUrl, {
+                maxAttempts: 10,
+                onopen: (e) => {
+                    console.log("Websocket connected!");
+                    wsConn.current = ws;
+                },
+                onmessage: onMessage,
+            });
+        }
+        return () => {
+            if (wsConn.current) {
+                wsConn.current.close();
+                wsConn.current = null;
+            }
+            setNotifications(null);
+        };
+    }, [notifications, userProfile, onMessage]);
+
     return <NotificationsContext.Provider value={value} {...props} />;
 }
 

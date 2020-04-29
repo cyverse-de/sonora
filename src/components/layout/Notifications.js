@@ -14,7 +14,6 @@ import analysisStatus from "../models/analysisStatus";
 import NavigationConstants from "../../common/NavigationConstants";
 import ids from "./ids";
 import { useNotifications } from "../../contexts/pushNotifications";
-import WebsocketManager from "./WebsocketManager";
 
 import {
     announce,
@@ -128,12 +127,11 @@ function Notifications(props) {
     );
 
     useEffect(() => {
-        handleMessage(notifications.message);
+        handleMessage(notifications);
     }, [notifications, handleMessage]);
 
     return (
         <>
-            <WebsocketManager />
             <IconButton
                 id={build(ids.APP_BAR_BASE, ids.NOTIFICATION_BTN)}
                 className={classes.margin}

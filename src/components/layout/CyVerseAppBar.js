@@ -50,7 +50,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import SettingsIcon from "@material-ui/icons/Settings";
-import { useNotifications } from "../../contexts/pushNotifications";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -87,7 +86,6 @@ function CyverseAppBar(props) {
     const { intl, children } = props;
     const [userProfile, setUserProfile] = useUserProfile();
     const [avatarLetter, setAvatarLetter] = useState("");
-    const [notifications] = useNotifications();
 
     const [drawerOpen, setDrawerOpen] = useState(false);
     useQuery({
@@ -108,9 +106,6 @@ function CyverseAppBar(props) {
         if (!userProfile) {
             router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
         } else {
-            if (notifications.connection) {
-                notifications.connection.close();
-            }
             router.push(`/${NavigationConstants.LOGOUT}`);
         }
     };

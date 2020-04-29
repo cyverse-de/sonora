@@ -38,6 +38,7 @@ import SpanLink from "./SpanLink";
 import TableLoading from "../../utils/TableLoading";
 import ResourceTypes from "../../models/ResourceTypes";
 import constants from "../../../constants";
+import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
 
 const COL_KEYS = {
     CHECKBOX: "checkbox",
@@ -110,31 +111,12 @@ const invalidRowStyles = makeStyles((theme) => ({
     hover: {},
 }));
 
-/**
- * Pull out the selected data columns from the browser's local storage
- * At least in dev mode, with HMR, `window` can sometimes be undefined. Wrapped
- * in try/catch due to this.
- * @returns {null|string[]}
- */
 function getLocalStorageCols() {
-    try {
-        return window.localStorage
-            .getItem(constants.LOCAL_STORAGE.DATA.COLUMNS)
-            ?.split(",");
-    } catch (error) {
-        return null;
-    }
+    return getLocalStorage(constants.LOCAL_STORAGE.DATA.COLUMNS);
 }
 
 function setLocalStorageCols(columns) {
-    try {
-        return window.localStorage.setItem(
-            constants.LOCAL_STORAGE.DATA.COLUMNS,
-            columns
-        );
-    } catch (error) {
-        return;
-    }
+    setLocalStorage(constants.LOCAL_STORAGE.DATA.COLUMNS, columns);
 }
 
 function TableView(props) {

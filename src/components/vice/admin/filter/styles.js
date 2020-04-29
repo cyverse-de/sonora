@@ -14,7 +14,7 @@ export default makeStyles((theme) => ({
     },
     collapse: {
         margin: theme.spacing(2),
-        paddingBottom: theme.spacing(10),
+        paddingBottom: theme.spacing(50),
     },
     info: {
         color: theme.palette.info.main,

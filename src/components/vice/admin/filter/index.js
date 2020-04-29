@@ -11,7 +11,6 @@ import {
     IconButton,
     Typography,
     CardHeader,
-    Divider,
 } from "@material-ui/core";
 
 import { ExpandMore } from "@material-ui/icons";
@@ -80,7 +79,9 @@ const AnalysesFilter = ({ filters, addToFilters, deleteFromFilters }) => {
                         ))}
                     </div>
                 ) : (
-                    <Typography>{msg("noActiveFilters")}</Typography>
+                    <Typography classes={{ body1: classes.info }}>
+                        {msg("noActiveFilters")}
+                    </Typography>
                 )}
             </CardContent>
 
@@ -98,7 +99,6 @@ const AnalysesFilter = ({ filters, addToFilters, deleteFromFilters }) => {
             </CardActions>
 
             <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-                <Divider />
                 <div className={classes.collapse}>
                     <AnalysisFilterSection addToFilters={addToFilters} />
                     <DeploymentFilterSection addToFilters={addToFilters} />

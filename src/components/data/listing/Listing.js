@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import { withI18N } from "@cyverse-de/ui-lib";
 import { Toolbar } from "@material-ui/core";
 import { injectIntl } from "react-intl";
-import { useQuery } from "react-query";
+import { queryCache, useQuery } from "react-query";
 
 import Header from "../Header";
 import messages from "../messages";
@@ -41,6 +41,7 @@ function Listing(props) {
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
+    const [pagedListingKey, setPagedListingKey] = useState(null);
 
     const {
         baseId,
@@ -61,15 +62,7 @@ function Listing(props) {
     }).length;
 
     const { error, isFetching } = useQuery({
-        queryKey: [
-            "dataPagedListing",
-            path,
-            rowsPerPage,
-            orderBy,
-            order,
-            page,
-            uploadsCompleted,
-        ],
+        queryKey: pagedListingKey,
         queryFn: getPagedListing,
         config: {
             onSuccess: (respData) => {
@@ -92,14 +85,26 @@ function Listing(props) {
 
     useEffect(() => {
         setSelected([]);
-    }, [path]);
+        if (path) {
+            setPagedListingKey([
+                "dataPagedListing",
+                path,
+                rowsPerPage,
+                orderBy,
+                order,
+                page,
+                uploadsCompleted,
+            ]);
+        }
+    }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
 
     useQuery({
         queryKey: "dataFetchInfoTypes",
         queryFn: getInfoTypes,
         config: {
             onSuccess: (resp) => setInfoTypes(resp.types),
-            staleTime: "Infinity",
+            staleTime: Infinity,
+            cacheTime: Infinity,
         },
     });
 
@@ -219,6 +224,13 @@ function Listing(props) {
             data?.listing?.find((resource) => resource.id === id)
         );
     };
+
+    if (!infoTypes || infoTypes.length === 0) {
+        const infoTypesCache = queryCache.getQueryData("dataFetchInfoTypes");
+        if (infoTypesCache) {
+            setInfoTypes(infoTypesCache.types);
+        }
+    }
 
     return (
         <>

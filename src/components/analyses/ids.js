@@ -17,6 +17,7 @@ export default {
     GRID_VIEW_BTN: "gridViewBtn",
     TABLE_VIEW_BTN: "tableViewBtn",
     TOOLTIP: "tooltip",
+    BUTTON: "button",
     ANALYSES_NAVIGATION: "analysesNavigation",
     BATCH_FILTER: "viewBatchAnalysesFilter",
     CLEAR_BATCH_FILTER: "clearBatchAnalysesFilter",
@@ -50,6 +51,7 @@ export default {
     GRID: "grid",
     MENUBAR: "menuBar",
     ANALYSIS_NAME_CELL: "nameCell",
+    ANALYSIS_ACTIONS_CELL: "actionsCell",
     APP_NAME_CELL: "appNameCell",
     SUPPORT_CELL: "supportCell",
     SHARE_WITH_SUPPORT: "shareWithSupport",
@@ -71,6 +73,11 @@ export default {
         INTERACTIVE: "interactive",
         BATCH: "batch",
         COLLAPSE: "collapse",
+        OUTPUT: "output",
+        HELP: "help",
+        RELAUNCH: "relaunch",
+        TIME_LIMIT: "timeLimit",
+        LOGS: "logs",
     },
 
     INFO: {
@@ -81,11 +88,9 @@ export default {
     },
 
     VICE_LOGS_VIEWER: {
-        VIEWER: ".viceLogViewer",
+        VIEWER: "viceLogViewer",
         FOLLOW_LOGS: "followLogs",
         REFRESH: "refresh",
     },
 
-    BUTTON_EXTEND_TIME_LIMIT: "extendTimeLimitBtn",
-    EXTEND_TIME_LIMIT: "extendTimeLimit",
 };

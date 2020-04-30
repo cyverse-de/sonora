@@ -4,7 +4,7 @@
  * A tabular view of analyses
  *
  */
-import React from "react";
+import React, { useState } from "react";
 import {
     build,
     DECheckbox,
@@ -17,7 +17,6 @@ import {
 } from "@cyverse-de/ui-lib";
 import {
     IconButton,
-    Link,
     makeStyles,
     Paper,
     Table,
@@ -26,11 +25,16 @@ import {
     TableContainer,
     TableRow,
     Tooltip,
+    Typography,
 } from "@material-ui/core";
 import {
+    Help as HelpIcon,
     HourglassEmptyRounded as HourGlass,
     Launch as LaunchIcon,
+    PermMedia as OutputFolderIcon,
     UnfoldMore as UnfoldMoreIcon,
+    Repeat as RelaunchIcon,
+    Description as LogsIcon,
 } from "@material-ui/icons";
 import ids from "../ids";
 import { injectIntl } from "react-intl";
@@ -43,7 +47,17 @@ import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 const useStyles = makeStyles((theme) => ({
     name: {
         paddingLeft: theme.spacing(1),
-        cursor: "pointer",
+    },
+    action: {
+        color: theme.palette.info.main,
+        margin: theme.spacing(0.5),
+        "&:hover": {
+            color: theme.palette.primary.main,
+        },
+    },
+    actionHover: {
+        margin: theme.spacing(0.5),
+        color: theme.palette.primary.main,
     },
 }));
 
@@ -51,40 +65,98 @@ function AnalysisName(props) {
     const classes = useStyles();
     const analysis = props.analysis;
     const name = analysis.name;
+    const baseId = props.baseId;
+    return (
+        <Tooltip
+            id={build(baseId, ids.ANALYSIS_NAME_CELL, ids.TOOLTIP)}
+            aria-label={name}
+            title={name}
+        >
+            <Typography
+                id={build(baseId, ids.ANALYSIS_NAME_CELL)}
+                className={classes.name}
+                variant="body2"
+            >
+                {name}
+            </Typography>
+        </Tooltip>
+    );
+}
+
+function AppName(props) {
+    const analysis = props.analysis;
+    const name = analysis.app_name;
+    return <Typography variant="body2">{name}</Typography>;
+}
+
+function Status(props) {
+    const { analysis, baseId } = props;
+    return (
+        <Typography variant="body2" id={build(baseId, ids.STATUS)}>
+            {analysis.status}
+        </Typography>
+    );
+}
+
+function Actions(props) {
+    const classes = useStyles();
+    const { analysis } = props;
     const isBatch = analysis.batch;
     const interactiveUrls = analysis.interactive_urls;
-    const status = analysis.status;
     const handleInteractiveUrlClick = props.handleInteractiveUrlClick;
     const handleGoToOutputFolder = props.handleGoToOutputFolder;
     const handleBatchIconClick = props.handleBatchIconClick;
+    const status = analysis.status;
     const intl = props.intl;
     const baseId = props.baseId;
-
-    const NameLink = () => {
-        return (
+    const mouseOverId = props.mouseOverId;
+    const analysisUser = props.analysisUser;
+    const username = props.username;
+    const isInteractive =
+        (status === analysisStatus.SUBMITTED ||
+            status === analysisStatus.RUNNING) &&
+        interactiveUrls &&
+        interactiveUrls.length > 0;
+    const allowTimeExtn =
+        analysis.interactive_urls &&
+        analysis.interactive_urls.length > 0 &&
+        analysis.status === analysisStatus.RUNNING &&
+        username === analysisUser;
+    const isDisabled = analysis.app_disabled;
+    const className =
+        mouseOverId === analysis.id ? classes.actionHover : classes.action;
+    return (
+        <>
             <Tooltip
-                id={build(baseId, ids.ANALYSIS_NAME_CELL, ids.TOOLTIP)}
-                aria-label={formatMessage(intl, "goOutputFolderOf", {
-                    name: name,
-                })}
-                title={formatMessage(intl, "goOutputFolderOf", { name: name })}
+                aria-label={formatMessage(intl, "goOutputFolder")}
+                title={getMessage("goOutputFolder")}
+                id={build(baseId, ids.ICONS.OUTPUT, ids.TOOLTIP)}
             >
-                <Link
-                    id={build(baseId, ids.ANALYSIS_NAME_CELL)}
+                <IconButton
+                    size="small"
                     onClick={() => handleGoToOutputFolder(analysis)}
-                    color="primary"
-                    component="button"
+                    id={build(baseId, ids.ICONS.OUTPUT, ids.BUTTON)}
+                    className={className}
                 >
-                    <span className={classes.name}>{name}</span>
-                </Link>
+                    <OutputFolderIcon />
+                </IconButton>
             </Tooltip>
-        );
-    };
-
-    if (isBatch) {
-        return (
-            <>
-                <NameLink />
+            {!isDisabled && (
+                <Tooltip
+                    aria-label={formatMessage(intl, "relaunch")}
+                    title={getMessage("relaunch")}
+                    id={build(baseId, ids.ICONS.RELAUNCH, ids.TOOLTIP)}
+                >
+                    <IconButton
+                        size="small"
+                        id={build(baseId, ids.ICONS.RELAUNCH, ids.BUTTON)}
+                        className={className}
+                    >
+                        <RelaunchIcon />
+                    </IconButton>
+                </Tooltip>
+            )}
+            {isBatch && (
                 <Tooltip
                     aria-label={formatMessage(intl, "htDetails")}
                     title={getMessage("htDetails")}
@@ -93,22 +165,14 @@ function AnalysisName(props) {
                     <IconButton
                         size="small"
                         onClick={() => handleBatchIconClick(analysis)}
-                        id={build(baseId, ids.ICONS.BATCH)}
+                        id={build(baseId, ids.ICONS.BATCH, ids.BUTTON)}
+                        className={className}
                     >
                         <UnfoldMoreIcon />
                     </IconButton>
                 </Tooltip>
-            </>
-        );
-    } else if (
-        (status === analysisStatus.SUBMITTED ||
-            status === analysisStatus.RUNNING) &&
-        interactiveUrls &&
-        interactiveUrls.length > 0
-    ) {
-        return (
-            <>
-                <NameLink />
+            )}
+            {isInteractive && (
                 <Tooltip
                     id={build(baseId, ids.ICONS.INTERACTIVE, ids.TOOLTIP)}
                     aria-label={formatMessage(intl, "goToVice")}
@@ -119,55 +183,53 @@ function AnalysisName(props) {
                             handleInteractiveUrlClick(interactiveUrls[0])
                         }
                         size="small"
-                        id={build(baseId, ids.ICONS.INTERACTIVE)}
+                        id={build(baseId, ids.ICONS.INTERACTIVE, ids.BUTTON)}
+                        className={className}
                     >
                         <LaunchIcon />
                     </IconButton>
                 </Tooltip>
-            </>
-        );
-    } else {
-        return <NameLink />;
-    }
-}
-
-function AppName(props) {
-    const analysis = props.analysis;
-    const name = analysis.app_name;
-    return <Link component="button">{name}</Link>;
-}
-
-function Status(props) {
-    const { analysis, username, baseId, analysisUser, intl } = props;
-    const allowTimeExtn =
-        analysis.interactive_urls &&
-        analysis.interactive_urls.length > 0 &&
-        analysis.status === analysisStatus.RUNNING &&
-        username === analysisUser;
-    return (
-        <React.Fragment>
-            <Link component="button" id={build(baseId, ids.STATUS)}>
-                {analysis.status}{" "}
-            </Link>
-            {allowTimeExtn && (
-                <Tooltip
-                    aria-label={formatMessage(intl, "extendTime")}
-                    title={getMessage("extendTime")}
-                    id={build(
-                        baseId,
-                        ids.BUTTON_EXTEND_TIME_LIMIT,
-                        ids.TOOLTIP
-                    )}
-                >
-                    <IconButton
-                        id={build(baseId, ids.BUTTON_EXTEND_TIME_LIMIT)}
-                        size="small"
-                    >
-                        <HourGlass />
-                    </IconButton>
-                </Tooltip>
             )}
-        </React.Fragment>
+            {allowTimeExtn && (
+                <>
+                    <Tooltip
+                        aria-label={formatMessage(intl, "extendTime")}
+                        title={getMessage("extendTime")}
+                        id={build(baseId, ids.ICONS.TIME_LIMIT, ids.TOOLTIP)}
+                    >
+                        <IconButton
+                            id={build(baseId, ids.ICONS.TIME_LIMIT)}
+                            size="small"
+                            className={className}
+                        >
+                            <HourGlass />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip
+                        aria-label={formatMessage(intl, "viewLogs")}
+                        title={getMessage("viewLogs")}
+                        id={build(baseId, ids.ICONS.LOGS, ids.TOOLTIP)}
+                    >
+                        <IconButton
+                            id={build(baseId, ids.ICONS.LOGS, ids.BUTTON)}
+                            size="small"
+                            className={className}
+                        >
+                            <LogsIcon />
+                        </IconButton>
+                    </Tooltip>
+                </>
+            )}
+            <Tooltip
+                id={build(baseId, ids.ICONS.HELP, ids.TOOLTIP)}
+                aria-label={formatMessage(intl, "requestHelp")}
+                title={getMessage("requestHelp")}
+            >
+                <IconButton size="small" className={className}>
+                    <HelpIcon />
+                </IconButton>
+            </Tooltip>
+        </>
     );
 }
 
@@ -178,6 +240,13 @@ const columnData = (intl) => [
         numeric: false,
         enableSorting: true,
         key: "name",
+    },
+    {
+        id: "actions",
+        name: "",
+        numeric: false,
+        enableSorting: false,
+        key: "actions",
     },
     {
         id: ids.OWNER,
@@ -238,6 +307,7 @@ function TableView(props) {
 
     const analyses = listing?.analyses;
     const tableId = build(baseId, ids.LISTING_TABLE);
+    const [mouseOverId, setMouseOverId] = useState("");
 
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
@@ -264,7 +334,7 @@ function TableView(props) {
                 />
                 {loading && (
                     <TableLoading
-                        numColumns={columnData(intl).length}
+                        numColumns={columnData(intl).length + 2}
                         numRows={25}
                         baseId={tableId}
                     />
@@ -293,6 +363,14 @@ function TableView(props) {
                                         onClick={(event) =>
                                             handleClick(event, id, index)
                                         }
+                                        onMouseOver={() => {
+                                            setMouseOverId(id);
+                                        }}
+                                        onMouseOut={() => {
+                                            setMouseOverId("");
+                                        }}
+                                        onFocus={() => setMouseOverId(id)}
+                                        onBlur={() => setMouseOverId("")}
                                         role="checkbox"
                                         aria-checked={isSelected}
                                         tabIndex={-1}
@@ -331,6 +409,18 @@ function TableView(props) {
                                                         ids.ANALYSIS_NAME_CELL
                                                 )}
                                                 parentId={parentId}
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Actions
+                                                intl={intl}
+                                                analysis={analysis}
+                                                analysisUser={user}
+                                                username={username}
+                                                baseId={build(
+                                                    rowId +
+                                                        ids.ANALYSIS_ACTIONS_CELL
+                                                )}
                                                 handleInteractiveUrlClick={
                                                     handleInteractiveUrlClick
                                                 }
@@ -340,19 +430,29 @@ function TableView(props) {
                                                 handleBatchIconClick={
                                                     handleBatchIconClick
                                                 }
+                                                mouseOverId={mouseOverId}
                                             />
                                         </TableCell>
-                                        <TableCell>{user}</TableCell>
+
+                                        <TableCell>
+                                            <Typography variant="body2">
+                                                {user}
+                                            </Typography>
+                                        </TableCell>
                                         <TableCell
                                             id={build(rowId, ids.APP_NAME_CELL)}
                                         >
                                             <AppName analysis={analysis} />
                                         </TableCell>
                                         <TableCell>
-                                            {formatDate(analysis.startdate)}
+                                            <Typography variant="body2">
+                                                {formatDate(analysis.startdate)}
+                                            </Typography>
                                         </TableCell>
                                         <TableCell>
-                                            {formatDate(analysis.enddate)}
+                                            <Typography variant="body2">
+                                                {formatDate(analysis.enddate)}
+                                            </Typography>
                                         </TableCell>
                                         <TableCell
                                             id={build(rowId, ids.SUPPORT_CELL)}
@@ -360,8 +460,6 @@ function TableView(props) {
                                             <Status
                                                 analysis={analysis}
                                                 baseId={baseId}
-                                                analysisUser={user}
-                                                username={username}
                                                 intl={intl}
                                             />
                                         </TableCell>

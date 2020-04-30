@@ -10,6 +10,7 @@ var intlData = {
         noAnalyses: "No analyses to display",
         ariaCheckbox: "{label} checkbox",
         analysisInfo: "View Analysis Info",
+        requestHelp: "Request Help with this Analysis",
         gridView: "Grid View",
         tableView: "Table View",
         share: "Share with collaborators...",

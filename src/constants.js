@@ -23,4 +23,5 @@ export default {
         ANALYSIS: "Analysis",
     },
     IPLANT: "iplantcollaborative",
+    WEBSOCKET_MAX_CONNECTION_ATTEMPTS: 10,
 };

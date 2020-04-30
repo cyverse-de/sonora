@@ -49,18 +49,20 @@ function NotificationsProvider(props) {
             console.log(event.data);
             setNotifications(event.data);
         },
-        [setNotifications]
+        [setNotifications],
     );
+    //Saving websocket connection in ref will
+    // Allow websocket connection be cached between component unmounts.
     const wsConn = useRef(null);
     useEffect(() => {
         if (userProfile?.id && !wsConn.current) {
-            let location = window.location;
-            let protocol =
+            const location = window.location;
+            const protocol =
                 location.protocol.toLowerCase() === "https:"
                     ? constants.WSS_PROTOCOL
                     : constants.WS_PROTOCOL;
-            let host = location.hostname;
-            let port = location.port;
+            const host = location.hostname;
+            const port = location.port;
             const notificationUrl =
                 protocol +
                 host +
@@ -68,7 +70,7 @@ function NotificationsProvider(props) {
                 NavigationConstants.NOTIFICATION_WS;
             console.log("Connecting websocket to " + notificationUrl);
             const ws = new Sockette(notificationUrl, {
-                maxAttempts: 10,
+                maxAttempts: constants.WEBSOCKET_MAX_CONNECTION_ATTEMPTS,
                 onopen: (e) => {
                     console.log("Websocket connected!");
                     wsConn.current = ws;
@@ -77,10 +79,14 @@ function NotificationsProvider(props) {
             });
         }
         return () => {
+            //without this, there will be dupe notification
+            // when a component unmounts and remount
+            //example, when switching between apps and data
             setNotifications(null);
         };
     }, [notifications, userProfile, onMessage, wsConn]);
 
+    //when user logs out, close the websocket connection
     useEffect(() => {
         if (!userProfile && wsConn.current) {
             wsConn.current.close();

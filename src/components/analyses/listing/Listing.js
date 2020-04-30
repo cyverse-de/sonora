@@ -139,20 +139,41 @@ function Listing(props) {
             const message = push_msg?.message;
             if (message) {
                 const category = message.type;
-                let analysisStatus =
+                const analysisStatus =
                     category.toLowerCase() ===
                     constants.NOTIFICATION_CATEGORY.ANALYSIS.toLowerCase()
                         ? message.payload.status
                         : "";
 
-                let found = data?.analyses?.find(
+                const found = data?.analyses?.find(
                     (analysis) => analysis.id === message.payload.id
                 );
 
-                if (found && analysisStatus !== found.status) {
-                    found.status = analysisStatus;
-                    found.enddate = message.payload.enddate;
-                    setData({ analyses: [...data?.analyses] });
+                if (found) {
+                    if (analysisStatus !== found.status) {
+                        found.status = analysisStatus;
+                        found.enddate = message.payload.enddate;
+                        setData({ analyses: [...data?.analyses] });
+                    }
+                } else {
+                    //add a new analysis record and remove the last record from the page
+                    //to maintain page size
+                    if (data?.analyses.length === rowsPerPage) {
+                        const newPage = data.analyses.slice(
+                            0,
+                            data.analyses.length - 1
+                        );
+                        setData({
+                            analyses: [...newPage, message.payload],
+                        });
+                    } else if (data?.analyses.length === 0) {
+                        //if page is empty...
+                        setData({ analyses: [message.payload] });
+                    } else {
+                        setData({
+                            analyses: [message.payload, ...data?.analyses],
+                        });
+                    }
                 }
             }
         },

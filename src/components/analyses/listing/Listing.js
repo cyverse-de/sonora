@@ -177,7 +177,7 @@ function Listing(props) {
                 }
             }
         },
-        [data, setData]
+        [data, setData, rowsPerPage]
     );
 
     useEffect(() => {

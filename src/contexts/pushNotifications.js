@@ -49,7 +49,7 @@ function NotificationsProvider(props) {
             console.log(event.data);
             setNotifications(event.data);
         },
-        [setNotifications],
+        [setNotifications]
     );
     //Saving websocket connection in ref will
     // Allow websocket connection be cached between component unmounts.

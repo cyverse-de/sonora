@@ -91,10 +91,20 @@ const useStyles = makeStyles((theme) => ({
         cursor: "pointer",
         backgroundColor: theme.palette.success.main,
         color: theme.palette.info.contrastText,
+        width: theme.spacing(5),
+        height: theme.spacing(5),
+        marginLeft: theme.spacing(1),
         "&:hover": {
             textDecoration: "underline",
             textDecorationColor: theme.palette.info.contrastText,
         },
+    },
+    accountIcon: {
+        cursor: "pointer",
+        color: theme.palette.primary.contrastText,
+        backgroundColor: theme.palette.primary.main,
+        width: theme.spacing(5),
+        height: theme.spacing(5),
     },
     icon: {
         color: theme.palette.info.contrastText,
@@ -104,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
             margin: theme.spacing(2),
         },
         [theme.breakpoints.down("xs")]: {
-            margin: theme.spacing(1),
+            margin: theme.spacing(0.2),
         },
     },
     drawer: {
@@ -174,9 +184,6 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.primary.contrastText,
         backgroundColor: theme.palette.primary.main,
     },
-    accountText: {
-        color: theme.palette.info.contrastText,
-    },
     menuIcon: {
         color: theme.palette.info.main,
         [theme.breakpoints.up("sm")]: {
@@ -239,13 +246,13 @@ function CyverseAppBar(props) {
 
     const accountAvatar = (
         <Avatar
-            className={userProfile ? classes.userIcon : ""}
+            className={userProfile ? classes.userIcon : classes.accountIcon}
             onClick={handleUserButtonClick}
         >
             {userProfile ? (
                 <Typography variant={"h6"}>{avatarLetter}</Typography>
             ) : (
-                <AccountCircle fontSize="large"/>
+                <AccountCircle fontSize="large" />
             )}
         </Avatar>
     );
@@ -327,12 +334,12 @@ function CyverseAppBar(props) {
                     }
                 >
                     <ListItemIcon>
-                        <SearchIcon className={classes.icon} fontSize="large"/>
+                        <SearchIcon className={classes.icon} fontSize="large" />
                     </ListItemIcon>
                     <ListItemText>{getMessage("search")}</ListItemText>
                 </ListItem>
             </Hidden>
-            <Divider/>
+            <Divider />
             <ListItem
                 id={build(ids.DRAWER_MENU, ids.SETTINGS_MI)}
                 onClick={() => router.push("/" + NavigationConstants.SETTINGS)}
@@ -343,7 +350,7 @@ function CyverseAppBar(props) {
                 }
             >
                 <ListItemIcon>
-                    <SettingsIcon className={classes.icon} fontSize="large"/>
+                    <SettingsIcon className={classes.icon} fontSize="large" />
                 </ListItemIcon>
                 <ListItemText>{getMessage("settings")}</ListItemText>
             </ListItem>
@@ -370,7 +377,7 @@ function CyverseAppBar(props) {
                             edge="start"
                             className={classes.menuIcon}
                         >
-                            <MenuIcon/>
+                            <MenuIcon />
                         </IconButton>
                         <Typography color="primary">
                             {formatHTMLMessage("discovery")}
@@ -390,12 +397,12 @@ function CyverseAppBar(props) {
                         </a>
                     </Hidden>
                     <Hidden smDown>
-                        <GlobalSearchField/>
+                        <GlobalSearchField />
                     </Hidden>
-                    <div className={classes.root}/>
+                    <div className={classes.root} />
                     <div style={{ display: "flex" }}>
-                        <CustomIntercom intl={intl} classes={classes}/>
-                        <Notifications intl={intl} classes={classes}/>
+                        <CustomIntercom intl={intl} />
+                        <Notifications intl={intl} />
                     </div>
                     <Hidden only={["xs"]}>
                         <div id={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}>
@@ -428,7 +435,7 @@ function CyverseAppBar(props) {
                                     [classes.hide]: open,
                                 })}
                             >
-                                <MenuIcon fontSize="large"/>
+                                <MenuIcon fontSize="large" />
                             </IconButton>
                         )}
                         {open && (
@@ -437,14 +444,14 @@ function CyverseAppBar(props) {
                                 className={classes.menuIcon}
                             >
                                 {theme.direction === "rtl" ? (
-                                    <ChevronRightIcon fontSize="large"/>
+                                    <ChevronRightIcon fontSize="large" />
                                 ) : (
-                                    <ChevronLeftIcon fontSize="large"/>
+                                    <ChevronLeftIcon fontSize="large" />
                                 )}
                             </IconButton>
                         )}
                     </div>
-                    <Divider/>
+                    <Divider />
                     {drawerItems}
                 </Drawer>
             </Hidden>
@@ -469,11 +476,11 @@ function CyverseAppBar(props) {
                     >
                         {accountAvatar}
                     </div>
-                    <Divider/>
+                    <Divider />
                     {drawerItems}
                 </Drawer>
             </Hidden>
-            <CyVerseAnnouncer/>
+            <CyVerseAnnouncer />
             <main
                 className={clsx(classes.content, {
                     [classes.contentShift]: open,

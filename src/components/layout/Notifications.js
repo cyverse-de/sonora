@@ -133,10 +133,8 @@ function Notifications(props) {
     return (
         <IconButton
             id={build(ids.APP_BAR_BASE, ids.NOTIFICATION_BTN)}
-            className={classes.appBarIcon}
             aria-label={formatMessage(intl, "newNotificationAriaLabel")}
             color="primary"
-            size="small"
         >
             <Badge badgeContent={unSeenCount} color="error">
                 <NotificationsIcon />

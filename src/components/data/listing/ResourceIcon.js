@@ -11,15 +11,21 @@ import {
     Folder as FolderIcon,
 } from "@material-ui/icons";
 import ResourceTypes from "../../models/ResourceTypes";
+import { useTheme } from "@material-ui/core";
 
 function ResourceIcon(props) {
     const { type, ...rest } = props;
+    const theme = useTheme();
 
     if (type === ResourceTypes.FOLDER || type === "DIR") {
-        return <FolderIcon color="primary" {...rest} />;
+        return (
+            <FolderIcon style={{ color: theme.palette.info.main }} {...rest} />
+        );
     }
     if (type === ResourceTypes.FILE) {
-        return <FileIcon color="primary" {...rest} />;
+        return (
+            <FileIcon style={{ color: theme.palette.info.main }} {...rest} />
+        );
     }
 
     return null;

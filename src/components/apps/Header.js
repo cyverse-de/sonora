@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.primary.main,
     },
     menuButton: {
-        color: theme.palette.primary.contrastText,
+        color: theme.palette.info.contrastText,
     },
     divider: {
         flexGrow: 1,

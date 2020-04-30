@@ -37,15 +37,15 @@ import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
         paddingLeft: 0,
-        color: theme.palette.primary.main,
+        color: theme.palette.info.main,
     },
     list: {
         outline: "none",
         cursor: "pointer",
-        color: theme.palette.primary.main,
+        color: theme.palette.info.main,
         "&:hover": {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.primary.contrastText,
+            backgroundColor: theme.palette.info.main,
+            color: theme.palette.info.contrastText,
         },
     },
     divider: {

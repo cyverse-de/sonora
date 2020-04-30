@@ -17,7 +17,7 @@ import { useUserProfile } from "../../contexts/userProfile";
 import { Badge, IconButton } from "@material-ui/core";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 
-function CustomIntercom({ intl, classes }) {
+function CustomIntercom({ intl }) {
     const {
         appId,
         enabled,
@@ -48,12 +48,10 @@ function CustomIntercom({ intl, classes }) {
     if (enabled) {
         return (
             <IconButton
-                className={classes.appBarIcon}
                 id={ids.INTERCOM_WIDGET}
                 color="primary"
                 aria-label={formatMessage(intl, "intercomAriaLabel")}
                 aria-controls={formatMessage(intl, "intercomAriaControl")}
-                size="small"
             >
                 <Badge badgeContent={unReadCount} color="error">
                     <LiveHelpIcon />

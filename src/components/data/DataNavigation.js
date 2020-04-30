@@ -45,15 +45,15 @@ import { queryCache, useQuery } from "react-query";
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
         paddingLeft: 0,
-        color: theme.palette.primary.main,
+        color: theme.palette.info.main,
     },
     list: {
         outline: "none",
         cursor: "pointer",
-        color: theme.palette.primary.main,
+        color: theme.palette.info.main,
         "&:hover": {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.primary.contrastText,
+            backgroundColor: theme.palette.info.main,
+            color: theme.palette.info.contrastText,
         },
     },
     currentLocationLink: {
@@ -63,6 +63,9 @@ const useStyles = makeStyles((theme) => ({
             overflow: "hidden",
             maxWidth: 70,
         },
+    },
+    icon: {
+        color: theme.palette.info.main,
     },
 }));
 
@@ -304,7 +307,7 @@ function BreadCrumb({
 
     return (
         <>
-            {relativePath && <ArrowRightIcon color="primary" />}
+            {relativePath && <ArrowRightIcon className={classes.icon} />}
             <Breadcrumbs
                 maxItems={2}
                 aria-label="breadcrumb"
@@ -318,7 +321,7 @@ function BreadCrumb({
                     <Tooltip title={crumb} key={crumb}>
                         <Button
                             variant="text"
-                            startIcon={<FolderIcon color="primary" />}
+                            startIcon={<FolderIcon className={classes.icon} />}
                             aria-controls={formatMessage(
                                 intl,
                                 "folderPathAriaControl"

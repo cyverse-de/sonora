@@ -24,7 +24,7 @@ exports[`App Bar renders 1`] = `
         <button
           aria-controls="chat support button"
           aria-label="chat with CyVerse support"
-          className="MuiButtonBase-root MuiIconButton-root makeStyles-appBarIcon-7 MuiIconButton-colorPrimary MuiIconButton-sizeSmall"
+          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary"
           disabled={false}
           id="cyverse_intercom_support"
           onBlur={[Function]}
@@ -68,7 +68,7 @@ exports[`App Bar renders 1`] = `
         </button>
         <button
           aria-label="show new notifications"
-          className="MuiButtonBase-root MuiIconButton-root makeStyles-appBarIcon-7 MuiIconButton-colorPrimary MuiIconButton-sizeSmall"
+          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary"
           disabled={false}
           id="appBar.notificationButton"
           onBlur={[Function]}
@@ -116,7 +116,7 @@ exports[`App Bar renders 1`] = `
     </div>
   </header>
   <main
-    className="makeStyles-content-11"
+    className="makeStyles-content-12"
   />
 </div>
 `;

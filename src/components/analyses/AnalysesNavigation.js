@@ -28,7 +28,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
-        color: theme.palette.primary.contrastText,
+        color: theme.palette.info.contrastText,
     },
     divider: {
         flexGrow: 1,

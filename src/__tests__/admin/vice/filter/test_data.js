@@ -776,6 +776,7 @@ const testData = {
     ],
 };
 
-it("exists", () => expect(testData.deployments.length).toBeGreaterThan(0));
+it("test data exists", () =>
+    expect(testData.deployments.length).toBeGreaterThan(0));
 
 export default testData;

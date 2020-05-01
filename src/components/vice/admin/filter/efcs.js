@@ -3,7 +3,7 @@ import { JSONPath } from "jsonpath-plus";
 class ExtractFilterCompare {
     constructor(extractorFn, filterFn) {
         this.extractor = extractorFn;
-        this.filter = filterFn;
+        this.filterFn = filterFn;
     }
 
     extract(fromObject, ...args) {
@@ -12,7 +12,8 @@ class ExtractFilterCompare {
     }
 
     filter(fromObject, ...args) {
-        const filterString = this.filter(...args);
+        const filterString = this.filterFn(...args);
+
         return JSONPath({ json: fromObject, path: filterString });
     }
 
@@ -34,23 +35,37 @@ class AnalysesEFC extends ExtractFilterCompare {
     }
 }
 
+class DeploymentsEFC extends ExtractFilterCompare {
+    filter(fromObject, ...args) {
+        const filterString = this.filterFn(...args);
+        const copy = {
+            ...fromObject,
+        };
+        copy.deployments = JSONPath({
+            json: copy,
+            path: filterString,
+        });
+        return copy;
+    }
+}
+
 export const deployments = {
-    image: new ExtractFilterCompare(
+    image: new DeploymentsEFC(
         () => "$.deployments[*].image",
         (image) => `$.deployments[?(@.image=='${image}')]`
     ),
 
-    port: new ExtractFilterCompare(
+    port: new DeploymentsEFC(
         () => "$.deployments[*].port",
         (port) => `$.deployments[?(@.port==${port})]`
     ),
 
-    uid: new ExtractFilterCompare(
+    uid: new DeploymentsEFC(
         () => "$.deployments[*].user",
         (uid) => `$.deployments[?(@.user==${uid})]`
     ),
 
-    gid: new ExtractFilterCompare(
+    gid: new DeploymentsEFC(
         () => "$.deployments[*].group",
         (gid) => `$.deployments[?(@.group==${gid})]`
     ),

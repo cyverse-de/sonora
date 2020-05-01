@@ -71,6 +71,7 @@
         "formik": "^1.5.8",
         "is-plain-object": "^3.0.0",
         "js-yaml": "^3.13.1",
+        "jsonpath-plus": "^4.0.0",
         "keycloak-connect": "^7.0.1",
         "next": "^9.4.0",
         "numeral": "^2.0.6",

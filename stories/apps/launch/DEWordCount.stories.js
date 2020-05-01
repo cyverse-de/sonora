@@ -8,6 +8,7 @@ import {
     STARTING_PATH,
     ONE_GB,
     initMockAxiosFileFolderSelector,
+    saveQuickLaunch,
     submitAnalysis,
 } from "./constants";
 
@@ -26,6 +27,7 @@ export const DEWordCount = () => {
             notify={false}
             defaultOutputDir={ANALYSIS_OUTPUT_DIR}
             startingPath={STARTING_PATH}
+            saveQuickLaunch={saveQuickLaunch}
             submitAnalysis={submitAnalysis}
             app={app}
             defaultMaxCPUCores={8}

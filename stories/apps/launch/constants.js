@@ -25,3 +25,5 @@ export const submitAnalysis = (submission, onSuccess, onError) => {
         onSuccess("success!");
     }, 1000);
 };
+
+export const saveQuickLaunch = submitAnalysis;

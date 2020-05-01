@@ -7,6 +7,7 @@ import {
     ANALYSIS_OUTPUT_DIR,
     STARTING_PATH,
     initMockAxiosFileFolderSelector,
+    saveQuickLaunch,
     submitAnalysis,
 } from "./constants";
 
@@ -25,6 +26,7 @@ export const DeprecatedParams = () => {
             notify={false}
             defaultOutputDir={ANALYSIS_OUTPUT_DIR}
             startingPath={STARTING_PATH}
+            saveQuickLaunch={saveQuickLaunch}
             submitAnalysis={submitAnalysis}
             app={app}
         />

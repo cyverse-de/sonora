@@ -57,6 +57,7 @@ export default {
         retainInputsLabel:
             "Retain inputs? Enabling this flag will copy all the input files into the analysis result folder.",
         reviewAndLaunch: "Review and Launch",
+        saveAsQuickLaunch: "Save as Quick Launch",
         stepLabel: "Step {step}: {label}",
         validationAbove: "Must be greater than {min}",
         validationBelow: "Must be less than {max}",

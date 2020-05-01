@@ -29,6 +29,7 @@ export default {
         ADD: "addBtn",
         DELETE: "deleteBtn",
         EXPAND: "expand",
+        SAVE_AS_QUICK_LAUNCH: "saveQuickLaunch",
         SUBMIT: "submit",
         STEP: "stepButton",
         STEP_BACK: "stepBackButton",

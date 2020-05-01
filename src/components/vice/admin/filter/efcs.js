@@ -71,30 +71,43 @@ export const deployments = {
     ),
 };
 
+class ServicesEFC extends ExtractFilterCompare {
+    filter(fromObject, ...args) {
+        const filterString = this.filterFn(...args);
+        const copy = {
+            ...fromObject,
+        };
+        copy.services = JSONPath({
+            json: copy,
+            path: filterString,
+        });
+        return copy;
+    }
+}
 export const services = {
-    portName: new ExtractFilterCompare(
+    portName: new ServicesEFC(
         () => "$.services[*].ports[*].name",
         (portName) => `$.services[*].ports[?(@.name==='${portName}')]^^^`
     ),
 
-    nodePort: new ExtractFilterCompare(
+    nodePort: new ServicesEFC(
         () => "$.services[*].ports[*].nodePort",
         (nodePort) => `$.services[*].ports[?(@.nodePort===${nodePort})]^^^`
     ),
 
-    targetPort: new ExtractFilterCompare(
+    targetPort: new ServicesEFC(
         () => "$.services[*].ports[*].targetPort",
         (targetPort) =>
             `$.services[*].ports[?(@.targetPort===${targetPort})]^^^`
     ),
 
-    targetPortName: new ExtractFilterCompare(
+    targetPortName: new ServicesEFC(
         () => "$.services[*].ports[*].targetPortName",
         (targetPortName) =>
             `$.services[*].ports[?(@.targetPortName==='${targetPortName}')]^^^`
     ),
 
-    protocol: new ExtractFilterCompare(
+    protocol: new ServicesEFC(
         () => "$.services[*].ports[*].protocol",
         (protocol) => `$.services[*].ports[?(@.protocol==='${protocol}')]^^^`
     ),

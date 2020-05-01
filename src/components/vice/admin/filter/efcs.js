@@ -1,8 +1,5 @@
 import { JSONPath } from "jsonpath-plus";
 
-export const NAME = "name";
-export const NAMESPACE = "namespace";
-
 class ExtractFilterCompare {
     constructor(extractorFn, filterFn) {
         this.extractor = extractorFn;
@@ -111,6 +108,16 @@ export const analyses = {
         (externalID) => `$..[?(@.externalID==='${externalID}')]`
     ),
 
+    name: new AnalysesEFC(
+        () => "$..name",
+        (name) => `$..[?(@.name==='${name})]`
+    ),
+
+    namespace: new AnalysesEFC(
+        () => "$..namespace",
+        (namespace) => `$..[?(@.namespace==='${namespace}')]`
+    ),
+
     userID: new AnalysesEFC(
         () => "$..userID",
         (userID) => `$..[?(@.userID==='${userID}')]`
@@ -128,16 +135,72 @@ export const analyses = {
     ),
 };
 
-// Pod constants.
-export const PHASE = "$.phase";
-export const MESSAGE = "$.message";
-export const REASON = "$.reason";
-export const CONTAINER_STATUS_NAME = "$.containerStatuses[*].name";
-export const CONTAINER_STATUS_READY = "$.containerStatuses[*].ready";
-export const CONTAINER_STATUS_RESTART_COUNT =
-    "$.containerStatuses[*].restartCount";
-export const CONTAINER_STATUS_IMAGE = "$.containerStatuses[*].image";
-export const CONTAINER_STATUS_IMAGE_ID = "$.containerStatuses[*].imageID";
-export const CONTAINER_STATUS_CONTAINER_ID =
-    "$.containerStatuses[*].containerID";
-export const CONTAINER_STATUS_STARTED = "$.containerStatuses[*].started";
+class PodsEFC extends ExtractFilterCompare {
+    filter(fromObject, ...args) {
+        const filterString = this.filter(...args);
+        const copy = {
+            ...fromObject,
+        };
+        copy.pods = JSONPath({ json: copy.pods, path: filterString });
+        return copy;
+    }
+}
+
+export const pods = {
+    phase: new PodsEFC(
+        () => "$.pods[*].phase",
+        (phase) => `$..[?(@.phase==='${phase}')]`
+    ),
+
+    message: new PodsEFC(
+        () => "$.pods[*].message",
+        (message) => `$..[?(@.message==='${message}')]`
+    ),
+
+    reason: new PodsEFC(
+        () => "$.pods[*].reason",
+        (reason) => `$..[?(@.reason==='${reason}')]`
+    ),
+
+    containerStatusName: new PodsEFC(
+        () => "$.pods[*].containerStatuses[*].name",
+        (containerStatusName) =>
+            `$..containerStatuses[?(@.name==='${containerStatusName}')]^^^`
+    ),
+
+    containerStatusReady: new PodsEFC(
+        () => "$.pods[*].containerStatuses[*].ready",
+        (containerStatusReady) =>
+            `$..containerStatuses[?(@.ready===${containerStatusReady})]^^^`
+    ),
+
+    containerStatusRestartCount: new PodsEFC(
+        () => "$.pods[*].containerStatuses[*].restartCount",
+        (containerStatusRestartCount) =>
+            `$..containerStatuses[?(@.restartCount===${containerStatusRestartCount})]`
+    ),
+
+    containerStatusImage: new PodsEFC(
+        () => "$.pods[*].containerStatuses[*].image",
+        (containerStatusImage) =>
+            `$..containerStatuses[?(@.image==='${containerStatusImage}')]`
+    ),
+
+    containerStatusImageID: new PodsEFC(
+        () => "$.pods[*].containerStatuses[*].imageID",
+        (containerStatusImageID) =>
+            `$..containerStatuses[?(@.imageID==='${containerStatusImageID}')]`
+    ),
+
+    containerStatusContainerID: new PodsEFC(
+        () => "$.pods[*].containerStatuses[*].containerID",
+        (containerStatusContainerID) =>
+            `$..containerStatuses[?(@.containerID==='${containerStatusContainerID}')]`
+    ),
+
+    containerStatusStarted: new PodsEFC(
+        () => "#.pods[*].containerStatuses[*].started",
+        (containerStatusStarted) =>
+            `$..containerStatuses[?(@.started===${containerStatusStarted})]`
+    ),
+};

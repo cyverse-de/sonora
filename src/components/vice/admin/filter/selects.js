@@ -5,7 +5,7 @@ import { Select, MenuItem } from "@material-ui/core";
 import { getMessage as msg } from "@cyverse-de/ui-lib";
 
 import useStyles from "./styles";
-import * as constants from "./constants";
+import * as efcs from "./efcs";
 import { id } from "./functions";
 import ids from "./ids";
 
@@ -30,18 +30,17 @@ const FieldSelect = ({ id, kind, fields, value, handleChange }) => {
 };
 
 const defaultFields = {
-    name: constants.NAME,
-    namespace: constants.NAMESPACE,
+    name: efcs.analyses.name,
+    namespace: efcs.analyses.namespace,
 };
 
 export const DeploymentFieldSelect = ({ value, handleChange }) => {
     const fields = {
         ...defaultFields,
-        image: constants.IMAGE,
-        port: constants.PORT,
-        uid: constants.UID,
-        gid: constants.GID,
-        command: constants.COMMAND,
+        image: efcs.deployments.image,
+        port: efcs.deployments.port,
+        uid: efcs.deployments.uid,
+        gid: efcs.deployments.gid,
     };
 
     const idValue = id(ids.DEPLOYMENT_FIELD_SELECT);
@@ -58,12 +57,12 @@ export const DeploymentFieldSelect = ({ value, handleChange }) => {
 export const ServiceFieldSelect = ({ value, handleChange }) => {
     const fields = {
         ...defaultFields,
-        portName: constants.PORT_NAME,
-        nodePort: constants.NODE_PORT,
-        targetPort: constants.TARGET_PORT,
-        targetPortName: constants.TARGET_PORT_NAME,
-        port: constants.PORT,
-        protocol: constants.PROTOCOL,
+        portName: efcs.services.portName,
+        nodePort: efcs.services.nodePort,
+        targetPort: efcs.services.targetPort,
+        targetPortName: efcs.services.targetPortName,
+        port: efcs.services.port,
+        protocol: efcs.services.protocol,
     };
 
     const idValue = id(ids.SERVICE_FIELD_SELECT);
@@ -110,13 +109,13 @@ export const IngressFieldSelect = ({ value, handleChange }) => {
 export const AnalysisFieldSelect = ({ value, handleChange }) => {
     const fields = {
         ...defaultFields,
-        analysisName: constants.ANALYSIS_NAME,
-        appName: constants.APP_NAME,
-        appID: constants.APP_ID,
-        externalID: constants.EXTERNAL_ID,
-        userID: constants.USER_ID,
-        username: constants.USERNAME,
-        dateCreated: constants.CREATION_TIMESTAMP,
+        analysisName: efcs.analyses.analysisName,
+        appName: efcs.analyses.appName,
+        appID: efcs.analyses.appID,
+        externalID: efcs.analyses.externalID,
+        userID: efcs.analyses.userID,
+        username: efcs.analyses.username,
+        dateCreated: efcs.analyses.creationTimestamp,
     };
     const idValue = id(ids.ANALYSIS_FIELD_SELECT);
 
@@ -133,16 +132,16 @@ export const AnalysisFieldSelect = ({ value, handleChange }) => {
 export const PodFieldSelect = ({ value, handleChange }) => {
     const fields = {
         ...defaultFields,
-        phase: constants.PHASE,
-        message: constants.MESSAGE,
-        reason: constants.REASON,
-        containerStatusName: constants.CONTAINER_STATUS_NAME,
-        containerStatusReady: constants.CONTAINER_STATUS_READY,
-        containerStatusRestartCount: constants.CONTAINER_STATUS_RESTART_COUNT,
-        containerStatusImage: constants.CONTAINER_STATUS_IMAGE,
-        containerStatusImageID: constants.CONTAINER_STATUS_IMAGE_ID,
-        containerStatusContainerID: constants.CONTAINER_STATUS_CONTAINER_ID,
-        containerStatusStarted: constants.CONTAINER_STATUS_STARTED,
+        phase: efcs.pods.phase,
+        message: efcs.pods.message,
+        reason: efcs.pods.reason,
+        containerStatusName: efcs.pods.containerStatusName,
+        containerStatusReady: efcs.pods.containerStatusReady,
+        containerStatusRestartCount: efcs.pods.containerStatusRestartCount,
+        containerStatusImage: efcs.pods.containerStatusImage,
+        containerStatusImageID: efcs.pods.containerStatusImageID,
+        containerStatusContainerID: efcs.pods.containerStatusContainerID,
+        containerStatusStarted: efcs.pods.containerStatusStarted,
     };
     const idValue = id(ids.POD_FIELD_SELECT);
 

@@ -53,14 +53,84 @@ const columnData = (intl) => [
     },
 ];
 
+// The loading mask to display when we're waiting for a response from the API.
+function LoadingMask(props) {
+    const { columns, tableId } = props;
+    return (
+        <TableLoading
+            numColumns={columns.length}
+            numRows={25}
+            baseId={tableId}
+        />
+    );
+}
+
+// The table Contents to display when the API returns an error.
+function LoadingError(props) {
+    const { columns, error } = props;
+    return (
+        <EmptyTable message={error.toString()} numColumns={columns.length} />
+    );
+}
+
+// The table contents to return when the API returns an empty result set.
+function NoTools(props) {
+    const { columns } = props;
+    return (
+        <EmptyTable
+            message={getMessage("noTools")}
+            numColumns={columns.length}
+        />
+    );
+}
+
+// The table contents to display when the API call returns succesfully.
+function ToolListing(props) {
+    const { tableId, tools } = props;
+    return tools.map((tool, _) => {
+        const id = tool.id;
+        const rowId = build(tableId, id);
+        return (
+            <TableRow tabIndex={-1} hover key={id} id={rowId}>
+                <TableCell>{tool.name}</TableCell>
+                <TableCell>{tool.container.image.name}</TableCell>
+                <TableCell>{tool.container.image.tag}</TableCell>
+                <TableCell>
+                    {tool.is_public ? getMessage("public") : tool.permission}
+                </TableCell>
+            </TableRow>
+        );
+    });
+}
+
+// The tool listing table body.
+function ToolListingTableBody(props) {
+    const { columns, error, tableId, tools } = props;
+    return (
+        <TableBody>
+            {error ? (
+                <LoadingError columns={columns} error={error} />
+            ) : !tools || tools.length === 0 ? (
+                <NoTools columns={columns} />
+            ) : (
+                <ToolListing tableId={tableId} tools={tools} />
+            )}
+        </TableBody>
+    );
+}
+
+// The tool listing table view.
 function TableView(props) {
     const { baseId, error, intl, listing, loading } = props;
     const tableId = buildId(baseId, ids.LISTING_TABLE);
+
+    const columns = columnData(intl);
 
     const tools = listing?.tools;
 
     console.log(tools);
 
+    // Build and return the table.
     return (
         <TableContainer
             component={Paper}
@@ -77,59 +147,17 @@ function TableView(props) {
                 <EnhancedTableHead
                     baseId={baseId}
                     selectable={false}
-                    columnData={columnData(intl)}
+                    columnData={columns}
                 />
-                {loading && (
-                    <TableLoading
-                        numColumns={columnData(intl).length}
-                        numRows={25}
-                        baseId={tableId}
+                {loading ? (
+                    <LoadingMask columns={columns} tableId={tableId} />
+                ) : (
+                    <ToolListingTableBody
+                        columns={columns}
+                        error={error}
+                        tableId={tableId}
+                        tools={tools}
                     />
-                )}
-                {!loading && (
-                    <TableBody>
-                        {(!tools || tools.length === 0) && !error && (
-                            <EmptyTable
-                                message={getMessage("noTools")}
-                                numColumns={columnData(intl).length}
-                            />
-                        )}
-                        {error && (
-                            <EmptyTable
-                                message={error.toString()}
-                                numColumns={columnData(intl).length}
-                            />
-                        )}
-                        {tools &&
-                            tools.length > 0 &&
-                            !error &&
-                            tools.map((tool, index) => {
-                                const id = tool.id;
-                                const rowId = build(tableId, id);
-                                console.log(`Tool ID: {id}`);
-                                return (
-                                    <TableRow
-                                        tabIndex={-1}
-                                        hover
-                                        key={id}
-                                        id={rowId}
-                                    >
-                                        <TableCell>{tool.name}</TableCell>
-                                        <TableCell>
-                                            {tool.container.image.name}
-                                        </TableCell>
-                                        <TableCell>
-                                            {tool.container.image.tag}
-                                        </TableCell>
-                                        <TableCell>
-                                            {tool.is_public
-                                                ? getMessage("public")
-                                                : tool.permission}
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                    </TableBody>
                 )}
             </Table>
         </TableContainer>

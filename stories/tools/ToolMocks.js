@@ -613,3 +613,13 @@ export const listing = {
     ],
     total: 562,
 };
+
+export const emptyListing = {
+    tools: [],
+    total: 0,
+};
+
+export const erroredListing = {
+    error_code: "ERR_SOMETHING_BAD_HAPPENED",
+    reason: "something bad happened",
+};

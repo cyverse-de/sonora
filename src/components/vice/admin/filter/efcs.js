@@ -72,6 +72,9 @@ export const deployments = {
 };
 
 class ServicesEFC extends ExtractFilterCompare {
+    // The extra reduce is needed because some of the filtered results
+    // are in nested lists of objects meaning there's a result per
+    // matched sub-object, creating dupes at the top-level.
     filter(fromObject, ...args) {
         const filterString = this.filterFn(...args);
         const copy = {
@@ -80,7 +83,13 @@ class ServicesEFC extends ExtractFilterCompare {
         copy.services = JSONPath({
             json: copy,
             path: filterString,
-        });
+        }).reduce(
+            (prev, curr) =>
+                prev.findIndex((obj) => obj.externalID === curr.externalID) < 0
+                    ? [...prev, curr] // adds curr to the accumulator.
+                    : prev, // curr was already there, so don't add it again,
+            [] // accumulator
+        );
         return copy;
     }
 }

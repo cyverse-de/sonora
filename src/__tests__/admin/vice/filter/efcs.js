@@ -208,7 +208,7 @@ it("service filter protocol returns no valaues", () => {
     expect(result.pods).toStrictEqual(data.pods);
 });
 
-it("service filter protocl returns one value", () => {
+it("service filter protocol returns one value", () => {
     const result = efcs.services.protocol.filter(data, "UDP");
     expect(result.services.length).toBe(1);
     expect(result.services).toStrictEqual(data.services.slice(-1));
@@ -216,4 +216,115 @@ it("service filter protocl returns one value", () => {
     expect(result.configMaps).toStrictEqual(data.configMaps);
     expect(result.ingresses).toStrictEqual(data.ingresses);
     expect(result.pods).toStrictEqual(data.pods);
+});
+
+it("analysis filter analysisName returns values", () => {
+    const expected = "jupyter-lab-scipy-google-earth-engine-analysis";
+    const result = efcs.analyses.analysisName.filter(data, expected);
+    expect(result.deployments.length).toBe(1);
+    expect(result.services.length).toBe(1);
+    expect(result.configMaps.length).toBe(2);
+    expect(result.ingresses.length).toBe(1);
+    expect(result.pods.length).toBe(1);
+    expect(result.deployments[0].analysisName).toBe(expected);
+    expect(result.services[0].analysisName).toBe(expected);
+    expect(result.configMaps[0].analysisName).toBe(expected);
+    expect(result.configMaps[1].analysisName).toBe(expected);
+    expect(result.ingresses[0].analysisName).toBe(expected);
+    expect(result.pods[0].analysisName).toBe(expected);
+    expect(result.deployments[0]).toStrictEqual(data.deployments.slice(-1)[0]);
+    expect(result.services[0]).toStrictEqual(data.services.slice(-1)[0]);
+    expect(result.configMaps[0]).toStrictEqual(data.configMaps[3]);
+    expect(result.configMaps[1]).toStrictEqual(data.configMaps[7]);
+    expect(result.ingresses[0]).toStrictEqual(data.ingresses.slice(-1)[0]);
+    expect(result.pods[0]).toStrictEqual(data.pods.slice(-1)[0]);
+});
+
+it("analysis filter analysisName returns no values", () => {
+    const expected = "nope";
+    const result = efcs.analyses.analysisName.filter(data, expected);
+    expect(result.deployments.length).toBe(0);
+    expect(result.services.length).toBe(0);
+    expect(result.configMaps.length).toBe(0);
+    expect(result.ingresses.length).toBe(0);
+    expect(result.pods.length).toBe(0);
+    expect(result.deployments).toStrictEqual([]);
+    expect(result.services).toStrictEqual([]);
+    expect(result.configMaps).toStrictEqual([]);
+    expect(result.ingresses).toStrictEqual([]);
+    expect(result.pods).toStrictEqual([]);
+});
+
+it("analysis filter appName returns values", () => {
+    const expected = "jupyter-lab-scipy-google-earth-engine";
+    const result = efcs.analyses.appName.filter(data, expected);
+    expect(result.deployments.length).toBe(1);
+    expect(result.services.length).toBe(1);
+    expect(result.configMaps.length).toBe(2);
+    expect(result.ingresses.length).toBe(1);
+    expect(result.pods.length).toBe(1);
+    expect(result.deployments[0].appName).toBe(expected);
+    expect(result.services[0].appName).toBe(expected);
+    expect(result.configMaps[0].appName).toBe(expected);
+    expect(result.configMaps[1].appName).toBe(expected);
+    expect(result.ingresses[0].appName).toBe(expected);
+    expect(result.pods[0].appName).toBe(expected);
+    expect(result.deployments[0]).toStrictEqual(data.deployments.slice(-1)[0]);
+    expect(result.services[0]).toStrictEqual(data.services.slice(-1)[0]);
+    expect(result.configMaps[0]).toStrictEqual(data.configMaps[3]);
+    expect(result.configMaps[1]).toStrictEqual(data.configMaps[7]);
+    expect(result.ingresses[0]).toStrictEqual(data.ingresses.slice(-1)[0]);
+    expect(result.pods[0]).toStrictEqual(data.pods.slice(-1)[0]);
+});
+
+it("analysis filter appName returns no values", () => {
+    const expected = "nope";
+    const result = efcs.analyses.appName.filter(data, expected);
+    expect(result.deployments.length).toBe(0);
+    expect(result.services.length).toBe(0);
+    expect(result.configMaps.length).toBe(0);
+    expect(result.ingresses.length).toBe(0);
+    expect(result.pods.length).toBe(0);
+    expect(result.deployments).toStrictEqual([]);
+    expect(result.services).toStrictEqual([]);
+    expect(result.configMaps).toStrictEqual([]);
+    expect(result.ingresses).toStrictEqual([]);
+    expect(result.pods).toStrictEqual([]);
+});
+
+it("analysis filter appID returns values", () => {
+    const expected = "1f5e7f3a-e46c-11e9-870d-008cfa5ae621";
+    const result = efcs.analyses.appID.filter(data, expected);
+    expect(result.deployments.length).toBe(1);
+    expect(result.services.length).toBe(1);
+    expect(result.configMaps.length).toBe(2);
+    expect(result.ingresses.length).toBe(1);
+    expect(result.pods.length).toBe(1);
+    expect(result.deployments[0].appID).toBe(expected);
+    expect(result.services[0].appID).toBe(expected);
+    expect(result.configMaps[0].appID).toBe(expected);
+    expect(result.configMaps[1].appID).toBe(expected);
+    expect(result.ingresses[0].appID).toBe(expected);
+    expect(result.pods[0].appID).toBe(expected);
+    expect(result.deployments[0]).toStrictEqual(data.deployments.slice(-1)[0]);
+    expect(result.services[0]).toStrictEqual(data.services.slice(-1)[0]);
+    expect(result.configMaps[0]).toStrictEqual(data.configMaps[3]);
+    expect(result.configMaps[1]).toStrictEqual(data.configMaps[7]);
+    expect(result.ingresses[0]).toStrictEqual(data.ingresses.slice(-1)[0]);
+    expect(result.pods[0]).toStrictEqual(data.pods.slice(-1)[0]);
+});
+
+it("analysis filter appID returns no values", () => {
+    const expected = "nope";
+    const result = efcs.analyses.appID.filter(data, expected);
+    expect(result.deployments.length).toBe(0);
+    expect(result.services.length).toBe(0);
+    expect(result.configMaps.length).toBe(0);
+    expect(result.ingresses.length).toBe(0);
+    expect(result.pods.length).toBe(0);
+    expect(result.deployments).toStrictEqual([]);
+    expect(result.services).toStrictEqual([]);
+    expect(result.configMaps).toStrictEqual([]);
+    expect(result.ingresses).toStrictEqual([]);
+    expect(result.pods).toStrictEqual([]);
 });

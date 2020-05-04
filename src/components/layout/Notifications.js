@@ -22,7 +22,13 @@ import {
     formatMessage,
 } from "@cyverse-de/ui-lib";
 
-import { Badge, Button, IconButton, Typography } from "@material-ui/core";
+import {
+    Badge,
+    Button,
+    IconButton,
+    Tooltip,
+    Typography,
+} from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 
@@ -131,15 +137,21 @@ function Notifications(props) {
     }, [currentNotification, handleMessage]);
 
     return (
-        <IconButton
-            id={build(ids.APP_BAR_BASE, ids.NOTIFICATION_BTN)}
-            aria-label={formatMessage(intl, "newNotificationAriaLabel")}
-            color="primary"
+        <Tooltip
+            title={formatMessage(intl, "newNotificationAriaLabel")}
+            placement="bottom"
+            arrow
         >
-            <Badge badgeContent={unSeenCount} color="error">
-                <NotificationsIcon />
-            </Badge>
-        </IconButton>
+            <IconButton
+                id={build(ids.APP_BAR_BASE, ids.NOTIFICATION_BTN)}
+                aria-label={formatMessage(intl, "newNotificationAriaLabel")}
+                color="primary"
+            >
+                <Badge badgeContent={unSeenCount} color="error">
+                    <NotificationsIcon />
+                </Badge>
+            </IconButton>
+        </Tooltip>
     );
 }
 

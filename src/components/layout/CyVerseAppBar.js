@@ -43,6 +43,7 @@ import {
     ListItemIcon,
     ListItemText,
     Toolbar,
+    Tooltip,
     Typography,
     useTheme,
 } from "@material-ui/core";
@@ -250,110 +251,176 @@ function CyverseAppBar(props) {
             onClick={handleUserButtonClick}
         >
             {userProfile ? (
-                <Typography variant={"h6"}>{avatarLetter}</Typography>
+                <Tooltip
+                    title={getMessage("logout", {
+                        values: { name: userProfile.id },
+                    })}
+                    aria-label={formatMessage(intl, "logout", {
+                        name: userProfile.id,
+                    })}
+                    placement="bottom"
+                    arrow
+                >
+                    <Typography variant={"h6"}>{avatarLetter}</Typography>
+                </Tooltip>
             ) : (
-                <AccountCircle fontSize="large" />
+                <Tooltip
+                    title={getMessage("login")}
+                    aria-label={formatMessage(intl, "login")}
+                    placement="bottom"
+                    arrow
+                >
+                    <AccountCircle fontSize="large" />
+                </Tooltip>
             )}
         </Avatar>
     );
 
     const drawerItems = (
         <List>
-            <ListItem
-                id={build(ids.DRAWER_MENU, ids.DASHBOARD_MI)}
-                onClick={() => router.push("/" + NavigationConstants.DASHBOARD)}
-                className={
-                    activeView === NavigationConstants.DASHBOARD
-                        ? classes.listItemActive
-                        : classes.listItem
-                }
+            <Tooltip
+                title={formatMessage(intl, "dashboard")}
+                placement="right"
+                arrow
             >
-                <img
-                    className={classes.drawerIcon}
-                    src="/dashboard_selected.png"
-                    alt={formatMessage(intl, "dashboard")}
-                />
-                <ListItemText>{getMessage("dashboard")}</ListItemText>
-            </ListItem>
-            <ListItem
-                id={build(ids.DRAWER_MENU, ids.DATA_MI)}
-                onClick={() => router.push("/" + NavigationConstants.DATA)}
-                className={
-                    activeView === NavigationConstants.DATA
-                        ? classes.listItemActive
-                        : classes.listItem
-                }
-            >
-                <img
-                    className={classes.drawerIcon}
-                    src="/data_selected.png"
-                    alt={formatMessage(intl, "data")}
-                />
-                <ListItemText>{getMessage("data")}</ListItemText>
-            </ListItem>
-            <ListItem
-                id={build(ids.DRAWER_MENU, ids.APPS_MI)}
-                onClick={() => router.push("/" + NavigationConstants.APPS)}
-                className={
-                    activeView === NavigationConstants.APPS
-                        ? classes.listItemActive
-                        : classes.listItem
-                }
-            >
-                <img
-                    className={classes.drawerIcon}
-                    src="/apps_selected.png"
-                    alt={formatMessage(intl, "apps")}
-                />
-                <ListItemText>{getMessage("apps")}</ListItemText>
-            </ListItem>
-            <ListItem
-                id={build(ids.DRAWER_MENU, ids.ANALYSES_MI)}
-                onClick={() => router.push("/" + NavigationConstants.ANALYSES)}
-                className={
-                    activeView === NavigationConstants.ANALYSES
-                        ? classes.listItemActive
-                        : classes.listItem
-                }
-            >
-                <img
-                    className={classes.drawerIcon}
-                    src="/analyses_selected.png"
-                    alt={formatMessage(intl, "analyses")}
-                />
-                <ListItemText>{getMessage("analyses")}</ListItemText>
-            </ListItem>
-            <Hidden only={["md", "lg", "xl"]}>
                 <ListItem
-                    id={build(ids.DRAWER_MENU, ids.SEARCH_MI)}
-                    onClick={handleSearchClick}
+                    id={build(ids.DRAWER_MENU, ids.DASHBOARD_MI)}
+                    onClick={() =>
+                        router.push("/" + NavigationConstants.DASHBOARD)
+                    }
                     className={
-                        activeView === NavigationConstants.SEARCH
+                        activeView === NavigationConstants.DASHBOARD
+                            ? classes.listItemActive
+                            : classes.listItem
+                    }
+                >
+                    <img
+                        className={classes.drawerIcon}
+                        src="/dashboard_selected.png"
+                        alt={formatMessage(intl, "dashboard")}
+                    />
+                    <ListItemText>{getMessage("dashboard")}</ListItemText>
+                </ListItem>
+            </Tooltip>
+            <Tooltip
+                title={formatMessage(intl, "data")}
+                placement="right"
+                arrow
+            >
+                <ListItem
+                    id={build(ids.DRAWER_MENU, ids.DATA_MI)}
+                    onClick={() => router.push("/" + NavigationConstants.DATA)}
+                    className={
+                        activeView === NavigationConstants.DATA
+                            ? classes.listItemActive
+                            : classes.listItem
+                    }
+                >
+                    <img
+                        className={classes.drawerIcon}
+                        src="/data_selected.png"
+                        alt={formatMessage(intl, "data")}
+                    />
+                    <ListItemText>{getMessage("data")}</ListItemText>
+                </ListItem>
+            </Tooltip>
+            <Tooltip
+                title={formatMessage(intl, "apps")}
+                placement="right"
+                arrow
+            >
+                <ListItem
+                    id={build(ids.DRAWER_MENU, ids.APPS_MI)}
+                    onClick={() => router.push("/" + NavigationConstants.APPS)}
+                    className={
+                        activeView === NavigationConstants.APPS
+                            ? classes.listItemActive
+                            : classes.listItem
+                    }
+                >
+                    <img
+                        className={classes.drawerIcon}
+                        src="/apps_selected.png"
+                        alt={formatMessage(intl, "apps")}
+                    />
+                    <ListItemText>{getMessage("apps")}</ListItemText>
+                </ListItem>
+            </Tooltip>
+            <Tooltip
+                title={formatMessage(intl, "analyses")}
+                placement="right"
+                arrow
+            >
+                <ListItem
+                    id={build(ids.DRAWER_MENU, ids.ANALYSES_MI)}
+                    onClick={() =>
+                        router.push("/" + NavigationConstants.ANALYSES)
+                    }
+                    className={
+                        activeView === NavigationConstants.ANALYSES
+                            ? classes.listItemActive
+                            : classes.listItem
+                    }
+                >
+                    <img
+                        className={classes.drawerIcon}
+                        src="/analyses_selected.png"
+                        alt={formatMessage(intl, "analyses")}
+                    />
+                    <ListItemText>{getMessage("analyses")}</ListItemText>
+                </ListItem>
+            </Tooltip>
+            <Hidden only={["md", "lg", "xl"]}>
+                <Tooltip
+                    title={formatMessage(intl, "search")}
+                    placement="right"
+                    arrow
+                >
+                    <ListItem
+                        id={build(ids.DRAWER_MENU, ids.SEARCH_MI)}
+                        onClick={handleSearchClick}
+                        className={
+                            activeView === NavigationConstants.SEARCH
+                                ? classes.listItemActive
+                                : classes.listItem
+                        }
+                    >
+                        <ListItemIcon>
+                            <SearchIcon
+                                className={classes.icon}
+                                fontSize="large"
+                            />
+                        </ListItemIcon>
+                        <ListItemText>{getMessage("search")}</ListItemText>
+                    </ListItem>
+                </Tooltip>
+            </Hidden>
+            <Divider />
+            <Tooltip
+                title={formatMessage(intl, "settings")}
+                placement="right"
+                arrow
+            >
+                <ListItem
+                    id={build(ids.DRAWER_MENU, ids.SETTINGS_MI)}
+                    onClick={() =>
+                        router.push("/" + NavigationConstants.SETTINGS)
+                    }
+                    className={
+                        activeView === NavigationConstants.SETTINGS
                             ? classes.listItemActive
                             : classes.listItem
                     }
                 >
                     <ListItemIcon>
-                        <SearchIcon className={classes.icon} fontSize="large" />
+                        <SettingsIcon
+                            className={classes.icon}
+                            fontSize="large"
+                        />
                     </ListItemIcon>
-                    <ListItemText>{getMessage("search")}</ListItemText>
+                    <ListItemText>{getMessage("settings")}</ListItemText>
                 </ListItem>
-            </Hidden>
-            <Divider />
-            <ListItem
-                id={build(ids.DRAWER_MENU, ids.SETTINGS_MI)}
-                onClick={() => router.push("/" + NavigationConstants.SETTINGS)}
-                className={
-                    activeView === NavigationConstants.SETTINGS
-                        ? classes.listItemActive
-                        : classes.listItem
-                }
-            >
-                <ListItemIcon>
-                    <SettingsIcon className={classes.icon} fontSize="large" />
-                </ListItemIcon>
-                <ListItemText>{getMessage("settings")}</ListItemText>
-            </ListItem>
+            </Tooltip>
         </List>
     );
 

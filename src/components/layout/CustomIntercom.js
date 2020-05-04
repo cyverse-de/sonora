@@ -14,7 +14,7 @@ import { useIntercom } from "../../contexts/intercom";
 import { intercomLogin, intercomLogout } from "../../common/intercom";
 import { useUserProfile } from "../../contexts/userProfile";
 
-import { Badge, IconButton } from "@material-ui/core";
+import { Badge, IconButton, Tooltip } from "@material-ui/core";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 
 function CustomIntercom({ intl }) {
@@ -47,16 +47,21 @@ function CustomIntercom({ intl }) {
 
     if (enabled) {
         return (
-            <IconButton
-                id={ids.INTERCOM_WIDGET}
-                color="primary"
-                aria-label={formatMessage(intl, "intercomAriaLabel")}
-                aria-controls={formatMessage(intl, "intercomAriaControl")}
+            <Tooltip
+                title={formatMessage(intl, "intercomAriaLabel")}
+                placement="bottom"
+                arrow
             >
-                <Badge badgeContent={unReadCount} color="error">
-                    <LiveHelpIcon />
-                </Badge>
-            </IconButton>
+                <IconButton
+                    id={ids.INTERCOM_WIDGET}
+                    color="primary"
+                    aria-label={formatMessage(intl, "intercomAriaLabel")}
+                >
+                    <Badge badgeContent={unReadCount} color="error">
+                        <LiveHelpIcon />
+                    </Badge>
+                </IconButton>
+            </Tooltip>
         );
     } else {
         return null;

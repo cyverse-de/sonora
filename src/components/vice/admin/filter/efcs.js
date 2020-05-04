@@ -173,7 +173,13 @@ class PodsEFC extends ExtractFilterCompare {
         const copy = {
             ...fromObject,
         };
-        copy.pods = JSONPath({ json: copy.pods, path: filterString });
+        copy.pods = JSONPath({ json: copy.pods, path: filterString }).reduce(
+            (prev, curr) =>
+                prev.findIndex((obj) => obj.externalID === curr.externalID) < 0
+                    ? [...prev, curr] // adds curr to the accumulator.
+                    : prev, // curr was already there, so don't add it again,
+            [] // accumulator
+        );
         return copy;
     }
 }
@@ -209,30 +215,30 @@ export const pods = {
     containerStatusRestartCount: new PodsEFC(
         () => "$.pods[*].containerStatuses[*].restartCount",
         (containerStatusRestartCount) =>
-            `$..containerStatuses[?(@.restartCount===${containerStatusRestartCount})]`
+            `$..containerStatuses[?(@.restartCount===${containerStatusRestartCount})]^^^`
     ),
 
     containerStatusImage: new PodsEFC(
         () => "$.pods[*].containerStatuses[*].image",
         (containerStatusImage) =>
-            `$..containerStatuses[?(@.image==='${containerStatusImage}')]`
+            `$..containerStatuses[?(@.image==='${containerStatusImage}')]^^^`
     ),
 
     containerStatusImageID: new PodsEFC(
         () => "$.pods[*].containerStatuses[*].imageID",
         (containerStatusImageID) =>
-            `$..containerStatuses[?(@.imageID==='${containerStatusImageID}')]`
+            `$..containerStatuses[?(@.imageID==='${containerStatusImageID}')]^^^`
     ),
 
     containerStatusContainerID: new PodsEFC(
         () => "$.pods[*].containerStatuses[*].containerID",
         (containerStatusContainerID) =>
-            `$..containerStatuses[?(@.containerID==='${containerStatusContainerID}')]`
+            `$..containerStatuses[?(@.containerID==='${containerStatusContainerID}')]^^^`
     ),
 
     containerStatusStarted: new PodsEFC(
         () => "#.pods[*].containerStatuses[*].started",
         (containerStatusStarted) =>
-            `$..containerStatuses[?(@.started===${containerStatusStarted})]`
+            `$..containerStatuses[?(@.started===${containerStatusStarted})]^^^`
     ),
 };

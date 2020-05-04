@@ -14,6 +14,10 @@ export default (theme) => ({
         backgroundColor: theme.palette.error.main,
     },
 
+    bottomPadding: {
+        paddingBottom: theme.spacing(1),
+    },
+
     button: {
         [theme.breakpoints.up("sm")]: {
             margin: theme.spacing(1),
@@ -24,6 +28,10 @@ export default (theme) => ({
         [theme.breakpoints.up("sm")]: {
             marginRight: theme.spacing(1),
         },
+    },
+
+    closeButton: {
+        float: "right",
     },
 
     dataLink: {

@@ -74,7 +74,7 @@ export const trackUpload = (uploadFile, destinationPath, dispatch) => {
  * @param {Array<Object>} transferItemList - The DataTransferItemList created by an onDrop event.
  * @param {itemsFn} itemsFn - The callback the list of dropped items are passed to.
  */
-const processDroppedFiles = async (transferItemList, itemsFn) => {
+export const processDroppedFiles = async (transferItemList, itemsFn) => {
     // TransferItemLists aren't actually arrays/lists in JS-land.
     const allItems = convertDTIL(transferItemList);
 
@@ -89,4 +89,21 @@ const processDroppedFiles = async (transferItemList, itemsFn) => {
     return itemsFn(fileItems);
 };
 
-export default processDroppedFiles;
+/**
+ * A handler for processing files selected in the browser's file browser.
+ *
+ * @param {Array<Object>} itemList - The files returned from a file input's onChange method.
+ * @param {itemsFn} itemsFn - The callback the list of dropped items are passed to.
+ */
+export const processSelectedFiles = async (itemList, itemsFn) => {
+    // TransferItemLists aren't actually arrays/lists in JS-land.
+    const allItems = convertDTIL(itemList);
+
+    // Get all of the files split out into their own list.
+    const fileItems = allItems
+        .filter((f) => f.size > 0) // filter out 0-byte files and directories.
+        .map((i) => ({ kind: KindFile, value: i }));
+
+    // Set the new value of uploadItems, which should trigger a re-render.
+    return itemsFn(fileItems);
+};

@@ -7,7 +7,7 @@
  */
 
 import React, { useState } from "react";
-import processDroppedFiles, { trackUpload } from "./UploadDrop";
+import { processDroppedFiles, trackUpload } from "./UploadDrop";
 import { useUploadTrackingDispatch } from "../../contexts/uploadTracking";
 import PropTypes from "prop-types";
 

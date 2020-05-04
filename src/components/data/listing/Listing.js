@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import { withI18N } from "@cyverse-de/ui-lib";
 import { Toolbar } from "@material-ui/core";
 import { injectIntl } from "react-intl";
-import { queryCache, useQuery } from "react-query";
+import { queryCache, useMutation, useQuery } from "react-query";
 
 import Header from "../Header";
 import messages from "../messages";
@@ -19,12 +19,14 @@ import { useUploadTrackingState } from "../../../contexts/uploadTracking";
 import { camelcaseit } from "../../../common/functions";
 import Drawer from "../details/Drawer";
 import {
+    deleteResources,
     getInfoTypes,
     getPagedListing,
 } from "../../../serviceFacades/filesystem";
 import DataNavigation from "../DataNavigation";
 import DEPagination from "../../utils/DEPagination";
 import ResourceTypes from "../../models/ResourceTypes";
+import isQueryLoading from "../../utils/isQueryLoading";
 
 function Listing(props) {
     const uploadTracker = useUploadTrackingState();
@@ -68,6 +70,7 @@ function Listing(props) {
             onSuccess: (respData) => {
                 setData({
                     total: respData?.total,
+                    permission: respData?.permission,
                     listing: [
                         ...respData?.folders.map((f) => ({
                             ...f,
@@ -82,6 +85,16 @@ function Listing(props) {
             },
         },
     });
+
+    const refreshListing = () =>
+        queryCache.refetchQueries(pagedListingKey, { force: true });
+
+    const [removeResources, { status: removeResourceStatus }] = useMutation(
+        deleteResources,
+        {
+            onSuccess: () => refreshListing(),
+        }
+    );
 
     useEffect(() => {
         setSelected([]);
@@ -197,7 +210,11 @@ function Listing(props) {
     };
 
     const onDeleteSelected = (resourceId) => {
-        console.log("Delete", resourceId);
+        const items = resourceId ? [resourceId] : null;
+        const paths = getSelectedResources(items).map(
+            (resource) => resource.path
+        );
+        removeResources({ paths });
     };
 
     const handleChangePage = (event, newPage) => {
@@ -219,8 +236,9 @@ function Listing(props) {
         setDetailsResource(resource);
     };
 
-    const getSelectedResources = () => {
-        return selected.map((id) =>
+    const getSelectedResources = (resources) => {
+        const items = resources ? resources : selected;
+        return items.map((id) =>
             data?.listing?.find((resource) => resource.id === id)
         );
     };
@@ -231,6 +249,8 @@ function Listing(props) {
             setInfoTypes(infoTypesCache.types);
         }
     }
+
+    const isLoading = isQueryLoading([isFetching, removeResourceStatus]);
 
     return (
         <>
@@ -245,6 +265,9 @@ function Listing(props) {
                 </Toolbar>
                 <Header
                     baseId={baseId}
+                    path={path}
+                    permission={data?.permission}
+                    refreshListing={refreshListing}
                     isGridView={isGridView}
                     toggleDisplay={toggleDisplay}
                     onDownloadSelected={onDownloadSelected}
@@ -256,7 +279,7 @@ function Listing(props) {
                 />
                 {!isGridView && (
                     <TableView
-                        loading={isFetching}
+                        loading={isLoading}
                         error={error}
                         path={path}
                         handlePathChange={handlePathChange}

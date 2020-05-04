@@ -2,7 +2,11 @@
  * @author sriram
  *
  */
+import { getMessage } from "@cyverse-de/ui-lib";
+
 import constants from "../../constants";
+import DataConstants from "./constants";
+import Permissions, { permissionHierarchy } from "../models/Permissions";
 
 /**
  * Encode given path
@@ -18,4 +22,54 @@ function getEncodedPath(path) {
     return encodedPath;
 }
 
-export { getEncodedPath };
+const validateDiskResourceName = (name) => {
+    if (name === "") {
+        return getMessage("validationEmptyDiskResourceName");
+    }
+    if (name === "." || name === "..") {
+        return getMessage("validationDiskResourceName");
+    }
+
+    const illegalChars = name?.match(DataConstants.NAME_INVALID_CHARS_REGEX);
+
+    if (illegalChars) {
+        const charList = [...new Set(illegalChars)]
+            .map((c) => {
+                if (c === "\n") return "\\n";
+                if (c === "\t") return "\\t";
+                return c;
+            })
+            .join("");
+
+        return getMessage("validationInvalidCharacters", {
+            values: { charList },
+        });
+    }
+
+    return null;
+};
+
+const hasOwn = (permission) => {
+    return Permissions.OWN === permission;
+};
+
+const isWritable = (permission) => {
+    return (
+        permissionHierarchy(permission) >=
+        permissionHierarchy(Permissions.WRITE)
+    );
+};
+
+const isReadable = (permission) => {
+    return (
+        permissionHierarchy(permission) >= permissionHierarchy(Permissions.READ)
+    );
+};
+
+export {
+    getEncodedPath,
+    validateDiskResourceName,
+    hasOwn,
+    isWritable,
+    isReadable,
+};

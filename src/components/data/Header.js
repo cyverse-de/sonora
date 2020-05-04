@@ -6,7 +6,7 @@
  * data and also allows toggling the table or grid view.
  */
 
-import React from "react";
+import React, { useState } from "react";
 
 import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import {
@@ -19,6 +19,7 @@ import {
 } from "@material-ui/core";
 import {
     Apps as GridIcon,
+    CreateNewFolder,
     FormatListBulleted as TableIcon,
     Info,
     Share,
@@ -30,6 +31,8 @@ import ids from "./ids";
 import messages from "./messages";
 import styles from "./styles";
 import UploadMenuBtn from "./UploadMenuBtn";
+import CreateFolderDialog from "./CreateFolderDialog";
+import { isWritable } from "./utils";
 
 const useStyles = makeStyles(styles);
 
@@ -37,6 +40,9 @@ function Header(props) {
     const classes = useStyles();
     const {
         baseId,
+        path,
+        permission,
+        refreshListing,
         isGridView,
         toggleDisplay,
         onDownloadSelected,
@@ -48,81 +54,109 @@ function Header(props) {
         intl,
     } = props;
 
+    const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
+    const onCreateFolderDlgClose = () => setCreateFolderDlgOpen(false);
+    const onCreateFolderClicked = () => setCreateFolderDlgOpen(true);
+
     let headerId = build(baseId, ids.HEADER);
 
     return (
-        <Toolbar
-            variant="dense"
-            classes={{ root: classes.toolbar }}
-            id={headerId}
-        >
-            {isGridView && (
-                <Tooltip
-                    id={build(headerId, ids.TABLE_VIEW_BTN, ids.TOOLTIP)}
-                    title={getMessage("tableView")}
-                    aria-label={formatMessage(intl, "tableView")}
-                >
-                    <IconButton
-                        id={build(headerId, ids.TABLE_VIEW_BTN)}
-                        edge="start"
-                        className={classes.menuButton}
-                        onClick={() => toggleDisplay()}
+        <>
+            <Toolbar
+                variant="dense"
+                classes={{ root: classes.toolbar }}
+                id={headerId}
+            >
+                {isGridView && (
+                    <Tooltip
+                        id={build(headerId, ids.TABLE_VIEW_BTN, ids.TOOLTIP)}
+                        title={getMessage("tableView")}
+                        aria-label={formatMessage(intl, "tableView")}
                     >
-                        <TableIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
-            {!isGridView && (
-                <Tooltip
-                    id={build(headerId, ids.GRID_VIEW_BTN, ids.TOOLTIP)}
-                    title={getMessage("gridView")}
-                    aria-label={formatMessage(intl, "gridView")}
-                >
-                    <IconButton
-                        id={build(headerId, ids.GRID_VIEW_BTN)}
-                        edge="start"
-                        className={classes.menuButton}
-                        onClick={() => toggleDisplay()}
+                        <IconButton
+                            id={build(headerId, ids.TABLE_VIEW_BTN)}
+                            edge="start"
+                            className={classes.menuButton}
+                            onClick={() => toggleDisplay()}
+                        >
+                            <TableIcon />
+                        </IconButton>
+                    </Tooltip>
+                )}
+                {!isGridView && (
+                    <Tooltip
+                        id={build(headerId, ids.GRID_VIEW_BTN, ids.TOOLTIP)}
+                        title={getMessage("gridView")}
+                        aria-label={formatMessage(intl, "gridView")}
                     >
-                        <GridIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
-            <div className={classes.divider} />
-            {detailsEnabled && (
+                        <IconButton
+                            id={build(headerId, ids.GRID_VIEW_BTN)}
+                            edge="start"
+                            className={classes.menuButton}
+                            onClick={() => toggleDisplay()}
+                        >
+                            <GridIcon />
+                        </IconButton>
+                    </Tooltip>
+                )}
+                <div className={classes.divider} />
+                {detailsEnabled && (
+                    <Button
+                        id={build(headerId, ids.DETAILS_BTN)}
+                        variant="contained"
+                        disableElevation
+                        color="primary"
+                        className={classes.button}
+                        onClick={onDetailsSelected}
+                    >
+                        <Info className={classes.buttonIcon} />
+                        <Hidden xsDown>{getMessage("details")}</Hidden>
+                    </Button>
+                )}
+                {isWritable(permission) && (
+                    <Button
+                        id={build(baseId, ids.CREATE_BTN)}
+                        variant="contained"
+                        disableElevation
+                        color="primary"
+                        className={classes.button}
+                        onClick={onCreateFolderClicked}
+                    >
+                        <CreateNewFolder className={classes.buttonIcon} />
+                        <Hidden xsDown>{getMessage("folder")}</Hidden>
+                    </Button>
+                )}
+                <UploadMenuBtn baseId={headerId} path={path} />
                 <Button
-                    id={build(headerId, ids.DETAILS_BTN)}
+                    id={build(headerId, ids.SHARE_BTN)}
                     variant="contained"
                     disableElevation
                     color="primary"
                     className={classes.button}
-                    onClick={onDetailsSelected}
+                    onClick={() => console.log("Share")}
                 >
-                    <Info className={classes.buttonIcon} />
-                    <Hidden xsDown>{getMessage("details")}</Hidden>
+                    <Share className={classes.buttonIcon} />
+                    <Hidden xsDown>{getMessage("share")}</Hidden>
                 </Button>
-            )}
-            <UploadMenuBtn baseId={headerId} />
-            <Button
-                id={build(headerId, ids.SHARE_BTN)}
-                variant="contained"
-                disableElevation
-                color="primary"
-                className={classes.button}
-                onClick={() => console.log("Share")}
-            >
-                <Share className={classes.buttonIcon} />
-                <Hidden xsDown>{getMessage("share")}</Hidden>
-            </Button>
-            <DataDotMenu
-                baseId={headerId}
-                onDownloadSelected={onDownloadSelected}
-                onEditSelected={onEditSelected}
-                onMetadataSelected={onMetadataSelected}
-                onDeleteSelected={onDeleteSelected}
-                ButtonProps={{ className: classes.whiteDotMenu }}
+                <DataDotMenu
+                    baseId={headerId}
+                    onDownloadSelected={onDownloadSelected}
+                    onEditSelected={onEditSelected}
+                    onMetadataSelected={onMetadataSelected}
+                    onDeleteSelected={onDeleteSelected}
+                    ButtonProps={{ className: classes.whiteDotMenu }}
+                />
+            </Toolbar>
+            <CreateFolderDialog
+                path={path}
+                open={createFolderDlgOpen}
+                onClose={onCreateFolderDlgClose}
+                onFolderCreated={() => {
+                    onCreateFolderDlgClose();
+                    refreshListing();
+                }}
             />
-        </Toolbar>
+        </>
     );
 }
 

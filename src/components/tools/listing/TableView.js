@@ -22,12 +22,16 @@ import TableLoading from "../../utils/TableLoading";
 
 const buildId = build;
 
+/**
+ * Returns localized column header information for the tool listing table.
+ * @param {Object} intl - the internationalization object
+ */
 const columnData = (intl) => [
     {
         id: ids.NAME,
         name: formatMessage(intl, "name"),
         numeric: false,
-        enableSorting: false,
+        enableSorting: true,
         key: "name",
     },
     {
@@ -53,7 +57,10 @@ const columnData = (intl) => [
     },
 ];
 
-// The loading mask to display when we're waiting for a response from the API.
+/**
+ * Returns the loading mask to display when we're waiting for a response from the API.
+ * @param {Object} props - the component properties
+ */
 function LoadingMask(props) {
     const { columns, tableId } = props;
     return (
@@ -65,7 +72,10 @@ function LoadingMask(props) {
     );
 }
 
-// The table Contents to display when the API returns an error.
+/**
+ * Returns the table contents to display when the API returns an error.
+ * @param {Object} props - the component properties
+ */
 function LoadingError(props) {
     const { columns, error } = props;
     return (
@@ -73,7 +83,10 @@ function LoadingError(props) {
     );
 }
 
-// The table contents to return when the API returns an empty result set.
+/**
+ * Returns the table contents to return when the API returns an empty result set.
+ * @param {Object} props - the component properties
+ */
 function NoTools(props) {
     const { columns } = props;
     return (
@@ -84,7 +97,10 @@ function NoTools(props) {
     );
 }
 
-// The table contents to display when the API call returns succesfully.
+/**
+ * Returns the table contents to display when the API call returns succesfully.
+ * @param {Object} props - the component properties
+ */
 function ToolListing(props) {
     const { tableId, tools } = props;
     return tools.map((tool, _) => {
@@ -103,7 +119,10 @@ function ToolListing(props) {
     });
 }
 
-// The tool listing table body.
+/**
+ * Returns the tool listing table body.
+ * @param {Object} props - the component properties
+ */
 function ToolListingTableBody(props) {
     const { columns, error, tableId, tools } = props;
     return (
@@ -119,9 +138,21 @@ function ToolListingTableBody(props) {
     );
 }
 
-// The tool listing table view.
+/**
+ * Returns the tool listing table view.
+ * @param {Object} props - the component properties
+ */
 function TableView(props) {
-    const { baseId, error, intl, listing, loading } = props;
+    const {
+        baseId,
+        error,
+        handleRequestSort,
+        intl,
+        listing,
+        loading,
+        order,
+        orderBy,
+    } = props;
     const tableId = buildId(baseId, ids.LISTING_TABLE);
 
     const columns = columnData(intl);
@@ -146,8 +177,11 @@ function TableView(props) {
             >
                 <EnhancedTableHead
                     baseId={baseId}
-                    selectable={false}
                     columnData={columns}
+                    onRequestSort={handleRequestSort}
+                    order={order}
+                    orderBy={orderBy}
+                    selectable={false}
                 />
                 {loading ? (
                     <LoadingMask columns={columns} tableId={tableId} />

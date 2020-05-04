@@ -639,12 +639,12 @@ const testData = {
             appID: "1f5e7f3a-e46c-11e9-870d-008cfa5ae621",
             ports: [
                 {
-                    name: "tcp-input",
-                    nodePort: 0,
-                    targetPort: 0,
-                    targetPortName: "tcp-input",
-                    port: 60001,
-                    protocol: "TCP",
+                    name: "filter-value",
+                    nodePort: 2,
+                    targetPort: 1,
+                    targetPortName: "target-port-name",
+                    port: 40000,
+                    protocol: "UDP",
                 },
                 {
                     name: "tcp-proxy",

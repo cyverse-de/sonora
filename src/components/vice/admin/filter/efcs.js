@@ -22,19 +22,6 @@ class ExtractFilterCompare {
     }
 }
 
-class AnalysesEFC extends ExtractFilterCompare {
-    filter(fromObject, ...args) {
-        const filterString = this.filter(...args);
-        const copy = {
-            ...fromObject,
-        };
-        for (let [key, value] of Object.entries(fromObject)) {
-            copy[key] = JSONPath({ path: filterString, json: value });
-        }
-        return copy;
-    }
-}
-
 class DeploymentsEFC extends ExtractFilterCompare {
     filter(fromObject, ...args) {
         const filterString = this.filterFn(...args);
@@ -121,6 +108,19 @@ export const services = {
         (protocol) => `$.services[*].ports[?(@.protocol==='${protocol}')]^^^`
     ),
 };
+
+class AnalysesEFC extends ExtractFilterCompare {
+    filter(fromObject, ...args) {
+        const filterString = this.filterFn(...args);
+        const copy = {
+            ...fromObject,
+        };
+        for (let [key, value] of Object.entries(fromObject)) {
+            copy[key] = JSONPath({ path: filterString, json: value });
+        }
+        return copy;
+    }
+}
 
 // Apply these filters to each sub-list (deployments, services, configMaps, etc.)
 // separately.

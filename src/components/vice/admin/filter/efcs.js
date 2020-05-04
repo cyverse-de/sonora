@@ -169,7 +169,7 @@ export const analyses = {
 
 class PodsEFC extends ExtractFilterCompare {
     filter(fromObject, ...args) {
-        const filterString = this.filter(...args);
+        const filterString = this.filterFn(...args);
         const copy = {
             ...fromObject,
         };

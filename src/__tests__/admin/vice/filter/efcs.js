@@ -328,3 +328,191 @@ it("analysis filter appID returns no values", () => {
     expect(result.ingresses).toStrictEqual([]);
     expect(result.pods).toStrictEqual([]);
 });
+
+it("analysis filter externalID returns values", () => {
+    const expected = "e112629a-67ec-4018-bf28-30b244e940c3";
+    const result = efcs.analyses.externalID.filter(data, expected);
+    expect(result.deployments.length).toBe(1);
+    expect(result.services.length).toBe(1);
+    expect(result.configMaps.length).toBe(2);
+    expect(result.ingresses.length).toBe(1);
+    expect(result.pods.length).toBe(1);
+    expect(result.deployments[0].externalID).toBe(expected);
+    expect(result.services[0].externalID).toBe(expected);
+    expect(result.configMaps[0].externalID).toBe(expected);
+    expect(result.configMaps[1].externalID).toBe(expected);
+    expect(result.ingresses[0].externalID).toBe(expected);
+    expect(result.pods[0].externalID).toBe(expected);
+    expect(result.deployments[0]).toStrictEqual(data.deployments.slice(-1)[0]);
+    expect(result.services[0]).toStrictEqual(data.services.slice(-1)[0]);
+    expect(result.configMaps[0]).toStrictEqual(data.configMaps[3]);
+    expect(result.configMaps[1]).toStrictEqual(data.configMaps[7]);
+    expect(result.ingresses[0]).toStrictEqual(data.ingresses.slice(-1)[0]);
+    expect(result.pods[0]).toStrictEqual(data.pods.slice(-1)[0]);
+});
+
+it("analysis filter externalID returns no values", () => {
+    const expected = "nope";
+    const result = efcs.analyses.externalID.filter(data, expected);
+    expect(result.services.length).toBe(0);
+    expect(result.configMaps.length).toBe(0);
+    expect(result.ingresses.length).toBe(0);
+    expect(result.pods.length).toBe(0);
+    expect(result.deployments).toStrictEqual([]);
+    expect(result.services).toStrictEqual([]);
+    expect(result.configMaps).toStrictEqual([]);
+    expect(result.ingresses).toStrictEqual([]);
+    expect(result.pods).toStrictEqual([]);
+});
+
+it("analyses filter namespace returns values", () => {
+    const expected = "vice-apps";
+    const result = efcs.analyses.namespace.filter(data, expected);
+    expect(result.deployments.length).toBe(4);
+    expect(result.services.length).toBe(4);
+    expect(result.configMaps.length).toBe(8);
+    expect(result.ingresses.length).toBe(4);
+    expect(result.pods.length).toBe(4);
+
+    for (const dep of result.deployments) {
+        expect(dep.namespace).toBe(expected);
+    }
+
+    for (const svc of result.services) {
+        expect(svc.namespace).toBe(expected);
+    }
+
+    for (const cm of result.configMaps) {
+        expect(cm.namespace).toBe(expected);
+    }
+
+    for (const ing of result.ingresses) {
+        expect(ing.namespace).toBe(expected);
+    }
+
+    for (const pod of result.pods) {
+        expect(pod.namespace).toBe(expected);
+    }
+});
+
+it("analyses filter namespace returns no values", () => {
+    const expected = "nope";
+    const result = efcs.analyses.namespace.filter(data, expected);
+    expect(result.services.length).toBe(0);
+    expect(result.configMaps.length).toBe(0);
+    expect(result.ingresses.length).toBe(0);
+    expect(result.pods.length).toBe(0);
+    expect(result.deployments).toStrictEqual([]);
+    expect(result.services).toStrictEqual([]);
+    expect(result.configMaps).toStrictEqual([]);
+    expect(result.ingresses).toStrictEqual([]);
+    expect(result.pods).toStrictEqual([]);
+});
+
+it("analyses filter userID returns values", () => {
+    const expected = "6bec60d2-854a-11e4-b87e-1f417f9dbc81";
+    const result = efcs.analyses.userID.filter(data, expected);
+    expect(result.deployments.length).toBe(1);
+    expect(result.services.length).toBe(1);
+    expect(result.configMaps.length).toBe(2);
+    expect(result.ingresses.length).toBe(1);
+    expect(result.pods.length).toBe(1);
+    expect(result.deployments[0].userID).toBe(expected);
+    expect(result.services[0].userID).toBe(expected);
+    expect(result.configMaps[0].userID).toBe(expected);
+    expect(result.configMaps[1].userID).toBe(expected);
+    expect(result.ingresses[0].userID).toBe(expected);
+    expect(result.pods[0].userID).toBe(expected);
+    expect(result.deployments[0]).toStrictEqual(data.deployments.slice(-1)[0]);
+    expect(result.services[0]).toStrictEqual(data.services.slice(-1)[0]);
+    expect(result.configMaps[0]).toStrictEqual(data.configMaps[3]);
+    expect(result.configMaps[1]).toStrictEqual(data.configMaps[7]);
+    expect(result.ingresses[0]).toStrictEqual(data.ingresses.slice(-1)[0]);
+    expect(result.pods[0]).toStrictEqual(data.pods.slice(-1)[0]);
+});
+
+it("analyses filter userID returns no values", () => {
+    const expected = "nope";
+    const result = efcs.analyses.userID.filter(data, expected);
+    expect(result.services.length).toBe(0);
+    expect(result.configMaps.length).toBe(0);
+    expect(result.ingresses.length).toBe(0);
+    expect(result.pods.length).toBe(0);
+    expect(result.deployments).toStrictEqual([]);
+    expect(result.services).toStrictEqual([]);
+    expect(result.configMaps).toStrictEqual([]);
+    expect(result.ingresses).toStrictEqual([]);
+    expect(result.pods).toStrictEqual([]);
+});
+
+it("analyses filter username returns values", () => {
+    const expected = "psarando";
+    const result = efcs.analyses.username.filter(data, expected);
+    expect(result.deployments.length).toBe(1);
+    expect(result.services.length).toBe(1);
+    expect(result.configMaps.length).toBe(2);
+    expect(result.ingresses.length).toBe(1);
+    expect(result.pods.length).toBe(1);
+    expect(result.deployments[0].username).toBe(expected);
+    expect(result.services[0].username).toBe(expected);
+    expect(result.configMaps[0].username).toBe(expected);
+    expect(result.configMaps[1].username).toBe(expected);
+    expect(result.ingresses[0].username).toBe(expected);
+    expect(result.pods[0].username).toBe(expected);
+    expect(result.deployments[0]).toStrictEqual(data.deployments.slice(-1)[0]);
+    expect(result.services[0]).toStrictEqual(data.services.slice(-1)[0]);
+    expect(result.configMaps[0]).toStrictEqual(data.configMaps[3]);
+    expect(result.configMaps[1]).toStrictEqual(data.configMaps[7]);
+    expect(result.ingresses[0]).toStrictEqual(data.ingresses.slice(-1)[0]);
+    expect(result.pods[0]).toStrictEqual(data.pods.slice(-1)[0]);
+});
+
+it("analyses filter username returns no values", () => {
+    const expected = "nope";
+    const result = efcs.analyses.username.filter(data, expected);
+    expect(result.services.length).toBe(0);
+    expect(result.configMaps.length).toBe(0);
+    expect(result.ingresses.length).toBe(0);
+    expect(result.pods.length).toBe(0);
+    expect(result.deployments).toStrictEqual([]);
+    expect(result.services).toStrictEqual([]);
+    expect(result.configMaps).toStrictEqual([]);
+    expect(result.ingresses).toStrictEqual([]);
+    expect(result.pods).toStrictEqual([]);
+});
+
+it("analyses filter creationTimestamp returns values", () => {
+    const expected = "2020-01-31 18:35:21 -0700 MST";
+    const result = efcs.analyses.creationTimestamp.filter(data, expected);
+    expect(result.deployments.length).toBe(1);
+    expect(result.services.length).toBe(1);
+    expect(result.configMaps.length).toBe(2);
+    expect(result.ingresses.length).toBe(1);
+    expect(result.pods.length).toBe(1);
+    expect(result.deployments[0].creationTimestamp).toBe(expected);
+    expect(result.services[0].creationTimestamp).toBe(expected);
+    expect(result.configMaps[0].creationTimestamp).toBe(expected);
+    expect(result.configMaps[1].creationTimestamp).toBe(expected);
+    expect(result.ingresses[0].creationTimestamp).toBe(expected);
+    expect(result.pods[0].creationTimestamp).toBe(expected);
+    expect(result.deployments[0]).toStrictEqual(data.deployments.slice(-1)[0]);
+    expect(result.services[0]).toStrictEqual(data.services.slice(-1)[0]);
+    expect(result.configMaps[0]).toStrictEqual(data.configMaps[3]);
+    expect(result.configMaps[1]).toStrictEqual(data.configMaps[7]);
+    expect(result.ingresses[0]).toStrictEqual(data.ingresses.slice(-1)[0]);
+    expect(result.pods[0]).toStrictEqual(data.pods.slice(-1)[0]);
+});
+
+it("analyses filter creationTimestamp returns no values", () => {
+    const expected = "nope";
+    const result = efcs.analyses.creationTimestamp.filter(data, expected);
+    expect(result.services.length).toBe(0);
+    expect(result.configMaps.length).toBe(0);
+    expect(result.ingresses.length).toBe(0);
+    expect(result.pods.length).toBe(0);
+    expect(result.deployments).toStrictEqual([]);
+    expect(result.services).toStrictEqual([]);
+    expect(result.configMaps).toStrictEqual([]);
+    expect(result.ingresses).toStrictEqual([]);
+    expect(result.pods).toStrictEqual([]);
+});

@@ -145,11 +145,6 @@ export const analyses = {
         (externalID) => `$..[?(@.externalID==='${externalID}')]`
     ),
 
-    name: new AnalysesEFC(
-        () => "$..name",
-        (name) => `$..[?(@.name==='${name})]`
-    ),
-
     namespace: new AnalysesEFC(
         () => "$..namespace",
         (namespace) => `$..[?(@.namespace==='${namespace}')]`
@@ -166,7 +161,7 @@ export const analyses = {
     ),
 
     creationTimestamp: new AnalysesEFC(
-        () => "$..userID",
+        () => "$..creationTimestamp",
         (creationTimestamp) =>
             `$..[?(@.creationTimestamp==='${creationTimestamp}')]`
     ),

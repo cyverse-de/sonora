@@ -592,3 +592,171 @@ it("pods filter reason returns no values", () => {
     expect(result.configMaps).toStrictEqual(data.configMaps);
     expect(result.ingresses).toStrictEqual(data.ingresses);
 });
+
+it("pods filter containerStatusName returns values", () => {
+    const expected = "analysis";
+    const result = efcs.pods.containerStatusName.filter(data, expected);
+    expect(result.pods.length).toBe(4);
+    expect(result.pods).toStrictEqual(data.pods);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter containerStatusName returns no values", () => {
+    const expected = "nope";
+    const result = efcs.pods.containerStatusName.filter(data, expected);
+    expect(result.pods.length).toBe(0);
+    expect(result.pods).toStrictEqual([]);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter containerStatusReady returns values", () => {
+    const expected = true;
+    const result = efcs.pods.containerStatusReady.filter(data, expected);
+    expect(result.pods.length).toBe(4);
+    expect(result.pods).toStrictEqual(data.pods);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter containerStatusReady returns no values", () => {
+    const expected = false;
+    const result = efcs.pods.containerStatusReady.filter(data, expected);
+    expect(result.pods.length).toBe(0);
+    expect(result.pods).toStrictEqual([]);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter containerStatusRestartCount returns values", () => {
+    const expected = 0;
+    const result = efcs.pods.containerStatusRestartCount.filter(data, expected);
+    expect(result.pods.length).toBe(4);
+    expect(result.pods).toStrictEqual(data.pods);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter containerStatusRestartCount returns no values", () => {
+    const expected = 45;
+    const result = efcs.pods.containerStatusRestartCount.filter(data, expected);
+    expect(result.pods.length).toBe(0);
+    expect(result.pods).toStrictEqual([]);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter containerStatusImage returns values", () => {
+    const expected = "discoenv/vice-proxy:qa";
+    const result = efcs.pods.containerStatusImage.filter(data, expected);
+    expect(result.pods.length).toBe(4);
+    expect(result.pods).toStrictEqual(data.pods);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter containerStatusImage returns no values", () => {
+    const expected = "nope";
+    const result = efcs.pods.containerStatusImage.filter(data, expected);
+    expect(result.pods.length).toBe(0);
+    expect(result.pods).toStrictEqual([]);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter containerStatusImageID returns values", () => {
+    const expected =
+        "docker-pullable://discoenv/vice-proxy@sha256:e171184d3e7ac7ac9095b6ac015a1a03dcc157f888801a1cd8526fed4fb22a11";
+    const result = efcs.pods.containerStatusImageID.filter(data, expected);
+    expect(result.pods.length).toBe(4);
+    expect(result.pods).toStrictEqual(data.pods);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter containerStatusImageID returns no values", () => {
+    const expected = "nope";
+    const result = efcs.pods.containerStatusImageID.filter(data, expected);
+    expect(result.pods.length).toBe(0);
+    expect(result.pods).toStrictEqual([]);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter containerStatusImageID resturns one value", () => {
+    const expected =
+        "docker-pullable://cyversevice/jupyterlab-scipy@sha256:0d33bdcb49a4bf0785b35f2c8a51ebf3896940d50522db36b3a73155bc46eaf9";
+    const result = efcs.pods.containerStatusImageID.filter(data, expected);
+    expect(result.pods.length).toBe(1);
+    expect(result.pods).toStrictEqual(data.pods.slice(-1));
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter containerStatusContainerID returns values", () => {
+    const expected =
+        "docker://6ab00c47768ec1a9fecc4fb386d7c8a88eaff140b205bbea14307496959b5204";
+    const result = efcs.pods.containerStatusContainerID.filter(data, expected);
+    expect(result.pods.length).toBe(1);
+    expect(result.pods).toStrictEqual(data.pods.slice(-1));
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter containerStatusContainerID returns no values", () => {
+    const expected = "nope";
+    const result = efcs.pods.containerStatusContainerID.filter(data, expected);
+    expect(result.pods.length).toBe(0);
+    expect(result.pods).toStrictEqual([]);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter containerStatusStarted returns values", () => {
+    const expected = true;
+    const result = efcs.pods.containerStatusStarted.filter(data, expected);
+    expect(result.pods.length).toBe(4);
+    expect(result.pods).toStrictEqual(data.pods);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods fitler containerStatusStarted returns no values", () => {
+    const expected = false;
+    const result = efcs.pods.containerStatusStarted.filter(data, expected);
+    expect(result.pods.length).toBe(0);
+    expect(result.pods).toStrictEqual([]);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});

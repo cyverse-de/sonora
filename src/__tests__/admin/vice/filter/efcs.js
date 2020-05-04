@@ -516,3 +516,79 @@ it("analyses filter creationTimestamp returns no values", () => {
     expect(result.ingresses).toStrictEqual([]);
     expect(result.pods).toStrictEqual([]);
 });
+
+it("pods filter phase returns values", () => {
+    const expected = "Running";
+    const result = efcs.pods.phase.filter(data, expected);
+    expect(result.pods.length).toBe(4);
+    expect(result.pods).toStrictEqual(data.pods);
+
+    for (const pod of result.pods) {
+        expect(pod.phase).toBe(expected);
+    }
+
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter phase returns no values", () => {
+    const expected = "nope";
+    const result = efcs.pods.phase.filter(data, expected);
+    expect(result.pods.length).toBe(0);
+    expect(result.pods).toStrictEqual([]);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter message returns values", () => {
+    const expected = "";
+    const result = efcs.pods.message.filter(data, expected);
+    expect(result.pods.length).toBe(4);
+    expect(result.pods).toStrictEqual(data.pods);
+
+    for (const pod of result.pods) {
+        expect(pod.message).toBe(expected);
+    }
+
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter message returns no values", () => {
+    const expected = "nope";
+    const result = efcs.pods.message.filter(data, expected);
+    expect(result.pods.length).toBe(0);
+    expect(result.pods).toStrictEqual([]);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter reason returns values", () => {
+    const expected = "";
+    const result = efcs.pods.reason.filter(data, expected);
+    expect(result.pods.length).toBe(4);
+    expect(result.pods).toStrictEqual(data.pods);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});
+
+it("pods filter reason returns no values", () => {
+    const expected = "nope";
+    const result = efcs.pods.reason.filter(data, expected);
+    expect(result.pods.length).toBe(0);
+    expect(result.pods).toStrictEqual([]);
+    expect(result.services).toStrictEqual(data.services);
+    expect(result.deployments).toStrictEqual(data.deployments);
+    expect(result.configMaps).toStrictEqual(data.configMaps);
+    expect(result.ingresses).toStrictEqual(data.ingresses);
+});

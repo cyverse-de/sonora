@@ -16,6 +16,7 @@ import {
     withI18N,
 } from "@cyverse-de/ui-lib";
 import {
+    Container,
     IconButton,
     Link,
     makeStyles,
@@ -38,6 +39,7 @@ import messages from "../messages";
 import constants from "../../../constants";
 import analysisStatus from "../../models/analysisStatus";
 import TableLoading from "../../utils/TableLoading";
+import ErrorHandler from "../../utils/ErrorHandler";
 
 const useStyles = makeStyles((theme) => ({
     name: {
@@ -238,6 +240,16 @@ function TableView(props) {
     const analyses = listing?.analyses;
     const tableId = build(baseId, ids.LISTING_TABLE);
 
+    if (error) {
+        return (
+            <div style={{ height: "65vh", overflow: "auto" }}>
+                <Container maxWidth="sm">
+                    <ErrorHandler errorObject={error} baseId={baseId} />
+                </Container>
+            </div>
+        );
+    }
+
     return (
         <TableContainer component={Paper} style={{ overflow: "auto" }}>
             <Table
@@ -269,12 +281,6 @@ function TableView(props) {
                         {(!analyses || analyses.length === 0) && !error && (
                             <EmptyTable
                                 message={getMessage("noAnalyses")}
-                                numColumns={columnData(intl).length}
-                            />
-                        )}
-                        {error && (
-                            <EmptyTable
-                                message={error.toString()}
                                 numColumns={columnData(intl).length}
                             />
                         )}

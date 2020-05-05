@@ -5,7 +5,6 @@ import { Select, MenuItem } from "@material-ui/core";
 import { getMessage as msg } from "@cyverse-de/ui-lib";
 
 import useStyles from "./styles";
-import * as efcs from "./efcs";
 import { id } from "./functions";
 import ids from "./ids";
 
@@ -30,17 +29,17 @@ const FieldSelect = ({ id, kind, fields, value, handleChange }) => {
 };
 
 const defaultFields = {
-    name: efcs.analyses.name,
-    namespace: efcs.analyses.namespace,
+    name: "$.analyses.name",
+    namespace: "$.analyses.namespace",
 };
 
 export const DeploymentFieldSelect = ({ value, handleChange }) => {
     const fields = {
         ...defaultFields,
-        image: efcs.deployments.image,
-        port: efcs.deployments.port,
-        uid: efcs.deployments.uid,
-        gid: efcs.deployments.gid,
+        image: "$.deployments.image",
+        port: "$.deployments.port",
+        uid: "$.deployments.uid",
+        gid: "$.deployments.gid",
     };
 
     const idValue = id(ids.DEPLOYMENT_FIELD_SELECT);
@@ -57,12 +56,12 @@ export const DeploymentFieldSelect = ({ value, handleChange }) => {
 export const ServiceFieldSelect = ({ value, handleChange }) => {
     const fields = {
         ...defaultFields,
-        portName: efcs.services.portName,
-        nodePort: efcs.services.nodePort,
-        targetPort: efcs.services.targetPort,
-        targetPortName: efcs.services.targetPortName,
-        port: efcs.services.port,
-        protocol: efcs.services.protocol,
+        portName: "$.services.portName",
+        nodePort: "$.services.nodePort",
+        targetPort: "$.services.targetPort",
+        targetPortName: "$.services.targetPortName",
+        port: "$.services.port",
+        protocol: "$.services.protocol",
     };
 
     const idValue = id(ids.SERVICE_FIELD_SELECT);
@@ -109,13 +108,13 @@ export const IngressFieldSelect = ({ value, handleChange }) => {
 export const AnalysisFieldSelect = ({ value, handleChange }) => {
     const fields = {
         ...defaultFields,
-        analysisName: efcs.analyses.analysisName,
-        appName: efcs.analyses.appName,
-        appID: efcs.analyses.appID,
-        externalID: efcs.analyses.externalID,
-        userID: efcs.analyses.userID,
-        username: efcs.analyses.username,
-        dateCreated: efcs.analyses.creationTimestamp,
+        analysisName: "$.analyses.analysisName",
+        appName: "$.analyses.appName",
+        appID: "$.analyses.appID",
+        externalID: "$.analyses.externalID",
+        userID: "$.analyses.userID",
+        username: "$.analyses.username",
+        dateCreated: "$.analyses.creationTimestamp",
     };
     const idValue = id(ids.ANALYSIS_FIELD_SELECT);
 
@@ -132,16 +131,16 @@ export const AnalysisFieldSelect = ({ value, handleChange }) => {
 export const PodFieldSelect = ({ value, handleChange }) => {
     const fields = {
         ...defaultFields,
-        phase: efcs.pods.phase,
-        message: efcs.pods.message,
-        reason: efcs.pods.reason,
-        containerStatusName: efcs.pods.containerStatusName,
-        containerStatusReady: efcs.pods.containerStatusReady,
-        containerStatusRestartCount: efcs.pods.containerStatusRestartCount,
-        containerStatusImage: efcs.pods.containerStatusImage,
-        containerStatusImageID: efcs.pods.containerStatusImageID,
-        containerStatusContainerID: efcs.pods.containerStatusContainerID,
-        containerStatusStarted: efcs.pods.containerStatusStarted,
+        phase: "$.pods.phase",
+        message: "$.pods.message",
+        reason: "$.pods.reason",
+        containerStatusName: "$.pods.containerStatusName",
+        containerStatusReady: "$.pods.containerStatusReady",
+        containerStatusRestartCount: "$.pods.containerStatusRestartCount",
+        containerStatusImage: "$.pods.containerStatusImage",
+        containerStatusImageID: "$.pods.containerStatusImageID",
+        containerStatusContainerID: "$.pods.containerStatusContainerID",
+        containerStatusStarted: "$.pods.containerStatusStarted",
     };
     const idValue = id(ids.POD_FIELD_SELECT);
 

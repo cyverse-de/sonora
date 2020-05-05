@@ -19,6 +19,9 @@ import ids from "./ids";
 import messages from "./messages";
 import { Skeleton } from "@material-ui/lab";
 
+import { JSONPath } from "jsonpath-plus";
+import efcs from "./filter/efcs";
+
 const id = (value) => buildID(ids.ROOT, value);
 
 const useStyles = makeStyles((theme) => ({
@@ -89,6 +92,26 @@ const VICEAdmin = () => {
         setFilters(deletedFrom);
     };
 
+    console.log(filters);
+
+    const filteredData = Object.entries(filters).reduce(
+        (acc, [mappingSelector, value]) => {
+            // grab the correct ExtractFilterCompare instance from the efcs
+            // mapping.
+            const result = JSONPath({
+                path: mappingSelector,
+                json: efcs,
+            });
+            if (result.length > 0) {
+                // Use the EFC to filter for the value. Return it as the new value
+                // of the accumulator.
+                return result[0].filterIt(acc, value);
+            }
+            return acc;
+        },
+        data
+    );
+
     return (
         <div id={id(ids.ROOT)} className={classes.root}>
             {isLoading ? (
@@ -100,7 +123,7 @@ const VICEAdmin = () => {
                         addToFilters={addToFilters}
                         deleteFromFilters={deleteFromFilters}
                     />
-                    <AnalysisTable data={data} />
+                    <AnalysisTable data={filteredData} />
                 </>
             )}
             <div className={classes.footer} />

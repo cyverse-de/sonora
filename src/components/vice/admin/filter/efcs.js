@@ -6,24 +6,24 @@ class ExtractFilterCompare {
         this.filterFn = filterFn;
     }
 
-    extract(fromObject, ...args) {
+    extractIt(fromObject, ...args) {
         const extractorString = this.extractor(...args);
         return JSONPath({ json: fromObject, path: extractorString });
     }
 
-    filter(fromObject, ...args) {
+    filterIt(fromObject, ...args) {
         const filterString = this.filterFn(...args);
 
         return JSONPath({ json: fromObject, path: filterString });
     }
 
-    compare(one, two) {
+    compareIt(one, two) {
         return one === two;
     }
 }
 
 class DeploymentsEFC extends ExtractFilterCompare {
-    filter(fromObject, ...args) {
+    filterIt(fromObject, ...args) {
         const filterString = this.filterFn(...args);
         const copy = {
             ...fromObject,
@@ -36,7 +36,7 @@ class DeploymentsEFC extends ExtractFilterCompare {
     }
 }
 
-export const deployments = {
+const deployments = {
     image: new DeploymentsEFC(
         () => "$.deployments[*].image",
         (image) => `$.deployments[?(@.image=='${image}')]`
@@ -62,7 +62,7 @@ class ServicesEFC extends ExtractFilterCompare {
     // The extra reduce is needed because some of the filtered results
     // are in nested lists of objects meaning there's a result per
     // matched sub-object, creating dupes at the top-level.
-    filter(fromObject, ...args) {
+    filterIt(fromObject, ...args) {
         const filterString = this.filterFn(...args);
         const copy = {
             ...fromObject,
@@ -80,7 +80,7 @@ class ServicesEFC extends ExtractFilterCompare {
         return copy;
     }
 }
-export const services = {
+const services = {
     portName: new ServicesEFC(
         () => "$.services[*].ports[*].name",
         (portName) => `$.services[*].ports[?(@.name==='${portName}')]^^^`
@@ -110,7 +110,7 @@ export const services = {
 };
 
 class AnalysesEFC extends ExtractFilterCompare {
-    filter(fromObject, ...args) {
+    filterIt(fromObject, ...args) {
         const filterString = this.filterFn(...args);
         const copy = {
             ...fromObject,
@@ -124,7 +124,7 @@ class AnalysesEFC extends ExtractFilterCompare {
 
 // Apply these filters to each sub-list (deployments, services, configMaps, etc.)
 // separately.
-export const analyses = {
+const analyses = {
     analysisName: new AnalysesEFC(
         () => "$..analysisName",
         (analysisName) => `$..[?(@.analysisName==='${analysisName}')]`
@@ -168,7 +168,7 @@ export const analyses = {
 };
 
 class PodsEFC extends ExtractFilterCompare {
-    filter(fromObject, ...args) {
+    filterIt(fromObject, ...args) {
         const filterString = this.filterFn(...args);
         const copy = {
             ...fromObject,
@@ -184,7 +184,7 @@ class PodsEFC extends ExtractFilterCompare {
     }
 }
 
-export const pods = {
+const pods = {
     phase: new PodsEFC(
         () => "$.pods[*].phase",
         (phase) => `$..[?(@.phase==='${phase}')]`
@@ -241,4 +241,11 @@ export const pods = {
         (containerStatusStarted) =>
             `$..containerStatuses[?(@.started===${containerStatusStarted})]^^^`
     ),
+};
+
+export default {
+    deployments,
+    services,
+    analyses,
+    pods,
 };

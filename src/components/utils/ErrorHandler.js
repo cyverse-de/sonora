@@ -33,9 +33,9 @@ import constants from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
     cardContent: {
-        padding: theme.spacing(1),
+        padding: theme.spacing(2),
         [theme.breakpoints.down("xs")]: {
-            padding: theme.spacing(0),
+            padding: theme.spacing(1),
         },
     },
     container: {
@@ -96,6 +96,7 @@ function ContactSupport(props) {
             color="primary"
             startIcon={<LiveHelpIcon />}
             onClick={() => window.Intercom("show")}
+            style={{ marginLeft: "auto" }}
         >
             {getMessage("contactSupport")}
         </Button>
@@ -107,12 +108,13 @@ function ErrorHandler(props) {
     const router = useRouter();
     const classes = useStyles();
     const errBaseId = build(baseId, ids.ERROR_HANDLER);
-    let title, subHeader, contents;
+    let title, subHeader, contents, avatar;
 
     if (!errorObject?.response) {
+        avatar = <ErrorIcon fontSize="large" color="error" />;
         title = (
             <Typography color="error" variant="h6">
-                <ErrorIcon /> {getMessage("oops")}
+                {getMessage("oops")}
             </Typography>
         );
         subHeader = (
@@ -129,16 +131,18 @@ function ErrorHandler(props) {
     } else {
         const errorResponse = errorObject.response;
         if (errorResponse?.status === 401) {
+            avatar = <ErrorIcon color="primary" fontSize="large" />;
             title = (
-                <Typography component="span" variant="h5">
-                    <ErrorIcon color="primary" />
+                <Typography component="span" variant="h6">
                     {getMessage("signInReqd")}
                 </Typography>
             );
             contents = (
                 <>
-                    <Typography variant="h6" className={classes.signIn}>
+                    <Typography className={classes.signIn}>
+                        {getMessage("signInPrompt")}
                         <Link
+                            component="button"
                             className={classes.link}
                             id={build(errBaseId, ids.SIGN_IN_LINK)}
                             color="primary"
@@ -148,28 +152,38 @@ function ErrorHandler(props) {
                                 );
                             }}
                         >
-                            {getMessage("signIn")}
+                            <Typography variant="h6" className={classes.signIn}>
+                                {getMessage("signIn")}
+                            </Typography>
                         </Link>
                     </Typography>
-                    <Typography variant="subtitle2" className={classes.signIn}>
+                    <Typography className={classes.signIn}>
                         {getMessage("needAccount")}
+
                         <Link
                             className={classes.link}
+                            component="button"
                             id={build(errBaseId, ids.REGISTER_LINK)}
                             color="primary"
                             onClick={() => {
                                 window.open(constants.USER_PORTAL);
                             }}
                         >
-                            {getMessage("register")}
+                            <Typography
+                                variant="subtitle2"
+                                className={classes.signIn}
+                            >
+                                {getMessage("register")}
+                            </Typography>
                         </Link>
                     </Typography>
                 </>
             );
         } else {
+            avatar = <ErrorIcon fontSize="large" color="error" />;
             title = (
-                <Typography color="error" variant="h5">
-                    <ErrorIcon /> {getMessage("error")}
+                <Typography color="error" variant="h6">
+                    {getMessage("error")}
                 </Typography>
             );
             subHeader = (
@@ -180,24 +194,24 @@ function ErrorHandler(props) {
             contents = (
                 <Grid container spacing={2} className={classes.container}>
                     <GridLabelValue label={getMessage("requestedURL")}>
-                        <span id={build(errBaseId, ids.REQUESTED_URL)}>
+                        <Typography id={build(errBaseId, ids.REQUESTED_URL)}>
                             {errorObject.config?.url}
-                        </span>
+                        </Typography>
                     </GridLabelValue>
                     <GridLabelValue label={getMessage("statusCode")}>
-                        <span id={build(errBaseId, ids.STATUS_CODE)}>
+                        <Typography id={build(errBaseId, ids.STATUS_CODE)}>
                             {errorResponse?.status}
-                        </span>
+                        </Typography>
                     </GridLabelValue>
                     <GridLabelValue label={getMessage("errorCode")}>
-                        <span id={build(errBaseId, ids.ERROR_CODE)}>
+                        <Typography id={build(errBaseId, ids.ERROR_CODE)}>
                             {errorResponse?.data?.error_code}
-                        </span>
+                        </Typography>
                     </GridLabelValue>
                     <GridLabelValue label={getMessage("reason")}>
-                        <span id={build(errBaseId, ids.REASON)}>
+                        <Typography id={build(errBaseId, ids.REASON)}>
                             {JSON.stringify(errorResponse?.data?.reason)}
-                        </span>
+                        </Typography>
                     </GridLabelValue>
                     <ClientInfo />
                 </Grid>
@@ -206,7 +220,7 @@ function ErrorHandler(props) {
     }
     return (
         <Card id={errBaseId}>
-            <CardHeader title={title} subheader={subHeader} />
+            <CardHeader avatar={avatar} title={title} subheader={subHeader} />
             <Divider orientation="horizontal" />
             <CardContent className={classes.cardContent}>
                 {contents}

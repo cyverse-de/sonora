@@ -6,8 +6,8 @@ const intlData = {
         unexpectedError:
             "This wasn't supposed to happen. Please try again or contact support!",
         signInReqd: "Sign In Required",
-        youMust: "You must ",
-        signIn: "You must SIGN IN to view this page!",
+        signInPrompt: "You must Sign In to view this page!",
+        signIn: "SIGN IN",
         viewThisPage: "to view this page!",
         needAccount: "Need a free account? ",
         register: "REGISTER",
@@ -22,6 +22,7 @@ const intlData = {
         contactSupport: "Contact Support",
         host: "Host",
         timestamp: "Timestamp",
+        ok: "OK",
     },
 };
 

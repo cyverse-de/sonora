@@ -16,21 +16,23 @@ import {
 } from "../../../serviceFacades/apps";
 import TableView from "./TableView";
 import Header from "../Header";
-import AppNavigation from "../AppNavigation";
-import { getAppTypeFilters } from "../AppNavigation";
+import AppNavigation, { getAppTypeFilters } from "../AppNavigation";
 import constants from "../../../constants";
 import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
 import Drawer from "../details/Drawer";
 import appType from "../../models/AppType";
 import {
     announce,
-    formatMessage,
-    withI18N,
     AnnouncerConstants,
+    formatMessage,
+    getMessage,
+    withI18N,
 } from "@cyverse-de/ui-lib";
 import { injectIntl } from "react-intl";
 import intlData from "../messages";
 import DEPagination from "../../utils/DEPagination";
+import DEErrorDialog from "../../utils/DEErrorDialog";
+import { Button, Typography, useTheme } from "@material-ui/core";
 
 function Listing(props) {
     const { baseId, intl } = props;
@@ -53,6 +55,10 @@ function Listing(props) {
     const [details, setDetails] = useState(null);
     const [detailsKey, setDetailsKey] = useState(null);
     const [categoryStatus, setCategoryStatus] = useState(false);
+    const [navError, setNavError] = useState(null);
+    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+    const [errorObject, setErrorObject] = useState(null);
+    const theme = useTheme();
 
     //a query with falsy key will not execute until key is set truthy val
     const {
@@ -128,6 +134,19 @@ function Listing(props) {
         });
     };
 
+    const viewErrorDetails = useCallback(() => {
+        return (
+            <Button variant="outlined" onClick={() => setErrorDialogOpen(true)}>
+                <Typography
+                    variant="button"
+                    style={{ color: theme.palette.error.contrastText }}
+                >
+                    {getMessage("details")}
+                </Typography>
+            </Button>
+        );
+    }, [theme.palette.error.contrastText]);
+
     useEffect(() => {
         const systemId = selectedCategory?.system_id;
         const categoryId = selectedCategory?.id;
@@ -194,42 +213,42 @@ function Listing(props) {
     }, [detailsApp]);
 
     useEffect(() => {
-        if (appsInCategoryError || listingError) {
-            setData(null);
-            announce({
-                text: formatMessage(intl, "appListingError"),
-                variant: AnnouncerConstants.ERROR,
-            });
-        }
-    }, [appsInCategoryError, listingError, intl]);
-
-    useEffect(() => {
         if (detailsError) {
             setDetails(null);
+            setDetailsOpen(false);
+            setDetailsKey(null);
+            setErrorObject(detailsError);
             announce({
                 text: formatMessage(intl, "appDetailsError"),
                 variant: AnnouncerConstants.ERROR,
+                CustomAction: viewErrorDetails,
             });
         }
-    }, [detailsError, intl]);
+    }, [detailsError, intl, viewErrorDetails]);
 
     useEffect(() => {
         if (favMutationError) {
+            setErrorObject(favMutationError);
+            setDetailsOpen(false);
             announce({
                 text: formatMessage(intl, "favMutationError"),
                 variant: AnnouncerConstants.ERROR,
+                CustomAction: viewErrorDetails,
             });
         }
-    }, [favMutationError, intl]);
+    }, [favMutationError, intl, viewErrorDetails]);
 
     useEffect(() => {
         if (ratingMutationError) {
+            setErrorObject(ratingMutationError);
+            setDetailsOpen(false);
             announce({
                 text: formatMessage(intl, "ratingMutationError"),
                 variant: AnnouncerConstants.ERROR,
+                CustomAction: viewErrorDetails,
             });
         }
-    }, [ratingMutationError, intl]);
+    }, [ratingMutationError, intl, viewErrorDetails]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);
@@ -335,6 +354,13 @@ function Listing(props) {
         setDetailsOpen(true);
     };
 
+    const handleAppNavError = useCallback(
+        (error) => {
+            setNavError(error);
+        },
+        [setNavError]
+    );
+
     return (
         <>
             <AgaveAuthPromptDialog
@@ -350,6 +376,7 @@ function Listing(props) {
                 filter={filter}
                 selectedCategory={selectedCategory}
                 setCategoryStatus={setCategoryStatus}
+                handleAppNavError={handleAppNavError}
             />
             <Header
                 baseId={baseId}
@@ -364,7 +391,7 @@ function Listing(props) {
                     allAppsStatus === constants.LOADING ||
                     categoryStatus
                 }
-                error={appsInCategoryError || listingError}
+                error={appsInCategoryError || listingError || navError}
                 listing={data}
                 baseId={baseId}
                 order={order}
@@ -387,9 +414,6 @@ function Listing(props) {
                         ratingMutationStatus === constants.LOADING
                     }
                     favMutationStatus={favMutationStatus === constants.LOADING}
-                    error={
-                        detailsError || favMutationError || ratingMutationError
-                    }
                     onRatingChange={onRatingChange}
                     onDeleteRatingClick={onDeleteRating}
                 />
@@ -404,6 +428,15 @@ function Listing(props) {
                     baseId={baseId}
                 />
             )}
+            <DEErrorDialog
+                open={errorDialogOpen}
+                baseId={baseId}
+                errorObject={errorObject}
+                handleClose={() => {
+                    setErrorDialogOpen(false);
+                    setErrorObject(null);
+                }}
+            />
         </>
     );
 }

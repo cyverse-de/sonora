@@ -142,7 +142,6 @@ function DetailsDrawer(props) {
     const {
         selectedApp,
         details,
-        error,
         open,
         onClose,
         baseId,
@@ -243,7 +242,6 @@ function DetailsDrawer(props) {
                     isExternal={isExternal}
                     detailsLoadingStatus={detailsLoadingStatus}
                     ratingMutationStatus={ratingMutationStatus}
-                    error={error}
                     baseId={baseId}
                     onRatingChange={onRatingChange}
                     onDeleteRatingClick={onDeleteRatingClick}

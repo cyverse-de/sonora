@@ -17,6 +17,7 @@ import {
     withI18N,
 } from "@cyverse-de/ui-lib";
 import {
+    Container,
     Paper,
     Table,
     TableBody,
@@ -31,6 +32,7 @@ import AppName from "../AppName";
 import AppFields from "../AppFields";
 import { injectIntl } from "react-intl";
 import messages from "../messages";
+import ErrorHandler from "../../utils/ErrorHandler";
 
 function getTableColumns(deletable, enableMenu) {
     let tableColumns = [
@@ -106,6 +108,15 @@ function TableView(props) {
     const apps = listing?.apps;
     const columnData = getTableColumns(false, false);
     const tableId = build(baseId, ids.LISTING_TABLE);
+    if (error) {
+        return (
+            <div style={{ height: "65vh", overflow: "auto", margin: 10 }}>
+                <Container maxWidth="sm">
+                    <ErrorHandler errorObject={error} baseId={baseId} />
+                </Container>
+            </div>
+        );
+    }
     return (
         <TableContainer component={Paper} style={{ overflow: "auto" }}>
             <Table
@@ -137,12 +148,6 @@ function TableView(props) {
                         {(!apps || apps.length === 0) && !error && (
                             <EmptyTable
                                 message={getMessage("noApps")}
-                                numColumns={columnData.length}
-                            />
-                        )}
-                        {error && (
-                            <EmptyTable
-                                message={error.toString()}
                                 numColumns={columnData.length}
                             />
                         )}

@@ -27,7 +27,6 @@ function DetailsPanel(props) {
         details,
         detailsLoadingStatus,
         ratingMutationStatus,
-        error,
         baseId,
         onRatingChange,
         onDeleteRatingClick,
@@ -37,10 +36,6 @@ function DetailsPanel(props) {
 
     if (detailsLoadingStatus) {
         return <GridLoading baseId={baseId} rows={10} />;
-    }
-
-    if (error) {
-        return <span>{error}</span>;
     }
 
     const { user: userRating } = app.rating;

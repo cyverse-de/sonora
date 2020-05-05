@@ -1,6 +1,6 @@
 import data from "./test_data";
 
-import * as efcs from "../../../../components/vice/admin/filter/efcs";
+import efcs from "../../../../components/vice/admin/filter/efcs";
 
 it("deployment image filter", () => {
     const expected = [
@@ -21,7 +21,7 @@ it("deployment image filter", () => {
             user: 1000,
         },
     ];
-    const actual = efcs.deployments.image.filter(
+    const actual = efcs.deployments.image.filterIt(
         data,
         "cyversevice/jupyterlab-scipy:latest"
     );
@@ -32,7 +32,7 @@ it("deployment image filter", () => {
 const expectedDeployments = data.deployments;
 
 it("deployment filter port returns values", () => {
-    const result = efcs.deployments.port.filter(data, 8888);
+    const result = efcs.deployments.port.filterIt(data, 8888);
     expect(result.deployments.length).toBe(4);
     expect(result.deployments).toStrictEqual(expectedDeployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
@@ -42,7 +42,7 @@ it("deployment filter port returns values", () => {
 });
 
 it("deployment filter port returns nothing", () => {
-    const result = efcs.deployments.port.filter(data, 7777);
+    const result = efcs.deployments.port.filterIt(data, 7777);
     expect(result.deployments.length).toBe(0);
     expect(result.deployments).toStrictEqual([]);
     expect(result.configMaps).toStrictEqual(data.configMaps);
@@ -52,7 +52,7 @@ it("deployment filter port returns nothing", () => {
 });
 
 it("deployment filter uid returns values", () => {
-    const result = efcs.deployments.uid.filter(data, 1000);
+    const result = efcs.deployments.uid.filterIt(data, 1000);
     expect(result.deployments.length).toBe(4);
     expect(result.deployments).toStrictEqual(expectedDeployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
@@ -62,7 +62,7 @@ it("deployment filter uid returns values", () => {
 });
 
 it("deployment filter uid returns nothing", () => {
-    const result = efcs.deployments.uid.filter(data, 0);
+    const result = efcs.deployments.uid.filterIt(data, 0);
     expect(result.deployments.length).toBe(0);
     expect(result.deployments).toStrictEqual([]);
     expect(result.configMaps).toStrictEqual(data.configMaps);
@@ -72,7 +72,7 @@ it("deployment filter uid returns nothing", () => {
 });
 
 it("deployment filter gid returns values", () => {
-    const result = efcs.deployments.gid.filter(data, 1000);
+    const result = efcs.deployments.gid.filterIt(data, 1000);
     expect(result.deployments.length).toBe(4);
     expect(result.deployments).toStrictEqual(expectedDeployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
@@ -82,7 +82,7 @@ it("deployment filter gid returns values", () => {
 });
 
 it("deployment filter gid returns nothing", () => {
-    const result = efcs.deployments.gid.filter(data, 0);
+    const result = efcs.deployments.gid.filterIt(data, 0);
     expect(result.deployments.length).toBe(0);
     expect(result.deployments).toStrictEqual([]);
     expect(result.configMaps).toStrictEqual(data.configMaps);
@@ -96,7 +96,7 @@ it("deployment filter gid returns nothing", () => {
 const expectedServices = data.services;
 
 it("service filter portName returns values", () => {
-    const result = efcs.services.portName.filter(data, "tcp-proxy");
+    const result = efcs.services.portName.filterIt(data, "tcp-proxy");
     expect(result.services.length).toBe(4);
     expect(result.services).toStrictEqual(expectedServices);
     expect(result.deployments).toStrictEqual(data.deployments);
@@ -106,7 +106,7 @@ it("service filter portName returns values", () => {
 });
 
 it("service filter portName returns nothing", () => {
-    const result = efcs.services.portName.filter(data, "bad-value");
+    const result = efcs.services.portName.filterIt(data, "bad-value");
     expect(result.services.length).toBe(0);
     expect(result.services).toStrictEqual([]);
     expect(result.deployments).toStrictEqual(data.deployments);
@@ -116,7 +116,7 @@ it("service filter portName returns nothing", () => {
 });
 
 it("service filter portName returns one value", () => {
-    const result = efcs.services.portName.filter(data, "filter-value");
+    const result = efcs.services.portName.filterIt(data, "filter-value");
     expect(result.services.length).toBe(1);
     expect(result.services).toStrictEqual(data.services.slice(-1));
     expect(result.deployments).toStrictEqual(data.deployments);
@@ -126,7 +126,7 @@ it("service filter portName returns one value", () => {
 });
 
 it("service filter targetPort returns values", () => {
-    const result = efcs.services.targetPort.filter(data, 0);
+    const result = efcs.services.targetPort.filterIt(data, 0);
     expect(result.services.length).toBe(4);
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
@@ -136,7 +136,7 @@ it("service filter targetPort returns values", () => {
 });
 
 it("service filter targetPort returns nothing", () => {
-    const result = efcs.services.targetPort.filter(data, 7777);
+    const result = efcs.services.targetPort.filterIt(data, 7777);
     expect(result.services.length).toBe(0);
     expect(result.services).toStrictEqual([]);
     expect(result.deployments).toStrictEqual(data.deployments);
@@ -146,7 +146,7 @@ it("service filter targetPort returns nothing", () => {
 });
 
 it("service filter targetPort returns one result", () => {
-    const result = efcs.services.targetPort.filter(data, 1);
+    const result = efcs.services.targetPort.filterIt(data, 1);
     expect(result.services.length).toBe(1);
     expect(result.services).toStrictEqual(data.services.slice(-1));
     expect(result.deployments).toStrictEqual(data.deployments);
@@ -156,7 +156,7 @@ it("service filter targetPort returns one result", () => {
 });
 
 it("service filter targetPortName returns values", () => {
-    const result = efcs.services.targetPortName.filter(data, "tcp-proxy");
+    const result = efcs.services.targetPortName.filterIt(data, "tcp-proxy");
     expect(result.services.length).toBe(4);
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
@@ -166,7 +166,10 @@ it("service filter targetPortName returns values", () => {
 });
 
 it("service filter targetPortName returns nothing", () => {
-    const result = efcs.services.targetPortName.filter(data, "does not exist");
+    const result = efcs.services.targetPortName.filterIt(
+        data,
+        "does not exist"
+    );
     expect(result.services.length).toBe(0);
     expect(result.services).toStrictEqual([]);
     expect(result.deployments).toStrictEqual(data.deployments);
@@ -176,7 +179,7 @@ it("service filter targetPortName returns nothing", () => {
 });
 
 it("service filter targetPortName returns one value", () => {
-    const result = efcs.services.targetPortName.filter(
+    const result = efcs.services.targetPortName.filterIt(
         data,
         "target-port-name"
     );
@@ -189,7 +192,7 @@ it("service filter targetPortName returns one value", () => {
 });
 
 it("service filter protocol returns values", () => {
-    const result = efcs.services.protocol.filter(data, "TCP");
+    const result = efcs.services.protocol.filterIt(data, "TCP");
     expect(result.services.length).toBe(4);
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
@@ -199,7 +202,7 @@ it("service filter protocol returns values", () => {
 });
 
 it("service filter protocol returns no valaues", () => {
-    const result = efcs.services.protocol.filter(data, "BLAH");
+    const result = efcs.services.protocol.filterIt(data, "BLAH");
     expect(result.services.length).toBe(0);
     expect(result.services).toStrictEqual([]);
     expect(result.deployments).toStrictEqual(data.deployments);
@@ -209,7 +212,7 @@ it("service filter protocol returns no valaues", () => {
 });
 
 it("service filter protocol returns one value", () => {
-    const result = efcs.services.protocol.filter(data, "UDP");
+    const result = efcs.services.protocol.filterIt(data, "UDP");
     expect(result.services.length).toBe(1);
     expect(result.services).toStrictEqual(data.services.slice(-1));
     expect(result.deployments).toStrictEqual(data.deployments);
@@ -220,7 +223,7 @@ it("service filter protocol returns one value", () => {
 
 it("analysis filter analysisName returns values", () => {
     const expected = "jupyter-lab-scipy-google-earth-engine-analysis";
-    const result = efcs.analyses.analysisName.filter(data, expected);
+    const result = efcs.analyses.analysisName.filterIt(data, expected);
     expect(result.deployments.length).toBe(1);
     expect(result.services.length).toBe(1);
     expect(result.configMaps.length).toBe(2);
@@ -242,7 +245,7 @@ it("analysis filter analysisName returns values", () => {
 
 it("analysis filter analysisName returns no values", () => {
     const expected = "nope";
-    const result = efcs.analyses.analysisName.filter(data, expected);
+    const result = efcs.analyses.analysisName.filterIt(data, expected);
     expect(result.deployments.length).toBe(0);
     expect(result.services.length).toBe(0);
     expect(result.configMaps.length).toBe(0);
@@ -257,7 +260,7 @@ it("analysis filter analysisName returns no values", () => {
 
 it("analysis filter appName returns values", () => {
     const expected = "jupyter-lab-scipy-google-earth-engine";
-    const result = efcs.analyses.appName.filter(data, expected);
+    const result = efcs.analyses.appName.filterIt(data, expected);
     expect(result.deployments.length).toBe(1);
     expect(result.services.length).toBe(1);
     expect(result.configMaps.length).toBe(2);
@@ -279,7 +282,7 @@ it("analysis filter appName returns values", () => {
 
 it("analysis filter appName returns no values", () => {
     const expected = "nope";
-    const result = efcs.analyses.appName.filter(data, expected);
+    const result = efcs.analyses.appName.filterIt(data, expected);
     expect(result.deployments.length).toBe(0);
     expect(result.services.length).toBe(0);
     expect(result.configMaps.length).toBe(0);
@@ -294,7 +297,7 @@ it("analysis filter appName returns no values", () => {
 
 it("analysis filter appID returns values", () => {
     const expected = "1f5e7f3a-e46c-11e9-870d-008cfa5ae621";
-    const result = efcs.analyses.appID.filter(data, expected);
+    const result = efcs.analyses.appID.filterIt(data, expected);
     expect(result.deployments.length).toBe(1);
     expect(result.services.length).toBe(1);
     expect(result.configMaps.length).toBe(2);
@@ -316,7 +319,7 @@ it("analysis filter appID returns values", () => {
 
 it("analysis filter appID returns no values", () => {
     const expected = "nope";
-    const result = efcs.analyses.appID.filter(data, expected);
+    const result = efcs.analyses.appID.filterIt(data, expected);
     expect(result.deployments.length).toBe(0);
     expect(result.services.length).toBe(0);
     expect(result.configMaps.length).toBe(0);
@@ -331,7 +334,7 @@ it("analysis filter appID returns no values", () => {
 
 it("analysis filter externalID returns values", () => {
     const expected = "e112629a-67ec-4018-bf28-30b244e940c3";
-    const result = efcs.analyses.externalID.filter(data, expected);
+    const result = efcs.analyses.externalID.filterIt(data, expected);
     expect(result.deployments.length).toBe(1);
     expect(result.services.length).toBe(1);
     expect(result.configMaps.length).toBe(2);
@@ -353,7 +356,7 @@ it("analysis filter externalID returns values", () => {
 
 it("analysis filter externalID returns no values", () => {
     const expected = "nope";
-    const result = efcs.analyses.externalID.filter(data, expected);
+    const result = efcs.analyses.externalID.filterIt(data, expected);
     expect(result.services.length).toBe(0);
     expect(result.configMaps.length).toBe(0);
     expect(result.ingresses.length).toBe(0);
@@ -367,7 +370,7 @@ it("analysis filter externalID returns no values", () => {
 
 it("analyses filter namespace returns values", () => {
     const expected = "vice-apps";
-    const result = efcs.analyses.namespace.filter(data, expected);
+    const result = efcs.analyses.namespace.filterIt(data, expected);
     expect(result.deployments.length).toBe(4);
     expect(result.services.length).toBe(4);
     expect(result.configMaps.length).toBe(8);
@@ -397,7 +400,7 @@ it("analyses filter namespace returns values", () => {
 
 it("analyses filter namespace returns no values", () => {
     const expected = "nope";
-    const result = efcs.analyses.namespace.filter(data, expected);
+    const result = efcs.analyses.namespace.filterIt(data, expected);
     expect(result.services.length).toBe(0);
     expect(result.configMaps.length).toBe(0);
     expect(result.ingresses.length).toBe(0);
@@ -411,7 +414,7 @@ it("analyses filter namespace returns no values", () => {
 
 it("analyses filter userID returns values", () => {
     const expected = "6bec60d2-854a-11e4-b87e-1f417f9dbc81";
-    const result = efcs.analyses.userID.filter(data, expected);
+    const result = efcs.analyses.userID.filterIt(data, expected);
     expect(result.deployments.length).toBe(1);
     expect(result.services.length).toBe(1);
     expect(result.configMaps.length).toBe(2);
@@ -433,7 +436,7 @@ it("analyses filter userID returns values", () => {
 
 it("analyses filter userID returns no values", () => {
     const expected = "nope";
-    const result = efcs.analyses.userID.filter(data, expected);
+    const result = efcs.analyses.userID.filterIt(data, expected);
     expect(result.services.length).toBe(0);
     expect(result.configMaps.length).toBe(0);
     expect(result.ingresses.length).toBe(0);
@@ -447,7 +450,7 @@ it("analyses filter userID returns no values", () => {
 
 it("analyses filter username returns values", () => {
     const expected = "psarando";
-    const result = efcs.analyses.username.filter(data, expected);
+    const result = efcs.analyses.username.filterIt(data, expected);
     expect(result.deployments.length).toBe(1);
     expect(result.services.length).toBe(1);
     expect(result.configMaps.length).toBe(2);
@@ -469,7 +472,7 @@ it("analyses filter username returns values", () => {
 
 it("analyses filter username returns no values", () => {
     const expected = "nope";
-    const result = efcs.analyses.username.filter(data, expected);
+    const result = efcs.analyses.username.filterIt(data, expected);
     expect(result.services.length).toBe(0);
     expect(result.configMaps.length).toBe(0);
     expect(result.ingresses.length).toBe(0);
@@ -483,7 +486,7 @@ it("analyses filter username returns no values", () => {
 
 it("analyses filter creationTimestamp returns values", () => {
     const expected = "2020-01-31 18:35:21 -0700 MST";
-    const result = efcs.analyses.creationTimestamp.filter(data, expected);
+    const result = efcs.analyses.creationTimestamp.filterIt(data, expected);
     expect(result.deployments.length).toBe(1);
     expect(result.services.length).toBe(1);
     expect(result.configMaps.length).toBe(2);
@@ -505,7 +508,7 @@ it("analyses filter creationTimestamp returns values", () => {
 
 it("analyses filter creationTimestamp returns no values", () => {
     const expected = "nope";
-    const result = efcs.analyses.creationTimestamp.filter(data, expected);
+    const result = efcs.analyses.creationTimestamp.filterIt(data, expected);
     expect(result.services.length).toBe(0);
     expect(result.configMaps.length).toBe(0);
     expect(result.ingresses.length).toBe(0);
@@ -519,7 +522,7 @@ it("analyses filter creationTimestamp returns no values", () => {
 
 it("pods filter phase returns values", () => {
     const expected = "Running";
-    const result = efcs.pods.phase.filter(data, expected);
+    const result = efcs.pods.phase.filterIt(data, expected);
     expect(result.pods.length).toBe(4);
     expect(result.pods).toStrictEqual(data.pods);
 
@@ -535,7 +538,7 @@ it("pods filter phase returns values", () => {
 
 it("pods filter phase returns no values", () => {
     const expected = "nope";
-    const result = efcs.pods.phase.filter(data, expected);
+    const result = efcs.pods.phase.filterIt(data, expected);
     expect(result.pods.length).toBe(0);
     expect(result.pods).toStrictEqual([]);
     expect(result.services).toStrictEqual(data.services);
@@ -546,7 +549,7 @@ it("pods filter phase returns no values", () => {
 
 it("pods filter message returns values", () => {
     const expected = "";
-    const result = efcs.pods.message.filter(data, expected);
+    const result = efcs.pods.message.filterIt(data, expected);
     expect(result.pods.length).toBe(4);
     expect(result.pods).toStrictEqual(data.pods);
 
@@ -562,7 +565,7 @@ it("pods filter message returns values", () => {
 
 it("pods filter message returns no values", () => {
     const expected = "nope";
-    const result = efcs.pods.message.filter(data, expected);
+    const result = efcs.pods.message.filterIt(data, expected);
     expect(result.pods.length).toBe(0);
     expect(result.pods).toStrictEqual([]);
     expect(result.services).toStrictEqual(data.services);
@@ -573,7 +576,7 @@ it("pods filter message returns no values", () => {
 
 it("pods filter reason returns values", () => {
     const expected = "";
-    const result = efcs.pods.reason.filter(data, expected);
+    const result = efcs.pods.reason.filterIt(data, expected);
     expect(result.pods.length).toBe(4);
     expect(result.pods).toStrictEqual(data.pods);
     expect(result.services).toStrictEqual(data.services);
@@ -584,7 +587,7 @@ it("pods filter reason returns values", () => {
 
 it("pods filter reason returns no values", () => {
     const expected = "nope";
-    const result = efcs.pods.reason.filter(data, expected);
+    const result = efcs.pods.reason.filterIt(data, expected);
     expect(result.pods.length).toBe(0);
     expect(result.pods).toStrictEqual([]);
     expect(result.services).toStrictEqual(data.services);
@@ -595,7 +598,7 @@ it("pods filter reason returns no values", () => {
 
 it("pods filter containerStatusName returns values", () => {
     const expected = "analysis";
-    const result = efcs.pods.containerStatusName.filter(data, expected);
+    const result = efcs.pods.containerStatusName.filterIt(data, expected);
     expect(result.pods.length).toBe(4);
     expect(result.pods).toStrictEqual(data.pods);
     expect(result.services).toStrictEqual(data.services);
@@ -606,7 +609,7 @@ it("pods filter containerStatusName returns values", () => {
 
 it("pods filter containerStatusName returns no values", () => {
     const expected = "nope";
-    const result = efcs.pods.containerStatusName.filter(data, expected);
+    const result = efcs.pods.containerStatusName.filterIt(data, expected);
     expect(result.pods.length).toBe(0);
     expect(result.pods).toStrictEqual([]);
     expect(result.services).toStrictEqual(data.services);
@@ -617,7 +620,7 @@ it("pods filter containerStatusName returns no values", () => {
 
 it("pods filter containerStatusReady returns values", () => {
     const expected = true;
-    const result = efcs.pods.containerStatusReady.filter(data, expected);
+    const result = efcs.pods.containerStatusReady.filterIt(data, expected);
     expect(result.pods.length).toBe(4);
     expect(result.pods).toStrictEqual(data.pods);
     expect(result.services).toStrictEqual(data.services);
@@ -628,7 +631,7 @@ it("pods filter containerStatusReady returns values", () => {
 
 it("pods filter containerStatusReady returns no values", () => {
     const expected = false;
-    const result = efcs.pods.containerStatusReady.filter(data, expected);
+    const result = efcs.pods.containerStatusReady.filterIt(data, expected);
     expect(result.pods.length).toBe(0);
     expect(result.pods).toStrictEqual([]);
     expect(result.services).toStrictEqual(data.services);
@@ -639,7 +642,10 @@ it("pods filter containerStatusReady returns no values", () => {
 
 it("pods filter containerStatusRestartCount returns values", () => {
     const expected = 0;
-    const result = efcs.pods.containerStatusRestartCount.filter(data, expected);
+    const result = efcs.pods.containerStatusRestartCount.filterIt(
+        data,
+        expected
+    );
     expect(result.pods.length).toBe(4);
     expect(result.pods).toStrictEqual(data.pods);
     expect(result.services).toStrictEqual(data.services);
@@ -650,7 +656,10 @@ it("pods filter containerStatusRestartCount returns values", () => {
 
 it("pods filter containerStatusRestartCount returns no values", () => {
     const expected = 45;
-    const result = efcs.pods.containerStatusRestartCount.filter(data, expected);
+    const result = efcs.pods.containerStatusRestartCount.filterIt(
+        data,
+        expected
+    );
     expect(result.pods.length).toBe(0);
     expect(result.pods).toStrictEqual([]);
     expect(result.services).toStrictEqual(data.services);
@@ -661,7 +670,7 @@ it("pods filter containerStatusRestartCount returns no values", () => {
 
 it("pods filter containerStatusImage returns values", () => {
     const expected = "discoenv/vice-proxy:qa";
-    const result = efcs.pods.containerStatusImage.filter(data, expected);
+    const result = efcs.pods.containerStatusImage.filterIt(data, expected);
     expect(result.pods.length).toBe(4);
     expect(result.pods).toStrictEqual(data.pods);
     expect(result.services).toStrictEqual(data.services);
@@ -672,7 +681,7 @@ it("pods filter containerStatusImage returns values", () => {
 
 it("pods filter containerStatusImage returns no values", () => {
     const expected = "nope";
-    const result = efcs.pods.containerStatusImage.filter(data, expected);
+    const result = efcs.pods.containerStatusImage.filterIt(data, expected);
     expect(result.pods.length).toBe(0);
     expect(result.pods).toStrictEqual([]);
     expect(result.services).toStrictEqual(data.services);
@@ -684,7 +693,7 @@ it("pods filter containerStatusImage returns no values", () => {
 it("pods filter containerStatusImageID returns values", () => {
     const expected =
         "docker-pullable://discoenv/vice-proxy@sha256:e171184d3e7ac7ac9095b6ac015a1a03dcc157f888801a1cd8526fed4fb22a11";
-    const result = efcs.pods.containerStatusImageID.filter(data, expected);
+    const result = efcs.pods.containerStatusImageID.filterIt(data, expected);
     expect(result.pods.length).toBe(4);
     expect(result.pods).toStrictEqual(data.pods);
     expect(result.services).toStrictEqual(data.services);
@@ -695,7 +704,7 @@ it("pods filter containerStatusImageID returns values", () => {
 
 it("pods filter containerStatusImageID returns no values", () => {
     const expected = "nope";
-    const result = efcs.pods.containerStatusImageID.filter(data, expected);
+    const result = efcs.pods.containerStatusImageID.filterIt(data, expected);
     expect(result.pods.length).toBe(0);
     expect(result.pods).toStrictEqual([]);
     expect(result.services).toStrictEqual(data.services);
@@ -707,7 +716,7 @@ it("pods filter containerStatusImageID returns no values", () => {
 it("pods filter containerStatusImageID resturns one value", () => {
     const expected =
         "docker-pullable://cyversevice/jupyterlab-scipy@sha256:0d33bdcb49a4bf0785b35f2c8a51ebf3896940d50522db36b3a73155bc46eaf9";
-    const result = efcs.pods.containerStatusImageID.filter(data, expected);
+    const result = efcs.pods.containerStatusImageID.filterIt(data, expected);
     expect(result.pods.length).toBe(1);
     expect(result.pods).toStrictEqual(data.pods.slice(-1));
     expect(result.services).toStrictEqual(data.services);
@@ -719,7 +728,10 @@ it("pods filter containerStatusImageID resturns one value", () => {
 it("pods filter containerStatusContainerID returns values", () => {
     const expected =
         "docker://6ab00c47768ec1a9fecc4fb386d7c8a88eaff140b205bbea14307496959b5204";
-    const result = efcs.pods.containerStatusContainerID.filter(data, expected);
+    const result = efcs.pods.containerStatusContainerID.filterIt(
+        data,
+        expected
+    );
     expect(result.pods.length).toBe(1);
     expect(result.pods).toStrictEqual(data.pods.slice(-1));
     expect(result.services).toStrictEqual(data.services);
@@ -730,7 +742,10 @@ it("pods filter containerStatusContainerID returns values", () => {
 
 it("pods filter containerStatusContainerID returns no values", () => {
     const expected = "nope";
-    const result = efcs.pods.containerStatusContainerID.filter(data, expected);
+    const result = efcs.pods.containerStatusContainerID.filterIt(
+        data,
+        expected
+    );
     expect(result.pods.length).toBe(0);
     expect(result.pods).toStrictEqual([]);
     expect(result.services).toStrictEqual(data.services);
@@ -741,7 +756,7 @@ it("pods filter containerStatusContainerID returns no values", () => {
 
 it("pods filter containerStatusStarted returns values", () => {
     const expected = true;
-    const result = efcs.pods.containerStatusStarted.filter(data, expected);
+    const result = efcs.pods.containerStatusStarted.filterIt(data, expected);
     expect(result.pods.length).toBe(4);
     expect(result.pods).toStrictEqual(data.pods);
     expect(result.services).toStrictEqual(data.services);
@@ -752,7 +767,7 @@ it("pods filter containerStatusStarted returns values", () => {
 
 it("pods fitler containerStatusStarted returns no values", () => {
     const expected = false;
-    const result = efcs.pods.containerStatusStarted.filter(data, expected);
+    const result = efcs.pods.containerStatusStarted.filterIt(data, expected);
     expect(result.pods.length).toBe(0);
     expect(result.pods).toStrictEqual([]);
     expect(result.services).toStrictEqual(data.services);

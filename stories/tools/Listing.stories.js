@@ -42,56 +42,60 @@ function toolNameComparisonFunction(ascending) {
 
 /**
  * Sorts tools by name in either ascending or descending order.
- * @param {Array} listing - the tool listing to sort
+ * @param {Array} tools - the tool listing to sort
  * @param {Boolean} ascending - true if the tools should be sorted in ascending order
  */
-function sortToolsByName(listing, ascending) {
+function sortToolsByName(tools, ascending) {
     const compareTools = toolNameComparisonFunction(ascending);
-    const result = {
-        tools: listing.tools.sort(compareTools),
-        total: listing.total,
-    };
-    console.warn(`Result: ${result}`);
-    return result;
+    return tools.sort(compareTools);
 }
 
 /**
- * Returns a potentially sorted tool listing. This function retrieves the
+ * The tool listing for a parameterized API call. This function retrieves the
  * query parameters from the Axios config and adjusts the result so that we
- * can test sorting in Storybook.
+ * can test sorting and paging in Storybook.
  * @param {Object} config - the Axios config
  */
-function sortedToolListing(config) {
-    console.warn(config);
-
+function parameterizedToolListing(config) {
     // Determine whether and how to sort the response.
     const sortField = config?.query["sort-field"];
-    const sortDir = config?.query["sort-dir"];
+    const sortDir = config?.query["sort-dir"] || "ASC";
 
-    // Sort the results if we're supposed to.
+    // Determine if the response should be paged.
+    const limit = config?.query["limit"];
+    const offset = config?.query["offset"] || 0;
+
+    // We return the entire unsorted listing by default.
+    const result = {
+        tools: listing.tools,
+        total: listing.total,
+    };
+
+    // Sort the listing if we're supposed to.
     if (sortField !== null && sortField !== undefined) {
-        return sortField === "name"
-            ? [
-                  200,
-                  sortToolsByName(
-                      listing,
-                      sortDir !== null &&
-                          sortDir !== undefined &&
-                          sortDir === "ASC"
-                  ),
-              ]
-            : [400, invalidSortField];
+        if (sortField !== "name") {
+            return [400, invalidSortField];
+        }
+        result.tools = sortToolsByName(
+            result.tools,
+            sortDir !== null && sortDir !== undefined && sortDir === "ASC"
+        );
     }
 
-    // Return the unsorted listing.
-    return [200, listing];
+    // Page the listing if we're supposed to.
+    if (limit !== null && limit !== undefined) {
+        result.tools = result.tools.slice(offset, offset + limit);
+    }
+
+    // Return the updated listing.
+    return [200, result];
 }
 
 /**
  * Covers the usual case for tool listing, where everything works correctly.
  */
 export const ToolListingTest = () => {
-    mockAxios.onGet(toolListingUriRegexp).reply(sortedToolListing);
+    mockAxios.onGet(toolListingUriRegexp).reply(parameterizedToolListing);
     return <ListingTest />;
 };
 

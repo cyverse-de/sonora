@@ -44,5 +44,6 @@ export default {
         add: "Add",
         activeFilters: "Active Filters",
         noActiveFilters: "There are no active filters.",
+        filterField: "Filter Field",
     },
 };

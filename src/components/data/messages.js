@@ -19,6 +19,8 @@ export default {
         dataSignIn: "Please sign in to browse data",
         delete: "Delete",
         details: "Details",
+        deleteResourceError:
+            "Unable to delete selected resources. Please try again.",
         detailsError: "Unable to fetch details.  Please try again.",
         download: "Download",
         editFile: "Edit File",
@@ -41,6 +43,7 @@ export default {
         importCoge: "Import Genome from CoGe",
         importUrl: "Import by URL",
         infoType: "Info Type",
+        infoTypeFetchError: "Unable to fetch info types.",
         invalidSelection: "Only {type}s permitted. Invalid selections: {total}",
         invalidSelectionRowTitle: "Invalid selection",
         manualUpload: "Manual Upload via Third-Party Apps",
@@ -74,6 +77,8 @@ export default {
         type: "Type",
         write: "Write",
         updateInfoTypeError: "Unable to update info type. Please try again.",
+        updatePermissionsError:
+            "Unable to update permissions. Please try again.",
         upload: "Upload",
         uploadQueue: "View Upload Queue",
         validationDiskResourceName: "Cannot be named . or ..",

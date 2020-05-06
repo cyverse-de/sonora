@@ -109,13 +109,7 @@ function TableView(props) {
     const columnData = getTableColumns(false, false);
     const tableId = build(baseId, ids.LISTING_TABLE);
     if (error) {
-        return (
-            <div style={{ height: "65vh", overflow: "auto", margin: 10 }}>
-                <Container maxWidth="sm">
-                    <ErrorHandler errorObject={error} baseId={baseId} />
-                </Container>
-            </div>
-        );
+        return <ErrorHandler errorObject={error} baseId={baseId} />;
     }
     return (
         <TableContainer component={Paper} style={{ overflow: "auto" }}>

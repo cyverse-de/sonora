@@ -4,10 +4,15 @@
  * A component intended to be the parent to the data's table view and
  * thumbnail/tile view.
  */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
-import { withI18N } from "@cyverse-de/ui-lib";
-import { Toolbar } from "@material-ui/core";
+import {
+    announce,
+    AnnouncerConstants,
+    formatMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
+import { Button, Toolbar, Typography, useTheme } from "@material-ui/core";
 import { injectIntl } from "react-intl";
 import { queryCache, useMutation, useQuery } from "react-query";
 
@@ -27,10 +32,11 @@ import DataNavigation from "../DataNavigation";
 import DEPagination from "../../utils/DEPagination";
 import ResourceTypes from "../../models/ResourceTypes";
 import isQueryLoading from "../../utils/isQueryLoading";
+import DEErrorDialog from "../../utils/DEErrorDialog";
 
 function Listing(props) {
     const uploadTracker = useUploadTrackingState();
-
+    const theme = useTheme();
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");
@@ -44,6 +50,13 @@ function Listing(props) {
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
     const [pagedListingKey, setPagedListingKey] = useState(null);
+    const [navError, setNavError] = useState(null);
+    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+    const [errorObject, setErrorObject] = useState(null);
+    const [detailsError, setDetailsError] = useState(null);
+    const [infoTypeChangeError, setInfoTypeChangeError] = useState(null);
+    const [updatePermError, setUpdatePermError] = useState(null);
+    const [fetchPermError, setFetchPermError] = useState(null);
 
     const {
         baseId,
@@ -52,6 +65,7 @@ function Listing(props) {
         multiSelect = true,
         isInvalidSelection = () => false,
         render,
+        intl,
     } = props;
 
     // Used to force the data listing to refresh when uploads are completed.
@@ -93,6 +107,14 @@ function Listing(props) {
         deleteResources,
         {
             onSuccess: () => refreshListing(),
+            onError: (e) => {
+                setErrorObject(e);
+                announce({
+                    text: formatMessage(intl, "deleteResourceError"),
+                    variant: AnnouncerConstants.ERROR,
+                    CustomAction: viewErrorDetails,
+                });
+            },
         }
     );
 
@@ -118,12 +140,33 @@ function Listing(props) {
             onSuccess: (resp) => setInfoTypes(resp.types),
             staleTime: Infinity,
             cacheTime: Infinity,
+            onError: (e) => {
+                setErrorObject(e);
+                announce({
+                    text: formatMessage(intl, "infoTypeFetchError"),
+                    variant: AnnouncerConstants.ERROR,
+                    CustomAction: viewErrorDetails,
+                });
+            },
         },
     });
 
     useEffect(() => {
         setDetailsEnabled(selected && selected.length === 1);
     }, [selected]);
+
+    const viewErrorDetails = useCallback(() => {
+        return (
+            <Button variant="outlined" onClick={() => setErrorDialogOpen(true)}>
+                <Typography
+                    variant="button"
+                    style={{ color: theme.palette.error.contrastText }}
+                >
+                    {formatMessage(intl, "details")}
+                </Typography>
+            </Button>
+        );
+    }, [theme.palette.error.contrastText]);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -254,6 +297,108 @@ function Listing(props) {
             setInfoTypes(infoTypesCache.types);
         }
     }
+    useEffect(() => {
+        if (detailsError) {
+            setErrorObject(detailsError);
+            setDetailsOpen(null);
+            setDetailsResource(null);
+            announce({
+                text: formatMessage(intl, "detailsError"),
+                variant: AnnouncerConstants.ERROR,
+                CustomAction: viewErrorDetails,
+                onMsgClose: () => {
+                    console.log("msg closed!");
+                    setErrorObject(null);
+                },
+            });
+        }
+    }, [detailsError]);
+
+    useEffect(() => {
+        if (infoTypeChangeError) {
+            setErrorObject(infoTypeChangeError);
+            setDetailsOpen(null);
+            setDetailsResource(null);
+            announce({
+                text: formatMessage(intl, "updateInfoTypeError"),
+                variant: AnnouncerConstants.ERROR,
+                CustomAction: viewErrorDetails,
+                onMsgClose: () => {
+                    console.log("msg closed!");
+                    setErrorObject(null);
+                },
+            });
+        }
+    }, [infoTypeChangeError]);
+
+    useEffect(() => {
+        if (updatePermError) {
+            setErrorObject(updatePermError);
+            setDetailsOpen(null);
+            setDetailsResource(null);
+            announce({
+                text: formatMessage(intl, "updatePermissionsError"),
+                variant: AnnouncerConstants.ERROR,
+                CustomAction: viewErrorDetails,
+                onMsgClose: () => {
+                    console.log("msg closed!");
+                    setErrorObject(null);
+                },
+            });
+        }
+    }, [updatePermError]);
+
+    useEffect(() => {
+        if (fetchPermError) {
+            setErrorObject(fetchPermError);
+            setDetailsOpen(null);
+            setDetailsResource(null);
+            announce({
+                text: formatMessage(intl, "fetchPermissionsError"),
+                variant: AnnouncerConstants.ERROR,
+                CustomAction: viewErrorDetails,
+                onMsgClose: () => {
+                    console.log("msg closed!");
+                    setErrorObject(null);
+                },
+            });
+        }
+    }, [fetchPermError]);
+
+    const handleDataNavError = useCallback(
+        (error) => {
+            setNavError(error);
+        },
+        [setNavError]
+    );
+
+    const handleDetailsError = useCallback(
+        (error) => {
+            setDetailsError(error);
+        },
+        [setDetailsError]
+    );
+
+    const handleInfoTypeChangeError = useCallback(
+        (error) => {
+            setInfoTypeChangeError(error);
+        },
+        [setInfoTypeChangeError]
+    );
+
+    const handleUpdatePermissionsError = useCallback(
+        (error) => {
+            setUpdatePermError(error);
+        },
+        [setUpdatePermError]
+    );
+
+    const handleFetchPermissionsError = useCallback(
+        (error) => {
+            setFetchPermError(error);
+        },
+        [setFetchPermError]
+    );
 
     const isLoading = isQueryLoading([isFetching, removeResourceStatus]);
 
@@ -265,6 +410,7 @@ function Listing(props) {
                     <DataNavigation
                         path={path}
                         handlePathChange={handlePathChange}
+                        handleDataNavError={handleDataNavError}
                         baseId={baseId}
                     />
                 </Toolbar>
@@ -285,7 +431,7 @@ function Listing(props) {
                 {!isGridView && (
                     <TableView
                         loading={isLoading}
-                        error={error}
+                        error={error || navError}
                         path={path}
                         handlePathChange={handlePathChange}
                         listing={data?.listing}
@@ -297,6 +443,7 @@ function Listing(props) {
                         onDeleteSelected={onDeleteSelected}
                         handleRequestSort={handleRequestSort}
                         handleSelectAllClick={handleSelectAllClick}
+                        handleDataNavError={handleDataNavError}
                         handleClick={handleClick}
                         handleCheckboxClick={handleCheckboxClick}
                         order={order}
@@ -323,8 +470,21 @@ function Listing(props) {
                     baseId={baseId}
                     infoTypes={infoTypes}
                     onClose={() => setDetailsOpen(false)}
+                    handleDetailsError={handleDetailsError}
+                    handleInfoTypeChangeError={handleInfoTypeChangeError}
+                    handleUpdatePermissionsError={handleUpdatePermissionsError}
+                    handleFetchPermissionsError={handleFetchPermissionsError}
                 />
             )}
+            <DEErrorDialog
+                open={errorDialogOpen}
+                baseId={baseId}
+                errorObject={errorObject}
+                handleClose={() => {
+                    setErrorDialogOpen(false);
+                    setErrorObject(null);
+                }}
+            />
         </>
     );
 }

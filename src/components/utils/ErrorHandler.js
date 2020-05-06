@@ -20,6 +20,7 @@ import {
     CardActions,
     CardContent,
     CardHeader,
+    Container,
     Divider,
     Grid,
     Link,
@@ -50,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
     link: {
         cursor: "pointer",
     },
+    div: { height: "65vh", overflow: "auto", margin: 10 },
 }));
 
 function ClientInfo(props) {
@@ -219,17 +221,25 @@ function ErrorHandler(props) {
         }
     }
     return (
-        <Card id={errBaseId}>
-            <CardHeader avatar={avatar} title={title} subheader={subHeader} />
-            <Divider orientation="horizontal" />
-            <CardContent className={classes.cardContent}>
-                {contents}
-            </CardContent>
-            <Divider orientation="horizontal" />
-            <CardActions>
-                <ContactSupport baseId={errBaseId} />
-            </CardActions>
-        </Card>
+        <div className={classes.div}>
+            <Container maxWidth="sm">
+                <Card id={errBaseId}>
+                    <CardHeader
+                        avatar={avatar}
+                        title={title}
+                        subheader={subHeader}
+                    />
+                    <Divider orientation="horizontal"/>
+                    <CardContent className={classes.cardContent}>
+                        {contents}
+                    </CardContent>
+                    <Divider orientation="horizontal"/>
+                    <CardActions>
+                        <ContactSupport baseId={errBaseId}/>
+                    </CardActions>
+                </Card>
+            </Container>
+        </div>
     );
 }
 

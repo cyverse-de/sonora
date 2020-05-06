@@ -241,13 +241,7 @@ function TableView(props) {
     const tableId = build(baseId, ids.LISTING_TABLE);
 
     if (error) {
-        return (
-            <div style={{ height: "65vh", overflow: "auto" }}>
-                <Container maxWidth="sm">
-                    <ErrorHandler errorObject={error} baseId={baseId} />
-                </Container>
-            </div>
-        );
+        return <ErrorHandler errorObject={error} baseId={baseId} />;
     }
 
     return (

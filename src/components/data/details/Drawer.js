@@ -25,7 +25,17 @@ const TABS = {
 const useStyles = makeStyles(styles);
 
 function DetailsDrawer(props) {
-    const { resource, open, onClose, baseId, infoTypes } = props;
+    const {
+        resource,
+        open,
+        onClose,
+        baseId,
+        infoTypes,
+        handleDetailsError,
+        handleInfoTypeChangeError,
+        handleUpdatePermissionsError,
+        handleFetchPermissionsError,
+    } = props;
     const classes = useStyles();
 
     const [selectedTab, setSelectedTab] = useState(TABS.details);
@@ -90,6 +100,8 @@ function DetailsDrawer(props) {
                     resource={resource}
                     infoTypes={infoTypes}
                     setSelfPermission={setSelfPermission}
+                    handleDetailsError={handleDetailsError}
+                    handleInfoTypeChangeError={handleInfoTypeChangeError}
                 />
             </DETabPanel>
             <DETabPanel
@@ -101,6 +113,8 @@ function DetailsDrawer(props) {
                     baseId={permissionsTabId}
                     resource={resource}
                     selfPermission={selfPermission}
+                    handleFetchPermissionsError={handleFetchPermissionsError}
+                    handelUpdatePermissionsError={handleUpdatePermissionsError}
                 />
             </DETabPanel>
         </Drawer>

@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
         flex: 1,
     },
     appBar: {
-        backgroundColor: theme.palette.bgGray,
+        backgroundColor: theme.palette.primary,
         zIndex: theme.zIndex.drawer + 1,
         width: "100%",
         [theme.breakpoints.up("sm")]: {
@@ -91,13 +91,13 @@ const useStyles = makeStyles((theme) => ({
     userIcon: {
         cursor: "pointer",
         backgroundColor: theme.palette.success.main,
-        color: theme.palette.info.contrastText,
+        color: theme.palette.success.contrastText,
         width: theme.spacing(5),
         height: theme.spacing(5),
         marginLeft: theme.spacing(1),
         "&:hover": {
             textDecoration: "underline",
-            textDecorationColor: theme.palette.info.contrastText,
+            textDecorationColor: theme.palette.success.contrastText,
         },
     },
     accountIcon: {
@@ -186,7 +186,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.primary.main,
     },
     menuIcon: {
-        color: theme.palette.info.main,
+        color: theme.palette.primary.contrastText,
         [theme.breakpoints.up("sm")]: {
             margin: theme.spacing(0.5),
             color: theme.palette.info.contrastText,
@@ -437,7 +437,6 @@ function CyverseAppBar(props) {
             >
                 <Toolbar>
                     <Hidden only={["sm", "md", "lg", "xl"]}>
-                        >
                         <IconButton
                             aria-label="open drawer"
                             onClick={handleDrawerOpen}
@@ -446,7 +445,7 @@ function CyverseAppBar(props) {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography color="primary">
+                        <Typography>
                             {formatHTMLMessage("discovery")}
                             &nbsp;{formatHTMLMessage("environment")}
                         </Typography>
@@ -458,7 +457,7 @@ function CyverseAppBar(props) {
                             rel="noopener noreferrer"
                         >
                             <img
-                                src="/de.png"
+                                src="/de_white.png"
                                 alt={formatMessage(intl, "cyverse")}
                             ></img>
                         </a>

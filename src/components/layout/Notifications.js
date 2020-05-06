@@ -145,7 +145,7 @@ function Notifications(props) {
             <IconButton
                 id={build(ids.APP_BAR_BASE, ids.NOTIFICATION_BTN)}
                 aria-label={formatMessage(intl, "newNotificationAriaLabel")}
-                color="primary"
+                style={{ color: theme.palette.primary.contrastText }}
             >
                 <Badge badgeContent={unSeenCount} color="error">
                     <NotificationsIcon />

@@ -1,7 +1,7 @@
 /**
  *
  * @author Sriram
- * A component that global search field with options to filter on apps, analyses and data
+ * A global search field with options to filter on apps, analyses and data
  */
 import React from "react";
 import ids from "./ids";
@@ -18,14 +18,32 @@ import {
     Select,
 } from "@material-ui/core";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { injectIntl } from "react-intl";
 import { useRouter } from "next/router";
+
+const CustomInput = withStyles((theme) => ({
+    root: {
+        "label + &": {
+            marginTop: theme.spacing(3),
+        },
+    },
+    input: {
+        position: "relative",
+        borderRadius: 0,
+        backgroundColor: theme.palette.white,
+        fontSize: 16,
+        color: theme.palette.info.main,
+        padding: "7px 19px 7px 9px",
+        "&:focus": {
+            backgroundColor: theme.palette.white,
+        },
+    },
+}))(InputBase);
 
 const useStyles = makeStyles((theme) => ({
     search: {
         position: "relative",
-        borderRadius: theme.shape.borderRadius,
         backgroundColor: theme.palette.white,
         "&:hover": {
             backgroundColor: theme.palette.white,
@@ -34,13 +52,13 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 0,
         [theme.breakpoints.up("sm")]: {
             marginLeft: theme.spacing(2),
-            width: "70%",
+            width: "60%",
         },
         [theme.breakpoints.down("xs")]: {
             backgroundColor: theme.palette.bgGray,
             float: "left",
             margin: theme.spacing(1),
-            width: "60%",
+            width: "50%",
         },
     },
     searchIcon: {
@@ -53,19 +71,12 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
     },
     searchFilter: {
-        width: 100,
         marginRight: theme.spacing(4),
-        paddingLeft: theme.spacing(1),
-        border: 1,
-        backgroundColor: theme.palette.primary.main,
-        color: theme.palette.primary.contrastText,
-        borderRadius: 2,
         [theme.breakpoints.down("xs")]: {
             margin: theme.spacing(1),
             width: 90,
         },
     },
-    icon: { color: theme.palette.primary.contrastText },
 }));
 
 function GlobalSearchField(props) {
@@ -111,15 +122,11 @@ function GlobalSearchField(props) {
             <FormControl>
                 <Select
                     id={build(ids.SEARCH, ids.SEARCH_FILTER_MENU)}
-                    autoWidth={true}
                     value={filter}
+                    variant="outlined"
                     onChange={handleFilterChange}
                     className={classes.searchFilter}
-                    inputProps={{
-                        classes: {
-                            icon: classes.icon,
-                        },
-                    }}
+                    input={<CustomInput />}
                 >
                     <MenuItem value="all">
                         {formatMessage(intl, "all")}

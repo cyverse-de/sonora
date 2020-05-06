@@ -14,7 +14,7 @@ import { useIntercom } from "../../contexts/intercom";
 import { intercomLogin, intercomLogout } from "../../common/intercom";
 import { useUserProfile } from "../../contexts/userProfile";
 
-import { Badge, IconButton, Tooltip } from "@material-ui/core";
+import { Badge, IconButton, Tooltip, useTheme } from "@material-ui/core";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 
 function CustomIntercom({ intl }) {
@@ -26,6 +26,7 @@ function CustomIntercom({ intl }) {
         unReadCount,
     } = useIntercom();
     const [userProfile] = useUserProfile();
+    const theme = useTheme();
 
     React.useEffect(() => {
         if (userProfile?.id) {
@@ -54,7 +55,7 @@ function CustomIntercom({ intl }) {
             >
                 <IconButton
                     id={ids.INTERCOM_WIDGET}
-                    color="primary"
+                    style={{ color: theme.palette.primary.contrastText }}
                     aria-label={formatMessage(intl, "intercomAriaLabel")}
                 >
                     <Badge badgeContent={unReadCount} color="error">

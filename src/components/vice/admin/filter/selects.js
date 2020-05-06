@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Select, MenuItem } from "@material-ui/core";
+import { Select, InputLabel, MenuItem, FormControl } from "@material-ui/core";
 
 import { getMessage as msg } from "@cyverse-de/ui-lib";
 
@@ -8,23 +8,33 @@ import useStyles from "./styles";
 import { id } from "./functions";
 import ids from "./ids";
 
-const FieldSelect = ({ id, kind, fields, value, handleChange }) => {
+const FieldSelect = ({
+    id,
+    kind,
+    label = "Filter Field",
+    fields,
+    value,
+    handleChange,
+}) => {
     const classes = useStyles();
-
+    const inputLabelID = `${kind}-field-select-label`;
     return (
-        <Select
-            labelId={`${kind}-field-select-label`}
-            id={id}
-            value={value}
-            onChange={handleChange}
-            classes={{ root: classes.selectRoot }}
-        >
-            {Object.keys(fields).map((key) => (
-                <MenuItem key={key} value={fields[key]}>
-                    {msg(key)}
-                </MenuItem>
-            ))}
-        </Select>
+        <FormControl>
+            <InputLabel id={inputLabelID}>{label}</InputLabel>
+            <Select
+                labelId={inputLabelID}
+                id={id}
+                value={value}
+                onChange={handleChange}
+                classes={{ root: classes.selectRoot }}
+            >
+                {Object.keys(fields).map((key) => (
+                    <MenuItem key={key} value={fields[key]}>
+                        {msg(key)}
+                    </MenuItem>
+                ))}
+            </Select>
+        </FormControl>
     );
 };
 
@@ -46,6 +56,7 @@ export const DeploymentFieldSelect = ({ value, handleChange }) => {
     return (
         <FieldSelect
             id={idValue}
+            kind="deployment"
             fields={fields}
             value={value}
             handleChange={handleChange}

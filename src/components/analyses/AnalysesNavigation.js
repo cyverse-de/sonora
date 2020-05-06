@@ -25,6 +25,11 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { getAppTypeFilters } from "../apps/AppNavigation";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import ClearIcon from "@material-ui/icons/Clear";
+import {
+    Apps as GridIcon,
+    FormatListBulleted as TableIcon,
+    MoreVert as MoreVertIcon,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -129,11 +134,45 @@ function AnalysesNavigation(props) {
         handleOwnershipFilterChange,
         viewBatch,
         onClearBatch,
+        isGridView,
         intl,
+        toggleDisplay,
     } = props;
     const analysesNavId = build(baseId, ids.ANALYSES_NAVIGATION);
     return (
         <Toolbar variant="dense" id={analysesNavId}>
+            {isGridView && (
+                <Tooltip
+                    id={build(analysesNavId, ids.TABLE_VIEW_BTN, ids.TOOLTIP)}
+                    title={getMessage("tableView")}
+                    aria-label={formatMessage(intl, "tableView")}
+                >
+                    <IconButton
+                        id={build(analysesNavId, ids.TABLE_VIEW_BTN)}
+                        edge="start"
+                        onClick={() => toggleDisplay()}
+                        color="primary"
+                    >
+                        <TableIcon />
+                    </IconButton>
+                </Tooltip>
+            )}
+            {!isGridView && (
+                <Tooltip
+                    id={build(analysesNavId, ids.GRID_VIEW_BTN, ids.TOOLTIP)}
+                    title={getMessage("gridView")}
+                    aria-label={formatMessage(intl, "gridView")}
+                >
+                    <IconButton
+                        id={build(analysesNavId, ids.GRID_VIEW_BTN)}
+                        edge="start"
+                        onClick={() => toggleDisplay()}
+                        color="primary"
+                    >
+                        <GridIcon />
+                    </IconButton>
+                </Tooltip>
+            )}
             {viewBatch && (
                 <BatchFilter
                     baseId={analysesNavId}
@@ -142,7 +181,7 @@ function AnalysesNavigation(props) {
                     onClearBatch={onClearBatch}
                 />
             )}
-            <div className={classes.divider} />
+
             <Autocomplete
                 id={build(analysesNavId, ids.VIEW_FILTER)}
                 disabled={false}
@@ -190,6 +229,10 @@ function AnalysesNavigation(props) {
                     />
                 )}
             />
+            <div className={classes.divider} />
+            <IconButton>
+                <MoreVertIcon />
+            </IconButton>
         </Toolbar>
     );
 }

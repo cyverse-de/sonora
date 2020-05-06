@@ -21,7 +21,6 @@ import { getAppTypeFilters } from "../../apps/AppNavigation";
 import appType from "../../models/AppType";
 
 import NavigationConstants from "../../../common/NavigationConstants";
-import Header from "../Header";
 import { useUserProfile } from "../../../contexts/userProfile";
 import { useNotifications } from "../../../contexts/pushNotifications";
 
@@ -307,9 +306,6 @@ function Listing(props) {
                 ownershipFilter={permFilter}
                 viewBatch={parentAnalysis}
                 onClearBatch={handleClearBatch}
-            />
-            <Header
-                baseId={baseId}
                 isGridView={isGridView}
                 toggleDisplay={toggleDisplay}
             />

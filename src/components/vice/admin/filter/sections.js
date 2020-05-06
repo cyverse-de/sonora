@@ -5,20 +5,39 @@ import { Typography, Button, TextField, FormControl } from "@material-ui/core";
 import { getMessage as msg } from "@cyverse-de/ui-lib";
 
 import {
-    AnalysisFieldSelect,
-    DeploymentFieldSelect,
-    IngressFieldSelect,
-    ConfigMapFieldSelect,
-    ServiceFieldSelect,
-    PodFieldSelect,
+    deploymentFields,
+    serviceFields,
+    configMapFields,
+    ingressFields,
+    analysisFields,
+    podFields,
+    FieldSelect,
 } from "./selects";
 
 import useStyles from "./styles";
 import { id } from "./functions";
 import ids from "./ids";
 
-export const FilterSection = ({ section, children, handleAddClick }) => {
+const FilterSection = ({
+    section,
+    valueID,
+    fieldID,
+    fields,
+    kind,
+    addToFilters,
+}) => {
     const classes = useStyles();
+    const [field, setField] = useState("");
+    const [value, setValue] = useState("");
+
+    const handleFieldChange = (e) => setField(e.target.value);
+    const handleValueChange = (e) => setValue(e.target.value);
+
+    const handleAddClick = () => {
+        addToFilters(field, value);
+        setField("");
+        setValue("");
+    };
 
     return (
         <>
@@ -31,7 +50,21 @@ export const FilterSection = ({ section, children, handleAddClick }) => {
                     id={id(`section.${section}`)}
                     className={classes.sectionRoot}
                 >
-                    {children}
+                    <FieldSelect
+                        id={fieldID}
+                        fields={fields}
+                        value={field}
+                        kind={kind}
+                        handleChange={handleFieldChange}
+                    />
+
+                    <TextField
+                        id={valueID}
+                        label={msg("filterValue")}
+                        className={classes.textField}
+                        value={value}
+                        onChange={handleValueChange}
+                    />
                     <Button
                         variant="outlined"
                         color="primary"
@@ -46,181 +79,97 @@ export const FilterSection = ({ section, children, handleAddClick }) => {
 };
 
 export const DeploymentFilterSection = ({ addToFilters }) => {
-    const classes = useStyles();
-
-    const [depField, setDepField] = useState("");
-    const [depValue, setDepValue] = useState("");
+    const valueID = id(ids.DEPLOYMENT_FIELD_VALUE);
+    const fieldID = id(ids.DEPLOYMENT_FIELD_SELECT);
 
     return (
         <FilterSection
             section={msg("deployments")}
-            handleAddClick={() => {
-                addToFilters(depField, depValue);
-                setDepField("");
-                setDepValue("");
-            }}
-        >
-            <DeploymentFieldSelect
-                value={depField}
-                handleChange={(e) => setDepField(e.target.value)}
-            />
-            <TextField
-                id={id(ids.DEPLOYMENT_FIELD_VALUE)}
-                label={msg("filterValue")}
-                className={classes.textField}
-                value={depValue}
-                onChange={(e) => setDepValue(e.target.value)}
-            />
-        </FilterSection>
+            valueID={valueID}
+            fieldID={fieldID}
+            fields={deploymentFields}
+            kind="deployment"
+            addToFilters={addToFilters}
+        />
     );
 };
 
 export const ServiceFilterSection = ({ addToFilters }) => {
-    const classes = useStyles();
-
-    const [serviceField, setServiceField] = useState("");
-    const [serviceValue, setServiceValue] = useState("");
+    const valueID = id(ids.SERVICE_FIELD_VALUE);
+    const fieldID = id(ids.SERVICE_FIELD_SELECT);
 
     return (
         <FilterSection
             section={msg("services")}
-            handleAddClick={() => {
-                addToFilters(serviceField, serviceValue);
-                setServiceField("");
-                setServiceValue("");
-            }}
-        >
-            <ServiceFieldSelect
-                value={serviceField}
-                handleChange={(e) => setServiceField(e.target.value)}
-            />
-            <TextField
-                id={id(ids.SERVICE_FIELD_VALUE)}
-                label={msg("filterValue")}
-                className={classes.textField}
-                value={serviceValue}
-                onChange={(e) => setServiceValue(e.target.value)}
-            />
-        </FilterSection>
+            valueID={valueID}
+            fieldID={fieldID}
+            fields={serviceFields}
+            kind="service"
+            addToFilters={addToFilters}
+        />
     );
 };
 
 export const ConfigMapFilterSection = ({ addToFilters }) => {
-    const classes = useStyles();
-
-    const [configMapField, setConfigMapField] = useState("");
-    const [configMapValue, setConfigMapValue] = useState("");
+    const valueID = id(ids.CONFIGMAP_FIELD_VALUE);
+    const fieldID = id(ids.DEPLOYMENT_FIELD_SELECT);
 
     return (
         <FilterSection
             section={msg("configMaps")}
-            handleAddClick={() => {
-                addToFilters(configMapField, configMapValue);
-                setConfigMapField("");
-                setConfigMapValue("");
-            }}
-        >
-            <ConfigMapFieldSelect
-                value={configMapField}
-                handleChange={(e) => setConfigMapField(e.target.value)}
-            />
-            <TextField
-                id={id(ids.CONFIGMAP_FIELD_VALUE)}
-                label={msg("filterValue")}
-                className={classes.textField}
-                value={configMapValue}
-                onChange={(e) => setConfigMapValue(e.target.value)}
-            />
-        </FilterSection>
+            valueID={valueID}
+            fieldID={fieldID}
+            fields={configMapFields}
+            kind="configMap"
+            addToFilters={addToFilters}
+        />
     );
 };
 
 export const IngressFilterSection = ({ addToFilters }) => {
-    const classes = useStyles();
-
-    const [ingressField, setIngressField] = useState("");
-    const [ingressValue, setIngressValue] = useState("");
+    const valueID = id(ids.INGRESS_FIELD_VALUE);
+    const fieldID = id(ids.INGRESS_FIELD_SELECT);
 
     return (
         <FilterSection
             section={msg("ingresses")}
-            handleAddClick={() => {
-                addToFilters(ingressField, ingressValue);
-                setIngressField("");
-                setIngressValue("");
-            }}
-        >
-            <IngressFieldSelect
-                value={ingressField}
-                handleChange={(e) => setIngressField(e.target.value)}
-            />
-            <TextField
-                id={id(ids.INGRESS_FIELD_VALUE)}
-                label={msg("filterValue")}
-                className={classes.textField}
-                value={ingressValue}
-                onChange={(e) => setIngressValue(e.target.value)}
-            />
-        </FilterSection>
+            valueID={valueID}
+            fieldID={fieldID}
+            fields={ingressFields}
+            kind="ingress"
+            addToFilters={addToFilters}
+        />
     );
 };
 
 export const AnalysisFilterSection = ({ addToFilters }) => {
-    const classes = useStyles();
-
-    const [analysisField, setAnalysisField] = useState("");
-    const [analysisValue, setAnalysisValue] = useState("");
+    const valueID = id(ids.ANALYSIS_FIELD_VALUE);
+    const fieldID = id(ids.ANALYSIS_FIELD_SELECT);
 
     return (
         <FilterSection
             section={msg("analyses")}
-            handleAddClick={() => {
-                addToFilters(analysisField, analysisValue);
-                setAnalysisField("");
-                setAnalysisValue("");
-            }}
-        >
-            <AnalysisFieldSelect
-                value={analysisField}
-                handleChange={(e) => setAnalysisField(e.target.value)}
-            />
-            <TextField
-                id={id(ids.ANALYSIS_FIELD_VALUE)}
-                label={msg("filterValue")}
-                className={classes.textField}
-                value={analysisValue}
-                onChange={(e) => setAnalysisValue(e.target.value)}
-            />
-        </FilterSection>
+            valueID={valueID}
+            fieldID={fieldID}
+            fields={analysisFields}
+            kind="analysis"
+            addToFilters={addToFilters}
+        />
     );
 };
 
 export const PodFilterSection = ({ addToFilters }) => {
-    const classes = useStyles();
-
-    const [podField, setPodField] = useState("");
-    const [podValue, setPodValue] = useState("");
+    const valueID = id(ids.POD_FIELD_VALUE);
+    const fieldID = id(ids.POD_FIELD_VALUE);
 
     return (
         <FilterSection
             section={msg("pods")}
-            handleAddClick={() => {
-                addToFilters(podField, podValue);
-                setPodField("");
-                setPodValue("");
-            }}
-        >
-            <PodFieldSelect
-                value={podField}
-                handleChange={(e) => setPodField(e.target.value)}
-            />
-            <TextField
-                id={id(ids.POD_FIELD_VALUE)}
-                label={msg("filterValue")}
-                className={classes.textField}
-                value={podValue}
-                onChange={(e) => setPodValue(e.target.value)}
-            />
-        </FilterSection>
+            valueID={valueID}
+            fieldID={fieldID}
+            fields={podFields}
+            kind="pod"
+            addToFilters={addToFilters}
+        />
     );
 };

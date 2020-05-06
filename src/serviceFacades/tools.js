@@ -33,20 +33,20 @@ function getTools(_, { order, orderBy, page, rowsPerPage }) {
         rowsPerPage !== undefined;
 
     // Build the object containing the query parameters.
-    const query = {};
+    const params = {};
     if (isOrdered) {
-        query["sort-dir"] = order.toUpperCase();
-        query["sort-field"] = orderBy.toLowerCase();
+        params["sort-dir"] = order.toUpperCase();
+        params["sort-field"] = orderBy.toLowerCase();
     }
     if (isPaginated) {
-        query["limit"] = rowsPerPage;
-        query["offset"] = page * rowsPerPage;
+        params["limit"] = rowsPerPage;
+        params["offset"] = page * rowsPerPage;
     }
 
     return callApi({
         endpoint: `/api/tools`,
         method: "GET",
-        query: query,
+        params: params,
     });
 }
 

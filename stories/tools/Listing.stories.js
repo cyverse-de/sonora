@@ -58,12 +58,12 @@ function sortToolsByName(tools, ascending) {
  */
 function parameterizedToolListing(config) {
     // Determine whether and how to sort the response.
-    const sortField = config?.query["sort-field"];
-    const sortDir = config?.query["sort-dir"] || "ASC";
+    const sortField = config?.params["sort-field"];
+    const sortDir = config?.params["sort-dir"] || "ASC";
 
     // Determine if the response should be paged.
-    const limit = config?.query["limit"];
-    const offset = config?.query["offset"] || 0;
+    const limit = config?.params["limit"];
+    const offset = config?.params["offset"] || 0;
 
     // We return the entire unsorted listing by default.
     const result = {

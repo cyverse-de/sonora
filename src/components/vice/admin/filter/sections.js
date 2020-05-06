@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Typography, Button, TextField } from "@material-ui/core";
+import { Typography, Button, TextField, FormControl } from "@material-ui/core";
 
 import { getMessage as msg } from "@cyverse-de/ui-lib";
 
@@ -25,16 +25,22 @@ export const FilterSection = ({ section, children, handleAddClick }) => {
             <Typography noWrap variant="h6" component="h6">
                 {section}
             </Typography>
-            <div id={id(`section.${section}`)} className={classes.sectionRoot}>
-                {children}
-                <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={handleAddClick}
+
+            <FormControl>
+                <div
+                    id={id(`section.${section}`)}
+                    className={classes.sectionRoot}
                 >
-                    {msg("add")}
-                </Button>
-            </div>
+                    {children}
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={handleAddClick}
+                    >
+                        {msg("add")}
+                    </Button>
+                </div>
+            </FormControl>
         </>
     );
 };

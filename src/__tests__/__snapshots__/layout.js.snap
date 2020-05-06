@@ -48,7 +48,7 @@ exports[`App Bar renders 1`] = `
               className="MuiBadge-root"
             >
               <svg
-                aria-hidden="true"
+                aria-hidden={true}
                 className="MuiSvgIcon-root"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -92,7 +92,7 @@ exports[`App Bar renders 1`] = `
               className="MuiBadge-root"
             >
               <svg
-                aria-hidden="true"
+                aria-hidden={true}
                 className="MuiSvgIcon-root"
                 focusable="false"
                 viewBox="0 0 24 24"

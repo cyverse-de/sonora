@@ -15,7 +15,7 @@ Array [
         className="MuiInputAdornment-root MuiInputAdornment-positionStart"
       >
         <svg
-          aria-hidden="true"
+          aria-hidden={true}
           className="MuiSvgIcon-root MuiSvgIcon-colorPrimary"
           focusable="false"
           viewBox="0 0 24 24"
@@ -64,7 +64,7 @@ Array [
         value="all"
       />
       <svg
-        aria-hidden="true"
+        aria-hidden={true}
         className="MuiSvgIcon-root MuiSelect-icon makeStyles-icon-4"
         focusable="false"
         viewBox="0 0 24 24"

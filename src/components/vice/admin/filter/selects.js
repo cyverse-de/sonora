@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Select, InputLabel, MenuItem, FormControl } from "@material-ui/core";
+import { Select, InputLabel, MenuItem } from "@material-ui/core";
 
 import { getMessage as msg } from "@cyverse-de/ui-lib";
 
@@ -19,7 +19,7 @@ const FieldSelect = ({
     const classes = useStyles();
     const inputLabelID = `${kind}-field-select-label`;
     return (
-        <FormControl>
+        <>
             <InputLabel id={inputLabelID}>{msg(labelI18nKey)}</InputLabel>
             <Select
                 labelId={inputLabelID}
@@ -34,7 +34,7 @@ const FieldSelect = ({
                     </MenuItem>
                 ))}
             </Select>
-        </FormControl>
+        </>
     );
 };
 

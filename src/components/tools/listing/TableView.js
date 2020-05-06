@@ -2,6 +2,7 @@ import ids from "../ids";
 import React from "react";
 import {
     build,
+    DECheckbox,
     EmptyTable,
     EnhancedTableHead,
     formatMessage,
@@ -102,12 +103,35 @@ function NoTools(props) {
  * @param {Object} props - the component properties
  */
 function ToolListing(props) {
-    const { tableId, tools } = props;
-    return tools.map((tool, _) => {
+    const { handleClick, intl, selected, tableId, tools } = props;
+    return tools.map((tool, index) => {
         const id = tool.id;
-        const rowId = build(tableId, id);
+        const rowId = buildId(tableId, id);
+        const handleRowClick = (event) => handleClick(event, id, index);
+        const isSelected = selected.includes(id);
         return (
-            <TableRow tabIndex={-1} hover key={id} id={rowId}>
+            <TableRow
+                aria-checked={isSelected}
+                hover
+                id={rowId}
+                key={id}
+                onClick={handleRowClick}
+                role="checkbox"
+                selected={isSelected}
+                tabIndex={-1}
+            >
+                <TableCell padding="checkbox">
+                    <DECheckbox
+                        checked={isSelected}
+                        id={buildId(rowId, ids.CHECKBOX)}
+                        tabIndex={0}
+                        inputProps={{
+                            "aria-label": formatMessage(intl, "ariaCheckbox", {
+                                label: tool.name,
+                            }),
+                        }}
+                    />
+                </TableCell>
                 <TableCell>{tool.name}</TableCell>
                 <TableCell>{tool.container.image.name}</TableCell>
                 <TableCell>{tool.container.image.tag}</TableCell>
@@ -124,7 +148,15 @@ function ToolListing(props) {
  * @param {Object} props - the component properties
  */
 function ToolListingTableBody(props) {
-    const { columns, error, tableId, tools } = props;
+    const {
+        columns,
+        error,
+        handleClick,
+        intl,
+        selected,
+        tableId,
+        tools,
+    } = props;
     return (
         <TableBody>
             {error ? (
@@ -132,7 +164,13 @@ function ToolListingTableBody(props) {
             ) : !tools || tools.length === 0 ? (
                 <NoTools columns={columns} />
             ) : (
-                <ToolListing tableId={tableId} tools={tools} />
+                <ToolListing
+                    handleClick={handleClick}
+                    intl={intl}
+                    selected={selected}
+                    tableId={tableId}
+                    tools={tools}
+                />
             )}
         </TableBody>
     );
@@ -146,12 +184,15 @@ function TableView(props) {
     const {
         baseId,
         error,
+        handleClick,
         handleRequestSort,
+        handleSelectAllClick,
         intl,
         listing,
         loading,
         order,
         orderBy,
+        selected,
     } = props;
     const tableId = buildId(baseId, ids.LISTING_TABLE);
 
@@ -178,10 +219,13 @@ function TableView(props) {
                 <EnhancedTableHead
                     baseId={baseId}
                     columnData={columns}
+                    numSelected={selected.length}
                     onRequestSort={handleRequestSort}
+                    onSelectAllClick={handleSelectAllClick}
                     order={order}
                     orderBy={orderBy}
-                    selectable={false}
+                    rowsInPage={listing?.tools?.length || 0}
+                    selectable={true}
                 />
                 {loading ? (
                     <LoadingMask columns={columns} tableId={tableId} />
@@ -189,6 +233,9 @@ function TableView(props) {
                     <ToolListingTableBody
                         columns={columns}
                         error={error}
+                        handleClick={handleClick}
+                        intl={intl}
+                        selected={selected}
                         tableId={tableId}
                         tools={tools}
                     />

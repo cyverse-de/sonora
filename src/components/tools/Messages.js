@@ -130,6 +130,7 @@ export default {
         minMemoryLimitLbl: "Minimum Memory",
         minDiskSpaceLbl: "Minimum Disk Space (bytes)",
         enabled: "Enabled",
+        ariaCheckbox: "{label} checkbox",
         ariaTableListing: "Tool table listing",
         status: "Status",
     },

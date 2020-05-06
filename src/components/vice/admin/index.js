@@ -26,23 +26,19 @@ const id = (value) => buildID(ids.ROOT, value);
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: "flex",
-        flexDirection: "column",
-        flexWrap: "nowrap",
-        justifyContent: "flex-start",
-        overflow: "auto",
-        height: "90vh",
         paddingLeft: theme.spacing(3),
         paddingRight: theme.spacing(3),
         paddingTop: theme.spacing(3),
         paddingBottom: 0,
+        overflow: "auto",
+        height: "90vh",
     },
     filterSkeleton: {
         marginBottom: theme.spacing(5),
     },
     footer: {
         width: "100%",
-        height: 128,
+        height: theme.spacing(5),
 
         [theme.breakpoints.down("sm")]: {
             height: 32,

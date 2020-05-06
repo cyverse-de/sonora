@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
     actions: {
-        display: "flex",
+        //display: "flex",
     },
     chip: {
         margin: theme.spacing(1),
@@ -14,7 +14,8 @@ export default makeStyles((theme) => ({
     },
     collapse: {
         margin: theme.spacing(2),
-        paddingBottom: theme.spacing(50),
+        overflow: "auto",
+        height: "100%",
     },
     info: {
         color: theme.palette.info.main,
@@ -31,6 +32,7 @@ export default makeStyles((theme) => ({
     },
     root: {
         marginBottom: theme.spacing(4),
+        width: "100%",
     },
     sectionRoot: {
         display: "flex",

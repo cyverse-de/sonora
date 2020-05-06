@@ -11,7 +11,7 @@ import ids from "./ids";
 const FieldSelect = ({
     id,
     kind,
-    label = "Filter Field",
+    labelI18nKey = "filterField",
     fields,
     value,
     handleChange,
@@ -20,7 +20,7 @@ const FieldSelect = ({
     const inputLabelID = `${kind}-field-select-label`;
     return (
         <FormControl>
-            <InputLabel id={inputLabelID}>{label}</InputLabel>
+            <InputLabel id={inputLabelID}>{msg(labelI18nKey)}</InputLabel>
             <Select
                 labelId={inputLabelID}
                 id={id}

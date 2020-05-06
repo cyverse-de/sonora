@@ -238,7 +238,7 @@ function PermissionsTabPanel(props) {
             </Typography>
             {fetchResourcePermissionsKey && (
                 <List
-                    className={classes.list}
+                    className={classes.permissionsList}
                     id={build(baseId, ids.PERMISSION_LIST)}
                 >
                     {Object.values(Permissions).map(

@@ -76,7 +76,7 @@ export default (theme) => ({
         color: theme.palette.text.primary,
     },
 
-    list: {
+    permissionsList: {
         width: "100%",
     },
 
@@ -127,7 +127,28 @@ export default (theme) => ({
         backgroundColor: theme.palette.primary.main,
     },
 
-    whiteDotMenu: {
-        color: theme.palette.primary.contrastText,
+    selectedListItem: {
+        paddingLeft: 0,
+        color: theme.palette.primary.main,
+    },
+    list: {
+        outline: "none",
+        cursor: "pointer",
+        color: theme.palette.primary.main,
+        "&:hover": {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
+        },
+    },
+    currentLocationLink: {
+        [theme.breakpoints.down("sm")]: {
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            maxWidth: 70,
+        },
+    },
+    icon: {
+        color: theme.palette.info.main,
     },
 });

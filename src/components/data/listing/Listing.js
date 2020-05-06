@@ -6,17 +6,15 @@
  */
 import React, { useCallback, useEffect, useState } from "react";
 
+import { Button, Typography, useTheme } from "@material-ui/core";
 import {
     announce,
     AnnouncerConstants,
     formatMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
-import { Button, Toolbar, Typography, useTheme } from "@material-ui/core";
 import { injectIntl } from "react-intl";
 import { queryCache, useMutation, useQuery } from "react-query";
-
-import Header from "../Header";
 import messages from "../messages";
 import TableView from "./TableView";
 import UploadDropTarget from "../../uploads/UploadDropTarget";
@@ -305,17 +303,9 @@ function Listing(props) {
         <>
             {render && render(selected.length, getSelectedResources)}
             <UploadDropTarget path={path}>
-                <Toolbar variant="dense">
-                    <DataNavigation
-                        path={path}
-                        handlePathChange={handlePathChange}
-                        handleDataNavError={handleDataNavError}
-                        baseId={baseId}
-                    />
-                </Toolbar>
-                <Header
-                    baseId={baseId}
+                <DataNavigation
                     path={path}
+                    handlePathChange={handlePathChange}
                     permission={data?.permission}
                     refreshListing={refreshListing}
                     isGridView={isGridView}
@@ -326,6 +316,8 @@ function Listing(props) {
                     onDeleteSelected={onDeleteSelected}
                     detailsEnabled={detailsEnabled}
                     onDetailsSelected={onDetailsSelected}
+                    handleDataNavError={handleDataNavError}
+                    baseId={baseId}
                 />
                 {!isGridView && (
                     <TableView

@@ -7,17 +7,26 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    AnnouncerConstants,
+    build,
+    formatMessage,
+    getMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
 import intlData from "./messages";
 import {
     Breadcrumbs,
     Button,
     Hidden,
+    IconButton,
     List,
     ListItem,
     ListItemIcon,
     ListItemText,
     Menu,
+    Toolbar,
     Tooltip,
     Typography,
 } from "@material-ui/core";
@@ -30,38 +39,25 @@ import { injectIntl } from "react-intl";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import FolderIcon from "@material-ui/icons/Folder";
+import styles from "./styles";
 import ids from "./ids";
 import constants from "../../constants";
 import { getFilesystemRoots } from "../../serviceFacades/filesystem";
 import { useUserProfile } from "../../contexts/userProfile";
 import { queryCache, useQuery } from "react-query";
+import {
+    Apps as GridIcon,
+    CreateNewFolder,
+    FormatListBulleted as TableIcon,
+    Info,
+    Share,
+} from "@material-ui/icons";
+import { isWritable } from "./utils";
+import UploadMenuBtn from "./UploadMenuBtn";
+import DataDotMenu from "./listing/DataDotMenu";
+import CreateFolderDialog from "./CreateFolderDialog";
 
-const useStyles = makeStyles((theme) => ({
-    selectedListItem: {
-        paddingLeft: 0,
-        color: theme.palette.info.main,
-    },
-    list: {
-        outline: "none",
-        cursor: "pointer",
-        color: theme.palette.info.main,
-        "&:hover": {
-            backgroundColor: theme.palette.info.main,
-            color: theme.palette.info.contrastText,
-        },
-    },
-    currentLocationLink: {
-        [theme.breakpoints.down("sm")]: {
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            maxWidth: 70,
-        },
-    },
-    icon: {
-        color: theme.palette.info.main,
-    },
-}));
+const useStyles = makeStyles(styles);
 
 /**
  * Splits a path into an array of path items.
@@ -344,7 +340,23 @@ function BreadCrumb({
 }
 
 function DataNavigation(props) {
-    const { path, handlePathChange, handleDataNavError, baseId, intl } = props;
+    const {
+        path,
+        handlePathChange,
+        permission,
+        refreshListing,
+        isGridView,
+        toggleDisplay,
+        onDownloadSelected,
+        onEditSelected,
+        onMetadataSelected,
+        onDeleteSelected,
+        detailsEnabled,
+        onDetailsSelected,
+        handleDataNavError,
+        baseId,
+        intl,
+    } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -355,6 +367,10 @@ function DataNavigation(props) {
     const [communityDataPath, setCommunityDataPath] = useState("");
     const dataNavId = build(baseId, ids.DATA_NAVIGATION);
     const [userProfile] = useUserProfile();
+    const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
+
+    const onCreateFolderDlgClose = () => setCreateFolderDlgOpen(false);
+    const onCreateFolderClicked = () => setCreateFolderDlgOpen(true);
 
     const preProcessData = (respData) => {
         if (respData && userProfile) {
@@ -467,13 +483,41 @@ function DataNavigation(props) {
     }
 
     return (
-        <>
+        <Toolbar variant="dense">
+            {isGridView && (
+                <Tooltip
+                    id={build(dataNavId, ids.TABLE_VIEW_BTN, ids.TOOLTIP)}
+                    title={getMessage("tableView")}
+                    aria-label={formatMessage(intl, "tableView")}
+                >
+                    <IconButton
+                        id={build(dataNavId, ids.TABLE_VIEW_BTN)}
+                        edge="start"
+                        color="primary"
+                        onClick={() => toggleDisplay()}
+                    >
+                        <TableIcon />
+                    </IconButton>
+                </Tooltip>
+            )}
+            {!isGridView && (
+                <Tooltip
+                    id={build(dataNavId, ids.GRID_VIEW_BTN, ids.TOOLTIP)}
+                    title={getMessage("gridView")}
+                    aria-label={formatMessage(intl, "gridView")}
+                >
+                    <IconButton
+                        id={build(dataNavId, ids.GRID_VIEW_BTN)}
+                        edge="start"
+                        color="primary"
+                        onClick={() => toggleDisplay()}
+                    >
+                        <GridIcon />
+                    </IconButton>
+                </Tooltip>
+            )}
             <List
                 component="nav"
-                aria-controls={formatMessage(
-                    intl,
-                    "selectedDataRootMenuAriaControl"
-                )}
                 aria-label={formatMessage(
                     intl,
                     "selectedDataRootMenuAriaLabel"
@@ -542,7 +586,6 @@ function DataNavigation(props) {
                     </ListItem>
                 ))}
             </Menu>
-
             <Hidden xsDown>
                 {path && (!error || error.length === 0) ? (
                     <BreadCrumb
@@ -577,7 +620,62 @@ function DataNavigation(props) {
                     <div></div>
                 )}
             </Hidden>
-        </>
+            <div style={{ flexGrow: 1 }} />
+            {detailsEnabled && (
+                <Button
+                    id={build(dataNavId, ids.DETAILS_BTN)}
+                    variant="outlined"
+                    disableElevation
+                    color="primary"
+                    onClick={onDetailsSelected}
+                    startIcon={<Info className={classes.buttonIcon} />}
+                >
+                    <Hidden xsDown>{getMessage("details")}</Hidden>
+                </Button>
+            )}
+            {isWritable(permission) && (
+                <Button
+                    id={build(baseId, ids.CREATE_BTN)}
+                    variant="outlined"
+                    disableElevation
+                    color="primary"
+                    onClick={onCreateFolderClicked}
+                    startIcon={
+                        <CreateNewFolder className={classes.buttonIcon} />
+                    }
+                >
+                    <Hidden xsDown>{getMessage("folder")}</Hidden>
+                </Button>
+            )}
+            <UploadMenuBtn baseId={dataNavId} path={path} />
+            <Button
+                id={build(dataNavId, ids.SHARE_BTN)}
+                variant="outlined"
+                disableElevation
+                color="primary"
+                className={classes.button}
+                onClick={() => console.log("Share")}
+                startIcon={<Share className={classes.buttonIcon} />}
+            >
+                <Hidden xsDown>{getMessage("share")}</Hidden>
+            </Button>
+            <DataDotMenu
+                baseId={dataNavId}
+                onDownloadSelected={onDownloadSelected}
+                onEditSelected={onEditSelected}
+                onMetadataSelected={onMetadataSelected}
+                onDeleteSelected={onDeleteSelected}
+            />
+            <CreateFolderDialog
+                path={path}
+                open={createFolderDlgOpen}
+                onClose={onCreateFolderDlgClose}
+                onFolderCreated={() => {
+                    onCreateFolderDlgClose();
+                    refreshListing();
+                }}
+            />
+        </Toolbar>
     );
 }
 

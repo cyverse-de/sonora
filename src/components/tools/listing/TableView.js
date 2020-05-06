@@ -66,7 +66,7 @@ function LoadingMask(props) {
     const { columns, tableId } = props;
     return (
         <TableLoading
-            numColumns={columns.length}
+            numColumns={columns.length + 1}
             numRows={25}
             baseId={tableId}
         />
@@ -80,7 +80,10 @@ function LoadingMask(props) {
 function LoadingError(props) {
     const { columns, error } = props;
     return (
-        <EmptyTable message={error.toString()} numColumns={columns.length} />
+        <EmptyTable
+            message={error.toString()}
+            numColumns={columns.length + 1}
+        />
     );
 }
 
@@ -93,7 +96,7 @@ function NoTools(props) {
     return (
         <EmptyTable
             message={getMessage("noTools")}
-            numColumns={columns.length}
+            numColumns={columns.length + 1}
         />
     );
 }

@@ -21,7 +21,10 @@ import AppsIcon from "@material-ui/icons/Apps";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import constants from "../../constants";
 import {
+    Button,
     Divider,
+    Hidden,
+    IconButton,
     List,
     ListItem,
     ListItemIcon,
@@ -29,23 +32,37 @@ import {
     Menu,
     TextField,
     Toolbar,
+    Tooltip,
     Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    AnnouncerConstants,
+    build,
+    formatMessage,
+    getMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
+import {
+    Apps as GridIcon,
+    FormatListBulleted as TableIcon,
+    Info,
+    MoreVert as MoreVertIcon,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
         paddingLeft: 0,
-        color: theme.palette.info.main,
+        color: theme.palette.primary.main,
     },
     list: {
         outline: "none",
         cursor: "pointer",
-        color: theme.palette.info.main,
+        color: theme.palette.primary.main,
         "&:hover": {
-            backgroundColor: theme.palette.info.main,
-            color: theme.palette.info.contrastText,
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
         },
     },
     divider: {
@@ -92,6 +109,10 @@ function AppNavigation(props) {
         handleAppNavError,
         filter,
         selectedCategory,
+        isGridView,
+        toggleDisplay,
+        detailsEnabled,
+        onDetailsSelected,
         intl,
         baseId,
     } = props;
@@ -183,6 +204,38 @@ function AppNavigation(props) {
 
     return (
         <Toolbar variant="dense">
+            {isGridView && (
+                <Tooltip
+                    id={build(appNavId, ids.TABLE_VIEW_BTN, ids.TOOLTIP)}
+                    title={getMessage("tableView")}
+                    aria-label={formatMessage(intl, "tableView")}
+                >
+                    <IconButton
+                        id={build(appNavId, ids.TABLE_VIEW_BTN)}
+                        edge="start"
+                        onClick={() => toggleDisplay()}
+                        color="primary"
+                    >
+                        <TableIcon />
+                    </IconButton>
+                </Tooltip>
+            )}
+            {!isGridView && (
+                <Tooltip
+                    id={build(appNavId, ids.GRID_VIEW_BTN, ids.TOOLTIP)}
+                    title={getMessage("gridView")}
+                    aria-label={formatMessage(intl, "gridView")}
+                >
+                    <IconButton
+                        id={build(appNavId, ids.GRID_VIEW_BTN)}
+                        edge="start"
+                        onClick={() => toggleDisplay()}
+                        color="primary"
+                    >
+                        <GridIcon />
+                    </IconButton>
+                </Tooltip>
+            )}
             <List
                 component="nav"
                 aria-label={formatMessage(intl, "selectedCategoryAriaLabel")}
@@ -264,7 +317,6 @@ function AppNavigation(props) {
                     <ListItemText>{allAppsCategory.name}</ListItemText>
                 </ListItem>
             </Menu>
-            <div className={classes.divider} />
             <Autocomplete
                 disabled={
                     selectedCategory.system_id?.toLowerCase() ===
@@ -289,6 +341,22 @@ function AppNavigation(props) {
                     />
                 )}
             />
+            <div className={classes.divider} />
+            {detailsEnabled && (
+                <Button
+                    id={build(appNavId, ids.DETAILS_BTN)}
+                    variant="outlined"
+                    disableElevation
+                    color="primary"
+                    onClick={onDetailsSelected}
+                    startIcon={<Info className={classes.buttonIcon} />}
+                >
+                    <Hidden xsDown>{getMessage("details")}</Hidden>
+                </Button>
+            )}
+            <IconButton>
+                <MoreVertIcon />
+            </IconButton>
         </Toolbar>
     );
 }

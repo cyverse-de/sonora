@@ -15,13 +15,17 @@ import {
     rateApp,
 } from "../../../serviceFacades/apps";
 import TableView from "./TableView";
-import Header from "../Header";
 import AppNavigation, { getAppTypeFilters } from "../AppNavigation";
 import constants from "../../../constants";
 import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
 import Drawer from "../details/Drawer";
 import appType from "../../models/AppType";
-import { withI18N } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    AnnouncerConstants,
+    formatMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
 import { injectIntl } from "react-intl";
 import intlData from "../messages";
 import DEPagination from "../../utils/DEPagination";
@@ -330,9 +334,6 @@ function Listing(props) {
                 selectedCategory={selectedCategory}
                 setCategoryStatus={setCategoryStatus}
                 handleAppNavError={handleAppNavError}
-            />
-            <Header
-                baseId={baseId}
                 isGridView={isGridView}
                 toggleDisplay={toggleDisplay}
                 detailsEnabled={detailsEnabled}

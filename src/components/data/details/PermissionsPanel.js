@@ -114,7 +114,7 @@ function PermissionsTabPanel(props) {
                 setPermissions(mergedInfo);
                 setFetchUserInfoKey(null);
             },
-            onError:(e) => handleFetchPermissionsError(e)
+            onError: (e) => handleFetchPermissionsError(e),
         },
     });
 
@@ -160,7 +160,7 @@ function PermissionsTabPanel(props) {
                 prevLoadingIds.filter((id) => id !== currentPermission.id)
             );
         },
-        onError: (e) => handleUpdatePermissionsError(e)
+        onError: (e) => handleUpdatePermissionsError(e),
     });
 
     const onPermissionChange = (currentPermission, newPermissionValue) => {

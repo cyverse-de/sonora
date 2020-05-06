@@ -6,8 +6,21 @@
  */
 import React, { useState } from "react";
 
-import { build, CopyTextArea, formatDate, getMessage, withI18N } from "@cyverse-de/ui-lib";
-import { Divider, Grid, InputLabel, makeStyles, MenuItem, Select } from "@material-ui/core";
+import {
+    build,
+    CopyTextArea,
+    formatDate,
+    getMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
+import {
+    Divider,
+    Grid,
+    InputLabel,
+    makeStyles,
+    MenuItem,
+    Select,
+} from "@material-ui/core";
 import { injectIntl } from "react-intl";
 import { queryCache, useMutation, useQuery } from "react-query";
 
@@ -16,7 +29,10 @@ import ids from "../ids";
 import messages from "../messages";
 import styles from "../styles";
 import TagSearch from "../TagSearch";
-import { getResourceDetails, updateInfoType } from "../../../serviceFacades/filesystem";
+import {
+    getResourceDetails,
+    updateInfoType,
+} from "../../../serviceFacades/filesystem";
 import GridLabelValue from "../../utils/GridLabelValue";
 import GridLoading from "../../utils/GridLoading";
 import isQueryLoading from "../../utils/isQueryLoading";
@@ -66,7 +82,7 @@ function DetailsTabPanel(props) {
     };
 
     if (isQueryLoading([isFetching, updateInfoTypeStatus])) {
-        return <GridLoading baseId={baseId} rows={10}/>;
+        return <GridLoading baseId={baseId} rows={10} />;
     }
 
     if (!details) {

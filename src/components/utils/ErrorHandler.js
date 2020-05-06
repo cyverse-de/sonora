@@ -229,13 +229,13 @@ function ErrorHandler(props) {
                         title={title}
                         subheader={subHeader}
                     />
-                    <Divider orientation="horizontal"/>
+                    <Divider orientation="horizontal" />
                     <CardContent className={classes.cardContent}>
                         {contents}
                     </CardContent>
-                    <Divider orientation="horizontal"/>
+                    <Divider orientation="horizontal" />
                     <CardActions>
-                        <ContactSupport baseId={errBaseId}/>
+                        <ContactSupport baseId={errBaseId} />
                     </CardActions>
                 </Card>
             </Container>

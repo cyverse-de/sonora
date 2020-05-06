@@ -347,7 +347,7 @@ function BreadCrumb({
 }
 
 function DataNavigation(props) {
-    const { path, handlePathChange,handleDataNavError, baseId, intl } = props;
+    const { path, handlePathChange, handleDataNavError, baseId, intl } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);

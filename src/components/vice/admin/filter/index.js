@@ -58,7 +58,7 @@ const FilterChip = ({ label, handleDelete }) => {
 
 const AnalysesFilter = ({ filters, addToFilters, deleteFromFilters }) => {
     const classes = useStyles();
-    const [isExpanded, setIsExpanded] = useState(true);
+    const [isExpanded, setIsExpanded] = useState(false);
 
     const filtersPresent = Object.entries(filters).length > 0;
 

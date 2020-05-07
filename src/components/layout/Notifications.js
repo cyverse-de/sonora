@@ -28,7 +28,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 
 function Notifications(props) {
     const { intl, classes } = props;
-    const [notifications] = useNotifications();
+    const [currentNotification] = useNotifications();
     const theme = useTheme();
     const router = useRouter();
     const [unSeenCount, setUnSeenCount] = useState(0);
@@ -127,23 +127,21 @@ function Notifications(props) {
     );
 
     useEffect(() => {
-        handleMessage(notifications);
-    }, [notifications, handleMessage]);
+        handleMessage(currentNotification);
+    }, [currentNotification, handleMessage]);
 
     return (
-        <>
-            <IconButton
-                id={build(ids.APP_BAR_BASE, ids.NOTIFICATION_BTN)}
-                className={classes.margin}
-                aria-label={formatMessage(intl, "newNotificationAriaLabel")}
-                color="primary"
-                size="small"
-            >
-                <Badge badgeContent={unSeenCount} color="error">
-                    <NotificationsIcon />
-                </Badge>
-            </IconButton>
-        </>
+        <IconButton
+            id={build(ids.APP_BAR_BASE, ids.NOTIFICATION_BTN)}
+            className={classes.margin}
+            aria-label={formatMessage(intl, "newNotificationAriaLabel")}
+            color="primary"
+            size="small"
+        >
+            <Badge badgeContent={unSeenCount} color="error">
+                <NotificationsIcon />
+            </Badge>
+        </IconButton>
     );
 }
 

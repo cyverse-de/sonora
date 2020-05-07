@@ -10,11 +10,9 @@ export default {
 
 function ListingTest(props) {
     return (
-        <>
-            <NotificationsProvider>
-                <Listing baseId="tableView" />;
-            </NotificationsProvider>
-        </>
+        <NotificationsProvider>
+            <Listing baseId="tableView" />;
+        </NotificationsProvider>
     );
 }
 

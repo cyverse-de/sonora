@@ -40,16 +40,17 @@ function useNotifications() {
  */
 function NotificationsProvider(props) {
     const [userProfile] = useUserProfile();
-    const [notifications, setNotifications] = React.useState();
-    const value = React.useMemo(() => [notifications, setNotifications], [
-        notifications,
-    ]);
+    const [currentNotification, setCurrentNotification] = React.useState();
+    const value = React.useMemo(
+        () => [currentNotification, setCurrentNotification],
+        [currentNotification]
+    );
     const onMessage = useCallback(
         (event) => {
             console.log(event.data);
-            setNotifications(event.data);
+            setCurrentNotification(event.data);
         },
-        [setNotifications]
+        [setCurrentNotification]
     );
     //Saving websocket connection in ref will
     // Allow websocket connection be cached between component unmounts.
@@ -82,9 +83,9 @@ function NotificationsProvider(props) {
             //without this, there will be dupe notification
             // when a component unmounts and remount
             //example, when switching between apps and data
-            setNotifications(null);
+            setCurrentNotification(null);
         };
-    }, [notifications, userProfile, onMessage, wsConn]);
+    }, [currentNotification, userProfile, onMessage, wsConn]);
 
     //when user logs out, close the websocket connection
     useEffect(() => {

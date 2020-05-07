@@ -60,7 +60,7 @@ function Listing(props) {
     const [permFilter, setPermFilter] = useState(getOwnershipFilters(intl)[0]);
     const [appTypeFilter, setAppTypeFilter] = useState(getAppTypeFilters()[0]);
     const [userProfile] = useUserProfile();
-    const [notifications] = useNotifications();
+    const [currentNotification] = useNotifications();
 
     const { isFetching, error } = useQuery({
         queryKey: analysesKey,
@@ -129,14 +129,14 @@ function Listing(props) {
 
     const updateAnalyses = useCallback(
         (notifiMessage) => {
-            let push_msg = null;
+            let pushMsg = null;
             try {
-                push_msg = JSON.parse(notifiMessage);
+                pushMsg = JSON.parse(notifiMessage);
             } catch (e) {
                 return;
             }
 
-            const message = push_msg?.message;
+            const message = pushMsg?.message;
             if (message) {
                 const category = message.type;
                 const analysisStatus =
@@ -164,7 +164,7 @@ function Listing(props) {
                             data.analyses.length - 1
                         );
                         setData({
-                            analyses: [...newPage, message.payload],
+                            analyses: [message.payload, ...newPage],
                         });
                     } else if (data?.analyses.length === 0) {
                         //if page is empty...
@@ -181,8 +181,8 @@ function Listing(props) {
     );
 
     useEffect(() => {
-        updateAnalyses(notifications);
-    }, [notifications, updateAnalyses]);
+        updateAnalyses(currentNotification);
+    }, [currentNotification, updateAnalyses]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);

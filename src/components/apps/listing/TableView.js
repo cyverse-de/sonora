@@ -16,15 +16,7 @@ import {
     Rate,
     withI18N,
 } from "@cyverse-de/ui-lib";
-import {
-    Container,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableRow,
-} from "@material-ui/core";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from "@material-ui/core";
 import ids from "../ids";
 import TableLoading from "../../utils/TableLoading";
 import AppStatusIcon from "../AppStatusIcon";
@@ -32,7 +24,7 @@ import AppName from "../AppName";
 import AppFields from "../AppFields";
 import { injectIntl } from "react-intl";
 import messages from "../messages";
-import ErrorHandler from "../../utils/ErrorHandler";
+import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 
 function getTableColumns(deletable, enableMenu) {
     let tableColumns = [
@@ -109,7 +101,7 @@ function TableView(props) {
     const columnData = getTableColumns(false, false);
     const tableId = build(baseId, ids.LISTING_TABLE);
     if (error) {
-        return <ErrorHandler errorObject={error} baseId={baseId} />;
+        return <WrappedErrorHandler errorObject={error} baseId={baseId}/>;
     }
     return (
         <TableContainer component={Paper} style={{ overflow: "auto" }}>

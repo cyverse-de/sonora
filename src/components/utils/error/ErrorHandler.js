@@ -8,19 +8,18 @@ import Bowser from "bowser";
 import { useRouter } from "next/router";
 import { injectIntl } from "react-intl";
 
-import NavigationConstants from "../../common/NavigationConstants";
-import GridLabelValue from "./GridLabelValue";
-import { useUserProfile } from "../../contexts/userProfile";
+import NavigationConstants from "../../../common/NavigationConstants";
+import GridLabelValue from "../GridLabelValue";
+import { useUserProfile } from "../../../contexts/userProfile";
 import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
-import messages from "./messages";
-import ids from "./ids";
+import messages from "../messages";
+import ids from "../ids";
 import {
     Button,
     Card,
     CardActions,
     CardContent,
     CardHeader,
-    Container,
     Divider,
     Grid,
     Link,
@@ -30,7 +29,7 @@ import {
 
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import ErrorIcon from "@material-ui/icons/Error";
-import constants from "../../constants";
+import constants from "../../../constants";
 
 const useStyles = makeStyles((theme) => ({
     cardContent: {
@@ -51,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
     link: {
         cursor: "pointer",
     },
-    div: { height: "65vh", overflow: "auto", margin: 10 },
 }));
 
 function ClientInfo(props) {
@@ -221,25 +219,17 @@ function ErrorHandler(props) {
         }
     }
     return (
-        <div className={classes.div}>
-            <Container maxWidth="sm">
-                <Card id={errBaseId}>
-                    <CardHeader
-                        avatar={avatar}
-                        title={title}
-                        subheader={subHeader}
-                    />
-                    <Divider orientation="horizontal" />
-                    <CardContent className={classes.cardContent}>
-                        {contents}
-                    </CardContent>
-                    <Divider orientation="horizontal" />
-                    <CardActions>
-                        <ContactSupport baseId={errBaseId} />
-                    </CardActions>
-                </Card>
-            </Container>
-        </div>
+        <Card id={errBaseId}>
+            <CardHeader avatar={avatar} title={title} subheader={subHeader} />
+            <Divider orientation="horizontal" />
+            <CardContent className={classes.cardContent}>
+                {contents}
+            </CardContent>
+            <Divider orientation="horizontal" />
+            <CardActions>
+                <ContactSupport baseId={errBaseId} />
+            </CardActions>
+        </Card>
     );
 }
 

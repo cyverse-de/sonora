@@ -6,12 +6,7 @@
  */
 import React, { useCallback, useEffect, useState } from "react";
 
-import {
-    announce,
-    AnnouncerConstants,
-    formatMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { announce, AnnouncerConstants, formatMessage, withI18N } from "@cyverse-de/ui-lib";
 import { Button, Toolbar, Typography, useTheme } from "@material-ui/core";
 import { injectIntl } from "react-intl";
 import { queryCache, useMutation, useQuery } from "react-query";
@@ -23,16 +18,12 @@ import UploadDropTarget from "../../uploads/UploadDropTarget";
 import { useUploadTrackingState } from "../../../contexts/uploadTracking";
 import { camelcaseit } from "../../../common/functions";
 import Drawer from "../details/Drawer";
-import {
-    deleteResources,
-    getInfoTypes,
-    getPagedListing,
-} from "../../../serviceFacades/filesystem";
+import { deleteResources, getInfoTypes, getPagedListing } from "../../../serviceFacades/filesystem";
 import DataNavigation from "../DataNavigation";
 import DEPagination from "../../utils/DEPagination";
 import ResourceTypes from "../../models/ResourceTypes";
 import isQueryLoading from "../../utils/isQueryLoading";
-import DEErrorDialog from "../../utils/DEErrorDialog";
+import DEErrorDialog from "../../utils/error/DEErrorDialog";
 
 function Listing(props) {
     const uploadTracker = useUploadTrackingState();
@@ -76,6 +67,19 @@ function Listing(props) {
             !upload.hasErrored
         );
     }).length;
+
+    const viewErrorDetails = useCallback(() => {
+        return (
+            <Button variant="outlined" onClick={() => setErrorDialogOpen(true)}>
+                <Typography
+                    variant="button"
+                    style={{ color: theme.palette.error.contrastText }}
+                >
+                    {formatMessage(intl, "details")}
+                </Typography>
+            </Button>
+        );
+    }, [intl, theme.palette.error.contrastText]);
 
     const { error, isFetching } = useQuery({
         queryKey: pagedListingKey,
@@ -154,19 +158,6 @@ function Listing(props) {
     useEffect(() => {
         setDetailsEnabled(selected && selected.length === 1);
     }, [selected]);
-
-    const viewErrorDetails = useCallback(() => {
-        return (
-            <Button variant="outlined" onClick={() => setErrorDialogOpen(true)}>
-                <Typography
-                    variant="button"
-                    style={{ color: theme.palette.error.contrastText }}
-                >
-                    {formatMessage(intl, "details")}
-                </Typography>
-            </Button>
-        );
-    }, [theme.palette.error.contrastText]);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -306,13 +297,9 @@ function Listing(props) {
                 text: formatMessage(intl, "detailsError"),
                 variant: AnnouncerConstants.ERROR,
                 CustomAction: viewErrorDetails,
-                onMsgClose: () => {
-                    console.log("msg closed!");
-                    setErrorObject(null);
-                },
             });
         }
-    }, [detailsError]);
+    }, [detailsError, intl, viewErrorDetails]);
 
     useEffect(() => {
         if (infoTypeChangeError) {
@@ -323,13 +310,9 @@ function Listing(props) {
                 text: formatMessage(intl, "updateInfoTypeError"),
                 variant: AnnouncerConstants.ERROR,
                 CustomAction: viewErrorDetails,
-                onMsgClose: () => {
-                    console.log("msg closed!");
-                    setErrorObject(null);
-                },
             });
         }
-    }, [infoTypeChangeError]);
+    }, [infoTypeChangeError, intl, viewErrorDetails]);
 
     useEffect(() => {
         if (updatePermError) {
@@ -340,13 +323,9 @@ function Listing(props) {
                 text: formatMessage(intl, "updatePermissionsError"),
                 variant: AnnouncerConstants.ERROR,
                 CustomAction: viewErrorDetails,
-                onMsgClose: () => {
-                    console.log("msg closed!");
-                    setErrorObject(null);
-                },
             });
         }
-    }, [updatePermError]);
+    }, [updatePermError, intl, viewErrorDetails]);
 
     useEffect(() => {
         if (fetchPermError) {
@@ -357,13 +336,9 @@ function Listing(props) {
                 text: formatMessage(intl, "fetchPermissionsError"),
                 variant: AnnouncerConstants.ERROR,
                 CustomAction: viewErrorDetails,
-                onMsgClose: () => {
-                    console.log("msg closed!");
-                    setErrorObject(null);
-                },
             });
         }
-    }, [fetchPermError]);
+    }, [fetchPermError, intl, viewErrorDetails]);
 
     const handleDataNavError = useCallback(
         (error) => {

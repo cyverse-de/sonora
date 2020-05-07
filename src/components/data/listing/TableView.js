@@ -37,10 +37,9 @@ import ResourceIcon from "./ResourceIcon";
 import SpanLink from "./SpanLink";
 import TableLoading from "../../utils/TableLoading";
 import ResourceTypes from "../../models/ResourceTypes";
-
 import constants from "../../../constants";
 import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
-import ErrorHandler from "../../utils/ErrorHandler";
+import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 
 const COL_KEYS = {
     CHECKBOX: "checkbox",
@@ -247,7 +246,7 @@ function TableView(props) {
     };
 
     if (error) {
-        return <ErrorHandler errorObject={error} baseId={baseId} />;
+        return <WrappedErrorHandler errorObject={error} baseId={baseId}/>;
     }
 
     return (

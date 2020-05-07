@@ -16,7 +16,6 @@ import Permissions from "../../models/Permissions";
 
 function PermissionSelector(props) {
     const { baseId, currentPermission, onPermissionChange } = props;
-
     const [anchorEl, setAnchorEl] = useState(null);
 
     const onEditClick = (event) => {

@@ -6,26 +6,17 @@
  * current permissions.
  */
 
-import React, { Fragment, useCallback, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 
-import {
-    announce,
-    AnnouncerConstants,
-    build,
-    formatMessage,
-    getMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import {
     Avatar,
-    Button,
     CircularProgress,
     Grid,
     List,
     ListSubheader,
     makeStyles,
     Typography,
-    useTheme,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { injectIntl } from "react-intl";
@@ -42,7 +33,6 @@ import { updateSharing } from "../../../serviceFacades/sharing";
 import messages from "../messages";
 import isQueryLoading from "../../utils/isQueryLoading";
 import { getUserInfo } from "../../../serviceFacades/users";
-import DEErrorDialog from "../../utils/DEErrorDialog";
 
 const useStyles = makeStyles(styles);
 
@@ -75,7 +65,6 @@ function PermissionsTabPanel(props) {
         selfPermission,
         handleFetchPermissionsError,
         handleUpdatePermissionsError,
-        intl,
     } = props;
     const [fetchUserInfoKey, setFetchUserInfoKey] = useState(null);
     const [userlessPermissions, setUserlessPermissions] = useState([]);

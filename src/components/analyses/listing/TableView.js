@@ -16,7 +16,6 @@ import {
     withI18N,
 } from "@cyverse-de/ui-lib";
 import {
-    Container,
     IconButton,
     Link,
     makeStyles,
@@ -39,7 +38,7 @@ import messages from "../messages";
 import constants from "../../../constants";
 import analysisStatus from "../../models/analysisStatus";
 import TableLoading from "../../utils/TableLoading";
-import ErrorHandler from "../../utils/ErrorHandler";
+import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 
 const useStyles = makeStyles((theme) => ({
     name: {
@@ -241,7 +240,7 @@ function TableView(props) {
     const tableId = build(baseId, ids.LISTING_TABLE);
 
     if (error) {
-        return <ErrorHandler errorObject={error} baseId={baseId} />;
+        return <WrappedErrorHandler errorObject={error} baseId={baseId}/>;
     }
 
     return (

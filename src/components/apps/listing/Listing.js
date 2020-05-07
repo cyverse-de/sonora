@@ -31,7 +31,7 @@ import {
 import { injectIntl } from "react-intl";
 import intlData from "../messages";
 import DEPagination from "../../utils/DEPagination";
-import DEErrorDialog from "../../utils/DEErrorDialog";
+import DEErrorDialog from "../../utils/error/DEErrorDialog";
 import { Button, Typography, useTheme } from "@material-ui/core";
 
 function Listing(props) {

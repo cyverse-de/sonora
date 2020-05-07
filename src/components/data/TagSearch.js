@@ -7,14 +7,7 @@
  */
 import React, { useState } from "react";
 
-import {
-    announce,
-    AnnouncerConstants,
-    build,
-    formatMessage,
-    getMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import {
     Chip,
     CircularProgress,
@@ -33,12 +26,14 @@ import {
     attachTagsToResource,
     createUserTag,
     detachTagsFromResource,
-    getTagSuggestions,
     getTagsForResource,
+    getTagSuggestions,
 } from "../../serviceFacades/tags";
 import messages from "./messages";
 import styles from "./styles";
 import isQueryLoading from "../utils/isQueryLoading";
+import DEErrorDialog from "../utils/error/DEErrorDialog";
+import ErrorTypography from "../utils/error/ErrorTypography";
 
 const useStyles = makeStyles(styles);
 
@@ -52,17 +47,21 @@ function TagSearch(props) {
 
     const resourceId = resource.id;
     const fetchTagsQueryKey = ["dataTagsForResource", { resourceId }];
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+    const [errorObject, setErrorObject] = useState(null);
 
     const { isFetching: isFetchingTags } = useQuery({
         queryKey: fetchTagsQueryKey,
         queryFn: getTagsForResource,
         config: {
             onSuccess: (resp) => setSelectedTags(resp.tags),
-            onError: () =>
-                announce({
-                    text: formatMessage(intl, "fetchTagSuggestionsError"),
-                    variant: AnnouncerConstants.ERROR,
-                }),
+            onError: (e) => {
+                setErrorObject(e);
+                setErrorMessage(
+                    formatMessage(intl, "fetchTagSuggestionsError")
+                );
+            },
         },
     });
 
@@ -80,11 +79,10 @@ function TagSearch(props) {
         detachTagsFromResource,
         {
             onSuccess: () => queryCache.refetchQueries(fetchTagsQueryKey),
-            onError: () =>
-                announce({
-                    text: formatMessage(intl, "modifyTagsError"),
-                    variant: AnnouncerConstants.ERROR,
-                }),
+            onError: (e) => {
+                setErrorMessage(formatMessage(intl, "modifyTagsError"));
+                setErrorObject(e);
+            },
         }
     );
 
@@ -103,11 +101,10 @@ function TagSearch(props) {
                 };
                 onTagSelected(null, newTag);
             },
-            onError: () =>
-                announce({
-                    text: formatMessage(intl, "modifyTagsError"),
-                    variant: AnnouncerConstants.ERROR,
-                }),
+            onError: (e) => {
+                setErrorMessage(formatMessage(intl, "modifyTagsError"));
+                setErrorObject(e);
+            },
         }
     );
 
@@ -118,11 +115,10 @@ function TagSearch(props) {
                 setSearchTerm(null);
                 return queryCache.refetchQueries(fetchTagsQueryKey);
             },
-            onError: () =>
-                announce({
-                    text: formatMessage(intl, "modifyTagsError"),
-                    variant: AnnouncerConstants.ERROR,
-                }),
+            onError: (e) => {
+                setErrorMessage(formatMessage(intl, "modifyTagsError"));
+                setErrorObject(e);
+            },
         }
     );
 
@@ -247,6 +243,20 @@ function TagSearch(props) {
                     ))}
                 </Paper>
             )}
+            {errorMessage && (
+                <ErrorTypography
+                    errorMessage={errorMessage}
+                    onDetailsClick={() => setErrorDialogOpen(true)}
+                />
+            )}
+            <DEErrorDialog
+                open={errorDialogOpen}
+                baseId={id}
+                errorObject={errorObject}
+                handleClose={() => {
+                    setErrorDialogOpen(false);
+                }}
+            />
         </>
     );
 }

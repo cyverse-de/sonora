@@ -21,21 +21,13 @@ import constants from "../../../constants";
 import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
 import Drawer from "../details/Drawer";
 import appType from "../../models/AppType";
-import {
-    announce,
-    AnnouncerConstants,
-    formatMessage,
-    getMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { withI18N } from "@cyverse-de/ui-lib";
 import { injectIntl } from "react-intl";
 import intlData from "../messages";
 import DEPagination from "../../utils/DEPagination";
-import DEErrorDialog from "../../utils/error/DEErrorDialog";
-import { Button, Typography, useTheme } from "@material-ui/core";
 
 function Listing(props) {
-    const { baseId, intl } = props;
+    const { baseId } = props;
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");
@@ -56,9 +48,9 @@ function Listing(props) {
     const [detailsKey, setDetailsKey] = useState(null);
     const [categoryStatus, setCategoryStatus] = useState(false);
     const [navError, setNavError] = useState(null);
-    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
-    const [errorObject, setErrorObject] = useState(null);
-    const theme = useTheme();
+    const [detailsError, setDetailsError] = useState(null);
+    const [favMutationError, setFavMutationError] = useState(null);
+    const [ratingMutationError, setRatingMutationError] = useState(null);
 
     //a query with falsy key will not execute until key is set truthy val
     const {
@@ -80,34 +72,43 @@ function Listing(props) {
         },
     });
 
-    const { status: detailsStatus, error: detailsError } = useQuery({
+    const { status: detailsStatus } = useQuery({
         queryKey: detailsKey,
         queryFn: getAppDetails,
         config: {
             onSuccess: setDetails,
+            onError: (e) => {
+                setDetailsError(e);
+                setFavMutationError(null);
+                setRatingMutationError(null);
+            },
         },
     });
 
-    const [
-        favorite,
-        { status: favMutationStatus, error: favMutationError },
-    ] = useMutation(appFavorite, {
+    const [favorite, { status: favMutationStatus }] = useMutation(appFavorite, {
         onSuccess: () =>
             //return a promise so mutate() only resolves after the onSuccess callback
             queryCache.refetchQueries(
                 appsInCategoryKey ? appsInCategoryKey : allAppsKey
             ),
+        onError: (e) => {
+            setFavMutationError(e);
+            setDetailsError(null);
+            setRatingMutationError(null);
+        },
     });
 
-    const [
-        rating,
-        { status: ratingMutationStatus, error: ratingMutationError },
-    ] = useMutation(rateApp, {
+    const [rating, { status: ratingMutationStatus }] = useMutation(rateApp, {
         onSuccess: () =>
             //return a promise so mutate() only resolves after the onSuccess callback
             queryCache.refetchQueries(
                 appsInCategoryKey ? appsInCategoryKey : allAppsKey
             ),
+        onError: (e) => {
+            setRatingMutationError(e);
+            setDetailsError(null);
+            setFavMutationError(null);
+        },
     });
 
     const onFavoriteClick = () => {
@@ -133,19 +134,6 @@ function Listing(props) {
             rating: null,
         });
     };
-
-    const viewErrorDetails = useCallback(() => {
-        return (
-            <Button variant="outlined" onClick={() => setErrorDialogOpen(true)}>
-                <Typography
-                    variant="button"
-                    style={{ color: theme.palette.error.contrastText }}
-                >
-                    {getMessage("details")}
-                </Typography>
-            </Button>
-        );
-    }, [theme.palette.error.contrastText]);
 
     useEffect(() => {
         const systemId = selectedCategory?.system_id;
@@ -211,44 +199,6 @@ function Listing(props) {
             ]);
         }
     }, [detailsApp]);
-
-    useEffect(() => {
-        if (detailsError) {
-            setDetails(null);
-            setDetailsOpen(false);
-            setDetailsKey(null);
-            setErrorObject(detailsError);
-            announce({
-                text: formatMessage(intl, "appDetailsError"),
-                variant: AnnouncerConstants.ERROR,
-                CustomAction: viewErrorDetails,
-            });
-        }
-    }, [detailsError, intl, viewErrorDetails]);
-
-    useEffect(() => {
-        if (favMutationError) {
-            setErrorObject(favMutationError);
-            setDetailsOpen(false);
-            announce({
-                text: formatMessage(intl, "favMutationError"),
-                variant: AnnouncerConstants.ERROR,
-                CustomAction: viewErrorDetails,
-            });
-        }
-    }, [favMutationError, intl, viewErrorDetails]);
-
-    useEffect(() => {
-        if (ratingMutationError) {
-            setErrorObject(ratingMutationError);
-            setDetailsOpen(false);
-            announce({
-                text: formatMessage(intl, "ratingMutationError"),
-                variant: AnnouncerConstants.ERROR,
-                CustomAction: viewErrorDetails,
-            });
-        }
-    }, [ratingMutationError, intl, viewErrorDetails]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);
@@ -352,6 +302,9 @@ function Listing(props) {
 
     const onDetailsSelected = () => {
         setDetailsOpen(true);
+        setRatingMutationError(null);
+        setDetailsError(null);
+        setFavMutationError(null);
     };
 
     const handleAppNavError = useCallback(
@@ -416,6 +369,9 @@ function Listing(props) {
                     favMutationStatus={favMutationStatus === constants.LOADING}
                     onRatingChange={onRatingChange}
                     onDeleteRatingClick={onDeleteRating}
+                    detailsError={detailsError}
+                    favMutationError={favMutationError}
+                    ratingMutationError={ratingMutationError}
                 />
             )}
             {data && data.total > 0 && (
@@ -428,15 +384,6 @@ function Listing(props) {
                     baseId={baseId}
                 />
             )}
-            <DEErrorDialog
-                open={errorDialogOpen}
-                baseId={baseId}
-                errorObject={errorObject}
-                handleClose={() => {
-                    setErrorDialogOpen(false);
-                    setErrorObject(null);
-                }}
-            />
         </>
     );
 }

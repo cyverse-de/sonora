@@ -246,7 +246,7 @@ function TableView(props) {
     };
 
     if (error) {
-        return <WrappedErrorHandler errorObject={error} baseId={baseId}/>;
+        return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
     }
 
     return (

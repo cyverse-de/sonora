@@ -6,7 +6,12 @@
  */
 import React, { useCallback, useEffect, useState } from "react";
 
-import { announce, AnnouncerConstants, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    AnnouncerConstants,
+    formatMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
 import { Button, Toolbar, Typography, useTheme } from "@material-ui/core";
 import { injectIntl } from "react-intl";
 import { queryCache, useMutation, useQuery } from "react-query";
@@ -18,7 +23,11 @@ import UploadDropTarget from "../../uploads/UploadDropTarget";
 import { useUploadTrackingState } from "../../../contexts/uploadTracking";
 import { camelcaseit } from "../../../common/functions";
 import Drawer from "../details/Drawer";
-import { deleteResources, getInfoTypes, getPagedListing } from "../../../serviceFacades/filesystem";
+import {
+    deleteResources,
+    getInfoTypes,
+    getPagedListing,
+} from "../../../serviceFacades/filesystem";
 import DataNavigation from "../DataNavigation";
 import DEPagination from "../../utils/DEPagination";
 import ResourceTypes from "../../models/ResourceTypes";
@@ -44,11 +53,6 @@ function Listing(props) {
     const [navError, setNavError] = useState(null);
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
     const [errorObject, setErrorObject] = useState(null);
-    const [detailsError, setDetailsError] = useState(null);
-    const [infoTypeChangeError, setInfoTypeChangeError] = useState(null);
-    const [updatePermError, setUpdatePermError] = useState(null);
-    const [fetchPermError, setFetchPermError] = useState(null);
-
     const {
         baseId,
         path,
@@ -288,91 +292,11 @@ function Listing(props) {
             setInfoTypes(infoTypesCache.types);
         }
     }
-    useEffect(() => {
-        if (detailsError) {
-            setErrorObject(detailsError);
-            setDetailsOpen(null);
-            setDetailsResource(null);
-            announce({
-                text: formatMessage(intl, "detailsError"),
-                variant: AnnouncerConstants.ERROR,
-                CustomAction: viewErrorDetails,
-            });
-        }
-    }, [detailsError, intl, viewErrorDetails]);
-
-    useEffect(() => {
-        if (infoTypeChangeError) {
-            setErrorObject(infoTypeChangeError);
-            setDetailsOpen(null);
-            setDetailsResource(null);
-            announce({
-                text: formatMessage(intl, "updateInfoTypeError"),
-                variant: AnnouncerConstants.ERROR,
-                CustomAction: viewErrorDetails,
-            });
-        }
-    }, [infoTypeChangeError, intl, viewErrorDetails]);
-
-    useEffect(() => {
-        if (updatePermError) {
-            setErrorObject(updatePermError);
-            setDetailsOpen(null);
-            setDetailsResource(null);
-            announce({
-                text: formatMessage(intl, "updatePermissionsError"),
-                variant: AnnouncerConstants.ERROR,
-                CustomAction: viewErrorDetails,
-            });
-        }
-    }, [updatePermError, intl, viewErrorDetails]);
-
-    useEffect(() => {
-        if (fetchPermError) {
-            setErrorObject(fetchPermError);
-            setDetailsOpen(null);
-            setDetailsResource(null);
-            announce({
-                text: formatMessage(intl, "fetchPermissionsError"),
-                variant: AnnouncerConstants.ERROR,
-                CustomAction: viewErrorDetails,
-            });
-        }
-    }, [fetchPermError, intl, viewErrorDetails]);
-
     const handleDataNavError = useCallback(
         (error) => {
             setNavError(error);
         },
         [setNavError]
-    );
-
-    const handleDetailsError = useCallback(
-        (error) => {
-            setDetailsError(error);
-        },
-        [setDetailsError]
-    );
-
-    const handleInfoTypeChangeError = useCallback(
-        (error) => {
-            setInfoTypeChangeError(error);
-        },
-        [setInfoTypeChangeError]
-    );
-
-    const handleUpdatePermissionsError = useCallback(
-        (error) => {
-            setUpdatePermError(error);
-        },
-        [setUpdatePermError]
-    );
-
-    const handleFetchPermissionsError = useCallback(
-        (error) => {
-            setFetchPermError(error);
-        },
-        [setFetchPermError]
     );
 
     const isLoading = isQueryLoading([isFetching, removeResourceStatus]);
@@ -445,10 +369,6 @@ function Listing(props) {
                     baseId={baseId}
                     infoTypes={infoTypes}
                     onClose={() => setDetailsOpen(false)}
-                    handleDetailsError={handleDetailsError}
-                    handleInfoTypeChangeError={handleInfoTypeChangeError}
-                    handleUpdatePermissionsError={handleUpdatePermissionsError}
-                    handleFetchPermissionsError={handleFetchPermissionsError}
                 />
             )}
             <DEErrorDialog

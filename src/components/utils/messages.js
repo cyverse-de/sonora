@@ -23,6 +23,7 @@ const intlData = {
         host: "Host",
         timestamp: "Timestamp",
         ok: "OK",
+        viewDetails: "View Details",
     },
 };
 

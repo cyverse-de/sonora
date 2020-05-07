@@ -111,7 +111,7 @@ function DetailsHeader({
                     </Tooltip>
                 </div>
             )}
-            {loading && <CircularProgress />}
+            {loading && <CircularProgress size={30} thickness={5} />}
         </>
     );
 }
@@ -152,6 +152,9 @@ function DetailsDrawer(props) {
         detailsLoadingStatus,
         ratingMutationStatus,
         favMutationStatus,
+        detailsError,
+        favMutationError,
+        ratingMutationError,
     } = props;
     const [selectedTab, setSelectedTab] = useState(TABS.appInfo);
 
@@ -246,6 +249,9 @@ function DetailsDrawer(props) {
                     onRatingChange={onRatingChange}
                     onDeleteRatingClick={onDeleteRatingClick}
                     onFavoriteClick={onFavoriteClick}
+                    detailsError={detailsError}
+                    favMutationError={favMutationError}
+                    ratingMutationError={ratingMutationError}
                 />
             </DETabPanel>
             <DETabPanel

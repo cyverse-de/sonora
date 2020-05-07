@@ -240,7 +240,7 @@ function TableView(props) {
     const tableId = build(baseId, ids.LISTING_TABLE);
 
     if (error) {
-        return <WrappedErrorHandler errorObject={error} baseId={baseId}/>;
+        return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
     }
 
     return (

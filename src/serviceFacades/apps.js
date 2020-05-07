@@ -49,7 +49,7 @@ function getAppDetails(key, { systemId, appId }) {
 function appFavorite({ isFav, systemId, appId }) {
     if (isFav) {
         return callApi({
-            endpoint: `/api/apps/${systemId}/${appId}/favorite`,
+            endpoint: `/api/apps/${systemId}/${appId}/favorit`,
             method: "PUT",
         });
     } else {
@@ -63,7 +63,7 @@ function appFavorite({ isFav, systemId, appId }) {
 function rateApp({ systemId, appId, rating }) {
     if (rating) {
         return callApi({
-            endpoint: `/api/apps/${systemId}/${appId}/rating`,
+            endpoint: `/api/apps/${systemId}/${appId}/ratin`,
             method: "POST",
             body: {
                 rating: rating,

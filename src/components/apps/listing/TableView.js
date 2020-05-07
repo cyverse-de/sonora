@@ -16,7 +16,14 @@ import {
     Rate,
     withI18N,
 } from "@cyverse-de/ui-lib";
-import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from "@material-ui/core";
+import {
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableRow,
+} from "@material-ui/core";
 import ids from "../ids";
 import TableLoading from "../../utils/TableLoading";
 import AppStatusIcon from "../AppStatusIcon";
@@ -101,7 +108,7 @@ function TableView(props) {
     const columnData = getTableColumns(false, false);
     const tableId = build(baseId, ids.LISTING_TABLE);
     if (error) {
-        return <WrappedErrorHandler errorObject={error} baseId={baseId}/>;
+        return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
     }
     return (
         <TableContainer component={Paper} style={{ overflow: "auto" }}>

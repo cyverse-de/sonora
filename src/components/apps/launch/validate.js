@@ -5,7 +5,8 @@
  */
 import { getMessage } from "@cyverse-de/ui-lib";
 
-import DataConstants from "../../data/constants";
+import { validateDiskResourceName } from "../../data/utils";
+
 import constants from "./constants";
 
 /**
@@ -14,30 +15,6 @@ import constants from "./constants";
  */
 const isEmptyParamValue = (value) =>
     (!value && value !== 0) || (Array.isArray(value) && value.length < 1);
-
-const validateDiskResourceName = (name) => {
-    if (name === "." || name === "..") {
-        return getMessage("validationDiskResourceName");
-    }
-
-    const illeagalChars = name?.match(DataConstants.NAME_INVALID_CHARS_REGEX);
-
-    if (illeagalChars) {
-        const charList = [...new Set(illeagalChars)]
-            .map((c) => {
-                if (c === "\n") return "\\n";
-                if (c === "\t") return "\\t";
-                return c;
-            })
-            .join("");
-
-        return getMessage("validationInvalidCharacters", {
-            values: { charList },
-        });
-    }
-
-    return null;
-};
 
 const validateUnixGlob = (pattern) => {
     if (pattern && (pattern.startsWith("/") || pattern.indexOf("../") >= 0)) {

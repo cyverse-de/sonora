@@ -1,3 +1,11 @@
+import DataI18N from "../../data/messages";
+
+const {
+    validationEmptyDiskResourceName,
+    validationDiskResourceName,
+    validationInvalidCharacters,
+} = DataI18N.messages;
+
 const helpMsgResourceRequirements = `These Resource Requirements may be adjusted so that the analysis is submitted with requests for larger minimum resources.
 Note that this may cause the analysis to wait longer in the submission queue until a node that matches those minimum requirements becomes available.
 So generally it is advisable to leave the resource requests set to the defaults that the tool or app integrator has set.`;
@@ -64,8 +72,9 @@ export default {
         validationRange: "Must be between {min} and {max}",
         validationCharLimit: "Cannot exceed {limit} characters",
         validationRegex: "Does not match the expression {regexPattern}",
-        validationInvalidCharacters: "Invalid characters: {charList}",
-        validationDiskResourceName: "Can not be named . or ..",
+        validationDiskResourceName,
+        validationEmptyDiskResourceName,
+        validationInvalidCharacters,
         validationUnixGlob:
             'Can not start with a slash ("/") and can not contain a parent directory pattern ("../")',
     },

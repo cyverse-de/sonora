@@ -11951,12 +11951,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root _class-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.676846d4-854a-11e4-980d-7f0fcca75dbb"
       onClick={[Function]}
     >
       <div
-        className="_class-avatar-106"
+        className="Component-avatar-106"
       >
         <div
           onClick={[Function]}
@@ -11971,7 +11971,7 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="_class-type-107"
+          className="Component-type-107"
         >
           de
         </div>
@@ -11989,7 +11989,7 @@ exports[`App Tile renders 1`] = `
           Bowtie-2.2.1--Build-and-Map for workflows Bowtie-2.2.1--Build-and-Map for workflowsBowtie-2.2.1--Build-and-Map for workflows
         </div>
         <div
-          className="_class-more-110"
+          className="Component-more-110"
         >
           <div>
             <button
@@ -12034,19 +12034,19 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="_class-status-112"
+            className="Component-status-112"
           />
         </div>
       </div>
       <div
-        className="_class-creator-111"
+        className="Component-creator-111"
       >
         <span>
           Roger Barthelson Roger Barthelson Roger Barthelson
         </span>
       </div>
       <div
-        className="_class-rating-113"
+        className="Component-rating-113"
       >
         <div
           className="Rate-rating-172"
@@ -12505,12 +12505,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root _class-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.99df0c66-dce5-11e6-a30f-0242ac120003"
       onClick={[Function]}
     >
       <div
-        className="_class-avatar-106"
+        className="Component-avatar-106"
       >
         <div
           onClick={[Function]}
@@ -12525,7 +12525,7 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="_class-type-107"
+          className="Component-type-107"
         >
           de
         </div>
@@ -12543,7 +12543,7 @@ exports[`App Tile renders 1`] = `
           APPLES_rbh
         </div>
         <div
-          className="_class-more-110"
+          className="Component-more-110"
         >
           <div>
             <button
@@ -12588,7 +12588,7 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="_class-status-112"
+            className="Component-status-112"
           >
             <img
               alt="/betaSymbol.png"
@@ -12607,14 +12607,14 @@ exports[`App Tile renders 1`] = `
         </div>
       </div>
       <div
-        className="_class-creator-111"
+        className="Component-creator-111"
       >
         <span>
           Uk Cyverse
         </span>
       </div>
       <div
-        className="_class-rating-113"
+        className="Component-rating-113"
       >
         <div
           className="Rate-rating-172"
@@ -13081,12 +13081,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root _class-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.7b37bf52-4746-11e8-a53a-008cfa5ae621"
       onClick={[Function]}
     >
       <div
-        className="_class-avatar-106"
+        className="Component-avatar-106"
       >
         <div
           onClick={[Function]}
@@ -13101,7 +13101,7 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="_class-type-107"
+          className="Component-type-107"
         >
           de
         </div>
@@ -13119,7 +13119,7 @@ exports[`App Tile renders 1`] = `
           BCFtools 1.8 view
         </div>
         <div
-          className="_class-more-110"
+          className="Component-more-110"
         >
           <div>
             <button
@@ -13164,7 +13164,7 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="_class-status-112"
+            className="Component-status-112"
           >
             <img
               alt="/betaSymbol.png"
@@ -13183,14 +13183,14 @@ exports[`App Tile renders 1`] = `
         </div>
       </div>
       <div
-        className="_class-creator-111"
+        className="Component-creator-111"
       >
         <span>
           Amanda Cooksey
         </span>
       </div>
       <div
-        className="_class-rating-113"
+        className="Component-rating-113"
       >
         <div
           className="Rate-rating-172"
@@ -13649,12 +13649,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root _class-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.a57f406c-14b7-4601-9bfd-2604a3907bee"
       onClick={[Function]}
     >
       <div
-        className="_class-avatar-106"
+        className="Component-avatar-106"
       >
         <div
           onClick={[Function]}
@@ -13669,7 +13669,7 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="_class-type-107"
+          className="Component-type-107"
         >
           de
         </div>
@@ -13687,7 +13687,7 @@ exports[`App Tile renders 1`] = `
           bcftools view
         </div>
         <div
-          className="_class-more-110"
+          className="Component-more-110"
         >
           <div>
             <button
@@ -13732,19 +13732,19 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="_class-status-112"
+            className="Component-status-112"
           />
         </div>
       </div>
       <div
-        className="_class-creator-111"
+        className="Component-creator-111"
       >
         <span>
           Zhenyuan Lu
         </span>
       </div>
       <div
-        className="_class-rating-113"
+        className="Component-rating-113"
       >
         <div
           className="Rate-rating-172"
@@ -14203,12 +14203,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root _class-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.7c1ff290-999e-11e8-acf9-008cfa5ae621"
       onClick={[Function]}
     >
       <div
-        className="_class-avatar-106"
+        className="Component-avatar-106"
       >
         <div
           onClick={[Function]}
@@ -14223,7 +14223,7 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="_class-type-107"
+          className="Component-type-107"
         >
           de
         </div>
@@ -14241,7 +14241,7 @@ exports[`App Tile renders 1`] = `
           bedtools 2.26.0 bam2fastq
         </div>
         <div
-          className="_class-more-110"
+          className="Component-more-110"
         >
           <div>
             <button
@@ -14286,7 +14286,7 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="_class-status-112"
+            className="Component-status-112"
           >
             <img
               alt="/betaSymbol.png"
@@ -14305,14 +14305,14 @@ exports[`App Tile renders 1`] = `
         </div>
       </div>
       <div
-        className="_class-creator-111"
+        className="Component-creator-111"
       >
         <span>
           Amanda Cooksey
         </span>
       </div>
       <div
-        className="_class-rating-113"
+        className="Component-rating-113"
       >
         <div
           className="Rate-rating-172"
@@ -14771,12 +14771,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root _class-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.8b89b178-95aa-11e8-bab5-008cfa5ae621"
       onClick={[Function]}
     >
       <div
-        className="_class-avatar-106"
+        className="Component-avatar-106"
       >
         <div
           onClick={[Function]}
@@ -14791,7 +14791,7 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="_class-type-107"
+          className="Component-type-107"
         >
           de
         </div>
@@ -14809,7 +14809,7 @@ exports[`App Tile renders 1`] = `
           Blat 36 (with options)
         </div>
         <div
-          className="_class-more-110"
+          className="Component-more-110"
         >
           <div>
             <button
@@ -14854,7 +14854,7 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="_class-status-112"
+            className="Component-status-112"
           >
             <img
               alt="/betaSymbol.png"
@@ -14873,14 +14873,14 @@ exports[`App Tile renders 1`] = `
         </div>
       </div>
       <div
-        className="_class-creator-111"
+        className="Component-creator-111"
       >
         <span>
           Amanda Cooksey
         </span>
       </div>
       <div
-        className="_class-rating-113"
+        className="Component-rating-113"
       >
         <div
           className="Rate-rating-172"
@@ -15339,12 +15339,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root _class-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.b1f3cd8e-e424-11e4-9703-ab68be62b493"
       onClick={[Function]}
     >
       <div
-        className="_class-avatar-106"
+        className="Component-avatar-106"
       >
         <div
           onClick={[Function]}
@@ -15359,7 +15359,7 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="_class-type-107"
+          className="Component-type-107"
         >
           de
         </div>
@@ -15377,7 +15377,7 @@ exports[`App Tile renders 1`] = `
           Bowtie-2.2.1--Build-and-Map for workflows
         </div>
         <div
-          className="_class-more-110"
+          className="Component-more-110"
         >
           <div>
             <button
@@ -15422,19 +15422,19 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="_class-status-112"
+            className="Component-status-112"
           />
         </div>
       </div>
       <div
-        className="_class-creator-111"
+        className="Component-creator-111"
       >
         <span>
           Ryan Joynson
         </span>
       </div>
       <div
-        className="_class-rating-113"
+        className="Component-rating-113"
       >
         <div
           className="Rate-rating-172"
@@ -15893,12 +15893,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root _class-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.aa65db9e-9a8b-11e4-b9b7-0f1d2deb5049"
       onClick={[Function]}
     >
       <div
-        className="_class-avatar-106"
+        className="Component-avatar-106"
       >
         <div
           onClick={[Function]}
@@ -15913,7 +15913,7 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="_class-type-107"
+          className="Component-type-107"
         >
           de
         </div>
@@ -15931,7 +15931,7 @@ exports[`App Tile renders 1`] = `
           Bowtie2Build-2.2.4 indexer
         </div>
         <div
-          className="_class-more-110"
+          className="Component-more-110"
         >
           <div>
             <button
@@ -15976,19 +15976,19 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="_class-status-112"
+            className="Component-status-112"
           />
         </div>
       </div>
       <div
-        className="_class-creator-111"
+        className="Component-creator-111"
       >
         <span>
           rogerab
         </span>
       </div>
       <div
-        className="_class-rating-113"
+        className="Component-rating-113"
       >
         <div
           className="Rate-rating-172"
@@ -16455,12 +16455,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root _class-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.efc2819c-83c3-47bd-a2b4-9c96a1f56946"
       onClick={[Function]}
     >
       <div
-        className="_class-avatar-106"
+        className="Component-avatar-106"
       >
         <div
           onClick={[Function]}
@@ -16475,7 +16475,7 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="_class-type-107"
+          className="Component-type-107"
         >
           de
         </div>
@@ -16493,7 +16493,7 @@ exports[`App Tile renders 1`] = `
           BWA 0.7.4 non-model species
         </div>
         <div
-          className="_class-more-110"
+          className="Component-more-110"
         >
           <div>
             <button
@@ -16538,19 +16538,19 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="_class-status-112"
+            className="Component-status-112"
           />
         </div>
       </div>
       <div
-        className="_class-creator-111"
+        className="Component-creator-111"
       >
         <span>
           Roger Barthelson
         </span>
       </div>
       <div
-        className="_class-rating-113"
+        className="Component-rating-113"
       >
         <div
           className="Rate-rating-172"

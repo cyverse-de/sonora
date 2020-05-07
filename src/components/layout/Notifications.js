@@ -5,16 +5,15 @@
  *
  */
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
-import Sockette from "sockette";
 
 import constants from "../../constants";
 import analysisStatus from "../models/analysisStatus";
 import NavigationConstants from "../../common/NavigationConstants";
-import { useUserProfile } from "../../contexts/userProfile";
 import ids from "./ids";
+import { useNotifications } from "../../contexts/pushNotifications";
 
 import {
     announce,
@@ -29,7 +28,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 
 function Notifications(props) {
     const { intl, classes } = props;
-    const [userProfile] = useUserProfile();
+    const [currentNotification] = useNotifications();
     const theme = useTheme();
     const router = useRouter();
     const [unSeenCount, setUnSeenCount] = useState(0);
@@ -108,19 +107,17 @@ function Notifications(props) {
     );
 
     const handleMessage = useCallback(
-        (event) => {
-            console.log(event.data);
+        (notifiMessage) => {
             let push_msg = null;
             try {
-                push_msg = JSON.parse(event.data);
+                push_msg = JSON.parse(notifiMessage);
             } catch (e) {
                 return;
             }
-            if (push_msg.total) {
+            if (push_msg?.total) {
                 setUnSeenCount(push_msg.total);
             }
-
-            const message = push_msg.message;
+            const message = push_msg?.message;
             if (message) {
                 const category = message.type;
                 displayNotification(message, category);
@@ -128,39 +125,10 @@ function Notifications(props) {
         },
         [displayNotification]
     );
-    React.useEffect(() => {
-        if (userProfile?.id) {
-            let location = window.location;
-            let protocol =
-                location.protocol.toLowerCase() === "https:"
-                    ? constants.WSS_PROTOCOL
-                    : constants.WS_PROTOCOL;
-            let host = location.hostname;
-            let port = location.port;
-            const notificationUrl =
-                protocol +
-                host +
-                (port ? ":" + port : "") +
-                NavigationConstants.NOTIFICATION_WS;
-            console.log("Connecting websocket to " + notificationUrl);
 
-            const ws = new Sockette(notificationUrl, {
-                maxAttempts: 10,
-                onopen: (e) => {
-                    console.log("Websocket connected!");
-                    ws.send("Connected by " + userProfile.id);
-                },
-                onmessage: (e) => handleMessage(e),
-                onreconnect: (e) => console.log("Websocket Reconnecting...", e),
-                onmaximum: (e) => console.log("Websocket Stop Attempting!", e),
-                onclose: (e) => console.log("Websocket Closed!", e),
-                onerror: (e) => console.log("Websocket Error:", e),
-            });
-            return () => {
-                ws.close();
-            };
-        }
-    }, [userProfile, handleMessage]);
+    useEffect(() => {
+        handleMessage(currentNotification);
+    }, [currentNotification, handleMessage]);
 
     return (
         <IconButton

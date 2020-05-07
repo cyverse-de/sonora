@@ -4,7 +4,7 @@
  * A component intended to be the parent to the analyses table view and thumbnail/tile view
  *
  */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { injectIntl } from "react-intl";
 import { useRouter } from "next/router";
@@ -23,6 +23,7 @@ import appType from "../../models/AppType";
 import NavigationConstants from "../../../common/NavigationConstants";
 import Header from "../Header";
 import { useUserProfile } from "../../../contexts/userProfile";
+import { useNotifications } from "../../../contexts/pushNotifications";
 
 /**
  * Filters
@@ -59,6 +60,7 @@ function Listing(props) {
     const [permFilter, setPermFilter] = useState(getOwnershipFilters(intl)[0]);
     const [appTypeFilter, setAppTypeFilter] = useState(getAppTypeFilters()[0]);
     const [userProfile] = useUserProfile();
+    const [currentNotification] = useNotifications();
 
     const { isFetching, error } = useQuery({
         queryKey: analysesKey,
@@ -124,6 +126,63 @@ function Listing(props) {
         appTypeFilter,
         intl,
     ]);
+
+    const updateAnalyses = useCallback(
+        (notifiMessage) => {
+            let pushMsg = null;
+            try {
+                pushMsg = JSON.parse(notifiMessage);
+            } catch (e) {
+                return;
+            }
+
+            const message = pushMsg?.message;
+            if (message) {
+                const category = message.type;
+                const analysisStatus =
+                    category.toLowerCase() ===
+                    constants.NOTIFICATION_CATEGORY.ANALYSIS.toLowerCase()
+                        ? message.payload.status
+                        : "";
+
+                const found = data?.analyses?.find(
+                    (analysis) => analysis.id === message.payload.id
+                );
+
+                if (found) {
+                    if (analysisStatus !== found.status) {
+                        found.status = analysisStatus;
+                        found.enddate = message.payload.enddate;
+                        setData({ analyses: [...data?.analyses] });
+                    }
+                } else {
+                    //add a new analysis record and remove the last record from the page
+                    //to maintain page size
+                    if (data?.analyses.length === rowsPerPage) {
+                        const newPage = data.analyses.slice(
+                            0,
+                            data.analyses.length - 1
+                        );
+                        setData({
+                            analyses: [message.payload, ...newPage],
+                        });
+                    } else if (data?.analyses.length === 0) {
+                        //if page is empty...
+                        setData({ analyses: [message.payload] });
+                    } else {
+                        setData({
+                            analyses: [message.payload, ...data?.analyses],
+                        });
+                    }
+                }
+            }
+        },
+        [data, setData, rowsPerPage]
+    );
+
+    useEffect(() => {
+        updateAnalyses(currentNotification);
+    }, [currentNotification, updateAnalyses]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);
@@ -234,7 +293,7 @@ function Listing(props) {
 
     const handleClearBatch = () => {
         setParentAnalyses(null);
-        setPermFilter(getOwnershipFilters()[0]);
+        setPermFilter(getOwnershipFilters(intl)[0]);
         setAppTypeFilter(getAppTypeFilters()[0]);
     };
 

@@ -191,6 +191,7 @@ function FolderSelectorMenu({
                     )}
                     aria-label={formatMessage(intl, "selectedFolderAriaLabel")}
                     id={build(baseId, ids.PATH_ITEMS)}
+                    className={classes.list}
                 >
                     <ListItem
                         button
@@ -203,11 +204,7 @@ function FolderSelectorMenu({
                         onClick={handleClickListItem}
                         className={classes.selectedListItem}
                     >
-                        {
-                            <>
-                                <ArrowRightIcon /> <FolderIcon />
-                            </>
-                        }
+                        {<FolderIcon fontSize="small" />}
                         <ListItemText
                             id={build(
                                 baseId,
@@ -222,7 +219,7 @@ function FolderSelectorMenu({
                                 </Typography>
                             }
                         />
-                        <ListItemIcon>
+                        <ListItemIcon style={{ minWidth: 20 }}>
                             <ArrowDropDownIcon />
                         </ListItemIcon>
                     </ListItem>
@@ -254,12 +251,16 @@ function FolderSelectorMenu({
                             onClick={(event) =>
                                 handleMenuItemClick(event, index)
                             }
-                            className={classes.list}
+                            className={classes.listItem}
                         >
                             <ListItemIcon>
-                                <FolderIcon />
+                                <FolderIcon fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText>{crumb}</ListItemText>
+                            <ListItemText>
+                                <Typography className={classes.listItemText}>
+                                    {crumb}
+                                </Typography>
+                            </ListItemText>
                         </ListItem>
                     ))}
                 </Menu>
@@ -378,21 +379,21 @@ function DataNavigation(props) {
             const home = respRoots.find(
                 (root) => root.label === userProfile.id
             );
-            home.icon = <HomeIcon />;
+            home.icon = <HomeIcon fontSize="small" />;
             const sharedWithMe = respRoots.find(
                 (root) => root.label === constants.SHARED_WITH_ME
             );
             setSharedWithMePath(sharedWithMe.path);
-            sharedWithMe.icon = <FolderSharedIcon />;
+            sharedWithMe.icon = <FolderSharedIcon fontSize="small" />;
             const communityData = respRoots.find(
                 (root) => root.label === constants.COMMUNITY_DATA
             );
             setCommunityDataPath(communityData.path);
-            communityData.icon = <GroupIcon />;
+            communityData.icon = <GroupIcon fontSize="small" />;
             const trash = respRoots.find(
                 (root) => root.label === constants.TRASH
             );
-            trash.icon = <DeleteIcon />;
+            trash.icon = <DeleteIcon fontSize="small" />;
 
             const basePaths = respData["base-paths"];
             setUserHomePath(basePaths["user_home_path"]);
@@ -484,38 +485,40 @@ function DataNavigation(props) {
 
     return (
         <Toolbar variant="dense">
-            {isGridView && (
-                <Tooltip
-                    id={build(dataNavId, ids.TABLE_VIEW_BTN, ids.TOOLTIP)}
-                    title={getMessage("tableView")}
-                    aria-label={formatMessage(intl, "tableView")}
-                >
-                    <IconButton
-                        id={build(dataNavId, ids.TABLE_VIEW_BTN)}
-                        edge="start"
-                        color="primary"
-                        onClick={() => toggleDisplay()}
+            <Hidden smDown>
+                {isGridView && (
+                    <Tooltip
+                        id={build(dataNavId, ids.TABLE_VIEW_BTN, ids.TOOLTIP)}
+                        title={getMessage("tableView")}
+                        aria-label={formatMessage(intl, "tableView")}
                     >
-                        <TableIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
-            {!isGridView && (
-                <Tooltip
-                    id={build(dataNavId, ids.GRID_VIEW_BTN, ids.TOOLTIP)}
-                    title={getMessage("gridView")}
-                    aria-label={formatMessage(intl, "gridView")}
-                >
-                    <IconButton
-                        id={build(dataNavId, ids.GRID_VIEW_BTN)}
-                        edge="start"
-                        color="primary"
-                        onClick={() => toggleDisplay()}
+                        <IconButton
+                            id={build(dataNavId, ids.TABLE_VIEW_BTN)}
+                            edge="start"
+                            color="primary"
+                            onClick={() => toggleDisplay()}
+                        >
+                            <TableIcon />
+                        </IconButton>
+                    </Tooltip>
+                )}
+                {!isGridView && (
+                    <Tooltip
+                        id={build(dataNavId, ids.GRID_VIEW_BTN, ids.TOOLTIP)}
+                        title={getMessage("gridView")}
+                        aria-label={formatMessage(intl, "gridView")}
                     >
-                        <GridIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
+                        <IconButton
+                            id={build(dataNavId, ids.GRID_VIEW_BTN)}
+                            edge="start"
+                            color="primary"
+                            onClick={() => toggleDisplay()}
+                        >
+                            <GridIcon />
+                        </IconButton>
+                    </Tooltip>
+                )}
+            </Hidden>
             <List
                 component="nav"
                 aria-label={formatMessage(
@@ -523,6 +526,7 @@ function DataNavigation(props) {
                     "selectedDataRootMenuAriaLabel"
                 )}
                 id={build(dataNavId, ids.DATA_ROOTS)}
+                className={classes.list}
             >
                 <ListItem
                     button
@@ -579,14 +583,18 @@ function DataNavigation(props) {
                         key={menuItem.label}
                         selected={index === selectedIndex}
                         onClick={(event) => handleMenuItemClick(event, index)}
-                        className={classes.list}
+                        className={classes.listItem}
                     >
                         <ListItemIcon>{menuItem.icon}</ListItemIcon>
-                        <ListItemText>{menuItem.label}</ListItemText>
+                        <ListItemText>
+                            <Typography className={classes.listItemText}>
+                                {menuItem.label}
+                            </Typography>
+                        </ListItemText>
                     </ListItem>
                 ))}
             </Menu>
-            <Hidden xsDown>
+            <Hidden smDown>
                 {path && (!error || error.length === 0) ? (
                     <BreadCrumb
                         baseId={dataNavId}
@@ -603,7 +611,7 @@ function DataNavigation(props) {
                     <div></div>
                 )}
             </Hidden>
-            <Hidden only={["sm", "md", "lg", "xl"]}>
+            <Hidden only={["md", "lg", "xl"]}>
                 {path && (!error || error.length === 0) ? (
                     <FolderSelectorMenu
                         baseId={dataNavId}
@@ -620,51 +628,60 @@ function DataNavigation(props) {
                     <div></div>
                 )}
             </Hidden>
-            <div style={{ flexGrow: 1 }} />
-            {detailsEnabled && (
+            <div className={classes.divider} />
+            <Hidden smDown>
+                {detailsEnabled && (
+                    <Button
+                        id={build(dataNavId, ids.DETAILS_BTN)}
+                        variant="outlined"
+                        disableElevation
+                        color="primary"
+                        onClick={onDetailsSelected}
+                        startIcon={<Info className={classes.buttonIcon} />}
+                    >
+                        <Hidden xsDown>{getMessage("details")}</Hidden>
+                    </Button>
+                )}
+                {isWritable(permission) && (
+                    <Button
+                        id={build(baseId, ids.CREATE_BTN)}
+                        variant="outlined"
+                        disableElevation
+                        color="primary"
+                        onClick={onCreateFolderClicked}
+                        startIcon={
+                            <CreateNewFolder className={classes.buttonIcon} />
+                        }
+                    >
+                        <Hidden xsDown>{getMessage("folder")}</Hidden>
+                    </Button>
+                )}
+                <UploadMenuBtn baseId={dataNavId} path={path} />
                 <Button
-                    id={build(dataNavId, ids.DETAILS_BTN)}
+                    id={build(dataNavId, ids.SHARE_BTN)}
                     variant="outlined"
                     disableElevation
                     color="primary"
-                    onClick={onDetailsSelected}
-                    startIcon={<Info className={classes.buttonIcon} />}
+                    className={classes.button}
+                    onClick={() => console.log("Share")}
+                    startIcon={<Share className={classes.buttonIcon} />}
                 >
-                    <Hidden xsDown>{getMessage("details")}</Hidden>
+                    <Hidden xsDown>{getMessage("share")}</Hidden>
                 </Button>
-            )}
-            {isWritable(permission) && (
-                <Button
-                    id={build(baseId, ids.CREATE_BTN)}
-                    variant="outlined"
-                    disableElevation
-                    color="primary"
-                    onClick={onCreateFolderClicked}
-                    startIcon={
-                        <CreateNewFolder className={classes.buttonIcon} />
-                    }
-                >
-                    <Hidden xsDown>{getMessage("folder")}</Hidden>
-                </Button>
-            )}
-            <UploadMenuBtn baseId={dataNavId} path={path} />
-            <Button
-                id={build(dataNavId, ids.SHARE_BTN)}
-                variant="outlined"
-                disableElevation
-                color="primary"
-                className={classes.button}
-                onClick={() => console.log("Share")}
-                startIcon={<Share className={classes.buttonIcon} />}
-            >
-                <Hidden xsDown>{getMessage("share")}</Hidden>
-            </Button>
+            </Hidden>
             <DataDotMenu
                 baseId={dataNavId}
+                path={path}
                 onDownloadSelected={onDownloadSelected}
                 onEditSelected={onEditSelected}
                 onMetadataSelected={onMetadataSelected}
                 onDeleteSelected={onDeleteSelected}
+                onCreateFolderSelected={onCreateFolderClicked}
+                onDetailsSelected={onDetailsSelected}
+                onShareSelected={() => console.log("Share")}
+                permission={permission}
+                refreshListing={refreshListing}
+                detailsEnabled={detailsEnabled}
             />
             <CreateFolderDialog
                 path={path}

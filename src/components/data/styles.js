@@ -132,6 +132,12 @@ export default (theme) => ({
         color: theme.palette.primary.main,
     },
     list: {
+        [theme.breakpoints.down("sm")]: {
+            maxWidth: 130,
+            padding: 0,
+        },
+    },
+    listItem: {
         outline: "none",
         cursor: "pointer",
         color: theme.palette.primary.main,
@@ -140,13 +146,17 @@ export default (theme) => ({
             color: theme.palette.primary.contrastText,
         },
     },
+    listItemText:{
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        maxWidth: 200,
+    },
     currentLocationLink: {
-        [theme.breakpoints.down("sm")]: {
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            maxWidth: 70,
-        },
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        maxWidth: 140,
     },
     icon: {
         color: theme.palette.info.main,

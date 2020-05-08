@@ -33,7 +33,7 @@ import { useTheme } from "@material-ui/core/styles";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 
 function Notifications(props) {
-    const { intl, classes } = props;
+    const { intl } = props;
     const [currentNotification] = useNotifications();
     const theme = useTheme();
     const router = useRouter();

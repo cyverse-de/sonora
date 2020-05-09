@@ -50,7 +50,7 @@ const callApi = (props) => {
         requestOptions.data = body;
     }
 
-    if (params !== null && params !== undefined) {
+    if (params) {
         requestOptions.params = params;
     }
 

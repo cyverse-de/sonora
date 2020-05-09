@@ -8,7 +8,7 @@ import messages from "../Messages";
 import DEPagination from "../../utils/DEPagination";
 
 /**
- * Returns the tool listing component.
+ * The tool listing component.
  * @param {Object} props - the component properties
  */
 function Listing(props) {

@@ -19,11 +19,7 @@ import callApi from "../common/callApi";
  */
 function getTools(_, { order, orderBy, page, rowsPerPage }) {
     // Determine if the request is supposed to be ordered.
-    const isOrdered =
-        order !== null &&
-        order !== undefined &&
-        orderBy != null &&
-        orderBy !== undefined;
+    const isOrdered = order && orderBy;
 
     // Determine if the request is supposed to be paginated.
     const isPaginated =

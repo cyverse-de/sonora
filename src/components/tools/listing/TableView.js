@@ -164,7 +164,7 @@ function ToolListingTableBody(props) {
         <TableBody>
             {error ? (
                 <LoadingError columns={columns} error={error} />
-            ) : !tools || tools.length === 0 ? (
+            ) : !(tools?.length) ? (
                 <NoTools columns={columns} />
             ) : (
                 <ToolListing

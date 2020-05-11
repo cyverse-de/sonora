@@ -6,8 +6,17 @@
  */
 
 import React from "react";
+
+import messages from "./messages";
 import ids from "./ids";
+
+import { getAppTypeFilters } from "../apps/AppNavigation";
+import DisplayTypeSelector from "../utils/DisplayTypeSelector";
+
+import { injectIntl } from "react-intl";
+
 import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
+
 import {
     Divider,
     Hidden,
@@ -19,16 +28,13 @@ import {
     Tooltip,
     Typography,
 } from "@material-ui/core";
-import { injectIntl } from "react-intl";
-import messages from "./messages";
+
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { getAppTypeFilters } from "../apps/AppNavigation";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import ClearIcon from "@material-ui/icons/Clear";
+
 import {
-    Apps as GridIcon,
-    FormatListBulleted as TableIcon,
     MoreVert as MoreVertIcon,
+    FilterList as FilterListIcon,
+    Clear as ClearIcon,
 } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -141,38 +147,11 @@ function AnalysesNavigation(props) {
     const analysesNavId = build(baseId, ids.ANALYSES_NAVIGATION);
     return (
         <Toolbar variant="dense" id={analysesNavId}>
-            {isGridView && (
-                <Tooltip
-                    id={build(analysesNavId, ids.TABLE_VIEW_BTN, ids.TOOLTIP)}
-                    title={getMessage("tableView")}
-                    aria-label={formatMessage(intl, "tableView")}
-                >
-                    <IconButton
-                        id={build(analysesNavId, ids.TABLE_VIEW_BTN)}
-                        edge="start"
-                        onClick={() => toggleDisplay()}
-                        color="primary"
-                    >
-                        <TableIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
-            {!isGridView && (
-                <Tooltip
-                    id={build(analysesNavId, ids.GRID_VIEW_BTN, ids.TOOLTIP)}
-                    title={getMessage("gridView")}
-                    aria-label={formatMessage(intl, "gridView")}
-                >
-                    <IconButton
-                        id={build(analysesNavId, ids.GRID_VIEW_BTN)}
-                        edge="start"
-                        onClick={() => toggleDisplay()}
-                        color="primary"
-                    >
-                        <GridIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
+            <DisplayTypeSelector
+                baseId={analysesNavId}
+                toggleDisplay={toggleDisplay}
+                isGridView={isGridView}
+            />
             {viewBatch && (
                 <BatchFilter
                     baseId={analysesNavId}

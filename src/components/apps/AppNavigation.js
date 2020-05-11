@@ -5,21 +5,27 @@
  *
  */
 import React, { useCallback, useEffect, useState } from "react";
-import { queryCache, useQuery } from "react-query";
-import { getPrivateCategories } from "../../serviceFacades/apps";
-import { injectIntl } from "react-intl";
+
 import intlData from "./messages";
 import ids from "./ids";
-import appType from "../models/AppType";
-import StorageIcon from "@material-ui/icons/Storage";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import LockIcon from "@material-ui/icons/Lock";
-import FolderSharedIcon from "@material-ui/icons/FolderShared";
-import GroupWorkIcon from "@material-ui/icons/GroupWork";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import AppsIcon from "@material-ui/icons/Apps";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+
 import constants from "../../constants";
+import appType from "../models/AppType";
+import DisplayTypeSelector from "../utils/DisplayTypeSelector";
+import { getPrivateCategories } from "../../serviceFacades/apps";
+
+import { queryCache, useQuery } from "react-query";
+import { injectIntl } from "react-intl";
+
+import {
+    build,
+    formatMessage,
+    getMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
+
+import Autocomplete from "@material-ui/lab/Autocomplete";
+
 import {
     Button,
     Divider,
@@ -32,23 +38,21 @@ import {
     Menu,
     TextField,
     Toolbar,
-    Tooltip,
     Typography,
 } from "@material-ui/core";
+
 import { makeStyles } from "@material-ui/core/styles";
+
 import {
-    announce,
-    AnnouncerConstants,
-    build,
-    formatMessage,
-    getMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
-import {
-    Apps as GridIcon,
-    FormatListBulleted as TableIcon,
+    GroupWork as GroupWorkIcon,
+    ArrowDropDown as ArrowDropDownIcon,
+    Apps as AppsIcon,
     Info,
     MoreVert as MoreVertIcon,
+    Storage as StorageIcon,
+    Favorite as FavoriteIcon,
+    Lock as LockIcon,
+    FolderShared as FolderSharedIcon,
 } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,6 +61,12 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.primary.main,
     },
     list: {
+        [theme.breakpoints.down("sm")]: {
+            maxWidth: 130,
+            padding: 0,
+        },
+    },
+    listItem: {
         outline: "none",
         cursor: "pointer",
         color: theme.palette.primary.main,
@@ -65,16 +75,20 @@ const useStyles = makeStyles((theme) => ({
             color: theme.palette.primary.contrastText,
         },
     },
+    listItemText: {
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        maxWidth: 200,
+    },
     divider: {
         flexGrow: 1,
     },
     selectedCategory: {
-        [theme.breakpoints.down("sm")]: {
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            maxWidth: 75,
-        },
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        maxWidth: 140,
     },
     filter: {
         [theme.breakpoints.down("xs")]: {
@@ -204,42 +218,16 @@ function AppNavigation(props) {
 
     return (
         <Toolbar variant="dense">
-            {isGridView && (
-                <Tooltip
-                    id={build(appNavId, ids.TABLE_VIEW_BTN, ids.TOOLTIP)}
-                    title={getMessage("tableView")}
-                    aria-label={formatMessage(intl, "tableView")}
-                >
-                    <IconButton
-                        id={build(appNavId, ids.TABLE_VIEW_BTN)}
-                        edge="start"
-                        onClick={() => toggleDisplay()}
-                        color="primary"
-                    >
-                        <TableIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
-            {!isGridView && (
-                <Tooltip
-                    id={build(appNavId, ids.GRID_VIEW_BTN, ids.TOOLTIP)}
-                    title={getMessage("gridView")}
-                    aria-label={formatMessage(intl, "gridView")}
-                >
-                    <IconButton
-                        id={build(appNavId, ids.GRID_VIEW_BTN)}
-                        edge="start"
-                        onClick={() => toggleDisplay()}
-                        color="primary"
-                    >
-                        <GridIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
+            <DisplayTypeSelector
+                baseId={appNavId}
+                toggleDisplay={toggleDisplay}
+                isGridView={isGridView}
+            />
             <List
                 component="nav"
                 aria-label={formatMessage(intl, "selectedCategoryAriaLabel")}
                 id={build(appNavId, ids.APP_CATEGORIES)}
+                className={classes.list}
             >
                 <ListItem
                     button
@@ -264,7 +252,7 @@ function AppNavigation(props) {
                             </Typography>
                         }
                     />
-                    <ListItemIcon>
+                    <ListItemIcon style={{ minWidth: 20 }}>
                         <ArrowDropDownIcon />
                     </ListItemIcon>
                 </ListItem>
@@ -289,11 +277,15 @@ function AppNavigation(props) {
                         key={menuItem.name}
                         selected={selectedCategory.name === menuItem.name}
                         onClick={(event) => handleMenuItemClick(event, index)}
-                        className={classes.list}
+                        className={classes.listItem}
                         aria-label={menuItem.name}
                     >
                         <ListItemIcon>{menuItem.icon}</ListItemIcon>
-                        <ListItemText>{menuItem.name}</ListItemText>
+                        <ListItemText>
+                            <Typography className={classes.listItemText}>
+                                {menuItem.name}
+                            </Typography>
+                        </ListItemText>
                     </ListItem>
                 ))}
                 <Divider />
@@ -310,11 +302,15 @@ function AppNavigation(props) {
                         setAnchorEl(null);
                         handleCategoryChange(allAppsCategory);
                     }}
-                    className={classes.list}
+                    className={classes.listItem}
                     aria-label={allAppsCategory.name}
                 >
                     <ListItemIcon>{allAppsCategory.icon}</ListItemIcon>
-                    <ListItemText>{allAppsCategory.name}</ListItemText>
+                    <ListItemText>
+                        <Typography className={classes.listItemText}>
+                            {allAppsCategory.name}
+                        </Typography>
+                    </ListItemText>
                 </ListItem>
             </Menu>
             <Autocomplete

@@ -14,4 +14,6 @@ export default {
     ERROR_CODE: "errorCode",
     REASON: "reason",
     CONTACT_SUPPORT_BUTTON: "contactSupportBtn",
+    GRID_VIEW_BTN: "gridViewBtn",
+    TABLE_VIEW_BTN: "tableViewBtn",
 };

@@ -66,10 +66,21 @@ const isReadable = (permission) => {
     );
 };
 
+const isOwner = (selectedResources) => {
+    if (!selectedResources) {
+        return false;
+    }
+    const notOwners = selectedResources.filter(
+        (resource) => resource.permission !== Permissions.OWN
+    );
+    return notOwners.length === 0;
+};
+
 export {
     getEncodedPath,
     validateDiskResourceName,
     hasOwn,
+    isOwner,
     isWritable,
     isReadable,
 };

@@ -30,6 +30,7 @@ function UploadMenuItems(props) {
         <label htmlFor={localUploadId}>
             <MenuItem
                 id={build(uploadMenuId, ids.UPLOAD_MI)}
+                key={build(uploadMenuId, ids.UPLOAD_MI)}
                 onClick={onBrowseLocal ? onBrowseLocal : null}
             >
                 <ListItemIcon>
@@ -40,6 +41,7 @@ function UploadMenuItems(props) {
         </label>,
         <MenuItem
             id={build(uploadMenuId, ids.IMPORT_MI)}
+            key={build(uploadMenuId, ids.IMPORT_MI)}
             onClick={() => {
                 onImportFromURL();
                 console.log("Import from URL");
@@ -51,6 +53,7 @@ function UploadMenuItems(props) {
             <ListItemText primary={getMessage("importUrl")} />
         </MenuItem>,
         <MenuItem
+            key={build(uploadMenuId, ids.UPLOAD_QUEUE_MI)}
             id={build(uploadMenuId, ids.UPLOAD_QUEUE_MI)}
             onClick={() => {
                 onUploadQueue();

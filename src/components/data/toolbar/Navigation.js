@@ -327,7 +327,7 @@ function BreadCrumb({
 }
 
 function Navigation(props) {
-    const { path, handlePathChange, baseId, intl } = props;
+    const { path, handlePathChange, baseId, handleDataNavError, intl } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);

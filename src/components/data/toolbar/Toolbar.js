@@ -19,6 +19,7 @@ import CreateFolderDialog from "../CreateFolderDialog";
 import { isWritable } from "../utils";
 
 import UploadDialog from "../../uploads/dialog";
+import DisplayTypeSelector from "../../utils/DisplayTypeSelector";
 
 import { useUploadTrackingState } from "../../../contexts/uploadTracking";
 
@@ -35,20 +36,13 @@ import {
 import {
     Button,
     Hidden,
-    IconButton,
     makeStyles,
     Toolbar,
-    Tooltip,
     Typography,
     useTheme,
 } from "@material-ui/core";
 
-import {
-    Apps as GridIcon,
-    CreateNewFolder,
-    FormatListBulleted as TableIcon,
-    Info,
-} from "@material-ui/icons";
+import { CreateNewFolder, Info } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
@@ -57,6 +51,8 @@ function DataToolbar(props) {
     const {
         baseId,
         path,
+        selected,
+        getSelectedResources,
         permission,
         refreshListing,
         isGridView,
@@ -65,6 +61,7 @@ function DataToolbar(props) {
         detailsEnabled,
         onDetailsSelected,
         handlePathChange,
+        handleDataNavError,
         intl,
     } = props;
     const theme = useTheme();
@@ -105,42 +102,14 @@ function DataToolbar(props) {
     const localUploadId = build(toolbarId, ids.UPLOAD_MI, ids.UPLOAD_INPUT);
     return (
         <Toolbar variant="dense">
-            <Hidden smDown>
-                {isGridView && (
-                    <Tooltip
-                        id={build(toolbarId, ids.TABLE_VIEW_BTN, ids.TOOLTIP)}
-                        title={getMessage("tableView")}
-                        aria-label={formatMessage(intl, "tableView")}
-                    >
-                        <IconButton
-                            id={build(toolbarId, ids.TABLE_VIEW_BTN)}
-                            edge="start"
-                            color="primary"
-                            onClick={() => toggleDisplay()}
-                        >
-                            <TableIcon />
-                        </IconButton>
-                    </Tooltip>
-                )}
-                {!isGridView && (
-                    <Tooltip
-                        id={build(toolbarId, ids.GRID_VIEW_BTN, ids.TOOLTIP)}
-                        title={getMessage("gridView")}
-                        aria-label={formatMessage(intl, "gridView")}
-                    >
-                        <IconButton
-                            id={build(toolbarId, ids.GRID_VIEW_BTN)}
-                            edge="start"
-                            color="primary"
-                            onClick={() => toggleDisplay()}
-                        >
-                            <GridIcon />
-                        </IconButton>
-                    </Tooltip>
-                )}
-            </Hidden>
+            <DisplayTypeSelector
+                baseId={toolbarId}
+                toggleDisplay={toggleDisplay}
+                isGridView={isGridView}
+            />
             <Navigation
                 path={path}
+                handleDataNavError={handleDataNavError}
                 handlePathChange={handlePathChange}
                 baseId={toolbarId}
             />
@@ -191,6 +160,8 @@ function DataToolbar(props) {
                 uploadMenuId={uploadMenuId}
                 localUploadId={localUploadId}
                 setUploadDialogOpen={setUploadDialogOpen}
+                getSelectedResources={getSelectedResources}
+                selected={selected}
             />
             <CreateFolderDialog
                 path={path}

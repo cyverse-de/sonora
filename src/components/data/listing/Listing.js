@@ -5,7 +5,7 @@
  * thumbnail/tile view.
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import TableView from "./TableView";
 
@@ -17,7 +17,6 @@ import DataToolbar from "../toolbar/Toolbar";
 import DEPagination from "../../utils/DEPagination";
 import ResourceTypes from "../../models/ResourceTypes";
 import isQueryLoading from "../../utils/isQueryLoading";
-import DEErrorDialog from "../../utils/error/DEErrorDialog";
 
 import UploadDropTarget from "../../uploads/UploadDropTarget";
 import { useUploadTrackingState } from "../../../contexts/uploadTracking";
@@ -29,9 +28,17 @@ import {
     getPagedListing,
 } from "../../../serviceFacades/filesystem";
 
-import { withI18N } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    AnnouncerConstants,
+    formatMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
+
 import { injectIntl } from "react-intl";
 import { queryCache, useMutation, useQuery } from "react-query";
+
+import { Button, Typography, useTheme } from "@material-ui/core";
 
 function Listing(props) {
     const uploadTracker = useUploadTrackingState();
@@ -325,7 +332,7 @@ function Listing(props) {
                 {!isGridView && (
                     <TableView
                         loading={isLoading}
-                        error={error || navError}
+                        error={error}
                         path={path}
                         handlePathChange={handlePathChange}
                         listing={data?.listing}
@@ -337,9 +344,7 @@ function Listing(props) {
                         onDeleteSelected={onDeleteSelected}
                         handleRequestSort={handleRequestSort}
                         handleSelectAllClick={handleSelectAllClick}
-                        handleDataNavError={handleDataNavError}
                         handleClick={handleClick}
-                        handleCheckboxClick={handleCheckboxClick}
                         order={order}
                         orderBy={orderBy}
                         selected={selected}
@@ -366,15 +371,6 @@ function Listing(props) {
                     onClose={() => setDetailsOpen(false)}
                 />
             )}
-            <DEErrorDialog
-                open={errorDialogOpen}
-                baseId={baseId}
-                errorObject={errorObject}
-                handleClose={() => {
-                    setErrorDialogOpen(false);
-                    setErrorObject(null);
-                }}
-            />
         </>
     );
 }

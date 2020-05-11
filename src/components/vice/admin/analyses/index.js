@@ -4,11 +4,9 @@ import {
     build as buildID,
     withI18N,
     EnhancedTableHead,
-    //EmptyTable,
 } from "@cyverse-de/ui-lib";
 
 import {
-    //makeStyles,
     Box,
     Collapse,
     Table,
@@ -24,26 +22,10 @@ import {
 
 import messages from "./messages";
 import ids from "./ids";
-import { COLUMNS } from "./constants";
 import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
 
 // Constructs an ID for an element.
 const id = (...names) => buildID(ids.BASE, ...names);
-
-const defineColumn = (
-    name,
-    keyID,
-    field,
-    align = "left",
-    enableSorting = true
-) => ({
-    name,
-    align,
-    enableSorting,
-    key: keyID,
-    id: keyID,
-    field,
-});
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -56,54 +38,18 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-// The column definitions for the table.
-const tableColumns = [
-    defineColumn("", COLUMNS.EXPAND, "", "left", false),
-    defineColumn("Username", COLUMNS.USERNAME, "username"),
-    defineColumn("Analysis Name", COLUMNS.ANALYSIS_NAME, "analysisName"),
-    defineColumn("App Name", COLUMNS.APP_NAME, "appName"),
-    defineColumn(
-        "Date Created",
-        COLUMNS.CREATION_TIMESTAMP,
-        "creationTimestamp"
-    ),
-];
-
-const getAnalyses = ({ deployments }) => {
-    let analyses = {};
-
-    // Should only need to interate through the deployments to find the
-    // list of analyses in the data.
-    deployments.forEach((element) => {
-        if (!analyses.hasOwnProperty(element.externalID)) {
-            analyses[element.externalID] = {
-                externalID: element.externalID,
-                username: element.username,
-                analysisName: element.analysisName,
-                appName: element.appName,
-                creationTimestamp: element.creationTimestamp,
-                appID: element.appID,
-                userID: element.userID,
-                namespace: element.namespace,
-            };
-        }
-    });
-
-    return Object.values(analyses);
-};
-
-const AnalysisRow = ({ row }) => {
+const AnalysisRow = ({ row, columns, baseID }) => {
     const [open, setOpen] = useState(false);
     const classes = useStyles();
 
+    const expanderID = id(baseID, "row", "expander");
+    const rowID = id(baseID, "row");
+    const collapseID = id(rowID, "collapse");
+
     return (
         <>
-            <TableRow
-                className={classes.row}
-                key={row.externalID}
-                id={id(row.externalID)}
-            >
-                <TableCell>
+            <TableRow className={classes.row} key={rowID} id={rowID}>
+                <TableCell key={expanderID} id={expanderID}>
                     <IconButton
                         aria-label="expand row"
                         size="small"
@@ -113,17 +59,17 @@ const AnalysisRow = ({ row }) => {
                     </IconButton>
                 </TableCell>
 
-                {tableColumns.slice(1).map((column) => (
-                    <TableCell key={id(row.externalID, column.field)}>
-                        {row[column.field]}
-                    </TableCell>
-                ))}
+                {columns.slice(1, 5).map((column) => {
+                    const fieldID = id(rowID, column.field);
+                    return (
+                        <TableCell key={fieldID} id={fieldID}>
+                            {row[column.field]}
+                        </TableCell>
+                    );
+                })}
             </TableRow>
 
-            <TableRow
-                key={`${row.externalID}.collapse`}
-                id={id(row.externalID, "collapse")}
-            >
+            <TableRow key={collapseID} id={collapseID}>
                 <TableCell
                     style={{ paddingBottom: 0, paddingTop: 0 }}
                     colSpan={6}
@@ -136,18 +82,39 @@ const AnalysisRow = ({ row }) => {
                             >
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>ExternalID</TableCell>
-                                        <TableCell>AppID</TableCell>
-                                        <TableCell>UserID</TableCell>
-                                        <TableCell>Namespace</TableCell>
+                                        {columns.slice(5).map((column) => {
+                                            const colID = id(
+                                                collapseID,
+                                                column.field
+                                            );
+                                            return (
+                                                <TableCell
+                                                    key={colID}
+                                                    id={colID}
+                                                >
+                                                    {column.name}
+                                                </TableCell>
+                                            );
+                                        })}
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     <TableRow>
-                                        <TableCell>{row.externalID}</TableCell>
-                                        <TableCell>{row.appID}</TableCell>
-                                        <TableCell>{row.userID}</TableCell>
-                                        <TableCell>{row.namespace}</TableCell>
+                                        {columns.slice(5).map((column) => {
+                                            const colID = id(
+                                                collapseID,
+                                                "value",
+                                                column.field
+                                            );
+                                            return (
+                                                <TableCell
+                                                    id={colID}
+                                                    key={colID}
+                                                >
+                                                    {row[column.field]}
+                                                </TableCell>
+                                            );
+                                        })}
                                     </TableRow>
                                 </TableBody>
                             </Table>
@@ -159,11 +126,15 @@ const AnalysisRow = ({ row }) => {
     );
 };
 
-const AnalysisTable = ({ data }) => {
+const AnalysisTable = ({ columns, rows }) => {
     const classes = useStyles();
-    const [orderColumn, setOrderColumn] = useState(COLUMNS.USERNAME);
+
+    // The first entry in columns should be the expander columns,
+    // so default to the second entry for sorting. The field is the
+    // actual name of the column.
+    const [orderColumn, setOrderColumn] = useState(columns[1].field);
+
     const [order, setOrder] = useState("asc");
-    const analyses = getAnalyses(data);
 
     const tableID = id(ids.ROOT);
 
@@ -181,12 +152,12 @@ const AnalysisTable = ({ data }) => {
                     baseId={tableID}
                     order={order}
                     orderBy={orderColumn}
-                    columnData={tableColumns}
+                    columnData={columns.slice(0, 5)}
                     onRequestSort={handleRequestSort}
                 ></EnhancedTableHead>
                 <TableBody>
-                    {analyses.map((row) => (
-                        <AnalysisRow row={row} key={row.externalID} />
+                    {rows.map((row, index) => (
+                        <AnalysisRow row={row} key={index} columns={columns} />
                     ))}
                 </TableBody>
             </Table>

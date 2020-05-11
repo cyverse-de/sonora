@@ -10,10 +10,6 @@ import {
 
 const toolListingUriRegexp = /\/api\/tools.*/;
 
-export default {
-    title: "Tools",
-};
-
 /**
  * This is the base wrapper for all of the listing tests.
  * @param {Object} props - the component properties
@@ -90,6 +86,13 @@ function parameterizedToolListing(config) {
     // Return the updated listing.
     return [200, result];
 }
+
+/**
+ * Export the story title.
+ */
+export default {
+    title: "Tools",
+};
 
 /**
  * Covers the usual case for tool listing, where everything works correctly.

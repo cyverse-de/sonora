@@ -22,7 +22,7 @@ import { Skeleton } from "@material-ui/lab";
 import { JSONPath } from "jsonpath-plus";
 import efcs from "./filter/efcs";
 
-const id = (value) => buildID(ids.ROOT, value);
+const id = (...values) => buildID(ids.ROOT, ...values);
 
 const useStyles = makeStyles((theme) => ({
     root: {

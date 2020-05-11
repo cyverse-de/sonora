@@ -7,4 +7,5 @@ export const COLUMNS = {
     UID: "uid",
     GID: "gid",
     COMMAND: "command",
+    EXPAND: "expand",
 };

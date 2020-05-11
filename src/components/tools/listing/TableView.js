@@ -31,28 +31,24 @@ const columnData = (intl) => [
     {
         id: ids.NAME,
         name: formatMessage(intl, "name"),
-        numeric: false,
         enableSorting: true,
         key: "name",
     },
     {
         id: ids.IMAGE_NAME,
         name: formatMessage(intl, "imageName"),
-        numeric: false,
         enableSorting: false,
         key: "image-name",
     },
     {
         id: ids.TAG,
         name: formatMessage(intl, "tag"),
-        numeric: false,
         enableSorting: false,
         key: "tag",
     },
     {
         id: ids.STATUS,
         name: formatMessage(intl, "status"),
-        numeric: false,
         enableSorting: false,
         key: "status",
     },
@@ -164,7 +160,7 @@ function ToolListingTableBody(props) {
         <TableBody>
             {error ? (
                 <LoadingError columns={columns} error={error} />
-            ) : !(tools?.length) ? (
+            ) : !tools?.length ? (
                 <NoTools columns={columns} />
             ) : (
                 <ToolListing

@@ -25,7 +25,7 @@ export default {
     editMI: "edit",
     FOLDER_NAME: "folderName",
     GRID_VIEW_BTN: "gridViewBtn",
-    HEADER: "header",
+    TOOLBAR: "toolbar",
     IMPORT_MI: "importMenuItem",
     INFO_TYPES: "infoTypes",
     LABEL: "label",

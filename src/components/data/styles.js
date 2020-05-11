@@ -24,12 +24,6 @@ export default (theme) => ({
         },
     },
 
-    buttonIcon: {
-        [theme.breakpoints.up("sm")]: {
-            marginRight: theme.spacing(1),
-        },
-    },
-
     closeButton: {
         float: "right",
     },

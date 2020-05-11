@@ -4,33 +4,34 @@
  * A component intended to be the parent to the data's table view and
  * thumbnail/tile view.
  */
-import React, { useCallback, useEffect, useState } from "react";
 
-import { Button, Typography, useTheme } from "@material-ui/core";
-import {
-    announce,
-    AnnouncerConstants,
-    formatMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
-import { injectIntl } from "react-intl";
-import { queryCache, useMutation, useQuery } from "react-query";
-import messages from "../messages";
+import React, { useEffect, useState } from "react";
+
 import TableView from "./TableView";
+
+import messages from "../messages";
+import Drawer from "../details/Drawer";
+
+import DataToolbar from "../toolbar/Toolbar";
+
+import DEPagination from "../../utils/DEPagination";
+import ResourceTypes from "../../models/ResourceTypes";
+import isQueryLoading from "../../utils/isQueryLoading";
+import DEErrorDialog from "../../utils/error/DEErrorDialog";
+
 import UploadDropTarget from "../../uploads/UploadDropTarget";
 import { useUploadTrackingState } from "../../../contexts/uploadTracking";
 import { camelcaseit } from "../../../common/functions";
-import Drawer from "../details/Drawer";
+
 import {
     deleteResources,
     getInfoTypes,
     getPagedListing,
 } from "../../../serviceFacades/filesystem";
-import DataNavigation from "../DataNavigation";
-import DEPagination from "../../utils/DEPagination";
-import ResourceTypes from "../../models/ResourceTypes";
-import isQueryLoading from "../../utils/isQueryLoading";
-import DEErrorDialog from "../../utils/error/DEErrorDialog";
+
+import { withI18N } from "@cyverse-de/ui-lib";
+import { injectIntl } from "react-intl";
+import { queryCache, useMutation, useQuery } from "react-query";
 
 function Listing(props) {
     const uploadTracker = useUploadTrackingState();
@@ -303,8 +304,10 @@ function Listing(props) {
         <>
             {render && render(selected.length, getSelectedResources)}
             <UploadDropTarget path={path}>
-                <DataNavigation
+                <DataToolbar
                     path={path}
+                    selected={selected}
+                    getSelectedResources={getSelectedResources}
                     handlePathChange={handlePathChange}
                     permission={data?.permission}
                     refreshListing={refreshListing}

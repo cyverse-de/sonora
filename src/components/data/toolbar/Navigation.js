@@ -7,26 +7,17 @@
  */
 
 import React, { useEffect, useState } from "react";
-import {
-    announce,
-    AnnouncerConstants,
-    build,
-    formatMessage,
-    getMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
-import intlData from "./messages";
+import { announce, AnnouncerConstants, build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import intlData from "../messages";
 import {
     Breadcrumbs,
     Button,
     Hidden,
-    IconButton,
     List,
     ListItem,
     ListItemIcon,
     ListItemText,
     Menu,
-    Toolbar,
     Tooltip,
     Typography,
 } from "@material-ui/core";
@@ -39,23 +30,12 @@ import { injectIntl } from "react-intl";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import FolderIcon from "@material-ui/icons/Folder";
-import styles from "./styles";
-import ids from "./ids";
-import constants from "../../constants";
-import { getFilesystemRoots } from "../../serviceFacades/filesystem";
-import { useUserProfile } from "../../contexts/userProfile";
+import styles from "../styles";
+import ids from "../ids";
+import constants from "../../../constants";
+import { getFilesystemRoots } from "../../../serviceFacades/filesystem";
+import { useUserProfile } from "../../../contexts/userProfile";
 import { queryCache, useQuery } from "react-query";
-import {
-    Apps as GridIcon,
-    CreateNewFolder,
-    FormatListBulleted as TableIcon,
-    Info,
-    Share,
-} from "@material-ui/icons";
-import { isWritable } from "./utils";
-import UploadMenuBtn from "./UploadMenuBtn";
-import DataDotMenu from "./listing/DataDotMenu";
-import CreateFolderDialog from "./CreateFolderDialog";
 
 const useStyles = makeStyles(styles);
 
@@ -340,21 +320,10 @@ function BreadCrumb({
     );
 }
 
-function DataNavigation(props) {
+function Navigation(props) {
     const {
         path,
         handlePathChange,
-        permission,
-        refreshListing,
-        isGridView,
-        toggleDisplay,
-        onDownloadSelected,
-        onEditSelected,
-        onMetadataSelected,
-        onDeleteSelected,
-        detailsEnabled,
-        onDetailsSelected,
-        handleDataNavError,
         baseId,
         intl,
     } = props;
@@ -368,10 +337,6 @@ function DataNavigation(props) {
     const [communityDataPath, setCommunityDataPath] = useState("");
     const dataNavId = build(baseId, ids.DATA_NAVIGATION);
     const [userProfile] = useUserProfile();
-    const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
-
-    const onCreateFolderDlgClose = () => setCreateFolderDlgOpen(false);
-    const onCreateFolderClicked = () => setCreateFolderDlgOpen(true);
 
     const preProcessData = (respData) => {
         if (respData && userProfile) {
@@ -484,41 +449,7 @@ function DataNavigation(props) {
     }
 
     return (
-        <Toolbar variant="dense">
-            <Hidden smDown>
-                {isGridView && (
-                    <Tooltip
-                        id={build(dataNavId, ids.TABLE_VIEW_BTN, ids.TOOLTIP)}
-                        title={getMessage("tableView")}
-                        aria-label={formatMessage(intl, "tableView")}
-                    >
-                        <IconButton
-                            id={build(dataNavId, ids.TABLE_VIEW_BTN)}
-                            edge="start"
-                            color="primary"
-                            onClick={() => toggleDisplay()}
-                        >
-                            <TableIcon />
-                        </IconButton>
-                    </Tooltip>
-                )}
-                {!isGridView && (
-                    <Tooltip
-                        id={build(dataNavId, ids.GRID_VIEW_BTN, ids.TOOLTIP)}
-                        title={getMessage("gridView")}
-                        aria-label={formatMessage(intl, "gridView")}
-                    >
-                        <IconButton
-                            id={build(dataNavId, ids.GRID_VIEW_BTN)}
-                            edge="start"
-                            color="primary"
-                            onClick={() => toggleDisplay()}
-                        >
-                            <GridIcon />
-                        </IconButton>
-                    </Tooltip>
-                )}
-            </Hidden>
+        <>
             <List
                 component="nav"
                 aria-label={formatMessage(
@@ -628,72 +559,8 @@ function DataNavigation(props) {
                     <div></div>
                 )}
             </Hidden>
-            <div className={classes.divider} />
-            <Hidden smDown>
-                {detailsEnabled && (
-                    <Button
-                        id={build(dataNavId, ids.DETAILS_BTN)}
-                        variant="outlined"
-                        disableElevation
-                        color="primary"
-                        onClick={onDetailsSelected}
-                        startIcon={<Info className={classes.buttonIcon} />}
-                    >
-                        <Hidden xsDown>{getMessage("details")}</Hidden>
-                    </Button>
-                )}
-                {isWritable(permission) && (
-                    <Button
-                        id={build(baseId, ids.CREATE_BTN)}
-                        variant="outlined"
-                        disableElevation
-                        color="primary"
-                        onClick={onCreateFolderClicked}
-                        startIcon={
-                            <CreateNewFolder className={classes.buttonIcon} />
-                        }
-                    >
-                        <Hidden xsDown>{getMessage("folder")}</Hidden>
-                    </Button>
-                )}
-                <UploadMenuBtn baseId={dataNavId} path={path} />
-                <Button
-                    id={build(dataNavId, ids.SHARE_BTN)}
-                    variant="outlined"
-                    disableElevation
-                    color="primary"
-                    className={classes.button}
-                    onClick={() => console.log("Share")}
-                    startIcon={<Share className={classes.buttonIcon} />}
-                >
-                    <Hidden xsDown>{getMessage("share")}</Hidden>
-                </Button>
-            </Hidden>
-            <DataDotMenu
-                baseId={dataNavId}
-                path={path}
-                onDownloadSelected={onDownloadSelected}
-                onEditSelected={onEditSelected}
-                onMetadataSelected={onMetadataSelected}
-                onDeleteSelected={onDeleteSelected}
-                onCreateFolderSelected={onCreateFolderClicked}
-                onDetailsSelected={onDetailsSelected}
-                onShareSelected={() => console.log("Share")}
-                permission={permission}
-                refreshListing={refreshListing}
-                detailsEnabled={detailsEnabled}
-            />
-            <CreateFolderDialog
-                path={path}
-                open={createFolderDlgOpen}
-                onClose={onCreateFolderDlgClose}
-                onFolderCreated={() => {
-                    onCreateFolderDlgClose();
-                    refreshListing();
-                }}
-            />
-        </Toolbar>
+        </>
     );
 }
 
-export default withI18N(injectIntl(DataNavigation), intlData);
+export default withI18N(injectIntl(Navigation), intlData);

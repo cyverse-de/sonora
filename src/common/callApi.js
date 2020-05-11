@@ -33,7 +33,7 @@ import axiosInstance from "./getAxios";
  * @returns {Promise<any>}
  */
 const callApi = (props) => {
-    const { method = "GET", endpoint, body, headers } = props;
+    const { method = "GET", endpoint, body, headers, params } = props;
 
     let requestOptions = {
         method: method,
@@ -48,6 +48,10 @@ const callApi = (props) => {
 
     if (body !== null && body !== undefined) {
         requestOptions.data = body;
+    }
+
+    if (params) {
+        requestOptions.params = params;
     }
 
     return axiosInstance

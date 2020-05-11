@@ -61,7 +61,7 @@ exports[`Data Table View renders 1`] = `
                 type="checkbox"
               />
               <svg
-                aria-hidden="true"
+                aria-hidden={true}
                 className="MuiSvgIcon-root"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -113,7 +113,7 @@ exports[`Data Table View renders 1`] = `
           >
             Name
             <svg
-              aria-hidden="true"
+              aria-hidden={true}
               className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
               focusable="false"
               viewBox="0 0 24 24"
@@ -155,7 +155,7 @@ exports[`Data Table View renders 1`] = `
               className="MuiIconButton-label"
             >
               <svg
-                aria-hidden="true"
+                aria-hidden={true}
                 className="MuiSvgIcon-root"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -221,7 +221,7 @@ exports[`Data Table View renders 1`] = `
                 type="checkbox"
               />
               <svg
-                aria-hidden="true"
+                aria-hidden={true}
                 className="MuiSvgIcon-root"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -284,7 +284,7 @@ exports[`Data Table View renders 1`] = `
               className="MuiIconButton-label"
             >
               <svg
-                aria-hidden="true"
+                aria-hidden={true}
                 className="MuiSvgIcon-root"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -344,7 +344,7 @@ exports[`Data Table View renders 1`] = `
                 type="checkbox"
               />
               <svg
-                aria-hidden="true"
+                aria-hidden={true}
                 className="MuiSvgIcon-root"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -407,7 +407,7 @@ exports[`Data Table View renders 1`] = `
               className="MuiIconButton-label"
             >
               <svg
-                aria-hidden="true"
+                aria-hidden={true}
                 className="MuiSvgIcon-root"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -467,7 +467,7 @@ exports[`Data Table View renders 1`] = `
                 type="checkbox"
               />
               <svg
-                aria-hidden="true"
+                aria-hidden={true}
                 className="MuiSvgIcon-root"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -530,7 +530,7 @@ exports[`Data Table View renders 1`] = `
               className="MuiIconButton-label"
             >
               <svg
-                aria-hidden="true"
+                aria-hidden={true}
                 className="MuiSvgIcon-root"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -590,7 +590,7 @@ exports[`Data Table View renders 1`] = `
                 type="checkbox"
               />
               <svg
-                aria-hidden="true"
+                aria-hidden={true}
                 className="MuiSvgIcon-root"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -653,7 +653,7 @@ exports[`Data Table View renders 1`] = `
               className="MuiIconButton-label"
             >
               <svg
-                aria-hidden="true"
+                aria-hidden={true}
                 className="MuiSvgIcon-root"
                 focusable="false"
                 viewBox="0 0 24 24"

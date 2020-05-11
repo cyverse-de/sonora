@@ -41,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const VISIBLE_START_COLUMN = 1;
+const VISIBLE_END_COLUMN = 7;
+
 const CollapsibleTableRow = ({ row, columns, baseID }) => {
     const [open, setOpen] = useState(false);
     const classes = useStyles();
@@ -62,62 +65,69 @@ const CollapsibleTableRow = ({ row, columns, baseID }) => {
                     </IconButton>
                 </TableCell>
 
-                {columns.slice(1, 5).map((column) => {
-                    const fieldID = id(rowID, column.field);
-                    return (
-                        <TableCell key={fieldID} id={fieldID}>
-                            {row[column.field]}
-                        </TableCell>
-                    );
-                })}
+                {columns
+                    .slice(VISIBLE_START_COLUMN, VISIBLE_END_COLUMN)
+                    .map((column) => {
+                        const fieldID = id(rowID, column.field);
+                        return (
+                            <TableCell key={fieldID} id={fieldID}>
+                                {row[column.field]}
+                            </TableCell>
+                        );
+                    })}
             </TableRow>
 
             <TableRow key={collapseID} id={collapseID}>
                 <TableCell
                     style={{ paddingBottom: 0, paddingTop: 0 }}
-                    colSpan={6}
+                    colSpan={VISIBLE_END_COLUMN}
                 >
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1}>
                             <Table
                                 size="small"
                                 aria-label="more analyses fields"
+                                style={{ width: "100%" }}
                             >
                                 <TableHead>
                                     <TableRow>
-                                        {columns.slice(5).map((column) => {
-                                            const colID = id(
-                                                collapseID,
-                                                column.field
-                                            );
-                                            return (
-                                                <TableCell
-                                                    key={colID}
-                                                    id={colID}
-                                                >
-                                                    {column.name}
-                                                </TableCell>
-                                            );
-                                        })}
+                                        {columns
+                                            .slice(VISIBLE_END_COLUMN)
+                                            .map((column) => {
+                                                const colID = id(
+                                                    collapseID,
+                                                    column.field
+                                                );
+                                                return (
+                                                    <TableCell
+                                                        key={colID}
+                                                        id={colID}
+                                                    >
+                                                        {column.name}
+                                                    </TableCell>
+                                                );
+                                            })}
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    <TableRow>
-                                        {columns.slice(5).map((column) => {
-                                            const colID = id(
-                                                collapseID,
-                                                "value",
-                                                column.field
-                                            );
-                                            return (
-                                                <TableCell
-                                                    id={colID}
-                                                    key={colID}
-                                                >
-                                                    {row[column.field]}
-                                                </TableCell>
-                                            );
-                                        })}
+                                    <TableRow className={classes.row}>
+                                        {columns
+                                            .slice(VISIBLE_END_COLUMN)
+                                            .map((column) => {
+                                                const colID = id(
+                                                    collapseID,
+                                                    "value",
+                                                    column.field
+                                                );
+                                                return (
+                                                    <TableCell
+                                                        id={colID}
+                                                        key={colID}
+                                                    >
+                                                        {row[column.field]}
+                                                    </TableCell>
+                                                );
+                                            })}
                                     </TableRow>
                                 </TableBody>
                             </Table>
@@ -155,7 +165,7 @@ const CollapsibleTable = ({ columns, rows }) => {
                     baseId={tableID}
                     order={order}
                     orderBy={orderColumn}
-                    columnData={columns.slice(0, 5)}
+                    columnData={columns.slice(0, VISIBLE_END_COLUMN)}
                     onRequestSort={handleRequestSort}
                 ></EnhancedTableHead>
                 <TableBody>

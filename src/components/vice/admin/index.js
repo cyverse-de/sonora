@@ -13,7 +13,7 @@ import {
 import getData from "../../../serviceFacades/vice/admin";
 
 import AnalysesFilter from "./filter";
-import AnalysisTable from "./analyses";
+import AnalysisTable from "./table";
 
 import ids from "./ids";
 import messages from "./messages";

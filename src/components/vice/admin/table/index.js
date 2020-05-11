@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const AnalysisRow = ({ row, columns, baseID }) => {
+const CollapsibleTableRow = ({ row, columns, baseID }) => {
     const [open, setOpen] = useState(false);
     const classes = useStyles();
 
@@ -126,7 +126,7 @@ const AnalysisRow = ({ row, columns, baseID }) => {
     );
 };
 
-const AnalysisTable = ({ columns, rows }) => {
+const CollapsibleTable = ({ columns, rows }) => {
     const classes = useStyles();
 
     // The first entry in columns should be the expander columns,
@@ -157,7 +157,11 @@ const AnalysisTable = ({ columns, rows }) => {
                 ></EnhancedTableHead>
                 <TableBody>
                     {rows.map((row, index) => (
-                        <AnalysisRow row={row} key={index} columns={columns} />
+                        <CollapsibleTableRow
+                            row={row}
+                            key={index}
+                            columns={columns}
+                        />
                     ))}
                 </TableBody>
             </Table>
@@ -165,4 +169,4 @@ const AnalysisTable = ({ columns, rows }) => {
     );
 };
 
-export default withI18N(AnalysisTable, messages);
+export default withI18N(CollapsibleTable, messages);

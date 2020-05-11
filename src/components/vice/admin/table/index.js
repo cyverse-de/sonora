@@ -28,6 +28,9 @@ import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
 const id = (...names) => buildID(ids.BASE, ...names);
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        marginBottom: theme.spacing(5),
+    },
     table: {
         height: "100%",
     },
@@ -145,7 +148,7 @@ const CollapsibleTable = ({ columns, rows }) => {
     };
 
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} classes={{ root: classes.root }}>
             <Table id={tableID} classes={{ root: classes.table }}>
                 <EnhancedTableHead
                     selectable={false}

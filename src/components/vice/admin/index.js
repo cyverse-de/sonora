@@ -12,12 +12,12 @@ import {
 
 import getData from "../../../serviceFacades/vice/admin";
 
-import AnalysesFilter from "./filter";
-import AnalysisTable from "./table";
+import RowFilter from "./filter";
+import CollapsibleTable from "./table";
 
 import ids from "./ids";
 import messages from "./messages";
-import { ANALYSIS_COLUMNS } from "./constants";
+import { DEPLOYMENT_COLUMNS, COMMON_COLUMNS } from "./constants";
 import { Skeleton } from "@material-ui/lab";
 
 import { JSONPath } from "jsonpath-plus";
@@ -63,24 +63,30 @@ const defineColumn = (
 });
 
 // The column definitions for the table.
-const tableColumns = [
-    defineColumn("", ANALYSIS_COLUMNS.EXPAND, "", "left", false),
-    defineColumn("Username", ANALYSIS_COLUMNS.USERNAME, "username"),
-    defineColumn(
-        "Analysis Name",
-        ANALYSIS_COLUMNS.ANALYSIS_NAME,
-        "analysisName"
-    ),
-    defineColumn("App Name", ANALYSIS_COLUMNS.APP_NAME, "appName"),
+const commonColumns = [
+    defineColumn("", COMMON_COLUMNS.EXPAND, "", "left", false),
+    defineColumn("Username", COMMON_COLUMNS.USERNAME, "username"),
+    defineColumn("Analysis Name", COMMON_COLUMNS.ANALYSIS_NAME, "analysisName"),
+    defineColumn("App Name", COMMON_COLUMNS.APP_NAME, "appName"),
     defineColumn(
         "Date Created",
-        ANALYSIS_COLUMNS.CREATION_TIMESTAMP,
+        COMMON_COLUMNS.CREATION_TIMESTAMP,
         "creationTimestamp"
     ),
-    defineColumn("External ID", ANALYSIS_COLUMNS.EXTERNAL_ID, "externalID"),
-    defineColumn("App ID", ANALYSIS_COLUMNS.APP_ID, "appID"),
-    defineColumn("User ID", ANALYSIS_COLUMNS.USER_ID, "userID"),
-    defineColumn("Namespace", ANALYSIS_COLUMNS.NAMESPACE, "namespace"),
+    defineColumn("External ID", COMMON_COLUMNS.EXTERNAL_ID, "externalID"),
+    defineColumn("App ID", COMMON_COLUMNS.APP_ID, "appID"),
+    defineColumn("User ID", COMMON_COLUMNS.USER_ID, "userID"),
+    defineColumn("Namespace", COMMON_COLUMNS.NAMESPACE, "namespace"),
+];
+
+const analysisColumns = [...commonColumns];
+
+const deploymentColumns = [
+    ...commonColumns,
+    defineColumn("Image", DEPLOYMENT_COLUMNS.IMAGE, "image"),
+    defineColumn("Port", DEPLOYMENT_COLUMNS.PORT, "port"),
+    defineColumn("UID", DEPLOYMENT_COLUMNS.UID, "uid"),
+    defineColumn("GID", DEPLOYMENT_COLUMNS.GID, "gid"),
 ];
 
 const getAnalyses = ({ deployments }) => {
@@ -168,11 +174,11 @@ const VICEAdmin = () => {
         data
     );
 
-    let rows;
+    let analysisRows;
     if (filteredData) {
-        rows = getAnalyses(filteredData);
+        analysisRows = getAnalyses(filteredData);
     } else {
-        rows = [];
+        analysisRows = [];
     }
 
     return (
@@ -181,12 +187,19 @@ const VICEAdmin = () => {
                 <VICEAdminSkeleton />
             ) : (
                 <>
-                    <AnalysesFilter
+                    <RowFilter
                         filters={filters}
                         addToFilters={addToFilters}
                         deleteFromFilters={deleteFromFilters}
                     />
-                    <AnalysisTable rows={rows} columns={tableColumns} />
+                    <CollapsibleTable
+                        rows={analysisRows}
+                        columns={analysisColumns}
+                    />
+                    <CollapsibleTable
+                        rows={filteredData.deployments}
+                        columns={deploymentColumns}
+                    />
                 </>
             )}
             <div className={classes.footer} />

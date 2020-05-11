@@ -223,6 +223,7 @@ function CyverseAppBar(props) {
     }, [userProfile, setAvatarLetter]);
 
     const handleUserButtonClick = (event) => {
+        toggleDrawer(false);
         if (!userProfile) {
             router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
         } else {
@@ -285,9 +286,10 @@ function CyverseAppBar(props) {
             >
                 <ListItem
                     id={build(ids.DRAWER_MENU, ids.DASHBOARD_MI)}
-                    onClick={() =>
-                        router.push("/" + NavigationConstants.DASHBOARD)
-                    }
+                    onClick={() => {
+                        toggleDrawer(false);
+                        router.push("/" + NavigationConstants.DASHBOARD);
+                    }}
                     className={
                         activeView === NavigationConstants.DASHBOARD
                             ? classes.listItemActive
@@ -309,7 +311,10 @@ function CyverseAppBar(props) {
             >
                 <ListItem
                     id={build(ids.DRAWER_MENU, ids.DATA_MI)}
-                    onClick={() => router.push("/" + NavigationConstants.DATA)}
+                    onClick={() => {
+                        toggleDrawer(false);
+                        router.push("/" + NavigationConstants.DATA);
+                    }}
                     className={
                         activeView === NavigationConstants.DATA
                             ? classes.listItemActive
@@ -331,7 +336,10 @@ function CyverseAppBar(props) {
             >
                 <ListItem
                     id={build(ids.DRAWER_MENU, ids.APPS_MI)}
-                    onClick={() => router.push("/" + NavigationConstants.APPS)}
+                    onClick={() => {
+                        toggleDrawer(false);
+                        router.push("/" + NavigationConstants.APPS);
+                    }}
                     className={
                         activeView === NavigationConstants.APPS
                             ? classes.listItemActive
@@ -353,9 +361,10 @@ function CyverseAppBar(props) {
             >
                 <ListItem
                     id={build(ids.DRAWER_MENU, ids.ANALYSES_MI)}
-                    onClick={() =>
-                        router.push("/" + NavigationConstants.ANALYSES)
-                    }
+                    onClick={() => {
+                        toggleDrawer(false);
+                        router.push("/" + NavigationConstants.ANALYSES);
+                    }}
                     className={
                         activeView === NavigationConstants.ANALYSES
                             ? classes.listItemActive

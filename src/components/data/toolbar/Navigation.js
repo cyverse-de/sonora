@@ -7,7 +7,13 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { announce, AnnouncerConstants, build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    AnnouncerConstants,
+    build,
+    formatMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
 import intlData from "../messages";
 import {
     Breadcrumbs,
@@ -321,12 +327,7 @@ function BreadCrumb({
 }
 
 function Navigation(props) {
-    const {
-        path,
-        handlePathChange,
-        baseId,
-        intl,
-    } = props;
+    const { path, handlePathChange, baseId, intl } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);

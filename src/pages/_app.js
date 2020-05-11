@@ -1,17 +1,7 @@
 import React, { useState } from "react";
 
-import Head from "next/head";
-import { useRouter } from "next/router";
-
-import { ReactQueryDevtools } from "react-query-devtools";
-import { ReactQueryConfigProvider } from "react-query";
-
-import { ThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import "./styles.css";
-
 import CyverseAppBar from "../components/layout/CyVerseAppBar";
-import NavigationConstants from "../common/NavigationConstants";
 import UploadManager from "../components/uploads/manager";
 import theme from "../components/theme/default";
 import ids from "../components/layout/ids";
@@ -20,9 +10,17 @@ import { UploadTrackingProvider } from "../contexts/uploadTracking";
 import { UserProfileProvider } from "../contexts/userProfile";
 import { IntercomProvider } from "../contexts/intercom";
 import { NotificationsProvider } from "../contexts/pushNotifications";
-import constants from "../constants";
 import PageWrapper from "../components/layout/PageWrapper";
 import useComponentHeight from "../components/utils/useComponentHeight";
+
+import Head from "next/head";
+
+import { ReactQueryDevtools } from "react-query-devtools";
+import { ReactQueryConfigProvider } from "react-query";
+
+import { ThemeProvider } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+
 
 const setupIntercom = (intercomAppId) => {
     window.intercomSettings = {
@@ -64,12 +62,7 @@ const setupIntercom = (intercomAppId) => {
 };
 
 function MyApp({ Component, pageProps }) {
-    const router = useRouter();
-
     const [appBarHeight, setAppBarRef] = useComponentHeight();
-    const pathname = router.pathname
-        ? router.pathname.split(constants.PATH_SEPARATOR)[1]
-        : NavigationConstants.DASHBOARD;
     const [intercomSettings, setIntercomSettings] = useState({
         appId: process.env.INTERCOM_APP_ID,
         enabled: process.env.INTERCOM_ENABLED,

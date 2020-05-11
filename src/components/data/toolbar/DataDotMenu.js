@@ -6,6 +6,12 @@
 
 import React, { useState } from "react";
 
+import ids from "../ids";
+import messages from "../messages";
+import { isWritable } from "../utils";
+import CreateFolderDialog from "../CreateFolderDialog";
+import UploadMenuItems from "./UploadMenuItems";
+
 import { build, DotMenu, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 import {
@@ -13,13 +19,6 @@ import {
     Delete as DeleteIcon,
     Info,
 } from "@material-ui/icons";
-
-import ids from "../ids";
-import messages from "../messages";
-import { isWritable } from "../utils";
-import CreateFolderDialog from "../CreateFolderDialog";
-import UploadMenuItems from "./UploadMenuItems";
-import UploadMenuBtn from "./UploadMenuBtn";
 
 function DataDotMenu(props) {
     const {

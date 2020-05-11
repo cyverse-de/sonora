@@ -140,7 +140,7 @@ export default (theme) => ({
             color: theme.palette.primary.contrastText,
         },
     },
-    listItemText:{
+    listItemText: {
         textOverflow: "ellipsis",
         whiteSpace: "nowrap",
         overflow: "hidden",

@@ -17,7 +17,12 @@ import CollapsibleTable from "./table";
 
 import ids from "./ids";
 import messages from "./messages";
-import { DEPLOYMENT_COLUMNS, COMMON_COLUMNS } from "./constants";
+import {
+    DEPLOYMENT_COLUMNS,
+    COMMON_COLUMNS,
+    SERVICE_COLUMNS,
+    POD_COLUMNS,
+} from "./constants";
 import { Skeleton } from "@material-ui/lab";
 
 import { JSONPath } from "jsonpath-plus";
@@ -66,17 +71,17 @@ const defineColumn = (
 const commonColumns = [
     defineColumn("", COMMON_COLUMNS.EXPAND, "", "left", false),
     defineColumn("Username", COMMON_COLUMNS.USERNAME, "username"),
-    defineColumn("Analysis Name", COMMON_COLUMNS.ANALYSIS_NAME, "analysisName"),
-    defineColumn("App Name", COMMON_COLUMNS.APP_NAME, "appName"),
     defineColumn(
         "Date Created",
         COMMON_COLUMNS.CREATION_TIMESTAMP,
         "creationTimestamp"
     ),
+    defineColumn("Analysis Name", COMMON_COLUMNS.ANALYSIS_NAME, "analysisName"),
+    defineColumn("App Name", COMMON_COLUMNS.APP_NAME, "appName"),
+    defineColumn("Namespace", COMMON_COLUMNS.NAMESPACE, "namespace"),
     defineColumn("External ID", COMMON_COLUMNS.EXTERNAL_ID, "externalID"),
     defineColumn("App ID", COMMON_COLUMNS.APP_ID, "appID"),
     defineColumn("User ID", COMMON_COLUMNS.USER_ID, "userID"),
-    defineColumn("Namespace", COMMON_COLUMNS.NAMESPACE, "namespace"),
 ];
 
 const analysisColumns = [...commonColumns];
@@ -87,6 +92,61 @@ const deploymentColumns = [
     defineColumn("Port", DEPLOYMENT_COLUMNS.PORT, "port"),
     defineColumn("UID", DEPLOYMENT_COLUMNS.UID, "uid"),
     defineColumn("GID", DEPLOYMENT_COLUMNS.GID, "gid"),
+];
+
+const serviceColumns = [
+    ...commonColumns,
+    defineColumn("Port Name", SERVICE_COLUMNS.PORT_NAME, "portName"),
+    defineColumn("Node Port", SERVICE_COLUMNS.NODE_PORT, "nodePort"),
+    defineColumn("Target Port", SERVICE_COLUMNS.TARGET_PORT, "targetPort"),
+    defineColumn(
+        "Target Port Name",
+        SERVICE_COLUMNS.TARGET_PORT_NAME,
+        "targetPortName"
+    ),
+    defineColumn("Protocol", SERVICE_COLUMNS.PROTOCOL, "protocol"),
+];
+
+const podColumns = [
+    ...commonColumns,
+    defineColumn("Phase", POD_COLUMNS.PHASE, "phase"),
+    defineColumn("Message", POD_COLUMNS.MESSAGE, "message"),
+    defineColumn("Reason", POD_COLUMNS.REASON, "reason"),
+    defineColumn(
+        "Status - Name",
+        POD_COLUMNS.CONTAINER_STATUS_NAME,
+        "containerStatusName"
+    ),
+    defineColumn(
+        "Status - Ready",
+        POD_COLUMNS.CONTAINER_STATUS_READY,
+        "containerStatusReady"
+    ),
+    defineColumn(
+        "Status - Restart Count",
+        POD_COLUMNS.CONTAINER_STATUS_RESTART_COUNT,
+        "containerStatusRestartCount"
+    ),
+    defineColumn(
+        "Status - Image",
+        POD_COLUMNS.CONTAINER_STATUS_IMAGE,
+        "containerStatusImage"
+    ),
+    defineColumn(
+        "Status - Image ID",
+        POD_COLUMNS.CONTAINER_STATUS_IMAGE_ID,
+        "containerStatusImageID"
+    ),
+    defineColumn(
+        "Status - Container ID",
+        POD_COLUMNS.CONTAINER_STATUS_CONTAINER_ID,
+        "containerStatusContainerID"
+    ),
+    defineColumn(
+        "Status - Started",
+        POD_COLUMNS.CONTAINER_STATUS_STARTED,
+        "containerStatusStarted"
+    ),
 ];
 
 const getAnalyses = ({ deployments }) => {
@@ -192,13 +252,25 @@ const VICEAdmin = () => {
                         addToFilters={addToFilters}
                         deleteFromFilters={deleteFromFilters}
                     />
+
                     <CollapsibleTable
                         rows={analysisRows}
                         columns={analysisColumns}
                     />
+
                     <CollapsibleTable
                         rows={filteredData.deployments}
                         columns={deploymentColumns}
+                    />
+
+                    <CollapsibleTable
+                        rows={filteredData.services}
+                        columns={serviceColumns}
+                    />
+
+                    <CollapsibleTable
+                        rows={filteredData.pods}
+                        columns={podColumns}
                     />
                 </>
             )}

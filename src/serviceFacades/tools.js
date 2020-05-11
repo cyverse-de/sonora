@@ -22,9 +22,7 @@ function getTools(_, { order, orderBy, page, rowsPerPage }) {
     const isOrdered = order && orderBy;
 
     // Determine if the request is supposed to be paginated.
-    const isPaginated =
-        (page || page === 0) &&
-        rowsPerPage;
+    const isPaginated = (page || page === 0) && rowsPerPage;
 
     // Build the object containing the query parameters.
     const params = {};

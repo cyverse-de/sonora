@@ -9,3 +9,13 @@ export const COMMON_COLUMNS = {
     USERNAME: "username",
     CREATION_TIMESTAMP: "creationTimestamp",
 };
+
+export const ANALYSIS_COLUMNS = {
+    ...COMMON_COLUMNS,
+    IMAGE: "image",
+    PORT: "port",
+    UID: "uid",
+    GID: "gid",
+    COMMAND: "command",
+    EXPAND: "expand",
+};

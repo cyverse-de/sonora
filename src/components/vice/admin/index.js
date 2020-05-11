@@ -17,6 +17,7 @@ import AnalysisTable from "./analyses";
 
 import ids from "./ids";
 import messages from "./messages";
+import { ANALYSIS_COLUMNS } from "./constants";
 import { Skeleton } from "@material-ui/lab";
 
 import { JSONPath } from "jsonpath-plus";
@@ -45,6 +46,65 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
+
+const defineColumn = (
+    name,
+    keyID,
+    field,
+    align = "left",
+    enableSorting = true
+) => ({
+    name,
+    align,
+    enableSorting,
+    key: keyID,
+    id: keyID,
+    field,
+});
+
+// The column definitions for the table.
+const tableColumns = [
+    defineColumn("", ANALYSIS_COLUMNS.EXPAND, "", "left", false),
+    defineColumn("Username", ANALYSIS_COLUMNS.USERNAME, "username"),
+    defineColumn(
+        "Analysis Name",
+        ANALYSIS_COLUMNS.ANALYSIS_NAME,
+        "analysisName"
+    ),
+    defineColumn("App Name", ANALYSIS_COLUMNS.APP_NAME, "appName"),
+    defineColumn(
+        "Date Created",
+        ANALYSIS_COLUMNS.CREATION_TIMESTAMP,
+        "creationTimestamp"
+    ),
+    defineColumn("External ID", ANALYSIS_COLUMNS.EXTERNAL_ID, "externalID"),
+    defineColumn("App ID", ANALYSIS_COLUMNS.APP_ID, "appID"),
+    defineColumn("User ID", ANALYSIS_COLUMNS.USER_ID, "userID"),
+    defineColumn("Namespace", ANALYSIS_COLUMNS.NAMESPACE, "namespace"),
+];
+
+const getAnalyses = ({ deployments }) => {
+    let analyses = {};
+
+    // Should only need to interate through the deployments to find the
+    // list of analyses in the data.
+    deployments.forEach((element) => {
+        if (!analyses.hasOwnProperty(element.externalID)) {
+            analyses[element.externalID] = {
+                externalID: element.externalID,
+                username: element.username,
+                analysisName: element.analysisName,
+                appName: element.appName,
+                creationTimestamp: element.creationTimestamp,
+                appID: element.appID,
+                userID: element.userID,
+                namespace: element.namespace,
+            };
+        }
+    });
+
+    return Object.values(analyses);
+};
 
 const VICEAdminSkeleton = () => {
     const classes = useStyles();
@@ -108,6 +168,13 @@ const VICEAdmin = () => {
         data
     );
 
+    let rows;
+    if (filteredData) {
+        rows = getAnalyses(filteredData);
+    } else {
+        rows = [];
+    }
+
     return (
         <div id={id(ids.ROOT)} className={classes.root}>
             {isLoading ? (
@@ -119,7 +186,7 @@ const VICEAdmin = () => {
                         addToFilters={addToFilters}
                         deleteFromFilters={deleteFromFilters}
                     />
-                    <AnalysisTable data={filteredData} />
+                    <AnalysisTable rows={rows} columns={tableColumns} />
                 </>
             )}
             <div className={classes.footer} />

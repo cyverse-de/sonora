@@ -10,7 +10,7 @@ import React from "react";
 import messages from "./messages";
 import ids from "./ids";
 
-import { getAppTypeFilters } from "../apps/AppNavigation";
+import { getAppTypeFilters } from "../apps/toolbar/AppNavigation";
 import DisplayTypeSelector from "../utils/DisplayTypeSelector";
 
 import { injectIntl } from "react-intl";
@@ -18,10 +18,9 @@ import { injectIntl } from "react-intl";
 import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
 
 import {
-    Divider,
+    Button,
     Hidden,
     IconButton,
-    Link,
     makeStyles,
     TextField,
     Toolbar,
@@ -32,9 +31,8 @@ import {
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import {
-    MoreVert as MoreVertIcon,
     FilterList as FilterListIcon,
-    Clear as ClearIcon,
+    MoreVert as MoreVertIcon,
 } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,24 +44,19 @@ const useStyles = makeStyles((theme) => ({
     },
     filter: {
         [theme.breakpoints.down("xs")]: {
-            width: 125,
-            margin: theme.spacing(1),
+            width: 110,
+            margin: theme.spacing(0.2),
         },
         [theme.breakpoints.up("sm")]: {
             width: 150,
-            margin: theme.spacing(1.5),
+            margin: theme.spacing(1),
         },
     },
-    batchFilter: {
-        [theme.breakpoints.down("sm")]: {
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            maxWidth: 75,
+    filterIcon: {
+        [theme.breakpoints.down("xs")]: {
+            margin: theme.spacing(0.2),
+            paddingLeft: 0,
         },
-    },
-    verticalDivider: {
-        margin: theme.spacing(1),
     },
 }));
 
@@ -84,47 +77,36 @@ function BatchFilter(props) {
 
     return (
         <>
-            <Tooltip
-                title={getMessage("viewingBatch", {
-                    values: { name: name },
-                })}
-                id={build(baseId, ids.BATCH_FILTER, name)}
-            >
-                <FilterListIcon color="primary" size="small" />
-            </Tooltip>
             <Hidden xsDown>
-                <Typography variant="caption" className={classes.batchFilter}>
-                    {getMessage("viewingBatch", {
+                <Tooltip
+                    title={getMessage("viewingBatch", {
                         values: { name: name },
                     })}
-                </Typography>
-
-                <Divider
-                    className={classes.verticalDivider}
-                    orientation="vertical"
-                    flexItem
-                />
-            </Hidden>
-            <Hidden smUp>
-                <Tooltip title={getMessage("viewAll")}>
-                    <IconButton
+                    id={build(baseId, ids.BATCH_FILTER, name)}
+                >
+                    <Button
                         id={build(baseId, ids.CLEAR_BATCH_FILTER, name)}
                         size="small"
                         onClick={onClearBatch}
+                        className={classes.filterIcon}
+                        color="primary"
+                        variant="outlined"
+                        startIcon={<FilterListIcon />}
                     >
-                        <ClearIcon color="error" />
-                    </IconButton>
+                        <Typography>{getMessage("viewAll")}</Typography>
+                    </Button>
                 </Tooltip>
             </Hidden>
-            <Hidden xsDown>
-                <Link
-                    component="button"
+            <Hidden smUp>
+                <IconButton
                     id={build(baseId, ids.CLEAR_BATCH_FILTER, name)}
-                    style={{ cursor: "pointer" }}
+                    size="small"
                     onClick={onClearBatch}
+                    color="primary"
+                    className={classes.filterIcon}
                 >
-                    {getMessage("viewAll")}
-                </Link>
+                    <FilterListIcon />
+                </IconButton>
             </Hidden>
         </>
     );
@@ -208,7 +190,9 @@ function AnalysesNavigation(props) {
                     />
                 )}
             />
-            <div className={classes.divider} />
+            <Hidden xsDown>
+                <div className={classes.divider} />
+            </Hidden>
             <IconButton>
                 <MoreVertIcon />
             </IconButton>

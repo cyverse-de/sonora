@@ -17,7 +17,7 @@ import DEPagination from "../../utils/DEPagination";
 import intlData from "../messages";
 import TableView from "./TableView";
 import AnalysesNavigation, { getOwnershipFilters } from "../AnalysesNavigation";
-import { getAppTypeFilters } from "../../apps/AppNavigation";
+import { getAppTypeFilters } from "../../apps/toolbar/AppNavigation";
 import appType from "../../models/AppType";
 
 import NavigationConstants from "../../../common/NavigationConstants";

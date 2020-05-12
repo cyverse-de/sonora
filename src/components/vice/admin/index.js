@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/styles";
 
 import {
     build as buildID,
-    //getMessage as msg,
+    getMessage as msg,
     withI18N,
 } from "@cyverse-de/ui-lib";
 
@@ -214,8 +214,6 @@ const VICEAdmin = () => {
         setFilters(deletedFrom);
     };
 
-    console.log(filters);
-
     const filteredData = Object.entries(filters).reduce(
         (acc, [mappingSelector, value]) => {
             // grab the correct ExtractFilterCompare instance from the efcs
@@ -256,21 +254,25 @@ const VICEAdmin = () => {
                     <CollapsibleTable
                         rows={analysisRows}
                         columns={analysisColumns}
+                        title={msg("analyses")}
                     />
 
                     <CollapsibleTable
                         rows={filteredData.deployments}
                         columns={deploymentColumns}
+                        title={msg("deployments")}
                     />
 
                     <CollapsibleTable
                         rows={filteredData.services}
                         columns={serviceColumns}
+                        title={msg("services")}
                     />
 
                     <CollapsibleTable
                         rows={filteredData.pods}
                         columns={podColumns}
+                        title={msg("pods")}
                     />
                 </>
             )}

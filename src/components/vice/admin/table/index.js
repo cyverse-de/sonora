@@ -13,9 +13,9 @@ import {
     TableBody,
     TableCell,
     TableContainer,
-    TableHead,
     Paper,
     TableRow,
+    Typography,
     makeStyles,
     IconButton,
 } from "@material-ui/core";
@@ -44,46 +44,56 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: theme.palette.action.hover,
         },
     },
+    extended: {
+        display: "flex",
+        marginLeft: theme.spacing(7),
+        marginRight: theme.spacing(7),
+        flexWrap: "wrap",
+        flexShrink: 0,
+        flexGrow: 0,
+    },
+    dataEntry: {
+        width: 350,
+        margin: theme.spacing(2),
+    },
+    dataEntryLabel: {
+        marginRight: theme.spacing(1),
+        fontWeight: 500,
+    },
 }));
 
 const VISIBLE_START_COLUMN = 1;
 const VISIBLE_END_COLUMN = 7;
 
-const ExtendedDataTable = ({ columns, row, collapseID }) => {
+const ExtendedDataCard = ({ columns, row, collapseID }) => {
     const classes = useStyles();
+    const dataColumns = columns.slice(VISIBLE_END_COLUMN);
 
     return (
         <Box margin={1}>
-            <Table
-                size="small"
-                aria-label="more analyses fields"
-                style={{ width: "100%" }}
-            >
-                <TableHead>
-                    <TableRow>
-                        {columns.slice(VISIBLE_END_COLUMN).map((column) => {
-                            const colID = id(collapseID, column.field);
-                            return (
-                                <TableCell key={colID} id={colID}>
-                                    {column.name}
-                                </TableCell>
-                            );
-                        })}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    <TableRow className={classes.row}>
-                        {columns.slice(VISIBLE_END_COLUMN).map((column) => {
-                            const colID = id(collapseID, "value", column.field);
-                            return (
-                                <TableCell id={colID} key={colID}>
-                                    {row[column.field]}
-                                </TableCell>
-                            );
-                        })}
-                    </TableRow>
-                </TableBody>
-            </Table>
+            <div className={classes.extended}>
+                {dataColumns.map((column) => {
+                    return (
+                        <div className={classes.dataEntry}>
+                            <Typography
+                                variant="body2"
+                                align="left"
+                                display="inline"
+                                classes={{ root: classes.dataEntryLabel }}
+                            >
+                                {`${column.name}:`}
+                            </Typography>
+                            <Typography
+                                variant="body2"
+                                align="left"
+                                display="inline"
+                            >
+                                {row[column.field] || "N/A"}
+                            </Typography>
+                        </div>
+                    );
+                })}
+            </div>
         </Box>
     );
 };
@@ -123,11 +133,16 @@ const CollapsibleTableRow = ({ row, columns, baseID }) => {
 
             <TableRow key={collapseID} id={collapseID}>
                 <TableCell
-                    style={{ paddingBottom: 0, paddingTop: 0 }}
+                    style={{ paddingBottom: 0, paddingTop: 0, width: "90%" }}
                     colSpan={VISIBLE_END_COLUMN}
                 >
                     <Collapse in={open} timeout="auto" unmountOnExit>
-                        <ExtendedDataTable
+                        {/* <ExtendedDataTable
+                            columns={columns}
+                            row={row}
+                            collapseID={collapseID}
+                        /> */}
+                        <ExtendedDataCard
                             columns={columns}
                             row={row}
                             collapseID={collapseID}

@@ -34,16 +34,6 @@ const useStyles = makeStyles((theme) => ({
     table: {
         height: "100%",
     },
-    row: {
-        "& > *": {
-            borderBottom: "unset",
-        },
-    },
-    rowColor: {
-        "&:nth-of-type(2n)": {
-            backgroundColor: theme.palette.action.hover,
-        },
-    },
     extended: {
         display: "flex",
         marginLeft: theme.spacing(7),

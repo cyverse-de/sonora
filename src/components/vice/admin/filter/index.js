@@ -85,7 +85,7 @@ const AnalysesFilter = ({ filters, addToFilters, deleteFromFilters }) => {
                 )}
             </CardContent>
 
-            <CardActions className={classes.actions} disableSpacing>
+            <CardActions disableSpacing>
                 <IconButton
                     className={classnames(classes.expand, {
                         [classes.expandOpen]: isExpanded,

@@ -39,10 +39,54 @@ const useStyles = makeStyles((theme) => ({
             borderBottom: "unset",
         },
     },
+    rowColor: {
+        "&:nth-of-type(2n)": {
+            backgroundColor: theme.palette.action.hover,
+        },
+    },
 }));
 
 const VISIBLE_START_COLUMN = 1;
 const VISIBLE_END_COLUMN = 7;
+
+const ExtendedDataTable = ({ columns, row, collapseID }) => {
+    const classes = useStyles();
+
+    return (
+        <Box margin={1}>
+            <Table
+                size="small"
+                aria-label="more analyses fields"
+                style={{ width: "100%" }}
+            >
+                <TableHead>
+                    <TableRow>
+                        {columns.slice(VISIBLE_END_COLUMN).map((column) => {
+                            const colID = id(collapseID, column.field);
+                            return (
+                                <TableCell key={colID} id={colID}>
+                                    {column.name}
+                                </TableCell>
+                            );
+                        })}
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    <TableRow className={classes.row}>
+                        {columns.slice(VISIBLE_END_COLUMN).map((column) => {
+                            const colID = id(collapseID, "value", column.field);
+                            return (
+                                <TableCell id={colID} key={colID}>
+                                    {row[column.field]}
+                                </TableCell>
+                            );
+                        })}
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </Box>
+    );
+};
 
 const CollapsibleTableRow = ({ row, columns, baseID }) => {
     const [open, setOpen] = useState(false);
@@ -83,55 +127,11 @@ const CollapsibleTableRow = ({ row, columns, baseID }) => {
                     colSpan={VISIBLE_END_COLUMN}
                 >
                     <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box margin={1}>
-                            <Table
-                                size="small"
-                                aria-label="more analyses fields"
-                                style={{ width: "100%" }}
-                            >
-                                <TableHead>
-                                    <TableRow>
-                                        {columns
-                                            .slice(VISIBLE_END_COLUMN)
-                                            .map((column) => {
-                                                const colID = id(
-                                                    collapseID,
-                                                    column.field
-                                                );
-                                                return (
-                                                    <TableCell
-                                                        key={colID}
-                                                        id={colID}
-                                                    >
-                                                        {column.name}
-                                                    </TableCell>
-                                                );
-                                            })}
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow className={classes.row}>
-                                        {columns
-                                            .slice(VISIBLE_END_COLUMN)
-                                            .map((column) => {
-                                                const colID = id(
-                                                    collapseID,
-                                                    "value",
-                                                    column.field
-                                                );
-                                                return (
-                                                    <TableCell
-                                                        id={colID}
-                                                        key={colID}
-                                                    >
-                                                        {row[column.field]}
-                                                    </TableCell>
-                                                );
-                                            })}
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </Box>
+                        <ExtendedDataTable
+                            columns={columns}
+                            row={row}
+                            collapseID={collapseID}
+                        />
                     </Collapse>
                 </TableCell>
             </TableRow>

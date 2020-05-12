@@ -70,7 +70,9 @@ function DataDotMenu(props) {
                             <ListItemText primary={getMessage("details")} />
                         </MenuItem>
                     ),
-                    <Divider />,
+                    <Divider
+                        key={build(baseId, ids.DETAILS_MENU_ITEM_DIVIDER)}
+                    />,
                     isWritable(permission) && (
                         <MenuItem
                             key={build(baseId, ids.CREATE_FOLDER_MI)}
@@ -101,8 +103,11 @@ function DataDotMenu(props) {
                             <ListItemText primary={getMessage("delete")} />
                         </MenuItem>
                     ),
-                    <Divider />,
+                    <Divider
+                        key={build(baseId, ids.UPLOAD_MENU_ITEM_DIVIDER)}
+                    />,
                     <UploadMenuItems
+                        key={build(baseId, ids.UPLOAD_MENU_ITEM)}
                         localUploadId={localUploadId}
                         uploadMenuId={uploadMenuId}
                         onBrowseLocal={onClose}

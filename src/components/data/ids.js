@@ -19,6 +19,7 @@ export default {
     DELETE: "delete",
     DELETE_MENU_ITEM: "delete",
     DETAILS_MENU_ITEM: "details",
+    DETAILS_MENU_ITEM_DIVIDER: "detailsDivider",
     DETAILS_BTN: "detailsBtn",
     DETAILS_DRAWER: "detailsDrawer",
     DETAILS_TAB: "detailsTab",
@@ -62,6 +63,8 @@ export default {
     UPLOAD_INPUT: "input",
     UPLOAD_MENU: "uploadMenu",
     UPLOAD_MI: "uploadMenuItem",
+    UPLOAD_MENU_ITEM: "uploadMenuItem",
+    UPLOAD_MENU_ITEM_DIVIDER: "uploadMenuItemDivider",
     UPLOAD_QUEUE_MI: "uploadQueueMenuItem",
     WRITE: "write",
 };

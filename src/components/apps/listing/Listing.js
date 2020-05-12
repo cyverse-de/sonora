@@ -6,7 +6,20 @@
  *
  */
 import React, { useCallback, useEffect, useState } from "react";
-import { queryCache, useMutation, useQuery } from "react-query";
+
+import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
+import Drawer from "../details/Drawer";
+import TableView from "./TableView";
+import intlData from "../messages";
+import AppsToolbar from "../toolbar/Toolbar";
+
+import { getAppTypeFilters } from "../toolbar/AppNavigation";
+
+import appType from "../../models/AppType";
+import DEPagination from "../../utils/DEPagination";
+
+import constants from "../../../constants";
+
 import {
     appFavorite,
     getAppDetails,
@@ -14,22 +27,16 @@ import {
     getAppsInCategory,
     rateApp,
 } from "../../../serviceFacades/apps";
-import TableView from "./TableView";
-import AppNavigation, { getAppTypeFilters } from "../toolbar/AppNavigation";
-import constants from "../../../constants";
-import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
-import Drawer from "../details/Drawer";
-import appType from "../../models/AppType";
+
+import { injectIntl } from "react-intl";
+import { queryCache, useMutation, useQuery } from "react-query";
+
 import {
     announce,
     AnnouncerConstants,
     formatMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
-import { injectIntl } from "react-intl";
-import intlData from "../messages";
-import DEPagination from "../../utils/DEPagination";
-import AppsToolbar from "../toolbar/Toolbar";
 
 function Listing(props) {
     const { baseId } = props;

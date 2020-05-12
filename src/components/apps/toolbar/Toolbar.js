@@ -85,7 +85,7 @@ function AppsToolbar(props) {
                 selectedCategory={selectedCategory}
             />
             <Autocomplete
-                id={build(appsToolbarId,ids.APPS_FILTER)}
+                id={build(appsToolbarId, ids.APPS_FILTER)}
                 disabled={
                     selectedCategory?.system_id?.toLowerCase() ===
                     appType.agave.toLowerCase()

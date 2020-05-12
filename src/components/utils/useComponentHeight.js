@@ -12,11 +12,8 @@
 import { useEffect, useState } from "react";
 
 function getHeight(ref) {
-    if (ref && ref.current) {
-        return ref.current.getBoundingClientRect().height;
-    } else {
-        return 0; // 0 in the case the nav bar is hidden e.g. on mobile
-    }
+    // 0 in the case the nav bar is hidden e.g. on mobile
+    return ref?.current?.getBoundingClientRect().height || 0;
 }
 
 function useComponentHeight() {

@@ -15,7 +15,7 @@ import {
     rateApp,
 } from "../../../serviceFacades/apps";
 import TableView from "./TableView";
-import AppNavigation, { getAppTypeFilters } from "../AppNavigation";
+import AppNavigation, { getAppTypeFilters } from "../toolbar/AppNavigation";
 import constants from "../../../constants";
 import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
 import Drawer from "../details/Drawer";
@@ -29,6 +29,7 @@ import {
 import { injectIntl } from "react-intl";
 import intlData from "../messages";
 import DEPagination from "../../utils/DEPagination";
+import AppsToolbar from "../toolbar/Toolbar";
 
 function Listing(props) {
     const { baseId } = props;
@@ -326,7 +327,7 @@ function Listing(props) {
                 location={data?.Location}
                 handleClose={() => setAgaveAuthDialogOpen(false)}
             />
-            <AppNavigation
+            <AppsToolbar
                 handleCategoryChange={handleCategoryChange}
                 handleFilterChange={handleFilterChange}
                 baseId={baseId}

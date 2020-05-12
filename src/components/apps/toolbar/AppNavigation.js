@@ -6,53 +6,38 @@
  */
 import React, { useCallback, useEffect, useState } from "react";
 
-import intlData from "./messages";
-import ids from "./ids";
+import intlData from "../messages";
+import ids from "../ids";
 
-import constants from "../../constants";
-import appType from "../models/AppType";
-import DisplayTypeSelector from "../utils/DisplayTypeSelector";
-import { getPrivateCategories } from "../../serviceFacades/apps";
+import constants from "../../../constants";
+import appType from "../../models/AppType";
+import { getPrivateCategories } from "../../../serviceFacades/apps";
 
 import { queryCache, useQuery } from "react-query";
+
 import { injectIntl } from "react-intl";
 
 import {
-    build,
-    formatMessage,
-    getMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
-
-import Autocomplete from "@material-ui/lab/Autocomplete";
-
-import {
-    Button,
     Divider,
-    Hidden,
-    IconButton,
     List,
     ListItem,
     ListItemIcon,
     ListItemText,
     Menu,
-    TextField,
-    Toolbar,
     Typography,
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
+import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
 
 import {
-    GroupWork as GroupWorkIcon,
-    ArrowDropDown as ArrowDropDownIcon,
     Apps as AppsIcon,
-    Info,
-    MoreVert as MoreVertIcon,
-    Storage as StorageIcon,
+    ArrowDropDown as ArrowDropDownIcon,
     Favorite as FavoriteIcon,
-    Lock as LockIcon,
     FolderShared as FolderSharedIcon,
+    GroupWork as GroupWorkIcon,
+    Lock as LockIcon,
+    Storage as StorageIcon,
 } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -61,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.primary.main,
     },
     list: {
+        [theme.breakpoints.up("sm")]: {
+            margin: theme.spacing(1),
+        },
         [theme.breakpoints.down("sm")]: {
             maxWidth: 130,
             padding: 0,
@@ -118,22 +106,18 @@ function getAllAppsCategory(categoryName) {
 function AppNavigation(props) {
     const {
         handleCategoryChange,
-        handleFilterChange,
         setCategoryStatus,
         handleAppNavError,
-        filter,
         selectedCategory,
-        isGridView,
-        toggleDisplay,
-        detailsEnabled,
-        onDetailsSelected,
         intl,
         baseId,
     } = props;
+    const classes = useStyles();
+
     const [categories, setCategories] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
-    const classes = useStyles();
-    const appNavId = build(baseId, ids.APP_NAVIGATION);
+
+    const appNavId = build(baseId, ids.APPS_NAVIGATION);
     const allAppsCategory = getAllAppsCategory(constants.BROWSE_ALL_APPS);
 
     const preProcessData = useCallback(
@@ -217,16 +201,11 @@ function AppNavigation(props) {
     }
 
     return (
-        <Toolbar variant="dense">
-            <DisplayTypeSelector
-                baseId={appNavId}
-                toggleDisplay={toggleDisplay}
-                isGridView={isGridView}
-            />
+        <>
             <List
                 component="nav"
                 aria-label={formatMessage(intl, "selectedCategoryAriaLabel")}
-                id={build(appNavId, ids.APP_CATEGORIES)}
+                id={build(appNavId, ids.APPS_CATEGORIES)}
                 className={classes.list}
             >
                 <ListItem
@@ -243,7 +222,7 @@ function AppNavigation(props) {
                     <ListItemText
                         id={build(
                             appNavId,
-                            ids.APP_CATEGORIES,
+                            ids.APPS_CATEGORIES,
                             selectedCategory.name
                         )}
                         primary={
@@ -270,8 +249,8 @@ function AppNavigation(props) {
                     <ListItem
                         id={build(
                             appNavId,
-                            ids.APP_CATEGORIES_MENU,
-                            ids.APP_CATEGORIES_MENU_ITEM,
+                            ids.APPS_CATEGORIES_MENU,
+                            ids.APPS_CATEGORIES_MENU_ITEM,
                             menuItem.name
                         )}
                         key={menuItem.name}
@@ -292,8 +271,8 @@ function AppNavigation(props) {
                 <ListItem
                     id={build(
                         appNavId,
-                        ids.APP_CATEGORIES_MENU,
-                        ids.APP_CATEGORIES_MENU_ITEM,
+                        ids.APPS_CATEGORIES_MENU,
+                        ids.APPS_CATEGORIES_MENU_ITEM,
                         ids.BROWSE_ALL_APPS
                     )}
                     key={allAppsCategory.name}
@@ -313,47 +292,7 @@ function AppNavigation(props) {
                     </ListItemText>
                 </ListItem>
             </Menu>
-            <Autocomplete
-                disabled={
-                    selectedCategory.system_id?.toLowerCase() ===
-                    appType.agave.toLowerCase()
-                }
-                value={filter}
-                options={getAppTypeFilters()}
-                size="small"
-                onChange={(event, newValue) => {
-                    handleFilterChange(newValue);
-                }}
-                getOptionLabel={(option) => option.name}
-                getOptionSelected={(option, value) =>
-                    option.name === value.name
-                }
-                className={classes.filter}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        label={formatMessage(intl, "filterLbl")}
-                        variant="outlined"
-                    />
-                )}
-            />
-            <div className={classes.divider} />
-            {detailsEnabled && (
-                <Button
-                    id={build(appNavId, ids.DETAILS_BTN)}
-                    variant="outlined"
-                    disableElevation
-                    color="primary"
-                    onClick={onDetailsSelected}
-                    startIcon={<Info className={classes.buttonIcon} />}
-                >
-                    <Hidden xsDown>{getMessage("details")}</Hidden>
-                </Button>
-            )}
-            <IconButton>
-                <MoreVertIcon />
-            </IconButton>
-        </Toolbar>
+        </>
     );
 }
 export default withI18N(injectIntl(AppNavigation), intlData);

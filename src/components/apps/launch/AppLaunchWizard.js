@@ -19,13 +19,10 @@ const deprecatedParamTypes = Object.values(constants.DEPRECATED_PARAM_TYPE);
 function AppLaunchWizard(props) {
     const { app } = props;
 
-    const hasDeprecatedParams = app?.groups?.reduce(
-        (hasDeprecatedParams, group) =>
-            hasDeprecatedParams ||
-            group.parameters?.find((param) =>
-                deprecatedParamTypes.includes(param.type)
-            ),
-        false
+    const hasDeprecatedParams = app?.groups?.find((group) =>
+        group.parameters?.find((param) =>
+            deprecatedParamTypes.includes(param.type)
+        )
     );
 
     return (

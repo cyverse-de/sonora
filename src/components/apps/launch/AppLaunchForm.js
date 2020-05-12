@@ -57,6 +57,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const ReferenceGenomeParamTypes = [
+    constants.PARAM_TYPE.REFERENCE_GENOME,
+    constants.PARAM_TYPE.REFERENCE_SEQUENCE,
+    constants.PARAM_TYPE.REFERENCE_ANNOTATION,
+];
+
 const StepContent = ({ id, hidden, step, label, children }) => (
     <fieldset id={id} hidden={hidden}>
         <legend>
@@ -265,21 +271,14 @@ const displayStepError = (stepIndex, errors, touched, groups) => {
  * and has validation errors.
  */
 const anyParamErrorAndTouched = (errors, touched, groups) =>
-    groups?.reduce(
-        (anyErrorAndTouched, group, groupIndex) =>
-            anyErrorAndTouched ||
-            group.parameters.reduce(
-                (groupErrorAndTouched, param, paramIndex) => {
-                    const fieldName = `groups.${groupIndex}.parameters.${paramIndex}`;
-
-                    return (
-                        groupErrorAndTouched ||
-                        getFormError(fieldName, touched, errors)
-                    );
-                },
-                false
-            ),
-        false
+    groups?.find((group, groupIndex) =>
+        group.parameters.find((param, paramIndex) =>
+            getFormError(
+                `groups.${groupIndex}.parameters.${paramIndex}`,
+                touched,
+                errors
+            )
+        )
     );
 
 const AppLaunchForm = (props) => {
@@ -312,24 +311,14 @@ const AppLaunchForm = (props) => {
     );
     const stepIdReview = buildDebugId(formId, ids.APP_LAUNCH_REVIEW);
 
-    const hasParams = groups?.reduce(
-        (hasParams, group) => hasParams || group.parameters?.length > 0,
-        false
-    );
+    const hasParams = groups?.find((group) => group.parameters?.length > 0);
 
     const hasReferenceGenomes =
         hasParams &&
-        groups?.reduce(
-            (hasReferenceGenomes, group) =>
-                hasReferenceGenomes ||
-                group.parameters?.find(
-                    (param) =>
-                        param.type === constants.PARAM_TYPE.REFERENCE_GENOME ||
-                        param.type ===
-                            constants.PARAM_TYPE.REFERENCE_SEQUENCE ||
-                        param.type === constants.PARAM_TYPE.REFERENCE_ANNOTATION
-                ),
-            false
+        groups?.find((group) =>
+            group.parameters?.find((param) =>
+                ReferenceGenomeParamTypes.includes(param.type)
+            )
         );
 
     React.useEffect(() => {

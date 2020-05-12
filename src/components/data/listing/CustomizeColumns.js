@@ -86,6 +86,7 @@ function CustomizeColumns(props) {
                 aria-controls={menuId}
                 aria-haspopup="true"
                 size="small"
+                variant={!isSmall ? "outlined" : null}
                 onClick={handleColumnSettingClick}
             >
                 <Hidden smUp>

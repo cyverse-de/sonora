@@ -42,6 +42,11 @@ const useStyles = makeStyles((theme) => ({
         flexShrink: 0,
         flexGrow: 0,
     },
+    row: {
+        "& > *": {
+            borderBottom: "unset",
+        },
+    },
     dataEntry: {
         width: 350,
         margin: theme.spacing(2),
@@ -127,11 +132,6 @@ const CollapsibleTableRow = ({ row, columns, baseID }) => {
                     colSpan={VISIBLE_END_COLUMN}
                 >
                     <Collapse in={open} timeout="auto" unmountOnExit>
-                        {/* <ExtendedDataTable
-                            columns={columns}
-                            row={row}
-                            collapseID={collapseID}
-                        /> */}
                         <ExtendedDataCard
                             columns={columns}
                             row={row}

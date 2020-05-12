@@ -12,6 +12,7 @@
         "build": "run-p build-frontend build-server build-docs",
         "start": "cross-env NODE_ENV=production node dist/server/index.js",
         "storybook": "start-storybook -p 9009 -s public",
+        "build-storybook": "build-storybook -s public",
         "test": "TZ=UTC jest",
         "test-watch": "TZ=UTC jest --watch",
         "test-update": "TZ=UTC jest -u",

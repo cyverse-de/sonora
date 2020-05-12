@@ -125,3 +125,7 @@ config/production*
 config/*-production*
 config/local*
 config/*-local*
+
+# storybook
+storybook-static
+

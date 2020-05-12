@@ -516,7 +516,11 @@ const AppLaunchForm = (props) => {
                         <StepContent
                             id={stepIdReview}
                             step={stepReviewAndLaunch.step}
-                            label={getMessage("launchOrSaveAsQL")}
+                            label={
+                                app_type === GlobalConstants.APP_TYPE_EXTERNAL
+                                    ? getMessage("reviewAndLaunch")
+                                    : getMessage("launchOrSaveAsQL")
+                            }
                             hidden={activeStep !== stepReviewAndLaunch.step}
                         >
                             <ParamsReview

@@ -29,7 +29,14 @@ const id = (...names) => buildID(ids.BASE, ...names);
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        width: "100%",
+    },
+    paper: {
+        width: "100%",
         marginBottom: theme.spacing(5),
+    },
+    title: {
+        padding: theme.spacing(2),
     },
     table: {
         height: "100%",
@@ -144,7 +151,7 @@ const CollapsibleTableRow = ({ row, columns, baseID }) => {
     );
 };
 
-const CollapsibleTable = ({ columns, rows }) => {
+const CollapsibleTable = ({ columns, rows, title }) => {
     const classes = useStyles();
 
     // The first entry in columns should be the expander columns,
@@ -163,27 +170,36 @@ const CollapsibleTable = ({ columns, rows }) => {
     };
 
     return (
-        <TableContainer component={Paper} classes={{ root: classes.root }}>
-            <Table id={tableID} classes={{ root: classes.table }}>
-                <EnhancedTableHead
-                    selectable={false}
-                    baseId={tableID}
-                    order={order}
-                    orderBy={orderColumn}
-                    columnData={columns.slice(0, VISIBLE_END_COLUMN)}
-                    onRequestSort={handleRequestSort}
-                ></EnhancedTableHead>
-                <TableBody>
-                    {rows.map((row, index) => (
-                        <CollapsibleTableRow
-                            row={row}
-                            key={index}
-                            columns={columns}
-                        />
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <Paper className={classes.paper}>
+            <Typography
+                variant="h5"
+                id={id(tableID, "title")}
+                className={classes.title}
+            >
+                {title}
+            </Typography>
+            <TableContainer classes={{ root: classes.root }}>
+                <Table id={tableID} classes={{ root: classes.table }}>
+                    <EnhancedTableHead
+                        selectable={false}
+                        baseId={tableID}
+                        order={order}
+                        orderBy={orderColumn}
+                        columnData={columns.slice(0, VISIBLE_END_COLUMN)}
+                        onRequestSort={handleRequestSort}
+                    ></EnhancedTableHead>
+                    <TableBody>
+                        {rows.map((row, index) => (
+                            <CollapsibleTableRow
+                                row={row}
+                                key={index}
+                                columns={columns}
+                            />
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Paper>
     );
 };
 

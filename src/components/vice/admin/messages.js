@@ -10,5 +10,9 @@ export default {
         userIDColumn: "User ID",
         usernameColumn: "Username",
         creationTimestampColumn: "Date Created",
+        analyses: "Analyses",
+        deployments: "Deployments",
+        services: "Services",
+        pods: "Pods",
     },
 };

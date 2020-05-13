@@ -63,14 +63,23 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     dataEntry: {
-        width: 350,
-        margin: theme.spacing(2),
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.up("xs")]: {
             width: "100%",
             marginLeft: 0,
             marginRight: 0,
             marginTop: theme.spacing(1),
             marginBottom: theme.spacing(1),
+        },
+        [theme.breakpoints.up("sm")]: {
+            width: 300,
+            marginLeft: 0,
+            marginRight: 0,
+            marginTop: theme.spacing(1),
+            marginBottom: theme.spacing(1),
+        },
+        [theme.breakpoints.up("lg")]: {
+            width: 350,
+            margin: theme.spacing(2),
         },
     },
     dataEntryLabel: {
@@ -82,10 +91,10 @@ const useStyles = makeStyles((theme) => ({
 const ExtendedDataCard = ({ columns, row, collapseID }) => {
     const classes = useStyles();
     const theme = useTheme();
-    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+    const isMedium = useMediaQuery(theme.breakpoints.down("md"));
 
     let display = "inline";
-    if (isSmall) {
+    if (isMedium) {
         display = "block";
     }
 
@@ -181,12 +190,24 @@ const CollapsibleTableRow = ({
 const CollapsibleTable = ({ columns, rows, title }) => {
     const classes = useStyles();
     const theme = useTheme();
-    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+    const isSmall = useMediaQuery(theme.breakpoints.up("xs"));
+    const isMedium = useMediaQuery(theme.breakpoints.up("sm"));
+    const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
+    const isXL = useMediaQuery(theme.breakpoints.up("xl"));
 
     let startColumn;
     let endColumn;
 
-    if (isSmall) {
+    if (isXL) {
+        startColumn = 1;
+        endColumn = 7;
+    } else if (isLarge) {
+        startColumn = 1;
+        endColumn = 6;
+    } else if (isMedium) {
+        startColumn = 1;
+        endColumn = 4;
+    } else if (isSmall) {
         startColumn = 1;
         endColumn = 2;
     } else {

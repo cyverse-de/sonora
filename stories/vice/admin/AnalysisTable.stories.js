@@ -1,6 +1,10 @@
 import React from "react";
 
-import AnalysisTable from "../../../src/components/vice/admin/analyses";
+import CollapsibleTable from "../../../src/components/vice/admin/table";
+import {
+    COMMON_COLUMNS,
+    DEPLOYMENT_COLUMNS,
+} from "../../../src/components/vice/admin/constants";
 
 export default {
     title: "VICE/admin/AnalysisTable",
@@ -59,6 +63,52 @@ const testData = {
     ],
 };
 
-export const AnalysisTableTest = () => {
-    return <AnalysisTable data={testData} />;
+const defineColumn = (
+    name,
+    keyID,
+    field,
+    align = "left",
+    enableSorting = true
+) => ({
+    name,
+    align,
+    enableSorting,
+    key: keyID,
+    id: keyID,
+    field,
+});
+
+// The column definitions for the table.
+const commonColumns = [
+    defineColumn("", COMMON_COLUMNS.EXPAND, "", "left", false),
+    defineColumn("Username", COMMON_COLUMNS.USERNAME, "username"),
+    defineColumn(
+        "Date Created",
+        COMMON_COLUMNS.CREATION_TIMESTAMP,
+        "creationTimestamp"
+    ),
+    defineColumn("Analysis Name", COMMON_COLUMNS.ANALYSIS_NAME, "analysisName"),
+    defineColumn("App Name", COMMON_COLUMNS.APP_NAME, "appName"),
+    defineColumn("Namespace", COMMON_COLUMNS.NAMESPACE, "namespace"),
+    defineColumn("External ID", COMMON_COLUMNS.EXTERNAL_ID, "externalID"),
+    defineColumn("App ID", COMMON_COLUMNS.APP_ID, "appID"),
+    defineColumn("User ID", COMMON_COLUMNS.USER_ID, "userID"),
+];
+
+const deploymentColumns = [
+    ...commonColumns,
+    defineColumn("Image", DEPLOYMENT_COLUMNS.IMAGE, "image"),
+    defineColumn("Port", DEPLOYMENT_COLUMNS.PORT, "port"),
+    defineColumn("UID", DEPLOYMENT_COLUMNS.UID, "uid"),
+    defineColumn("GID", DEPLOYMENT_COLUMNS.GID, "gid"),
+];
+
+export const CollapsibleTableTest = () => {
+    return (
+        <CollapsibleTable
+            columns={deploymentColumns}
+            rows={testData.deployments}
+            title="Deployments"
+        />
+    );
 };

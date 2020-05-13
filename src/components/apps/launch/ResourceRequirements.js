@@ -198,6 +198,9 @@ const ResourceRequirementsForm = withI18N(
                             defaultMaxDiskSpace={defaultMaxDiskSpace}
                         />
                     ) : (
+                        // For apps with more than 1 step,
+                        // each step's resource requirements will be nested
+                        // under its own expansion panel.
                         limits.map((reqs, index) => {
                             return (
                                 <ExpansionPanel key={reqs.step_number}>

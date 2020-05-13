@@ -203,12 +203,7 @@ function TableView(props) {
 
     // Build and return the table.
     return (
-        <TableContainer
-            component={Paper}
-            style={{
-                height: "60vh",
-            }}
-        >
+        <TableContainer component={Paper} style={{ overflow: "auto" }}>
             <Table
                 id={tableId}
                 stickyHeader={true}

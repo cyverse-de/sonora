@@ -55,7 +55,7 @@ Array [
     className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
     style={
       Object {
-        "height": "60vh",
+        "overflow": "auto",
       }
     }
   >
@@ -2505,7 +2505,7 @@ exports[`App Table view renders 1`] = `
   className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
   style={
     Object {
-      "height": "60vh",
+      "overflow": "auto",
     }
   }
 >

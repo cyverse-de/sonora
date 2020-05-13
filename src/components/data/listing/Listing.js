@@ -17,6 +17,7 @@ import DataToolbar from "../toolbar/Toolbar";
 import DEPagination from "../../utils/DEPagination";
 import ResourceTypes from "../../models/ResourceTypes";
 import isQueryLoading from "../../utils/isQueryLoading";
+import DEErrorDialog from "../../utils/error/DEErrorDialog";
 
 import UploadDropTarget from "../../uploads/UploadDropTarget";
 import { useUploadTrackingState } from "../../../contexts/uploadTracking";
@@ -332,7 +333,7 @@ function Listing(props) {
                 {!isGridView && (
                     <TableView
                         loading={isLoading}
-                        error={error}
+                        error={error || navError}
                         path={path}
                         handlePathChange={handlePathChange}
                         listing={data?.listing}
@@ -344,6 +345,7 @@ function Listing(props) {
                         onDeleteSelected={onDeleteSelected}
                         handleRequestSort={handleRequestSort}
                         handleSelectAllClick={handleSelectAllClick}
+                        handleCheckboxClick={handleCheckboxClick}
                         handleClick={handleClick}
                         order={order}
                         orderBy={orderBy}
@@ -371,6 +373,15 @@ function Listing(props) {
                     onClose={() => setDetailsOpen(false)}
                 />
             )}
+            <DEErrorDialog
+                open={errorDialogOpen}
+                baseId={baseId}
+                errorObject={errorObject}
+                handleClose={() => {
+                    setErrorDialogOpen(false);
+                    setErrorObject(null);
+                }}
+            />
         </>
     );
 }

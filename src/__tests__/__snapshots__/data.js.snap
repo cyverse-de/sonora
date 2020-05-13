@@ -233,7 +233,7 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
-            className="makeStyles-dataLink-141"
+            className="makeStyles-dataLink-140"
             id="tableView.listingTable.analyses_qa-3.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -286,6 +286,10 @@ exports[`Data Table View renders 1`] = `
               className="MuiTouchRipple-root"
             />
           </button>
+          <form
+            onReset={[Function]}
+            onSubmit={[Function]}
+          />
         </td>
       </tr>
       <tr
@@ -356,7 +360,7 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
-            className="makeStyles-dataLink-141"
+            className="makeStyles-dataLink-140"
             id="tableView.listingTable.test.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -409,6 +413,10 @@ exports[`Data Table View renders 1`] = `
               className="MuiTouchRipple-root"
             />
           </button>
+          <form
+            onReset={[Function]}
+            onSubmit={[Function]}
+          />
         </td>
       </tr>
       <tr
@@ -479,7 +487,7 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
-            className="makeStyles-dataLink-141"
+            className="makeStyles-dataLink-140"
             id="tableView.listingTable.CORE-8424.txt.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -532,6 +540,10 @@ exports[`Data Table View renders 1`] = `
               className="MuiTouchRipple-root"
             />
           </button>
+          <form
+            onReset={[Function]}
+            onSubmit={[Function]}
+          />
         </td>
       </tr>
       <tr
@@ -602,7 +614,7 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
-            className="makeStyles-dataLink-141"
+            className="makeStyles-dataLink-140"
             id="tableView.listingTable.sample.csv.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -655,6 +667,10 @@ exports[`Data Table View renders 1`] = `
               className="MuiTouchRipple-root"
             />
           </button>
+          <form
+            onReset={[Function]}
+            onSubmit={[Function]}
+          />
         </td>
       </tr>
     </tbody>

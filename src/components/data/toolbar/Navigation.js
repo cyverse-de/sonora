@@ -7,14 +7,29 @@
  */
 
 import React, { useEffect, useState } from "react";
-import {
-    announce,
-    AnnouncerConstants,
-    build,
-    formatMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+
 import intlData from "../messages";
+import styles from "../styles";
+import ids from "../ids";
+import constants from "../../../constants";
+import { getFilesystemRoots } from "../../../serviceFacades/filesystem";
+import { useUserProfile } from "../../../contexts/userProfile";
+
+import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+
+import { makeStyles } from "@material-ui/core/styles";
+import { injectIntl } from "react-intl";
+import { queryCache, useQuery } from "react-query";
+
+import HomeIcon from "@material-ui/icons/Home";
+import FolderSharedIcon from "@material-ui/icons/FolderShared";
+import GroupIcon from "@material-ui/icons/Group";
+import DeleteIcon from "@material-ui/icons/Delete";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import ArrowRightIcon from "@material-ui/icons/ArrowRight";
+import FolderIcon from "@material-ui/icons/Folder";
+
+
 import {
     Breadcrumbs,
     Button,
@@ -27,21 +42,7 @@ import {
     Tooltip,
     Typography,
 } from "@material-ui/core";
-import HomeIcon from "@material-ui/icons/Home";
-import FolderSharedIcon from "@material-ui/icons/FolderShared";
-import GroupIcon from "@material-ui/icons/Group";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { makeStyles } from "@material-ui/core/styles";
-import { injectIntl } from "react-intl";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
-import FolderIcon from "@material-ui/icons/Folder";
-import styles from "../styles";
-import ids from "../ids";
-import constants from "../../../constants";
-import { getFilesystemRoots } from "../../../serviceFacades/filesystem";
-import { useUserProfile } from "../../../contexts/userProfile";
-import { queryCache, useQuery } from "react-query";
+
 
 const useStyles = makeStyles(styles);
 

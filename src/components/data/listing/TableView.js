@@ -45,7 +45,6 @@ import {
     TableRow,
 } from "@material-ui/core";
 
-
 const COL_KEYS = {
     CHECKBOX: "checkbox",
     DOT_MENU: "dotMenu",

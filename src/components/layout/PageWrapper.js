@@ -16,14 +16,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function PageWrapper(props) {
-    const { appBarHeight, navBarHeight } = props;
+    const { appBarHeight } = props;
     const classes = useStyles();
 
     return (
         <div
             className={classes.wrapper}
             style={{
-                maxHeight: `calc(100vh - ${appBarHeight}px - ${navBarHeight}px`,
+                maxHeight: `calc(100vh - ${appBarHeight}px`,
             }}
         >
             {props.children}

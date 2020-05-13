@@ -17,6 +17,7 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import ErrorHandler from "./ErrorHandler";
 import { injectIntl } from "react-intl";
+import { formatMessage } from "@cyverse-de/ui-lib/dist/lib";
 
 const useStyles = makeStyles((theme) => ({
     closeButton: {
@@ -29,13 +30,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DEErrorDialog(props) {
-    const { errorObject, open, baseId, handleClose } = props;
+    const { errorObject, open, baseId, handleClose, intl } = props;
     const classes = useStyles();
     return (
         <Dialog open={open} onClose={handleClose} scroll="body">
             <DialogTitle>
                 <IconButton
-                    aria-label="close"
+                    aria-label={formatMessage(intl, "close")}
                     className={classes.closeButton}
                     onClick={handleClose}
                 >

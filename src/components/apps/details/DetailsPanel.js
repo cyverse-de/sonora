@@ -61,7 +61,7 @@ function DetailsPanel(props) {
 
     return (
         <>
-            {(detailsError || favMutationError || ratingMutationError) && (
+            {errorMessage && (
                 <>
                     <ErrorTypography
                         errorMessage={errorMessage}

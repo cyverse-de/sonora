@@ -5,7 +5,7 @@ exports[`Data Table View renders 1`] = `
   className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
   style={
     Object {
-      "height": "60vh",
+      "overflow": "auto",
     }
   }
 >
@@ -126,7 +126,7 @@ exports[`Data Table View renders 1`] = `
         </th>
         <th
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
           id="tableView.listingTable.dotMenu"
           scope="col"
         >
@@ -134,7 +134,7 @@ exports[`Data Table View renders 1`] = `
             aria-controls="tableView.listingTable.customCols"
             aria-haspopup="true"
             aria-label="Customize table columns"
-            className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
+            className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSizeSmall MuiButton-sizeSmall"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -152,20 +152,8 @@ exports[`Data Table View renders 1`] = `
             type="button"
           >
             <span
-              className="MuiIconButton-label"
-            >
-              <svg
-                aria-hidden={true}
-                className="MuiSvgIcon-root"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M15.95 10.78c.03-.25.05-.51.05-.78s-.02-.53-.06-.78l1.69-1.32c.15-.12.19-.34.1-.51l-1.6-2.77c-.1-.18-.31-.24-.49-.18l-1.99.8c-.42-.32-.86-.58-1.35-.78L12 2.34c-.03-.2-.2-.34-.4-.34H8.4c-.2 0-.36.14-.39.34l-.3 2.12c-.49.2-.94.47-1.35.78l-1.99-.8c-.18-.07-.39 0-.49.18l-1.6 2.77c-.1.18-.06.39.1.51l1.69 1.32c-.04.25-.07.52-.07.78s.02.53.06.78L2.37 12.1c-.15.12-.19.34-.1.51l1.6 2.77c.1.18.31.24.49.18l1.99-.8c.42.32.86.58 1.35.78l.3 2.12c.04.2.2.34.4.34h3.2c.2 0 .37-.14.39-.34l.3-2.12c.49-.2.94-.47 1.35-.78l1.99.8c.18.07.39 0 .49-.18l1.6-2.77c.1-.18.06-.39-.1-.51l-1.67-1.32zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z"
-                  transform="scale(1.2, 1.2)"
-                />
-              </svg>
-            </span>
+              className="MuiButton-label"
+            />
             <span
               className="MuiTouchRipple-root"
             />
@@ -245,7 +233,7 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
-            className="makeStyles-dataLink-112"
+            className="makeStyles-dataLink-141"
             id="tableView.listingTable.analyses_qa-3.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -257,7 +245,7 @@ exports[`Data Table View renders 1`] = `
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
         >
           <button
             aria-controls="tableView.listingTable.analyses_qa-3.moreMenu"
@@ -368,7 +356,7 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
-            className="makeStyles-dataLink-112"
+            className="makeStyles-dataLink-141"
             id="tableView.listingTable.test.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -380,7 +368,7 @@ exports[`Data Table View renders 1`] = `
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
         >
           <button
             aria-controls="tableView.listingTable.test.moreMenu"
@@ -491,7 +479,7 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
-            className="makeStyles-dataLink-112"
+            className="makeStyles-dataLink-141"
             id="tableView.listingTable.CORE-8424.txt.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -503,7 +491,7 @@ exports[`Data Table View renders 1`] = `
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
         >
           <button
             aria-controls="tableView.listingTable.CORE-8424.txt.moreMenu"
@@ -614,7 +602,7 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
-            className="makeStyles-dataLink-112"
+            className="makeStyles-dataLink-141"
             id="tableView.listingTable.sample.csv.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -626,7 +614,7 @@ exports[`Data Table View renders 1`] = `
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
         >
           <button
             aria-controls="tableView.listingTable.sample.csv.moreMenu"

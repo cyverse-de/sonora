@@ -7,8 +7,23 @@
 
 import React, { useState } from "react";
 
-import { build, DECheckbox, formatMessage, withI18N } from "@cyverse-de/ui-lib";
-import { IconButton, ListItemIcon, Menu, MenuItem } from "@material-ui/core";
+import {
+    build,
+    DECheckbox,
+    formatMessage,
+    getMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
+import {
+    Button,
+    Hidden,
+    IconButton,
+    ListItemIcon,
+    Menu,
+    MenuItem,
+    useMediaQuery,
+    useTheme,
+} from "@material-ui/core";
 import { Settings } from "@material-ui/icons";
 import { injectIntl } from "react-intl";
 
@@ -23,6 +38,8 @@ function CustomizeColumns(props) {
         setDisplayColumns,
         intl,
     } = props;
+    const theme = useTheme();
+    const isSmall = useMediaQuery(theme.breakpoints.down("xs"));
 
     const [columnSettingEl, setColumnSettingEl] = useState(null);
     const [columnSettingsOpen, setColumnSettingsOpen] = useState(false);
@@ -58,19 +75,25 @@ function CustomizeColumns(props) {
         }
     };
 
+    const ButtonType = isSmall ? IconButton : Button;
+
     const menuId = build(baseId, ids.CUSTOM_COLS);
 
     return (
         <>
-            <IconButton
+            <ButtonType
                 aria-label={formatMessage(intl, "ariaCustomCols")}
                 aria-controls={menuId}
                 aria-haspopup="true"
                 size="small"
+                variant={!isSmall ? "outlined" : null}
                 onClick={handleColumnSettingClick}
             >
-                <Settings />
-            </IconButton>
+                <Hidden smUp>
+                    <Settings />
+                </Hidden>
+                <Hidden xsDown>{getMessage("customizeColumns")}</Hidden>
+            </ButtonType>
             <Menu
                 id={menuId}
                 anchorEl={columnSettingEl}

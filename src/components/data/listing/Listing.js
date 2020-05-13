@@ -166,9 +166,14 @@ function Listing(props) {
                 ? rangeSelect(index, lastSelectIndex, id)
                 : rangeSelect(lastSelectIndex, index, id);
         } else {
-            toggleSelection(id);
+            setSelected([id]);
         }
 
+        setLastSelectIndex(index);
+    };
+
+    const handleCheckboxClick = (event, id, index) => {
+        toggleSelection(id);
         setLastSelectIndex(index);
     };
 
@@ -293,6 +298,7 @@ function Listing(props) {
                         handleRequestSort={handleRequestSort}
                         handleSelectAllClick={handleSelectAllClick}
                         handleClick={handleClick}
+                        handleCheckboxClick={handleCheckboxClick}
                         order={order}
                         orderBy={orderBy}
                         selected={selected}

@@ -239,12 +239,7 @@ function TableView(props) {
     const tableId = build(baseId, ids.LISTING_TABLE);
 
     return (
-        <TableContainer
-            component={Paper}
-            style={{
-                height: "60vh",
-            }}
-        >
+        <TableContainer component={Paper} style={{ overflow: "auto" }}>
             <Table
                 id={tableId}
                 stickyHeader={true}

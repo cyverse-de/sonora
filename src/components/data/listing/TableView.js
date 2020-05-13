@@ -37,6 +37,8 @@ import ResourceIcon from "./ResourceIcon";
 import SpanLink from "./SpanLink";
 import TableLoading from "../../utils/TableLoading";
 import ResourceTypes from "../../models/ResourceTypes";
+import constants from "../../../constants";
+import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
 
 const COL_KEYS = {
     CHECKBOX: "checkbox",
@@ -109,6 +111,14 @@ const invalidRowStyles = makeStyles((theme) => ({
     hover: {},
 }));
 
+function getLocalStorageCols() {
+    return getLocalStorage(constants.LOCAL_STORAGE.DATA.COLUMNS);
+}
+
+function setLocalStorageCols(columns) {
+    setLocalStorage(constants.LOCAL_STORAGE.DATA.COLUMNS, columns);
+}
+
 function TableView(props) {
     const {
         loading,
@@ -125,6 +135,7 @@ function TableView(props) {
         handleRequestSort,
         handleSelectAllClick,
         handleClick,
+        handleCheckboxClick,
         order,
         orderBy,
         selected,
@@ -133,11 +144,18 @@ function TableView(props) {
     const invalidRowClass = invalidRowStyles();
 
     const tableId = build(baseId, ids.listingTable);
-    const [displayColumns, setDisplayColumns] = useState([
-        COL_KEYS.CHECKBOX,
-        COL_KEYS.NAME,
-        COL_KEYS.DOT_MENU,
-    ]);
+    const [displayColumns, setDisplayColumns] = useState(
+        getLocalStorageCols() || [
+            COL_KEYS.CHECKBOX,
+            COL_KEYS.NAME,
+            COL_KEYS.DOT_MENU,
+        ]
+    );
+
+    const onSetDisplayColumns = (columns) => {
+        setLocalStorageCols(columns);
+        setDisplayColumns(columns);
+    };
 
     const optionalColumns = () => {
         return [
@@ -209,10 +227,10 @@ function TableView(props) {
                         baseId={tableId}
                         allTableColumns={optionalColumns()}
                         displayColumns={displayColumns}
-                        setDisplayColumns={setDisplayColumns}
+                        setDisplayColumns={onSetDisplayColumns}
                     />
                 ),
-                align: "left",
+                align: "right",
                 enableSorting: false,
                 key: COL_KEYS.DOT_MENU,
                 id: COL_KEYS.DOT_MENU,
@@ -227,12 +245,7 @@ function TableView(props) {
     };
 
     return (
-        <TableContainer
-            component={Paper}
-            style={{
-                height: "60vh",
-            }}
-        >
+        <TableContainer component={Paper} style={{ overflow: "auto" }}>
             <Table
                 stickyHeader
                 size="small"
@@ -327,6 +340,13 @@ function TableView(props) {
                                                     resourceName,
                                                     ids.checkbox
                                                 )}
+                                                onChange={(event) =>
+                                                    handleCheckboxClick(
+                                                        event,
+                                                        resourceId,
+                                                        index
+                                                    )
+                                                }
                                                 inputProps={{
                                                     "aria-label": formatMessage(
                                                         intl,
@@ -375,7 +395,7 @@ function TableView(props) {
                                                 </Fragment>
                                             )
                                         )}
-                                        <TableCell>
+                                        <TableCell align="right">
                                             <DataDotMenu
                                                 baseId={build(
                                                     tableId,

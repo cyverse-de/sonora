@@ -28,7 +28,7 @@ function AppBarTest() {
         <IntercomProvider value={intercomSettings}>
             <UserProfileProvider>
                 <NotificationsProvider>
-                    <CyverseAppBar />
+                    <CyverseAppBar setAppBarRef={() => {}} />
                 </NotificationsProvider>
             </UserProfileProvider>
         </IntercomProvider>

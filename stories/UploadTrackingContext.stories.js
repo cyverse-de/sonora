@@ -30,7 +30,7 @@ export const WithOneUpload = () => {
         return (
             <div>
                 Should be 1 => {tracked.uploads.length} <br /> Should be
-                test-value-0 => {tracked.uploads[0].filename}
+                test-value-0 => {tracked.uploads[0]?.filename}
             </div>
         );
     };

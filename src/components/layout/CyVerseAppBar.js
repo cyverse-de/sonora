@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
@@ -83,7 +83,9 @@ const useStyles = makeStyles((theme) => ({
 function CyverseAppBar(props) {
     const classes = useStyles();
     const router = useRouter();
-    const { intl, children } = props;
+    const ref = useRef();
+
+    const { intl, children, setAppBarRef } = props;
     const [userProfile, setUserProfile] = useUserProfile();
     const [avatarLetter, setAvatarLetter] = useState("");
 
@@ -95,6 +97,10 @@ function CyverseAppBar(props) {
             onSuccess: setUserProfile,
         },
     });
+
+    useEffect(() => {
+        setAppBarRef(ref);
+    }, [ref, setAppBarRef]);
 
     React.useEffect(() => {
         if (userProfile?.id) {
@@ -125,6 +131,7 @@ function CyverseAppBar(props) {
                     position="static"
                     variant="outlined"
                     className={classes.appBar}
+                    ref={ref}
                 >
                     <Toolbar>
                         <Hidden only={["sm", "md", "lg", "xl"]}>

@@ -22,6 +22,8 @@ import { UserProfileProvider } from "../contexts/userProfile";
 import { IntercomProvider } from "../contexts/intercom";
 import { NotificationsProvider } from "../contexts/pushNotifications";
 import constants from "../constants";
+import PageWrapper from "../components/layout/PageWrapper";
+import useComponentHeight from "../components/utils/useComponentHeight";
 
 const setupIntercom = (intercomAppId) => {
     window.intercomSettings = {
@@ -64,6 +66,10 @@ const setupIntercom = (intercomAppId) => {
 
 function MyApp({ Component, pageProps }) {
     const router = useRouter();
+
+    const [appBarHeight, setAppBarRef] = useComponentHeight();
+    const [navBarHeight, setNavBarRef] = useComponentHeight();
+
     const pathname = router.pathname
         ? router.pathname.split(constants.PATH_SEPARATOR)[1]
         : NavigationConstants.DASHBOARD;
@@ -109,13 +115,21 @@ function MyApp({ Component, pageProps }) {
                         <ReactQueryConfigProvider config={queryConfig}>
                             <CssBaseline />
                             <NotificationsProvider>
-                                <CyverseAppBar>
+                                <CyverseAppBar setAppBarRef={setAppBarRef}>
                                     <Head>
                                         <title>Discovery Environment</title>
                                     </Head>
                                     <ReactQueryDevtools initialIsOpen={false} />
-                                    <Navigation activeView={pathname} />
-                                    <Component {...pageProps} />
+                                    <Navigation
+                                        activeView={pathname}
+                                        setNavBarRef={setNavBarRef}
+                                    />
+                                    <PageWrapper
+                                        appBarHeight={appBarHeight}
+                                        navBarHeight={navBarHeight}
+                                    >
+                                        <Component {...pageProps} />
+                                    </PageWrapper>
                                     <UploadManager />
                                 </CyverseAppBar>
                             </NotificationsProvider>

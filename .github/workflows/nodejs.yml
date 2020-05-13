@@ -13,8 +13,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0 # Required to retrieve git history
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
@@ -33,9 +31,4 @@ jobs:
       uses: stefanoeb/eslint-action@1.0.2
       with:
         files: src/ .storybook/ stories
-    - uses: chromaui/action@v1
-      with:
-        token: ${{ secrets.my_token }}
-        projectToken: 2hhfm0frnwy
-        exitZeroOnChanges: true
-        allowConsoleErrors: true
+

@@ -18,6 +18,8 @@ import {
     Typography,
     makeStyles,
     IconButton,
+    useTheme,
+    useMediaQuery,
 } from "@material-ui/core";
 
 import messages from "./messages";
@@ -45,6 +47,12 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         marginLeft: theme.spacing(7),
         marginRight: theme.spacing(7),
+
+        [theme.breakpoints.down("sm")]: {
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
+        },
+
         flexWrap: "wrap",
         flexShrink: 0,
         flexGrow: 0,
@@ -57,6 +65,13 @@ const useStyles = makeStyles((theme) => ({
     dataEntry: {
         width: 350,
         margin: theme.spacing(2),
+        [theme.breakpoints.down("sm")]: {
+            width: "100%",
+            marginLeft: 0,
+            marginRight: 0,
+            marginTop: theme.spacing(1),
+            marginBottom: theme.spacing(1),
+        },
     },
     dataEntryLabel: {
         marginRight: theme.spacing(1),
@@ -64,17 +79,20 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const VISIBLE_START_COLUMN = 1;
-const VISIBLE_END_COLUMN = 7;
-
 const ExtendedDataCard = ({ columns, row, collapseID }) => {
     const classes = useStyles();
-    const dataColumns = columns.slice(VISIBLE_END_COLUMN);
+    const theme = useTheme();
+    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
+    let display = "inline";
+    if (isSmall) {
+        display = "block";
+    }
 
     return (
         <Box margin={1}>
             <div className={classes.extended}>
-                {dataColumns.map((column) => {
+                {columns.map((column) => {
                     return (
                         <div
                             className={classes.dataEntry}
@@ -83,7 +101,7 @@ const ExtendedDataCard = ({ columns, row, collapseID }) => {
                             <Typography
                                 variant="body2"
                                 align="left"
-                                display="inline"
+                                display={display}
                                 id={id(collapseID, column.field, "label")}
                                 classes={{ root: classes.dataEntryLabel }}
                             >
@@ -92,7 +110,7 @@ const ExtendedDataCard = ({ columns, row, collapseID }) => {
                             <Typography
                                 variant="body2"
                                 align="left"
-                                display="inline"
+                                display={display}
                                 id={id(collapseID, column.field, "value")}
                             >
                                 {row[column.field] || "N/A"}
@@ -105,7 +123,13 @@ const ExtendedDataCard = ({ columns, row, collapseID }) => {
     );
 };
 
-const CollapsibleTableRow = ({ row, columns, baseID }) => {
+const CollapsibleTableRow = ({
+    row,
+    columns,
+    baseID,
+    startColumn,
+    endColumn,
+}) => {
     const [open, setOpen] = useState(false);
     const classes = useStyles();
 
@@ -126,26 +150,24 @@ const CollapsibleTableRow = ({ row, columns, baseID }) => {
                     </IconButton>
                 </TableCell>
 
-                {columns
-                    .slice(VISIBLE_START_COLUMN, VISIBLE_END_COLUMN)
-                    .map((column) => {
-                        const fieldID = id(rowID, column.field);
-                        return (
-                            <TableCell key={fieldID} id={fieldID}>
-                                {row[column.field]}
-                            </TableCell>
-                        );
-                    })}
+                {columns.slice(startColumn, endColumn).map((column) => {
+                    const fieldID = id(rowID, column.field);
+                    return (
+                        <TableCell key={fieldID} id={fieldID}>
+                            {row[column.field]}
+                        </TableCell>
+                    );
+                })}
             </TableRow>
 
             <TableRow key={collapseID} id={collapseID}>
                 <TableCell
                     style={{ paddingBottom: 0, paddingTop: 0, width: "90%" }}
-                    colSpan={VISIBLE_END_COLUMN}
+                    colSpan={endColumn}
                 >
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <ExtendedDataCard
-                            columns={columns}
+                            columns={columns.slice(endColumn)}
                             row={row}
                             collapseID={collapseID}
                         />
@@ -158,6 +180,19 @@ const CollapsibleTableRow = ({ row, columns, baseID }) => {
 
 const CollapsibleTable = ({ columns, rows, title }) => {
     const classes = useStyles();
+    const theme = useTheme();
+    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
+    let startColumn;
+    let endColumn;
+
+    if (isSmall) {
+        startColumn = 1;
+        endColumn = 2;
+    } else {
+        startColumn = 1;
+        endColumn = 7;
+    }
 
     // The first entry in columns should be the expander columns,
     // so default to the second entry for sorting. The field is the
@@ -190,7 +225,7 @@ const CollapsibleTable = ({ columns, rows, title }) => {
                         baseId={tableID}
                         order={order}
                         orderBy={orderColumn}
-                        columnData={columns.slice(0, VISIBLE_END_COLUMN)}
+                        columnData={columns.slice(0, endColumn)}
                         onRequestSort={handleRequestSort}
                     ></EnhancedTableHead>
                     <TableBody>
@@ -199,6 +234,8 @@ const CollapsibleTable = ({ columns, rows, title }) => {
                                 row={row}
                                 key={index}
                                 columns={columns}
+                                startColumn={startColumn}
+                                endColumn={endColumn}
                             />
                         ))}
                     </TableBody>

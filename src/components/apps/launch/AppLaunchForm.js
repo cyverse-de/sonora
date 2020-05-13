@@ -43,6 +43,7 @@ import {
     Step,
     StepButton,
     StepLabel,
+    Typography,
     makeStyles,
 } from "@material-ui/core";
 
@@ -66,7 +67,9 @@ const ReferenceGenomeParamTypes = [
 const StepContent = ({ id, hidden, step, label, children }) => (
     <fieldset id={id} hidden={hidden}>
         <legend>
-            {getMessage("stepLabel", { values: { step: step + 1, label } })}
+            <Typography variant="caption">
+                {getMessage("stepLabel", { values: { step: step + 1, label } })}
+            </Typography>
         </legend>
         {children}
     </fieldset>

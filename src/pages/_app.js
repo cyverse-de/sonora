@@ -94,7 +94,7 @@ function MyApp({ Component, pageProps }) {
         if (intercomSettings.enabled) {
             setupIntercom(intercomSettings.appId);
             if (window.Intercom) {
-                window.Intercom("onUnreadCountChange", function(unreadCount) {
+                window.Intercom("onUnreadCountChange", function (unreadCount) {
                     if (intercomSettings.unReadCount !== unreadCount) {
                         const newSettings = {
                             ...intercomSettings,

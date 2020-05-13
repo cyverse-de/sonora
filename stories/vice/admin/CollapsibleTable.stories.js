@@ -7,7 +7,7 @@ import {
 } from "../../../src/components/vice/admin/constants";
 
 export default {
-    title: "VICE/admin/AnalysisTable",
+    title: "VICE/admin/CollapsibleTable",
 };
 
 const testData = {

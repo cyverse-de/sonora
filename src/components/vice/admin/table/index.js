@@ -76,11 +76,15 @@ const ExtendedDataCard = ({ columns, row, collapseID }) => {
             <div className={classes.extended}>
                 {dataColumns.map((column) => {
                     return (
-                        <div className={classes.dataEntry}>
+                        <div
+                            className={classes.dataEntry}
+                            id={id(collapseID, column.field)}
+                        >
                             <Typography
                                 variant="body2"
                                 align="left"
                                 display="inline"
+                                id={id(collapseID, column.field, "label")}
                                 classes={{ root: classes.dataEntryLabel }}
                             >
                                 {`${column.name}:`}
@@ -89,6 +93,7 @@ const ExtendedDataCard = ({ columns, row, collapseID }) => {
                                 variant="body2"
                                 align="left"
                                 display="inline"
+                                id={id(collapseID, column.field, "value")}
                             >
                                 {row[column.field] || "N/A"}
                             </Typography>

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-import AnalysesFilter from "../../../src/components/vice/admin/filter";
+import RowFilter from "../../../src/components/vice/admin/filter";
 
 export default {
-    title: "VICE/admin/AnalysesFilter",
+    title: "VICE/admin/RowFilter",
 };
 
-export const AnalysesFilterTest = () => {
+export const RowFilterTest = () => {
     const [filters, setFilters] = useState({});
 
     const addToFilters = (key, value) =>
@@ -17,7 +17,7 @@ export const AnalysesFilterTest = () => {
         setFilters(deletedFrom);
     };
     return (
-        <AnalysesFilter
+        <RowFilter
             filters={filters}
             addToFilters={addToFilters}
             deleteFromFilters={deleteFromFilters}

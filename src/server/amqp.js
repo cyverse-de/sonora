@@ -21,13 +21,13 @@ let connection, msgChannel;
 export function setUpAmqpForNotifications() {
     logger.info("Connecting to amqp...");
     const open = amqplib.connect(config.amqpUri);
-    open.then(function (conn) {
+    open.then(function(conn) {
         logger.info("*************amqp connection created****************");
         connection = conn;
         process.once("SIGINT", conn.close.bind(conn));
         return conn.createChannel();
     })
-        .then(function (channel) {
+        .then(function(channel) {
             msgChannel = channel;
             return channel;
         })
@@ -57,7 +57,7 @@ export function getNotifications(user, ws) {
     }
 
     const QUEUE = NOTIFICATION_QUEUE + user;
-    ws.on("close", function () {
+    ws.on("close", function() {
         msgChannel.unbindQueue(
             QUEUE,
             config.amqpExchangeName,
@@ -66,7 +66,7 @@ export function getNotifications(user, ws) {
         logger.info("Websocket closed. Channel unbound for user: " + user);
     });
 
-    ws.on("error", function (error) {
+    ws.on("error", function(error) {
         logger.info("Websocket error: " + error);
         ws.close();
     });
@@ -81,7 +81,7 @@ export function getNotifications(user, ws) {
         logger.info("Channel bound for user: " + user);
         msgChannel.consume(
             QUEUE,
-            function (msg) {
+            function(msg) {
                 logger.info("Received message:" + msg.content.toString());
                 try {
                     ws.send(msg.content.toString());

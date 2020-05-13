@@ -15,9 +15,8 @@ const getAppTypeFilter = (appTypeFilter) => {
 
 function getApps(key, { rowsPerPage, orderBy, order, page, appTypeFilter }) {
     return callApi({
-        endpoint: `/api/apps?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
-            rowsPerPage * page
-        }${getAppTypeFilter(appTypeFilter)}`,
+        endpoint: `/api/apps?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${rowsPerPage *
+            page}${getAppTypeFilter(appTypeFilter)}`,
         method: "GET",
     });
 }
@@ -34,9 +33,8 @@ function getAppsInCategory(
     { systemId, categoryId, rowsPerPage, orderBy, order, page, appTypeFilter }
 ) {
     return callApi({
-        endpoint: `/api/apps/categories/${systemId}/${categoryId}?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
-            rowsPerPage * page
-        }${getAppTypeFilter(appTypeFilter)}`,
+        endpoint: `/api/apps/categories/${systemId}/${categoryId}?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${rowsPerPage *
+            page}${getAppTypeFilter(appTypeFilter)}`,
         method: "GET",
     });
 }

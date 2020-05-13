@@ -1,6 +1,6 @@
 import React from "react";
 import { select, withKnobs } from "@storybook/addon-knobs";
-import ErrorHandler from "../src/components/utils/ErrorHandler";
+import ErrorHandler from "../src/components/utils/error/ErrorHandler";
 
 const errorResponse = {
     data: {

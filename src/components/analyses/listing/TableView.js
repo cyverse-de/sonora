@@ -38,6 +38,7 @@ import messages from "../messages";
 import constants from "../../../constants";
 import analysisStatus from "../../models/analysisStatus";
 import TableLoading from "../../utils/TableLoading";
+import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 
 const useStyles = makeStyles((theme) => ({
     name: {
@@ -238,6 +239,10 @@ function TableView(props) {
     const analyses = listing?.analyses;
     const tableId = build(baseId, ids.LISTING_TABLE);
 
+    if (error) {
+        return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
+    }
+
     return (
         <TableContainer component={Paper} style={{ overflow: "auto" }}>
             <Table
@@ -269,12 +274,6 @@ function TableView(props) {
                         {(!analyses || analyses.length === 0) && !error && (
                             <EmptyTable
                                 message={getMessage("noAnalyses")}
-                                numColumns={columnData(intl).length}
-                            />
-                        )}
-                        {error && (
-                            <EmptyTable
-                                message={error.toString()}
                                 numColumns={columnData(intl).length}
                             />
                         )}

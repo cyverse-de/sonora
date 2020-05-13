@@ -8,14 +8,7 @@
 
 import React, { Fragment, useState } from "react";
 
-import {
-    announce,
-    AnnouncerConstants,
-    build,
-    formatMessage,
-    getMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import {
     Avatar,
     CircularProgress,
@@ -40,6 +33,8 @@ import { updateSharing } from "../../../serviceFacades/sharing";
 import messages from "../messages";
 import isQueryLoading from "../../utils/isQueryLoading";
 import { getUserInfo } from "../../../serviceFacades/users";
+import ErrorTypography from "../../utils/error/ErrorTypography";
+import DEErrorDialog from "../../utils/error/DEErrorDialog";
 
 const useStyles = makeStyles(styles);
 
@@ -67,11 +62,13 @@ function sortPerms(permissions) {
 function PermissionsTabPanel(props) {
     const classes = useStyles();
     const { baseId, resource, selfPermission, intl } = props;
-
     const [fetchUserInfoKey, setFetchUserInfoKey] = useState(null);
     const [userlessPermissions, setUserlessPermissions] = useState([]);
     const [permissions, setPermissions] = useState([]);
     const [permissionLoadingIds, setPermissionLoadingIds] = useState([]);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+    const [errorObject, setErrorObject] = useState(null);
     const resourcePath = resource.path;
 
     // Only users with `own` permission can list permissions
@@ -105,11 +102,10 @@ function PermissionsTabPanel(props) {
                 setPermissions(mergedInfo);
                 setFetchUserInfoKey(null);
             },
-            onError: () =>
-                announce({
-                    text: formatMessage(intl, "fetchPermissionsError"),
-                    variant: AnnouncerConstants.ERROR,
-                }),
+            onError: (e) => {
+                setErrorMessage(formatMessage(intl, "fetchPermissionsError"));
+                setErrorObject(e);
+            },
         },
     });
 
@@ -130,11 +126,10 @@ function PermissionsTabPanel(props) {
                     setPermissions([]);
                 }
             },
-            onError: () =>
-                announce({
-                    text: formatMessage(intl, "fetchPermissionsError"),
-                    variant: AnnouncerConstants.ERROR,
-                }),
+            onError: (e) => {
+                setErrorMessage(formatMessage(intl, "fetchPermissionsError"));
+                setErrorObject(e);
+            },
         },
     });
 
@@ -158,6 +153,10 @@ function PermissionsTabPanel(props) {
             setPermissionLoadingIds((prevLoadingIds) =>
                 prevLoadingIds.filter((id) => id !== currentPermission.id)
             );
+        },
+        onError: (e) => {
+            formatMessage(intl, "updatePermissionsError");
+            setErrorObject(e);
         },
     });
 
@@ -237,7 +236,6 @@ function PermissionsTabPanel(props) {
                     values: { permission: selfPermission },
                 })}
             </Typography>
-
             {fetchResourcePermissionsKey && (
                 <List
                     className={classes.list}
@@ -318,6 +316,20 @@ function PermissionsTabPanel(props) {
                     )}
                 </List>
             )}
+            {errorMessage && (
+                <ErrorTypography
+                    errorMessage={errorMessage}
+                    onDetailsClick={() => setErrorDialogOpen(true)}
+                />
+            )}
+            <DEErrorDialog
+                open={errorDialogOpen}
+                baseId={baseId}
+                errorObject={errorObject}
+                handleClose={() => {
+                    setErrorDialogOpen(false);
+                }}
+            />
         </>
     );
 }

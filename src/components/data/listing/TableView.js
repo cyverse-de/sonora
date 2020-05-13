@@ -39,6 +39,7 @@ import TableLoading from "../../utils/TableLoading";
 import ResourceTypes from "../../models/ResourceTypes";
 import constants from "../../../constants";
 import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
+import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 
 const COL_KEYS = {
     CHECKBOX: "checkbox",
@@ -244,6 +245,10 @@ function TableView(props) {
         );
     };
 
+    if (error) {
+        return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
+    }
+
     return (
         <TableContainer component={Paper} style={{ overflow: "auto" }}>
             <Table
@@ -278,12 +283,6 @@ function TableView(props) {
                             <EmptyTable
                                 message={getMessage("emptyDataListing")}
                                 numColumns={displayColumns.length + 1} // extra for checkbox col
-                            />
-                        )}
-                        {error && (
-                            <EmptyTable
-                                message={error.toString()}
-                                numColumns={displayColumns.length}
                             />
                         )}
                         {listing &&

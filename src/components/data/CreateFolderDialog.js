@@ -28,7 +28,7 @@ import { Field, Form, Formik } from "formik";
 import { injectIntl } from "react-intl";
 import { useMutation } from "react-query";
 
-import { ERROR_CODES, getErrorCode } from "../utils/errorCode";
+import { ERROR_CODES, getErrorCode } from "../utils/error/errorCode";
 import ids from "./ids";
 import messages from "./messages";
 import { validateDiskResourceName } from "./utils";

@@ -4,7 +4,7 @@
  * A list that allow users to browse different app categories.
  *
  */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { queryCache, useQuery } from "react-query";
 import { getPrivateCategories } from "../../serviceFacades/apps";
 import { injectIntl } from "react-intl";
@@ -32,13 +32,7 @@ import {
     Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-    announce,
-    AnnouncerConstants,
-    build,
-    formatMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
@@ -95,6 +89,7 @@ function AppNavigation(props) {
         handleCategoryChange,
         handleFilterChange,
         setCategoryStatus,
+        handleAppNavError,
         filter,
         selectedCategory,
         intl,
@@ -106,45 +101,48 @@ function AppNavigation(props) {
     const appNavId = build(baseId, ids.APP_NAVIGATION);
     const allAppsCategory = getAllAppsCategory(constants.BROWSE_ALL_APPS);
 
-    const preProcessData = (data) => {
-        const privateCat = data.categories.find(
-            (cat) => cat.system_id === "de"
-        );
-        const hpcCat = data.categories.find((cat) => cat.system_id === "agave");
+    const preProcessData = useCallback(
+        (data) => {
+            const privateCat = data.categories.find(
+                (cat) => cat.system_id === "de"
+            );
+            const hpcCat = data.categories.find(
+                (cat) => cat.system_id === "agave"
+            );
 
-        privateCat.categories.forEach((category) => {
-            if (category.name === constants.APPS_UNDER_DEV) {
-                category.icon = <LockIcon />;
-            } else if (
-                category.name.toLowerCase() ===
-                constants.SHARED_WITH_ME.toLowerCase()
-            ) {
-                category.icon = <FolderSharedIcon />;
-            } else if (category.name === constants.FAV_APPS) {
-                category.icon = <FavoriteIcon />;
-            } else if (category.name === constants.MY_PUBLIC_APPS) {
-                category.icon = <GroupWorkIcon />;
+            privateCat.categories.forEach((category) => {
+                if (category.name === constants.APPS_UNDER_DEV) {
+                    category.icon = <LockIcon />;
+                } else if (
+                    category.name.toLowerCase() ===
+                    constants.SHARED_WITH_ME.toLowerCase()
+                ) {
+                    category.icon = <FolderSharedIcon />;
+                } else if (category.name === constants.FAV_APPS) {
+                    category.icon = <FavoriteIcon />;
+                } else if (category.name === constants.MY_PUBLIC_APPS) {
+                    category.icon = <GroupWorkIcon />;
+                }
+            });
+
+            if (hpcCat) {
+                hpcCat.icon = <StorageIcon />;
+                setCategories(privateCat.categories.concat(hpcCat));
+            } else {
+                setCategories(privateCat.categories);
             }
-        });
-
-        if (hpcCat) {
-            hpcCat.icon = <StorageIcon />;
-            setCategories(privateCat.categories.concat(hpcCat));
-        } else {
-            setCategories(privateCat.categories);
-        }
-    };
+            handleAppNavError(null);
+        },
+        [setCategories, handleAppNavError]
+    );
 
     const { isFetching } = useQuery({
         queryKey: "getPrivateCategories",
         queryFn: getPrivateCategories,
         config: {
             onSuccess: preProcessData,
-            onError: () => {
-                announce({
-                    text: formatMessage(intl, "fetchCategoryError"),
-                    variant: AnnouncerConstants.ERROR,
-                });
+            onError: (e) => {
+                handleAppNavError(e);
             },
             staleTime: Infinity,
             cacheTime: Infinity,
@@ -164,7 +162,7 @@ function AppNavigation(props) {
                 preProcessData(cacheCat);
             }
         }
-    }, [categories, handleCategoryChange]);
+    }, [preProcessData, categories, handleCategoryChange]);
 
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);

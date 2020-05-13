@@ -7,13 +7,7 @@
  */
 
 import React, { useEffect, useState } from "react";
-import {
-    announce,
-    AnnouncerConstants,
-    build,
-    formatMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
 import intlData from "./messages";
 import {
     Breadcrumbs,
@@ -347,7 +341,7 @@ function BreadCrumb({
 }
 
 function DataNavigation(props) {
-    const { path, handlePathChange, baseId, intl } = props;
+    const { path, handlePathChange, handleDataNavError, baseId, intl } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -385,6 +379,7 @@ function DataNavigation(props) {
             setUserHomePath(basePaths["user_home_path"]);
             setUserTrashPath(basePaths["user_trash_path"]);
             setDataRoots([home, sharedWithMe, communityData, trash]);
+            handleDataNavError(null);
         }
     };
 
@@ -400,12 +395,8 @@ function DataNavigation(props) {
         queryFn: getFilesystemRoots,
         config: {
             onSuccess: preProcessData,
-            onError: () => {
-                //temporary workaround -> should still display community data
-                announce({
-                    text: formatMessage(intl, "dataSignIn"),
-                    variant: AnnouncerConstants.ERROR,
-                });
+            onError: (e) => {
+                handleDataNavError(e);
             },
             staleTime: Infinity,
             cacheTime: Infinity,

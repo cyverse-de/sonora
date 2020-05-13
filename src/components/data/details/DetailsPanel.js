@@ -7,8 +7,6 @@
 import React, { useState } from "react";
 
 import {
-    announce,
-    AnnouncerConstants,
     build,
     CopyTextArea,
     formatDate,
@@ -23,7 +21,6 @@ import {
     makeStyles,
     MenuItem,
     Select,
-    Typography,
 } from "@material-ui/core";
 import { injectIntl } from "react-intl";
 import { queryCache, useMutation, useQuery } from "react-query";
@@ -40,6 +37,8 @@ import {
 import GridLabelValue from "../../utils/GridLabelValue";
 import GridLoading from "../../utils/GridLoading";
 import isQueryLoading from "../../utils/isQueryLoading";
+import ErrorTypography from "../../utils/error/ErrorTypography";
+import DEErrorDialog from "../../utils/error/DEErrorDialog";
 
 const useStyles = makeStyles(styles);
 
@@ -48,7 +47,10 @@ function DetailsTabPanel(props) {
     const { baseId, resource, infoTypes, setSelfPermission, intl } = props;
 
     const [details, setDetails] = useState(null);
-    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+    const [errorObject, setErrorObject] = useState(null);
+
     const resourcePath = resource.path;
 
     const fetchDetailsKey = ["dataResourceDetails", { paths: [resourcePath] }];
@@ -62,7 +64,10 @@ function DetailsTabPanel(props) {
                 setDetails(details);
                 setSelfPermission(details?.permission);
             },
-            onError: setError,
+            onError: (e) => {
+                setErrorMessage(formatMessage(intl, "detailsError"));
+                setErrorObject(e);
+            },
         },
     });
 
@@ -70,11 +75,10 @@ function DetailsTabPanel(props) {
         updateInfoType,
         {
             onSuccess: () => queryCache.refetchQueries(fetchDetailsKey),
-            onError: () =>
-                announce({
-                    text: formatMessage(intl, "updateInfoTypeError"),
-                    variant: AnnouncerConstants.ERROR,
-                }),
+            onError: (e) => {
+                setErrorMessage(formatMessage(intl, "updateInfoTypeError"));
+                setErrorObject(e);
+            },
         }
     );
 
@@ -87,8 +91,23 @@ function DetailsTabPanel(props) {
         return <GridLoading baseId={baseId} rows={10} />;
     }
 
-    if (error || !details) {
-        return <Typography>{getMessage("detailsError")}</Typography>;
+    if (!details || errorMessage) {
+        return (
+            <>
+                <ErrorTypography
+                    errorMessage={errorMessage}
+                    onDetailsClick={() => setErrorDialogOpen(true)}
+                />
+                <DEErrorDialog
+                    open={errorDialogOpen}
+                    baseId={baseId}
+                    errorObject={errorObject}
+                    handleClose={() => {
+                        setErrorDialogOpen(false);
+                    }}
+                />
+            </>
+        );
     }
 
     const isFile = details.type !== "dir";
@@ -166,7 +185,6 @@ function DetailsTabPanel(props) {
                     </GridLabelValue>
                 )}
             </Grid>
-
             <Divider className={classes.dividerMargins} />
             <TagSearch id={build(baseId, ids.TAG_SEARCH)} resource={resource} />
         </>

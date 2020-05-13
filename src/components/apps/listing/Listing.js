@@ -16,24 +16,18 @@ import {
 } from "../../../serviceFacades/apps";
 import TableView from "./TableView";
 import Header from "../Header";
-import AppNavigation from "../AppNavigation";
-import { getAppTypeFilters } from "../AppNavigation";
+import AppNavigation, { getAppTypeFilters } from "../AppNavigation";
 import constants from "../../../constants";
 import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
 import Drawer from "../details/Drawer";
 import appType from "../../models/AppType";
-import {
-    announce,
-    formatMessage,
-    withI18N,
-    AnnouncerConstants,
-} from "@cyverse-de/ui-lib";
+import { withI18N } from "@cyverse-de/ui-lib";
 import { injectIntl } from "react-intl";
 import intlData from "../messages";
 import DEPagination from "../../utils/DEPagination";
 
 function Listing(props) {
-    const { baseId, intl } = props;
+    const { baseId } = props;
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");
@@ -53,6 +47,10 @@ function Listing(props) {
     const [details, setDetails] = useState(null);
     const [detailsKey, setDetailsKey] = useState(null);
     const [categoryStatus, setCategoryStatus] = useState(false);
+    const [navError, setNavError] = useState(null);
+    const [detailsError, setDetailsError] = useState(null);
+    const [favMutationError, setFavMutationError] = useState(null);
+    const [ratingMutationError, setRatingMutationError] = useState(null);
 
     //a query with falsy key will not execute until key is set truthy val
     const {
@@ -74,34 +72,43 @@ function Listing(props) {
         },
     });
 
-    const { status: detailsStatus, error: detailsError } = useQuery({
+    const { status: detailsStatus } = useQuery({
         queryKey: detailsKey,
         queryFn: getAppDetails,
         config: {
             onSuccess: setDetails,
+            onError: (e) => {
+                setDetailsError(e);
+                setFavMutationError(null);
+                setRatingMutationError(null);
+            },
         },
     });
 
-    const [
-        favorite,
-        { status: favMutationStatus, error: favMutationError },
-    ] = useMutation(appFavorite, {
+    const [favorite, { status: favMutationStatus }] = useMutation(appFavorite, {
         onSuccess: () =>
             //return a promise so mutate() only resolves after the onSuccess callback
             queryCache.refetchQueries(
                 appsInCategoryKey ? appsInCategoryKey : allAppsKey
             ),
+        onError: (e) => {
+            setFavMutationError(e);
+            setDetailsError(null);
+            setRatingMutationError(null);
+        },
     });
 
-    const [
-        rating,
-        { status: ratingMutationStatus, error: ratingMutationError },
-    ] = useMutation(rateApp, {
+    const [rating, { status: ratingMutationStatus }] = useMutation(rateApp, {
         onSuccess: () =>
             //return a promise so mutate() only resolves after the onSuccess callback
             queryCache.refetchQueries(
                 appsInCategoryKey ? appsInCategoryKey : allAppsKey
             ),
+        onError: (e) => {
+            setRatingMutationError(e);
+            setDetailsError(null);
+            setFavMutationError(null);
+        },
     });
 
     const onFavoriteClick = () => {
@@ -192,44 +199,6 @@ function Listing(props) {
             ]);
         }
     }, [detailsApp]);
-
-    useEffect(() => {
-        if (appsInCategoryError || listingError) {
-            setData(null);
-            announce({
-                text: formatMessage(intl, "appListingError"),
-                variant: AnnouncerConstants.ERROR,
-            });
-        }
-    }, [appsInCategoryError, listingError, intl]);
-
-    useEffect(() => {
-        if (detailsError) {
-            setDetails(null);
-            announce({
-                text: formatMessage(intl, "appDetailsError"),
-                variant: AnnouncerConstants.ERROR,
-            });
-        }
-    }, [detailsError, intl]);
-
-    useEffect(() => {
-        if (favMutationError) {
-            announce({
-                text: formatMessage(intl, "favMutationError"),
-                variant: AnnouncerConstants.ERROR,
-            });
-        }
-    }, [favMutationError, intl]);
-
-    useEffect(() => {
-        if (ratingMutationError) {
-            announce({
-                text: formatMessage(intl, "ratingMutationError"),
-                variant: AnnouncerConstants.ERROR,
-            });
-        }
-    }, [ratingMutationError, intl]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);
@@ -333,7 +302,17 @@ function Listing(props) {
 
     const onDetailsSelected = () => {
         setDetailsOpen(true);
+        setRatingMutationError(null);
+        setDetailsError(null);
+        setFavMutationError(null);
     };
+
+    const handleAppNavError = useCallback(
+        (error) => {
+            setNavError(error);
+        },
+        [setNavError]
+    );
 
     return (
         <>
@@ -350,6 +329,7 @@ function Listing(props) {
                 filter={filter}
                 selectedCategory={selectedCategory}
                 setCategoryStatus={setCategoryStatus}
+                handleAppNavError={handleAppNavError}
             />
             <Header
                 baseId={baseId}
@@ -364,7 +344,7 @@ function Listing(props) {
                     allAppsStatus === constants.LOADING ||
                     categoryStatus
                 }
-                error={appsInCategoryError || listingError}
+                error={appsInCategoryError || listingError || navError}
                 listing={data}
                 baseId={baseId}
                 order={order}
@@ -387,11 +367,11 @@ function Listing(props) {
                         ratingMutationStatus === constants.LOADING
                     }
                     favMutationStatus={favMutationStatus === constants.LOADING}
-                    error={
-                        detailsError || favMutationError || ratingMutationError
-                    }
                     onRatingChange={onRatingChange}
                     onDeleteRatingClick={onDeleteRating}
+                    detailsError={detailsError}
+                    favMutationError={favMutationError}
+                    ratingMutationError={ratingMutationError}
                 />
             )}
             {data && data.total > 0 && (

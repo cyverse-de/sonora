@@ -31,6 +31,7 @@ import AppName from "../AppName";
 import AppFields from "../AppFields";
 import { injectIntl } from "react-intl";
 import messages from "../messages";
+import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 
 function getTableColumns(deletable, enableMenu) {
     let tableColumns = [
@@ -106,6 +107,9 @@ function TableView(props) {
     const apps = listing?.apps;
     const columnData = getTableColumns(false, false);
     const tableId = build(baseId, ids.LISTING_TABLE);
+    if (error) {
+        return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
+    }
     return (
         <TableContainer component={Paper} style={{ overflow: "auto" }}>
             <Table
@@ -137,12 +141,6 @@ function TableView(props) {
                         {(!apps || apps.length === 0) && !error && (
                             <EmptyTable
                                 message={getMessage("noApps")}
-                                numColumns={columnData.length}
-                            />
-                        )}
-                        {error && (
-                            <EmptyTable
-                                message={error.toString()}
                                 numColumns={columnData.length}
                             />
                         )}

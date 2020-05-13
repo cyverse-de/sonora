@@ -33,8 +33,6 @@ import { withI18N } from "@cyverse-de/ui-lib";
 import { injectIntl } from "react-intl";
 import { queryCache, useMutation, useQuery } from "react-query";
 
-
-
 function Listing(props) {
     const { baseId } = props;
     const [isGridView, setGridView] = useState(false);

@@ -1,34 +1,20 @@
 import React from "react";
-import AppLaunchWizard from "../../../src/components/apps/launch/AppLaunchWizard";
 
+import AppLaunchStoryBase from "./AppLaunchStoryBase";
 import WordCountApp from "./data/WordCountApp";
 
-import {
-    ANALYSIS_OUTPUT_DIR,
-    STARTING_PATH,
-    ONE_GB,
-    initMockAxiosFileFolderSelector,
-    saveQuickLaunch,
-    submitAnalysis,
-} from "./constants";
+import { ONE_GB } from "./constants";
 
 import { withKnobs, boolean } from "@storybook/addon-knobs";
 
 export const DEWordCount = () => {
-    initMockAxiosFileFolderSelector();
-
     const deleted = boolean("App deleted", false);
     const disabled = boolean("App disabled", false);
 
     const app = { ...WordCountApp, deleted, disabled };
 
     return (
-        <AppLaunchWizard
-            notify={false}
-            defaultOutputDir={ANALYSIS_OUTPUT_DIR}
-            startingPath={STARTING_PATH}
-            saveQuickLaunch={saveQuickLaunch}
-            submitAnalysis={submitAnalysis}
+        <AppLaunchStoryBase
             app={app}
             defaultMaxCPUCores={8}
             defaultMaxMemory={4 * ONE_GB}

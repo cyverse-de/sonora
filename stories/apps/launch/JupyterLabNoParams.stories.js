@@ -1,29 +1,10 @@
 import React from "react";
-import AppLaunchWizard from "../../../src/components/apps/launch/AppLaunchWizard";
 
+import AppLaunchStoryBase from "./AppLaunchStoryBase";
 import NoParamsApp from "./data/JupyterLabNoParamsApp";
 
-import {
-    ANALYSIS_OUTPUT_DIR,
-    STARTING_PATH,
-    initMockAxiosFileFolderSelector,
-    saveQuickLaunch,
-    submitAnalysis,
-} from "./constants";
-
-export const JupyterLabNoParams = () => {
-    initMockAxiosFileFolderSelector();
-
-    return (
-        <AppLaunchWizard
-            notify={false}
-            defaultOutputDir={ANALYSIS_OUTPUT_DIR}
-            startingPath={STARTING_PATH}
-            saveQuickLaunch={saveQuickLaunch}
-            submitAnalysis={submitAnalysis}
-            app={NoParamsApp}
-        />
-    );
-};
+export const JupyterLabNoParams = () => (
+    <AppLaunchStoryBase app={NoParamsApp} />
+);
 
 export default { title: "Apps / Launch" };

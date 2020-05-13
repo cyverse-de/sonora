@@ -1,29 +1,8 @@
 import React from "react";
-import AppLaunchWizard from "../../../src/components/apps/launch/AppLaunchWizard";
 
+import AppLaunchStoryBase from "./AppLaunchStoryBase";
 import OutputParamsApp from "./data/OutputParamsApp";
 
-import {
-    ANALYSIS_OUTPUT_DIR,
-    STARTING_PATH,
-    initMockAxiosFileFolderSelector,
-    saveQuickLaunch,
-    submitAnalysis,
-} from "./constants";
-
-export const OutputParams = () => {
-    initMockAxiosFileFolderSelector();
-
-    return (
-        <AppLaunchWizard
-            notify={false}
-            defaultOutputDir={ANALYSIS_OUTPUT_DIR}
-            startingPath={STARTING_PATH}
-            saveQuickLaunch={saveQuickLaunch}
-            submitAnalysis={submitAnalysis}
-            app={OutputParamsApp}
-        />
-    );
-};
+export const OutputParams = () => <AppLaunchStoryBase app={OutputParamsApp} />;
 
 export default { title: "Apps / Launch" };

@@ -35,6 +35,8 @@ const FilterChip = ({ label, handleDelete }) => {
     const [deleted, setDeleted] = useState(false);
     const classes = useStyles();
 
+    const fixedLabel = label.startsWith("$.") ? label.slice(2) : label;
+
     const chipDelete = (event, element) => {
         setDeleted(true);
         if (handleDelete) {
@@ -46,7 +48,7 @@ const FilterChip = ({ label, handleDelete }) => {
         return (
             <Chip
                 className={classes.chip}
-                label={label}
+                label={fixedLabel}
                 onDelete={chipDelete}
                 color="primary"
             />

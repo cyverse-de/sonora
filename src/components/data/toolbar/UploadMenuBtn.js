@@ -30,7 +30,13 @@ import {
 const useStyles = makeStyles(styles);
 
 function UploadMenuBtn(props) {
-    const { uploadMenuId, localUploadId, path, setUploadDialogOpen } = props;
+    const {
+        uploadMenuId,
+        localUploadId,
+        path,
+        setUploadDialogOpen,
+        setImportDialogOpen,
+    } = props;
     const classes = useStyles();
     const uploadDispatch = useUploadTrackingDispatch();
     const [uploadAnchor, setUploadAnchor] = useState(null);
@@ -94,7 +100,7 @@ function UploadMenuBtn(props) {
                     onBrowseLocal={onUploadClose}
                     onImportFromURL={() => {
                         onUploadClose();
-                        console.log("Import from URL");
+                        setImportDialogOpen(true);
                     }}
                     onUploadQueue={() => {
                         onUploadClose();

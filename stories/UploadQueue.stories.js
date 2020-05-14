@@ -12,7 +12,7 @@ import { Button } from "@material-ui/core";
 import UploadDialog from "../src/components/uploads/dialog";
 
 export default {
-    title: "Uploads/UploadQueue",
+    title: "Uploads and Imports",
 };
 
 const TestDispatch = () => {

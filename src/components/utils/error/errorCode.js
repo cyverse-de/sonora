@@ -1,5 +1,9 @@
+export function getErrorData(error) {
+    return error?.response?.data;
+}
+
 export function getErrorCode(error) {
-    return error?.response?.data?.error_code;
+    return getErrorData(error)?.error_code;
 }
 
 export const ERROR_CODES = {

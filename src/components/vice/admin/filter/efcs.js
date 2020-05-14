@@ -237,7 +237,7 @@ const pods = {
     ),
 
     containerStatusStarted: new PodsEFC(
-        () => "#.pods[*].containerStatuses[*].started",
+        () => "$.pods[*].containerStatuses[*].started",
         (containerStatusStarted) =>
             `$..containerStatuses[?(@.started===${containerStatusStarted})]^^^`
     ),

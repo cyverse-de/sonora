@@ -33,13 +33,32 @@ export default makeStyles((theme) => ({
     sectionRoot: {
         display: "flex",
         marginBottom: theme.spacing(5),
+
+        [theme.breakpoints.down("md")]: {
+            flexDirection: "column",
+            justifyContent: "center",
+        },
     },
     selectRoot: {
         width: 250,
+        [theme.breakpoints.down("sm")]: {
+            width: "100%",
+        },
     },
     textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        width: "50ch",
+        [theme.breakpoints.up("xs")]: {
+            width: "100%",
+            marginLeft: 0,
+            marginRight: 0,
+            marginBottom: theme.spacing(1),
+        },
+        [theme.breakpoints.up("sm")]: {
+            width: "50ch",
+        },
+        [theme.breakpoints.up("md")]: {
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
+            marginBottom: 0,
+        },
     },
 }));

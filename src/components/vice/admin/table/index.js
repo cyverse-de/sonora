@@ -224,10 +224,22 @@ const CollapsibleTable = ({ columns, rows, title }) => {
 
     const tableID = id(ids.ROOT);
 
-    const handleRequestSort = (_event, property) => {
-        const isAscending = orderColumn === property && order === "asc";
+    const sortAscending = (one, two) =>
+        one[orderColumn].localeCompare(two[orderColumn]) * -1;
+
+    const sortDescending = (one, two) =>
+        one[orderColumn].localeCompare(two[orderColumn]);
+
+    const handleRequestSort = (_event, columnName) => {
+        const isAscending = orderColumn === columnName && order === "asc";
         setOrder(isAscending ? "desc" : "asc");
-        setOrderColumn(property);
+        setOrderColumn(columnName);
+
+        if (isAscending) {
+            rows.sort(sortAscending);
+        } else {
+            rows.sort(sortDescending);
+        }
     };
 
     return (

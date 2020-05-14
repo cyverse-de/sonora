@@ -64,6 +64,11 @@ const FilterSection = ({
                         className={classes.textField}
                         value={value}
                         onChange={handleValueChange}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                handleAddClick();
+                            }
+                        }}
                     />
                     <Button
                         variant="outlined"

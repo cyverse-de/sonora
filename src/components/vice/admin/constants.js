@@ -43,3 +43,15 @@ export const POD_COLUMNS = {
     CONTAINER_STATUS_CONTAINER_ID: "containerStatusContainerID",
     CONTAINER_STATUS_STARTED: "containerStatusStarted",
 };
+
+// We'll probably end up adding more columns, so this is getting
+// it's own set of constants.
+export const CONFIG_MAP_COLUMNS = {
+    ...COMMON_COLUMNS,
+};
+
+// We'll probably end up adding more columns, so this is getting
+// it's own set of constants.
+export const INGRESS_COLUMNS = {
+    ...COMMON_COLUMNS,
+};

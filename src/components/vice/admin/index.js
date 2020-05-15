@@ -85,6 +85,8 @@ const commonColumns = [
 ];
 
 const analysisColumns = [...commonColumns];
+const configMapColumns = [...commonColumns];
+const ingressColumns = [...commonColumns];
 
 const deploymentColumns = [
     ...commonColumns,
@@ -273,6 +275,18 @@ const VICEAdmin = () => {
                         rows={filteredData.pods}
                         columns={podColumns}
                         title={msg("pods")}
+                    />
+
+                    <CollapsibleTable
+                        rows={filteredData.configMaps}
+                        columns={configMapColumns}
+                        title={msg("configMaps")}
+                    />
+
+                    <CollapsibleTable
+                        rows={filteredData.ingresses}
+                        columns={ingressColumns}
+                        title={msg("ingresses")}
                     />
                 </>
             )}

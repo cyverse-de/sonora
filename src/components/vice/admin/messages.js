@@ -14,5 +14,7 @@ export default {
         deployments: "Deployments",
         services: "Services",
         pods: "Pods",
+        configMaps: "ConfigMaps",
+        ingresses: "Ingresses",
     },
 };

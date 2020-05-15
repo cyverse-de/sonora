@@ -109,7 +109,7 @@ const services = {
     ),
 };
 
-class AnalysesEFC extends ExtractFilterCompare {
+class CommonEFC extends ExtractFilterCompare {
     filterIt(fromObject, ...args) {
         const filterString = this.filterFn(...args);
         const copy = {
@@ -124,47 +124,59 @@ class AnalysesEFC extends ExtractFilterCompare {
 
 // Apply these filters to each sub-list (deployments, services, configMaps, etc.)
 // separately.
-const analyses = {
-    analysisName: new AnalysesEFC(
+const common = {
+    analysisName: new CommonEFC(
         () => "$..analysisName",
         (analysisName) => `$..[?(@.analysisName==='${analysisName}')]`
     ),
 
-    appName: new AnalysesEFC(
+    appName: new CommonEFC(
         () => "$..appName",
         (appName) => `$..[?(@.appName==='${appName}')]`
     ),
 
-    appID: new AnalysesEFC(
+    appID: new CommonEFC(
         () => "$..appID",
         (appID) => `$..[?(@.appID==='${appID}')]`
     ),
 
-    externalID: new AnalysesEFC(
+    externalID: new CommonEFC(
         () => "$..externalID",
         (externalID) => `$..[?(@.externalID==='${externalID}')]`
     ),
 
-    namespace: new AnalysesEFC(
+    namespace: new CommonEFC(
         () => "$..namespace",
         (namespace) => `$..[?(@.namespace==='${namespace}')]`
     ),
 
-    userID: new AnalysesEFC(
+    userID: new CommonEFC(
         () => "$..userID",
         (userID) => `$..[?(@.userID==='${userID}')]`
     ),
 
-    username: new AnalysesEFC(
+    username: new CommonEFC(
         () => "$..username",
         (username) => `$..[?(@.username==='${username}')]`
     ),
 
-    creationTimestamp: new AnalysesEFC(
+    creationTimestamp: new CommonEFC(
         () => "$..creationTimestamp",
         (creationTimestamp) =>
             `$..[?(@.creationTimestamp==='${creationTimestamp}')]`
     ),
+};
+
+const analyses = {
+    ...common,
+};
+
+const ingresses = {
+    ...common,
+};
+
+const configMaps = {
+    ...common,
 };
 
 class PodsEFC extends ExtractFilterCompare {
@@ -248,4 +260,6 @@ export default {
     services,
     analyses,
     pods,
+    ingresses,
+    configMaps,
 };

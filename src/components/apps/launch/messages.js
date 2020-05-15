@@ -35,11 +35,11 @@ export default {
         appDeprecated:
             "This application has been deprecated." +
             " If you need access to it, please contact" +
-            ' <a href="mailto:support@cyverse.org">support@cyverse.org</a>.',
+            " <support>support@cyverse.org</support>.",
         appParamsDeprecated:
             "This application uses 1 or more parameters that have been deprecated." +
             " If you still need access to this application, please contact" +
-            ' <a href="mailto:support@cyverse.org">support@cyverse.org</a>.',
+            " <support>support@cyverse.org</support>.",
         appUnavailable: "This app is temporarily unavailable.",
         back: "Back",
         browse: "Browse",

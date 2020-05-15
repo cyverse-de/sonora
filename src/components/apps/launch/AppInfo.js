@@ -5,13 +5,11 @@
  */
 import React from "react";
 
-import { injectIntl } from "react-intl";
+import { getMessage } from "@cyverse-de/ui-lib";
 
-import { formatMessage } from "@cyverse-de/ui-lib";
+import { AppBar, Box, Toolbar, Typography } from "@material-ui/core";
 
-import { AppBar, Toolbar, Typography } from "@material-ui/core";
-
-const AppInfo = injectIntl(({ intl, app, hasDeprecatedParams }) => {
+const AppInfo = ({ app, hasDeprecatedParams }) => {
     const unavailableMsgKey = app?.deleted
         ? "appDeprecated"
         : app?.disabled
@@ -28,21 +26,27 @@ const AppInfo = injectIntl(({ intl, app, hasDeprecatedParams }) => {
                 </Toolbar>
             </AppBar>
 
-            <Typography variant="body1" gutterBottom>
-                {app?.description}
-            </Typography>
+            <Box m={2}>
+                <Typography variant="body2" gutterBottom>
+                    {app?.description}
+                </Typography>
 
-            {(app?.deleted || app?.disabled || hasDeprecatedParams) && (
-                <Typography
-                    variant="body2"
-                    gutterBottom
-                    dangerouslySetInnerHTML={{
-                        __html: formatMessage(intl, unavailableMsgKey),
-                    }}
-                />
-            )}
+                {(app?.deleted || app?.disabled || hasDeprecatedParams) && (
+                    <Typography variant="body1" gutterBottom>
+                        {getMessage(unavailableMsgKey, {
+                            values: {
+                                support: (...chunks) => (
+                                    <a href="mailto:support@cyverse.org">
+                                        {chunks}
+                                    </a>
+                                ),
+                            },
+                        })}
+                    </Typography>
+                )}
+            </Box>
         </>
     );
-});
+};
 
 export default AppInfo;

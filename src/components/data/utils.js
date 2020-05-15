@@ -71,7 +71,7 @@ const isOwner = (selectedResources) => {
         return false;
     }
     const notOwners = selectedResources.filter(
-        (resource) => resource.permission !== Permissions.OWN
+        (resource) => !hasOwn(resource.permission)
     );
     return notOwners.length === 0;
 };

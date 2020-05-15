@@ -12,6 +12,7 @@ export default {
     FAV_APPS: "Favorite Apps",
     MY_PUBLIC_APPS: "My public apps",
     HPC: "High-Performance Computing",
+    HPC_WIKI_LINK: "https://cyverse.atlassian.net/wiki/x/6QltDg",
     BROWSE_ALL_APPS: "Browse All Apps",
     APP_TYPE_EXTERNAL: "External",
     LOADING: "loading",

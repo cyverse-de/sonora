@@ -7,7 +7,6 @@ import React from "react";
 
 import sanitizeHtml from "sanitize-html";
 import { FastField, Field, getIn } from "formik";
-import { injectIntl } from "react-intl";
 
 import GlobalConstants from "../../../constants";
 
@@ -31,7 +30,7 @@ import {
     FormNumberField,
     FormSelectField,
     FormTextField,
-    formatMessage,
+    getMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
 
@@ -323,17 +322,41 @@ const ParamsReviewValue = ({ param }) => {
  * A table summarizing the app parameter values and step resource requirements
  * that will be included in the final analysis submission.
  */
-const ParamsReview = injectIntl(({ appType, groups, errors, intl }) => (
+const ParamsReview = ({ appType, groups, errors }) => (
     <>
-        {appType === GlobalConstants.APP_TYPE_EXTERNAL && (
-            <Typography
-                variant="body1"
-                gutterBottom
-                dangerouslySetInnerHTML={{
-                    __html: formatMessage(intl, "hpcAppWaitTimes"),
-                }}
-            />
-        )}
+        {appType === GlobalConstants.APP_TYPE_EXTERNAL &&
+            getMessage("hpcAppWaitTimes", {
+                values: {
+                    p: (...chunks) => (
+                        <Typography variant="body1">{chunks}</Typography>
+                    ),
+                    support: (...chunks) => (
+                        <a key="support" href="mailto:support@cyverse.org">
+                            {chunks}
+                        </a>
+                    ),
+                    hpc: (...chunks) => (
+                        <a
+                            key="hpc"
+                            href={GlobalConstants.HPC_WIKI_LINK}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {chunks}
+                        </a>
+                    ),
+                    xsede: (...chunks) => (
+                        <a
+                            key="xsede"
+                            href={constants.XSEDE_ALLOC_LINK}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {chunks}
+                        </a>
+                    ),
+                },
+            })}
 
         <TableContainer component={Paper}>
             <Table>
@@ -370,6 +393,6 @@ const ParamsReview = injectIntl(({ appType, groups, errors, intl }) => (
             </Table>
         </TableContainer>
     </>
-));
+);
 
 export { ParamGroupForm, ParamsReview };

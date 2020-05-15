@@ -34,4 +34,5 @@ export default {
         INT_RANGE: "IntRange",
         REGEX: "Regex",
     },
+    XSEDE_ALLOC_LINK: "https://portal.xsede.org/allocation-request-steps",
 };

@@ -23,11 +23,9 @@ import ids from "./ids";
 import { id } from "./functions";
 
 import {
-    AnalysisFilterSection,
+    CommonFilterSection,
     DeploymentFilterSection,
     PodFilterSection,
-    ConfigMapFilterSection,
-    IngressFilterSection,
     ServiceFilterSection,
 } from "./sections";
 
@@ -102,12 +100,10 @@ const AnalysesFilter = ({ filters, addToFilters, deleteFromFilters }) => {
 
             <Collapse in={isExpanded} timeout="auto" unmountOnExit>
                 <div className={classes.collapse}>
-                    <AnalysisFilterSection addToFilters={addToFilters} />
+                    <CommonFilterSection addToFilters={addToFilters} />
                     <DeploymentFilterSection addToFilters={addToFilters} />
                     <ServiceFilterSection addToFilters={addToFilters} />
                     <PodFilterSection addToFilters={addToFilters} />
-                    <ConfigMapFilterSection addToFilters={addToFilters} />
-                    <IngressFilterSection addToFilters={addToFilters} />
                 </div>
             </Collapse>
         </Card>

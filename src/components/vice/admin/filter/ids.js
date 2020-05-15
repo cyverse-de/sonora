@@ -23,6 +23,6 @@ export default {
     INGRESS_FIELD_SELECT: "ingressFieldSelect",
     INGRESS_FIELD_VALUE: "ingressFieldValue",
 
-    ANALYSIS_FIELD_SELECT: "analysisFieldSelect",
-    ANALYSIS_FIELD_VALUE: "ingressFieldValue",
+    COMMON_FIELD_SELECT: "commonFieldSelect",
+    COMMON_FIELD_VALUE: "commonFieldValue",
 };

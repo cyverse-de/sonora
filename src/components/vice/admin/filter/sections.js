@@ -7,9 +7,7 @@ import { getMessage as msg } from "@cyverse-de/ui-lib";
 import {
     deploymentFields,
     serviceFields,
-    configMapFields,
-    ingressFields,
-    analysisFields,
+    commonFields,
     podFields,
     FieldSelect,
 } from "./selects";
@@ -20,6 +18,7 @@ import ids from "./ids";
 
 const FilterSection = ({
     section,
+    description,
     valueID,
     fieldID,
     fields,
@@ -41,9 +40,11 @@ const FilterSection = ({
 
     return (
         <>
-            <Typography noWrap variant="h6" component="h6">
+            <Typography noWrap variant="h6" component="h6" gutterBottom>
                 {section}
             </Typography>
+
+            <Typography color="textSecondary">{description}</Typography>
 
             <FormControl>
                 <div
@@ -90,6 +91,7 @@ export const DeploymentFilterSection = ({ addToFilters }) => {
     return (
         <FilterSection
             section={msg("deployments")}
+            description={msg("deploymentsDescription")}
             valueID={valueID}
             fieldID={fieldID}
             fields={deploymentFields}
@@ -106,6 +108,7 @@ export const ServiceFilterSection = ({ addToFilters }) => {
     return (
         <FilterSection
             section={msg("services")}
+            description={msg("servicesDescription")}
             valueID={valueID}
             fieldID={fieldID}
             fields={serviceFields}
@@ -115,49 +118,18 @@ export const ServiceFilterSection = ({ addToFilters }) => {
     );
 };
 
-export const ConfigMapFilterSection = ({ addToFilters }) => {
-    const valueID = id(ids.CONFIGMAP_FIELD_VALUE);
-    const fieldID = id(ids.DEPLOYMENT_FIELD_SELECT);
+export const CommonFilterSection = ({ addToFilters }) => {
+    const valueID = id(ids.COMMON_FIELD_VALUE);
+    const fieldID = id(ids.COMMON_FIELD_SELECT);
 
     return (
         <FilterSection
-            section={msg("configMaps")}
+            section={msg("common")}
+            description={msg("commonDescription")}
             valueID={valueID}
             fieldID={fieldID}
-            fields={configMapFields}
-            kind="configMap"
-            addToFilters={addToFilters}
-        />
-    );
-};
-
-export const IngressFilterSection = ({ addToFilters }) => {
-    const valueID = id(ids.INGRESS_FIELD_VALUE);
-    const fieldID = id(ids.INGRESS_FIELD_SELECT);
-
-    return (
-        <FilterSection
-            section={msg("ingresses")}
-            valueID={valueID}
-            fieldID={fieldID}
-            fields={ingressFields}
-            kind="ingress"
-            addToFilters={addToFilters}
-        />
-    );
-};
-
-export const AnalysisFilterSection = ({ addToFilters }) => {
-    const valueID = id(ids.ANALYSIS_FIELD_VALUE);
-    const fieldID = id(ids.ANALYSIS_FIELD_SELECT);
-
-    return (
-        <FilterSection
-            section={msg("analyses")}
-            valueID={valueID}
-            fieldID={fieldID}
-            fields={analysisFields}
-            kind="analysis"
+            fields={commonFields}
+            kind="common"
             addToFilters={addToFilters}
         />
     );
@@ -170,6 +142,7 @@ export const PodFilterSection = ({ addToFilters }) => {
     return (
         <FilterSection
             section={msg("pods")}
+            description={msg("podsDescription")}
             valueID={valueID}
             fieldID={fieldID}
             fields={podFields}

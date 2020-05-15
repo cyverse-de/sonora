@@ -84,10 +84,6 @@ const commonColumns = [
     defineColumn("User ID", COMMON_COLUMNS.USER_ID, "userID"),
 ];
 
-const analysisColumns = [...commonColumns];
-const configMapColumns = [...commonColumns];
-const ingressColumns = [...commonColumns];
-
 const deploymentColumns = [
     ...commonColumns,
     defineColumn("Image", DEPLOYMENT_COLUMNS.IMAGE, "image"),
@@ -255,7 +251,7 @@ const VICEAdmin = () => {
 
                     <CollapsibleTable
                         rows={analysisRows}
-                        columns={analysisColumns}
+                        columns={commonColumns}
                         title={msg("analyses")}
                     />
 
@@ -279,13 +275,13 @@ const VICEAdmin = () => {
 
                     <CollapsibleTable
                         rows={filteredData.configMaps}
-                        columns={configMapColumns}
+                        columns={commonColumns}
                         title={msg("configMaps")}
                     />
 
                     <CollapsibleTable
                         rows={filteredData.ingresses}
-                        columns={ingressColumns}
+                        columns={commonColumns}
                         title={msg("ingresses")}
                     />
                 </>

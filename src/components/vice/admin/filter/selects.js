@@ -36,13 +36,7 @@ export const FieldSelect = ({
     );
 };
 
-const defaultFields = {
-    name: "$.analyses.name",
-    namespace: "$.analyses.namespace",
-};
-
 export const deploymentFields = {
-    ...defaultFields,
     image: "$.deployments.image",
     port: "$.deployments.port",
     uid: "$.deployments.uid",
@@ -50,7 +44,6 @@ export const deploymentFields = {
 };
 
 export const serviceFields = {
-    ...defaultFields,
     portName: "$.services.portName",
     nodePort: "$.services.nodePort",
     targetPort: "$.services.targetPort",
@@ -59,12 +52,9 @@ export const serviceFields = {
     protocol: "$.services.protocol",
 };
 
-export const configMapFields = defaultFields;
-
-export const ingressFields = defaultFields;
-
-export const analysisFields = {
-    ...defaultFields,
+export const commonFields = {
+    name: "$.analyses.name",
+    namespace: "$.analyses.namespace",
     analysisName: "$.analyses.analysisName",
     appName: "$.analyses.appName",
     appID: "$.analyses.appID",

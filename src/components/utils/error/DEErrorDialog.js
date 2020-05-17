@@ -5,7 +5,7 @@
  **/
 
 import React from "react";
-import { withI18N } from "@cyverse-de/ui-lib";
+import { withI18N, formatMessage } from "@cyverse-de/ui-lib";
 import messages from "../messages";
 import {
     Dialog,
@@ -17,7 +17,6 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import ErrorHandler from "./ErrorHandler";
 import { injectIntl } from "react-intl";
-import { formatMessage } from "@cyverse-de/ui-lib/dist/lib";
 
 const useStyles = makeStyles((theme) => ({
     closeButton: {

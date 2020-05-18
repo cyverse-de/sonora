@@ -13,6 +13,7 @@
   - [Internationalization (i18n)](#internationalization-i18n)
   - [Static IDs](#static-ids)
   - [CSS](#css)
+- [Chromatic Setup](#chromatic-setup)  
 - [Pull Requests](#pull-requests)
   - [Before you submit](#before-you-submit)
 
@@ -202,9 +203,14 @@ function myComponent(props) {
 }
 ```
 
+## Chromatic Setup
+- First Link your github account to chromatic.
+- Then Go to https://github.com/settings/tokens and create a Personal Access Token and name it chromatic.
+- Next go to https://github.com/<username>/sonora/settings/secrets and create 2 secrets. 
+- 1 for your personal token (created in first step) and next one for chromatic project token which can be found in Chromatic settings page.
 
 ## Pull Requests
-
+Before you submit a PR, make sure to set up Chromatic.
 Pull requests should include at minimum 2 screenshots: a desktop version and a mobile version.  FireFox has a button you can click to enter their "Responsive Design Mode" to toggle a mobile view.
 
 It's recommended that 2 developers review each major pull request though there's flexibility there as needed.

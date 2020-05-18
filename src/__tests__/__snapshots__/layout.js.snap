@@ -22,9 +22,9 @@ exports[`App Bar renders 1`] = `
         }
       >
         <button
-          aria-controls="chat support button"
-          aria-label="chat with CyVerse support"
-          className="MuiButtonBase-root MuiIconButton-root makeStyles-margin-4 MuiIconButton-colorPrimary MuiIconButton-sizeSmall"
+          aria-describedby={null}
+          aria-label="Chat with CyVerse support"
+          className="MuiButtonBase-root MuiIconButton-root"
           disabled={false}
           id="cyverse_intercom_support"
           onBlur={[Function]}
@@ -34,11 +34,18 @@ exports[`App Bar renders 1`] = `
           onKeyUp={[Function]}
           onMouseDown={[Function]}
           onMouseLeave={[Function]}
+          onMouseOver={[Function]}
           onMouseUp={[Function]}
           onTouchEnd={[Function]}
           onTouchMove={[Function]}
           onTouchStart={[Function]}
+          style={
+            Object {
+              "color": "#fff",
+            }
+          }
           tabIndex={0}
+          title="Chat with CyVerse support"
           type="button"
         >
           <span
@@ -67,8 +74,9 @@ exports[`App Bar renders 1`] = `
           />
         </button>
         <button
-          aria-label="show new notifications"
-          className="MuiButtonBase-root MuiIconButton-root makeStyles-margin-4 MuiIconButton-colorPrimary MuiIconButton-sizeSmall"
+          aria-describedby={null}
+          aria-label="Show New Notifications"
+          className="MuiButtonBase-root MuiIconButton-root"
           disabled={false}
           id="appBar.notificationButton"
           onBlur={[Function]}
@@ -78,11 +86,18 @@ exports[`App Bar renders 1`] = `
           onKeyUp={[Function]}
           onMouseDown={[Function]}
           onMouseLeave={[Function]}
+          onMouseOver={[Function]}
           onMouseUp={[Function]}
           onTouchEnd={[Function]}
           onTouchMove={[Function]}
           onTouchStart={[Function]}
+          style={
+            Object {
+              "color": "#fff",
+            }
+          }
           tabIndex={0}
+          title="Show New Notifications"
           type="button"
         >
           <span
@@ -115,7 +130,8 @@ exports[`App Bar renders 1`] = `
       </div>
     </div>
   </header>
+  <main
+    className="makeStyles-content-12"
+  />
 </div>
 `;
-
-exports[`Nav Bar renders 1`] = `null`;

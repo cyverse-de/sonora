@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useRef, useState } from "react";
-
+import clsx from "clsx";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import { injectIntl } from "react-intl";
@@ -43,53 +43,167 @@ import {
     ListItemIcon,
     ListItemText,
     Toolbar,
+    Tooltip,
     Typography,
+    useTheme,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import SettingsIcon from "@material-ui/icons/Settings";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
+const drawerWidth = 200;
+const miniDrawerWidth = 65;
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1,
+        flex: 1,
     },
     appBar: {
-        backgroundColor: theme.palette.bgGray,
-        boxShadow: 0,
+        backgroundColor: theme.palette.primary,
+        zIndex: theme.zIndex.drawer + 1,
+        width: "100%",
+        [theme.breakpoints.up("sm")]: {
+            marginLeft: miniDrawerWidth,
+            transition: theme.transitions.create(["width", "margin"], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+            width: `calc(100% - ${miniDrawerWidth + 1}px)`,
+        },
+    },
+    appBarShift: {
+        [theme.breakpoints.up("sm")]: {
+            marginLeft: drawerWidth,
+            width: `calc(100% - ${drawerWidth}px)`,
+            transition: theme.transitions.create(["width", "margin"], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+        },
     },
     drawerIcon: {
-        height: 18,
-        width: 18,
-        paddingRight: theme.spacing(4),
+        marginRight: theme.spacing(3.5),
+        width: 32,
     },
-    margin: {
+    userIcon: {
+        cursor: "pointer",
+        backgroundColor: theme.palette.success.main,
+        color: theme.palette.success.contrastText,
+        width: theme.spacing(5),
+        height: theme.spacing(5),
+        marginLeft: theme.spacing(1),
+        "&:hover": {
+            textDecoration: "underline",
+            textDecorationColor: theme.palette.success.contrastText,
+        },
+    },
+    accountIcon: {
+        cursor: "pointer",
+        color: theme.palette.primary.contrastText,
+        backgroundColor: theme.palette.primary.main,
+        width: theme.spacing(5),
+        height: theme.spacing(5),
+    },
+    icon: {
+        color: theme.palette.info.contrastText,
+    },
+    appBarIcon: {
         [theme.breakpoints.up("sm")]: {
             margin: theme.spacing(2),
         },
         [theme.breakpoints.down("xs")]: {
-            margin: theme.spacing(1),
+            margin: theme.spacing(0.2),
         },
     },
-    userIcon: {
+    drawer: {
+        width: drawerWidth,
+        flexShrink: 0,
+        whiteSpace: "nowrap",
+    },
+    drawerOpen: {
+        backgroundColor: theme.palette.info.main,
+        color: theme.palette.info.contrastText,
+        width: drawerWidth,
+        [theme.breakpoints.up("sm")]: {
+            transition: theme.transitions.create("width", {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+        },
+    },
+    drawerClose: {
+        [theme.breakpoints.up("sm")]: {
+            backgroundColor: theme.palette.info.main,
+            color: theme.palette.info.contrastText,
+            transition: theme.transitions.create("width", {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+            overflowX: "hidden",
+            width: miniDrawerWidth,
+        },
+    },
+    content: {
+        width: "100%",
+        [theme.breakpoints.up("sm")]: {
+            width: `calc(100% - ${miniDrawerWidth + 1}px)`,
+            marginLeft: miniDrawerWidth,
+            padding: theme.spacing(1),
+        },
+    },
+    contentShift: {
+        [theme.breakpoints.up("sm")]: {
+            marginLeft: drawerWidth,
+            width: `calc(100% - ${drawerWidth}px)`,
+            transition: theme.transitions.create(["width", "margin"], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+        },
+    },
+    profile: {
         cursor: "pointer",
-        margin: theme.spacing(2),
-        backgroundColor: theme.palette.success.main,
-        color: theme.palette.success.contrastText,
+        "&:hover": {
+            textDecoration: "underline",
+            textDecorationColor: theme.palette.info.contrastText,
+        },
+    },
+    listItem: {
+        cursor: "pointer",
+        "&:hover": {
+            textDecoration: "underline",
+            backgroundColor: theme.palette.primary.main,
+        },
+        color: theme.palette.info.contrastText,
+    },
+    listItemActive: {
+        cursor: "pointer",
+        textDecoration: "underline",
+        color: theme.palette.primary.contrastText,
+        backgroundColor: theme.palette.primary.main,
+    },
+    menuIcon: {
+        color: theme.palette.primary.contrastText,
+        [theme.breakpoints.up("sm")]: {
+            margin: theme.spacing(0.5),
+            color: theme.palette.info.contrastText,
+        },
     },
 }));
 
 function CyverseAppBar(props) {
     const classes = useStyles();
+    const theme = useTheme();
     const router = useRouter();
     const ref = useRef();
 
-    const { intl, children, setAppBarRef } = props;
+    const { intl, children, activeView, setAppBarRef } = props;
     const [userProfile, setUserProfile] = useUserProfile();
     const [avatarLetter, setAvatarLetter] = useState("");
-
-    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [open, setOpen] = React.useState(false);
     useQuery({
         queryKey: "getUserProfile",
         queryFn: getUserProfile,
@@ -109,6 +223,7 @@ function CyverseAppBar(props) {
     }, [userProfile, setAvatarLetter]);
 
     const handleUserButtonClick = (event) => {
+        toggleDrawer(false);
         if (!userProfile) {
             router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
         } else {
@@ -119,292 +234,336 @@ function CyverseAppBar(props) {
         router.push("/" + NavigationConstants.SEARCH);
         toggleDrawer(false);
     };
-    const toggleDrawer = (open) => (event) => {
-        setDrawerOpen(open);
+    const handleDrawerOpen = () => {
+        setOpen(true);
     };
 
-    return (
-        <>
-            <div className={classes.root}>
-                <AppBar
-                    id={ids.APP_BAR_BASE}
-                    position="static"
-                    variant="outlined"
-                    className={classes.appBar}
-                    ref={ref}
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+
+    const toggleDrawer = (open) => (event) => {
+        setOpen(open);
+    };
+
+    const accountAvatar = (
+        <Avatar
+            className={userProfile ? classes.userIcon : classes.accountIcon}
+            onClick={handleUserButtonClick}
+        >
+            {userProfile ? (
+                <Tooltip
+                    title={getMessage("logout", {
+                        values: { name: userProfile.id },
+                    })}
+                    aria-label={formatMessage(intl, "logout", {
+                        name: userProfile.id,
+                    })}
+                    placement="bottom"
+                    arrow
                 >
-                    <Toolbar>
-                        <Hidden only={["sm", "md", "lg", "xl"]}>
-                            <div>
-                                <IconButton
-                                    id={build(
-                                        ids.APP_BAR_BASE,
-                                        ids.DRAWER_MENU_BTN
-                                    )}
-                                    edge="start"
-                                    className={classes.menuButton}
-                                    color="primary"
-                                    aria-label={formatMessage(
-                                        intl,
-                                        "drawerMenuAriaLabel"
-                                    )}
-                                    onClick={toggleDrawer(true)}
-                                >
-                                    <MenuIcon />
-                                </IconButton>
-                            </div>
-                            <Drawer
-                                id={ids.DRAWER_MENU}
-                                open={drawerOpen}
-                                onClose={toggleDrawer(false)}
-                            >
-                                <List onClick={toggleDrawer(false)}>
-                                    <ListItem
-                                        id={build(
-                                            ids.DRAWER_MENU,
-                                            ids.ACCOUNT_MI
-                                        )}
-                                        onClick={handleUserButtonClick}
-                                    >
-                                        {userProfile ? (
-                                            <>
-                                                <ListItemIcon>
-                                                    <Avatar
-                                                        className={
-                                                            classes.userIcon
-                                                        }
-                                                    >
-                                                        <Typography
-                                                            variant={"h6"}
-                                                        >
-                                                            {avatarLetter}
-                                                        </Typography>
-                                                    </Avatar>
-                                                </ListItemIcon>
-                                                <ListItemText>
-                                                    {getMessage("logout")}
-                                                </ListItemText>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <ListItemIcon>
-                                                    <AccountCircle />
-                                                </ListItemIcon>
-                                                <ListItemText>
-                                                    {getMessage("login")}
-                                                </ListItemText>
-                                            </>
-                                        )}
-                                    </ListItem>
-                                    <Divider />
-                                    <ListItem
-                                        id={build(
-                                            ids.DRAWER_MENU,
-                                            ids.DASHBOARD_MI
-                                        )}
-                                        onClick={() =>
-                                            router.push(
-                                                "/" +
-                                                    NavigationConstants.DASHBOARD
-                                            )
-                                        }
-                                    >
-                                        <img
-                                            className={classes.drawerIcon}
-                                            src="/dashboard.png"
-                                            alt={formatMessage(
-                                                intl,
-                                                "dashboard"
-                                            )}
-                                        />
-                                        <ListItemText>
-                                            {getMessage("dashboard")}
-                                        </ListItemText>
-                                    </ListItem>
-                                    <ListItem
-                                        id={build(ids.DRAWER_MENU, ids.DATA_MI)}
-                                        onClick={() =>
-                                            router.push(
-                                                "/" + NavigationConstants.DATA
-                                            )
-                                        }
-                                    >
-                                        <img
-                                            className={classes.drawerIcon}
-                                            src="/data.png"
-                                            alt={formatMessage(
-                                                intl,
-                                                "dashboard"
-                                            )}
-                                        />
-                                        <ListItemText>
-                                            {getMessage("data")}
-                                        </ListItemText>
-                                    </ListItem>
-                                    <ListItem
-                                        id={build(ids.DRAWER_MENU, ids.APPS_MI)}
-                                        onClick={() =>
-                                            router.push(
-                                                "/" + NavigationConstants.APPS
-                                            )
-                                        }
-                                    >
-                                        <img
-                                            className={classes.drawerIcon}
-                                            src="/apps.png"
-                                            alt={formatMessage(intl, "apps")}
-                                        />
-                                        <ListItemText>
-                                            {getMessage("apps")}
-                                        </ListItemText>
-                                    </ListItem>
-                                    <ListItem
-                                        id={build(
-                                            ids.DRAWER_MENU,
-                                            ids.ANALYSES_MI
-                                        )}
-                                        onClick={() =>
-                                            router.push(
-                                                "/" +
-                                                    NavigationConstants.ANALYSES
-                                            )
-                                        }
-                                    >
-                                        <img
-                                            className={classes.drawerIcon}
-                                            src="/analyses.png"
-                                            alt={formatMessage(
-                                                intl,
-                                                "analyses"
-                                            )}
-                                        />
-                                        <ListItemText>
-                                            {getMessage("analyses")}
-                                        </ListItemText>
-                                    </ListItem>
-                                    <ListItem
-                                        id={build(
-                                            ids.DRAWER_MENU,
-                                            ids.SEARCH_MI
-                                        )}
-                                        onClick={handleSearchClick}
-                                    >
-                                        <ListItemIcon>
-                                            <SearchIcon />
-                                        </ListItemIcon>
-                                        <ListItemText>
-                                            {getMessage("search")}
-                                        </ListItemText>
-                                    </ListItem>
-                                    <Divider />
-                                    <ListItem
-                                        id={build(
-                                            ids.DRAWER_MENU,
-                                            ids.SETTINGS_MI
-                                        )}
-                                        onClick={() =>
-                                            router.push(
-                                                "/" +
-                                                    NavigationConstants.SETTINGS
-                                            )
-                                        }
-                                    >
-                                        <ListItemIcon>
-                                            <SettingsIcon />
-                                        </ListItemIcon>
-                                        <ListItemText>
-                                            {getMessage("settings")}
-                                        </ListItemText>
-                                    </ListItem>
-                                </List>
-                            </Drawer>
-                            <Typography color="primary">
-                                {formatHTMLMessage("discovery")}
-                                &nbsp;{formatHTMLMessage("environment")}
-                            </Typography>
-                        </Hidden>
-                        <Hidden xsDown>
-                            <a
-                                href={constants.CYVERSE_URL}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <img
-                                    src="/de.png"
-                                    alt={formatMessage(intl, "cyverse")}
-                                ></img>
-                            </a>
-                        </Hidden>
-                        <Hidden smDown>
-                            <GlobalSearchField />
-                        </Hidden>
-                        <div className={classes.root} />
-                        <div style={{ display: "flex" }}>
-                            <CustomIntercom classes={classes} intl={intl} />
-                            <Notifications intl={intl} classes={classes} />
-                            <Hidden only={["xs", "md", "lg", "xl"]}>
-                                <IconButton
-                                    id={build(ids.APP_BAR_BASE, ids.SEARCH_BTN)}
-                                    aria-label={formatMessage(
-                                        intl,
-                                        "searchAriaLabel"
-                                    )}
-                                    aria-controls={formatMessage(
-                                        intl,
-                                        "searchButtonAriaControl"
-                                    )}
-                                    color="primary"
-                                    onClick={handleSearchClick}
-                                    size="small"
-                                    className={classes.margin}
-                                >
-                                    <SearchIcon />
-                                </IconButton>
-                            </Hidden>
-                            <Hidden xsDown>
-                                {userProfile ? (
-                                    <Avatar
-                                        onClick={handleUserButtonClick}
-                                        id={build(
-                                            ids.APP_BAR_BASE,
-                                            ids.ACCOUNT_BTN
-                                        )}
-                                        className={classes.userIcon}
-                                    >
-                                        <Typography variant={"h6"}>
-                                            {avatarLetter}
-                                        </Typography>
-                                    </Avatar>
-                                ) : (
-                                    <IconButton
-                                        id={build(
-                                            ids.APP_BAR_BASE,
-                                            ids.ACCOUNT_BTN
-                                        )}
-                                        aria-label={formatMessage(
-                                            intl,
-                                            "accountAriaLabel"
-                                        )}
-                                        aria-controls={formatMessage(
-                                            intl,
-                                            "accountAriaControl"
-                                        )}
-                                        color="primary"
-                                        onClick={handleUserButtonClick}
-                                        size="small"
-                                        className={classes.margin}
-                                    >
-                                        <AccountCircle />
-                                    </IconButton>
-                                )}
-                            </Hidden>
+                    <Typography variant={"h6"}>{avatarLetter}</Typography>
+                </Tooltip>
+            ) : (
+                <Tooltip
+                    title={getMessage("login")}
+                    aria-label={formatMessage(intl, "login")}
+                    placement="bottom"
+                    arrow
+                >
+                    <AccountCircle fontSize="large" />
+                </Tooltip>
+            )}
+        </Avatar>
+    );
+
+    const drawerItems = (
+        <List>
+            <Tooltip
+                title={formatMessage(intl, "dashboard")}
+                placement="right"
+                arrow
+            >
+                <ListItem
+                    id={build(ids.DRAWER_MENU, ids.DASHBOARD_MI)}
+                    onClick={() => {
+                        toggleDrawer(false);
+                        router.push("/" + NavigationConstants.DASHBOARD);
+                    }}
+                    className={
+                        activeView === NavigationConstants.DASHBOARD
+                            ? classes.listItemActive
+                            : classes.listItem
+                    }
+                >
+                    <img
+                        className={classes.drawerIcon}
+                        src="/dashboard_selected.png"
+                        alt={formatMessage(intl, "dashboard")}
+                    />
+                    <ListItemText>{getMessage("dashboard")}</ListItemText>
+                </ListItem>
+            </Tooltip>
+            <Tooltip
+                title={formatMessage(intl, "data")}
+                placement="right"
+                arrow
+            >
+                <ListItem
+                    id={build(ids.DRAWER_MENU, ids.DATA_MI)}
+                    onClick={() => {
+                        toggleDrawer(false);
+                        router.push("/" + NavigationConstants.DATA);
+                    }}
+                    className={
+                        activeView === NavigationConstants.DATA
+                            ? classes.listItemActive
+                            : classes.listItem
+                    }
+                >
+                    <img
+                        className={classes.drawerIcon}
+                        src="/data_selected.png"
+                        alt={formatMessage(intl, "data")}
+                    />
+                    <ListItemText>{getMessage("data")}</ListItemText>
+                </ListItem>
+            </Tooltip>
+            <Tooltip
+                title={formatMessage(intl, "apps")}
+                placement="right"
+                arrow
+            >
+                <ListItem
+                    id={build(ids.DRAWER_MENU, ids.APPS_MI)}
+                    onClick={() => {
+                        toggleDrawer(false);
+                        router.push("/" + NavigationConstants.APPS);
+                    }}
+                    className={
+                        activeView === NavigationConstants.APPS
+                            ? classes.listItemActive
+                            : classes.listItem
+                    }
+                >
+                    <img
+                        className={classes.drawerIcon}
+                        src="/apps_selected.png"
+                        alt={formatMessage(intl, "apps")}
+                    />
+                    <ListItemText>{getMessage("apps")}</ListItemText>
+                </ListItem>
+            </Tooltip>
+            <Tooltip
+                title={formatMessage(intl, "analyses")}
+                placement="right"
+                arrow
+            >
+                <ListItem
+                    id={build(ids.DRAWER_MENU, ids.ANALYSES_MI)}
+                    onClick={() => {
+                        toggleDrawer(false);
+                        router.push("/" + NavigationConstants.ANALYSES);
+                    }}
+                    className={
+                        activeView === NavigationConstants.ANALYSES
+                            ? classes.listItemActive
+                            : classes.listItem
+                    }
+                >
+                    <img
+                        className={classes.drawerIcon}
+                        src="/analyses_selected.png"
+                        alt={formatMessage(intl, "analyses")}
+                    />
+                    <ListItemText>{getMessage("analyses")}</ListItemText>
+                </ListItem>
+            </Tooltip>
+            <Hidden only={["md", "lg", "xl"]}>
+                <Tooltip
+                    title={formatMessage(intl, "search")}
+                    placement="right"
+                    arrow
+                >
+                    <ListItem
+                        id={build(ids.DRAWER_MENU, ids.SEARCH_MI)}
+                        onClick={handleSearchClick}
+                        className={
+                            activeView === NavigationConstants.SEARCH
+                                ? classes.listItemActive
+                                : classes.listItem
+                        }
+                    >
+                        <ListItemIcon>
+                            <SearchIcon
+                                className={classes.icon}
+                                fontSize="large"
+                            />
+                        </ListItemIcon>
+                        <ListItemText>{getMessage("search")}</ListItemText>
+                    </ListItem>
+                </Tooltip>
+            </Hidden>
+            <Divider />
+            <Tooltip
+                title={formatMessage(intl, "settings")}
+                placement="right"
+                arrow
+            >
+                <ListItem
+                    id={build(ids.DRAWER_MENU, ids.SETTINGS_MI)}
+                    onClick={() =>
+                        router.push("/" + NavigationConstants.SETTINGS)
+                    }
+                    className={
+                        activeView === NavigationConstants.SETTINGS
+                            ? classes.listItemActive
+                            : classes.listItem
+                    }
+                >
+                    <ListItemIcon>
+                        <SettingsIcon
+                            className={classes.icon}
+                            fontSize="large"
+                        />
+                    </ListItemIcon>
+                    <ListItemText>{getMessage("settings")}</ListItemText>
+                </ListItem>
+            </Tooltip>
+        </List>
+    );
+
+    return (
+        <div className={classes.root}>
+            <AppBar
+                id={ids.APP_BAR_BASE}
+                position="static"
+                variant="outlined"
+                ref={ref}
+                className={clsx(classes.appBar, {
+                    [classes.appBarShift]: open,
+                })}
+            >
+                <Toolbar>
+                    <Hidden only={["sm", "md", "lg", "xl"]}>
+                        <IconButton
+                            aria-label={formatMessage(intl, "openDrawer")}
+                            onClick={handleDrawerOpen}
+                            edge="start"
+                            className={classes.menuIcon}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography>
+                            {formatHTMLMessage("discovery")}
+                            &nbsp;{formatHTMLMessage("environment")}
+                        </Typography>
+                    </Hidden>
+                    <Hidden xsDown>
+                        <a
+                            href={constants.CYVERSE_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <img
+                                src="/de_white.png"
+                                alt={formatMessage(intl, "cyverse")}
+                            ></img>
+                        </a>
+                    </Hidden>
+                    <Hidden smDown>
+                        <GlobalSearchField />
+                    </Hidden>
+                    <div className={classes.root} />
+                    <div style={{ display: "flex" }}>
+                        <CustomIntercom intl={intl} />
+                        <Notifications intl={intl} />
+                    </div>
+                    <Hidden only={["xs"]}>
+                        <div id={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}>
+                            {accountAvatar}
                         </div>
-                    </Toolbar>
-                </AppBar>
-                <CyVerseAnnouncer />
-            </div>
-            {children}
-        </>
+                    </Hidden>
+                </Toolbar>
+            </AppBar>
+            <Hidden xsDown>
+                <Drawer
+                    variant="permanent"
+                    className={clsx(classes.drawer, {
+                        [classes.drawerOpen]: open,
+                        [classes.drawerClose]: !open,
+                    })}
+                    classes={{
+                        paper: clsx({
+                            [classes.drawerOpen]: open,
+                            [classes.drawerClose]: !open,
+                        }),
+                    }}
+                >
+                    <div className={classes.toolbar}>
+                        {!open && (
+                            <IconButton
+                                aria-label="open drawer"
+                                onClick={handleDrawerOpen}
+                                edge="start"
+                                className={clsx(classes.menuIcon, {
+                                    [classes.hide]: open,
+                                })}
+                            >
+                                <MenuIcon fontSize="large" />
+                            </IconButton>
+                        )}
+                        {open && (
+                            <IconButton
+                                onClick={handleDrawerClose}
+                                className={classes.menuIcon}
+                            >
+                                {theme.direction === "rtl" ? (
+                                    <ChevronRightIcon fontSize="large" />
+                                ) : (
+                                    <ChevronLeftIcon fontSize="large" />
+                                )}
+                            </IconButton>
+                        )}
+                    </div>
+                    <Divider />
+                    {drawerItems}
+                </Drawer>
+            </Hidden>
+            <Hidden only={["sm", "md", "lg", "xl"]}>
+                <Drawer
+                    className={clsx(classes.drawer, {
+                        [classes.drawerOpen]: open,
+                        [classes.drawerClose]: !open,
+                    })}
+                    classes={{
+                        paper: clsx({
+                            [classes.drawerOpen]: open,
+                            [classes.drawerClose]: !open,
+                        }),
+                    }}
+                    open={open}
+                    onClose={toggleDrawer(false)}
+                >
+                    <div
+                        id={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
+                        style={{ margin: 8 }}
+                    >
+                        {accountAvatar}
+                    </div>
+                    <Divider />
+                    {drawerItems}
+                </Drawer>
+            </Hidden>
+            <CyVerseAnnouncer />
+            <main
+                className={clsx(classes.content, {
+                    [classes.contentShift]: open,
+                })}
+            >
+                {children}
+            </main>
+        </div>
     );
 }
 

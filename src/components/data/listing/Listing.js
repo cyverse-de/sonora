@@ -4,7 +4,30 @@
  * A component intended to be the parent to the data's table view and
  * thumbnail/tile view.
  */
+
 import React, { useCallback, useEffect, useState } from "react";
+
+import TableView from "./TableView";
+
+import messages from "../messages";
+import Drawer from "../details/Drawer";
+
+import DataToolbar from "../toolbar/Toolbar";
+
+import DEPagination from "../../utils/DEPagination";
+import ResourceTypes from "../../models/ResourceTypes";
+import isQueryLoading from "../../utils/isQueryLoading";
+import DEErrorDialog from "../../utils/error/DEErrorDialog";
+
+import UploadDropTarget from "../../uploads/UploadDropTarget";
+import { useUploadTrackingState } from "../../../contexts/uploadTracking";
+import { camelcaseit } from "../../../common/functions";
+
+import {
+    deleteResources,
+    getInfoTypes,
+    getPagedListing,
+} from "../../../serviceFacades/filesystem";
 
 import {
     announce,
@@ -12,27 +35,11 @@ import {
     formatMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
-import { Button, Toolbar, Typography, useTheme } from "@material-ui/core";
+
 import { injectIntl } from "react-intl";
 import { queryCache, useMutation, useQuery } from "react-query";
 
-import Header from "../Header";
-import messages from "../messages";
-import TableView from "./TableView";
-import UploadDropTarget from "../../uploads/UploadDropTarget";
-import { useUploadTrackingState } from "../../../contexts/uploadTracking";
-import { camelcaseit } from "../../../common/functions";
-import Drawer from "../details/Drawer";
-import {
-    deleteResources,
-    getInfoTypes,
-    getPagedListing,
-} from "../../../serviceFacades/filesystem";
-import DataNavigation from "../DataNavigation";
-import DEPagination from "../../utils/DEPagination";
-import ResourceTypes from "../../models/ResourceTypes";
-import isQueryLoading from "../../utils/isQueryLoading";
-import DEErrorDialog from "../../utils/error/DEErrorDialog";
+import { Button, Typography, useTheme } from "@material-ui/core";
 
 function Listing(props) {
     const uploadTracker = useUploadTrackingState();
@@ -305,17 +312,11 @@ function Listing(props) {
         <>
             {render && render(selected.length, getSelectedResources)}
             <UploadDropTarget path={path}>
-                <Toolbar variant="dense">
-                    <DataNavigation
-                        path={path}
-                        handlePathChange={handlePathChange}
-                        handleDataNavError={handleDataNavError}
-                        baseId={baseId}
-                    />
-                </Toolbar>
-                <Header
-                    baseId={baseId}
+                <DataToolbar
                     path={path}
+                    selected={selected}
+                    getSelectedResources={getSelectedResources}
+                    handlePathChange={handlePathChange}
                     permission={data?.permission}
                     refreshListing={refreshListing}
                     isGridView={isGridView}
@@ -326,6 +327,8 @@ function Listing(props) {
                     onDeleteSelected={onDeleteSelected}
                     detailsEnabled={detailsEnabled}
                     onDetailsSelected={onDetailsSelected}
+                    handleDataNavError={handleDataNavError}
+                    baseId={baseId}
                 />
                 {!isGridView && (
                     <TableView
@@ -342,9 +345,8 @@ function Listing(props) {
                         onDeleteSelected={onDeleteSelected}
                         handleRequestSort={handleRequestSort}
                         handleSelectAllClick={handleSelectAllClick}
-                        handleDataNavError={handleDataNavError}
-                        handleClick={handleClick}
                         handleCheckboxClick={handleCheckboxClick}
+                        handleClick={handleClick}
                         order={order}
                         orderBy={orderBy}
                         selected={selected}

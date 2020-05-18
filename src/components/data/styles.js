@@ -24,12 +24,6 @@ export default (theme) => ({
         },
     },
 
-    buttonIcon: {
-        [theme.breakpoints.up("sm")]: {
-            marginRight: theme.spacing(1),
-        },
-    },
-
     closeButton: {
         float: "right",
     },
@@ -76,7 +70,7 @@ export default (theme) => ({
         color: theme.palette.text.primary,
     },
 
-    list: {
+    permissionsList: {
         width: "100%",
     },
 
@@ -127,7 +121,38 @@ export default (theme) => ({
         backgroundColor: theme.palette.primary.main,
     },
 
-    whiteDotMenu: {
-        color: theme.palette.primary.contrastText,
+    selectedListItem: {
+        paddingLeft: 0,
+        color: theme.palette.primary.main,
+    },
+    list: {
+        [theme.breakpoints.down("sm")]: {
+            maxWidth: 130,
+            padding: 0,
+        },
+    },
+    listItem: {
+        outline: "none",
+        cursor: "pointer",
+        color: theme.palette.primary.main,
+        "&:hover": {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
+        },
+    },
+    listItemText: {
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        maxWidth: 200,
+    },
+    currentLocationLink: {
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        maxWidth: 140,
+    },
+    icon: {
+        color: theme.palette.info.main,
     },
 });

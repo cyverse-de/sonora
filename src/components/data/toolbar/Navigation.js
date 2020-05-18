@@ -7,8 +7,28 @@
  */
 
 import React, { useEffect, useState } from "react";
+
+import intlData from "../messages";
+import styles from "../styles";
+import ids from "../ids";
+import constants from "../../../constants";
+import { getFilesystemRoots } from "../../../serviceFacades/filesystem";
+import { useUserProfile } from "../../../contexts/userProfile";
+
 import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
-import intlData from "./messages";
+
+import { makeStyles } from "@material-ui/core/styles";
+import { injectIntl } from "react-intl";
+import { queryCache, useQuery } from "react-query";
+
+import HomeIcon from "@material-ui/icons/Home";
+import FolderSharedIcon from "@material-ui/icons/FolderShared";
+import GroupIcon from "@material-ui/icons/Group";
+import DeleteIcon from "@material-ui/icons/Delete";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import ArrowRightIcon from "@material-ui/icons/ArrowRight";
+import FolderIcon from "@material-ui/icons/Folder";
+
 import {
     Breadcrumbs,
     Button,
@@ -21,44 +41,8 @@ import {
     Tooltip,
     Typography,
 } from "@material-ui/core";
-import HomeIcon from "@material-ui/icons/Home";
-import FolderSharedIcon from "@material-ui/icons/FolderShared";
-import GroupIcon from "@material-ui/icons/Group";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { makeStyles } from "@material-ui/core/styles";
-import { injectIntl } from "react-intl";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
-import FolderIcon from "@material-ui/icons/Folder";
-import ids from "./ids";
-import constants from "../../constants";
-import { getFilesystemRoots } from "../../serviceFacades/filesystem";
-import { useUserProfile } from "../../contexts/userProfile";
-import { queryCache, useQuery } from "react-query";
 
-const useStyles = makeStyles((theme) => ({
-    selectedListItem: {
-        paddingLeft: 0,
-        color: theme.palette.primary.main,
-    },
-    list: {
-        outline: "none",
-        cursor: "pointer",
-        color: theme.palette.primary.main,
-        "&:hover": {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.primary.contrastText,
-        },
-    },
-    currentLocationLink: {
-        [theme.breakpoints.down("sm")]: {
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            maxWidth: 70,
-        },
-    },
-}));
+const useStyles = makeStyles(styles);
 
 /**
  * Splits a path into an array of path items.
@@ -192,6 +176,7 @@ function FolderSelectorMenu({
                     )}
                     aria-label={formatMessage(intl, "selectedFolderAriaLabel")}
                     id={build(baseId, ids.PATH_ITEMS)}
+                    className={classes.list}
                 >
                     <ListItem
                         button
@@ -204,11 +189,7 @@ function FolderSelectorMenu({
                         onClick={handleClickListItem}
                         className={classes.selectedListItem}
                     >
-                        {
-                            <>
-                                <ArrowRightIcon /> <FolderIcon />
-                            </>
-                        }
+                        {<FolderIcon fontSize="small" />}
                         <ListItemText
                             id={build(
                                 baseId,
@@ -223,7 +204,7 @@ function FolderSelectorMenu({
                                 </Typography>
                             }
                         />
-                        <ListItemIcon>
+                        <ListItemIcon style={{ minWidth: 20 }}>
                             <ArrowDropDownIcon />
                         </ListItemIcon>
                     </ListItem>
@@ -255,12 +236,16 @@ function FolderSelectorMenu({
                             onClick={(event) =>
                                 handleMenuItemClick(event, index)
                             }
-                            className={classes.list}
+                            className={classes.listItem}
                         >
                             <ListItemIcon>
-                                <FolderIcon />
+                                <FolderIcon fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText>{crumb}</ListItemText>
+                            <ListItemText>
+                                <Typography className={classes.listItemText}>
+                                    {crumb}
+                                </Typography>
+                            </ListItemText>
                         </ListItem>
                     ))}
                 </Menu>
@@ -298,7 +283,7 @@ function BreadCrumb({
 
     return (
         <>
-            {relativePath && <ArrowRightIcon color="primary" />}
+            {relativePath && <ArrowRightIcon className={classes.icon} />}
             <Breadcrumbs
                 maxItems={2}
                 aria-label="breadcrumb"
@@ -312,7 +297,7 @@ function BreadCrumb({
                     <Tooltip title={crumb} key={crumb}>
                         <Button
                             variant="text"
-                            startIcon={<FolderIcon color="primary" />}
+                            startIcon={<FolderIcon className={classes.icon} />}
                             aria-controls={formatMessage(
                                 intl,
                                 "folderPathAriaControl"
@@ -340,8 +325,8 @@ function BreadCrumb({
     );
 }
 
-function DataNavigation(props) {
-    const { path, handlePathChange, handleDataNavError, baseId, intl } = props;
+function Navigation(props) {
+    const { path, handlePathChange, baseId, handleDataNavError, intl } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -359,21 +344,21 @@ function DataNavigation(props) {
             const home = respRoots.find(
                 (root) => root.label === userProfile.id
             );
-            home.icon = <HomeIcon />;
+            home.icon = <HomeIcon fontSize="small" />;
             const sharedWithMe = respRoots.find(
                 (root) => root.label === constants.SHARED_WITH_ME
             );
             setSharedWithMePath(sharedWithMe.path);
-            sharedWithMe.icon = <FolderSharedIcon />;
+            sharedWithMe.icon = <FolderSharedIcon fontSize="small" />;
             const communityData = respRoots.find(
                 (root) => root.label === constants.COMMUNITY_DATA
             );
             setCommunityDataPath(communityData.path);
-            communityData.icon = <GroupIcon />;
+            communityData.icon = <GroupIcon fontSize="small" />;
             const trash = respRoots.find(
                 (root) => root.label === constants.TRASH
             );
-            trash.icon = <DeleteIcon />;
+            trash.icon = <DeleteIcon fontSize="small" />;
 
             const basePaths = respData["base-paths"];
             setUserHomePath(basePaths["user_home_path"]);
@@ -467,15 +452,12 @@ function DataNavigation(props) {
         <>
             <List
                 component="nav"
-                aria-controls={formatMessage(
-                    intl,
-                    "selectedDataRootMenuAriaControl"
-                )}
                 aria-label={formatMessage(
                     intl,
                     "selectedDataRootMenuAriaLabel"
                 )}
                 id={build(dataNavId, ids.DATA_ROOTS)}
+                className={classes.list}
             >
                 <ListItem
                     button
@@ -532,15 +514,18 @@ function DataNavigation(props) {
                         key={menuItem.label}
                         selected={index === selectedIndex}
                         onClick={(event) => handleMenuItemClick(event, index)}
-                        className={classes.list}
+                        className={classes.listItem}
                     >
                         <ListItemIcon>{menuItem.icon}</ListItemIcon>
-                        <ListItemText>{menuItem.label}</ListItemText>
+                        <ListItemText>
+                            <Typography className={classes.listItemText}>
+                                {menuItem.label}
+                            </Typography>
+                        </ListItemText>
                     </ListItem>
                 ))}
             </Menu>
-
-            <Hidden xsDown>
+            <Hidden smDown>
                 {path && (!error || error.length === 0) ? (
                     <BreadCrumb
                         baseId={dataNavId}
@@ -557,7 +542,7 @@ function DataNavigation(props) {
                     <div></div>
                 )}
             </Hidden>
-            <Hidden only={["sm", "md", "lg", "xl"]}>
+            <Hidden only={["md", "lg", "xl"]}>
                 {path && (!error || error.length === 0) ? (
                     <FolderSelectorMenu
                         baseId={dataNavId}
@@ -578,4 +563,4 @@ function DataNavigation(props) {
     );
 }
 
-export default withI18N(injectIntl(DataNavigation), intlData);
+export default withI18N(injectIntl(Navigation), intlData);

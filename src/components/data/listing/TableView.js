@@ -6,6 +6,23 @@
 
 import React, { Fragment, useState } from "react";
 
+import CustomizeColumns from "./CustomizeColumns";
+import ResourceIcon from "./ResourceIcon";
+import SpanLink from "./SpanLink";
+import { getFileSize } from "./FileSize";
+
+import ids from "../ids";
+import messages from "../messages";
+import DataDotMenu from "../toolbar/DataDotMenu";
+
+import TableLoading from "../../utils/TableLoading";
+import ResourceTypes from "../../models/ResourceTypes";
+import constants from "../../../constants";
+import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
+import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
+
+import { injectIntl } from "react-intl";
+
 import {
     build,
     DECheckbox,
@@ -16,6 +33,7 @@ import {
     getMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
+
 import {
     fade,
     makeStyles,
@@ -26,20 +44,6 @@ import {
     TableContainer,
     TableRow,
 } from "@material-ui/core";
-import { injectIntl } from "react-intl";
-
-import CustomizeColumns from "./CustomizeColumns";
-import DataDotMenu from "./DataDotMenu";
-import { getFileSize } from "./FileSize";
-import ids from "../ids";
-import messages from "../messages";
-import ResourceIcon from "./ResourceIcon";
-import SpanLink from "./SpanLink";
-import TableLoading from "../../utils/TableLoading";
-import ResourceTypes from "../../models/ResourceTypes";
-import constants from "../../../constants";
-import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
-import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 
 const COL_KEYS = {
     CHECKBOX: "checkbox",

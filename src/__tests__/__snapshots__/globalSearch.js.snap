@@ -41,13 +41,13 @@ Array [
     className="MuiFormControl-root"
   >
     <div
-      className="MuiInputBase-root MuiInput-root MuiInput-underline makeStyles-searchFilter-3 MuiInputBase-formControl MuiInput-formControl"
+      className="MuiInputBase-root WithStyles(ForwardRef(InputBase))-root-52 makeStyles-searchFilter-3 MuiInputBase-formControl"
       onClick={[Function]}
     >
       <div
         aria-haspopup="listbox"
         aria-labelledby="search.searchFilterMenu"
-        className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+        className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input WithStyles(ForwardRef(InputBase))-input-53"
         id="search.searchFilterMenu"
         onBlur={[Function]}
         onFocus={[Function]}
@@ -65,7 +65,7 @@ Array [
       />
       <svg
         aria-hidden={true}
-        className="MuiSvgIcon-root MuiSelect-icon makeStyles-icon-4"
+        className="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
         focusable="false"
         viewBox="0 0 24 24"
       >

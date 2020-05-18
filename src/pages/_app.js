@@ -1,17 +1,13 @@
+/**
+ * @author sriram
+ * A custom nextjs app.
+ *
+ */
+
 import React, { useState } from "react";
 
-import Head from "next/head";
-import { useRouter } from "next/router";
-
-import { ReactQueryDevtools } from "react-query-devtools";
-import { ReactQueryConfigProvider } from "react-query";
-
-import { ThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import "./styles.css";
-
 import CyverseAppBar from "../components/layout/CyVerseAppBar";
-import Navigation from "../components/layout/Navigation";
 import NavigationConstants from "../common/NavigationConstants";
 import UploadManager from "../components/uploads/manager";
 import theme from "../components/theme/default";
@@ -21,9 +17,18 @@ import { UploadTrackingProvider } from "../contexts/uploadTracking";
 import { UserProfileProvider } from "../contexts/userProfile";
 import { IntercomProvider } from "../contexts/intercom";
 import { NotificationsProvider } from "../contexts/pushNotifications";
-import constants from "../constants";
 import PageWrapper from "../components/layout/PageWrapper";
 import useComponentHeight from "../components/utils/useComponentHeight";
+import constants from "../constants";
+
+import Head from "next/head";
+import { useRouter } from "next/router";
+
+import { ReactQueryDevtools } from "react-query-devtools";
+import { ReactQueryConfigProvider } from "react-query";
+
+import { ThemeProvider } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 const setupIntercom = (intercomAppId) => {
     window.intercomSettings = {
@@ -65,11 +70,8 @@ const setupIntercom = (intercomAppId) => {
 };
 
 function MyApp({ Component, pageProps }) {
-    const router = useRouter();
-
     const [appBarHeight, setAppBarRef] = useComponentHeight();
-    const [navBarHeight, setNavBarRef] = useComponentHeight();
-
+    const router = useRouter();
     const pathname = router.pathname
         ? router.pathname.split(constants.PATH_SEPARATOR)[1]
         : NavigationConstants.DASHBOARD;
@@ -94,7 +96,7 @@ function MyApp({ Component, pageProps }) {
         if (intercomSettings.enabled) {
             setupIntercom(intercomSettings.appId);
             if (window.Intercom) {
-                window.Intercom("onUnreadCountChange", function(unreadCount) {
+                window.Intercom("onUnreadCountChange", function (unreadCount) {
                     if (intercomSettings.unReadCount !== unreadCount) {
                         const newSettings = {
                             ...intercomSettings,
@@ -115,19 +117,15 @@ function MyApp({ Component, pageProps }) {
                         <ReactQueryConfigProvider config={queryConfig}>
                             <CssBaseline />
                             <NotificationsProvider>
-                                <CyverseAppBar setAppBarRef={setAppBarRef}>
+                                <CyverseAppBar
+                                    setAppBarRef={setAppBarRef}
+                                    activeView={pathname}
+                                >
                                     <Head>
                                         <title>Discovery Environment</title>
                                     </Head>
                                     <ReactQueryDevtools initialIsOpen={false} />
-                                    <Navigation
-                                        activeView={pathname}
-                                        setNavBarRef={setNavBarRef}
-                                    />
-                                    <PageWrapper
-                                        appBarHeight={appBarHeight}
-                                        navBarHeight={navBarHeight}
-                                    >
+                                    <PageWrapper appBarHeight={appBarHeight}>
                                         <Component {...pageProps} />
                                     </PageWrapper>
                                     <UploadManager />

@@ -6,7 +6,20 @@
  *
  */
 import React, { useCallback, useEffect, useState } from "react";
-import { queryCache, useMutation, useQuery } from "react-query";
+
+import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
+import Drawer from "../details/Drawer";
+import TableView from "./TableView";
+import intlData from "../messages";
+import AppsToolbar from "../toolbar/Toolbar";
+
+import { getAppTypeFilters } from "../toolbar/AppNavigation";
+
+import appType from "../../models/AppType";
+import DEPagination from "../../utils/DEPagination";
+
+import constants from "../../../constants";
+
 import {
     appFavorite,
     getAppDetails,
@@ -14,17 +27,11 @@ import {
     getAppsInCategory,
     rateApp,
 } from "../../../serviceFacades/apps";
-import TableView from "./TableView";
-import Header from "../Header";
-import AppNavigation, { getAppTypeFilters } from "../AppNavigation";
-import constants from "../../../constants";
-import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
-import Drawer from "../details/Drawer";
-import appType from "../../models/AppType";
+
 import { withI18N } from "@cyverse-de/ui-lib";
+
 import { injectIntl } from "react-intl";
-import intlData from "../messages";
-import DEPagination from "../../utils/DEPagination";
+import { queryCache, useMutation, useQuery } from "react-query";
 
 function Listing(props) {
     const { baseId } = props;
@@ -322,7 +329,7 @@ function Listing(props) {
                 location={data?.Location}
                 handleClose={() => setAgaveAuthDialogOpen(false)}
             />
-            <AppNavigation
+            <AppsToolbar
                 handleCategoryChange={handleCategoryChange}
                 handleFilterChange={handleFilterChange}
                 baseId={baseId}
@@ -330,9 +337,6 @@ function Listing(props) {
                 selectedCategory={selectedCategory}
                 setCategoryStatus={setCategoryStatus}
                 handleAppNavError={handleAppNavError}
-            />
-            <Header
-                baseId={baseId}
                 isGridView={isGridView}
                 toggleDisplay={toggleDisplay}
                 detailsEnabled={detailsEnabled}

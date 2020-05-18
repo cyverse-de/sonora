@@ -92,7 +92,7 @@ function CreateFolderDialog(props) {
                         <Dialog
                             open={open}
                             onClose={onClose}
-                            maxWidth="xs"
+                            maxWidth="sm"
                             fullWidth
                         >
                             <DialogTitle>

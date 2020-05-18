@@ -14,10 +14,10 @@ import { useIntercom } from "../../contexts/intercom";
 import { intercomLogin, intercomLogout } from "../../common/intercom";
 import { useUserProfile } from "../../contexts/userProfile";
 
-import { Badge, IconButton } from "@material-ui/core";
+import { Badge, IconButton, Tooltip, useTheme } from "@material-ui/core";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 
-function CustomIntercom({ intl, classes }) {
+function CustomIntercom({ intl }) {
     const {
         appId,
         enabled,
@@ -26,6 +26,7 @@ function CustomIntercom({ intl, classes }) {
         unReadCount,
     } = useIntercom();
     const [userProfile] = useUserProfile();
+    const theme = useTheme();
 
     React.useEffect(() => {
         if (userProfile?.id) {
@@ -47,18 +48,21 @@ function CustomIntercom({ intl, classes }) {
 
     if (enabled) {
         return (
-            <IconButton
-                className={classes.margin}
-                id={ids.INTERCOM_WIDGET}
-                color="primary"
-                aria-label={formatMessage(intl, "intercomAriaLabel")}
-                aria-controls={formatMessage(intl, "intercomAriaControl")}
-                size="small"
+            <Tooltip
+                title={formatMessage(intl, "intercomAriaLabel")}
+                placement="bottom"
+                arrow
             >
-                <Badge badgeContent={unReadCount} color="error">
-                    <LiveHelpIcon />
-                </Badge>
-            </IconButton>
+                <IconButton
+                    id={ids.INTERCOM_WIDGET}
+                    style={{ color: theme.palette.primary.contrastText }}
+                    aria-label={formatMessage(intl, "intercomAriaLabel")}
+                >
+                    <Badge badgeContent={unReadCount} color="error">
+                        <LiveHelpIcon />
+                    </Badge>
+                </IconButton>
+            </Tooltip>
         );
     } else {
         return null;

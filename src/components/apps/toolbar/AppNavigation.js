@@ -5,21 +5,18 @@
  *
  */
 import React, { useCallback, useEffect, useState } from "react";
+
+import intlData from "../messages";
+import ids from "../ids";
+
+import constants from "../../../constants";
+import appType from "../../models/AppType";
+import { getPrivateCategories } from "../../../serviceFacades/apps";
+
 import { queryCache, useQuery } from "react-query";
-import { getPrivateCategories } from "../../serviceFacades/apps";
+
 import { injectIntl } from "react-intl";
-import intlData from "./messages";
-import ids from "./ids";
-import appType from "../models/AppType";
-import StorageIcon from "@material-ui/icons/Storage";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import LockIcon from "@material-ui/icons/Lock";
-import FolderSharedIcon from "@material-ui/icons/FolderShared";
-import GroupWorkIcon from "@material-ui/icons/GroupWork";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import AppsIcon from "@material-ui/icons/Apps";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import constants from "../../constants";
+
 import {
     Divider,
     List,
@@ -27,12 +24,21 @@ import {
     ListItemIcon,
     ListItemText,
     Menu,
-    TextField,
-    Toolbar,
     Typography,
 } from "@material-ui/core";
+
 import { makeStyles } from "@material-ui/core/styles";
 import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+
+import {
+    Apps as AppsIcon,
+    ArrowDropDown as ArrowDropDownIcon,
+    Favorite as FavoriteIcon,
+    FolderShared as FolderSharedIcon,
+    GroupWork as GroupWorkIcon,
+    Lock as LockIcon,
+    Storage as StorageIcon,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
@@ -40,6 +46,15 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.primary.main,
     },
     list: {
+        [theme.breakpoints.up("sm")]: {
+            margin: theme.spacing(1),
+        },
+        [theme.breakpoints.down("sm")]: {
+            maxWidth: 130,
+            padding: 0,
+        },
+    },
+    listItem: {
         outline: "none",
         cursor: "pointer",
         color: theme.palette.primary.main,
@@ -48,16 +63,20 @@ const useStyles = makeStyles((theme) => ({
             color: theme.palette.primary.contrastText,
         },
     },
+    listItemText: {
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        maxWidth: 200,
+    },
     divider: {
         flexGrow: 1,
     },
     selectedCategory: {
-        [theme.breakpoints.down("sm")]: {
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            maxWidth: 75,
-        },
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        maxWidth: 140,
     },
     filter: {
         [theme.breakpoints.down("xs")]: {
@@ -87,18 +106,18 @@ function getAllAppsCategory(categoryName) {
 function AppNavigation(props) {
     const {
         handleCategoryChange,
-        handleFilterChange,
         setCategoryStatus,
         handleAppNavError,
-        filter,
         selectedCategory,
         intl,
         baseId,
     } = props;
+    const classes = useStyles();
+
     const [categories, setCategories] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
-    const classes = useStyles();
-    const appNavId = build(baseId, ids.APP_NAVIGATION);
+
+    const appNavId = build(baseId, ids.APPS_NAVIGATION);
     const allAppsCategory = getAllAppsCategory(constants.BROWSE_ALL_APPS);
 
     const preProcessData = useCallback(
@@ -182,11 +201,12 @@ function AppNavigation(props) {
     }
 
     return (
-        <Toolbar variant="dense">
+        <>
             <List
                 component="nav"
                 aria-label={formatMessage(intl, "selectedCategoryAriaLabel")}
-                id={build(appNavId, ids.APP_CATEGORIES)}
+                id={build(appNavId, ids.APPS_CATEGORIES)}
+                className={classes.list}
             >
                 <ListItem
                     button
@@ -202,7 +222,7 @@ function AppNavigation(props) {
                     <ListItemText
                         id={build(
                             appNavId,
-                            ids.APP_CATEGORIES,
+                            ids.APPS_CATEGORIES,
                             selectedCategory.name
                         )}
                         primary={
@@ -211,7 +231,7 @@ function AppNavigation(props) {
                             </Typography>
                         }
                     />
-                    <ListItemIcon>
+                    <ListItemIcon style={{ minWidth: 20 }}>
                         <ArrowDropDownIcon />
                     </ListItemIcon>
                 </ListItem>
@@ -229,26 +249,30 @@ function AppNavigation(props) {
                     <ListItem
                         id={build(
                             appNavId,
-                            ids.APP_CATEGORIES_MENU,
-                            ids.APP_CATEGORIES_MENU_ITEM,
+                            ids.APPS_CATEGORIES_MENU,
+                            ids.APPS_CATEGORIES_MENU_ITEM,
                             menuItem.name
                         )}
                         key={menuItem.name}
                         selected={selectedCategory.name === menuItem.name}
                         onClick={(event) => handleMenuItemClick(event, index)}
-                        className={classes.list}
+                        className={classes.listItem}
                         aria-label={menuItem.name}
                     >
                         <ListItemIcon>{menuItem.icon}</ListItemIcon>
-                        <ListItemText>{menuItem.name}</ListItemText>
+                        <ListItemText>
+                            <Typography className={classes.listItemText}>
+                                {menuItem.name}
+                            </Typography>
+                        </ListItemText>
                     </ListItem>
                 ))}
                 <Divider />
                 <ListItem
                     id={build(
                         appNavId,
-                        ids.APP_CATEGORIES_MENU,
-                        ids.APP_CATEGORIES_MENU_ITEM,
+                        ids.APPS_CATEGORIES_MENU,
+                        ids.APPS_CATEGORIES_MENU_ITEM,
                         ids.BROWSE_ALL_APPS
                     )}
                     key={allAppsCategory.name}
@@ -257,39 +281,18 @@ function AppNavigation(props) {
                         setAnchorEl(null);
                         handleCategoryChange(allAppsCategory);
                     }}
-                    className={classes.list}
+                    className={classes.listItem}
                     aria-label={allAppsCategory.name}
                 >
                     <ListItemIcon>{allAppsCategory.icon}</ListItemIcon>
-                    <ListItemText>{allAppsCategory.name}</ListItemText>
+                    <ListItemText>
+                        <Typography className={classes.listItemText}>
+                            {allAppsCategory.name}
+                        </Typography>
+                    </ListItemText>
                 </ListItem>
             </Menu>
-            <div className={classes.divider} />
-            <Autocomplete
-                disabled={
-                    selectedCategory.system_id?.toLowerCase() ===
-                    appType.agave.toLowerCase()
-                }
-                value={filter}
-                options={getAppTypeFilters()}
-                size="small"
-                onChange={(event, newValue) => {
-                    handleFilterChange(newValue);
-                }}
-                getOptionLabel={(option) => option.name}
-                getOptionSelected={(option, value) =>
-                    option.name === value.name
-                }
-                className={classes.filter}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        label={formatMessage(intl, "filterLbl")}
-                        variant="outlined"
-                    />
-                )}
-            />
-        </Toolbar>
+        </>
     );
 }
 export default withI18N(injectIntl(AppNavigation), intlData);

@@ -25,7 +25,7 @@ function ListingTest(props) {
  */
 function toolNameComparisonFunction(ascending) {
     const applyDirection = (n) => (ascending ? n : -n);
-    return function(a, b) {
+    return function (a, b) {
         const nameA = a.name.toLowerCase();
         const nameB = b.name.toLowerCase();
         return nameA < nameB

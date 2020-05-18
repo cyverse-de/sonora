@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../../src/components/data/Header";
+import Header from "../../src/components/data/toolbar/Toolbar";
 import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
 
 export const HeaderTest = () => {

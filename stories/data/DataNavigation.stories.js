@@ -1,5 +1,5 @@
 import React from "react";
-import DataNavigation from "../../src/components/data/DataNavigation";
+import DataNavigation from "../../src/components/data/toolbar/Navigation";
 import { dataRootsResp } from "./DataMocks";
 import { mockAxios } from "../axiosMock";
 

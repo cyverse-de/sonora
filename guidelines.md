@@ -206,7 +206,7 @@ function myComponent(props) {
 ## Chromatic Setup
 - First Link your github account to chromatic.
 - Then Go to https://github.com/settings/tokens and create a Personal Access Token and name it chromatic.
-- Next go to https://github.com/<username>/sonora/settings/secrets and create 2 secrets. 
+- Next go to https://github.com/username/sonora/settings/secrets and create 2 secrets (replace username with your github account name). 
 - One for your personal token (created in first step). Name it `my_token`
 - Another one for chromatic project token which can be found in Chromatic settings page. Name it `project_token`
 

@@ -85,6 +85,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     drawerIcon: {
+        flexShrink: 0,
         marginRight: theme.spacing(3.5),
         width: 32,
     },

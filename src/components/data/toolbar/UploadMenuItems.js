@@ -42,10 +42,7 @@ function UploadMenuItems(props) {
         <MenuItem
             id={build(uploadMenuId, ids.IMPORT_MI)}
             key={build(uploadMenuId, ids.IMPORT_MI)}
-            onClick={() => {
-                onImportFromURL();
-                console.log("Import from URL");
-            }}
+            onClick={onImportFromURL}
         >
             <ListItemIcon>
                 <UploadIcon fontSize="small" />

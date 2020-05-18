@@ -447,7 +447,7 @@ function CyverseAppBar(props) {
                 <Toolbar>
                     <Hidden only={["sm", "md", "lg", "xl"]}>
                         <IconButton
-                            aria-label="open drawer"
+                            aria-label={formatMessage(intl, "openDrawer")}
                             onClick={handleDrawerOpen}
                             edge="start"
                             className={classes.menuIcon}

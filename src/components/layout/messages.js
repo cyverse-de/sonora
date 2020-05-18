@@ -7,6 +7,7 @@ const intlData = {
         apps: "Apps",
         analyses: "Analyses",
         more: "More",
+        openDrawer: "Open Drawer",
         settings: "Settings",
         login: "Login",
         logout: "Logout, {name}",

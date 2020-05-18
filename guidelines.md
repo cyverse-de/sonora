@@ -207,7 +207,8 @@ function myComponent(props) {
 - First Link your github account to chromatic.
 - Then Go to https://github.com/settings/tokens and create a Personal Access Token and name it chromatic.
 - Next go to https://github.com/<username>/sonora/settings/secrets and create 2 secrets. 
-- 1 for your personal token (created in first step) and next one for chromatic project token which can be found in Chromatic settings page.
+- One for your personal token (created in first step). Name it `my_token`
+- Another one for chromatic project token which can be found in Chromatic settings page. Name it `project_token`
 
 ## Pull Requests
 Before you submit a PR, make sure to set up Chromatic.

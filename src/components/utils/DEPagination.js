@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     paper: {
         flexShrink: 0,
         marginTop: theme.spacing(1),
-        paddingBottom: theme.spacing(1),
+        marginBottom: theme.spacing(1),
     },
     paginationItems: {
         paddingTop: theme.spacing(1),

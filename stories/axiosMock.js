@@ -6,5 +6,8 @@
  */
 import axiosInstance from "../src/common/getAxios";
 import MockAdapter from "axios-mock-adapter";
-const mockAxios = new MockAdapter(axiosInstance, { delayResponse: 2000 });
-export { mockAxios };
+const AXIOS_DELAY = 2000;
+const mockAxios = new MockAdapter(axiosInstance, {
+    delayResponse: AXIOS_DELAY,
+});
+export { AXIOS_DELAY, mockAxios };

@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { withConsole } from "@storybook/addon-console";
-import { addDecorator, configure } from "@storybook/react";
+import { addDecorator, addParameters, configure } from "@storybook/react";
 import { CyVerseAnnouncer } from "@cyverse-de/ui-lib";
 import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "../src/components/theme/default";
+import { AXIOS_DELAY } from "../stories/axiosMock";
 import {
     UserProfileProvider,
     useUserProfile,
@@ -48,5 +49,7 @@ addDecorator((storyFn) => (
 
 //redirect console error / logs / warns to action logger
 addDecorator((storyFn, context) => withConsole()(storyFn)(context));
+
+addParameters({ chromatic: { delay: AXIOS_DELAY + 500 } });
 
 configure(require.context("../stories", true, /\.stories\.js$/), module);

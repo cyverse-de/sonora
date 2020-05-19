@@ -16,6 +16,8 @@ export const HeaderTest = () => {
                 onEditSelected={() => logger("Edit")}
                 onMetadataSelected={() => logger("Metadata")}
                 onDeleteSelected={() => logger("Delete")}
+                handleDataNavError={console.log}
+                handlePathChange={console.log}
             />
         </UploadTrackingProvider>
     );

@@ -1,5 +1,5 @@
 import React from "react";
-import { mockAxios } from "../axiosMock";
+import { AXIOS_DELAY, mockAxios } from "../axiosMock";
 import { appDetails, appListing, categories } from "./AppMocks";
 import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
 import Listing from "../../src/components/apps/listing/Listing";
@@ -29,4 +29,10 @@ function ListingTest(props) {
 
 export const AppsListingTest = () => {
     return <ListingTest />;
+};
+
+AppsListingTest.story = {
+    parameters: {
+        chromatic: { delay: AXIOS_DELAY * 2 + 500 },
+    },
 };

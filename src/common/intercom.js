@@ -28,10 +28,19 @@ function intercomLogin(userId, email, appId, companyId, companyName) {
 
 function intercomLogout() {
     console.log("logging out");
-    window.Intercom("shutdown");
+    if (window.Intercom) {
+        window.Intercom("shutdown");
+    }
+}
+
+function intercomShow() {
+    if (window.Intercom) {
+        window.Intercom("show");
+    }
 }
 
 function trackIntercomEvent(event, metadata) {
     console.log("track event");
 }
-export { intercomLogin, intercomLogout, trackIntercomEvent };
+
+export { intercomLogin, intercomLogout, intercomShow, trackIntercomEvent };

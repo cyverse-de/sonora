@@ -15,8 +15,8 @@ This application runs on XSEDE, the U.S. National Supercomputing Network.
 Analyses run on this system enter a queue that includes many non-CyVerse users.
 Wait times for your analyses (jobs) to submit and run may be up to several days for large-memory applications.
 Please do not resubmit your analysis.
-If the status of your analysis has not changed from Submitted to Running after several days, contact
-<support>support@cyverse.org</support>.
+If the status of your analysis has not changed from Submitted to Running after several days,
+<support>contact support</support>.
 To learn more about HPC apps, see
 <hpc>Using HPC Apps in the DE</hpc>.
 </p>
@@ -34,12 +34,12 @@ export default {
         analysisParameters: "Analysis Parameters",
         appDeprecated:
             "This application has been deprecated." +
-            " If you need access to it, please contact" +
-            " <support>support@cyverse.org</support>.",
+            " If you need access to it, please" +
+            " <support>contact support</support>.",
         appParamsDeprecated:
             "This application uses 1 or more parameters that have been deprecated." +
-            " If you still need access to this application, please contact" +
-            " <support>support@cyverse.org</support>.",
+            " If you still need access to this application, please" +
+            " <support>contact support</support>.",
         appUnavailable: "This app is temporarily unavailable.",
         back: "Back",
         browse: "Browse",

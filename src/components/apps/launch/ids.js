@@ -27,6 +27,7 @@ export default {
     APP_LAUNCH_TEXT_SELECTION: "textSelection",
     BUTTONS: {
         ADD: "addBtn",
+        CONTACT_SUPPORT: "contactSupportBtn",
         DELETE: "deleteBtn",
         EXPAND: "expand",
         SAVE_AS_QUICK_LAUNCH: "saveQuickLaunch",

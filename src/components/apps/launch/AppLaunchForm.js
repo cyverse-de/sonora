@@ -516,6 +516,7 @@ const AppLaunchForm = (props) => {
                             hidden={activeStep !== stepReviewAndLaunch.step}
                         >
                             <ParamsReview
+                                baseId={formId}
                                 appType={app_type}
                                 groups={values.groups}
                                 errors={errors}

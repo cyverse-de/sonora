@@ -9,6 +9,7 @@ import sanitizeHtml from "sanitize-html";
 import { FastField, Field, getIn } from "formik";
 
 import GlobalConstants from "../../../constants";
+import { intercomShow } from "../../../common/intercom";
 
 import ResourceTypes from "../../models/ResourceTypes";
 
@@ -39,6 +40,7 @@ import {
     ExpansionPanel,
     ExpansionPanelSummary,
     ExpansionPanelDetails,
+    Link,
     MenuItem,
     Paper,
     Table,
@@ -322,7 +324,7 @@ const ParamsReviewValue = ({ param }) => {
  * A table summarizing the app parameter values and step resource requirements
  * that will be included in the final analysis submission.
  */
-const ParamsReview = ({ appType, groups, errors }) => (
+const ParamsReview = ({ appType, baseId, groups, errors }) => (
     <>
         {appType === GlobalConstants.APP_TYPE_EXTERNAL &&
             getMessage("hpcAppWaitTimes", {
@@ -331,29 +333,38 @@ const ParamsReview = ({ appType, groups, errors }) => (
                         <Typography variant="body1">{chunks}</Typography>
                     ),
                     support: (...chunks) => (
-                        <a key="support" href="mailto:support@cyverse.org">
+                        <Link
+                            key="support"
+                            id={buildDebugId(
+                                baseId,
+                                ids.BUTTONS.CONTACT_SUPPORT
+                            )}
+                            component="button"
+                            variant="body1"
+                            onClick={intercomShow}
+                        >
                             {chunks}
-                        </a>
+                        </Link>
                     ),
                     hpc: (...chunks) => (
-                        <a
+                        <Link
                             key="hpc"
                             href={GlobalConstants.HPC_WIKI_LINK}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
                             {chunks}
-                        </a>
+                        </Link>
                     ),
                     xsede: (...chunks) => (
-                        <a
+                        <Link
                             key="xsede"
                             href={constants.XSEDE_ALLOC_LINK}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
                             {chunks}
-                        </a>
+                        </Link>
                     ),
                 },
             })}

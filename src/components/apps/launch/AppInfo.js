@@ -5,11 +5,15 @@
  */
 import React from "react";
 
-import { getMessage } from "@cyverse-de/ui-lib";
+import { intercomShow } from "../../../common/intercom";
 
-import { AppBar, Box, Toolbar, Typography } from "@material-ui/core";
+import ids from "./ids";
 
-const AppInfo = ({ app, hasDeprecatedParams }) => {
+import { build as buildDebugId, getMessage } from "@cyverse-de/ui-lib";
+
+import { AppBar, Box, Link, Toolbar, Typography } from "@material-ui/core";
+
+const AppInfo = ({ app, baseId, hasDeprecatedParams }) => {
     const unavailableMsgKey = app?.deleted
         ? "appDeprecated"
         : app?.disabled
@@ -36,9 +40,17 @@ const AppInfo = ({ app, hasDeprecatedParams }) => {
                         {getMessage(unavailableMsgKey, {
                             values: {
                                 support: (...chunks) => (
-                                    <a href="mailto:support@cyverse.org">
+                                    <Link
+                                        id={buildDebugId(
+                                            baseId,
+                                            ids.BUTTONS.CONTACT_SUPPORT
+                                        )}
+                                        component="button"
+                                        variant="body1"
+                                        onClick={intercomShow}
+                                    >
                                         {chunks}
-                                    </a>
+                                    </Link>
                                 ),
                             },
                         })}

@@ -8,6 +8,7 @@ import Bowser from "bowser";
 import { useRouter } from "next/router";
 import { injectIntl } from "react-intl";
 
+import { intercomShow } from "../../../common/intercom";
 import NavigationConstants from "../../../common/NavigationConstants";
 import GridLabelValue from "../GridLabelValue";
 import { useUserProfile } from "../../../contexts/userProfile";
@@ -101,7 +102,7 @@ function ContactSupport(props) {
             id={build(baseId, ids.CONTACT_SUPPORT_BUTTON)}
             color="primary"
             startIcon={<LiveHelpIcon />}
-            onClick={() => window.Intercom("show")}
+            onClick={intercomShow}
             style={{ marginLeft: "auto" }}
         >
             {getMessage("contactSupport")}

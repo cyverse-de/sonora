@@ -17,7 +17,7 @@ import { withI18N } from "@cyverse-de/ui-lib";
 const deprecatedParamTypes = Object.values(constants.DEPRECATED_PARAM_TYPE);
 
 function AppLaunchWizard(props) {
-    const { app } = props;
+    const { app, baseId } = props;
 
     const hasDeprecatedParams = app?.groups?.find((group) =>
         group.parameters?.find((param) =>
@@ -27,7 +27,11 @@ function AppLaunchWizard(props) {
 
     return (
         <>
-            <AppInfo app={app} hasDeprecatedParams={hasDeprecatedParams} />
+            <AppInfo
+                baseId={baseId}
+                app={app}
+                hasDeprecatedParams={hasDeprecatedParams}
+            />
 
             {app && !(app.deleted || app.disabled || hasDeprecatedParams) && (
                 <AppLaunchForm {...props} />

@@ -5,6 +5,16 @@
  *
  */
 import React, { useState } from "react";
+
+import { injectIntl } from "react-intl";
+
+import ids from "../ids";
+import messages from "../messages";
+import constants from "../../../constants";
+import analysisStatus from "../../models/analysisStatus";
+import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
+import TableLoading from "../../utils/TableLoading";
+
 import {
     build,
     DECheckbox,
@@ -15,6 +25,7 @@ import {
     getMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
+
 import {
     IconButton,
     makeStyles,
@@ -27,22 +38,14 @@ import {
     Tooltip,
     Typography,
 } from "@material-ui/core";
+
 import {
-    Help as HelpIcon,
     HourglassEmptyRounded as HourGlass,
     Launch as LaunchIcon,
     PermMedia as OutputFolderIcon,
-    UnfoldMore as UnfoldMoreIcon,
     Repeat as RelaunchIcon,
-    Description as LogsIcon,
+    UnfoldMore as UnfoldMoreIcon,
 } from "@material-ui/icons";
-import ids from "../ids";
-import { injectIntl } from "react-intl";
-import messages from "../messages";
-import constants from "../../../constants";
-import analysisStatus from "../../models/analysisStatus";
-import TableLoading from "../../utils/TableLoading";
-import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 
 const useStyles = makeStyles((theme) => ({
     name: {
@@ -142,6 +145,7 @@ function Actions(props) {
                     <OutputFolderIcon />
                 </IconButton>
             </Tooltip>
+
             {isBatch && (
                 <Tooltip
                     aria-label={formatMessage(intl, "htDetails")}

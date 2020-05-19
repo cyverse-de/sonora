@@ -125,6 +125,7 @@ function Actions(props) {
     const isDisabled = analysis.app_disabled;
     const className =
         mouseOverId === analysis.id ? classes.actionHover : classes.action;
+
     return (
         <>
             <Tooltip
@@ -141,21 +142,6 @@ function Actions(props) {
                     <OutputFolderIcon />
                 </IconButton>
             </Tooltip>
-            {!isDisabled && (
-                <Tooltip
-                    aria-label={formatMessage(intl, "relaunch")}
-                    title={getMessage("relaunch")}
-                    id={build(baseId, ids.ICONS.RELAUNCH, ids.TOOLTIP)}
-                >
-                    <IconButton
-                        size="small"
-                        id={build(baseId, ids.ICONS.RELAUNCH, ids.BUTTON)}
-                        className={className}
-                    >
-                        <RelaunchIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
             {isBatch && (
                 <Tooltip
                     aria-label={formatMessage(intl, "htDetails")}
@@ -169,6 +155,21 @@ function Actions(props) {
                         className={className}
                     >
                         <UnfoldMoreIcon />
+                    </IconButton>
+                </Tooltip>
+            )}
+            {!isDisabled && !isInteractive && (
+                <Tooltip
+                    aria-label={formatMessage(intl, "relaunch")}
+                    title={getMessage("relaunch")}
+                    id={build(baseId, ids.ICONS.RELAUNCH, ids.TOOLTIP)}
+                >
+                    <IconButton
+                        size="small"
+                        id={build(baseId, ids.ICONS.RELAUNCH, ids.BUTTON)}
+                        className={className}
+                    >
+                        <RelaunchIcon />
                     </IconButton>
                 </Tooltip>
             )}
@@ -205,30 +206,8 @@ function Actions(props) {
                             <HourGlass />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip
-                        aria-label={formatMessage(intl, "viewLogs")}
-                        title={getMessage("viewLogs")}
-                        id={build(baseId, ids.ICONS.LOGS, ids.TOOLTIP)}
-                    >
-                        <IconButton
-                            id={build(baseId, ids.ICONS.LOGS, ids.BUTTON)}
-                            size="small"
-                            className={className}
-                        >
-                            <LogsIcon />
-                        </IconButton>
-                    </Tooltip>
                 </>
             )}
-            <Tooltip
-                id={build(baseId, ids.ICONS.HELP, ids.TOOLTIP)}
-                aria-label={formatMessage(intl, "requestHelp")}
-                title={getMessage("requestHelp")}
-            >
-                <IconButton size="small" className={className}>
-                    <HelpIcon />
-                </IconButton>
-            </Tooltip>
         </>
     );
 }
@@ -240,13 +219,6 @@ const columnData = (intl) => [
         numeric: false,
         enableSorting: true,
         key: "name",
-    },
-    {
-        id: "actions",
-        name: "",
-        numeric: false,
-        enableSorting: false,
-        key: "actions",
     },
     {
         id: ids.OWNER,
@@ -282,6 +254,13 @@ const columnData = (intl) => [
         numeric: false,
         enableSorting: true,
         key: "status",
+    },
+    {
+        id: "actions",
+        name: "",
+        numeric: false,
+        enableSorting: false,
+        key: "actions",
     },
 ];
 
@@ -412,29 +391,6 @@ function TableView(props) {
                                             />
                                         </TableCell>
                                         <TableCell>
-                                            <Actions
-                                                intl={intl}
-                                                analysis={analysis}
-                                                analysisUser={user}
-                                                username={username}
-                                                baseId={build(
-                                                    rowId +
-                                                        ids.ANALYSIS_ACTIONS_CELL
-                                                )}
-                                                handleInteractiveUrlClick={
-                                                    handleInteractiveUrlClick
-                                                }
-                                                handleGoToOutputFolder={
-                                                    handleGoToOutputFolder
-                                                }
-                                                handleBatchIconClick={
-                                                    handleBatchIconClick
-                                                }
-                                                mouseOverId={mouseOverId}
-                                            />
-                                        </TableCell>
-
-                                        <TableCell>
                                             <Typography variant="body2">
                                                 {user}
                                             </Typography>
@@ -461,6 +417,28 @@ function TableView(props) {
                                                 analysis={analysis}
                                                 baseId={baseId}
                                                 intl={intl}
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Actions
+                                                intl={intl}
+                                                analysis={analysis}
+                                                analysisUser={user}
+                                                username={username}
+                                                baseId={build(
+                                                    rowId +
+                                                        ids.ANALYSIS_ACTIONS_CELL
+                                                )}
+                                                handleInteractiveUrlClick={
+                                                    handleInteractiveUrlClick
+                                                }
+                                                handleGoToOutputFolder={
+                                                    handleGoToOutputFolder
+                                                }
+                                                handleBatchIconClick={
+                                                    handleBatchIconClick
+                                                }
+                                                mouseOverId={mouseOverId}
                                             />
                                         </TableCell>
                                     </TableRow>

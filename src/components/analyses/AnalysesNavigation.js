@@ -134,15 +134,6 @@ function AnalysesNavigation(props) {
                 toggleDisplay={toggleDisplay}
                 isGridView={isGridView}
             />
-            {viewBatch && (
-                <BatchFilter
-                    baseId={analysesNavId}
-                    name={viewBatch.name}
-                    classes={classes}
-                    onClearBatch={onClearBatch}
-                />
-            )}
-
             <Autocomplete
                 id={build(analysesNavId, ids.VIEW_FILTER)}
                 disabled={false}
@@ -190,6 +181,14 @@ function AnalysesNavigation(props) {
                     />
                 )}
             />
+            {viewBatch && (
+                <BatchFilter
+                    baseId={analysesNavId}
+                    name={viewBatch.name}
+                    classes={classes}
+                    onClearBatch={onClearBatch}
+                />
+            )}
             <Hidden xsDown>
                 <div className={classes.divider} />
             </Hidden>

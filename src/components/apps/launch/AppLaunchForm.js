@@ -124,14 +124,19 @@ const initValues = ({
                 type: paramType,
             } = param;
 
-            const value =
-                paramType === constants.PARAM_TYPE.MULTIFILE_SELECTOR
-                    ? defaultValue || []
-                    : paramArgs?.length > 0
-                    ? paramArgs.find(
-                          (arg) => arg.isDefault || defaultValue?.id === arg.id
-                      )
-                    : defaultValue || "";
+            let value = defaultValue || "";
+
+            if (paramType === constants.PARAM_TYPE.MULTIFILE_SELECTOR) {
+                value = defaultValue || [];
+            }
+            if (paramType === constants.PARAM_TYPE.FLAG) {
+                value = defaultValue && defaultValue !== "false";
+            }
+            if (paramArgs?.length > 0) {
+                value = paramArgs.find(
+                    (arg) => arg.isDefault || defaultValue?.id === arg.id
+                );
+            }
 
             return {
                 ...param,
@@ -229,10 +234,6 @@ const paramConfigsReducer = (configs, group) => {
             let { value } = param;
 
             switch (type) {
-                case constants.PARAM_TYPE.FLAG:
-                    value = value && value !== "false";
-                    break;
-
                 case constants.PARAM_TYPE.FILE_OUTPUT:
                 case constants.PARAM_TYPE.FOLDER_OUTPUT:
                 case constants.PARAM_TYPE.MULTIFILE_OUTPUT:

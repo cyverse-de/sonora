@@ -25,7 +25,7 @@ import ReferenceGenomeSelect from "./ReferenceGenomeSelect";
 
 import {
     build as buildDebugId,
-    FormCheckboxStringValue,
+    FormCheckbox,
     FormMultilineTextField,
     FormIntegerField,
     FormNumberField,
@@ -204,7 +204,7 @@ const ParamGroupForm = withI18N((props) => {
                             break;
 
                         case constants.PARAM_TYPE.FLAG:
-                            fieldProps.component = FormCheckboxStringValue;
+                            fieldProps.component = FormCheckbox;
                             break;
 
                         case constants.PARAM_TYPE.TEXT_SELECTION:
@@ -281,6 +281,9 @@ const ParamsReviewValue = ({ param }) => {
     const { value, type } = param;
 
     switch (type) {
+        case constants.PARAM_TYPE.FLAG:
+            return value ? "✔︎" : "";
+
         case constants.PARAM_TYPE.MULTILINE_TEXT:
         case constants.PARAM_TYPE.MULTIFILE_SELECTOR:
             return (

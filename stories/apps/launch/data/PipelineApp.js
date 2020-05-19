@@ -1,11 +1,11 @@
-import { ONE_GB } from "../constants";
+import constants from "../../../../src/constants";
 
 export default {
     description: "Example of an app with 2 steps.",
     requirements: [
         {
             max_cpu_cores: 4,
-            memory_limit: 8 * ONE_GB,
+            memory_limit: 8 * constants.ONE_GiB,
             step_number: 0,
         },
         {

@@ -17,8 +17,6 @@ export const initMockAxiosFileFolderSelector = () => {
 export const ANALYSIS_OUTPUT_DIR = "/iplant/home/aramsey/analyses_qa";
 export const STARTING_PATH = "/iplant/home/aramsey";
 
-export const ONE_GB = 1024 * 1024 * 1024;
-
 export const submitAnalysis = (submission, onSuccess, onError) => {
     setTimeout(() => {
         console.log(submission);

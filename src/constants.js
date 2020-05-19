@@ -17,6 +17,7 @@ export default {
     APP_TYPE_EXTERNAL: "External",
     LOADING: "loading",
     NOTIFICATION_WS: "/websocket/notifications",
+    ONE_GiB: 2 ** 30,
     WS_PROTOCOL: "ws://",
     WSS_PROTOCOL: "wss://",
     USER_PORTAL: "https://user.cyverse.org/register",

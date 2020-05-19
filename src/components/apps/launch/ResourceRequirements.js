@@ -12,6 +12,8 @@ import React from "react";
 import { FastField } from "formik";
 import numeral from "numeral";
 
+import constants from "../../../constants";
+
 import ids from "./ids";
 import messages from "./messages";
 import styles from "./styles";
@@ -41,8 +43,6 @@ import {
 import { ExpandMore } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
-
-const ONE_GB = 1024 * 1024 * 1024;
 
 const formatGBListItem = (size) => size && numeral(size).format("0 ib");
 const formatGBValue = (size) => size && numeral(size).format("0.0 ib");
@@ -100,14 +100,14 @@ const StepResourceRequirementsForm = ({
         max_cpu_cores || defaultMaxCPUCores || 8
     );
     const minMemoryList = buildLimitList(
-        2 * ONE_GB,
+        2 * constants.ONE_GiB,
         min_memory_limit || 0,
-        memory_limit || defaultMaxMemory || 16 * ONE_GB
+        memory_limit || defaultMaxMemory || 16 * constants.ONE_GiB
     );
     const minDiskSpaceList = buildLimitList(
-        ONE_GB,
+        constants.ONE_GiB,
         min_disk_space || 0,
-        defaultMaxDiskSpace || 512 * ONE_GB
+        defaultMaxDiskSpace || 512 * constants.ONE_GiB
     );
 
     return (

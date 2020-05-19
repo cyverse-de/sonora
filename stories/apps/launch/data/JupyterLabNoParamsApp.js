@@ -1,4 +1,4 @@
-import { ONE_GB } from "../constants";
+import constants from "../../../../src/constants";
 
 export default {
     description:
@@ -7,10 +7,10 @@ export default {
         {
             step_number: 0,
             max_cpu_cores: 16,
-            memory_limit: 64 * ONE_GB,
+            memory_limit: 64 * constants.ONE_GiB,
             default_cpu_cores: 8,
-            default_memory: 32 * ONE_GB,
-            default_disk_space: 128 * ONE_GB,
+            default_memory: 32 * constants.ONE_GiB,
+            default_disk_space: 128 * constants.ONE_GiB,
         },
     ],
     deleted: false,

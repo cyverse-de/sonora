@@ -10,6 +10,7 @@ export const DataNavigationTest = () => {
             path="/iplant/home/ipcdev/analyses/foo/barborkborkborkbarborkborkbork"
             baseId="navigation"
             handlePathChange={console.log}
+            handleDataNavError={console.log}
         />
     );
 };

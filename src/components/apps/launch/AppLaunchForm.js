@@ -133,9 +133,10 @@ const initValues = ({
                 value = defaultValue && defaultValue !== "false";
             }
             if (paramArgs?.length > 0) {
-                value = paramArgs.find(
+                const defaultArg = paramArgs.find(
                     (arg) => arg.isDefault || defaultValue?.id === arg.id
                 );
+                value = defaultArg || "";
             }
 
             return {
@@ -234,6 +235,17 @@ const paramConfigsReducer = (configs, group) => {
             let { value } = param;
 
             switch (type) {
+                case constants.PARAM_TYPE.TEXT_SELECTION:
+                case constants.PARAM_TYPE.INTEGER_SELECTION:
+                case constants.PARAM_TYPE.DOUBLE_SELECTION:
+                case constants.PARAM_TYPE.REFERENCE_GENOME:
+                case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
+                case constants.PARAM_TYPE.REFERENCE_ANNOTATION:
+                    if (!value) {
+                        return;
+                    }
+                    break;
+
                 case constants.PARAM_TYPE.FILE_OUTPUT:
                 case constants.PARAM_TYPE.FOLDER_OUTPUT:
                 case constants.PARAM_TYPE.MULTIFILE_OUTPUT:

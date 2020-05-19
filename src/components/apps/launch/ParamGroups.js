@@ -29,7 +29,6 @@ import {
     FormMultilineTextField,
     FormIntegerField,
     FormNumberField,
-    FormSelectField,
     FormTextField,
     getMessage,
     withI18N,
@@ -210,7 +209,9 @@ const ParamGroupForm = withI18N((props) => {
                         case constants.PARAM_TYPE.TEXT_SELECTION:
                         case constants.PARAM_TYPE.INTEGER_SELECTION:
                         case constants.PARAM_TYPE.DOUBLE_SELECTION:
-                            fieldProps.component = FormSelectField;
+                            fieldProps.component = FormTextField;
+                            fieldProps.select = true;
+                            fieldProps.variant = "outlined";
                             fieldProps.children = param.arguments?.map(
                                 (arg) => (
                                     <MenuItem key={arg.value} value={arg}>

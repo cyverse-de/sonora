@@ -47,7 +47,7 @@ import {
     makeStyles,
 } from "@material-ui/core";
 
-import { ArrowBack, ArrowForward, Launch, Save } from "@material-ui/icons";
+import { ArrowBack, ArrowForward, PlayArrow, Save } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     // Keeps the content panel at a static height
@@ -581,7 +581,7 @@ const AppLaunchForm = (props) => {
                                 id={buildDebugId(formId, ids.BUTTONS.SUBMIT)}
                                 label={getMessage("launchAnalysis")}
                                 value="submit"
-                                icon={<Launch />}
+                                icon={<PlayArrow />}
                                 disabled={isSubmitting}
                             />
                         ) : (

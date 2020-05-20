@@ -14,6 +14,7 @@ import {
     Card,
     CardActions,
     CardContent,
+    CardHeader,
     Divider,
     Typography,
 } from "@material-ui/core";
@@ -37,6 +38,10 @@ const makeID = (...names) => buildID(ids.BASE, ...names);
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        paddingTop: 0,
+        paddingRight: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+        paddingLeft: theme.spacing(2),
     },
     dividerRoot: {
         marginBottom: theme.spacing(1),
@@ -158,6 +163,16 @@ const cleanDescription = (description) => {
     return desc;
 };
 
+const cleanTitle = (title) => {
+    let retval;
+    if (title.length > constants.TITLE_MAX_LENGTH) {
+        retval = title.slice(0, constants.TITLE_MAX_LENGTH) + "...";
+    } else {
+        retval = title;
+    }
+    return retval;
+};
+
 /**
  * An item in the dashboard.
  *
@@ -181,24 +196,28 @@ export const DashboardItem = (props) => {
             id={makeID(ids.ITEM, cardID)}
             elevation={4}
         >
+            <CardHeader
+                title={
+                    <Typography noWrap variant="h6">
+                        {cleanTitle(content.name)}
+                    </Typography>
+                }
+                subheader={
+                    <Typography
+                        // classes={{ root: classes.subtitle }}
+                        noWrap
+                        color="textSecondary"
+                        variant="subtitle2"
+                    >
+                        {origination} {`${user} on ${date}`}
+                    </Typography>
+                }
+            />
             <CardContent
                 classes={{
                     root: classes.root,
                 }}
             >
-                <Typography noWrap variant="h6" component="h6">
-                    {content.name}
-                </Typography>
-
-                <Typography
-                    classes={{ root: classes.subtitle }}
-                    gutterBottom
-                    noWrap
-                    color="textSecondary"
-                >
-                    {origination} {`${user} on ${date}`}
-                </Typography>
-
                 <Typography color="textSecondary" variant="body2" component="p">
                     {description}
                 </Typography>

@@ -21,3 +21,4 @@ export const SECTION_ITEM_LIMIT = 8;
 export const USER_SUFFIX = "@iplantcollaborative.org";
 export const CYVERSE = "CyVerse";
 export const DESC_MAX_LENGTH = 140;
+export const TITLE_MAX_LENGTH = 36;

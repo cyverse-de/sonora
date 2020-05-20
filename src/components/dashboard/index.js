@@ -57,7 +57,10 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexWrap: "wrap",
         justifyContent: "flex-start",
-        padding: theme.spacing(2),
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+        paddingLeft: 0,
+        paddingRight: 0,
 
         // Try to eek as much space out of the iPhone SE cards as possible.
         [theme.breakpoints.down("sm")]: {
@@ -84,11 +87,12 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     dashboardCard: {
-        width: 450,
+        width: 425,
         height: 225,
         display: "flex",
         flexDirection: "column",
-        margin: theme.spacing(1),
+        marginTop: theme.spacing(2),
+        marginRight: theme.spacing(2),
 
         [theme.breakpoints.down("sm")]: {
             width: 300,

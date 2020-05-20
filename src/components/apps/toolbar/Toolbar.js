@@ -55,6 +55,7 @@ function AppsToolbar(props) {
     const {
         handleCategoryChange,
         handleFilterChange,
+        handleAppNavError,
         setCategoryStatus,
         filter,
         selectedCategory,
@@ -83,6 +84,7 @@ function AppsToolbar(props) {
                 handleCategoryChange={handleCategoryChange}
                 setCategoryStatus={setCategoryStatus}
                 selectedCategory={selectedCategory}
+                handleAppNavError={handleAppNavError}
             />
             <Autocomplete
                 id={build(appsToolbarId, ids.APPS_FILTER)}

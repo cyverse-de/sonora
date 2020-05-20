@@ -6,6 +6,7 @@
  * @module dashboard
  */
 import React from "react";
+import clsx from "clsx";
 import { useQuery } from "react-query";
 
 import { makeStyles } from "@material-ui/styles";
@@ -20,7 +21,14 @@ import {
     Avatar,
 } from "@material-ui/core";
 
-import { Apps, BarChart, Event, RssFeed } from "@material-ui/icons";
+import {
+    Apps,
+    BarChart,
+    Event,
+    RssFeed,
+    OpenInNew,
+    OpenInBrowser,
+} from "@material-ui/icons";
 
 import { Skeleton } from "@material-ui/lab";
 
@@ -113,9 +121,42 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.white,
         color: theme.palette.gray,
     },
-    cardHeaderRoot: {
+    cardHeaderDefault: {
         background: theme.palette.primary.main,
         marginBottom: theme.spacing(2),
+    },
+    cardHeaderDefaultAvatar: {
+        color: theme.palette.primary.main,
+    },
+    cardHeaderEvents: {
+        background: theme.palette.violet,
+    },
+    cardHeaderEventsAvatar: {
+        color: theme.palette.violet,
+    },
+    cardHeaderNews: {
+        background: theme.palette.indigo,
+    },
+    cardHeaderNewsAvatar: {
+        color: theme.palette.indigo,
+    },
+    cardHeaderPublic: {
+        background: theme.palette.darkNavy,
+    },
+    cardHeaderPublicAvatar: {
+        color: theme.palette.darkNavy,
+    },
+    cardHeaderRecent: {
+        background: theme.palette.navy,
+    },
+    cardHeaderRecentAvatar: {
+        color: theme.palette.navy,
+    },
+    cardHeaderRecentlyAdded: {
+        background: theme.palette.gold,
+    },
+    cardHeaderRecentlyAddedAvatar: {
+        color: theme.palette.gold,
     },
     cardHeaderText: {
         color: theme.palette.primary.contrastText,
@@ -153,23 +194,92 @@ const getOrigination = (kind, content) => {
     ];
 };
 
-const getIcon = (kind, section) => {
+const getAvatarIcon = (kind, colorClass) => {
     let retval;
     switch (kind) {
         case constants.KIND_ANALYSES:
-            retval = <BarChart />;
+            retval = (
+                <BarChart
+                    color="primary"
+                    classes={{ colorPrimary: colorClass }}
+                />
+            );
             break;
         case constants.KIND_APPS:
-            retval = <Apps />;
+            retval = (
+                <Apps color="primary" classes={{ colorPrimary: colorClass }} />
+            );
             break;
         case constants.KIND_FEEDS:
-            retval = <RssFeed />;
+            retval = (
+                <RssFeed
+                    color="primary"
+                    classes={{ colorPrimary: colorClass }}
+                />
+            );
             break;
         case constants.KIND_EVENTS:
-            retval = <Event />;
+            retval = (
+                <Event color="primary" classes={{ colorPrimary: colorClass }} />
+            );
             break;
         default:
-            retval = <Apps />;
+            retval = (
+                <Apps color="primary" classes={{ colorPrimary: colorClass }} />
+            );
+    }
+    return retval;
+};
+
+const getSectionClass = (section, classes) => {
+    let header;
+    let avatar;
+    switch (section) {
+        case constants.SECTION_EVENTS:
+            header = classes.cardHeaderEvents;
+            avatar = classes.cardHeaderEventsAvatar;
+            break;
+        case constants.SECTION_NEWS:
+            header = classes.cardHeaderNews;
+            avatar = classes.cardHeaderNewsAvatar;
+            break;
+        case constants.SECTION_PUBLIC:
+            header = classes.cardHeaderPublic;
+            avatar = classes.cardHeaderPublicAvatar;
+            break;
+        case constants.SECTION_RECENT:
+            header = classes.cardHeaderRecent;
+            avatar = classes.cardHeaderRecentAvatar;
+            break;
+        case constants.SECTION_RECENTLY_ADDED:
+            header = classes.cardHeaderRecentlyAdded;
+            avatar = classes.cardHeaderRecentlyAddedAvatar;
+            break;
+        default:
+            header = classes.cardHeaderDefault;
+            avatar = classes.cardHeaderDefaultAvatar;
+            break;
+    }
+    return [header, avatar];
+};
+
+const getLinkIcon = (kind) => {
+    let retval;
+    switch (kind) {
+        case constants.KIND_ANALYSES:
+            retval = <OpenInBrowser />;
+            break;
+        case constants.KIND_APPS:
+            retval = <OpenInBrowser />;
+            break;
+        case constants.KIND_FEEDS:
+            retval = <OpenInNew />;
+            break;
+        case constants.KIND_EVENTS:
+            retval = <OpenInNew />;
+            break;
+        default:
+            retval = <OpenInNew />;
     }
     return retval;
 };
@@ -218,12 +328,14 @@ const cleanTitle = (title) => {
  */
 export const DashboardItem = (props) => {
     const classes = useStyles();
-    const { kind, content } = props;
+    const { kind, content, section } = props;
     const cardID = buildID(kind, content.id);
 
     const description = cleanDescription(content.description);
     const [origination, date] = getOrigination(kind, content);
     const user = cleanUsername(content.username);
+    const [headerClass, avatarClass] = getSectionClass(section, classes);
+    const rootClass = clsx(classes.cardHeaderDefault, headerClass);
 
     return (
         <Card
@@ -233,9 +345,11 @@ export const DashboardItem = (props) => {
         >
             <CardHeader
                 avatar={
-                    <Avatar className={classes.avatar}>{getIcon(kind)}</Avatar>
+                    <Avatar className={classes.avatar}>
+                        {getAvatarIcon(kind, avatarClass)}
+                    </Avatar>
                 }
-                classes={{ root: classes.cardHeaderRoot }}
+                classes={{ root: rootClass }}
                 title={cleanTitle(content.name)}
                 titleTypographyProps={{
                     noWrap: true,
@@ -274,6 +388,10 @@ export const DashboardItem = (props) => {
                     target="_blank"
                     rel="noopener noreferrer"
                     color="primary"
+                    size="small"
+                    startIcon={getLinkIcon(kind)}
+                    variant="contained"
+                    classes={{ containedPrimary: headerClass }}
                 >
                     {getMessage("open")}
                 </Button>
@@ -282,7 +400,7 @@ export const DashboardItem = (props) => {
     );
 };
 
-const DashboardSection = ({ name, kind, items, id }) => {
+const DashboardSection = ({ name, kind, items, id, section }) => {
     const classes = useStyles();
 
     return (
@@ -301,7 +419,12 @@ const DashboardSection = ({ name, kind, items, id }) => {
 
             <div className={classes.sectionItems}>
                 {items.map((item) => (
-                    <DashboardItem kind={kind} content={item} key={item.id} />
+                    <DashboardItem
+                        kind={kind}
+                        content={item}
+                        key={item.id}
+                        section={section}
+                    />
                 ))}
             </div>
         </div>
@@ -409,6 +532,7 @@ const Dashboard = () => {
                                 key={`${kind}-${section}`}
                                 items={data[kind][section]}
                                 name={label}
+                                section={section}
                             />
                         );
                     })

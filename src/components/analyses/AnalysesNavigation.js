@@ -31,6 +31,7 @@ import {
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import {
+    Info,
     FilterList as FilterListIcon,
     MoreVert as MoreVertIcon,
 } from "@material-ui/icons";
@@ -56,6 +57,14 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down("xs")]: {
             margin: theme.spacing(0.2),
             paddingLeft: 0,
+        },
+    },
+    toolbarItems: {
+        [theme.breakpoints.down("xs")]: {
+            margin: theme.spacing(0.5),
+        },
+        [theme.breakpoints.up("sm")]: {
+            margin: theme.spacing(1),
         },
     },
 }));
@@ -125,6 +134,8 @@ function AnalysesNavigation(props) {
         isGridView,
         intl,
         toggleDisplay,
+        detailsEnabled,
+        onDetailsSelected,
     } = props;
     const analysesNavId = build(baseId, ids.ANALYSES_NAVIGATION);
     return (
@@ -189,8 +200,23 @@ function AnalysesNavigation(props) {
                     onClearBatch={onClearBatch}
                 />
             )}
-            <Hidden xsDown>
+            <Hidden smDown>
                 <div className={classes.divider} />
+                <Hidden smDown>
+                    {detailsEnabled && (
+                        <Button
+                            id={build(analysesNavId, ids.DETAILS_BTN)}
+                            className={classes.toolbarItems}
+                            variant="outlined"
+                            disableElevation
+                            color="primary"
+                            onClick={onDetailsSelected}
+                            startIcon={<Info />}
+                        >
+                            {getMessage("details")}
+                        </Button>
+                    )}
+                </Hidden>
             </Hidden>
             <IconButton>
                 <MoreVertIcon />

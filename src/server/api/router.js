@@ -310,6 +310,26 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding /analyses/:id/history");
+    api.get(
+        "/analyses/:id/history",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/analyses/:id/history",
+        })
+    );
+
+    logger.info("adding /analyses/:id/parameters");
+    api.get(
+        "/analyses/:id/parameters",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/analyses/:id/parameters",
+        })
+    );
+
     logger.info("adding the GET /tools handler");
     api.get(
         "/tools",

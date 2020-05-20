@@ -9,4 +9,18 @@ function getAnalyses(key, { rowsPerPage, orderBy, order, page, filter }) {
     });
 }
 
-export { getAnalyses };
+function getAnalysisHistory(key, { id }) {
+    return callApi({
+        endpoint: `/api/analyses/${id}/history`,
+        method: "GET",
+    });
+}
+
+function getAnalysisParameters(key, { id }) {
+    return callApi({
+        endpoint: `/api/analyses/${id}/parameters`,
+        method: "GET",
+    });
+}
+
+export { getAnalyses, getAnalysisHistory, getAnalysisParameters };

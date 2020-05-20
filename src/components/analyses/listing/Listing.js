@@ -13,6 +13,7 @@ import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
 import { getAnalyses } from "../../../serviceFacades/analyses";
 import constants from "../../../constants";
 import DEPagination from "../../utils/DEPagination";
+import Drawer from "../details/Drawer";
 
 import intlData from "../messages";
 import TableView from "./TableView";
@@ -60,7 +61,9 @@ function Listing(props) {
     const [appTypeFilter, setAppTypeFilter] = useState(getAppTypeFilters()[0]);
     const [userProfile] = useUserProfile();
     const [currentNotification] = useNotifications();
-
+    const [detailsAnalysis, setDetailsAnalysis] = useState(null);
+    const [detailsEnabled, setDetailsEnabled] = useState(false);
+    const [detailsOpen, setDetailsOpen] = useState(false);
     const { isFetching, error } = useQuery({
         queryKey: analysesKey,
         queryFn: getAnalyses,
@@ -183,8 +186,27 @@ function Listing(props) {
         updateAnalyses(currentNotification);
     }, [currentNotification, updateAnalyses]);
 
+    useEffect(() => {
+        setDetailsEnabled(selected && selected.length === 1);
+    }, [selected]);
+
+    useEffect(() => {
+        if (detailsOpen && data?.analyses) {
+            const selectedId = selected[0];
+            setDetailsAnalysis(
+                data.analyses.find((item) => item.id === selectedId)
+            );
+        } else {
+            setDetailsAnalysis(null);
+        }
+    }, [data, detailsOpen, selected]);
+
     const toggleDisplay = () => {
         setGridView(!isGridView);
+    };
+
+    const onDetailsSelected = () => {
+        setDetailsOpen(true);
     };
 
     const select = (analysesIds) => {
@@ -308,6 +330,8 @@ function Listing(props) {
                 onClearBatch={handleClearBatch}
                 isGridView={isGridView}
                 toggleDisplay={toggleDisplay}
+                detailsEnabled={detailsEnabled}
+                onDetailsSelected={onDetailsSelected}
             />
             <TableView
                 loading={isFetching}
@@ -325,6 +349,14 @@ function Listing(props) {
                 handleGoToOutputFolder={handleGoToOutputFolder}
                 handleBatchIconClick={handleBatchIconClick}
             />
+            {detailsOpen && (
+                <Drawer
+                    selectedAnalysis={detailsAnalysis}
+                    open={detailsOpen}
+                    baseId={baseId}
+                    onClose={() => setDetailsOpen(false)}
+                />
+            )}
             {data && data.total > 0 && (
                 <DEPagination
                     page={page + 1}

@@ -82,6 +82,13 @@ var intlData = {
         all: "All",
         mine: "Only my analyses",
         theirs: "Analyses shared with me",
+        details: "Details",
+        info: "Info",
+        analysisParams: "Parameters",
+        analysisInfoFetchError:
+            "Unable to fetch analysis information. Please try again.",
+        analysisParamFetchError:
+            "Unable to fetch analysis parameters. Please try again.",
     },
 };
 

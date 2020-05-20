@@ -17,7 +17,10 @@ import {
     CardHeader,
     Divider,
     Typography,
+    Avatar,
 } from "@material-ui/core";
+
+import { Apps, BarChart, Event, RssFeed } from "@material-ui/icons";
 
 import { Skeleton } from "@material-ui/lab";
 
@@ -106,6 +109,17 @@ const useStyles = makeStyles((theme) => ({
     actionsRoot: {
         marginLeft: "auto",
     },
+    avatar: {
+        background: theme.palette.white,
+        color: theme.palette.gray,
+    },
+    cardHeaderRoot: {
+        background: theme.palette.primary.main,
+        marginBottom: theme.spacing(2),
+    },
+    cardHeaderText: {
+        color: theme.palette.primary.contrastText,
+    },
 }));
 
 const getOrigination = (kind, content) => {
@@ -137,6 +151,27 @@ const getOrigination = (kind, content) => {
         origination,
         formatDate(date ? new Date(date).valueOf() : new Date().valueOf()),
     ];
+};
+
+const getIcon = (kind, section) => {
+    let retval;
+    switch (kind) {
+        case constants.KIND_ANALYSES:
+            retval = <BarChart />;
+            break;
+        case constants.KIND_APPS:
+            retval = <Apps />;
+            break;
+        case constants.KIND_FEEDS:
+            retval = <RssFeed />;
+            break;
+        case constants.KIND_EVENTS:
+            retval = <Event />;
+            break;
+        default:
+            retval = <Apps />;
+    }
+    return retval;
 };
 
 const cleanUsername = (username) => {
@@ -197,17 +232,23 @@ export const DashboardItem = (props) => {
             elevation={4}
         >
             <CardHeader
-                title={
-                    <Typography noWrap variant="h6">
-                        {cleanTitle(content.name)}
-                    </Typography>
+                avatar={
+                    <Avatar className={classes.avatar}>{getIcon(kind)}</Avatar>
                 }
+                classes={{ root: classes.cardHeaderRoot }}
+                title={cleanTitle(content.name)}
+                titleTypographyProps={{
+                    noWrap: true,
+                    variant: "h6",
+                    color: "primary",
+                    classes: { colorPrimary: classes.cardHeaderText },
+                }}
                 subheader={
                     <Typography
-                        // classes={{ root: classes.subtitle }}
                         noWrap
                         color="textSecondary"
                         variant="subtitle2"
+                        classes={{ colorTextSecondary: classes.cardHeaderText }}
                     >
                         {origination} {`${user} on ${date}`}
                     </Typography>
@@ -338,7 +379,7 @@ const Dashboard = () => {
             makeID(ids.SECTION_NEWS),
         ],
         [
-            constants.KIND_FEEDS,
+            constants.KIND_EVENTS,
             constants.SECTION_EVENTS,
             getMessage("eventsFeed"),
             makeID(ids.SECTION_EVENTS),

@@ -39,15 +39,20 @@ import {
     ExpansionPanel,
     ExpansionPanelSummary,
     ExpansionPanelDetails,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
     Link,
     MenuItem,
     Paper,
+    Switch,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableRow,
     TextField,
+    Toolbar,
     Typography,
 } from "@material-ui/core";
 
@@ -324,54 +329,97 @@ const ParamsReviewValue = ({ param }) => {
     return value;
 };
 
+const HPCWaitTimesMessage = ({ baseId }) =>
+    getMessage("hpcAppWaitTimes", {
+        values: {
+            p: (...chunks) => <Typography variant="body1">{chunks}</Typography>,
+            support: (...chunks) => (
+                <Link
+                    key="support"
+                    id={buildDebugId(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
+                    component="button"
+                    variant="body1"
+                    onClick={(event) => {
+                        // prevent form submission
+                        event.preventDefault();
+                        intercomShow();
+                    }}
+                >
+                    {chunks}
+                </Link>
+            ),
+            hpc: (...chunks) => (
+                <Link
+                    key="hpc"
+                    href={GlobalConstants.HPC_WIKI_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    {chunks}
+                </Link>
+            ),
+            xsede: (...chunks) => (
+                <Link
+                    key="xsede"
+                    href={constants.XSEDE_ALLOC_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    {chunks}
+                </Link>
+            ),
+        },
+    });
+
+const ShowAllParameters = ({ baseId, checked, onChange }) => {
+    const switchId = buildDebugId(baseId, ids.BUTTONS.SHOW_ALL_PARAMETERS);
+    const helperTextID = buildDebugId(switchId, ids.BUTTONS.HELPER_TEXT);
+
+    return (
+        <Toolbar component={Paper}>
+            <FormControl fullWidth margin="normal">
+                <FormControlLabel
+                    control={
+                        <Switch
+                            id={switchId}
+                            aria-describedby={helperTextID}
+                            size="small"
+                            checked={checked}
+                            onChange={onChange}
+                        />
+                    }
+                    label={getMessage("showAllParameters")}
+                />
+                <FormHelperText id={helperTextID}>
+                    {getMessage("showAllParametersHelpText")}
+                </FormHelperText>
+            </FormControl>
+        </Toolbar>
+    );
+};
+
 /**
  * A table summarizing the app parameter values and step resource requirements
  * that will be included in the final analysis submission.
  */
-const ParamsReview = ({ appType, baseId, groups, errors }) => (
+const ParamsReview = ({
+    appType,
+    baseId,
+    errors,
+    groups,
+    showAll,
+    setShowAll,
+}) => (
     <>
-        {appType === GlobalConstants.APP_TYPE_EXTERNAL &&
-            getMessage("hpcAppWaitTimes", {
-                values: {
-                    p: (...chunks) => (
-                        <Typography variant="body1">{chunks}</Typography>
-                    ),
-                    support: (...chunks) => (
-                        <Link
-                            key="support"
-                            id={buildDebugId(
-                                baseId,
-                                ids.BUTTONS.CONTACT_SUPPORT
-                            )}
-                            component="button"
-                            variant="body1"
-                            onClick={intercomShow}
-                        >
-                            {chunks}
-                        </Link>
-                    ),
-                    hpc: (...chunks) => (
-                        <Link
-                            key="hpc"
-                            href={GlobalConstants.HPC_WIKI_LINK}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            {chunks}
-                        </Link>
-                    ),
-                    xsede: (...chunks) => (
-                        <Link
-                            key="xsede"
-                            href={constants.XSEDE_ALLOC_LINK}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            {chunks}
-                        </Link>
-                    ),
-                },
-            })}
+        {appType === GlobalConstants.APP_TYPE_EXTERNAL && (
+            <HPCWaitTimesMessage baseId={baseId} />
+        )}
+
+        <ShowAllParameters
+            baseId={baseId}
+            checked={showAll}
+            onChange={(event) => setShowAll(event.target.checked)}
+        />
 
         <TableContainer component={Paper}>
             <Table>
@@ -384,7 +432,8 @@ const ParamsReview = ({ appType, baseId, groups, errors }) => (
 
                             return (
                                 param.isVisible &&
-                                (paramError || hasValue) && (
+                                param.type !== constants.PARAM_TYPE.INFO &&
+                                (showAll || paramError || hasValue) && (
                                     <TableRow key={param.id}>
                                         <TableCell>
                                             <ParamsReviewLabel

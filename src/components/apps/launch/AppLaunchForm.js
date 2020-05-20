@@ -304,6 +304,7 @@ const AppLaunchForm = (props) => {
         referenceGenomesLoading,
         setReferenceGenomesLoading,
     ] = React.useState(false);
+    const [reviewShowAll, setReviewShowAll] = React.useState(true);
 
     const classes = useStyles();
 
@@ -534,12 +535,15 @@ const AppLaunchForm = (props) => {
                                 groups={values.groups}
                                 errors={errors}
                                 touched={touched}
+                                showAll={reviewShowAll}
+                                setShowAll={setReviewShowAll}
                             />
 
                             {values.requirements && (
                                 <ResourceRequirementsReview
                                     baseId={stepIdReview}
                                     requirements={values.requirements}
+                                    showAll={reviewShowAll}
                                 />
                             )}
                         </StepContent>

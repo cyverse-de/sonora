@@ -258,6 +258,7 @@ const StepResourceRequirementsReview = ({
     baseId,
     stepRequirements,
     headerMessageKey,
+    showAll,
 }) => {
     const {
         step_number,
@@ -266,9 +267,11 @@ const StepResourceRequirementsReview = ({
         min_disk_space,
     } = stepRequirements;
 
+    const hasRequest = !!(min_cpu_cores || min_memory_limit || min_disk_space);
+
     return (
-        !!(min_cpu_cores || min_memory_limit || min_disk_space) && (
-            <ExpansionPanel defaultExpanded>
+        (showAll || hasRequest) && (
+            <ExpansionPanel defaultExpanded={false}>
                 <ExpansionPanelSummary
                     expandIcon={
                         <ExpandMore
@@ -292,31 +295,35 @@ const StepResourceRequirementsReview = ({
                     <TableContainer component={Paper}>
                         <Table>
                             <TableBody>
-                                {!!min_cpu_cores && (
+                                {(showAll || !!min_cpu_cores) && (
                                     <TableRow>
                                         <TableCell>
                                             {getMessage("minCPUCores")}
                                         </TableCell>
-                                        <TableCell>{min_cpu_cores}</TableCell>
+                                        <TableCell>
+                                            {min_cpu_cores || ""}
+                                        </TableCell>
                                     </TableRow>
                                 )}
-                                {!!min_memory_limit && (
+                                {(showAll || !!min_memory_limit) && (
                                     <TableRow>
                                         <TableCell>
                                             {getMessage("minMemory")}
                                         </TableCell>
                                         <TableCell>
-                                            {formatGBValue(min_memory_limit)}
+                                            {formatGBValue(min_memory_limit) ||
+                                                ""}
                                         </TableCell>
                                     </TableRow>
                                 )}
-                                {!!min_disk_space && (
+                                {(showAll || !!min_disk_space) && (
                                     <TableRow>
                                         <TableCell>
                                             {getMessage("minDiskSpace")}
                                         </TableCell>
                                         <TableCell>
-                                            {formatGBValue(min_disk_space)}
+                                            {formatGBValue(min_disk_space) ||
+                                                ""}
                                         </TableCell>
                                     </TableRow>
                                 )}
@@ -341,20 +348,24 @@ const StepResourceRequirementsReview = ({
  * @param {number} props.requirements[].min_memory_limit
  * @param {number} props.requirements[].min_disk_space
  */
-const ResourceRequirementsReview = withI18N(({ baseId, requirements }) => {
-    const headerMessageKey =
-        requirements.length === 1
-            ? "resourceRequirements"
-            : "resourceRequirementsForStep";
+const ResourceRequirementsReview = withI18N(
+    ({ baseId, requirements, showAll }) => {
+        const headerMessageKey =
+            requirements.length === 1
+                ? "resourceRequirements"
+                : "resourceRequirementsForStep";
 
-    return requirements.map((stepRequirements) => (
-        <StepResourceRequirementsReview
-            baseId={baseId}
-            key={stepRequirements.step_number}
-            stepRequirements={stepRequirements}
-            headerMessageKey={headerMessageKey}
-        />
-    ));
-}, messages);
+        return requirements.map((stepRequirements) => (
+            <StepResourceRequirementsReview
+                baseId={baseId}
+                key={stepRequirements.step_number}
+                stepRequirements={stepRequirements}
+                headerMessageKey={headerMessageKey}
+                showAll={showAll}
+            />
+        ));
+    },
+    messages
+);
 
 export { ResourceRequirementsForm, ResourceRequirementsReview };

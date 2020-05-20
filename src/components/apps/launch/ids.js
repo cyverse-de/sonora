@@ -1,3 +1,7 @@
+import UtilsIds from "../../utils/ids";
+
+const { LOADING_SKELETON } = UtilsIds;
+
 export default {
     APP_LAUNCH_FORM: "templateForm",
     APP_LAUNCH_COMMENTS: "comments",
@@ -30,13 +34,16 @@ export default {
         CONTACT_SUPPORT: "contactSupportBtn",
         DELETE: "deleteBtn",
         EXPAND: "expand",
+        HELPER_TEXT: "helper-text",
         SAVE_AS_QUICK_LAUNCH: "saveQuickLaunch",
+        SHOW_ALL_PARAMETERS: "showAllParameters",
         SUBMIT: "submit",
         STEP: "stepButton",
         STEP_BACK: "stepBackButton",
         STEP_NEXT: "stepNextButton",
     },
     LAUNCH_ANALYSIS_GROUP: "launchAnalysisGroup",
+    LOADING_SKELETON,
     RESOURCE_REQUESTS: {
         TOOL_CPU: "idToolCpu",
         TOOL_MEM: "idToolMem",

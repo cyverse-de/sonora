@@ -7,7 +7,7 @@
  */
 import React from "react";
 
-import ids from "../../utils/ids";
+import ids from "./ids";
 
 import messages from "./messages";
 
@@ -45,7 +45,7 @@ const FormFieldLoading = ({
     const classes = useStyles();
     const errorMsg = getFormError(name, touched, errors);
     const loadingFieldID = buildDebugId(id, ids.LOADING_SKELETON);
-    const helperTextID = buildDebugId(loadingFieldID, "helper-text");
+    const helperTextID = buildDebugId(loadingFieldID, ids.BUTTONS.HELPER_TEXT);
 
     return (
         <FormControl fullWidth error={!!errorMsg}>

@@ -424,7 +424,7 @@ export const DashboardItem = (props) => {
                 }}
             >
                 <Typography color="textSecondary" variant="body2" component="p">
-                    {description}
+                    {description || getMessage("noDescriptionProvided")}
                 </Typography>
             </CardContent>
 

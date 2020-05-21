@@ -17,7 +17,7 @@ import Drawer from "../details/Drawer";
 
 import intlData from "../messages";
 import TableView from "./TableView";
-import AnalysesNavigation, { getOwnershipFilters } from "../AnalysesNavigation";
+import AnalysesToolbar, { getOwnershipFilters } from "../toolbar/Toolbar";
 import { getAppTypeFilters } from "../../apps/toolbar/AppNavigation";
 import appType from "../../models/AppType";
 
@@ -320,7 +320,7 @@ function Listing(props) {
 
     return (
         <>
-            <AnalysesNavigation
+            <AnalysesToolbar
                 baseId={baseId}
                 handleAppTypeFilterChange={handleAppTypeFilterChange}
                 handleOwnershipFilterChange={handleOwnershipFilterChange}

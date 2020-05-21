@@ -2,6 +2,8 @@
  *
  * @author sriram
  *
+ * A panel that displays analysis info
+ *
  */
 import React, { useState } from "react";
 import { injectIntl } from "react-intl";
@@ -80,14 +82,20 @@ function Updates(props) {
 
                     return (
                         <TableRow key={index}>
-                            <TableCell>{formatDate(timestamp)}</TableCell>
-                            <TableCell>{update.message}</TableCell>
                             <TableCell>
-                                {status[0].toUpperCase() +
-                                    status
-                                        .slice(1)
-                                        .toLowerCase()
-                                        .replace(/[_]/gi, " ")}
+                                <Typography>{formatDate(timestamp)}</Typography>
+                            </TableCell>
+                            <TableCell>
+                                <Typography>{update.message}</Typography>
+                            </TableCell>
+                            <TableCell>
+                                <Typography>
+                                    {status[0].toUpperCase() +
+                                        status
+                                            .slice(1)
+                                            .toLowerCase()
+                                            .replace(/[_]/gi, " ")}
+                                </Typography>
                             </TableCell>
                         </TableRow>
                     );
@@ -140,12 +148,15 @@ function InfoPanel(props) {
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
 
     const debugId = build(baseId, ids.INFO.INFO);
-    if (!info) {
-        return null;
-    }
+
     if (isInfoFetching) {
         return <GridLoading rows={2} baseId={baseId} />;
     }
+
+    if (!info && !isInfoFetching && !infoFetchError) {
+        return null;
+    }
+
     if (infoFetchError) {
         return (
             <>

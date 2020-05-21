@@ -40,6 +40,7 @@ export default {
     MENUITEM_UPDATE_COMMENTS: "updateComments",
     MENUITEM_SHARE_COLLAB: "sharecollab",
     MENUITEM_SHARE_SUPPORT: "sharesupport",
+    MENUITEM_DETAILS: "details",
 
     VIEW_PARAMS: ".viewParamsView",
 
@@ -92,5 +93,4 @@ export default {
         FOLLOW_LOGS: "followLogs",
         REFRESH: "refresh",
     },
-
 };

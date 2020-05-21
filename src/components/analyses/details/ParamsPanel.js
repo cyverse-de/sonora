@@ -1,21 +1,28 @@
+/**
+ * @author sriram
+ *
+ * A panel that displays analysis params.
+ *
+ *
+ */
+
 import React, { useState } from "react";
 import { injectIntl } from "react-intl";
-
+import { parseNameFromPath } from "../../data/utils";
+import DEErrorDialog from "../../utils/error/DEErrorDialog";
+import ErrorTypography from "../../utils/error/ErrorTypography";
+import TableLoading from "../../utils/TableLoading";
 import ids from "../ids";
 import intlData from "../messages";
 import ArgumentTypes from "./ArgumentTypes";
-import TableLoading from "../../utils/TableLoading";
-import ErrorTypography from "../../utils/error/ErrorTypography";
-import DEErrorDialog from "../../utils/error/DEErrorDialog";
-
 import { EnhancedTableHead, formatMessage, withI18N } from "@cyverse-de/ui-lib";
-
 import {
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableRow,
+    Typography,
 } from "@material-ui/core";
 
 function ParameterValue(props) {
@@ -26,10 +33,11 @@ function ParameterValue(props) {
             param_value: { value },
         },
     } = props;
+
     let valid_info_type =
-        !(info_type === "ReferenceGenome") &&
-        !(info_type === "ReferenceSequence") &&
-        !(info_type === "ReferenceAnnotation");
+        !(info_type === ArgumentTypes.PARAM_TYPE.REFERENCE_GENOME) &&
+        !(info_type === ArgumentTypes.PARAM_TYPE.REFERENCE_SEQUENCE) &&
+        !(info_type === ArgumentTypes.PARAM_TYPE.REFERENCE_ANNOTATION);
     let displayValue = value ? (value.display ? value.display : value) : "";
 
     if (
@@ -40,9 +48,9 @@ function ParameterValue(props) {
             ArgumentTypes.PARAM_TYPE.FILE_FOLDER_INPUT === param_type) &&
         valid_info_type
     ) {
-        return <span>{displayValue}</span>;
+        return <Typography>{parseNameFromPath(displayValue)}</Typography>;
     } else {
-        return <span>{displayValue}</span>;
+        return <Typography>{displayValue}</Typography>;
     }
 }
 
@@ -78,12 +86,15 @@ function AnalysisParams(props) {
     const [order] = useState("desc");
     const [orderBy] = useState("Name");
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
-    if (!parameters) {
-        return null;
-    }
+
     if (isParamsFetching) {
         return <TableLoading numColumns={3} numRows={10} />;
     }
+
+    if (!parameters && !isParamsFetching && !paramsFetchError) {
+        return null;
+    }
+
     if (paramsFetchError) {
         return (
             <>
@@ -112,8 +123,12 @@ function AnalysisParams(props) {
                     {parameters.map((n) => {
                         return (
                             <TableRow key={n.param_id}>
-                                <TableCell>{n.param_name}</TableCell>
-                                <TableCell>{n.param_type}</TableCell>
+                                <TableCell>
+                                    <Typography>{n.param_name}</Typography>
+                                </TableCell>
+                                <TableCell>
+                                    <Typography>{n.param_type}</Typography>
+                                </TableCell>
                                 <TableCell>
                                     <ParameterValue parameter={n} />
                                 </TableCell>
@@ -123,7 +138,7 @@ function AnalysisParams(props) {
                 </TableBody>
                 <EnhancedTableHead
                     columnData={columnData}
-                    baseId="analysis"
+                    baseId={baseId}
                     order={order}
                     orderBy={orderBy}
                 />

@@ -7,11 +7,11 @@
 
 import React from "react";
 
-import messages from "./messages";
-import ids from "./ids";
+import messages from "../messages";
+import ids from "../ids";
 
-import { getAppTypeFilters } from "../apps/toolbar/AppNavigation";
-import DisplayTypeSelector from "../utils/DisplayTypeSelector";
+import { getAppTypeFilters } from "../../apps/toolbar/AppNavigation";
+import DisplayTypeSelector from "../../utils/DisplayTypeSelector";
 
 import { injectIntl } from "react-intl";
 
@@ -30,11 +30,8 @@ import {
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-import {
-    Info,
-    FilterList as FilterListIcon,
-    MoreVert as MoreVertIcon,
-} from "@material-ui/icons";
+import { Info, FilterList as FilterListIcon } from "@material-ui/icons";
+import AnalysesDotMenu from "./AnalysesDotMenu";
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -121,7 +118,7 @@ function BatchFilter(props) {
     );
 }
 
-function AnalysesNavigation(props) {
+function AnalysesToolbar(props) {
     const classes = useStyles();
     const {
         baseId,
@@ -218,12 +215,14 @@ function AnalysesNavigation(props) {
                     )}
                 </Hidden>
             </Hidden>
-            <IconButton>
-                <MoreVertIcon />
-            </IconButton>
+            <AnalysesDotMenu
+                baseId={analysesNavId}
+                onDetailsSelected={onDetailsSelected}
+                detailsEnabled={detailsEnabled}
+            />
         </Toolbar>
     );
 }
 
 export { getOwnershipFilters };
-export default withI18N(injectIntl(AnalysesNavigation), messages);
+export default withI18N(injectIntl(AnalysesToolbar), messages);

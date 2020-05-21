@@ -6,6 +6,7 @@
  * @module dashboard
  */
 import React from "react";
+import { useRouter } from "next/router";
 import clsx from "clsx";
 import { useQuery } from "react-query";
 
@@ -284,6 +285,21 @@ const getLinkIcon = (kind) => {
     return retval;
 };
 
+const getLinkTarget = (kind, content) => {
+    let target;
+    switch (kind) {
+        case constants.KIND_APPS:
+            target = `/apps/${content.id}/details`;
+            break;
+        case constants.KIND_ANALYSES:
+            target = `/analyses/${content.id}/details`;
+            break;
+        default:
+            target = content.link;
+    }
+    return target;
+};
+
 const cleanUsername = (username) => {
     let user;
     if (username) {
@@ -316,6 +332,40 @@ const cleanTitle = (title) => {
         retval = title;
     }
     return retval;
+};
+
+const DashboardLink = ({ kind, content, headerClass }) => {
+    const router = useRouter();
+    const isNewTab =
+        kind === constants.KIND_EVENTS || kind === constants.KIND_FEEDS;
+    const target = getLinkTarget(kind, content);
+    const icon = getLinkIcon(kind);
+
+    return isNewTab ? (
+        <Button
+            href={target}
+            target="_blank"
+            rel="noopener noreferrer"
+            color="primary"
+            size="small"
+            startIcon={icon}
+            variant="contained"
+            classes={{ containedPrimary: headerClass }}
+        >
+            {getMessage("open")}
+        </Button>
+    ) : (
+        <Button
+            color="primary"
+            size="small"
+            startIcon={icon}
+            variant="contained"
+            classes={{ containedPrimary: headerClass }}
+            onClick={(_) => router.push(target)}
+        >
+            {getMessage("open")}
+        </Button>
+    );
 };
 
 /**
@@ -383,18 +433,11 @@ export const DashboardItem = (props) => {
                     root: classes.actionsRoot,
                 }}
             >
-                <Button
-                    href={content.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    color="primary"
-                    size="small"
-                    startIcon={getLinkIcon(kind)}
-                    variant="contained"
-                    classes={{ containedPrimary: headerClass }}
-                >
-                    {getMessage("open")}
-                </Button>
+                <DashboardLink
+                    kind={kind}
+                    content={content}
+                    headerClass={headerClass}
+                />
             </CardActions>
         </Card>
     );

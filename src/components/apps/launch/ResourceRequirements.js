@@ -168,7 +168,7 @@ const ResourceRequirementsForm = withI18N(
         const classes = useStyles();
 
         return (
-            <ExpansionPanel defaultExpanded={false}>
+            <ExpansionPanel defaultExpanded>
                 <ExpansionPanelSummary
                     expandIcon={
                         <ExpandMore

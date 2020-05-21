@@ -39,6 +39,7 @@ import {
     Container,
     BottomNavigation,
     BottomNavigationAction,
+    Hidden,
     Stepper,
     Step,
     StepButton,
@@ -371,18 +372,32 @@ const AppLaunchForm = (props) => {
         };
     }, [props.app, hasReferenceGenomes]);
 
-    const hasParamsStep = hasParams || requirements?.length > 0;
+    const hasAdvancedStep = requirements?.length > 0;
 
     const stepAnalysisInfo = { label: getMessage("analysisInfo"), step: 0 };
     const stepParameters = { label: getMessage("parameters"), step: 1 };
+    const stepAdvanced = { label: getMessage("advancedSettings"), step: 2 };
     const stepReviewAndLaunch = {
         label: getMessage("reviewAndLaunch"),
-        step: hasParamsStep ? 2 : 1,
+        step: 3,
     };
 
-    const steps = hasParamsStep
-        ? [stepAnalysisInfo, stepParameters, stepReviewAndLaunch]
-        : [stepAnalysisInfo, stepReviewAndLaunch];
+    const steps = [stepAnalysisInfo];
+
+    if (hasParams) {
+        steps.push(stepParameters);
+    } else {
+        stepAdvanced.step--;
+        stepReviewAndLaunch.step--;
+    }
+
+    if (hasAdvancedStep) {
+        steps.push(stepAdvanced);
+    } else {
+        stepReviewAndLaunch.step--;
+    }
+
+    steps.push(stepReviewAndLaunch);
 
     const isLastStep = () => {
         return activeStep === steps.length - 1;
@@ -457,7 +472,7 @@ const AppLaunchForm = (props) => {
                                             )
                                         }
                                     >
-                                        {step.label}
+                                        <Hidden xsDown>{step.label}</Hidden>
                                     </StepLabel>
                                 </StepButton>
                             </Step>
@@ -487,8 +502,7 @@ const AppLaunchForm = (props) => {
                             step={stepParameters.step}
                             label={getMessage("analysisParameters")}
                             hidden={
-                                !hasParamsStep ||
-                                activeStep !== stepParameters.step
+                                !hasParams || activeStep !== stepParameters.step
                             }
                         >
                             {values.groups?.map((group, index) => (
@@ -507,7 +521,17 @@ const AppLaunchForm = (props) => {
                                     }
                                 />
                             ))}
+                        </StepContent>
 
+                        <StepContent
+                            id={stepIdResources}
+                            step={stepAdvanced.step}
+                            label={getMessage("advancedSettings")}
+                            hidden={
+                                !hasAdvancedStep ||
+                                activeStep !== stepAdvanced.step
+                            }
+                        >
                             {values.limits && (
                                 <ResourceRequirementsForm
                                     baseId={stepIdResources}

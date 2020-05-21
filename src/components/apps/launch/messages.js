@@ -29,6 +29,7 @@ Access to this powerful system is made available to CyVerse users at no cost thr
 export default {
     locales: "en-us",
     messages: {
+        advancedSettings: "Advanced Settings (optional)",
         analysisInfo: "Analysis Info",
         analysisName: "Analysis Name",
         analysisParameters: "Analysis Parameters",

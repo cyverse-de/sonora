@@ -11,7 +11,7 @@ import ids from "./ids";
 
 import { build as buildDebugId, getMessage } from "@cyverse-de/ui-lib";
 
-import { AppBar, Box, Link, Toolbar, Typography } from "@material-ui/core";
+import { Box, Link, Paper, Toolbar, Typography } from "@material-ui/core";
 
 const AppInfo = ({ app, baseId, hasDeprecatedParams }) => {
     const unavailableMsgKey = app?.deleted
@@ -24,11 +24,9 @@ const AppInfo = ({ app, baseId, hasDeprecatedParams }) => {
 
     return (
         <>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography variant="h6">{app?.name}</Typography>
-                </Toolbar>
-            </AppBar>
+            <Toolbar component={Paper}>
+                <Typography variant="h6">{app?.name}</Typography>
+            </Toolbar>
 
             <Box m={2}>
                 <Typography variant="body2" gutterBottom>
@@ -36,7 +34,7 @@ const AppInfo = ({ app, baseId, hasDeprecatedParams }) => {
                 </Typography>
 
                 {(app?.deleted || app?.disabled || hasDeprecatedParams) && (
-                    <Typography variant="body1" gutterBottom>
+                    <Typography color="error" variant="body1" gutterBottom>
                         {getMessage(unavailableMsgKey, {
                             values: {
                                 support: (...chunks) => (

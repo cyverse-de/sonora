@@ -39,6 +39,8 @@ import {
     TableContainer,
     TableRow,
     Toolbar,
+    Tooltip,
+    Typography,
 } from "@material-ui/core";
 
 import ClearIcon from "@material-ui/icons/Clear";
@@ -236,9 +238,6 @@ const MultiInputSelector = (props) => {
                                         />
                                     ) : (
                                         paths?.map((path, index) => {
-                                            const pathBaseName = getPathBaseName(
-                                                path
-                                            );
                                             const rowID = buildDebugId(
                                                 id,
                                                 index
@@ -248,10 +247,10 @@ const MultiInputSelector = (props) => {
                                                 <MultiInputRow
                                                     key={rowID}
                                                     id={rowID}
+                                                    path={path}
                                                     selected={selected.includes(
                                                         path
                                                     )}
-                                                    inputName={pathBaseName}
                                                     onRowSelected={(event) =>
                                                         onRowSelected(
                                                             event,
@@ -282,7 +281,7 @@ const MultiInputSelector = (props) => {
 };
 
 const MultiInputRow = injectIntl(
-    ({ intl, id, inputName, selected, onRowDeleted, onRowSelected }) => (
+    ({ intl, id, path, selected, onRowDeleted, onRowSelected }) => (
         <TableRow
             id={id}
             role="checkbox"
@@ -301,13 +300,17 @@ const MultiInputRow = injectIntl(
                             intl,
                             "multiInputCheckboxLabel",
                             {
-                                label: inputName,
+                                label: getPathBaseName(path),
                             }
                         ),
                     }}
                 />
             </TableCell>
-            <TableCell>{inputName}</TableCell>
+            <TableCell>
+                <Tooltip title={path}>
+                    <Typography>{getPathBaseName(path)}</Typography>
+                </Tooltip>
+            </TableCell>
             <TableCell align="right">
                 <IconButton
                     id={buildDebugId(id, ids.BUTTONS.DELETE)}

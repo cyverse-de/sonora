@@ -9,8 +9,9 @@ import React from "react";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import { useQuery } from "react-query";
+import { injectIntl } from "react-intl";
 
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles, useTheme } from "@material-ui/styles";
 import {
     Button,
     Card,
@@ -20,6 +21,7 @@ import {
     Divider,
     Typography,
     Avatar,
+    useMediaQuery,
 } from "@material-ui/core";
 
 import {
@@ -36,6 +38,7 @@ import { Skeleton } from "@material-ui/lab";
 import {
     build as buildID,
     formatDate,
+    formatMessage,
     getMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
@@ -104,15 +107,23 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     dashboardCard: {
-        width: 425,
         height: 225,
         display: "flex",
         flexDirection: "column",
         marginTop: theme.spacing(2),
-        marginRight: theme.spacing(2),
 
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.up("xs")]: {
             width: 300,
+            marginRight: theme.spacing(0),
+        },
+
+        [theme.breakpoints.up("sm")]: {
+            marginRight: theme.spacing(2),
+        },
+
+        [theme.breakpoints.up("lg")]: {
+            width: 425,
+            marginRight: theme.spacing(2),
         },
     },
     actionsRoot: {
@@ -164,30 +175,30 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const getOrigination = (kind, content) => {
+const getOrigination = (kind, content, intl) => {
     let origination;
     let date;
 
     switch (kind) {
         case constants.KIND_ANALYSES:
-            origination = getMessage("startedBy");
+            origination = formatMessage(intl, "startedBy");
             date = content.start_date;
             break;
         case constants.KIND_APPS:
             if (content.integration_date) {
-                origination = getMessage("integratedBy");
+                origination = formatMessage(intl, "integratedBy");
                 date = content.integration_date;
             } else {
-                origination = getMessage("editedBy");
+                origination = formatMessage(intl, "editedBy");
                 date = content.edited_date;
             }
             break;
         case constants.KIND_FEEDS:
-            origination = getMessage("publishedBy");
+            origination = formatMessage(intl, "publishedBy");
             date = content.date_added;
             break;
         default:
-            origination = getMessage("by");
+            origination = formatMessage(intl, "by");
     }
     return [
         origination,
@@ -314,24 +325,36 @@ const cleanUsername = (username) => {
     return user;
 };
 
-const cleanDescription = (description) => {
-    let desc;
-    if (description.length > constants.DESC_MAX_LENGTH) {
-        desc = description.slice(0, constants.DESC_MAX_LENGTH) + "...";
-    } else {
-        desc = description;
-    }
-    return desc;
-};
-
-const cleanTitle = (title) => {
+const cleanField = (field, comparitor) => {
     let retval;
-    if (title.length > constants.TITLE_MAX_LENGTH) {
-        retval = title.slice(0, constants.TITLE_MAX_LENGTH) + "...";
+    if (field.length > comparitor) {
+        retval = field.slice(0, comparitor) + "...";
     } else {
-        retval = title;
+        retval = field;
     }
     return retval;
+};
+
+const cleanDescription = (description) =>
+    cleanField(description, constants.DESC_MAX_LENGTH);
+
+const cleanTitle = (title, isLarge = true) => {
+    let comparitor;
+
+    if (isLarge) {
+        comparitor = constants.TITLE_MAX_LENGTH;
+    } else {
+        comparitor = constants.TITLE_MAX_LENGTH_SMALL;
+    }
+
+    return cleanField(title, comparitor);
+};
+
+const cleanSubheader = (subheader, isLarge = true) => {
+    if (isLarge) {
+        return subheader;
+    }
+    return cleanField(subheader, constants.SUBHEADER_MAX_LENGTH_SMALL);
 };
 
 const DashboardLink = ({ kind, content, headerClass }) => {
@@ -378,11 +401,15 @@ const DashboardLink = ({ kind, content, headerClass }) => {
  */
 export const DashboardItem = (props) => {
     const classes = useStyles();
-    const { kind, content, section } = props;
+    const theme = useTheme();
+
+    const isMediumOrLarger = useMediaQuery(theme.breakpoints.up("md"));
+
+    const { kind, content, section, intl } = props;
     const cardID = buildID(kind, content.id);
 
     const description = cleanDescription(content.description);
-    const [origination, date] = getOrigination(kind, content);
+    const [origination, date] = getOrigination(kind, content, intl);
     const user = cleanUsername(content.username);
     const [headerClass, avatarClass] = getSectionClass(section, classes);
     const rootClass = clsx(classes.cardHeaderDefault, headerClass);
@@ -395,12 +422,14 @@ export const DashboardItem = (props) => {
         >
             <CardHeader
                 avatar={
-                    <Avatar className={classes.avatar}>
-                        {getAvatarIcon(kind, avatarClass)}
-                    </Avatar>
+                    isMediumOrLarger && (
+                        <Avatar className={classes.avatar}>
+                            {getAvatarIcon(kind, avatarClass)}
+                        </Avatar>
+                    )
                 }
                 classes={{ root: rootClass }}
-                title={cleanTitle(content.name)}
+                title={cleanTitle(content.name, isMediumOrLarger)}
                 titleTypographyProps={{
                     noWrap: true,
                     variant: "h6",
@@ -414,7 +443,10 @@ export const DashboardItem = (props) => {
                         variant="subtitle2"
                         classes={{ colorTextSecondary: classes.cardHeaderText }}
                     >
-                        {origination} {`${user} on ${date}`}
+                        {cleanSubheader(
+                            `${origination} ${user} on ${date}`,
+                            isMediumOrLarger
+                        )}
                     </Typography>
                 }
             />
@@ -443,7 +475,7 @@ export const DashboardItem = (props) => {
     );
 };
 
-const DashboardSection = ({ name, kind, items, id, section }) => {
+const DashboardSection = ({ name, kind, items, id, section, intl }) => {
     const classes = useStyles();
 
     return (
@@ -467,6 +499,7 @@ const DashboardSection = ({ name, kind, items, id, section }) => {
                         content={item}
                         key={item.id}
                         section={section}
+                        intl={intl}
                     />
                 ))}
             </div>
@@ -499,7 +532,7 @@ const DashboardSkeleton = () => {
     return <div id={makeID(ids.LOADING)}>{skellies}</div>;
 };
 
-const Dashboard = () => {
+const Dashboard = ({ intl }) => {
     const classes = useStyles();
     const { status, data, error } = useQuery(
         ["dashboard", { limit: constants.SECTION_ITEM_LIMIT }],
@@ -576,6 +609,7 @@ const Dashboard = () => {
                                 items={data[kind][section]}
                                 name={label}
                                 section={section}
+                                intl={intl}
                             />
                         );
                     })
@@ -586,4 +620,4 @@ const Dashboard = () => {
     );
 };
 
-export default withI18N(Dashboard, messages);
+export default withI18N(injectIntl(Dashboard), messages);

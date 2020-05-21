@@ -23,3 +23,5 @@ export const USER_SUFFIX = "@iplantcollaborative.org";
 export const CYVERSE = "CyVerse";
 export const DESC_MAX_LENGTH = 140;
 export const TITLE_MAX_LENGTH = 31;
+export const TITLE_MAX_LENGTH_SMALL = 25;
+export const SUBHEADER_MAX_LENGTH_SMALL = 39;

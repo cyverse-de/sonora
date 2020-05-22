@@ -318,10 +318,20 @@ function Listing(props) {
         setAppTypeFilter(getAppTypeFilters()[0]);
     };
 
+    const getSelectedAnalyses = (analyses) => {
+        const items = analyses ? analyses : selected;
+        return items.map((id) =>
+            data?.analyses.find((analysis) => analysis.id === id)
+        );
+    };
+
     return (
         <>
             <AnalysesToolbar
                 baseId={baseId}
+                selected={selected}
+                username={userProfile?.id}
+                getSelectedAnalyses={getSelectedAnalyses}
                 handleAppTypeFilterChange={handleAppTypeFilterChange}
                 handleOwnershipFilterChange={handleOwnershipFilterChange}
                 appTypeFilter={appTypeFilter}
@@ -332,6 +342,9 @@ function Listing(props) {
                 toggleDisplay={toggleDisplay}
                 detailsEnabled={detailsEnabled}
                 onDetailsSelected={onDetailsSelected}
+                handleInteractiveUrlClick={handleInteractiveUrlClick}
+                handleGoToOutputFolder={handleGoToOutputFolder}
+                handleBatchIconClick={handleBatchIconClick}
             />
             <TableView
                 loading={isFetching}

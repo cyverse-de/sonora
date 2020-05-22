@@ -122,6 +122,9 @@ function AnalysesToolbar(props) {
     const classes = useStyles();
     const {
         baseId,
+        selected,
+        username,
+        getSelectedAnalyses,
         appTypeFilter,
         ownershipFilter,
         handleAppTypeFilterChange,
@@ -133,6 +136,9 @@ function AnalysesToolbar(props) {
         toggleDisplay,
         detailsEnabled,
         onDetailsSelected,
+        handleInteractiveUrlClick,
+        handleGoToOutputFolder,
+        handleBatchIconClick,
     } = props;
     const analysesNavId = build(baseId, ids.ANALYSES_NAVIGATION);
     return (
@@ -197,29 +203,35 @@ function AnalysesToolbar(props) {
                     onClearBatch={onClearBatch}
                 />
             )}
+            <div className={classes.divider} />
             <Hidden smDown>
-                <div className={classes.divider} />
-                <Hidden smDown>
-                    {detailsEnabled && (
-                        <Button
-                            id={build(analysesNavId, ids.DETAILS_BTN)}
-                            className={classes.toolbarItems}
-                            variant="outlined"
-                            disableElevation
-                            color="primary"
-                            onClick={onDetailsSelected}
-                            startIcon={<Info />}
-                        >
-                            {getMessage("details")}
-                        </Button>
-                    )}
-                </Hidden>
+                {detailsEnabled && (
+                    <Button
+                        id={build(analysesNavId, ids.DETAILS_BTN)}
+                        className={classes.toolbarItems}
+                        variant="outlined"
+                        disableElevation
+                        color="primary"
+                        onClick={onDetailsSelected}
+                        startIcon={<Info />}
+                    >
+                        {getMessage("details")}
+                    </Button>
+                )}
             </Hidden>
-            <AnalysesDotMenu
-                baseId={analysesNavId}
-                onDetailsSelected={onDetailsSelected}
-                detailsEnabled={detailsEnabled}
-            />
+            {selected?.length > 0 && (
+                <AnalysesDotMenu
+                    baseId={analysesNavId}
+                    username={username}
+                    onDetailsSelected={onDetailsSelected}
+                    detailsEnabled={detailsEnabled}
+                    selected={selected}
+                    getSelectedAnalyses={getSelectedAnalyses}
+                    handleInteractiveUrlClick={handleInteractiveUrlClick}
+                    handleGoToOutputFolder={handleGoToOutputFolder}
+                    handleBatchIconClick={handleBatchIconClick}
+                />
+            )}
         </Toolbar>
     );
 }

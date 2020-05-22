@@ -39,6 +39,7 @@ var intlData = {
         status: "Status",
         currentStatus: "Current Status",
         outputFolder: "Output folder",
+        date: "Date",
         startDate: "Start date",
         endDate: "End date",
         user: "User",
@@ -89,6 +90,9 @@ var intlData = {
             "Unable to fetch analysis information. Please try again.",
         analysisParamFetchError:
             "Unable to fetch analysis parameters. Please try again.",
+        message: "Message",
+        paramType: "Type",
+        value: "Value",
     },
 };
 

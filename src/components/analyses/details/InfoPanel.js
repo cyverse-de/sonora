@@ -33,48 +33,58 @@ import {
     TableCell,
     TableRow,
     Typography,
+    useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles((theme) => ({
     heading: {
         color: theme.palette.info,
-        flexBasis: "33.33%",
-        flexShrink: 0,
-    },
-    secondaryHeading: {
-        color: theme.palette.info,
+        [theme.breakpoints.down("sm")]: {
+            maxWidth: 150,
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+        },
     },
     expansionPanelDetails: {
         display: "block",
     },
 }));
 
-const columnData = [
+const columnData = (intl) => [
     {
         id: ids.INFO.TIMESTAMP,
-        name: "Date",
-        numeric: false,
-        enableSorting: false,
-    },
-    {
-        id: ids.INFO.MESSAGE,
-        name: "Message",
+        name: formatMessage(intl, "date"),
         numeric: false,
         enableSorting: false,
     },
     {
         id: ids.INFO.STATUS,
-        name: "Status",
+        name: formatMessage(intl, "status"),
+        numeric: false,
+        enableSorting: false,
+    },
+    {
+        id: ids.INFO.MESSAGE,
+        name: formatMessage(intl, "message"),
         numeric: false,
         enableSorting: false,
     },
 ];
 
 function Updates(props) {
-    const { updates, baseId } = props;
+    const { updates, intl, baseId } = props;
+    let columns = columnData(intl);
+    const theme = useTheme();
+    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+    //hide messages on small screens
+    if (isSmall) {
+        columns = columns.filter((column) => column.id !== ids.INFO.MESSAGE);
+    }
     return (
-        <Table>
+        <Table size="small" stickyHeader={true}>
             <TableBody>
                 {updates.map((update, index) => {
                     const status = update.status;
@@ -86,9 +96,6 @@ function Updates(props) {
                                 <Typography>{formatDate(timestamp)}</Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography>{update.message}</Typography>
-                            </TableCell>
-                            <TableCell>
                                 <Typography>
                                     {status[0].toUpperCase() +
                                         status
@@ -97,13 +104,18 @@ function Updates(props) {
                                             .replace(/[_]/gi, " ")}
                                 </Typography>
                             </TableCell>
+                            {!isSmall && (
+                                <TableCell>
+                                    <Typography>{update.message}</Typography>
+                                </TableCell>
+                            )}
                         </TableRow>
                     );
                 })}
             </TableBody>
             <EnhancedTableHead
                 selectable={false}
-                columnData={columnData}
+                columnData={columns}
                 rowsInPage={updates.length}
                 baseId={baseId}
             />
@@ -113,19 +125,13 @@ function Updates(props) {
 
 function Step(props) {
     const { step_number, external_id, step_type, status, updates } = props.step;
-    const { debugId } = props;
+    const { baseId, intl } = props;
     const classes = useStyles();
     return (
         <ExpansionPanel>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>
                     {step_number}: {step_type} - {status}
-                </Typography>
-                <Typography
-                    variant="subtitle2"
-                    className={classes.secondaryHeading}
-                >
-                    {getMessage("analysisId")}: {external_id}
                 </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails
@@ -137,7 +143,7 @@ function Step(props) {
                         btnText={getMessage("copyAnalysisId")}
                     />
                 </div>
-                <Updates updates={updates} debugId={debugId} />
+                <Updates updates={updates} baseId={baseId} intl={intl} />
             </ExpansionPanelDetails>
         </ExpansionPanel>
     );
@@ -178,7 +184,9 @@ function InfoPanel(props) {
     return (
         <Paper>
             {info.steps.map((s, index) => {
-                return <Step key={index} step={s} baseId={debugId} />;
+                return (
+                    <Step key={index} step={s} baseId={debugId} intl={intl} />
+                );
             })}
         </Paper>
     );

@@ -6,6 +6,7 @@ export default {
     START_DATE: "start_date",
     END_DATE: "end_date",
     STATUS: "status",
+    ACTIONS: "actions",
     TOOLBAR: "menuBar",
     PARAMETERS: "parameters",
     TYPE: "type",
@@ -41,6 +42,9 @@ export default {
     MENUITEM_SHARE_COLLAB: "sharecollab",
     MENUITEM_SHARE_SUPPORT: "sharesupport",
     MENUITEM_DETAILS: "details",
+    MENUITEM_BATCH_FILTER: "viewBatchDetails",
+    MENUITEM_GOTO_VICE: "gotoVICE",
+    MENUITEM_EXTEND_TIME_LIMIT: "extendTimeLimit",
 
     VIEW_PARAMS: ".viewParamsView",
 

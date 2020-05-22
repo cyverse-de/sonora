@@ -10,10 +10,14 @@ import { injectIntl } from "react-intl";
 
 import ids from "../ids";
 import messages from "../messages";
-import constants from "../../../constants";
-import analysisStatus from "../../models/analysisStatus";
 import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 import TableLoading from "../../utils/TableLoading";
+import {
+    getAnalysisUser,
+    isInteractive,
+    allowAnalysisTimeExtn,
+    isBatchAnalysis,
+} from "../utils";
 
 import {
     build,
@@ -37,6 +41,8 @@ import {
     TableRow,
     Tooltip,
     Typography,
+    useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
 
 import {
@@ -104,30 +110,22 @@ function Status(props) {
 function Actions(props) {
     const classes = useStyles();
     const { analysis } = props;
-    const isBatch = analysis.batch;
+
     const interactiveUrls = analysis.interactive_urls;
     const handleInteractiveUrlClick = props.handleInteractiveUrlClick;
     const handleGoToOutputFolder = props.handleGoToOutputFolder;
     const handleBatchIconClick = props.handleBatchIconClick;
-    const status = analysis.status;
     const intl = props.intl;
     const baseId = props.baseId;
     const mouseOverId = props.mouseOverId;
-    const analysisUser = props.analysisUser;
     const username = props.username;
-    const isInteractive =
-        (status === analysisStatus.SUBMITTED ||
-            status === analysisStatus.RUNNING) &&
-        interactiveUrls &&
-        interactiveUrls.length > 0;
-    const allowTimeExtn =
-        analysis.interactive_urls &&
-        analysis.interactive_urls.length > 0 &&
-        analysis.status === analysisStatus.RUNNING &&
-        username === analysisUser;
     const isDisabled = analysis.app_disabled;
     const className =
         mouseOverId === analysis.id ? classes.actionHover : classes.action;
+
+    const isBatch = isBatchAnalysis(analysis);
+    const isVICE = isInteractive(analysis);
+    const allowTimeExtn = allowAnalysisTimeExtn(analysis, username);
 
     return (
         <>
@@ -162,7 +160,7 @@ function Actions(props) {
                     </IconButton>
                 </Tooltip>
             )}
-            {!isDisabled && !isInteractive && (
+            {!isDisabled && !isVICE && (
                 <Tooltip
                     aria-label={formatMessage(intl, "relaunch")}
                     title={getMessage("relaunch")}
@@ -177,7 +175,7 @@ function Actions(props) {
                     </IconButton>
                 </Tooltip>
             )}
-            {isInteractive && (
+            {isVICE && (
                 <Tooltip
                     id={build(baseId, ids.ICONS.INTERACTIVE, ids.TOOLTIP)}
                     aria-label={formatMessage(intl, "goToVice")}
@@ -260,7 +258,7 @@ const columnData = (intl) => [
         key: "status",
     },
     {
-        id: "actions",
+        id: ids.ACTIONS,
         name: "",
         numeric: false,
         enableSorting: false,
@@ -288,6 +286,14 @@ function TableView(props) {
         intl,
     } = props;
 
+    const theme = useTheme();
+    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+    let columns = columnData(intl);
+    //hide actions on small screens
+    if (isSmall) {
+        columns = columns.filter((column) => column.id !== ids.ACTIONS);
+    }
+
     const analyses = listing?.analyses;
     const tableId = build(baseId, ids.LISTING_TABLE);
     const [mouseOverId, setMouseOverId] = useState("");
@@ -311,13 +317,13 @@ function TableView(props) {
                     rowsInPage={listing?.analyses?.length || 0}
                     order={order}
                     orderBy={orderBy}
-                    columnData={columnData(intl)}
+                    columnData={columns}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
                 />
                 {loading && (
                     <TableLoading
-                        numColumns={columnData(intl).length + 2}
+                        numColumns={columns.length + 2}
                         numRows={25}
                         baseId={tableId}
                     />
@@ -327,18 +333,14 @@ function TableView(props) {
                         {(!analyses || analyses.length === 0) && !error && (
                             <EmptyTable
                                 message={getMessage("noAnalyses")}
-                                numColumns={columnData(intl).length}
+                                numColumns={columns.length}
                             />
                         )}
                         {analyses &&
                             analyses.length > 0 &&
                             analyses.map((analysis, index) => {
                                 const id = analysis.id;
-                                const user =
-                                    analysis.username &&
-                                    analysis.username.includes(constants.IPLANT)
-                                        ? analysis.username.split("@")[0]
-                                        : analysis.username;
+                                const user = getAnalysisUser(analysis);
                                 const isSelected = selected.indexOf(id) !== -1;
                                 const rowId = build(baseId, tableId, id);
                                 return (
@@ -423,28 +425,29 @@ function TableView(props) {
                                                 intl={intl}
                                             />
                                         </TableCell>
-                                        <TableCell>
-                                            <Actions
-                                                intl={intl}
-                                                analysis={analysis}
-                                                analysisUser={user}
-                                                username={username}
-                                                baseId={build(
-                                                    rowId +
-                                                        ids.ANALYSIS_ACTIONS_CELL
-                                                )}
-                                                handleInteractiveUrlClick={
-                                                    handleInteractiveUrlClick
-                                                }
-                                                handleGoToOutputFolder={
-                                                    handleGoToOutputFolder
-                                                }
-                                                handleBatchIconClick={
-                                                    handleBatchIconClick
-                                                }
-                                                mouseOverId={mouseOverId}
-                                            />
-                                        </TableCell>
+                                        {!isSmall && (
+                                            <TableCell>
+                                                <Actions
+                                                    intl={intl}
+                                                    analysis={analysis}
+                                                    username={username}
+                                                    baseId={build(
+                                                        rowId +
+                                                            ids.ANALYSIS_ACTIONS_CELL
+                                                    )}
+                                                    handleInteractiveUrlClick={
+                                                        handleInteractiveUrlClick
+                                                    }
+                                                    handleGoToOutputFolder={
+                                                        handleGoToOutputFolder
+                                                    }
+                                                    handleBatchIconClick={
+                                                        handleBatchIconClick
+                                                    }
+                                                    mouseOverId={mouseOverId}
+                                                />
+                                            </TableCell>
+                                        )}
                                     </TableRow>
                                 );
                             })}

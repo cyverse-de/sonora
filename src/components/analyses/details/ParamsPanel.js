@@ -54,22 +54,22 @@ function ParameterValue(props) {
     }
 }
 
-const columnData = [
+const columnData = (intl) => [
     {
         id: ids.NAME,
-        name: "Name",
+        name: formatMessage(intl, "name"),
         numeric: false,
         enableSorting: true,
     },
     {
         id: ids.TYPE,
-        name: "Type",
+        name: formatMessage(intl, "paramType"),
         numeric: false,
         enableSorting: true,
     },
     {
         id: ids.VALUE,
-        name: "Value",
+        name: formatMessage(intl, "value"),
         numeric: false,
         enableSorting: false,
     },
@@ -86,6 +86,7 @@ function AnalysisParams(props) {
     const [order] = useState("desc");
     const [orderBy] = useState("Name");
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+    let columns = columnData(intl);
 
     if (isParamsFetching) {
         return <TableLoading numColumns={3} numRows={10} />;
@@ -118,7 +119,7 @@ function AnalysisParams(props) {
     }
     return (
         <TableContainer>
-            <Table>
+            <Table size="small" stickyHeader={true}>
                 <TableBody>
                     {parameters.map((n) => {
                         return (
@@ -137,7 +138,7 @@ function AnalysisParams(props) {
                     })}
                 </TableBody>
                 <EnhancedTableHead
-                    columnData={columnData}
+                    columnData={columns}
                     baseId={baseId}
                     order={order}
                     orderBy={orderBy}

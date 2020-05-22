@@ -4,6 +4,7 @@ import {
     build as buildID,
     withI18N,
     EnhancedTableHead,
+    getMessage as msg,
 } from "@cyverse-de/ui-lib";
 
 import {
@@ -151,7 +152,7 @@ const CollapsibleTableRow = ({
             <TableRow className={classes.row} key={rowID} id={rowID}>
                 <TableCell key={expanderID} id={expanderID}>
                     <IconButton
-                        aria-label="expand row"
+                        aria-label={msg("expandRow")}
                         size="small"
                         onClick={() => setOpen(!open)}
                     >

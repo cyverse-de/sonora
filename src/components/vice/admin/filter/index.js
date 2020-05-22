@@ -92,7 +92,7 @@ const AnalysesFilter = ({ filters, addToFilters, deleteFromFilters }) => {
                     })}
                     onClick={() => setIsExpanded(!isExpanded)}
                     aria-expanded={isExpanded}
-                    aria-label="Show Filter Options"
+                    aria-label={msg("showFilterOptions")}
                 >
                     <ExpandMore />
                 </IconButton>

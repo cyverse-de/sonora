@@ -51,5 +51,6 @@ export default {
         activeFilters: "Active Filters",
         noActiveFilters: "There are no active filters.",
         filterField: "Filter Field",
+        showFilterOptions: "Show Filter Options",
     },
 };

@@ -230,12 +230,7 @@ const VICEAdmin = () => {
         data
     );
 
-    let analysisRows;
-    if (filteredData) {
-        analysisRows = getAnalyses(filteredData);
-    } else {
-        analysisRows = [];
-    }
+    const analysisRows = filteredData ? getAnalyses(filteredData) : [];
 
     return (
         <div id={id(ids.ROOT)} className={classes.root}>

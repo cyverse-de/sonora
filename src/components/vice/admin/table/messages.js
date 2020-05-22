@@ -9,5 +9,6 @@ export default {
         uidColumn: "UID",
         gidColumn: "GID",
         commandColumn: "Command",
+        expandRow: "Expand Row",
     },
 };

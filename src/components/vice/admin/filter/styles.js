@@ -33,7 +33,6 @@ export default makeStyles((theme) => ({
     sectionRoot: {
         display: "flex",
         marginBottom: theme.spacing(5),
-
         [theme.breakpoints.down("md")]: {
             flexDirection: "column",
             justifyContent: "center",

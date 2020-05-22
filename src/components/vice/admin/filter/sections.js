@@ -47,10 +47,7 @@ const FilterSection = ({
             <Typography color="textSecondary">{description}</Typography>
 
             <FormControl>
-                <div
-                    id={id(`section.${section}`)}
-                    className={classes.sectionRoot}
-                >
+                <div id={id("section", kind)} className={classes.sectionRoot}>
                     <FieldSelect
                         id={fieldID}
                         fields={fields}
@@ -75,6 +72,7 @@ const FilterSection = ({
                         variant="outlined"
                         color="primary"
                         onClick={handleAddClick}
+                        id={id("section", kind, "button")}
                     >
                         {msg("add")}
                     </Button>

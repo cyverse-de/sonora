@@ -52,8 +52,6 @@ const FilterChip = ({ label, handleDelete }) => {
             />
         );
     }
-
-    return <></>;
 };
 
 const AnalysesFilter = ({ filters, addToFilters, deleteFromFilters }) => {

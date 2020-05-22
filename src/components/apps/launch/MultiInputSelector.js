@@ -21,13 +21,11 @@ import {
     formatMessage,
     stableSort,
     withI18N,
-    DECheckbox,
     EmptyTable,
     EnhancedTableHead,
 } from "@cyverse-de/ui-lib";
 
 import {
-    Button,
     IconButton,
     FormControl,
     FormHelperText,
@@ -92,8 +90,6 @@ const MultiInputSelector = (props) => {
     const columnData = multiInputColumnData(intl);
     const nameColumn = columnData[0];
 
-    const [selected, setSelected] = React.useState([]);
-    const [lastSelectedIndex, setLastSelectedIndex] = React.useState(-1);
     const [order, setOrder] = React.useState("asc");
 
     const paths = getIn(values, name);
@@ -106,49 +102,6 @@ const MultiInputSelector = (props) => {
         const newOrder = order === "desc" ? "asc" : "desc";
         setOrder(newOrder);
         setFieldValue(name, getSortedPaths(newOrder, paths));
-    };
-
-    const onSelectAllClick = (event, checked) => {
-        const selectAll = checked && !selected.length;
-        setSelected(selectAll ? paths : []);
-        setLastSelectedIndex(-1);
-    };
-
-    const onRowSelected = (event, path, index) => {
-        if (event.shiftKey && lastSelectedIndex !== index) {
-            lastSelectedIndex > index
-                ? rangeSelect(index, lastSelectedIndex, path)
-                : rangeSelect(lastSelectedIndex, index, path);
-        } else {
-            toggleSelection(path);
-        }
-
-        setLastSelectedIndex(index);
-    };
-
-    const rangeSelect = (start, end, path) => {
-        const newSelectionRange = paths.slice(start, end + 1);
-        if (selected.includes(path)) {
-            deselect(newSelectionRange);
-        } else {
-            select(newSelectionRange);
-        }
-    };
-
-    const select = (paths) => {
-        setSelected([...new Set([...selected, ...paths])]);
-    };
-
-    const deselect = (paths) => {
-        setSelected(selected.filter((path) => !paths.includes(path)));
-    };
-
-    const toggleSelection = (path) => {
-        if (selected.includes(path)) {
-            deselect([path]);
-        } else {
-            select([path]);
-        }
     };
 
     return (
@@ -166,27 +119,6 @@ const MultiInputSelector = (props) => {
                                 </FormLabel>
                                 <FormHelperText>{errorMsg}</FormHelperText>
                             </FormControl>
-                            {!!selected.length && (
-                                <Button
-                                    variant="contained"
-                                    size="small"
-                                    startIcon={<ClearIcon />}
-                                    onClick={() => {
-                                        setSelected([]);
-
-                                        const filteredPaths = paths.filter(
-                                            (path) => !selected.includes(path)
-                                        );
-
-                                        setFieldValue(
-                                            name,
-                                            getSortedPaths(order, filteredPaths)
-                                        );
-                                    }}
-                                >
-                                    {getMessage("multiInputRemoveSelected")}
-                                </Button>
-                            )}
                             <BrowseButton
                                 baseId={id}
                                 startingPath={startingPath}
@@ -218,15 +150,13 @@ const MultiInputSelector = (props) => {
                                 aria-labelledby={tableLabelID}
                             >
                                 <EnhancedTableHead
-                                    selectable={true}
-                                    numSelected={selected.length}
+                                    selectable={false}
                                     rowsInPage={paths?.length || 0}
                                     order={order}
                                     orderBy={nameColumn.key}
                                     baseId={tableId}
                                     columnData={columnData}
                                     onRequestSort={onRequestSort}
-                                    onSelectAllClick={onSelectAllClick}
                                 />
                                 <TableBody>
                                     {!paths?.length ? (
@@ -248,20 +178,9 @@ const MultiInputSelector = (props) => {
                                                     key={rowID}
                                                     id={rowID}
                                                     path={path}
-                                                    selected={selected.includes(
-                                                        path
-                                                    )}
-                                                    onRowSelected={(event) =>
-                                                        onRowSelected(
-                                                            event,
-                                                            path,
-                                                            index
-                                                        )
-                                                    }
                                                     onRowDeleted={(event) => {
                                                         event.preventDefault();
                                                         event.stopPropagation();
-                                                        deselect([path]);
                                                         arrayHelpers.remove(
                                                             index
                                                         );
@@ -280,48 +199,23 @@ const MultiInputSelector = (props) => {
     );
 };
 
-const MultiInputRow = injectIntl(
-    ({ intl, id, path, selected, onRowDeleted, onRowSelected }) => (
-        <TableRow
-            id={id}
-            role="checkbox"
-            hover
-            selected={selected}
-            aria-checked={selected}
-            onClick={onRowSelected}
-        >
-            <TableCell padding="checkbox">
-                <DECheckbox
-                    checked={selected}
-                    tabIndex={0}
-                    id={buildDebugId(id, ids.checkbox)}
-                    inputProps={{
-                        "aria-label": formatMessage(
-                            intl,
-                            "multiInputCheckboxLabel",
-                            {
-                                label: getPathBaseName(path),
-                            }
-                        ),
-                    }}
-                />
-            </TableCell>
-            <TableCell>
-                <Tooltip title={path}>
-                    <Typography>{getPathBaseName(path)}</Typography>
-                </Tooltip>
-            </TableCell>
-            <TableCell align="right">
-                <IconButton
-                    id={buildDebugId(id, ids.BUTTONS.DELETE)}
-                    aria-label={formatMessage(intl, "delete")}
-                    onClick={onRowDeleted}
-                >
-                    <ClearIcon />
-                </IconButton>
-            </TableCell>
-        </TableRow>
-    )
-);
+const MultiInputRow = injectIntl(({ intl, id, path, onRowDeleted }) => (
+    <TableRow id={id} hover>
+        <TableCell>
+            <Tooltip title={path}>
+                <Typography>{getPathBaseName(path)}</Typography>
+            </Tooltip>
+        </TableCell>
+        <TableCell align="right">
+            <IconButton
+                id={buildDebugId(id, ids.BUTTONS.DELETE)}
+                aria-label={formatMessage(intl, "delete")}
+                onClick={onRowDeleted}
+            >
+                <ClearIcon />
+            </IconButton>
+        </TableCell>
+    </TableRow>
+));
 
 export default injectIntl(withI18N(MultiInputSelector, messages));

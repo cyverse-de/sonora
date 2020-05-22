@@ -56,8 +56,6 @@ export default {
         minCPUCores: "Minimum CPU Cores",
         minMemory: "Minimum Memory",
         multiInputEmptyLabel: 'Select the "Browse" button to add inputs.',
-        multiInputCheckboxLabel: "{label} Checkbox",
-        multiInputRemoveSelected: "Remove",
         newAnalysisName: "{appName} analysis1",
         name: "Name",
         next: "Next",

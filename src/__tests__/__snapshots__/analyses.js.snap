@@ -30,7 +30,7 @@ exports[`Analyses Listing view 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-56 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-1 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -55,7 +55,7 @@ exports[`Analyses Listing view 1`] = `
                   />
                 }
                 checked={false}
-                className="PrivateSwitchBase-input-59"
+                className="PrivateSwitchBase-input-4"
                 data-indeterminate={false}
                 onChange={[Function]}
                 type="checkbox"
@@ -272,7 +272,7 @@ exports[`Analyses Listing view 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-56 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-1 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -292,7 +292,7 @@ exports[`Analyses Listing view 1`] = `
               <input
                 aria-label="DE_Word_Count_analysis1 checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-59"
+                className="PrivateSwitchBase-input-4"
                 data-indeterminate={false}
                 id="analysesTable.analysesTable.listingTable.c1e6c4e8-7fb6-11ea-be0a-c2a97b34bb42.checkbox"
                 onChange={[Function]}
@@ -335,7 +335,7 @@ exports[`Analyses Listing view 1`] = `
             title="Go to output folder of DE_Word_Count_analysis1"
           >
             <span
-              className="makeStyles-name-98"
+              className="makeStyles-name-5"
             >
               DE_Word_Count_analysis1
             </span>
@@ -402,7 +402,7 @@ exports[`Analyses Listing view 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-56 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-1 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -422,7 +422,7 @@ exports[`Analyses Listing view 1`] = `
               <input
                 aria-label="DE_Word_Count_analysis1 checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-59"
+                className="PrivateSwitchBase-input-4"
                 data-indeterminate={false}
                 id="analysesTable.analysesTable.listingTable.fbfa7d8e-7fb4-11ea-9730-c2a97b34bb42.checkbox"
                 onChange={[Function]}
@@ -465,7 +465,7 @@ exports[`Analyses Listing view 1`] = `
             title="Go to output folder of DE_Word_Count_analysis1"
           >
             <span
-              className="makeStyles-name-98"
+              className="makeStyles-name-5"
             >
               DE_Word_Count_analysis1
             </span>
@@ -532,7 +532,7 @@ exports[`Analyses Listing view 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-56 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-1 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -552,7 +552,7 @@ exports[`Analyses Listing view 1`] = `
               <input
                 aria-label="DE_Word_Count_analysis1 checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-59"
+                className="PrivateSwitchBase-input-4"
                 data-indeterminate={false}
                 id="analysesTable.analysesTable.listingTable.a5e68c74-7f0c-11ea-be65-c2a97b34bb42.checkbox"
                 onChange={[Function]}
@@ -595,7 +595,7 @@ exports[`Analyses Listing view 1`] = `
             title="Go to output folder of DE_Word_Count_analysis1"
           >
             <span
-              className="makeStyles-name-98"
+              className="makeStyles-name-5"
             >
               DE_Word_Count_analysis1
             </span>
@@ -703,7 +703,7 @@ exports[`Analyses Listing view 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-56 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-1 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -723,7 +723,7 @@ exports[`Analyses Listing view 1`] = `
               <input
                 aria-label="ten-rules-jupyter_analysis1 checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-59"
+                className="PrivateSwitchBase-input-4"
                 data-indeterminate={false}
                 id="analysesTable.analysesTable.listingTable.8712ea7c-7f0c-11ea-be65-c2a97b34bb42.checkbox"
                 onChange={[Function]}
@@ -766,7 +766,7 @@ exports[`Analyses Listing view 1`] = `
             title="Go to output folder of ten-rules-jupyter_analysis1"
           >
             <span
-              className="makeStyles-name-98"
+              className="makeStyles-name-5"
             >
               ten-rules-jupyter_analysis1
             </span>
@@ -874,7 +874,7 @@ exports[`Analyses Listing view 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-56 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-1 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -894,7 +894,7 @@ exports[`Analyses Listing view 1`] = `
               <input
                 aria-label="DE_Word_Count_analysis1 checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-59"
+                className="PrivateSwitchBase-input-4"
                 data-indeterminate={false}
                 id="analysesTable.analysesTable.listingTable.727c6ffe-7d8e-11ea-bedd-c2a97b34bb42.checkbox"
                 onChange={[Function]}
@@ -937,7 +937,7 @@ exports[`Analyses Listing view 1`] = `
             title="Go to output folder of DE_Word_Count_analysis1"
           >
             <span
-              className="makeStyles-name-98"
+              className="makeStyles-name-5"
             >
               DE_Word_Count_analysis1
             </span>

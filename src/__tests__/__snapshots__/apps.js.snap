@@ -8,7 +8,7 @@ Array [
     <div
       aria-expanded={false}
       aria-owns={null}
-      className="MuiAutocomplete-root makeStyles-filter-295 MuiAutocomplete-hasClearIcon MuiAutocomplete-hasPopupIcon"
+      className="MuiAutocomplete-root makeStyles-filter-24 MuiAutocomplete-hasClearIcon MuiAutocomplete-hasPopupIcon"
       onClick={[Function]}
       onKeyDown={[Function]}
       onMouseDown={[Function]}
@@ -132,10 +132,10 @@ Array [
           </div>
           <fieldset
             aria-hidden={true}
-            className="PrivateNotchedOutline-root-390 MuiOutlinedInput-notchedOutline"
+            className="PrivateNotchedOutline-root-33 MuiOutlinedInput-notchedOutline"
           >
             <legend
-              className="PrivateNotchedOutline-legendLabelled-392 PrivateNotchedOutline-legendNotched-393"
+              className="PrivateNotchedOutline-legendLabelled-35 PrivateNotchedOutline-legendNotched-36"
             >
               <span>
                 Filter
@@ -146,10 +146,10 @@ Array [
       </div>
     </div>
     <div
-      className="makeStyles-divider-294"
+      className="makeStyles-divider-23"
     />
     <button
-      className="MuiButtonBase-root MuiIconButton-root makeStyles-toolbarItems-296"
+      className="MuiButtonBase-root MuiIconButton-root makeStyles-toolbarItems-25"
       disabled={false}
       onBlur={[Function]}
       onDragLeave={[Function]}
@@ -213,7 +213,7 @@ Array [
           >
             <span
               aria-disabled={false}
-              className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-checked-270 Mui-checked MuiIconButton-colorPrimary"
+              className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-checked-20 Mui-checked MuiIconButton-colorPrimary"
               onBlur={[Function]}
               onDragLeave={[Function]}
               onFocus={[Function]}
@@ -238,7 +238,7 @@ Array [
                     />
                   }
                   checked={true}
-                  className="PrivateSwitchBase-input-272"
+                  className="PrivateSwitchBase-input-22"
                   data-indeterminate={false}
                   onChange={[Function]}
                   type="checkbox"
@@ -411,7 +411,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -425,7 +425,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -439,7 +439,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -453,7 +453,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -467,7 +467,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -481,96 +481,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-        </tr>
-        <tr
-          className="MuiTableRow-root"
-          role={null}
-        >
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -589,7 +500,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -603,7 +514,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -617,7 +528,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -631,7 +542,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -645,7 +556,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -659,96 +570,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-        </tr>
-        <tr
-          className="MuiTableRow-root"
-          role={null}
-        >
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -767,7 +589,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -781,7 +603,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -795,7 +617,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -809,7 +631,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -823,7 +645,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -837,96 +659,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-        </tr>
-        <tr
-          className="MuiTableRow-root"
-          role={null}
-        >
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -945,7 +678,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -959,7 +692,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -973,7 +706,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -987,7 +720,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1001,7 +734,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1015,96 +748,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-        </tr>
-        <tr
-          className="MuiTableRow-root"
-          role={null}
-        >
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1123,7 +767,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1137,7 +781,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1151,7 +795,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1165,7 +809,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1179,7 +823,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1193,96 +837,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-        </tr>
-        <tr
-          className="MuiTableRow-root"
-          role={null}
-        >
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1301,7 +856,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1315,7 +870,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1329,7 +884,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1343,7 +898,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1357,7 +912,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1371,96 +926,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-        </tr>
-        <tr
-          className="MuiTableRow-root"
-          role={null}
-        >
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1479,7 +945,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1493,7 +959,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1507,7 +973,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1521,7 +987,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1535,7 +1001,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1549,96 +1015,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-        </tr>
-        <tr
-          className="MuiTableRow-root"
-          role={null}
-        >
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1657,7 +1034,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1671,7 +1048,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1685,7 +1062,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1699,7 +1076,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1713,7 +1090,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1727,96 +1104,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-        </tr>
-        <tr
-          className="MuiTableRow-root"
-          role={null}
-        >
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1835,7 +1123,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1849,7 +1137,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1863,7 +1151,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1877,7 +1165,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1891,7 +1179,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -1905,96 +1193,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-        </tr>
-        <tr
-          className="MuiTableRow-root"
-          role={null}
-        >
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2013,7 +1212,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2027,7 +1226,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2041,7 +1240,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2055,7 +1254,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2069,7 +1268,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2083,96 +1282,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-        </tr>
-        <tr
-          className="MuiTableRow-root"
-          role={null}
-        >
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2191,7 +1301,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2205,7 +1315,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2219,7 +1329,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2233,7 +1343,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2247,7 +1357,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2261,96 +1371,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-        </tr>
-        <tr
-          className="MuiTableRow-root"
-          role={null}
-        >
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2369,7 +1390,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2383,7 +1404,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2397,7 +1418,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2411,7 +1432,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2425,7 +1446,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2439,96 +1460,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-        </tr>
-        <tr
-          className="MuiTableRow-root"
-          role={null}
-        >
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
-              style={
-                Object {
-                  "height": undefined,
-                  "width": undefined,
-                }
-              }
-            />
-          </td>
-          <td
-            aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          >
-            <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2547,7 +1479,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2561,7 +1493,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2575,7 +1507,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2589,7 +1521,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2603,7 +1535,7 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2617,7 +1549,1075 @@ Array [
             className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           >
             <span
-              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-394 MuiSkeleton-pulse"
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+        </tr>
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+        </tr>
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+        </tr>
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+        </tr>
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+        </tr>
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+        </tr>
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+        </tr>
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+        </tr>
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+        </tr>
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+        </tr>
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+        </tr>
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+        </tr>
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
+              style={
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                }
+              }
+            />
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          >
+            <span
+              className="MuiSkeleton-root MuiSkeleton-text makeStyles-skeleton-37 MuiSkeleton-pulse"
               style={
                 Object {
                   "height": undefined,
@@ -2663,7 +2663,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -2688,7 +2688,7 @@ exports[`App Table view renders 1`] = `
                   />
                 }
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 onChange={[Function]}
                 type="checkbox"
@@ -2862,7 +2862,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -2882,7 +2882,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="16sblaster checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.13ad5f48-bfb4-11e5-a5df-4b1d67d0fef0.checkbox"
                 onChange={[Function]}
@@ -2915,7 +2915,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.13ad5f48-bfb4-11e5-a5df-4b1d67d0fef0.appName"
             onKeyDown={[Function]}
             role="button"
@@ -2938,7 +2938,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.13ad5f48-bfb4-11e5-a5df-4b1d67d0fef0.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="5 Stars"
@@ -3185,7 +3185,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           >
             <span
               className="MuiTypography-root MuiTypography-caption"
@@ -3218,7 +3218,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -3238,7 +3238,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="3.1 dev GEA Leptin RNA Seq Lab checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.2b9d31fe-3162-11ea-a78a-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -3285,7 +3285,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.2b9d31fe-3162-11ea-a78a-008cfa5ae621.appName"
             onKeyDown={[Function]}
             role="button"
@@ -3308,7 +3308,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.2b9d31fe-3162-11ea-a78a-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="0 Stars"
@@ -3555,7 +3555,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           />
         </td>
         <td
@@ -3580,7 +3580,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -3600,7 +3600,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="AAARFv1.0.1 checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.bf750284-d659-11e5-9346-eb45ddf114f9.checkbox"
                 onChange={[Function]}
@@ -3647,7 +3647,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.bf750284-d659-11e5-9346-eb45ddf114f9.appName"
             onKeyDown={[Function]}
             role="button"
@@ -3670,7 +3670,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.bf750284-d659-11e5-9346-eb45ddf114f9.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="4.5 Stars"
@@ -3917,7 +3917,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           >
             <span
               className="MuiTypography-root MuiTypography-caption"
@@ -3950,7 +3950,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -3970,7 +3970,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="add column to file checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.0f1b6b9a-bb92-4ef1-ae73-344fd35ae82f.checkbox"
                 onChange={[Function]}
@@ -4017,7 +4017,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.0f1b6b9a-bb92-4ef1-ae73-344fd35ae82f.appName"
             onKeyDown={[Function]}
             role="button"
@@ -4040,7 +4040,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.0f1b6b9a-bb92-4ef1-ae73-344fd35ae82f.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="5 Stars"
@@ -4287,7 +4287,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           >
             <span
               className="MuiTypography-root MuiTypography-caption"
@@ -4320,7 +4320,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -4340,7 +4340,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="add column to file2 checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.5707bdf5-67f6-4c18-a0d6-5986fa019681.checkbox"
                 onChange={[Function]}
@@ -4387,7 +4387,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.5707bdf5-67f6-4c18-a0d6-5986fa019681.appName"
             onKeyDown={[Function]}
             role="button"
@@ -4410,7 +4410,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.5707bdf5-67f6-4c18-a0d6-5986fa019681.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="5 Stars"
@@ -4657,7 +4657,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           >
             <span
               className="MuiTypography-root MuiTypography-caption"
@@ -4690,7 +4690,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -4710,7 +4710,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Admixture checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.6768773a-854a-11e4-9c72-7fd0f0b43075.checkbox"
                 onChange={[Function]}
@@ -4743,7 +4743,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.6768773a-854a-11e4-9c72-7fd0f0b43075.appName"
             onKeyDown={[Function]}
             role="button"
@@ -4766,7 +4766,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.6768773a-854a-11e4-9c72-7fd0f0b43075.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="1 Star"
@@ -5013,7 +5013,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           >
             <span
               className="MuiTypography-root MuiTypography-caption"
@@ -5046,7 +5046,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -5066,7 +5066,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="ALLMAPS checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.58f783bc-5c95-11ea-b10d-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -5113,7 +5113,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.58f783bc-5c95-11ea-b10d-008cfa5ae621.appName"
             onKeyDown={[Function]}
             role="button"
@@ -5136,7 +5136,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.58f783bc-5c95-11ea-b10d-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="0 Stars"
@@ -5383,7 +5383,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           />
         </td>
         <td
@@ -5408,7 +5408,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -5428,7 +5428,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="ALLMAPS merge checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.6ff82cda-5c98-11ea-aad3-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -5475,7 +5475,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.6ff82cda-5c98-11ea-aad3-008cfa5ae621.appName"
             onKeyDown={[Function]}
             role="button"
@@ -5498,7 +5498,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.6ff82cda-5c98-11ea-aad3-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="0 Stars"
@@ -5745,7 +5745,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           />
         </td>
         <td
@@ -5770,7 +5770,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -5790,7 +5790,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="ALLMAPS path checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.0adf9b82-3c66-11ea-9a20-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -5837,7 +5837,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.0adf9b82-3c66-11ea-9a20-008cfa5ae621.appName"
             onKeyDown={[Function]}
             role="button"
@@ -5860,7 +5860,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.0adf9b82-3c66-11ea-9a20-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="0 Stars"
@@ -6107,7 +6107,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           />
         </td>
         <td
@@ -6132,7 +6132,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -6152,7 +6152,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Annotate transcripts checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.676846d4-854a-11e4-980d-7f0fcca75dbb.checkbox"
                 onChange={[Function]}
@@ -6185,7 +6185,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.676846d4-854a-11e4-980d-7f0fcca75dbb.appName"
             onKeyDown={[Function]}
             role="button"
@@ -6208,7 +6208,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.676846d4-854a-11e4-980d-7f0fcca75dbb.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="1 Star"
@@ -6455,7 +6455,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           >
             <span
               className="MuiTypography-root MuiTypography-caption"
@@ -6488,7 +6488,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -6508,7 +6508,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="AntEpiSeeker 2.0 checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.e328b780-49e4-4421-ac2e-12b49504bcd2.checkbox"
                 onChange={[Function]}
@@ -6541,7 +6541,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.e328b780-49e4-4421-ac2e-12b49504bcd2.appName"
             onKeyDown={[Function]}
             role="button"
@@ -6564,7 +6564,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.e328b780-49e4-4421-ac2e-12b49504bcd2.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="0 Stars"
@@ -6811,7 +6811,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           />
         </td>
         <td
@@ -6836,7 +6836,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -6856,7 +6856,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="appendUnclustered checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.e0937512-1535-11ea-b8be-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -6903,7 +6903,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.e0937512-1535-11ea-b8be-008cfa5ae621.appName"
             onKeyDown={[Function]}
             role="button"
@@ -6926,7 +6926,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.e0937512-1535-11ea-b8be-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="0 Stars"
@@ -7173,7 +7173,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           />
         </td>
         <td
@@ -7198,7 +7198,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -7218,7 +7218,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="APPLES_conservation checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.d99ca952-dbe2-11e6-9e37-0242ac120003.checkbox"
                 onChange={[Function]}
@@ -7265,7 +7265,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.d99ca952-dbe2-11e6-9e37-0242ac120003.appName"
             onKeyDown={[Function]}
             role="button"
@@ -7288,7 +7288,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.d99ca952-dbe2-11e6-9e37-0242ac120003.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="0 Stars"
@@ -7535,7 +7535,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           />
         </td>
         <td
@@ -7560,7 +7560,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -7580,7 +7580,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="APPLES_rbh checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.99df0c66-dce5-11e6-a30f-0242ac120003.checkbox"
                 onChange={[Function]}
@@ -7627,7 +7627,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.99df0c66-dce5-11e6-a30f-0242ac120003.appName"
             onKeyDown={[Function]}
             role="button"
@@ -7650,7 +7650,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.99df0c66-dce5-11e6-a30f-0242ac120003.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="2 Stars"
@@ -7897,7 +7897,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           >
             <span
               className="MuiTypography-root MuiTypography-caption"
@@ -7930,7 +7930,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -7950,7 +7950,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Assembly Stats (assemblathon tool) checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.21d1eee5-364f-4384-b00b-c19fcd2ca488.checkbox"
                 onChange={[Function]}
@@ -7983,7 +7983,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.21d1eee5-364f-4384-b00b-c19fcd2ca488.appName"
             onKeyDown={[Function]}
             role="button"
@@ -8006,7 +8006,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.21d1eee5-364f-4384-b00b-c19fcd2ca488.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="3.5 Stars"
@@ -8253,7 +8253,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           >
             <span
               className="MuiTypography-root MuiTypography-caption"
@@ -8286,7 +8286,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -8306,7 +8306,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Assess Assembly vs whole genome checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.ec009883-b5c5-4605-9d78-17dcab530184.checkbox"
                 onChange={[Function]}
@@ -8339,7 +8339,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.ec009883-b5c5-4605-9d78-17dcab530184.appName"
             onKeyDown={[Function]}
             role="button"
@@ -8362,7 +8362,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.ec009883-b5c5-4605-9d78-17dcab530184.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="4 Stars"
@@ -8609,7 +8609,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           >
             <span
               className="MuiTypography-root MuiTypography-caption"
@@ -8642,7 +8642,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -8662,7 +8662,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Austria Demo checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.5b52c412-6b8e-11e9-81f7-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -8807,7 +8807,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.5b52c412-6b8e-11e9-81f7-008cfa5ae621.appName"
             onKeyDown={[Function]}
             role="button"
@@ -8830,7 +8830,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.5b52c412-6b8e-11e9-81f7-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="0 Stars"
@@ -9077,7 +9077,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           />
         </td>
         <td
@@ -9102,7 +9102,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -9122,7 +9122,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="austria-wf checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.dab9d998-6b8e-11e9-b782-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -9267,7 +9267,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.dab9d998-6b8e-11e9-b782-008cfa5ae621.appName"
             onKeyDown={[Function]}
             role="button"
@@ -9290,7 +9290,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.dab9d998-6b8e-11e9-b782-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="0 Stars"
@@ -9537,7 +9537,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           />
         </td>
         <td
@@ -9562,7 +9562,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -9582,7 +9582,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Ballgown checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.685a0588-64de-11e8-af6e-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -9629,7 +9629,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.685a0588-64de-11e8-af6e-008cfa5ae621.appName"
             onKeyDown={[Function]}
             role="button"
@@ -9652,7 +9652,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.685a0588-64de-11e8-af6e-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="5 Stars"
@@ -9899,7 +9899,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           >
             <span
               className="MuiTypography-root MuiTypography-caption"
@@ -9932,7 +9932,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -9952,7 +9952,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Ballgown-2.0 checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.ed197e38-6d9a-11e8-91a1-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -9985,7 +9985,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.ed197e38-6d9a-11e8-91a1-008cfa5ae621.appName"
             onKeyDown={[Function]}
             role="button"
@@ -10008,7 +10008,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.ed197e38-6d9a-11e8-91a1-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="5 Stars"
@@ -10255,7 +10255,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           >
             <span
               className="MuiTypography-root MuiTypography-caption"
@@ -10288,7 +10288,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -10308,7 +10308,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Bam to Counts (general) checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.51000872-1c9b-4d1a-b582-e46926c98aa3.checkbox"
                 onChange={[Function]}
@@ -10341,7 +10341,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.51000872-1c9b-4d1a-b582-e46926c98aa3.appName"
             onKeyDown={[Function]}
             role="button"
@@ -10364,7 +10364,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.51000872-1c9b-4d1a-b582-e46926c98aa3.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="3.5 Stars"
@@ -10611,7 +10611,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           >
             <span
               className="MuiTypography-root MuiTypography-caption"
@@ -10644,7 +10644,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -10664,7 +10664,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="BAM to Counts (named outputs) checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.581dfdf9-653f-4db7-8fb2-d64438fbddf1.checkbox"
                 onChange={[Function]}
@@ -10697,7 +10697,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.581dfdf9-653f-4db7-8fb2-d64438fbddf1.appName"
             onKeyDown={[Function]}
             role="button"
@@ -10720,7 +10720,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.581dfdf9-653f-4db7-8fb2-d64438fbddf1.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="0 Stars"
@@ -10967,7 +10967,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           />
         </td>
         <td
@@ -10992,7 +10992,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -11012,7 +11012,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="bam2fastq_unmapped checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.f2c26674-c460-11e4-af99-3b9dd34014f8.checkbox"
                 onChange={[Function]}
@@ -11059,7 +11059,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.f2c26674-c460-11e4-af99-3b9dd34014f8.appName"
             onKeyDown={[Function]}
             role="button"
@@ -11082,7 +11082,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.f2c26674-c460-11e4-af99-3b9dd34014f8.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="5 Stars"
@@ -11329,7 +11329,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           >
             <span
               className="MuiTypography-root MuiTypography-caption"
@@ -11362,7 +11362,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -11382,7 +11382,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="Bayesian BiClustering checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.cca286bd-3471-879b-7298-d79751635482.checkbox"
                 onChange={[Function]}
@@ -11415,7 +11415,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.cca286bd-3471-879b-7298-d79751635482.appName"
             onKeyDown={[Function]}
             role="button"
@@ -11438,7 +11438,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.cca286bd-3471-879b-7298-d79751635482.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="3 Stars"
@@ -11685,7 +11685,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           >
             <span
               className="MuiTypography-root MuiTypography-caption"
@@ -11718,7 +11718,7 @@ exports[`App Table view renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-269 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-19 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -11738,7 +11738,7 @@ exports[`App Table view renders 1`] = `
               <input
                 aria-label="BCFtools 1.8 call checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-272"
+                className="PrivateSwitchBase-input-22"
                 data-indeterminate={false}
                 id="tableView.tableView.listingTable.17434bb4-9058-11e8-87dd-008cfa5ae621.checkbox"
                 onChange={[Function]}
@@ -11785,7 +11785,7 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-142"
+            className="makeStyles-name-11"
             id="tableView.tableView.listingTable.17434bb4-9058-11e8-87dd-008cfa5ae621.appName"
             onKeyDown={[Function]}
             role="button"
@@ -11808,7 +11808,7 @@ exports[`App Table view renders 1`] = `
           id="tableView.tableView.listingTable.17434bb4-9058-11e8-87dd-008cfa5ae621.rating"
         >
           <div
-            className="Rate-rating-172"
+            className="Rate-rating-16"
           >
             <span
               aria-label="0 Stars"
@@ -12055,7 +12055,7 @@ exports[`App Table view renders 1`] = `
             </span>
           </div>
           <div
-            className="Rate-total-173"
+            className="Rate-total-17"
           />
         </td>
         <td
@@ -12084,12 +12084,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-1 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.676846d4-854a-11e4-980d-7f0fcca75dbb"
       onClick={[Function]}
     >
       <div
-        className="Component-avatar-106"
+        className="Component-avatar-3"
       >
         <div
           onClick={[Function]}
@@ -12104,14 +12104,14 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="Component-type-107"
+          className="Component-type-4"
         >
           de
         </div>
       </div>
       <div>
         <div
-          className="makeStyles-name-142 makeStyles-nameHover-143"
+          className="makeStyles-name-11 makeStyles-nameHover-12"
           id="appListing.676846d4-854a-11e4-980d-7f0fcca75dbb.appName"
           onClick={[Function]}
           onKeyDown={[Function]}
@@ -12122,7 +12122,7 @@ exports[`App Tile renders 1`] = `
           Bowtie-2.2.1--Build-and-Map for workflows Bowtie-2.2.1--Build-and-Map for workflowsBowtie-2.2.1--Build-and-Map for workflows
         </div>
         <div
-          className="Component-more-110"
+          className="Component-more-7"
         >
           <div>
             <button
@@ -12167,22 +12167,22 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="Component-status-112"
+            className="Component-status-9"
           />
         </div>
       </div>
       <div
-        className="Component-creator-111"
+        className="Component-creator-8"
       >
         <span>
           Roger Barthelson Roger Barthelson Roger Barthelson
         </span>
       </div>
       <div
-        className="Component-rating-113"
+        className="Component-rating-10"
       >
         <div
-          className="Rate-rating-172"
+          className="Rate-rating-16"
         >
           <span
             aria-label={null}
@@ -12629,7 +12629,7 @@ exports[`App Tile renders 1`] = `
           </span>
         </div>
         <div
-          className="Rate-total-173"
+          className="Rate-total-17"
         />
       </div>
     </div>
@@ -12638,12 +12638,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-1 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.99df0c66-dce5-11e6-a30f-0242ac120003"
       onClick={[Function]}
     >
       <div
-        className="Component-avatar-106"
+        className="Component-avatar-3"
       >
         <div
           onClick={[Function]}
@@ -12658,14 +12658,14 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="Component-type-107"
+          className="Component-type-4"
         >
           de
         </div>
       </div>
       <div>
         <div
-          className="makeStyles-name-142 makeStyles-nameHover-143"
+          className="makeStyles-name-11 makeStyles-nameHover-12"
           id="appListing.99df0c66-dce5-11e6-a30f-0242ac120003.appName"
           onClick={[Function]}
           onKeyDown={[Function]}
@@ -12676,7 +12676,7 @@ exports[`App Tile renders 1`] = `
           APPLES_rbh
         </div>
         <div
-          className="Component-more-110"
+          className="Component-more-7"
         >
           <div>
             <button
@@ -12721,7 +12721,7 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="Component-status-112"
+            className="Component-status-9"
           >
             <img
               alt="/betaSymbol.png"
@@ -12740,17 +12740,17 @@ exports[`App Tile renders 1`] = `
         </div>
       </div>
       <div
-        className="Component-creator-111"
+        className="Component-creator-8"
       >
         <span>
           Uk Cyverse
         </span>
       </div>
       <div
-        className="Component-rating-113"
+        className="Component-rating-10"
       >
         <div
-          className="Rate-rating-172"
+          className="Rate-rating-16"
         >
           <span
             aria-label={null}
@@ -13197,7 +13197,7 @@ exports[`App Tile renders 1`] = `
           </span>
         </div>
         <div
-          className="Rate-total-173"
+          className="Rate-total-17"
         >
           <span
             className="MuiTypography-root MuiTypography-caption"
@@ -13214,12 +13214,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-1 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.7b37bf52-4746-11e8-a53a-008cfa5ae621"
       onClick={[Function]}
     >
       <div
-        className="Component-avatar-106"
+        className="Component-avatar-3"
       >
         <div
           onClick={[Function]}
@@ -13234,14 +13234,14 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="Component-type-107"
+          className="Component-type-4"
         >
           de
         </div>
       </div>
       <div>
         <div
-          className="makeStyles-name-142 makeStyles-nameHover-143"
+          className="makeStyles-name-11 makeStyles-nameHover-12"
           id="appListing.7b37bf52-4746-11e8-a53a-008cfa5ae621.appName"
           onClick={[Function]}
           onKeyDown={[Function]}
@@ -13252,7 +13252,7 @@ exports[`App Tile renders 1`] = `
           BCFtools 1.8 view
         </div>
         <div
-          className="Component-more-110"
+          className="Component-more-7"
         >
           <div>
             <button
@@ -13297,7 +13297,7 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="Component-status-112"
+            className="Component-status-9"
           >
             <img
               alt="/betaSymbol.png"
@@ -13316,17 +13316,17 @@ exports[`App Tile renders 1`] = `
         </div>
       </div>
       <div
-        className="Component-creator-111"
+        className="Component-creator-8"
       >
         <span>
           Amanda Cooksey
         </span>
       </div>
       <div
-        className="Component-rating-113"
+        className="Component-rating-10"
       >
         <div
-          className="Rate-rating-172"
+          className="Rate-rating-16"
         >
           <span
             aria-label={null}
@@ -13773,7 +13773,7 @@ exports[`App Tile renders 1`] = `
           </span>
         </div>
         <div
-          className="Rate-total-173"
+          className="Rate-total-17"
         />
       </div>
     </div>
@@ -13782,12 +13782,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-1 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.a57f406c-14b7-4601-9bfd-2604a3907bee"
       onClick={[Function]}
     >
       <div
-        className="Component-avatar-106"
+        className="Component-avatar-3"
       >
         <div
           onClick={[Function]}
@@ -13802,14 +13802,14 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="Component-type-107"
+          className="Component-type-4"
         >
           de
         </div>
       </div>
       <div>
         <div
-          className="makeStyles-name-142 makeStyles-nameHover-143"
+          className="makeStyles-name-11 makeStyles-nameHover-12"
           id="appListing.a57f406c-14b7-4601-9bfd-2604a3907bee.appName"
           onClick={[Function]}
           onKeyDown={[Function]}
@@ -13820,7 +13820,7 @@ exports[`App Tile renders 1`] = `
           bcftools view
         </div>
         <div
-          className="Component-more-110"
+          className="Component-more-7"
         >
           <div>
             <button
@@ -13865,22 +13865,22 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="Component-status-112"
+            className="Component-status-9"
           />
         </div>
       </div>
       <div
-        className="Component-creator-111"
+        className="Component-creator-8"
       >
         <span>
           Zhenyuan Lu
         </span>
       </div>
       <div
-        className="Component-rating-113"
+        className="Component-rating-10"
       >
         <div
-          className="Rate-rating-172"
+          className="Rate-rating-16"
         >
           <span
             aria-label={null}
@@ -14327,7 +14327,7 @@ exports[`App Tile renders 1`] = `
           </span>
         </div>
         <div
-          className="Rate-total-173"
+          className="Rate-total-17"
         />
       </div>
     </div>
@@ -14336,12 +14336,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-1 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.7c1ff290-999e-11e8-acf9-008cfa5ae621"
       onClick={[Function]}
     >
       <div
-        className="Component-avatar-106"
+        className="Component-avatar-3"
       >
         <div
           onClick={[Function]}
@@ -14356,14 +14356,14 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="Component-type-107"
+          className="Component-type-4"
         >
           de
         </div>
       </div>
       <div>
         <div
-          className="makeStyles-name-142 makeStyles-nameHover-143"
+          className="makeStyles-name-11 makeStyles-nameHover-12"
           id="appListing.7c1ff290-999e-11e8-acf9-008cfa5ae621.appName"
           onClick={[Function]}
           onKeyDown={[Function]}
@@ -14374,7 +14374,7 @@ exports[`App Tile renders 1`] = `
           bedtools 2.26.0 bam2fastq
         </div>
         <div
-          className="Component-more-110"
+          className="Component-more-7"
         >
           <div>
             <button
@@ -14419,7 +14419,7 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="Component-status-112"
+            className="Component-status-9"
           >
             <img
               alt="/betaSymbol.png"
@@ -14438,17 +14438,17 @@ exports[`App Tile renders 1`] = `
         </div>
       </div>
       <div
-        className="Component-creator-111"
+        className="Component-creator-8"
       >
         <span>
           Amanda Cooksey
         </span>
       </div>
       <div
-        className="Component-rating-113"
+        className="Component-rating-10"
       >
         <div
-          className="Rate-rating-172"
+          className="Rate-rating-16"
         >
           <span
             aria-label={null}
@@ -14895,7 +14895,7 @@ exports[`App Tile renders 1`] = `
           </span>
         </div>
         <div
-          className="Rate-total-173"
+          className="Rate-total-17"
         />
       </div>
     </div>
@@ -14904,12 +14904,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-1 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.8b89b178-95aa-11e8-bab5-008cfa5ae621"
       onClick={[Function]}
     >
       <div
-        className="Component-avatar-106"
+        className="Component-avatar-3"
       >
         <div
           onClick={[Function]}
@@ -14924,14 +14924,14 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="Component-type-107"
+          className="Component-type-4"
         >
           de
         </div>
       </div>
       <div>
         <div
-          className="makeStyles-name-142 makeStyles-nameHover-143"
+          className="makeStyles-name-11 makeStyles-nameHover-12"
           id="appListing.8b89b178-95aa-11e8-bab5-008cfa5ae621.appName"
           onClick={[Function]}
           onKeyDown={[Function]}
@@ -14942,7 +14942,7 @@ exports[`App Tile renders 1`] = `
           Blat 36 (with options)
         </div>
         <div
-          className="Component-more-110"
+          className="Component-more-7"
         >
           <div>
             <button
@@ -14987,7 +14987,7 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="Component-status-112"
+            className="Component-status-9"
           >
             <img
               alt="/betaSymbol.png"
@@ -15006,17 +15006,17 @@ exports[`App Tile renders 1`] = `
         </div>
       </div>
       <div
-        className="Component-creator-111"
+        className="Component-creator-8"
       >
         <span>
           Amanda Cooksey
         </span>
       </div>
       <div
-        className="Component-rating-113"
+        className="Component-rating-10"
       >
         <div
-          className="Rate-rating-172"
+          className="Rate-rating-16"
         >
           <span
             aria-label={null}
@@ -15463,7 +15463,7 @@ exports[`App Tile renders 1`] = `
           </span>
         </div>
         <div
-          className="Rate-total-173"
+          className="Rate-total-17"
         />
       </div>
     </div>
@@ -15472,12 +15472,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-1 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.b1f3cd8e-e424-11e4-9703-ab68be62b493"
       onClick={[Function]}
     >
       <div
-        className="Component-avatar-106"
+        className="Component-avatar-3"
       >
         <div
           onClick={[Function]}
@@ -15492,14 +15492,14 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="Component-type-107"
+          className="Component-type-4"
         >
           de
         </div>
       </div>
       <div>
         <div
-          className="makeStyles-name-142 makeStyles-nameHover-143"
+          className="makeStyles-name-11 makeStyles-nameHover-12"
           id="appListing.b1f3cd8e-e424-11e4-9703-ab68be62b493.appName"
           onClick={[Function]}
           onKeyDown={[Function]}
@@ -15510,7 +15510,7 @@ exports[`App Tile renders 1`] = `
           Bowtie-2.2.1--Build-and-Map for workflows
         </div>
         <div
-          className="Component-more-110"
+          className="Component-more-7"
         >
           <div>
             <button
@@ -15555,22 +15555,22 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="Component-status-112"
+            className="Component-status-9"
           />
         </div>
       </div>
       <div
-        className="Component-creator-111"
+        className="Component-creator-8"
       >
         <span>
           Ryan Joynson
         </span>
       </div>
       <div
-        className="Component-rating-113"
+        className="Component-rating-10"
       >
         <div
-          className="Rate-rating-172"
+          className="Rate-rating-16"
         >
           <span
             aria-label={null}
@@ -16017,7 +16017,7 @@ exports[`App Tile renders 1`] = `
           </span>
         </div>
         <div
-          className="Rate-total-173"
+          className="Rate-total-17"
         />
       </div>
     </div>
@@ -16026,12 +16026,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-1 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.aa65db9e-9a8b-11e4-b9b7-0f1d2deb5049"
       onClick={[Function]}
     >
       <div
-        className="Component-avatar-106"
+        className="Component-avatar-3"
       >
         <div
           onClick={[Function]}
@@ -16046,14 +16046,14 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="Component-type-107"
+          className="Component-type-4"
         >
           de
         </div>
       </div>
       <div>
         <div
-          className="makeStyles-name-142 makeStyles-nameHover-143"
+          className="makeStyles-name-11 makeStyles-nameHover-12"
           id="appListing.aa65db9e-9a8b-11e4-b9b7-0f1d2deb5049.appName"
           onClick={[Function]}
           onKeyDown={[Function]}
@@ -16064,7 +16064,7 @@ exports[`App Tile renders 1`] = `
           Bowtie2Build-2.2.4 indexer
         </div>
         <div
-          className="Component-more-110"
+          className="Component-more-7"
         >
           <div>
             <button
@@ -16109,22 +16109,22 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="Component-status-112"
+            className="Component-status-9"
           />
         </div>
       </div>
       <div
-        className="Component-creator-111"
+        className="Component-creator-8"
       >
         <span>
           rogerab
         </span>
       </div>
       <div
-        className="Component-rating-113"
+        className="Component-rating-10"
       >
         <div
-          className="Rate-rating-172"
+          className="Rate-rating-16"
         >
           <span
             aria-label={null}
@@ -16571,7 +16571,7 @@ exports[`App Tile renders 1`] = `
           </span>
         </div>
         <div
-          className="Rate-total-173"
+          className="Rate-total-17"
         >
           <span
             className="MuiTypography-root MuiTypography-caption"
@@ -16588,12 +16588,12 @@ exports[`App Tile renders 1`] = `
     className="MuiGrid-root MuiGrid-item"
   >
     <div
-      className="MuiPaper-root Component-card-104 MuiPaper-elevation1 MuiPaper-rounded"
+      className="MuiPaper-root Component-card-1 MuiPaper-elevation1 MuiPaper-rounded"
       id="appListing.efc2819c-83c3-47bd-a2b4-9c96a1f56946"
       onClick={[Function]}
     >
       <div
-        className="Component-avatar-106"
+        className="Component-avatar-3"
       >
         <div
           onClick={[Function]}
@@ -16608,14 +16608,14 @@ exports[`App Tile renders 1`] = `
           />
         </div>
         <div
-          className="Component-type-107"
+          className="Component-type-4"
         >
           de
         </div>
       </div>
       <div>
         <div
-          className="makeStyles-name-142 makeStyles-nameHover-143"
+          className="makeStyles-name-11 makeStyles-nameHover-12"
           id="appListing.efc2819c-83c3-47bd-a2b4-9c96a1f56946.appName"
           onClick={[Function]}
           onKeyDown={[Function]}
@@ -16626,7 +16626,7 @@ exports[`App Tile renders 1`] = `
           BWA 0.7.4 non-model species
         </div>
         <div
-          className="Component-more-110"
+          className="Component-more-7"
         >
           <div>
             <button
@@ -16671,22 +16671,22 @@ exports[`App Tile renders 1`] = `
             </button>
           </div>
           <div
-            className="Component-status-112"
+            className="Component-status-9"
           />
         </div>
       </div>
       <div
-        className="Component-creator-111"
+        className="Component-creator-8"
       >
         <span>
           Roger Barthelson
         </span>
       </div>
       <div
-        className="Component-rating-113"
+        className="Component-rating-10"
       >
         <div
-          className="Rate-rating-172"
+          className="Rate-rating-16"
         >
           <span
             aria-label={null}
@@ -17133,7 +17133,7 @@ exports[`App Tile renders 1`] = `
           </span>
         </div>
         <div
-          className="Rate-total-173"
+          className="Rate-total-17"
         >
           <span
             className="MuiTypography-root MuiTypography-caption"
@@ -17143,7 +17143,7 @@ exports[`App Tile renders 1`] = `
             )
           </span>
           <span
-            className="Rate-delete-174"
+            className="Rate-delete-18"
           >
             <button
               aria-describedby={null}

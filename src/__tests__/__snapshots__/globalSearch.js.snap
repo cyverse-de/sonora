@@ -41,13 +41,13 @@ Array [
     className="MuiFormControl-root"
   >
     <div
-      className="MuiInputBase-root WithStyles(ForwardRef(InputBase))-root-52 makeStyles-searchFilter-3 MuiInputBase-formControl"
+      className="MuiInputBase-root WithStyles(ForwardRef(InputBase))-root-4 makeStyles-searchFilter-3 MuiInputBase-formControl"
       onClick={[Function]}
     >
       <div
         aria-haspopup="listbox"
         aria-labelledby="search.searchFilterMenu"
-        className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input WithStyles(ForwardRef(InputBase))-input-53"
+        className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input WithStyles(ForwardRef(InputBase))-input-5"
         id="search.searchFilterMenu"
         onBlur={[Function]}
         onFocus={[Function]}

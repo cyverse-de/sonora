@@ -30,7 +30,7 @@ exports[`Data Table View renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-59 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-4 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -55,7 +55,7 @@ exports[`Data Table View renders 1`] = `
                   />
                 }
                 checked={false}
-                className="PrivateSwitchBase-input-62"
+                className="PrivateSwitchBase-input-7"
                 data-indeterminate={false}
                 onChange={[Function]}
                 type="checkbox"
@@ -181,7 +181,7 @@ exports[`Data Table View renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-59 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-4 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -201,7 +201,7 @@ exports[`Data Table View renders 1`] = `
               <input
                 aria-label="analyses_qa-3 checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-62"
+                className="PrivateSwitchBase-input-7"
                 data-indeterminate={false}
                 id="tableView.listingTable.analyses_qa-3.checkbox"
                 onChange={[Function]}
@@ -233,7 +233,7 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
-            className="makeStyles-dataLink-140"
+            className="makeStyles-dataLink-14"
             id="tableView.listingTable.analyses_qa-3.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -308,7 +308,7 @@ exports[`Data Table View renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-59 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-4 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -328,7 +328,7 @@ exports[`Data Table View renders 1`] = `
               <input
                 aria-label="test checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-62"
+                className="PrivateSwitchBase-input-7"
                 data-indeterminate={false}
                 id="tableView.listingTable.test.checkbox"
                 onChange={[Function]}
@@ -360,7 +360,7 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
-            className="makeStyles-dataLink-140"
+            className="makeStyles-dataLink-14"
             id="tableView.listingTable.test.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -435,7 +435,7 @@ exports[`Data Table View renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-59 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-4 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -455,7 +455,7 @@ exports[`Data Table View renders 1`] = `
               <input
                 aria-label="CORE-8424.txt checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-62"
+                className="PrivateSwitchBase-input-7"
                 data-indeterminate={false}
                 id="tableView.listingTable.CORE-8424.txt.checkbox"
                 onChange={[Function]}
@@ -487,7 +487,7 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
-            className="makeStyles-dataLink-140"
+            className="makeStyles-dataLink-14"
             id="tableView.listingTable.CORE-8424.txt.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -562,7 +562,7 @@ exports[`Data Table View renders 1`] = `
         >
           <span
             aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-59 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-4 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
             onBlur={[Function]}
             onDragLeave={[Function]}
             onFocus={[Function]}
@@ -582,7 +582,7 @@ exports[`Data Table View renders 1`] = `
               <input
                 aria-label="sample.csv checkbox"
                 checked={false}
-                className="PrivateSwitchBase-input-62"
+                className="PrivateSwitchBase-input-7"
                 data-indeterminate={false}
                 id="tableView.listingTable.sample.csv.checkbox"
                 onChange={[Function]}
@@ -614,7 +614,7 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <span
-            className="makeStyles-dataLink-140"
+            className="makeStyles-dataLink-14"
             id="tableView.listingTable.sample.csv.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}

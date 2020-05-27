@@ -17,7 +17,6 @@ import DataToolbar from "../toolbar/Toolbar";
 import DEPagination from "../../utils/DEPagination";
 import ResourceTypes from "../../models/ResourceTypes";
 import isQueryLoading from "../../utils/isQueryLoading";
-import DEErrorDialog from "../../utils/error/DEErrorDialog";
 
 import UploadDropTarget from "../../uploads/UploadDropTarget";
 import { useUploadTrackingState } from "../../../contexts/uploadTracking";
@@ -29,21 +28,15 @@ import {
     getPagedListing,
 } from "../../../serviceFacades/filesystem";
 
-import {
-    announce,
-    AnnouncerConstants,
-    formatMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
 
 import { injectIntl } from "react-intl";
 import { queryCache, useMutation, useQuery } from "react-query";
-
-import { Button, Typography, useTheme } from "@material-ui/core";
+import withErrorAnnouncer from "../../utils/withErrorAnnouncer";
 
 function Listing(props) {
     const uploadTracker = useUploadTrackingState();
-    const theme = useTheme();
+
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");
@@ -58,8 +51,6 @@ function Listing(props) {
     const [infoTypes, setInfoTypes] = useState([]);
     const [pagedListingKey, setPagedListingKey] = useState(null);
     const [navError, setNavError] = useState(null);
-    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
-    const [errorObject, setErrorObject] = useState(null);
     const {
         baseId,
         path,
@@ -67,6 +58,7 @@ function Listing(props) {
         multiSelect = true,
         isInvalidSelection = () => false,
         render,
+        showErrorAnnouncer,
         intl,
     } = props;
 
@@ -78,19 +70,6 @@ function Listing(props) {
             !upload.hasErrored
         );
     }).length;
-
-    const viewErrorDetails = useCallback(() => {
-        return (
-            <Button variant="outlined" onClick={() => setErrorDialogOpen(true)}>
-                <Typography
-                    variant="button"
-                    style={{ color: theme.palette.error.contrastText }}
-                >
-                    {formatMessage(intl, "details")}
-                </Typography>
-            </Button>
-        );
-    }, [intl, theme.palette.error.contrastText]);
 
     const { error, isFetching } = useQuery({
         queryKey: pagedListingKey,
@@ -123,12 +102,10 @@ function Listing(props) {
         {
             onSuccess: () => refreshListing(),
             onError: (e) => {
-                setErrorObject(e);
-                announce({
-                    text: formatMessage(intl, "deleteResourceError"),
-                    variant: AnnouncerConstants.ERROR,
-                    CustomAction: viewErrorDetails,
-                });
+                showErrorAnnouncer(
+                    formatMessage(intl, "deleteResourceError"),
+                    e
+                );
             },
         }
     );
@@ -156,12 +133,10 @@ function Listing(props) {
             staleTime: Infinity,
             cacheTime: Infinity,
             onError: (e) => {
-                setErrorObject(e);
-                announce({
-                    text: formatMessage(intl, "infoTypeFetchError"),
-                    variant: AnnouncerConstants.ERROR,
-                    CustomAction: viewErrorDetails,
-                });
+                showErrorAnnouncer(
+                    formatMessage(intl, "infoTypeFetchError"),
+                    e
+                );
             },
         },
     });
@@ -373,17 +348,8 @@ function Listing(props) {
                     onClose={() => setDetailsOpen(false)}
                 />
             )}
-            <DEErrorDialog
-                open={errorDialogOpen}
-                baseId={baseId}
-                errorObject={errorObject}
-                handleClose={() => {
-                    setErrorDialogOpen(false);
-                    setErrorObject(null);
-                }}
-            />
         </>
     );
 }
 
-export default withI18N(injectIntl(Listing), messages);
+export default withI18N(injectIntl(withErrorAnnouncer(Listing)), messages);

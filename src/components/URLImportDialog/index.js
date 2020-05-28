@@ -16,8 +16,6 @@ import {
 } from "@material-ui/core";
 
 import {
-    announce,
-    AnnouncerConstants,
     build as buildID,
     formatMessage as fmt,
     withI18N,
@@ -32,6 +30,7 @@ import {
     getErrorCode,
     getErrorData,
 } from "../utils/error/errorCode";
+import withErrorAnnouncer from "../utils/withErrorAnnouncer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -127,7 +126,7 @@ const URLImportTextField = (props) => {
     const [isValidURL, setIsValidURL] = useState(false);
     const [hasFirstFocused, setHasFirstFocused] = useState(false);
 
-    const { path, intl } = props;
+    const { path, showErrorAnnouncer, intl } = props;
 
     const [importUrl] = useMutation(uploadByUrl, {
         onError: (error) => {
@@ -140,10 +139,7 @@ const URLImportTextField = (props) => {
                           path: path,
                       })
                     : fmt(intl, "fileImportFail");
-            announce({
-                text,
-                variant: AnnouncerConstants.ERROR,
-            });
+            showErrorAnnouncer(text, error);
         },
     });
 
@@ -227,7 +223,7 @@ const URLImportTextField = (props) => {
 
 const URLImportDialog = (props) => {
     const classes = useStyles();
-    const { open, onClose, path, intl } = props;
+    const { open, onClose, path, showErrorAnnouncer, intl } = props;
 
     return (
         <Dialog
@@ -252,7 +248,11 @@ const URLImportDialog = (props) => {
                 <Typography className={classes.instructions}>
                     {fmt(intl, "instructions")}
                 </Typography>
-                <URLImportTextField intl={intl} path={path} />
+                <URLImportTextField
+                    intl={intl}
+                    path={path}
+                    showErrorAnnouncer={showErrorAnnouncer}
+                />
             </DialogContent>
 
             <DialogActions>
@@ -269,4 +269,7 @@ const URLImportDialog = (props) => {
     );
 };
 
-export default withI18N(injectIntl(URLImportDialog), intlData);
+export default withI18N(
+    injectIntl(withErrorAnnouncer(URLImportDialog)),
+    intlData
+);

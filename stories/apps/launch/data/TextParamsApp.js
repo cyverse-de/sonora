@@ -54,7 +54,7 @@ export default {
                     required: true,
                 },
                 {
-                    description: "",
+                    description: "Multiple lines",
                     arguments: [],
                     name: "",
                     type: "MultiLineText",
@@ -66,7 +66,7 @@ export default {
                     required: false,
                 },
                 {
-                    description: "ENV VAR",
+                    description: "Passes NEW_ENV_VAR to the tool at runtime",
                     arguments: [],
                     name: "NEW_ENV_VAR",
                     type: "EnvironmentVariable",
@@ -75,7 +75,7 @@ export default {
                     id:
                         "17794ff6-5a83-11ea-9e38-008cfa5ae621_58d5a140-5a86-11ea-9e38-008cfa5ae621",
                     isVisible: true,
-                    defaultValue: "envvar",
+                    defaultValue: "new env var val",
                     required: true,
                 },
             ],

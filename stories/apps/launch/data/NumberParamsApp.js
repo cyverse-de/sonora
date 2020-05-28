@@ -31,7 +31,7 @@ export default {
                     required: false,
                 },
                 {
-                    description: "",
+                    description: "Enter a number between 3 and 7",
                     arguments: [],
                     name: "--int",
                     type: "Integer",
@@ -56,7 +56,7 @@ export default {
                     required: true,
                 },
                 {
-                    description: "456",
+                    description: "Enter a number between 0.01 and 10.9",
                     arguments: [],
                     name: "-d",
                     type: "Double",

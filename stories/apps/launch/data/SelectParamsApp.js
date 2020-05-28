@@ -53,7 +53,7 @@ export default {
                     required: true,
                 },
                 {
-                    description: "",
+                    description: "not required",
                     arguments: [
                         {
                             name: "--optional-list",
@@ -87,7 +87,8 @@ export default {
                     required: false,
                 },
                 {
-                    description: "",
+                    description:
+                        "A way to force a visible parameter to always be set.",
                     arguments: [
                         {
                             name: "--list-always",
@@ -114,7 +115,8 @@ export default {
                     required: true,
                 },
                 {
-                    description: "",
+                    description:
+                        "A list that only allows integer display labels.",
                     arguments: [
                         {
                             name: "--int-list",
@@ -148,7 +150,8 @@ export default {
                     required: false,
                 },
                 {
-                    description: "",
+                    description:
+                        "A list that only allows decimal display labels.",
                     arguments: [
                         {
                             name: "--decimal-list",

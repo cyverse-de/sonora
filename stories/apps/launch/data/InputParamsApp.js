@@ -31,7 +31,7 @@ export default {
                     required: false,
                 },
                 {
-                    description: "",
+                    description: "Select only folders.",
                     arguments: [],
                     name: "",
                     type: "FolderInput",
@@ -43,7 +43,7 @@ export default {
                     required: false,
                 },
                 {
-                    description: "",
+                    description: "Select 1 or more files.",
                     arguments: [],
                     name: "--input",
                     type: "MultiFileSelector",

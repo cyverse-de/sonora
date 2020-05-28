@@ -161,6 +161,7 @@ const ParamGroupForm = withI18N((props) => {
                         id: paramFormId,
                         name,
                         label: param.label,
+                        helperText: param.description,
                         required: param.required,
                     };
 

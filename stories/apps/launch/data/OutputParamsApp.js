@@ -19,7 +19,7 @@ export default {
             label: "Output",
             parameters: [
                 {
-                    description: "",
+                    description: "Name the output file",
                     arguments: [],
                     name: "--out",
                     type: "FileOutput",
@@ -32,7 +32,7 @@ export default {
                     required: true,
                 },
                 {
-                    description: "",
+                    description: "Name the output folder",
                     arguments: [],
                     name: "--folder-out",
                     type: "FolderOutput",
@@ -45,7 +45,8 @@ export default {
                     required: false,
                 },
                 {
-                    description: "",
+                    description:
+                        "Any Unix-style glob that does not start with / or contain ../",
                     arguments: [],
                     name: "--multi-out",
                     type: "MultiFileOutput",

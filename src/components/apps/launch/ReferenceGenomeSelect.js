@@ -38,6 +38,7 @@ const FormFieldLoading = ({
     id,
     field: { name },
     label,
+    helperText,
     required,
     form: { touched, errors },
     ...props
@@ -59,7 +60,9 @@ const FormFieldLoading = ({
                 className={classes.skeleton}
                 {...props}
             />
-            <FormHelperText id={helperTextID}>{errorMsg}</FormHelperText>
+            <FormHelperText id={helperTextID}>
+                {errorMsg || helperText}
+            </FormHelperText>
         </FormControl>
     );
 };

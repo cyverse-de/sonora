@@ -80,6 +80,7 @@ const MultiInputSelector = (props) => {
         intl,
         id,
         label,
+        helperText,
         required,
         acceptedType,
         startingPath,
@@ -117,7 +118,9 @@ const MultiInputSelector = (props) => {
                                 >
                                     {label}
                                 </FormLabel>
-                                <FormHelperText>{errorMsg}</FormHelperText>
+                                <FormHelperText>
+                                    {errorMsg || helperText}
+                                </FormHelperText>
                             </FormControl>
                             <BrowseButton
                                 baseId={id}

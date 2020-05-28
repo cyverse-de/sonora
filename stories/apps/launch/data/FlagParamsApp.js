@@ -19,7 +19,7 @@ export default {
             label: "Flag inputs",
             parameters: [
                 {
-                    description: "checked t/f",
+                    description: "--checked t/f",
                     arguments: [],
                     name: "--checked true, --checked false",
                     type: "Flag",
@@ -32,7 +32,7 @@ export default {
                     required: false,
                 },
                 {
-                    description: "",
+                    description: "--checked or --unchecked",
                     arguments: [],
                     name: "--checked, --unchecked",
                     type: "Flag",
@@ -45,7 +45,8 @@ export default {
                     required: false,
                 },
                 {
-                    description: "",
+                    description:
+                        "only passes a command line argument if checked",
                     arguments: [],
                     name: "--checked-only was checked, ",
                     type: "Flag",
@@ -58,7 +59,8 @@ export default {
                     required: false,
                 },
                 {
-                    description: "",
+                    description:
+                        "only passes a command line argument if unchecked",
                     arguments: [],
                     name: ", --unchecked-only was unchecked",
                     type: "Flag",

@@ -20,7 +20,7 @@ export default {
             label: "Reference Genome / Sequence / Annotation",
             parameters: [
                 {
-                    description: "",
+                    description: "All the Genomes",
                     arguments: [],
                     name: "--ref-genome",
                     type: "ReferenceGenome",
@@ -32,7 +32,7 @@ export default {
                     required: true,
                 },
                 {
-                    description: "",
+                    description: "Just a Sequence",
                     arguments: [],
                     name: "--ref-seq",
                     type: "ReferenceSequence",
@@ -44,7 +44,7 @@ export default {
                     required: false,
                 },
                 {
-                    description: "",
+                    description: "Only Annotations",
                     arguments: [],
                     name: "--ref-annotation",
                     type: "ReferenceAnnotation",

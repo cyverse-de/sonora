@@ -325,10 +325,10 @@ const cleanUsername = (username) => {
     return user;
 };
 
-const cleanField = (field, comparitor) => {
+const cleanField = (field, comparator) => {
     let retval;
-    if (field.length > comparitor) {
-        retval = field.slice(0, comparitor) + "...";
+    if (field.length > comparator) {
+        retval = field.slice(0, comparator) + "...";
     } else {
         retval = field;
     }
@@ -339,15 +339,15 @@ const cleanDescription = (description) =>
     cleanField(description, constants.DESC_MAX_LENGTH);
 
 const cleanTitle = (title, isLarge = true) => {
-    let comparitor;
+    let comparator;
 
     if (isLarge) {
-        comparitor = constants.TITLE_MAX_LENGTH;
+        comparator = constants.TITLE_MAX_LENGTH;
     } else {
-        comparitor = constants.TITLE_MAX_LENGTH_SMALL;
+        comparator = constants.TITLE_MAX_LENGTH_SMALL;
     }
 
-    return cleanField(title, comparitor);
+    return cleanField(title, comparator);
 };
 
 const cleanSubheader = (subheader, isLarge = true) => {

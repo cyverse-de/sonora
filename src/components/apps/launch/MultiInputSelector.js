@@ -111,7 +111,11 @@ const MultiInputSelector = (props) => {
                 return (
                     <>
                         <Toolbar disableGutters>
-                            <FormControl fullWidth error={!!errorMsg}>
+                            <FormControl
+                                fullWidth
+                                variant="outlined"
+                                error={!!errorMsg}
+                            >
                                 <FormLabel
                                     id={tableLabelID}
                                     required={required}

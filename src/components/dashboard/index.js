@@ -585,36 +585,44 @@ const Dashboard = ({ intl }) => {
         ],
     ];
 
+    const filteredSections = data
+        ? sections
+              .filter(
+                  ([kind, section, _label]) =>
+                      data.hasOwnProperty(kind) &&
+                      data[kind].hasOwnProperty(section)
+              )
+              .filter(
+                  ([kind, section, _label]) => data[kind][section].length > 0
+              )
+              .map(([kind, section, label, sectionID]) => {
+                  return (
+                      <DashboardSection
+                          id={sectionID}
+                          kind={kind}
+                          key={`${kind}-${section}`}
+                          items={data[kind][section]}
+                          name={label}
+                          section={section}
+                          intl={intl}
+                      />
+                  );
+              })
+        : [];
+
+    let componentContent;
+
+    if (filteredSections.length > 0) {
+        componentContent = filteredSections;
+    } else {
+        componentContent = (
+            <Typography color="textSecondary">No content found.</Typography>
+        );
+    }
+
     return (
         <div id={makeID(ids.ROOT)} className={classes.gridRoot}>
-            {isLoading ? (
-                <DashboardSkeleton />
-            ) : (
-                sections
-                    .filter(
-                        ([kind, section, _label]) =>
-                            data[kind] !== undefined &&
-                            data[kind][section] !== undefined
-                    )
-                    .filter(
-                        ([kind, section, _label]) =>
-                            data[kind][section].length > 0
-                    )
-                    .map(([kind, section, label, sectionID]) => {
-                        return (
-                            <DashboardSection
-                                id={sectionID}
-                                kind={kind}
-                                key={`${kind}-${section}`}
-                                items={data[kind][section]}
-                                name={label}
-                                section={section}
-                                intl={intl}
-                            />
-                        );
-                    })
-            )}
-
+            {isLoading ? <DashboardSkeleton /> : componentContent}
             <div className={classes.footer} />
         </div>
     );

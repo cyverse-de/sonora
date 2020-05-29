@@ -29,4 +29,5 @@ export default {
             COLUMNS: "sonora.data.columns",
         },
     },
+    CHROMATIC_IGNORE: "chromatic-ignore",
 };

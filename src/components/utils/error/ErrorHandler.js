@@ -75,12 +75,18 @@ function ClientInfo(props) {
                 </Typography>
             </GridLabelValue>
             <GridLabelValue label={getMessage("host")}>
-                <Typography id={build(baseId, ids.host)}>
+                <Typography
+                    id={build(baseId, ids.host)}
+                    className={constants.CHROMATIC_IGNORE}
+                >
                     {window.location.origin}
                 </Typography>
             </GridLabelValue>
             <GridLabelValue label={getMessage("timestamp")}>
-                <Typography id={build(baseId, ids.host)}>
+                <Typography
+                    id={build(baseId, ids.host)}
+                    className={constants.CHROMATIC_IGNORE}
+                >
                     {new Date().toString()}
                 </Typography>
             </GridLabelValue>

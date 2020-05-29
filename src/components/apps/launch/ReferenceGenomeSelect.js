@@ -7,65 +7,16 @@
  */
 import React from "react";
 
-import ids from "./ids";
-
 import messages from "./messages";
 
 import {
-    build as buildDebugId,
+    FormFieldLoading,
     FormTextField,
     getMessage,
-    getFormError,
     withI18N,
 } from "@cyverse-de/ui-lib";
 
-import {
-    FormControl,
-    InputLabel,
-    FormHelperText,
-    MenuItem,
-    makeStyles,
-} from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
-
-const useStyles = makeStyles((theme) => ({
-    skeleton: {
-        height: theme.spacing(6),
-    },
-}));
-
-const FormFieldLoading = ({
-    id,
-    field: { name },
-    label,
-    helperText,
-    required,
-    form: { touched, errors },
-    ...props
-}) => {
-    const classes = useStyles();
-    const errorMsg = getFormError(name, touched, errors);
-    const loadingFieldID = buildDebugId(id, ids.LOADING_SKELETON);
-    const helperTextID = buildDebugId(loadingFieldID, ids.BUTTONS.HELPER_TEXT);
-
-    return (
-        <FormControl fullWidth error={!!errorMsg}>
-            <InputLabel htmlFor={loadingFieldID} required={required}>
-                {label}
-            </InputLabel>
-            <Skeleton
-                id={loadingFieldID}
-                aria-describedby={helperTextID}
-                variant="text"
-                className={classes.skeleton}
-                {...props}
-            />
-            <FormHelperText id={helperTextID}>
-                {errorMsg || helperText}
-            </FormHelperText>
-        </FormControl>
-    );
-};
+import { MenuItem } from "@material-ui/core";
 
 const ReferenceGenomeSelect = withI18N(
     ({ referenceGenomes, referenceGenomesLoading, ...props }) => {

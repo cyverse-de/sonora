@@ -32,7 +32,7 @@ import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
 
 import { injectIntl } from "react-intl";
 import { queryCache, useMutation, useQuery } from "react-query";
-import withErrorAnnouncer from "../../utils/withErrorAnnouncer";
+import withErrorAnnouncer from "../../utils/error/withErrorAnnouncer";
 
 function Listing(props) {
     const uploadTracker = useUploadTrackingState();

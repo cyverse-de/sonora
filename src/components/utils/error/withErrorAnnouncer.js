@@ -17,9 +17,9 @@ import {
 import { Button, Typography, useTheme } from "@material-ui/core";
 import { injectIntl } from "react-intl";
 
-import DEErrorDialog from "./error/DEErrorDialog";
-import ids from "./ids";
-import messages from "./messages";
+import DEErrorDialog from "./DEErrorDialog";
+import ids from "../ids";
+import messages from "../messages";
 
 const withErrorAnnouncer = (WrappedComponent) =>
     withI18N(

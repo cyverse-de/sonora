@@ -30,7 +30,7 @@ import {
     getErrorCode,
     getErrorData,
 } from "../utils/error/errorCode";
-import withErrorAnnouncer from "../utils/withErrorAnnouncer";
+import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 
 const useStyles = makeStyles((theme) => ({
     root: {

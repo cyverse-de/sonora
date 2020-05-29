@@ -66,6 +66,19 @@ export default function apiRouter() {
         terrainHandler({ method: "GET", pathname: "/secured/filesystem/root" })
     );
 
+    logger.info("adding the /api/fileio/urlupload handler");
+    api.post(
+        "/fileio/urlupload",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/fileio/urlupload",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the /api/profile handler");
     api.get("/profile", (req, res) => res.json(auth.getUserProfile(req)));
 

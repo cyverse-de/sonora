@@ -74,5 +74,5 @@ const UnwrappedTest = () => {
 };
 
 export default {
-    title: "Uploads/UploadDropTarget",
+    title: "Uploads and Imports",
 };

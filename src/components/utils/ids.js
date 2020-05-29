@@ -16,4 +16,5 @@ export default {
     CONTACT_SUPPORT_BUTTON: "contactSupportBtn",
     GRID_VIEW_BTN: "gridViewBtn",
     TABLE_VIEW_BTN: "tableViewBtn",
+    ERROR_DLG: "errorDialog",
 };

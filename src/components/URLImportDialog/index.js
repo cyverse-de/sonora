@@ -23,6 +23,14 @@ import {
 
 import intlData from "./messages";
 import ids from "./ids";
+import { useMutation } from "react-query";
+import { uploadByUrl } from "../../serviceFacades/fileio";
+import {
+    ERROR_CODES,
+    getErrorCode,
+    getErrorData,
+} from "../utils/error/errorCode";
+import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -102,19 +110,44 @@ const validURL = (possibleURL) => {
     }
 };
 
+/**
+ * Takes a URL string and returns just the file name without any query
+ * params or tags.  This is how the DE's import job will name the file
+ * as well.
+ * @param urlString
+ * @returns {string}
+ */
+const urlFileName = (urlString) =>
+    urlString.split("/").pop().split("#")[0].split("?")[0];
+
 const URLImportTextField = (props) => {
     const classes = useStyles();
     const [uploadURL, setUploadURL] = useState("");
     const [isValidURL, setIsValidURL] = useState(false);
     const [hasFirstFocused, setHasFirstFocused] = useState(false);
 
-    const { addURLFn, intl } = props;
+    const { path, showErrorAnnouncer, intl } = props;
+
+    const [importUrl] = useMutation(uploadByUrl, {
+        onError: (error) => {
+            const errorPath = getErrorData(error)?.path;
+            const duplicateName = urlFileName(errorPath);
+            const text =
+                getErrorCode(error) === ERROR_CODES.ERR_EXISTS
+                    ? fmt(intl, "fileExists", {
+                          name: duplicateName,
+                          path: path,
+                      })
+                    : fmt(intl, "fileImportFail");
+            showErrorAnnouncer(text, error);
+        },
+    });
 
     const errored = !isValidURL && hasFirstFocused;
 
     const clickHandler = (event) => {
         setupEvent(event);
-        addURLFn(event, uploadURL);
+        importUrl({ dest: path, address: uploadURL });
         setUploadURL("");
         setIsValidURL(false);
     };
@@ -189,20 +222,15 @@ const URLImportTextField = (props) => {
 };
 
 const URLImportDialog = (props) => {
-    const [open, setOpen] = useState(props.open || false);
     const classes = useStyles();
-    const { addURLFn, intl } = props;
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const { open, onClose, path, showErrorAnnouncer, intl } = props;
 
     return (
         <Dialog
             fullWidth={true}
             maxWidth="sm"
             open={open}
-            onClose={handleClose}
+            onClose={onClose}
             aria-labelledby={buildID(ids.BASE_ID, ids.TITLE)}
         >
             <DialogTitle id={buildID(ids.BASE_ID, ids.TITLE)}>
@@ -210,7 +238,7 @@ const URLImportDialog = (props) => {
                 <IconButton
                     aria-label="close"
                     className={classes.closeDialog}
-                    onClick={handleClose}
+                    onClick={onClose}
                 >
                     <CloseIcon />
                 </IconButton>
@@ -220,12 +248,16 @@ const URLImportDialog = (props) => {
                 <Typography className={classes.instructions}>
                     {fmt(intl, "instructions")}
                 </Typography>
-                <URLImportTextField intl={intl} addURLFn={addURLFn} />
+                <URLImportTextField
+                    intl={intl}
+                    path={path}
+                    showErrorAnnouncer={showErrorAnnouncer}
+                />
             </DialogContent>
 
             <DialogActions>
                 <Button
-                    onClick={handleClose}
+                    onClick={onClose}
                     className={classes.close}
                     id={buildID(ids.BASE_ID, ids.CLOSE_DIALOG)}
                     aria-label={fmt(intl, "doneButtonAriaLabel")}
@@ -237,4 +269,7 @@ const URLImportDialog = (props) => {
     );
 };
 
-export default withI18N(injectIntl(URLImportDialog), intlData);
+export default withI18N(
+    injectIntl(withErrorAnnouncer(URLImportDialog)),
+    intlData
+);

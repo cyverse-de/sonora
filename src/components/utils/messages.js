@@ -27,6 +27,7 @@ const intlData = {
         close: "Close",
         gridView: "Grid View",
         tableView: "Table View",
+        details: "Details",
     },
 };
 

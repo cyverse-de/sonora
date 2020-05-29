@@ -38,6 +38,7 @@ function DataDotMenu(props) {
         uploadMenuId,
         localUploadId,
         setUploadDialogOpen,
+        setImportDialogOpen,
         selected,
         getSelectedResources,
     } = props;
@@ -70,9 +71,11 @@ function DataDotMenu(props) {
                             <ListItemText primary={getMessage("details")} />
                         </MenuItem>
                     ),
-                    <Divider
-                        key={build(baseId, ids.DETAILS_MENU_ITEM_DIVIDER)}
-                    />,
+                    detailsEnabled && (
+                        <Divider
+                            key={build(baseId, ids.DETAILS_MENU_ITEM_DIVIDER)}
+                        />
+                    ),
                     isWritable(permission) && (
                         <MenuItem
                             key={build(baseId, ids.CREATE_FOLDER_MI)}
@@ -113,7 +116,7 @@ function DataDotMenu(props) {
                         onBrowseLocal={onClose}
                         onImportFromURL={() => {
                             onClose();
-                            console.log("Import from URL");
+                            setImportDialogOpen(true);
                         }}
                         onUploadQueue={() => {
                             onClose();

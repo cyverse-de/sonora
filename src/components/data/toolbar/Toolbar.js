@@ -43,6 +43,7 @@ import {
 } from "@material-ui/core";
 
 import { CreateNewFolder, Info } from "@material-ui/icons";
+import URLImportDialog from "../../URLImportDialog";
 
 const useStyles = makeStyles(styles);
 
@@ -68,8 +69,11 @@ function DataToolbar(props) {
     const tracker = useUploadTrackingState();
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
     const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+    const [importDialogOpen, setImportDialogOpen] = useState(false);
     const onCreateFolderDlgClose = () => setCreateFolderDlgOpen(false);
     const onCreateFolderClicked = () => setCreateFolderDlgOpen(true);
+    const onCloseImportDialog = () => setImportDialogOpen(false);
+
     const viewUploadQueue = useCallback(() => {
         return (
             <Button
@@ -100,6 +104,7 @@ function DataToolbar(props) {
     let toolbarId = build(baseId, ids.TOOLBAR);
     const uploadMenuId = build(toolbarId, ids.UPLOAD_MENU);
     const localUploadId = build(toolbarId, ids.UPLOAD_MI, ids.UPLOAD_INPUT);
+
     return (
         <Toolbar variant="dense">
             <DisplayTypeSelector
@@ -146,6 +151,7 @@ function DataToolbar(props) {
                     localUploadId={localUploadId}
                     path={path}
                     setUploadDialogOpen={setUploadDialogOpen}
+                    setImportDialogOpen={setImportDialogOpen}
                 />
             </Hidden>
             <DataDotMenu
@@ -160,6 +166,7 @@ function DataToolbar(props) {
                 uploadMenuId={uploadMenuId}
                 localUploadId={localUploadId}
                 setUploadDialogOpen={setUploadDialogOpen}
+                setImportDialogOpen={setImportDialogOpen}
                 getSelectedResources={getSelectedResources}
                 selected={selected}
             />
@@ -175,6 +182,11 @@ function DataToolbar(props) {
             <UploadDialog
                 open={uploadDialogOpen}
                 handleClose={() => setUploadDialogOpen(false)}
+            />
+            <URLImportDialog
+                path={path}
+                open={importDialogOpen}
+                onClose={onCloseImportDialog}
             />
         </Toolbar>
     );

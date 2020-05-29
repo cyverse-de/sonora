@@ -9,5 +9,7 @@ export default {
         textFieldAriaLabel: `URL to import`,
         doneButtonAriaLabel: `close the URL import dialog`,
         doneButtonText: `Done`,
+        fileExists: "File named {name} already exists in {path}",
+        fileImportFail: "Failed to import file. Please try again.",
     },
 };

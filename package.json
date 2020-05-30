@@ -51,11 +51,11 @@
         ]
     },
     "dependencies": {
-        "@cyverse-de/ui-lib": "^4.0.19",
-        "@material-ui/core": "^4.9.13",
+        "@cyverse-de/ui-lib": "^5.1.0",
+        "@material-ui/core": "^4.10.0",
         "@material-ui/icons": "^4.9.1",
-        "@material-ui/lab": "^4.0.0-alpha.52",
-        "@material-ui/styles": "^4.9.14",
+        "@material-ui/lab": "^4.0.0-alpha.54",
+        "@material-ui/styles": "^4.10.0",
         "@next/bundle-analyzer": "^9.4.0",
         "amqplib": "^0.5.5",
         "axios": "^0.19.2",
@@ -85,6 +85,7 @@
         "react-select": "^2.4.4",
         "request": "^2.88.0",
         "request-promise": "^4.2.5",
+        "sanitize-html": "^1.24.0",
         "sockette": "^2.0.6",
         "uuid": "^3.4.0",
         "winston": "^3.2.1"

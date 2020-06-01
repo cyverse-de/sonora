@@ -6,23 +6,39 @@
  * @module dashboard
  */
 import React from "react";
+import { useRouter } from "next/router";
+import clsx from "clsx";
 import { useQuery } from "react-query";
+import { injectIntl } from "react-intl";
 
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles, useTheme } from "@material-ui/styles";
 import {
     Button,
     Card,
     CardActions,
     CardContent,
+    CardHeader,
     Divider,
     Typography,
+    Avatar,
+    useMediaQuery,
 } from "@material-ui/core";
+
+import {
+    Apps,
+    BarChart,
+    Event,
+    RssFeed,
+    OpenInNew,
+    OpenInBrowser,
+} from "@material-ui/icons";
 
 import { Skeleton } from "@material-ui/lab";
 
 import {
     build as buildID,
     formatDate,
+    formatMessage,
     getMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
@@ -37,6 +53,10 @@ const makeID = (...names) => buildID(ids.BASE, ...names);
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        paddingTop: 0,
+        paddingRight: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+        paddingLeft: theme.spacing(2),
     },
     dividerRoot: {
         marginBottom: theme.spacing(1),
@@ -57,7 +77,10 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexWrap: "wrap",
         justifyContent: "flex-start",
-        padding: theme.spacing(2),
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+        paddingLeft: 0,
+        paddingRight: 0,
 
         // Try to eek as much space out of the iPhone SE cards as possible.
         [theme.breakpoints.down("sm")]: {
@@ -84,50 +107,208 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     dashboardCard: {
-        width: 450,
         height: 225,
         display: "flex",
         flexDirection: "column",
-        margin: theme.spacing(1),
+        marginTop: theme.spacing(2),
 
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.up("xs")]: {
             width: 300,
+            marginRight: theme.spacing(0),
+        },
+
+        [theme.breakpoints.up("sm")]: {
+            marginRight: theme.spacing(2),
+        },
+
+        [theme.breakpoints.up("lg")]: {
+            width: 425,
+            marginRight: theme.spacing(2),
         },
     },
     actionsRoot: {
         marginLeft: "auto",
     },
+    avatar: {
+        background: theme.palette.white,
+        color: theme.palette.gray,
+    },
+    cardHeaderDefault: {
+        background: theme.palette.primary.main,
+        marginBottom: theme.spacing(2),
+    },
+    cardHeaderDefaultAvatar: {
+        color: theme.palette.primary.main,
+    },
+    cardHeaderEvents: {
+        background: theme.palette.violet,
+    },
+    cardHeaderEventsAvatar: {
+        color: theme.palette.violet,
+    },
+    cardHeaderNews: {
+        background: theme.palette.indigo,
+    },
+    cardHeaderNewsAvatar: {
+        color: theme.palette.indigo,
+    },
+    cardHeaderPublic: {
+        background: theme.palette.darkNavy,
+    },
+    cardHeaderPublicAvatar: {
+        color: theme.palette.darkNavy,
+    },
+    cardHeaderRecent: {
+        background: theme.palette.navy,
+    },
+    cardHeaderRecentAvatar: {
+        color: theme.palette.navy,
+    },
+    cardHeaderRecentlyAdded: {
+        background: theme.palette.gold,
+    },
+    cardHeaderRecentlyAddedAvatar: {
+        color: theme.palette.gold,
+    },
+    cardHeaderText: {
+        color: theme.palette.primary.contrastText,
+    },
 }));
 
-const getOrigination = (kind, content) => {
+const getOrigination = (kind, content, intl) => {
     let origination;
     let date;
 
     switch (kind) {
         case constants.KIND_ANALYSES:
-            origination = getMessage("startedBy");
+            origination = formatMessage(intl, "startedBy");
             date = content.start_date;
             break;
         case constants.KIND_APPS:
             if (content.integration_date) {
-                origination = getMessage("integratedBy");
+                origination = formatMessage(intl, "integratedBy");
                 date = content.integration_date;
             } else {
-                origination = getMessage("editedBy");
+                origination = formatMessage(intl, "editedBy");
                 date = content.edited_date;
             }
             break;
         case constants.KIND_FEEDS:
-            origination = getMessage("publishedBy");
+            origination = formatMessage(intl, "publishedBy");
             date = content.date_added;
             break;
         default:
-            origination = getMessage("by");
+            origination = formatMessage(intl, "by");
     }
     return [
         origination,
         formatDate(date ? new Date(date).valueOf() : new Date().valueOf()),
     ];
+};
+
+const getAvatarIcon = (kind, colorClass) => {
+    let retval;
+    switch (kind) {
+        case constants.KIND_ANALYSES:
+            retval = (
+                <BarChart
+                    color="primary"
+                    classes={{ colorPrimary: colorClass }}
+                />
+            );
+            break;
+        case constants.KIND_APPS:
+            retval = (
+                <Apps color="primary" classes={{ colorPrimary: colorClass }} />
+            );
+            break;
+        case constants.KIND_FEEDS:
+            retval = (
+                <RssFeed
+                    color="primary"
+                    classes={{ colorPrimary: colorClass }}
+                />
+            );
+            break;
+        case constants.KIND_EVENTS:
+            retval = (
+                <Event color="primary" classes={{ colorPrimary: colorClass }} />
+            );
+            break;
+        default:
+            retval = (
+                <Apps color="primary" classes={{ colorPrimary: colorClass }} />
+            );
+    }
+    return retval;
+};
+
+const getSectionClass = (section, classes) => {
+    let header;
+    let avatar;
+    switch (section) {
+        case constants.SECTION_EVENTS:
+            header = classes.cardHeaderEvents;
+            avatar = classes.cardHeaderEventsAvatar;
+            break;
+        case constants.SECTION_NEWS:
+            header = classes.cardHeaderNews;
+            avatar = classes.cardHeaderNewsAvatar;
+            break;
+        case constants.SECTION_PUBLIC:
+            header = classes.cardHeaderPublic;
+            avatar = classes.cardHeaderPublicAvatar;
+            break;
+        case constants.SECTION_RECENT:
+            header = classes.cardHeaderRecent;
+            avatar = classes.cardHeaderRecentAvatar;
+            break;
+        case constants.SECTION_RECENTLY_ADDED:
+            header = classes.cardHeaderRecentlyAdded;
+            avatar = classes.cardHeaderRecentlyAddedAvatar;
+            break;
+        default:
+            header = classes.cardHeaderDefault;
+            avatar = classes.cardHeaderDefaultAvatar;
+            break;
+    }
+    return [header, avatar];
+};
+
+const getLinkIcon = (kind) => {
+    let retval;
+    switch (kind) {
+        case constants.KIND_ANALYSES:
+            retval = <OpenInBrowser />;
+            break;
+        case constants.KIND_APPS:
+            retval = <OpenInBrowser />;
+            break;
+        case constants.KIND_FEEDS:
+            retval = <OpenInNew />;
+            break;
+        case constants.KIND_EVENTS:
+            retval = <OpenInNew />;
+            break;
+        default:
+            retval = <OpenInNew />;
+    }
+    return retval;
+};
+
+const getLinkTarget = (kind, content) => {
+    let target;
+    switch (kind) {
+        case constants.KIND_APPS:
+            target = `/apps/${content.id}/details`;
+            break;
+        case constants.KIND_ANALYSES:
+            target = `/analyses/${content.id}/details`;
+            break;
+        default:
+            target = content.link;
+    }
+    return target;
 };
 
 const cleanUsername = (username) => {
@@ -144,14 +325,70 @@ const cleanUsername = (username) => {
     return user;
 };
 
-const cleanDescription = (description) => {
-    let desc;
-    if (description.length > constants.DESC_MAX_LENGTH) {
-        desc = description.slice(0, constants.DESC_MAX_LENGTH) + "...";
+const cleanField = (field, comparator) => {
+    let retval;
+    if (field.length > comparator) {
+        retval = field.slice(0, comparator) + "...";
     } else {
-        desc = description;
+        retval = field;
     }
-    return desc;
+    return retval;
+};
+
+const cleanDescription = (description) =>
+    cleanField(description, constants.DESC_MAX_LENGTH);
+
+const cleanTitle = (title, isLarge = true) => {
+    let comparator;
+
+    if (isLarge) {
+        comparator = constants.TITLE_MAX_LENGTH;
+    } else {
+        comparator = constants.TITLE_MAX_LENGTH_SMALL;
+    }
+
+    return cleanField(title, comparator);
+};
+
+const cleanSubheader = (subheader, isLarge = true) => {
+    if (isLarge) {
+        return subheader;
+    }
+    return cleanField(subheader, constants.SUBHEADER_MAX_LENGTH_SMALL);
+};
+
+const DashboardLink = ({ kind, content, headerClass }) => {
+    const router = useRouter();
+    const isNewTab =
+        kind === constants.KIND_EVENTS || kind === constants.KIND_FEEDS;
+    const target = getLinkTarget(kind, content);
+    const icon = getLinkIcon(kind);
+
+    return isNewTab ? (
+        <Button
+            href={target}
+            target="_blank"
+            rel="noopener noreferrer"
+            color="primary"
+            size="small"
+            startIcon={icon}
+            variant="contained"
+            classes={{ containedPrimary: headerClass }}
+        >
+            {getMessage("open")}
+        </Button>
+    ) : (
+        <Button
+            color="primary"
+            size="small"
+            startIcon={icon}
+            variant="contained"
+            classes={{ containedPrimary: headerClass }}
+            onClick={(_) => router.push(target)}
+        >
+            {getMessage("open")}
+        </Button>
+    );
 };
 
 /**
@@ -164,12 +401,18 @@ const cleanDescription = (description) => {
  */
 export const DashboardItem = (props) => {
     const classes = useStyles();
-    const { kind, content } = props;
+    const theme = useTheme();
+
+    const isMediumOrLarger = useMediaQuery(theme.breakpoints.up("md"));
+
+    const { kind, content, section, intl } = props;
     const cardID = buildID(kind, content.id);
 
     const description = cleanDescription(content.description);
-    const [origination, date] = getOrigination(kind, content);
+    const [origination, date] = getOrigination(kind, content, intl);
     const user = cleanUsername(content.username);
+    const [headerClass, avatarClass] = getSectionClass(section, classes);
+    const rootClass = clsx(classes.cardHeaderDefault, headerClass);
 
     return (
         <Card
@@ -177,26 +420,43 @@ export const DashboardItem = (props) => {
             id={makeID(ids.ITEM, cardID)}
             elevation={4}
         >
+            <CardHeader
+                avatar={
+                    isMediumOrLarger && (
+                        <Avatar className={classes.avatar}>
+                            {getAvatarIcon(kind, avatarClass)}
+                        </Avatar>
+                    )
+                }
+                classes={{ root: rootClass }}
+                title={cleanTitle(content.name, isMediumOrLarger)}
+                titleTypographyProps={{
+                    noWrap: true,
+                    variant: "h6",
+                    color: "primary",
+                    classes: { colorPrimary: classes.cardHeaderText },
+                }}
+                subheader={
+                    <Typography
+                        noWrap
+                        color="textSecondary"
+                        variant="subtitle2"
+                        classes={{ colorTextSecondary: classes.cardHeaderText }}
+                    >
+                        {cleanSubheader(
+                            `${origination} ${user} on ${date}`,
+                            isMediumOrLarger
+                        )}
+                    </Typography>
+                }
+            />
             <CardContent
                 classes={{
                     root: classes.root,
                 }}
             >
-                <Typography noWrap variant="h6" component="h6">
-                    {content.name}
-                </Typography>
-
-                <Typography
-                    classes={{ root: classes.subtitle }}
-                    gutterBottom
-                    noWrap
-                    color="textSecondary"
-                >
-                    {origination} {`${user} on ${date}`}
-                </Typography>
-
                 <Typography color="textSecondary" variant="body2" component="p">
-                    {description}
+                    {description || getMessage("noDescriptionProvided")}
                 </Typography>
             </CardContent>
 
@@ -205,20 +465,17 @@ export const DashboardItem = (props) => {
                     root: classes.actionsRoot,
                 }}
             >
-                <Button
-                    href={content.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    color="primary"
-                >
-                    {getMessage("open")}
-                </Button>
+                <DashboardLink
+                    kind={kind}
+                    content={content}
+                    headerClass={headerClass}
+                />
             </CardActions>
         </Card>
     );
 };
 
-const DashboardSection = ({ name, kind, items, id }) => {
+const DashboardSection = ({ name, kind, items, id, section, intl }) => {
     const classes = useStyles();
 
     return (
@@ -237,7 +494,13 @@ const DashboardSection = ({ name, kind, items, id }) => {
 
             <div className={classes.sectionItems}>
                 {items.map((item) => (
-                    <DashboardItem kind={kind} content={item} key={item.id} />
+                    <DashboardItem
+                        kind={kind}
+                        content={item}
+                        key={item.id}
+                        section={section}
+                        intl={intl}
+                    />
                 ))}
             </div>
         </div>
@@ -269,7 +532,7 @@ const DashboardSkeleton = () => {
     return <div id={makeID(ids.LOADING)}>{skellies}</div>;
 };
 
-const Dashboard = () => {
+const Dashboard = ({ intl }) => {
     const classes = useStyles();
     const { status, data, error } = useQuery(
         ["dashboard", { limit: constants.SECTION_ITEM_LIMIT }],
@@ -315,44 +578,54 @@ const Dashboard = () => {
             makeID(ids.SECTION_NEWS),
         ],
         [
-            constants.KIND_FEEDS,
+            constants.KIND_EVENTS,
             constants.SECTION_EVENTS,
             getMessage("eventsFeed"),
             makeID(ids.SECTION_EVENTS),
         ],
     ];
 
+    const filteredSections = data
+        ? sections
+              .filter(
+                  ([kind, section, _label]) =>
+                      data.hasOwnProperty(kind) &&
+                      data[kind].hasOwnProperty(section)
+              )
+              .filter(
+                  ([kind, section, _label]) => data[kind][section].length > 0
+              )
+              .map(([kind, section, label, sectionID]) => {
+                  return (
+                      <DashboardSection
+                          id={sectionID}
+                          kind={kind}
+                          key={`${kind}-${section}`}
+                          items={data[kind][section]}
+                          name={label}
+                          section={section}
+                          intl={intl}
+                      />
+                  );
+              })
+        : [];
+
+    let componentContent;
+
+    if (filteredSections.length > 0) {
+        componentContent = filteredSections;
+    } else {
+        componentContent = (
+            <Typography color="textSecondary">No content found.</Typography>
+        );
+    }
+
     return (
         <div id={makeID(ids.ROOT)} className={classes.gridRoot}>
-            {isLoading ? (
-                <DashboardSkeleton />
-            ) : (
-                sections
-                    .filter(
-                        ([kind, section, _label]) =>
-                            data[kind] !== undefined &&
-                            data[kind][section] !== undefined
-                    )
-                    .filter(
-                        ([kind, section, _label]) =>
-                            data[kind][section].length > 0
-                    )
-                    .map(([kind, section, label, sectionID]) => {
-                        return (
-                            <DashboardSection
-                                id={sectionID}
-                                kind={kind}
-                                key={`${kind}-${section}`}
-                                items={data[kind][section]}
-                                name={label}
-                            />
-                        );
-                    })
-            )}
-
+            {isLoading ? <DashboardSkeleton /> : componentContent}
             <div className={classes.footer} />
         </div>
     );
 };
 
-export default withI18N(Dashboard, messages);
+export default withI18N(injectIntl(Dashboard), messages);

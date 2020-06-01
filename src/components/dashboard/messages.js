@@ -14,5 +14,6 @@ export default {
         startedBy: "Started by",
         publishedBy: "Published by",
         by: "By",
+        noDescriptionProvided: "No description was provided.",
     },
 };

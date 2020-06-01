@@ -54,6 +54,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 
 const drawerWidth = 200;
 const miniDrawerWidth = 65;
@@ -193,6 +195,9 @@ const useStyles = makeStyles((theme) => ({
             color: theme.palette.info.contrastText,
         },
     },
+    nested: {
+        paddingLeft: theme.spacing(4),
+    },
 }));
 
 function CyverseAppBar(props) {
@@ -204,7 +209,9 @@ function CyverseAppBar(props) {
     const { intl, children, activeView, setAppBarRef } = props;
     const [userProfile, setUserProfile] = useUserProfile();
     const [avatarLetter, setAvatarLetter] = useState("");
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [adminUser, setAdminUser] = useState(false);
+
     useQuery({
         queryKey: "getUserProfile",
         queryFn: getUserProfile,
@@ -220,8 +227,25 @@ function CyverseAppBar(props) {
     React.useEffect(() => {
         if (userProfile?.id) {
             setAvatarLetter(userProfile.id.charAt(0).toUpperCase());
+            const adminGroups = process.env.ADMIN_GROUPS;
+            const groupAttribute = process.env.ADMIN_GROUP_ATTRIBUTE;
+            const userGroupMemberships = userProfile.attributes[groupAttribute];
+            const adminMemberships = [];
+            if (adminGroups && userGroupMemberships) {
+                const adminGroupArray = adminGroups.split(",");
+                adminGroupArray.forEach((adminGroup) => {
+                    const found = userGroupMemberships.find(
+                        (userGroup) => adminGroup === userGroup
+                    );
+                    if (found) {
+                        adminMemberships.push(found);
+                    }
+                });
+                setAdminUser(adminMemberships.length > 0);
+            }
+            console.log("is admin user => " + adminUser);
         }
-    }, [userProfile, setAvatarLetter]);
+    }, [userProfile, adminUser, setAdminUser, setAvatarLetter]);
 
     const handleUserButtonClick = (event) => {
         toggleDrawer(false);
@@ -434,6 +458,53 @@ function CyverseAppBar(props) {
         </List>
     );
 
+    const adminDrawerItems = (
+        <List>
+            <ListItem
+                id={build(ids.DRAWER_MENU, ids.ADMIN_MI)}
+                className={classes.listItem}
+            >
+                <ListItemIcon>
+                    <SupervisorAccountIcon
+                        className={classes.icon}
+                        fontSize="large"
+                    />
+                </ListItemIcon>
+                <ListItemText>{getMessage("admin")}</ListItemText>
+            </ListItem>
+            <List component="div" disablePadding>
+                <Tooltip
+                    title={formatMessage(intl, "vice")}
+                    placement="right"
+                    arrow
+                >
+                    <ListItem
+                        button
+                        id={build(ids.DRAWER_MENU, ids.VICE_MI)}
+                        className={clsx(
+                            classes.nested,
+                            activeView === NavigationConstants.VICE
+                                ? classes.listItemActive
+                                : classes.listItem
+                        )}
+                        onClick={() =>
+                            router.push(
+                                "/" +
+                                    NavigationConstants.ADMIN +
+                                    "/" +
+                                    NavigationConstants.VICE
+                            )
+                        }
+                    >
+                        <ListItemIcon>
+                            <LabelImportantIcon className={classes.icon} />
+                        </ListItemIcon>
+                        <ListItemText>{getMessage("vice")}</ListItemText>
+                    </ListItem>
+                </Tooltip>
+            </List>
+        </List>
+    );
     return (
         <div className={classes.root}>
             <AppBar
@@ -529,6 +600,12 @@ function CyverseAppBar(props) {
                     </div>
                     <Divider />
                     {drawerItems}
+                    {open && adminUser && (
+                        <>
+                            <Divider />
+                            {adminDrawerItems}
+                        </>
+                    )}
                 </Drawer>
             </Hidden>
             <Hidden only={["sm", "md", "lg", "xl"]}>
@@ -554,6 +631,12 @@ function CyverseAppBar(props) {
                     </div>
                     <Divider />
                     {drawerItems}
+                    {adminUser && (
+                        <>
+                            <Divider />
+                            {adminDrawerItems}
+                        </>
+                    )}
                 </Drawer>
             </Hidden>
             <CyVerseAnnouncer />

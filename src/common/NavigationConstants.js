@@ -1,13 +1,15 @@
 // constants that define navigation routes
 export default {
-    DATA: "data",
-    APPS: "apps",
+    ADMIN: "admin",
     ANALYSES: "analyses",
+    APPS: "apps",
     DASHBOARD: "dashboard",
-    MORE: "more",
-    SEARCH: "search",
+    DATA: "data",
     LOGIN: "login",
     LOGOUT: "logout",
-    SETTINGS: "settings",
+    MORE: "more",
     NOTIFICATION_WS: "/websocket/notifications",
+    SEARCH: "search",
+    SETTINGS: "settings",
+    VICE: "vice",
 };

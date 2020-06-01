@@ -10,5 +10,7 @@ module.exports = withBundleAnalyzer({
         INTERCOM_ENABLED: config.get("intercom.enabled"),
         INTERCOM_COMPANY_ID: config.get("intercom.company_id"),
         INTERCOM_COMPANY_NAME: config.get("intercom.company_name"),
+        ADMIN_GROUPS: config.get("admin.groups"),
+        ADMIN_GROUP_ATTRIBUTE: config.get("admin.group_attribute_name"),
     },
 });

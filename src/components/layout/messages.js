@@ -1,6 +1,7 @@
 const intlData = {
     locales: "en-US",
     messages: {
+        admin: "Admin",
         all: "All",
         analyses: "Analyses",
         apps: "Apps",

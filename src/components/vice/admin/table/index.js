@@ -263,7 +263,7 @@ const CollapsibleTable = ({ columns, rows, title }) => {
                         onRequestSort={handleRequestSort}
                     ></EnhancedTableHead>
                     <TableBody>
-                        {rows.map((row, index) => (
+                        {rows?.map((row, index) => (
                             <CollapsibleTableRow
                                 row={row}
                                 key={index}

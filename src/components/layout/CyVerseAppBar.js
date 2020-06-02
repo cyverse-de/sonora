@@ -243,7 +243,6 @@ function CyverseAppBar(props) {
                 });
                 setAdminUser(adminMemberships.length > 0);
             }
-            console.log("is admin user => " + adminUser);
         }
     }, [userProfile, adminUser, setAdminUser, setAvatarLetter]);
 
@@ -462,7 +461,11 @@ function CyverseAppBar(props) {
         <List>
             <ListItem
                 id={build(ids.DRAWER_MENU, ids.ADMIN_MI)}
-                className={classes.listItem}
+                className={
+                    activeView === NavigationConstants.ADMIN
+                        ? classes.listItemActive
+                        : classes.listItem
+                }
             >
                 <ListItemIcon>
                     <SupervisorAccountIcon
@@ -481,12 +484,7 @@ function CyverseAppBar(props) {
                     <ListItem
                         button
                         id={build(ids.DRAWER_MENU, ids.VICE_MI)}
-                        className={clsx(
-                            classes.nested,
-                            activeView === NavigationConstants.VICE
-                                ? classes.listItemActive
-                                : classes.listItem
-                        )}
+                        className={clsx(classes.nested, classes.listItem)}
                         onClick={() =>
                             router.push(
                                 "/" +

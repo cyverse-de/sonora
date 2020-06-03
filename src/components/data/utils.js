@@ -77,10 +77,7 @@ const isOwner = (selectedResources) => {
 };
 
 const parseNameFromPath = (path) => {
-    if (!path) {
-        return path;
-    }
-    return path.split(constants.PATH_SEPARATOR).pop();
+    return path?.split(constants.PATH_SEPARATOR).pop();
 };
 
 export {

@@ -268,6 +268,7 @@ function Listing(props) {
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage - 1);
+        setSelected([]);
     };
 
     const handleChangeRowsPerPage = (newPageSize) => {
@@ -310,6 +311,7 @@ function Listing(props) {
         setParentAnalyses(analysis);
         setPermFilter(null);
         setAppTypeFilter(null);
+        setSelected([]);
     };
 
     const handleClearBatch = () => {

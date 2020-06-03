@@ -99,18 +99,23 @@ function DetailsDrawer(props) {
         let paramList = [];
         data.parameters.forEach((parameter) => {
             const type = parameter.param_type;
-            if (isTextType(type) || type === ArgumentTypes.PARAM_TYPE.FLAG) {
-                paramList.push(parseStringValue(parameter));
-            } else if (isInputType(type) || isReferenceGenomeType(type)) {
-                if (!isReferenceGenomeType(type)) {
-                    paramList.push(parseStringValue(parameter));
-                } else {
-                    paramList.push(parseSelectionValue(parameter));
-                }
-            } else if (isSelectionArgumentType(type)) {
-                paramList.push(parseSelectionValue(parameter));
-            } else if (type === ArgumentTypes.PARAM_TYPE.FILE_OUTPUT) {
-                paramList.push(parseStringValue(parameter));
+            let parsedParam = null;
+            if (
+                isTextType(type) ||
+                isInputType(type) ||
+                type === ArgumentTypes.PARAM_TYPE.FLAG ||
+                type === ArgumentTypes.PARAM_TYPE.FILE_OUTPUT
+            ) {
+                parsedParam = parseStringValue(parameter);
+            } else if (
+                isSelectionArgumentType(type) ||
+                isReferenceGenomeType(type)
+            ) {
+                parsedParam = parseSelectionValue(parameter);
+            }
+
+            if (parsedParam) {
+                paramList.push(parsedParam);
             }
         });
         setParameters(paramList);
@@ -165,7 +170,7 @@ function DetailsDrawer(props) {
             }}
         >
             <div className={classes.drawerHeader}>
-                <Typography>{analysisName}</Typography>
+                <Typography variant="h6">{analysisName}</Typography>
             </div>
             <Tabs
                 value={selectedTab}

@@ -194,21 +194,19 @@ function Actions(props) {
                 </Tooltip>
             )}
             {allowTimeExtn && (
-                <>
-                    <Tooltip
-                        aria-label={formatMessage(intl, "extendTime")}
-                        title={getMessage("extendTime")}
-                        id={build(baseId, ids.ICONS.TIME_LIMIT, ids.TOOLTIP)}
+                <Tooltip
+                    aria-label={formatMessage(intl, "extendTime")}
+                    title={getMessage("extendTime")}
+                    id={build(baseId, ids.ICONS.TIME_LIMIT, ids.TOOLTIP)}
+                >
+                    <IconButton
+                        id={build(baseId, ids.ICONS.TIME_LIMIT)}
+                        size="small"
+                        className={className}
                     >
-                        <IconButton
-                            id={build(baseId, ids.ICONS.TIME_LIMIT)}
-                            size="small"
-                            className={className}
-                        >
-                            <HourGlass />
-                        </IconButton>
-                    </Tooltip>
-                </>
+                        <HourGlass />
+                    </IconButton>
+                </Tooltip>
             )}
         </>
     );

@@ -8,14 +8,17 @@
 
 import React, { useState } from "react";
 import { injectIntl } from "react-intl";
+
 import { parseNameFromPath } from "../../data/utils";
 import DEErrorDialog from "../../utils/error/DEErrorDialog";
 import ErrorTypography from "../../utils/error/ErrorTypography";
 import TableLoading from "../../utils/TableLoading";
 import ids from "../ids";
 import intlData from "../messages";
-import ArgumentTypes from "./ArgumentTypes";
+import { isInputType, isReferenceGenomeType } from "./ArgumentTypeUtils";
+
 import { EnhancedTableHead, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+
 import {
     Table,
     TableBody,
@@ -28,26 +31,15 @@ import {
 function ParameterValue(props) {
     const {
         parameter: {
-            info_type,
             param_type,
             param_value: { value },
         },
     } = props;
 
-    let valid_info_type =
-        !(info_type === ArgumentTypes.PARAM_TYPE.REFERENCE_GENOME) &&
-        !(info_type === ArgumentTypes.PARAM_TYPE.REFERENCE_SEQUENCE) &&
-        !(info_type === ArgumentTypes.PARAM_TYPE.REFERENCE_ANNOTATION);
+    let valid_info_type = !isReferenceGenomeType(param_type);
     let displayValue = value ? (value.display ? value.display : value) : "";
 
-    if (
-        (ArgumentTypes.PARAM_TYPE.INPUT === param_type ||
-            ArgumentTypes.PARAM_TYPE.FILE_INPUT === param_type ||
-            ArgumentTypes.PARAM_TYPE.FOLDER_INPUT === param_type ||
-            ArgumentTypes.PARAM_TYPE.MULTIFILE_SELECTOR === param_type ||
-            ArgumentTypes.PARAM_TYPE.FILE_FOLDER_INPUT === param_type) &&
-        valid_info_type
-    ) {
+    if (isInputType(param_type) && valid_info_type) {
         return <Typography>{parseNameFromPath(displayValue)}</Typography>;
     } else {
         return <Typography>{displayValue}</Typography>;
@@ -121,17 +113,17 @@ function AnalysisParams(props) {
         <TableContainer>
             <Table size="small" stickyHeader={true}>
                 <TableBody>
-                    {parameters.map((n) => {
+                    {parameters.map((param, index) => {
                         return (
-                            <TableRow key={n.param_id}>
+                            <TableRow key={index}>
                                 <TableCell>
-                                    <Typography>{n.param_name}</Typography>
+                                    <Typography>{param.param_name}</Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <Typography>{n.param_type}</Typography>
+                                    <Typography>{param.param_type}</Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <ParameterValue parameter={n} />
+                                    <ParameterValue parameter={param} />
                                 </TableCell>
                             </TableRow>
                         );

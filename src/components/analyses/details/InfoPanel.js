@@ -23,9 +23,11 @@ import {
     withI18N,
 } from "@cyverse-de/ui-lib";
 import {
+    Collapse,
     ExpansionPanel,
     ExpansionPanelDetails,
     ExpansionPanelSummary,
+    IconButton,
     makeStyles,
     Paper,
     Table,
@@ -33,10 +35,12 @@ import {
     TableCell,
     TableRow,
     Typography,
-    useMediaQuery,
-    useTheme,
 } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import {
+    ExpandMore as ExpandMoreIcon,
+    KeyboardArrowUp,
+    KeyboardArrowDown,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     heading: {
@@ -51,9 +55,21 @@ const useStyles = makeStyles((theme) => ({
     expansionPanelDetails: {
         display: "block",
     },
+    root: {
+        "& > *": {
+            borderBottom: "unset",
+        },
+    },
+    expandedCell: { paddingBottom: 0, paddingTop: 0 },
 }));
 
 const columnData = (intl) => [
+    {
+        id: ids.INFO.EXPAND,
+        name: "",
+        numeric: false,
+        enableSorting: false,
+    },
     {
         id: ids.INFO.TIMESTAMP,
         name: formatMessage(intl, "date"),
@@ -66,50 +82,58 @@ const columnData = (intl) => [
         numeric: false,
         enableSorting: false,
     },
-    {
-        id: ids.INFO.MESSAGE,
-        name: formatMessage(intl, "message"),
-        numeric: false,
-        enableSorting: false,
-    },
 ];
+
+function UpdateDetails(props) {
+    const { status, timestamp, message } = props;
+    const [open, setOpen] = useState(false);
+    const classes = useStyles();
+    return (
+        <>
+            <TableRow className={classes.root}>
+                <TableCell>
+                    <IconButton size="small" onClick={() => setOpen(!open)}>
+                        {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                    </IconButton>
+                </TableCell>
+                <TableCell>
+                    <Typography>{formatDate(timestamp)}</Typography>
+                </TableCell>
+                <TableCell>
+                    <Typography>
+                        {status[0].toUpperCase() +
+                            status.slice(1).toLowerCase().replace(/[_]/gi, " ")}
+                    </Typography>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell className={classes.expandedCell} colSpan={3}>
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        <Typography>{message}</Typography>
+                    </Collapse>
+                </TableCell>
+            </TableRow>
+        </>
+    );
+}
 
 function Updates(props) {
     const { updates, intl, baseId } = props;
     let columns = columnData(intl);
-    const theme = useTheme();
-    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
-    //hide messages on small screens
-    if (isSmall) {
-        columns = columns.filter((column) => column.id !== ids.INFO.MESSAGE);
-    }
+
     return (
-        <Table size="small" stickyHeader={true}>
+        <Table size="small" stickyHeader={true} style={{ marginTop: 8 }}>
             <TableBody>
                 {updates.map((update, index) => {
                     const status = update.status;
                     const timestamp = update.timestamp;
-
                     return (
-                        <TableRow key={index}>
-                            <TableCell>
-                                <Typography>{formatDate(timestamp)}</Typography>
-                            </TableCell>
-                            <TableCell>
-                                <Typography>
-                                    {status[0].toUpperCase() +
-                                        status
-                                            .slice(1)
-                                            .toLowerCase()
-                                            .replace(/[_]/gi, " ")}
-                                </Typography>
-                            </TableCell>
-                            {!isSmall && (
-                                <TableCell>
-                                    <Typography>{update.message}</Typography>
-                                </TableCell>
-                            )}
-                        </TableRow>
+                        <UpdateDetails
+                            key={index}
+                            status={status}
+                            timestamp={timestamp}
+                            message={update.message}
+                        />
                     );
                 })}
             </TableBody>

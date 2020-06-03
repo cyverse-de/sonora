@@ -3,7 +3,7 @@ import constants from "../../constants";
 
 /**
  * Get the user who ran this analysis
- * @param {*} analysis
+ * @param {object} analysis
  * @returns {boolean}
  */
 const getAnalysisUser = (analysis) => {
@@ -17,7 +17,7 @@ const getAnalysisUser = (analysis) => {
 
 /**
  * Check if the analysis of type VICE
- * @param {*} analysis
+ * @param {object} analysis
  * @returns {boolean}
  */
 const isInteractive = (analysis) => {
@@ -29,15 +29,14 @@ const isInteractive = (analysis) => {
     return (
         (status === analysisStatus.SUBMITTED ||
             status === analysisStatus.RUNNING) &&
-        interactiveUrls &&
-        interactiveUrls.length > 0
+        interactiveUrls?.length > 0
     );
 };
 
 /**
  * Check if the user can extend the time limit
- * @param {*} analysis
- * @param {*} currentUser
+ * @param {object} analysis
+ * @param {string} currentUser
  * @returns {boolean}
  */
 const allowAnalysisTimeExtn = (analysis, currentUser) => {
@@ -53,14 +52,28 @@ const allowAnalysisTimeExtn = (analysis, currentUser) => {
 
 /**
  * Check if the analysis is Batch
- * @param {*} analysis
+ * @param {object} analysis
  * @returns {boolean}
  */
 const isBatchAnalysis = (analysis) => {
-    if (!analysis) {
+    return analysis?.batch;
+};
+
+/**
+ * Check if selected analyses can be relaunched
+ * @param {array} selectedAnalyses
+ * @returns {boolean}
+ */
+const allowAnalyesRelaunch = (selectedAnalyses) => {
+    if (!selectedAnalyses || selectedAnalyses.length === 0) {
         return false;
     }
-    return analysis.batch;
+
+    const filteredAnalyses = selectedAnalyses.filter(
+        (analysis) => analysis?.app_disabled === true
+    );
+
+    return filteredAnalyses.length === 0;
 };
 
 export {
@@ -68,4 +81,5 @@ export {
     isInteractive,
     allowAnalysisTimeExtn,
     isBatchAnalysis,
+    allowAnalyesRelaunch,
 };

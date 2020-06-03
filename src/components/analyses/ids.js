@@ -90,6 +90,7 @@ export default {
         MESSAGE: "message",
         STATUS: "status",
         INFO: "info",
+        EXPAND: "expandIcon",
     },
 
     VICE_LOGS_VIEWER: {

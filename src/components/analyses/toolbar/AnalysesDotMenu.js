@@ -13,6 +13,7 @@ import {
     isInteractive,
     allowAnalysisTimeExtn,
     isBatchAnalysis,
+    allowAnalyesRelaunch,
 } from "../utils";
 
 import { build, DotMenu, getMessage, withI18N } from "@cyverse-de/ui-lib";
@@ -27,18 +28,121 @@ import {
     UnfoldMore as UnfoldMoreIcon,
 } from "@material-ui/icons";
 
+function DotMenuItems(props) {
+    const {
+        baseId,
+        onDetailsSelected,
+        detailsEnabled,
+        handleInteractiveUrlClick,
+        handleGoToOutputFolder,
+        handleBatchIconClick,
+        isBatch,
+        isVICE,
+        allowTimeExtn,
+        allowRelaunch,
+        onClose,
+        selectedAnalyses,
+        isSingleSelection,
+    } = props;
+    return [
+        detailsEnabled && (
+            <MenuItem
+                key={build(baseId, ids.MENUITEM_DETAILS)}
+                id={build(baseId, ids.MENUITEM_DETAILS)}
+                onClick={() => {
+                    onClose();
+                    onDetailsSelected();
+                }}
+            >
+                <ListItemIcon>
+                    <Info fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={getMessage("details")} />
+            </MenuItem>
+        ),
+        isSingleSelection && (
+            <MenuItem
+                key={build(baseId, ids.MENUITEM_GO_TO_FOLDER)}
+                id={build(baseId, ids.MENUITEM_GO_TO_FOLDER)}
+                onClick={() => {
+                    onClose();
+                    handleGoToOutputFolder(selectedAnalyses[0]);
+                }}
+            >
+                <ListItemIcon>
+                    <OutputFolderIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={getMessage("goOutputFolder")} />
+            </MenuItem>
+        ),
+        allowRelaunch && (
+            <MenuItem
+                key={build(baseId, ids.MENUITEM_RELAUNCH)}
+                id={build(baseId, ids.MENUITEM_RELAUNCH)}
+                onClick={() => {
+                    onClose();
+                }}
+            >
+                <ListItemIcon>
+                    <RelaunchIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={getMessage("relaunch")} />
+            </MenuItem>
+        ),
+        isBatch && (
+            <MenuItem
+                key={build(baseId, ids.MENUITEM_BATCH_FILTER)}
+                id={build(baseId, ids.MENUITEM_BATCH_FILTER)}
+                onClick={() => {
+                    onClose();
+                    handleBatchIconClick(selectedAnalyses[0]);
+                }}
+            >
+                <ListItemIcon>
+                    <UnfoldMoreIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={getMessage("htDetails")} />
+            </MenuItem>
+        ),
+        isVICE && (
+            <MenuItem
+                key={build(baseId, ids.MENUITEM_GOTO_VICE)}
+                id={build(baseId, ids.MENUITEM_GOTO_VICE)}
+                onClick={() => {
+                    onClose();
+                    handleInteractiveUrlClick();
+                }}
+            >
+                <ListItemIcon>
+                    <LaunchIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={getMessage("goToVice")} />
+            </MenuItem>
+        ),
+        allowTimeExtn && (
+            <MenuItem
+                key={build(baseId, ids.MENUITEM_EXTEND_TIME_LIMIT)}
+                id={build(baseId, ids.MENUITEM_EXTEND_TIME_LIMIT)}
+                onClick={() => {
+                    onClose();
+                }}
+            >
+                <ListItemIcon>
+                    <HourGlassIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={getMessage("extendTime")} />
+            </MenuItem>
+        ),
+    ];
+}
+
 function AnalysesDotMenu(props) {
     const {
         baseId,
         ButtonProps,
         username,
-        onDetailsSelected,
-        detailsEnabled,
         selected,
         getSelectedAnalyses,
-        handleInteractiveUrlClick,
-        handleGoToOutputFolder,
-        handleBatchIconClick,
     } = props;
 
     const isSingleSelection = selected?.length === 1;
@@ -49,107 +153,34 @@ function AnalysesDotMenu(props) {
         allowTimeExtn = false,
         allowRelaunch = false;
 
-    if (isSingleSelection && selectedAnalyses) {
-        isBatch = isBatchAnalysis(selectedAnalyses[0]);
-        isVICE = isInteractive(selectedAnalyses[0]);
-        allowTimeExtn = allowAnalysisTimeExtn(selectedAnalyses[0], username);
-        allowRelaunch = !selectedAnalyses[0]?.app_disabled;
+    if (selectedAnalyses) {
+        if (isSingleSelection) {
+            isBatch = isBatchAnalysis(selectedAnalyses[0]);
+            isVICE = isInteractive(selectedAnalyses[0]);
+            allowTimeExtn = allowAnalysisTimeExtn(
+                selectedAnalyses[0],
+                username
+            );
+        }
+        allowRelaunch = allowAnalyesRelaunch(selectedAnalyses);
     }
 
     return (
         <DotMenu
             baseId={baseId}
             ButtonProps={ButtonProps}
-            render={(onClose) => [
-                detailsEnabled && (
-                    <MenuItem
-                        key={build(baseId, ids.MENUITEM_DETAILS)}
-                        id={build(baseId, ids.MENUITEM_DETAILS)}
-                        onClick={() => {
-                            onClose();
-                            onDetailsSelected();
-                        }}
-                    >
-                        <ListItemIcon>
-                            <Info fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText primary={getMessage("details")} />
-                    </MenuItem>
-                ),
-                isSingleSelection && (
-                    <MenuItem
-                        key={build(baseId, ids.MENUITEM_GO_TO_FOLDER)}
-                        id={build(baseId, ids.MENUITEM_GO_TO_FOLDER)}
-                        onClick={() => {
-                            onClose();
-                            handleGoToOutputFolder(selectedAnalyses[0]);
-                        }}
-                    >
-                        <ListItemIcon>
-                            <OutputFolderIcon fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText primary={getMessage("goOutputFolder")} />
-                    </MenuItem>
-                ),
-                allowRelaunch && (
-                    <MenuItem
-                        key={build(baseId, ids.MENUITEM_RELAUNCH)}
-                        id={build(baseId, ids.MENUITEM_RELAUNCH)}
-                        onClick={() => {
-                            onClose();
-                        }}
-                    >
-                        <ListItemIcon>
-                            <RelaunchIcon fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText primary={getMessage("relaunch")} />
-                    </MenuItem>
-                ),
-                isBatch && (
-                    <MenuItem
-                        key={build(baseId, ids.MENUITEM_BATCH_FILTER)}
-                        id={build(baseId, ids.MENUITEM_BATCH_FILTER)}
-                        onClick={() => {
-                            onClose();
-                            handleBatchIconClick(selectedAnalyses[0]);
-                        }}
-                    >
-                        <ListItemIcon>
-                            <UnfoldMoreIcon fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText primary={getMessage("htDetails")} />
-                    </MenuItem>
-                ),
-                isVICE && (
-                    <MenuItem
-                        key={build(baseId, ids.MENUITEM_GOTO_VICE)}
-                        id={build(baseId, ids.MENUITEM_GOTO_VICE)}
-                        onClick={() => {
-                            onClose();
-                            handleInteractiveUrlClick();
-                        }}
-                    >
-                        <ListItemIcon>
-                            <LaunchIcon fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText primary={getMessage("goToVice")} />
-                    </MenuItem>
-                ),
-                allowTimeExtn && (
-                    <MenuItem
-                        key={build(baseId, ids.MENUITEM_EXTEND_TIME_LIMIT)}
-                        id={build(baseId, ids.MENUITEM_EXTEND_TIME_LIMIT)}
-                        onClick={() => {
-                            onClose();
-                        }}
-                    >
-                        <ListItemIcon>
-                            <HourGlassIcon fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText primary={getMessage("extendTime")} />
-                    </MenuItem>
-                ),
-            ]}
+            render={(onClose) => (
+                <DotMenuItems
+                    {...props}
+                    isBatch={isBatch}
+                    isVICE={isVICE}
+                    allowTimeExtn={allowTimeExtn}
+                    allowRelaunch={allowRelaunch}
+                    onClose={onClose}
+                    isSingleSelection={isSingleSelection}
+                    selectedAnalyses={selectedAnalyses}
+                />
+            )}
         />
     );
 }

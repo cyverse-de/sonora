@@ -6,6 +6,7 @@ export default {
     START_DATE: "start_date",
     END_DATE: "end_date",
     STATUS: "status",
+    ACTIONS: "actions",
     TOOLBAR: "menuBar",
     PARAMETERS: "parameters",
     TYPE: "type",
@@ -17,6 +18,7 @@ export default {
     GRID_VIEW_BTN: "gridViewBtn",
     TABLE_VIEW_BTN: "tableViewBtn",
     TOOLTIP: "tooltip",
+    BUTTON: "button",
     ANALYSES_NAVIGATION: "analysesNavigation",
     BATCH_FILTER: "viewBatchAnalysesFilter",
     CLEAR_BATCH_FILTER: "clearBatchAnalysesFilter",
@@ -39,6 +41,10 @@ export default {
     MENUITEM_UPDATE_COMMENTS: "updateComments",
     MENUITEM_SHARE_COLLAB: "sharecollab",
     MENUITEM_SHARE_SUPPORT: "sharesupport",
+    MENUITEM_DETAILS: "details",
+    MENUITEM_BATCH_FILTER: "viewBatchDetails",
+    MENUITEM_GOTO_VICE: "gotoVICE",
+    MENUITEM_EXTEND_TIME_LIMIT: "extendTimeLimit",
 
     VIEW_PARAMS: ".viewParamsView",
 
@@ -50,6 +56,7 @@ export default {
     GRID: "grid",
     MENUBAR: "menuBar",
     ANALYSIS_NAME_CELL: "nameCell",
+    ANALYSIS_ACTIONS_CELL: "actionsCell",
     APP_NAME_CELL: "appNameCell",
     SUPPORT_CELL: "supportCell",
     SHARE_WITH_SUPPORT: "shareWithSupport",
@@ -71,6 +78,11 @@ export default {
         INTERACTIVE: "interactive",
         BATCH: "batch",
         COLLAPSE: "collapse",
+        OUTPUT: "output",
+        HELP: "help",
+        RELAUNCH: "relaunch",
+        TIME_LIMIT: "timeLimit",
+        LOGS: "logs",
     },
 
     INFO: {
@@ -78,14 +90,12 @@ export default {
         MESSAGE: "message",
         STATUS: "status",
         INFO: "info",
+        EXPAND: "expandIcon",
     },
 
     VICE_LOGS_VIEWER: {
-        VIEWER: ".viceLogViewer",
+        VIEWER: "viceLogViewer",
         FOLLOW_LOGS: "followLogs",
         REFRESH: "refresh",
     },
-
-    BUTTON_EXTEND_TIME_LIMIT: "extendTimeLimitBtn",
-    EXTEND_TIME_LIMIT: "extendTimeLimit",
 };

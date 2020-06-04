@@ -76,6 +76,10 @@ const isOwner = (selectedResources) => {
     return notOwners.length === 0;
 };
 
+const parseNameFromPath = (path) => {
+    return path?.split(constants.PATH_SEPARATOR).pop();
+};
+
 export {
     getEncodedPath,
     validateDiskResourceName,
@@ -83,4 +87,5 @@ export {
     isOwner,
     isWritable,
     isReadable,
+    parseNameFromPath,
 };

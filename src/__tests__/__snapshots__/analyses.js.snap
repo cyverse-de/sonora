@@ -252,6 +252,14 @@ exports[`Analyses Listing view 1`] = `
             </svg>
           </span>
         </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+          id="analysesTable.actions"
+          scope="col"
+        >
+          
+        </th>
       </tr>
     </thead>
     <tbody
@@ -262,7 +270,11 @@ exports[`Analyses Listing view 1`] = `
         aria-checked={false}
         className="MuiTableRow-root MuiTableRow-hover"
         id="analysesTable.analysesTable.listingTable.c1e6c4e8-7fb6-11ea-be0a-c2a97b34bb42"
+        onBlur={[Function]}
         onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
         role="checkbox"
         tabIndex={-1}
       >
@@ -320,71 +332,159 @@ exports[`Analyses Listing view 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           id="analysesTable.analysesTable.listingTable.c1e6c4e8-7fb6-11ea-be0a-c2a97b34bb42nameCell"
         >
-          <button
+          <p
             aria-describedby={null}
-            aria-label="Go to output folder of DE_Word_Count_analysis1"
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
+            aria-label="DE_Word_Count_analysis1"
+            className="MuiTypography-root makeStyles-name-5 MuiTypography-body2"
             id="analysesTable.analysesTable.listingTable.c1e6c4e8-7fb6-11ea-be0a-c2a97b34bb42nameCell.nameCell"
             onBlur={[Function]}
-            onClick={[Function]}
             onFocus={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
             onTouchEnd={[Function]}
             onTouchStart={[Function]}
-            title="Go to output folder of DE_Word_Count_analysis1"
+            title="DE_Word_Count_analysis1"
           >
-            <span
-              className="makeStyles-name-5"
-            >
-              DE_Word_Count_analysis1
-            </span>
-          </button>
+            DE_Word_Count_analysis1
+          </p>
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
-          sriram
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            sriram
+          </p>
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           id="analysesTable.analysesTable.listingTable.c1e6c4e8-7fb6-11ea-be0a-c2a97b34bb42.appNameCell"
         >
-          <button
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
-            onBlur={[Function]}
-            onFocus={[Function]}
+          <p
+            className="MuiTypography-root MuiTypography-body2"
           >
             DE Word Count
-          </button>
+          </p>
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
-          2020-04-16 07:49:09
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            2020-04-16 07:49:09
+          </p>
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
-          2020-04-16 07:49:51
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            2020-04-16 07:49:51
+          </p>
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           id="analysesTable.analysesTable.listingTable.c1e6c4e8-7fb6-11ea-be0a-c2a97b34bb42.supportCell"
         >
-          <button
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
+          <p
+            className="MuiTypography-root MuiTypography-body2"
             id="analysesTable.status"
-            onBlur={[Function]}
-            onFocus={[Function]}
           >
             Completed
-             
+          </p>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        >
+          <button
+            aria-describedby={null}
+            aria-label="Go to output folder"
+            className="MuiButtonBase-root MuiIconButton-root makeStyles-action-6 MuiIconButton-sizeSmall"
+            disabled={false}
+            id="analysesTable.analysesTable.listingTable.c1e6c4e8-7fb6-11ea-be0a-c2a97b34bb42actionsCell.output.button"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseOver={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            title={null}
+            type="button"
+          >
+            <span
+              className="MuiIconButton-label"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M2 6H0v5h.01L0 20c0 1.1.9 2 2 2h18v-2H2V6zm20-2h-8l-2-2H6c-1.1 0-1.99.9-1.99 2L4 16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7 15l4.5-6 3.5 4.51 2.5-3.01L21 15H7z"
+                />
+              </svg>
+            </span>
+            <span
+              className="MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            aria-describedby={null}
+            aria-label="Relaunch..."
+            className="MuiButtonBase-root MuiIconButton-root makeStyles-action-6 MuiIconButton-sizeSmall"
+            disabled={false}
+            id="analysesTable.analysesTable.listingTable.c1e6c4e8-7fb6-11ea-be0a-c2a97b34bb42actionsCell.relaunch.button"
+            onBlur={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseOver={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            title={null}
+            type="button"
+          >
+            <span
+              className="MuiIconButton-label"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"
+                />
+              </svg>
+            </span>
+            <span
+              className="MuiTouchRipple-root"
+            />
           </button>
         </td>
       </tr>
@@ -392,7 +492,11 @@ exports[`Analyses Listing view 1`] = `
         aria-checked={false}
         className="MuiTableRow-root MuiTableRow-hover"
         id="analysesTable.analysesTable.listingTable.fbfa7d8e-7fb4-11ea-9730-c2a97b34bb42"
+        onBlur={[Function]}
         onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
         role="checkbox"
         tabIndex={-1}
       >
@@ -450,71 +554,159 @@ exports[`Analyses Listing view 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           id="analysesTable.analysesTable.listingTable.fbfa7d8e-7fb4-11ea-9730-c2a97b34bb42nameCell"
         >
-          <button
+          <p
             aria-describedby={null}
-            aria-label="Go to output folder of DE_Word_Count_analysis1"
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
+            aria-label="DE_Word_Count_analysis1"
+            className="MuiTypography-root makeStyles-name-5 MuiTypography-body2"
             id="analysesTable.analysesTable.listingTable.fbfa7d8e-7fb4-11ea-9730-c2a97b34bb42nameCell.nameCell"
             onBlur={[Function]}
-            onClick={[Function]}
             onFocus={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
             onTouchEnd={[Function]}
             onTouchStart={[Function]}
-            title="Go to output folder of DE_Word_Count_analysis1"
+            title="DE_Word_Count_analysis1"
           >
-            <span
-              className="makeStyles-name-5"
-            >
-              DE_Word_Count_analysis1
-            </span>
-          </button>
+            DE_Word_Count_analysis1
+          </p>
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
-          sriram
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            sriram
+          </p>
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           id="analysesTable.analysesTable.listingTable.fbfa7d8e-7fb4-11ea-9730-c2a97b34bb42.appNameCell"
         >
-          <button
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
-            onBlur={[Function]}
-            onFocus={[Function]}
+          <p
+            className="MuiTypography-root MuiTypography-body2"
           >
             DE Word Count
-          </button>
+          </p>
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
-          2020-04-16 07:36:28
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            2020-04-16 07:36:28
+          </p>
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
-          2020-04-16 07:37:02
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            2020-04-16 07:37:02
+          </p>
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           id="analysesTable.analysesTable.listingTable.fbfa7d8e-7fb4-11ea-9730-c2a97b34bb42.supportCell"
         >
-          <button
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
+          <p
+            className="MuiTypography-root MuiTypography-body2"
             id="analysesTable.status"
-            onBlur={[Function]}
-            onFocus={[Function]}
           >
             Completed
-             
+          </p>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        >
+          <button
+            aria-describedby={null}
+            aria-label="Go to output folder"
+            className="MuiButtonBase-root MuiIconButton-root makeStyles-action-6 MuiIconButton-sizeSmall"
+            disabled={false}
+            id="analysesTable.analysesTable.listingTable.fbfa7d8e-7fb4-11ea-9730-c2a97b34bb42actionsCell.output.button"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseOver={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            title={null}
+            type="button"
+          >
+            <span
+              className="MuiIconButton-label"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M2 6H0v5h.01L0 20c0 1.1.9 2 2 2h18v-2H2V6zm20-2h-8l-2-2H6c-1.1 0-1.99.9-1.99 2L4 16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7 15l4.5-6 3.5 4.51 2.5-3.01L21 15H7z"
+                />
+              </svg>
+            </span>
+            <span
+              className="MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            aria-describedby={null}
+            aria-label="Relaunch..."
+            className="MuiButtonBase-root MuiIconButton-root makeStyles-action-6 MuiIconButton-sizeSmall"
+            disabled={false}
+            id="analysesTable.analysesTable.listingTable.fbfa7d8e-7fb4-11ea-9730-c2a97b34bb42actionsCell.relaunch.button"
+            onBlur={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseOver={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            title={null}
+            type="button"
+          >
+            <span
+              className="MuiIconButton-label"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"
+                />
+              </svg>
+            </span>
+            <span
+              className="MuiTouchRipple-root"
+            />
           </button>
         </td>
       </tr>
@@ -522,7 +714,11 @@ exports[`Analyses Listing view 1`] = `
         aria-checked={false}
         className="MuiTableRow-root MuiTableRow-hover"
         id="analysesTable.analysesTable.listingTable.a5e68c74-7f0c-11ea-be65-c2a97b34bb42"
+        onBlur={[Function]}
         onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
         role="checkbox"
         tabIndex={-1}
       >
@@ -580,32 +776,126 @@ exports[`Analyses Listing view 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           id="analysesTable.analysesTable.listingTable.a5e68c74-7f0c-11ea-be65-c2a97b34bb42nameCell"
         >
-          <button
+          <p
             aria-describedby={null}
-            aria-label="Go to output folder of DE_Word_Count_analysis1"
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
+            aria-label="DE_Word_Count_analysis1"
+            className="MuiTypography-root makeStyles-name-5 MuiTypography-body2"
             id="analysesTable.analysesTable.listingTable.a5e68c74-7f0c-11ea-be65-c2a97b34bb42nameCell.nameCell"
             onBlur={[Function]}
-            onClick={[Function]}
             onFocus={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
             onTouchEnd={[Function]}
             onTouchStart={[Function]}
-            title="Go to output folder of DE_Word_Count_analysis1"
+            title="DE_Word_Count_analysis1"
+          >
+            DE_Word_Count_analysis1
+          </p>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            sriram
+          </p>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="analysesTable.analysesTable.listingTable.a5e68c74-7f0c-11ea-be65-c2a97b34bb42.appNameCell"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            DE Word Count
+          </p>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            2020-04-15 11:31:28
+          </p>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            2020-04-15 11:33:04
+          </p>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="analysesTable.analysesTable.listingTable.a5e68c74-7f0c-11ea-be65-c2a97b34bb42.supportCell"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+            id="analysesTable.status"
+          >
+            Completed
+          </p>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        >
+          <button
+            aria-describedby={null}
+            aria-label="Go to output folder"
+            className="MuiButtonBase-root MuiIconButton-root makeStyles-action-6 MuiIconButton-sizeSmall"
+            disabled={false}
+            id="analysesTable.analysesTable.listingTable.a5e68c74-7f0c-11ea-be65-c2a97b34bb42actionsCell.output.button"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseOver={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            title={null}
+            type="button"
           >
             <span
-              className="makeStyles-name-5"
+              className="MuiIconButton-label"
             >
-              DE_Word_Count_analysis1
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M2 6H0v5h.01L0 20c0 1.1.9 2 2 2h18v-2H2V6zm20-2h-8l-2-2H6c-1.1 0-1.99.9-1.99 2L4 16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7 15l4.5-6 3.5 4.51 2.5-3.01L21 15H7z"
+                />
+              </svg>
             </span>
+            <span
+              className="MuiTouchRipple-root"
+            />
           </button>
           <button
             aria-describedby={null}
             aria-label="View HT Analyses details"
-            className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
+            className="MuiButtonBase-root MuiIconButton-root makeStyles-action-6 MuiIconButton-sizeSmall"
             disabled={false}
-            id="analysesTable.analysesTable.listingTable.a5e68c74-7f0c-11ea-be65-c2a97b34bb42nameCell.batch"
+            id="analysesTable.analysesTable.listingTable.a5e68c74-7f0c-11ea-be65-c2a97b34bb42actionsCell.batch.button"
             onBlur={[Function]}
             onClick={[Function]}
             onDragLeave={[Function]}
@@ -641,51 +931,45 @@ exports[`Analyses Listing view 1`] = `
               className="MuiTouchRipple-root"
             />
           </button>
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-        >
-          sriram
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          id="analysesTable.analysesTable.listingTable.a5e68c74-7f0c-11ea-be65-c2a97b34bb42.appNameCell"
-        >
           <button
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
+            aria-describedby={null}
+            aria-label="Relaunch..."
+            className="MuiButtonBase-root MuiIconButton-root makeStyles-action-6 MuiIconButton-sizeSmall"
+            disabled={false}
+            id="analysesTable.analysesTable.listingTable.a5e68c74-7f0c-11ea-be65-c2a97b34bb42actionsCell.relaunch.button"
             onBlur={[Function]}
+            onDragLeave={[Function]}
             onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseOver={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            title={null}
+            type="button"
           >
-            DE Word Count
-          </button>
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-        >
-          2020-04-15 11:31:28
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-        >
-          2020-04-15 11:33:04
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          id="analysesTable.analysesTable.listingTable.a5e68c74-7f0c-11ea-be65-c2a97b34bb42.supportCell"
-        >
-          <button
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
-            id="analysesTable.status"
-            onBlur={[Function]}
-            onFocus={[Function]}
-          >
-            Completed
-             
+            <span
+              className="MuiIconButton-label"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"
+                />
+              </svg>
+            </span>
+            <span
+              className="MuiTouchRipple-root"
+            />
           </button>
         </td>
       </tr>
@@ -693,7 +977,11 @@ exports[`Analyses Listing view 1`] = `
         aria-checked={false}
         className="MuiTableRow-root MuiTableRow-hover"
         id="analysesTable.analysesTable.listingTable.8712ea7c-7f0c-11ea-be65-c2a97b34bb42"
+        onBlur={[Function]}
         onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
         role="checkbox"
         tabIndex={-1}
       >
@@ -751,32 +1039,126 @@ exports[`Analyses Listing view 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           id="analysesTable.analysesTable.listingTable.8712ea7c-7f0c-11ea-be65-c2a97b34bb42nameCell"
         >
-          <button
+          <p
             aria-describedby={null}
-            aria-label="Go to output folder of ten-rules-jupyter_analysis1"
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
+            aria-label="ten-rules-jupyter_analysis1"
+            className="MuiTypography-root makeStyles-name-5 MuiTypography-body2"
             id="analysesTable.analysesTable.listingTable.8712ea7c-7f0c-11ea-be65-c2a97b34bb42nameCell.nameCell"
             onBlur={[Function]}
-            onClick={[Function]}
             onFocus={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
             onTouchEnd={[Function]}
             onTouchStart={[Function]}
-            title="Go to output folder of ten-rules-jupyter_analysis1"
+            title="ten-rules-jupyter_analysis1"
+          >
+            ten-rules-jupyter_analysis1
+          </p>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            sriram
+          </p>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="analysesTable.analysesTable.listingTable.8712ea7c-7f0c-11ea-be65-c2a97b34bb42.appNameCell"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            ten-rules-jupyter
+          </p>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            2020-04-15 11:30:35
+          </p>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            -
+          </p>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+          id="analysesTable.analysesTable.listingTable.8712ea7c-7f0c-11ea-be65-c2a97b34bb42.supportCell"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+            id="analysesTable.status"
+          >
+            Running
+          </p>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        >
+          <button
+            aria-describedby={null}
+            aria-label="Go to output folder"
+            className="MuiButtonBase-root MuiIconButton-root makeStyles-action-6 MuiIconButton-sizeSmall"
+            disabled={false}
+            id="analysesTable.analysesTable.listingTable.8712ea7c-7f0c-11ea-be65-c2a97b34bb42actionsCell.output.button"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseOver={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            title={null}
+            type="button"
           >
             <span
-              className="makeStyles-name-5"
+              className="MuiIconButton-label"
             >
-              ten-rules-jupyter_analysis1
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M2 6H0v5h.01L0 20c0 1.1.9 2 2 2h18v-2H2V6zm20-2h-8l-2-2H6c-1.1 0-1.99.9-1.99 2L4 16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7 15l4.5-6 3.5 4.51 2.5-3.01L21 15H7z"
+                />
+              </svg>
             </span>
+            <span
+              className="MuiTouchRipple-root"
+            />
           </button>
           <button
             aria-describedby={null}
             aria-label="Go to analysis"
-            className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
+            className="MuiButtonBase-root MuiIconButton-root makeStyles-action-6 MuiIconButton-sizeSmall"
             disabled={false}
-            id="analysesTable.analysesTable.listingTable.8712ea7c-7f0c-11ea-be65-c2a97b34bb42nameCell.interactive"
+            id="analysesTable.analysesTable.listingTable.8712ea7c-7f0c-11ea-be65-c2a97b34bb42actionsCell.interactive.button"
             onBlur={[Function]}
             onClick={[Function]}
             onDragLeave={[Function]}
@@ -813,58 +1195,16 @@ exports[`Analyses Listing view 1`] = `
             />
           </button>
         </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-        >
-          sriram
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          id="analysesTable.analysesTable.listingTable.8712ea7c-7f0c-11ea-be65-c2a97b34bb42.appNameCell"
-        >
-          <button
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
-            onBlur={[Function]}
-            onFocus={[Function]}
-          >
-            ten-rules-jupyter
-          </button>
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-        >
-          2020-04-15 11:30:35
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-        >
-          -
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
-          id="analysesTable.analysesTable.listingTable.8712ea7c-7f0c-11ea-be65-c2a97b34bb42.supportCell"
-        >
-          <button
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
-            id="analysesTable.status"
-            onBlur={[Function]}
-            onFocus={[Function]}
-          >
-            Running
-             
-          </button>
-        </td>
       </tr>
       <tr
         aria-checked={false}
         className="MuiTableRow-root MuiTableRow-hover"
         id="analysesTable.analysesTable.listingTable.727c6ffe-7d8e-11ea-bedd-c2a97b34bb42"
+        onBlur={[Function]}
         onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
         role="checkbox"
         tabIndex={-1}
       >
@@ -922,71 +1262,159 @@ exports[`Analyses Listing view 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           id="analysesTable.analysesTable.listingTable.727c6ffe-7d8e-11ea-bedd-c2a97b34bb42nameCell"
         >
-          <button
+          <p
             aria-describedby={null}
-            aria-label="Go to output folder of DE_Word_Count_analysis1"
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
+            aria-label="DE_Word_Count_analysis1"
+            className="MuiTypography-root makeStyles-name-5 MuiTypography-body2"
             id="analysesTable.analysesTable.listingTable.727c6ffe-7d8e-11ea-bedd-c2a97b34bb42nameCell.nameCell"
             onBlur={[Function]}
-            onClick={[Function]}
             onFocus={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
             onTouchEnd={[Function]}
             onTouchStart={[Function]}
-            title="Go to output folder of DE_Word_Count_analysis1"
+            title="DE_Word_Count_analysis1"
           >
-            <span
-              className="makeStyles-name-5"
-            >
-              DE_Word_Count_analysis1
-            </span>
-          </button>
+            DE_Word_Count_analysis1
+          </p>
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
-          sriram
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            sriram
+          </p>
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           id="analysesTable.analysesTable.listingTable.727c6ffe-7d8e-11ea-bedd-c2a97b34bb42.appNameCell"
         >
-          <button
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
-            onBlur={[Function]}
-            onFocus={[Function]}
+          <p
+            className="MuiTypography-root MuiTypography-body2"
           >
             DE Word Count
-          </button>
+          </p>
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
-          2020-04-13 13:55:34
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            2020-04-13 13:55:34
+          </p>
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
-          2020-04-13 13:56:09
+          <p
+            className="MuiTypography-root MuiTypography-body2"
+          >
+            2020-04-13 13:56:09
+          </p>
         </td>
         <td
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
           id="analysesTable.analysesTable.listingTable.727c6ffe-7d8e-11ea-bedd-c2a97b34bb42.supportCell"
         >
-          <button
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiLink-button MuiTypography-colorPrimary"
+          <p
+            className="MuiTypography-root MuiTypography-body2"
             id="analysesTable.status"
-            onBlur={[Function]}
-            onFocus={[Function]}
           >
             Completed
-             
+          </p>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        >
+          <button
+            aria-describedby={null}
+            aria-label="Go to output folder"
+            className="MuiButtonBase-root MuiIconButton-root makeStyles-action-6 MuiIconButton-sizeSmall"
+            disabled={false}
+            id="analysesTable.analysesTable.listingTable.727c6ffe-7d8e-11ea-bedd-c2a97b34bb42actionsCell.output.button"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseOver={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            title={null}
+            type="button"
+          >
+            <span
+              className="MuiIconButton-label"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M2 6H0v5h.01L0 20c0 1.1.9 2 2 2h18v-2H2V6zm20-2h-8l-2-2H6c-1.1 0-1.99.9-1.99 2L4 16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7 15l4.5-6 3.5 4.51 2.5-3.01L21 15H7z"
+                />
+              </svg>
+            </span>
+            <span
+              className="MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            aria-describedby={null}
+            aria-label="Relaunch..."
+            className="MuiButtonBase-root MuiIconButton-root makeStyles-action-6 MuiIconButton-sizeSmall"
+            disabled={false}
+            id="analysesTable.analysesTable.listingTable.727c6ffe-7d8e-11ea-bedd-c2a97b34bb42actionsCell.relaunch.button"
+            onBlur={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseOver={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            title={null}
+            type="button"
+          >
+            <span
+              className="MuiIconButton-label"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"
+                />
+              </svg>
+            </span>
+            <span
+              className="MuiTouchRipple-root"
+            />
           </button>
         </td>
       </tr>

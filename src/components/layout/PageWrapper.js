@@ -6,7 +6,7 @@
  */
 
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
     wrapper: {
@@ -18,12 +18,12 @@ const useStyles = makeStyles((theme) => ({
 function PageWrapper(props) {
     const { appBarHeight } = props;
     const classes = useStyles();
-
+    const theme = useTheme();
     return (
         <div
             className={classes.wrapper}
             style={{
-                maxHeight: `calc(100vh - ${appBarHeight}px`,
+                maxHeight: `calc(100vh - ${appBarHeight + theme.spacing(1)}px)`,
             }}
         >
             {props.children}

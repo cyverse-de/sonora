@@ -7,11 +7,11 @@
 
 import React from "react";
 
-import messages from "./messages";
-import ids from "./ids";
+import messages from "../messages";
+import ids from "../ids";
 
-import { getAppTypeFilters } from "../apps/toolbar/AppNavigation";
-import DisplayTypeSelector from "../utils/DisplayTypeSelector";
+import { getAppTypeFilters } from "../../apps/toolbar/AppNavigation";
+import DisplayTypeSelector from "../../utils/DisplayTypeSelector";
 
 import { injectIntl } from "react-intl";
 
@@ -30,10 +30,8 @@ import {
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-import {
-    FilterList as FilterListIcon,
-    MoreVert as MoreVertIcon,
-} from "@material-ui/icons";
+import { Info, FilterList as FilterListIcon } from "@material-ui/icons";
+import AnalysesDotMenu from "./AnalysesDotMenu";
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -56,6 +54,14 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down("xs")]: {
             margin: theme.spacing(0.2),
             paddingLeft: 0,
+        },
+    },
+    toolbarItems: {
+        [theme.breakpoints.down("xs")]: {
+            margin: theme.spacing(0.5),
+        },
+        [theme.breakpoints.up("sm")]: {
+            margin: theme.spacing(1),
         },
     },
 }));
@@ -112,10 +118,13 @@ function BatchFilter(props) {
     );
 }
 
-function AnalysesNavigation(props) {
+function AnalysesToolbar(props) {
     const classes = useStyles();
     const {
         baseId,
+        selected,
+        username,
+        getSelectedAnalyses,
         appTypeFilter,
         ownershipFilter,
         handleAppTypeFilterChange,
@@ -125,6 +134,11 @@ function AnalysesNavigation(props) {
         isGridView,
         intl,
         toggleDisplay,
+        detailsEnabled,
+        onDetailsSelected,
+        handleInteractiveUrlClick,
+        handleGoToOutputFolder,
+        handleBatchIconClick,
     } = props;
     const analysesNavId = build(baseId, ids.ANALYSES_NAVIGATION);
     return (
@@ -134,15 +148,6 @@ function AnalysesNavigation(props) {
                 toggleDisplay={toggleDisplay}
                 isGridView={isGridView}
             />
-            {viewBatch && (
-                <BatchFilter
-                    baseId={analysesNavId}
-                    name={viewBatch.name}
-                    classes={classes}
-                    onClearBatch={onClearBatch}
-                />
-            )}
-
             <Autocomplete
                 id={build(analysesNavId, ids.VIEW_FILTER)}
                 disabled={false}
@@ -190,15 +195,46 @@ function AnalysesNavigation(props) {
                     />
                 )}
             />
-            <Hidden xsDown>
-                <div className={classes.divider} />
+            {viewBatch && (
+                <BatchFilter
+                    baseId={analysesNavId}
+                    name={viewBatch.name}
+                    classes={classes}
+                    onClearBatch={onClearBatch}
+                />
+            )}
+            <div className={classes.divider} />
+            <Hidden smDown>
+                {detailsEnabled && (
+                    <Button
+                        id={build(analysesNavId, ids.DETAILS_BTN)}
+                        className={classes.toolbarItems}
+                        variant="outlined"
+                        disableElevation
+                        color="primary"
+                        onClick={onDetailsSelected}
+                        startIcon={<Info />}
+                    >
+                        {getMessage("details")}
+                    </Button>
+                )}
             </Hidden>
-            <IconButton>
-                <MoreVertIcon />
-            </IconButton>
+            {selected?.length > 0 && (
+                <AnalysesDotMenu
+                    baseId={analysesNavId}
+                    username={username}
+                    onDetailsSelected={onDetailsSelected}
+                    detailsEnabled={detailsEnabled}
+                    selected={selected}
+                    getSelectedAnalyses={getSelectedAnalyses}
+                    handleInteractiveUrlClick={handleInteractiveUrlClick}
+                    handleGoToOutputFolder={handleGoToOutputFolder}
+                    handleBatchIconClick={handleBatchIconClick}
+                />
+            )}
         </Toolbar>
     );
 }
 
 export { getOwnershipFilters };
-export default withI18N(injectIntl(AnalysesNavigation), messages);
+export default withI18N(injectIntl(AnalysesToolbar), messages);

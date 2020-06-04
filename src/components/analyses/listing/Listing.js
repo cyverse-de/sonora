@@ -13,10 +13,11 @@ import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
 import { getAnalyses } from "../../../serviceFacades/analyses";
 import constants from "../../../constants";
 import DEPagination from "../../utils/DEPagination";
+import Drawer from "../details/Drawer";
 
 import intlData from "../messages";
 import TableView from "./TableView";
-import AnalysesNavigation, { getOwnershipFilters } from "../AnalysesNavigation";
+import AnalysesToolbar, { getOwnershipFilters } from "../toolbar/Toolbar";
 import { getAppTypeFilters } from "../../apps/toolbar/AppNavigation";
 import appType from "../../models/AppType";
 
@@ -60,7 +61,9 @@ function Listing(props) {
     const [appTypeFilter, setAppTypeFilter] = useState(getAppTypeFilters()[0]);
     const [userProfile] = useUserProfile();
     const [currentNotification] = useNotifications();
-
+    const [detailsAnalysis, setDetailsAnalysis] = useState(null);
+    const [detailsEnabled, setDetailsEnabled] = useState(false);
+    const [detailsOpen, setDetailsOpen] = useState(false);
     const { isFetching, error } = useQuery({
         queryKey: analysesKey,
         queryFn: getAnalyses,
@@ -183,8 +186,27 @@ function Listing(props) {
         updateAnalyses(currentNotification);
     }, [currentNotification, updateAnalyses]);
 
+    useEffect(() => {
+        setDetailsEnabled(selected && selected.length === 1);
+    }, [selected]);
+
+    useEffect(() => {
+        if (detailsOpen && data?.analyses) {
+            const selectedId = selected[0];
+            setDetailsAnalysis(
+                data.analyses.find((item) => item.id === selectedId)
+            );
+        } else {
+            setDetailsAnalysis(null);
+        }
+    }, [data, detailsOpen, selected]);
+
     const toggleDisplay = () => {
         setGridView(!isGridView);
+    };
+
+    const onDetailsSelected = () => {
+        setDetailsOpen(true);
     };
 
     const select = (analysesIds) => {
@@ -246,6 +268,7 @@ function Listing(props) {
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage - 1);
+        setSelected([]);
     };
 
     const handleChangeRowsPerPage = (newPageSize) => {
@@ -288,6 +311,7 @@ function Listing(props) {
         setParentAnalyses(analysis);
         setPermFilter(null);
         setAppTypeFilter(null);
+        setSelected([]);
     };
 
     const handleClearBatch = () => {
@@ -296,10 +320,20 @@ function Listing(props) {
         setAppTypeFilter(getAppTypeFilters()[0]);
     };
 
+    const getSelectedAnalyses = (analyses) => {
+        const items = analyses ? analyses : selected;
+        return items.map((id) =>
+            data?.analyses.find((analysis) => analysis.id === id)
+        );
+    };
+
     return (
         <>
-            <AnalysesNavigation
+            <AnalysesToolbar
                 baseId={baseId}
+                selected={selected}
+                username={userProfile?.id}
+                getSelectedAnalyses={getSelectedAnalyses}
                 handleAppTypeFilterChange={handleAppTypeFilterChange}
                 handleOwnershipFilterChange={handleOwnershipFilterChange}
                 appTypeFilter={appTypeFilter}
@@ -308,6 +342,11 @@ function Listing(props) {
                 onClearBatch={handleClearBatch}
                 isGridView={isGridView}
                 toggleDisplay={toggleDisplay}
+                detailsEnabled={detailsEnabled}
+                onDetailsSelected={onDetailsSelected}
+                handleInteractiveUrlClick={handleInteractiveUrlClick}
+                handleGoToOutputFolder={handleGoToOutputFolder}
+                handleBatchIconClick={handleBatchIconClick}
             />
             <TableView
                 loading={isFetching}
@@ -325,6 +364,14 @@ function Listing(props) {
                 handleGoToOutputFolder={handleGoToOutputFolder}
                 handleBatchIconClick={handleBatchIconClick}
             />
+            {detailsOpen && (
+                <Drawer
+                    selectedAnalysis={detailsAnalysis}
+                    open={detailsOpen}
+                    baseId={baseId}
+                    onClose={() => setDetailsOpen(false)}
+                />
+            )}
             {data && data.total > 0 && (
                 <DEPagination
                     page={page + 1}

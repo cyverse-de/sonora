@@ -4,7 +4,21 @@
  * A tabular view of analyses
  *
  */
-import React from "react";
+import React, { useState } from "react";
+
+import { injectIntl } from "react-intl";
+
+import ids from "../ids";
+import messages from "../messages";
+import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
+import TableLoading from "../../utils/TableLoading";
+import {
+    getAnalysisUser,
+    isInteractive,
+    allowAnalysisTimeExtn,
+    isBatchAnalysis,
+} from "../utils";
+
 import {
     build,
     DECheckbox,
@@ -15,9 +29,9 @@ import {
     getMessage,
     withI18N,
 } from "@cyverse-de/ui-lib";
+
 import {
     IconButton,
-    Link,
     makeStyles,
     Paper,
     Table,
@@ -26,24 +40,33 @@ import {
     TableContainer,
     TableRow,
     Tooltip,
+    Typography,
+    useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
+
 import {
     HourglassEmptyRounded as HourGlass,
     Launch as LaunchIcon,
+    PermMedia as OutputFolderIcon,
+    Repeat as RelaunchIcon,
     UnfoldMore as UnfoldMoreIcon,
 } from "@material-ui/icons";
-import ids from "../ids";
-import { injectIntl } from "react-intl";
-import messages from "../messages";
-import constants from "../../../constants";
-import analysisStatus from "../../models/analysisStatus";
-import TableLoading from "../../utils/TableLoading";
-import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 
 const useStyles = makeStyles((theme) => ({
     name: {
         paddingLeft: theme.spacing(1),
-        cursor: "pointer",
+    },
+    action: {
+        color: theme.palette.info.main,
+        margin: theme.spacing(0.5),
+        "&:hover": {
+            color: theme.palette.primary.main,
+        },
+    },
+    actionHover: {
+        margin: theme.spacing(0.5),
+        color: theme.palette.primary.main,
     },
 }));
 
@@ -51,40 +74,77 @@ function AnalysisName(props) {
     const classes = useStyles();
     const analysis = props.analysis;
     const name = analysis.name;
-    const isBatch = analysis.batch;
+    const baseId = props.baseId;
+    return (
+        <Tooltip
+            id={build(baseId, ids.ANALYSIS_NAME_CELL, ids.TOOLTIP)}
+            aria-label={name}
+            title={name}
+        >
+            <Typography
+                id={build(baseId, ids.ANALYSIS_NAME_CELL)}
+                className={classes.name}
+                variant="body2"
+            >
+                {name}
+            </Typography>
+        </Tooltip>
+    );
+}
+
+function AppName(props) {
+    const analysis = props.analysis;
+    const name = analysis.app_name;
+    return <Typography variant="body2">{name}</Typography>;
+}
+
+function Status(props) {
+    const { analysis, baseId } = props;
+    return (
+        <Typography variant="body2" id={build(baseId, ids.STATUS)}>
+            {analysis.status}
+        </Typography>
+    );
+}
+
+function Actions(props) {
+    const classes = useStyles();
+    const { analysis } = props;
+
     const interactiveUrls = analysis.interactive_urls;
-    const status = analysis.status;
     const handleInteractiveUrlClick = props.handleInteractiveUrlClick;
     const handleGoToOutputFolder = props.handleGoToOutputFolder;
     const handleBatchIconClick = props.handleBatchIconClick;
     const intl = props.intl;
     const baseId = props.baseId;
+    const mouseOverId = props.mouseOverId;
+    const username = props.username;
+    const isDisabled = analysis.app_disabled;
+    const className =
+        mouseOverId === analysis.id ? classes.actionHover : classes.action;
 
-    const NameLink = () => {
-        return (
+    const isBatch = isBatchAnalysis(analysis);
+    const isVICE = isInteractive(analysis);
+    const allowTimeExtn = allowAnalysisTimeExtn(analysis, username);
+
+    return (
+        <>
             <Tooltip
-                id={build(baseId, ids.ANALYSIS_NAME_CELL, ids.TOOLTIP)}
-                aria-label={formatMessage(intl, "goOutputFolderOf", {
-                    name: name,
-                })}
-                title={formatMessage(intl, "goOutputFolderOf", { name: name })}
+                aria-label={formatMessage(intl, "goOutputFolder")}
+                title={getMessage("goOutputFolder")}
+                id={build(baseId, ids.ICONS.OUTPUT, ids.TOOLTIP)}
             >
-                <Link
-                    id={build(baseId, ids.ANALYSIS_NAME_CELL)}
+                <IconButton
+                    size="small"
                     onClick={() => handleGoToOutputFolder(analysis)}
-                    color="primary"
-                    component="button"
+                    id={build(baseId, ids.ICONS.OUTPUT, ids.BUTTON)}
+                    className={className}
                 >
-                    <span className={classes.name}>{name}</span>
-                </Link>
+                    <OutputFolderIcon />
+                </IconButton>
             </Tooltip>
-        );
-    };
 
-    if (isBatch) {
-        return (
-            <>
-                <NameLink />
+            {isBatch && (
                 <Tooltip
                     aria-label={formatMessage(intl, "htDetails")}
                     title={getMessage("htDetails")}
@@ -93,22 +153,29 @@ function AnalysisName(props) {
                     <IconButton
                         size="small"
                         onClick={() => handleBatchIconClick(analysis)}
-                        id={build(baseId, ids.ICONS.BATCH)}
+                        id={build(baseId, ids.ICONS.BATCH, ids.BUTTON)}
+                        className={className}
                     >
                         <UnfoldMoreIcon />
                     </IconButton>
                 </Tooltip>
-            </>
-        );
-    } else if (
-        (status === analysisStatus.SUBMITTED ||
-            status === analysisStatus.RUNNING) &&
-        interactiveUrls &&
-        interactiveUrls.length > 0
-    ) {
-        return (
-            <>
-                <NameLink />
+            )}
+            {!isDisabled && !isVICE && (
+                <Tooltip
+                    aria-label={formatMessage(intl, "relaunch")}
+                    title={getMessage("relaunch")}
+                    id={build(baseId, ids.ICONS.RELAUNCH, ids.TOOLTIP)}
+                >
+                    <IconButton
+                        size="small"
+                        id={build(baseId, ids.ICONS.RELAUNCH, ids.BUTTON)}
+                        className={className}
+                    >
+                        <RelaunchIcon />
+                    </IconButton>
+                </Tooltip>
+            )}
+            {isVICE && (
                 <Tooltip
                     id={build(baseId, ids.ICONS.INTERACTIVE, ids.TOOLTIP)}
                     aria-label={formatMessage(intl, "goToVice")}
@@ -119,55 +186,29 @@ function AnalysisName(props) {
                             handleInteractiveUrlClick(interactiveUrls[0])
                         }
                         size="small"
-                        id={build(baseId, ids.ICONS.INTERACTIVE)}
+                        id={build(baseId, ids.ICONS.INTERACTIVE, ids.BUTTON)}
+                        className={className}
                     >
                         <LaunchIcon />
                     </IconButton>
                 </Tooltip>
-            </>
-        );
-    } else {
-        return <NameLink />;
-    }
-}
-
-function AppName(props) {
-    const analysis = props.analysis;
-    const name = analysis.app_name;
-    return <Link component="button">{name}</Link>;
-}
-
-function Status(props) {
-    const { analysis, username, baseId, analysisUser, intl } = props;
-    const allowTimeExtn =
-        analysis.interactive_urls &&
-        analysis.interactive_urls.length > 0 &&
-        analysis.status === analysisStatus.RUNNING &&
-        username === analysisUser;
-    return (
-        <React.Fragment>
-            <Link component="button" id={build(baseId, ids.STATUS)}>
-                {analysis.status}{" "}
-            </Link>
+            )}
             {allowTimeExtn && (
                 <Tooltip
                     aria-label={formatMessage(intl, "extendTime")}
                     title={getMessage("extendTime")}
-                    id={build(
-                        baseId,
-                        ids.BUTTON_EXTEND_TIME_LIMIT,
-                        ids.TOOLTIP
-                    )}
+                    id={build(baseId, ids.ICONS.TIME_LIMIT, ids.TOOLTIP)}
                 >
                     <IconButton
-                        id={build(baseId, ids.BUTTON_EXTEND_TIME_LIMIT)}
+                        id={build(baseId, ids.ICONS.TIME_LIMIT)}
                         size="small"
+                        className={className}
                     >
                         <HourGlass />
                     </IconButton>
                 </Tooltip>
             )}
-        </React.Fragment>
+        </>
     );
 }
 
@@ -214,6 +255,13 @@ const columnData = (intl) => [
         enableSorting: true,
         key: "status",
     },
+    {
+        id: ids.ACTIONS,
+        name: "",
+        numeric: false,
+        enableSorting: false,
+        key: "actions",
+    },
 ];
 
 function TableView(props) {
@@ -236,8 +284,17 @@ function TableView(props) {
         intl,
     } = props;
 
+    const theme = useTheme();
+    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+    let columns = columnData(intl);
+    //hide actions on small screens
+    if (isSmall) {
+        columns = columns.filter((column) => column.id !== ids.ACTIONS);
+    }
+
     const analyses = listing?.analyses;
     const tableId = build(baseId, ids.LISTING_TABLE);
+    const [mouseOverId, setMouseOverId] = useState("");
 
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
@@ -258,13 +315,13 @@ function TableView(props) {
                     rowsInPage={listing?.analyses?.length || 0}
                     order={order}
                     orderBy={orderBy}
-                    columnData={columnData(intl)}
+                    columnData={columns}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
                 />
                 {loading && (
                     <TableLoading
-                        numColumns={columnData(intl).length}
+                        numColumns={columns.length + 2}
                         numRows={25}
                         baseId={tableId}
                     />
@@ -274,18 +331,14 @@ function TableView(props) {
                         {(!analyses || analyses.length === 0) && !error && (
                             <EmptyTable
                                 message={getMessage("noAnalyses")}
-                                numColumns={columnData(intl).length}
+                                numColumns={columns.length}
                             />
                         )}
                         {analyses &&
                             analyses.length > 0 &&
                             analyses.map((analysis, index) => {
                                 const id = analysis.id;
-                                const user =
-                                    analysis.username &&
-                                    analysis.username.includes(constants.IPLANT)
-                                        ? analysis.username.split("@")[0]
-                                        : analysis.username;
+                                const user = getAnalysisUser(analysis);
                                 const isSelected = selected.indexOf(id) !== -1;
                                 const rowId = build(baseId, tableId, id);
                                 return (
@@ -293,6 +346,14 @@ function TableView(props) {
                                         onClick={(event) =>
                                             handleClick(event, id, index)
                                         }
+                                        onMouseOver={() => {
+                                            setMouseOverId(id);
+                                        }}
+                                        onMouseOut={() => {
+                                            setMouseOverId("");
+                                        }}
+                                        onFocus={() => setMouseOverId(id)}
+                                        onBlur={() => setMouseOverId("")}
                                         role="checkbox"
                                         aria-checked={isSelected}
                                         tabIndex={-1}
@@ -331,28 +392,27 @@ function TableView(props) {
                                                         ids.ANALYSIS_NAME_CELL
                                                 )}
                                                 parentId={parentId}
-                                                handleInteractiveUrlClick={
-                                                    handleInteractiveUrlClick
-                                                }
-                                                handleGoToOutputFolder={
-                                                    handleGoToOutputFolder
-                                                }
-                                                handleBatchIconClick={
-                                                    handleBatchIconClick
-                                                }
                                             />
                                         </TableCell>
-                                        <TableCell>{user}</TableCell>
+                                        <TableCell>
+                                            <Typography variant="body2">
+                                                {user}
+                                            </Typography>
+                                        </TableCell>
                                         <TableCell
                                             id={build(rowId, ids.APP_NAME_CELL)}
                                         >
                                             <AppName analysis={analysis} />
                                         </TableCell>
                                         <TableCell>
-                                            {formatDate(analysis.startdate)}
+                                            <Typography variant="body2">
+                                                {formatDate(analysis.startdate)}
+                                            </Typography>
                                         </TableCell>
                                         <TableCell>
-                                            {formatDate(analysis.enddate)}
+                                            <Typography variant="body2">
+                                                {formatDate(analysis.enddate)}
+                                            </Typography>
                                         </TableCell>
                                         <TableCell
                                             id={build(rowId, ids.SUPPORT_CELL)}
@@ -360,11 +420,32 @@ function TableView(props) {
                                             <Status
                                                 analysis={analysis}
                                                 baseId={baseId}
-                                                analysisUser={user}
-                                                username={username}
                                                 intl={intl}
                                             />
                                         </TableCell>
+                                        {!isSmall && (
+                                            <TableCell>
+                                                <Actions
+                                                    intl={intl}
+                                                    analysis={analysis}
+                                                    username={username}
+                                                    baseId={build(
+                                                        rowId +
+                                                            ids.ANALYSIS_ACTIONS_CELL
+                                                    )}
+                                                    handleInteractiveUrlClick={
+                                                        handleInteractiveUrlClick
+                                                    }
+                                                    handleGoToOutputFolder={
+                                                        handleGoToOutputFolder
+                                                    }
+                                                    handleBatchIconClick={
+                                                        handleBatchIconClick
+                                                    }
+                                                    mouseOverId={mouseOverId}
+                                                />
+                                            </TableCell>
+                                        )}
                                     </TableRow>
                                 );
                             })}

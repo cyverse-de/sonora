@@ -350,5 +350,97 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("add the GET /admin/vice/async-data handler");
+    api.get(
+        "/admin/vice/async-data",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/vice/async-data",
+        })
+    );
+
+    logger.info(
+        "add the GET /admin/vice/analyses/:analysisID/time-limit handler"
+    );
+    api.get(
+        "/admin/vice/analyses/:analysisID/time-limit",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/vice/analyses/:analysisID/time-limit",
+        })
+    );
+
+    logger.info(
+        "add the POST /admin/vice/analyses/:analysisID/time-limit handler"
+    );
+    api.post(
+        "/admin/vice/analyses/:analysisID/time-limit",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/vice/analyses/:analysisID/time-limit",
+        })
+    );
+
+    logger.info(
+        "add the GET /admin/vice/analyses/:analysisID/external-id handler"
+    );
+    api.get(
+        "/admin/vice/analyses/:analysisID/external-id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/vice/analyses/:analysisID/external-id",
+        })
+    );
+
+    logger.info("add the POST /admin/vice/analyses/:analysisID/exit handler");
+    api.post(
+        "/admin/vice/analyses/:analysisID/exit",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/vice/analyses/:analysisID/exit",
+        })
+    );
+
+    logger.info(
+        "add the POST /admin/vice/analyses/:analysisID/save-and-exit handler"
+    );
+    api.post(
+        "/admin/vice/analyses/:analysisID/save-and-exit",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/vice/analyses/:analysisID/save-and-exit",
+        })
+    );
+
+    logger.info(
+        "add the POST /admin/vice/analyses/:analysisID/save-output-files handler"
+    );
+    api.post(
+        "/admin/vice/analyses/:analysisID/save-output-files",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/vice/analyses/:analysisID/save-output-files",
+        })
+    );
+
+    logger.info(
+        "add the POST /admin/vice/analyses/:analysisID/download-input-files handler"
+    );
+    api.post(
+        "/admin/vice/analyses/:analysisID/download-input-files",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/vice/analyses/:analysisID/download-input-files",
+        })
+    );
+
     return api;
 }

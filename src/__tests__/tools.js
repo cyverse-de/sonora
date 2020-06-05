@@ -23,12 +23,10 @@ test("Tool Table View renders", () => {
 
 test("Tool Table View renders without tools", () => {
     const component = renderer.create(<EmptyToolListingTest />);
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    component.unmount();
 });
 
 test("Errored Tool Listing renders", () => {
     const component = renderer.create(<ErroredListingTest />);
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    component.unmount();
 });

@@ -18,8 +18,7 @@ afterEach(() => {
 
 test("Tool Table View renders", () => {
     const component = renderer.create(<ToolListingTest />);
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    component.unmount();
 });
 
 test("Tool Table View renders without tools", () => {

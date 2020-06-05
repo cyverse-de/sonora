@@ -57,6 +57,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 
+const ENTITLEMENT = "entitlement";
 const drawerWidth = 200;
 const miniDrawerWidth = 65;
 const useStyles = makeStyles((theme) => ({
@@ -228,7 +229,8 @@ function CyverseAppBar(props) {
         if (userProfile?.id) {
             setAvatarLetter(userProfile.id.charAt(0).toUpperCase());
             const adminGroups = process.env.ADMIN_GROUPS;
-            const groupAttribute = process.env.ADMIN_GROUP_ATTRIBUTE;
+            const groupAttribute =
+                process.env.ADMIN_GROUP_ATTRIBUTE || ENTITLEMENT;
             const userGroupMemberships = userProfile.attributes[groupAttribute];
             const adminMemberships = [];
             if (adminGroups && userGroupMemberships) {

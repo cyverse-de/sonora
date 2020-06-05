@@ -29,3 +29,7 @@ intercom:
     enabled: true
     company_id: DE-DEV
     company_name: DISCOVERY ENVIRONMENT
+
+admin:
+    groups: some-group
+    group_attribute_name: entitlement

@@ -251,31 +251,31 @@ const VICEAdmin = () => {
                     />
 
                     <CollapsibleTable
-                        rows={filteredData.deployments}
+                        rows={filteredData?.deployments}
                         columns={deploymentColumns}
                         title={msg("deployments")}
                     />
 
                     <CollapsibleTable
-                        rows={filteredData.services}
+                        rows={filteredData?.services}
                         columns={serviceColumns}
                         title={msg("services")}
                     />
 
                     <CollapsibleTable
-                        rows={filteredData.pods}
+                        rows={filteredData?.pods}
                         columns={podColumns}
                         title={msg("pods")}
                     />
 
                     <CollapsibleTable
-                        rows={filteredData.configMaps}
+                        rows={filteredData?.configMaps}
                         columns={commonColumns}
                         title={msg("configMaps")}
                     />
 
                     <CollapsibleTable
-                        rows={filteredData.ingresses}
+                        rows={filteredData?.ingresses}
                         columns={commonColumns}
                         title={msg("ingresses")}
                     />

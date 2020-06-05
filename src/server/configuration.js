@@ -89,6 +89,9 @@ const validate = () => {
     //amqp settings
     validateConfigSetting("amqp.amqp_uri");
     validateConfigSetting("amqp.exchange_name");
+
+    //groups
+    validateConfigSetting("admin.groups");
 };
 
 validate();

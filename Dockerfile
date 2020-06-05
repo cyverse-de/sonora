@@ -1,9 +1,11 @@
 FROM node:12-alpine
 
-COPY . /src
 WORKDIR /src
 
-RUN npm install
+COPY package.json package-lock.json /src/
+RUN npm ci
+
+COPY . .
 RUN npm run build
 
 EXPOSE 3000

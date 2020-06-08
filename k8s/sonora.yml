@@ -38,7 +38,7 @@ spec:
         emptyDir: {}
       - name: dist-dir
         emptyDir: {}
-      - name: doc-dir
+      - name: docs-dir
         emptyDir: {}
       containers:
       - name: sonora

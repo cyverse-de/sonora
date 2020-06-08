@@ -34,11 +34,7 @@ spec:
           items:
           - key: sonora.yaml
             path: local.yaml
-      - name: build-dir
-        emptyDir: {}
-      - name: dist-dir
-        emptyDir: {}
-      - name: docs-dir
+      - name: run-dir
         emptyDir: {}
       containers:
       - name: sonora
@@ -60,6 +56,9 @@ spec:
         - name: service-configs
           mountPath: /etc/iplant/de
           readOnly: true
+        - name: run-dir
+          mountPath: /run
+        workingDir: /run/src
         ports:
         - name: listen-port
           containerPort: 3000
@@ -78,6 +77,19 @@ spec:
           periodSeconds: 20
           timeoutSeconds: 10
       initContainers:
+      - name: copy
+        image: discoenv/sonora
+        env:
+        - name: NODE_CONFIG_DIR
+          value: "./config:/etc/iplant/de"
+        volumeMounts:
+        - name: run-dir
+          mountPath: /run
+        command:
+        - cp
+        - -pr
+        - /src
+        - /run
       - name: build
         image: discoenv/sonora
         env:
@@ -90,6 +102,9 @@ spec:
         - name: service-configs
           mountPath: /etc/iplant/de
           readOnly: true
+        - name: run-dir
+          mountPath: /run
+        workingDir: /run/src
         command:
         - npm
         - run

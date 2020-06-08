@@ -61,11 +61,11 @@ spec:
           mountPath: /etc/iplant/de
           readOnly: true
         - name: build-dir
-          mountPath: .next
+          mountPath: /src/.next
         - name: dist-dir
-          mountPath: dist
+          mountPath: /src/dist
         - name: docs-dir
-          mountPath: generated-docs
+          mountPath: /src/generated-docs
         ports:
         - name: listen-port
           containerPort: 3000
@@ -97,11 +97,11 @@ spec:
           mountPath: /etc/iplant/de
           readOnly: true
         - name: build-dir
-          mountPath: .next
+          mountPath: /src/.next
         - name: dist-dir
-          mountPath: dist
+          mountPath: /src/dist
         - name: docs-dir
-          mountPath: generated-docs
+          mountPath: /src/generated-docs
         command:
         - npm
         - run

@@ -17,12 +17,12 @@ spec:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
-            matchExpressions:
-            - key: de-app
-              operator: In
-              values:
-              - sonora
-            topologyKey: kubernetes.io/hostname
+              matchExpressions:
+              - key: de-app
+                operator: In
+                values:
+                - sonora
+              topologyKey: kubernetes.io/hostname
       restartPolicy: Always
       volumes:
       - name: localtime

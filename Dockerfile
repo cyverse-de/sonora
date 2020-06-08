@@ -1,4 +1,4 @@
-FROM node:13-alpine
+FROM node:12-alpine
 
 WORKDIR /src
 
@@ -8,11 +8,8 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-COPY start.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/start.sh
-
 EXPOSE 3000
 
-CMD ["start.sh"]
+CMD ["npm", "start"]
 
 LABEL org.label-schema.vcs-url="https://github.com/cyverse-de/sonora"

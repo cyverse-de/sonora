@@ -3,11 +3,13 @@ FROM node:12-alpine
 WORKDIR /src
 
 COPY package.json package-lock.json /src/
-COPY start.sh /usr/local/bin/
 RUN npm ci
 
 COPY . .
 RUN npm run build
+
+COPY start.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/start.sh
 
 EXPOSE 3000
 

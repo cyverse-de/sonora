@@ -25,11 +25,11 @@ keycloak:
     client_secret: null
 
 intercom:
-    app_id: aw5b6i5l
+    app_id: appId
     enabled: true
     company_id: DE-DEV
     company_name: DISCOVERY ENVIRONMENT
 
 admin:
-    groups: core-services,tito-admins,tito-qa-admins,dev
+    groups: some-group
     group_attribute_name: entitlement

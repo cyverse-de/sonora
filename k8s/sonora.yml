@@ -34,6 +34,12 @@ spec:
           items:
           - key: sonora.yaml
             path: local.yaml
+      - name: build-dir
+        emptyDir: {}
+      - name: dist-dir
+        emptyDir: {}
+      - name: doc-dir
+        emptyDir: {}
       containers:
       - name: sonora
         image: discoenv/sonora
@@ -54,6 +60,12 @@ spec:
         - name: service-configs
           mountPath: /etc/iplant/de
           readOnly: true
+        - name: build-dir
+          mountPath: .next
+        - name: dist-dir
+          mountPath: dist
+        - name: docs-dir
+          mountPath: generated-docs
         ports:
         - name: listen-port
           containerPort: 3000
@@ -71,6 +83,29 @@ spec:
           initialDelaySeconds: 60
           periodSeconds: 20
           timeoutSeconds: 10
+      initContainers:
+      - name: build
+        image: discoenv/sonora
+        env:
+        - name: NODE_CONFIG_DIR
+          value: "./config:/etc/iplant/de"
+        volumeMounts:
+        - name: localtime
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: service-configs
+          mountPath: /etc/iplant/de
+          readOnly: true
+        - name: build-dir
+          mountPath: .next
+        - name: dist-dir
+          mountPath: dist
+        - name: docs-dir
+          mountPath: generated-docs
+        command:
+        - npm
+        - run
+        - build
 ---
 apiVersion: v1
 kind: Service

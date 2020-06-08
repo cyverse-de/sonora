@@ -199,8 +199,6 @@ function TableView(props) {
 
     const tools = listing?.tools;
 
-    console.log(tools);
-
     // Build and return the table.
     return (
         <TableContainer component={Paper} style={{ overflow: "auto" }}>

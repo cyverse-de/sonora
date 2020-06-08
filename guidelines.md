@@ -13,7 +13,7 @@
   - [Internationalization (i18n)](#internationalization-i18n)
   - [Static IDs](#static-ids)
   - [CSS](#css)
-- [Chromatic Setup](#chromatic-setup)  
+- [Chromatic Setup](#chromatic-setup)
 - [Pull Requests](#pull-requests)
   - [Before you submit](#before-you-submit)
 
@@ -35,7 +35,7 @@ Any major design changes should be discussed and finalized in one of our weekly 
 
 ### Responsive Design
 
-Sonora will focus on being mobile-friendly. 
+Sonora will focus on being mobile-friendly.
 
 Material-ui has a lot of resources to make sure the design is responsive:
 * [Responsive UI Guide](https://material-ui.com/guides/responsive-ui/): A list of tools material-ui has for helping with responsive layouts
@@ -69,7 +69,7 @@ The default material-ui values can be found [here](https://material-ui.com/custo
 
 It is strongly recommended that all development for components is done utilizing [Storybook](https://storybook.js.org/). Follow the new [Component Story Format](https://storybook.js.org/docs/formats/component-story-format/).
 
-Add your component's story within the `/stories` folder [here](/stories). 
+Add your component's story within the `/stories` folder [here](/stories).
 
 Storybook allows you to view your collection of components in a browser and "develop UI components in isolation without worrying about app specific dependencies and requirements". Every time you save your component's story file, Storybook will automatically refresh the browser with your changes so you can visually inspect and iterate on it.
 
@@ -204,11 +204,11 @@ function myComponent(props) {
 ```
 
 ## Chromatic Setup
-- First Link your github account to chromatic.
-- Then Go to https://github.com/settings/tokens and create a Personal Access Token and name it chromatic.
-- Next go to https://github.com/username/sonora/settings/secrets and create 2 secrets (replace username with your github account name). 
-- One for your personal token (created in first step). Name it `my_token`
-- Another one for chromatic project token which can be found in Chromatic settings page. Name it `project_token`
+- First, log into https://www.chromatic.com using your github account.
+- Next, go to https://github.com/settings/tokens and create a Personal Access Token and name it chromatic. No scopes need to be explicitly granted to this access token.
+- Finally, go to https://github.com/username/sonora/settings/secrets and create 2 secrets (replace username with your github account name).
+  - One for the GitHub personal access token (created in previous step). Name it `my_token`
+  - Another one for chromatic project token which can be found in the Chromatic project settings page for `cyverse-de/sonora` (accessed by clicking the `Manage` link from the project in Chromatic). Name it `project_token`
 
 ## Pull Requests
 Before you submit a PR, make sure to set up Chromatic.

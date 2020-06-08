@@ -22,7 +22,7 @@ spec:
                 operator: In
                 values:
                 - sonora
-              topologyKey: kubernetes.io/hostname
+            topologyKey: kubernetes.io/hostname
       restartPolicy: Always
       volumes:
       - name: localtime

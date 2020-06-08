@@ -30,6 +30,7 @@ function CustomIntercom({ intl }) {
 
     React.useEffect(() => {
         if (userProfile?.id) {
+            console.log("Intercom app id=>" + appId + "<==");
             if (enabled) {
                 intercomLogin(
                     userProfile.id,

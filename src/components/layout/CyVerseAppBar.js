@@ -233,6 +233,10 @@ function CyverseAppBar(props) {
                 process.env.ADMIN_GROUP_ATTRIBUTE || ENTITLEMENT;
             const userGroupMemberships = userProfile.attributes[groupAttribute];
             const adminMemberships = [];
+            console.log("admin groups=>" + adminGroups + "<==");
+            console.log(
+                "userGroupMemberships=>" + userGroupMemberships + "<==="
+            );
             if (adminGroups && userGroupMemberships) {
                 const adminGroupArray = adminGroups.split(",");
                 adminGroupArray.forEach((adminGroup) => {
@@ -240,10 +244,12 @@ function CyverseAppBar(props) {
                         (userGroup) => adminGroup === userGroup
                     );
                     if (found) {
+                        console.log("found admin membership => " + found);
                         adminMemberships.push(found);
                     }
                 });
                 setAdminUser(adminMemberships.length > 0);
+                console.log("user is admin=>" + adminUser + "<==");
             }
         }
     }, [userProfile, adminUser, setAdminUser, setAvatarLetter]);

@@ -23,10 +23,11 @@ import {
     SERVICE_COLUMNS,
     POD_COLUMNS,
 } from "./constants";
-import { Skeleton } from "@material-ui/lab";
+import { Skeleton, TabList, TabContext, TabPanel } from "@material-ui/lab";
 
 import { JSONPath } from "jsonpath-plus";
 import efcs from "./filter/efcs";
+import { AppBar, Tab } from "@material-ui/core";
 
 const id = (...values) => buildID(ids.ROOT, ...values);
 
@@ -191,6 +192,117 @@ const VICEAdminSkeleton = () => {
     );
 };
 
+const VICEAdminTabs = ({ data }) => {
+    const [value, setValue] = useState("0");
+
+    const tabID = (name) => id(ids.ROOT, "admin", "tabs", name);
+    const tabPanelID = (name) => id(ids.ROOT, "admin", "tab-panels", name);
+    const ariaControls = (name) => `vice-admin-tabs-${name}`;
+
+    const analysisRows = data ? getAnalyses(data) : [];
+
+    return (
+        <TabContext value={value}>
+            <AppBar position="static" color="primary">
+                <TabList
+                    onChange={(_, newValue) => setValue(newValue)}
+                    aria-label={msg("adminTabs")}
+                >
+                    <Tab
+                        label={msg("analyses")}
+                        id={tabID("analyses")}
+                        value="0"
+                        aria-controls={ariaControls("analyses")}
+                    />
+
+                    <Tab
+                        label={msg("deployments")}
+                        id={tabID("deployments")}
+                        value="1"
+                        aria-controls={ariaControls("deployments")}
+                    />
+
+                    <Tab
+                        label={msg("services")}
+                        id={tabID("services")}
+                        value="2"
+                        aria-controls={ariaControls("services")}
+                    />
+
+                    <Tab
+                        label={msg("pods")}
+                        id={tabID("pods")}
+                        value="3"
+                        aria-controls={ariaControls("pods")}
+                    />
+
+                    <Tab
+                        label={msg("configMaps")}
+                        id={tabID("configMaps")}
+                        value="4"
+                        aria-controls={ariaControls("configMaps")}
+                    />
+
+                    <Tab
+                        label={msg("ingresses")}
+                        id={tabID("ingresses")}
+                        value="5"
+                        aria-controls={ariaControls("ingresses")}
+                    />
+                </TabList>
+            </AppBar>
+
+            <TabPanel value="0" id={tabPanelID("analyses")}>
+                <CollapsibleTable
+                    rows={analysisRows}
+                    columns={commonColumns}
+                    title={msg("analyses")}
+                />
+            </TabPanel>
+
+            <TabPanel value="1" id={tabPanelID("deployments")}>
+                <CollapsibleTable
+                    rows={data?.deployments}
+                    columns={deploymentColumns}
+                    title={msg("deployments")}
+                />
+            </TabPanel>
+
+            <TabPanel value="2" id={tabPanelID("services")}>
+                <CollapsibleTable
+                    rows={data?.services}
+                    columns={serviceColumns}
+                    title={msg("services")}
+                />
+            </TabPanel>
+
+            <TabPanel value="3" id={tabPanelID("pods")}>
+                <CollapsibleTable
+                    rows={data?.pods}
+                    columns={podColumns}
+                    title={msg("pods")}
+                />
+            </TabPanel>
+
+            <TabPanel value="4" id={tabPanelID("configMaps")}>
+                <CollapsibleTable
+                    rows={data?.configMaps}
+                    columns={commonColumns}
+                    title={msg("configMaps")}
+                />
+            </TabPanel>
+
+            <TabPanel value="5" id={tabPanelID("ingresses")}>
+                <CollapsibleTable
+                    rows={data?.ingresses}
+                    columns={commonColumns}
+                    title={msg("ingresses")}
+                />
+            </TabPanel>
+        </TabContext>
+    );
+};
+
 const VICEAdmin = () => {
     const classes = useStyles();
 
@@ -230,8 +342,6 @@ const VICEAdmin = () => {
         data
     );
 
-    const analysisRows = filteredData ? getAnalyses(filteredData) : [];
-
     return (
         <div id={id(ids.ROOT)} className={classes.root}>
             {isLoading ? (
@@ -244,41 +354,7 @@ const VICEAdmin = () => {
                         deleteFromFilters={deleteFromFilters}
                     />
 
-                    <CollapsibleTable
-                        rows={analysisRows}
-                        columns={commonColumns}
-                        title={msg("analyses")}
-                    />
-
-                    <CollapsibleTable
-                        rows={filteredData?.deployments}
-                        columns={deploymentColumns}
-                        title={msg("deployments")}
-                    />
-
-                    <CollapsibleTable
-                        rows={filteredData?.services}
-                        columns={serviceColumns}
-                        title={msg("services")}
-                    />
-
-                    <CollapsibleTable
-                        rows={filteredData?.pods}
-                        columns={podColumns}
-                        title={msg("pods")}
-                    />
-
-                    <CollapsibleTable
-                        rows={filteredData?.configMaps}
-                        columns={commonColumns}
-                        title={msg("configMaps")}
-                    />
-
-                    <CollapsibleTable
-                        rows={filteredData?.ingresses}
-                        columns={commonColumns}
-                        title={msg("ingresses")}
-                    />
+                    <VICEAdminTabs data={filteredData} />
                 </>
             )}
             <div className={classes.footer} />

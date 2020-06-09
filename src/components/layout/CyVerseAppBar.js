@@ -254,7 +254,7 @@ function CyverseAppBar(props) {
                 console.log("user is admin=>" + adminUser + "<==");
             }
         }
-    }, [userProfile, adminUser, setAdminUser, setAvatarLetter]);
+    }, [userProfile, adminUser, setAdminUser, setAvatarLetter, config]);
 
     const handleUserButtonClick = (event) => {
         toggleDrawer(false);

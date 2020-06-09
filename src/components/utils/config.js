@@ -7,7 +7,7 @@ import getConfig from "next/config";
  */
 function useConfig() {
     const [config, setConfig] = React.useState();
-    const { publicRuntimeConfig } = getConfig();
+    const { publicRuntimeConfig = {} } = getConfig() || {};
     React.useEffect(() => {
         console.log(
             "setting configs -> " + publicRuntimeConfig.INTERCOM_APP_ID

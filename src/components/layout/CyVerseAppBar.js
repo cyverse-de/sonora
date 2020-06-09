@@ -15,6 +15,7 @@ import { injectIntl } from "react-intl";
 import ids from "./ids";
 import intlData from "./messages";
 import constants from "../../constants";
+import useConfig from "../utils/config";
 import GlobalSearchField from "../search/GlobalSearchField";
 import NavigationConstants from "../../common/NavigationConstants";
 import Notifications from "./Notifications";
@@ -206,6 +207,7 @@ function CyverseAppBar(props) {
     const theme = useTheme();
     const router = useRouter();
     const ref = useRef();
+    const [config] = useConfig();
 
     const { intl, children, activeView, setAppBarRef } = props;
     const [userProfile, setUserProfile] = useUserProfile();
@@ -228,9 +230,9 @@ function CyverseAppBar(props) {
     React.useEffect(() => {
         if (userProfile?.id) {
             setAvatarLetter(userProfile.id.charAt(0).toUpperCase());
-            const adminGroups = process.env.ADMIN_GROUPS;
+            const adminGroups = config.admin.groups;
             const groupAttribute =
-                process.env.ADMIN_GROUP_ATTRIBUTE || ENTITLEMENT;
+                config.admin.group_attribute_name || ENTITLEMENT;
             const userGroupMemberships = userProfile.attributes[groupAttribute];
             const adminMemberships = [];
             console.log("admin groups=>" + adminGroups + "<==");

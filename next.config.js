@@ -5,7 +5,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 module.exports = withBundleAnalyzer({
-    env: {
+    publicRuntimeConfig: {
         INTERCOM_APP_ID: config.get("intercom.app_id"),
         INTERCOM_ENABLED: config.get("intercom.enabled"),
         INTERCOM_COMPANY_ID: config.get("intercom.company_id"),

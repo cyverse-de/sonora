@@ -7,6 +7,7 @@
 import React, { useState } from "react";
 
 import "./styles.css";
+import useConfig from "../components/utils/config";
 import CyverseAppBar from "../components/layout/CyVerseAppBar";
 import NavigationConstants from "../common/NavigationConstants";
 import UploadManager from "../components/uploads/manager";
@@ -72,14 +73,11 @@ const setupIntercom = (intercomAppId) => {
 function MyApp({ Component, pageProps }) {
     const [appBarHeight, setAppBarRef] = useComponentHeight();
     const router = useRouter();
+    const [config] = useConfig();
     const pathname = router.pathname
         ? router.pathname.split(constants.PATH_SEPARATOR)[1]
         : NavigationConstants.DASHBOARD;
     const [intercomSettings, setIntercomSettings] = useState({
-        appId: process.env.INTERCOM_APP_ID,
-        enabled: process.env.INTERCOM_ENABLED,
-        companyId: process.env.INTERCOM_COMPANY_ID,
-        companyName: process.env.INTERCOM_COMPANY_NAME,
         unReadCount: 0,
     });
 
@@ -93,8 +91,8 @@ function MyApp({ Component, pageProps }) {
         if (jssStyles) {
             jssStyles.parentElement.removeChild(jssStyles);
         }
-        if (intercomSettings.enabled) {
-            setupIntercom(intercomSettings.appId);
+        if (config?.intercom.enabled) {
+            setupIntercom(config.intercom.appId);
             if (window.Intercom) {
                 window.Intercom("onUnreadCountChange", function (unreadCount) {
                     if (intercomSettings.unReadCount !== unreadCount) {
@@ -107,7 +105,18 @@ function MyApp({ Component, pageProps }) {
                 });
             }
         }
-    }, [intercomSettings]);
+    }, [config, intercomSettings]);
+
+    React.useEffect(() => {
+        if (config) {
+            setIntercomSettings({
+                appId: config.intercom.appId,
+                enabled: config.intercom.enabled,
+                companyId: config.intercom.companyId,
+                companyName: config.intercom.companyName,
+            });
+        }
+    }, [config]);
 
     return (
         <ThemeProvider theme={theme}>

@@ -7,7 +7,7 @@
 import React, { useState } from "react";
 
 import "./styles.css";
-import useConfig from "../components/utils/config";
+import { ConfigProvider } from "../contexts/config";
 import CyverseAppBar from "../components/layout/CyVerseAppBar";
 import NavigationConstants from "../common/NavigationConstants";
 import UploadManager from "../components/uploads/manager";
@@ -16,7 +16,7 @@ import ids from "../components/layout/ids";
 
 import { UploadTrackingProvider } from "../contexts/uploadTracking";
 import { UserProfileProvider } from "../contexts/userProfile";
-import { IntercomProvider } from "../contexts/intercom";
+
 import { NotificationsProvider } from "../contexts/pushNotifications";
 import PageWrapper from "../components/layout/PageWrapper";
 import useComponentHeight from "../components/utils/useComponentHeight";
@@ -24,6 +24,7 @@ import constants from "../constants";
 
 import Head from "next/head";
 import { useRouter } from "next/router";
+import getConfig from "next/config";
 
 import { ReactQueryDevtools } from "react-query-devtools";
 import { ReactQueryConfigProvider } from "react-query";
@@ -70,16 +71,15 @@ const setupIntercom = (intercomAppId) => {
     }
 };
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, intercom, admin }) {
     const [appBarHeight, setAppBarRef] = useComponentHeight();
     const router = useRouter();
-    const [config] = useConfig();
+    console.log("intercom=>" + intercom.appId);
+    const [config, setConfig] = useState();
     const pathname = router.pathname
         ? router.pathname.split(constants.PATH_SEPARATOR)[1]
         : NavigationConstants.DASHBOARD;
-    const [intercomSettings, setIntercomSettings] = useState({
-        unReadCount: 0,
-    });
+    const [unReadCount, setUnReadCount] = useState(0);
 
     const queryConfig = {
         refetchOnWindowFocus: false,
@@ -87,48 +87,46 @@ function MyApp({ Component, pageProps }) {
     };
 
     React.useEffect(() => {
+        if (intercom && admin) {
+            setConfig({ intercom, admin });
+        }
         const jssStyles = document.querySelector("#jss-server-side");
         if (jssStyles) {
             jssStyles.parentElement.removeChild(jssStyles);
         }
-        if (config?.intercom.enabled) {
-            setupIntercom(config.intercom.appId);
+        if (intercom.enabled) {
+            setupIntercom(intercom.appId);
             if (window.Intercom) {
-                window.Intercom("onUnreadCountChange", function (unreadCount) {
-                    if (intercomSettings.unReadCount !== unreadCount) {
-                        const newSettings = {
-                            ...intercomSettings,
-                            unReadCount: unreadCount,
-                        };
-                        setIntercomSettings(newSettings);
-                    }
+                window.Intercom("onUnreadCountChange", function (
+                    newUnreadCount
+                ) {
+                    console.log("intercom unread count->" + newUnreadCount);
+                    setUnReadCount(newUnreadCount);
                 });
             }
         }
-    }, [config, intercomSettings]);
-
-    React.useEffect(() => {
-        if (config) {
-            setIntercomSettings({
-                appId: config.intercom.appId,
-                enabled: config.intercom.enabled,
-                companyId: config.intercom.companyId,
-                companyName: config.intercom.companyName,
-            });
-        }
-    }, [config]);
+    }, [
+        admin,
+        intercom,
+        intercom.appId,
+        intercom.enabled,
+        setConfig,
+        unReadCount,
+    ]);
 
     return (
         <ThemeProvider theme={theme}>
-            <IntercomProvider value={intercomSettings}>
-                <UserProfileProvider>
-                    <UploadTrackingProvider>
-                        <ReactQueryConfigProvider config={queryConfig}>
-                            <CssBaseline />
-                            <NotificationsProvider>
+            <UserProfileProvider>
+                <UploadTrackingProvider>
+                    <ReactQueryConfigProvider config={queryConfig}>
+                        <CssBaseline />
+                        <NotificationsProvider>
+                            <ConfigProvider>
                                 <CyverseAppBar
                                     setAppBarRef={setAppBarRef}
                                     activeView={pathname}
+                                    intercomUnreadCount={unReadCount}
+                                    clientConfig={config}
                                 >
                                     <Head>
                                         <title>Discovery Environment</title>
@@ -139,13 +137,31 @@ function MyApp({ Component, pageProps }) {
                                     </PageWrapper>
                                     <UploadManager />
                                 </CyverseAppBar>
-                            </NotificationsProvider>
-                        </ReactQueryConfigProvider>
-                    </UploadTrackingProvider>
-                </UserProfileProvider>
-            </IntercomProvider>
+                            </ConfigProvider>
+                        </NotificationsProvider>
+                    </ReactQueryConfigProvider>
+                </UploadTrackingProvider>
+            </UserProfileProvider>
         </ThemeProvider>
     );
 }
+
+MyApp.getInitialProps = async (ctx) => {
+    console.log("Getting initial props");
+    const { publicRuntimeConfig = {} } = getConfig() || {};
+    const clientConfig = {
+        intercom: {
+            appId: publicRuntimeConfig.INTERCOM_APP_ID,
+            enabled: publicRuntimeConfig.INTERCOM_ENABLED,
+            companyId: publicRuntimeConfig.INTERCOM_COMPANY_ID,
+            companyName: publicRuntimeConfig.INTERCOM_COMPANY_NAME,
+        },
+        admin: {
+            groups: publicRuntimeConfig.ADMIN_GROUPS,
+            group_attribute_name: publicRuntimeConfig.ADMIN_GROUP_ATTRIBUTE,
+        },
+    };
+    return clientConfig;
+};
 
 export default MyApp;

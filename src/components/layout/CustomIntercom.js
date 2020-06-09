@@ -10,34 +10,29 @@ import React from "react";
 import ids from "./ids";
 import { formatMessage } from "@cyverse-de/ui-lib";
 
-import { useIntercom } from "../../contexts/intercom";
+import { useConfig } from "../../contexts/config";
 import { intercomLogin, intercomLogout } from "../../common/intercom";
 import { useUserProfile } from "../../contexts/userProfile";
 
 import { Badge, IconButton, Tooltip, useTheme } from "@material-ui/core";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 
-function CustomIntercom({ intl }) {
-    const {
-        appId,
-        enabled,
-        companyId,
-        companyName,
-        unReadCount,
-    } = useIntercom();
+function CustomIntercom(props) {
+    const { intercomUnreadCount, intl } = props;
     const [userProfile] = useUserProfile();
     const theme = useTheme();
+    const [config] = useConfig();
 
     React.useEffect(() => {
         if (userProfile?.id) {
-            console.log("Intercom app id=>" + appId + "<==");
-            if (enabled) {
+            console.log("Intercom app id=>" + config?.intercom.appId + "<==");
+            if (config?.intercom.enabled) {
                 intercomLogin(
                     userProfile.id,
                     userProfile.attributes.email,
-                    appId,
-                    companyId,
-                    companyName
+                    config.intercom.appId,
+                    config.intercom.companyId,
+                    config.intercom.companyName
                 );
             }
 
@@ -45,9 +40,9 @@ function CustomIntercom({ intl }) {
                 intercomLogout();
             };
         }
-    }, [userProfile, appId, enabled, companyId, companyName]);
+    }, [userProfile, config]);
 
-    if (enabled) {
+    if (config?.intercom.enabled) {
         return (
             <Tooltip
                 title={formatMessage(intl, "intercomAriaLabel")}
@@ -59,7 +54,7 @@ function CustomIntercom({ intl }) {
                     style={{ color: theme.palette.primary.contrastText }}
                     aria-label={formatMessage(intl, "intercomAriaLabel")}
                 >
-                    <Badge badgeContent={unReadCount} color="error">
+                    <Badge badgeContent={intercomUnreadCount} color="error">
                         <LiveHelpIcon />
                     </Badge>
                 </IconButton>

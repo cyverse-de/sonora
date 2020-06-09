@@ -1,9 +1,10 @@
 import React from "react";
 import { UserProfileProvider } from "../src/contexts/userProfile";
-import { IntercomProvider } from "../src/contexts/intercom";
+import { ConfigProvider } from "../src/contexts/config";
 import CyverseAppBar from "../src/components/layout/CyVerseAppBar";
 import { mockAxios } from "./axiosMock";
 import { NotificationsProvider } from "../src/contexts/pushNotifications";
+import testConfig from "./configMock";
 
 const mockUser = {
     id: "mockUser",
@@ -16,22 +17,16 @@ const mockUser = {
         name: "Mock User",
     },
 };
-const intercomSettings = {
-    appId: "appId",
-    enabled: true,
-    companyId: "companyId",
-    companyName: "companyName",
-};
 function AppBarTest() {
     mockAxios.onGet("/api/profile").reply(200, mockUser);
     return (
-        <IntercomProvider value={intercomSettings}>
-            <UserProfileProvider>
-                <NotificationsProvider>
+        <UserProfileProvider>
+            <NotificationsProvider>
+                <ConfigProvider config={testConfig}>
                     <CyverseAppBar setAppBarRef={() => {}} />
-                </NotificationsProvider>
-            </UserProfileProvider>
-        </IntercomProvider>
+                </ConfigProvider>
+            </NotificationsProvider>
+        </UserProfileProvider>
     );
 }
 

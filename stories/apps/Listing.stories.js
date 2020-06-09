@@ -3,6 +3,8 @@ import { AXIOS_DELAY, mockAxios } from "../axiosMock";
 import { appDetails, appListing, categories } from "./AppMocks";
 import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
 import Listing from "../../src/components/apps/listing/Listing";
+import { ConfigProvider } from "../../src/contexts/config";
+import testConfig from "../configMock";
 
 export default {
     title: "Apps",
@@ -22,7 +24,9 @@ function ListingTest(props) {
 
     return (
         <UploadTrackingProvider>
-            <Listing baseId="tableView" />
+            <ConfigProvider config={testConfig}>
+                <Listing baseId="tableView" />
+            </ConfigProvider>
         </UploadTrackingProvider>
     );
 }

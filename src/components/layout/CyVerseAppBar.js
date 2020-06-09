@@ -15,7 +15,7 @@ import { injectIntl } from "react-intl";
 import ids from "./ids";
 import intlData from "./messages";
 import constants from "../../constants";
-import useConfig from "../utils/config";
+import { useConfig } from "../../contexts/config";
 import GlobalSearchField from "../search/GlobalSearchField";
 import NavigationConstants from "../../common/NavigationConstants";
 import Notifications from "./Notifications";
@@ -207,9 +207,16 @@ function CyverseAppBar(props) {
     const theme = useTheme();
     const router = useRouter();
     const ref = useRef();
-    const [config] = useConfig();
+    const [config, setConfig] = useConfig();
 
-    const { intl, children, activeView, setAppBarRef } = props;
+    const {
+        intl,
+        children,
+        activeView,
+        setAppBarRef,
+        intercomUnreadCount,
+        clientConfig,
+    } = props;
     const [userProfile, setUserProfile] = useUserProfile();
     const [avatarLetter, setAvatarLetter] = useState("");
     const [open, setOpen] = useState(false);
@@ -224,15 +231,22 @@ function CyverseAppBar(props) {
     });
 
     useEffect(() => {
+        if (clientConfig) {
+            console.log("setting config");
+            setConfig(clientConfig);
+        }
+    }, [clientConfig, setConfig]);
+
+    useEffect(() => {
         setAppBarRef(ref);
     }, [ref, setAppBarRef]);
 
     React.useEffect(() => {
         if (userProfile?.id) {
             setAvatarLetter(userProfile.id.charAt(0).toUpperCase());
-            const adminGroups = config.admin.groups;
+            const adminGroups = config?.admin.groups;
             const groupAttribute =
-                config.admin.group_attribute_name || ENTITLEMENT;
+                config?.admin.group_attribute_name || ENTITLEMENT;
             const userGroupMemberships = userProfile.attributes[groupAttribute];
             const adminMemberships = [];
             console.log("admin groups=>" + adminGroups + "<==");
@@ -556,7 +570,10 @@ function CyverseAppBar(props) {
                     </Hidden>
                     <div className={classes.root} />
                     <div style={{ display: "flex" }}>
-                        <CustomIntercom intl={intl} />
+                        <CustomIntercom
+                            intl={intl}
+                            intercomUnreadCount={intercomUnreadCount}
+                        />
                         <Notifications intl={intl} />
                     </div>
                     <Hidden only={["xs"]}>

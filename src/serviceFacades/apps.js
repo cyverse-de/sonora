@@ -41,6 +41,13 @@ function getAppsInCategory(
     });
 }
 
+function getAppDescription(_, { systemId, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}`,
+        method: "GET",
+    });
+}
+
 function getAppDetails(key, { systemId, appId }) {
     return callApi({
         endpoint: `/api/apps/${systemId}/${appId}/details`,
@@ -83,6 +90,7 @@ export {
     getApps,
     getPrivateCategories,
     getAppsInCategory,
+    getAppDescription,
     getAppDetails,
     appFavorite,
     rateApp,

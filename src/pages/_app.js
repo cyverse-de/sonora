@@ -71,7 +71,7 @@ const setupIntercom = (intercomAppId) => {
     }
 };
 
-function MyApp({ Component, pageProps, intercom, admin }) {
+function MyApp({ Component, pageProps, intercom, admin, irods }) {
     const [appBarHeight, setAppBarRef] = useComponentHeight();
     const router = useRouter();
     const [config, setConfig] = useState();
@@ -86,8 +86,8 @@ function MyApp({ Component, pageProps, intercom, admin }) {
     };
 
     React.useEffect(() => {
-        if (intercom && admin) {
-            setConfig({ intercom, admin });
+        if (intercom || admin || irods) {
+            setConfig({ intercom, admin, irods });
         }
         const jssStyles = document.querySelector("#jss-server-side");
         if (jssStyles) {
@@ -108,6 +108,7 @@ function MyApp({ Component, pageProps, intercom, admin }) {
         intercom,
         intercom.appId,
         intercom.enabled,
+        irods,
         setConfig,
         unReadCount,
     ]);
@@ -156,6 +157,9 @@ MyApp.getInitialProps = async (ctx) => {
         admin: {
             groups: publicRuntimeConfig.ADMIN_GROUPS,
             group_attribute_name: publicRuntimeConfig.ADMIN_GROUP_ATTRIBUTE,
+        },
+        irods: {
+            home_path: publicRuntimeConfig.IRODS_HOME_PATH,
         },
     };
     return clientConfig;

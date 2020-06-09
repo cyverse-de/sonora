@@ -12,5 +12,6 @@ module.exports = withBundleAnalyzer({
         INTERCOM_COMPANY_NAME: config.get("intercom.company_name"),
         ADMIN_GROUPS: config.get("admin.groups"),
         ADMIN_GROUP_ATTRIBUTE: config.get("admin.group_attribute_name"),
+        IRODS_HOME_PATH: config.get("irods.home_path"),
     },
 });

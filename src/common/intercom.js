@@ -8,10 +8,6 @@
  * @param {string} companyName - Intercom company name
  */
 function intercomLogin(userId, email, appId, companyId, companyName) {
-    console.log(
-        "logging in user => " + userId + " for company=>" + companyName
-    );
-
     if (window.Intercom) {
         window.Intercom("boot", {
             app_id: appId,

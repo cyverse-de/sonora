@@ -74,7 +74,6 @@ const setupIntercom = (intercomAppId) => {
 function MyApp({ Component, pageProps, intercom, admin }) {
     const [appBarHeight, setAppBarRef] = useComponentHeight();
     const router = useRouter();
-    console.log("intercom=>" + intercom.appId);
     const [config, setConfig] = useState();
     const pathname = router.pathname
         ? router.pathname.split(constants.PATH_SEPARATOR)[1]
@@ -100,7 +99,6 @@ function MyApp({ Component, pageProps, intercom, admin }) {
                 window.Intercom("onUnreadCountChange", function (
                     newUnreadCount
                 ) {
-                    console.log("intercom unread count->" + newUnreadCount);
                     setUnReadCount(newUnreadCount);
                 });
             }
@@ -147,7 +145,6 @@ function MyApp({ Component, pageProps, intercom, admin }) {
 }
 
 MyApp.getInitialProps = async (ctx) => {
-    console.log("Getting initial props");
     const { publicRuntimeConfig = {} } = getConfig() || {};
     const clientConfig = {
         intercom: {

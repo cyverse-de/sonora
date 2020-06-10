@@ -25,7 +25,6 @@ function CustomIntercom(props) {
 
     React.useEffect(() => {
         if (userProfile?.id) {
-            console.log("Intercom app id=>" + config?.intercom.appId + "<==");
             if (config?.intercom.enabled) {
                 intercomLogin(
                     userProfile.id,

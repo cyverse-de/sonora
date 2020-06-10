@@ -232,7 +232,6 @@ function CyverseAppBar(props) {
 
     useEffect(() => {
         if (clientConfig) {
-            console.log("setting config");
             setConfig(clientConfig);
         }
     }, [clientConfig, setConfig]);
@@ -249,10 +248,6 @@ function CyverseAppBar(props) {
                 config?.admin.group_attribute_name || ENTITLEMENT;
             const userGroupMemberships = userProfile.attributes[groupAttribute];
             const adminMemberships = [];
-            console.log("admin groups=>" + adminGroups + "<==");
-            console.log(
-                "userGroupMemberships=>" + userGroupMemberships + "<==="
-            );
             if (adminGroups && userGroupMemberships) {
                 const adminGroupArray = adminGroups.split(",");
                 adminGroupArray.forEach((adminGroup) => {
@@ -260,12 +255,10 @@ function CyverseAppBar(props) {
                         (userGroup) => adminGroup === userGroup
                     );
                     if (found) {
-                        console.log("found admin membership => " + found);
                         adminMemberships.push(found);
                     }
                 });
                 setAdminUser(adminMemberships.length > 0);
-                console.log("user is admin=>" + adminUser + "<==");
             }
         }
     }, [userProfile, adminUser, setAdminUser, setAvatarLetter, config]);

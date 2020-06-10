@@ -7,7 +7,6 @@
  */
 import React, { useCallback, useEffect, useState } from "react";
 
-import { useConfig } from "../../../contexts/config";
 import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
 import Drawer from "../details/Drawer";
 import TableView from "./TableView";
@@ -59,8 +58,6 @@ function Listing(props) {
     const [detailsError, setDetailsError] = useState(null);
     const [favMutationError, setFavMutationError] = useState(null);
     const [ratingMutationError, setRatingMutationError] = useState(null);
-    const [config] = useConfig();
-    console.log("intercom id in apps =>" + config?.intercom.appId);
 
     //a query with falsy key will not execute until key is set truthy val
     const {

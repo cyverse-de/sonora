@@ -21,6 +21,7 @@ import {
     IconButton,
     useTheme,
     useMediaQuery,
+    Button,
 } from "@material-ui/core";
 
 import messages from "./messages";
@@ -89,7 +90,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ExtendedDataCard = ({ columns, row, collapseID }) => {
+const ExtendedDataCard = ({
+    columns,
+    row,
+    collapseID,
+    showActions = false,
+    handleExit,
+    handleSaveAndExit,
+    handleExtendTimeLimit,
+}) => {
     const classes = useStyles();
     const theme = useTheme();
     const isMedium = useMediaQuery(theme.breakpoints.down("md"));
@@ -107,6 +116,7 @@ const ExtendedDataCard = ({ columns, row, collapseID }) => {
                         <div
                             className={classes.dataEntry}
                             id={id(collapseID, column.field)}
+                            key={id(collapseID, column.field)}
                         >
                             <Typography
                                 variant="body2"
@@ -128,6 +138,28 @@ const ExtendedDataCard = ({ columns, row, collapseID }) => {
                         </div>
                     );
                 })}
+                {showActions && (
+                    <>
+                        <Button
+                            variant="contained"
+                            onClick={() => handleExtendTimeLimit(row)}
+                        >
+                            {msg("extendTimeLimit")}
+                        </Button>
+                        <Button
+                            variant="contained"
+                            onClick={() => handleExit(row)}
+                        >
+                            {msg("exit")}
+                        </Button>
+                        <Button
+                            variant="contained"
+                            onClick={() => handleSaveAndExit(row)}
+                        >
+                            {msg("saveAndExit")}
+                        </Button>
+                    </>
+                )}
             </div>
         </Box>
     );
@@ -139,6 +171,10 @@ const CollapsibleTableRow = ({
     baseID,
     startColumn,
     endColumn,
+    showActions,
+    handleExit,
+    handleSaveAndExit,
+    handleExtendTimeLimit,
 }) => {
     const [open, setOpen] = useState(false);
     const classes = useStyles();
@@ -180,6 +216,10 @@ const CollapsibleTableRow = ({
                             columns={columns.slice(endColumn)}
                             row={row}
                             collapseID={collapseID}
+                            showActions={showActions}
+                            handleExit={handleExit}
+                            handleSaveAndExit={handleSaveAndExit}
+                            handleExtendTimeLimit={handleExtendTimeLimit}
                         />
                     </Collapse>
                 </TableCell>
@@ -188,7 +228,15 @@ const CollapsibleTableRow = ({
     );
 };
 
-const CollapsibleTable = ({ columns, rows, title }) => {
+const CollapsibleTable = ({
+    columns,
+    rows,
+    title,
+    showActions = false,
+    handleExit = (_analysisID) => {},
+    handleSaveAndExit = (_analysisID) => {},
+    handleExtendTimeLimit = (_analysisID) => {},
+}) => {
     const classes = useStyles();
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.up("xs"));
@@ -270,6 +318,10 @@ const CollapsibleTable = ({ columns, rows, title }) => {
                                 columns={columns}
                                 startColumn={startColumn}
                                 endColumn={endColumn}
+                                showActions={showActions}
+                                handleExit={handleExit}
+                                handleSaveAndExit={handleSaveAndExit}
+                                handleExtendTimeLimit={handleExtendTimeLimit}
                             />
                         ))}
                     </TableBody>

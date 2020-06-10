@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 
 import { makeStyles } from "@material-ui/styles";
 
@@ -10,7 +10,11 @@ import {
     withI18N,
 } from "@cyverse-de/ui-lib";
 
-import getData from "../../../serviceFacades/vice/admin";
+import getData, {
+    extendTimeLimit,
+    saveAndExit,
+    exit,
+} from "../../../serviceFacades/vice/admin";
 
 import RowFilter from "./filter";
 import CollapsibleTable from "./table";
@@ -18,6 +22,7 @@ import CollapsibleTable from "./table";
 import ids from "./ids";
 import messages from "./messages";
 import {
+    ANALYSIS_COLUMNS,
     DEPLOYMENT_COLUMNS,
     COMMON_COLUMNS,
     SERVICE_COLUMNS,
@@ -85,68 +90,77 @@ const commonColumns = [
     defineColumn("User ID", COMMON_COLUMNS.USER_ID, "userID"),
 ];
 
-const deploymentColumns = [
-    ...commonColumns,
-    defineColumn("Image", DEPLOYMENT_COLUMNS.IMAGE, "image"),
-    defineColumn("Port", DEPLOYMENT_COLUMNS.PORT, "port"),
-    defineColumn("UID", DEPLOYMENT_COLUMNS.UID, "uid"),
-    defineColumn("GID", DEPLOYMENT_COLUMNS.GID, "gid"),
-];
+const columns = {
+    analyses: [
+        ...commonColumns,
+        defineColumn("", ANALYSIS_COLUMNS.ACTIONS, "", "left", false),
+    ],
 
-const serviceColumns = [
-    ...commonColumns,
-    defineColumn("Port Name", SERVICE_COLUMNS.PORT_NAME, "portName"),
-    defineColumn("Node Port", SERVICE_COLUMNS.NODE_PORT, "nodePort"),
-    defineColumn("Target Port", SERVICE_COLUMNS.TARGET_PORT, "targetPort"),
-    defineColumn(
-        "Target Port Name",
-        SERVICE_COLUMNS.TARGET_PORT_NAME,
-        "targetPortName"
-    ),
-    defineColumn("Protocol", SERVICE_COLUMNS.PROTOCOL, "protocol"),
-];
+    deployments: [
+        ...commonColumns,
+        defineColumn("Image", DEPLOYMENT_COLUMNS.IMAGE, "image"),
+        defineColumn("Port", DEPLOYMENT_COLUMNS.PORT, "port"),
+        defineColumn("UID", DEPLOYMENT_COLUMNS.UID, "uid"),
+        defineColumn("GID", DEPLOYMENT_COLUMNS.GID, "gid"),
+    ],
 
-const podColumns = [
-    ...commonColumns,
-    defineColumn("Phase", POD_COLUMNS.PHASE, "phase"),
-    defineColumn("Message", POD_COLUMNS.MESSAGE, "message"),
-    defineColumn("Reason", POD_COLUMNS.REASON, "reason"),
-    defineColumn(
-        "Status - Name",
-        POD_COLUMNS.CONTAINER_STATUS_NAME,
-        "containerStatusName"
-    ),
-    defineColumn(
-        "Status - Ready",
-        POD_COLUMNS.CONTAINER_STATUS_READY,
-        "containerStatusReady"
-    ),
-    defineColumn(
-        "Status - Restart Count",
-        POD_COLUMNS.CONTAINER_STATUS_RESTART_COUNT,
-        "containerStatusRestartCount"
-    ),
-    defineColumn(
-        "Status - Image",
-        POD_COLUMNS.CONTAINER_STATUS_IMAGE,
-        "containerStatusImage"
-    ),
-    defineColumn(
-        "Status - Image ID",
-        POD_COLUMNS.CONTAINER_STATUS_IMAGE_ID,
-        "containerStatusImageID"
-    ),
-    defineColumn(
-        "Status - Container ID",
-        POD_COLUMNS.CONTAINER_STATUS_CONTAINER_ID,
-        "containerStatusContainerID"
-    ),
-    defineColumn(
-        "Status - Started",
-        POD_COLUMNS.CONTAINER_STATUS_STARTED,
-        "containerStatusStarted"
-    ),
-];
+    services: [
+        ...commonColumns,
+        defineColumn("Port Name", SERVICE_COLUMNS.PORT_NAME, "portName"),
+        defineColumn("Node Port", SERVICE_COLUMNS.NODE_PORT, "nodePort"),
+        defineColumn("Target Port", SERVICE_COLUMNS.TARGET_PORT, "targetPort"),
+        defineColumn(
+            "Target Port Name",
+            SERVICE_COLUMNS.TARGET_PORT_NAME,
+            "targetPortName"
+        ),
+        defineColumn("Protocol", SERVICE_COLUMNS.PROTOCOL, "protocol"),
+    ],
+
+    pods: [
+        ...commonColumns,
+        defineColumn("Phase", POD_COLUMNS.PHASE, "phase"),
+        defineColumn("Message", POD_COLUMNS.MESSAGE, "message"),
+        defineColumn("Reason", POD_COLUMNS.REASON, "reason"),
+        defineColumn(
+            "Status - Name",
+            POD_COLUMNS.CONTAINER_STATUS_NAME,
+            "containerStatusName"
+        ),
+        defineColumn(
+            "Status - Ready",
+            POD_COLUMNS.CONTAINER_STATUS_READY,
+            "containerStatusReady"
+        ),
+        defineColumn(
+            "Status - Restart Count",
+            POD_COLUMNS.CONTAINER_STATUS_RESTART_COUNT,
+            "containerStatusRestartCount"
+        ),
+        defineColumn(
+            "Status - Image",
+            POD_COLUMNS.CONTAINER_STATUS_IMAGE,
+            "containerStatusImage"
+        ),
+        defineColumn(
+            "Status - Image ID",
+            POD_COLUMNS.CONTAINER_STATUS_IMAGE_ID,
+            "containerStatusImageID"
+        ),
+        defineColumn(
+            "Status - Container ID",
+            POD_COLUMNS.CONTAINER_STATUS_CONTAINER_ID,
+            "containerStatusContainerID"
+        ),
+        defineColumn(
+            "Status - Started",
+            POD_COLUMNS.CONTAINER_STATUS_STARTED,
+            "containerStatusStarted"
+        ),
+    ],
+    configMaps: commonColumns,
+    ingresses: commonColumns,
+};
 
 const getAnalyses = ({ deployments }) => {
     let analyses = {};
@@ -201,104 +215,77 @@ const VICEAdminTabs = ({ data }) => {
 
     const analysisRows = data ? getAnalyses(data) : [];
 
+    const [mutantExit] = useMutation(exit);
+    const [mutantSaveAndExit] = useMutation(saveAndExit);
+    const [mutantExtendTimeLimit] = useMutation(extendTimeLimit);
+
+    const orderOfTabs = [
+        "analyses",
+        "deployments",
+        "services",
+        "pods",
+        "configMaps",
+        "ingresses",
+    ];
+
     return (
         <TabContext value={value}>
             <AppBar position="static" color="primary">
-                <TabList
-                    onChange={(_, newValue) => setValue(newValue)}
-                    aria-label={msg("adminTabs")}
-                >
-                    <Tab
-                        label={msg("analyses")}
-                        id={tabID("analyses")}
-                        value="0"
-                        aria-controls={ariaControls("analyses")}
-                    />
-
-                    <Tab
-                        label={msg("deployments")}
-                        id={tabID("deployments")}
-                        value="1"
-                        aria-controls={ariaControls("deployments")}
-                    />
-
-                    <Tab
-                        label={msg("services")}
-                        id={tabID("services")}
-                        value="2"
-                        aria-controls={ariaControls("services")}
-                    />
-
-                    <Tab
-                        label={msg("pods")}
-                        id={tabID("pods")}
-                        value="3"
-                        aria-controls={ariaControls("pods")}
-                    />
-
-                    <Tab
-                        label={msg("configMaps")}
-                        id={tabID("configMaps")}
-                        value="4"
-                        aria-controls={ariaControls("configMaps")}
-                    />
-
-                    <Tab
-                        label={msg("ingresses")}
-                        id={tabID("ingresses")}
-                        value="5"
-                        aria-controls={ariaControls("ingresses")}
-                    />
+                <TabList onChange={(_, newValue) => setValue(newValue)}>
+                    {orderOfTabs.map((tabName, index) => (
+                        <Tab
+                            label={msg(tabName)}
+                            id={tabID(tabName)}
+                            key={tabID(tabName)}
+                            value={`${index}`}
+                            aria-controls={ariaControls(tabName)}
+                        />
+                    ))}
                 </TabList>
             </AppBar>
 
-            <TabPanel value="0" id={tabPanelID("analyses")}>
-                <CollapsibleTable
-                    rows={analysisRows}
-                    columns={commonColumns}
-                    title={msg("analyses")}
-                />
-            </TabPanel>
-
-            <TabPanel value="1" id={tabPanelID("deployments")}>
-                <CollapsibleTable
-                    rows={data?.deployments}
-                    columns={deploymentColumns}
-                    title={msg("deployments")}
-                />
-            </TabPanel>
-
-            <TabPanel value="2" id={tabPanelID("services")}>
-                <CollapsibleTable
-                    rows={data?.services}
-                    columns={serviceColumns}
-                    title={msg("services")}
-                />
-            </TabPanel>
-
-            <TabPanel value="3" id={tabPanelID("pods")}>
-                <CollapsibleTable
-                    rows={data?.pods}
-                    columns={podColumns}
-                    title={msg("pods")}
-                />
-            </TabPanel>
-
-            <TabPanel value="4" id={tabPanelID("configMaps")}>
-                <CollapsibleTable
-                    rows={data?.configMaps}
-                    columns={commonColumns}
-                    title={msg("configMaps")}
-                />
-            </TabPanel>
-
-            <TabPanel value="5" id={tabPanelID("ingresses")}>
-                <CollapsibleTable
-                    rows={data?.ingresses}
-                    columns={commonColumns}
-                    title={msg("ingresses")}
-                />
-            </TabPanel>
+            {orderOfTabs.map((tabName, index) => (
+                <TabPanel
+                    value={`${index}`}
+                    id={tabPanelID(tabName)}
+                    key={tabPanelID(tabName)}
+                >
+                    <CollapsibleTable
+                        rows={analysisRows}
+                        columns={columns[tabName]}
+                        title={msg(tabName)}
+                        showActions={tabName === "analyses"}
+                        handleExit={async (analysisID) => {
+                            try {
+                                const data = await mutantExit({ analysisID });
+                                console.log(data); // TODO: do something better here.
+                            } catch (err) {
+                                console.log(err); // TODO: do something better here.
+                            }
+                        }}
+                        handleSaveAndExit={async (analysisID) => {
+                            try {
+                                const data = await mutantSaveAndExit({
+                                    analysisID,
+                                });
+                                console.log(data);
+                            } catch (err) {
+                                console.log(err);
+                            }
+                        }}
+                        handleExtendTimeLimit={async (analysisID) => {
+                            try {
+                                const data = await mutantExtendTimeLimit({
+                                    analysisID,
+                                });
+                                console.log(data);
+                            } catch (err) {
+                                console.log(err);
+                            }
+                        }}
+                    />
+                </TabPanel>
+            ))}
         </TabContext>
     );
 };

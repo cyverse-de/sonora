@@ -11,6 +11,10 @@ export const COMMON_COLUMNS = {
     EXPAND: "expand",
 };
 
+export const ANALYSIS_COLUMNS = {
+    ACTIONS: "actions",
+};
+
 export const DEPLOYMENT_COLUMNS = {
     ...COMMON_COLUMNS,
     IMAGE: "image",

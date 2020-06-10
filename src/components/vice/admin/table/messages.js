@@ -10,5 +10,8 @@ export default {
         gidColumn: "GID",
         commandColumn: "Command",
         expandRow: "Expand Row",
+        saveAndExit: "Save and Exit",
+        exit: "Exit",
+        extendTimeLimit: "Extend Time Limit",
     },
 };

@@ -22,7 +22,6 @@ import CollapsibleTable from "./table";
 import ids from "./ids";
 import messages from "./messages";
 import {
-    ANALYSIS_COLUMNS,
     DEPLOYMENT_COLUMNS,
     COMMON_COLUMNS,
     SERVICE_COLUMNS,
@@ -91,10 +90,7 @@ const commonColumns = [
 ];
 
 const columns = {
-    analyses: [
-        ...commonColumns,
-        defineColumn("", ANALYSIS_COLUMNS.ACTIONS, "", "left", false),
-    ],
+    analyses: commonColumns,
 
     deployments: [
         ...commonColumns,

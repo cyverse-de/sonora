@@ -47,14 +47,6 @@ const useStyles = makeStyles((theme) => ({
     },
     extended: {
         display: "flex",
-        marginLeft: theme.spacing(7),
-        marginRight: theme.spacing(7),
-
-        [theme.breakpoints.down("sm")]: {
-            marginLeft: theme.spacing(1),
-            marginRight: theme.spacing(1),
-        },
-
         flexWrap: "wrap",
         flexShrink: 0,
         flexGrow: 0,
@@ -81,12 +73,28 @@ const useStyles = makeStyles((theme) => ({
         },
         [theme.breakpoints.up("lg")]: {
             width: 350,
-            margin: theme.spacing(2),
+            marginTop: theme.spacing(2),
+            marginBottom: theme.spacing(2),
+            marginRight: theme.spacing(2),
         },
     },
     dataEntryLabel: {
         marginRight: theme.spacing(1),
         fontWeight: 500,
+    },
+    actionButton: {
+        marginRight: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+        marginTop: theme.spacing(1),
+    },
+    actions: {
+        marginLeft: theme.spacing(11),
+        marginRight: theme.spacing(11),
+
+        [theme.breakpoints.down("sm")]: {
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
+        },
     },
 }));
 
@@ -110,7 +118,7 @@ const ExtendedDataCard = ({
 
     return (
         <Box margin={1}>
-            <div className={classes.extended}>
+            <div className={`${classes.extended} ${classes.actions}`}>
                 {columns.map((column) => {
                     return (
                         <div
@@ -125,7 +133,7 @@ const ExtendedDataCard = ({
                                 id={id(collapseID, column.field, "label")}
                                 classes={{ root: classes.dataEntryLabel }}
                             >
-                                {`${column.name}:`}
+                                {column.name && `${column.name}:`}
                             </Typography>
                             <Typography
                                 variant="body2"
@@ -133,34 +141,42 @@ const ExtendedDataCard = ({
                                 display={display}
                                 id={id(collapseID, column.field, "value")}
                             >
-                                {row[column.field] || "N/A"}
+                                {row &&
+                                    row.hasOwnProperty(column.field) &&
+                                    row[column.field]}
                             </Typography>
                         </div>
                     );
                 })}
-                {showActions && (
-                    <>
-                        <Button
-                            variant="contained"
-                            onClick={() => handleExtendTimeLimit(row)}
-                        >
-                            {msg("extendTimeLimit")}
-                        </Button>
-                        <Button
-                            variant="contained"
-                            onClick={() => handleExit(row)}
-                        >
-                            {msg("exit")}
-                        </Button>
-                        <Button
-                            variant="contained"
-                            onClick={() => handleSaveAndExit(row)}
-                        >
-                            {msg("saveAndExit")}
-                        </Button>
-                    </>
-                )}
             </div>
+            {showActions && (
+                <div className={classes.actions}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleExtendTimeLimit(row)}
+                        className={classes.actionButton}
+                    >
+                        {msg("extendTimeLimit")}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleExit(row)}
+                        className={classes.actionButton}
+                    >
+                        {msg("exit")}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleSaveAndExit(row)}
+                        className={classes.actionButton}
+                    >
+                        {msg("saveAndExit")}
+                    </Button>
+                </div>
+            )}
         </Box>
     );
 };

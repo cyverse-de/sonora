@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { useQuery, useMutation } from "react-query";
+import { useQuery, useMutation, queryCache } from "react-query";
 
 import { makeStyles } from "@material-ui/styles";
 
@@ -73,6 +73,8 @@ const defineColumn = (
     id: keyID,
     field,
 });
+
+const getDataQueryName = "vice-admin";
 
 // The column definitions for the table.
 const commonColumns = [
@@ -213,11 +215,21 @@ const VICEAdminTabs = ({ data }) => {
 
     const analysisRows = data ? getAnalyses(data) : [];
 
-    const [mutantExit] = useMutation(exit);
-    const [mutantSaveAndExit] = useMutation(saveAndExit);
-    const [mutantExtendTimeLimit] = useMutation(extendTimeLimit);
-    const [mutantUploadOutputs] = useMutation(saveOutputFiles);
-    const [mutantDownloadInputs] = useMutation(downloadInputFiles);
+    const [mutantExit] = useMutation(exit, {
+        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+    });
+    const [mutantSaveAndExit] = useMutation(saveAndExit, {
+        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+    });
+    const [mutantExtendTimeLimit] = useMutation(extendTimeLimit, {
+        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+    });
+    const [mutantUploadOutputs] = useMutation(saveOutputFiles, {
+        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+    });
+    const [mutantDownloadInputs] = useMutation(downloadInputFiles, {
+        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+    });
 
     const orderOfTabs = [
         "analyses",
@@ -256,52 +268,27 @@ const VICEAdminTabs = ({ data }) => {
                         title={msg(tabName)}
                         showActions={tabName === "analyses"}
                         handleExit={async (analysisID) => {
-                            try {
-                                const data = await mutantExit({ analysisID });
-                                console.log(data); // TODO: do something better here.
-                            } catch (err) {
-                                console.log(err); // TODO: do something better here.
-                            }
+                            await mutantExit({ analysisID });
                         }}
                         handleSaveAndExit={async (analysisID) => {
-                            try {
-                                const data = await mutantSaveAndExit({
-                                    analysisID,
-                                });
-                                console.log(data);
-                            } catch (err) {
-                                console.log(err);
-                            }
+                            await mutantSaveAndExit({
+                                analysisID,
+                            });
                         }}
                         handleExtendTimeLimit={async (analysisID) => {
-                            try {
-                                const data = await mutantExtendTimeLimit({
-                                    analysisID,
-                                });
-                                console.log(data);
-                            } catch (err) {
-                                console.log(err);
-                            }
+                            await mutantExtendTimeLimit({
+                                analysisID,
+                            });
                         }}
                         handleUploadOutputs={async (analysisID) => {
-                            try {
-                                const data = await mutantUploadOutputs({
-                                    analysisID,
-                                });
-                                console.log(data);
-                            } catch (err) {
-                                console.log(err);
-                            }
+                            await mutantUploadOutputs({
+                                analysisID,
+                            });
                         }}
                         handleDownloadInputs={async (analysisID) => {
-                            try {
-                                const data = await mutantDownloadInputs({
-                                    analysisID,
-                                });
-                                console.log(data);
-                            } catch (err) {
-                                console.log(err);
-                            }
+                            await mutantDownloadInputs({
+                                analysisID,
+                            });
                         }}
                     />
                 </TabPanel>
@@ -313,7 +300,7 @@ const VICEAdminTabs = ({ data }) => {
 const VICEAdmin = () => {
     const classes = useStyles();
 
-    const { status, data, error } = useQuery("vice-admin", getData);
+    const { status, data, error } = useQuery(getDataQueryName, getData);
     const isLoading = status === "loading";
     const hasErrored = status === "error";
 

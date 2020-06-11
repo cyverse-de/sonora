@@ -11,6 +11,8 @@ import {
 } from "@cyverse-de/ui-lib";
 
 import getData, {
+    saveOutputFiles,
+    downloadInputFiles,
     extendTimeLimit,
     saveAndExit,
     exit,
@@ -214,6 +216,8 @@ const VICEAdminTabs = ({ data }) => {
     const [mutantExit] = useMutation(exit);
     const [mutantSaveAndExit] = useMutation(saveAndExit);
     const [mutantExtendTimeLimit] = useMutation(extendTimeLimit);
+    const [mutantUploadOutputs] = useMutation(saveOutputFiles);
+    const [mutantDownloadInputs] = useMutation(downloadInputFiles);
 
     const orderOfTabs = [
         "analyses",
@@ -272,6 +276,26 @@ const VICEAdminTabs = ({ data }) => {
                         handleExtendTimeLimit={async (analysisID) => {
                             try {
                                 const data = await mutantExtendTimeLimit({
+                                    analysisID,
+                                });
+                                console.log(data);
+                            } catch (err) {
+                                console.log(err);
+                            }
+                        }}
+                        handleUploadOutputs={async (analysisID) => {
+                            try {
+                                const data = await mutantUploadOutputs({
+                                    analysisID,
+                                });
+                                console.log(data);
+                            } catch (err) {
+                                console.log(err);
+                            }
+                        }}
+                        handleDownloadInputs={async (analysisID) => {
+                            try {
+                                const data = await mutantDownloadInputs({
                                     analysisID,
                                 });
                                 console.log(data);

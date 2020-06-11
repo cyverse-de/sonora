@@ -24,6 +24,12 @@ import {
     Button,
 } from "@material-ui/core";
 
+import { Skeleton } from "@material-ui/lab";
+
+import { useQuery } from "react-query";
+
+import { asyncData } from "../../../../serviceFacades/vice/admin";
+
 import messages from "./messages";
 import ids from "./ids";
 import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
@@ -98,6 +104,92 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const ActionButtonsSkeleton = () => {
+    return (
+        <>
+            <Skeleton
+                variant="rect"
+                animation="wave"
+                height={75}
+                width="100%"
+            />
+        </>
+    );
+};
+
+const ActionButtons = ({
+    row,
+    handleExtendTimeLimit = (_) => {},
+    handleDownloadInputs = (_) => {},
+    handleUploadOutputs = (_) => {},
+    handleExit = (_) => {},
+    handleSaveAndExit = (_) => {},
+}) => {
+    const classes = useStyles();
+
+    const { status, data, error } = useQuery(
+        ["async-data", row.externalID],
+        asyncData
+    );
+    const isLoading = status === "loading";
+    const hasErrored = status === "error";
+
+    if (hasErrored) {
+        console.log(error);
+    }
+
+    return (
+        <div className={classes.actions}>
+            {isLoading ? (
+                <ActionButtonsSkeleton />
+            ) : (
+                <>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleExtendTimeLimit(data.analysisID)}
+                        className={classes.actionButton}
+                    >
+                        {msg("extendTimeLimit")}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleDownloadInputs(data.analysisID)}
+                        className={classes.actionButton}
+                    >
+                        {msg("downloadInputs")}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleUploadOutputs(data.analysisID)}
+                        className={classes.actionButton}
+                    >
+                        {msg("uploadOutputs")}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleExit(data.analysisID)}
+                        className={classes.actionButton}
+                    >
+                        {msg("exit")}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleSaveAndExit(data.analysisID)}
+                        className={classes.actionButton}
+                    >
+                        {msg("saveAndExit")}
+                    </Button>
+                </>
+            )}
+        </div>
+    );
+};
+
 const ExtendedDataCard = ({
     columns,
     row,
@@ -106,6 +198,8 @@ const ExtendedDataCard = ({
     handleExit,
     handleSaveAndExit,
     handleExtendTimeLimit,
+    handleUploadOutputs,
+    handleDownloadInputs,
 }) => {
     const classes = useStyles();
     const theme = useTheme();
@@ -150,32 +244,14 @@ const ExtendedDataCard = ({
                 })}
             </div>
             {showActions && (
-                <div className={classes.actions}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => handleExtendTimeLimit(row)}
-                        className={classes.actionButton}
-                    >
-                        {msg("extendTimeLimit")}
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => handleExit(row)}
-                        className={classes.actionButton}
-                    >
-                        {msg("exit")}
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => handleSaveAndExit(row)}
-                        className={classes.actionButton}
-                    >
-                        {msg("saveAndExit")}
-                    </Button>
-                </div>
+                <ActionButtons
+                    row={row}
+                    handleDownloadInputs={handleDownloadInputs}
+                    handleUploadOutputs={handleUploadOutputs}
+                    handleExtendTimeLimit={handleExtendTimeLimit}
+                    handleExit={handleExit}
+                    handleSaveAndExit={handleSaveAndExit}
+                />
             )}
         </Box>
     );
@@ -191,6 +267,8 @@ const CollapsibleTableRow = ({
     handleExit,
     handleSaveAndExit,
     handleExtendTimeLimit,
+    handleUploadOutputs,
+    handleDownloadInputs,
 }) => {
     const [open, setOpen] = useState(false);
     const classes = useStyles();
@@ -236,6 +314,8 @@ const CollapsibleTableRow = ({
                             handleExit={handleExit}
                             handleSaveAndExit={handleSaveAndExit}
                             handleExtendTimeLimit={handleExtendTimeLimit}
+                            handleUploadOutputs={handleUploadOutputs}
+                            handleDownloadInputs={handleDownloadInputs}
                         />
                     </Collapse>
                 </TableCell>
@@ -249,9 +329,11 @@ const CollapsibleTable = ({
     rows,
     title,
     showActions = false,
-    handleExit = (_analysisID) => {},
-    handleSaveAndExit = (_analysisID) => {},
-    handleExtendTimeLimit = (_analysisID) => {},
+    handleExit,
+    handleSaveAndExit,
+    handleExtendTimeLimit,
+    handleDownloadInputs,
+    handleUploadOutputs,
 }) => {
     const classes = useStyles();
     const theme = useTheme();
@@ -338,6 +420,8 @@ const CollapsibleTable = ({
                                 handleExit={handleExit}
                                 handleSaveAndExit={handleSaveAndExit}
                                 handleExtendTimeLimit={handleExtendTimeLimit}
+                                handleDownloadInputs={handleDownloadInputs}
+                                handleUploadOutputs={handleUploadOutputs}
                             />
                         ))}
                     </TableBody>

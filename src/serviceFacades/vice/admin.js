@@ -1,8 +1,8 @@
 import callApi from "../../common/callApi";
 
-export const asyncData = () =>
+export const asyncData = (_key, externalID) =>
     callApi({
-        endpoint: "/api/admin/vice/async-data",
+        endpoint: `/api/admin/vice/async-data?external-id=${externalID}`,
         method: "GET",
     });
 

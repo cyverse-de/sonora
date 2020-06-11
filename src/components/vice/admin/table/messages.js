@@ -13,5 +13,7 @@ export default {
         saveAndExit: "Save and Exit",
         exit: "Exit",
         extendTimeLimit: "Extend Time Limit",
+        downloadInputs: "Download Inputs",
+        uploadOutputs: "Upload Outputs",
     },
 };

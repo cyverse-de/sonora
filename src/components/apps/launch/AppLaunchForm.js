@@ -11,14 +11,19 @@ import { Formik, Form } from "formik";
 import { injectIntl } from "react-intl";
 
 import GlobalConstants from "../../../constants";
+
 import constants from "./constants";
 import ids from "./ids";
 import messages from "./messages";
+import styles from "./styles";
 import validate from "./validate";
 
 import AnalysisInfoForm from "./AnalysisInfoForm";
+import {
+    StepperSkeleton,
+    BottomNavigationSkeleton,
+} from "./AppLaunchFormSkeleton";
 import { ParamGroupForm, ParamsReview } from "./ParamGroups";
-
 import {
     ResourceRequirementsForm,
     ResourceRequirementsReview,
@@ -50,14 +55,7 @@ import {
 
 import { ArrowBack, ArrowForward, PlayArrow, Save } from "@material-ui/icons";
 
-const useStyles = makeStyles((theme) => ({
-    // Keeps the content panel at a static height
-    // so the nav buttons don't move around below it.
-    stepContent: {
-        height: "42vh",
-        overflow: "auto",
-    },
-}));
+const useStyles = makeStyles(styles);
 
 const ReferenceGenomeParamTypes = [
     constants.PARAM_TYPE.REFERENCE_GENOME,
@@ -74,6 +72,69 @@ const StepContent = ({ id, hidden, step, label, children }) => (
         </legend>
         {children}
     </fieldset>
+);
+
+const StepperBottomNavigation = ({
+    formId,
+    showSaveQuickLaunchButton,
+    showSubmitButton,
+    handleBack,
+    handleNext,
+    handleSaveQuickLaunch,
+    handleSubmit,
+}) => (
+    <BottomNavigation
+        showLabels
+        value={showSubmitButton ? "submit" : "next"}
+        onChange={(event, value) => {
+            switch (value) {
+                case "submit":
+                    handleSubmit(event);
+                    break;
+                case "saveQL":
+                    handleSaveQuickLaunch();
+                    break;
+                case "next":
+                    handleNext();
+                    break;
+                default:
+                    handleBack();
+                    break;
+            }
+        }}
+    >
+        <BottomNavigationAction
+            id={buildDebugId(formId, ids.BUTTONS.STEP_BACK)}
+            label={getMessage("back")}
+            value="back"
+            icon={<ArrowBack />}
+        />
+        {showSaveQuickLaunchButton ? (
+            <BottomNavigationAction
+                id={buildDebugId(formId, ids.BUTTONS.SAVE_AS_QUICK_LAUNCH)}
+                label={getMessage("saveAsQuickLaunch")}
+                value="saveQL"
+                icon={<Save />}
+            />
+        ) : (
+            <BottomNavigationAction disabled={true} />
+        )}
+        {showSubmitButton ? (
+            <BottomNavigationAction
+                id={buildDebugId(formId, ids.BUTTONS.SUBMIT)}
+                label={getMessage("launchAnalysis")}
+                value="submit"
+                icon={<PlayArrow />}
+            />
+        ) : (
+            <BottomNavigationAction
+                id={buildDebugId(formId, ids.BUTTONS.STEP_NEXT)}
+                label={getMessage("next")}
+                value="next"
+                icon={<ArrowForward />}
+            />
+        )}
+    </BottomNavigation>
 );
 
 /**
@@ -451,34 +512,41 @@ const AppLaunchForm = (props) => {
                 setSubmitting,
             }) => (
                 <Form id={formId}>
-                    <Stepper alternativeLabel nonLinear activeStep={activeStep}>
-                        {steps.map((step, index) => (
-                            <Step key={step.label}>
-                                <StepButton
-                                    id={buildDebugId(
-                                        formId,
-                                        ids.BUTTONS.STEP,
-                                        index + 1
-                                    )}
-                                    onClick={handleStep(index)}
-                                >
-                                    <StepLabel
-                                        error={
-                                            !!displayStepError(
-                                                index,
-                                                errors,
-                                                touched,
-                                                groups
-                                            )
-                                        }
+                    {isSubmitting ? (
+                        <StepperSkeleton />
+                    ) : (
+                        <Stepper
+                            alternativeLabel
+                            nonLinear
+                            activeStep={activeStep}
+                        >
+                            {steps.map((step, index) => (
+                                <Step key={step.label}>
+                                    <StepButton
+                                        id={buildDebugId(
+                                            formId,
+                                            ids.BUTTONS.STEP,
+                                            index + 1
+                                        )}
+                                        onClick={handleStep(index)}
                                     >
-                                        <Hidden xsDown>{step.label}</Hidden>
-                                    </StepLabel>
-                                </StepButton>
-                            </Step>
-                        ))}
-                    </Stepper>
-
+                                        <StepLabel
+                                            error={
+                                                !!displayStepError(
+                                                    index,
+                                                    errors,
+                                                    touched,
+                                                    groups
+                                                )
+                                            }
+                                        >
+                                            <Hidden xsDown>{step.label}</Hidden>
+                                        </StepLabel>
+                                    </StepButton>
+                                </Step>
+                            ))}
+                        </Stepper>
+                    )}
                     <Container
                         component="div"
                         className={classes.stepContent}
@@ -572,68 +640,24 @@ const AppLaunchForm = (props) => {
                             )}
                         </StepContent>
                     </Container>
-
-                    <BottomNavigation
-                        showLabels
-                        value={isLastStep() ? "submit" : "next"}
-                        onChange={(event, value) => {
-                            switch (value) {
-                                case "submit":
-                                    handleSubmit(event);
-                                    break;
-                                case "saveQL":
-                                    handleSaveQuickLaunch(
-                                        values,
-                                        setSubmitting
-                                    );
-                                    break;
-                                case "next":
-                                    handleNext();
-                                    break;
-                                default:
-                                    handleBack();
-                                    break;
+                    {isSubmitting ? (
+                        <BottomNavigationSkeleton />
+                    ) : (
+                        <StepperBottomNavigation
+                            formId={formId}
+                            showSubmitButton={isLastStep()}
+                            showSaveQuickLaunchButton={
+                                isLastStep() &&
+                                app_type !== GlobalConstants.APP_TYPE_EXTERNAL
                             }
-                        }}
-                    >
-                        <BottomNavigationAction
-                            id={buildDebugId(formId, ids.BUTTONS.STEP_BACK)}
-                            label={getMessage("back")}
-                            value="back"
-                            icon={<ArrowBack />}
+                            handleBack={handleBack}
+                            handleNext={handleNext}
+                            handleSubmit={handleSubmit}
+                            handleSaveQuickLaunch={() => {
+                                handleSaveQuickLaunch(values, setSubmitting);
+                            }}
                         />
-                        {isLastStep() &&
-                        app_type !== GlobalConstants.APP_TYPE_EXTERNAL ? (
-                            <BottomNavigationAction
-                                id={buildDebugId(
-                                    formId,
-                                    ids.BUTTONS.SAVE_AS_QUICK_LAUNCH
-                                )}
-                                label={getMessage("saveAsQuickLaunch")}
-                                value="saveQL"
-                                icon={<Save />}
-                                disabled={isSubmitting}
-                            />
-                        ) : (
-                            <BottomNavigationAction disabled={true} />
-                        )}
-                        {isLastStep() ? (
-                            <BottomNavigationAction
-                                id={buildDebugId(formId, ids.BUTTONS.SUBMIT)}
-                                label={getMessage("launchAnalysis")}
-                                value="submit"
-                                icon={<PlayArrow />}
-                                disabled={isSubmitting}
-                            />
-                        ) : (
-                            <BottomNavigationAction
-                                id={buildDebugId(formId, ids.BUTTONS.STEP_NEXT)}
-                                label={getMessage("next")}
-                                value="next"
-                                icon={<ArrowForward />}
-                            />
-                        )}
-                    </BottomNavigation>
+                    )}
                 </Form>
             )}
         </Formik>

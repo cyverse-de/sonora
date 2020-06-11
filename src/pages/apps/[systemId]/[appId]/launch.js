@@ -25,7 +25,6 @@ export default () => {
     const [appKey, setAppKey] = React.useState(null);
     const [app, setApp] = React.useState(null);
     const [appError, setAppError] = React.useState(null);
-    const [submitting, setSubmitting] = React.useState(false);
 
     const [config] = useConfig();
     const [userProfile] = useUserProfile();
@@ -54,7 +53,7 @@ export default () => {
         },
     });
 
-    const loading = submitting || appStatus === constants.LOADING;
+    const loading = appStatus === constants.LOADING;
 
     // FIXME: notify, defaultOutputDir, and startingPath
     // need to come from user prefs.
@@ -77,7 +76,7 @@ export default () => {
             appError={appError}
             loading={loading}
             submitAnalysis={(submission, onSuccess, onError) => {
-                setSubmitting(true);
+                setAppError(null);
 
                 submitAnalysis(submission)
                     .then((resp) => {
@@ -87,11 +86,13 @@ export default () => {
                     .catch((error) => {
                         onError(error);
                         setAppError(error);
-                        setSubmitting(false);
                     });
             }}
-            saveQuickLaunch={() => {
+            saveQuickLaunch={(submission, onSuccess, onError) => {
                 // TODO
+                const errMsg = "Not yet implemented.";
+                onError(errMsg);
+                setAppError({ message: errMsg });
             }}
         />
     );

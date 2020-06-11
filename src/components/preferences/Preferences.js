@@ -67,7 +67,7 @@ export default function Preferences(props) {
         }
     }, [userPref]);
 
-    const { isFetching: isStatFetching } = useQuery({
+    useQuery({
         queryKey: fetchDetailsKey,
         queryFn: getResourceDetails,
         config: {

@@ -106,9 +106,9 @@ function MyApp({ Component, pageProps, intercom, admin, irods, tools }) {
     }, [
         admin,
         intercom,
+        irods,
         intercom.appId,
         intercom.enabled,
-        irods,
         tools,
         setConfig,
         unReadCount,

@@ -504,6 +504,15 @@ export default function apiRouter() {
             },
         })
     );
+    logger.info("add the GET /bootstrap handler");
+    api.get(
+        "/bootstrap",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/secured/bootstrap",
+        })
+    );
 
     return api;
 }

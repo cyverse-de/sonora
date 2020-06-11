@@ -5,7 +5,7 @@ import callApi from "../common/callApi";
  * @param userIds An array of user ids
  * @returns {Promise<any>}
  */
-export const getUserInfo = ({ userIds }) => {
+const getUserInfo = ({ userIds }) => {
     const userQuery = userIds.join("&username=");
 
     return callApi({
@@ -21,4 +21,12 @@ function getUserProfile(key) {
     });
 }
 
-export { getUserProfile };
+function bootstrap(key) {
+    return callApi({
+        endpoint: "/api/bootstrap?ip-address=127.0.0.1",
+        method: "GET",
+        credentials: "include",
+    });
+}
+
+export { getUserInfo, getUserProfile, bootstrap };

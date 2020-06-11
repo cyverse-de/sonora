@@ -8,7 +8,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
-import { useQuery } from "react-query";
+import { queryCache, useQuery } from "react-query";
 import { useRouter } from "next/router";
 import { injectIntl } from "react-intl";
 
@@ -21,7 +21,7 @@ import NavigationConstants from "../../common/NavigationConstants";
 import Notifications from "./Notifications";
 import CustomIntercom from "./CustomIntercom";
 import { useUserProfile } from "../../contexts/userProfile";
-import { getUserProfile } from "../../serviceFacades/users";
+import { getUserProfile, bootstrap } from "../../serviceFacades/users";
 
 import {
     build,
@@ -260,6 +260,14 @@ function CyverseAppBar(props) {
                 });
                 setAdminUser(adminMemberships.length > 0);
             }
+
+            queryCache.prefetchQuery("bootstrap", "", bootstrap, {
+                staleTime: Infinity,
+                cacheTime: Infinity,
+                onError: (e) => {
+                    console.log("Error on bootstrap!" + e);
+                },
+            });
         }
     }, [userProfile, adminUser, setAdminUser, setAvatarLetter, config]);
 

@@ -270,7 +270,9 @@ const CollapsibleTableRow = ({
     handleUploadOutputs,
     handleDownloadInputs,
 }) => {
-    const [open, setOpen] = useState(false);
+    const defaultOpen = false;
+
+    const [open, setOpen] = useState(defaultOpen);
     const classes = useStyles();
 
     const expanderID = id(baseID, "row", "expander");
@@ -311,11 +313,26 @@ const CollapsibleTableRow = ({
                             row={row}
                             collapseID={collapseID}
                             showActions={showActions}
-                            handleExit={handleExit}
-                            handleSaveAndExit={handleSaveAndExit}
-                            handleExtendTimeLimit={handleExtendTimeLimit}
-                            handleUploadOutputs={handleUploadOutputs}
-                            handleDownloadInputs={handleDownloadInputs}
+                            handleExit={(analysisID) => {
+                                setOpen(defaultOpen);
+                                return handleExit(analysisID);
+                            }}
+                            handleSaveAndExit={(analysisID) => {
+                                setOpen(defaultOpen);
+                                return handleSaveAndExit(analysisID);
+                            }}
+                            handleExtendTimeLimit={(analysisID) => {
+                                setOpen(defaultOpen);
+                                return handleExtendTimeLimit(analysisID);
+                            }}
+                            handleUploadOutputs={(analysisID) => {
+                                setOpen(defaultOpen);
+                                return handleUploadOutputs(analysisID);
+                            }}
+                            handleDownloadInputs={(analysisID) => {
+                                setOpen(defaultOpen);
+                                return handleDownloadInputs(analysisID);
+                            }}
                         />
                     </Collapse>
                 </TableCell>
@@ -365,9 +382,11 @@ const CollapsibleTable = ({
     // The first entry in columns should be the expander columns,
     // so default to the second entry for sorting. The field is the
     // actual name of the column.
-    const [orderColumn, setOrderColumn] = useState(columns[1].field);
+    const defaultOrderColumn = columns[1].field;
+    const [orderColumn, setOrderColumn] = useState(defaultOrderColumn);
 
-    const [order, setOrder] = useState("asc");
+    const defaultOrder = "asc";
+    const [order, setOrder] = useState(defaultOrder);
 
     const tableID = id(ids.ROOT);
 
@@ -417,11 +436,31 @@ const CollapsibleTable = ({
                                 startColumn={startColumn}
                                 endColumn={endColumn}
                                 showActions={showActions}
-                                handleExit={handleExit}
-                                handleSaveAndExit={handleSaveAndExit}
-                                handleExtendTimeLimit={handleExtendTimeLimit}
-                                handleDownloadInputs={handleDownloadInputs}
-                                handleUploadOutputs={handleUploadOutputs}
+                                handleExit={(analysisID) => {
+                                    setOrder(defaultOrder);
+                                    setOrderColumn(defaultOrderColumn);
+                                    return handleExit(analysisID);
+                                }}
+                                handleSaveAndExit={(analysisID) => {
+                                    setOrder(defaultOrder);
+                                    setOrderColumn(defaultOrderColumn);
+                                    return handleSaveAndExit(analysisID);
+                                }}
+                                handleExtendTimeLimit={(analysisID) => {
+                                    setOrder(defaultOrder);
+                                    setOrderColumn(defaultOrderColumn);
+                                    return handleExtendTimeLimit(analysisID);
+                                }}
+                                handleDownloadInputs={(analysisID) => {
+                                    setOrder(defaultOrder);
+                                    setOrderColumn(defaultOrderColumn);
+                                    return handleDownloadInputs(analysisID);
+                                }}
+                                handleUploadOutputs={(analysisID) => {
+                                    setOrder(defaultOrder);
+                                    setOrderColumn(defaultOrderColumn);
+                                    return handleUploadOutputs(analysisID);
+                                }}
                             />
                         ))}
                     </TableBody>

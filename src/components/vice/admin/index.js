@@ -268,27 +268,32 @@ const VICEAdminTabs = ({ data }) => {
                         title={msg(tabName)}
                         showActions={tabName === "analyses"}
                         handleExit={async (analysisID) => {
-                            await mutantExit({ analysisID });
+                            const data = await mutantExit({ analysisID });
+                            return data;
                         }}
                         handleSaveAndExit={async (analysisID) => {
-                            await mutantSaveAndExit({
+                            const data = await mutantSaveAndExit({
                                 analysisID,
                             });
+                            return data;
                         }}
                         handleExtendTimeLimit={async (analysisID) => {
-                            await mutantExtendTimeLimit({
+                            const data = await mutantExtendTimeLimit({
                                 analysisID,
                             });
+                            return data;
                         }}
                         handleUploadOutputs={async (analysisID) => {
-                            await mutantUploadOutputs({
+                            const data = await mutantUploadOutputs({
                                 analysisID,
                             });
+                            return data;
                         }}
                         handleDownloadInputs={async (analysisID) => {
-                            await mutantDownloadInputs({
+                            const data = await mutantDownloadInputs({
                                 analysisID,
                             });
+                            return data;
                         }}
                     />
                 </TabPanel>
@@ -300,7 +305,9 @@ const VICEAdminTabs = ({ data }) => {
 const VICEAdmin = () => {
     const classes = useStyles();
 
-    const { status, data, error } = useQuery(getDataQueryName, getData);
+    const { status, data, error } = useQuery(getDataQueryName, getData, {
+        refetchInterval: 10000,
+    });
     const isLoading = status === "loading";
     const hasErrored = status === "error";
 

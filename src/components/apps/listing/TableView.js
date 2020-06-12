@@ -6,6 +6,9 @@
  */
 
 import React from "react";
+
+import { useRouter } from "next/router";
+
 import {
     build,
     DECheckbox,
@@ -24,6 +27,9 @@ import {
     TableContainer,
     TableRow,
 } from "@material-ui/core";
+
+import { getAppLaunchPath } from "../../utils/paths";
+
 import ids from "../ids";
 import TableLoading from "../../utils/TableLoading";
 import AppStatusIcon from "../AppStatusIcon";
@@ -104,12 +110,17 @@ function TableView(props) {
         selected,
         intl,
     } = props;
+
     const apps = listing?.apps;
     const columnData = getTableColumns(false, false);
     const tableId = build(baseId, ids.LISTING_TABLE);
+
+    const router = useRouter();
+
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
     }
+
     return (
         <TableContainer component={Paper} style={{ overflow: "auto" }}>
             <Table
@@ -207,6 +218,14 @@ function TableView(props) {
                                                 )}
                                                 isDisabled={app.disabled}
                                                 name={app.name}
+                                                onAppNameClicked={() =>
+                                                    router.push(
+                                                        getAppLaunchPath(
+                                                            app.system_id,
+                                                            app.id
+                                                        )
+                                                    )
+                                                }
                                             />
                                         </TableCell>
                                         <TableCell

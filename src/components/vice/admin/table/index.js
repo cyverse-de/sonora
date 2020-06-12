@@ -321,18 +321,9 @@ const CollapsibleTableRow = ({
                                 setOpen(defaultOpen);
                                 return handleSaveAndExit(analysisID);
                             }}
-                            handleExtendTimeLimit={(analysisID) => {
-                                setOpen(defaultOpen);
-                                return handleExtendTimeLimit(analysisID);
-                            }}
-                            handleUploadOutputs={(analysisID) => {
-                                setOpen(defaultOpen);
-                                return handleUploadOutputs(analysisID);
-                            }}
-                            handleDownloadInputs={(analysisID) => {
-                                setOpen(defaultOpen);
-                                return handleDownloadInputs(analysisID);
-                            }}
+                            handleExtendTimeLimit={handleExtendTimeLimit}
+                            handleUploadOutputs={handleUploadOutputs}
+                            handleDownloadInputs={handleDownloadInputs}
                         />
                     </Collapse>
                 </TableCell>
@@ -431,36 +422,17 @@ const CollapsibleTable = ({
                         {rows?.map((row, index) => (
                             <CollapsibleTableRow
                                 row={row}
-                                key={index}
+                                key={row.externalID}
+                                baseID={row.externalID}
                                 columns={columns}
                                 startColumn={startColumn}
                                 endColumn={endColumn}
                                 showActions={showActions}
-                                handleExit={(analysisID) => {
-                                    setOrder(defaultOrder);
-                                    setOrderColumn(defaultOrderColumn);
-                                    return handleExit(analysisID);
-                                }}
-                                handleSaveAndExit={(analysisID) => {
-                                    setOrder(defaultOrder);
-                                    setOrderColumn(defaultOrderColumn);
-                                    return handleSaveAndExit(analysisID);
-                                }}
-                                handleExtendTimeLimit={(analysisID) => {
-                                    setOrder(defaultOrder);
-                                    setOrderColumn(defaultOrderColumn);
-                                    return handleExtendTimeLimit(analysisID);
-                                }}
-                                handleDownloadInputs={(analysisID) => {
-                                    setOrder(defaultOrder);
-                                    setOrderColumn(defaultOrderColumn);
-                                    return handleDownloadInputs(analysisID);
-                                }}
-                                handleUploadOutputs={(analysisID) => {
-                                    setOrder(defaultOrder);
-                                    setOrderColumn(defaultOrderColumn);
-                                    return handleUploadOutputs(analysisID);
-                                }}
+                                handleExit={handleExit}
+                                handleSaveAndExit={handleSaveAndExit}
+                                handleExtendTimeLimit={handleExtendTimeLimit}
+                                handleDownloadInputs={handleDownloadInputs}
+                                handleUploadOutputs={handleUploadOutputs}
                             />
                         ))}
                     </TableBody>

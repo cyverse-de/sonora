@@ -30,14 +30,17 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(styles);
 
 export default function Preferences(props) {
-    const [restoreDef, setRestoreDef] = useState(false);
-    const [defaultAnalysesFolder, setDefaultAnalysesFolder] = useState();
+    const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(
+        false
+    );
     const [userPref, setUserPref] = useState();
     const [fetchDetailsKey, setFetchDetailsKey] = useState("");
+    const [bootStrapError, setBootStrapError] = useState(null);
+    const [
+        outputFolderValidationError,
+        setOutputFolderValidationError,
+    ] = useState(null);
     const classes = useStyles();
-    const [clientConfig] = useConfig();
-    const [userProfile] = useUserProfile();
-    const [error, setError] = useState(null);
 
     const { isFetching } = useQuery({
         queryKey: "bootstrap",
@@ -48,23 +51,18 @@ export default function Preferences(props) {
                 pref.defaultOutputFolder =
                     pref.default_output_folder?.path ||
                     pref.system_default_output_dir.path;
-                console.log(
-                    "default output folder from service=>" +
-                        pref.defaultOutputFolder
-                );
+                console.log(JSON.stringify(pref));
                 setUserPref(pref);
             },
-            onError: (e) => setError(e),
+            onError: (e) => setBootStrapError(e),
         },
     });
 
     useEffect(() => {
-        if (userPref?.defaultOutputFolder) {
-            setFetchDetailsKey([
-                "dataResourceDetails",
-                { paths: [userPref?.defaultOutputFolder] },
-            ]);
-        }
+        setFetchDetailsKey([
+            "dataResourceDetails",
+            { paths: [userPref?.defaultOutputFolder] },
+        ]);
     }, [userPref]);
 
     useQuery({
@@ -73,33 +71,23 @@ export default function Preferences(props) {
         config: {
             onSuccess: (resp) => {
                 const details = resp?.paths[userPref?.defaultOutputFolder];
-                console.log("details =>" + details);
-            },
-            onError: (e) => {
-                console.log("error getting stats");
+                console.log("permission=>" + details.permission);
+                if (details?.permission !== "own") {
+                    setOutputFolderValidationError(
+                        "You don't have access to this folder."
+                    );
+                } else {
+                    setOutputFolderValidationError(null);
+                }
             },
         },
+        onError: (e) => {
+            console.log("error getting stats");
+            setOutputFolderValidationError(
+                "You don't have access to this folder."
+            );
+        },
     });
-
-    useEffect(() => {
-        if (clientConfig?.irods && userProfile?.id) {
-            console.log(
-                "default folder=>" +
-                    clientConfig.irods.home_path +
-                    "/" +
-                    userProfile.id +
-                    "/" +
-                    clientConfig.analyses.default_folder_name
-            );
-            setDefaultAnalysesFolder(
-                clientConfig.irods.home_path +
-                    "/" +
-                    userProfile.id +
-                    "/" +
-                    clientConfig.analyses.default_folder_name
-            );
-        }
-    }, [clientConfig, userProfile]);
 
     const handleSubmit = (values, actions) => {
         actions.setSubmitting = true;
@@ -107,7 +95,10 @@ export default function Preferences(props) {
     };
 
     const restoreDefaults = (setFieldValue) => (event) => {
-        console.log("defaultAnalysesFolder => " + defaultAnalysesFolder);
+        console.log(
+            "defaultAnalysesFolder => " +
+                userPref.system_default_output_dir.path
+        );
         setFieldValue("rememberLastPath", true);
         setFieldValue("saveSession", true);
         setFieldValue("enableImportEmailNotification", true);
@@ -119,12 +110,17 @@ export default function Preferences(props) {
         setFieldValue("closeKBShortcut", "Q");
         setFieldValue("appsKBShortcut", "A");
         setFieldValue("analysisKBShortcut", "Y");
-        setFieldValue("defaultOutputFolder", defaultAnalysesFolder);
-        setRestoreDef(false);
+        setFieldValue(
+            "defaultOutputFolder",
+            userPref.system_default_output_dir.path
+        );
+        setShowRestoreConfirmation(false);
     };
 
-    if (error) {
-        return <ErrorHandler errorObject={error} baseId="preferences" />;
+    if (bootStrapError) {
+        return (
+            <ErrorHandler errorObject={bootStrapError} baseId="preferences" />
+        );
     }
 
     if (isFetching && !userPref) {
@@ -144,11 +140,14 @@ export default function Preferences(props) {
     return (
         <Container style={{ overflowY: "auto" }}>
             <Paper className={classes.root}>
-                <Formik initialValues={userPref} onSubmit={handleSubmit}>
+                <Formik
+                    initialValues={userPref}
+                    onSubmit={handleSubmit}
+                    enableReinitialize
+                >
                     {(props) => (
                         <Form>
                             <General
-                                config={props}
                                 defaultOutputFolder={
                                     userPref?.defaultOutputFolder
                                 }
@@ -157,14 +156,21 @@ export default function Preferences(props) {
                                         "new default output folder=>" +
                                             newfolder
                                     );
+                                    props.setFieldValue(
+                                        "defaultOutputFolder",
+                                        newfolder
+                                    );
                                     userPref.defaultOutputFolder = newfolder;
+                                    setUserPref({ ...userPref });
                                 }}
+                                outputFolderValidationError={
+                                    outputFolderValidationError
+                                }
                             />
                             <Divider className={classes.dividers} />
                             <Shortcuts />
                             <Grid
                                 container
-                                spacing={2}
                                 direction="row"
                                 justify="flex-end"
                                 alignItems="center"
@@ -173,7 +179,9 @@ export default function Preferences(props) {
                                     <Button
                                         className={classes.actionButton}
                                         color="primary"
-                                        onClick={() => setRestoreDef(true)}
+                                        onClick={() =>
+                                            setShowRestoreConfirmation(true)
+                                        }
                                     >
                                         Restore Defaults
                                     </Button>
@@ -189,8 +197,10 @@ export default function Preferences(props) {
                                 </Grid>
                             </Grid>
                             <Dialog
-                                open={restoreDef}
-                                onClose={() => setRestoreDef(false)}
+                                open={showRestoreConfirmation}
+                                onClose={() =>
+                                    setShowRestoreConfirmation(false)
+                                }
                             >
                                 <DialogTitle>Restore Defaults</DialogTitle>
                                 <DialogContent>
@@ -209,7 +219,9 @@ export default function Preferences(props) {
                                         OK
                                     </Button>
                                     <Button
-                                        onClick={() => setRestoreDef(false)}
+                                        onClick={() =>
+                                            setShowRestoreConfirmation(false)
+                                        }
                                         color="primary"
                                     >
                                         Cancel

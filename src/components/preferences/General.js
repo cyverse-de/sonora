@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import Typography from "@material-ui/core/Typography";
-import { Field } from "formik";
+import { Field, ErrorMessage } from "formik";
 
 import SelectionDrawer from "../data/SelectionDrawer";
 import ResourceTypes from "../models/ResourceTypes";
@@ -16,7 +16,11 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(styles);
 
 export default function General(props) {
-    const { defaultOutputFolder, onNewDefaultOutputFolder } = props;
+    const {
+        defaultOutputFolder,
+        onNewDefaultOutputFolder,
+        outputFolderValidationError,
+    } = props;
     const classes = useStyles();
     const [openFileBrowser, setOpenFileBrowser] = useState(false);
 
@@ -50,7 +54,6 @@ export default function General(props) {
                     <Field
                         component={FormSwitch}
                         name="rememberLastPath"
-                        value="rememberLastPath"
                         color="primary"
                         inputProps={{ "aria-label": "primary checkbox" }}
                     />
@@ -62,7 +65,6 @@ export default function General(props) {
                     <Field
                         component={FormSwitch}
                         name="enableHPCPrompt"
-                        value="enableHPCPrompt"
                         color="primary"
                         inputProps={{ "aria-label": "another checkbox" }}
                     />
@@ -74,7 +76,6 @@ export default function General(props) {
                     <Field
                         component={FormSwitch}
                         name="enableWaitTimeMessage"
-                        value="enableWaitTimeMessage"
                         color="primary"
                         inputProps={{ "aria-label": "another checkbox" }}
                     />
@@ -88,11 +89,13 @@ export default function General(props) {
                 <Grid item>
                     <>
                         <Field
+                            error={outputFolderValidationError ? true : false}
                             component={FormTextField}
                             className={classes.textField}
                             name="defaultOutputFolder"
                             label="Path"
                             variant="outlined"
+                            helperText={outputFolderValidationError}
                             InputProps={{
                                 readOnly: true,
                             }}
@@ -121,7 +124,6 @@ export default function General(props) {
                     <Field
                         component={FormSwitch}
                         name="enableAnalysisEmailNotification"
-                        value="enableAnalysisEmail"
                         color="primary"
                         inputProps={{ "aria-label": "another checkbox" }}
                     />
@@ -133,7 +135,6 @@ export default function General(props) {
                     <Field
                         component={FormSwitch}
                         name="enableImportEmailNotification"
-                        value="enableImportEmail"
                         color="primary"
                         inputProps={{ "aria-label": "another checkbox" }}
                     />
@@ -144,9 +145,9 @@ export default function General(props) {
                 onClose={() => setOpenFileBrowser(false)}
                 startingPath={defaultOutputFolder}
                 acceptedType={ResourceTypes.FOLDER}
-                onConfirm={(selections) => {
+                onConfirm={(selection) => {
                     setOpenFileBrowser(false);
-                    onNewDefaultOutputFolder(selections[0]);
+                    onNewDefaultOutputFolder(selection);
                 }}
                 baseId="dataSelection"
                 multiSelect={false}

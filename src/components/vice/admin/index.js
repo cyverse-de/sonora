@@ -213,7 +213,9 @@ const VICEAdminTabs = ({ data }) => {
     const tabPanelID = (name) => id(ids.ROOT, "admin", "tab-panels", name);
     const ariaControls = (name) => `vice-admin-tabs-${name}`;
 
-    const analysisRows = data ? getAnalyses(data) : [];
+    const [analysisRows, setAnalysisRows] = useState(
+        data ? getAnalyses(data) : []
+    );
 
     const [mutantExit] = useMutation(exit, {
         onSuccess: () => queryCache.refetchQueries(getDataQueryName),
@@ -267,29 +269,45 @@ const VICEAdminTabs = ({ data }) => {
                         columns={columns[tabName]}
                         title={msg(tabName)}
                         showActions={tabName === "analyses"}
-                        handleExit={async (analysisID) => {
+                        handleExit={async (analysisID, externalID) => {
                             const data = await mutantExit({ analysisID });
+                            setAnalysisRows(
+                                analysisRows.filter(
+                                    (obj) => obj.externalID !== externalID
+                                )
+                            );
                             return data;
                         }}
-                        handleSaveAndExit={async (analysisID) => {
+                        handleSaveAndExit={async (analysisID, externalID) => {
                             const data = await mutantSaveAndExit({
                                 analysisID,
                             });
+                            setAnalysisRows(
+                                analysisRows.filter(
+                                    (obj) => obj.externalID !== externalID
+                                )
+                            );
                             return data;
                         }}
-                        handleExtendTimeLimit={async (analysisID) => {
+                        handleExtendTimeLimit={async (
+                            analysisID,
+                            externalID
+                        ) => {
                             const data = await mutantExtendTimeLimit({
                                 analysisID,
                             });
                             return data;
                         }}
-                        handleUploadOutputs={async (analysisID) => {
+                        handleUploadOutputs={async (analysisID, externalID) => {
                             const data = await mutantUploadOutputs({
                                 analysisID,
                             });
                             return data;
                         }}
-                        handleDownloadInputs={async (analysisID) => {
+                        handleDownloadInputs={async (
+                            analysisID,
+                            externalID
+                        ) => {
                             const data = await mutantDownloadInputs({
                                 analysisID,
                             });

@@ -147,7 +147,12 @@ const ActionButtons = ({
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => handleExtendTimeLimit(data.analysisID)}
+                        onClick={() =>
+                            handleExtendTimeLimit(
+                                data.analysisID,
+                                row.externalID
+                            )
+                        }
                         className={classes.actionButton}
                     >
                         {msg("extendTimeLimit")}
@@ -155,7 +160,12 @@ const ActionButtons = ({
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => handleDownloadInputs(data.analysisID)}
+                        onClick={() =>
+                            handleDownloadInputs(
+                                data.analysisID,
+                                row.externalID
+                            )
+                        }
                         className={classes.actionButton}
                     >
                         {msg("downloadInputs")}
@@ -163,7 +173,9 @@ const ActionButtons = ({
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => handleUploadOutputs(data.analysisID)}
+                        onClick={() =>
+                            handleUploadOutputs(data.analysisID, row.externalID)
+                        }
                         className={classes.actionButton}
                     >
                         {msg("uploadOutputs")}
@@ -171,7 +183,9 @@ const ActionButtons = ({
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => handleExit(data.analysisID)}
+                        onClick={() =>
+                            handleExit(data.analysisID, row.externalID)
+                        }
                         className={classes.actionButton}
                     >
                         {msg("exit")}
@@ -179,7 +193,9 @@ const ActionButtons = ({
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => handleSaveAndExit(data.analysisID)}
+                        onClick={() =>
+                            handleSaveAndExit(data.analysisID, row.externalID)
+                        }
                         className={classes.actionButton}
                     >
                         {msg("saveAndExit")}
@@ -313,13 +329,16 @@ const CollapsibleTableRow = ({
                             row={row}
                             collapseID={collapseID}
                             showActions={showActions}
-                            handleExit={(analysisID) => {
+                            handleExit={(analysisID, externalID) => {
                                 setOpen(defaultOpen);
-                                return handleExit(analysisID);
+                                return handleExit(analysisID, externalID);
                             }}
-                            handleSaveAndExit={(analysisID) => {
+                            handleSaveAndExit={(analysisID, externalID) => {
                                 setOpen(defaultOpen);
-                                return handleSaveAndExit(analysisID);
+                                return handleSaveAndExit(
+                                    analysisID,
+                                    externalID
+                                );
                             }}
                             handleExtendTimeLimit={handleExtendTimeLimit}
                             handleUploadOutputs={handleUploadOutputs}

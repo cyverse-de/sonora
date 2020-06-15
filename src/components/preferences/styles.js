@@ -1,6 +1,8 @@
 export default (theme) => ({
     root: {
+        overflowY: "auto",
         width: "100%",
+        overflowX: "hidden",
     },
 
     grid: {
@@ -25,8 +27,7 @@ export default (theme) => ({
 
     dividers: {
         backgroundColor: theme.palette.blue,
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1),
+        margin: theme.spacing(1),
     },
 
     shortcutField: {

@@ -67,7 +67,7 @@ export default function Preferences(props) {
         }
     }, [defaultOutputFolder]);
 
-    const { isFetching: isValidating } = useQuery({
+    const { isFetching: isFetchingStat } = useQuery({
         queryKey: fetchDetailsKey,
         queryFn: getResourceDetails,
         config: {
@@ -119,6 +119,11 @@ export default function Preferences(props) {
         setShowRestoreConfirmation(false);
     };
 
+    const setDefaultFolder = (setFieldValue, newFolder) => {
+        setFieldValue("defaultOutputFolder", newFolder);
+        setDefaultOutputFolder(newFolder);
+    };
+
     if (bootStrapError) {
         return (
             <ErrorHandler errorObject={bootStrapError} baseId="preferences" />
@@ -139,112 +144,91 @@ export default function Preferences(props) {
         );
     }
 
-    const validate = (values, props) => {
-        if (outputFolderValidationError) {
-            console.log("folder validation=>" + outputFolderValidationError);
-            return { defaultOutputFolder: outputFolderValidationError };
-        } else {
-            return {};
-        }
-    };
-
     return (
-        <Container style={{ overflowY: "auto" }}>
-            <Paper className={classes.root}>
+        <Container className={classes.root}>
+            <Paper>
                 <Formik
                     initialValues={userPref}
                     onSubmit={handleSubmit}
                     enableReinitialize
-                    validate={validate}
                 >
-                    {({ validateForm, ...props }) => {
-                        if (outputFolderValidationError) {
-                            validateForm();
-                            setOutputFolderValidationError(null);
-                        }
-                        return (
-                            <Form>
-                                <General
-                                    defaultOutputFolder={defaultOutputFolder}
-                                    isValidating={isValidating}
-                                    onNewDefaultOutputFolder={(newfolder) => {
-                                        console.log(
-                                            "new default output folder=>" +
-                                                newfolder
-                                        );
-                                        props.setFieldValue(
-                                            "defaultOutputFolder",
-                                            newfolder
-                                        );
-                                        setDefaultOutputFolder(newfolder);
-                                    }}
-                                />
-                                <Divider className={classes.dividers} />
-                                <Shortcuts />
-                                <Grid
-                                    container
-                                    direction="row"
-                                    justify="flex-end"
-                                    alignItems="center"
-                                >
-                                    <Grid item>
-                                        <Button
-                                            className={classes.actionButton}
-                                            color="primary"
-                                            onClick={() =>
-                                                setShowRestoreConfirmation(true)
-                                            }
-                                        >
-                                            Restore Defaults
-                                        </Button>
-                                    </Grid>
-                                    <Grid item>
-                                        <Button
-                                            className={classes.actionButton}
-                                            color="primary"
-                                            type="submit"
-                                        >
-                                            Save
-                                        </Button>
-                                    </Grid>
+                    {(props) => (
+                        <Form>
+                            <General
+                                defaultOutputFolder={defaultOutputFolder}
+                                isValidating={isFetchingStat}
+                                onNewDefaultOutputFolder={(newFolder) => {
+                                    console.log(
+                                        "new default output folder=>" +
+                                            newFolder
+                                    );
+                                    setDefaultFolder(
+                                        props.setFieldValue,
+                                        newFolder
+                                    );
+                                }}
+                                outputFolderValidationError={
+                                    outputFolderValidationError
+                                }
+                            />
+                            <Divider className={classes.dividers} />
+                            <Shortcuts />
+                            <Grid container justify="flex-end" spacing={3}>
+                                <Grid item>
+                                    <Button
+                                        className={classes.actionButton}
+                                        color="primary"
+                                        onClick={() =>
+                                            setShowRestoreConfirmation(true)
+                                        }
+                                    >
+                                        Restore Defaults
+                                    </Button>
                                 </Grid>
-                                <Dialog
-                                    open={showRestoreConfirmation}
-                                    onClose={() =>
-                                        setShowRestoreConfirmation(false)
-                                    }
-                                >
-                                    <DialogTitle>Restore Defaults</DialogTitle>
-                                    <DialogContent>
-                                        <DialogContentText>
-                                            Are you sure you would like to
-                                            restore defaults?
-                                        </DialogContentText>
-                                    </DialogContent>
-                                    <DialogActions>
-                                        <Button
-                                            onClick={restoreDefaults(
-                                                props.setFieldValue
-                                            )}
-                                            color="primary"
-                                        >
-                                            OK
-                                        </Button>
-                                        <Button
-                                            onClick={() =>
-                                                setShowRestoreConfirmation(
-                                                    false
-                                                )
-                                            }
-                                            color="primary"
-                                        >
-                                            Cancel
-                                        </Button>
-                                    </DialogActions>
-                                </Dialog>
-                            </Form>
-                        );
-                    }}
+                                <Grid item>
+                                    <Button
+                                        className={classes.actionButton}
+                                        color="primary"
+                                        type="submit"
+                                    >
+                                        Save
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                            <Dialog
+                                open={showRestoreConfirmation}
+                                onClose={() =>
+                                    setShowRestoreConfirmation(false)
+                                }
+                            >
+                                <DialogTitle>Restore Defaults</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText>
+                                        Are you sure you would like to restore
+                                        defaults?
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button
+                                        onClick={restoreDefaults(
+                                            props.setFieldValue
+                                        )}
+                                        color="primary"
+                                    >
+                                        OK
+                                    </Button>
+                                    <Button
+                                        onClick={() =>
+                                            setShowRestoreConfirmation(false)
+                                        }
+                                        color="primary"
+                                    >
+                                        Cancel
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+                        </Form>
+                    )}
                 </Formik>
             </Paper>
         </Container>

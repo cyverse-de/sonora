@@ -27,6 +27,7 @@ export default function General(props) {
         defaultOutputFolder,
         onNewDefaultOutputFolder,
         isValidating,
+        outputFolderValidationError,
     } = props;
     const classes = useStyles();
     const [openFileBrowser, setOpenFileBrowser] = useState(false);
@@ -99,6 +100,8 @@ export default function General(props) {
                             component={FormTextField}
                             className={classes.textField}
                             name="defaultOutputFolder"
+                            helperText={outputFolderValidationError}
+                            error={outputFolderValidationError ? true : false}
                             // without this prop, there will be an exception in console
                             //about making an uncontrolled component to controlled.
                             value={

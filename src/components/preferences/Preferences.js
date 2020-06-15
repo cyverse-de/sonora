@@ -34,6 +34,7 @@ export default function Preferences(props) {
     const [userPref, setUserPref] = useState();
     const [fetchDetailsKey, setFetchDetailsKey] = useState("");
     const [bootStrapError, setBootStrapError] = useState(null);
+    const [defaultOutputFolder, setDefaultOutputFolder] = useState(null);
     const [
         outputFolderValidationError,
         setOutputFolderValidationError,
@@ -49,6 +50,7 @@ export default function Preferences(props) {
                 pref.defaultOutputFolder =
                     pref.default_output_folder?.path ||
                     pref.system_default_output_dir.path;
+                setDefaultOutputFolder(pref.defaultOutputFolder);
                 console.log(JSON.stringify(pref));
                 setUserPref(pref);
             },
@@ -57,20 +59,20 @@ export default function Preferences(props) {
     });
 
     useEffect(() => {
-        if (userPref?.defaultOutputFolder) {
+        if (defaultOutputFolder) {
             setFetchDetailsKey([
                 "dataResourceDetails",
-                { paths: [userPref.defaultOutputFolder] },
+                { paths: [defaultOutputFolder] },
             ]);
         }
-    }, [userPref]);
+    }, [defaultOutputFolder]);
 
-    const { loading: isValidating } = useQuery({
+    const { isFetching: isValidating } = useQuery({
         queryKey: fetchDetailsKey,
         queryFn: getResourceDetails,
         config: {
             onSuccess: (resp) => {
-                const details = resp?.paths[userPref?.defaultOutputFolder];
+                const details = resp?.paths[defaultOutputFolder];
                 if (details?.permission !== "own") {
                     console.log("permission=>" + details.permission);
                     setOutputFolderValidationError(
@@ -163,17 +165,18 @@ export default function Preferences(props) {
                         return (
                             <Form>
                                 <General
-                                    defaultOutputFolder={
-                                        userPref?.defaultOutputFolder
-                                    }
+                                    defaultOutputFolder={defaultOutputFolder}
                                     isValidating={isValidating}
                                     onNewDefaultOutputFolder={(newfolder) => {
                                         console.log(
                                             "new default output folder=>" +
                                                 newfolder
                                         );
-                                        userPref.defaultOutputFolder = newfolder;
-                                        setUserPref({ ...userPref });
+                                        props.setFieldValue(
+                                            "defaultOutputFolder",
+                                            newfolder
+                                        );
+                                        setDefaultOutputFolder(newfolder);
                                     }}
                                 />
                                 <Divider className={classes.dividers} />

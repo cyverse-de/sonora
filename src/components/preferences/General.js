@@ -99,9 +99,19 @@ export default function General(props) {
                             component={FormTextField}
                             className={classes.textField}
                             name="defaultOutputFolder"
+                            // without this prop, there will be an exception in console
+                            //about making an uncontrolled component to controlled.
+                            value={
+                                defaultOutputFolder ? defaultOutputFolder : ""
+                            }
                             label="Path"
                             variant="outlined"
                             required={true}
+                            onKeyDown={(event) => {
+                                if (event.key === "Enter") {
+                                    setOpenFileBrowser(true);
+                                }
+                            }}
                             InputProps={{
                                 readOnly: true,
                                 endAdornment: (
@@ -158,18 +168,20 @@ export default function General(props) {
                     />
                 </GridLabelValue>
             </Grid>
-            <SelectionDrawer
-                open={openFileBrowser}
-                onClose={() => setOpenFileBrowser(false)}
-                startingPath={defaultOutputFolder}
-                acceptedType={ResourceTypes.FOLDER}
-                onConfirm={(selection) => {
-                    setOpenFileBrowser(false);
-                    onNewDefaultOutputFolder(selection);
-                }}
-                baseId="dataSelection"
-                multiSelect={false}
-            />
+            {defaultOutputFolder && (
+                <SelectionDrawer
+                    open={openFileBrowser}
+                    onClose={() => setOpenFileBrowser(false)}
+                    startingPath={defaultOutputFolder}
+                    acceptedType={ResourceTypes.FOLDER}
+                    onConfirm={(selection) => {
+                        setOpenFileBrowser(false);
+                        onNewDefaultOutputFolder(selection);
+                    }}
+                    baseId="dataSelection"
+                    multiSelect={false}
+                />
+            )}
         </>
     );
 }

@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Form, Formik } from "formik";
 import { useQuery } from "react-query";
 
-import { useConfig } from "../../contexts/config";
-import { useUserProfile } from "../../contexts/userProfile";
 import { bootstrap } from "../../serviceFacades/users";
 import { getResourceDetails } from "../../serviceFacades/filesystem";
 import ErrorHandler from "../utils/error/ErrorHandler";
@@ -59,20 +57,22 @@ export default function Preferences(props) {
     });
 
     useEffect(() => {
-        setFetchDetailsKey([
-            "dataResourceDetails",
-            { paths: [userPref?.defaultOutputFolder] },
-        ]);
+        if (userPref?.defaultOutputFolder) {
+            setFetchDetailsKey([
+                "dataResourceDetails",
+                { paths: [userPref.defaultOutputFolder] },
+            ]);
+        }
     }, [userPref]);
 
-    useQuery({
+    const { loading: isValidating } = useQuery({
         queryKey: fetchDetailsKey,
         queryFn: getResourceDetails,
         config: {
             onSuccess: (resp) => {
                 const details = resp?.paths[userPref?.defaultOutputFolder];
-                console.log("permission=>" + details.permission);
                 if (details?.permission !== "own") {
+                    console.log("permission=>" + details.permission);
                     setOutputFolderValidationError(
                         "You don't have access to this folder."
                     );
@@ -137,6 +137,15 @@ export default function Preferences(props) {
         );
     }
 
+    const validate = (values, props) => {
+        if (outputFolderValidationError) {
+            console.log("folder validation=>" + outputFolderValidationError);
+            return { defaultOutputFolder: outputFolderValidationError };
+        } else {
+            return {};
+        }
+    };
+
     return (
         <Container style={{ overflowY: "auto" }}>
             <Paper className={classes.root}>
@@ -144,92 +153,95 @@ export default function Preferences(props) {
                     initialValues={userPref}
                     onSubmit={handleSubmit}
                     enableReinitialize
+                    validate={validate}
                 >
-                    {(props) => (
-                        <Form>
-                            <General
-                                defaultOutputFolder={
-                                    userPref?.defaultOutputFolder
-                                }
-                                onNewDefaultOutputFolder={(newfolder) => {
-                                    console.log(
-                                        "new default output folder=>" +
-                                            newfolder
-                                    );
-                                    props.setFieldValue(
-                                        "defaultOutputFolder",
-                                        newfolder
-                                    );
-                                    userPref.defaultOutputFolder = newfolder;
-                                    setUserPref({ ...userPref });
-                                }}
-                                outputFolderValidationError={
-                                    outputFolderValidationError
-                                }
-                            />
-                            <Divider className={classes.dividers} />
-                            <Shortcuts />
-                            <Grid
-                                container
-                                direction="row"
-                                justify="flex-end"
-                                alignItems="center"
-                            >
-                                <Grid item>
-                                    <Button
-                                        className={classes.actionButton}
-                                        color="primary"
-                                        onClick={() =>
-                                            setShowRestoreConfirmation(true)
-                                        }
-                                    >
-                                        Restore Defaults
-                                    </Button>
+                    {({ validateForm, ...props }) => {
+                        if (outputFolderValidationError) {
+                            validateForm();
+                            setOutputFolderValidationError(null);
+                        }
+                        return (
+                            <Form>
+                                <General
+                                    defaultOutputFolder={
+                                        userPref?.defaultOutputFolder
+                                    }
+                                    isValidating={isValidating}
+                                    onNewDefaultOutputFolder={(newfolder) => {
+                                        console.log(
+                                            "new default output folder=>" +
+                                                newfolder
+                                        );
+                                        userPref.defaultOutputFolder = newfolder;
+                                        setUserPref({ ...userPref });
+                                    }}
+                                />
+                                <Divider className={classes.dividers} />
+                                <Shortcuts />
+                                <Grid
+                                    container
+                                    direction="row"
+                                    justify="flex-end"
+                                    alignItems="center"
+                                >
+                                    <Grid item>
+                                        <Button
+                                            className={classes.actionButton}
+                                            color="primary"
+                                            onClick={() =>
+                                                setShowRestoreConfirmation(true)
+                                            }
+                                        >
+                                            Restore Defaults
+                                        </Button>
+                                    </Grid>
+                                    <Grid item>
+                                        <Button
+                                            className={classes.actionButton}
+                                            color="primary"
+                                            type="submit"
+                                        >
+                                            Save
+                                        </Button>
+                                    </Grid>
                                 </Grid>
-                                <Grid item>
-                                    <Button
-                                        className={classes.actionButton}
-                                        color="primary"
-                                        type="submit"
-                                    >
-                                        Save
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                            <Dialog
-                                open={showRestoreConfirmation}
-                                onClose={() =>
-                                    setShowRestoreConfirmation(false)
-                                }
-                            >
-                                <DialogTitle>Restore Defaults</DialogTitle>
-                                <DialogContent>
-                                    <DialogContentText>
-                                        Are you sure you would like to restore
-                                        defaults?
-                                    </DialogContentText>
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button
-                                        onClick={restoreDefaults(
-                                            props.setFieldValue
-                                        )}
-                                        color="primary"
-                                    >
-                                        OK
-                                    </Button>
-                                    <Button
-                                        onClick={() =>
-                                            setShowRestoreConfirmation(false)
-                                        }
-                                        color="primary"
-                                    >
-                                        Cancel
-                                    </Button>
-                                </DialogActions>
-                            </Dialog>
-                        </Form>
-                    )}
+                                <Dialog
+                                    open={showRestoreConfirmation}
+                                    onClose={() =>
+                                        setShowRestoreConfirmation(false)
+                                    }
+                                >
+                                    <DialogTitle>Restore Defaults</DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText>
+                                            Are you sure you would like to
+                                            restore defaults?
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button
+                                            onClick={restoreDefaults(
+                                                props.setFieldValue
+                                            )}
+                                            color="primary"
+                                        >
+                                            OK
+                                        </Button>
+                                        <Button
+                                            onClick={() =>
+                                                setShowRestoreConfirmation(
+                                                    false
+                                                )
+                                            }
+                                            color="primary"
+                                        >
+                                            Cancel
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
+                            </Form>
+                        );
+                    }}
                 </Formik>
             </Paper>
         </Container>

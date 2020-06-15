@@ -40,47 +40,55 @@ export default function Shortcuts() {
             </Typography>
             <Grid container spacing={2} className={classes.grid}>
                 <GridLabelValue label="Open apps view" labelVariant="body1">
-                    <Typography display="inline">
-                        Control + Shift +
+                    <>
+                        <Typography display="inline">
+                            Control + Shift +
+                        </Typography>
                         <Field
                             component={FormTextField}
                             name="appsKBShortcut"
                             className={classes.shortcutField}
                         />
-                    </Typography>
+                    </>
                 </GridLabelValue>
                 <GridLabelValue label="Open data view" labelVariant="body1">
-                    <Typography display="inline">
-                        Control + Shift +
+                    <>
+                        <Typography display="inline">
+                            Control + Shift +
+                        </Typography>
                         <Field
                             component={FormTextField}
                             name="dataKBShortcut"
                             className={classes.shortcutField}
                         />
-                    </Typography>
+                    </>
                 </GridLabelValue>
                 <GridLabelValue label="Open analyses view" labelVariant="body1">
-                    <Typography display="inline">
-                        Control + Shift +
+                    <>
+                        <Typography display="inline">
+                            Control + Shift +
+                        </Typography>
                         <Field
                             component={FormTextField}
                             name="analysisKBShortcut"
                             className={classes.shortcutField}
                         />
-                    </Typography>
+                    </>
                 </GridLabelValue>
                 <GridLabelValue
                     label="Open notifications view"
                     labelVariant="body1"
                 >
-                    <Typography display="inline">
-                        Control + Shift +
+                    <>
+                        <Typography display="inline">
+                            Control + Shift +
+                        </Typography>
                         <Field
                             component={FormTextField}
                             name="notificationKBShortcut"
                             className={classes.shortcutField}
                         />
-                    </Typography>
+                    </>
                 </GridLabelValue>
             </Grid>
         </>

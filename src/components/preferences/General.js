@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import Typography from "@material-ui/core/Typography";
-import { Field, ErrorMessage } from "formik";
+import { Field } from "formik";
 
 import SelectionDrawer from "../data/SelectionDrawer";
 import ResourceTypes from "../models/ResourceTypes";
@@ -10,7 +10,14 @@ import styles from "./styles";
 
 import { FormTextField } from "@cyverse-de/ui-lib";
 
-import { Button, Divider, Grid, Switch } from "@material-ui/core";
+import {
+    Button,
+    CircularProgress,
+    Divider,
+    Grid,
+    InputAdornment,
+    Switch,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(styles);
@@ -19,7 +26,7 @@ export default function General(props) {
     const {
         defaultOutputFolder,
         onNewDefaultOutputFolder,
-        outputFolderValidationError,
+        isValidating,
     } = props;
     const classes = useStyles();
     const [openFileBrowser, setOpenFileBrowser] = useState(false);
@@ -89,15 +96,26 @@ export default function General(props) {
                 <Grid item>
                     <>
                         <Field
-                            error={outputFolderValidationError ? true : false}
                             component={FormTextField}
                             className={classes.textField}
                             name="defaultOutputFolder"
                             label="Path"
                             variant="outlined"
-                            helperText={outputFolderValidationError}
+                            required={true}
                             InputProps={{
                                 readOnly: true,
+                                endAdornment: (
+                                    <>
+                                        {isValidating && (
+                                            <InputAdornment position="start">
+                                                <CircularProgress
+                                                    color="inherit"
+                                                    size={20}
+                                                />
+                                            </InputAdornment>
+                                        )}
+                                    </>
+                                ),
                             }}
                         />
                         <Button

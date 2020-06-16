@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
     build as buildID,
@@ -22,6 +22,7 @@ import {
     useTheme,
     useMediaQuery,
     Button,
+    Popper,
 } from "@material-ui/core";
 
 import { Skeleton } from "@material-ui/lab";
@@ -127,6 +128,10 @@ const ActionButtons = ({
 }) => {
     const classes = useStyles();
 
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [popperMessage, setPopperMessage] = useState("");
+
     const { status, data, error } = useQuery(
         ["async-data", row.externalID],
         asyncData
@@ -138,6 +143,29 @@ const ActionButtons = ({
         console.log(error);
     }
 
+    const onClick = (event, dataFn, msgKey) => {
+        let tlErr;
+        let tlData;
+        try {
+            tlData = dataFn(data.analysisID, row.externalID);
+        } catch (err) {
+            tlErr = err;
+        }
+        setAnchorEl(event.currentTarget);
+        setPopperMessage(tlErr ? tlErr.message : msg(msgKey));
+        setOpen(true);
+        return tlData;
+    };
+
+    useEffect(() => {
+        const timerID = setInterval(() => {
+            if (open) {
+                setOpen(false);
+            }
+        }, 3000);
+        return () => clearInterval(timerID);
+    });
+
     return (
         <div className={classes.actions}>
             {isLoading ? (
@@ -147,10 +175,11 @@ const ActionButtons = ({
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() =>
-                            handleExtendTimeLimit(
-                                data.analysisID,
-                                row.externalID
+                        onClick={(event) =>
+                            onClick(
+                                event,
+                                handleExtendTimeLimit,
+                                "timeLimitExtended"
                             )
                         }
                         className={classes.actionButton}
@@ -160,10 +189,11 @@ const ActionButtons = ({
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() =>
-                            handleDownloadInputs(
-                                data.analysisID,
-                                row.externalID
+                        onClick={(event) =>
+                            onClick(
+                                event,
+                                handleDownloadInputs,
+                                "downloadInputsCommandSent"
                             )
                         }
                         className={classes.actionButton}
@@ -173,8 +203,12 @@ const ActionButtons = ({
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() =>
-                            handleUploadOutputs(data.analysisID, row.externalID)
+                        onClick={(event) =>
+                            onClick(
+                                event,
+                                handleUploadOutputs,
+                                "uploadOutputsCommandSent"
+                            )
                         }
                         className={classes.actionButton}
                     >
@@ -200,6 +234,15 @@ const ActionButtons = ({
                     >
                         {msg("saveAndExit")}
                     </Button>
+
+                    <Popper
+                        id={id(data.analysisID, "popper")}
+                        open={open}
+                        anchorEl={anchorEl}
+                        placement="top"
+                    >
+                        {popperMessage}
+                    </Popper>
                 </>
             )}
         </div>

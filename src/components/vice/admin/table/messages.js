@@ -15,5 +15,8 @@ export default {
         extendTimeLimit: "Extend Time Limit",
         downloadInputs: "Download Inputs",
         uploadOutputs: "Upload Outputs",
+        timeLimitExtended: "Time limit extended by 3 days",
+        downloadInputsCommandSent: "Download inputs command sent",
+        uploadOutputsCommandSent: "Upload outputs command sent",
     },
 };

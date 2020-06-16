@@ -66,12 +66,19 @@ export default () => {
     const startingPath = homePath || "";
     const defaultOutputDir = homePath ? `${homePath}/analyses` : "";
 
+    const defaultMaxCPUCores = config?.tools?.private.max_cpu_limit;
+    const defaultMaxMemory = config?.tools?.private.max_memory_limit;
+    const defaultMaxDiskSpace = config?.tools?.private.max_disk_limit;
+
     return (
         <AppLaunchWizard
             baseId="apps"
             notify={notify}
             defaultOutputDir={defaultOutputDir}
             startingPath={startingPath}
+            defaultMaxCPUCores={defaultMaxCPUCores}
+            defaultMaxMemory={defaultMaxMemory}
+            defaultMaxDiskSpace={defaultMaxDiskSpace}
             app={app}
             appError={appError}
             loading={loading}

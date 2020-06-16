@@ -1,17 +1,21 @@
 import React from "react";
-
+import { injectIntl } from "react-intl";
 import { Field } from "formik";
 
-import GridLabelValue from "../utils/GridLabelValue";
+import ids from "./ids";
 import styles from "./styles";
+import messages from "./messages";
+import GridLabelValue from "../utils/GridLabelValue";
 
-import Typography from "@material-ui/core/Typography";
-import { Grid, TextField } from "@material-ui/core";
+import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
+
+import { Grid, TextField, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(styles);
 
-export default function Shortcuts() {
+function Shortcuts(props) {
+    const { baseId } = props;
     const classes = useStyles();
 
     const onTextChange = (setFieldValue, fieldName) => (event, value) => {
@@ -36,47 +40,11 @@ export default function Shortcuts() {
     return (
         <>
             <Typography variant="h6" className={classes.sectionHeader}>
-                Keyboard Shortcuts
+                {getMessage("keyboardShortcutHeaderLbl")}
             </Typography>
             <Grid container spacing={2} className={classes.grid}>
-                <GridLabelValue label="Open apps view" labelVariant="body1">
-                    <>
-                        <Typography display="inline">
-                            Control + Shift +
-                        </Typography>
-                        <Field
-                            component={FormTextField}
-                            name="appsKBShortcut"
-                            className={classes.shortcutField}
-                        />
-                    </>
-                </GridLabelValue>
-                <GridLabelValue label="Open data view" labelVariant="body1">
-                    <>
-                        <Typography display="inline">
-                            Control + Shift +
-                        </Typography>
-                        <Field
-                            component={FormTextField}
-                            name="dataKBShortcut"
-                            className={classes.shortcutField}
-                        />
-                    </>
-                </GridLabelValue>
-                <GridLabelValue label="Open analyses view" labelVariant="body1">
-                    <>
-                        <Typography display="inline">
-                            Control + Shift +
-                        </Typography>
-                        <Field
-                            component={FormTextField}
-                            name="analysisKBShortcut"
-                            className={classes.shortcutField}
-                        />
-                    </>
-                </GridLabelValue>
                 <GridLabelValue
-                    label="Open notifications view"
+                    label={getMessage("appsViewShortcutLbl")}
                     labelVariant="body1"
                 >
                     <>
@@ -84,6 +52,58 @@ export default function Shortcuts() {
                             Control + Shift +
                         </Typography>
                         <Field
+                            id={build(baseId, ids.APP_KB_SHORTCUT_TEXT)}
+                            component={FormTextField}
+                            name="appsKBShortcut"
+                            className={classes.shortcutField}
+                        />
+                    </>
+                </GridLabelValue>
+                <GridLabelValue
+                    label={getMessage("dataViewShortcutLbl")}
+                    labelVariant="body1"
+                >
+                    <>
+                        <Typography display="inline">
+                            Control + Shift +
+                        </Typography>
+                        <Field
+                            id={build(baseId, ids.DATA_KB_SHORTCUT_TEXT)}
+                            component={FormTextField}
+                            name="dataKBShortcut"
+                            className={classes.shortcutField}
+                        />
+                    </>
+                </GridLabelValue>
+                <GridLabelValue
+                    label={getMessage("analysesViewShortcutLbl")}
+                    labelVariant="body1"
+                >
+                    <>
+                        <Typography display="inline">
+                            Control + Shift +
+                        </Typography>
+                        <Field
+                            id={build(baseId, ids.ANALYSES_KB_SHORTCUT_TEXT)}
+                            component={FormTextField}
+                            name="analysisKBShortcut"
+                            className={classes.shortcutField}
+                        />
+                    </>
+                </GridLabelValue>
+                <GridLabelValue
+                    label={getMessage("notificationViewShortcutLbl")}
+                    labelVariant="body1"
+                >
+                    <>
+                        <Typography display="inline">
+                            Control + Shift +
+                        </Typography>
+                        <Field
+                            id={build(
+                                baseId,
+                                ids.NOTIFICATIONS_KB_SHORTCUT_TEXT
+                            )}
                             component={FormTextField}
                             name="notificationKBShortcut"
                             className={classes.shortcutField}
@@ -94,3 +114,4 @@ export default function Shortcuts() {
         </>
     );
 }
+export default withI18N(injectIntl(Shortcuts), messages);

@@ -1,1 +1,22 @@
-export default {};
+export default {
+    PREFERENCES: "preferences",
+    GENERAL: "general",
+    EMAIL: "email",
+    KB_SHORTCUTS: "keyboarShortcuts",
+    REMEMBER_LAST_PATH_SWITCH: "rememberLastPastSwitch",
+    HPC_LOGIN_PROMPT_SWITCH: "hpcLoginPromptSwitch",
+    HPC_WAIT_TIMES_SWITCH: "hpcWaitTimesSwitch",
+    DEFAULT_OUTPUT_FOLDER: "defaultOutputFolder",
+    BROWSE_BUTTON: "browseButton",
+    ANALYSES_EMAIL_NOTIFICATION_SWITCH: "analysesEmailNotificationSwitch",
+    URL_IMPORT_EMAIL_NOTIFICATION_SWITCH: "urlImportEmailNotificationSwitch",
+    FOLDER_SELECTION_DRAWER: "folderSelectionDrawer",
+    APP_KB_SHORTCUT_TEXT: "appKbShortcutText",
+    DATA_KB_SHORTCUT_TEXT: "dataKbShortcutText",
+    ANALYSES_KB_SHORTCUT_TEXT: "analysesKbShortcutText",
+    NOTIFICATIONS_KB_SHORTCUT_TEXT: "notificationsKbShortcutText",
+    RESTORE_DEFAULT_BUTTON: "restoreDefaultButton",
+    SAVE_PREFERENCES_BUTTON: "savePreferencesButton",
+    CANCEL_BUTTON: "cancelButton",
+    OK_BUTTON: "okButton",
+};

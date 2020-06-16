@@ -79,7 +79,7 @@ export const PreferencesTest = () => {
     mockAxios.onGet(/\/api\/bootstrap*/).reply(200, props);
     return (
         <ConfigProvider config={testConfig}>
-            <Preferences />
+            <Preferences baseId="preferences" />
         </ConfigProvider>
     );
 };

@@ -2,15 +2,19 @@ import React, { useEffect, useState } from "react";
 
 import { Form, Formik } from "formik";
 import { useQuery } from "react-query";
+import { injectIntl } from "react-intl";
 
+import ids from "./ids";
+import messages from "./messages";
+import General from "./General";
+import Shortcuts from "./Shortcuts";
+import styles from "./styles";
 import { bootstrap } from "../../serviceFacades/users";
 import { getResourceDetails } from "../../serviceFacades/filesystem";
 import ErrorHandler from "../utils/error/ErrorHandler";
 import GridLoading from "../utils/GridLoading";
-import General from "./General";
-import Shortcuts from "./Shortcuts";
-import styles from "./styles";
 
+import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import {
     Button,
     Container,
@@ -27,7 +31,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(styles);
 
-export default function Preferences(props) {
+function Preferences(props) {
+    const { baseId } = props;
     const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(
         false
     );
@@ -155,6 +160,7 @@ export default function Preferences(props) {
                     {(props) => (
                         <Form>
                             <General
+                                baseId={build(baseId, ids.GENERAL)}
                                 defaultOutputFolder={defaultOutputFolder}
                                 isValidating={isFetchingStat}
                                 onNewDefaultOutputFolder={(newFolder) => {
@@ -172,26 +178,36 @@ export default function Preferences(props) {
                                 }
                             />
                             <Divider className={classes.dividers} />
-                            <Shortcuts />
+                            <Shortcuts
+                                baseId={build(baseId, ids.KB_SHORTCUTS)}
+                            />
                             <Grid container justify="flex-end" spacing={3}>
                                 <Grid item>
                                     <Button
+                                        id={build(
+                                            baseId,
+                                            ids.RESTORE_DEFAULT_BUTTON
+                                        )}
                                         className={classes.actionButton}
                                         color="primary"
                                         onClick={() =>
                                             setShowRestoreConfirmation(true)
                                         }
                                     >
-                                        Restore Defaults
+                                        {getMessage("restoreDefaultsBtnLbl")}
                                     </Button>
                                 </Grid>
                                 <Grid item>
                                     <Button
+                                        id={build(
+                                            baseId,
+                                            ids.SAVE_PREFERENCES_BUTTON
+                                        )}
                                         className={classes.actionButton}
                                         color="primary"
                                         type="submit"
                                     >
-                                        Save
+                                        {getMessage("saveBtnLbl")}
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -204,26 +220,27 @@ export default function Preferences(props) {
                                 <DialogTitle>Restore Defaults</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText>
-                                        Are you sure you would like to restore
-                                        defaults?
+                                        {getMessage("restoreConfirmation")}
                                     </DialogContentText>
                                 </DialogContent>
                                 <DialogActions>
                                     <Button
+                                        id={build(baseId, ids.OK_BUTTON)}
                                         onClick={restoreDefaults(
                                             props.setFieldValue
                                         )}
                                         color="primary"
                                     >
-                                        OK
+                                        {getMessage("okBtnLbl")}
                                     </Button>
                                     <Button
+                                        id={build(baseId, ids.CANCEL_BUTTON)}
                                         onClick={() =>
                                             setShowRestoreConfirmation(false)
                                         }
                                         color="primary"
                                     >
-                                        Cancel
+                                        {getMessage("cancelBtnLbl")}
                                     </Button>
                                 </DialogActions>
                             </Dialog>
@@ -234,3 +251,5 @@ export default function Preferences(props) {
         </Container>
     );
 }
+
+export default withI18N(injectIntl(Preferences), messages);

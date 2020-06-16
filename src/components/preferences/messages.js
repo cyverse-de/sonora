@@ -9,6 +9,7 @@ export default {
             "Display Warning about wait times for submitting HPC apps",
         defaultFolderHeaderLbl: "Default analysis output folder",
         emailNotificationsHeaderLbl: "Email Notifications",
+        general: "General",
         analysisStatusEmailLbl: "Email me when my analysis status changes",
         urlImportEmailLbl: "Email me when my URL import status changes",
         appsViewShortcutLbl: "Open apps view",
@@ -16,5 +17,10 @@ export default {
         analysesViewShortcutLbl: "Open analyses view",
         notificationViewShortcutLbl: "Open notifications view",
         keyboardShortcutHeaderLbl: "Keyboard Shortcuts",
+        saveBtnLbl: "Save",
+        cancelBtnLbl: "Cancel",
+        restoreDefaultsBtnLbl: "Restore Defaults",
+        okBtnLbl: "OK",
+        restoreConfirmation: "Are you sure you would like to restore defaults",
     },
 };

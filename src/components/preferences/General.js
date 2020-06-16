@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-
-import Typography from "@material-ui/core/Typography";
+import { injectIntl } from "react-intl";
 import { Field } from "formik";
 
+import styles from "./styles";
+import messages from "./messages";
+import ids from "./ids";
 import SelectionDrawer from "../data/SelectionDrawer";
 import ResourceTypes from "../models/ResourceTypes";
 import GridLabelValue from "../utils/GridLabelValue";
-import styles from "./styles";
 
-import { FormTextField } from "@cyverse-de/ui-lib";
+import { build, FormTextField, getMessage, withI18N } from "@cyverse-de/ui-lib";
 
 import {
     Button,
@@ -17,13 +18,16 @@ import {
     Grid,
     InputAdornment,
     Switch,
+    Typography,
 } from "@material-ui/core";
+
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(styles);
 
-export default function General(props) {
+function General(props) {
     const {
+        baseId,
         defaultOutputFolder,
         onNewDefaultOutputFolder,
         isValidating,
@@ -52,14 +56,15 @@ export default function General(props) {
     return (
         <>
             <Typography variant="h6" className={classes.sectionHeader}>
-                General
+                {getMessage("general")}
             </Typography>
             <Grid container spacing={2} className={classes.grid}>
                 <GridLabelValue
-                    label="Remember last file path for Apps"
+                    label={getMessage("rememberLastPathLbl")}
                     labelVariant="body1"
                 >
                     <Field
+                        id={build(baseId, ids.REMEMBER_LAST_PATH_SWITCH)}
                         component={FormSwitch}
                         name="rememberLastPath"
                         color="primary"
@@ -67,10 +72,11 @@ export default function General(props) {
                     />
                 </GridLabelValue>
                 <GridLabelValue
-                    label="Prompt for HPC apps authentication after log-on or when apps window is opened"
+                    label={getMessage("hpcPrompt")}
                     labelVariant="body1"
                 >
                     <Field
+                        id={build(baseId, ids.HPC_LOGIN_PROMPT_SWITCH)}
                         component={FormSwitch}
                         name="enableHPCPrompt"
                         color="primary"
@@ -78,10 +84,11 @@ export default function General(props) {
                     />
                 </GridLabelValue>
                 <GridLabelValue
-                    label="Display Warning about wait times for submitting HPC apps"
+                    label={getMessage("waitTimesWarning")}
                     labelVariant="body1"
                 >
                     <Field
+                        id={build(baseId, ids.HPC_WAIT_TIMES_SWITCH)}
                         component={FormSwitch}
                         name="enableWaitTimeMessage"
                         color="primary"
@@ -91,12 +98,13 @@ export default function General(props) {
             </Grid>
             <Divider className={classes.dividers} />
             <Typography variant="h6" className={classes.sectionHeader}>
-                Default analysis output folder
+                {getMessage("defaultFolderHeaderLbl")}
             </Typography>
             <Grid container spacing={3} className={classes.grid}>
                 <Grid item>
                     <>
                         <Field
+                            id={build(baseId, ids.DEFAULT_OUTPUT_FOLDER)}
                             component={FormTextField}
                             className={classes.textField}
                             name="defaultOutputFolder"
@@ -133,6 +141,7 @@ export default function General(props) {
                         />
                         <Button
                             color="primary"
+                            id={build(baseId, ids.BROWSE_BUTTON)}
                             className={classes.actionButton}
                             onClick={() => setOpenFileBrowser(true)}
                             variant="outlined"
@@ -145,14 +154,18 @@ export default function General(props) {
             </Grid>
             <Divider className={classes.dividers} />
             <Typography variant="h6" className={classes.sectionHeader}>
-                Email Notifications
+                {getMessage("emailNotificationsHeaderLbl")}
             </Typography>
             <Grid container spacing={3} className={classes.grid}>
                 <GridLabelValue
-                    label="Email me when my analysis status changes"
+                    label={getMessage("analysisStatusEmailLbl")}
                     labelVariant="body1"
                 >
                     <Field
+                        id={build(
+                            baseId,
+                            ids.ANALYSES_EMAIL_NOTIFICATION_SWITCH
+                        )}
                         component={FormSwitch}
                         name="enableAnalysisEmailNotification"
                         color="primary"
@@ -160,10 +173,14 @@ export default function General(props) {
                     />
                 </GridLabelValue>
                 <GridLabelValue
-                    label="Email me when my URL import status changes"
+                    label={getMessage("urlImportEmailLbl")}
                     labelVariant="body1"
                 >
                     <Field
+                        id={build(
+                            baseId,
+                            ids.URL_IMPORT_EMAIL_NOTIFICATION_SWITCH
+                        )}
                         component={FormSwitch}
                         name="enableImportEmailNotification"
                         color="primary"
@@ -173,6 +190,7 @@ export default function General(props) {
             </Grid>
             {defaultOutputFolder && (
                 <SelectionDrawer
+                    id={build(baseId, ids.FOLDER_SELECTION_DRAWER)}
                     open={openFileBrowser}
                     onClose={() => setOpenFileBrowser(false)}
                     startingPath={defaultOutputFolder}
@@ -188,3 +206,5 @@ export default function General(props) {
         </>
     );
 }
+
+export default withI18N(injectIntl(General), messages);

@@ -13,7 +13,7 @@ const getUserInfo = ({ userIds }) => {
     });
 };
 
-function getUserProfile(key) {
+function getUserProfile() {
     return callApi({
         endpoint: "/api/profile",
         method: "GET",
@@ -21,7 +21,7 @@ function getUserProfile(key) {
     });
 }
 
-function bootstrap(key) {
+function bootstrap() {
     return callApi({
         endpoint: "/api/bootstrap?ip-address=127.0.0.1",
         method: "GET",
@@ -29,4 +29,12 @@ function bootstrap(key) {
     });
 }
 
-export { getUserInfo, getUserProfile, bootstrap };
+function savePreferences(preferences) {
+    return callApi({
+        endpoint: "/api/preferences",
+        method: "POST",
+        body: preferences,
+    });
+}
+
+export { getUserInfo, getUserProfile, bootstrap, savePreferences };

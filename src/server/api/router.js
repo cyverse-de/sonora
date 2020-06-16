@@ -514,5 +514,18 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("add the POST /preferences handler");
+    api.post(
+        "/preferences",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/preferences",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

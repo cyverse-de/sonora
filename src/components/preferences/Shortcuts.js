@@ -7,9 +7,9 @@ import styles from "./styles";
 import messages from "./messages";
 import GridLabelValue from "../utils/GridLabelValue";
 
-import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build, getMessage, FormTextField, withI18N } from "@cyverse-de/ui-lib";
 
-import { Grid, TextField, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(styles);
@@ -18,12 +18,12 @@ function Shortcuts(props) {
     const { baseId } = props;
     const classes = useStyles();
 
-    const onTextChange = (setFieldValue, fieldName) => (event, value) => {
+    /*  const onTextChange = (setFieldValue, fieldName) => (event, value) => {
         const new_value = event.target.value;
         setFieldValue(fieldName, new_value);
-    };
+    }; */
 
-    const FormTextField = ({
+    /*   const FormTextField = ({
         field: { value, onChange, ...field },
         form: { setFieldValue },
         ...custom
@@ -35,7 +35,7 @@ function Shortcuts(props) {
             inputProps={{ maxLength: 1 }}
             {...custom}
         />
-    );
+    ); */
 
     return (
         <>
@@ -56,6 +56,8 @@ function Shortcuts(props) {
                             component={FormTextField}
                             name="appsKBShortcut"
                             className={classes.shortcutField}
+                            inputProps={{ maxLength: 1 }}
+                            variant="standard"
                         />
                     </>
                 </GridLabelValue>
@@ -72,6 +74,8 @@ function Shortcuts(props) {
                             component={FormTextField}
                             name="dataKBShortcut"
                             className={classes.shortcutField}
+                            inputProps={{ maxLength: 1 }}
+                            variant="standard"
                         />
                     </>
                 </GridLabelValue>
@@ -88,6 +92,8 @@ function Shortcuts(props) {
                             component={FormTextField}
                             name="analysisKBShortcut"
                             className={classes.shortcutField}
+                            inputProps={{ maxLength: 1 }}
+                            variant="standard"
                         />
                     </>
                 </GridLabelValue>
@@ -96,7 +102,7 @@ function Shortcuts(props) {
                     labelVariant="body1"
                 >
                     <>
-                        <Typography display="inline">
+                        <Typography component="span">
                             Control + Shift +
                         </Typography>
                         <Field
@@ -107,6 +113,8 @@ function Shortcuts(props) {
                             component={FormTextField}
                             name="notificationKBShortcut"
                             className={classes.shortcutField}
+                            inputProps={{ maxLength: 1 }}
+                            variant="standard"
                         />
                     </>
                 </GridLabelValue>

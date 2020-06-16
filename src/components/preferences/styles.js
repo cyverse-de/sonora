@@ -33,6 +33,7 @@ export default (theme) => ({
     shortcutField: {
         marginLeft: theme.spacing(1),
         width: 30,
+        top: -16,
     },
 
     section: {

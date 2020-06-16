@@ -36,7 +36,7 @@ function AppLaunchWizard(props) {
                 hasDeprecatedParams={hasDeprecatedParams}
             />
             {loading ? (
-                <AppLaunchFormSkeleton />
+                <AppLaunchFormSkeleton baseId={baseId} />
             ) : (
                 app &&
                 !(app.deleted || app.disabled || hasDeprecatedParams) && (

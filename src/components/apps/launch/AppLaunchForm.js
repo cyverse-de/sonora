@@ -513,7 +513,7 @@ const AppLaunchForm = (props) => {
             }) => (
                 <Form id={formId}>
                     {isSubmitting ? (
-                        <StepperSkeleton />
+                        <StepperSkeleton baseId={formId} />
                     ) : (
                         <Stepper
                             alternativeLabel

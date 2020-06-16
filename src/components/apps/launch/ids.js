@@ -1,3 +1,7 @@
+import UtilIds from "../../utils/ids";
+
+const LOADING_SKELETON = UtilIds.LOADING_SKELETON;
+
 export default {
     APP_LAUNCH_FORM: "templateForm",
     APP_LAUNCH_COMMENTS: "comments",
@@ -39,6 +43,7 @@ export default {
         STEP_NEXT: "stepNextButton",
     },
     LAUNCH_ANALYSIS_GROUP: "launchAnalysisGroup",
+    LOADING_SKELETON,
     RESOURCE_REQUESTS: {
         TOOL_CPU: "idToolCpu",
         TOOL_MEM: "idToolMem",

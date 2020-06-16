@@ -5,7 +5,11 @@
  */
 import React from "react";
 
+import ids from "./ids";
+
 import styles from "./styles";
+
+import { build as buildDebugId } from "@cyverse-de/ui-lib";
 
 import {
     BottomNavigation,
@@ -22,8 +26,8 @@ import { Skeleton } from "@material-ui/lab";
 
 const useStyles = makeStyles(styles);
 
-export const StepperSkeleton = () => (
-    <Skeleton width="100%">
+export const StepperSkeleton = ({ baseId }) => (
+    <Skeleton id={buildDebugId(baseId, ids.LOADING_SKELETON)} width="100%">
         <Stepper alternativeLabel nonLinear>
             <Step>
                 <StepButton>&nbsp;</StepButton>
@@ -40,12 +44,12 @@ export const BottomNavigationSkeleton = () => (
     </Skeleton>
 );
 
-export default () => {
+export default ({ baseId }) => {
     const classes = useStyles();
 
     return (
         <>
-            <StepperSkeleton />
+            <StepperSkeleton baseId={baseId} />
             <Container
                 component="div"
                 className={classes.stepContent}

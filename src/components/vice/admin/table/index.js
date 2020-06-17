@@ -178,6 +178,7 @@ const ActionButtons = ({
             ) : (
                 <>
                     <Button
+                        id={id(row.externalID, "button", "extendTimeLimit")}
                         variant="contained"
                         color="primary"
                         onClick={(event) =>
@@ -191,7 +192,9 @@ const ActionButtons = ({
                     >
                         {msg("extendTimeLimit")}
                     </Button>
+
                     <Button
+                        id={id(row.externalID, "button", "downloadInputs")}
                         variant="contained"
                         color="primary"
                         onClick={(event) =>
@@ -205,7 +208,9 @@ const ActionButtons = ({
                     >
                         {msg("downloadInputs")}
                     </Button>
+
                     <Button
+                        id={id(row.externalID, "button", "uploadOutputs")}
                         variant="contained"
                         color="primary"
                         onClick={(event) =>
@@ -219,7 +224,9 @@ const ActionButtons = ({
                     >
                         {msg("uploadOutputs")}
                     </Button>
+
                     <Button
+                        id={id(row.externalID, "button", "exit")}
                         variant="contained"
                         color="primary"
                         onClick={() =>
@@ -229,7 +236,9 @@ const ActionButtons = ({
                     >
                         {msg("exit")}
                     </Button>
+
                     <Button
+                        id={id(row.externalID, "button", "saveAndExit")}
                         variant="contained"
                         color="primary"
                         onClick={() =>

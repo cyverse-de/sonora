@@ -1,7 +1,7 @@
 export default {
     ANALYSES_EMAIL_NOTIFICATION_SWITCH: "analysesEmailNotificationSwitch",
     ANALYSES_KB_SHORTCUT_TEXT: "analysesKbShortcutText",
-    APP_KB_SHORTCUT_TEXT: "appKbShortcutText",
+    APPS_KB_SHORTCUT_TEXT: "appKbShortcutText",
     BROWSE_BUTTON: "browseButton",
     CANCEL_BUTTON: "cancelButton",
     DATA_KB_SHORTCUT_TEXT: "dataKbShortcutText",

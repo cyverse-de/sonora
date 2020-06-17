@@ -7,6 +7,7 @@ import { injectIntl } from "react-intl";
 import ids from "./ids";
 import messages from "./messages";
 import constants from "../../constants";
+import prefConstants from "./constants";
 import General from "./General";
 import Shortcuts from "./Shortcuts";
 import styles from "./styles";
@@ -50,6 +51,7 @@ function Preferences(props) {
     const [fetchDetailsKey, setFetchDetailsKey] = useState("");
     const [bootstrapError, setBootstrapError] = useState(null);
     const [defaultOutputFolder, setDefaultOutputFolder] = useState(null);
+    const [requireAgaveAuth, setRequireAgaveAuth] = useState(true);
     const [
         outputFolderValidationError,
         setOutputFolderValidationError,
@@ -67,6 +69,9 @@ function Preferences(props) {
         setBootstrapKey(null);
         console.log(JSON.stringify(pref));
         setUserPref(pref);
+        const session = respData?.session;
+        const agaveKey = session?.auth_redirect?.agave;
+        setRequireAgaveAuth(!agaveKey);
     };
 
     useEffect(() => {
@@ -119,8 +124,9 @@ function Preferences(props) {
                                 JSON.stringify(updatedBootstrap)
                         );
                         return updatedBootstrap;
+                    } else {
+                        return bootstrapData;
                     }
-                    return bootstrapData;
                 });
             },
             onError: (e) => {
@@ -170,29 +176,45 @@ function Preferences(props) {
 
     const restoreDefaults = (setFieldValue) => (event) => {
         console.log(
-            "defaultAnalysesFolder => " +
+            "default_output_folder.path => " +
                 userPref.system_default_output_dir.path
         );
-        setFieldValue("rememberLastPath", true);
-        setFieldValue("saveSession", true);
-        setFieldValue("enableImportEmailNotification", true);
-        setFieldValue("enableWaitTimeMessage", true);
-        setFieldValue("enableAnalysisEmailNotification", true);
-        setFieldValue("enableHPCPrompt", true);
-        setFieldValue("notificationKBShortcut", "N");
-        setFieldValue("dataKBShortcut", "D");
-        setFieldValue("closeKBShortcut", "Q");
-        setFieldValue("appsKBShortcut", "A");
-        setFieldValue("analysisKBShortcut", "Y");
+        setFieldValue(prefConstants.keys.REMEMBER_LAST_PATH, true);
         setFieldValue(
-            "defaultOutputFolder",
+            prefConstants.keys.ENABLE_ANALYSIS_EMAIL_NOTIFICATION,
+            true
+        );
+        setFieldValue(prefConstants.keys.ENABLE_WAIT_TIME_MESSAGE, true);
+        setFieldValue(
+            prefConstants.keys.ENABLE_IMPORT_EMAIL_NOTIFICATION,
+            true
+        );
+        setFieldValue(prefConstants.keys.ENABLE_HPC_PROMPT, true);
+        setFieldValue(
+            prefConstants.keys.NOTIFICATION_KB_SC,
+            prefConstants.defaults.NOTIFICATION_SC
+        );
+        setFieldValue(
+            prefConstants.keys.DATA_KB_SC,
+            prefConstants.defaults.DATA_SC
+        );
+        setFieldValue(
+            prefConstants.keys.APPS_KB_SC,
+            prefConstants.defaults.APPS_SC
+        );
+        setFieldValue(
+            prefConstants.keys.ANALYSES_KB_SC,
+            prefConstants.defaults.ANALYSES_SC
+        );
+        setFieldValue(
+            prefConstants.keys.DEFAULT_OUTPUT_FOLDER,
             userPref.system_default_output_dir.path
         );
         setShowRestoreConfirmation(false);
     };
 
     const setDefaultFolder = (setFieldValue, newFolder) => {
-        setFieldValue("defaultOutputFolder", newFolder);
+        setFieldValue(prefConstants.keys.DEFAULT_OUTPUT_FOLDER, newFolder);
         setDefaultOutputFolder(newFolder);
     };
 
@@ -215,6 +237,43 @@ function Preferences(props) {
             </>
         );
     }
+    const validateShortCuts = (values, props) => {
+        const errors = {};
+        let kbMap = new Map();
+        kbMap.set(
+            prefConstants.keys.APPS_KB_SC,
+            values[prefConstants.keys.APPS_KB_SC]
+        );
+        kbMap.set(
+            prefConstants.keys.DATA_KB_SC,
+            values[prefConstants.keys.DATA_KB_SC]
+        );
+        kbMap.set(
+            prefConstants.keys.ANALYSES_KB_SC,
+            values[prefConstants.keys.ANALYSES_KB_SC]
+        );
+        kbMap.set(
+            prefConstants.keys.NOTIFICATION_KB_SC,
+            values[prefConstants.keys.NOTIFICATION_KB_SC]
+        );
+        for (let [key1] of kbMap) {
+            for (let [key2] of kbMap) {
+                if (key1 !== key2) {
+                    if (kbMap.get(key1) === kbMap.get(key2)) {
+                        errors[key1] = formatMessage(
+                            intl,
+                            "duplcateShortcutError"
+                        );
+                        errors[key2] = formatMessage(
+                            intl,
+                            "duplcateShortcutError"
+                        );
+                    }
+                }
+            }
+        }
+        return errors;
+    };
 
     return (
         <>
@@ -231,6 +290,8 @@ function Preferences(props) {
                         initialValues={userPref}
                         onSubmit={handleSubmit}
                         enableReinitialize
+                        validate={validateShortCuts}
+                        validateOnChange={true}
                     >
                         {(props) => (
                             <Form>
@@ -251,6 +312,7 @@ function Preferences(props) {
                                     outputFolderValidationError={
                                         outputFolderValidationError
                                     }
+                                    requireAgaveAuth={requireAgaveAuth}
                                 />
                                 <Divider className={classes.dividers} />
                                 <Shortcuts

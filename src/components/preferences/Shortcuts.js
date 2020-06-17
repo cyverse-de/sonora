@@ -1,10 +1,12 @@
 import React from "react";
+
 import { injectIntl } from "react-intl";
 import { Field } from "formik";
 
 import ids from "./ids";
 import styles from "./styles";
 import messages from "./messages";
+import prefConstants from "./constants";
 import GridLabelValue from "../utils/GridLabelValue";
 
 import { build, getMessage, FormTextField, withI18N } from "@cyverse-de/ui-lib";
@@ -17,26 +19,6 @@ const useStyles = makeStyles(styles);
 function Shortcuts(props) {
     const { baseId } = props;
     const classes = useStyles();
-
-    /*  const onTextChange = (setFieldValue, fieldName) => (event, value) => {
-        const new_value = event.target.value;
-        setFieldValue(fieldName, new_value);
-    }; */
-
-    /*   const FormTextField = ({
-        field: { value, onChange, ...field },
-        form: { setFieldValue },
-        ...custom
-    }) => (
-        <TextField
-            value={value}
-            onChange={onTextChange(setFieldValue, field.name)}
-            size={"small"}
-            inputProps={{ maxLength: 1 }}
-            {...custom}
-        />
-    ); */
-
     return (
         <>
             <Typography variant="h6" className={classes.sectionHeader}>
@@ -49,15 +31,16 @@ function Shortcuts(props) {
                 >
                     <>
                         <Typography display="inline">
-                            Control + Shift +
+                            {prefConstants.defaults.KEYBOARD_SC_META_KEY}
                         </Typography>
                         <Field
-                            id={build(baseId, ids.APP_KB_SHORTCUT_TEXT)}
+                            id={build(baseId, ids.APPS_KB_SHORTCUT_TEXT)}
                             component={FormTextField}
-                            name="appsKBShortcut"
+                            name={prefConstants.keys.APPS_KB_SC}
                             className={classes.shortcutField}
                             inputProps={{ maxLength: 1 }}
                             variant="standard"
+                            required={true}
                         />
                     </>
                 </GridLabelValue>
@@ -67,15 +50,16 @@ function Shortcuts(props) {
                 >
                     <>
                         <Typography display="inline">
-                            Control + Shift +
+                            {prefConstants.defaults.KEYBOARD_SC_META_KEY}
                         </Typography>
                         <Field
                             id={build(baseId, ids.DATA_KB_SHORTCUT_TEXT)}
                             component={FormTextField}
-                            name="dataKBShortcut"
+                            name={prefConstants.keys.DATA_KB_SC}
                             className={classes.shortcutField}
                             inputProps={{ maxLength: 1 }}
                             variant="standard"
+                            required={true}
                         />
                     </>
                 </GridLabelValue>
@@ -85,15 +69,16 @@ function Shortcuts(props) {
                 >
                     <>
                         <Typography display="inline">
-                            Control + Shift +
+                            {prefConstants.defaults.KEYBOARD_SC_META_KEY}
                         </Typography>
                         <Field
                             id={build(baseId, ids.ANALYSES_KB_SHORTCUT_TEXT)}
                             component={FormTextField}
-                            name="analysisKBShortcut"
+                            name={prefConstants.keys.ANALYSES_KB_SC}
                             className={classes.shortcutField}
                             inputProps={{ maxLength: 1 }}
                             variant="standard"
+                            required={true}
                         />
                     </>
                 </GridLabelValue>
@@ -103,7 +88,7 @@ function Shortcuts(props) {
                 >
                     <>
                         <Typography component="span">
-                            Control + Shift +
+                            {prefConstants.defaults.KEYBOARD_SC_META_KEY}
                         </Typography>
                         <Field
                             id={build(
@@ -111,10 +96,11 @@ function Shortcuts(props) {
                                 ids.NOTIFICATIONS_KB_SHORTCUT_TEXT
                             )}
                             component={FormTextField}
-                            name="notificationKBShortcut"
+                            name={prefConstants.keys.NOTIFICATION_KB_SC}
                             className={classes.shortcutField}
                             inputProps={{ maxLength: 1 }}
                             variant="standard"
+                            required={true}
                         />
                     </>
                 </GridLabelValue>

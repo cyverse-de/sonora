@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { injectIntl } from "react-intl";
 import { Field } from "formik";
 
+import prefConstants from "./constants";
 import styles from "./styles";
 import messages from "./messages";
 import ids from "./ids";
@@ -32,6 +33,7 @@ function General(props) {
         onNewDefaultOutputFolder,
         isValidating,
         outputFolderValidationError,
+        requireAgaveAuth,
     } = props;
     const classes = useStyles();
     const [openFileBrowser, setOpenFileBrowser] = useState(false);
@@ -66,7 +68,7 @@ function General(props) {
                     <Field
                         id={build(baseId, ids.REMEMBER_LAST_PATH_SWITCH)}
                         component={FormSwitch}
-                        name="rememberLastPath"
+                        name={prefConstants.keys.REMEMBER_LAST_PATH}
                         color="primary"
                         inputProps={{ "aria-label": "primary checkbox" }}
                     />
@@ -78,7 +80,7 @@ function General(props) {
                     <Field
                         id={build(baseId, ids.HPC_LOGIN_PROMPT_SWITCH)}
                         component={FormSwitch}
-                        name="enableHPCPrompt"
+                        name={prefConstants.keys.ENABLE_HPC_PROMPT}
                         color="primary"
                         inputProps={{ "aria-label": "another checkbox" }}
                     />
@@ -90,7 +92,7 @@ function General(props) {
                     <Field
                         id={build(baseId, ids.HPC_WAIT_TIMES_SWITCH)}
                         component={FormSwitch}
-                        name="enableWaitTimeMessage"
+                        name={prefConstants.keys.ENABLE_WAIT_TIME_MESSAGE}
                         color="primary"
                         inputProps={{ "aria-label": "another checkbox" }}
                     />
@@ -107,7 +109,7 @@ function General(props) {
                             id={build(baseId, ids.DEFAULT_OUTPUT_FOLDER)}
                             component={FormTextField}
                             className={classes.textField}
-                            name="defaultOutputFolder"
+                            name={prefConstants.keys.DEFAULT_OUTPUT_FOLDER}
                             helperText={outputFolderValidationError}
                             error={outputFolderValidationError ? true : false}
                             // without this prop, there will be an exception in console
@@ -142,12 +144,11 @@ function General(props) {
                         <Button
                             color="primary"
                             id={build(baseId, ids.BROWSE_BUTTON)}
-                            className={classes.actionButton}
+                            className={classes.browseButton}
                             onClick={() => setOpenFileBrowser(true)}
                             variant="outlined"
-                            style={{ marginTop: 8, marginLeft: 8 }}
                         >
-                            Browse
+                            {getMessage("browse")}
                         </Button>
                     </>
                 </Grid>
@@ -167,7 +168,10 @@ function General(props) {
                             ids.ANALYSES_EMAIL_NOTIFICATION_SWITCH
                         )}
                         component={FormSwitch}
-                        name="enableAnalysisEmailNotification"
+                        name={
+                            prefConstants.keys
+                                .ENABLE_ANALYSIS_EMAIL_NOTIFICATION
+                        }
                         color="primary"
                         inputProps={{ "aria-label": "another checkbox" }}
                     />
@@ -182,10 +186,30 @@ function General(props) {
                             ids.URL_IMPORT_EMAIL_NOTIFICATION_SWITCH
                         )}
                         component={FormSwitch}
-                        name="enableImportEmailNotification"
+                        name={
+                            prefConstants.keys.ENABLE_IMPORT_EMAIL_NOTIFICATION
+                        }
                         color="primary"
                         inputProps={{ "aria-label": "another checkbox" }}
                     />
+                </GridLabelValue>
+            </Grid>
+            <Divider className={classes.dividers} />
+            <Typography variant="h6" className={classes.sectionHeader}>
+                {getMessage("resetHPCTokenLbl")}
+            </Typography>
+            <Grid container spacing={3} className={classes.grid}>
+                <GridLabelValue
+                    label={getMessage("resetHPCTokenPrompt")}
+                    labelVariant="body1"
+                >
+                    <Button
+                        color="primary"
+                        variant="outlined"
+                        disabled={!requireAgaveAuth}
+                    >
+                        {getMessage("resetHPCTokenLbl")}
+                    </Button>
                 </GridLabelValue>
             </Grid>
             {defaultOutputFolder && (

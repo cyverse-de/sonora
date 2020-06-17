@@ -32,11 +32,16 @@ export default (theme) => ({
 
     shortcutField: {
         marginLeft: theme.spacing(1),
-        width: 30,
+        width: 100,
         top: -16,
     },
 
     section: {
+        marginLeft: theme.spacing(1),
+    },
+
+    browseButton: {
+        marginTop: theme.spacing(1.2),
         marginLeft: theme.spacing(1),
     },
 });

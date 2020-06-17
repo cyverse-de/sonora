@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { useQuery, useMutation, queryCache } from "react-query";
 
@@ -217,10 +217,6 @@ const VICEAdminTabs = ({ data }) => {
     const tabPanelID = (name) => id(ids.ROOT, "admin", "tab-panels", name);
     const ariaControls = (name) => `vice-admin-tabs-${name}`;
 
-    const [analysisRows, setAnalysisRows] = useState(
-        data ? getAnalyses(data) : []
-    );
-
     const [mutantExit] = useMutation(exit, {
         onSuccess: () => queryCache.refetchQueries(getDataQueryName),
     });
@@ -236,6 +232,12 @@ const VICEAdminTabs = ({ data }) => {
     const [mutantDownloadInputs] = useMutation(downloadInputFiles, {
         onSuccess: () => queryCache.refetchQueries(getDataQueryName),
     });
+
+    const [analysisRows, setAnalysisRows] = useState([]);
+
+    useEffect(() => {
+        setAnalysisRows(getAnalyses(data));
+    }, [data]);
 
     const orderOfTabs = [
         "analyses",
@@ -327,7 +329,10 @@ const VICEAdminTabs = ({ data }) => {
 const VICEAdmin = () => {
     const classes = useStyles();
 
-    const { status, data, error } = useQuery(getDataQueryName, getData);
+    const { status, data, error } = useQuery(getDataQueryName, getData, {
+        refetchInterval: 10000,
+    });
+
     const isLoading = status === "loading";
     const hasErrored = status === "error";
 

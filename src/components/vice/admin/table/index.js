@@ -141,6 +141,7 @@ const ActionButtons = ({
         ["async-data", row.externalID],
         asyncData
     );
+
     const isLoading = status === "loading";
     const hasErrored = status === "error";
 
@@ -151,14 +152,17 @@ const ActionButtons = ({
     const onClick = (event, dataFn, msgKey) => {
         let tlErr;
         let tlData;
+
         try {
             tlData = dataFn(data.analysisID, row.externalID);
         } catch (err) {
             tlErr = err;
         }
+
         setAnchorEl(event.currentTarget);
         setPopperMessage(tlErr ? tlErr.message : msg(msgKey));
         setOpen(true);
+
         return tlData;
     };
 
@@ -304,6 +308,7 @@ const ExtendedDataCard = ({
                             >
                                 {column.name && `${column.name}:`}
                             </Typography>
+
                             <Typography
                                 variant="body2"
                                 align="left"
@@ -318,6 +323,7 @@ const ExtendedDataCard = ({
                     );
                 })}
             </div>
+
             {showActions && (
                 <ActionButtons
                     row={row}
@@ -486,6 +492,7 @@ const CollapsibleTable = ({
             >
                 {title}
             </Typography>
+
             <TableContainer classes={{ root: classes.root }}>
                 <Table id={tableID} classes={{ root: classes.table }}>
                     <EnhancedTableHead
@@ -496,6 +503,7 @@ const CollapsibleTable = ({
                         columnData={columns.slice(0, endColumn)}
                         onRequestSort={handleRequestSort}
                     ></EnhancedTableHead>
+
                     <TableBody>
                         {rows?.map((row, index) => (
                             <CollapsibleTableRow

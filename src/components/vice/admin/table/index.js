@@ -103,6 +103,11 @@ const useStyles = makeStyles((theme) => ({
             marginRight: theme.spacing(1),
         },
     },
+    paperPopper: {
+        border: "1px solid",
+        padding: theme.spacing(1),
+        backgroundColor: theme.palette.background.paper,
+    },
 }));
 
 const ActionButtonsSkeleton = () => {
@@ -236,12 +241,14 @@ const ActionButtons = ({
                     </Button>
 
                     <Popper
-                        id={id(data.analysisID, "popper")}
+                        id={id(row.externalID, "popper")}
                         open={open}
                         anchorEl={anchorEl}
                         placement="top"
                     >
-                        {popperMessage}
+                        <div className={classes.paperPopper}>
+                            {popperMessage}
+                        </div>
                     </Popper>
                 </>
             )}

@@ -33,7 +33,7 @@ import { Skeleton, TabList, TabContext, TabPanel } from "@material-ui/lab";
 
 import { JSONPath } from "jsonpath-plus";
 import efcs from "./filter/efcs";
-import { AppBar, Tab, Button } from "@material-ui/core";
+import { AppBar, Tab } from "@material-ui/core";
 
 const id = (...values) => buildID(ids.ROOT, ...values);
 
@@ -379,19 +379,6 @@ const VICEAdmin = () => {
                         addToFilters={addToFilters}
                         deleteFromFilters={deleteFromFilters}
                     />
-
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.refresh}
-                        onClick={() =>
-                            queryCache.refetchQueries(getDataQueryName, {
-                                force: true,
-                            })
-                        }
-                    >
-                        {msg("refresh")}
-                    </Button>
 
                     <VICEAdminTabs data={filteredData} />
                 </>

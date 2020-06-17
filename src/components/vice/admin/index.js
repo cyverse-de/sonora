@@ -33,7 +33,7 @@ import { Skeleton, TabList, TabContext, TabPanel } from "@material-ui/lab";
 
 import { JSONPath } from "jsonpath-plus";
 import efcs from "./filter/efcs";
-import { AppBar, Tab } from "@material-ui/core";
+import { AppBar, Tab, Button } from "@material-ui/core";
 
 const id = (...values) => buildID(ids.ROOT, ...values);
 
@@ -56,6 +56,10 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down("sm")]: {
             height: 32,
         },
+    },
+    refresh: {
+        marginBottom: theme.spacing(1),
+        marginTop: theme.spacing(1),
     },
 }));
 
@@ -323,9 +327,7 @@ const VICEAdminTabs = ({ data }) => {
 const VICEAdmin = () => {
     const classes = useStyles();
 
-    const { status, data, error } = useQuery(getDataQueryName, getData, {
-        refetchInterval: 10000,
-    });
+    const { status, data, error } = useQuery(getDataQueryName, getData);
     const isLoading = status === "loading";
     const hasErrored = status === "error";
 
@@ -372,6 +374,19 @@ const VICEAdmin = () => {
                         addToFilters={addToFilters}
                         deleteFromFilters={deleteFromFilters}
                     />
+
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.refresh}
+                        onClick={() =>
+                            queryCache.refetchQueries(getDataQueryName, {
+                                force: true,
+                            })
+                        }
+                    >
+                        {msg("refresh")}
+                    </Button>
 
                     <VICEAdminTabs data={filteredData} />
                 </>

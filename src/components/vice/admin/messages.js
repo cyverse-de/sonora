@@ -17,5 +17,6 @@ export default {
         configMaps: "ConfigMaps",
         ingresses: "Ingresses",
         adminTabs: "Admin Tabs",
+        refresh: "Refresh",
     },
 };

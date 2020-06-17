@@ -6,9 +6,12 @@ import prefConstants from "./constants";
 import styles from "./styles";
 import messages from "./messages";
 import ids from "./ids";
+
 import SelectionDrawer from "../data/SelectionDrawer";
 import ResourceTypes from "../models/ResourceTypes";
 import GridLabelValue from "../utils/GridLabelValue";
+
+import constants from "../../constants";
 
 import { build, FormTextField, getMessage, withI18N } from "@cyverse-de/ui-lib";
 
@@ -34,6 +37,7 @@ function General(props) {
         isValidating,
         outputFolderValidationError,
         requireAgaveAuth,
+        resetHPCToken,
     } = props;
     const classes = useStyles();
     const [openFileBrowser, setOpenFileBrowser] = useState(false);
@@ -206,7 +210,12 @@ function General(props) {
                     <Button
                         color="primary"
                         variant="outlined"
-                        disabled={!requireAgaveAuth}
+                        disabled={requireAgaveAuth}
+                        onClick={() =>
+                            resetHPCToken({
+                                systemId: constants.AGAVE_SYSTEM_ID,
+                            })
+                        }
                     >
                         {getMessage("resetHPCTokenLbl")}
                     </Button>

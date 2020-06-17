@@ -527,5 +527,25 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("add the DELETE /token-info handler");
+    api.delete(
+        "/token-info/:systemId",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/secured/oauth/token-info/:systemId",
+        })
+    );
+
+    logger.info("add the GET /redirect-uris handler");
+    api.get(
+        "/redirect-uris",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/secured/oauth/redirect-uris",
+        })
+    );
+
     return api;
 }

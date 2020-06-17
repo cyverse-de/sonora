@@ -12,13 +12,19 @@ import General from "./General";
 import Shortcuts from "./Shortcuts";
 import styles from "./styles";
 import { isWritable } from "../data/utils";
-import { bootstrap, savePreferences } from "../../serviceFacades/users";
+import {
+    bootstrap,
+    getRedirectURIs,
+    savePreferences,
+    resetToken,
+} from "../../serviceFacades/users";
 import { getResourceDetails } from "../../serviceFacades/filesystem";
 import ErrorHandler from "../utils/error/ErrorHandler";
 import GridLoading from "../utils/GridLoading";
 
 import {
     announce,
+    AnnouncerConstants,
     build,
     getMessage,
     formatMessage,
@@ -57,21 +63,27 @@ function Preferences(props) {
         setOutputFolderValidationError,
     ] = useState(null);
     const [bootstrapKey, setBootstrapKey] = useState("");
+    const [fetchRedirectURIsKey, setFetchRedirectURIsKey] = useState("");
+    const [hpcAuthUrl, setHPCAuthUrl] = useState("");
 
     const classes = useStyles();
 
     const preProcessData = (respData) => {
         let pref = respData.preferences;
-        pref.defaultOutputFolder =
-            pref.default_output_folder?.path ||
-            pref.system_default_output_dir.path;
-        setDefaultOutputFolder(pref.defaultOutputFolder);
+        setDefaultOutputFolder(
+            pref?.default_output_folder?.path ||
+                pref?.system_default_output_dir?.path
+        );
         setBootstrapKey(null);
         console.log(JSON.stringify(pref));
         setUserPref(pref);
         const session = respData?.session;
         const agaveKey = session?.auth_redirect?.agave;
-        setRequireAgaveAuth(!agaveKey);
+        if (agaveKey) {
+            setRequireAgaveAuth(true);
+        } else {
+            setRequireAgaveAuth(false);
+        }
     };
 
     useEffect(() => {
@@ -84,6 +96,21 @@ function Preferences(props) {
         }
     }, [userPref]);
 
+    useEffect(() => {
+        if (defaultOutputFolder) {
+            setFetchDetailsKey([
+                "dataResourceDetails",
+                { paths: [defaultOutputFolder] },
+            ]);
+        }
+    }, [defaultOutputFolder]);
+
+    useEffect(() => {
+        if (hpcAuthUrl) {
+            window.location.replace(hpcAuthUrl);
+        }
+    }, [hpcAuthUrl]);
+
     const { isFetching } = useQuery({
         queryKey: bootstrapKey,
         queryFn: bootstrap,
@@ -94,15 +121,6 @@ function Preferences(props) {
             cacheTime: Infinity,
         },
     });
-
-    useEffect(() => {
-        if (defaultOutputFolder) {
-            setFetchDetailsKey([
-                "dataResourceDetails",
-                { paths: [defaultOutputFolder] },
-            ]);
-        }
-    }, [defaultOutputFolder]);
 
     const [preferences, { status: prefMutationStatus }] = useMutation(
         savePreferences,
@@ -135,6 +153,40 @@ function Preferences(props) {
         }
     );
 
+    const [resetHPCToken, { status: resetTokenStatus }] = useMutation(
+        resetToken,
+        {
+            onSuccess: () => {
+                announce({
+                    text: "Token reset successfully.",
+                    variant: AnnouncerConstants.SUCCESS,
+                });
+                setFetchRedirectURIsKey("getRedirectURIs");
+                setRequireAgaveAuth(true);
+            },
+            onError: (e) => {
+                setBootstrapError(e);
+            },
+        }
+    );
+
+    const { isFetching: isFetchingURIs } = useQuery({
+        queryKey: fetchRedirectURIsKey,
+        queryFn: getRedirectURIs,
+        config: {
+            onSuccess: (resp) => {
+                console.log("uris=>" + JSON.stringify(resp));
+                const redirectUrl = resp[constants.AGAVE_SYSTEM_ID];
+                if (redirectUrl) {
+                    setHPCAuthUrl(redirectUrl);
+                }
+            },
+            onError: (e) => {
+                console.log("error getting redirect URIs");
+            },
+        },
+    });
+
     const { isFetching: isFetchingStat } = useQuery({
         queryKey: fetchDetailsKey,
         queryFn: getResourceDetails,
@@ -159,19 +211,25 @@ function Preferences(props) {
         },
     });
 
-    const handleSubmit = (values, actions) => {
-        if (outputFolderValidationError) {
-            console.log("validation error");
-            announce({
-                text: formatMessage(intl, "validationMessage"),
-            });
+    const handleSubmit = (values) => {
+        if (prefMutationStatus !== constants.LOADING) {
+            if (outputFolderValidationError) {
+                console.log("validation error");
+                announce({
+                    text: formatMessage(intl, "validationMessage"),
+                });
+            } else {
+                const updatedPref = values;
+                updatedPref.default_output_folder.id =
+                    values.defaultOutputFolder;
+                updatedPref.default_output_folder.path =
+                    values.defaultOutputFolder;
+                preferences(updatedPref);
+            }
+            console.log(values);
         } else {
-            const updatedPref = values;
-            updatedPref.default_output_folder.id = values.defaultOutputFolder;
-            updatedPref.default_output_folder.path = values.defaultOutputFolder;
-            preferences(updatedPref);
+            console.log("Current submission is in progress!");
         }
-        console.log(values);
     };
 
     const restoreDefaults = (setFieldValue) => (event) => {
@@ -277,11 +335,17 @@ function Preferences(props) {
 
     return (
         <>
-            {prefMutationStatus === constants.LOADING && (
+            {(prefMutationStatus === constants.LOADING ||
+                resetTokenStatus === constants.LOADING ||
+                isFetchingURIs) && (
                 <CircularProgress
                     size={30}
                     thickness={5}
-                    style={{ position: "absolute", top: "50%", left: "50%" }}
+                    style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                    }}
                 />
             )}
             <Container className={classes.root}>
@@ -313,6 +377,7 @@ function Preferences(props) {
                                         outputFolderValidationError
                                     }
                                     requireAgaveAuth={requireAgaveAuth}
+                                    resetHPCToken={resetHPCToken}
                                 />
                                 <Divider className={classes.dividers} />
                                 <Shortcuts

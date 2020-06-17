@@ -37,4 +37,27 @@ function savePreferences(preferences) {
     });
 }
 
-export { getUserInfo, getUserProfile, bootstrap, savePreferences };
+function resetToken({ systemId }) {
+    return callApi({
+        endpoint: `/api/token-info/${systemId}`,
+        method: "DELETE",
+        credentials: "include",
+    });
+}
+
+function getRedirectURIs() {
+    return callApi({
+        endpoint: "/api/redirect-uris",
+        method: "GET",
+        credentials: "include",
+    });
+}
+
+export {
+    getUserInfo,
+    getUserProfile,
+    bootstrap,
+    savePreferences,
+    resetToken,
+    getRedirectURIs,
+};

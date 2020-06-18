@@ -37,4 +37,14 @@ export default {
     APP_UNFAVORITE: "appUnFavorite",
     TOOLS_USED: "toolsUsed",
     AVERAGE_RATING: "averageRating",
+    QUICK_LAUNCH: {
+        name: "name",
+        description: "description",
+        public: "public",
+        create: "createQL",
+        cancel: "cancelCreateQL",
+        useQuickLaunch: "useQL",
+        shareQuickLaunch: "shareQL",
+        embedQuickLaunch: "embedQL",
+    },
 };

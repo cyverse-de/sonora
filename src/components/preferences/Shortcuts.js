@@ -1,3 +1,10 @@
+/**
+ *
+ * @author Jack Mitt, sriram
+ * Keyboard shortcut user preferences
+ *
+ *
+ */
 import React from "react";
 
 import { injectIntl } from "react-intl";

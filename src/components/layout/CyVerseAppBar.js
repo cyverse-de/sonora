@@ -21,7 +21,12 @@ import NavigationConstants from "../../common/NavigationConstants";
 import Notifications from "./Notifications";
 import CustomIntercom from "./CustomIntercom";
 import { useUserProfile } from "../../contexts/userProfile";
-import { getUserProfile, bootstrap } from "../../serviceFacades/users";
+import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
+import {
+    getUserProfile,
+    bootstrap,
+    BOOTSTRAP_KEY,
+} from "../../serviceFacades/users";
 
 import {
     build,
@@ -216,6 +221,7 @@ function CyverseAppBar(props) {
         setAppBarRef,
         intercomUnreadCount,
         clientConfig,
+        showErrorAnnouncer,
     } = props;
     const [userProfile, setUserProfile] = useUserProfile();
     const [avatarLetter, setAvatarLetter] = useState("");
@@ -261,15 +267,33 @@ function CyverseAppBar(props) {
                 setAdminUser(adminMemberships.length > 0);
             }
 
-            queryCache.prefetchQuery("bootstrap", "", bootstrap, {
+            queryCache.prefetchQuery(BOOTSTRAP_KEY, "", bootstrap, {
                 staleTime: Infinity,
                 cacheTime: Infinity,
+                retry: 3,
+                //copied from react-query doc. Add exponential delay for retry.
+                retryDelay: (attempt) =>
+                    Math.min(
+                        attempt > 1 ? 2 ** attempt * 1000 : 1000,
+                        30 * 1000
+                    ),
                 onError: (e) => {
-                    console.log("Error on bootstrap!" + e);
+                    showErrorAnnouncer(
+                        formatMessage(intl, "bootstrapError"),
+                        e
+                    );
                 },
             });
         }
-    }, [userProfile, adminUser, setAdminUser, setAvatarLetter, config]);
+    }, [
+        userProfile,
+        adminUser,
+        setAdminUser,
+        setAvatarLetter,
+        config,
+        intl,
+        showErrorAnnouncer,
+    ]);
 
     const handleUserButtonClick = (event) => {
         toggleDrawer(false);
@@ -454,31 +478,33 @@ function CyverseAppBar(props) {
                 </Tooltip>
             </Hidden>
             <Divider />
-            <Tooltip
-                title={formatMessage(intl, "settings")}
-                placement="right"
-                arrow
-            >
-                <ListItem
-                    id={build(ids.DRAWER_MENU, ids.SETTINGS_MI)}
-                    onClick={() =>
-                        router.push("/" + NavigationConstants.SETTINGS)
-                    }
-                    className={
-                        activeView === NavigationConstants.SETTINGS
-                            ? classes.listItemActive
-                            : classes.listItem
-                    }
+            {userProfile?.id && (
+                <Tooltip
+                    title={formatMessage(intl, "settings")}
+                    placement="right"
+                    arrow
                 >
-                    <ListItemIcon>
-                        <SettingsIcon
-                            className={classes.icon}
-                            fontSize="large"
-                        />
-                    </ListItemIcon>
-                    <ListItemText>{getMessage("settings")}</ListItemText>
-                </ListItem>
-            </Tooltip>
+                    <ListItem
+                        id={build(ids.DRAWER_MENU, ids.SETTINGS_MI)}
+                        onClick={() =>
+                            router.push("/" + NavigationConstants.SETTINGS)
+                        }
+                        className={
+                            activeView === NavigationConstants.SETTINGS
+                                ? classes.listItemActive
+                                : classes.listItem
+                        }
+                    >
+                        <ListItemIcon>
+                            <SettingsIcon
+                                className={classes.icon}
+                                fontSize="large"
+                            />
+                        </ListItemIcon>
+                        <ListItemText>{getMessage("settings")}</ListItemText>
+                    </ListItem>
+                </Tooltip>
+            )}
         </List>
     );
 
@@ -677,4 +703,7 @@ function CyverseAppBar(props) {
     );
 }
 
-export default withI18N(injectIntl(CyverseAppBar), intlData);
+export default withI18N(
+    injectIntl(withErrorAnnouncer(CyverseAppBar)),
+    intlData
+);

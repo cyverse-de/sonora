@@ -1,3 +1,11 @@
+/**
+ *
+ * @author Jack Mitt, sriram
+ * General user preferences
+ *
+ *
+ */
+
 import React, { useState } from "react";
 import { injectIntl } from "react-intl";
 import { Field } from "formik";
@@ -43,7 +51,6 @@ function General(props) {
     const [openFileBrowser, setOpenFileBrowser] = useState(false);
 
     const onSwitchChange = (setFieldValue, fieldName) => (event, checked) => {
-        console.log(fieldName);
         setFieldValue(fieldName, checked);
     };
 
@@ -232,7 +239,7 @@ function General(props) {
                         setOpenFileBrowser(false);
                         onNewDefaultOutputFolder(selection);
                     }}
-                    baseId="dataSelection"
+                    baseId={baseId}
                     multiSelect={false}
                 />
             )}

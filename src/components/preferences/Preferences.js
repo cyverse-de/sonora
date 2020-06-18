@@ -1,3 +1,10 @@
+/**
+ * @author Jack Mitt, sriram
+ *
+ *  Diaplay user preferences.
+ *
+ *
+ */
 import React, { useEffect, useState } from "react";
 
 import { Form, Formik } from "formik";
@@ -11,16 +18,19 @@ import prefConstants from "./constants";
 import General from "./General";
 import Shortcuts from "./Shortcuts";
 import styles from "./styles";
+
 import { isWritable } from "../data/utils";
+
 import {
     bootstrap,
     getRedirectURIs,
     savePreferences,
     resetToken,
+    BOOTSTRAP_KEY,
 } from "../../serviceFacades/users";
 import { getResourceDetails } from "../../serviceFacades/filesystem";
-import ErrorHandler from "../utils/error/ErrorHandler";
 import GridLoading from "../utils/GridLoading";
+import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 
 import {
     announce,
@@ -49,13 +59,12 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(styles);
 
 function Preferences(props) {
-    const { baseId, intl } = props;
+    const { baseId, intl, showErrorAnnouncer } = props;
     const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(
         false
     );
     const [userPref, setUserPref] = useState({});
     const [fetchDetailsKey, setFetchDetailsKey] = useState("");
-    const [bootstrapError, setBootstrapError] = useState(null);
     const [defaultOutputFolder, setDefaultOutputFolder] = useState(null);
     const [requireAgaveAuth, setRequireAgaveAuth] = useState(true);
     const [
@@ -75,7 +84,6 @@ function Preferences(props) {
                 pref?.system_default_output_dir?.path
         );
         setBootstrapKey(null);
-        console.log(JSON.stringify(pref));
         setUserPref(pref);
         const session = respData?.session;
         const agaveKey = session?.auth_redirect?.agave;
@@ -88,11 +96,11 @@ function Preferences(props) {
 
     useEffect(() => {
         //get from cache if not fetch now.
-        const prefCache = queryCache.getQueryData("bootstrap");
+        const prefCache = queryCache.getQueryData(BOOTSTRAP_KEY);
         if (prefCache) {
             preProcessData(prefCache);
         } else {
-            setBootstrapKey("bootstrap");
+            setBootstrapKey(BOOTSTRAP_KEY);
         }
     }, [userPref]);
 
@@ -116,7 +124,9 @@ function Preferences(props) {
         queryFn: bootstrap,
         config: {
             onSuccess: (respData) => preProcessData(respData),
-            onError: (e) => setBootstrapError(e),
+            onError: (e) => {
+                showErrorAnnouncer(formatMessage(intl, "bootstrapError"), e);
+            },
             staleTime: Infinity,
             cacheTime: Infinity,
         },
@@ -126,21 +136,17 @@ function Preferences(props) {
         savePreferences,
         {
             onSuccess: (updatedPref) => {
+                announce({
+                    text: formatMessage(intl, "prefSaveSuccess"),
+                    variant: AnnouncerConstants.SUCCESS,
+                });
                 //update preference in cache
                 queryCache.setQueryData("bootstrap", (bootstrapData) => {
-                    console.log("updated pref=>" + JSON.stringify(updatedPref));
-                    console.log(
-                        "bootstrap data=>" + JSON.stringify(bootstrapData)
-                    );
                     if (bootstrapData && updatedPref) {
                         const updatedBootstrap = {
                             ...bootstrapData,
                             preferences: { ...updatedPref.preferences },
                         };
-                        console.log(
-                            "updated bootstrap data=>" +
-                                JSON.stringify(updatedBootstrap)
-                        );
                         return updatedBootstrap;
                     } else {
                         return bootstrapData;
@@ -148,7 +154,7 @@ function Preferences(props) {
                 });
             },
             onError: (e) => {
-                setBootstrapError(e);
+                showErrorAnnouncer(formatMessage(intl, "savePrefError"), e);
             },
         }
     );
@@ -158,14 +164,14 @@ function Preferences(props) {
         {
             onSuccess: () => {
                 announce({
-                    text: "Token reset successfully.",
+                    text: formatMessage(intl, "resetTokenSuccess"),
                     variant: AnnouncerConstants.SUCCESS,
                 });
                 setFetchRedirectURIsKey("getRedirectURIs");
                 setRequireAgaveAuth(true);
             },
             onError: (e) => {
-                setBootstrapError(e);
+                showErrorAnnouncer(formatMessage(intl, "resetTokenError"), e);
             },
         }
     );
@@ -175,14 +181,13 @@ function Preferences(props) {
         queryFn: getRedirectURIs,
         config: {
             onSuccess: (resp) => {
-                console.log("uris=>" + JSON.stringify(resp));
                 const redirectUrl = resp[constants.AGAVE_SYSTEM_ID];
                 if (redirectUrl) {
                     setHPCAuthUrl(redirectUrl);
                 }
             },
             onError: (e) => {
-                console.log("error getting redirect URIs");
+                showErrorAnnouncer(formatMessage(intl, "redirectError"), e);
             },
         },
     });
@@ -194,7 +199,6 @@ function Preferences(props) {
             onSuccess: (resp) => {
                 const details = resp?.paths[defaultOutputFolder];
                 if (!isWritable(details?.permission)) {
-                    console.log("permission=>" + details.permission);
                     setOutputFolderValidationError(
                         formatMessage(intl, "permissionSelectErrorMessage")
                     );
@@ -204,7 +208,6 @@ function Preferences(props) {
             },
         },
         onError: (e) => {
-            console.log("error getting stats");
             setOutputFolderValidationError(
                 formatMessage(intl, "permissionSelectErrorMessage")
             );
@@ -212,9 +215,9 @@ function Preferences(props) {
     });
 
     const handleSubmit = (values) => {
+        //preven dupe submission
         if (prefMutationStatus !== constants.LOADING) {
             if (outputFolderValidationError) {
-                console.log("validation error");
                 announce({
                     text: formatMessage(intl, "validationMessage"),
                 });
@@ -226,17 +229,10 @@ function Preferences(props) {
                     values.defaultOutputFolder;
                 preferences(updatedPref);
             }
-            console.log(values);
-        } else {
-            console.log("Current submission is in progress!");
         }
     };
 
     const restoreDefaults = (setFieldValue) => (event) => {
-        console.log(
-            "default_output_folder.path => " +
-                userPref.system_default_output_dir.path
-        );
         setFieldValue(prefConstants.keys.REMEMBER_LAST_PATH, true);
         setFieldValue(
             prefConstants.keys.ENABLE_ANALYSIS_EMAIL_NOTIFICATION,
@@ -276,12 +272,6 @@ function Preferences(props) {
         setDefaultOutputFolder(newFolder);
     };
 
-    if (bootstrapError) {
-        return (
-            <ErrorHandler errorObject={bootstrapError} baseId="preferences" />
-        );
-    }
-
     if (isFetching && !userPref) {
         return (
             <>
@@ -318,13 +308,14 @@ function Preferences(props) {
             for (let [key2] of kbMap) {
                 if (key1 !== key2) {
                     if (kbMap.get(key1) === kbMap.get(key2)) {
-                        errors[key1] = formatMessage(
-                            intl,
-                            "duplcateShortcutError"
-                        );
                         errors[key2] = formatMessage(
                             intl,
-                            "duplcateShortcutError"
+                            "duplicateShortcutError"
+                        );
+                    } else if (!kbMap.get(key1)) {
+                        errors[key1] = formatMessage(
+                            intl,
+                            "requiredShortcutError"
                         );
                     }
                 }
@@ -364,10 +355,6 @@ function Preferences(props) {
                                     defaultOutputFolder={defaultOutputFolder}
                                     isValidating={isFetchingStat}
                                     onNewDefaultOutputFolder={(newFolder) => {
-                                        console.log(
-                                            "new default output folder=>" +
-                                                newFolder
-                                        );
                                         setDefaultFolder(
                                             props.setFieldValue,
                                             newFolder
@@ -383,7 +370,7 @@ function Preferences(props) {
                                 <Shortcuts
                                     baseId={build(baseId, ids.KB_SHORTCUTS)}
                                 />
-                                <Grid container justify="flex-end" spacing={3}>
+                                <Grid container justify="flex-end">
                                     <Grid item>
                                         <Button
                                             id={build(
@@ -462,4 +449,4 @@ function Preferences(props) {
     );
 }
 
-export default withI18N(injectIntl(Preferences), messages);
+export default withI18N(injectIntl(withErrorAnnouncer(Preferences)), messages);

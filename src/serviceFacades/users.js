@@ -1,5 +1,7 @@
 import callApi from "../common/callApi";
 
+const BOOTSTRAP_KEY = "bootstrap";
+
 /**
  * Get user information including name, institution, email, etc.
  * @param userIds An array of user ids
@@ -54,6 +56,7 @@ function getRedirectURIs() {
 }
 
 export {
+    BOOTSTRAP_KEY,
     getUserInfo,
     getUserProfile,
     bootstrap,

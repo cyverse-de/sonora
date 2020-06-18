@@ -166,7 +166,7 @@ const columns = {
     ingresses: commonColumns,
 };
 
-const getAnalyses = ({ deployments }) => {
+const getAnalyses = ({ deployments = [] }) => {
     let analyses = {};
 
     // Should only need to interate through the deployments to find the
@@ -210,7 +210,7 @@ const VICEAdminSkeleton = () => {
     );
 };
 
-const VICEAdminTabs = ({ data }) => {
+const VICEAdminTabs = ({ data = {} }) => {
     const [value, setValue] = useState("0");
 
     const tabID = (name) => id(ids.ROOT, "admin", "tabs", name);

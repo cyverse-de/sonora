@@ -17,7 +17,6 @@ import {
     Paper,
     TableRow,
     Typography,
-    makeStyles,
     IconButton,
     useTheme,
     useMediaQuery,
@@ -27,88 +26,18 @@ import {
 
 import { Skeleton } from "@material-ui/lab";
 
+import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
+
 import { useQuery } from "react-query";
 
 import { asyncData } from "../../../../serviceFacades/vice/admin";
 
 import messages from "./messages";
 import ids from "./ids";
-import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
+import useStyles from "./styles";
 
 // Constructs an ID for an element.
 const id = (...names) => buildID(ids.BASE, ...names);
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: "100%",
-    },
-    paper: {
-        width: "100%",
-        marginBottom: theme.spacing(5),
-    },
-    title: {
-        padding: theme.spacing(2),
-    },
-    table: {
-        height: "100%",
-    },
-    extended: {
-        display: "flex",
-        flexWrap: "wrap",
-        flexShrink: 0,
-        flexGrow: 0,
-    },
-    row: {
-        "& > *": {
-            borderBottom: "unset",
-        },
-    },
-    dataEntry: {
-        [theme.breakpoints.up("xs")]: {
-            width: "100%",
-            marginLeft: 0,
-            marginRight: 0,
-            marginTop: theme.spacing(1),
-            marginBottom: theme.spacing(1),
-        },
-        [theme.breakpoints.up("sm")]: {
-            width: 300,
-            marginLeft: 0,
-            marginRight: 0,
-            marginTop: theme.spacing(1),
-            marginBottom: theme.spacing(1),
-        },
-        [theme.breakpoints.up("lg")]: {
-            width: 350,
-            marginTop: theme.spacing(2),
-            marginBottom: theme.spacing(2),
-            marginRight: theme.spacing(2),
-        },
-    },
-    dataEntryLabel: {
-        marginRight: theme.spacing(1),
-        fontWeight: 500,
-    },
-    actionButton: {
-        marginRight: theme.spacing(1),
-        marginBottom: theme.spacing(1),
-        marginTop: theme.spacing(1),
-    },
-    actions: {
-        marginLeft: theme.spacing(11),
-        marginRight: theme.spacing(11),
-
-        [theme.breakpoints.down("sm")]: {
-            marginLeft: theme.spacing(1),
-            marginRight: theme.spacing(1),
-        },
-    },
-    paperPopper: {
-        border: "1px solid",
-        padding: theme.spacing(1),
-        backgroundColor: theme.palette.background.paper,
-    },
-}));
 
 const ActionButtonsSkeleton = () => {
     return (
@@ -120,6 +49,21 @@ const ActionButtonsSkeleton = () => {
                 width="100%"
             />
         </>
+    );
+};
+
+const ActionButton = ({ baseID, name, handler, onClick }) => {
+    const classes = useStyles();
+    return (
+        <Button
+            id={id(baseID, "button", name)}
+            variant="contained"
+            color="primary"
+            onClick={(event) => onClick(event, handler, name)}
+            className={classes.actionButton}
+        >
+            {msg(name)}
+        </Button>
     );
 };
 
@@ -181,77 +125,40 @@ const ActionButtons = ({
                 <ActionButtonsSkeleton />
             ) : (
                 <>
-                    <Button
-                        id={id(row.externalID, "button", "extendTimeLimit")}
-                        variant="contained"
-                        color="primary"
-                        onClick={(event) =>
-                            onClick(
-                                event,
-                                handleExtendTimeLimit,
-                                "timeLimitExtended"
-                            )
-                        }
-                        className={classes.actionButton}
-                    >
-                        {msg("extendTimeLimit")}
-                    </Button>
+                    <ActionButton
+                        baseID={row.externalID}
+                        name="extendTimeLimit"
+                        handler={handleExtendTimeLimit}
+                        onClick={onClick}
+                    />
 
-                    <Button
-                        id={id(row.externalID, "button", "downloadInputs")}
-                        variant="contained"
-                        color="primary"
-                        onClick={(event) =>
-                            onClick(
-                                event,
-                                handleDownloadInputs,
-                                "downloadInputsCommandSent"
-                            )
-                        }
-                        className={classes.actionButton}
-                    >
-                        {msg("downloadInputs")}
-                    </Button>
+                    <ActionButton
+                        baseID={row.externalID}
+                        name="downloadInputs"
+                        handler={handleDownloadInputs}
+                        onClick={onClick}
+                    />
 
-                    <Button
-                        id={id(row.externalID, "button", "uploadOutputs")}
-                        variant="contained"
-                        color="primary"
-                        onClick={(event) =>
-                            onClick(
-                                event,
-                                handleUploadOutputs,
-                                "uploadOutputsCommandSent"
-                            )
-                        }
-                        className={classes.actionButton}
-                    >
-                        {msg("uploadOutputs")}
-                    </Button>
+                    <ActionButton
+                        baseID={row.externalID}
+                        name="uploadOutputs"
+                        handler={handleUploadOutputs}
+                        onClick={onClick}
+                    />
 
-                    <Button
-                        id={id(row.externalID, "button", "exit")}
-                        variant="contained"
-                        color="primary"
-                        onClick={() =>
-                            handleExit(data.analysisID, row.externalID)
-                        }
-                        className={classes.actionButton}
-                    >
-                        {msg("exit")}
-                    </Button>
+                    <ActionButton
+                        baseID={row.externalID}
+                        name="exit"
+                        handler={handleExit}
+                        onClick={onClick}
+                    />
 
-                    <Button
-                        id={id(row.externalID, "button", "saveAndExit")}
-                        variant="contained"
-                        color="primary"
-                        onClick={() =>
-                            handleSaveAndExit(data.analysisID, row.externalID)
-                        }
-                        className={classes.actionButton}
-                    >
-                        {msg("saveAndExit")}
-                    </Button>
+                    <ActionButton
+                        baseID={row.externalID}
+                        name="saveAndExit"
+                        handler={handleExit}
+                        onClick={onClick}
+                    />
 
                     <Popper
                         id={id(row.externalID, "popper")}

@@ -1,6 +1,6 @@
 /**
  *
- * @author sriram
+ * @author sriram, psarando
  *
  */
 import React from "react";
@@ -12,7 +12,6 @@ import intlData from "../messages";
 
 import {
     build,
-    DEDialogHeader,
     FormCheckbox,
     FormTextField,
     formatMessage,
@@ -20,25 +19,47 @@ import {
     withI18N,
 } from "@cyverse-de/ui-lib";
 
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import Tooltip from "@material-ui/core/Tooltip";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    IconButton,
+    Tooltip,
+    makeStyles,
+} from "@material-ui/core";
+import { Close } from "@material-ui/icons";
+
+const useStyles = makeStyles((theme) => ({
+    closeButton: {
+        float: "right",
+    },
+}));
 
 function CreateQuickLaunchDialog(props) {
-    const { dialogOpen, appName, presenter, intl, baseDebugId } = props;
+    const {
+        intl,
+        baseDebugId,
+        appName,
+        dialogOpen,
+        createQuickLaunch,
+        onHide,
+    } = props;
+
+    const classes = useStyles();
 
     const handleSubmit = (values, actions) => {
         actions.setSubmitting(true);
-        const { name, is_public } = values;
-        presenter.createQuickLaunch(
+        const { name, description, is_public } = values;
+
+        createQuickLaunch(
             name,
-            "",
+            description,
             is_public,
             () => {
                 actions.setSubmitting(false);
-                handleClose();
+                onHide();
             },
             (statusCode, errMessage) => {
                 actions.setSubmitting(false);
@@ -46,15 +67,22 @@ function CreateQuickLaunchDialog(props) {
         );
     };
 
-    const handleClose = () => {
-        presenter.onHideCreateQuickLaunchRequestDialog();
-    };
-
     return (
         <Dialog open={dialogOpen}>
-            <DEDialogHeader heading={appName} onClose={handleClose} />
+            <DialogTitle>
+                {appName}
+                <IconButton
+                    className={classes.closeButton}
+                    aria-label={formatMessage(intl, "cancelLabel")}
+                    onClick={onHide}
+                    size="small"
+                    edge="end"
+                >
+                    <Close />
+                </IconButton>
+            </DialogTitle>
             <Formik
-                initialValues={{ description: "", is_public: false }}
+                initialValues={{ name: "", description: "", is_public: false }}
                 enableReinitialize={true}
                 onSubmit={handleSubmit}
                 render={({ isSubmitting }) => (
@@ -90,13 +118,12 @@ function CreateQuickLaunchDialog(props) {
                                 id={build(baseDebugId, ids.QUICK_LAUNCH.cancel)}
                                 color="primary"
                                 disabled={isSubmitting}
-                                onClick={handleClose}
+                                onClick={onHide}
                             >
                                 {getMessage("cancelLabel")}
                             </Button>
                             <Button
                                 id={build(baseDebugId, ids.QUICK_LAUNCH.create)}
-                                style={{ float: "right" }}
                                 variant="contained"
                                 color="primary"
                                 type="submit"

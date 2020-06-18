@@ -1,25 +1,33 @@
-import React, { Component } from "react";
+import React from "react";
+
 import CreateQuickLaunchDialog from "../../../src/components/apps/quickLaunch/CreateQuickLaunchDialog";
 
-class CreateQuickLaunchDialogTest extends Component {
-    render() {
-        const presenter = {
-            createQuickLaunch: (name, description, isPublic) => {
-                console.log("Create Quick Launch", name, description, isPublic);
-            },
-            onHideCreateQuickLaunchRequestDialog: () => {
-                console.log("Close Quick Launch Dialog");
-            },
-        };
-        return (
-            <CreateQuickLaunchDialog
-                appName="All new word count"
-                dialogOpen={true}
-                isOwner={true}
-                presenter={presenter}
-            />
-        );
-    }
-}
+export const CreateDialog = () => {
+    const createQuickLaunch = (
+        name,
+        description,
+        isPublic,
+        onSuccess,
+        onError
+    ) => {
+        setTimeout(() => {
+            console.log("Create Quick Launch", name, description, isPublic);
+            onError();
+        }, 1000);
+    };
 
-export default CreateQuickLaunchDialogTest;
+    const onHide = () => {
+        console.log("Close Quick Launch Dialog");
+    };
+
+    return (
+        <CreateQuickLaunchDialog
+            appName="All new word count"
+            dialogOpen={true}
+            createQuickLaunch={createQuickLaunch}
+            onHide={onHide}
+        />
+    );
+};
+
+export default { title: "Apps / Quick Launch" };

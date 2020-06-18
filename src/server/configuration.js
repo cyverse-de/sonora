@@ -241,9 +241,3 @@ export const amqpUri = config.get("amqp.amqp_uri");
  *
  */
 export const amqpExchangeName = config.get("amqp.exchange_name");
-
-/**
- * Is irods home path
- * @type {string}
- */
-export const irodsHomePath = config.get("irods.home_path");

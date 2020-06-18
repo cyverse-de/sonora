@@ -1,5 +1,5 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import TestRenderer from "react-test-renderer";
 
 import { AppTiles } from "../../stories/apps/AppTile.stories";
 import { AppsTableViewTest } from "../../stories/apps/TableView.stories";
@@ -15,19 +15,16 @@ afterEach(() => {
 });
 
 test("App Tile renders", () => {
-    const component = renderer.create(<AppTiles />);
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    const component = TestRenderer.create(<AppTiles />);
+    component.unmount();
 });
 
 test("App Table view renders", () => {
-    const component = renderer.create(<AppsTableViewTest />);
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    const component = TestRenderer.create(<AppsTableViewTest />);
+    component.unmount();
 });
 
 test("App Listing view", () => {
-    const component = renderer.create(<AppsListingTest />);
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    const component = TestRenderer.create(<AppsListingTest />);
+    component.unmount();
 });

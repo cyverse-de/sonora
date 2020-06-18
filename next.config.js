@@ -4,6 +4,8 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
     enabled: process.env.ANALYZE === "true",
 });
 
+const ONE_GiB = 2 ** 30;
+
 module.exports = withBundleAnalyzer({
     publicRuntimeConfig: {
         INTERCOM_APP_ID: config.get("intercom.app_id"),
@@ -15,14 +17,14 @@ module.exports = withBundleAnalyzer({
         IRODS_HOME_PATH: config.get("irods.home_path"),
         TOOLS_PRIVATE_MAX_CPU_LIMIT: config.has("tools.private.max_cpu_limit")
             ? config.get("tools.private.max_cpu_limit")
-            : null,
+            : 8,
         TOOLS_PRIVATE_MAX_MEMORY_LIMIT: config.has(
             "tools.private.max_memory_limit"
         )
             ? config.get("tools.private.max_memory_limit")
-            : null,
+            : 16 * ONE_GiB,
         TOOLS_PRIVATE_MAX_DISK_LIMIT: config.has("tools.private.max_disk_limit")
             ? config.get("tools.private.max_disk_limit")
-            : null,
+            : 512 * ONE_GiB,
     },
 });

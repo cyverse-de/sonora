@@ -76,7 +76,7 @@ function Preferences(props) {
     const [bootstrapKey, setBootstrapKey] = useState("");
     const [fetchRedirectURIsKey, setFetchRedirectURIsKey] = useState("");
     const [hpcAuthUrl, setHPCAuthUrl] = useState("");
-
+    const ip = userProfile?.attributes.ip;
     const classes = useStyles();
 
     const preProcessData = (respData) => {
@@ -98,14 +98,14 @@ function Preferences(props) {
 
     useEffect(() => {
         //get from cache if not fetch now.
-        const ip = userProfile?.attributes.ip;
+
         const prefCache = queryCache.getQueryData([BOOTSTRAP_KEY, { ip }]);
         if (prefCache) {
             preProcessData(prefCache);
         } else {
             setBootstrapKey([BOOTSTRAP_KEY, { ip }]);
         }
-    }, [userPref, userProfile]);
+    }, [userPref, ip]);
 
     useEffect(() => {
         if (defaultOutputFolder) {
@@ -144,17 +144,20 @@ function Preferences(props) {
                     variant: AnnouncerConstants.SUCCESS,
                 });
                 //update preference in cache
-                queryCache.setQueryData("bootstrap", (bootstrapData) => {
-                    if (bootstrapData && updatedPref) {
-                        const updatedBootstrap = {
-                            ...bootstrapData,
-                            preferences: { ...updatedPref.preferences },
-                        };
-                        return updatedBootstrap;
-                    } else {
-                        return bootstrapData;
+                queryCache.setQueryData(
+                    [BOOTSTRAP_KEY, { ip }],
+                    (bootstrapData) => {
+                        if (bootstrapData && updatedPref) {
+                            const updatedBootstrap = {
+                                ...bootstrapData,
+                                preferences: { ...updatedPref.preferences },
+                            };
+                            return updatedBootstrap;
+                        } else {
+                            return bootstrapData;
+                        }
                     }
-                });
+                );
             },
             onError: (e) => {
                 showErrorAnnouncer(formatMessage(intl, "savePrefError"), e);

@@ -266,22 +266,26 @@ function CyverseAppBar(props) {
                 });
                 setAdminUser(adminMemberships.length > 0);
             }
-
-            queryCache.prefetchQuery(BOOTSTRAP_KEY, "", bootstrap, {
-                staleTime: Infinity,
-                cacheTime: Infinity,
-                retry: 3,
-                //copied from react-query doc. Add exponential delay for retry.
-                retryDelay: (attempt) =>
-                    Math.min(
-                        attempt > 1 ? 2 ** attempt * 1000 : 1000,
-                        30 * 1000
-                    ),
-                onError: (e) => {
-                    showErrorAnnouncer(
-                        formatMessage(intl, "bootstrapError"),
-                        e
-                    );
+            const ip = userProfile.attributes.ip;
+            queryCache.prefetchQuery({
+                queryKey: [BOOTSTRAP_KEY, { ip }],
+                queryFn: bootstrap,
+                config: {
+                    staleTime: Infinity,
+                    cacheTime: Infinity,
+                    retry: 3,
+                    //copied from react-query doc. Add exponential delay for retry.
+                    retryDelay: (attempt) =>
+                        Math.min(
+                            attempt > 1 ? 2 ** attempt * 1000 : 1000,
+                            30 * 1000
+                        ),
+                    onError: (e) => {
+                        showErrorAnnouncer(
+                            formatMessage(intl, "bootstrapError"),
+                            e
+                        );
+                    },
                 },
             });
         }

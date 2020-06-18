@@ -34,6 +34,7 @@ import {
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
+import { formatMessage } from "@cyverse-de/ui-lib/dist/cjs/util/I18NWrapper";
 
 const useStyles = makeStyles(styles);
 
@@ -46,6 +47,7 @@ function General(props) {
         outputFolderValidationError,
         requireAgaveAuth,
         resetHPCToken,
+        intl,
     } = props;
     const classes = useStyles();
     const [openFileBrowser, setOpenFileBrowser] = useState(false);
@@ -81,7 +83,12 @@ function General(props) {
                         component={FormSwitch}
                         name={prefConstants.keys.REMEMBER_LAST_PATH}
                         color="primary"
-                        inputProps={{ "aria-label": "primary checkbox" }}
+                        inputProps={{
+                            "aria-label": formatMessage(
+                                intl,
+                                "rememberLastPathLbl"
+                            ),
+                        }}
                     />
                 </GridLabelValue>
                 <GridLabelValue
@@ -93,7 +100,9 @@ function General(props) {
                         component={FormSwitch}
                         name={prefConstants.keys.ENABLE_HPC_PROMPT}
                         color="primary"
-                        inputProps={{ "aria-label": "another checkbox" }}
+                        inputProps={{
+                            "aria-label": formatMessage(intl, "hpcPrompt"),
+                        }}
                     />
                 </GridLabelValue>
                 <GridLabelValue
@@ -105,7 +114,12 @@ function General(props) {
                         component={FormSwitch}
                         name={prefConstants.keys.ENABLE_WAIT_TIME_MESSAGE}
                         color="primary"
-                        inputProps={{ "aria-label": "another checkbox" }}
+                        inputProps={{
+                            "aria-label": formatMessage(
+                                intl,
+                                "waitTimesWarning"
+                            ),
+                        }}
                     />
                 </GridLabelValue>
             </Grid>
@@ -184,7 +198,12 @@ function General(props) {
                                 .ENABLE_ANALYSIS_EMAIL_NOTIFICATION
                         }
                         color="primary"
-                        inputProps={{ "aria-label": "another checkbox" }}
+                        inputProps={{
+                            "aria-label": formatMessage(
+                                intl,
+                                "analysisStatusEmailLbl"
+                            ),
+                        }}
                     />
                 </GridLabelValue>
                 <GridLabelValue
@@ -201,7 +220,12 @@ function General(props) {
                             prefConstants.keys.ENABLE_IMPORT_EMAIL_NOTIFICATION
                         }
                         color="primary"
-                        inputProps={{ "aria-label": "another checkbox" }}
+                        inputProps={{
+                            "aria-label": formatMessage(
+                                intl,
+                                "urlImportEmailLbl"
+                            ),
+                        }}
                     />
                 </GridLabelValue>
             </Grid>

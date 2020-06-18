@@ -12,6 +12,7 @@ export default {
     HPC_LOGIN_PROMPT_SWITCH: "hpcLoginPromptSwitch",
     HPC_WAIT_TIMES_SWITCH: "hpcWaitTimesSwitch",
     KB_SHORTCUTS: "keyboarShortcuts",
+    LOADING_PROGRESS: "circularProgress",
     NOTIFICATIONS_KB_SHORTCUT_TEXT: "notificationsKbShortcutText",
     OK_BUTTON: "okButton",
     PREFERENCES: "preferences",

@@ -20,6 +20,7 @@ import Shortcuts from "./Shortcuts";
 import styles from "./styles";
 
 import { isWritable } from "../data/utils";
+import { useUserProfile } from "../../contexts/userProfile";
 
 import {
     bootstrap,
@@ -60,6 +61,7 @@ const useStyles = makeStyles(styles);
 
 function Preferences(props) {
     const { baseId, intl, showErrorAnnouncer } = props;
+    const [userProfile] = useUserProfile();
     const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(
         false
     );
@@ -100,9 +102,10 @@ function Preferences(props) {
         if (prefCache) {
             preProcessData(prefCache);
         } else {
-            setBootstrapKey(BOOTSTRAP_KEY);
+            const ip = userProfile?.attributes.ip;
+            setBootstrapKey([BOOTSTRAP_KEY, { ip }]);
         }
-    }, [userPref]);
+    }, [userPref, userProfile]);
 
     useEffect(() => {
         if (defaultOutputFolder) {
@@ -323,13 +326,15 @@ function Preferences(props) {
         }
         return errors;
     };
-
+    const busy =
+        prefMutationStatus === constants.LOADING ||
+        resetTokenStatus === constants.LOADING ||
+        isFetchingURIs;
     return (
         <>
-            {(prefMutationStatus === constants.LOADING ||
-                resetTokenStatus === constants.LOADING ||
-                isFetchingURIs) && (
+            {busy && (
                 <CircularProgress
+                    id={build(baseId, ids.LOADING_PROGRESS)}
                     size={30}
                     thickness={5}
                     style={{
@@ -349,7 +354,13 @@ function Preferences(props) {
                         validateOnChange={true}
                     >
                         {(props) => (
-                            <Form>
+                            <Form
+                                aria-busy={busy}
+                                aria-describedby={build(
+                                    baseId,
+                                    ids.LOADING_PROGRESS
+                                )}
+                            >
                                 <General
                                     baseId={build(baseId, ids.GENERAL)}
                                     defaultOutputFolder={defaultOutputFolder}

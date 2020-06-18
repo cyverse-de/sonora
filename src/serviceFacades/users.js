@@ -23,9 +23,9 @@ function getUserProfile() {
     });
 }
 
-function bootstrap() {
+function bootstrap(key, { ip }) {
     return callApi({
-        endpoint: "/api/bootstrap?ip-address=127.0.0.1",
+        endpoint: `/api/bootstrap?ip-address=${ip}`,
         method: "GET",
         credentials: "include",
     });

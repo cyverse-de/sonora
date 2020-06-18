@@ -251,7 +251,11 @@ const VICEAdminTabs = ({ data = {} }) => {
     return (
         <TabContext value={value}>
             <AppBar position="static" color="primary">
-                <TabList onChange={(_, newValue) => setValue(newValue)}>
+                <TabList
+                    onChange={(_, newValue) => setValue(newValue)}
+                    variant="scrollable"
+                    scrollButtons="auto"
+                >
                     {orderOfTabs.map((tabName, index) => (
                         <Tab
                             label={msg(tabName)}

@@ -52,14 +52,14 @@ const ActionButtonsSkeleton = () => {
     );
 };
 
-const ActionButton = ({ baseID, name, handler, onClick }) => {
+const ActionButton = ({ baseID, name, handler, onClick, popperMsgKey }) => {
     const classes = useStyles();
     return (
         <Button
             id={id(baseID, "button", name)}
             variant="contained"
             color="primary"
-            onClick={(event) => onClick(event, handler, name)}
+            onClick={(event) => onClick(event, handler, popperMsgKey)}
             className={classes.actionButton}
         >
             {msg(name)}
@@ -129,6 +129,7 @@ const ActionButtons = ({
                         baseID={row.externalID}
                         name="extendTimeLimit"
                         handler={handleExtendTimeLimit}
+                        popperMsgKey="timeLimitExtended"
                         onClick={onClick}
                     />
 
@@ -136,6 +137,7 @@ const ActionButtons = ({
                         baseID={row.externalID}
                         name="downloadInputs"
                         handler={handleDownloadInputs}
+                        popperMsgKey="downloadInputsCommandSent"
                         onClick={onClick}
                     />
 
@@ -143,6 +145,7 @@ const ActionButtons = ({
                         baseID={row.externalID}
                         name="uploadOutputs"
                         handler={handleUploadOutputs}
+                        popperMsgKey="uploadOutputsCommandSent"
                         onClick={onClick}
                     />
 
@@ -150,6 +153,7 @@ const ActionButtons = ({
                         baseID={row.externalID}
                         name="exit"
                         handler={handleExit}
+                        popperMsgKey="exitCommandSent"
                         onClick={onClick}
                     />
 
@@ -157,6 +161,7 @@ const ActionButtons = ({
                         baseID={row.externalID}
                         name="saveAndExit"
                         handler={handleExit}
+                        popperMsgKey="saveAndExitCommandSent"
                         onClick={onClick}
                     />
 

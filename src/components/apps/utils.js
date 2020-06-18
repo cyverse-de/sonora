@@ -1,7 +1,7 @@
 /**
  * @author psarando
  *
- * Utils for building page paths.
+ * Apps related utility functions.
  */
 import NavigationConstants from "../../common/NavigationConstants";
 

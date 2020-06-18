@@ -7,7 +7,7 @@
 import React from "react";
 
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 import constants from "../../../../constants";
 
@@ -53,6 +53,20 @@ export default () => {
         },
     });
 
+    const [submitAnalysisMutation] = useMutation(
+        ({ submission }) => submitAnalysis(submission),
+        {
+            onSuccess: (resp, { onSuccess }) => {
+                router.push(`/${NavigationConstants.ANALYSES}`);
+                onSuccess(resp);
+            },
+            onError: (error, { onError }) => {
+                onError(error);
+                setAppError(error);
+            },
+        }
+    );
+
     const loading = appStatus === constants.LOADING;
 
     // FIXME: notify, defaultOutputDir, and startingPath
@@ -84,16 +98,7 @@ export default () => {
             loading={loading}
             submitAnalysis={(submission, onSuccess, onError) => {
                 setAppError(null);
-
-                submitAnalysis(submission)
-                    .then((resp) => {
-                        onSuccess(resp);
-                        router.push(`/${NavigationConstants.ANALYSES}`);
-                    })
-                    .catch((error) => {
-                        onError(error);
-                        setAppError(error);
-                    });
+                submitAnalysisMutation({ submission, onSuccess, onError });
             }}
             saveQuickLaunch={(submission, onSuccess, onError) => {
                 // TODO

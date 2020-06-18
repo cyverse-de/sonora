@@ -98,11 +98,11 @@ function Preferences(props) {
 
     useEffect(() => {
         //get from cache if not fetch now.
-        const prefCache = queryCache.getQueryData(BOOTSTRAP_KEY);
+        const ip = userProfile?.attributes.ip;
+        const prefCache = queryCache.getQueryData([BOOTSTRAP_KEY, { ip }]);
         if (prefCache) {
             preProcessData(prefCache);
         } else {
-            const ip = userProfile?.attributes.ip;
             setBootstrapKey([BOOTSTRAP_KEY, { ip }]);
         }
     }, [userPref, userProfile]);

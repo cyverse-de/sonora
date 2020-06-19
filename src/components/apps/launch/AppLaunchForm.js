@@ -12,6 +12,8 @@ import { injectIntl } from "react-intl";
 
 import GlobalConstants from "../../../constants";
 
+import CreateQuickLaunchDialog from "../quickLaunch/CreateQuickLaunchDialog";
+
 import constants from "./constants";
 import ids from "./ids";
 import messages from "./messages";
@@ -367,6 +369,10 @@ const AppLaunchForm = (props) => {
         setReferenceGenomesLoading,
     ] = React.useState(false);
     const [reviewShowAll, setReviewShowAll] = React.useState(true);
+    const [
+        createQuickLaunchDialogOpen,
+        setCreateQuickLaunchDialogOpen,
+    ] = React.useState(false);
 
     const classes = useStyles();
 
@@ -379,7 +385,7 @@ const AppLaunchForm = (props) => {
         saveQuickLaunch,
         startingPath,
         submitAnalysis,
-        app: { app_type, groups, requirements },
+        app: { id: app_id, name: appName, app_type, groups, requirements },
     } = props;
 
     const formId = buildDebugId(baseId, ids.APP_LAUNCH_FORM);
@@ -480,13 +486,14 @@ const AppLaunchForm = (props) => {
         setActiveStep(step);
     };
 
-    const handleSaveQuickLaunch = (values, setSubmitting) => {
-        setSubmitting(true);
-
+    const handleSaveQuickLaunch = (quickLaunch, onSuccess, onError) => {
         saveQuickLaunch(
-            formatSubmission(defaultOutputDir, values),
-            () => setSubmitting(false),
-            (errorMsg) => setSubmitting(false)
+            quickLaunch,
+            () => {
+                onSuccess();
+                setCreateQuickLaunchDialogOpen(false);
+            },
+            onError
         );
     };
 
@@ -654,10 +661,38 @@ const AppLaunchForm = (props) => {
                             handleNext={handleNext}
                             handleSubmit={handleSubmit}
                             handleSaveQuickLaunch={() => {
-                                handleSaveQuickLaunch(values, setSubmitting);
+                                setCreateQuickLaunchDialogOpen(true);
                             }}
                         />
                     )}
+
+                    <CreateQuickLaunchDialog
+                        appName={appName}
+                        dialogOpen={createQuickLaunchDialogOpen}
+                        onHide={() => setCreateQuickLaunchDialogOpen(false)}
+                        createQuickLaunch={(
+                            name,
+                            description,
+                            is_public,
+                            onSuccess,
+                            onError
+                        ) => {
+                            handleSaveQuickLaunch(
+                                {
+                                    name,
+                                    description,
+                                    is_public,
+                                    app_id,
+                                    submission: formatSubmission(
+                                        defaultOutputDir,
+                                        values
+                                    ),
+                                },
+                                onSuccess,
+                                onError
+                            );
+                        }}
+                    />
                 </Form>
             )}
         </Formik>

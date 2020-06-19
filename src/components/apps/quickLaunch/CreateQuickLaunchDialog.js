@@ -7,6 +7,8 @@ import React from "react";
 import { Field, Form, Formik } from "formik";
 import { injectIntl } from "react-intl";
 
+import ErrorTypography from "../../utils/error/ErrorTypography";
+
 import ids from "../ids";
 import intlData from "../messages";
 
@@ -47,10 +49,14 @@ function CreateQuickLaunchDialog(props) {
         onHide,
     } = props;
 
+    const [saveError, setSaveError] = React.useState(null);
+
     const classes = useStyles();
 
     const handleSubmit = (values, actions) => {
         actions.setSubmitting(true);
+        setSaveError(null);
+
         const { name, description, is_public } = values;
 
         createQuickLaunch(
@@ -61,7 +67,8 @@ function CreateQuickLaunchDialog(props) {
                 actions.setSubmitting(false);
                 onHide();
             },
-            (statusCode, errMessage) => {
+            (saveError) => {
+                setSaveError(saveError);
                 actions.setSubmitting(false);
             }
         );
@@ -95,6 +102,7 @@ function CreateQuickLaunchDialog(props) {
                                 required={true}
                                 component={FormTextField}
                             />
+
                             <Tooltip
                                 title={formatMessage(intl, "publicQLTooltip")}
                             >
@@ -111,8 +119,15 @@ function CreateQuickLaunchDialog(props) {
                                     />
                                 </div>
                             </Tooltip>
-                            <br />
+
+                            <ErrorTypography
+                                errorMessage={
+                                    (saveError && saveError.message) ||
+                                    saveError
+                                }
+                            />
                         </DialogContent>
+
                         <DialogActions>
                             <Button
                                 id={build(baseDebugId, ids.QUICK_LAUNCH.cancel)}

@@ -12,7 +12,7 @@ export const CreateDialog = () => {
     ) => {
         setTimeout(() => {
             console.log("Create Quick Launch", name, description, isPublic);
-            onError();
+            onError("save success!");
         }, 1000);
     };
 

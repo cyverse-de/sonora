@@ -17,6 +17,7 @@ import { useConfig } from "../../../../contexts/config";
 import { useUserProfile } from "../../../../contexts/userProfile";
 
 import { submitAnalysis } from "../../../../serviceFacades/analyses";
+import { addQuickLaunch } from "../../../../serviceFacades/quickLaunches";
 import { getAppDescription } from "../../../../serviceFacades/apps";
 
 import AppLaunchWizard from "../../../../components/apps/launch/AppLaunchWizard";
@@ -67,6 +68,20 @@ export default () => {
         }
     );
 
+    const [addQuickLaunchMutation] = useMutation(
+        ({ quickLaunch }) => addQuickLaunch(quickLaunch),
+        {
+            onSuccess: (resp, { onSuccess }) => {
+                // TODO route to app details or QL listing page?
+                onSuccess(resp);
+            },
+            onError: (error, { onError }) => {
+                onError(error);
+                setAppError(error);
+            },
+        }
+    );
+
     const loading = appStatus === constants.LOADING;
 
     // FIXME: notify, defaultOutputDir, and startingPath
@@ -100,11 +115,9 @@ export default () => {
                 setAppError(null);
                 submitAnalysisMutation({ submission, onSuccess, onError });
             }}
-            saveQuickLaunch={(submission, onSuccess, onError) => {
-                // TODO
-                const errMsg = "Not yet implemented.";
-                onError(errMsg);
-                setAppError({ message: errMsg });
+            saveQuickLaunch={(quickLaunch, onSuccess, onError) => {
+                setAppError(null);
+                addQuickLaunchMutation({ quickLaunch, onSuccess, onError });
             }}
         />
     );

@@ -353,6 +353,19 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding the POST /quicklaunches handler");
+    api.post(
+        "/quicklaunches",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/quicklaunches",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the GET /tools handler");
     api.get(
         "/tools",

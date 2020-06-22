@@ -18,6 +18,7 @@ const intlData = {
         more: "More",
         newNotificationAriaLabel: "Show New Notifications",
         openDrawer: "Open Drawer",
+        refGenomes: "Reference Genomes",
         search: "Search...",
         searchAriaLabel: "search",
         searchButtonAriaControl: "search button",

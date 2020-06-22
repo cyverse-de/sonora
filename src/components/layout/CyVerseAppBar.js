@@ -536,6 +536,30 @@ function CyverseAppBar(props) {
                         <ListItemText>{t("vice")}</ListItemText>
                     </ListItem>
                 </Tooltip>
+                <Tooltip
+                    title={formatMessage(intl, "refGenomes")}
+                    placement="right"
+                    arrow
+                >
+                    <ListItem
+                        button
+                        id={build(ids.DRAWER_MENU, ids.REF_GENOME_MI)}
+                        className={clsx(classes.nested, classes.listItem)}
+                        onClick={() =>
+                            router.push(
+                                "/" +
+                                    NavigationConstants.ADMIN +
+                                    "/" +
+                                    NavigationConstants.REF_GENOMES
+                            )
+                        }
+                    >
+                        <ListItemIcon>
+                            <LabelImportantIcon className={classes.icon} />
+                        </ListItemIcon>
+                        <ListItemText>{getMessage("refGenomes")}</ListItemText>
+                    </ListItem>
+                </Tooltip>
             </List>
         </List>
     );

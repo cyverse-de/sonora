@@ -34,6 +34,7 @@ import { Skeleton, TabList, TabContext, TabPanel } from "@material-ui/lab";
 import { JSONPath } from "jsonpath-plus";
 import efcs from "./filter/efcs";
 import { AppBar, Tab } from "@material-ui/core";
+import constants from "../../../constants";
 
 const id = (...values) => buildID(ids.ROOT, ...values);
 
@@ -334,11 +335,11 @@ const VICEAdmin = () => {
     const classes = useStyles();
 
     const { status, data, error } = useQuery(getDataQueryName, getData, {
-        refetchInterval: 10000,
+        refetchInterval: constants.REFETCH_INTERVAL,
     });
 
-    const isLoading = status === "loading";
-    const hasErrored = status === "error";
+    const isLoading = status === constants.LOADING;
+    const hasErrored = status === constants.ERROR;
 
     if (hasErrored) {
         console.log(error.message);

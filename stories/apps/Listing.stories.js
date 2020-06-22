@@ -25,7 +25,12 @@ function ListingTest(props) {
     return (
         <UploadTrackingProvider>
             <ConfigProvider config={testConfig}>
-                <Listing baseId="tableView" />
+                <Listing
+                    baseId="tableView"
+                    onRouteToApp={(systemId, appId) =>
+                        console.log("onRouteToApp", systemId, appId)
+                    }
+                />
             </ConfigProvider>
         </UploadTrackingProvider>
     );

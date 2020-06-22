@@ -6,6 +6,7 @@
  */
 
 import React from "react";
+
 import {
     build,
     DECheckbox,
@@ -24,6 +25,7 @@ import {
     TableContainer,
     TableRow,
 } from "@material-ui/core";
+
 import ids from "../ids";
 import TableLoading from "../../utils/TableLoading";
 import AppStatusIcon from "../AppStatusIcon";
@@ -99,17 +101,21 @@ function TableView(props) {
         handleRequestSort,
         handleSelectAllClick,
         handleClick,
+        onRouteToApp,
         order,
         orderBy,
         selected,
         intl,
     } = props;
+
     const apps = listing?.apps;
     const columnData = getTableColumns(false, false);
     const tableId = build(baseId, ids.LISTING_TABLE);
+
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
     }
+
     return (
         <TableContainer component={Paper} style={{ overflow: "auto" }}>
             <Table
@@ -207,6 +213,12 @@ function TableView(props) {
                                                 )}
                                                 isDisabled={app.disabled}
                                                 name={app.name}
+                                                onAppNameClicked={() =>
+                                                    onRouteToApp(
+                                                        app.system_id,
+                                                        app.id
+                                                    )
+                                                }
                                             />
                                         </TableCell>
                                         <TableCell

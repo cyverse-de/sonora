@@ -48,7 +48,7 @@ function AppName(props) {
                 if (e.key === "Enter") {
                     e.preventDefault();
                     e.stopPropagation();
-                    handleClick(e);
+                    handleClick && handleClick(e);
                 }
             }}
             tabIndex="0"

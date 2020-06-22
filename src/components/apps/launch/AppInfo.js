@@ -4,16 +4,56 @@
  * The App Launch Wizard header that displays the app name and description.
  */
 import React from "react";
+import { injectIntl } from "react-intl";
 
 import { intercomShow } from "../../../common/intercom";
 
+import DEErrorDialog from "../../utils/error/DEErrorDialog";
+import ErrorTypography from "../../utils/error/ErrorTypography";
+
 import ids from "./ids";
 
-import { build as buildDebugId, getMessage } from "@cyverse-de/ui-lib";
+import {
+    build as buildDebugId,
+    getMessage,
+    formatMessage,
+} from "@cyverse-de/ui-lib";
 
 import { Box, Link, Paper, Toolbar, Typography } from "@material-ui/core";
 
-const AppInfo = ({ app, baseId, hasDeprecatedParams }) => {
+import { Skeleton } from "@material-ui/lab";
+
+const LoadingErrorDisplay = injectIntl(({ intl, baseId, loadingError }) => {
+    const [errorDialogOpen, setErrorDialogOpen] = React.useState(false);
+
+    return (
+        <>
+            <ErrorTypography
+                errorMessage={
+                    loadingError.message ||
+                    formatMessage(intl, "appLoadingError")
+                }
+                onDetailsClick={() => setErrorDialogOpen(true)}
+            />
+            <DEErrorDialog
+                open={errorDialogOpen}
+                baseId={baseId}
+                errorObject={loadingError}
+                handleClose={() => {
+                    setErrorDialogOpen(false);
+                }}
+            />
+        </>
+    );
+});
+
+const AppInfo = ({
+    app,
+    baseId,
+    hasDeprecatedParams,
+    loading,
+    loadingError,
+}) => {
     const unavailableMsgKey = app?.deleted
         ? "appDeprecated"
         : app?.disabled
@@ -25,12 +65,23 @@ const AppInfo = ({ app, baseId, hasDeprecatedParams }) => {
     return (
         <>
             <Toolbar component={Paper}>
-                <Typography variant="h6">{app?.name}</Typography>
+                <Typography variant="h6">
+                    {loadingError ? (
+                        <LoadingErrorDisplay
+                            baseId={baseId}
+                            loadingError={loadingError}
+                        />
+                    ) : loading ? (
+                        <Skeleton width={250} />
+                    ) : (
+                        app?.name
+                    )}
+                </Typography>
             </Toolbar>
 
             <Box m={2}>
                 <Typography variant="body2" gutterBottom>
-                    {app?.description}
+                    {loading ? <Skeleton /> : app?.description}
                 </Typography>
 
                 {(app?.deleted || app?.disabled || hasDeprecatedParams) && (

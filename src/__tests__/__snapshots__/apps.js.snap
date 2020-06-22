@@ -2915,12 +2915,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.13ad5f48-bfb4-11e5-a5df-4b1d67d0fef0.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             16sblaster
           </div>
@@ -3285,12 +3286,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.2b9d31fe-3162-11ea-a78a-008cfa5ae621.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             3.1 dev GEA Leptin RNA Seq Lab
           </div>
@@ -3647,12 +3649,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.bf750284-d659-11e5-9346-eb45ddf114f9.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             AAARFv1.0.1
           </div>
@@ -4017,12 +4020,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.0f1b6b9a-bb92-4ef1-ae73-344fd35ae82f.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             add column to file
           </div>
@@ -4387,12 +4391,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.5707bdf5-67f6-4c18-a0d6-5986fa019681.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             add column to file2
           </div>
@@ -4743,12 +4748,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.6768773a-854a-11e4-9c72-7fd0f0b43075.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             Admixture
           </div>
@@ -5113,12 +5119,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.58f783bc-5c95-11ea-b10d-008cfa5ae621.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             ALLMAPS
           </div>
@@ -5475,12 +5482,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.6ff82cda-5c98-11ea-aad3-008cfa5ae621.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             ALLMAPS merge
           </div>
@@ -5837,12 +5845,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.0adf9b82-3c66-11ea-9a20-008cfa5ae621.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             ALLMAPS path
           </div>
@@ -6185,12 +6194,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.676846d4-854a-11e4-980d-7f0fcca75dbb.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             Annotate transcripts
           </div>
@@ -6541,12 +6551,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.e328b780-49e4-4421-ac2e-12b49504bcd2.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             AntEpiSeeker 2.0
           </div>
@@ -6903,12 +6914,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.e0937512-1535-11ea-b8be-008cfa5ae621.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             appendUnclustered
           </div>
@@ -7265,12 +7277,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.d99ca952-dbe2-11e6-9e37-0242ac120003.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             APPLES_conservation
           </div>
@@ -7627,12 +7640,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.99df0c66-dce5-11e6-a30f-0242ac120003.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             APPLES_rbh
           </div>
@@ -7983,12 +7997,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.21d1eee5-364f-4384-b00b-c19fcd2ca488.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             Assembly Stats (assemblathon tool)
           </div>
@@ -8339,12 +8354,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.ec009883-b5c5-4605-9d78-17dcab530184.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             Assess Assembly vs whole genome
           </div>
@@ -8807,12 +8823,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.5b52c412-6b8e-11e9-81f7-008cfa5ae621.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             Austria Demo
           </div>
@@ -9267,12 +9284,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.dab9d998-6b8e-11e9-b782-008cfa5ae621.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             austria-wf
           </div>
@@ -9629,12 +9647,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.685a0588-64de-11e8-af6e-008cfa5ae621.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             Ballgown
           </div>
@@ -9985,12 +10004,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.ed197e38-6d9a-11e8-91a1-008cfa5ae621.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             Ballgown-2.0
           </div>
@@ -10341,12 +10361,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.51000872-1c9b-4d1a-b582-e46926c98aa3.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             Bam to Counts (general)
           </div>
@@ -10697,12 +10718,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.581dfdf9-653f-4db7-8fb2-d64438fbddf1.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             BAM to Counts (named outputs)
           </div>
@@ -11059,12 +11081,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.f2c26674-c460-11e4-af99-3b9dd34014f8.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             bam2fastq_unmapped
           </div>
@@ -11415,12 +11438,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.cca286bd-3471-879b-7298-d79751635482.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             Bayesian BiClustering
           </div>
@@ -11785,12 +11809,13 @@ exports[`App Table view renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
         >
           <div
-            className="makeStyles-name-11"
+            className="makeStyles-name-11 makeStyles-nameHover-12"
             id="tableView.tableView.listingTable.17434bb4-9058-11e8-87dd-008cfa5ae621.appName"
+            onClick={[Function]}
             onKeyDown={[Function]}
             role="button"
             tabIndex="0"
-            title=""
+            title="Use this app."
           >
             BCFtools 1.8 call
           </div>

@@ -247,6 +247,16 @@ export default function apiRouter() {
         })
     );
 
+    logger.info("adding the /apps/:systemId/:appId handler");
+    api.get(
+        "/apps/:systemId/:appId",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/:systemId/:appId",
+        })
+    );
+
     logger.info("adding the /apps/:systemId/:appId/details handler");
     api.get(
         "/apps/:systemId/:appId/details",
@@ -300,13 +310,26 @@ export default function apiRouter() {
         })
     );
 
-    logger.info("adding the /analyses");
+    logger.info("adding the GET /analyses handler");
     api.get(
         "/analyses",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
             pathname: "/analyses",
+        })
+    );
+
+    logger.info("adding the POST /analyses handler");
+    api.post(
+        "/analyses",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/analyses",
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
     );
 
@@ -327,6 +350,19 @@ export default function apiRouter() {
         terrainHandler({
             method: "GET",
             pathname: "/analyses/:id/parameters",
+        })
+    );
+
+    logger.info("adding the POST /quicklaunches handler");
+    api.post(
+        "/quicklaunches",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/quicklaunches",
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
     );
 

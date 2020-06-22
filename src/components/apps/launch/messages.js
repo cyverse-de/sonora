@@ -37,6 +37,7 @@ export default {
             "This application has been deprecated." +
             " If you need access to it, please" +
             " <support>contact support</support>.",
+        appLoadingError: "Unable to load App. Please try again later.",
         appParamsDeprecated:
             "This application uses 1 or more parameters that have been deprecated." +
             " If you still need access to this application, please" +

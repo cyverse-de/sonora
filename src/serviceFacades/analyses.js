@@ -9,6 +9,14 @@ function getAnalyses(key, { rowsPerPage, orderBy, order, page, filter }) {
     });
 }
 
+function submitAnalysis(submission) {
+    return callApi({
+        endpoint: "/api/analyses",
+        method: "POST",
+        body: submission,
+    });
+}
+
 function getAnalysisHistory(key, { id }) {
     return callApi({
         endpoint: `/api/analyses/${id}/history`,
@@ -23,4 +31,9 @@ function getAnalysisParameters(key, { id }) {
     });
 }
 
-export { getAnalyses, getAnalysisHistory, getAnalysisParameters };
+export {
+    getAnalyses,
+    getAnalysisHistory,
+    getAnalysisParameters,
+    submitAnalysis,
+};

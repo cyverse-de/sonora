@@ -11,13 +11,14 @@ import messages from "./messages";
 
 import AppInfo from "./AppInfo";
 import AppLaunchForm from "./AppLaunchForm";
+import AppLaunchFormSkeleton from "./AppLaunchFormSkeleton";
 
 import { withI18N } from "@cyverse-de/ui-lib";
 
 const deprecatedParamTypes = Object.values(constants.DEPRECATED_PARAM_TYPE);
 
 function AppLaunchWizard(props) {
-    const { app, baseId } = props;
+    const { baseId, app, appError, loading } = props;
 
     const hasDeprecatedParams = app?.groups?.find((group) =>
         group.parameters?.find((param) =>
@@ -29,12 +30,18 @@ function AppLaunchWizard(props) {
         <>
             <AppInfo
                 baseId={baseId}
+                loading={loading}
+                loadingError={appError}
                 app={app}
                 hasDeprecatedParams={hasDeprecatedParams}
             />
-
-            {app && !(app.deleted || app.disabled || hasDeprecatedParams) && (
-                <AppLaunchForm {...props} />
+            {loading ? (
+                <AppLaunchFormSkeleton baseId={baseId} />
+            ) : (
+                app &&
+                !(app.deleted || app.disabled || hasDeprecatedParams) && (
+                    <AppLaunchForm {...props} />
+                )
             )}
         </>
     );

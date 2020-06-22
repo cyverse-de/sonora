@@ -33,3 +33,6 @@ intercom:
 admin:
     groups: some-group
     group_attribute_name: entitlement
+
+irods:
+    home_path: /iplant/home

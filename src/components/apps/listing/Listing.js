@@ -33,8 +33,7 @@ import { withI18N } from "@cyverse-de/ui-lib";
 import { injectIntl } from "react-intl";
 import { queryCache, useMutation, useQuery } from "react-query";
 
-function Listing(props) {
-    const { baseId } = props;
+function Listing({ baseId, onRouteToApp }) {
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");
@@ -357,6 +356,7 @@ function Listing(props) {
                 handleSelectAllClick={handleSelectAllClick}
                 handleClick={handleClick}
                 handleRequestSort={handleRequestSort}
+                onRouteToApp={onRouteToApp}
             />
             {detailsOpen && (
                 <Drawer

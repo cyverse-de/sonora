@@ -71,7 +71,7 @@ const setupIntercom = (intercomAppId) => {
     }
 };
 
-function MyApp({ Component, pageProps, intercom, admin }) {
+function MyApp({ Component, pageProps, intercom, admin, irods, tools }) {
     const [appBarHeight, setAppBarRef] = useComponentHeight();
     const router = useRouter();
     const [config, setConfig] = useState();
@@ -86,8 +86,8 @@ function MyApp({ Component, pageProps, intercom, admin }) {
     };
 
     React.useEffect(() => {
-        if (intercom && admin) {
-            setConfig({ intercom, admin });
+        if (intercom || admin || irods || tools) {
+            setConfig({ intercom, admin, irods, tools });
         }
         const jssStyles = document.querySelector("#jss-server-side");
         if (jssStyles) {
@@ -108,6 +108,8 @@ function MyApp({ Component, pageProps, intercom, admin }) {
         intercom,
         intercom.appId,
         intercom.enabled,
+        irods,
+        tools,
         setConfig,
         unReadCount,
     ]);
@@ -156,6 +158,18 @@ MyApp.getInitialProps = async (ctx) => {
         admin: {
             groups: publicRuntimeConfig.ADMIN_GROUPS,
             group_attribute_name: publicRuntimeConfig.ADMIN_GROUP_ATTRIBUTE,
+        },
+        irods: {
+            home_path: publicRuntimeConfig.IRODS_HOME_PATH,
+        },
+        tools: {
+            private: {
+                max_cpu_limit: publicRuntimeConfig.TOOLS_PRIVATE_MAX_CPU_LIMIT,
+                max_memory_limit:
+                    publicRuntimeConfig.TOOLS_PRIVATE_MAX_MEMORY_LIMIT,
+                max_disk_limit:
+                    publicRuntimeConfig.TOOLS_PRIVATE_MAX_DISK_LIMIT,
+            },
         },
     };
     return clientConfig;

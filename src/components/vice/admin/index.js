@@ -62,6 +62,19 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(1),
         marginTop: theme.spacing(1),
     },
+    tabAppBarColorPrimary: {
+        backgroundColor: theme.palette.white,
+    },
+    tabRoot: {
+        color: theme.palette.darkGray,
+        "&:hover": {
+            color: theme.palette.black,
+        },
+    },
+    tabSelected: {
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
+    },
 }));
 
 const defineColumn = (
@@ -212,6 +225,8 @@ const VICEAdminSkeleton = () => {
 };
 
 const VICEAdminTabs = ({ data = {} }) => {
+    const classes = useStyles();
+
     const [value, setValue] = useState("0");
 
     const tabID = (name) => id(ids.ROOT, "admin", "tabs", name);
@@ -251,11 +266,16 @@ const VICEAdminTabs = ({ data = {} }) => {
 
     return (
         <TabContext value={value}>
-            <AppBar position="static" color="primary">
+            <AppBar
+                position="static"
+                color="primary"
+                classes={{ colorPrimary: classes.tabAppBarColorPrimary }}
+            >
                 <TabList
                     onChange={(_, newValue) => setValue(newValue)}
                     variant="scrollable"
                     scrollButtons="auto"
+                    indicatorColor="secondary"
                 >
                     {orderOfTabs.map((tabName, index) => (
                         <Tab
@@ -264,6 +284,10 @@ const VICEAdminTabs = ({ data = {} }) => {
                             key={tabID(tabName)}
                             value={`${index}`}
                             aria-controls={ariaControls(tabName)}
+                            classes={{
+                                root: classes.tabRoot,
+                                selected: classes.tabSelected,
+                            }}
                         />
                     ))}
                 </TabList>

@@ -23,10 +23,12 @@ export default function ReferenceGenomes(props) {
         () => [
             {
                 Header: "Name",
+                width: 100,
                 accessor: "name",
             },
             {
                 Header: "Path",
+                width: 350,
                 accessor: "path",
             },
             {

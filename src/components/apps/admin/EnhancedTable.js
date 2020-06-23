@@ -12,8 +12,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 
 import {
-    useGlobalFilter,
-    usePagination,
+    useFlexLayout,
     useRowSelect,
     useSortBy,
     useTable,
@@ -36,18 +35,52 @@ const IndeterminateCheckbox = React.forwardRef(
     }
 );
 
+
+
 const EnhancedTable = ({ columns, data }) => {
-    const { getTableProps, headerGroups, prepareRow, rows } = useTable(
+    const defaultColumn = React.useMemo(
+        () => ({
+          // When using the useFlexLayout:
+          minWidth: 30, // minWidth is only used as a limit for resizing
+          width: 100, // width is used for both the flex-basis and flex-grow
+          maxWidth: 350, // maxWidth is only used as a limit for resizing
+        }),
+        []
+      );
+    const { getTableProps, headerGroups, prepareRow, rows,state: { selectedRowIds }, } = useTable(
         {
             columns,
             data,
+            defaultColumn
         },
-        useGlobalFilter,
+        useFlexLayout,
         useSortBy,
-        usePagination,
-        useRowSelect
+        useRowSelect,
+        hooks => {
+            hooks.allColumns.push(columns => [
+              // Let's make a column for selection
+              {
+                id: 'selection',
+                // The header can use the table's getToggleAllRowsSelectedProps method
+                // to render a checkbox
+                Header: ({ getToggleAllRowsSelectedProps }) => (
+                  <div>
+                    <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+                  </div>
+                ),
+                // The cell can use the individual row's getToggleRowSelectedProps method
+                // to the render a checkbox
+                Cell: ({ row }) => (
+                  <div>
+                    <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+                  </div>
+                ),
+              },
+              ...columns,
+            ])
+          }
     );
-
+    console.log("No.of rows selected: " + Object.keys(selectedRowIds).length);      
     // Render the UI for your table
     return (
         <TableContainer component={Paper} style={{ overflow: "auto" }}>
@@ -67,7 +100,6 @@ const EnhancedTable = ({ columns, data }) => {
                                     {column.id !== "selection" ? (
                                         <TableSortLabel
                                             active={column.isSorted}
-                                            // react-table has a unsorted state which is not treated here
                                             direction={
                                                 column.isSortedDesc
                                                     ? "desc"
@@ -87,7 +119,7 @@ const EnhancedTable = ({ columns, data }) => {
                             <TableRow {...row.getRowProps()}>
                                 {row.cells.map((cell) => {
                                     return (
-                                        <TableCell {...cell.getCellProps()}>
+                                        <TableCell {...cell.getCellProps()} style={{overflow: "ellipsis"}}>
                                             {cell.render("Cell")}
                                         </TableCell>
                                     );
@@ -100,13 +132,4 @@ const EnhancedTable = ({ columns, data }) => {
         </TableContainer>
     );
 };
-
-EnhancedTable.propTypes = {
-    columns: PropTypes.array.isRequired,
-    data: PropTypes.array.isRequired,
-    updateMyData: PropTypes.func.isRequired,
-    setData: PropTypes.func.isRequired,
-    skipPageReset: PropTypes.bool.isRequired,
-};
-
 export default EnhancedTable;

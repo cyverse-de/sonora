@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
     build as buildID,
@@ -17,79 +17,174 @@ import {
     Paper,
     TableRow,
     Typography,
-    makeStyles,
     IconButton,
     useTheme,
     useMediaQuery,
+    Button,
+    Popper,
 } from "@material-ui/core";
+
+import { Skeleton } from "@material-ui/lab";
+
+import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
+
+import { useQuery } from "react-query";
+
+import { asyncData } from "../../../../serviceFacades/vice/admin";
 
 import messages from "./messages";
 import ids from "./ids";
-import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
+import useStyles from "./styles";
 
 // Constructs an ID for an element.
 const id = (...names) => buildID(ids.BASE, ...names);
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: "100%",
-    },
-    paper: {
-        width: "100%",
-        marginBottom: theme.spacing(5),
-    },
-    title: {
-        padding: theme.spacing(2),
-    },
-    table: {
-        height: "100%",
-    },
-    extended: {
-        display: "flex",
-        marginLeft: theme.spacing(7),
-        marginRight: theme.spacing(7),
+const ActionButtonsSkeleton = () => {
+    return (
+        <Skeleton variant="rect" animation="wave" height={75} width="100%" />
+    );
+};
 
-        [theme.breakpoints.down("sm")]: {
-            marginLeft: theme.spacing(1),
-            marginRight: theme.spacing(1),
-        },
+const ActionButton = ({ baseID, name, handler, onClick, popperMsgKey }) => {
+    const classes = useStyles();
+    return (
+        <Button
+            id={id(baseID, "button", name)}
+            variant="contained"
+            color="primary"
+            onClick={(event) => onClick(event, handler, popperMsgKey)}
+            className={classes.actionButton}
+        >
+            {msg(name)}
+        </Button>
+    );
+};
 
-        flexWrap: "wrap",
-        flexShrink: 0,
-        flexGrow: 0,
-    },
-    row: {
-        "& > *": {
-            borderBottom: "unset",
-        },
-    },
-    dataEntry: {
-        [theme.breakpoints.up("xs")]: {
-            width: "100%",
-            marginLeft: 0,
-            marginRight: 0,
-            marginTop: theme.spacing(1),
-            marginBottom: theme.spacing(1),
-        },
-        [theme.breakpoints.up("sm")]: {
-            width: 300,
-            marginLeft: 0,
-            marginRight: 0,
-            marginTop: theme.spacing(1),
-            marginBottom: theme.spacing(1),
-        },
-        [theme.breakpoints.up("lg")]: {
-            width: 350,
-            margin: theme.spacing(2),
-        },
-    },
-    dataEntryLabel: {
-        marginRight: theme.spacing(1),
-        fontWeight: 500,
-    },
-}));
+const ActionButtons = ({
+    row,
+    handleExtendTimeLimit = (_) => {},
+    handleDownloadInputs = (_) => {},
+    handleUploadOutputs = (_) => {},
+    handleExit = (_) => {},
+    handleSaveAndExit = (_) => {},
+}) => {
+    const classes = useStyles();
 
-const ExtendedDataCard = ({ columns, row, collapseID }) => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [popperMessage, setPopperMessage] = useState("");
+
+    const { status, data, error } = useQuery(
+        ["async-data", row.externalID],
+        asyncData
+    );
+
+    const isLoading = status === "loading";
+    const hasErrored = status === "error";
+
+    if (hasErrored) {
+        console.log(error);
+    }
+
+    const onClick = (event, dataFn, msgKey) => {
+        let tlErr;
+        let tlData;
+
+        try {
+            tlData = dataFn(data.analysisID, row.externalID);
+        } catch (err) {
+            tlErr = err;
+        }
+
+        setAnchorEl(event.currentTarget);
+        setPopperMessage(tlErr ? tlErr.message : msg(msgKey));
+        setOpen(true);
+
+        return tlData;
+    };
+
+    useEffect(() => {
+        const timerID = setInterval(() => {
+            if (open) {
+                setOpen(false);
+            }
+        }, 3000);
+        return () => clearInterval(timerID);
+    });
+
+    return (
+        <div className={classes.actions}>
+            {isLoading ? (
+                <ActionButtonsSkeleton />
+            ) : (
+                <>
+                    <ActionButton
+                        baseID={row.externalID}
+                        name="extendTimeLimit"
+                        handler={handleExtendTimeLimit}
+                        popperMsgKey="timeLimitExtended"
+                        onClick={onClick}
+                    />
+
+                    <ActionButton
+                        baseID={row.externalID}
+                        name="downloadInputs"
+                        handler={handleDownloadInputs}
+                        popperMsgKey="downloadInputsCommandSent"
+                        onClick={onClick}
+                    />
+
+                    <ActionButton
+                        baseID={row.externalID}
+                        name="uploadOutputs"
+                        handler={handleUploadOutputs}
+                        popperMsgKey="uploadOutputsCommandSent"
+                        onClick={onClick}
+                    />
+
+                    <ActionButton
+                        baseID={row.externalID}
+                        name="exit"
+                        handler={handleExit}
+                        popperMsgKey="exitCommandSent"
+                        onClick={onClick}
+                    />
+
+                    <ActionButton
+                        baseID={row.externalID}
+                        name="saveAndExit"
+                        handler={handleExit}
+                        popperMsgKey="saveAndExitCommandSent"
+                        onClick={onClick}
+                    />
+
+                    <Popper
+                        id={id(row.externalID, "popper")}
+                        open={open}
+                        anchorEl={anchorEl}
+                        placement="top"
+                    >
+                        <div className={classes.paperPopper}>
+                            {popperMessage}
+                        </div>
+                    </Popper>
+                </>
+            )}
+        </div>
+    );
+};
+
+const ExtendedDataCard = ({
+    columns,
+    row,
+    collapseID,
+    showActions = false,
+    handleExit,
+    handleSaveAndExit,
+    handleExtendTimeLimit,
+    handleUploadOutputs,
+    handleDownloadInputs,
+}) => {
     const classes = useStyles();
     const theme = useTheme();
     const isMedium = useMediaQuery(theme.breakpoints.down("md"));
@@ -101,12 +196,13 @@ const ExtendedDataCard = ({ columns, row, collapseID }) => {
 
     return (
         <Box margin={1}>
-            <div className={classes.extended}>
+            <div className={`${classes.extended} ${classes.actions}`}>
                 {columns.map((column) => {
                     return (
                         <div
                             className={classes.dataEntry}
                             id={id(collapseID, column.field)}
+                            key={id(collapseID, column.field)}
                         >
                             <Typography
                                 variant="body2"
@@ -115,20 +211,34 @@ const ExtendedDataCard = ({ columns, row, collapseID }) => {
                                 id={id(collapseID, column.field, "label")}
                                 classes={{ root: classes.dataEntryLabel }}
                             >
-                                {`${column.name}:`}
+                                {column.name && `${column.name}:`}
                             </Typography>
+
                             <Typography
                                 variant="body2"
                                 align="left"
                                 display={display}
                                 id={id(collapseID, column.field, "value")}
                             >
-                                {row[column.field] || "N/A"}
+                                {row &&
+                                    row.hasOwnProperty(column.field) &&
+                                    row[column.field]}
                             </Typography>
                         </div>
                     );
                 })}
             </div>
+
+            {showActions && (
+                <ActionButtons
+                    row={row}
+                    handleDownloadInputs={handleDownloadInputs}
+                    handleUploadOutputs={handleUploadOutputs}
+                    handleExtendTimeLimit={handleExtendTimeLimit}
+                    handleExit={handleExit}
+                    handleSaveAndExit={handleSaveAndExit}
+                />
+            )}
         </Box>
     );
 };
@@ -139,8 +249,16 @@ const CollapsibleTableRow = ({
     baseID,
     startColumn,
     endColumn,
+    showActions,
+    handleExit,
+    handleSaveAndExit,
+    handleExtendTimeLimit,
+    handleUploadOutputs,
+    handleDownloadInputs,
 }) => {
-    const [open, setOpen] = useState(false);
+    const defaultOpen = false;
+
+    const [open, setOpen] = useState(defaultOpen);
     const classes = useStyles();
 
     const expanderID = id(baseID, "row", "expander");
@@ -180,6 +298,21 @@ const CollapsibleTableRow = ({
                             columns={columns.slice(endColumn)}
                             row={row}
                             collapseID={collapseID}
+                            showActions={showActions}
+                            handleExit={(analysisID, externalID) => {
+                                setOpen(defaultOpen);
+                                return handleExit(analysisID, externalID);
+                            }}
+                            handleSaveAndExit={(analysisID, externalID) => {
+                                setOpen(defaultOpen);
+                                return handleSaveAndExit(
+                                    analysisID,
+                                    externalID
+                                );
+                            }}
+                            handleExtendTimeLimit={handleExtendTimeLimit}
+                            handleUploadOutputs={handleUploadOutputs}
+                            handleDownloadInputs={handleDownloadInputs}
                         />
                     </Collapse>
                 </TableCell>
@@ -188,7 +321,17 @@ const CollapsibleTableRow = ({
     );
 };
 
-const CollapsibleTable = ({ columns, rows, title }) => {
+const CollapsibleTable = ({
+    columns,
+    rows,
+    title,
+    showActions = false,
+    handleExit,
+    handleSaveAndExit,
+    handleExtendTimeLimit,
+    handleDownloadInputs,
+    handleUploadOutputs,
+}) => {
     const classes = useStyles();
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.up("xs"));
@@ -219,9 +362,11 @@ const CollapsibleTable = ({ columns, rows, title }) => {
     // The first entry in columns should be the expander columns,
     // so default to the second entry for sorting. The field is the
     // actual name of the column.
-    const [orderColumn, setOrderColumn] = useState(columns[1].field);
+    const defaultOrderColumn = columns[1].field;
+    const [orderColumn, setOrderColumn] = useState(defaultOrderColumn);
 
-    const [order, setOrder] = useState("asc");
+    const defaultOrder = "asc";
+    const [order, setOrder] = useState(defaultOrder);
 
     const tableID = id(ids.ROOT);
 
@@ -252,6 +397,7 @@ const CollapsibleTable = ({ columns, rows, title }) => {
             >
                 {title}
             </Typography>
+
             <TableContainer classes={{ root: classes.root }}>
                 <Table id={tableID} classes={{ root: classes.table }}>
                     <EnhancedTableHead
@@ -262,14 +408,22 @@ const CollapsibleTable = ({ columns, rows, title }) => {
                         columnData={columns.slice(0, endColumn)}
                         onRequestSort={handleRequestSort}
                     ></EnhancedTableHead>
+
                     <TableBody>
                         {rows?.map((row, index) => (
                             <CollapsibleTableRow
                                 row={row}
-                                key={index}
+                                key={row.externalID}
+                                baseID={row.externalID}
                                 columns={columns}
                                 startColumn={startColumn}
                                 endColumn={endColumn}
+                                showActions={showActions}
+                                handleExit={handleExit}
+                                handleSaveAndExit={handleSaveAndExit}
+                                handleExtendTimeLimit={handleExtendTimeLimit}
+                                handleDownloadInputs={handleDownloadInputs}
+                                handleUploadOutputs={handleUploadOutputs}
                             />
                         ))}
                     </TableBody>

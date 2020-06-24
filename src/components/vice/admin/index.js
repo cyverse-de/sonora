@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import { useQuery } from "react-query";
+import { useQuery, useMutation, queryCache } from "react-query";
 
 import { makeStyles } from "@material-ui/styles";
 
@@ -10,7 +10,13 @@ import {
     withI18N,
 } from "@cyverse-de/ui-lib";
 
-import getData from "../../../serviceFacades/vice/admin";
+import getData, {
+    saveOutputFiles,
+    downloadInputFiles,
+    extendTimeLimit,
+    saveAndExit,
+    exit,
+} from "../../../serviceFacades/vice/admin";
 
 import RowFilter from "./filter";
 import CollapsibleTable from "./table";
@@ -23,10 +29,12 @@ import {
     SERVICE_COLUMNS,
     POD_COLUMNS,
 } from "./constants";
-import { Skeleton } from "@material-ui/lab";
+import { Skeleton, TabList, TabContext, TabPanel } from "@material-ui/lab";
 
 import { JSONPath } from "jsonpath-plus";
 import efcs from "./filter/efcs";
+import { AppBar, Tab } from "@material-ui/core";
+import constants from "../../../constants";
 
 const id = (...values) => buildID(ids.ROOT, ...values);
 
@@ -50,6 +58,23 @@ const useStyles = makeStyles((theme) => ({
             height: 32,
         },
     },
+    refresh: {
+        marginBottom: theme.spacing(1),
+        marginTop: theme.spacing(1),
+    },
+    tabAppBarColorPrimary: {
+        backgroundColor: theme.palette.white,
+    },
+    tabRoot: {
+        color: theme.palette.darkGray,
+        "&:hover": {
+            color: theme.palette.black,
+        },
+    },
+    tabSelected: {
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
+    },
 }));
 
 const defineColumn = (
@@ -66,6 +91,8 @@ const defineColumn = (
     id: keyID,
     field,
 });
+
+const getDataQueryName = "vice-admin";
 
 // The column definitions for the table.
 const commonColumns = [
@@ -84,70 +111,76 @@ const commonColumns = [
     defineColumn("User ID", COMMON_COLUMNS.USER_ID, "userID"),
 ];
 
-const deploymentColumns = [
-    ...commonColumns,
-    defineColumn("Image", DEPLOYMENT_COLUMNS.IMAGE, "image"),
-    defineColumn("Port", DEPLOYMENT_COLUMNS.PORT, "port"),
-    defineColumn("UID", DEPLOYMENT_COLUMNS.UID, "uid"),
-    defineColumn("GID", DEPLOYMENT_COLUMNS.GID, "gid"),
-];
+const columns = {
+    analyses: commonColumns,
 
-const serviceColumns = [
-    ...commonColumns,
-    defineColumn("Port Name", SERVICE_COLUMNS.PORT_NAME, "portName"),
-    defineColumn("Node Port", SERVICE_COLUMNS.NODE_PORT, "nodePort"),
-    defineColumn("Target Port", SERVICE_COLUMNS.TARGET_PORT, "targetPort"),
-    defineColumn(
-        "Target Port Name",
-        SERVICE_COLUMNS.TARGET_PORT_NAME,
-        "targetPortName"
-    ),
-    defineColumn("Protocol", SERVICE_COLUMNS.PROTOCOL, "protocol"),
-];
+    deployments: [
+        ...commonColumns,
+        defineColumn("Image", DEPLOYMENT_COLUMNS.IMAGE, "image"),
+        defineColumn("Port", DEPLOYMENT_COLUMNS.PORT, "port"),
+        defineColumn("UID", DEPLOYMENT_COLUMNS.UID, "uid"),
+        defineColumn("GID", DEPLOYMENT_COLUMNS.GID, "gid"),
+    ],
 
-const podColumns = [
-    ...commonColumns,
-    defineColumn("Phase", POD_COLUMNS.PHASE, "phase"),
-    defineColumn("Message", POD_COLUMNS.MESSAGE, "message"),
-    defineColumn("Reason", POD_COLUMNS.REASON, "reason"),
-    defineColumn(
-        "Status - Name",
-        POD_COLUMNS.CONTAINER_STATUS_NAME,
-        "containerStatusName"
-    ),
-    defineColumn(
-        "Status - Ready",
-        POD_COLUMNS.CONTAINER_STATUS_READY,
-        "containerStatusReady"
-    ),
-    defineColumn(
-        "Status - Restart Count",
-        POD_COLUMNS.CONTAINER_STATUS_RESTART_COUNT,
-        "containerStatusRestartCount"
-    ),
-    defineColumn(
-        "Status - Image",
-        POD_COLUMNS.CONTAINER_STATUS_IMAGE,
-        "containerStatusImage"
-    ),
-    defineColumn(
-        "Status - Image ID",
-        POD_COLUMNS.CONTAINER_STATUS_IMAGE_ID,
-        "containerStatusImageID"
-    ),
-    defineColumn(
-        "Status - Container ID",
-        POD_COLUMNS.CONTAINER_STATUS_CONTAINER_ID,
-        "containerStatusContainerID"
-    ),
-    defineColumn(
-        "Status - Started",
-        POD_COLUMNS.CONTAINER_STATUS_STARTED,
-        "containerStatusStarted"
-    ),
-];
+    services: [
+        ...commonColumns,
+        defineColumn("Port Name", SERVICE_COLUMNS.PORT_NAME, "portName"),
+        defineColumn("Node Port", SERVICE_COLUMNS.NODE_PORT, "nodePort"),
+        defineColumn("Target Port", SERVICE_COLUMNS.TARGET_PORT, "targetPort"),
+        defineColumn(
+            "Target Port Name",
+            SERVICE_COLUMNS.TARGET_PORT_NAME,
+            "targetPortName"
+        ),
+        defineColumn("Protocol", SERVICE_COLUMNS.PROTOCOL, "protocol"),
+    ],
 
-const getAnalyses = ({ deployments }) => {
+    pods: [
+        ...commonColumns,
+        defineColumn("Phase", POD_COLUMNS.PHASE, "phase"),
+        defineColumn("Message", POD_COLUMNS.MESSAGE, "message"),
+        defineColumn("Reason", POD_COLUMNS.REASON, "reason"),
+        defineColumn(
+            "Status - Name",
+            POD_COLUMNS.CONTAINER_STATUS_NAME,
+            "containerStatusName"
+        ),
+        defineColumn(
+            "Status - Ready",
+            POD_COLUMNS.CONTAINER_STATUS_READY,
+            "containerStatusReady"
+        ),
+        defineColumn(
+            "Status - Restart Count",
+            POD_COLUMNS.CONTAINER_STATUS_RESTART_COUNT,
+            "containerStatusRestartCount"
+        ),
+        defineColumn(
+            "Status - Image",
+            POD_COLUMNS.CONTAINER_STATUS_IMAGE,
+            "containerStatusImage"
+        ),
+        defineColumn(
+            "Status - Image ID",
+            POD_COLUMNS.CONTAINER_STATUS_IMAGE_ID,
+            "containerStatusImageID"
+        ),
+        defineColumn(
+            "Status - Container ID",
+            POD_COLUMNS.CONTAINER_STATUS_CONTAINER_ID,
+            "containerStatusContainerID"
+        ),
+        defineColumn(
+            "Status - Started",
+            POD_COLUMNS.CONTAINER_STATUS_STARTED,
+            "containerStatusStarted"
+        ),
+    ],
+    configMaps: commonColumns,
+    ingresses: commonColumns,
+};
+
+const getAnalyses = ({ deployments = [] }) => {
     let analyses = {};
 
     // Should only need to interate through the deployments to find the
@@ -191,12 +224,145 @@ const VICEAdminSkeleton = () => {
     );
 };
 
+const VICEAdminTabs = ({ data = {} }) => {
+    const classes = useStyles();
+
+    const [value, setValue] = useState("0");
+
+    const tabID = (name) => id(ids.ROOT, "admin", "tabs", name);
+    const tabPanelID = (name) => id(ids.ROOT, "admin", "tab-panels", name);
+
+    const [mutantExit] = useMutation(exit, {
+        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+    });
+    const [mutantSaveAndExit] = useMutation(saveAndExit, {
+        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+    });
+    const [mutantExtendTimeLimit] = useMutation(extendTimeLimit, {
+        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+    });
+    const [mutantUploadOutputs] = useMutation(saveOutputFiles, {
+        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+    });
+    const [mutantDownloadInputs] = useMutation(downloadInputFiles, {
+        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+    });
+
+    const [analysisRows, setAnalysisRows] = useState([]);
+
+    useEffect(() => {
+        setAnalysisRows(getAnalyses(data));
+    }, [data]);
+
+    const orderOfTabs = [
+        "analyses",
+        "deployments",
+        "services",
+        "pods",
+        "configMaps",
+        "ingresses",
+    ];
+
+    return (
+        <TabContext value={value}>
+            <AppBar
+                position="static"
+                color="primary"
+                classes={{ colorPrimary: classes.tabAppBarColorPrimary }}
+            >
+                <TabList
+                    onChange={(_, newValue) => setValue(newValue)}
+                    variant="scrollable"
+                    scrollButtons="auto"
+                    indicatorColor="secondary"
+                >
+                    {orderOfTabs.map((tabName, index) => (
+                        <Tab
+                            label={msg(tabName)}
+                            id={tabID(tabName)}
+                            key={tabID(tabName)}
+                            value={`${index}`}
+                            aria-controls={tabPanelID(tabName)}
+                            classes={{
+                                root: classes.tabRoot,
+                                selected: classes.tabSelected,
+                            }}
+                        />
+                    ))}
+                </TabList>
+            </AppBar>
+
+            {orderOfTabs.map((tabName, index) => (
+                <TabPanel
+                    value={`${index}`}
+                    id={tabPanelID(tabName)}
+                    key={tabPanelID(tabName)}
+                >
+                    <CollapsibleTable
+                        rows={analysisRows}
+                        columns={columns[tabName]}
+                        title={msg(tabName)}
+                        showActions={tabName === "analyses"}
+                        handleExit={async (analysisID, externalID) => {
+                            const data = await mutantExit({ analysisID });
+                            setAnalysisRows(
+                                analysisRows.filter(
+                                    (obj) => obj.externalID !== externalID
+                                )
+                            );
+                            return data;
+                        }}
+                        handleSaveAndExit={async (analysisID, externalID) => {
+                            const data = await mutantSaveAndExit({
+                                analysisID,
+                            });
+                            setAnalysisRows(
+                                analysisRows.filter(
+                                    (obj) => obj.externalID !== externalID
+                                )
+                            );
+                            return data;
+                        }}
+                        handleExtendTimeLimit={async (
+                            analysisID,
+                            externalID
+                        ) => {
+                            const data = await mutantExtendTimeLimit({
+                                analysisID,
+                            });
+                            return data;
+                        }}
+                        handleUploadOutputs={async (analysisID, externalID) => {
+                            const data = await mutantUploadOutputs({
+                                analysisID,
+                            });
+                            return data;
+                        }}
+                        handleDownloadInputs={async (
+                            analysisID,
+                            externalID
+                        ) => {
+                            const data = await mutantDownloadInputs({
+                                analysisID,
+                            });
+                            return data;
+                        }}
+                    />
+                </TabPanel>
+            ))}
+        </TabContext>
+    );
+};
+
 const VICEAdmin = () => {
     const classes = useStyles();
 
-    const { status, data, error } = useQuery("vice-admin", getData);
-    const isLoading = status === "loading";
-    const hasErrored = status === "error";
+    const { status, data, error } = useQuery(getDataQueryName, getData, {
+        refetchInterval: constants.REFETCH_INTERVAL,
+    });
+
+    const isLoading = status === constants.LOADING;
+    const hasErrored = status === constants.ERROR;
 
     if (hasErrored) {
         console.log(error.message);
@@ -230,8 +396,6 @@ const VICEAdmin = () => {
         data
     );
 
-    const analysisRows = filteredData ? getAnalyses(filteredData) : [];
-
     return (
         <div id={id(ids.ROOT)} className={classes.root}>
             {isLoading ? (
@@ -244,41 +408,7 @@ const VICEAdmin = () => {
                         deleteFromFilters={deleteFromFilters}
                     />
 
-                    <CollapsibleTable
-                        rows={analysisRows}
-                        columns={commonColumns}
-                        title={msg("analyses")}
-                    />
-
-                    <CollapsibleTable
-                        rows={filteredData?.deployments}
-                        columns={deploymentColumns}
-                        title={msg("deployments")}
-                    />
-
-                    <CollapsibleTable
-                        rows={filteredData?.services}
-                        columns={serviceColumns}
-                        title={msg("services")}
-                    />
-
-                    <CollapsibleTable
-                        rows={filteredData?.pods}
-                        columns={podColumns}
-                        title={msg("pods")}
-                    />
-
-                    <CollapsibleTable
-                        rows={filteredData?.configMaps}
-                        columns={commonColumns}
-                        title={msg("configMaps")}
-                    />
-
-                    <CollapsibleTable
-                        rows={filteredData?.ingresses}
-                        columns={commonColumns}
-                        title={msg("ingresses")}
-                    />
+                    <VICEAdminTabs data={filteredData} />
                 </>
             )}
             <div className={classes.footer} />

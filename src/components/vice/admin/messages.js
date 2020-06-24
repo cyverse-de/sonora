@@ -16,5 +16,7 @@ export default {
         pods: "Pods",
         configMaps: "ConfigMaps",
         ingresses: "Ingresses",
+        adminTabs: "Admin Tabs",
+        refresh: "Refresh",
     },
 };

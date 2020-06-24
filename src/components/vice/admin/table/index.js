@@ -41,14 +41,7 @@ const id = (...names) => buildID(ids.BASE, ...names);
 
 const ActionButtonsSkeleton = () => {
     return (
-        <>
-            <Skeleton
-                variant="rect"
-                animation="wave"
-                height={75}
-                width="100%"
-            />
-        </>
+        <Skeleton variant="rect" animation="wave" height={75} width="100%" />
     );
 };
 

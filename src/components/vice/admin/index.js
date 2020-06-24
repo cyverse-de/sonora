@@ -231,7 +231,6 @@ const VICEAdminTabs = ({ data = {} }) => {
 
     const tabID = (name) => id(ids.ROOT, "admin", "tabs", name);
     const tabPanelID = (name) => id(ids.ROOT, "admin", "tab-panels", name);
-    const ariaControls = (name) => `vice-admin-tabs-${name}`;
 
     const [mutantExit] = useMutation(exit, {
         onSuccess: () => queryCache.refetchQueries(getDataQueryName),
@@ -283,7 +282,7 @@ const VICEAdminTabs = ({ data = {} }) => {
                             id={tabID(tabName)}
                             key={tabID(tabName)}
                             value={`${index}`}
-                            aria-controls={ariaControls(tabName)}
+                            aria-controls={tabPanelID(tabName)}
                             classes={{
                                 root: classes.tabRoot,
                                 selected: classes.tabSelected,

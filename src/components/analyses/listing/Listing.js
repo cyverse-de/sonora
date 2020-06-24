@@ -143,10 +143,11 @@ function Listing(props) {
                 const category = message.type;
                 if (
                     category?.toLowerCase() ===
-                    constants.NOTIFICATION_CATEGORY.ANALYSIS.toLowerCase()
+                        constants.NOTIFICATION_CATEGORY.ANALYSIS.toLowerCase() &&
+                    data
                 ) {
                     const analysisStatus = message.payload.status;
-                    const found = data?.analyses?.find(
+                    const found = data.analyses?.find(
                         (analysis) => analysis.id === message.payload.id
                     );
 
@@ -154,12 +155,12 @@ function Listing(props) {
                         if (analysisStatus !== found.status) {
                             found.status = analysisStatus;
                             found.enddate = message.payload.enddate;
-                            setData({ analyses: [...data?.analyses] });
+                            setData({ analyses: [...data.analyses] });
                         }
                     } else {
                         //add a new analysis record and remove the last record from the page
                         //to maintain page size
-                        if (data?.analyses.length === rowsPerPage) {
+                        if (data.analyses?.length === rowsPerPage) {
                             const newPage = data.analyses.slice(
                                 0,
                                 data.analyses.length - 1
@@ -167,12 +168,12 @@ function Listing(props) {
                             setData({
                                 analyses: [message.payload, ...newPage],
                             });
-                        } else if (data?.analyses.length === 0) {
+                        } else if (data.analyses?.length === 0) {
                             //if page is empty...
                             setData({ analyses: [message.payload] });
-                        } else if (data) {
+                        } else {
                             setData({
-                                analyses: [message.payload, ...data?.analyses],
+                                analyses: [message.payload, ...data.analyses],
                             });
                         }
                     }

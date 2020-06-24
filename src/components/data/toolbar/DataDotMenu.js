@@ -109,20 +109,22 @@ function DataDotMenu(props) {
                     <Divider
                         key={build(baseId, ids.UPLOAD_MENU_ITEM_DIVIDER)}
                     />,
-                    <UploadMenuItems
-                        key={build(baseId, ids.UPLOAD_MENU_ITEM)}
-                        localUploadId={localUploadId}
-                        uploadMenuId={uploadMenuId}
-                        onBrowseLocal={onClose}
-                        onImportFromURL={() => {
-                            onClose();
-                            setImportDialogOpen(true);
-                        }}
-                        onUploadQueue={() => {
-                            onClose();
-                            setUploadDialogOpen(true);
-                        }}
-                    />,
+                    isWritable(permission) && (
+                        <UploadMenuItems
+                            key={build(baseId, ids.UPLOAD_MENU_ITEM)}
+                            localUploadId={localUploadId}
+                            uploadMenuId={uploadMenuId}
+                            onBrowseLocal={onClose}
+                            onImportFromURL={() => {
+                                onClose();
+                                setImportDialogOpen(true);
+                            }}
+                            onUploadQueue={() => {
+                                onClose();
+                                setUploadDialogOpen(true);
+                            }}
+                        />
+                    ),
                 ]}
             />
             <CreateFolderDialog

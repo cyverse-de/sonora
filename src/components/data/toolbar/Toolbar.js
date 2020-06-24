@@ -134,25 +134,27 @@ function DataToolbar(props) {
                     </Button>
                 )}
                 {isWritable(permission) && (
-                    <Button
-                        id={build(toolbarId, ids.CREATE_BTN)}
-                        variant="outlined"
-                        disableElevation
-                        color="primary"
-                        onClick={onCreateFolderClicked}
-                        className={classes.button}
-                        startIcon={<CreateNewFolder />}
-                    >
-                        <Hidden xsDown>{getMessage("folder")}</Hidden>
-                    </Button>
+                    <>
+                        <Button
+                            id={build(toolbarId, ids.CREATE_BTN)}
+                            variant="outlined"
+                            disableElevation
+                            color="primary"
+                            onClick={onCreateFolderClicked}
+                            className={classes.button}
+                            startIcon={<CreateNewFolder />}
+                        >
+                            <Hidden xsDown>{getMessage("folder")}</Hidden>
+                        </Button>
+                        <UploadMenuBtn
+                            uploadMenuId={uploadMenuId}
+                            localUploadId={localUploadId}
+                            path={path}
+                            setUploadDialogOpen={setUploadDialogOpen}
+                            setImportDialogOpen={setImportDialogOpen}
+                        />
+                    </>
                 )}
-                <UploadMenuBtn
-                    uploadMenuId={uploadMenuId}
-                    localUploadId={localUploadId}
-                    path={path}
-                    setUploadDialogOpen={setUploadDialogOpen}
-                    setImportDialogOpen={setImportDialogOpen}
-                />
             </Hidden>
             <DataDotMenu
                 baseId={toolbarId}

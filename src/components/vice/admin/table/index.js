@@ -55,7 +55,11 @@ const ActionButton = ({ baseID, name, handler, onClick, popperMsgKey }) => {
             id={id(baseID, "button", name)}
             variant="contained"
             color="primary"
-            onClick={(event) => onClick(event, handler, popperMsgKey)}
+            onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                return onClick(event, handler, popperMsgKey);
+            }}
             className={classes.actionButton}
         >
             {msg(name)}
@@ -253,6 +257,7 @@ const CollapsibleTableRow = ({
     startColumn,
     endColumn,
     showActions,
+    onSelection = (_row) => {},
     handleExit,
     handleSaveAndExit,
     handleExtendTimeLimit,
@@ -264,18 +269,37 @@ const CollapsibleTableRow = ({
     const [open, setOpen] = useState(defaultOpen);
     const classes = useStyles();
 
+    const [selected, setSelected] = useState(false);
+
+    const handleClick = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setSelected(!selected);
+        return onSelection(row);
+    };
+
     const expanderID = id(baseID, "row", "expander");
     const rowID = id(baseID, "row");
     const collapseID = id(rowID, "collapse");
 
     return (
         <>
-            <TableRow className={classes.row} key={rowID} id={rowID}>
+            <TableRow
+                className={classes.row}
+                key={rowID}
+                id={rowID}
+                selected={selected}
+                onClick={handleClick}
+            >
                 <TableCell key={expanderID} id={expanderID}>
                     <IconButton
                         aria-label={msg("expandRow")}
                         size="small"
-                        onClick={() => setOpen(!open)}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setOpen(!open);
+                        }}
                     >
                         {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                     </IconButton>
@@ -291,7 +315,12 @@ const CollapsibleTableRow = ({
                 })}
             </TableRow>
 
-            <TableRow key={collapseID} id={collapseID}>
+            <TableRow
+                key={collapseID}
+                id={collapseID}
+                selected={selected}
+                onClick={handleClick}
+            >
                 <TableCell
                     style={{ paddingBottom: 0, paddingTop: 0, width: "90%" }}
                     colSpan={endColumn}

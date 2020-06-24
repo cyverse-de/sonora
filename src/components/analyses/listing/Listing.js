@@ -170,7 +170,7 @@ function Listing(props) {
                         } else if (data?.analyses.length === 0) {
                             //if page is empty...
                             setData({ analyses: [message.payload] });
-                        } else {
+                        } else if (data) {
                             setData({
                                 analyses: [message.payload, ...data?.analyses],
                             });

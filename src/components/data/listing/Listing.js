@@ -313,6 +313,7 @@ function Listing(props) {
                         handlePathChange={handlePathChange}
                         listing={data?.listing}
                         baseId={baseId}
+                        detailsEnabled={detailsEnabled}
                         isInvalidSelection={isInvalidSelection}
                         onDownloadSelected={onDownloadSelected}
                         onEditSelected={onEditSelected}
@@ -321,6 +322,7 @@ function Listing(props) {
                         handleRequestSort={handleRequestSort}
                         handleSelectAllClick={handleSelectAllClick}
                         handleCheckboxClick={handleCheckboxClick}
+                        onDetailsSelected={onDetailsSelected}
                         handleClick={handleClick}
                         order={order}
                         orderBy={orderBy}

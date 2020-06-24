@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { injectIntl } from "react-intl";
+import { useMutation } from "react-query";
 
-import { makeStyles } from "@material-ui/core/styles";
-import { Publish as PublishIcon, Close as CloseIcon } from "@material-ui/icons";
+import intlData from "./messages";
+import ids from "./ids";
 
 import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    IconButton,
-    TextField,
-    Typography,
-} from "@material-ui/core";
+    ERROR_CODES,
+    getErrorCode,
+    getErrorData,
+} from "../utils/error/errorCode";
+import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
+
+import constants from "../../constants";
+import { uploadByUrl } from "../../serviceFacades/fileio";
 
 import {
     build as buildID,
@@ -21,16 +21,20 @@ import {
     withI18N,
 } from "@cyverse-de/ui-lib";
 
-import intlData from "./messages";
-import ids from "./ids";
-import { useMutation } from "react-query";
-import { uploadByUrl } from "../../serviceFacades/fileio";
+import { makeStyles } from "@material-ui/core/styles";
+import { Publish as PublishIcon, Close as CloseIcon } from "@material-ui/icons";
+
 import {
-    ERROR_CODES,
-    getErrorCode,
-    getErrorData,
-} from "../utils/error/errorCode";
-import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
+    Button,
+    Dialog,
+    CircularProgress,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    IconButton,
+    TextField,
+    Typography,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -128,7 +132,7 @@ const URLImportTextField = (props) => {
 
     const { path, showErrorAnnouncer, intl } = props;
 
-    const [importUrl] = useMutation(uploadByUrl, {
+    const [importUrl, { status }] = useMutation(uploadByUrl, {
         onError: (error) => {
             const errorPath = getErrorData(error)?.path;
             const duplicateName = urlFileName(errorPath);
@@ -167,6 +171,15 @@ const URLImportTextField = (props) => {
                 value={uploadURL}
                 onFocus={(e) => {
                     setHasFirstFocused(true);
+                }}
+                InputProps={{
+                    endAdornment: (
+                        <>
+                            {status === constants.LOADING ? (
+                                <CircularProgress color="inherit" size={20} />
+                            ) : null}
+                        </>
+                    ),
                 }}
                 onBlur={(e) => {
                     // If it's empty, we don't care if it's already been focused on.

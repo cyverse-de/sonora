@@ -257,7 +257,7 @@ const CollapsibleTableRow = ({
     startColumn,
     endColumn,
     showActions,
-    onSelection = (_row) => {},
+    onSelection = (_row, selected) => {},
     handleExit,
     handleSaveAndExit,
     handleExtendTimeLimit,
@@ -274,8 +274,10 @@ const CollapsibleTableRow = ({
     const handleClick = (event) => {
         event.preventDefault();
         event.stopPropagation();
-        setSelected(!selected);
-        return onSelection(row);
+
+        const newValue = !selected;
+        setSelected(newValue);
+        return onSelection(row, newValue);
     };
 
     const expanderID = id(baseID, "row", "expander");
@@ -371,6 +373,10 @@ const CollapsibleTable = ({
     const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
     const isXL = useMediaQuery(theme.breakpoints.up("xl"));
 
+    const [selectedRows, setSelectedRows] = useState([]);
+
+    console.log(selectedRows);
+
     let startColumn;
     let endColumn;
 
@@ -451,6 +457,19 @@ const CollapsibleTable = ({
                                 startColumn={startColumn}
                                 endColumn={endColumn}
                                 showActions={showActions}
+                                onSelection={(row, selected) => {
+                                    selected
+                                        ? setSelectedRows([
+                                              row.externalID,
+                                              ...selectedRows,
+                                          ])
+                                        : setSelectedRows(
+                                              selectedRows.filter(
+                                                  (value) =>
+                                                      value !== row.externalID
+                                              )
+                                          );
+                                }}
                                 handleExit={handleExit}
                                 handleSaveAndExit={handleSaveAndExit}
                                 handleExtendTimeLimit={handleExtendTimeLimit}

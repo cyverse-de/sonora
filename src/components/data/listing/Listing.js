@@ -9,6 +9,7 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import TableView from "./TableView";
 
+import ids from "../ids";
 import messages from "../messages";
 import Drawer from "../details/Drawer";
 
@@ -18,9 +19,18 @@ import DEPagination from "../../utils/DEPagination";
 import ResourceTypes from "../../models/ResourceTypes";
 import isQueryLoading from "../../utils/isQueryLoading";
 
+import URLImportDialog from "../../URLImportDialog";
+import UploadDialog from "../../uploads/dialog";
+import FileBrowser from "../toolbar/FileBrowser";
+
+import { processSelectedFiles, trackUpload } from "../../uploads/UploadDrop";
 import UploadDropTarget from "../../uploads/UploadDropTarget";
-import { useUploadTrackingState } from "../../../contexts/uploadTracking";
+
 import { camelcaseit } from "../../../common/functions";
+import {
+    useUploadTrackingState,
+    useUploadTrackingDispatch,
+} from "../../../contexts/uploadTracking";
 
 import {
     deleteResources,
@@ -28,15 +38,18 @@ import {
     getPagedListing,
 } from "../../../serviceFacades/filesystem";
 
-import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import withErrorAnnouncer from "../../utils/error/withErrorAnnouncer";
+
+import { announce, build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
 
 import { injectIntl } from "react-intl";
 import { queryCache, useMutation, useQuery } from "react-query";
-import withErrorAnnouncer from "../../utils/error/withErrorAnnouncer";
+
+import { Button, Typography, useTheme } from "@material-ui/core";
 
 function Listing(props) {
     const uploadTracker = useUploadTrackingState();
-
+    const theme = useTheme();
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");
@@ -70,6 +83,22 @@ function Listing(props) {
             !upload.hasErrored
         );
     }).length;
+
+    const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+    const [importDialogOpen, setImportDialogOpen] = useState(false);
+
+    const onCloseImportDialog = () => setImportDialogOpen(false);
+
+    const uploadDispatch = useUploadTrackingDispatch();
+
+    const trackAllUploads = (uploadFiles) => {
+        uploadFiles.forEach((aFile) => {
+            trackUpload(aFile.value, path, uploadDispatch);
+        });
+    };
+    const handleUploadFiles = (files) => {
+        processSelectedFiles(files, trackAllUploads);
+    };
 
     const { error, isFetching } = useQuery({
         queryKey: pagedListingKey,
@@ -124,6 +153,33 @@ function Listing(props) {
             ]);
         }
     }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
+
+    const viewUploadQueue = useCallback(() => {
+        return (
+            <Button
+                variant="outlined"
+                onClick={() => setUploadDialogOpen(true)}
+            >
+                <Typography
+                    variant="button"
+                    style={{ color: theme.palette.primary.contrastText }}
+                >
+                    {formatMessage(intl, "uploadQueue")}
+                </Typography>
+            </Button>
+        );
+    }, [intl, theme.palette.primary.contrastText]);
+
+    useEffect(() => {
+        if (uploadTracker.uploads.length > 0) {
+            announce({
+                text: formatMessage(intl, "filesQueuedForUploadMsg", {
+                    total: uploadTracker.uploads.length,
+                }),
+                CustomAction: viewUploadQueue,
+            });
+        }
+    }, [uploadTracker, intl, viewUploadQueue]);
 
     useQuery({
         queryKey: "dataFetchInfoTypes",
@@ -282,7 +338,7 @@ function Listing(props) {
     );
 
     const isLoading = isQueryLoading([isFetching, removeResourceStatus]);
-
+    const localUploadId = build(baseId, ids.UPLOAD_MI, ids.UPLOAD_INPUT);
     return (
         <>
             {render && render(selected.length, getSelectedResources)}
@@ -304,15 +360,21 @@ function Listing(props) {
                     onDetailsSelected={onDetailsSelected}
                     handleDataNavError={handleDataNavError}
                     baseId={baseId}
+                    setUploadDialogOpen={setUploadDialogOpen}
+                    setImportDialogOpen={setImportDialogOpen}
+                    localUploadId={localUploadId}
+                    uploadMenuId={build(baseId, ids.TOOLBAR, ids.UPLOAD_MENU)}
                 />
                 {!isGridView && (
                     <TableView
                         loading={isLoading}
                         error={error || navError}
                         path={path}
+                        permission={data?.permission}
                         handlePathChange={handlePathChange}
                         listing={data?.listing}
                         baseId={baseId}
+                        detailsEnabled={detailsEnabled}
                         isInvalidSelection={isInvalidSelection}
                         onDownloadSelected={onDownloadSelected}
                         onEditSelected={onEditSelected}
@@ -321,10 +383,19 @@ function Listing(props) {
                         handleRequestSort={handleRequestSort}
                         handleSelectAllClick={handleSelectAllClick}
                         handleCheckboxClick={handleCheckboxClick}
+                        onDetailsSelected={onDetailsSelected}
                         handleClick={handleClick}
                         order={order}
                         orderBy={orderBy}
                         selected={selected}
+                        setUploadDialogOpen={setUploadDialogOpen}
+                        setImportDialogOpen={setImportDialogOpen}
+                        localUploadId={localUploadId}
+                        uploadMenuId={build(
+                            baseId,
+                            ids.LISTING_TABLE,
+                            ids.UPLOAD_MENU
+                        )}
                     />
                 )}
                 {isGridView && <span>Coming Soon!</span>}
@@ -348,6 +419,19 @@ function Listing(props) {
                     onClose={() => setDetailsOpen(false)}
                 />
             )}
+            <FileBrowser
+                id={localUploadId}
+                handleUploadFiles={handleUploadFiles}
+            />
+            <UploadDialog
+                open={uploadDialogOpen}
+                handleClose={() => setUploadDialogOpen(false)}
+            />
+            <URLImportDialog
+                path={path}
+                open={importDialogOpen}
+                onClose={onCloseImportDialog}
+            />
         </>
     );
 }

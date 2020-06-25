@@ -141,40 +141,41 @@ function Listing(props) {
             const message = pushMsg?.message;
             if (message) {
                 const category = message.type;
-                const analysisStatus =
-                    category.toLowerCase() ===
-                    constants.NOTIFICATION_CATEGORY.ANALYSIS.toLowerCase()
-                        ? message.payload.status
-                        : "";
+                if (
+                    category?.toLowerCase() ===
+                        constants.NOTIFICATION_CATEGORY.ANALYSIS.toLowerCase() &&
+                    data
+                ) {
+                    const analysisStatus = message.payload.status;
+                    const found = data.analyses?.find(
+                        (analysis) => analysis.id === message.payload.id
+                    );
 
-                const found = data?.analyses?.find(
-                    (analysis) => analysis.id === message.payload.id
-                );
-
-                if (found) {
-                    if (analysisStatus !== found.status) {
-                        found.status = analysisStatus;
-                        found.enddate = message.payload.enddate;
-                        setData({ analyses: [...data?.analyses] });
-                    }
-                } else {
-                    //add a new analysis record and remove the last record from the page
-                    //to maintain page size
-                    if (data?.analyses.length === rowsPerPage) {
-                        const newPage = data.analyses.slice(
-                            0,
-                            data.analyses.length - 1
-                        );
-                        setData({
-                            analyses: [message.payload, ...newPage],
-                        });
-                    } else if (data?.analyses.length === 0) {
-                        //if page is empty...
-                        setData({ analyses: [message.payload] });
+                    if (found) {
+                        if (analysisStatus !== found.status) {
+                            found.status = analysisStatus;
+                            found.enddate = message.payload.enddate;
+                            setData({ analyses: [...data.analyses] });
+                        }
                     } else {
-                        setData({
-                            analyses: [message.payload, ...data?.analyses],
-                        });
+                        //add a new analysis record and remove the last record from the page
+                        //to maintain page size
+                        if (data.analyses?.length === rowsPerPage) {
+                            const newPage = data.analyses.slice(
+                                0,
+                                data.analyses.length - 1
+                            );
+                            setData({
+                                analyses: [message.payload, ...newPage],
+                            });
+                        } else if (data.analyses?.length === 0) {
+                            //if page is empty...
+                            setData({ analyses: [message.payload] });
+                        } else {
+                            setData({
+                                analyses: [message.payload, ...data.analyses],
+                            });
+                        }
                     }
                 }
             }

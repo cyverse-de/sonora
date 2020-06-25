@@ -6,6 +6,8 @@
 
 import React, { Fragment, useState } from "react";
 
+import { injectIntl } from "react-intl";
+
 import CustomizeColumns from "./CustomizeColumns";
 import ResourceIcon from "./ResourceIcon";
 import SpanLink from "./SpanLink";
@@ -20,8 +22,6 @@ import ResourceTypes from "../../models/ResourceTypes";
 import constants from "../../../constants";
 import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
 import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
-
-import { injectIntl } from "react-intl";
 
 import {
     build,
@@ -128,11 +128,13 @@ function TableView(props) {
     const {
         loading,
         path,
+        permission,
         error,
         handlePathChange,
         listing,
         baseId,
         isInvalidSelection = () => false,
+        onDetailsSelected,
         onDownloadSelected,
         onEditSelected,
         onMetadataSelected,
@@ -144,6 +146,11 @@ function TableView(props) {
         order,
         orderBy,
         selected,
+        detailsEnabled,
+        setImportDialogOpen,
+        setUploadDialogOpen,
+        localUploadId,
+        uploadMenuId,
         intl,
     } = props;
     const invalidRowClass = invalidRowStyles();
@@ -404,6 +411,12 @@ function TableView(props) {
                                                     tableId,
                                                     resourceName
                                                 )}
+                                                path={path}
+                                                permission={permission}
+                                                onDetailsSelected={
+                                                    onDetailsSelected
+                                                }
+                                                detailsEnabled={detailsEnabled}
                                                 MenuProps={{ tabIndex: 0 }}
                                                 onDownloadSelected={() =>
                                                     onDownloadSelected(
@@ -421,6 +434,15 @@ function TableView(props) {
                                                 onDeleteSelected={() =>
                                                     onDeleteSelected(resourceId)
                                                 }
+                                                setUploadDialogOpen={
+                                                    setUploadDialogOpen
+                                                }
+                                                setImportDialogOpen={
+                                                    setImportDialogOpen
+                                                }
+                                                selected={selected}
+                                                localUploadId={localUploadId}
+                                                uploadMenuId={uploadMenuId}
                                             />
                                         </TableCell>
                                     </TableRow>

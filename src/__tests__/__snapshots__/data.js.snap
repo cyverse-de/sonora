@@ -12,7 +12,7 @@ exports[`Data Table View renders 1`] = `
   <table
     aria-label="/iplant/home/ipcdev Data Table"
     className="MuiTable-root MuiTable-stickyHeader"
-    id="tableView.listingTable"
+    id="tableView."
     role={null}
   >
     <thead
@@ -79,7 +79,7 @@ exports[`Data Table View renders 1`] = `
         <th
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignCenter MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-          id="tableView.listingTable.checkbox"
+          id="tableView..checkbox"
           scope="col"
         >
           
@@ -87,7 +87,7 @@ exports[`Data Table View renders 1`] = `
         <th
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignLeft MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-          id="tableView.listingTable.name"
+          id="tableView..name"
           scope="col"
         >
           <span
@@ -127,11 +127,11 @@ exports[`Data Table View renders 1`] = `
         <th
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
-          id="tableView.listingTable.dotMenu"
+          id="tableView..dotMenu"
           scope="col"
         >
           <button
-            aria-controls="tableView.listingTable.customCols"
+            aria-controls="tableView..customCols"
             aria-haspopup="true"
             aria-label="Customize table columns"
             className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSizeSmall MuiButton-sizeSmall"
@@ -169,7 +169,7 @@ exports[`Data Table View renders 1`] = `
         aria-checked={false}
         aria-label={null}
         className="MuiTableRow-root MuiTableRow-hover"
-        id="tableView.listingTable.analyses_qa-3"
+        id="tableView..analyses_qa-3"
         onClick={[Function]}
         role="checkbox"
         tabIndex={0}
@@ -203,7 +203,7 @@ exports[`Data Table View renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-7"
                 data-indeterminate={false}
-                id="tableView.listingTable.analyses_qa-3.checkbox"
+                id="tableView..analyses_qa-3.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -234,7 +234,7 @@ exports[`Data Table View renders 1`] = `
         >
           <span
             className="makeStyles-dataLink-14"
-            id="tableView.listingTable.analyses_qa-3.navigationLink"
+            id="tableView..analyses_qa-3.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
             role="link"
@@ -248,11 +248,11 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
         >
           <button
-            aria-controls="tableView.listingTable.analyses_qa-3.moreMenu"
+            aria-controls="tableView..analyses_qa-3.moreMenu"
             aria-haspopup="true"
             className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
             disabled={false}
-            id="tableView.listingTable.analyses_qa-3.dotMenuIcon"
+            id="tableView..analyses_qa-3.dotMenuIcon"
             onBlur={[Function]}
             onClick={[Function]}
             onDragLeave={[Function]}
@@ -296,7 +296,7 @@ exports[`Data Table View renders 1`] = `
         aria-checked={false}
         aria-label={null}
         className="MuiTableRow-root MuiTableRow-hover"
-        id="tableView.listingTable.test"
+        id="tableView..test"
         onClick={[Function]}
         role="checkbox"
         tabIndex={0}
@@ -330,7 +330,7 @@ exports[`Data Table View renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-7"
                 data-indeterminate={false}
-                id="tableView.listingTable.test.checkbox"
+                id="tableView..test.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -361,7 +361,7 @@ exports[`Data Table View renders 1`] = `
         >
           <span
             className="makeStyles-dataLink-14"
-            id="tableView.listingTable.test.navigationLink"
+            id="tableView..test.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
             role="link"
@@ -375,11 +375,11 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
         >
           <button
-            aria-controls="tableView.listingTable.test.moreMenu"
+            aria-controls="tableView..test.moreMenu"
             aria-haspopup="true"
             className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
             disabled={false}
-            id="tableView.listingTable.test.dotMenuIcon"
+            id="tableView..test.dotMenuIcon"
             onBlur={[Function]}
             onClick={[Function]}
             onDragLeave={[Function]}
@@ -423,7 +423,7 @@ exports[`Data Table View renders 1`] = `
         aria-checked={false}
         aria-label={null}
         className="MuiTableRow-root MuiTableRow-hover"
-        id="tableView.listingTable.CORE-8424.txt"
+        id="tableView..CORE-8424.txt"
         onClick={[Function]}
         role="checkbox"
         tabIndex={0}
@@ -457,7 +457,7 @@ exports[`Data Table View renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-7"
                 data-indeterminate={false}
-                id="tableView.listingTable.CORE-8424.txt.checkbox"
+                id="tableView..CORE-8424.txt.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -488,7 +488,7 @@ exports[`Data Table View renders 1`] = `
         >
           <span
             className="makeStyles-dataLink-14"
-            id="tableView.listingTable.CORE-8424.txt.navigationLink"
+            id="tableView..CORE-8424.txt.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
             role="link"
@@ -502,11 +502,11 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
         >
           <button
-            aria-controls="tableView.listingTable.CORE-8424.txt.moreMenu"
+            aria-controls="tableView..CORE-8424.txt.moreMenu"
             aria-haspopup="true"
             className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
             disabled={false}
-            id="tableView.listingTable.CORE-8424.txt.dotMenuIcon"
+            id="tableView..CORE-8424.txt.dotMenuIcon"
             onBlur={[Function]}
             onClick={[Function]}
             onDragLeave={[Function]}
@@ -550,7 +550,7 @@ exports[`Data Table View renders 1`] = `
         aria-checked={false}
         aria-label={null}
         className="MuiTableRow-root MuiTableRow-hover"
-        id="tableView.listingTable.sample.csv"
+        id="tableView..sample.csv"
         onClick={[Function]}
         role="checkbox"
         tabIndex={0}
@@ -584,7 +584,7 @@ exports[`Data Table View renders 1`] = `
                 checked={false}
                 className="PrivateSwitchBase-input-7"
                 data-indeterminate={false}
-                id="tableView.listingTable.sample.csv.checkbox"
+                id="tableView..sample.csv.checkbox"
                 onChange={[Function]}
                 tabIndex={0}
                 type="checkbox"
@@ -615,7 +615,7 @@ exports[`Data Table View renders 1`] = `
         >
           <span
             className="makeStyles-dataLink-14"
-            id="tableView.listingTable.sample.csv.navigationLink"
+            id="tableView..sample.csv.navigationLink"
             onClick={[Function]}
             onKeyDown={[Function]}
             role="link"
@@ -629,11 +629,11 @@ exports[`Data Table View renders 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
         >
           <button
-            aria-controls="tableView.listingTable.sample.csv.moreMenu"
+            aria-controls="tableView..sample.csv.moreMenu"
             aria-haspopup="true"
             className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
             disabled={false}
-            id="tableView.listingTable.sample.csv.dotMenuIcon"
+            id="tableView..sample.csv.dotMenuIcon"
             onBlur={[Function]}
             onClick={[Function]}
             onDragLeave={[Function]}

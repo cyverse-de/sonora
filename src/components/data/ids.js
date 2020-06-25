@@ -31,7 +31,7 @@ export default {
     IMPORT_MI: "importMenuItem",
     INFO_TYPES: "infoTypes",
     LABEL: "label",
-    listingTable: "listingTable",
+    LISTING_TABLE: "listingTable",
     LOADING_SKELETON: "loadingSkeleton",
     MANUAL_UPLOAD_MI: "manualUploadMenuItem",
     metadataMI: "metadata",

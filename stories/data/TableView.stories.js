@@ -1,5 +1,6 @@
 import React from "react";
 import TableView from "../../src/components/data/listing/TableView";
+import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
 
 function PathLink(props) {
     const { children } = props;
@@ -49,24 +50,28 @@ export const DataTableViewTest = () => {
     ];
 
     return (
-        <TableView
-            path="/iplant/home/ipcdev"
-            PathLink={PathLink}
-            listing={listing}
-            isMedium={true}
-            isLarge={true}
-            baseId="tableView"
-            onDownloadSelected={(resourceId) => logger("Download")}
-            onEditSelected={(resourceId) => logger("Edit")}
-            onMetadataSelected={(resourceId) => logger("Metadata")}
-            onDeleteSelected={(resourceId) => logger("Delete")}
-            handleRequestSort={(event, property) => logger("Request Sort")}
-            handleSelectAllClick={(event) => logger("Select All Clicked")}
-            handleClick={(event, resourceId, index) => logger("Row Clicked")}
-            order="asc"
-            orderBy="label"
-            selected={[]}
-        />
+        <UploadTrackingProvider>
+            <TableView
+                path="/iplant/home/ipcdev"
+                PathLink={PathLink}
+                listing={listing}
+                isMedium={true}
+                isLarge={true}
+                baseId="tableView"
+                onDownloadSelected={(resourceId) => logger("Download")}
+                onEditSelected={(resourceId) => logger("Edit")}
+                onMetadataSelected={(resourceId) => logger("Metadata")}
+                onDeleteSelected={(resourceId) => logger("Delete")}
+                handleRequestSort={(event, property) => logger("Request Sort")}
+                handleSelectAllClick={(event) => logger("Select All Clicked")}
+                handleClick={(event, resourceId, index) =>
+                    logger("Row Clicked")
+                }
+                order="asc"
+                orderBy="label"
+                selected={[]}
+            />
+        </UploadTrackingProvider>
     );
 };
 

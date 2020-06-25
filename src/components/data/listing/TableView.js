@@ -6,28 +6,22 @@
 
 import React, { Fragment, useState } from "react";
 
+import { injectIntl } from "react-intl";
+
 import CustomizeColumns from "./CustomizeColumns";
 import ResourceIcon from "./ResourceIcon";
 import SpanLink from "./SpanLink";
 import { getFileSize } from "./FileSize";
 
 import ids from "../ids";
-
 import messages from "../messages";
-import URLImportDialog from "../../URLImportDialog";
-import UploadDialog from "../../uploads/dialog";
 import DataDotMenu from "../toolbar/DataDotMenu";
-import FileBrowser from "../toolbar/FileBrowser";
 
 import TableLoading from "../../utils/TableLoading";
 import ResourceTypes from "../../models/ResourceTypes";
 import constants from "../../../constants";
 import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
 import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
-import { processSelectedFiles, trackUpload } from "../../uploads/UploadDrop";
-import { useUploadTrackingDispatch } from "../../../contexts/uploadTracking";
-
-import { injectIntl } from "react-intl";
 
 import {
     build,
@@ -134,6 +128,7 @@ function TableView(props) {
     const {
         loading,
         path,
+        permission,
         error,
         handlePathChange,
         listing,
@@ -152,6 +147,10 @@ function TableView(props) {
         orderBy,
         selected,
         detailsEnabled,
+        setImportDialogOpen,
+        setUploadDialogOpen,
+        localUploadId,
+        uploadMenuId,
         intl,
     } = props;
     const invalidRowClass = invalidRowStyles();
@@ -164,24 +163,6 @@ function TableView(props) {
             COL_KEYS.DOT_MENU,
         ]
     );
-
-    const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
-    const [importDialogOpen, setImportDialogOpen] = useState(false);
-
-    const uploadMenuId = build(tableId, ids.UPLOAD_MENU);
-    const localUploadId = build(tableId, ids.UPLOAD_MI, ids.UPLOAD_INPUT);
-
-    const onCloseImportDialog = () => setImportDialogOpen(false);
-
-    const uploadDispatch = useUploadTrackingDispatch();
-    const trackAllUploads = (uploadFiles) => {
-        uploadFiles.forEach((aFile) => {
-            trackUpload(aFile.value, path, uploadDispatch);
-        });
-    };
-    const handleUploadFiles = (files) => {
-        processSelectedFiles(files, trackAllUploads);
-    };
 
     const onSetDisplayColumns = (columns) => {
         setLocalStorageCols(columns);
@@ -280,222 +261,197 @@ function TableView(props) {
     }
 
     return (
-        <>
-            <TableContainer component={Paper} style={{ overflow: "auto" }}>
-                <Table
-                    stickyHeader
-                    size="small"
-                    id={tableId}
-                    aria-label={formatMessage(intl, "ariaTableListing", {
-                        path: path,
-                    })}
-                >
-                    <EnhancedTableHead
-                        selectable={true}
-                        numSelected={selected.length}
-                        onSelectAllClick={handleSelectAllClick}
-                        rowsInPage={listing?.length}
-                        order={order}
-                        orderBy={orderBy}
+        <TableContainer component={Paper} style={{ overflow: "auto" }}>
+            <Table
+                stickyHeader
+                size="small"
+                id={tableId}
+                aria-label={formatMessage(intl, "ariaTableListing", {
+                    path: path,
+                })}
+            >
+                <EnhancedTableHead
+                    selectable={true}
+                    numSelected={selected.length}
+                    onSelectAllClick={handleSelectAllClick}
+                    rowsInPage={listing?.length}
+                    order={order}
+                    orderBy={orderBy}
+                    baseId={tableId}
+                    columnData={getColumnDetails(displayColumns)}
+                    onRequestSort={handleRequestSort}
+                />
+                {loading && (
+                    <TableLoading
                         baseId={tableId}
-                        columnData={getColumnDetails(displayColumns)}
-                        onRequestSort={handleRequestSort}
+                        numColumns={displayColumns.length}
+                        numRows={25}
                     />
-                    {loading && (
-                        <TableLoading
-                            baseId={tableId}
-                            numColumns={displayColumns.length}
-                            numRows={25}
-                        />
-                    )}
-                    {!loading && (
-                        <TableBody>
-                            {(!listing || listing.length === 0) && !error && (
-                                <EmptyTable
-                                    message={getMessage("emptyDataListing")}
-                                    numColumns={displayColumns.length + 1} // extra for checkbox col
-                                />
-                            )}
-                            {listing &&
-                                listing.length > 0 &&
-                                listing.map((resource, index) => {
-                                    const resourceName = resource.label;
-                                    const resourceId = resource.id;
-                                    const isSelected =
-                                        selected.indexOf(resourceId) !== -1;
-                                    const isInvalid =
-                                        isSelected &&
-                                        isInvalidSelection(resource);
-                                    return (
-                                        <TableRow
-                                            classes={
-                                                isInvalid
-                                                    ? invalidRowClass
-                                                    : null
-                                            }
-                                            title={
-                                                isInvalid
-                                                    ? formatMessage(
-                                                          intl,
-                                                          "invalidSelectionRowTitle"
-                                                      )
-                                                    : null
-                                            }
-                                            aria-label={
-                                                isInvalid
-                                                    ? formatMessage(
-                                                          intl,
-                                                          "invalidSelectionRowTitle"
-                                                      )
-                                                    : null
-                                            }
-                                            role="checkbox"
-                                            tabIndex={0}
-                                            hover
-                                            id={build(tableId, resourceName)}
-                                            key={resourceId}
-                                            selected={isSelected}
-                                            aria-checked={isSelected}
-                                            onClick={(event) =>
-                                                handleClick(
-                                                    event,
-                                                    resourceId,
-                                                    index
-                                                )
-                                            }
-                                        >
-                                            <TableCell padding="checkbox">
-                                                <DECheckbox
-                                                    checked={isSelected}
-                                                    tabIndex={0}
-                                                    id={build(
-                                                        tableId,
-                                                        resourceName,
-                                                        ids.checkbox
-                                                    )}
-                                                    onChange={(event) =>
-                                                        handleCheckboxClick(
-                                                            event,
-                                                            resourceId,
-                                                            index
-                                                        )
-                                                    }
-                                                    inputProps={{
-                                                        "aria-label": formatMessage(
-                                                            intl,
-                                                            "ariaCheckbox",
-                                                            {
-                                                                label:
-                                                                    resource.label,
-                                                            }
-                                                        ),
-                                                    }}
-                                                />
-                                            </TableCell>
-                                            <TableCell padding="checkbox">
-                                                <ResourceIcon
-                                                    type={resource.type}
-                                                />
-                                            </TableCell>
-                                            <TableCell>
-                                                <SpanLink
-                                                    id={build(
-                                                        tableId,
-                                                        resourceName,
-                                                        ids.navLink
-                                                    )}
-                                                    onClick={() => {
-                                                        if (
-                                                            resource.type ===
-                                                            ResourceTypes.FOLDER
-                                                        ) {
-                                                            handlePathChange(
-                                                                `${path}/${resource.label}`
-                                                            );
+                )}
+                {!loading && (
+                    <TableBody>
+                        {(!listing || listing.length === 0) && !error && (
+                            <EmptyTable
+                                message={getMessage("emptyDataListing")}
+                                numColumns={displayColumns.length + 1} // extra for checkbox col
+                            />
+                        )}
+                        {listing &&
+                            listing.length > 0 &&
+                            listing.map((resource, index) => {
+                                const resourceName = resource.label;
+                                const resourceId = resource.id;
+                                const isSelected =
+                                    selected.indexOf(resourceId) !== -1;
+                                const isInvalid =
+                                    isSelected && isInvalidSelection(resource);
+                                return (
+                                    <TableRow
+                                        classes={
+                                            isInvalid ? invalidRowClass : null
+                                        }
+                                        title={
+                                            isInvalid
+                                                ? formatMessage(
+                                                      intl,
+                                                      "invalidSelectionRowTitle"
+                                                  )
+                                                : null
+                                        }
+                                        aria-label={
+                                            isInvalid
+                                                ? formatMessage(
+                                                      intl,
+                                                      "invalidSelectionRowTitle"
+                                                  )
+                                                : null
+                                        }
+                                        role="checkbox"
+                                        tabIndex={0}
+                                        hover
+                                        id={build(tableId, resourceName)}
+                                        key={resourceId}
+                                        selected={isSelected}
+                                        aria-checked={isSelected}
+                                        onClick={(event) =>
+                                            handleClick(
+                                                event,
+                                                resourceId,
+                                                index
+                                            )
+                                        }
+                                    >
+                                        <TableCell padding="checkbox">
+                                            <DECheckbox
+                                                checked={isSelected}
+                                                tabIndex={0}
+                                                id={build(
+                                                    tableId,
+                                                    resourceName,
+                                                    ids.checkbox
+                                                )}
+                                                onChange={(event) =>
+                                                    handleCheckboxClick(
+                                                        event,
+                                                        resourceId,
+                                                        index
+                                                    )
+                                                }
+                                                inputProps={{
+                                                    "aria-label": formatMessage(
+                                                        intl,
+                                                        "ariaCheckbox",
+                                                        {
+                                                            label:
+                                                                resource.label,
                                                         }
-                                                    }}
-                                                >
-                                                    {resource.label}
-                                                </SpanLink>
-                                            </TableCell>
-                                            {getColumnDetails(
-                                                displayColumns
-                                            ).map((column, index) => (
+                                                    ),
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell padding="checkbox">
+                                            <ResourceIcon
+                                                type={resource.type}
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                            <SpanLink
+                                                id={build(
+                                                    tableId,
+                                                    resourceName,
+                                                    ids.navLink
+                                                )}
+                                                onClick={() => {
+                                                    if (
+                                                        resource.type ===
+                                                        ResourceTypes.FOLDER
+                                                    ) {
+                                                        handlePathChange(
+                                                            `${path}/${resource.label}`
+                                                        );
+                                                    }
+                                                }}
+                                            >
+                                                {resource.label}
+                                            </SpanLink>
+                                        </TableCell>
+                                        {getColumnDetails(displayColumns).map(
+                                            (column, index) => (
                                                 <Fragment key={index}>
                                                     {getColumnCell(
                                                         column.key,
                                                         resource
                                                     )}
                                                 </Fragment>
-                                            ))}
-                                            <TableCell align="right">
-                                                <DataDotMenu
-                                                    baseId={build(
-                                                        tableId,
-                                                        resourceName
-                                                    )}
-                                                    path={path}
-                                                    onDetailsSelected={
-                                                        onDetailsSelected
-                                                    }
-                                                    detailsEnabled={
-                                                        detailsEnabled
-                                                    }
-                                                    localUploadId={
-                                                        localUploadId
-                                                    }
-                                                    MenuProps={{ tabIndex: 0 }}
-                                                    onDownloadSelected={() =>
-                                                        onDownloadSelected(
-                                                            resourceId
-                                                        )
-                                                    }
-                                                    onEditSelected={() =>
-                                                        onEditSelected(
-                                                            resourceId
-                                                        )
-                                                    }
-                                                    onMetadataSelected={() =>
-                                                        onMetadataSelected(
-                                                            resourceId
-                                                        )
-                                                    }
-                                                    onDeleteSelected={() =>
-                                                        onDeleteSelected(
-                                                            resourceId
-                                                        )
-                                                    }
-                                                    setUploadDialogOpen={
-                                                        setUploadDialogOpen
-                                                    }
-                                                    setImportDialogOpen={
-                                                        setImportDialogOpen
-                                                    }
-                                                    selected={selected}
-                                                    uploadMenuId={uploadMenuId}
-                                                />
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                        </TableBody>
-                    )}
-                </Table>
-            </TableContainer>
-            <FileBrowser
-                id={localUploadId}
-                handleUploadFiles={handleUploadFiles}
-            />
-            <UploadDialog
-                open={uploadDialogOpen}
-                handleClose={() => setUploadDialogOpen(false)}
-            />
-            <URLImportDialog
-                path={path}
-                open={importDialogOpen}
-                onClose={onCloseImportDialog}
-            />
-        </>
+                                            )
+                                        )}
+                                        <TableCell align="right">
+                                            <DataDotMenu
+                                                baseId={build(
+                                                    tableId,
+                                                    resourceName
+                                                )}
+                                                path={path}
+                                                permission={permission}
+                                                onDetailsSelected={
+                                                    onDetailsSelected
+                                                }
+                                                detailsEnabled={detailsEnabled}
+                                                MenuProps={{ tabIndex: 0 }}
+                                                onDownloadSelected={() =>
+                                                    onDownloadSelected(
+                                                        resourceId
+                                                    )
+                                                }
+                                                onEditSelected={() =>
+                                                    onEditSelected(resourceId)
+                                                }
+                                                onMetadataSelected={() =>
+                                                    onMetadataSelected(
+                                                        resourceId
+                                                    )
+                                                }
+                                                onDeleteSelected={() =>
+                                                    onDeleteSelected(resourceId)
+                                                }
+                                                setUploadDialogOpen={
+                                                    setUploadDialogOpen
+                                                }
+                                                setImportDialogOpen={
+                                                    setImportDialogOpen
+                                                }
+                                                selected={selected}
+                                                localUploadId={localUploadId}
+                                                uploadMenuId={uploadMenuId}
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                );
+                            })}
+                    </TableBody>
+                )}
+            </Table>
+        </TableContainer>
     );
 }
 

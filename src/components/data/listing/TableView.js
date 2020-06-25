@@ -155,7 +155,7 @@ function TableView(props) {
     } = props;
     const invalidRowClass = invalidRowStyles();
 
-    const tableId = build(baseId, ids.listingTable);
+    const tableId = build(baseId, ids.LISTING_TABLE);
     const [displayColumns, setDisplayColumns] = useState(
         getLocalStorageCols() || [
             COL_KEYS.CHECKBOX,

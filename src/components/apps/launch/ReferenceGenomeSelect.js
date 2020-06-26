@@ -27,6 +27,14 @@ const ReferenceGenomeSelect = withI18N(
         } else if (!referenceGenomes?.length) {
             selectProps.error = true;
             selectProps.helperText = getMessage("errorLoadingReferenceGenomes");
+        } else {
+            // In the case of relaunch or app integrator default values,
+            // the field value object will not be the same instance
+            // as the one parsed from the service response.
+            selectProps.value =
+                referenceGenomes.find(
+                    (refGenome) => refGenome.id === props.field.value?.id
+                ) || "";
         }
 
         return (

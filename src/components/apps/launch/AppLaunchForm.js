@@ -211,9 +211,10 @@ const initValues = ({
             }
 
             if (paramArgs?.length > 0) {
-                const defaultArg = paramArgs.find(
-                    (arg) => arg.isDefault || defaultValue?.id === arg.id
-                );
+                const defaultArg =
+                    paramArgs.find((arg) => defaultValue?.id === arg.id) ||
+                    paramArgs.find((arg) => arg.isDefault);
+
                 value = defaultArg || "";
             }
 

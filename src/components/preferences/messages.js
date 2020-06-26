@@ -18,6 +18,7 @@ export default {
         keyboardShortcutHeaderLbl: "Keyboard Shortcuts",
         notificationViewShortcutLbl: "Open notifications view",
         okBtnLbl: "OK",
+        path: "Path",
         prefSaveSuccess: "Preferences saved successfully.",
         permissionSelectErrorMessage:
             "You must make a selection you own or have write permissions to.",

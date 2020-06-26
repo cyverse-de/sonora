@@ -142,7 +142,7 @@ function General(props) {
                             value={
                                 defaultOutputFolder ? defaultOutputFolder : ""
                             }
-                            label="Path"
+                            label={formatMessage(intl, "path")}
                             variant="outlined"
                             required={true}
                             onKeyDown={(event) => {

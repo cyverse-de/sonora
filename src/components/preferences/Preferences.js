@@ -367,7 +367,6 @@ function Preferences(props) {
                         onSubmit={handleSubmit}
                         enableReinitialize
                         validate={validateShortCuts}
-                        validateOnChange={true}
                     >
                         {(props) => (
                             <Form

@@ -248,7 +248,9 @@ function CyverseAppBar(props) {
         if (bootstrapError) {
             const errorString = JSON.stringify(bootstrapError);
             setBootstrapError(null);
-            router.push("/error?errorInfo=" + errorString);
+            router.push(
+                `/${NavigationConstants.ERROR}?errorInfo=` + errorString
+            );
         }
     }, [bootstrapError, router]);
 
@@ -269,12 +271,11 @@ function CyverseAppBar(props) {
         config: {
             staleTime: Infinity,
             cacheTime: Infinity,
-            retry: 1,
+            retry: 3,
             //copied from react-query doc. Add exponential delay for retry.
             retryDelay: (attempt) =>
                 Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000),
             onError: (e) => {
-                console.log("error on bootstrap=>" + e);
                 setBootstrapError(e);
             },
         },

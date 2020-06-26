@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 
 import { Form, Formik } from "formik";
 import { useQuery, queryCache, useMutation } from "react-query";
+import { useRouter } from "next/router";
 import { injectIntl } from "react-intl";
 
 import ids from "./ids";
@@ -20,6 +21,7 @@ import Shortcuts from "./Shortcuts";
 import styles from "./styles";
 
 import { isWritable } from "../data/utils";
+import NavigationConstants from "../../common/NavigationConstants";
 import { useUserProfile } from "../../contexts/userProfile";
 
 import {
@@ -61,6 +63,7 @@ const useStyles = makeStyles(styles);
 
 function Preferences(props) {
     const { baseId, intl, showErrorAnnouncer } = props;
+    const router = useRouter();
     const [userProfile] = useUserProfile();
     const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(
         false
@@ -74,6 +77,7 @@ function Preferences(props) {
         setOutputFolderValidationError,
     ] = useState(null);
     const [bootstrapKey, setBootstrapKey] = useState("");
+    const [bootstrapError, setBootstrapError] = useState(null);
     const [fetchRedirectURIsKey, setFetchRedirectURIsKey] = useState("");
     const [hpcAuthUrl, setHPCAuthUrl] = useState("");
     const ip = userProfile?.attributes.ip;
@@ -98,7 +102,6 @@ function Preferences(props) {
 
     useEffect(() => {
         //get from cache if not fetch now.
-
         const prefCache = queryCache.getQueryData([BOOTSTRAP_KEY, { ip }]);
         if (prefCache) {
             preProcessData(prefCache);
@@ -122,13 +125,23 @@ function Preferences(props) {
         }
     }, [hpcAuthUrl]);
 
+    useEffect(() => {
+        if (bootstrapError) {
+            const errorString = JSON.stringify(bootstrapError);
+            setBootstrapError(null);
+            router.push(
+                `/${NavigationConstants.ERROR}?errorInfo=` + errorString
+            );
+        }
+    }, [bootstrapError, router]);
+
     const { isFetching } = useQuery({
         queryKey: bootstrapKey,
         queryFn: bootstrap,
         config: {
             onSuccess: (respData) => preProcessData(respData),
             onError: (e) => {
-                showErrorAnnouncer(formatMessage(intl, "bootstrapError"), e);
+                setBootstrapError(e);
             },
             staleTime: Infinity,
             cacheTime: Infinity,

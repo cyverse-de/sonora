@@ -3,6 +3,7 @@ export default {
     ADMIN: "admin",
     ANALYSES: "analyses",
     APPS: "apps",
+    ERROR: "error",
     DASHBOARD: "dashboard",
     DATA: "data",
     LOGIN: "login",

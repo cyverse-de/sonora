@@ -8,7 +8,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
-import { queryCache, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import { injectIntl } from "react-intl";
 
@@ -227,6 +227,8 @@ function CyverseAppBar(props) {
     const [avatarLetter, setAvatarLetter] = useState("");
     const [open, setOpen] = useState(false);
     const [adminUser, setAdminUser] = useState(false);
+    const [bootstrapError, setBootstrapError] = useState(null);
+    const [bootstrapQueryKey, setBootstrapQueryKey] = useState(null);
 
     useQuery({
         queryKey: "getUserProfile",
@@ -243,8 +245,40 @@ function CyverseAppBar(props) {
     }, [clientConfig, setConfig]);
 
     useEffect(() => {
+        if (bootstrapError) {
+            const errorString = JSON.stringify(bootstrapError);
+            setBootstrapError(null);
+            router.push("/error?errorInfo=" + errorString);
+        }
+    }, [bootstrapError, router]);
+
+    useEffect(() => {
         setAppBarRef(ref);
     }, [ref, setAppBarRef]);
+
+    useEffect(() => {
+        if (userProfile) {
+            const ip = userProfile.attributes.ip;
+            setBootstrapQueryKey([BOOTSTRAP_KEY, { ip }]);
+        }
+    }, [userProfile]);
+
+    useQuery({
+        queryKey: bootstrapQueryKey,
+        queryFn: bootstrap,
+        config: {
+            staleTime: Infinity,
+            cacheTime: Infinity,
+            retry: 1,
+            //copied from react-query doc. Add exponential delay for retry.
+            retryDelay: (attempt) =>
+                Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000),
+            onError: (e) => {
+                console.log("error on bootstrap=>" + e);
+                setBootstrapError(e);
+            },
+        },
+    });
 
     React.useEffect(() => {
         if (userProfile?.id) {
@@ -266,28 +300,6 @@ function CyverseAppBar(props) {
                 });
                 setAdminUser(adminMemberships.length > 0);
             }
-            const ip = userProfile.attributes.ip;
-            queryCache.prefetchQuery({
-                queryKey: [BOOTSTRAP_KEY, { ip }],
-                queryFn: bootstrap,
-                config: {
-                    staleTime: Infinity,
-                    cacheTime: Infinity,
-                    retry: 3,
-                    //copied from react-query doc. Add exponential delay for retry.
-                    retryDelay: (attempt) =>
-                        Math.min(
-                            attempt > 1 ? 2 ** attempt * 1000 : 1000,
-                            30 * 1000
-                        ),
-                    onError: (e) => {
-                        showErrorAnnouncer(
-                            formatMessage(intl, "bootstrapError"),
-                            e
-                        );
-                    },
-                },
-            });
         }
     }, [
         userProfile,

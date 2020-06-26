@@ -3,7 +3,7 @@
  *
  * A component that displays formatted error message with options to contact support or login
  */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Bowser from "bowser";
 import { useRouter } from "next/router";
 import { injectIntl } from "react-intl";
@@ -31,6 +31,7 @@ import {
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import ErrorIcon from "@material-ui/icons/Error";
 import constants from "../../../constants";
+import GridLoading from "../GridLoading";
 
 const useStyles = makeStyles((theme) => ({
     cardContent: {
@@ -54,9 +55,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ClientInfo(props) {
+    const [browser, setBrowser] = useState();
+    useEffect(() => {
+        setBrowser(Bowser.getParser(window.navigator.userAgent));
+    }, []);
     const { baseId } = props;
-    const browser = Bowser.getParser(window.navigator.userAgent);
     const [userProfile] = useUserProfile();
+    if (!browser) {
+        return <GridLoading rows={5} />;
+    }
     return (
         <>
             <GridLabelValue label={getMessage("user")}>
@@ -117,7 +124,7 @@ function ErrorHandler(props) {
     const errBaseId = build(baseId, ids.ERROR_HANDLER);
     let title, subHeader, contents, avatar;
 
-    if (!errorObject?.response) {
+    if (!errorObject?.response && !errorObject?.config) {
         avatar = <ErrorIcon fontSize="large" color="error" />;
         title = (
             <Typography color="error" variant="h6">

@@ -10,17 +10,14 @@ import { Grid, Typography } from "@material-ui/core";
 
 // A grid where the secondary column, values, intentionally take up more
 // space than the first column, labels
-export default function GridLabelValue(props) {
-    const { label, children, labelVariant = "subtitle2" } = props;
-
+export default function GridLabelValue({ label, children, ...props }) {
     return (
         <>
             <Grid item sm={3} xs={6} md={3} lg={3}>
-                <Typography component="span" variant={labelVariant}>
+                <Typography component="span" {...props}>
                     {label}
                 </Typography>
             </Grid>
-
             <Grid
                 item
                 sm={9}

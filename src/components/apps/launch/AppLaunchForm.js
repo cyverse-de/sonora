@@ -390,6 +390,7 @@ const AppLaunchForm = (props) => {
         saveQuickLaunch,
         startingPath,
         submitAnalysis,
+        intl,
         app: { id: app_id, name: appName, app_type, groups, requirements },
     } = props;
 

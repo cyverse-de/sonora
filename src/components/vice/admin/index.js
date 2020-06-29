@@ -86,12 +86,12 @@ const defineColumn = (
     align = "left",
     enableSorting = true
 ) => ({
-    name,
+    Header: name,
+    accessor: field,
     align,
     enableSorting,
     key: keyID,
     id: keyID,
-    field,
 });
 
 // The column definitions for the table.
@@ -299,7 +299,7 @@ const VICEAdminTabs = ({ data = {} }) => {
                     key={tabPanelID(tabName)}
                 >
                     <CollapsibleTable
-                        rows={analysisRows}
+                        data={analysisRows}
                         columns={columns[tabName]}
                         title={msg(tabName)}
                         showActions={tabName === "analyses"}

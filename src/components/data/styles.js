@@ -96,6 +96,8 @@ export default (theme) => ({
         [theme.breakpoints.down("sm")]: {
             width: "90%",
         },
+        overflow: "hidden",
+        height: "100vh",
     },
 
     tabIndicator: {

@@ -25,7 +25,11 @@ import ids from "./ids";
 import Listing from "./listing/Listing";
 import messages from "./messages";
 import ResourceTypes from "../models/ResourceTypes";
+
 import styles from "./styles";
+
+import PageWrapper from "../../components/layout/PageWrapper";
+import useComponentHeight from "../utils/useComponentHeight";
 
 const useStyles = makeStyles(styles);
 
@@ -170,6 +174,8 @@ function SelectionDrawer(props) {
             : false;
     };
 
+    const [appBarHeight] = useComponentHeight();
+
     return (
         <Drawer
             id={id}
@@ -181,26 +187,28 @@ function SelectionDrawer(props) {
                 classes: { root: classes.selectionDrawer },
             }}
         >
-            <Listing
-                path={currentPath}
-                handlePathChange={setCurrentPath}
-                baseId={build(id, ids.DATA_VIEW)}
-                multiSelect={multiSelect}
-                isInvalidSelection={isInvalidSelection}
-                render={(selectedTotal, getSelectedResources) => (
-                    <SelectionToolbar
-                        baseId={id}
-                        currentPath={currentPath}
-                        setCurrentPath={setCurrentPath}
-                        selectedTotal={selectedTotal}
-                        getSelectedResources={getSelectedResources}
-                        acceptedType={acceptedType}
-                        multiSelect={multiSelect}
-                        onConfirm={onConfirm}
-                        onClose={onClose}
-                    />
-                )}
-            />
+            <PageWrapper appBarHeight={150}>
+                <Listing
+                    path={currentPath}
+                    handlePathChange={setCurrentPath}
+                    baseId={build(id, ids.DATA_VIEW)}
+                    multiSelect={multiSelect}
+                    isInvalidSelection={isInvalidSelection}
+                    render={(selectedTotal, getSelectedResources) => (
+                        <SelectionToolbar
+                            baseId={id}
+                            currentPath={currentPath}
+                            setCurrentPath={setCurrentPath}
+                            selectedTotal={selectedTotal}
+                            getSelectedResources={getSelectedResources}
+                            acceptedType={acceptedType}
+                            multiSelect={multiSelect}
+                            onConfirm={onConfirm}
+                            onClose={onClose}
+                        />
+                    )}
+                />
+            </PageWrapper>
         </Drawer>
     );
 }

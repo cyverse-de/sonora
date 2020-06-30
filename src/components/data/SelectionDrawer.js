@@ -5,7 +5,7 @@
  * resources as input to other components.
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import {
@@ -17,6 +17,7 @@ import {
     TextField,
     Toolbar,
     Typography,
+    useTheme,
 } from "@material-ui/core";
 import { Directions } from "@material-ui/icons";
 import PropTypes from "prop-types";
@@ -25,9 +26,15 @@ import ids from "./ids";
 import Listing from "./listing/Listing";
 import messages from "./messages";
 import ResourceTypes from "../models/ResourceTypes";
+
 import styles from "./styles";
 
+import PageWrapper from "../../components/layout/PageWrapper";
+import useComponentHeight from "../utils/useComponentHeight";
+
 const useStyles = makeStyles(styles);
+
+const PAGINATION_BAR_HEIGHT = 60;
 
 function SelectionToolbar(props) {
     const {
@@ -40,9 +47,18 @@ function SelectionToolbar(props) {
         onClose,
         acceptedType,
         multiSelect,
+        setToolbarRef,
     } = props;
+    const theme = useTheme();
     const classes = useStyles();
     const [displayPath, setDisplayPath] = useState("");
+
+    const toolbarRef = useRef(null);
+
+    // useEffect will run on toolbarRef value assignment
+    useEffect(() => {
+        setToolbarRef(toolbarRef);
+    }, [toolbarRef, setToolbarRef]);
 
     useEffect(() => {
         setDisplayPath(currentPath);
@@ -75,26 +91,35 @@ function SelectionToolbar(props) {
 
     return (
         <>
-            <Toolbar id={build(baseId, ids.SELECTION_TOOLBAR)}>
-                <Typography>
-                    {hasValidSelection
-                        ? getMessage("selectedItems", {
-                              values: { total: selectedTotal },
-                          })
-                        : hasInvalidSelection
-                        ? getMessage("invalidSelection", {
-                              values: {
-                                  type: acceptedType,
-                                  total: invalidTotal,
-                              },
-                          })
-                        : getMessage("selectionSuggestion", {
-                              values: {
-                                  type: acceptedType,
-                                  multiSelect,
-                              },
-                          })}
-                </Typography>
+            <Toolbar id={build(baseId, ids.SELECTION_TOOLBAR)} ref={toolbarRef}>
+                {hasValidSelection ? (
+                    <Typography color="primary" variant="subtitle2">
+                        {getMessage("selectedItems", {
+                            values: { total: selectedTotal },
+                        })}
+                    </Typography>
+                ) : hasInvalidSelection ? (
+                    <Typography
+                        variant="subtitle2"
+                        style={{ color: theme.palette.error.main }}
+                    >
+                        {getMessage("invalidSelection", {
+                            values: {
+                                type: acceptedType,
+                                total: invalidTotal,
+                            },
+                        })}
+                    </Typography>
+                ) : (
+                    <Typography variant="subtitle2">
+                        {getMessage("selectionSuggestion", {
+                            values: {
+                                type: acceptedType,
+                                multiSelect,
+                            },
+                        })}
+                    </Typography>
+                )}
                 <div className={classes.divider} />
                 <Button
                     id={build(baseId, ids.SELECTION_TOOLBAR, ids.CANCEL_BTN)}
@@ -170,6 +195,8 @@ function SelectionDrawer(props) {
             : false;
     };
 
+    const [toolbarHeight, setToolbarRef] = useComponentHeight();
+
     return (
         <Drawer
             id={id}
@@ -181,26 +208,29 @@ function SelectionDrawer(props) {
                 classes: { root: classes.selectionDrawer },
             }}
         >
-            <Listing
-                path={currentPath}
-                handlePathChange={setCurrentPath}
-                baseId={build(id, ids.DATA_VIEW)}
-                multiSelect={multiSelect}
-                isInvalidSelection={isInvalidSelection}
-                render={(selectedTotal, getSelectedResources) => (
-                    <SelectionToolbar
-                        baseId={id}
-                        currentPath={currentPath}
-                        setCurrentPath={setCurrentPath}
-                        selectedTotal={selectedTotal}
-                        getSelectedResources={getSelectedResources}
-                        acceptedType={acceptedType}
-                        multiSelect={multiSelect}
-                        onConfirm={onConfirm}
-                        onClose={onClose}
-                    />
-                )}
-            />
+            <PageWrapper appBarHeight={toolbarHeight + PAGINATION_BAR_HEIGHT}>
+                <Listing
+                    path={currentPath}
+                    handlePathChange={setCurrentPath}
+                    baseId={build(id, ids.DATA_VIEW)}
+                    multiSelect={multiSelect}
+                    isInvalidSelection={isInvalidSelection}
+                    render={(selectedTotal, getSelectedResources) => (
+                        <SelectionToolbar
+                            baseId={id}
+                            currentPath={currentPath}
+                            setCurrentPath={setCurrentPath}
+                            selectedTotal={selectedTotal}
+                            getSelectedResources={getSelectedResources}
+                            acceptedType={acceptedType}
+                            multiSelect={multiSelect}
+                            onConfirm={onConfirm}
+                            onClose={onClose}
+                            setToolbarRef={setToolbarRef}
+                        />
+                    )}
+                />
+            </PageWrapper>
         </Drawer>
     );
 }

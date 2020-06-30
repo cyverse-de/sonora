@@ -5,7 +5,7 @@
  * resources as input to other components.
  */
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import {
@@ -47,7 +47,7 @@ function SelectionToolbar(props) {
         onClose,
         acceptedType,
         multiSelect,
-        getToolbarHeight,
+        setToolbarRef,
     } = props;
     const theme = useTheme();
     const classes = useStyles();
@@ -57,12 +57,8 @@ function SelectionToolbar(props) {
 
     // useEffect will run on toolbarRef value assignment
     useEffect(() => {
-        // The 'current' property contains info of the reference:
-        // align, title, ... , width, height, etc.
-        if (toolbarRef.current && getToolbarHeight) {
-            getToolbarHeight(toolbarRef.current.offsetHeight);
-        }
-    }, [toolbarRef, getToolbarHeight]);
+        setToolbarRef(toolbarRef);
+    }, [toolbarRef, setToolbarRef]);
 
     useEffect(() => {
         setDisplayPath(currentPath);
@@ -96,36 +92,34 @@ function SelectionToolbar(props) {
     return (
         <>
             <Toolbar id={build(baseId, ids.SELECTION_TOOLBAR)} ref={toolbarRef}>
-                <div>
-                    {hasValidSelection ? (
-                        <Typography color="primary" variant="subtitle2">
-                            {getMessage("selectedItems", {
-                                values: { total: selectedTotal },
-                            })}
-                        </Typography>
-                    ) : hasInvalidSelection ? (
-                        <Typography
-                            variant="subtitle2"
-                            style={{ color: theme.palette.error.main }}
-                        >
-                            {getMessage("invalidSelection", {
-                                values: {
-                                    type: acceptedType,
-                                    total: invalidTotal,
-                                },
-                            })}
-                        </Typography>
-                    ) : (
-                        <Typography variant="subtitle2">
-                            {getMessage("selectionSuggestion", {
-                                values: {
-                                    type: acceptedType,
-                                    multiSelect,
-                                },
-                            })}
-                        </Typography>
-                    )}
-                </div>
+                {hasValidSelection ? (
+                    <Typography color="primary" variant="subtitle2">
+                        {getMessage("selectedItems", {
+                            values: { total: selectedTotal },
+                        })}
+                    </Typography>
+                ) : hasInvalidSelection ? (
+                    <Typography
+                        variant="subtitle2"
+                        style={{ color: theme.palette.error.main }}
+                    >
+                        {getMessage("invalidSelection", {
+                            values: {
+                                type: acceptedType,
+                                total: invalidTotal,
+                            },
+                        })}
+                    </Typography>
+                ) : (
+                    <Typography variant="subtitle2">
+                        {getMessage("selectionSuggestion", {
+                            values: {
+                                type: acceptedType,
+                                multiSelect,
+                            },
+                        })}
+                    </Typography>
+                )}
                 <div className={classes.divider} />
                 <Button
                     id={build(baseId, ids.SELECTION_TOOLBAR, ids.CANCEL_BTN)}
@@ -201,15 +195,7 @@ function SelectionDrawer(props) {
             : false;
     };
 
-    const [toolbarHeight, setToolbarHeight] = useState(0);
-    const [appBarHeight] = useComponentHeight();
-
-    const toolbarHeightCallback = useCallback(
-        (height) => {
-            setToolbarHeight(height);
-        },
-        [setToolbarHeight]
-    );
+    const [toolbarHeight, setToolbarRef] = useComponentHeight();
 
     return (
         <Drawer
@@ -222,11 +208,7 @@ function SelectionDrawer(props) {
                 classes: { root: classes.selectionDrawer },
             }}
         >
-            <PageWrapper
-                appBarHeight={
-                    toolbarHeight + appBarHeight + PAGINATION_BAR_HEIGHT
-                }
-            >
+            <PageWrapper appBarHeight={toolbarHeight + PAGINATION_BAR_HEIGHT}>
                 <Listing
                     path={currentPath}
                     handlePathChange={setCurrentPath}
@@ -244,7 +226,7 @@ function SelectionDrawer(props) {
                             multiSelect={multiSelect}
                             onConfirm={onConfirm}
                             onClose={onClose}
-                            getToolbarHeight={toolbarHeightCallback}
+                            setToolbarRef={setToolbarRef}
                         />
                     )}
                 />

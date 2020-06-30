@@ -29,6 +29,7 @@ export default {
     AGAVE_AUTH_PROMPT_DIALOG_TITLE: "agaveAuthPromptDialogTitle",
     DETAILS_BTN: "detailsBtn",
     DETAILS_DRAWER: "detailsDrawer",
+    DETAILS_MENU_ITEM: "details",
     DETAILS_TAB: "detailsTab",
     TOOLS_INFO_TAB: "toolsInfoTab",
     PANEL: "panel",
@@ -37,6 +38,7 @@ export default {
     APP_UNFAVORITE: "appUnFavorite",
     TOOLS_USED: "toolsUsed",
     AVERAGE_RATING: "averageRating",
+    FILTER_MENU_ITEM: "filter",
     QUICK_LAUNCH: {
         name: "name",
         description: "description",

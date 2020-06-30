@@ -49,13 +49,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.primary.main,
     },
     list: {
-        [theme.breakpoints.up("sm")]: {
-            margin: theme.spacing(1),
-        },
-        [theme.breakpoints.down("sm")]: {
-            maxWidth: 130,
-            padding: 0,
-        },
+        width: 250,
     },
     listItem: {
         outline: "none",
@@ -67,27 +61,13 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     listItemText: {
-        textOverflow: "ellipsis",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        maxWidth: 200,
+        width: 250,
     },
     divider: {
         flexGrow: 1,
     },
     selectedCategory: {
-        textOverflow: "ellipsis",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        maxWidth: 140,
-    },
-    filter: {
-        [theme.breakpoints.down("xs")]: {
-            width: 130,
-        },
-        [theme.breakpoints.up("sm")]: {
-            width: 150,
-        },
+        width: 250,
     },
 }));
 

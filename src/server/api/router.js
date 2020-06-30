@@ -491,11 +491,17 @@ export default function apiRouter() {
     );
 
     logger.info(
-        "add the PUT /admin/vice/concurrent-job-limits/:username handler",
+        "add the PUT /admin/vice/concurrent-job-limits/:username handler"
+    );
+    api.put(
+        "/admin/vice/concurrent-job-limits/:username",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "PUT",
             pathname: "/admin/settings/concurrent-job-limits/:username",
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
     );
 

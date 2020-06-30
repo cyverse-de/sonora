@@ -54,10 +54,13 @@ export const getUserJobLimit = (_key, username) =>
         method: "GET",
     });
 
-export const setUserJobLimit = (_key, username) =>
+export const setUserJobLimit = ({ username, newLimit }) =>
     callApi({
         endpoint: `/api/admin/vice/concurrent-job-limits/${username}`,
         method: "PUT",
+        body: {
+            concurrent_jobs: parseInt(newLimit, 10),
+        },
     });
 
 export default () =>

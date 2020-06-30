@@ -9,7 +9,13 @@ import ids from "../ids";
 import messages from "../messages";
 
 import { build, DotMenu, getMessage, withI18N } from "@cyverse-de/ui-lib";
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
+import {
+    ListItemIcon,
+    ListItemText,
+    MenuItem,
+    useMediaQuery,
+    useTheme,
+} from "@material-ui/core";
 import { FilterList, Info } from "@material-ui/icons";
 
 function AppsDotMenu(props) {
@@ -20,6 +26,8 @@ function AppsDotMenu(props) {
         onDetailsSelected,
         onFilterSelected,
     } = props;
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down("xs"));
     return (
         <>
             <DotMenu
@@ -41,19 +49,21 @@ function AppsDotMenu(props) {
                             <ListItemText primary={getMessage("details")} />
                         </MenuItem>
                     ),
-                    <MenuItem
-                        key={build(baseId, ids.FILTER_MENU_ITEM)}
-                        id={build(baseId, ids.FILTER_MENU_ITEM)}
-                        onClick={() => {
-                            onClose();
-                            onFilterSelected();
-                        }}
-                    >
-                        <ListItemIcon>
-                            <FilterList fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText primary={getMessage("filterLbl")} />
-                    </MenuItem>,
+                    matches && (
+                        <MenuItem
+                            key={build(baseId, ids.FILTER_MENU_ITEM)}
+                            id={build(baseId, ids.FILTER_MENU_ITEM)}
+                            onClick={() => {
+                                onClose();
+                                onFilterSelected();
+                            }}
+                        >
+                            <ListItemIcon>
+                                <FilterList fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText primary={getMessage("filterLbl")} />
+                        </MenuItem>
+                    ),
                 ]}
             />
         </>

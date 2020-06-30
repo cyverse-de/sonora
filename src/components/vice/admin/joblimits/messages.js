@@ -8,5 +8,6 @@ export default {
         username: "Username",
         set: "Set",
         get: "Get",
+        newJobLimit: "New Job Limit",
     },
 };

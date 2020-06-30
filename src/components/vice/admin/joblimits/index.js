@@ -12,12 +12,15 @@ import {
 
 import { getMessage as msg } from "@cyverse-de/ui-lib";
 
-import { useQuery } from "react-query";
+import { useMutation } from "react-query";
 
 import { id } from "./functions";
 import ids from "./ids";
 
-import { getUserJobLimit } from "../../../../serviceFacades/vice/admin";
+import {
+    getUserJobLimit,
+    setUserJobLimit,
+} from "../../../../serviceFacades/vice/admin";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,21 +32,23 @@ const useStyles = makeStyles((theme) => ({
 export default () => {
     const classes = useStyles();
     const [username, setUsername] = useState("");
+    const [newLimit, setNewLimit] = useState("");
+    const [currentLimit, setCurrentLimit] = useState("");
 
-    const {
-        data,
-        error,
-        refetch,
-        isIdle,
-        isLoading,
-        isError,
-        isFetching,
-    } = useQuery({
-        queryKey: ["getJobLimits", username],
-        queryFn: getUserJobLimit,
-        config: {
-            enabled: false,
-        },
+    // We're using a mutation instead of a query here because of a bug in
+    // how react-query handles the 'enabled' flag in the config. It's fixed
+    // in the latest version, but that version makes backwards-breaking changes
+    // to the queryCache.refetchQueries() call that breaks most pages. The
+    // upgrade to react-query will need to happen in another PR.
+    const [
+        getJobLimit,
+        { isError, isLoading, isIdle, isFetching, error },
+    ] = useMutation(getUserJobLimit, {
+        onSuccess: (data) => setCurrentLimit(data?.concurrent_jobs),
+    });
+
+    const [setLimitMutation] = useMutation(setUserJobLimit, {
+        onSuccess: () => getJobLimit({ username }),
     });
 
     if (isError) {
@@ -62,16 +67,11 @@ export default () => {
         console.log("is fetching"); //temporary
     }
 
-    console.log(username);
-    console.log(data);
-
     return (
         <Card id={id(ids.CARD)} className={classes.root}>
             <CardHeader title={msg("jobLimits")} />
 
             <CardContent>
-                <Typography>Username</Typography>
-
                 <TextField
                     label={msg("username")}
                     id={id(ids.CARD, "textfield")}
@@ -79,7 +79,7 @@ export default () => {
                     onChange={(e) => setUsername(e.target.value)}
                     onKeyDown={(e) => {
                         if (e.key === "Enter") {
-                            refetch();
+                            getJobLimit({ username });
                         }
                     }}
                 />
@@ -87,17 +87,36 @@ export default () => {
                 <Button
                     variant="outlined"
                     color="primary"
-                    onClick={() => refetch()}
+                    onClick={() => getJobLimit({ username })}
                     id={id(ids.CARD, "search", "button")}
                 >
                     {msg("search")}
                 </Button>
 
+                <Typography>
+                    {`Concurrent Jobs Limit: ${currentLimit}`}
+                </Typography>
+
                 <TextField
-                    label={msg("jobLimit")}
-                    id={id(ids.CARD, "jobLimit")}
-                    value={data?.concurrent_jobs || "not loaded"}
+                    label={msg("newJobLimit")}
+                    id={id(ids.CARD, "newjobLimit")}
+                    value={newLimit}
+                    onChange={(e) => setNewLimit(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                            setLimitMutation({ username, newLimit });
+                        }
+                    }}
                 />
+
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => setLimitMutation({ username, newLimit })}
+                    id={id(ids.CARD, "setLimit", "button")}
+                >
+                    {msg("set")}
+                </Button>
             </CardContent>
         </Card>
     );

@@ -27,9 +27,10 @@ import {
 
 import {
     makeStyles,
-    ExpansionPanel,
-    ExpansionPanelSummary,
-    ExpansionPanelDetails,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails,
+    Grid,
     MenuItem,
     Paper,
     Table,
@@ -111,46 +112,55 @@ const StepResourceRequirementsForm = ({
     );
 
     return (
-        <>
-            <FastField
-                id={buildDebugId(baseId, ids.RESOURCE_REQUESTS.TOOL_CPU)}
-                name={`requirements.${index}.min_cpu_cores`}
-                label={getMessage("minCPUCores")}
-                component={FormSelectField}
-            >
-                {minCPUCoreList.map((size, index) => (
-                    <MenuItem key={index} value={size}>
-                        {size}
-                    </MenuItem>
-                ))}
-            </FastField>
-            <FastField
-                id={buildDebugId(baseId, ids.RESOURCE_REQUESTS.TOOL_MEM)}
-                name={`requirements.${index}.min_memory_limit`}
-                label={getMessage("minMemory")}
-                component={FormSelectField}
-                renderValue={formatGBValue}
-            >
-                {minMemoryList.map((size, index) => (
-                    <MenuItem key={index} value={size}>
-                        {formatGBListItem(size)}
-                    </MenuItem>
-                ))}
-            </FastField>
-            <FastField
-                id={buildDebugId(baseId, ids.RESOURCE_REQUESTS.MIN_DISK_SPACE)}
-                name={`requirements.${index}.min_disk_space`}
-                label={getMessage("minDiskSpace")}
-                component={FormSelectField}
-                renderValue={formatGBValue}
-            >
-                {minDiskSpaceList.map((size, index) => (
-                    <MenuItem key={index} value={size}>
-                        {formatGBListItem(size)}
-                    </MenuItem>
-                ))}
-            </FastField>
-        </>
+        <Grid container spacing={1}>
+            <Grid item xs={12}>
+                <FastField
+                    id={buildDebugId(baseId, ids.RESOURCE_REQUESTS.TOOL_CPU)}
+                    name={`requirements.${index}.min_cpu_cores`}
+                    label={getMessage("minCPUCores")}
+                    component={FormSelectField}
+                >
+                    {minCPUCoreList.map((size, index) => (
+                        <MenuItem key={index} value={size}>
+                            {size}
+                        </MenuItem>
+                    ))}
+                </FastField>
+            </Grid>
+            <Grid item xs={12}>
+                <FastField
+                    id={buildDebugId(baseId, ids.RESOURCE_REQUESTS.TOOL_MEM)}
+                    name={`requirements.${index}.min_memory_limit`}
+                    label={getMessage("minMemory")}
+                    component={FormSelectField}
+                    renderValue={formatGBValue}
+                >
+                    {minMemoryList.map((size, index) => (
+                        <MenuItem key={index} value={size}>
+                            {formatGBListItem(size)}
+                        </MenuItem>
+                    ))}
+                </FastField>
+            </Grid>
+            <Grid item xs={12}>
+                <FastField
+                    id={buildDebugId(
+                        baseId,
+                        ids.RESOURCE_REQUESTS.MIN_DISK_SPACE
+                    )}
+                    name={`requirements.${index}.min_disk_space`}
+                    label={getMessage("minDiskSpace")}
+                    component={FormSelectField}
+                    renderValue={formatGBValue}
+                >
+                    {minDiskSpaceList.map((size, index) => (
+                        <MenuItem key={index} value={size}>
+                            {formatGBListItem(size)}
+                        </MenuItem>
+                    ))}
+                </FastField>
+            </Grid>
+        </Grid>
     );
 };
 
@@ -168,87 +178,90 @@ const ResourceRequirementsForm = withI18N(
         const classes = useStyles();
 
         return (
-            <ExpansionPanel defaultExpanded>
-                <ExpansionPanelSummary
-                    expandIcon={
-                        <ExpandMore
-                            id={buildDebugId(baseId, ids.BUTTONS.EXPAND)}
-                        />
-                    }
-                >
-                    <Typography variant="subtitle1">
-                        <ResourceRequirementsHeader headerMessageKey="resourceRequirements" />
-                    </Typography>
-                </ExpansionPanelSummary>
+            <>
+                <Typography variant="body1">
+                    {getMessage("helpMsgResourceRequirements")}
+                </Typography>
 
-                <ExpansionPanelDetails
-                    className={classes.expansionPanelDetails}
-                >
-                    <Typography variant="body1" gutterBottom>
-                        {getMessage("helpMsgResourceRequirements")}
-                    </Typography>
+                <Accordion defaultExpanded>
+                    <AccordionSummary
+                        expandIcon={
+                            <ExpandMore
+                                id={buildDebugId(baseId, ids.BUTTONS.EXPAND)}
+                            />
+                        }
+                    >
+                        <Typography variant="subtitle1">
+                            <ResourceRequirementsHeader headerMessageKey="resourceRequirements" />
+                        </Typography>
+                    </AccordionSummary>
 
-                    {limits.length === 1 ? (
-                        <StepResourceRequirementsForm
-                            baseId={buildDebugId(baseId, limits[0].step_number)}
-                            requirements={limits[0]}
-                            index={0}
-                            defaultMaxCPUCores={defaultMaxCPUCores}
-                            defaultMaxMemory={defaultMaxMemory}
-                            defaultMaxDiskSpace={defaultMaxDiskSpace}
-                        />
-                    ) : (
-                        // For apps with more than 1 step,
-                        // each step's resource requirements will be nested
-                        // under its own expansion panel.
-                        limits.map((reqs, index) => {
-                            return (
-                                <ExpansionPanel key={reqs.step_number}>
-                                    <ExpansionPanelSummary
-                                        expandIcon={
-                                            <ExpandMore
-                                                id={buildDebugId(
+                    <AccordionDetails className={classes.AccordionDetails}>
+                        {limits.length === 1 ? (
+                            <StepResourceRequirementsForm
+                                baseId={buildDebugId(
+                                    baseId,
+                                    limits[0].step_number
+                                )}
+                                requirements={limits[0]}
+                                index={0}
+                                defaultMaxCPUCores={defaultMaxCPUCores}
+                                defaultMaxMemory={defaultMaxMemory}
+                                defaultMaxDiskSpace={defaultMaxDiskSpace}
+                            />
+                        ) : (
+                            // For apps with more than 1 step,
+                            // each step's resource requirements will be nested
+                            // under its own expansion panel.
+                            limits.map((reqs, index) => {
+                                return (
+                                    <Accordion key={reqs.step_number}>
+                                        <AccordionSummary
+                                            expandIcon={
+                                                <ExpandMore
+                                                    id={buildDebugId(
+                                                        baseId,
+                                                        reqs.step_number,
+                                                        ids.BUTTONS.EXPAND
+                                                    )}
+                                                />
+                                            }
+                                        >
+                                            <Typography variant="subtitle1">
+                                                <ResourceRequirementsHeader
+                                                    headerMessageKey="resourceRequirementsForStep"
+                                                    step={reqs.step_number + 1}
+                                                />
+                                            </Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails
+                                            className={classes.accordionDetails}
+                                        >
+                                            <StepResourceRequirementsForm
+                                                baseId={buildDebugId(
                                                     baseId,
-                                                    reqs.step_number,
-                                                    ids.BUTTONS.EXPAND
+                                                    reqs.step_number
                                                 )}
+                                                requirements={reqs}
+                                                index={index}
+                                                defaultMaxCPUCores={
+                                                    defaultMaxCPUCores
+                                                }
+                                                defaultMaxMemory={
+                                                    defaultMaxMemory
+                                                }
+                                                defaultMaxDiskSpace={
+                                                    defaultMaxDiskSpace
+                                                }
                                             />
-                                        }
-                                    >
-                                        <Typography variant="subtitle1">
-                                            <ResourceRequirementsHeader
-                                                headerMessageKey="resourceRequirementsForStep"
-                                                step={reqs.step_number + 1}
-                                            />
-                                        </Typography>
-                                    </ExpansionPanelSummary>
-                                    <ExpansionPanelDetails
-                                        className={
-                                            classes.expansionPanelDetails
-                                        }
-                                    >
-                                        <StepResourceRequirementsForm
-                                            baseId={buildDebugId(
-                                                baseId,
-                                                reqs.step_number
-                                            )}
-                                            requirements={reqs}
-                                            index={index}
-                                            defaultMaxCPUCores={
-                                                defaultMaxCPUCores
-                                            }
-                                            defaultMaxMemory={defaultMaxMemory}
-                                            defaultMaxDiskSpace={
-                                                defaultMaxDiskSpace
-                                            }
-                                        />
-                                    </ExpansionPanelDetails>
-                                </ExpansionPanel>
-                            );
-                        })
-                    )}
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                );
+                            })
+                        )}
+                    </AccordionDetails>
+                </Accordion>
+            </>
         );
     },
     messages
@@ -271,8 +284,8 @@ const StepResourceRequirementsReview = ({
 
     return (
         (showAll || hasRequest) && (
-            <ExpansionPanel defaultExpanded={false}>
-                <ExpansionPanelSummary
+            <Accordion defaultExpanded={false}>
+                <AccordionSummary
                     expandIcon={
                         <ExpandMore
                             id={buildDebugId(
@@ -289,9 +302,9 @@ const StepResourceRequirementsReview = ({
                             step={step_number + 1}
                         />
                     </Typography>
-                </ExpansionPanelSummary>
+                </AccordionSummary>
 
-                <ExpansionPanelDetails>
+                <AccordionDetails>
                     <TableContainer component={Paper}>
                         <Table>
                             <TableBody>
@@ -330,8 +343,8 @@ const StepResourceRequirementsReview = ({
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
+                </AccordionDetails>
+            </Accordion>
         )
     );
 };

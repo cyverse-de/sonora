@@ -24,9 +24,9 @@ import {
 } from "@cyverse-de/ui-lib";
 import {
     Collapse,
-    ExpansionPanel,
-    ExpansionPanelDetails,
-    ExpansionPanelSummary,
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
     IconButton,
     makeStyles,
     Paper,
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
             overflow: "hidden",
         },
     },
-    expansionPanelDetails: {
+    accordionDetails: {
         display: "block",
     },
     root: {
@@ -152,15 +152,13 @@ function Step(props) {
     const { baseId, intl } = props;
     const classes = useStyles();
     return (
-        <ExpansionPanel>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+        <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>
                     {step_number}: {step_type} - {status}
                 </Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails
-                classes={{ root: classes.expansionPanelDetails }}
-            >
+            </AccordionSummary>
+            <AccordionDetails classes={{ root: classes.accordionDetails }}>
                 <div>
                     <CopyTextArea
                         text={external_id}
@@ -168,8 +166,8 @@ function Step(props) {
                     />
                 </div>
                 <Updates updates={updates} baseId={baseId} intl={intl} />
-            </ExpansionPanelDetails>
-        </ExpansionPanel>
+            </AccordionDetails>
+        </Accordion>
     );
 }
 

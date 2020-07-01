@@ -1,5 +1,5 @@
 export default (theme) => ({
-    expansionPanelDetails: { flexDirection: "column" },
+    accordionDetails: { flexDirection: "column" },
 
     // Keeps the content panel at a static height
     // so the nav buttons don't move around below it.

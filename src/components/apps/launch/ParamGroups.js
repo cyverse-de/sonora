@@ -36,9 +36,9 @@ import {
 
 import {
     makeStyles,
-    ExpansionPanel,
-    ExpansionPanelSummary,
-    ExpansionPanelDetails,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails,
     FormControl,
     FormControlLabel,
     FormHelperText,
@@ -136,15 +136,15 @@ const ParamGroupForm = withI18N((props) => {
     } = props;
 
     return (
-        <ExpansionPanel id={baseId} defaultExpanded>
-            <ExpansionPanelSummary
+        <Accordion id={baseId} defaultExpanded>
+            <AccordionSummary
                 expandIcon={
                     <ExpandMore id={buildDebugId(baseId, ids.BUTTONS.EXPAND)} />
                 }
             >
                 <Typography variant="subtitle1">{group.label}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails className={classes.expansionPanelDetails}>
+            </AccordionSummary>
+            <AccordionDetails className={classes.accordionDetails}>
                 {group.parameters?.map((param, paramIndex) => {
                     if (!param.isVisible) {
                         return null;
@@ -276,8 +276,8 @@ const ParamGroupForm = withI18N((props) => {
 
                     return <FastField key={param.id} {...fieldProps} />;
                 })}
-            </ExpansionPanelDetails>
-        </ExpansionPanel>
+            </AccordionDetails>
+        </Accordion>
     );
 }, messages);
 

@@ -8,6 +8,7 @@ import {
     CardHeader,
     makeStyles,
     Button,
+    FormControl,
 } from "@material-ui/core";
 
 import { getMessage as msg } from "@cyverse-de/ui-lib";
@@ -26,6 +27,15 @@ const useStyles = makeStyles((theme) => ({
     root: {
         marginBottom: theme.spacing(4),
         width: "100%",
+    },
+    container: {
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        marginBottom: theme.spacing(2),
+    },
+    button: {
+        marginLeft: theme.spacing(1),
     },
 }));
 
@@ -72,51 +82,66 @@ export default () => {
             <CardHeader title={msg("jobLimits")} />
 
             <CardContent>
-                <TextField
-                    label={msg("username")}
-                    id={id(ids.CARD, "textfield")}
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                            getJobLimit({ username });
-                        }
-                    }}
-                />
+                <FormControl>
+                    <div className={classes.container}>
+                        <Typography>
+                            {`Concurrent Jobs Limit: ${currentLimit}`}
+                        </Typography>
+                    </div>
 
-                <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => getJobLimit({ username })}
-                    id={id(ids.CARD, "search", "button")}
-                >
-                    {msg("search")}
-                </Button>
+                    <div className={classes.container}>
+                        <TextField
+                            label={msg("username")}
+                            id={id(ids.CARD, "textfield")}
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    getJobLimit({ username });
+                                }
+                            }}
+                        />
 
-                <Typography>
-                    {`Concurrent Jobs Limit: ${currentLimit}`}
-                </Typography>
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            className={classes.button}
+                            onClick={() => getJobLimit({ username })}
+                            id={id(ids.CARD, "search", "button")}
+                        >
+                            {msg("search")}
+                        </Button>
+                    </div>
 
-                <TextField
-                    label={msg("newJobLimit")}
-                    id={id(ids.CARD, "newjobLimit")}
-                    value={newLimit}
-                    onChange={(e) => setNewLimit(e.target.value)}
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                            setLimitMutation({ username, newLimit });
-                        }
-                    }}
-                />
+                    <div className={classes.container}>
+                        <TextField
+                            label={msg("newJobLimit")}
+                            id={id(ids.CARD, "newjobLimit")}
+                            value={newLimit}
+                            onChange={(e) => setNewLimit(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    setLimitMutation({
+                                        username,
+                                        newLimit,
+                                    });
+                                }
+                            }}
+                        />
 
-                <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => setLimitMutation({ username, newLimit })}
-                    id={id(ids.CARD, "setLimit", "button")}
-                >
-                    {msg("set")}
-                </Button>
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            className={classes.button}
+                            onClick={() =>
+                                setLimitMutation({ username, newLimit })
+                            }
+                            id={id(ids.CARD, "setLimit", "button")}
+                        >
+                            {msg("set")}
+                        </Button>
+                    </div>
+                </FormControl>
             </CardContent>
         </Card>
     );

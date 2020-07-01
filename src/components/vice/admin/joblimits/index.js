@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 const JobLimits = ({ intl }) => {
     const classes = useStyles();
     const [username, setUsername] = useState("");
+    const [previousUsername, setPreviousUsername] = useState("");
     const [newLimit, setNewLimit] = useState("");
     const [currentLimit, setCurrentLimit] = useState("");
 
@@ -52,11 +53,13 @@ const JobLimits = ({ intl }) => {
     // in the latest version, but that version makes backwards-breaking changes
     // to the queryCache.refetchQueries() call that breaks most pages. The
     // upgrade to react-query will need to happen in another PR.
-    const [
-        getJobLimit,
-        { isError, isLoading, isIdle, isFetching, error },
-    ] = useMutation(getUserJobLimit, {
-        onSuccess: (data) => setCurrentLimit(data?.concurrent_jobs),
+    const [getJobLimit, { isError, error }] = useMutation(getUserJobLimit, {
+        onSuccess: (data) => {
+            setPreviousUsername(username); // set the displayed username.
+            setCurrentLimit(data?.concurrent_jobs); // set the displayed limit.
+            setNewLimit(""); // reset new limit text box.
+            setUsername(""); // reset username text box.
+        },
     });
 
     const [setLimitMutation] = useMutation(setUserJobLimit, {
@@ -67,16 +70,17 @@ const JobLimits = ({ intl }) => {
         console.log(error.message); // temporary
     }
 
-    if (isLoading) {
-        console.log("loading data"); // temporary
-    }
+    let infoMsg;
 
-    if (isIdle) {
-        console.log("is idle"); // temporary
-    }
-
-    if (isFetching) {
-        console.log("is fetching"); //temporary
+    if (currentLimit !== "" && previousUsername !== "") {
+        infoMsg = msg("currentJobLimit", {
+            values: {
+                username: previousUsername,
+                currentLimit,
+            },
+        });
+    } else {
+        infoMsg = msg("searchForLimit");
     }
 
     return (
@@ -86,16 +90,7 @@ const JobLimits = ({ intl }) => {
             <CardContent>
                 <FormControl>
                     <div className={classes.container}>
-                        <Typography>
-                            {currentLimit !== ""
-                                ? msg("currentJobLimit", {
-                                      values: {
-                                          username,
-                                          currentLimit,
-                                      },
-                                  })
-                                : msg("searchForLimit")}
-                        </Typography>
+                        <Typography>{infoMsg}</Typography>
                     </div>
 
                     <div className={classes.container}>

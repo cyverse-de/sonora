@@ -11,9 +11,10 @@ import {
     FormControl,
 } from "@material-ui/core";
 
-import { getMessage as msg, withI18N } from "@cyverse-de/ui-lib";
+import { getMessage as msg, formatMessage, withI18N } from "@cyverse-de/ui-lib";
 
 import { useMutation } from "react-query";
+import { injectIntl } from "react-intl";
 
 import { id } from "./functions";
 import ids from "./ids";
@@ -23,6 +24,8 @@ import {
     getUserJobLimit,
     setUserJobLimit,
 } from "../../../../serviceFacades/vice/admin";
+
+import withErrorAnnouncer from "../../../utils/error/withErrorAnnouncer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const JobLimits = () => {
+const JobLimits = ({ showErrorAnnouncer, intl }) => {
     const classes = useStyles();
     const [username, setUsername] = useState("");
     const [previousUsername, setPreviousUsername] = useState("");
@@ -52,22 +55,37 @@ const JobLimits = () => {
     // in the latest version, but that version makes backwards-breaking changes
     // to the queryCache.refetchQueries() call that breaks most pages. The
     // upgrade to react-query will need to happen in another PR.
-    const [getJobLimit, { isError, error }] = useMutation(getUserJobLimit, {
+    const [getJobLimit] = useMutation(getUserJobLimit, {
         onSuccess: (data) => {
             setPreviousUsername(username); // set the displayed username.
             setCurrentLimit(data?.concurrent_jobs); // set the displayed limit.
             setNewLimit(""); // reset new limit text box.
             setUsername(""); // reset username text box.
         },
+
+        onError: (e) => {
+            showErrorAnnouncer(
+                formatMessage(intl, "jobLimitLookupError", {
+                    username,
+                }),
+                e
+            );
+        },
     });
 
     const [setLimitMutation] = useMutation(setUserJobLimit, {
         onSuccess: () => getJobLimit({ username }),
-    });
 
-    if (isError) {
-        console.log(error.message); // temporary
-    }
+        onError: (e) => {
+            showErrorAnnouncer(
+                formatMessage(intl, "jobLimitUpdateError", {
+                    username,
+                    currentLimit: newLimit,
+                }),
+                e
+            );
+        },
+    });
 
     let infoMsg;
 
@@ -150,4 +168,4 @@ const JobLimits = () => {
     );
 };
 
-export default withI18N(JobLimits, messages);
+export default withI18N(injectIntl(withErrorAnnouncer(JobLimits)), messages);

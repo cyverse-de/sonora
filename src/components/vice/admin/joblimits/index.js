@@ -14,7 +14,6 @@ import {
 import { getMessage as msg, withI18N } from "@cyverse-de/ui-lib";
 
 import { useMutation } from "react-query";
-import { injectIntl } from "react-intl";
 
 import { id } from "./functions";
 import ids from "./ids";
@@ -41,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const JobLimits = ({ intl }) => {
+const JobLimits = () => {
     const classes = useStyles();
     const [username, setUsername] = useState("");
     const [previousUsername, setPreviousUsername] = useState("");
@@ -151,4 +150,4 @@ const JobLimits = ({ intl }) => {
     );
 };
 
-export default withI18N(injectIntl(JobLimits), messages);
+export default withI18N(JobLimits, messages);

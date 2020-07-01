@@ -26,6 +26,9 @@ import {
     getApps,
     getAppsInCategory,
     rateApp,
+    ALL_APPS_QUERY_KEY,
+    APP_DETAILS_QUERY_KEY,
+    APPS_IN_CATEGORY_QUERY_KEY,
 } from "../../../serviceFacades/apps";
 
 import { withI18N } from "@cyverse-de/ui-lib";
@@ -42,21 +45,33 @@ function Listing({ baseId, onRouteToApp }) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [appsInCategoryKey, setAppsInCategoryKey] = useState(null);
     const [filter, setFilter] = useState(getAppTypeFilters()[0]);
-    const [allAppsKey, setAllAppsKey] = useState(null);
+
     const [data, setData] = useState(null);
     const [agaveAuthDialogOpen, setAgaveAuthDialogOpen] = useState(false);
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [detailsApp, setDetailsApp] = useState(null);
     const [details, setDetails] = useState(null);
-    const [detailsKey, setDetailsKey] = useState(null);
+
     const [categoryStatus, setCategoryStatus] = useState(false);
     const [navError, setNavError] = useState(null);
     const [detailsError, setDetailsError] = useState(null);
     const [favMutationError, setFavMutationError] = useState(null);
     const [ratingMutationError, setRatingMutationError] = useState(null);
+
+    const [appsInCategoryKey, setAppsInCategoryKey] = useState(
+        APPS_IN_CATEGORY_QUERY_KEY
+    );
+    const [allAppsKey, setAllAppsKey] = useState(ALL_APPS_QUERY_KEY);
+    const [detailsKey, setDetailsKey] = useState(APP_DETAILS_QUERY_KEY);
+
+    const [
+        appsInCategoryQueryEnabled,
+        setAppsInCategoryQueryEnabled,
+    ] = useState(false);
+    const [allAppsQueryEnabled, setAllAppsQueryEnabled] = useState(false);
+    const [detailsQueryEnabled, setDetailsQueryEnabled] = useState(false);
 
     //a query with falsy key will not execute until key is set truthy val
     const {
@@ -66,6 +81,7 @@ function Listing({ baseId, onRouteToApp }) {
         queryKey: appsInCategoryKey,
         queryFn: getAppsInCategory,
         config: {
+            enabled: appsInCategoryQueryEnabled,
             onSuccess: setData,
         },
     });
@@ -74,6 +90,7 @@ function Listing({ baseId, onRouteToApp }) {
         queryKey: allAppsKey,
         queryFn: getApps,
         config: {
+            enabled: allAppsQueryEnabled,
             onSuccess: setData,
         },
     });
@@ -82,6 +99,7 @@ function Listing({ baseId, onRouteToApp }) {
         queryKey: detailsKey,
         queryFn: getAppDetails,
         config: {
+            enabled: detailsQueryEnabled,
             onSuccess: setDetails,
             onError: (e) => {
                 setDetailsError(e);
@@ -94,8 +112,8 @@ function Listing({ baseId, onRouteToApp }) {
     const [favorite, { status: favMutationStatus }] = useMutation(appFavorite, {
         onSuccess: () =>
             //return a promise so mutate() only resolves after the onSuccess callback
-            queryCache.refetchQueries(
-                appsInCategoryKey ? appsInCategoryKey : allAppsKey
+            queryCache.invalidateQueries(
+                appsInCategoryQueryEnabled ? appsInCategoryKey : allAppsKey
             ),
         onError: (e) => {
             setFavMutationError(e);
@@ -107,8 +125,8 @@ function Listing({ baseId, onRouteToApp }) {
     const [rating, { status: ratingMutationStatus }] = useMutation(rateApp, {
         onSuccess: () =>
             //return a promise so mutate() only resolves after the onSuccess callback
-            queryCache.refetchQueries(
-                appsInCategoryKey ? appsInCategoryKey : allAppsKey
+            queryCache.invalidateQueries(
+                appsInCategoryQueryEnabled ? appsInCategoryKey : allAppsKey
             ),
         onError: (e) => {
             setRatingMutationError(e);
@@ -148,7 +166,7 @@ function Listing({ baseId, onRouteToApp }) {
         const appTypeFilter = filter?.name;
         if (categoryName === constants.BROWSE_ALL_APPS) {
             setAllAppsKey([
-                "getApps",
+                ALL_APPS_QUERY_KEY,
                 {
                     rowsPerPage,
                     orderBy,
@@ -157,10 +175,11 @@ function Listing({ baseId, onRouteToApp }) {
                     appTypeFilter,
                 },
             ]);
-            setAppsInCategoryKey(null);
+            setAllAppsQueryEnabled(true);
+            setAppsInCategoryQueryEnabled(false);
         } else if (systemId && categoryId) {
             setAppsInCategoryKey([
-                "getAppsInCategory",
+                APPS_IN_CATEGORY_QUERY_KEY,
                 {
                     systemId,
                     rowsPerPage,
@@ -171,7 +190,8 @@ function Listing({ baseId, onRouteToApp }) {
                     categoryId,
                 },
             ]);
-            setAllAppsKey(null);
+            setAppsInCategoryQueryEnabled(true);
+            setAllAppsQueryEnabled(false);
         }
     }, [order, orderBy, page, rowsPerPage, selectedCategory, filter]);
 
@@ -191,18 +211,23 @@ function Listing({ baseId, onRouteToApp }) {
     }, [data, detailsOpen, selected]);
 
     useEffect(() => {
-        setDetailsEnabled(selected && selected.length === 1);
+        const enabled = selected && selected.length === 1;
+        setDetailsEnabled(enabled);
+        setDetailsQueryEnabled(enabled);
     }, [selected]);
 
     useEffect(() => {
         if (detailsApp) {
             setDetailsKey([
-                "getAppsDetails",
+                APP_DETAILS_QUERY_KEY,
                 {
                     systemId: detailsApp.system_id,
                     appId: detailsApp.id,
                 },
             ]);
+            setDetailsQueryEnabled(true);
+        } else {
+            setDetailsQueryEnabled(false);
         }
     }, [detailsApp]);
 

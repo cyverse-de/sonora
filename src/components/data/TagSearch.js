@@ -78,7 +78,7 @@ function TagSearch(props) {
     const [removeTag, { status: tagDetachStatus }] = useMutation(
         detachTagsFromResource,
         {
-            onSuccess: () => queryCache.refetchQueries(fetchTagsQueryKey),
+            onSuccess: () => queryCache.invalidateQueries(fetchTagsQueryKey),
             onError: (e) => {
                 setErrorMessage(formatMessage(intl, "modifyTagsError"));
                 setErrorObject(e);
@@ -113,7 +113,7 @@ function TagSearch(props) {
         {
             onSuccess: () => {
                 setSearchTerm(null);
-                return queryCache.refetchQueries(fetchTagsQueryKey);
+                return queryCache.invalidateQueries(fetchTagsQueryKey);
             },
             onError: (e) => {
                 setErrorMessage(formatMessage(intl, "modifyTagsError"));

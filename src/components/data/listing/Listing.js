@@ -36,6 +36,7 @@ import {
     deleteResources,
     getInfoTypes,
     getPagedListing,
+    DATA_LISTING_QUERY_KEY,
 } from "../../../serviceFacades/filesystem";
 
 import withErrorAnnouncer from "../../utils/error/withErrorAnnouncer";
@@ -62,7 +63,12 @@ function Listing(props) {
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
-    const [pagedListingKey, setPagedListingKey] = useState(null);
+    const [pagedListingKey, setPagedListingKey] = useState(
+        DATA_LISTING_QUERY_KEY
+    );
+    const [pagedListingQueryEnabled, setPagedListingQueryEnabled] = useState(
+        false
+    );
     const [navError, setNavError] = useState(null);
     const {
         baseId,
@@ -104,6 +110,7 @@ function Listing(props) {
         queryKey: pagedListingKey,
         queryFn: getPagedListing,
         config: {
+            enabled: pagedListingQueryEnabled,
             onSuccess: (respData) => {
                 setData({
                     total: respData?.total,
@@ -124,7 +131,7 @@ function Listing(props) {
     });
 
     const refreshListing = () =>
-        queryCache.refetchQueries(pagedListingKey, { force: true });
+        queryCache.invalidateQueries(pagedListingKey, { force: true });
 
     const [removeResources, { status: removeResourceStatus }] = useMutation(
         deleteResources,
@@ -143,7 +150,7 @@ function Listing(props) {
         setSelected([]);
         if (path) {
             setPagedListingKey([
-                "dataPagedListing",
+                DATA_LISTING_QUERY_KEY,
                 path,
                 rowsPerPage,
                 orderBy,
@@ -151,6 +158,7 @@ function Listing(props) {
                 page,
                 uploadsCompleted,
             ]);
+            setPagedListingQueryEnabled(true);
         }
     }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
 

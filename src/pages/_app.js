@@ -81,8 +81,7 @@ function MyApp({ Component, pageProps, intercom, admin, irods, tools }) {
     const [unReadCount, setUnReadCount] = useState(0);
 
     const queryConfig = {
-        refetchOnWindowFocus: false,
-        retry: false,
+        queries: { refetchOnWindowFocus: false, retry: false },
     };
 
     React.useEffect(() => {

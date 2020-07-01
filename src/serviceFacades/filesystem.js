@@ -1,5 +1,9 @@
 import callApi from "../common/callApi";
 
+export const DATA_LISTING_QUERY_KEY = "fetchDataListing";
+export const USER_INFO_QUERY_KEY = "fetchUserInfo";
+export const RESOURCE_PERMISSIONS_KEY = "fetchResourcePermissions";
+
 /**
  * Get details on data resources
  * @param key - Query key for react-query

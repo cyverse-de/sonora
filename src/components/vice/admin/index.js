@@ -234,19 +234,19 @@ const VICEAdminTabs = ({ data = {} }) => {
     const tabPanelID = (name) => id(ids.ROOT, "admin", "tab-panels", name);
 
     const [mutantExit] = useMutation(exit, {
-        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+        onSuccess: () => queryCache.invalidateQueries(getDataQueryName),
     });
     const [mutantSaveAndExit] = useMutation(saveAndExit, {
-        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+        onSuccess: () => queryCache.invalidateQueries(getDataQueryName),
     });
     const [mutantExtendTimeLimit] = useMutation(extendTimeLimit, {
-        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+        onSuccess: () => queryCache.invalidateQueries(getDataQueryName),
     });
     const [mutantUploadOutputs] = useMutation(saveOutputFiles, {
-        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+        onSuccess: () => queryCache.invalidateQueries(getDataQueryName),
     });
     const [mutantDownloadInputs] = useMutation(downloadInputFiles, {
-        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+        onSuccess: () => queryCache.invalidateQueries(getDataQueryName),
     });
 
     const [analysisRows, setAnalysisRows] = useState([]);

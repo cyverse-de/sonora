@@ -31,7 +31,7 @@ import {
     ResourceRequirementsReview,
 } from "./ResourceRequirements";
 
-import { getReferenceGenomes } from "../../endpoints/ReferenceGenomes";
+import { getReferenceGenomes } from "../../../serviceFacades/referenceGenomes";
 
 import {
     build as buildDebugId,

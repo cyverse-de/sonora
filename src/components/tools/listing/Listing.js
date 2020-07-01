@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import TableView from "./TableView";
-import { getTools } from "../../../serviceFacades/tools";
+import { getTools, TOOLS_QUERY_KEY } from "../../../serviceFacades/tools";
 import { injectIntl } from "react-intl";
 import { withI18N } from "@cyverse-de/ui-lib";
 import messages from "../Messages";
@@ -16,7 +16,7 @@ function Listing(props) {
 
     // Data and data retrieval state variables.
     const [data, setData] = useState(null);
-    const [toolsKey, setToolsKey] = useState(null);
+    const [toolsKey, setToolsKey] = useState(TOOLS_QUERY_KEY);
 
     // Result ordering state variables.
     const [order, setOrder] = useState("asc");
@@ -31,7 +31,7 @@ function Listing(props) {
     const [lastSelectedIndex, setLastSelectedIndex] = useState(-1);
 
     useEffect(() => {
-        setToolsKey(["getTools", { order, orderBy, page, rowsPerPage }]);
+        setToolsKey([TOOLS_QUERY_KEY, { order, orderBy, page, rowsPerPage }]);
     }, [order, orderBy, page, rowsPerPage]);
 
     // Fetches tool listings from the API.
@@ -39,6 +39,7 @@ function Listing(props) {
         queryKey: toolsKey,
         queryFn: getTools,
         config: {
+            enabled: true,
             onSuccess: setData,
         },
     });

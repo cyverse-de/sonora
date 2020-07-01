@@ -234,7 +234,10 @@ function CyverseAppBar(props) {
         queryKey: "getUserProfile",
         queryFn: getUserProfile,
         config: {
+            enabled: true,
             onSuccess: setUserProfile,
+            cacheTime: Infinity,
+            staleTime: Infinity,
         },
     });
 

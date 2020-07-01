@@ -59,6 +59,7 @@ function DetailsTabPanel(props) {
         queryKey: fetchDetailsKey,
         queryFn: getResourceDetails,
         config: {
+            enabled: true,
             onSuccess: (resp) => {
                 const details = resp?.paths[resourcePath];
                 setDetails(details);
@@ -74,7 +75,7 @@ function DetailsTabPanel(props) {
     const [changeInfoType, { status: updateInfoTypeStatus }] = useMutation(
         updateInfoType,
         {
-            onSuccess: () => queryCache.refetchQueries(fetchDetailsKey),
+            onSuccess: () => queryCache.invalidateQueries(fetchDetailsKey),
             onError: (e) => {
                 setErrorMessage(formatMessage(intl, "updateInfoTypeError"));
                 setErrorObject(e);

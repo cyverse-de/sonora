@@ -17,6 +17,7 @@ import callApi from "../common/callApi";
  * @param {string} _ - the string component of the query key
  * @param {ToolListingParams} queryParams - the listing parameters
  */
+const TOOLS_QUERY_KEY = "fetchTools";
 function getTools(_, { order, orderBy, page, rowsPerPage }) {
     // Determine if the request is supposed to be ordered.
     const isOrdered = order && orderBy;
@@ -42,4 +43,4 @@ function getTools(_, { order, orderBy, page, rowsPerPage }) {
     });
 }
 
-export { getTools };
+export { getTools,TOOLS_QUERY_KEY };

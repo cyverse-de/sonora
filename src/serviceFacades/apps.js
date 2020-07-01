@@ -5,6 +5,11 @@
 import callApi from "../common/callApi";
 import appType from "../components/models/AppType";
 
+const ALL_APPS_QUERY_KEY = "fetchAllApps";
+const APP_DETAILS_QUERY_KEY = "fetchAppDetails";
+const APPS_IN_CATEGORY_QUERY_KEY = "fetchAppsInCategory";
+const APP_DESCRIPTION_QUERY_KEY = "fetchAppDescription";
+
 const getAppTypeFilter = (appTypeFilter) => {
     const typeFilter =
         appTypeFilter && appTypeFilter !== appType.all
@@ -94,4 +99,8 @@ export {
     getAppDetails,
     appFavorite,
     rateApp,
+    ALL_APPS_QUERY_KEY,
+    APP_DETAILS_QUERY_KEY,
+    APPS_IN_CATEGORY_QUERY_KEY,
+    APP_DESCRIPTION_QUERY_KEY,
 };

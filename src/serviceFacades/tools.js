@@ -43,4 +43,4 @@ function getTools(_, { order, orderBy, page, rowsPerPage }) {
     });
 }
 
-export { getTools,TOOLS_QUERY_KEY };
+export { getTools, TOOLS_QUERY_KEY };

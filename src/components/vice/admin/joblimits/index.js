@@ -31,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
     root: {
         marginBottom: theme.spacing(4),
         width: "100%",
+        [theme.breakpoints.down("xs")]: {
+            flexDirection: "column",
+            justifyContent: "center",
+        },
     },
     container: {
         display: "flex",
@@ -40,6 +44,25 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         marginLeft: theme.spacing(1),
+        marginTop: theme.spacing(1),
+        [theme.breakpoints.down("xs")]: {
+            width: "100%",
+            marginLeft: 0,
+        },
+    },
+    textField: {
+        [theme.breakpoints.up("xs")]: {
+            width: "100%",
+            marginLeft: 0,
+            marginRight: 0,
+        },
+        [theme.breakpoints.up("sm")]: {
+            width: "50ch",
+        },
+        [theme.breakpoints.up("md")]: {
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
+        },
     },
 }));
 
@@ -114,6 +137,7 @@ const JobLimits = ({ showErrorAnnouncer, intl }) => {
                         <TextField
                             label={msg("username")}
                             id={id(ids.CARD, "textfield")}
+                            className={classes.textField}
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             onKeyDown={(e) => {
@@ -138,6 +162,7 @@ const JobLimits = ({ showErrorAnnouncer, intl }) => {
                         <TextField
                             label={msg("newJobLimit")}
                             id={id(ids.CARD, "newjobLimit")}
+                            className={classes.textField}
                             value={newLimit}
                             onChange={(e) => setNewLimit(e.target.value)}
                             onKeyDown={(e) => {

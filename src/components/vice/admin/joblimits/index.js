@@ -11,12 +11,14 @@ import {
     FormControl,
 } from "@material-ui/core";
 
-import { getMessage as msg } from "@cyverse-de/ui-lib";
+import { getMessage as msg, withI18N } from "@cyverse-de/ui-lib";
 
 import { useMutation } from "react-query";
+import { injectIntl } from "react-intl";
 
 import { id } from "./functions";
 import ids from "./ids";
+import messages from "./messages";
 
 import {
     getUserJobLimit,
@@ -39,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default () => {
+const JobLimits = ({ intl }) => {
     const classes = useStyles();
     const [username, setUsername] = useState("");
     const [newLimit, setNewLimit] = useState("");
@@ -85,7 +87,14 @@ export default () => {
                 <FormControl>
                     <div className={classes.container}>
                         <Typography>
-                            {`Concurrent Jobs Limit: ${currentLimit}`}
+                            {currentLimit !== ""
+                                ? msg("currentJobLimit", {
+                                      values: {
+                                          username,
+                                          currentLimit,
+                                      },
+                                  })
+                                : msg("searchForLimit")}
                         </Typography>
                     </div>
 
@@ -146,3 +155,5 @@ export default () => {
         </Card>
     );
 };
+
+export default withI18N(injectIntl(JobLimits), messages);

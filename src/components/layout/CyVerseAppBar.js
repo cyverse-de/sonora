@@ -22,6 +22,7 @@ import Notifications from "./Notifications";
 import CustomIntercom from "./CustomIntercom";
 import { useUserProfile } from "../../contexts/userProfile";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
+
 import {
     getUserProfile,
     bootstrap,

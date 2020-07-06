@@ -20,6 +20,7 @@ import getData, {
 
 import RowFilter from "./filter";
 import CollapsibleTable from "./table";
+import JobLimits from "./joblimits";
 
 import ids from "./ids";
 import messages from "./messages";
@@ -402,6 +403,8 @@ const VICEAdmin = () => {
                 <VICEAdminSkeleton />
             ) : (
                 <>
+                    <JobLimits />
+
                     <RowFilter
                         filters={filters}
                         addToFilters={addToFilters}

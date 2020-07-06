@@ -48,6 +48,21 @@ export const downloadInputFiles = ({ analysisID }) =>
         method: "POST",
     });
 
+export const getUserJobLimit = ({ username }) =>
+    callApi({
+        endpoint: `/api/admin/vice/concurrent-job-limits/${username}`,
+        method: "GET",
+    });
+
+export const setUserJobLimit = ({ username, newLimit }) =>
+    callApi({
+        endpoint: `/api/admin/vice/concurrent-job-limits/${username}`,
+        method: "PUT",
+        body: {
+            concurrent_jobs: parseInt(newLimit, 10),
+        },
+    });
+
 export default () =>
     callApi({
         endpoint: "/api/admin/vice/resources",

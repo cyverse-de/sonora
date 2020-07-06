@@ -7,7 +7,9 @@ const BOOTSTRAP_KEY = "bootstrap";
  * @param userIds An array of user ids
  * @returns {Promise<any>}
  */
-const getUserInfo = ({ userIds }) => {
+export const USER_PROFILE_QUERY_KEY = "fetchUserProfile";
+
+export const getUserInfo = ({ userIds }) => {
     const userQuery = userIds.join("&username=");
 
     return callApi({

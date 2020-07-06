@@ -12,7 +12,10 @@ import intlData from "../messages";
 import styles from "../styles";
 import ids from "../ids";
 import constants from "../../../constants";
-import { getFilesystemRoots } from "../../../serviceFacades/filesystem";
+import {
+    getFilesystemRoots,
+    DATA_ROOTS_QUERY_KEY,
+} from "../../../serviceFacades/filesystem";
 import { useUserProfile } from "../../../contexts/userProfile";
 
 import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
@@ -376,9 +379,10 @@ function Navigation(props) {
     }, [dataRoots, handlePathChange, path]);
 
     const { error } = useQuery({
-        queryKey: "dataFileSystemRoots",
+        queryKey: DATA_ROOTS_QUERY_KEY,
         queryFn: getFilesystemRoots,
         config: {
+            enabled: true,
             onSuccess: preProcessData,
             onError: (e) => {
                 handleDataNavError(e);
@@ -441,7 +445,7 @@ function Navigation(props) {
     };
 
     if (dataRoots.length === 0) {
-        const cacheRoots = queryCache.getQueryData("dataFileSystemRoots");
+        const cacheRoots = queryCache.getQueryData(DATA_ROOTS_QUERY_KEY);
         if (cacheRoots) {
             preProcessData(cacheRoots);
         }

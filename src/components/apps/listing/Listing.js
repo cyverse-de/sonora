@@ -111,7 +111,6 @@ function Listing({ baseId, onRouteToApp }) {
 
     const [favorite, { status: favMutationStatus }] = useMutation(appFavorite, {
         onSuccess: () =>
-            //return a promise so mutate() only resolves after the onSuccess callback
             queryCache.invalidateQueries(
                 appsInCategoryQueryEnabled ? appsInCategoryKey : allAppsKey
             ),
@@ -213,7 +212,7 @@ function Listing({ baseId, onRouteToApp }) {
     useEffect(() => {
         const enabled = selected && selected.length === 1;
         setDetailsEnabled(enabled);
-        setDetailsQueryEnabled(enabled);
+        //      setDetailsQueryEnabled(enabled);
     }, [selected]);
 
     useEffect(() => {

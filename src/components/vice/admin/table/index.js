@@ -30,7 +30,10 @@ import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
 
 import { useQuery } from "react-query";
 
-import { asyncData } from "../../../../serviceFacades/vice/admin";
+import {
+    asyncData,
+    ASYNC_DATA_QUERY_KEY,
+} from "../../../../serviceFacades/vice/admin";
 
 import messages from "./messages";
 import ids from "./ids";
@@ -75,7 +78,7 @@ const ActionButtons = ({
     const [popperMessage, setPopperMessage] = useState("");
 
     const { status, data, error } = useQuery(
-        ["async-data", row.externalID],
+        [ASYNC_DATA_QUERY_KEY, row.externalID],
         asyncData
     );
 

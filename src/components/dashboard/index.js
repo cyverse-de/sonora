@@ -46,7 +46,10 @@ import {
 import messages from "./messages";
 import ids from "./ids";
 import * as constants from "./constants";
-import { getDashboard } from "../../serviceFacades/dashboard";
+import {
+    getDashboard,
+    DASHBOARD_QUERY_KEY,
+} from "../../serviceFacades/dashboard";
 
 const makeID = (...names) => buildID(ids.BASE, ...names);
 
@@ -535,7 +538,7 @@ const DashboardSkeleton = () => {
 const Dashboard = ({ intl }) => {
     const classes = useStyles();
     const { status, data, error } = useQuery(
-        ["dashboard", { limit: constants.SECTION_ITEM_LIMIT }],
+        [DASHBOARD_QUERY_KEY, { limit: constants.SECTION_ITEM_LIMIT }],
         getDashboard
     );
     const isLoading = status === "loading";

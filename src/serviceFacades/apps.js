@@ -9,6 +9,7 @@ const ALL_APPS_QUERY_KEY = "fetchAllApps";
 const APP_DETAILS_QUERY_KEY = "fetchAppDetails";
 const APPS_IN_CATEGORY_QUERY_KEY = "fetchAppsInCategory";
 const APP_DESCRIPTION_QUERY_KEY = "fetchAppDescription";
+const APP_CATEGORIES_QUERY_KEY = "fetchPrivateCategories";
 
 const getAppTypeFilter = (appTypeFilter) => {
     const typeFilter =
@@ -103,4 +104,5 @@ export {
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,
     APP_DESCRIPTION_QUERY_KEY,
+    APP_CATEGORIES_QUERY_KEY,
 };

@@ -11,7 +11,10 @@ import ids from "../ids";
 
 import constants from "../../../constants";
 import appType from "../../models/AppType";
-import { getPrivateCategories } from "../../../serviceFacades/apps";
+import {
+    getPrivateCategories,
+    APP_CATEGORIES_QUERY_KEY,
+} from "../../../serviceFacades/apps";
 
 import { queryCache, useQuery } from "react-query";
 
@@ -156,7 +159,7 @@ function AppNavigation(props) {
     );
 
     const { isFetching } = useQuery({
-        queryKey: "getPrivateCategories",
+        queryKey: APP_CATEGORIES_QUERY_KEY,
         queryFn: getPrivateCategories,
         config: {
             onSuccess: preProcessData,

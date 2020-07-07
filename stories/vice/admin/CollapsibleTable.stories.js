@@ -70,12 +70,12 @@ const defineColumn = (
     align = "left",
     enableSorting = true
 ) => ({
-    name,
+    Header: name,
+    accessor: field,
     align,
     enableSorting,
     key: keyID,
     id: keyID,
-    field,
 });
 
 // The column definitions for the table.
@@ -95,19 +95,21 @@ const commonColumns = [
     defineColumn("User ID", COMMON_COLUMNS.USER_ID, "userID"),
 ];
 
-const deploymentColumns = [
-    ...commonColumns,
-    defineColumn("Image", DEPLOYMENT_COLUMNS.IMAGE, "image"),
-    defineColumn("Port", DEPLOYMENT_COLUMNS.PORT, "port"),
-    defineColumn("UID", DEPLOYMENT_COLUMNS.UID, "uid"),
-    defineColumn("GID", DEPLOYMENT_COLUMNS.GID, "gid"),
-];
+const testColumns = {
+    deployments: [
+        ...commonColumns,
+        defineColumn("Image", DEPLOYMENT_COLUMNS.IMAGE, "image"),
+        defineColumn("Port", DEPLOYMENT_COLUMNS.PORT, "port"),
+        defineColumn("UID", DEPLOYMENT_COLUMNS.UID, "uid"),
+        defineColumn("GID", DEPLOYMENT_COLUMNS.GID, "gid"),
+    ],
+};
 
 export const CollapsibleTableTest = () => {
     return (
         <CollapsibleTable
-            columns={deploymentColumns}
-            rows={testData.deployments}
+            columns={testColumns.deployments}
+            data={testData.deployments}
             title="Deployments"
         />
     );

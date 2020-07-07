@@ -19,10 +19,6 @@ import logger, { errorLogger, requestLogger } from "./logging";
 import NavigationConstants from "../common/NavigationConstants";
 import { getNotifications, setUpAmqpForNotifications } from "./amqp";
 
-
-
-
-
 export const app = next({
     dev: config.isDevelopment,
 });
@@ -92,8 +88,6 @@ app.prepare()
         server.use("/api", toolsRouter());
         server.use("/api", userRouter());
         server.use("/api", viceRouter());
-     
-        
 
         logger.info(
             "adding the next.js fallthrough handler to the express server."

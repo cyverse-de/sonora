@@ -1,0 +1,54 @@
+import express from "express";
+
+import * as auth from "../auth";
+import logger from "../logging";
+
+import { handler as terrainHandler } from "./terrain";
+
+export default function analysesRouter() {
+    const api = express.Router();
+    logger.info("adding the GET /analyses handler");
+    api.get(
+        "/analyses",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/analyses",
+        })
+    );
+
+    logger.info("adding the POST /analyses handler");
+    api.post(
+        "/analyses",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/analyses",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the GET /analyses/:id/history");
+    api.get(
+        "/analyses/:id/history",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/analyses/:id/history",
+        })
+    );
+
+    logger.info("adding the GET /analyses/:id/parameters");
+    api.get(
+        "/analyses/:id/parameters",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/analyses/:id/parameters",
+        })
+    );
+
+    return api;
+}

@@ -3,6 +3,16 @@ import next from "next";
 import expressWs from "express-ws";
 import * as config from "./configuration";
 import apiRouter from "./api/router";
+
+import dataRouter from "./api/data";
+import appsRouter from "./api/apps";
+import fileIORouter from "./api/fileio";
+import analysesRouter from "./api/analyses";
+import tagsRouter from "./api/tags";
+import viceRouter from "./api/vice";
+import toolsRouter from "./api/tools";
+import userRouter from "./api/user";
+
 import NavigationConstants from "../common/NavigationConstants";
 import * as authn from "./auth";
 import { setUpAmqpForNotifications, getNotifications } from "./amqp";
@@ -69,7 +79,15 @@ app.prepare()
         });
 
         logger.info("adding the api router to the express server");
-        server.use("/api", apiRouter());
+        // server.use("/api", apiRouter());
+        server.use("/api", dataRouter());
+        server.use("/api", appsRouter());
+        server.use("/api", analysesRouter());
+        server.use("/api", userRouter());
+        server.use("/api", tagsRouter());
+        server.use("/api", viceRouter());
+        server.use("/api", toolsRouter());
+        server.use("/api", fileIORouter());
 
         logger.info(
             "adding the next.js fallthrough handler to the express server."

@@ -1,22 +1,27 @@
 import express from "express";
-import next from "next";
 import expressWs from "express-ws";
-import * as config from "./configuration";
-import apiRouter from "./api/router";
+import next from "next";
 
-import dataRouter from "./api/data";
-import appsRouter from "./api/apps";
-import fileIORouter from "./api/fileio";
 import analysesRouter from "./api/analyses";
+import appsRouter from "./api/apps";
+import dataRouter from "./api/data";
+import fileIORouter from "./api/fileio";
 import tagsRouter from "./api/tags";
-import viceRouter from "./api/vice";
 import toolsRouter from "./api/tools";
 import userRouter from "./api/user";
+import viceRouter from "./api/vice";
+
+import * as authn from "./auth";
+import * as config from "./configuration";
+
+import logger, { errorLogger, requestLogger } from "./logging";
 
 import NavigationConstants from "../common/NavigationConstants";
-import * as authn from "./auth";
-import { setUpAmqpForNotifications, getNotifications } from "./amqp";
-import logger, { errorLogger, requestLogger } from "./logging";
+import { getNotifications, setUpAmqpForNotifications } from "./amqp";
+
+
+
+
 
 export const app = next({
     dev: config.isDevelopment,
@@ -79,15 +84,16 @@ app.prepare()
         });
 
         logger.info("adding the api router to the express server");
-        // server.use("/api", apiRouter());
-        server.use("/api", dataRouter());
         server.use("/api", appsRouter());
         server.use("/api", analysesRouter());
-        server.use("/api", userRouter());
-        server.use("/api", tagsRouter());
-        server.use("/api", viceRouter());
-        server.use("/api", toolsRouter());
+        server.use("/api", dataRouter());
         server.use("/api", fileIORouter());
+        server.use("/api", tagsRouter());
+        server.use("/api", toolsRouter());
+        server.use("/api", userRouter());
+        server.use("/api", viceRouter());
+     
+        
 
         logger.info(
             "adding the next.js fallthrough handler to the express server."

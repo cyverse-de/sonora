@@ -212,7 +212,6 @@ function Listing({ baseId, onRouteToApp }) {
     useEffect(() => {
         const enabled = selected && selected.length === 1;
         setDetailsEnabled(enabled);
-        //      setDetailsQueryEnabled(enabled);
     }, [selected]);
 
     useEffect(() => {

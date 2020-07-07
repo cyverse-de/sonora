@@ -179,7 +179,7 @@ function AppNavigation(props) {
         if (categories && categories.length > 0) {
             handleCategoryChange(categories[0]);
         } else {
-            const cacheCat = queryCache.getQueryData("getPrivateCategories");
+            const cacheCat = queryCache.getQueryData(APP_CATEGORIES_QUERY_KEY);
             if (cacheCat) {
                 preProcessData(cacheCat);
             }

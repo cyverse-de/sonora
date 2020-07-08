@@ -4,7 +4,6 @@ export default {
         analysesViewShortcutLbl: "Open analyses view",
         analysisStatusEmailLbl: "Email me when my analysis status changes",
         appsViewShortcutLbl: "Open apps view",
-        bootstrapError: "Unable to get bootstrap info.",
         browse: "Browse",
         cancelBtnLbl: "Cancel",
         dataViewShortcutLbl: "Open data view",

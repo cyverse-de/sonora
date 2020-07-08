@@ -14,7 +14,7 @@ export default function GridLabelValue({ label, children, ...props }) {
     return (
         <>
             <Grid item sm={3} xs={6} md={3} lg={3}>
-                <Typography component="span" {...props}>
+                <Typography component="span" variant="subtitle2" {...props}>
                     {label}
                 </Typography>
             </Grid>

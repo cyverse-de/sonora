@@ -5,7 +5,6 @@ const intlData = {
         all: "All",
         analyses: "Analyses",
         apps: "Apps",
-        bootstrapError: "Unable to get bootstrap info.",
         cyverse: "CyVerse",
         dashboard: "Dashboard",
         data: "Data",

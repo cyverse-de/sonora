@@ -27,7 +27,7 @@ import {
     bootstrap,
     BOOTSTRAP_KEY,
     USER_PROFILE_QUERY_KEY,
- } from "../../serviceFacades/users";
+} from "../../serviceFacades/users";
 
 import {
     build,

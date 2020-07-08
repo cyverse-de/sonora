@@ -33,6 +33,7 @@ import TagSearch from "../TagSearch";
 import {
     getResourceDetails,
     updateInfoType,
+    DATA_DETAILS_QUERY_KEY,
 } from "../../../serviceFacades/filesystem";
 import GridLabelValue from "../../utils/GridLabelValue";
 import GridLoading from "../../utils/GridLoading";
@@ -53,7 +54,7 @@ function DetailsTabPanel(props) {
 
     const resourcePath = resource.path;
 
-    const fetchDetailsKey = ["dataResourceDetails", { paths: [resourcePath] }];
+    const fetchDetailsKey = [DATA_DETAILS_QUERY_KEY, { paths: [resourcePath] }];
 
     const { isFetching } = useQuery({
         queryKey: fetchDetailsKey,

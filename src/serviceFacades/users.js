@@ -7,9 +7,10 @@ const BOOTSTRAP_KEY = "bootstrap";
  * @param userIds An array of user ids
  * @returns {Promise<any>}
  */
-export const USER_PROFILE_QUERY_KEY = "fetchUserProfile";
+const USER_PROFILE_QUERY_KEY = "fetchUserProfile";
+const REDIRECT_URI_QUERY_KEY = "fetchRedirectURI";
 
-export const getUserInfo = ({ userIds }) => {
+const getUserInfo = ({ userIds }) => {
     const userQuery = userIds.join("&username=");
 
     return callApi({
@@ -59,6 +60,8 @@ function getRedirectURIs() {
 
 export {
     BOOTSTRAP_KEY,
+    USER_PROFILE_QUERY_KEY,
+    REDIRECT_URI_QUERY_KEY,
     getUserInfo,
     getUserProfile,
     bootstrap,

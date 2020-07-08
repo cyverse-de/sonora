@@ -4,8 +4,10 @@ import next from "next";
 
 import analysesRouter from "./api/analyses";
 import appsRouter from "./api/apps";
+import dashboardRouter from "./api/dashboard";
 import dataRouter from "./api/data";
 import fileIORouter from "./api/fileio";
+import sharingRouter from "./api/sharing";
 import tagsRouter from "./api/tags";
 import toolsRouter from "./api/tools";
 import userRouter from "./api/user";
@@ -79,15 +81,20 @@ app.prepare()
             getNotifications(authn.getUserID(request), ws);
         });
 
-        logger.info("adding the api router to the express server");
+        logger.info(
+            "$$$$$$$$ adding the api router to the express server $$$$$$$$$"
+        );
         server.use("/api", appsRouter());
         server.use("/api", analysesRouter());
+        server.use("/api", dashboardRouter());
         server.use("/api", dataRouter());
         server.use("/api", fileIORouter());
         server.use("/api", tagsRouter());
+        server.use("/api", sharingRouter());
         server.use("/api", toolsRouter());
         server.use("/api", userRouter());
         server.use("/api", viceRouter());
+        logger.info("$$$$$$$$$$$$$$ finished adding handlers $$$$$$$$$$$$$");
 
         logger.info(
             "adding the next.js fallthrough handler to the express server."

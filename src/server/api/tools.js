@@ -1,3 +1,10 @@
+/**
+ * @author sriram
+ *
+ * Add tools handler
+ *
+ */
+
 import express from "express";
 
 import * as auth from "../auth";
@@ -7,6 +14,8 @@ import { handler as terrainHandler } from "./terrain";
 
 export default function toolsRouter() {
     const api = express.Router();
+
+    logger.info("************ Adding Tools handlers **********");
 
     logger.info("adding the GET /tools handler");
     api.get(

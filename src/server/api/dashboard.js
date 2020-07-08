@@ -1,10 +1,9 @@
 /**
  * @author sriram
  *
- * Add user handler
+ * Add dashboard handler
  *
  */
-
 import express from "express";
 
 import * as auth from "../auth";
@@ -12,23 +11,10 @@ import logger from "../logging";
 
 import { handler as terrainHandler } from "./terrain";
 
-export default function userRouter() {
+export default function dashboardRouter() {
     const api = express.Router();
 
-    logger.info("************ Adding User handlers **********");
-
-    logger.info("adding the GET /api/profile handler");
-    api.get("/profile", (req, res) => res.json(auth.getUserProfile(req)));
-
-    logger.info("adding the GET /api/user-info handler");
-    api.get(
-        "/user-info",
-        auth.authnTokenMiddleware,
-        terrainHandler({
-            method: "GET",
-            pathname: "/secured/user-info",
-        })
-    );
+    logger.info("************ Adding Dashboard handlers **********");
 
     logger.info("adding the GET /api/dashboard handler");
     api.get(

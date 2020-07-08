@@ -1,3 +1,10 @@
+/**
+ * @author sriram
+ *
+ * Add analyses handler
+ *
+ */
+
 import express from "express";
 
 import * as auth from "../auth";
@@ -7,6 +14,9 @@ import { handler as terrainHandler } from "./terrain";
 
 export default function analysesRouter() {
     const api = express.Router();
+
+    logger.info("************ Adding Analyses handlers **********");
+
     logger.info("adding the GET /analyses handler");
     api.get(
         "/analyses",

@@ -1,3 +1,10 @@
+/**
+ * @author sriram
+ *
+ * Add vice handler
+ *
+ */
+
 import express from "express";
 
 import * as auth from "../auth";
@@ -7,6 +14,8 @@ import { handler as terrainHandler } from "./terrain";
 
 export default function viceRouter() {
     const api = express.Router();
+
+    logger.info("************ Adding VICE handlers **********");
 
     logger.info("adding the GET /admin/vice/resources handler");
     api.get(

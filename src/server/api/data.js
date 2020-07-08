@@ -1,3 +1,10 @@
+/**
+ * @author sriram
+ *
+ * Add data handler
+ *
+ */
+
 import express from "express";
 
 import * as auth from "../auth";
@@ -7,6 +14,8 @@ import { handler as terrainHandler } from "./terrain";
 
 export default function dataRouter() {
     const api = express.Router();
+
+    logger.info("************ Adding Data handlers **********");
 
     logger.info("adding the GET /api/filesystem/paged-directory handler");
     api.get(

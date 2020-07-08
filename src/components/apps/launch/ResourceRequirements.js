@@ -179,10 +179,6 @@ const ResourceRequirementsForm = withI18N(
 
         return (
             <>
-                <Typography variant="body1">
-                    {getMessage("helpMsgResourceRequirements")}
-                </Typography>
-
                 <Accordion defaultExpanded>
                     <AccordionSummary
                         expandIcon={
@@ -196,7 +192,10 @@ const ResourceRequirementsForm = withI18N(
                         </Typography>
                     </AccordionSummary>
 
-                    <AccordionDetails className={classes.AccordionDetails}>
+                    <AccordionDetails className={classes.accordionDetails}>
+                        <Typography component="span" variant="body1">
+                            {getMessage("helpMsgResourceRequirements")}
+                        </Typography>
                         {limits.length === 1 ? (
                             <StepResourceRequirementsForm
                                 baseId={buildDebugId(

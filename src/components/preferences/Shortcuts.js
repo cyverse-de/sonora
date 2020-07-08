@@ -34,7 +34,7 @@ function Shortcuts(props) {
             <Grid container spacing={2} className={classes.grid}>
                 <GridLabelValue
                     label={getMessage("appsViewShortcutLbl")}
-                    labelVariant="body1"
+                    variant="body1"
                 >
                     <>
                         <Typography display="inline">
@@ -53,7 +53,7 @@ function Shortcuts(props) {
                 </GridLabelValue>
                 <GridLabelValue
                     label={getMessage("dataViewShortcutLbl")}
-                    labelVariant="body1"
+                    variant="body1"
                 >
                     <>
                         <Typography display="inline">
@@ -72,7 +72,7 @@ function Shortcuts(props) {
                 </GridLabelValue>
                 <GridLabelValue
                     label={getMessage("analysesViewShortcutLbl")}
-                    labelVariant="body1"
+                    variant="body1"
                 >
                     <>
                         <Typography display="inline">
@@ -91,7 +91,7 @@ function Shortcuts(props) {
                 </GridLabelValue>
                 <GridLabelValue
                     label={getMessage("notificationViewShortcutLbl")}
-                    labelVariant="body1"
+                    variant="body1"
                 >
                     <>
                         <Typography component="span">

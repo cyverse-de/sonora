@@ -76,7 +76,7 @@ function General(props) {
             <Grid container spacing={2} className={classes.grid}>
                 <GridLabelValue
                     label={getMessage("rememberLastPathLbl")}
-                    labelVariant="body1"
+                    variant="body1"
                 >
                     <Field
                         id={build(baseId, ids.REMEMBER_LAST_PATH_SWITCH)}
@@ -93,7 +93,7 @@ function General(props) {
                 </GridLabelValue>
                 <GridLabelValue
                     label={getMessage("hpcPrompt")}
-                    labelVariant="body1"
+                    variant="body1"
                 >
                     <Field
                         id={build(baseId, ids.HPC_LOGIN_PROMPT_SWITCH)}
@@ -107,7 +107,7 @@ function General(props) {
                 </GridLabelValue>
                 <GridLabelValue
                     label={getMessage("waitTimesWarning")}
-                    labelVariant="body1"
+                    variant="body1"
                 >
                     <Field
                         id={build(baseId, ids.HPC_WAIT_TIMES_SWITCH)}
@@ -185,7 +185,7 @@ function General(props) {
             <Grid container spacing={3} className={classes.grid}>
                 <GridLabelValue
                     label={getMessage("analysisStatusEmailLbl")}
-                    labelVariant="body1"
+                    variant="body1"
                 >
                     <Field
                         id={build(
@@ -208,7 +208,7 @@ function General(props) {
                 </GridLabelValue>
                 <GridLabelValue
                     label={getMessage("urlImportEmailLbl")}
-                    labelVariant="body1"
+                    variant="body1"
                 >
                     <Field
                         id={build(
@@ -236,7 +236,7 @@ function General(props) {
             <Grid container spacing={3} className={classes.grid}>
                 <GridLabelValue
                     label={getMessage("resetHPCTokenPrompt")}
-                    labelVariant="body1"
+                    variant="body1"
                 >
                     <Button
                         color="primary"

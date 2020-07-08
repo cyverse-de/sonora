@@ -80,7 +80,7 @@ const defineColumn = (
 
 // The column definitions for the table.
 const commonColumns = [
-    defineColumn("", COMMON_COLUMNS.EXPAND, "", "left", false),
+    defineColumn("+", COMMON_COLUMNS.EXPAND, "", "left", false),
     defineColumn("Username", COMMON_COLUMNS.USERNAME, "username"),
     defineColumn(
         "Date Created",

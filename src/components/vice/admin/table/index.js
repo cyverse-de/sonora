@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
     withI18N,
@@ -17,17 +17,11 @@ import {
     TableRow,
     Typography,
     //    IconButton,
-    //    useTheme,
-    //    useMediaQuery,
+    useTheme,
+    useMediaQuery,
 } from "@material-ui/core";
 
-import {
-    useGlobalFilter,
-    useSortBy,
-    useExpanded,
-    useRowSelect,
-    useTable,
-} from "react-table";
+import { useTable } from "react-table";
 
 //import ActionButtons from "./actionButtons";
 
@@ -48,29 +42,44 @@ const CollapsibleTable = ({
     // handleUploadOutputs,
 }) => {
     const classes = useStyles();
-    //const theme = useTheme();
+    const theme = useTheme();
+
+    const isXL = useMediaQuery(theme.breakpoints.up("xl"));
+    const isSmall = useMediaQuery(theme.breakpoints.up("xs"));
+    const isMedium = useMediaQuery(theme.breakpoints.up("sm"));
+    const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
+
+    let numVisibleColumns;
+
+    if (isXL) {
+        numVisibleColumns = 7;
+    } else if (isLarge) {
+        numVisibleColumns = 6;
+    } else if (isMedium) {
+        numVisibleColumns = 4;
+    } else if (isSmall) {
+        numVisibleColumns = 2;
+    } else {
+        numVisibleColumns = 7;
+    }
 
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
         prepareRow,
-        // preGlobalFilteredRows,
-        // setGlobalFilter,
         rows,
-        // state: {
-        //     selectedRowIds, globalFilter, expanded,
-        // },
-    } = useTable(
-        {
-            columns,
-            data,
-        },
-        useGlobalFilter,
-        useSortBy,
-        useRowSelect,
-        useExpanded
-    );
+        setHiddenColumns,
+    } = useTable({
+        columns,
+        data,
+    });
+
+    useEffect(() => {
+        setHiddenColumns(
+            columns.slice(numVisibleColumns).map((column) => column.id)
+        );
+    }, [setHiddenColumns, columns, numVisibleColumns]);
 
     const tableID = id(ids.ROOT);
 

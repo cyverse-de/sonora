@@ -15,7 +15,6 @@
         "build-storybook": "build-storybook -s public",
         "test": "TZ=UTC jest",
         "test-watch": "TZ=UTC jest --watch",
-        "test-update": "TZ=UTC jest -u",
         "format": "prettier --write 'src/**/*.js' 'stories/**/*.js'",
         "lint": "eslint --max-warnings=0 ./src/ ./stories/",
         "clean": "rimraf ./.next ./dist ./generated-docs"

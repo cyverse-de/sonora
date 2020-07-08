@@ -390,6 +390,7 @@ const AppLaunchForm = (props) => {
         saveQuickLaunch,
         startingPath,
         submitAnalysis,
+        intl,
         app: { id: app_id, name: appName, app_type, groups, requirements },
     } = props;
 
@@ -446,11 +447,20 @@ const AppLaunchForm = (props) => {
 
     const hasAdvancedStep = requirements?.length > 0;
 
-    const stepAnalysisInfo = { label: getMessage("analysisInfo"), step: 0 };
-    const stepParameters = { label: getMessage("parameters"), step: 1 };
-    const stepAdvanced = { label: getMessage("advancedSettings"), step: 2 };
+    const stepAnalysisInfo = {
+        label: formatMessage(intl, "analysisInfo"),
+        step: 0,
+    };
+    const stepParameters = {
+        label: formatMessage(intl, "parameters"),
+        step: 1,
+    };
+    const stepAdvanced = {
+        label: formatMessage(intl, "advancedSettings"),
+        step: 2,
+    };
     const stepReviewAndLaunch = {
-        label: getMessage("reviewAndLaunch"),
+        label: formatMessage(intl, "reviewAndLaunch"),
         step: 3,
     };
 

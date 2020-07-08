@@ -1,6 +1,8 @@
-import { mockAxios } from "../../stories/axiosMock";
-import renderer from "react-test-renderer";
 import React from "react";
+
+import { mockAxios } from "../../stories/axiosMock";
+import TestRenderer from "react-test-renderer";
+
 import { AnalysesTableViewTest } from "../../stories/analyses/TableView.stories";
 
 beforeEach(() => {
@@ -11,8 +13,7 @@ afterEach(() => {
     mockAxios.reset();
 });
 
-test("Analyses Listing view", () => {
-    const component = renderer.create(<AnalysesTableViewTest />);
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+test("renders Analyses Listing Table without crashing", () => {
+    const component = TestRenderer.create(<AnalysesTableViewTest />);
+    component.unmount();
 });

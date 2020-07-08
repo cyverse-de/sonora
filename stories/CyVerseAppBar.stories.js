@@ -22,8 +22,11 @@ function AppBarTest() {
     return (
         <UserProfileProvider>
             <NotificationsProvider>
-                <ConfigProvider config={testConfig}>
-                    <CyverseAppBar setAppBarRef={() => {}} />
+                <ConfigProvider>
+                    <CyverseAppBar
+                        setAppBarRef={() => {}}
+                        clientConfig={testConfig}
+                    />
                 </ConfigProvider>
             </NotificationsProvider>
         </UserProfileProvider>

@@ -28,7 +28,11 @@ import { groupBy } from "../../../common/functions";
 import styles from "../styles";
 import PermissionSelector from "./PermissionSelector";
 import Permissions from "../../models/Permissions";
-import { getResourcePermissions } from "../../../serviceFacades/filesystem";
+import {
+    getResourcePermissions,
+    USER_INFO_QUERY_KEY,
+    RESOURCE_PERMISSIONS_KEY,
+} from "../../../serviceFacades/filesystem";
 import { updateSharing } from "../../../serviceFacades/sharing";
 import messages from "../messages";
 import isQueryLoading from "../../utils/isQueryLoading";
@@ -62,7 +66,9 @@ function sortPerms(permissions) {
 function PermissionsTabPanel(props) {
     const classes = useStyles();
     const { baseId, resource, selfPermission, intl } = props;
-    const [fetchUserInfoKey, setFetchUserInfoKey] = useState(null);
+    const [fetchUserInfoKey, setFetchUserInfoKey] = useState(
+        USER_INFO_QUERY_KEY
+    );
     const [userlessPermissions, setUserlessPermissions] = useState([]);
     const [permissions, setPermissions] = useState([]);
     const [permissionLoadingIds, setPermissionLoadingIds] = useState([]);
@@ -71,11 +77,18 @@ function PermissionsTabPanel(props) {
     const [errorObject, setErrorObject] = useState(null);
     const resourcePath = resource.path;
 
-    // Only users with `own` permission can list permissions
-    const fetchResourcePermissionsKey =
-        selfPermission && selfPermission === Permissions.OWN
-            ? ["dataResourcePermissions", { paths: [resourcePath] }]
-            : false;
+    let fetchResourcePermissionsKey = RESOURCE_PERMISSIONS_KEY;
+    let fetchResourcePermissionsQueryEnabled = false;
+
+    if (selfPermission && selfPermission === Permissions.OWN) {
+        // Only users with `own` permission can list permissions
+        fetchResourcePermissionsKey = [
+            RESOURCE_PERMISSIONS_KEY,
+            { paths: [resourcePath] },
+        ];
+
+        fetchResourcePermissionsQueryEnabled = true;
+    }
 
     const mergeUsersWithPerms = (permissions, userInfo) => {
         let merged = [];
@@ -94,6 +107,7 @@ function PermissionsTabPanel(props) {
         queryKey: fetchUserInfoKey,
         queryFn: getUserInfo,
         config: {
+            enabled: false,
             onSuccess: (userInfos) => {
                 const mergedInfo = mergeUsersWithPerms(
                     userlessPermissions,
@@ -113,6 +127,7 @@ function PermissionsTabPanel(props) {
         queryKey: fetchResourcePermissionsKey,
         queryFn: getResourcePermissions,
         config: {
+            enabled: fetchResourcePermissionsQueryEnabled,
             onSuccess: (permissionResp) => {
                 const userlessPermissions =
                     permissionResp?.paths[0]["user-permissions"];

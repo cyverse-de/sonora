@@ -26,6 +26,7 @@ import {
     getUserProfile,
     bootstrap,
     BOOTSTRAP_KEY,
+    USER_PROFILE_QUERY_KEY,
 } from "../../serviceFacades/users";
 
 import {
@@ -228,13 +229,17 @@ function CyverseAppBar(props) {
     const [open, setOpen] = useState(false);
     const [adminUser, setAdminUser] = useState(false);
     const [bootstrapError, setBootstrapError] = useState(null);
-    const [bootstrapQueryKey, setBootstrapQueryKey] = useState(null);
+    const [bootstrapQueryKey, setBootstrapQueryKey] = useState(BOOTSTRAP_KEY);
+    const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
 
     useQuery({
-        queryKey: "getUserProfile",
+        queryKey: USER_PROFILE_QUERY_KEY,
         queryFn: getUserProfile,
         config: {
+            enabled: true,
             onSuccess: setUserProfile,
+            cacheTime: Infinity,
+            staleTime: Infinity,
         },
     });
 
@@ -262,6 +267,7 @@ function CyverseAppBar(props) {
         if (userProfile) {
             const ip = userProfile.attributes.ip;
             setBootstrapQueryKey([BOOTSTRAP_KEY, { ip }]);
+            setBootstrapQueryEnabled(true);
         }
     }, [userProfile]);
 
@@ -269,6 +275,7 @@ function CyverseAppBar(props) {
         queryKey: bootstrapQueryKey,
         queryFn: bootstrap,
         config: {
+            enabled: bootstrapQueryEnabled,
             staleTime: Infinity,
             cacheTime: Infinity,
             retry: 3,

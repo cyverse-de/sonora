@@ -33,6 +33,7 @@ import TagSearch from "../TagSearch";
 import {
     getResourceDetails,
     updateInfoType,
+    DATA_DETAILS_QUERY_KEY,
 } from "../../../serviceFacades/filesystem";
 import GridLabelValue from "../../utils/GridLabelValue";
 import GridLoading from "../../utils/GridLoading";
@@ -53,12 +54,13 @@ function DetailsTabPanel(props) {
 
     const resourcePath = resource.path;
 
-    const fetchDetailsKey = ["dataResourceDetails", { paths: [resourcePath] }];
+    const fetchDetailsKey = [DATA_DETAILS_QUERY_KEY, { paths: [resourcePath] }];
 
     const { isFetching } = useQuery({
         queryKey: fetchDetailsKey,
         queryFn: getResourceDetails,
         config: {
+            enabled: true,
             onSuccess: (resp) => {
                 const details = resp?.paths[resourcePath];
                 setDetails(details);
@@ -74,7 +76,7 @@ function DetailsTabPanel(props) {
     const [changeInfoType, { status: updateInfoTypeStatus }] = useMutation(
         updateInfoType,
         {
-            onSuccess: () => queryCache.refetchQueries(fetchDetailsKey),
+            onSuccess: () => queryCache.invalidateQueries(fetchDetailsKey),
             onError: (e) => {
                 setErrorMessage(formatMessage(intl, "updateInfoTypeError"));
                 setErrorObject(e);

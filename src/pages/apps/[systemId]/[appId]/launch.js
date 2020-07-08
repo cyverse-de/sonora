@@ -18,12 +18,19 @@ import { useUserProfile } from "../../../../contexts/userProfile";
 
 import { submitAnalysis } from "../../../../serviceFacades/analyses";
 import { addQuickLaunch } from "../../../../serviceFacades/quickLaunches";
-import { getAppDescription } from "../../../../serviceFacades/apps";
+import {
+    getAppDescription,
+    APP_DESCRIPTION_QUERY_KEY,
+} from "../../../../serviceFacades/apps";
 
 import AppLaunchWizard from "../../../../components/apps/launch/AppLaunchWizard";
 
 export default () => {
-    const [appKey, setAppKey] = React.useState(null);
+    const [appKey, setAppKey] = React.useState(APP_DESCRIPTION_QUERY_KEY);
+    const [
+        appDescriptionQueryEnabled,
+        setAppDescriptionQueryEnabled,
+    ] = React.useState(false);
     const [app, setApp] = React.useState(null);
     const [appError, setAppError] = React.useState(null);
 
@@ -36,19 +43,23 @@ export default () => {
     React.useEffect(() => {
         if (systemId && appId) {
             setAppKey([
-                "getAppDescription",
+                APP_DESCRIPTION_QUERY_KEY,
                 {
                     systemId,
                     appId,
                 },
             ]);
+            setAppDescriptionQueryEnabled(true);
+        } else {
+            setAppDescriptionQueryEnabled(false);
         }
-    }, [systemId, appId]);
+    }, [systemId, appId, setAppDescriptionQueryEnabled]);
 
     const { status: appStatus } = useQuery({
         queryKey: appKey,
         queryFn: getAppDescription,
         config: {
+            enabled: appDescriptionQueryEnabled,
             onSuccess: setApp,
             onError: setAppError,
         },

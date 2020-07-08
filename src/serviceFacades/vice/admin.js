@@ -1,5 +1,8 @@
 import callApi from "../../common/callApi";
 
+export const VICE_ADMIN_QUERY_KEY = "fetchViceAdmin";
+export const ASYNC_DATA_QUERY_KEY = "fetchAsyncData";
+
 export const asyncData = (_key, externalID) =>
     callApi({
         endpoint: `/api/admin/vice/async-data?external-id=${externalID}`,

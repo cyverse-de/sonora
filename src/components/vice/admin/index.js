@@ -16,6 +16,7 @@ import getData, {
     extendTimeLimit,
     saveAndExit,
     exit,
+    VICE_ADMIN_QUERY_KEY,
 } from "../../../serviceFacades/vice/admin";
 
 import RowFilter from "./filter";
@@ -92,8 +93,6 @@ const defineColumn = (
     id: keyID,
     field,
 });
-
-const getDataQueryName = "vice-admin";
 
 // The column definitions for the table.
 const commonColumns = [
@@ -234,19 +233,19 @@ const VICEAdminTabs = ({ data = {} }) => {
     const tabPanelID = (name) => id(ids.ROOT, "admin", "tab-panels", name);
 
     const [mutantExit] = useMutation(exit, {
-        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+        onSuccess: () => queryCache.invalidateQueries(VICE_ADMIN_QUERY_KEY),
     });
     const [mutantSaveAndExit] = useMutation(saveAndExit, {
-        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+        onSuccess: () => queryCache.invalidateQueries(VICE_ADMIN_QUERY_KEY),
     });
     const [mutantExtendTimeLimit] = useMutation(extendTimeLimit, {
-        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+        onSuccess: () => queryCache.invalidateQueries(VICE_ADMIN_QUERY_KEY),
     });
     const [mutantUploadOutputs] = useMutation(saveOutputFiles, {
-        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+        onSuccess: () => queryCache.invalidateQueries(VICE_ADMIN_QUERY_KEY),
     });
     const [mutantDownloadInputs] = useMutation(downloadInputFiles, {
-        onSuccess: () => queryCache.refetchQueries(getDataQueryName),
+        onSuccess: () => queryCache.invalidateQueries(VICE_ADMIN_QUERY_KEY),
     });
 
     const [analysisRows, setAnalysisRows] = useState([]);
@@ -358,7 +357,7 @@ const VICEAdminTabs = ({ data = {} }) => {
 const VICEAdmin = () => {
     const classes = useStyles();
 
-    const { status, data, error } = useQuery(getDataQueryName, getData, {
+    const { status, data, error } = useQuery(VICE_ADMIN_QUERY_KEY, getData, {
         refetchInterval: constants.REFETCH_INTERVAL,
     });
 

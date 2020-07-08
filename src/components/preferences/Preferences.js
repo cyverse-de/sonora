@@ -30,8 +30,12 @@ import {
     savePreferences,
     resetToken,
     BOOTSTRAP_KEY,
+    REDIRECT_URI_QUERY_KEY,
 } from "../../serviceFacades/users";
-import { getResourceDetails } from "../../serviceFacades/filesystem";
+import {
+    getResourceDetails,
+    DATA_DETAILS_QUERY_KEY,
+} from "../../serviceFacades/filesystem";
 import GridLoading from "../utils/GridLoading";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 
@@ -63,24 +67,37 @@ const useStyles = makeStyles(styles);
 
 function Preferences(props) {
     const { baseId, intl, showErrorAnnouncer } = props;
+
     const router = useRouter();
     const [userProfile] = useUserProfile();
+
     const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(
         false
     );
     const [userPref, setUserPref] = useState({});
-    const [fetchDetailsKey, setFetchDetailsKey] = useState("");
+    const [fetchDetailsKey, setFetchDetailsKey] = useState(
+        DATA_DETAILS_QUERY_KEY
+    );
+    const [fetchDetailsQueryEnabled, setFetchDetailsQueryEnabled] = useState(
+        false
+    );
     const [defaultOutputFolder, setDefaultOutputFolder] = useState(null);
     const [requireAgaveAuth, setRequireAgaveAuth] = useState(true);
     const [
         outputFolderValidationError,
         setOutputFolderValidationError,
     ] = useState(null);
-    const [bootstrapKey, setBootstrapKey] = useState("");
+    const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
     const [bootstrapError, setBootstrapError] = useState(null);
-    const [fetchRedirectURIsKey, setFetchRedirectURIsKey] = useState("");
+    const [
+        fetchRedirectURIsQueryEnabled,
+        setFetchRedirectURIsQueryEnabled,
+    ] = useState(false);
     const [hpcAuthUrl, setHPCAuthUrl] = useState("");
+
     const ip = userProfile?.attributes.ip;
+    const BOOTSTRAP_KEY_WITH_PARAM = [BOOTSTRAP_KEY, { ip }];
+
     const classes = useStyles();
 
     const preProcessData = (respData) => {
@@ -89,7 +106,7 @@ function Preferences(props) {
             pref?.default_output_folder?.path ||
                 pref?.system_default_output_dir?.path
         );
-        setBootstrapKey(null);
+        setBootstrapQueryEnabled(false);
         setUserPref(pref);
         const session = respData?.session;
         const agaveKey = session?.auth_redirect?.agave;
@@ -102,20 +119,23 @@ function Preferences(props) {
 
     useEffect(() => {
         //get from cache if not fetch now.
-        const prefCache = queryCache.getQueryData([BOOTSTRAP_KEY, { ip }]);
+        const prefCache = queryCache.getQueryData(BOOTSTRAP_KEY_WITH_PARAM);
         if (prefCache) {
             preProcessData(prefCache);
         } else {
-            setBootstrapKey([BOOTSTRAP_KEY, { ip }]);
+            setBootstrapQueryEnabled(true);
         }
-    }, [userPref, ip]);
+    }, [BOOTSTRAP_KEY_WITH_PARAM]);
 
     useEffect(() => {
         if (defaultOutputFolder) {
             setFetchDetailsKey([
-                "dataResourceDetails",
+                DATA_DETAILS_QUERY_KEY,
                 { paths: [defaultOutputFolder] },
             ]);
+            setFetchDetailsQueryEnabled(true);
+        } else {
+            setFetchDetailsQueryEnabled(false);
         }
     }, [defaultOutputFolder]);
 
@@ -136,9 +156,10 @@ function Preferences(props) {
     }, [bootstrapError, router]);
 
     const { isFetching } = useQuery({
-        queryKey: bootstrapKey,
+        queryKey: BOOTSTRAP_KEY_WITH_PARAM,
         queryFn: bootstrap,
         config: {
+            enabled: bootstrapQueryEnabled,
             onSuccess: (respData) => preProcessData(respData),
             onError: (e) => {
                 setBootstrapError(e);
@@ -186,7 +207,7 @@ function Preferences(props) {
                     text: formatMessage(intl, "resetTokenSuccess"),
                     variant: AnnouncerConstants.SUCCESS,
                 });
-                setFetchRedirectURIsKey("getRedirectURIs");
+                setFetchRedirectURIsQueryEnabled(true);
                 setRequireAgaveAuth(true);
             },
             onError: (e) => {
@@ -196,10 +217,12 @@ function Preferences(props) {
     );
 
     const { isFetching: isFetchingURIs } = useQuery({
-        queryKey: fetchRedirectURIsKey,
+        queryKey: REDIRECT_URI_QUERY_KEY,
         queryFn: getRedirectURIs,
         config: {
+            enabled: fetchRedirectURIsQueryEnabled,
             onSuccess: (resp) => {
+                setFetchRedirectURIsQueryEnabled(false);
                 const redirectUrl = resp[constants.AGAVE_SYSTEM_ID];
                 if (redirectUrl) {
                     setHPCAuthUrl(redirectUrl);
@@ -215,6 +238,7 @@ function Preferences(props) {
         queryKey: fetchDetailsKey,
         queryFn: getResourceDetails,
         config: {
+            enabled: fetchDetailsQueryEnabled,
             onSuccess: (resp) => {
                 const details = resp?.paths[defaultOutputFolder];
                 if (!isWritable(details?.permission)) {
@@ -234,7 +258,7 @@ function Preferences(props) {
     });
 
     const handleSubmit = (values) => {
-        //preven dupe submission
+        //prevent dupe submission
         if (prefMutationStatus !== constants.LOADING) {
             if (outputFolderValidationError) {
                 announce({

@@ -27,6 +27,8 @@ import ParamsPanel from "./ParamsPanel";
 import {
     getAnalysisHistory,
     getAnalysisParameters,
+    ANALYSIS_HISTORY_QUERY_KEY,
+    ANALYSIS_PARAMS_QUERY_KEY,
 } from "../../../serviceFacades/analyses";
 
 import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
@@ -85,8 +87,11 @@ function DetailsDrawer(props) {
     const [selectedTab, setSelectedTab] = useState(TABS.analysisInfo);
     const [history, setHistory] = useState(null);
     const [parameters, setParameters] = useState(null);
-    const [infoKey, setInfoKey] = useState("");
-    const [paramKey, setParamKey] = useState("");
+
+    const [infoKey, setInfoKey] = useState(ANALYSIS_HISTORY_QUERY_KEY);
+    const [paramKey, setParamKey] = useState(ANALYSIS_PARAMS_QUERY_KEY);
+    const [infoKeyQueryEnabled, setInfoKeyQueryEnabled] = useState(false);
+    const [paramKeyQueryEnabled, setParamKeyQueryEnabled] = useState(false);
 
     const preProcessData = (data) => {
         if (!data || !data.parameters) {
@@ -125,6 +130,7 @@ function DetailsDrawer(props) {
         queryKey: infoKey,
         queryFn: getAnalysisHistory,
         config: {
+            enabled: infoKeyQueryEnabled,
             onSuccess: setHistory,
         },
     });
@@ -133,14 +139,26 @@ function DetailsDrawer(props) {
         queryKey: paramKey,
         queryFn: getAnalysisParameters,
         config: {
+            enabled: paramKeyQueryEnabled,
             onSuccess: preProcessData,
         },
     });
 
     useEffect(() => {
         if (selectedAnalysis) {
-            setInfoKey(["analysisInfoKey", { id: selectedAnalysis.id }]);
-            setParamKey(["analysisParamsKey", { id: selectedAnalysis.id }]);
+            setInfoKey([
+                ANALYSIS_HISTORY_QUERY_KEY,
+                { id: selectedAnalysis.id },
+            ]);
+            setParamKey([
+                "ANALYSIS_PARAMS_QUERY_KEY",
+                { id: selectedAnalysis.id },
+            ]);
+            setInfoKeyQueryEnabled(true);
+            setParamKeyQueryEnabled(true);
+        } else {
+            setInfoKeyQueryEnabled(false);
+            setParamKeyQueryEnabled(false);
         }
     }, [selectedAnalysis]);
 

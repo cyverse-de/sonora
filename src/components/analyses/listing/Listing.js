@@ -10,7 +10,10 @@ import { injectIntl } from "react-intl";
 import { useRouter } from "next/router";
 
 import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
-import { getAnalyses } from "../../../serviceFacades/analyses";
+import {
+    getAnalyses,
+    ANALYSES_LISTING_QUERY_KEY,
+} from "../../../serviceFacades/analyses";
 import constants from "../../../constants";
 import DEPagination from "../../utils/DEPagination";
 import Drawer from "../details/Drawer";
@@ -55,7 +58,6 @@ function Listing(props) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [data, setData] = useState(null);
-    const [analysesKey, setAnalysesKey] = useState(null);
     const [parentAnalysis, setParentAnalyses] = useState(null);
     const [permFilter, setPermFilter] = useState(getOwnershipFilters(intl)[0]);
     const [appTypeFilter, setAppTypeFilter] = useState(getAppTypeFilters()[0]);
@@ -64,10 +66,18 @@ function Listing(props) {
     const [detailsAnalysis, setDetailsAnalysis] = useState(null);
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
+
+    const [analysesKey, setAnalysesKey] = useState(ANALYSES_LISTING_QUERY_KEY);
+    const [
+        analysesListingQueryEnabled,
+        setAnalysesListingQueryEnabled,
+    ] = useState(false);
+
     const { isFetching, error } = useQuery({
         queryKey: analysesKey,
         queryFn: getAnalyses,
         config: {
+            enabled: analysesListingQueryEnabled,
             onSuccess: setData,
         },
     });
@@ -115,9 +125,10 @@ function Listing(props) {
             .join(",");
 
         setAnalysesKey([
-            "getAnalyses",
+            ANALYSES_LISTING_QUERY_KEY,
             { rowsPerPage, orderBy, order, page, filter: filterString },
         ]);
+        setAnalysesListingQueryEnabled(true);
     }, [
         order,
         orderBy,

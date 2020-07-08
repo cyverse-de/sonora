@@ -91,10 +91,7 @@ function General(props) {
                         }}
                     />
                 </GridLabelValue>
-                <GridLabelValue
-                    label={getMessage("hpcPrompt")}
-                    variant="body1"
-                >
+                <GridLabelValue label={getMessage("hpcPrompt")} variant="body1">
                     <Field
                         id={build(baseId, ids.HPC_LOGIN_PROMPT_SWITCH)}
                         component={FormSwitch}

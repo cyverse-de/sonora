@@ -30,16 +30,13 @@ export default function userRouter() {
         })
     );
 
-    logger.info("adding the GET /api/dashboard handler");
+    logger.info("add the GET /bootstrap handler");
     api.get(
-        "/dashboard",
+        "/bootstrap",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
-            pathname: "/dashboard",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            pathname: "/secured/bootstrap",
         })
     );
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 
 import {
     withI18N,
@@ -16,10 +16,12 @@ import {
     Paper,
     TableRow,
     Typography,
-    //    IconButton,
     useTheme,
     useMediaQuery,
+    //    IconButton,
 } from "@material-ui/core";
+
+// import { Skeleton } from "@material-ui/lab";
 
 import { useTable } from "react-table";
 
@@ -45,41 +47,39 @@ const CollapsibleTable = ({
     const theme = useTheme();
 
     const isXL = useMediaQuery(theme.breakpoints.up("xl"));
-    const isSmall = useMediaQuery(theme.breakpoints.up("xs"));
-    const isMedium = useMediaQuery(theme.breakpoints.up("sm"));
     const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
-
-    let numVisibleColumns;
-
-    if (isXL) {
-        numVisibleColumns = 7;
-    } else if (isLarge) {
-        numVisibleColumns = 6;
-    } else if (isMedium) {
-        numVisibleColumns = 4;
-    } else if (isSmall) {
-        numVisibleColumns = 2;
-    } else {
-        numVisibleColumns = 7;
-    }
+    const isMedium = useMediaQuery(theme.breakpoints.up("md"));
+    const isSmall = useMediaQuery(theme.breakpoints.up("sm"));
 
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
         prepareRow,
-        rows,
         setHiddenColumns,
+        rows,
     } = useTable({
         columns,
         data,
     });
 
-    useEffect(() => {
-        setHiddenColumns(
-            columns.slice(numVisibleColumns).map((column) => column.id)
-        );
-    }, [setHiddenColumns, columns, numVisibleColumns]);
+    useLayoutEffect(() => {
+        let numCols;
+
+        if (isXL) {
+            numCols = 7;
+        } else if (isLarge) {
+            numCols = 6;
+        } else if (isMedium) {
+            numCols = 4;
+        } else if (isSmall) {
+            numCols = 2;
+        } else {
+            numCols = 7;
+        }
+
+        setHiddenColumns(columns.slice(numCols).map((column) => column.id));
+    }, [setHiddenColumns, columns, isXL, isLarge, isMedium, isSmall]);
 
     const tableID = id(ids.ROOT);
 

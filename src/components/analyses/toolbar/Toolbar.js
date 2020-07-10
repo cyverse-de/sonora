@@ -138,6 +138,7 @@ function AnalysesToolbar(props) {
         onDetailsSelected,
         handleInteractiveUrlClick,
         handleGoToOutputFolder,
+        handleRelaunch,
         handleBatchIconClick,
     } = props;
     const analysesNavId = build(baseId, ids.ANALYSES_NAVIGATION);
@@ -229,6 +230,7 @@ function AnalysesToolbar(props) {
                     getSelectedAnalyses={getSelectedAnalyses}
                     handleInteractiveUrlClick={handleInteractiveUrlClick}
                     handleGoToOutputFolder={handleGoToOutputFolder}
+                    handleRelaunch={handleRelaunch}
                     handleBatchIconClick={handleBatchIconClick}
                 />
             )}

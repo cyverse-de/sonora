@@ -7,7 +7,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { injectIntl } from "react-intl";
-import { useRouter } from "next/router";
 
 import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
 import {
@@ -24,7 +23,6 @@ import AnalysesToolbar, { getOwnershipFilters } from "../toolbar/Toolbar";
 import { getAppTypeFilters } from "../../apps/toolbar/AppNavigation";
 import appType from "../../models/AppType";
 
-import NavigationConstants from "../../../common/NavigationConstants";
 import { useUserProfile } from "../../../contexts/userProfile";
 import { useNotifications } from "../../../contexts/pushNotifications";
 
@@ -48,8 +46,8 @@ const filter = {
 };
 
 function Listing(props) {
-    const router = useRouter();
-    const { baseId, intl } = props;
+    const { baseId, handleGoToOutputFolder, handleRelaunch, intl } = props;
+
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("desc");
     const [orderBy, setOrderBy] = useState("startdate");
@@ -299,14 +297,6 @@ function Listing(props) {
         window.open(url, "_blank");
     };
 
-    const handleGoToOutputFolder = (analysis) => {
-        if (analysis.resultfolderid) {
-            router.push(
-                `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}ds${analysis.resultfolderid}`
-            );
-        }
-    };
-
     const handleAppTypeFilterChange = (appTypeFilter) => {
         setAppTypeFilter(appTypeFilter);
         setSelected([]);
@@ -358,6 +348,7 @@ function Listing(props) {
                 onDetailsSelected={onDetailsSelected}
                 handleInteractiveUrlClick={handleInteractiveUrlClick}
                 handleGoToOutputFolder={handleGoToOutputFolder}
+                handleRelaunch={handleRelaunch}
                 handleBatchIconClick={handleBatchIconClick}
             />
             <TableView
@@ -374,6 +365,7 @@ function Listing(props) {
                 handleRequestSort={handleRequestSort}
                 handleInteractiveUrlClick={handleInteractiveUrlClick}
                 handleGoToOutputFolder={handleGoToOutputFolder}
+                handleRelaunch={handleRelaunch}
                 handleBatchIconClick={handleBatchIconClick}
             />
             {detailsOpen && (

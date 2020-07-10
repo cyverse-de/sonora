@@ -11,7 +11,15 @@ export default {
 function ListingTest(props) {
     return (
         <NotificationsProvider>
-            <Listing baseId="tableView" />;
+            <Listing
+                baseId="tableView"
+                handleGoToOutputFolder={(analysis) =>
+                    console.log("Go to output folder", analysis?.resultfolderid)
+                }
+                handleRelaunch={(analysis) =>
+                    console.log("Relaunch Analysis", analysis?.id)
+                }
+            />
         </NotificationsProvider>
     );
 }

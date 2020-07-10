@@ -35,6 +35,7 @@ function DotMenuItems(props) {
         detailsEnabled,
         handleInteractiveUrlClick,
         handleGoToOutputFolder,
+        handleRelaunch,
         handleBatchIconClick,
         isBatch,
         isVICE,
@@ -81,6 +82,7 @@ function DotMenuItems(props) {
                 id={build(baseId, ids.MENUITEM_RELAUNCH)}
                 onClick={() => {
                     onClose();
+                    handleRelaunch(selectedAnalyses[0]);
                 }}
             >
                 <ListItemIcon>

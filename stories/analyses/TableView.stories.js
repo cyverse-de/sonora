@@ -20,7 +20,12 @@ export const AnalysesTableViewTest = () => {
             handleSelectAllClick={() => logger("Select all clicked")}
             handleClick={() => logger("Row clicked")}
             handleInteractiveUrlClick={() => logger("Open VICE Analyses")}
-            handleGoToOutputFolder={() => logger("Go to output folder")}
+            handleGoToOutputFolder={(analysis) =>
+                console.log("Go to output folder", analysis?.resultfolderid)
+            }
+            handleRelaunch={(analysis) =>
+                console.log("Relaunch Analysis", analysis?.id)
+            }
             handleBatchIconClick={() => logger("Expand batch analyses")}
         />
     );

@@ -109,7 +109,7 @@ function Status(props) {
 
 function Actions(props) {
     const classes = useStyles();
-    const { analysis } = props;
+    const { analysis, handleRelaunch } = props;
 
     const interactiveUrls = analysis.interactive_urls;
     const handleInteractiveUrlClick = props.handleInteractiveUrlClick;
@@ -168,6 +168,7 @@ function Actions(props) {
                 >
                     <IconButton
                         size="small"
+                        onClick={() => handleRelaunch(analysis)}
                         id={build(baseId, ids.ICONS.RELAUNCH, ids.BUTTON)}
                         className={className}
                     >
@@ -280,6 +281,7 @@ function TableView(props) {
         handleClick,
         handleInteractiveUrlClick,
         handleGoToOutputFolder,
+        handleRelaunch,
         handleBatchIconClick,
         intl,
     } = props;
@@ -438,6 +440,9 @@ function TableView(props) {
                                                     }
                                                     handleGoToOutputFolder={
                                                         handleGoToOutputFolder
+                                                    }
+                                                    handleRelaunch={
+                                                        handleRelaunch
                                                     }
                                                     handleBatchIconClick={
                                                         handleBatchIconClick

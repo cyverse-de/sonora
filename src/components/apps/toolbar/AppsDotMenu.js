@@ -27,46 +27,44 @@ function AppsDotMenu(props) {
         onFilterSelected,
     } = props;
     const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     return (
-        <>
-            <DotMenu
-                baseId={baseId}
-                ButtonProps={ButtonProps}
-                render={(onClose) => [
-                    detailsEnabled && (
-                        <MenuItem
-                            key={build(baseId, ids.DETAILS_MENU_ITEM)}
-                            id={build(baseId, ids.DETAILS_MENU_ITEM)}
-                            onClick={() => {
-                                onClose();
-                                onDetailsSelected();
-                            }}
-                        >
-                            <ListItemIcon>
-                                <Info fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText primary={getMessage("details")} />
-                        </MenuItem>
-                    ),
-                    matches && (
-                        <MenuItem
-                            key={build(baseId, ids.FILTER_MENU_ITEM)}
-                            id={build(baseId, ids.FILTER_MENU_ITEM)}
-                            onClick={() => {
-                                onClose();
-                                onFilterSelected();
-                            }}
-                        >
-                            <ListItemIcon>
-                                <FilterList fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText primary={getMessage("filterLbl")} />
-                        </MenuItem>
-                    ),
-                ]}
-            />
-        </>
+        <DotMenu
+            baseId={baseId}
+            ButtonProps={ButtonProps}
+            render={(onClose) => [
+                detailsEnabled && (
+                    <MenuItem
+                        key={build(baseId, ids.DETAILS_MENU_ITEM)}
+                        id={build(baseId, ids.DETAILS_MENU_ITEM)}
+                        onClick={() => {
+                            onClose();
+                            onDetailsSelected();
+                        }}
+                    >
+                        <ListItemIcon>
+                            <Info fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText primary={getMessage("details")} />
+                    </MenuItem>
+                ),
+                isMobile && (
+                    <MenuItem
+                        key={build(baseId, ids.FILTER_MENU_ITEM)}
+                        id={build(baseId, ids.FILTER_MENU_ITEM)}
+                        onClick={() => {
+                            onClose();
+                            onFilterSelected();
+                        }}
+                    >
+                        <ListItemIcon>
+                            <FilterList fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText primary={getMessage("filterLbl")} />
+                    </MenuItem>
+                ),
+            ]}
+        />
     );
 }
 

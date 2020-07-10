@@ -60,5 +60,15 @@ export default function analysesRouter() {
         })
     );
 
+    logger.info("adding the GET /analyses/:id/relaunch-info handler");
+    api.get(
+        "/analyses/:id/relaunch-info",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/analyses/:id/relaunch-info",
+        })
+    );
+
     return api;
 }

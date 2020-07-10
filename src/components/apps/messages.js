@@ -99,6 +99,7 @@ const intlData = {
         ratingMutationError: "Unable to update rating. Please try again.",
         ariaTableListing: "Apps table listing",
         fetchCategoryError: "Unable to get App categories. Please try again.",
+        done: "Done",
     },
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import ids from "../ids";
 import messages from "../messages";
@@ -8,16 +8,19 @@ import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import {
     Button,
     Hidden,
-    IconButton,
     TextField,
     Toolbar,
+    Dialog,
+    DialogActions,
+    DialogContent,
 } from "@material-ui/core";
 import DisplayTypeSelector from "../../utils/DisplayTypeSelector";
 import AppNavigation, { getAppTypeFilters } from "./AppNavigation";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import appType from "../../models/AppType";
-import { Info, MoreVert as MoreVertIcon } from "@material-ui/icons";
+import { Info } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
+import AppsDotMenu from "./AppsDotMenu";
 
 /**
  *
@@ -32,14 +35,8 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     filter: {
-        [theme.breakpoints.down("xs")]: {
-            width: 130,
-            margin: theme.spacing(0.5),
-        },
-        [theme.breakpoints.up("sm")]: {
-            width: 150,
-            margin: theme.spacing(1),
-        },
+        width: 200,
+        margin: theme.spacing(1),
     },
     toolbarItems: {
         [theme.breakpoints.down("xs")]: {
@@ -50,6 +47,42 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
+
+function AppsTypeFilter(props) {
+    const {
+        baseId,
+        selectedCategory,
+        filter,
+        handleFilterChange,
+        classes,
+        intl,
+    } = props;
+    return (
+        <Autocomplete
+            id={build(baseId, ids.APPS_FILTER)}
+            disabled={
+                selectedCategory?.system_id?.toLowerCase() ===
+                appType.agave.toLowerCase()
+            }
+            value={filter}
+            options={getAppTypeFilters()}
+            size="small"
+            onChange={(event, newValue) => {
+                handleFilterChange(newValue);
+            }}
+            getOptionLabel={(option) => option.name}
+            getOptionSelected={(option, value) => option.name === value.name}
+            className={classes.filter}
+            renderInput={(params) => (
+                <TextField
+                    {...params}
+                    label={formatMessage(intl, "filterLbl")}
+                    variant="outlined"
+                />
+            )}
+        />
+    );
+}
 
 function AppsToolbar(props) {
     const {
@@ -69,68 +102,75 @@ function AppsToolbar(props) {
 
     const classes = useStyles();
     const appsToolbarId = build(baseId, ids.APPS_TOOLBAR);
+    const [openFilterDialog, setOpenFilterDialog] = useState(false);
 
     return (
-        <Toolbar variant="dense">
-            <Hidden smDown>
-                <DisplayTypeSelector
-                    baseId={appsToolbarId}
-                    toggleDisplay={toggleDisplay}
-                    isGridView={isGridView}
-                />
-            </Hidden>
-            <AppNavigation
-                baseId={appsToolbarId}
-                handleCategoryChange={handleCategoryChange}
-                setCategoryStatus={setCategoryStatus}
-                selectedCategory={selectedCategory}
-                handleAppNavError={handleAppNavError}
-            />
-            <Autocomplete
-                id={build(appsToolbarId, ids.APPS_FILTER)}
-                disabled={
-                    selectedCategory?.system_id?.toLowerCase() ===
-                    appType.agave.toLowerCase()
-                }
-                value={filter}
-                options={getAppTypeFilters()}
-                size="small"
-                onChange={(event, newValue) => {
-                    handleFilterChange(newValue);
-                }}
-                getOptionLabel={(option) => option.name}
-                getOptionSelected={(option, value) =>
-                    option.name === value.name
-                }
-                className={classes.filter}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        label={formatMessage(intl, "filterLbl")}
-                        variant="outlined"
+        <>
+            <Toolbar variant="dense">
+                <Hidden smDown>
+                    <DisplayTypeSelector
+                        baseId={appsToolbarId}
+                        toggleDisplay={toggleDisplay}
+                        isGridView={isGridView}
                     />
-                )}
-            />
-            <div className={classes.divider} />
-            <Hidden smDown>
-                {detailsEnabled && (
-                    <Button
-                        id={build(appsToolbarId, ids.DETAILS_BTN)}
-                        className={classes.toolbarItems}
-                        variant="outlined"
-                        disableElevation
-                        color="primary"
-                        onClick={onDetailsSelected}
-                        startIcon={<Info />}
-                    >
-                        {getMessage("details")}
+                </Hidden>
+                <AppNavigation
+                    baseId={appsToolbarId}
+                    handleCategoryChange={handleCategoryChange}
+                    setCategoryStatus={setCategoryStatus}
+                    selectedCategory={selectedCategory}
+                    handleAppNavError={handleAppNavError}
+                />
+                <div className={classes.divider} />
+                <Hidden xsDown>
+                    <AppsTypeFilter
+                        baseId={appsToolbarId}
+                        classes={classes}
+                        intl={intl}
+                        filter={filter}
+                        handleFilterChange={handleFilterChange}
+                        selectedCategory={selectedCategory}
+                    />
+
+                    {detailsEnabled && (
+                        <Button
+                            id={build(appsToolbarId, ids.DETAILS_BTN)}
+                            className={classes.toolbarItems}
+                            variant="outlined"
+                            disableElevation
+                            color="primary"
+                            onClick={onDetailsSelected}
+                            startIcon={<Info />}
+                        >
+                            {getMessage("details")}
+                        </Button>
+                    )}
+                </Hidden>
+                <AppsDotMenu
+                    baseId={appsToolbarId}
+                    detailsEnabled={detailsEnabled}
+                    onDetailsSelected={onDetailsSelected}
+                    onFilterSelected={() => setOpenFilterDialog(true)}
+                />
+            </Toolbar>
+            <Dialog open={openFilterDialog}>
+                <DialogContent>
+                    <AppsTypeFilter
+                        baseId={appsToolbarId}
+                        classes={classes}
+                        intl={intl}
+                        filter={filter}
+                        handleFilterChange={handleFilterChange}
+                        selectedCategory={selectedCategory}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenFilterDialog(false)}>
+                        {getMessage("done")}
                     </Button>
-                )}
-            </Hidden>
-            <IconButton className={classes.toolbarItems}>
-                <MoreVertIcon />
-            </IconButton>
-        </Toolbar>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 }
 

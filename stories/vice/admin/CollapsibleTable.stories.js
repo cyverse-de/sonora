@@ -1,6 +1,8 @@
 import React from "react";
 
-import CollapsibleTable from "../../../src/components/vice/admin/table";
+import CollapsibleTable, {
+    ExpanderColumn,
+} from "../../../src/components/vice/admin/table";
 import {
     COMMON_COLUMNS,
     DEPLOYMENT_COLUMNS,
@@ -80,7 +82,7 @@ const defineColumn = (
 
 // The column definitions for the table.
 const commonColumns = [
-    defineColumn("+", COMMON_COLUMNS.EXPAND, "", "left", false),
+    ExpanderColumn,
     defineColumn("Username", COMMON_COLUMNS.USERNAME, "username"),
     defineColumn(
         "Date Created",

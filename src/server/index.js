@@ -1,12 +1,25 @@
 import express from "express";
-import next from "next";
 import expressWs from "express-ws";
-import * as config from "./configuration";
-import apiRouter from "./api/router";
-import NavigationConstants from "../common/NavigationConstants";
+import next from "next";
+
+import analysesRouter from "./api/analyses";
+import appsRouter from "./api/apps";
+import dashboardRouter from "./api/dashboard";
+import dataRouter from "./api/data";
+import fileIORouter from "./api/fileio";
+import sharingRouter from "./api/sharing";
+import tagsRouter from "./api/tags";
+import toolsRouter from "./api/tools";
+import userRouter from "./api/user";
+import viceRouter from "./api/vice";
+
 import * as authn from "./auth";
-import { setUpAmqpForNotifications, getNotifications } from "./amqp";
+import * as config from "./configuration";
+
 import logger, { errorLogger, requestLogger } from "./logging";
+
+import NavigationConstants from "../common/NavigationConstants";
+import { getNotifications, setUpAmqpForNotifications } from "./amqp";
 
 export const app = next({
     dev: config.isDevelopment,
@@ -68,8 +81,20 @@ app.prepare()
             getNotifications(authn.getUserID(request), ws);
         });
 
-        logger.info("adding the api router to the express server");
-        server.use("/api", apiRouter());
+        logger.info(
+            "$$$$$$$$ adding the api router to the express server $$$$$$$$$"
+        );
+        server.use("/api", appsRouter());
+        server.use("/api", analysesRouter());
+        server.use("/api", dashboardRouter());
+        server.use("/api", dataRouter());
+        server.use("/api", fileIORouter());
+        server.use("/api", tagsRouter());
+        server.use("/api", sharingRouter());
+        server.use("/api", toolsRouter());
+        server.use("/api", userRouter());
+        server.use("/api", viceRouter());
+        logger.info("$$$$$$$$$$$$$$ finished adding handlers $$$$$$$$$$$$$");
 
         logger.info(
             "adding the next.js fallthrough handler to the express server."

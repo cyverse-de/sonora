@@ -6,6 +6,8 @@
 
 import React, { useState } from "react";
 
+import { appWithTranslation } from "../i18n";
+
 import "./styles.css";
 import { ConfigProvider } from "../contexts/config";
 import CyverseAppBar from "../components/layout/CyVerseAppBar";
@@ -71,7 +73,9 @@ const setupIntercom = (intercomAppId) => {
     }
 };
 
-function MyApp({ Component, pageProps, intercom, admin, irods, tools }) {
+function MyApp({ Component, pageProps }) {
+    const { publicRuntimeConfig = {} } = getConfig() || {};
+
     const [appBarHeight, setAppBarRef] = useComponentHeight();
     const router = useRouter();
     const [config, setConfig] = useState();
@@ -85,6 +89,29 @@ function MyApp({ Component, pageProps, intercom, admin, irods, tools }) {
     };
 
     React.useEffect(() => {
+        const intercom = {
+            appId: publicRuntimeConfig.INTERCOM_APP_ID,
+            enabled: publicRuntimeConfig.INTERCOM_ENABLED,
+            companyId: publicRuntimeConfig.INTERCOM_COMPANY_ID,
+            companyName: publicRuntimeConfig.INTERCOM_COMPANY_NAME,
+        };
+        const admin = {
+            groups: publicRuntimeConfig.ADMIN_GROUPS,
+            group_attribute_name: publicRuntimeConfig.ADMIN_GROUP_ATTRIBUTE,
+        };
+        const irods = {
+            home_path: publicRuntimeConfig.IRODS_HOME_PATH,
+        };
+        const tools = {
+            private: {
+                max_cpu_limit: publicRuntimeConfig.TOOLS_PRIVATE_MAX_CPU_LIMIT,
+                max_memory_limit:
+                    publicRuntimeConfig.TOOLS_PRIVATE_MAX_MEMORY_LIMIT,
+                max_disk_limit:
+                    publicRuntimeConfig.TOOLS_PRIVATE_MAX_DISK_LIMIT,
+            },
+        };
+
         if (intercom || admin || irods || tools) {
             setConfig({ intercom, admin, irods, tools });
         }
@@ -102,16 +129,7 @@ function MyApp({ Component, pageProps, intercom, admin, irods, tools }) {
                 });
             }
         }
-    }, [
-        admin,
-        intercom,
-        irods,
-        intercom.appId,
-        intercom.enabled,
-        tools,
-        setConfig,
-        unReadCount,
-    ]);
+    }, [publicRuntimeConfig, setConfig, unReadCount]);
 
     return (
         <ThemeProvider theme={theme}>
@@ -145,33 +163,14 @@ function MyApp({ Component, pageProps, intercom, admin, irods, tools }) {
     );
 }
 
-MyApp.getInitialProps = async (ctx) => {
-    const { publicRuntimeConfig = {} } = getConfig() || {};
-    const clientConfig = {
-        intercom: {
-            appId: publicRuntimeConfig.INTERCOM_APP_ID,
-            enabled: publicRuntimeConfig.INTERCOM_ENABLED,
-            companyId: publicRuntimeConfig.INTERCOM_COMPANY_ID,
-            companyName: publicRuntimeConfig.INTERCOM_COMPANY_NAME,
-        },
-        admin: {
-            groups: publicRuntimeConfig.ADMIN_GROUPS,
-            group_attribute_name: publicRuntimeConfig.ADMIN_GROUP_ATTRIBUTE,
-        },
-        irods: {
-            home_path: publicRuntimeConfig.IRODS_HOME_PATH,
-        },
-        tools: {
-            private: {
-                max_cpu_limit: publicRuntimeConfig.TOOLS_PRIVATE_MAX_CPU_LIMIT,
-                max_memory_limit:
-                    publicRuntimeConfig.TOOLS_PRIVATE_MAX_MEMORY_LIMIT,
-                max_disk_limit:
-                    publicRuntimeConfig.TOOLS_PRIVATE_MAX_DISK_LIMIT,
-            },
-        },
-    };
-    return clientConfig;
+MyApp.getInitialProps = async ({ Component, ctx }) => {
+    let pageProps = {};
+
+    if (Component.getInitialProps) {
+        pageProps = await Component.getInitialProps(ctx);
+    }
+
+    return { pageProps, namespacesRequired: ["common"] };
 };
 
-export default MyApp;
+export default appWithTranslation(MyApp);

@@ -48,6 +48,9 @@ function buildNavigationRouteRegexp() {
 // Configure the Keycloak client.
 const keycloakClient = authn.getKeycloakClient();
 
+const nextI18next = require("../i18n");
+const nextI18NextMiddleware = require("next-i18next/middleware").default;
+
 app.prepare()
 
     .then(() => {
@@ -73,6 +76,9 @@ app.prepare()
         server.get("/login/*", keycloakClient.protect(), (req, res) => {
             res.redirect(req.url.replace(/^\/login/, ""));
         });
+
+        logger.info("Use translations");
+        server.use(nextI18NextMiddleware(nextI18next));
 
         //get notifications from amqp
         logger.info("Set up notification queue and websocket");

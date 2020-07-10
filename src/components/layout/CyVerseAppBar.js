@@ -10,10 +10,8 @@ import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
-import { injectIntl } from "react-intl";
 
 import ids from "./ids";
-import intlData from "./messages";
 import constants from "../../constants";
 import { useConfig } from "../../contexts/config";
 import GlobalSearchField from "../search/GlobalSearchField";
@@ -23,6 +21,8 @@ import CustomIntercom from "./CustomIntercom";
 import { useUserProfile } from "../../contexts/userProfile";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 
+import { withTranslation } from "../../i18n";
+
 import {
     getUserProfile,
     bootstrap,
@@ -30,14 +30,7 @@ import {
     USER_PROFILE_QUERY_KEY,
 } from "../../serviceFacades/users";
 
-import {
-    build,
-    CyVerseAnnouncer,
-    formatHTMLMessage,
-    formatMessage,
-    getMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { build, CyVerseAnnouncer } from "@cyverse-de/ui-lib";
 
 import {
     AppBar,
@@ -224,6 +217,7 @@ function CyverseAppBar(props) {
         intercomUnreadCount,
         clientConfig,
         showErrorAnnouncer,
+        t,
     } = props;
     const [userProfile, setUserProfile] = useUserProfile();
     const [avatarLetter, setAvatarLetter] = useState("");
@@ -351,12 +345,8 @@ function CyverseAppBar(props) {
         >
             {userProfile ? (
                 <Tooltip
-                    title={getMessage("logout", {
-                        values: { name: userProfile.id },
-                    })}
-                    aria-label={formatMessage(intl, "logout", {
-                        name: userProfile.id,
-                    })}
+                    title={t("logout", { name: userProfile.id })}
+                    aria-label={t("logout", { name: userProfile.id })}
                     placement="bottom"
                     arrow
                 >
@@ -364,8 +354,8 @@ function CyverseAppBar(props) {
                 </Tooltip>
             ) : (
                 <Tooltip
-                    title={getMessage("login")}
-                    aria-label={formatMessage(intl, "login")}
+                    title={t("login")}
+                    aria-label={t("login")}
                     placement="bottom"
                     arrow
                 >
@@ -377,11 +367,7 @@ function CyverseAppBar(props) {
 
     const drawerItems = (
         <List>
-            <Tooltip
-                title={formatMessage(intl, "dashboard")}
-                placement="right"
-                arrow
-            >
+            <Tooltip title={t("dashboard")} placement="right" arrow>
                 <ListItem
                     id={build(ids.DRAWER_MENU, ids.DASHBOARD_MI)}
                     onClick={() => {
@@ -397,16 +383,12 @@ function CyverseAppBar(props) {
                     <img
                         className={classes.drawerIcon}
                         src="/dashboard_selected.png"
-                        alt={formatMessage(intl, "dashboard")}
+                        alt={t("dashboard")}
                     />
-                    <ListItemText>{getMessage("dashboard")}</ListItemText>
+                    <ListItemText>{t("dashboard")}</ListItemText>
                 </ListItem>
             </Tooltip>
-            <Tooltip
-                title={formatMessage(intl, "data")}
-                placement="right"
-                arrow
-            >
+            <Tooltip title={t("data")} placement="right" arrow>
                 <ListItem
                     id={build(ids.DRAWER_MENU, ids.DATA_MI)}
                     onClick={() => {
@@ -422,16 +404,12 @@ function CyverseAppBar(props) {
                     <img
                         className={classes.drawerIcon}
                         src="/data_selected.png"
-                        alt={formatMessage(intl, "data")}
+                        alt={t("data")}
                     />
-                    <ListItemText>{getMessage("data")}</ListItemText>
+                    <ListItemText>{t("data")}</ListItemText>
                 </ListItem>
             </Tooltip>
-            <Tooltip
-                title={formatMessage(intl, "apps")}
-                placement="right"
-                arrow
-            >
+            <Tooltip title={t("apps")} placement="right" arrow>
                 <ListItem
                     id={build(ids.DRAWER_MENU, ids.APPS_MI)}
                     onClick={() => {
@@ -447,16 +425,12 @@ function CyverseAppBar(props) {
                     <img
                         className={classes.drawerIcon}
                         src="/apps_selected.png"
-                        alt={formatMessage(intl, "apps")}
+                        alt={t("apps")}
                     />
-                    <ListItemText>{getMessage("apps")}</ListItemText>
+                    <ListItemText>{t("apps")}</ListItemText>
                 </ListItem>
             </Tooltip>
-            <Tooltip
-                title={formatMessage(intl, "analyses")}
-                placement="right"
-                arrow
-            >
+            <Tooltip title={t("analyses")} placement="right" arrow>
                 <ListItem
                     id={build(ids.DRAWER_MENU, ids.ANALYSES_MI)}
                     onClick={() => {
@@ -472,17 +446,13 @@ function CyverseAppBar(props) {
                     <img
                         className={classes.drawerIcon}
                         src="/analyses_selected.png"
-                        alt={formatMessage(intl, "analyses")}
+                        alt={t("analyses")}
                     />
-                    <ListItemText>{getMessage("analyses")}</ListItemText>
+                    <ListItemText>{t("analyses")}</ListItemText>
                 </ListItem>
             </Tooltip>
             <Hidden only={["md", "lg", "xl"]}>
-                <Tooltip
-                    title={formatMessage(intl, "search")}
-                    placement="right"
-                    arrow
-                >
+                <Tooltip title={t("search")} placement="right" arrow>
                     <ListItem
                         id={build(ids.DRAWER_MENU, ids.SEARCH_MI)}
                         onClick={handleSearchClick}
@@ -498,17 +468,13 @@ function CyverseAppBar(props) {
                                 fontSize="large"
                             />
                         </ListItemIcon>
-                        <ListItemText>{getMessage("search")}</ListItemText>
+                        <ListItemText>{t("search")}</ListItemText>
                     </ListItem>
                 </Tooltip>
             </Hidden>
             <Divider />
             {userProfile?.id && (
-                <Tooltip
-                    title={formatMessage(intl, "settings")}
-                    placement="right"
-                    arrow
-                >
+                <Tooltip title={t("settings")} placement="right" arrow>
                     <ListItem
                         id={build(ids.DRAWER_MENU, ids.SETTINGS_MI)}
                         onClick={() =>
@@ -526,7 +492,7 @@ function CyverseAppBar(props) {
                                 fontSize="large"
                             />
                         </ListItemIcon>
-                        <ListItemText>{getMessage("settings")}</ListItemText>
+                        <ListItemText>{t("settings")}</ListItemText>
                     </ListItem>
                 </Tooltip>
             )}
@@ -549,14 +515,10 @@ function CyverseAppBar(props) {
                         fontSize="large"
                     />
                 </ListItemIcon>
-                <ListItemText>{getMessage("admin")}</ListItemText>
+                <ListItemText>{t("admin")}</ListItemText>
             </ListItem>
             <List component="div" disablePadding>
-                <Tooltip
-                    title={formatMessage(intl, "vice")}
-                    placement="right"
-                    arrow
-                >
+                <Tooltip title={t("vice")} placement="right" arrow>
                     <ListItem
                         button
                         id={build(ids.DRAWER_MENU, ids.VICE_MI)}
@@ -573,7 +535,7 @@ function CyverseAppBar(props) {
                         <ListItemIcon>
                             <LabelImportantIcon className={classes.icon} />
                         </ListItemIcon>
-                        <ListItemText>{getMessage("vice")}</ListItemText>
+                        <ListItemText>{t("vice")}</ListItemText>
                     </ListItem>
                 </Tooltip>
             </List>
@@ -593,7 +555,7 @@ function CyverseAppBar(props) {
                 <Toolbar>
                     <Hidden only={["sm", "md", "lg", "xl"]}>
                         <IconButton
-                            aria-label={formatMessage(intl, "openDrawer")}
+                            aria-label={t("openDrawer")}
                             onClick={handleDrawerOpen}
                             edge="start"
                             className={classes.menuIcon}
@@ -601,8 +563,8 @@ function CyverseAppBar(props) {
                             <MenuIcon />
                         </IconButton>
                         <Typography>
-                            {formatHTMLMessage("discovery")}
-                            &nbsp;{formatHTMLMessage("environment")}
+                            {t("discovery")}
+                            &nbsp;{t("environment")}
                         </Typography>
                     </Hidden>
                     <Hidden xsDown>
@@ -611,10 +573,7 @@ function CyverseAppBar(props) {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <img
-                                src="/de_white.png"
-                                alt={formatMessage(intl, "cyverse")}
-                            ></img>
+                            <img src="/de_white.png" alt={t("cyverse")}></img>
                         </a>
                     </Hidden>
                     <Hidden smDown>
@@ -727,8 +686,4 @@ function CyverseAppBar(props) {
         </div>
     );
 }
-
-export default withI18N(
-    injectIntl(withErrorAnnouncer(CyverseAppBar)),
-    intlData
-);
+export default withTranslation("common")(withErrorAnnouncer(CyverseAppBar));

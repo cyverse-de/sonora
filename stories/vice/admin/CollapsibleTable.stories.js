@@ -2,6 +2,7 @@ import React from "react";
 
 import CollapsibleTable, {
     ExpanderColumn,
+    defineColumn,
 } from "../../../src/components/vice/admin/table";
 import {
     COMMON_COLUMNS,
@@ -64,21 +65,6 @@ const testData = {
         },
     ],
 };
-
-const defineColumn = (
-    name,
-    keyID,
-    field,
-    align = "left",
-    enableSorting = true
-) => ({
-    Header: name,
-    accessor: field,
-    align,
-    enableSorting,
-    key: keyID,
-    id: keyID,
-});
 
 // The column definitions for the table.
 const commonColumns = [

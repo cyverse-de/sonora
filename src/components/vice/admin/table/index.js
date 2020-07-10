@@ -41,13 +41,6 @@ const ExtendedDataCard = ({
     handleDownloadInputs,
 }) => {
     const classes = useStyles();
-    const theme = useTheme();
-    const isMedium = useMediaQuery(theme.breakpoints.down("md"));
-
-    let display = "inline";
-    if (isMedium) {
-        display = "block";
-    }
 
     // These should be the column IDs of the columns displayed in the
     // ExtendedDataCard, which currently corresponds to the hidden columns.
@@ -59,32 +52,13 @@ const ExtendedDataCard = ({
     });
 
     return (
-        <Box margin={1}>
-            <div
-                className={`${classes.extended} ${classes.actions}`}
-                {...row.getRowProps()}
-            >
+        <Box>
+            <div className={classes.extended} {...row.getRowProps()}>
                 {filteredCells.map((cell) => {
                     return (
                         <div className={classes.dataEntry}>
-                            <Typography
-                                variant="body2"
-                                align="left"
-                                display={display}
-                                // id={id(collapseID, column.field, "label")}
-                                classes={{ root: classes.dataEntryLabel }}
-                            >
-                                {cell.render("Header")}
-                            </Typography>
-
-                            <Typography
-                                variant="body2"
-                                align="left"
-                                display={display}
-                                // id={id(collapseID, column.field, "value")}
-                            >
-                                {cell.render("Cell")}
-                            </Typography>
+                            {cell.render("Header")}
+                            {cell.render("Cell")}
                         </div>
                     );
                 })}
@@ -144,7 +118,13 @@ const CollapsibleTableRow = ({
                         style={{
                             paddingBottom: 0,
                             paddingTop: 0,
-                            width: "90%",
+                        }}
+                        colSpan={1}
+                    ></TableCell>
+                    <TableCell
+                        style={{
+                            paddingBottom: 0,
+                            paddingTop: 0,
                         }}
                         colSpan={visibleColumns.length}
                     >
@@ -178,6 +158,30 @@ export const ExpanderColumn = {
     ),
 };
 
+export const defineColumn = (
+    name,
+    keyID,
+    field,
+    align = "left",
+    enableSorting = true
+) => ({
+    Header: (_table, _columnModel) => (
+        <Typography variant="subtitle1" align={align}>
+            {name}
+        </Typography>
+    ),
+    Cell: ({ value }) => (
+        <Typography variant="body2" align={align}>
+            {value}
+        </Typography>
+    ),
+    accessor: field,
+    align,
+    enableSorting,
+    key: keyID,
+    id: keyID,
+});
+
 const CollapsibleTable = ({
     columns,
     data,
@@ -205,7 +209,6 @@ const CollapsibleTable = ({
         setHiddenColumns,
         rows,
         visibleColumns,
-        //state: { expanded },
     } = useTable(
         {
             columns,
@@ -256,13 +259,13 @@ const CollapsibleTable = ({
                 >
                     <TableHead>
                         {headerGroups.map((headerGroup) => (
-                            <tr {...headerGroup.getHeaderGroupProps()}>
+                            <TableRow {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column) => (
-                                    <th {...column.getHeaderProps()}>
+                                    <TableCell {...column.getHeaderProps()}>
                                         {column.render("Header")}
-                                    </th>
+                                    </TableCell>
                                 ))}
-                            </tr>
+                            </TableRow>
                         ))}
                     </TableHead>
 

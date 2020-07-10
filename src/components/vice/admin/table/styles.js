@@ -56,15 +56,15 @@ export default makeStyles((theme) => ({
         marginBottom: theme.spacing(1),
         marginTop: theme.spacing(1),
     },
-    actions: {
-        marginLeft: theme.spacing(11),
-        marginRight: theme.spacing(11),
+    // actions: {
+    //     marginLeft: theme.spacing(11),
+    //     marginRight: theme.spacing(11),
 
-        [theme.breakpoints.down("sm")]: {
-            marginLeft: theme.spacing(1),
-            marginRight: theme.spacing(1),
-        },
-    },
+    //     [theme.breakpoints.down("sm")]: {
+    //         marginLeft: theme.spacing(1),
+    //         marginRight: theme.spacing(1),
+    //     },
+    // },
     paperPopper: {
         border: "1px solid",
         padding: theme.spacing(1),

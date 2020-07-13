@@ -4,6 +4,7 @@ import { withI18N, getMessage as msg } from "@cyverse-de/ui-lib";
 
 import {
     Box,
+    Collapse,
     Table,
     TableBody,
     TableCell,
@@ -51,12 +52,19 @@ const ExtendedDataCard = ({
         return columnIDs.includes(row.column.id);
     });
 
+    const newID = (value) => id(ids.BASE, collapseID, "cell", value);
+
     return (
         <Box>
             <div className={classes.extended} {...row.getRowProps()}>
-                {filteredCells.map((cell) => {
+                {filteredCells.map((cell, index) => {
+                    const thisID = newID(index);
                     return (
-                        <div className={classes.dataEntry}>
+                        <div
+                            className={classes.dataEntry}
+                            key={thisID}
+                            id={thisID}
+                        >
                             {cell.render("Header")}
                             {cell.render("Cell")}
                         </div>
@@ -112,22 +120,22 @@ const CollapsibleTableRow = ({
                 })}
             </TableRow>
 
-            {row.isExpanded ? (
-                <TableRow key={collapseID} id={collapseID}>
-                    <TableCell
-                        style={{
-                            paddingBottom: 0,
-                            paddingTop: 0,
-                        }}
-                        colSpan={1}
-                    ></TableCell>
-                    <TableCell
-                        style={{
-                            paddingBottom: 0,
-                            paddingTop: 0,
-                        }}
-                        colSpan={visibleColumns.length}
-                    >
+            <TableRow key={collapseID} id={collapseID}>
+                <TableCell
+                    style={{
+                        paddingBottom: 0,
+                        paddingTop: 0,
+                    }}
+                    colSpan={1}
+                ></TableCell>
+                <TableCell
+                    style={{
+                        paddingBottom: 0,
+                        paddingTop: 0,
+                    }}
+                    colSpan={visibleColumns.length}
+                >
+                    <Collapse in={row.isExpanded} timeout="auto" unmountOnExit>
                         <ExtendedDataCard
                             columns={hiddenColumns}
                             row={row}
@@ -139,9 +147,9 @@ const CollapsibleTableRow = ({
                             handleUploadOutputs={handleUploadOutputs}
                             handleDownloadInputs={handleDownloadInputs}
                         />
-                    </TableCell>
-                </TableRow>
-            ) : null}
+                    </Collapse>
+                </TableCell>
+            </TableRow>
         </>
     );
 };

@@ -210,6 +210,7 @@ const CollapsibleTable = ({
     const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
     const isMedium = useMediaQuery(theme.breakpoints.up("md"));
     const isSmall = useMediaQuery(theme.breakpoints.up("sm"));
+    const isExtraSmall = useMediaQuery(theme.breakpoints.up("xs"));
 
     const {
         getTableProps,
@@ -239,6 +240,8 @@ const CollapsibleTable = ({
         } else if (isMedium) {
             numCols = 4;
         } else if (isSmall) {
+            numCols = 3;
+        } else if (isExtraSmall) {
             numCols = 2;
         } else {
             numCols = 7;
@@ -247,7 +250,15 @@ const CollapsibleTable = ({
         const hidden = columns.slice(numCols);
         setHiddenColumnObjs(hidden);
         setHiddenColumns(hidden.map((column) => column.id));
-    }, [setHiddenColumns, columns, isXL, isLarge, isMedium, isSmall]);
+    }, [
+        setHiddenColumns,
+        columns,
+        isXL,
+        isLarge,
+        isMedium,
+        isSmall,
+        isExtraSmall,
+    ]);
 
     const tableID = id(ids.ROOT);
 

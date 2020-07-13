@@ -20,7 +20,7 @@ import getData, {
 } from "../../../serviceFacades/vice/admin";
 
 import RowFilter from "./filter";
-import CollapsibleTable from "./table";
+import CollapsibleTable, { defineColumn, ExpanderColumn } from "./table";
 import JobLimits from "./joblimits";
 
 import ids from "./ids";
@@ -79,24 +79,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const defineColumn = (
-    name,
-    keyID,
-    field,
-    align = "left",
-    enableSorting = true
-) => ({
-    Header: name,
-    accessor: field,
-    align,
-    enableSorting,
-    key: keyID,
-    id: keyID,
-});
-
 // The column definitions for the table.
 const commonColumns = [
-    defineColumn("", COMMON_COLUMNS.EXPAND, "", "left", false),
+    ExpanderColumn,
     defineColumn("Username", COMMON_COLUMNS.USERNAME, "username"),
     defineColumn(
         "Date Created",

@@ -167,6 +167,7 @@ export const ExpanderColumn = {
             </IconButton>
         </span>
     ),
+    disableSortBy: true,
 };
 
 export const defineColumn = (
@@ -188,7 +189,7 @@ export const defineColumn = (
     ),
     accessor: field,
     align,
-    enableSorting,
+    disableSortBy: !enableSorting,
     key: keyID,
     id: keyID,
 });
@@ -289,16 +290,20 @@ const CollapsibleTable = ({
                                             column.getSortByToggleProps()
                                         )}
                                     >
-                                        <TableSortLabel
-                                            active={column.isSorted}
-                                            direction={
-                                                column.isSortedDesc
-                                                    ? "desc"
-                                                    : "asc"
-                                            }
-                                        >
-                                            {column.render("Header")}
-                                        </TableSortLabel>
+                                        {column.canSort ? (
+                                            <TableSortLabel
+                                                active={column.isSorted}
+                                                direction={
+                                                    column.isSortedDesc
+                                                        ? "desc"
+                                                        : "asc"
+                                                }
+                                            >
+                                                {column.render("Header")}
+                                            </TableSortLabel>
+                                        ) : (
+                                            column.render("Header")
+                                        )}
                                     </TableCell>
                                 ))}
                             </TableRow>

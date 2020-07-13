@@ -9,7 +9,7 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 
-import { withTranslation } from "../../i18n";
+import { useTranslation } from "react-i18next";
 import constants from "../../constants";
 import analysisStatus from "../models/analysisStatus";
 import NavigationConstants from "../../common/NavigationConstants";
@@ -29,7 +29,7 @@ import { useTheme } from "@material-ui/core/styles";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 
 function Notifications(props) {
-    const { t } = props;
+    const { t } = useTranslation("common");
     const [currentNotification] = useNotifications();
     const theme = useTheme();
     const router = useRouter();
@@ -147,4 +147,4 @@ function Notifications(props) {
     );
 }
 
-export default withTranslation("common")(Notifications);
+export default Notifications;

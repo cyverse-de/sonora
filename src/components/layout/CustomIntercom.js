@@ -7,10 +7,9 @@
 
 import React from "react";
 
+import { useTranslation } from "react-i18next";
+
 import ids from "./ids";
-
-import { withTranslation } from "../../i18n";
-
 import { useConfig } from "../../contexts/config";
 import { intercomLogin, intercomLogout } from "../../common/intercom";
 import { useUserProfile } from "../../contexts/userProfile";
@@ -19,7 +18,8 @@ import { Badge, IconButton, Tooltip, useTheme } from "@material-ui/core";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 
 function CustomIntercom(props) {
-    const { intercomUnreadCount, t } = props;
+    const { intercomUnreadCount } = props;
+    const { t } = useTranslation("common");
     const [userProfile] = useUserProfile();
     const theme = useTheme();
     const [config] = useConfig();
@@ -61,4 +61,4 @@ function CustomIntercom(props) {
     }
 }
 
-export default withTranslation("common")(CustomIntercom);
+export default CustomIntercom;

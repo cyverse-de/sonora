@@ -16,12 +16,13 @@ import {
     useTheme,
     useMediaQuery,
     IconButton,
+    TableSortLabel,
 } from "@material-ui/core";
 
 // import { Skeleton } from "@material-ui/lab";
 import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
 
-import { useTable, useExpanded } from "react-table";
+import { useTable, useExpanded, useSortBy } from "react-table";
 
 import ActionButtons from "./actionButtons";
 
@@ -225,6 +226,7 @@ const CollapsibleTable = ({
             columns,
             data,
         },
+        useSortBy,
         useExpanded
     );
 
@@ -282,8 +284,21 @@ const CollapsibleTable = ({
                         {headerGroups.map((headerGroup) => (
                             <TableRow {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column) => (
-                                    <TableCell {...column.getHeaderProps()}>
-                                        {column.render("Header")}
+                                    <TableCell
+                                        {...column.getHeaderProps(
+                                            column.getSortByToggleProps()
+                                        )}
+                                    >
+                                        <TableSortLabel
+                                            active={column.isSorted}
+                                            direction={
+                                                column.isSortedDesc
+                                                    ? "desc"
+                                                    : "asc"
+                                            }
+                                        >
+                                            {column.render("Header")}
+                                        </TableSortLabel>
                                     </TableCell>
                                 ))}
                             </TableRow>

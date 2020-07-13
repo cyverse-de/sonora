@@ -125,13 +125,15 @@ const CollapsibleTableRow = ({
                     style={{
                         paddingBottom: 0,
                         paddingTop: 0,
+                        width: "10%",
                     }}
-                    colSpan={1}
+                    colSpan={row.isExpanded ? 1 : 0}
                 ></TableCell>
                 <TableCell
                     style={{
                         paddingBottom: 0,
                         paddingTop: 0,
+                        width: "90%",
                     }}
                     colSpan={visibleColumns.length}
                 >

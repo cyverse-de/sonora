@@ -6,8 +6,9 @@
 
 import React, { useState } from "react";
 
-import { appWithTranslation } from "../i18n";
+import { useTranslation } from "react-i18next";
 
+import { appWithTranslation } from "../i18n";
 import "./styles.css";
 import { ConfigProvider } from "../contexts/config";
 import CyverseAppBar from "../components/layout/CyVerseAppBar";
@@ -74,6 +75,7 @@ const setupIntercom = (intercomAppId) => {
 };
 
 function MyApp({ Component, pageProps }) {
+    const { t } = useTranslation("common");
     const { publicRuntimeConfig = {} } = getConfig() || {};
 
     const [appBarHeight, setAppBarRef] = useComponentHeight();
@@ -146,7 +148,7 @@ function MyApp({ Component, pageProps }) {
                                     clientConfig={config}
                                 >
                                     <Head>
-                                        <title>Discovery Environment</title>
+                                        <title>{t("deTitle")}</title>
                                     </Head>
                                     <ReactQueryDevtools initialIsOpen={false} />
                                     <PageWrapper appBarHeight={appBarHeight}>
@@ -162,15 +164,5 @@ function MyApp({ Component, pageProps }) {
         </ThemeProvider>
     );
 }
-
-MyApp.getInitialProps = async ({ Component, ctx }) => {
-    let pageProps = {};
-
-    if (Component.getInitialProps) {
-        pageProps = await Component.getInitialProps(ctx);
-    }
-
-    return { pageProps, namespacesRequired: ["common"] };
-};
 
 export default appWithTranslation(MyApp);

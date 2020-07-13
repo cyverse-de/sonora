@@ -10,6 +10,7 @@ import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 
 import ids from "./ids";
 import constants from "../../constants";
@@ -20,8 +21,6 @@ import Notifications from "./Notifications";
 import CustomIntercom from "./CustomIntercom";
 import { useUserProfile } from "../../contexts/userProfile";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
-
-import { withTranslation } from "../../i18n";
 
 import {
     getUserProfile,
@@ -208,6 +207,7 @@ function CyverseAppBar(props) {
     const router = useRouter();
     const ref = useRef();
     const [config, setConfig] = useConfig();
+    const { t } = useTranslation(["common", "search"]);
 
     const {
         intl,
@@ -217,7 +217,6 @@ function CyverseAppBar(props) {
         intercomUnreadCount,
         clientConfig,
         showErrorAnnouncer,
-        t,
     } = props;
     const [userProfile, setUserProfile] = useUserProfile();
     const [avatarLetter, setAvatarLetter] = useState("");
@@ -685,4 +684,4 @@ function CyverseAppBar(props) {
         </div>
     );
 }
-export default withTranslation("common")(withErrorAnnouncer(CyverseAppBar));
+export default withErrorAnnouncer(CyverseAppBar);

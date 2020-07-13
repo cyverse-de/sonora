@@ -9,7 +9,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import { useQuery } from "react-query";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 
 import { makeStyles, useTheme } from "@material-ui/styles";
 import {
@@ -35,15 +35,8 @@ import {
 
 import { Skeleton } from "@material-ui/lab";
 
-import {
-    build as buildID,
-    formatDate,
-    formatMessage,
-    getMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { build as buildID, formatDate } from "@cyverse-de/ui-lib";
 
-import messages from "./messages";
 import ids from "./ids";
 import * as constants from "./constants";
 import {
@@ -178,30 +171,30 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const getOrigination = (kind, content, intl) => {
+const getOrigination = (kind, content, t) => {
     let origination;
     let date;
 
     switch (kind) {
         case constants.KIND_ANALYSES:
-            origination = formatMessage(intl, "startedBy");
+            origination = t("startedBy");
             date = content.start_date;
             break;
         case constants.KIND_APPS:
             if (content.integration_date) {
-                origination = formatMessage(intl, "integratedBy");
+                origination = t("integratedBy");
                 date = content.integration_date;
             } else {
-                origination = formatMessage(intl, "editedBy");
+                origination = t("editedBy");
                 date = content.edited_date;
             }
             break;
         case constants.KIND_FEEDS:
-            origination = formatMessage(intl, "publishedBy");
+            origination = t("publishedBy");
             date = content.date_added;
             break;
         default:
-            origination = formatMessage(intl, "by");
+            origination = t("by");
     }
     return [
         origination,
@@ -362,6 +355,7 @@ const cleanSubheader = (subheader, isLarge = true) => {
 
 const DashboardLink = ({ kind, content, headerClass }) => {
     const router = useRouter();
+    const { t } = useTranslation("dashboard");
     const isNewTab =
         kind === constants.KIND_EVENTS || kind === constants.KIND_FEEDS;
     const target = getLinkTarget(kind, content);
@@ -378,7 +372,7 @@ const DashboardLink = ({ kind, content, headerClass }) => {
             variant="contained"
             classes={{ containedPrimary: headerClass }}
         >
-            {getMessage("open")}
+            {t("open")}
         </Button>
     ) : (
         <Button
@@ -389,7 +383,7 @@ const DashboardLink = ({ kind, content, headerClass }) => {
             classes={{ containedPrimary: headerClass }}
             onClick={(_) => router.push(target)}
         >
-            {getMessage("open")}
+            {t("open")}
         </Button>
     );
 };
@@ -405,14 +399,15 @@ const DashboardLink = ({ kind, content, headerClass }) => {
 export const DashboardItem = (props) => {
     const classes = useStyles();
     const theme = useTheme();
+    const { t } = useTranslation("dashboard");
 
     const isMediumOrLarger = useMediaQuery(theme.breakpoints.up("md"));
 
-    const { kind, content, section, intl } = props;
+    const { kind, content, section } = props;
     const cardID = buildID(kind, content.id);
 
     const description = cleanDescription(content.description);
-    const [origination, date] = getOrigination(kind, content, intl);
+    const [origination, date] = getOrigination(kind, content, t);
     const user = cleanUsername(content.username);
     const [headerClass, avatarClass] = getSectionClass(section, classes);
     const rootClass = clsx(classes.cardHeaderDefault, headerClass);
@@ -459,7 +454,7 @@ export const DashboardItem = (props) => {
                 }}
             >
                 <Typography color="textSecondary" variant="body2" component="p">
-                    {description || getMessage("noDescriptionProvided")}
+                    {description || t("noDescriptionProvided")}
                 </Typography>
             </CardContent>
 
@@ -478,7 +473,7 @@ export const DashboardItem = (props) => {
     );
 };
 
-const DashboardSection = ({ name, kind, items, id, section, intl }) => {
+const DashboardSection = ({ name, kind, items, id, section, t }) => {
     const classes = useStyles();
 
     return (
@@ -502,7 +497,7 @@ const DashboardSection = ({ name, kind, items, id, section, intl }) => {
                         content={item}
                         key={item.id}
                         section={section}
-                        intl={intl}
+                        t={t}
                     />
                 ))}
             </div>
@@ -535,8 +530,9 @@ const DashboardSkeleton = () => {
     return <div id={makeID(ids.LOADING)}>{skellies}</div>;
 };
 
-const Dashboard = ({ intl }) => {
+const Dashboard = () => {
     const classes = useStyles();
+    const { t } = useTranslation("dashboard");
     const { status, data, error } = useQuery(
         [DASHBOARD_QUERY_KEY, { limit: constants.SECTION_ITEM_LIMIT }],
         getDashboard
@@ -553,37 +549,37 @@ const Dashboard = ({ intl }) => {
         [
             constants.KIND_ANALYSES,
             constants.SECTION_RECENT,
-            getMessage("recentAnalyses"),
+            t("recentAnalyses"),
             makeID(ids.SECTION_RECENT_ANALYSES),
         ],
         [
             constants.KIND_ANALYSES,
             constants.SECTION_RUNNING,
-            getMessage("runningAnalyses"),
+            t("runningAnalyses"),
             makeID(ids.SECTION_RUNNING_ANALYSES),
         ],
         [
             constants.KIND_APPS,
             constants.SECTION_RECENTLY_ADDED,
-            getMessage("recentlyAddedApps"),
+            t("recentlyAddedApps"),
             makeID(ids.SECTION_RECENTLY_ADDED_APPS),
         ],
         [
             constants.KIND_APPS,
             constants.SECTION_PUBLIC,
-            getMessage("publicApps"),
+            t("publicApps"),
             makeID(ids.SECTION_PUBLIC_APPS),
         ],
         [
             constants.KIND_FEEDS,
             constants.SECTION_NEWS,
-            getMessage("newsFeed"),
+            t("newsFeed"),
             makeID(ids.SECTION_NEWS),
         ],
         [
             constants.KIND_EVENTS,
             constants.SECTION_EVENTS,
-            getMessage("eventsFeed"),
+            t("eventsFeed"),
             makeID(ids.SECTION_EVENTS),
         ],
     ];
@@ -607,7 +603,7 @@ const Dashboard = ({ intl }) => {
                           items={data[kind][section]}
                           name={label}
                           section={section}
-                          intl={intl}
+                          t={t}
                       />
                   );
               })
@@ -631,4 +627,4 @@ const Dashboard = ({ intl }) => {
     );
 };
 
-export default withI18N(injectIntl(Dashboard), messages);
+export default Dashboard;

@@ -18,10 +18,23 @@ export default function fileIORouter() {
 
     logger.info("************ Adding File I/O handlers **********");
 
-    logger.info("adding the /api/upload handler ");
+    logger.info("adding the POST /api/upload handler");
     api.post("/upload", auth.authnTokenMiddleware, uploadHandler);
 
-    logger.info("adding the /api/download handler");
+    logger.info("adding the POST /api/fileio/urlupload handler");
+    api.post(
+        "/fileio/urlupload",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/fileio/urlupload",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the GET /api/download handler");
     api.get(
         "/download",
         auth.authnTokenMiddleware,

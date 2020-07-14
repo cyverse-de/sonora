@@ -77,6 +77,12 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.primary.contrastText,
     },
+    tabPanelRoot: {
+        paddingLeft: 0,
+        paddingRight: 0,
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+    },
 }));
 
 // The column definitions for the table.
@@ -282,6 +288,7 @@ const VICEAdminTabs = ({ data = {} }) => {
                     value={`${index}`}
                     id={tabPanelID(tabName)}
                     key={tabPanelID(tabName)}
+                    classes={{ root: classes.tabPanelRoot }}
                 >
                     <CollapsibleTable
                         data={analysisRows}

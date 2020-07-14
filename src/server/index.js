@@ -2,6 +2,9 @@ import express from "express";
 import expressWs from "express-ws";
 import next from "next";
 
+import nextI18next from "../i18n";
+import nextI18NextMiddleware from "next-i18next/middleware";
+
 import analysesRouter from "./api/analyses";
 import appsRouter from "./api/apps";
 import dashboardRouter from "./api/dashboard";
@@ -47,9 +50,6 @@ function buildNavigationRouteRegexp() {
 
 // Configure the Keycloak client.
 const keycloakClient = authn.getKeycloakClient();
-
-const nextI18next = require("../i18n");
-const nextI18NextMiddleware = require("next-i18next/middleware").default;
 
 app.prepare()
 

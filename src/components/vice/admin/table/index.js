@@ -98,6 +98,7 @@ const CollapsibleTableRow = ({
     handleExtendTimeLimit,
     handleUploadOutputs,
     handleDownloadInputs,
+    isMobile = false,
 }) => {
     const classes = useStyles();
 
@@ -122,19 +123,22 @@ const CollapsibleTableRow = ({
             </TableRow>
 
             <TableRow key={collapseID} id={collapseID}>
+                {!isMobile ? (
+                    <TableCell
+                        style={{
+                            paddingBottom: 0,
+                            paddingTop: 0,
+                            width: "5%",
+                        }}
+                        colSpan={row.isExpanded ? 1 : 0}
+                    ></TableCell>
+                ) : null}
+
                 <TableCell
                     style={{
                         paddingBottom: 0,
                         paddingTop: 0,
-                        width: "10%",
-                    }}
-                    colSpan={row.isExpanded ? 1 : 0}
-                ></TableCell>
-                <TableCell
-                    style={{
-                        paddingBottom: 0,
-                        paddingTop: 0,
-                        width: "90%",
+                        width: "95%",
                     }}
                     colSpan={visibleColumns.length}
                 >
@@ -214,6 +218,10 @@ const CollapsibleTable = ({
     const isSmall = useMediaQuery(theme.breakpoints.up("sm"));
     const isExtraSmall = useMediaQuery(theme.breakpoints.up("xs"));
 
+    // Needs to be set in the useLayoutEffect, otherwise it acts weird
+    // because the media queries generate incorrect results on the server.
+    const [isMobile, setIsMobile] = useState(false);
+
     const {
         getTableProps,
         getTableBodyProps,
@@ -249,6 +257,7 @@ const CollapsibleTable = ({
         } else {
             numCols = 7;
         }
+        setIsMobile((isXL || isLarge || isMedium) === false);
 
         const hidden = columns.slice(numCols);
         setHiddenColumnObjs(hidden);
@@ -329,6 +338,7 @@ const CollapsibleTable = ({
                                     handleDownloadInputs={handleDownloadInputs}
                                     handleUploadOutputs={handleUploadOutputs}
                                     showActions={showActions}
+                                    isMobile={isMobile}
                                 />
                             );
                         })}

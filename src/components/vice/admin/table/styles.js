@@ -26,6 +26,8 @@ export default makeStyles((theme) => ({
         },
     },
     dataEntry: {
+        textOverFlow: "ellipsis",
+
         [theme.breakpoints.up("xs")]: {
             width: "100%",
             marginLeft: 0,

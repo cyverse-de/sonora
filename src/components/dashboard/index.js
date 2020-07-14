@@ -11,7 +11,7 @@ import clsx from "clsx";
 import { useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
-import { makeStyles, useTheme } from "@material-ui/styles";
+import { useTheme } from "@material-ui/styles";
 import {
     Button,
     Card,
@@ -39,6 +39,8 @@ import { build as buildID, formatDate } from "@cyverse-de/ui-lib";
 
 import ids from "./ids";
 import * as constants from "./constants";
+import useStyles from "./styles";
+
 import {
     getDashboard,
     DASHBOARD_QUERY_KEY,
@@ -46,6 +48,7 @@ import {
 
 const makeID = (...names) => buildID(ids.BASE, ...names);
 
+<<<<<<< HEAD
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -172,6 +175,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const getOrigination = (kind, content, t) => {
+=======
+const getOrigination = (kind, content, intl) => {
+>>>>>>> Move styles into a separate file
     let origination;
     let date;
 

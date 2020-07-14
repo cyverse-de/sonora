@@ -24,348 +24,27 @@ import {
     useMediaQuery,
 } from "@material-ui/core";
 
-import {
-    Apps,
-    BarChart,
-    Event,
-    RssFeed,
-    OpenInNew,
-    OpenInBrowser,
-} from "@material-ui/icons";
-
 import { Skeleton } from "@material-ui/lab";
 
-import { build as buildID, formatDate } from "@cyverse-de/ui-lib";
+import { build as buildID } from "@cyverse-de/ui-lib";
 
 import ids from "./ids";
 import * as constants from "./constants";
 import useStyles from "./styles";
+import * as fns from "./functions";
 
 import {
     getDashboard,
     DASHBOARD_QUERY_KEY,
 } from "../../serviceFacades/dashboard";
 
-const makeID = (...names) => buildID(ids.BASE, ...names);
-
-<<<<<<< HEAD
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        paddingTop: 0,
-        paddingRight: theme.spacing(2),
-        paddingBottom: theme.spacing(2),
-        paddingLeft: theme.spacing(2),
-    },
-    dividerRoot: {
-        marginBottom: theme.spacing(1),
-    },
-    footer: {
-        width: "100%",
-        height: 128, // This is needed to get the vertical scrolling to stop cutting off the bottom of the content.
-
-        [theme.breakpoints.down("sm")]: {
-            height: 32,
-        },
-    },
-    section: {
-        marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(5),
-    },
-    sectionItems: {
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "flex-start",
-        paddingTop: theme.spacing(2),
-        paddingBottom: theme.spacing(2),
-        paddingLeft: 0,
-        paddingRight: 0,
-
-        // Try to eek as much space out of the iPhone SE cards as possible.
-        [theme.breakpoints.down("sm")]: {
-            padding: 0,
-            justifyContent: "center",
-        },
-    },
-    subtitle: {
-        marginBottom: theme.spacing(2),
-    },
-    gridRoot: {
-        overflow: "auto", // Needed for vertical scrolling.
-        height: "90vh", // Needed to get the vertical scrolling working.
-        paddingTop: 0,
-        paddingLeft: theme.spacing(3),
-        paddingBottom: 0,
-        paddingRight: theme.spacing(3),
-
-        [theme.breakpoints.down("sm")]: {
-            paddingTop: 0,
-            paddingLeft: theme.spacing(1),
-            paddingBottom: 0,
-            paddingRight: theme.spacing(1),
-        },
-    },
-    dashboardCard: {
-        height: 225,
-        display: "flex",
-        flexDirection: "column",
-        marginTop: theme.spacing(2),
-
-        [theme.breakpoints.up("xs")]: {
-            width: 300,
-            marginRight: theme.spacing(0),
-        },
-
-        [theme.breakpoints.up("sm")]: {
-            marginRight: theme.spacing(2),
-        },
-
-        [theme.breakpoints.up("lg")]: {
-            width: 425,
-            marginRight: theme.spacing(2),
-        },
-    },
-    actionsRoot: {
-        marginLeft: "auto",
-    },
-    avatar: {
-        background: theme.palette.white,
-        color: theme.palette.gray,
-    },
-    cardHeaderDefault: {
-        background: theme.palette.primary.main,
-        marginBottom: theme.spacing(2),
-    },
-    cardHeaderDefaultAvatar: {
-        color: theme.palette.primary.main,
-    },
-    cardHeaderEvents: {
-        background: theme.palette.violet,
-    },
-    cardHeaderEventsAvatar: {
-        color: theme.palette.violet,
-    },
-    cardHeaderNews: {
-        background: theme.palette.indigo,
-    },
-    cardHeaderNewsAvatar: {
-        color: theme.palette.indigo,
-    },
-    cardHeaderPublic: {
-        background: theme.palette.darkNavy,
-    },
-    cardHeaderPublicAvatar: {
-        color: theme.palette.darkNavy,
-    },
-    cardHeaderRecent: {
-        background: theme.palette.navy,
-    },
-    cardHeaderRecentAvatar: {
-        color: theme.palette.navy,
-    },
-    cardHeaderRecentlyAdded: {
-        background: theme.palette.gold,
-    },
-    cardHeaderRecentlyAddedAvatar: {
-        color: theme.palette.gold,
-    },
-    cardHeaderText: {
-        color: theme.palette.primary.contrastText,
-    },
-}));
-
-const getOrigination = (kind, content, t) => {
-=======
-const getOrigination = (kind, content, intl) => {
->>>>>>> Move styles into a separate file
-    let origination;
-    let date;
-
-    switch (kind) {
-        case constants.KIND_ANALYSES:
-            origination = t("startedBy");
-            date = content.start_date;
-            break;
-        case constants.KIND_APPS:
-            if (content.integration_date) {
-                origination = t("integratedBy");
-                date = content.integration_date;
-            } else {
-                origination = t("editedBy");
-                date = content.edited_date;
-            }
-            break;
-        case constants.KIND_FEEDS:
-            origination = t("publishedBy");
-            date = content.date_added;
-            break;
-        default:
-            origination = t("by");
-    }
-    return [
-        origination,
-        formatDate(date ? new Date(date).valueOf() : new Date().valueOf()),
-    ];
-};
-
-const getAvatarIcon = (kind, colorClass) => {
-    let retval;
-    switch (kind) {
-        case constants.KIND_ANALYSES:
-            retval = (
-                <BarChart
-                    color="primary"
-                    classes={{ colorPrimary: colorClass }}
-                />
-            );
-            break;
-        case constants.KIND_APPS:
-            retval = (
-                <Apps color="primary" classes={{ colorPrimary: colorClass }} />
-            );
-            break;
-        case constants.KIND_FEEDS:
-            retval = (
-                <RssFeed
-                    color="primary"
-                    classes={{ colorPrimary: colorClass }}
-                />
-            );
-            break;
-        case constants.KIND_EVENTS:
-            retval = (
-                <Event color="primary" classes={{ colorPrimary: colorClass }} />
-            );
-            break;
-        default:
-            retval = (
-                <Apps color="primary" classes={{ colorPrimary: colorClass }} />
-            );
-    }
-    return retval;
-};
-
-const getSectionClass = (section, classes) => {
-    let header;
-    let avatar;
-    switch (section) {
-        case constants.SECTION_EVENTS:
-            header = classes.cardHeaderEvents;
-            avatar = classes.cardHeaderEventsAvatar;
-            break;
-        case constants.SECTION_NEWS:
-            header = classes.cardHeaderNews;
-            avatar = classes.cardHeaderNewsAvatar;
-            break;
-        case constants.SECTION_PUBLIC:
-            header = classes.cardHeaderPublic;
-            avatar = classes.cardHeaderPublicAvatar;
-            break;
-        case constants.SECTION_RECENT:
-            header = classes.cardHeaderRecent;
-            avatar = classes.cardHeaderRecentAvatar;
-            break;
-        case constants.SECTION_RECENTLY_ADDED:
-            header = classes.cardHeaderRecentlyAdded;
-            avatar = classes.cardHeaderRecentlyAddedAvatar;
-            break;
-        default:
-            header = classes.cardHeaderDefault;
-            avatar = classes.cardHeaderDefaultAvatar;
-            break;
-    }
-    return [header, avatar];
-};
-
-const getLinkIcon = (kind) => {
-    let retval;
-    switch (kind) {
-        case constants.KIND_ANALYSES:
-            retval = <OpenInBrowser />;
-            break;
-        case constants.KIND_APPS:
-            retval = <OpenInBrowser />;
-            break;
-        case constants.KIND_FEEDS:
-            retval = <OpenInNew />;
-            break;
-        case constants.KIND_EVENTS:
-            retval = <OpenInNew />;
-            break;
-        default:
-            retval = <OpenInNew />;
-    }
-    return retval;
-};
-
-const getLinkTarget = (kind, content) => {
-    let target;
-    switch (kind) {
-        case constants.KIND_APPS:
-            target = `/apps/${content.id}/details`;
-            break;
-        case constants.KIND_ANALYSES:
-            target = `/analyses/${content.id}/details`;
-            break;
-        default:
-            target = content.link;
-    }
-    return target;
-};
-
-const cleanUsername = (username) => {
-    let user;
-    if (username) {
-        if (username.endsWith(constants.USER_SUFFIX)) {
-            user = username.replace(constants.USER_SUFFIX, "");
-        } else {
-            user = username;
-        }
-    } else {
-        user = constants.CYVERSE;
-    }
-    return user;
-};
-
-const cleanField = (field, comparator) => {
-    let retval;
-    if (field.length > comparator) {
-        retval = field.slice(0, comparator) + "...";
-    } else {
-        retval = field;
-    }
-    return retval;
-};
-
-const cleanDescription = (description) =>
-    cleanField(description, constants.DESC_MAX_LENGTH);
-
-const cleanTitle = (title, isLarge = true) => {
-    let comparator;
-
-    if (isLarge) {
-        comparator = constants.TITLE_MAX_LENGTH;
-    } else {
-        comparator = constants.TITLE_MAX_LENGTH_SMALL;
-    }
-
-    return cleanField(title, comparator);
-};
-
-const cleanSubheader = (subheader, isLarge = true) => {
-    if (isLarge) {
-        return subheader;
-    }
-    return cleanField(subheader, constants.SUBHEADER_MAX_LENGTH_SMALL);
-};
-
 const DashboardLink = ({ kind, content, headerClass }) => {
     const router = useRouter();
     const { t } = useTranslation("dashboard");
     const isNewTab =
         kind === constants.KIND_EVENTS || kind === constants.KIND_FEEDS;
-    const target = getLinkTarget(kind, content);
-    const icon = getLinkIcon(kind);
+    const target = fns.getLinkTarget(kind, content);
+    const icon = fns.getLinkIcon(kind);
 
     return isNewTab ? (
         <Button
@@ -412,28 +91,28 @@ export const DashboardItem = (props) => {
     const { kind, content, section } = props;
     const cardID = buildID(kind, content.id);
 
-    const description = cleanDescription(content.description);
-    const [origination, date] = getOrigination(kind, content, t);
-    const user = cleanUsername(content.username);
-    const [headerClass, avatarClass] = getSectionClass(section, classes);
+    const description = fns.cleanDescription(content.description);
+    const [origination, date] = fns.getOrigination(kind, content);
+    const user = fns.cleanUsername(content.username);
+    const [headerClass, avatarClass] = fns.getSectionClass(section, classes);
     const rootClass = clsx(classes.cardHeaderDefault, headerClass);
 
     return (
         <Card
             className={classes.dashboardCard}
-            id={makeID(ids.ITEM, cardID)}
+            id={fns.makeID(ids.ITEM, cardID)}
             elevation={4}
         >
             <CardHeader
                 avatar={
                     isMediumOrLarger && (
                         <Avatar className={classes.avatar}>
-                            {getAvatarIcon(kind, avatarClass)}
+                            {fns.getAvatarIcon(kind, avatarClass)}
                         </Avatar>
                     )
                 }
                 classes={{ root: rootClass }}
-                title={cleanTitle(content.name, isMediumOrLarger)}
+                title={fns.cleanTitle(content.name, isMediumOrLarger)}
                 titleTypographyProps={{
                     noWrap: true,
                     variant: "h6",
@@ -447,7 +126,7 @@ export const DashboardItem = (props) => {
                         variant="subtitle2"
                         classes={{ colorTextSecondary: classes.cardHeaderText }}
                     >
-                        {cleanSubheader(
+                        {fns.cleanSubheader(
                             `${origination} ${user} on ${date}`,
                             isMediumOrLarger
                         )}
@@ -533,7 +212,7 @@ const DashboardSkeleton = () => {
         </div>
     ));
 
-    return <div id={makeID(ids.LOADING)}>{skellies}</div>;
+    return <div id={fns.makeID(ids.LOADING)}>{skellies}</div>;
 };
 
 const Dashboard = () => {
@@ -556,37 +235,37 @@ const Dashboard = () => {
             constants.KIND_ANALYSES,
             constants.SECTION_RECENT,
             t("recentAnalyses"),
-            makeID(ids.SECTION_RECENT_ANALYSES),
+            fns.makeID(ids.SECTION_RECENT_ANALYSES),
         ],
         [
             constants.KIND_ANALYSES,
             constants.SECTION_RUNNING,
             t("runningAnalyses"),
-            makeID(ids.SECTION_RUNNING_ANALYSES),
+            fns.makeID(ids.SECTION_RUNNING_ANALYSES),
         ],
         [
             constants.KIND_APPS,
             constants.SECTION_RECENTLY_ADDED,
             t("recentlyAddedApps"),
-            makeID(ids.SECTION_RECENTLY_ADDED_APPS),
+            fns.makeID(ids.SECTION_RECENTLY_ADDED_APPS),
         ],
         [
             constants.KIND_APPS,
             constants.SECTION_PUBLIC,
             t("publicApps"),
-            makeID(ids.SECTION_PUBLIC_APPS),
+            fns.makeID(ids.SECTION_PUBLIC_APPS),
         ],
         [
             constants.KIND_FEEDS,
             constants.SECTION_NEWS,
             t("newsFeed"),
-            makeID(ids.SECTION_NEWS),
+            fns.makeID(ids.SECTION_NEWS),
         ],
         [
             constants.KIND_EVENTS,
             constants.SECTION_EVENTS,
             t("eventsFeed"),
-            makeID(ids.SECTION_EVENTS),
+            fns.makeID(ids.SECTION_EVENTS),
         ],
     ];
 
@@ -626,7 +305,7 @@ const Dashboard = () => {
     }
 
     return (
-        <div id={makeID(ids.ROOT)} className={classes.gridRoot}>
+        <div id={fns.makeID(ids.ROOT)} className={classes.gridRoot}>
             {isLoading ? <DashboardSkeleton /> : componentContent}
             <div className={classes.footer} />
         </div>

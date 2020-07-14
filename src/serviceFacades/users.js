@@ -11,7 +11,7 @@ const BOOTSTRAP_KEY = "bootstrap";
 const USER_PROFILE_QUERY_KEY = "fetchUserProfile";
 const REDIRECT_URI_QUERY_KEY = "fetchRedirectURI";
 
-const getUserInfo = ({ userIds }) => {
+const getUserInfo = (key, { userIds }) => {
     const userQuery = userIds.join("&username=");
 
     return callApi({

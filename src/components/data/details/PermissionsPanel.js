@@ -6,7 +6,7 @@
  * current permissions.
  */
 
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 
 import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import {
@@ -69,6 +69,19 @@ function PermissionsTabPanel(props) {
     const [fetchUserInfoKey, setFetchUserInfoKey] = useState(
         USER_INFO_QUERY_KEY
     );
+    const [fetchUserInfoQueryEnabled, setFetchUserInfoQueryEnabled] = useState(
+        false
+    );
+
+    const [
+        fetchResourcePermissionsKey,
+        setFetchResourcePermissionsKey,
+    ] = useState(RESOURCE_PERMISSIONS_KEY);
+    const [
+        fetchResourcePermissionsQueryEnabled,
+        setFetchResourcePermissionsQueryEnabled,
+    ] = useState(false);
+
     const [userlessPermissions, setUserlessPermissions] = useState([]);
     const [permissions, setPermissions] = useState([]);
     const [permissionLoadingIds, setPermissionLoadingIds] = useState([]);
@@ -77,18 +90,17 @@ function PermissionsTabPanel(props) {
     const [errorObject, setErrorObject] = useState(null);
     const resourcePath = resource.path;
 
-    let fetchResourcePermissionsKey = RESOURCE_PERMISSIONS_KEY;
-    let fetchResourcePermissionsQueryEnabled = false;
+    useEffect(() => {
+        if (selfPermission && selfPermission === Permissions.OWN) {
+            // Only users with `own` permission can list permissions
+            setFetchResourcePermissionsKey([
+                RESOURCE_PERMISSIONS_KEY,
+                { paths: [resourcePath] },
+            ]);
 
-    if (selfPermission && selfPermission === Permissions.OWN) {
-        // Only users with `own` permission can list permissions
-        fetchResourcePermissionsKey = [
-            RESOURCE_PERMISSIONS_KEY,
-            { paths: [resourcePath] },
-        ];
-
-        fetchResourcePermissionsQueryEnabled = true;
-    }
+            setFetchResourcePermissionsQueryEnabled(true);
+        }
+    }, [resourcePath, selfPermission]);
 
     const mergeUsersWithPerms = (permissions, userInfo) => {
         let merged = [];
@@ -103,18 +115,18 @@ function PermissionsTabPanel(props) {
         return merged;
     };
 
-    const { status: fetchUserInfoStatus } = useQuery({
+    const { isFetching: fetchUserInfoStatus } = useQuery({
         queryKey: fetchUserInfoKey,
         queryFn: getUserInfo,
         config: {
-            enabled: false,
+            enabled: fetchUserInfoQueryEnabled,
             onSuccess: (userInfos) => {
                 const mergedInfo = mergeUsersWithPerms(
                     userlessPermissions,
                     userInfos
                 );
                 setPermissions(mergedInfo);
-                setFetchUserInfoKey(null);
+                setFetchUserInfoQueryEnabled(false);
             },
             onError: (e) => {
                 setErrorMessage(formatMessage(intl, "fetchPermissionsError"));
@@ -123,7 +135,7 @@ function PermissionsTabPanel(props) {
         },
     });
 
-    const { status: fetchResourcePermissionsStatus } = useQuery({
+    const { isFetching: fetchResourcePermissionsStatus } = useQuery({
         queryKey: fetchResourcePermissionsKey,
         queryFn: getResourcePermissions,
         config: {
@@ -136,10 +148,15 @@ function PermissionsTabPanel(props) {
                         userlessPermissions.map((item) => item.user)
                     );
                     setUserlessPermissions(userlessPermissions);
-                    setFetchUserInfoKey({ userIds: [...userIds] });
+                    setFetchUserInfoKey([
+                        USER_INFO_QUERY_KEY,
+                        { userIds: [...userIds] },
+                    ]);
+                    setFetchUserInfoQueryEnabled(true);
                 } else {
                     setPermissions([]);
                 }
+                setFetchResourcePermissionsQueryEnabled(false);
             },
             onError: (e) => {
                 setErrorMessage(formatMessage(intl, "fetchPermissionsError"));

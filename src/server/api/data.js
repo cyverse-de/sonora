@@ -136,5 +136,5 @@ export default function dataRouter() {
         })
     );
 
-   return api;
+    return api;
 }

@@ -22,7 +22,6 @@ import styles from "./styles";
 
 import { isWritable } from "../data/utils";
 import NavigationConstants from "../../common/NavigationConstants";
-import { useUserProfile } from "../../contexts/userProfile";
 
 import {
     bootstrap,
@@ -69,7 +68,6 @@ function Preferences(props) {
     const { baseId, intl, showErrorAnnouncer } = props;
 
     const router = useRouter();
-    const [userProfile] = useUserProfile();
 
     const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(
         false
@@ -95,10 +93,10 @@ function Preferences(props) {
     ] = useState(false);
     const [hpcAuthUrl, setHPCAuthUrl] = useState("");
 
-    const ip = userProfile?.attributes.ip;
-    const BOOTSTRAP_KEY_WITH_PARAM = [BOOTSTRAP_KEY, { ip }];
-
     const classes = useStyles();
+
+    //get from cache if not fetch now.
+    const prefCache = queryCache.getQueryData(BOOTSTRAP_KEY);
 
     const preProcessData = (respData) => {
         let pref = respData.preferences;
@@ -116,16 +114,13 @@ function Preferences(props) {
             setRequireAgaveAuth(false);
         }
     };
-
     useEffect(() => {
-        //get from cache if not fetch now.
-        const prefCache = queryCache.getQueryData(BOOTSTRAP_KEY_WITH_PARAM);
         if (prefCache) {
             preProcessData(prefCache);
         } else {
             setBootstrapQueryEnabled(true);
         }
-    }, [BOOTSTRAP_KEY_WITH_PARAM]);
+    }, [prefCache]);
 
     useEffect(() => {
         if (defaultOutputFolder) {
@@ -156,7 +151,7 @@ function Preferences(props) {
     }, [bootstrapError, router]);
 
     const { isFetching } = useQuery({
-        queryKey: BOOTSTRAP_KEY_WITH_PARAM,
+        queryKey: BOOTSTRAP_KEY,
         queryFn: bootstrap,
         config: {
             enabled: bootstrapQueryEnabled,
@@ -178,20 +173,17 @@ function Preferences(props) {
                     variant: AnnouncerConstants.SUCCESS,
                 });
                 //update preference in cache
-                queryCache.setQueryData(
-                    [BOOTSTRAP_KEY, { ip }],
-                    (bootstrapData) => {
-                        if (bootstrapData && updatedPref) {
-                            const updatedBootstrap = {
-                                ...bootstrapData,
-                                preferences: { ...updatedPref.preferences },
-                            };
-                            return updatedBootstrap;
-                        } else {
-                            return bootstrapData;
-                        }
+                queryCache.setQueryData(BOOTSTRAP_KEY, (bootstrapData) => {
+                    if (bootstrapData && updatedPref) {
+                        const updatedBootstrap = {
+                            ...bootstrapData,
+                            preferences: { ...updatedPref.preferences },
+                        };
+                        return updatedBootstrap;
+                    } else {
+                        return bootstrapData;
                     }
-                );
+                });
             },
             onError: (e) => {
                 showErrorAnnouncer(formatMessage(intl, "savePrefError"), e);

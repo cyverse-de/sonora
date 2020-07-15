@@ -59,7 +59,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(styles);
 
 function Preferences(props) {
-    const { baseId, intl, showErrorAnnouncer } = props;
+    const { baseId, showErrorAnnouncer } = props;
 
     const { t } = useTranslation("preferences");
 
@@ -217,7 +217,7 @@ function Preferences(props) {
                 }
             },
             onError: (e) => {
-                showErrorAnnouncer(t(intl, "redirectError"), e);
+                showErrorAnnouncer(t("redirectError"), e);
             },
         },
     });

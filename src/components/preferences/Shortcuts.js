@@ -7,16 +7,16 @@
  */
 import React from "react";
 
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 import { Field } from "formik";
 
 import ids from "./ids";
 import styles from "./styles";
-import messages from "./messages";
+
 import prefConstants from "./constants";
 import GridLabelValue from "../utils/GridLabelValue";
 
-import { build, getMessage, FormTextField, withI18N } from "@cyverse-de/ui-lib";
+import { build, FormTextField } from "@cyverse-de/ui-lib";
 
 import { Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -25,15 +25,16 @@ const useStyles = makeStyles(styles);
 
 function Shortcuts(props) {
     const { baseId } = props;
+    const { t } = useTranslation("preferences");
     const classes = useStyles();
     return (
         <>
             <Typography variant="h6" className={classes.sectionHeader}>
-                {getMessage("keyboardShortcutHeaderLbl")}
+                {t("keyboardShortcutHeaderLbl")}
             </Typography>
             <Grid container spacing={2} className={classes.grid}>
                 <GridLabelValue
-                    label={getMessage("appsViewShortcutLbl")}
+                    label={t("appsViewShortcutLbl")}
                     variant="body1"
                 >
                     <>
@@ -52,7 +53,7 @@ function Shortcuts(props) {
                     </>
                 </GridLabelValue>
                 <GridLabelValue
-                    label={getMessage("dataViewShortcutLbl")}
+                    label={t("dataViewShortcutLbl")}
                     variant="body1"
                 >
                     <>
@@ -71,7 +72,7 @@ function Shortcuts(props) {
                     </>
                 </GridLabelValue>
                 <GridLabelValue
-                    label={getMessage("analysesViewShortcutLbl")}
+                    label={t("analysesViewShortcutLbl")}
                     variant="body1"
                 >
                     <>
@@ -90,7 +91,7 @@ function Shortcuts(props) {
                     </>
                 </GridLabelValue>
                 <GridLabelValue
-                    label={getMessage("notificationViewShortcutLbl")}
+                    label={t("notificationViewShortcutLbl")}
                     variant="body1"
                 >
                     <>
@@ -115,4 +116,4 @@ function Shortcuts(props) {
         </>
     );
 }
-export default withI18N(injectIntl(Shortcuts), messages);
+export default Shortcuts;

@@ -7,12 +7,13 @@
  */
 
 import React, { useState } from "react";
-import { injectIntl } from "react-intl";
+
 import { Field } from "formik";
+import { useTranslation } from "react-i18next";
 
 import prefConstants from "./constants";
 import styles from "./styles";
-import messages from "./messages";
+
 import ids from "./ids";
 
 import SelectionDrawer from "../data/SelectionDrawer";
@@ -21,7 +22,7 @@ import GridLabelValue from "../utils/GridLabelValue";
 
 import constants from "../../constants";
 
-import { build, FormTextField, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build, FormTextField } from "@cyverse-de/ui-lib";
 
 import {
     Button,
@@ -34,7 +35,6 @@ import {
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { formatMessage } from "@cyverse-de/ui-lib/dist/cjs/util/I18NWrapper";
 
 const useStyles = makeStyles(styles);
 
@@ -47,8 +47,8 @@ function General(props) {
         outputFolderValidationError,
         requireAgaveAuth,
         resetHPCToken,
-        intl,
     } = props;
+    const { t } = useTranslation("preferences");
     const classes = useStyles();
     const [openFileBrowser, setOpenFileBrowser] = useState(false);
 
@@ -71,11 +71,11 @@ function General(props) {
     return (
         <>
             <Typography variant="h6" className={classes.sectionHeader}>
-                {getMessage("general")}
+                {t("general")}
             </Typography>
             <Grid container spacing={2} className={classes.grid}>
                 <GridLabelValue
-                    label={getMessage("rememberLastPathLbl")}
+                    label={t("rememberLastPathLbl")}
                     variant="body1"
                 >
                     <Field
@@ -84,45 +84,36 @@ function General(props) {
                         name={prefConstants.keys.REMEMBER_LAST_PATH}
                         color="primary"
                         inputProps={{
-                            "aria-label": formatMessage(
-                                intl,
-                                "rememberLastPathLbl"
-                            ),
+                            "aria-label": t("rememberLastPathLbl"),
                         }}
                     />
                 </GridLabelValue>
-                <GridLabelValue label={getMessage("hpcPrompt")} variant="body1">
+                <GridLabelValue label={t("hpcPrompt")} variant="body1">
                     <Field
                         id={build(baseId, ids.HPC_LOGIN_PROMPT_SWITCH)}
                         component={FormSwitch}
                         name={prefConstants.keys.ENABLE_HPC_PROMPT}
                         color="primary"
                         inputProps={{
-                            "aria-label": formatMessage(intl, "hpcPrompt"),
+                            "aria-label": t("hpcPrompt"),
                         }}
                     />
                 </GridLabelValue>
-                <GridLabelValue
-                    label={getMessage("waitTimesWarning")}
-                    variant="body1"
-                >
+                <GridLabelValue label={t("waitTimesWarning")} variant="body1">
                     <Field
                         id={build(baseId, ids.HPC_WAIT_TIMES_SWITCH)}
                         component={FormSwitch}
                         name={prefConstants.keys.ENABLE_WAIT_TIME_MESSAGE}
                         color="primary"
                         inputProps={{
-                            "aria-label": formatMessage(
-                                intl,
-                                "waitTimesWarning"
-                            ),
+                            "aria-label": t("waitTimesWarning"),
                         }}
                     />
                 </GridLabelValue>
             </Grid>
             <Divider className={classes.dividers} />
             <Typography variant="h6" className={classes.sectionHeader}>
-                {getMessage("defaultFolderHeaderLbl")}
+                {t("defaultFolderHeaderLbl")}
             </Typography>
             <Grid container spacing={3} className={classes.grid}>
                 <Grid item>
@@ -139,7 +130,7 @@ function General(props) {
                             value={
                                 defaultOutputFolder ? defaultOutputFolder : ""
                             }
-                            label={formatMessage(intl, "path")}
+                            label={t("path")}
                             variant="outlined"
                             required={true}
                             onKeyDown={(event) => {
@@ -170,18 +161,18 @@ function General(props) {
                             onClick={() => setOpenFileBrowser(true)}
                             variant="outlined"
                         >
-                            {getMessage("browse")}
+                            {t("browse")}
                         </Button>
                     </>
                 </Grid>
             </Grid>
             <Divider className={classes.dividers} />
             <Typography variant="h6" className={classes.sectionHeader}>
-                {getMessage("emailNotificationsHeaderLbl")}
+                {t("emailNotificationsHeaderLbl")}
             </Typography>
             <Grid container spacing={3} className={classes.grid}>
                 <GridLabelValue
-                    label={getMessage("analysisStatusEmailLbl")}
+                    label={t("analysisStatusEmailLbl")}
                     variant="body1"
                 >
                     <Field
@@ -196,17 +187,11 @@ function General(props) {
                         }
                         color="primary"
                         inputProps={{
-                            "aria-label": formatMessage(
-                                intl,
-                                "analysisStatusEmailLbl"
-                            ),
+                            "aria-label": t("analysisStatusEmailLbl"),
                         }}
                     />
                 </GridLabelValue>
-                <GridLabelValue
-                    label={getMessage("urlImportEmailLbl")}
-                    variant="body1"
-                >
+                <GridLabelValue label={t("urlImportEmailLbl")} variant="body1">
                     <Field
                         id={build(
                             baseId,
@@ -218,21 +203,18 @@ function General(props) {
                         }
                         color="primary"
                         inputProps={{
-                            "aria-label": formatMessage(
-                                intl,
-                                "urlImportEmailLbl"
-                            ),
+                            "aria-label": t("urlImportEmailLbl"),
                         }}
                     />
                 </GridLabelValue>
             </Grid>
             <Divider className={classes.dividers} />
             <Typography variant="h6" className={classes.sectionHeader}>
-                {getMessage("resetHPCTokenLbl")}
+                {t("resetHPCTokenLbl")}
             </Typography>
             <Grid container spacing={3} className={classes.grid}>
                 <GridLabelValue
-                    label={getMessage("resetHPCTokenPrompt")}
+                    label={t("resetHPCTokenPrompt")}
                     variant="body1"
                 >
                     <Button
@@ -245,7 +227,7 @@ function General(props) {
                             })
                         }
                     >
-                        {getMessage("resetHPCTokenLbl")}
+                        {t("resetHPCTokenLbl")}
                     </Button>
                 </GridLabelValue>
             </Grid>
@@ -268,4 +250,4 @@ function General(props) {
     );
 }
 
-export default withI18N(injectIntl(General), messages);
+export default General;

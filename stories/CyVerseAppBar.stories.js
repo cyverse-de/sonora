@@ -88,7 +88,7 @@ const bootStrap = {
 };
 function AppBarTest() {
     mockAxios.onGet("/api/profile").reply(200, mockUser);
-    mockAxios.onGet("/api/bootstrap?ip-address=::1").reply(200, bootStrap);
+    mockAxios.onGet(/\/api\/bootstrap*/).reply(200, bootStrap);
     return (
         <UserProfileProvider>
             <NotificationsProvider>

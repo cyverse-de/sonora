@@ -214,11 +214,7 @@ const DashboardSection = ({ name, kind, items, id, section, t }) => {
         return () => window.removeEventListener("resize", updater);
     }, [dashboardEl, setDimensions]);
 
-    console.log(
-        `dimensions.width: ${dimensions.width}    dimensions.height: ${dimensions.height}`
-    );
     const [columns, width] = useDashboardSettings(dimensions);
-    console.log(`width: ${width}   columns: ${columns}`);
 
     return (
         <div className={classes.section} id={id}>

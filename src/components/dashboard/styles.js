@@ -29,7 +29,7 @@ export default makeStyles((theme) => ({
         justifyContent: "flex-start",
         paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(2),
-        paddingLeft: 0,
+        paddingLeft: theme.spacing(2),
         paddingRight: 0,
 
         // Try to eek as much space out of the iPhone SE cards as possible.

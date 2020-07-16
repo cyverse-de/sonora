@@ -60,7 +60,9 @@ export default makeStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         marginTop: theme.spacing(2),
+
         width: (props) => props.width,
+        height: (props) => props.height,
 
         [theme.breakpoints.up("xs")]: {
             marginRight: theme.spacing(0),

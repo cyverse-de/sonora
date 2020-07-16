@@ -76,6 +76,7 @@ const DashboardLink = ({ kind, content, headerClass }) => {
 const useDashboardSettings = ({ width, marginRight = 16 }) => {
     const [columns, setColumns] = useState(5);
     const [cardWidth, setCardWidth] = useState(0);
+    const [cardHeight, setCardHeight] = useState(0);
 
     // This is used because media queries misbehave on the server and this lets
     // us set values before rendering occurs.
@@ -97,12 +98,16 @@ const useDashboardSettings = ({ width, marginRight = 16 }) => {
             newColumns = constants.LG_NUM_COLUMNS;
         }
         setColumns(newColumns);
-        setCardWidth(
-            width / newColumns - (marginRight * newColumns) / (newColumns - 1)
-        );
+
+        const cardWidth =
+            width / newColumns - (marginRight * newColumns) / (newColumns - 1);
+
+        setCardWidth(cardWidth);
+
+        setCardHeight(cardWidth - cardWidth / 3);
     }, [width, marginRight, setCardWidth, setColumns]);
 
-    return [columns, cardWidth];
+    return [columns, cardWidth, cardHeight];
 };
 
 /**
@@ -113,8 +118,15 @@ const useDashboardSettings = ({ width, marginRight = 16 }) => {
  * @param {Object} props.content - The content for the item returned from the API.
  * @returns {Object}
  */
-export const DashboardItem = ({ kind, content, section, intl, width }) => {
-    const classes = useStyles({ width });
+export const DashboardItem = ({
+    kind,
+    content,
+    section,
+    intl,
+    width,
+    height,
+}) => {
+    const classes = useStyles({ width, height });
     const theme = useTheme();
     const { t } = useTranslation("dashboard");
 
@@ -214,7 +226,7 @@ const DashboardSection = ({ name, kind, items, id, section, t }) => {
         return () => window.removeEventListener("resize", updater);
     }, [dashboardEl, setDimensions]);
 
-    const [columns, width] = useDashboardSettings(dimensions);
+    const [columns, width, height] = useDashboardSettings(dimensions);
 
     return (
         <div className={classes.section} id={id}>
@@ -240,6 +252,7 @@ const DashboardSection = ({ name, kind, items, id, section, t }) => {
                         t={t}
                         columns={columns}
                         width={width}
+                        height={height}
                     />
                 ))}
             </div>

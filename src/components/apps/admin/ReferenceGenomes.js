@@ -10,12 +10,12 @@ import React from "react";
 import { useQuery } from "react-query";
 
 import EnhancedTable from "./EnhancedTable";
-import { getReferenceGenomes } from "../../../serviceFacades/refGenomes";
+import { getReferenceGenomes, REFERENCE_GENOMES_QUERY_KEY } from "../../../serviceFacades/referenceGenomes";
 import TableLoading from "../../utils/TableLoading";
 
 export default function ReferenceGenomes(props) {
     const { isFetching, data, error } = useQuery(
-        "refGenomeKey",
+        REFERENCE_GENOMES_QUERY_KEY,
         getReferenceGenomes
     );
 

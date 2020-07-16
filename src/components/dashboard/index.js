@@ -97,7 +97,9 @@ const useDashboardSettings = ({ width, marginRight = 16 }) => {
             newColumns = constants.LG_NUM_COLUMNS;
         }
         setColumns(newColumns);
-        setCardWidth(width / newColumns - marginRight);
+        setCardWidth(
+            width / newColumns - (marginRight * newColumns) / (newColumns - 1)
+        );
     }, [width, marginRight, setCardWidth, setColumns]);
 
     return [columns, cardWidth];

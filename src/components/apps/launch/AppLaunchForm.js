@@ -9,6 +9,7 @@ import React from "react";
 
 import { Formik, Form } from "formik";
 import { injectIntl } from "react-intl";
+import { useQuery } from "react-query";
 
 import GlobalConstants from "../../../constants";
 
@@ -31,7 +32,10 @@ import {
     ResourceRequirementsReview,
 } from "./ResourceRequirements";
 
-import { getReferenceGenomes } from "../../../serviceFacades/referenceGenomes";
+import {
+    getReferenceGenomes,
+    REFERENCE_GENOMES_QUERY_KEY,
+} from "../../../serviceFacades/referenceGenomes";
 
 import {
     build as buildDebugId,
@@ -365,11 +369,6 @@ const AppLaunchForm = (props) => {
     const [activeStep, setActiveStep] = React.useState(0);
 
     const [referenceGenomes, setReferenceGenomes] = React.useState([]);
-    const [
-        referenceGenomesLoading,
-        setReferenceGenomesLoading,
-    ] = React.useState(false);
-
     const [reviewShowAll, setReviewShowAll] = React.useState(true);
 
     const [quickLaunchDialogOpen, setQuickLaunchDialogOpen] = React.useState(
@@ -378,6 +377,11 @@ const AppLaunchForm = (props) => {
     const [quickLaunchSubmission, setQuickLaunchSubmission] = React.useState(
         null
     );
+
+    const [
+        referenceGenomesQueryEnabled,
+        setReferenceGenomesQueryEnabled,
+    ] = React.useState(false);
 
     const classes = useStyles();
 
@@ -413,37 +417,28 @@ const AppLaunchForm = (props) => {
         );
 
     React.useEffect(() => {
-        let unmounted = false;
-
         if (hasReferenceGenomes) {
-            setReferenceGenomesLoading(true);
-            getReferenceGenomes()
-                .then((resp) => {
-                    if (!unmounted) {
-                        const genomes = resp?.genomes || [];
-                        setReferenceGenomes(
-                            stableSort(genomes, (a, b) =>
-                                a.name.localeCompare(b.name)
-                            )
-                        );
-                        setReferenceGenomesLoading(false);
-                    }
-                })
-                .catch((error) => {
-                    error?.isAxiosError
-                        ? console.error(
-                              error.response.status,
-                              error.response.data
-                          )
-                        : console.error(error);
-                    setReferenceGenomesLoading(false);
-                });
+            setReferenceGenomesQueryEnabled(true);
         }
-
-        return () => {
-            unmounted = true;
-        };
     }, [props.app, hasReferenceGenomes]);
+
+    const { isFetching: referenceGenomesLoading } = useQuery({
+        queryKey: REFERENCE_GENOMES_QUERY_KEY,
+        queryFn: getReferenceGenomes,
+        config: {
+            enabled: referenceGenomesQueryEnabled,
+            onSuccess: (resp) => {
+                const genomes = resp?.genomes || [];
+                setReferenceGenomes(
+                    stableSort(genomes, (a, b) => a.name.localeCompare(b.name))
+                );
+                setReferenceGenomesQueryEnabled(false);
+            },
+            onError: (e) => {
+                console.error(e);
+            },
+        },
+    });
 
     const hasAdvancedStep = requirements?.length > 0;
 

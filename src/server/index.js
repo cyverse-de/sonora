@@ -8,6 +8,7 @@ import dashboardRouter from "./api/dashboard";
 import dataRouter from "./api/data";
 import fileIORouter from "./api/fileio";
 import quickLaunchRouter from "./api/quickLaunch";
+import refGenomeRouter from "./api/referenceGenomes";
 import sharingRouter from "./api/sharing";
 import tagsRouter from "./api/tags";
 import toolsRouter from "./api/tools";
@@ -91,8 +92,9 @@ app.prepare()
         server.use("/api", dataRouter());
         server.use("/api", fileIORouter());
         server.use("/api", quickLaunchRouter());
-        server.use("/api", tagsRouter());
         server.use("/api", sharingRouter());
+        server.use("/api", refGenomeRouter());
+        server.use("/api", tagsRouter());
         server.use("/api", toolsRouter());
         server.use("/api", userRouter());
         server.use("/api", viceRouter());

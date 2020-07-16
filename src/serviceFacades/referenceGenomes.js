@@ -1,5 +1,7 @@
 import callApi from "../common/callApi";
 
+export const REFERENCE_GENOMES_QUERY_KEY = "referenceGenomesKey";
+
 /**
  * Get the current listing of Reference Genomes.
  *

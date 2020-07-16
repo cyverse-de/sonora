@@ -27,3 +27,16 @@ export const DESC_MAX_LENGTH = 140;
 export const TITLE_MAX_LENGTH = 31;
 export const TITLE_MAX_LENGTH_SMALL = 25;
 export const SUBHEADER_MAX_LENGTH_SMALL = 39;
+
+export const MAX_PIXELS = 3840;
+export const MAX_COLUMNS = 8;
+export const XL_NUM_COLUMNS = 6;
+export const XL_PIXELS = 1920;
+export const LG_NUM_COLUMNS = 4;
+export const LG_PIXELS = 1280;
+export const MD_NUM_COLUMNS = 3;
+export const MD_PIXELS = 960;
+export const SM_NUM_COLUMNS = 2;
+export const SM_PIXELS = 600;
+export const XS_NUM_COLUMNS = 1;
+export const XS_PIXELS = 0;

@@ -5,7 +5,7 @@
  *
  * @module dashboard
  */
-import React from "react";
+import React, { useLayoutEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import { useQuery } from "react-query";
@@ -73,6 +73,36 @@ const DashboardLink = ({ kind, content, headerClass }) => {
     );
 };
 
+const useDashboardSettings = ({ width, marginRight = 16 }) => {
+    const [columns, setColumns] = useState(5);
+    const [cardWidth, setCardWidth] = useState(0);
+
+    // This is used because media queries misbehave on the server and this lets
+    // us set values before rendering occurs.
+    useLayoutEffect(() => {
+        let newColumns;
+
+        if (width >= constants.XL_PIXELS) {
+            newColumns = constants.XL_NUM_COLUMNS;
+        } else if (width > constants.LG_PIXELS) {
+            newColumns = constants.LG_NUM_COLUMNS;
+        } else if (width > constants.MD_PIXELS) {
+            newColumns = constants.MD_NUM_COLUMNS;
+        } else if (width > constants.SM_PIXELS) {
+            newColumns = constants.SM_NUM_COLUMNS;
+        } else if (width >= constants.XS_PIXELS) {
+            newColumns = constants.XS_NUM_COLUMNS;
+        } else {
+            // probably won't get here. probably.
+            newColumns = constants.LG_NUM_COLUMNS;
+        }
+        setColumns(newColumns);
+        setCardWidth(width / newColumns - marginRight);
+    }, [width, marginRight, setCardWidth, setColumns]);
+
+    return [columns, cardWidth];
+};
+
 /**
  * An item in the dashboard.
  *
@@ -81,14 +111,13 @@ const DashboardLink = ({ kind, content, headerClass }) => {
  * @param {Object} props.content - The content for the item returned from the API.
  * @returns {Object}
  */
-export const DashboardItem = (props) => {
-    const classes = useStyles();
+export const DashboardItem = ({ kind, content, section, intl, width }) => {
+    const classes = useStyles({ width });
     const theme = useTheme();
     const { t } = useTranslation("dashboard");
 
     const isMediumOrLarger = useMediaQuery(theme.breakpoints.up("md"));
 
-    const { kind, content, section } = props;
     const cardID = buildID(kind, content.id);
 
     const description = fns.cleanDescription(content.description);
@@ -99,7 +128,7 @@ export const DashboardItem = (props) => {
 
     return (
         <Card
-            className={classes.dashboardCard}
+            classes={{ root: classes.dashboardCard }}
             id={fns.makeID(ids.ITEM, cardID)}
             elevation={4}
         >
@@ -124,7 +153,9 @@ export const DashboardItem = (props) => {
                         noWrap
                         color="textSecondary"
                         variant="subtitle2"
-                        classes={{ colorTextSecondary: classes.cardHeaderText }}
+                        classes={{
+                            colorTextSecondary: classes.cardHeaderText,
+                        }}
                     >
                         {fns.cleanSubheader(
                             `${origination} ${user} on ${date}`,
@@ -161,6 +192,32 @@ export const DashboardItem = (props) => {
 const DashboardSection = ({ name, kind, items, id, section, t }) => {
     const classes = useStyles();
 
+    const dashboardEl = useRef();
+
+    // Adapted from https://stackoverflow.com/questions/49058890/how-to-get-a-react-components-size-height-width-before-render
+    // and https://stackoverflow.com/questions/19014250/rerender-view-on-browser-resize-with-react/19014495#19014495
+    const [dimensions, setDimensions] = useState({ height: 0, width: 0 });
+
+    useLayoutEffect(() => {
+        function updater() {
+            if (dashboardEl.current) {
+                setDimensions({
+                    width: dashboardEl.current.offsetWidth,
+                    height: dashboardEl.current.offsetHeight,
+                });
+            }
+        }
+        window.addEventListener("resize", updater);
+        updater();
+        return () => window.removeEventListener("resize", updater);
+    }, [dashboardEl, setDimensions]);
+
+    console.log(
+        `dimensions.width: ${dimensions.width}    dimensions.height: ${dimensions.height}`
+    );
+    const [columns, width] = useDashboardSettings(dimensions);
+    console.log(`width: ${width}   columns: ${columns}`);
+
     return (
         <div className={classes.section} id={id}>
             <Typography
@@ -175,7 +232,7 @@ const DashboardSection = ({ name, kind, items, id, section, t }) => {
 
             <Divider classes={{ root: classes.dividerRoot }} />
 
-            <div className={classes.sectionItems}>
+            <div ref={dashboardEl} className={classes.sectionItems}>
                 {items.map((item) => (
                     <DashboardItem
                         kind={kind}
@@ -183,6 +240,8 @@ const DashboardSection = ({ name, kind, items, id, section, t }) => {
                         key={item.id}
                         section={section}
                         t={t}
+                        columns={columns}
+                        width={width}
                     />
                 ))}
             </div>

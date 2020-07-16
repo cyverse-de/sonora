@@ -57,13 +57,12 @@ export default makeStyles((theme) => ({
         },
     },
     dashboardCard: {
-        height: 225,
         display: "flex",
         flexDirection: "column",
         marginTop: theme.spacing(2),
+        width: (props) => props.width,
 
         [theme.breakpoints.up("xs")]: {
-            width: 300,
             marginRight: theme.spacing(0),
         },
 
@@ -72,7 +71,6 @@ export default makeStyles((theme) => ({
         },
 
         [theme.breakpoints.up("lg")]: {
-            width: 425,
             marginRight: theme.spacing(2),
         },
     },

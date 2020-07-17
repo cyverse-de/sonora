@@ -6,14 +6,13 @@
  * @module dashboard
  */
 import React, { useLayoutEffect, useState, useRef } from "react";
-import { useRouter } from "next/router";
+
 import clsx from "clsx";
 import { useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
 import { useTheme } from "@material-ui/styles";
 import {
-    Button,
     Card,
     CardActions,
     CardContent,
@@ -22,6 +21,7 @@ import {
     Typography,
     Avatar,
     useMediaQuery,
+    Link,
 } from "@material-ui/core";
 
 import { Skeleton } from "@material-ui/lab";
@@ -78,38 +78,31 @@ const useDashboardSettings = ({ width, marginRight = 16, padding = 16 }) => {
     return [columns, cardWidth, cardHeight];
 };
 
-const DashboardLink = ({ kind, content, headerClass }) => {
-    const router = useRouter();
-    const { t } = useTranslation("dashboard");
+const DashboardLink = ({ kind, content, headerClass, children }) => {
     const isNewTab =
         kind === constants.KIND_EVENTS || kind === constants.KIND_FEEDS;
     const target = fns.getLinkTarget(kind, content);
-    const icon = fns.getLinkIcon(kind);
 
     return isNewTab ? (
-        <Button
+        <Link
             href={target}
             target="_blank"
             rel="noopener noreferrer"
-            color="primary"
-            size="small"
-            startIcon={icon}
-            variant="contained"
-            classes={{ containedPrimary: headerClass }}
+            color="inherit"
+            underline="always"
+            classes={{ root: headerClass }}
         >
-            {t("open")}
-        </Button>
+            {children}
+        </Link>
     ) : (
-        <Button
-            color="primary"
-            size="small"
-            startIcon={icon}
-            variant="contained"
-            classes={{ containedPrimary: headerClass }}
-            onClick={(_) => router.push(target)}
+        <Link
+            href={target}
+            color="inherit"
+            underline="always"
+            classes={{ root: headerClass }}
         >
-            {t("open")}
-        </Button>
+            {children}
+        </Link>
     );
 };
 
@@ -161,7 +154,22 @@ export const DashboardItem = ({
                     root: rootClass,
                     content: classes.cardHeaderContent,
                 }}
-                title={content.name}
+                title={
+                    <Typography
+                        noWrap={true}
+                        variant="h6"
+                        color="primary"
+                        classes={{ root: classes.cardHeaderText }}
+                    >
+                        <DashboardLink
+                            kind={kind}
+                            content={content}
+                            headerClass={headerClass}
+                        >
+                            {content.name}
+                        </DashboardLink>
+                    </Typography>
+                }
                 titleTypographyProps={{
                     noWrap: true,
                     variant: "h6",
@@ -195,13 +203,7 @@ export const DashboardItem = ({
                 classes={{
                     root: classes.actionsRoot,
                 }}
-            >
-                <DashboardLink
-                    kind={kind}
-                    content={content}
-                    headerClass={headerClass}
-                />
-            </CardActions>
+            ></CardActions>
         </Card>
     );
 };

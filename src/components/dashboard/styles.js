@@ -124,6 +124,6 @@ export default makeStyles((theme) => ({
         color: theme.palette.gold,
     },
     cardHeaderText: {
-        color: theme.palette.primary.contrastText,
+        color: theme.palette.white,
     },
 }));

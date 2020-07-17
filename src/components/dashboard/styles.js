@@ -90,6 +90,9 @@ export default makeStyles((theme) => ({
     cardHeaderDefaultAvatar: {
         color: theme.palette.primary.main,
     },
+    cardHeaderContent: {
+        width: "75%",
+    },
     cardHeaderEvents: {
         background: theme.palette.violet,
     },

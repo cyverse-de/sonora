@@ -154,7 +154,10 @@ export const DashboardItem = ({
                         </Avatar>
                     )
                 }
-                classes={{ root: rootClass }}
+                classes={{
+                    root: rootClass,
+                    content: classes.cardHeaderContent,
+                }}
                 title={fns.cleanTitle(content.name, isMediumOrLarger)}
                 titleTypographyProps={{
                     noWrap: true,

@@ -74,6 +74,13 @@ export default {
     INTERACTIVE: "interactive",
     OSG: "osg",
 
+    DIALOG: {
+        CANCEL: "cancel",
+        CONFIRM: "confirm",
+        RELAUNCH: "relaunch",
+        TITLE: "title",
+    },
+
     ICONS: {
         INTERACTIVE: "interactive",
         BATCH: "batch",

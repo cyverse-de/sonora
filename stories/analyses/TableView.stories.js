@@ -23,8 +23,8 @@ export const AnalysesTableViewTest = () => {
             handleGoToOutputFolder={(analysis) =>
                 console.log("Go to output folder", analysis?.resultfolderid)
             }
-            handleRelaunch={(analysis) =>
-                console.log("Relaunch Analysis", analysis?.id)
+            handleRelaunch={(analyses) =>
+                console.log("Relaunch Analysis", analyses[0]?.id)
             }
             handleBatchIconClick={() => logger("Expand batch analyses")}
         />

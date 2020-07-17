@@ -168,7 +168,7 @@ function Actions(props) {
                 >
                     <IconButton
                         size="small"
-                        onClick={() => handleRelaunch(analysis)}
+                        onClick={() => handleRelaunch([analysis])}
                         id={build(baseId, ids.ICONS.RELAUNCH, ids.BUTTON)}
                         className={className}
                     >

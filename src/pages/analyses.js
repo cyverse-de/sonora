@@ -17,7 +17,7 @@ export default function Analyses() {
                     router.push(getFolderPage(analysis.resultfolderid));
                 }
             }}
-            handleRelaunch={(analysis) => {
+            handleSingleRelaunch={(analysis) => {
                 if (analysis?.id) {
                     router.push(getAnalysisRelaunchPage(analysis.id));
                 }

@@ -16,7 +16,7 @@ function ListingTest(props) {
                 handleGoToOutputFolder={(analysis) =>
                     console.log("Go to output folder", analysis?.resultfolderid)
                 }
-                handleRelaunch={(analysis) =>
+                handleSingleRelaunch={(analysis) =>
                     console.log("Relaunch Analysis", analysis?.id)
                 }
             />
@@ -26,5 +26,7 @@ function ListingTest(props) {
 
 export const AnalysesListingTest = () => {
     mockAxios.onGet(/\/api\/analyses*/).reply(200, listing);
+    mockAxios.onPost("/api/analyses/relauncher").reply(200);
+
     return <ListingTest />;
 };

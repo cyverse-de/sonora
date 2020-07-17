@@ -5,20 +5,26 @@
  *
  */
 import React, { useCallback, useEffect, useState } from "react";
-import { useQuery } from "react-query";
+
+import { queryCache, useMutation, useQuery } from "react-query";
 import { injectIntl } from "react-intl";
 
 import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
+
 import {
-    getAnalyses,
     ANALYSES_LISTING_QUERY_KEY,
+    getAnalyses,
+    relaunchAnalyses,
 } from "../../../serviceFacades/analyses";
 import constants from "../../../constants";
 import DEPagination from "../../utils/DEPagination";
 import Drawer from "../details/Drawer";
 
 import intlData from "../messages";
+
+import MultiRelaunchWarningDialog from "./MultiRelaunchWarningDialog";
 import TableView from "./TableView";
+
 import AnalysesToolbar, { getOwnershipFilters } from "../toolbar/Toolbar";
 import { getAppTypeFilters } from "../../apps/toolbar/AppNavigation";
 import appType from "../../models/AppType";
@@ -46,7 +52,12 @@ const filter = {
 };
 
 function Listing(props) {
-    const { baseId, handleGoToOutputFolder, handleRelaunch, intl } = props;
+    const {
+        baseId,
+        handleGoToOutputFolder,
+        handleSingleRelaunch,
+        intl,
+    } = props;
 
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("desc");
@@ -64,6 +75,7 @@ function Listing(props) {
     const [detailsAnalysis, setDetailsAnalysis] = useState(null);
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
+    const [relaunchDialogOpen, setRelaunchDialogOpen] = useState(false);
 
     const [analysesKey, setAnalysesKey] = useState(ANALYSES_LISTING_QUERY_KEY);
     const [
@@ -78,6 +90,13 @@ function Listing(props) {
             enabled: analysesListingQueryEnabled,
             onSuccess: setData,
         },
+    });
+
+    const [
+        relaunchAnalysesMutation,
+        { isLoading: relaunchLoading, error: relauchError },
+    ] = useMutation(relaunchAnalyses, {
+        onSuccess: () => queryCache.invalidateQueries(analysesKey),
     });
 
     useEffect(() => {
@@ -322,6 +341,21 @@ function Listing(props) {
         setAppTypeFilter(getAppTypeFilters()[0]);
     };
 
+    const handleRelaunch = (analyses) => {
+        if (analyses?.length > 0) {
+            if (analyses.length === 1) {
+                handleSingleRelaunch(analyses[0]);
+            } else {
+                setRelaunchDialogOpen(true);
+            }
+        }
+    };
+
+    const confirmMultiRelaunch = () => {
+        setRelaunchDialogOpen(false);
+        relaunchAnalysesMutation(selected);
+    };
+
     const getSelectedAnalyses = (analyses) => {
         const items = analyses ? analyses : selected;
         return items.map((id) =>
@@ -352,8 +386,8 @@ function Listing(props) {
                 handleBatchIconClick={handleBatchIconClick}
             />
             <TableView
-                loading={isFetching}
-                error={error}
+                loading={isFetching || relaunchLoading}
+                error={error || relauchError}
                 listing={data}
                 baseId={baseId}
                 order={order}
@@ -368,6 +402,14 @@ function Listing(props) {
                 handleRelaunch={handleRelaunch}
                 handleBatchIconClick={handleBatchIconClick}
             />
+
+            <MultiRelaunchWarningDialog
+                open={relaunchDialogOpen}
+                baseId={baseId}
+                onClose={() => setRelaunchDialogOpen(false)}
+                confirmMultiRelaunch={confirmMultiRelaunch}
+            />
+
             {detailsOpen && (
                 <Drawer
                     selectedAnalysis={detailsAnalysis}

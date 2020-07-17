@@ -40,6 +40,19 @@ export default function analysesRouter() {
         })
     );
 
+    logger.info("adding the POST /analyses/relauncher handler");
+    api.post(
+        "/analyses/relauncher",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/analyses/relauncher",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the GET /analyses/:id/history");
     api.get(
         "/analyses/:id/history",

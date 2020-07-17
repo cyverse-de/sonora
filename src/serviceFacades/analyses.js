@@ -22,6 +22,14 @@ function submitAnalysis(submission) {
     });
 }
 
+function relaunchAnalyses(analysisIds) {
+    return callApi({
+        endpoint: "/api/analyses/relauncher",
+        method: "POST",
+        body: { analyses: analysisIds },
+    });
+}
+
 function getAnalysisHistory(key, { id }) {
     return callApi({
         endpoint: `/api/analyses/${id}/history`,
@@ -48,6 +56,7 @@ export {
     getAnalysisHistory,
     getAnalysisParameters,
     getAnalysisRelaunchInfo,
+    relaunchAnalyses,
     submitAnalysis,
     ANALYSES_LISTING_QUERY_KEY,
     ANALYSIS_HISTORY_QUERY_KEY,

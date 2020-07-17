@@ -21,3 +21,11 @@ export const getAdminReferenceGenomes = () => {
         method: "GET",
     });
 };
+
+export const saveReferenceGenome = (refGenome) => {
+    return callApi({
+        endpoint: "/api/admin/reference-genomes",
+        method: "PATCH",
+        body: refGenome
+    });
+}

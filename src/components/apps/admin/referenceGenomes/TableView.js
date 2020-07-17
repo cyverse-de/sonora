@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
     useRowSelect,
@@ -36,7 +36,7 @@ const IndeterminateCheckbox = React.forwardRef(
     }
 );
 
-const EnhancedTable = ({ columns, data }) => {
+const EnhancedTable = ({ columns, data, onAddClicked,onDeletedClicked }) => {
     const {
         getTableProps,
         headerGroups,
@@ -44,7 +44,8 @@ const EnhancedTable = ({ columns, data }) => {
         rows,
         preGlobalFilteredRows,
         setGlobalFilter,
-        state: { selectedRowIds, globalFilter },
+        //selectedFlatRows,
+        state: { /*selectedRowIds,*/ globalFilter },
     } = useTable(
         {
             columns,
@@ -81,15 +82,25 @@ const EnhancedTable = ({ columns, data }) => {
             ]);
         }
     );
-    console.log("No.of rows selected: " + Object.keys(selectedRowIds).length);
+
+   /*  useEffect(() => {
+        if (selectedFlatRows.length > 0) {
+            console.log(
+                "Selected => " + JSON.stringify(selectedFlatRows[0].original)
+            );
+        }
+    }, [selectedFlatRows]);
+
+    console.log("No.of rows selected: " + Object.keys(selectedRowIds).length); */
     // Render the UI for your table
     return (
         <>
             <TableToolbar
-                numSelected={Object.keys(selectedRowIds).length}
                 preGlobalFilteredRows={preGlobalFilteredRows}
                 setGlobalFilter={setGlobalFilter}
                 globalFilter={globalFilter}
+                onAddClicked={onAddClicked}
+                onDeletedClicked={onDeletedClicked}
             />
             <TableContainer component={Paper} style={{ overflow: "auto" }}>
                 <MaUTable size="small" stickyHeader {...getTableProps()}>

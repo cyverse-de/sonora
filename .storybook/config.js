@@ -32,8 +32,7 @@ function MockUserProfile() {
 }
 
 const queryConfig = {
-    refetchOnWindowFocus: false,
-    retry: false,
+    queries: { refetchOnWindowFocus: false, retry: false },
 };
 addDecorator((storyFn) => (
     <ThemeProvider theme={theme}>

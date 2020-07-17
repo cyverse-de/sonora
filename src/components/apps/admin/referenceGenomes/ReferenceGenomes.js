@@ -10,25 +10,36 @@ import React from "react";
 import { useQuery } from "react-query";
 
 import EnhancedTable from "./EnhancedTable";
-import { getReferenceGenomes, REFERENCE_GENOMES_QUERY_KEY } from "../../../serviceFacades/referenceGenomes";
-import TableLoading from "../../utils/TableLoading";
+import {
+    getAdminReferenceGenomes,
+    ADMIN_REFERENCE_GENOMES_QUERY_KEY,
+} from "../../../../serviceFacades/referenceGenomes";
+import TableLoading from "../../../utils/TableLoading";
+import { Link, useTheme } from "@material-ui/core";
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 
 export default function ReferenceGenomes(props) {
+    const theme = useTheme();
     const { isFetching, data, error } = useQuery(
-        REFERENCE_GENOMES_QUERY_KEY,
-        getReferenceGenomes
+        ADMIN_REFERENCE_GENOMES_QUERY_KEY,
+        getAdminReferenceGenomes
     );
 
     const columns = React.useMemo(
         () => [
             {
                 Header: "Name",
-                width: 100,
                 accessor: "name",
+                Cell: ({ row, value }) => {
+                    if (row?.original?.deleted) {
+                        return <><RemoveCircleIcon style={{color:theme.palette.error.main }}/> <Link>{value} </Link></>;
+                    } else {
+                        return <Link> {value}</Link>;
+                    }
+                },
             },
             {
                 Header: "Path",
-                width: 350,
                 accessor: "path",
             },
             {

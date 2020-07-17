@@ -158,7 +158,7 @@ export const DashboardItem = ({
                     root: rootClass,
                     content: classes.cardHeaderContent,
                 }}
-                title={fns.cleanTitle(content.name, isMediumOrLarger)}
+                title={content.name}
                 titleTypographyProps={{
                     noWrap: true,
                     variant: "h6",
@@ -174,10 +174,7 @@ export const DashboardItem = ({
                             colorTextSecondary: classes.cardHeaderText,
                         }}
                     >
-                        {fns.cleanSubheader(
-                            `${origination} ${user} on ${date}`,
-                            isMediumOrLarger
-                        )}
+                        {`${origination} ${user} on ${date}`}
                     </Typography>
                 }
             />

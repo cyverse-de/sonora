@@ -182,22 +182,3 @@ export const cleanField = (field, comparator) => {
 
 export const cleanDescription = (description) =>
     cleanField(description, constants.DESC_MAX_LENGTH);
-
-export const cleanTitle = (title, isLarge = true) => {
-    let comparator;
-
-    if (isLarge) {
-        comparator = constants.TITLE_MAX_LENGTH;
-    } else {
-        comparator = constants.TITLE_MAX_LENGTH_SMALL;
-    }
-
-    return cleanField(title, comparator);
-};
-
-export const cleanSubheader = (subheader, isLarge = true) => {
-    if (isLarge) {
-        return subheader;
-    }
-    return cleanField(subheader, constants.SUBHEADER_MAX_LENGTH_SMALL);
-};

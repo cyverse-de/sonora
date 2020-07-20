@@ -24,7 +24,7 @@ import {
     PublicApps,
     RecentAnalyses,
     RunningAnalyses,
-} from "./sections";
+} from "./DashboardSection";
 
 import {
     getDashboard,

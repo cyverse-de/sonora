@@ -1,6 +1,6 @@
 import React from "react";
 
-import Dashboard from "../src/components/dashboard";
+import Dashboard from "../src/components/Dashboard";
 
 import { mockAxios } from "./axiosMock";
 

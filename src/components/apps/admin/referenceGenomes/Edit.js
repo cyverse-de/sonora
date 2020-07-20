@@ -7,9 +7,22 @@
  */
 
 import React from "react";
+import { injectIntl } from "react-intl";
+
+import ids from "./ids";
+import refGenomeConstants from "./constants";
+import messages from "./messages";
+
 import GridLabelValue from "../../../utils/GridLabelValue";
 
-import { FormTextField } from "@cyverse-de/ui-lib";
+import {
+    FormTextField,
+    build,
+    getMessage,
+    formatMessage,
+    withI18N,
+} from "@cyverse-de/ui-lib";
+
 import { Button, Grid, Switch, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Field, Form, Formik } from "formik";
@@ -21,7 +34,6 @@ const styles = (theme) => ({
             margin: theme.spacing(0.1),
         },
     },
-
     sectionHeader: {
         color: theme.palette.info.main,
         marginLeft: theme.spacing(1),
@@ -29,12 +41,22 @@ const styles = (theme) => ({
     actionButton: {
         margin: theme.spacing(1),
     },
+    textField: {
+        marginTop: 0,
+    },
 });
 
 const useStyles = makeStyles(styles);
 
 function Edit(props) {
-    const { onCancel, values, saveRefGenome } = props;
+    const {
+        baseId,
+        onCancel,
+        intl,
+        referenceGenome,
+        createRefGenome,
+        saveRefGenome,
+    } = props;
     const classes = useStyles();
     const onSwitchChange = (setFieldValue, fieldName) => (event, checked) => {
         setFieldValue(fieldName, checked);
@@ -53,99 +75,137 @@ function Edit(props) {
     );
 
     const handleSubmit = (values) => {
-        console.log(values);
-        saveRefGenome(values);
+        if (referenceGenome?.id) {
+            saveRefGenome(values);
+        } else {
+            createRefGenome({ name: values.name, path: values.path });
+        }
     };
 
     return (
-        <Formik initialValues={values} onSubmit={handleSubmit}>
+        <Formik initialValues={referenceGenome} onSubmit={handleSubmit}>
             {(props) => (
                 <Form>
                     <Typography variant="h6" className={classes.sectionHeader}>
-                        {values?.name || "Create New"}
+                        {referenceGenome?.name ||
+                            formatMessage(intl, "createNew")}
                     </Typography>
                     <Grid container spacing={2} className={classes.grid}>
-                        <GridLabelValue label="Name" variant="body1">
+                        <GridLabelValue
+                            label={formatMessage(intl, "name")}
+                            variant="body1"
+                        >
                             <Field
+                                id={build(baseId, ids.NAME_TEXT)}
                                 component={FormTextField}
-                                name={"name"}
+                                name={refGenomeConstants.keys.NAME}
                                 required={true}
+                                className={classes.textField}
                             />
                         </GridLabelValue>
-                        <GridLabelValue label="Path" variant="body1">
+                        <GridLabelValue
+                            label={formatMessage(intl, "path")}
+                            variant="body1"
+                        >
                             <Field
+                                id={build(baseId, ids.PATH_TEXT)}
                                 component={FormTextField}
-                                name={"path"}
+                                name={refGenomeConstants.keys.PATH}
                                 required={true}
+                                className={classes.textField}
                             />
                         </GridLabelValue>
-                        <GridLabelValue label="Created By" variant="body1">
+                        <GridLabelValue
+                            label={formatMessage(intl, "createdBy")}
+                            variant="body1"
+                        >
                             <Field
+                                id={build(baseId, ids.CREATED_BY_TEXT)}
                                 component={FormTextField}
-                                name={"created_by"}
+                                name={refGenomeConstants.keys.CREATED_BY}
                                 required={true}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                            />
-                        </GridLabelValue>
-                        <GridLabelValue label="Created On" variant="body1">
-                            <Field
-                                component={FormTextField}
-                                name={"created_on"}
-                                required={true}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                            />
-                        </GridLabelValue>
-                        <GridLabelValue label="Last Modified" variant="body1">
-                            <Field
-                                component={FormTextField}
-                                name={"last_modified_by"}
-                                required={true}
+                                className={classes.textField}
                                 InputProps={{
                                     readOnly: true,
                                 }}
                             />
                         </GridLabelValue>
                         <GridLabelValue
-                            label="Last Modified By"
+                            label={formatMessage(intl, "createdOn")}
                             variant="body1"
                         >
                             <Field
+                                id={build(baseId, ids.CREATED_ON_TEXT)}
                                 component={FormTextField}
-                                name={"last_modified_on"}
+                                name={refGenomeConstants.keys.CREATED_ON}
                                 required={true}
+                                className={classes.textField}
                                 InputProps={{
                                     readOnly: true,
                                 }}
                             />
                         </GridLabelValue>
-                        <GridLabelValue label="Mark as deleted" variant="body1">
+                        <GridLabelValue
+                            label={formatMessage(intl, "lastModifiedOn")}
+                            variant="body1"
+                        >
                             <Field
+                                id={build(baseId, ids.LAST_MODIFIED_ON_TEXT)}
+                                component={FormTextField}
+                                name={refGenomeConstants.keys.LAST_MODIFIED_ON}
+                                required={true}
+                                className={classes.textField}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                            />
+                        </GridLabelValue>
+                        <GridLabelValue
+                            label={formatMessage(intl, "lastModifiedBy")}
+                            variant="body1"
+                        >
+                            <Field
+                                id={build(baseId, ids.LAST_MODIFIED_BY_TEXT)}
+                                component={FormTextField}
+                                name={refGenomeConstants.keys.LAST_MODIFIED_BY}
+                                required={true}
+                                className={classes.textField}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                            />
+                        </GridLabelValue>
+                        <GridLabelValue
+                            label={formatMessage(intl, "deleted")}
+                            variant="body1"
+                        >
+                            <Field
+                                id={build(baseId, ids.DELETED_SWITCH)}
                                 component={FormSwitch}
-                                name="deleted"
+                                name={refGenomeConstants.keys.DELETED}
                                 color="primary"
+                                className={classes.textField}
                             />
                         </GridLabelValue>
                     </Grid>
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Button
+                                id={build(baseId, ids.CANCEL_BUTTON)}
                                 className={classes.actionButton}
                                 onClick={onCancel}
                             >
-                                Cancel
+                                {getMessage("cancel")}
                             </Button>
                         </Grid>
                         <Grid item>
                             <Button
+                                id={build(baseId, ids.OK_BUTTON)}
                                 className={classes.actionButton}
                                 color="primary"
                                 type="submit"
                             >
-                                Save
+                                {getMessage("ok")}
                             </Button>
                         </Grid>
                     </Grid>
@@ -155,4 +215,4 @@ function Edit(props) {
     );
 }
 
-export default Edit;
+export default withI18N(injectIntl(Edit), messages);

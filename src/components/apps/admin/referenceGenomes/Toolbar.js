@@ -1,12 +1,24 @@
+/**
+ * @author sriram
+ *
+ * A toolbar for admin Reference Genome Listing
+ *
+ */
+
 import React from "react";
 
+import { injectIntl } from "react-intl";
+
+import ids from "./ids";
 import GlobalFilter from "./GlobalFilter";
+import messages from "./messages";
+
+import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import { Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
 
 const useToolbarStyles = makeStyles((theme) => ({
     root: {
@@ -24,6 +36,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 }));
 
 const TableToolbar = (props) => {
+    const { baseId } = props;
     const classes = useToolbarStyles();
     const {
         preGlobalFilteredRows,
@@ -31,17 +44,20 @@ const TableToolbar = (props) => {
         globalFilter,
         onAddClicked,
     } = props;
+    const toolbarId = build(baseId, ids.TOOLBAR);
     return (
         <Toolbar className={classes.root}>
             <Button
+                id={build(toolbarId, ids.ADD_BUTTON)}
                 variant="outlined"
                 color="primary"
                 startIcon={<AddIcon />}
                 onClick={onAddClicked}
             >
-                Add
+                {getMessage("add")}
             </Button>
             <GlobalFilter
+                baseId={toolbarId}
                 preGlobalFilteredRows={preGlobalFilteredRows}
                 globalFilter={globalFilter}
                 setGlobalFilter={setGlobalFilter}
@@ -49,5 +65,4 @@ const TableToolbar = (props) => {
         </Toolbar>
     );
 };
-
-export default TableToolbar;
+export default withI18N(injectIntl(TableToolbar), messages);

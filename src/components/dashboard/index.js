@@ -38,46 +38,6 @@ import {
     DASHBOARD_QUERY_KEY,
 } from "../../serviceFacades/dashboard";
 
-const useDashboardSettings = ({ width, marginRight = 16, padding = 16 }) => {
-    const [columns, setColumns] = useState(5);
-    const [cardWidth, setCardWidth] = useState(0);
-    const [cardHeight, setCardHeight] = useState(0);
-
-    // This is used because media queries misbehave on the server and this lets
-    // us set values before rendering occurs.
-    useLayoutEffect(() => {
-        let newColumns;
-
-        if (width >= constants.XL_PIXELS) {
-            newColumns = constants.XL_NUM_COLUMNS;
-        } else if (width >= constants.LG_PIXELS) {
-            newColumns = constants.LG_NUM_COLUMNS;
-        } else if (width >= constants.MD_PIXELS) {
-            newColumns = constants.MD_NUM_COLUMNS;
-        } else if (width >= constants.SM_PIXELS) {
-            newColumns = constants.SM_NUM_COLUMNS;
-        } else if (width >= constants.XS_PIXELS) {
-            newColumns = constants.XS_NUM_COLUMNS;
-        } else {
-            // probably won't get here. probably.
-            newColumns = constants.LG_NUM_COLUMNS;
-        }
-        setColumns(newColumns);
-
-        const cardWidth = Math.floor(
-            width / newColumns - marginRight - (padding * 2) / newColumns
-        );
-
-        // Try to get a 4:3 ration for width to height
-        const cardHeight = Math.floor(cardWidth - cardWidth / 3);
-
-        setCardWidth(cardWidth);
-        setCardHeight(cardHeight);
-    }, [width, marginRight, setCardWidth, setColumns, padding]);
-
-    return [columns, cardWidth, cardHeight];
-};
-
 const DashboardLink = ({ kind, content, headerClass, children }) => {
     const isNewTab =
         kind === constants.KIND_EVENTS || kind === constants.KIND_FEEDS;
@@ -231,7 +191,7 @@ const DashboardSection = ({ name, kind, items, id, section, t }) => {
         return () => window.removeEventListener("resize", updater);
     }, [dashboardEl, setDimensions]);
 
-    const [columns, width, height] = useDashboardSettings(dimensions);
+    const [columns, width, height] = fns.useDashboardSettings(dimensions);
 
     return (
         <div className={classes.section} id={id}>

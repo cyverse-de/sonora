@@ -1,4 +1,11 @@
-import React, { useEffect } from "react";
+/**
+ * @author sriram
+ *
+ * A table view for admin Reference Genome Listing
+ *
+ */
+
+import React from "react";
 
 import {
     useRowSelect,
@@ -6,7 +13,13 @@ import {
     useSortBy,
     useTable,
 } from "react-table";
+
+import refGenomeConstants from "./constants";
 import TableToolbar from "./Toolbar";
+
+import ids from "./ids";
+
+import { build } from "@cyverse-de/ui-lib";
 
 import Checkbox from "@material-ui/core/Checkbox";
 import MaUTable from "@material-ui/core/Table";
@@ -36,7 +49,13 @@ const IndeterminateCheckbox = React.forwardRef(
     }
 );
 
-const EnhancedTable = ({ columns, data, onAddClicked,onDeletedClicked }) => {
+const EnhancedTable = ({
+    baseId,
+    columns,
+    data,
+    onAddClicked,
+    onDeletedClicked,
+}) => {
     const {
         getTableProps,
         headerGroups,
@@ -46,10 +65,19 @@ const EnhancedTable = ({ columns, data, onAddClicked,onDeletedClicked }) => {
         setGlobalFilter,
         //selectedFlatRows,
         state: { /*selectedRowIds,*/ globalFilter },
+        toggleRowSelected,
     } = useTable(
         {
             columns,
             data,
+            initialState: {
+                sortBy: [
+                    {
+                        id: refGenomeConstants.keys.NAME,
+                        desc: false,
+                    },
+                ],
+            },
         },
         useGlobalFilter,
         useSortBy,
@@ -83,7 +111,8 @@ const EnhancedTable = ({ columns, data, onAddClicked,onDeletedClicked }) => {
         }
     );
 
-   /*  useEffect(() => {
+    const tableId = build(baseId, ids.TABLE_VIEW);
+    /*  useEffect(() => {
         if (selectedFlatRows.length > 0) {
             console.log(
                 "Selected => " + JSON.stringify(selectedFlatRows[0].original)
@@ -96,6 +125,7 @@ const EnhancedTable = ({ columns, data, onAddClicked,onDeletedClicked }) => {
     return (
         <>
             <TableToolbar
+                baseId={tableId}
                 preGlobalFilteredRows={preGlobalFilteredRows}
                 setGlobalFilter={setGlobalFilter}
                 globalFilter={globalFilter}
@@ -135,7 +165,15 @@ const EnhancedTable = ({ columns, data, onAddClicked,onDeletedClicked }) => {
                         {rows.map((row, i) => {
                             prepareRow(row);
                             return (
-                                <TableRow {...row.getRowProps()}>
+                                <TableRow
+                                    {...row.getRowProps()}
+                                    onClick={() => {
+                                        toggleRowSelected(
+                                            row.index,
+                                            !row.isSelected
+                                        );
+                                    }}
+                                >
                                     {row.cells.map((cell) => {
                                         return (
                                             <TableCell {...cell.getCellProps()}>

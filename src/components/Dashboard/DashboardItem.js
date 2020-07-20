@@ -10,6 +10,7 @@ import {
     Link,
     useMediaQuery,
     Typography,
+    IconButton,
 } from "@material-ui/core";
 
 import { useTheme } from "@material-ui/styles";
@@ -20,6 +21,19 @@ import * as fns from "./functions";
 import * as constants from "./constants";
 import ids from "./ids";
 import useStyles from "./styles";
+import {
+    Launch,
+    Info,
+    Favorite,
+    Share,
+    Replay,
+    Stop,
+    FolderOpen,
+    Twitter,
+    Facebook,
+    OpenInBrowser,
+    CalendarToday,
+} from "@material-ui/icons";
 
 const DashboardLink = ({ kind, content, headerClass, children }) => {
     const isNewTab =
@@ -57,7 +71,15 @@ const DashboardLink = ({ kind, content, headerClass, children }) => {
  * @param {Object} props.content - The content for the item returned from the API.
  * @returns {Object}
  */
-export default ({ kind, content, section, intl, width, height }) => {
+const DashboardItem = ({
+    kind,
+    content,
+    section,
+    intl,
+    width,
+    height,
+    actions,
+}) => {
     const classes = useStyles({ width, height });
     const theme = useTheme();
 
@@ -138,7 +160,188 @@ export default ({ kind, content, section, intl, width, height }) => {
                 classes={{
                     root: classes.actionsRoot,
                 }}
-            ></CardActions>
+            >
+                {actions}
+            </CardActions>
         </Card>
     );
 };
+
+const ItemAction = ({ children, ariaLabel, handleClick }) => (
+    <IconButton aria-label={ariaLabel} onClick={handleClick}>
+        {children}
+    </IconButton>
+);
+
+export class ItemBase {
+    constructor({ kind, content, actions = [] }) {
+        this.kind = kind;
+        this.content = content;
+        this.actions = actions;
+    }
+
+    addAction(action) {
+        this.actions = [...this.actions, action];
+        return this;
+    }
+
+    getComponent(props) {
+        return (
+            <DashboardItem kind={this.kind} content={this.content} {...props} />
+        );
+    }
+}
+
+export class AppItem extends ItemBase {
+    constructor(content) {
+        super({
+            kind: constants.KIND_APPS,
+            content: content,
+            actions: [
+                <ItemAction
+                    ariaLabel="launch"
+                    key={`${constants.KIND_APPS}-${content.id}-launch`}
+                >
+                    <Launch />
+                </ItemAction>,
+                <ItemAction
+                    arialLabel="open details"
+                    key={`${constants.KIND_APPS}-${content.id}-details`}
+                >
+                    <Info />
+                </ItemAction>,
+                <ItemAction
+                    arialLabel="favorite"
+                    key={`${constants.KIND_APPS}-${content.id}-favorite`}
+                >
+                    <Favorite />
+                </ItemAction>,
+                <ItemAction
+                    arialLabel="share"
+                    key={`${constants.KIND_APPS}-${content.id}-share`}
+                >
+                    <Share />
+                </ItemAction>,
+            ],
+        });
+    }
+}
+
+export class AnalysesItem extends ItemBase {
+    constructor(content) {
+        super({
+            kind: constants.KIND_ANALYSES,
+            content: content,
+            actions: [
+                <ItemAction
+                    ariaLabel="relaunch"
+                    key={`${constants.KIND_ANALYSES}-${content.id}-relaunch`}
+                >
+                    <Replay />
+                </ItemAction>,
+                <ItemAction
+                    ariaLabel="stop"
+                    key={`${constants.KIND_ANALYSES}-${content.id}-stop`}
+                >
+                    <Stop />
+                </ItemAction>,
+                <ItemAction
+                    ariaLabel="open details"
+                    key={`${constants.KIND_ANALYSES}-${content.id}-details`}
+                >
+                    <Info />
+                </ItemAction>,
+                <ItemAction
+                    ariaLabel="share"
+                    key={`${constants.KIND_ANALYSES}-${content.id}-share`}
+                >
+                    <Share />
+                </ItemAction>,
+                <ItemAction
+                    ariaLabel="go to output files"
+                    key={`${constants.KIND_ANALYSES}-${content.id}-outputs`}
+                >
+                    <FolderOpen />
+                </ItemAction>,
+            ],
+        });
+    }
+}
+
+export class NewsItem extends ItemBase {
+    constructor(content) {
+        super({
+            kind: constants.KIND_FEEDS,
+            content: content,
+            actions: [
+                <ItemAction
+                    ariaLabel="tweet"
+                    key={`${constants.KIND_FEEDS}-${content.id}-tweet`}
+                >
+                    <Twitter />
+                </ItemAction>,
+                <ItemAction
+                    ariaLabel="facebook"
+                    key={`${constants.KIND_FEEDS}-${content.id}-facebook`}
+                >
+                    <Facebook />
+                </ItemAction>,
+                <ItemAction
+                    ariaLabel="open"
+                    key={`${constants.KIND_FEEDS}-${content.id}-open`}
+                >
+                    <OpenInBrowser />
+                </ItemAction>,
+                <ItemAction
+                    ariaLabel="show link"
+                    key={`${constants.KIND_FEEDS}-${content.id}-link`}
+                >
+                    <Link />
+                </ItemAction>,
+            ],
+        });
+    }
+}
+
+export class EventItem extends ItemBase {
+    constructor(content) {
+        super({
+            kind: constants.KIND_EVENTS,
+            content: content,
+            actions: [
+                <ItemAction
+                    ariaLabel="tweet"
+                    key={`${constants.KIND_EVENTS}-${content.id}-tweet`}
+                >
+                    <Twitter />
+                </ItemAction>,
+                <ItemAction
+                    ariaLabel="facebook"
+                    key={`${constants.KIND_EVENTS}-${content.id}-facebook`}
+                >
+                    <Facebook />
+                </ItemAction>,
+                <ItemAction
+                    ariaLabel="open"
+                    key={`${constants.KIND_EVENTS}-${content.id}-open`}
+                >
+                    <OpenInBrowser />
+                </ItemAction>,
+                <ItemAction
+                    ariaLabel="show link"
+                    key={`${constants.KIND_EVENTS}-${content.id}-link`}
+                >
+                    <Link />
+                </ItemAction>,
+                <ItemAction
+                    ariaLabel="add to calendar"
+                    key={`${constants.KIND_EVENTS}-${content.id}-calendar`}
+                >
+                    <CalendarToday />
+                </ItemAction>,
+            ],
+        });
+    }
+}
+
+export default DashboardItem;

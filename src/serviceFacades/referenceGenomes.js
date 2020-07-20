@@ -3,7 +3,6 @@ import callApi from "../common/callApi";
 export const REFERENCE_GENOMES_QUERY_KEY = "referenceGenomesKey";
 export const ADMIN_REFERENCE_GENOMES_QUERY_KEY = "adminReferenceGenomesKey";
 
-
 /**
  * Get the current listing of Reference Genomes.
  *
@@ -22,10 +21,19 @@ export const getAdminReferenceGenomes = () => {
     });
 };
 
-export const saveReferenceGenome = (refGenome) => {
+export const createReferenceGenome = (refGenome) => {
     return callApi({
         endpoint: "/api/admin/reference-genomes",
-        method: "PATCH",
-        body: refGenome
+        method: "POST",
+        body: refGenome,
     });
-}
+};
+
+export const saveReferenceGenome = (refGenome) => {
+    const id = refGenome?.id;
+    return callApi({
+        endpoint: `/api/admin/reference-genomes/${id}`,
+        method: "PATCH",
+        body: refGenome,
+    });
+};

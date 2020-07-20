@@ -38,12 +38,25 @@ export default function refGenomeRouter() {
     );
 
     logger.info("adding the Admin POST /admin/reference-genomes");
-    api.patch(
+    api.post(
         "/admin/reference-genomes",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
             pathname: "/admin/reference-genomes",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the Admin PATCH /admin/reference-genomes/:id");
+    api.patch(
+        "/admin/reference-genomes/:id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/admin/reference-genomes/:id",
             headers: {
                 "Content-Type": "application/json",
             },

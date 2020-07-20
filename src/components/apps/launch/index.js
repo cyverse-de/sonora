@@ -19,7 +19,7 @@ import { addQuickLaunch } from "../../../serviceFacades/quickLaunches";
 
 import AppLaunchWizard from "./AppLaunchWizard";
 
-export default ({ app, appError, loading }) => {
+export default ({ app, launchError, loading }) => {
     const [submissionError, setSubmissionError] = React.useState(null);
 
     const [config] = useConfig();
@@ -80,7 +80,7 @@ export default ({ app, appError, loading }) => {
             defaultMaxMemory={defaultMaxMemory}
             defaultMaxDiskSpace={defaultMaxDiskSpace}
             app={app}
-            appError={appError || submissionError}
+            appError={launchError || submissionError}
             loading={loading}
             submitAnalysis={(submission, onSuccess, onError) => {
                 setSubmissionError(null);

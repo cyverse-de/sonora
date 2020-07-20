@@ -23,7 +23,7 @@ export default () => {
         setAppDescriptionQueryEnabled,
     ] = React.useState(false);
     const [app, setApp] = React.useState(null);
-    const [appError, setAppError] = React.useState(null);
+    const [launchError, setLaunchError] = React.useState(null);
 
     const router = useRouter();
     const { systemId, appId } = router.query;
@@ -50,11 +50,11 @@ export default () => {
         config: {
             enabled: appDescriptionQueryEnabled,
             onSuccess: setApp,
-            onError: setAppError,
+            onError: setLaunchError,
         },
     });
 
     const loading = appStatus === constants.LOADING;
 
-    return <AppLaunch app={app} appError={appError} loading={loading} />;
+    return <AppLaunch app={app} launchError={launchError} loading={loading} />;
 };

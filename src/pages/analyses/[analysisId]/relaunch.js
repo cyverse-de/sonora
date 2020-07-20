@@ -56,5 +56,7 @@ export default () => {
 
     const loading = relaunchStatus === constants.LOADING;
 
-    return <AppLaunch app={app} appError={relaunchError} loading={loading} />;
+    return (
+        <AppLaunch app={app} launchError={relaunchError} loading={loading} />
+    );
 };

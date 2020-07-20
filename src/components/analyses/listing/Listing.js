@@ -94,7 +94,7 @@ function Listing(props) {
 
     const [
         relaunchAnalysesMutation,
-        { isLoading: relaunchLoading, error: relauchError },
+        { isLoading: relaunchLoading, error: relaunchError },
     ] = useMutation(relaunchAnalyses, {
         onSuccess: () => queryCache.invalidateQueries(analysesKey),
     });
@@ -387,7 +387,7 @@ function Listing(props) {
             />
             <TableView
                 loading={isFetching || relaunchLoading}
-                error={error || relauchError}
+                error={error || relaunchError}
                 listing={data}
                 baseId={baseId}
                 order={order}

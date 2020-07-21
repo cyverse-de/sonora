@@ -4,7 +4,7 @@ import { Divider, Typography } from "@material-ui/core";
 
 import { getMessage } from "@cyverse-de/ui-lib";
 
-import DashboardItem from "./DashboardItem";
+import DashboardItem, { getItem } from "./DashboardItem";
 
 import useStyles from "./styles";
 import * as fns from "./functions";
@@ -34,7 +34,7 @@ const DashboardSection = ({ name, kind, items, id, section, intl }) => {
         return () => window.removeEventListener("resize", updater);
     }, [dashboardEl, setDimensions]);
 
-    const [columns, width, height] = fns.useDashboardSettings(dimensions);
+    const [width, height] = fns.useDashboardSettings(dimensions);
 
     return (
         <div className={classes.section} id={id}>
@@ -51,18 +51,16 @@ const DashboardSection = ({ name, kind, items, id, section, intl }) => {
             <Divider classes={{ root: classes.dividerRoot }} />
 
             <div ref={dashboardEl} className={classes.sectionItems}>
-                {items.map((item) => (
-                    <DashboardItem
-                        kind={kind}
-                        content={item}
-                        key={item.id}
-                        section={section}
-                        intl={intl}
-                        columns={columns}
-                        width={width}
-                        height={height}
-                    />
-                ))}
+                {items.map((item) => {
+                    const obj = getItem({
+                        kind,
+                        section,
+                        content: item,
+                        height,
+                        width,
+                    });
+                    return <DashboardItem intl={intl} item={obj} />;
+                })}
             </div>
         </div>
     );
@@ -100,6 +98,10 @@ export class RecentAnalyses extends SectionBase {
             ids.SECTION_RECENT_ANALYSES
         );
     }
+
+    getComponent(params) {
+        return super.getComponent(params);
+    }
 }
 
 export class RunningAnalyses extends SectionBase {
@@ -110,6 +112,9 @@ export class RunningAnalyses extends SectionBase {
             "runningAnalyses",
             ids.SECTION_RECENT_ANALYSES
         );
+    }
+    getComponent(params) {
+        return super.getComponent(params);
     }
 }
 
@@ -122,6 +127,9 @@ export class RecentlyAddedApps extends SectionBase {
             ids.SECTION_RECENTLY_ADDED_APPS
         );
     }
+    getComponent(params) {
+        return super.getComponent(params);
+    }
 }
 
 export class PublicApps extends SectionBase {
@@ -132,6 +140,10 @@ export class PublicApps extends SectionBase {
             "publicApps",
             ids.SECTION_PUBLIC_APPS
         );
+    }
+
+    getComponent(params) {
+        return super.getComponent(params);
     }
 }
 
@@ -144,6 +156,10 @@ export class NewsFeed extends SectionBase {
             ids.SECTION_NEWS
         );
     }
+
+    getComponent(params) {
+        return super.getComponent(params);
+    }
 }
 
 export class EventsFeed extends SectionBase {
@@ -154,5 +170,9 @@ export class EventsFeed extends SectionBase {
             "eventsFeed",
             ids.SECTION_EVENTS
         );
+    }
+
+    getComponent(params) {
+        return super.getComponent(params);
     }
 }

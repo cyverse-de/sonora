@@ -15,7 +15,12 @@ import {
 
 import { useTheme } from "@material-ui/styles";
 
-import { build as buildID, getMessage } from "@cyverse-de/ui-lib";
+import {
+    build as buildID,
+    getMessage,
+    formatDate,
+    formatMessage,
+} from "@cyverse-de/ui-lib";
 
 import * as fns from "./functions";
 import * as constants from "./constants";
@@ -72,25 +77,31 @@ const DashboardLink = ({ kind, content, headerClass, children }) => {
  * @returns {Object}
  */
 const DashboardItem = ({
-    kind,
-    content,
-    section,
+    // kind,
+    // content,
+    // section,
+    // intl,
+    // width,
+    // height,
+    // actions,
     intl,
-    width,
-    height,
-    actions,
+    item,
 }) => {
-    const classes = useStyles({ width, height });
+    const classes = useStyles({ width: item.width, height: item.height });
     const theme = useTheme();
 
     const isMediumOrLarger = useMediaQuery(theme.breakpoints.up("md"));
 
-    const cardID = buildID(kind, content.id);
+    const cardID = item.id;
+    const user = item.username;
 
-    const description = fns.cleanDescription(content.description);
-    const [origination, date] = fns.getOrigination(kind, content, intl);
-    const user = fns.cleanUsername(content.username);
-    const [headerClass, avatarClass] = fns.getSectionClass(section, classes);
+    const description = fns.cleanDescription(item.content.description);
+    const [origination, date] = item.getOrigination(intl);
+
+    const [headerClass, avatarClass] = fns.getSectionClass(
+        item.section,
+        classes
+    );
     const rootClass = clsx(classes.cardHeaderDefault, headerClass);
 
     return (
@@ -103,7 +114,7 @@ const DashboardItem = ({
                 avatar={
                     isMediumOrLarger && (
                         <Avatar className={classes.avatar}>
-                            {fns.getAvatarIcon(kind, avatarClass)}
+                            {fns.getAvatarIcon(item.kind, avatarClass)}
                         </Avatar>
                     )
                 }
@@ -119,11 +130,11 @@ const DashboardItem = ({
                         classes={{ root: classes.cardHeaderText }}
                     >
                         <DashboardLink
-                            kind={kind}
-                            content={content}
+                            kind={item.kind}
+                            content={item.content}
                             headerClass={headerClass}
                         >
-                            {content.name}
+                            {item.content.name}
                         </DashboardLink>
                     </Typography>
                 }
@@ -161,7 +172,7 @@ const DashboardItem = ({
                     root: classes.actionsRoot,
                 }}
             >
-                {actions}
+                {item.actions}
             </CardActions>
         </Card>
     );
@@ -174,174 +185,269 @@ const ItemAction = ({ children, ariaLabel, handleClick }) => (
 );
 
 export class ItemBase {
-    constructor({ kind, content, actions = [] }) {
+    constructor({ kind, section, content, height, width, actions = [] }) {
         this.kind = kind;
+        this.section = section;
         this.content = content;
         this.actions = actions;
+        this.height = height;
+        this.width = width;
+        this.id = buildID(content.id);
+        this.username = fns.cleanUsername(content.username);
     }
 
-    addAction(action) {
-        this.actions = [...this.actions, action];
+    addActions(actions) {
+        this.actions = [...this.actions, ...actions];
         return this;
     }
 
-    getComponent(props) {
-        return (
-            <DashboardItem kind={this.kind} content={this.content} {...props} />
-        );
+    // meant to be implemented by sub-classes.
+    getOrigination(_intl) {
+        return [];
+    }
+
+    getAvatarIcon(_colorClass) {
+        return {};
+    }
+
+    getSectionClass(_classes) {
+        return {};
+    }
+
+    getLinkIcon() {
+        return {};
+    }
+
+    getLinkTarget() {
+        return {};
     }
 }
 
 export class AppItem extends ItemBase {
-    constructor(content) {
+    constructor(props) {
         super({
             kind: constants.KIND_APPS,
-            content: content,
-            actions: [
-                <ItemAction
-                    ariaLabel="launch"
-                    key={`${constants.KIND_APPS}-${content.id}-launch`}
-                >
-                    <Launch />
-                </ItemAction>,
-                <ItemAction
-                    arialLabel="open details"
-                    key={`${constants.KIND_APPS}-${content.id}-details`}
-                >
-                    <Info />
-                </ItemAction>,
-                <ItemAction
-                    arialLabel="favorite"
-                    key={`${constants.KIND_APPS}-${content.id}-favorite`}
-                >
-                    <Favorite />
-                </ItemAction>,
-                <ItemAction
-                    arialLabel="share"
-                    key={`${constants.KIND_APPS}-${content.id}-share`}
-                >
-                    <Share />
-                </ItemAction>,
-            ],
+            content: props.content,
+            section: props.section,
+            height: props.height,
+            width: props.width,
         });
+    }
+
+    static create(props) {
+        const item = new AppItem(props);
+        return item.addActions([
+            <ItemAction
+                ariaLabel="launch"
+                key={`${constants.KIND_APPS}-${props.content.id}-launch`}
+            >
+                <Launch />
+            </ItemAction>,
+            <ItemAction
+                arialLabel="open details"
+                key={`${constants.KIND_APPS}-${props.content.id}-details`}
+            >
+                <Info />
+            </ItemAction>,
+            <ItemAction
+                arialLabel="favorite"
+                key={`${constants.KIND_APPS}-${props.content.id}-favorite`}
+            >
+                <Favorite />
+            </ItemAction>,
+            <ItemAction
+                arialLabel="share"
+                key={`${constants.KIND_APPS}-${props.content.id}-share`}
+            >
+                <Share />
+            </ItemAction>,
+        ]);
+    }
+
+    getOrigination(intl) {
+        let origination;
+        let date;
+
+        if (this.content.integration_date) {
+            origination = formatMessage(intl, "integratedBy");
+            date = new Date(this.content.integration_date);
+        } else {
+            origination = formatMessage(intl, "editedBy");
+            date = new Date(this.content.edited_date);
+        }
+
+        return [origination, formatDate(date.valueOf())];
     }
 }
 
-export class AnalysesItem extends ItemBase {
-    constructor(content) {
+export class AnalysisItem extends ItemBase {
+    constructor({ section, content, height, width }) {
         super({
             kind: constants.KIND_ANALYSES,
-            content: content,
-            actions: [
-                <ItemAction
-                    ariaLabel="relaunch"
-                    key={`${constants.KIND_ANALYSES}-${content.id}-relaunch`}
-                >
-                    <Replay />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="stop"
-                    key={`${constants.KIND_ANALYSES}-${content.id}-stop`}
-                >
-                    <Stop />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="open details"
-                    key={`${constants.KIND_ANALYSES}-${content.id}-details`}
-                >
-                    <Info />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="share"
-                    key={`${constants.KIND_ANALYSES}-${content.id}-share`}
-                >
-                    <Share />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="go to output files"
-                    key={`${constants.KIND_ANALYSES}-${content.id}-outputs`}
-                >
-                    <FolderOpen />
-                </ItemAction>,
-            ],
+            content,
+            section,
+            height,
+            width,
         });
+    }
+
+    static create(props) {
+        const item = new AnalysisItem(props);
+        return item.addActions([
+            <ItemAction
+                ariaLabel="relaunch"
+                key={`${constants.KIND_ANALYSES}-${props.content.id}-relaunch`}
+            >
+                <Replay />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="stop"
+                key={`${constants.KIND_ANALYSES}-${props.content.id}-stop`}
+            >
+                <Stop />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="open details"
+                key={`${constants.KIND_ANALYSES}-${props.content.id}-details`}
+            >
+                <Info />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="share"
+                key={`${constants.KIND_ANALYSES}-${props.content.id}-share`}
+            >
+                <Share />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="go to output files"
+                key={`${constants.KIND_ANALYSES}-${props.content.id}-outputs`}
+            >
+                <FolderOpen />
+            </ItemAction>,
+        ]);
+    }
+
+    getOrigination(intl) {
+        const origination = formatMessage(intl, "startedBy");
+        const date = new Date(this.content.start_date);
+
+        return [origination, formatDate(date.valueOf())];
     }
 }
 
 export class NewsItem extends ItemBase {
-    constructor(content) {
+    constructor({ section, content, height, width }) {
         super({
             kind: constants.KIND_FEEDS,
-            content: content,
-            actions: [
-                <ItemAction
-                    ariaLabel="tweet"
-                    key={`${constants.KIND_FEEDS}-${content.id}-tweet`}
-                >
-                    <Twitter />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="facebook"
-                    key={`${constants.KIND_FEEDS}-${content.id}-facebook`}
-                >
-                    <Facebook />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="open"
-                    key={`${constants.KIND_FEEDS}-${content.id}-open`}
-                >
-                    <OpenInBrowser />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="show link"
-                    key={`${constants.KIND_FEEDS}-${content.id}-link`}
-                >
-                    <Link />
-                </ItemAction>,
-            ],
+            content,
+            section,
+            height,
+            width,
         });
+    }
+
+    static create(props) {
+        const item = new NewsItem(props);
+        return item.addActions([
+            <ItemAction
+                ariaLabel="tweet"
+                key={`${constants.KIND_FEEDS}-${props.content.id}-tweet`}
+            >
+                <Twitter />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="facebook"
+                key={`${constants.KIND_FEEDS}-${props.content.id}-facebook`}
+            >
+                <Facebook />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="open"
+                key={`${constants.KIND_FEEDS}-${props.content.id}-open`}
+            >
+                <OpenInBrowser />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="show link"
+                key={`${constants.KIND_FEEDS}-${props.content.id}-link`}
+            >
+                <Link />
+            </ItemAction>,
+        ]);
+    }
+
+    getOrigination(intl) {
+        const origination = formatMessage(intl, "publishedBy");
+        const date = new Date(this.content.date_added);
+        return [origination, formatDate(date.valueOf())];
     }
 }
 
 export class EventItem extends ItemBase {
-    constructor(content) {
+    constructor({ section, content, height, width }) {
         super({
             kind: constants.KIND_EVENTS,
-            content: content,
-            actions: [
-                <ItemAction
-                    ariaLabel="tweet"
-                    key={`${constants.KIND_EVENTS}-${content.id}-tweet`}
-                >
-                    <Twitter />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="facebook"
-                    key={`${constants.KIND_EVENTS}-${content.id}-facebook`}
-                >
-                    <Facebook />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="open"
-                    key={`${constants.KIND_EVENTS}-${content.id}-open`}
-                >
-                    <OpenInBrowser />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="show link"
-                    key={`${constants.KIND_EVENTS}-${content.id}-link`}
-                >
-                    <Link />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="add to calendar"
-                    key={`${constants.KIND_EVENTS}-${content.id}-calendar`}
-                >
-                    <CalendarToday />
-                </ItemAction>,
-            ],
+            content,
+            section,
+            height,
+            width,
         });
     }
+
+    static create(props) {
+        const item = new EventItem(props);
+        return item.addActions([
+            <ItemAction
+                ariaLabel="tweet"
+                key={`${constants.KIND_EVENTS}-${props.content.id}-tweet`}
+            >
+                <Twitter />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="facebook"
+                key={`${constants.KIND_EVENTS}-${props.content.id}-facebook`}
+            >
+                <Facebook />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="open"
+                key={`${constants.KIND_EVENTS}-${props.content.id}-open`}
+            >
+                <OpenInBrowser />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="show link"
+                key={`${constants.KIND_EVENTS}-${props.content.id}-link`}
+            >
+                <Link />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="add to calendar"
+                key={`${constants.KIND_EVENTS}-${props.content.id}-calendar`}
+            >
+                <CalendarToday />
+            </ItemAction>,
+        ]);
+    }
+
+    getOrigination(intl) {
+        const origination = formatMessage(intl, "by");
+        const date = new Date();
+        return [origination, formatDate(date.valueOf())];
+    }
 }
+
+export const getItem = (props) => {
+    switch (props.kind) {
+        case constants.KIND_ANALYSES:
+            return AnalysisItem.create(props);
+        case constants.KIND_APPS:
+            return AppItem.create(props);
+        case constants.KIND_EVENTS:
+            return new EventItem(props);
+        default:
+            return new NewsItem(props);
+    }
+};
 
 export default DashboardItem;

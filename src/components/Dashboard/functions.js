@@ -188,7 +188,7 @@ export const useDashboardSettings = ({
     marginRight = 16,
     padding = 16,
 }) => {
-    const [columns, setColumns] = useState(5);
+    //const [columns, setColumns] = useState(5);
     const [cardWidth, setCardWidth] = useState(0);
     const [cardHeight, setCardHeight] = useState(0);
 
@@ -211,7 +211,7 @@ export const useDashboardSettings = ({
             // probably won't get here. probably.
             newColumns = constants.LG_NUM_COLUMNS;
         }
-        setColumns(newColumns);
+        //setColumns(newColumns);
 
         const cardWidth = Math.floor(
             width / newColumns - marginRight - (padding * 2) / newColumns
@@ -222,7 +222,7 @@ export const useDashboardSettings = ({
 
         setCardWidth(cardWidth);
         setCardHeight(cardHeight);
-    }, [width, marginRight, setCardWidth, setColumns, padding]);
+    }, [width, marginRight, setCardWidth, padding]);
 
-    return [columns, cardWidth, cardHeight];
+    return [cardWidth, cardHeight];
 };

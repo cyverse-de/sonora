@@ -1,6 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
-
-import { OpenInNew, OpenInBrowser } from "@material-ui/icons";
+import { useState, useLayoutEffect } from "react";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
 
@@ -39,42 +37,6 @@ export const getSectionClass = (section, classes) => {
             break;
     }
     return [header, avatar];
-};
-
-export const getLinkIcon = (kind) => {
-    let retval;
-    switch (kind) {
-        case constants.KIND_ANALYSES:
-            retval = <OpenInBrowser />;
-            break;
-        case constants.KIND_APPS:
-            retval = <OpenInBrowser />;
-            break;
-        case constants.KIND_FEEDS:
-            retval = <OpenInNew />;
-            break;
-        case constants.KIND_EVENTS:
-            retval = <OpenInNew />;
-            break;
-        default:
-            retval = <OpenInNew />;
-    }
-    return retval;
-};
-
-export const getLinkTarget = (kind, content) => {
-    let target;
-    switch (kind) {
-        case constants.KIND_APPS:
-            target = `/apps/${content.id}/details`;
-            break;
-        case constants.KIND_ANALYSES:
-            target = `/analyses/${content.id}/details`;
-            break;
-        default:
-            target = content.link;
-    }
-    return target;
 };
 
 export const cleanUsername = (username) => {

@@ -44,10 +44,9 @@ import {
     Event,
 } from "@material-ui/icons";
 
-const DashboardLink = ({ kind, content, headerClass, children }) => {
+const DashboardLink = ({ target, kind, headerClass, children }) => {
     const isNewTab =
         kind === constants.KIND_EVENTS || kind === constants.KIND_FEEDS;
-    const target = fns.getLinkTarget(kind, content);
 
     return isNewTab ? (
         <Link
@@ -130,8 +129,8 @@ const DashboardItem = ({
                         classes={{ root: classes.cardHeaderText }}
                     >
                         <DashboardLink
+                            target={item.getLinkTarget()}
                             kind={item.kind}
-                            content={item.content}
                             headerClass={item.headerClass}
                         >
                             {item.content.name}
@@ -231,12 +230,8 @@ export class ItemBase {
         return this;
     }
 
-    getLinkIcon() {
-        return {};
-    }
-
     getLinkTarget() {
-        return {};
+        return this.content.link;
     }
 }
 
@@ -310,6 +305,10 @@ export class AppItem extends ItemBase {
             />
         );
     }
+
+    getLinkTarget() {
+        return `/apps/${this.content.id}/details`;
+    }
 }
 
 export class AnalysisItem extends ItemBase {
@@ -379,6 +378,10 @@ export class AnalysisItem extends ItemBase {
                 classes={{ colorPrimary: this.avatarClass }}
             />
         );
+    }
+
+    getLinkTarget() {
+        return `/analyses/${this.content.id}/details`;
     }
 }
 

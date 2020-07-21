@@ -9,47 +9,12 @@ import {
     OpenInBrowser,
 } from "@material-ui/icons";
 
-import {
-    build as buildID,
-    formatDate,
-    formatMessage,
-} from "@cyverse-de/ui-lib";
+import { build as buildID } from "@cyverse-de/ui-lib";
 
 import ids from "./ids";
 import * as constants from "./constants";
 
 export const makeID = (...names) => buildID(ids.BASE, ...names);
-
-export const getOrigination = (kind, content, intl) => {
-    let origination;
-    let date;
-
-    switch (kind) {
-        case constants.KIND_ANALYSES:
-            origination = formatMessage(intl, "startedBy");
-            date = content.start_date;
-            break;
-        case constants.KIND_APPS:
-            if (content.integration_date) {
-                origination = formatMessage(intl, "integratedBy");
-                date = content.integration_date;
-            } else {
-                origination = formatMessage(intl, "editedBy");
-                date = content.edited_date;
-            }
-            break;
-        case constants.KIND_FEEDS:
-            origination = formatMessage(intl, "publishedBy");
-            date = content.date_added;
-            break;
-        default:
-            origination = formatMessage(intl, "by");
-    }
-    return [
-        origination,
-        formatDate(date ? new Date(date).valueOf() : new Date().valueOf()),
-    ];
-};
 
 export const getAvatarIcon = (kind, colorClass) => {
     let retval;

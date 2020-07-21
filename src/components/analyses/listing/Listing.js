@@ -5,26 +5,30 @@
  *
  */
 import React, { useCallback, useEffect, useState } from "react";
-import { useQuery } from "react-query";
+
+import { queryCache, useMutation, useQuery } from "react-query";
 import { injectIntl } from "react-intl";
-import { useRouter } from "next/router";
 
 import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
+
 import {
-    getAnalyses,
     ANALYSES_LISTING_QUERY_KEY,
+    getAnalyses,
+    relaunchAnalyses,
 } from "../../../serviceFacades/analyses";
 import constants from "../../../constants";
 import DEPagination from "../../utils/DEPagination";
 import Drawer from "../details/Drawer";
 
 import intlData from "../messages";
+
+import MultiRelaunchWarningDialog from "./MultiRelaunchWarningDialog";
 import TableView from "./TableView";
+
 import AnalysesToolbar, { getOwnershipFilters } from "../toolbar/Toolbar";
 import { getAppTypeFilters } from "../../apps/toolbar/AppNavigation";
 import appType from "../../models/AppType";
 
-import NavigationConstants from "../../../common/NavigationConstants";
 import { useUserProfile } from "../../../contexts/userProfile";
 import { useNotifications } from "../../../contexts/pushNotifications";
 
@@ -48,8 +52,13 @@ const filter = {
 };
 
 function Listing(props) {
-    const router = useRouter();
-    const { baseId, intl } = props;
+    const {
+        baseId,
+        handleGoToOutputFolder,
+        handleSingleRelaunch,
+        intl,
+    } = props;
+
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("desc");
     const [orderBy, setOrderBy] = useState("startdate");
@@ -66,6 +75,7 @@ function Listing(props) {
     const [detailsAnalysis, setDetailsAnalysis] = useState(null);
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
+    const [relaunchDialogOpen, setRelaunchDialogOpen] = useState(false);
 
     const [analysesKey, setAnalysesKey] = useState(ANALYSES_LISTING_QUERY_KEY);
     const [
@@ -80,6 +90,13 @@ function Listing(props) {
             enabled: analysesListingQueryEnabled,
             onSuccess: setData,
         },
+    });
+
+    const [
+        relaunchAnalysesMutation,
+        { isLoading: relaunchLoading, error: relaunchError },
+    ] = useMutation(relaunchAnalyses, {
+        onSuccess: () => queryCache.invalidateQueries(analysesKey),
     });
 
     useEffect(() => {
@@ -299,14 +316,6 @@ function Listing(props) {
         window.open(url, "_blank");
     };
 
-    const handleGoToOutputFolder = (analysis) => {
-        if (analysis.resultfolderid) {
-            router.push(
-                `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}ds${analysis.resultfolderid}`
-            );
-        }
-    };
-
     const handleAppTypeFilterChange = (appTypeFilter) => {
         setAppTypeFilter(appTypeFilter);
         setSelected([]);
@@ -330,6 +339,21 @@ function Listing(props) {
         setParentAnalyses(null);
         setPermFilter(getOwnershipFilters(intl)[0]);
         setAppTypeFilter(getAppTypeFilters()[0]);
+    };
+
+    const handleRelaunch = (analyses) => {
+        if (analyses?.length > 0) {
+            if (analyses.length === 1) {
+                handleSingleRelaunch(analyses[0]);
+            } else {
+                setRelaunchDialogOpen(true);
+            }
+        }
+    };
+
+    const confirmMultiRelaunch = () => {
+        setRelaunchDialogOpen(false);
+        relaunchAnalysesMutation(selected);
     };
 
     const getSelectedAnalyses = (analyses) => {
@@ -358,11 +382,12 @@ function Listing(props) {
                 onDetailsSelected={onDetailsSelected}
                 handleInteractiveUrlClick={handleInteractiveUrlClick}
                 handleGoToOutputFolder={handleGoToOutputFolder}
+                handleRelaunch={handleRelaunch}
                 handleBatchIconClick={handleBatchIconClick}
             />
             <TableView
-                loading={isFetching}
-                error={error}
+                loading={isFetching || relaunchLoading}
+                error={error || relaunchError}
                 listing={data}
                 baseId={baseId}
                 order={order}
@@ -374,8 +399,17 @@ function Listing(props) {
                 handleRequestSort={handleRequestSort}
                 handleInteractiveUrlClick={handleInteractiveUrlClick}
                 handleGoToOutputFolder={handleGoToOutputFolder}
+                handleRelaunch={handleRelaunch}
                 handleBatchIconClick={handleBatchIconClick}
             />
+
+            <MultiRelaunchWarningDialog
+                open={relaunchDialogOpen}
+                baseId={baseId}
+                onClose={() => setRelaunchDialogOpen(false)}
+                confirmMultiRelaunch={confirmMultiRelaunch}
+            />
+
             {detailsOpen && (
                 <Drawer
                     selectedAnalysis={detailsAnalysis}

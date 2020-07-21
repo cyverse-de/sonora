@@ -127,7 +127,7 @@ export default {
                         },
                         {
                             name: "--int-list",
-                            isDefault: false,
+                            isDefault: true,
                             id: "e9de035e-5ce2-11ea-aa6d-008cfa5ae621",
                             display: "2",
                             value: "Value 2",

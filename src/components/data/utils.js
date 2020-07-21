@@ -5,6 +5,8 @@
 import { getMessage } from "@cyverse-de/ui-lib";
 
 import constants from "../../constants";
+import NavigationConstants from "../../common/NavigationConstants";
+
 import DataConstants from "./constants";
 import Permissions, { permissionHierarchy } from "../models/Permissions";
 
@@ -21,6 +23,14 @@ function getEncodedPath(path) {
         .join(constants.PATH_SEPARATOR);
     return encodedPath;
 }
+
+/**
+ * Builds a path to the page of the given folder's data store path.
+ *
+ * @param {string} folderPath The data store path to the folder.
+ */
+const getFolderPage = (folderPath) =>
+    `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}ds${folderPath}`;
 
 const validateDiskResourceName = (name) => {
     if (name === "") {
@@ -82,6 +92,7 @@ const parseNameFromPath = (path) => {
 
 export {
     getEncodedPath,
+    getFolderPage,
     validateDiskResourceName,
     hasOwn,
     isOwner,

@@ -1,5 +1,6 @@
 import analysisStatus from "../models/analysisStatus";
 import constants from "../../constants";
+import NavigationConstants from "../../common/NavigationConstants";
 
 /**
  * Get the user who ran this analysis
@@ -76,10 +77,19 @@ const allowAnalyesRelaunch = (selectedAnalyses) => {
     return filteredAnalyses.length === 0;
 };
 
+/**
+ * Builds a path to the Analysis Relaunch page for the given analysis ID.
+ *
+ * @param {string} analysisId The analysis ID.
+ */
+const getAnalysisRelaunchPage = (analysisId) =>
+    `/${NavigationConstants.ANALYSES}/${analysisId}/relaunch`;
+
 export {
     getAnalysisUser,
     isInteractive,
     allowAnalysisTimeExtn,
     isBatchAnalysis,
     allowAnalyesRelaunch,
+    getAnalysisRelaunchPage,
 };

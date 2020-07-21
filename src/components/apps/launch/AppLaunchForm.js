@@ -194,16 +194,27 @@ const initValues = ({
 
             let value = defaultValue || "";
 
-            if (paramType === constants.PARAM_TYPE.MULTIFILE_SELECTOR) {
-                value = defaultValue || [];
+            if (
+                paramType === constants.PARAM_TYPE.FILE_FOLDER_INPUT ||
+                paramType === constants.PARAM_TYPE.FILE_INPUT ||
+                paramType === constants.PARAM_TYPE.FOLDER_INPUT
+            ) {
+                value = defaultValue?.path || "";
             }
+
+            if (paramType === constants.PARAM_TYPE.MULTIFILE_SELECTOR) {
+                value = defaultValue?.path || [];
+            }
+
             if (paramType === constants.PARAM_TYPE.FLAG) {
                 value = defaultValue && defaultValue !== "false";
             }
+
             if (paramArgs?.length > 0) {
-                const defaultArg = paramArgs.find(
-                    (arg) => arg.isDefault || defaultValue?.id === arg.id
-                );
+                const defaultArg =
+                    paramArgs.find((arg) => defaultValue?.id === arg.id) ||
+                    paramArgs.find((arg) => arg.isDefault);
+
                 value = defaultArg || "";
             }
 

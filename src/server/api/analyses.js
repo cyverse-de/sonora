@@ -40,6 +40,19 @@ export default function analysesRouter() {
         })
     );
 
+    logger.info("adding the POST /analyses/relauncher handler");
+    api.post(
+        "/analyses/relauncher",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/analyses/relauncher",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the GET /analyses/:id/history");
     api.get(
         "/analyses/:id/history",
@@ -57,6 +70,16 @@ export default function analysesRouter() {
         terrainHandler({
             method: "GET",
             pathname: "/analyses/:id/parameters",
+        })
+    );
+
+    logger.info("adding the GET /analyses/:id/relaunch-info handler");
+    api.get(
+        "/analyses/:id/relaunch-info",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/analyses/:id/relaunch-info",
         })
     );
 

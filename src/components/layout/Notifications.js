@@ -71,23 +71,28 @@ function Notifications(props) {
 
     const displayAnalysisNotification = useCallback(
         (notification, status) => {
-            let variant = AnnouncerConstants.INFO;
-            if (status === analysisStatus.COMPLETED) {
-                variant = AnnouncerConstants.SUCCESS;
-            } else if (status === analysisStatus.FAILED) {
-                variant = AnnouncerConstants.ERROR;
-            }
+            const text = notification?.message?.text;
+            const outputFolderPath =
+                notification?.payload?.analysisresultsfolder;
+
+            const completed = status === analysisStatus.COMPLETED;
+            const failed = status === analysisStatus.FAILED;
+
+            const variant = completed
+                ? AnnouncerConstants.SUCCESS
+                : failed
+                ? AnnouncerConstants.ERROR
+                : AnnouncerConstants.INFO;
+
+            const CustomAction =
+                (completed || failed) && outputFolderPath
+                    ? () => analysisCustomAction(outputFolderPath)
+                    : null;
+
             announce({
-                text: notification.message.text,
+                text,
                 variant,
-                CustomAction:
-                    status === analysisStatus.COMPLETED ||
-                    status === analysisStatus.FAILED
-                        ? () =>
-                              analysisCustomAction(
-                                  notification.payload.analysisresultsfolder
-                              )
-                        : null,
+                CustomAction,
             });
         },
         [analysisCustomAction]

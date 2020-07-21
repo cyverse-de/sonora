@@ -1,13 +1,6 @@
 import React, { useState, useLayoutEffect } from "react";
 
-import {
-    Apps,
-    BarChart,
-    Event,
-    RssFeed,
-    OpenInNew,
-    OpenInBrowser,
-} from "@material-ui/icons";
+import { OpenInNew, OpenInBrowser } from "@material-ui/icons";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
 
@@ -15,43 +8,6 @@ import ids from "./ids";
 import * as constants from "./constants";
 
 export const makeID = (...names) => buildID(ids.BASE, ...names);
-
-export const getAvatarIcon = (kind, colorClass) => {
-    let retval;
-    switch (kind) {
-        case constants.KIND_ANALYSES:
-            retval = (
-                <BarChart
-                    color="primary"
-                    classes={{ colorPrimary: colorClass }}
-                />
-            );
-            break;
-        case constants.KIND_APPS:
-            retval = (
-                <Apps color="primary" classes={{ colorPrimary: colorClass }} />
-            );
-            break;
-        case constants.KIND_FEEDS:
-            retval = (
-                <RssFeed
-                    color="primary"
-                    classes={{ colorPrimary: colorClass }}
-                />
-            );
-            break;
-        case constants.KIND_EVENTS:
-            retval = (
-                <Event color="primary" classes={{ colorPrimary: colorClass }} />
-            );
-            break;
-        default:
-            retval = (
-                <Apps color="primary" classes={{ colorPrimary: colorClass }} />
-            );
-    }
-    return retval;
-};
 
 export const getSectionClass = (section, classes) => {
     let header;

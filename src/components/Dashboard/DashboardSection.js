@@ -58,6 +58,7 @@ const DashboardSection = ({ name, kind, items, id, section, intl }) => {
                         content: item,
                         height,
                         width,
+                        classes,
                     });
                     return <DashboardItem intl={intl} item={obj} />;
                 })}

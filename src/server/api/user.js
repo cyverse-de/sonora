@@ -30,13 +30,46 @@ export default function userRouter() {
         })
     );
 
-    logger.info("add the GET /bootstrap handler");
+    logger.info("adding the GET /bootstrap handler");
     api.get(
         "/bootstrap",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
             pathname: "/secured/bootstrap",
+        })
+    );
+
+    logger.info("adding the POST /preferences handler");
+    api.post(
+        "/preferences",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/preferences",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the DELETE /token-info handler");
+    api.delete(
+        "/token-info/:systemId",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/secured/oauth/token-info/:systemId",
+        })
+    );
+
+    logger.info("adding the GET /redirect-uris handler");
+    api.get(
+        "/redirect-uris",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/secured/oauth/redirect-uris",
         })
     );
 

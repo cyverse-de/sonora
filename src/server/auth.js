@@ -9,7 +9,6 @@ import pgsimple from "connect-pg-simple";
 import keycloak from "keycloak-connect";
 
 import * as config from "./configuration";
-import logger from "./logging";
 
 /**
  * Extracts the username from the calims in the JWT access token.
@@ -27,9 +26,6 @@ export const getUserID = (req) => {
  */
 export const getUserProfile = (req) => {
     const accessToken = req?.kauth?.grant?.access_token;
-    logger.info(
-        "####### Client IP ####### => " + req?.connection?.remoteAddress
-    );
     if (accessToken) {
         return {
             id: accessToken.content.preferred_username,
@@ -39,7 +35,6 @@ export const getUserProfile = (req) => {
                 firstName: accessToken.content.given_name,
                 lastName: accessToken.content.family_name,
                 name: accessToken.content.name,
-                ip: req?.connection?.remoteAddress,
             },
         };
     } else {

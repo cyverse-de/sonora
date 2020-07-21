@@ -266,8 +266,7 @@ function CyverseAppBar(props) {
 
     useEffect(() => {
         if (userProfile) {
-            const ip = userProfile.attributes.ip;
-            setBootstrapQueryKey([BOOTSTRAP_KEY, { ip }]);
+            setBootstrapQueryKey(BOOTSTRAP_KEY);
             setBootstrapQueryEnabled(true);
         }
     }, [userProfile]);

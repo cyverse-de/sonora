@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import { injectIntl } from "react-intl";
 
@@ -25,11 +25,12 @@ const ActionButtonsSkeleton = () => {
     );
 };
 
-const ActionButton = ({ baseID, name, handler, onClick, popperMsgKey }) => {
+const ActionButton = ({ externalID, name, handler, onClick, popperMsgKey }) => {
     const classes = useStyles();
+
     return (
         <Button
-            id={id(baseID, "button", name)}
+            id={id(externalID, "button", name)}
             variant="contained"
             color="primary"
             onClick={(event) => {
@@ -65,10 +66,6 @@ const ActionButtons = ({
     const isLoading = status === "loading";
     const hasErrored = status === "error";
 
-    if (hasErrored) {
-        console.log(error);
-    }
-
     const onClick = (_event, dataFn, msgKey) => {
         let tlErr;
         let tlData;
@@ -89,14 +86,23 @@ const ActionButtons = ({
         return tlData;
     };
 
+    useEffect(() => {
+        if (hasErrored) {
+            announce({
+                text: `Action buttons not available: ${error.message}`,
+                variant: AnnouncerConstants.ERROR,
+            });
+        }
+    }, [hasErrored, error]);
+
     return (
         <div className={classes.actions}>
             {isLoading ? (
                 <ActionButtonsSkeleton id={id(externalID, "skeleton")} />
-            ) : (
+            ) : !hasErrored ? (
                 <>
                     <ActionButton
-                        baseID={externalID}
+                        external={externalID}
                         name="extendTimeLimit"
                         handler={handleExtendTimeLimit}
                         popperMsgKey="timeLimitExtended"
@@ -104,7 +110,7 @@ const ActionButtons = ({
                     />
 
                     <ActionButton
-                        baseID={externalID}
+                        externalID={externalID}
                         name="downloadInputs"
                         handler={handleDownloadInputs}
                         popperMsgKey="downloadInputsCommandSent"
@@ -112,7 +118,7 @@ const ActionButtons = ({
                     />
 
                     <ActionButton
-                        baseID={externalID}
+                        externalID={externalID}
                         name="uploadOutputs"
                         handler={handleUploadOutputs}
                         popperMsgKey="uploadOutputsCommandSent"
@@ -120,7 +126,7 @@ const ActionButtons = ({
                     />
 
                     <ActionButton
-                        baseID={externalID}
+                        externalID={externalID}
                         name="exit"
                         handler={handleExit}
                         popperMsgKey="exitCommandSent"
@@ -128,14 +134,14 @@ const ActionButtons = ({
                     />
 
                     <ActionButton
-                        baseID={externalID}
+                        externalID={externalID}
                         name="saveAndExit"
                         handler={handleExit}
                         popperMsgKey="saveAndExitCommandSent"
                         onClick={onClick}
                     />
                 </>
-            )}
+            ) : null}
         </div>
     );
 };

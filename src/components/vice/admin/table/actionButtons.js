@@ -92,7 +92,7 @@ const ActionButtons = ({
     return (
         <div className={classes.actions}>
             {isLoading ? (
-                <ActionButtonsSkeleton />
+                <ActionButtonsSkeleton id={id(externalID, "skeleton")} />
             ) : (
                 <>
                     <ActionButton

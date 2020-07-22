@@ -12,6 +12,8 @@ export default {
         expandRow: "Expand Row",
         saveAndExit: "Save and Exit",
         exit: "Exit",
+        exitCommandSent: "Exit command sent",
+        saveAndExitCommandSent: "Save and Exit command sent",
         extendTimeLimit: "Extend Time Limit",
         downloadInputs: "Download Inputs",
         uploadOutputs: "Upload Outputs",

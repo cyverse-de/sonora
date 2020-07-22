@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useQuery } from "react-query";
+import { injectIntl } from "react-intl";
 
-import {
-    Button,
-    //    Popper,
-} from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 
 import {
     getMessage as msg,
+    formatMessage as fmt,
     announce,
     AnnouncerConstants,
+    withI18N,
 } from "@cyverse-de/ui-lib";
 
 import { id } from "./functions";
 import useStyles from "./styles";
+import messages from "./messages";
 
 import { asyncData } from "../../../../serviceFacades/vice/admin";
 
@@ -43,16 +44,16 @@ const ActionButton = ({ baseID, name, handler, onClick, popperMsgKey }) => {
     );
 };
 
-export default ({
+const ActionButtons = ({
     row,
     handleExtendTimeLimit = (_) => {},
     handleDownloadInputs = (_) => {},
     handleUploadOutputs = (_) => {},
     handleExit = (_) => {},
     handleSaveAndExit = (_) => {},
+    intl,
 }) => {
     const classes = useStyles();
-    const [open, setOpen] = useState(false);
 
     const externalID = row.original.externalID;
 
@@ -60,8 +61,6 @@ export default ({
         ["async-data", externalID],
         asyncData
     );
-
-    console.log(row);
 
     const isLoading = status === "loading";
     const hasErrored = status === "error";
@@ -74,8 +73,6 @@ export default ({
         let tlErr;
         let tlData;
 
-        console.log(data);
-
         try {
             tlData = dataFn(data.analysisID, externalID);
         } catch (err) {
@@ -85,23 +82,12 @@ export default ({
         const variant = tlErr
             ? AnnouncerConstants.ERROR
             : AnnouncerConstants.SUCCESS;
-        const text = tlErr ? tlErr.message : msg(msgKey);
-
-        console.log(`text: ${text}    variant: ${variant}`);
+        const text = tlErr ? tlErr.message : fmt(intl, msgKey);
 
         announce({ text, variant });
 
         return tlData;
     };
-
-    useEffect(() => {
-        const timerID = setInterval(() => {
-            if (open) {
-                setOpen(false);
-            }
-        }, 3000);
-        return () => clearInterval(timerID);
-    });
 
     return (
         <div className={classes.actions}>
@@ -153,3 +139,5 @@ export default ({
         </div>
     );
 };
+
+export default withI18N(injectIntl(ActionButtons), messages);

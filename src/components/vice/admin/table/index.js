@@ -19,7 +19,6 @@ import {
     TableSortLabel,
 } from "@material-ui/core";
 
-// import { Skeleton } from "@material-ui/lab";
 import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
 
 import { useTable, useExpanded, useSortBy } from "react-table";

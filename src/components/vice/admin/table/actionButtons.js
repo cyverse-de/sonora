@@ -54,10 +54,14 @@ export default ({
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
+    const externalID = row.original.externalID;
+
     const { status, data, error } = useQuery(
-        ["async-data", row.externalID],
+        ["async-data", externalID],
         asyncData
     );
+
+    console.log(row);
 
     const isLoading = status === "loading";
     const hasErrored = status === "error";
@@ -70,8 +74,10 @@ export default ({
         let tlErr;
         let tlData;
 
+        console.log(data);
+
         try {
-            tlData = dataFn(data.analysisID, row.externalID);
+            tlData = dataFn(data.analysisID, externalID);
         } catch (err) {
             tlErr = err;
         }
@@ -80,6 +86,8 @@ export default ({
             ? AnnouncerConstants.ERROR
             : AnnouncerConstants.SUCCESS;
         const text = tlErr ? tlErr.message : msg(msgKey);
+
+        console.log(`text: ${text}    variant: ${variant}`);
 
         announce({ text, variant });
 
@@ -102,7 +110,7 @@ export default ({
             ) : (
                 <>
                     <ActionButton
-                        baseID={row.externalID}
+                        baseID={externalID}
                         name="extendTimeLimit"
                         handler={handleExtendTimeLimit}
                         popperMsgKey="timeLimitExtended"
@@ -110,7 +118,7 @@ export default ({
                     />
 
                     <ActionButton
-                        baseID={row.externalID}
+                        baseID={externalID}
                         name="downloadInputs"
                         handler={handleDownloadInputs}
                         popperMsgKey="downloadInputsCommandSent"
@@ -118,7 +126,7 @@ export default ({
                     />
 
                     <ActionButton
-                        baseID={row.externalID}
+                        baseID={externalID}
                         name="uploadOutputs"
                         handler={handleUploadOutputs}
                         popperMsgKey="uploadOutputsCommandSent"
@@ -126,7 +134,7 @@ export default ({
                     />
 
                     <ActionButton
-                        baseID={row.externalID}
+                        baseID={externalID}
                         name="exit"
                         handler={handleExit}
                         popperMsgKey="exitCommandSent"
@@ -134,7 +142,7 @@ export default ({
                     />
 
                     <ActionButton
-                        baseID={row.externalID}
+                        baseID={externalID}
                         name="saveAndExit"
                         handler={handleExit}
                         popperMsgKey="saveAndExitCommandSent"

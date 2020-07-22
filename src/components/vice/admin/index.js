@@ -7,6 +7,8 @@ import { makeStyles } from "@material-ui/styles";
 import {
     build as buildID,
     getMessage as msg,
+    announce,
+    AnnouncerConstants,
     withI18N,
 } from "@cyverse-de/ui-lib";
 
@@ -349,16 +351,10 @@ const VICEAdminTabs = ({ data = {} }) => {
 const VICEAdmin = () => {
     const classes = useStyles();
 
-    const { status, data, error } = useQuery(VICE_ADMIN_QUERY_KEY, getData, {
-        refetchInterval: constants.REFETCH_INTERVAL,
-    });
+    const { status, data, error } = useQuery(VICE_ADMIN_QUERY_KEY, getData);
 
     const isLoading = status === constants.LOADING;
     const hasErrored = status === constants.ERROR;
-
-    if (hasErrored) {
-        console.log(error.message);
-    }
 
     const [filters, setFilters] = useState({});
 
@@ -387,6 +383,15 @@ const VICEAdmin = () => {
         },
         data
     );
+
+    useEffect(() => {
+        if (hasErrored) {
+            announce({
+                text: error.message,
+                variant: AnnouncerConstants.ERROR,
+            });
+        }
+    }, [hasErrored, error]);
 
     return (
         <div id={id(ids.ROOT)} className={classes.root}>

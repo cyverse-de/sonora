@@ -4,6 +4,7 @@ export default {
     // The CyVerse page for DE. Not the DE base URL.
     CYVERSE_URL: "https://cyverse.org/discovery-environment",
     SHARED_WITH_ME: "Shared With Me",
+    APPS_SHARED_WITH_ME: "Shared with me",
     COMMUNITY_DATA: "Community Data",
     TRASH: "Trash",
     DATA_STORE_STORAGE_ID: "ds",
@@ -14,6 +15,7 @@ export default {
     HPC: "High-Performance Computing",
     HPC_WIKI_LINK: "https://cyverse.atlassian.net/wiki/x/6QltDg",
     BROWSE_ALL_APPS: "Browse All Apps",
+    BROWSE_ALL_APPS_ID: "pppppppp-pppp-pppp-pppp-pppppppppppp",
     APP_TYPE_EXTERNAL: "External",
     LOADING: "loading",
     NOTIFICATION_WS: "/websocket/notifications",
@@ -33,4 +35,6 @@ export default {
     },
     CHROMATIC_IGNORE: "chromatic-ignore",
     AGAVE_SYSTEM_ID: "agave",
+    SORT_ASCENDING: "asc",
+    SORT_DESCENDING: "desc",
 };

@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 
-import { Button, Popper } from "@material-ui/core";
+import {
+    Button,
+    //    Popper,
+} from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 
-import { getMessage as msg } from "@cyverse-de/ui-lib";
+import {
+    getMessage as msg,
+    announce,
+    AnnouncerConstants,
+} from "@cyverse-de/ui-lib";
 
 import { id } from "./functions";
 import useStyles from "./styles";
@@ -45,10 +52,7 @@ export default ({
     handleSaveAndExit = (_) => {},
 }) => {
     const classes = useStyles();
-
-    const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
-    const [popperMessage, setPopperMessage] = useState("");
 
     const { status, data, error } = useQuery(
         ["async-data", row.externalID],
@@ -62,7 +66,7 @@ export default ({
         console.log(error);
     }
 
-    const onClick = (event, dataFn, msgKey) => {
+    const onClick = (_event, dataFn, msgKey) => {
         let tlErr;
         let tlData;
 
@@ -72,9 +76,12 @@ export default ({
             tlErr = err;
         }
 
-        setAnchorEl(event.currentTarget);
-        setPopperMessage(tlErr ? tlErr.message : msg(msgKey));
-        setOpen(true);
+        const variant = tlErr
+            ? AnnouncerConstants.ERROR
+            : AnnouncerConstants.SUCCESS;
+        const text = tlErr ? tlErr.message : msg(msgKey);
+
+        announce({ text, variant });
 
         return tlData;
     };
@@ -133,17 +140,6 @@ export default ({
                         popperMsgKey="saveAndExitCommandSent"
                         onClick={onClick}
                     />
-
-                    <Popper
-                        id={id(row.externalID, "popper")}
-                        open={open}
-                        anchorEl={anchorEl}
-                        placement="top"
-                    >
-                        <div className={classes.paperPopper}>
-                            {popperMessage}
-                        </div>
-                    </Popper>
                 </>
             )}
         </div>

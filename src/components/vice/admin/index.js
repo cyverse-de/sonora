@@ -7,6 +7,8 @@ import { makeStyles } from "@material-ui/styles";
 import {
     build as buildID,
     getMessage as msg,
+    announce,
+    AnnouncerConstants,
     withI18N,
 } from "@cyverse-de/ui-lib";
 
@@ -20,7 +22,7 @@ import getData, {
 } from "../../../serviceFacades/vice/admin";
 
 import RowFilter from "./filter";
-import CollapsibleTable from "./table";
+import CollapsibleTable, { defineColumn, ExpanderColumn } from "./table";
 import JobLimits from "./joblimits";
 
 import ids from "./ids";
@@ -77,26 +79,17 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.primary.contrastText,
     },
+    tabPanelRoot: {
+        paddingLeft: 0,
+        paddingRight: 0,
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+    },
 }));
-
-const defineColumn = (
-    name,
-    keyID,
-    field,
-    align = "left",
-    enableSorting = true
-) => ({
-    name,
-    align,
-    enableSorting,
-    key: keyID,
-    id: keyID,
-    field,
-});
 
 // The column definitions for the table.
 const commonColumns = [
-    defineColumn("", COMMON_COLUMNS.EXPAND, "", "left", false),
+    ExpanderColumn,
     defineColumn("Username", COMMON_COLUMNS.USERNAME, "username"),
     defineColumn(
         "Date Created",
@@ -297,9 +290,10 @@ const VICEAdminTabs = ({ data = {} }) => {
                     value={`${index}`}
                     id={tabPanelID(tabName)}
                     key={tabPanelID(tabName)}
+                    classes={{ root: classes.tabPanelRoot }}
                 >
                     <CollapsibleTable
-                        rows={analysisRows}
+                        data={analysisRows}
                         columns={columns[tabName]}
                         title={msg(tabName)}
                         showActions={tabName === "analyses"}
@@ -357,16 +351,10 @@ const VICEAdminTabs = ({ data = {} }) => {
 const VICEAdmin = () => {
     const classes = useStyles();
 
-    const { status, data, error } = useQuery(VICE_ADMIN_QUERY_KEY, getData, {
-        refetchInterval: constants.REFETCH_INTERVAL,
-    });
+    const { status, data, error } = useQuery(VICE_ADMIN_QUERY_KEY, getData);
 
     const isLoading = status === constants.LOADING;
     const hasErrored = status === constants.ERROR;
-
-    if (hasErrored) {
-        console.log(error.message);
-    }
 
     const [filters, setFilters] = useState({});
 
@@ -395,6 +383,15 @@ const VICEAdmin = () => {
         },
         data
     );
+
+    useEffect(() => {
+        if (hasErrored) {
+            announce({
+                text: error.message,
+                variant: AnnouncerConstants.ERROR,
+            });
+        }
+    }, [hasErrored, error]);
 
     return (
         <div id={id(ids.ROOT)} className={classes.root}>

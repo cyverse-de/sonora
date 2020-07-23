@@ -94,7 +94,6 @@ export const useDashboardSettings = ({
             // probably won't get here. probably.
             newColumns = constants.LG_NUM_COLUMNS;
         }
-        //setColumns(newColumns);
 
         const cardWidth = Math.floor(
             (width - padding) / newColumns - marginRight

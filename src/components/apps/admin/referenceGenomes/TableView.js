@@ -5,7 +5,7 @@
  *
  */
 
-import React from "react";
+import React, { useState } from "react";
 
 import {
     useRowSelect,
@@ -43,7 +43,7 @@ const IndeterminateCheckbox = React.forwardRef(
 
         return (
             <>
-                <Checkbox ref={resolvedRef} {...rest} />
+                <Checkbox type="Checkbox" ref={resolvedRef} {...rest} />
             </>
         );
     }
@@ -56,6 +56,7 @@ const EnhancedTable = ({
     onAddClicked,
     onDeletedClicked,
 }) => {
+    const [lastSelectIndex, setLastSelectIndex] = useState(-1);
     const {
         getTableProps,
         headerGroups,
@@ -63,13 +64,14 @@ const EnhancedTable = ({
         rows,
         preGlobalFilteredRows,
         setGlobalFilter,
-        //selectedFlatRows,
-        state: { /*selectedRowIds,*/ globalFilter },
+        selectedFlatRows,
+        state: { globalFilter },
         toggleRowSelected,
     } = useTable(
         {
             columns,
             data,
+            disableSortBy: true,
             initialState: {
                 sortBy: [
                     {
@@ -111,17 +113,44 @@ const EnhancedTable = ({
         }
     );
 
-    const tableId = build(baseId, ids.TABLE_VIEW);
-    /*  useEffect(() => {
-        if (selectedFlatRows.length > 0) {
-            console.log(
-                "Selected => " + JSON.stringify(selectedFlatRows[0].original)
-            );
-        }
-    }, [selectedFlatRows]);
+    const select = (rows) => {
+        let newSelected = [...new Set([...selectedFlatRows, ...rows])];
+        newSelected.forEach((row) => toggleRowSelected(row.index, true));
+    };
 
-    console.log("No.of rows selected: " + Object.keys(selectedRowIds).length); */
-    // Render the UI for your table
+    const deselect = (rows) => {
+        const newSelected = selectedFlatRows.filter((row) =>
+            rows.includes(row)
+        );
+
+        newSelected.forEach((row) => toggleRowSelected(row.index, false));
+    };
+
+    const rangeSelect = (start, end, row) => {
+        if (start > -1) {
+            const rangeIds = [];
+            for (let i = start; i <= end; i++) {
+                rangeIds.push(rows[i]);
+            }
+
+            let isTargetSelected = selectedFlatRows.includes(row);
+            isTargetSelected ? deselect(rangeIds) : select(rangeIds);
+        }
+    };
+
+    const handleClick = (event, row, index) => {
+        if (event.shiftKey) {
+            lastSelectIndex > index
+                ? rangeSelect(index, lastSelectIndex, row)
+                : rangeSelect(lastSelectIndex, index, row);
+        } else {
+            toggleRowSelected(index, !row.isSelected);
+        }
+
+        setLastSelectIndex(index);
+    };
+
+    const tableId = build(baseId, ids.TABLE_VIEW);
     return (
         <>
             <TableToolbar
@@ -162,17 +191,14 @@ const EnhancedTable = ({
                         ))}
                     </TableHead>
                     <TableBody>
-                        {rows.map((row, i) => {
+                        {rows.map((row, index) => {
                             prepareRow(row);
                             return (
                                 <TableRow
                                     {...row.getRowProps()}
-                                    onClick={() => {
-                                        toggleRowSelected(
-                                            row.index,
-                                            !row.isSelected
-                                        );
-                                    }}
+                                    onClick={(event) =>
+                                        handleClick(event, row, index)
+                                    }
                                 >
                                     {row.cells.map((cell) => {
                                         return (

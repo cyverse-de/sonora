@@ -9,7 +9,8 @@ export default makeStyles((theme) => ({
         paddingLeft: theme.spacing(2),
     },
     dividerRoot: {
-        marginBottom: theme.spacing(1),
+        marginBottom: theme.spacing(3),
+        //marginTop: theme.spacing(1),
     },
     footer: {
         width: "100%",
@@ -27,9 +28,9 @@ export default makeStyles((theme) => ({
         display: "flex",
         flexWrap: "wrap",
         justifyContent: "flex-start",
-        paddingTop: theme.spacing(2),
+        //paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(2),
-        paddingLeft: theme.spacing(2),
+        //paddingLeft: theme.spacing(2),
         paddingRight: 0,
 
         // Try to eek as much space out of the iPhone SE cards as possible.

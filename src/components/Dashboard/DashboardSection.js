@@ -9,7 +9,14 @@ import * as fns from "./functions";
 import * as constants from "./constants";
 import ids from "./ids";
 
-const DashboardSection = ({ name, kind, items, id, section }) => {
+const DashboardSection = ({
+    name,
+    kind,
+    items,
+    id,
+    section,
+    showDivider = true,
+}) => {
     const classes = useStyles();
 
     const dashboardEl = useRef();
@@ -36,6 +43,8 @@ const DashboardSection = ({ name, kind, items, id, section }) => {
 
     return (
         <div className={classes.section} id={id}>
+            {showDivider && <Divider classes={{ root: classes.dividerRoot }} />}
+
             <Typography
                 noWrap
                 gutterBottom
@@ -45,8 +54,6 @@ const DashboardSection = ({ name, kind, items, id, section }) => {
             >
                 {name}
             </Typography>
-
-            <Divider classes={{ root: classes.dividerRoot }} />
 
             <div ref={dashboardEl} className={classes.sectionItems}>
                 {items.map((item, index) => {
@@ -75,7 +82,7 @@ class SectionBase {
         this.id = fns.makeID(idBase);
     }
 
-    getComponent({ t, data }) {
+    getComponent({ t, data, showDivider }) {
         return (
             <DashboardSection
                 id={this.id}
@@ -84,6 +91,7 @@ class SectionBase {
                 items={data[this.kind][this.name]}
                 name={t(this.label)}
                 section={this.name}
+                showDivider={showDivider}
             />
         );
     }

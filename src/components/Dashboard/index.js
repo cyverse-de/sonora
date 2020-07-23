@@ -74,12 +74,12 @@ const Dashboard = () => {
     }
 
     const sections = [
+        new NewsFeed(),
+        new EventsFeed(),
         new RecentAnalyses(),
         new RunningAnalyses(),
         new RecentlyAddedApps(),
         new PublicApps(),
-        new NewsFeed(),
-        new EventsFeed(),
     ];
 
     const filteredSections = data
@@ -90,7 +90,9 @@ const Dashboard = () => {
                       data[section.kind].hasOwnProperty(section.name)
               )
               .filter((section) => data[section.kind][section.name].length > 0)
-              .map((section) => section.getComponent({ t, data }))
+              .map((section, index) =>
+                  section.getComponent({ t, data, showDivider: index !== 0 })
+              )
         : [];
 
     let componentContent;

@@ -1,0 +1,8 @@
+{
+    "search": "Search...",
+    "searchAriaLabel": "search",
+    "searchButtonAriaControl": "search button",
+    "searchFilterAriaControl": "search filter menu",
+    "searchFilterAriaLabel": "search filter",
+    "searchFilterMenuAriaLabel": "select search filter"
+}

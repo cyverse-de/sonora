@@ -7,9 +7,9 @@
 
 import React from "react";
 
-import ids from "./ids";
-import { formatMessage } from "@cyverse-de/ui-lib";
+import { useTranslation } from "react-i18next";
 
+import ids from "./ids";
 import { useConfig } from "../../contexts/config";
 import { intercomLogin, intercomLogout } from "../../common/intercom";
 import { useUserProfile } from "../../contexts/userProfile";
@@ -18,7 +18,8 @@ import { Badge, IconButton, Tooltip, useTheme } from "@material-ui/core";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 
 function CustomIntercom(props) {
-    const { intercomUnreadCount, intl } = props;
+    const { intercomUnreadCount } = props;
+    const { t } = useTranslation("common");
     const [userProfile] = useUserProfile();
     const theme = useTheme();
     const [config] = useConfig();
@@ -43,15 +44,11 @@ function CustomIntercom(props) {
 
     if (config?.intercom.enabled) {
         return (
-            <Tooltip
-                title={formatMessage(intl, "intercomAriaLabel")}
-                placement="bottom"
-                arrow
-            >
+            <Tooltip title={t("intercomAriaLabel")} placement="bottom" arrow>
                 <IconButton
                     id={ids.INTERCOM_WIDGET}
                     style={{ color: theme.palette.primary.contrastText }}
-                    aria-label={formatMessage(intl, "intercomAriaLabel")}
+                    aria-label={t("intercomAriaLabel")}
                 >
                     <Badge badgeContent={intercomUnreadCount} color="error">
                         <LiveHelpIcon />

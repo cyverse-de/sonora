@@ -9,18 +9,14 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 
+import { useTranslation } from "react-i18next";
 import constants from "../../constants";
 import analysisStatus from "../models/analysisStatus";
 import NavigationConstants from "../../common/NavigationConstants";
 import ids from "./ids";
 import { useNotifications } from "../../contexts/pushNotifications";
 
-import {
-    announce,
-    AnnouncerConstants,
-    build,
-    formatMessage,
-} from "@cyverse-de/ui-lib";
+import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
 
 import {
     Badge,
@@ -33,7 +29,7 @@ import { useTheme } from "@material-ui/core/styles";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 
 function Notifications(props) {
-    const { intl } = props;
+    const { t } = useTranslation("common");
     const [currentNotification] = useNotifications();
     const theme = useTheme();
     const router = useRouter();
@@ -61,12 +57,12 @@ function Notifications(props) {
                         variant="button"
                         style={{ color: theme.palette.primary.contrastText }}
                     >
-                        {formatMessage(intl, "viewOutput")}
+                        {t("viewOutput")}
                     </Typography>
                 </Button>
             );
         },
-        [goToOutputFolder, intl, theme.palette.primary.contrastText]
+        [goToOutputFolder, t, theme.palette.primary.contrastText]
     );
 
     const displayAnalysisNotification = useCallback(
@@ -142,14 +138,10 @@ function Notifications(props) {
     }, [currentNotification, handleMessage]);
 
     return (
-        <Tooltip
-            title={formatMessage(intl, "newNotificationAriaLabel")}
-            placement="bottom"
-            arrow
-        >
+        <Tooltip title={t("newNotificationAriaLabel")} placement="bottom" arrow>
             <IconButton
                 id={build(ids.APP_BAR_BASE, ids.NOTIFICATION_BTN)}
-                aria-label={formatMessage(intl, "newNotificationAriaLabel")}
+                aria-label={t("newNotificationAriaLabel")}
                 style={{ color: theme.palette.primary.contrastText }}
             >
                 <Badge badgeContent={unSeenCount} color="error">

@@ -8,73 +8,67 @@
  */
 import React, { useCallback, useState } from "react";
 
-import {
-    announce,
-    AnnouncerConstants,
-    formatMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { useTranslation } from "react-i18next";
+
+import { announce, AnnouncerConstants } from "@cyverse-de/ui-lib";
 import { Button, Typography, useTheme } from "@material-ui/core";
-import { injectIntl } from "react-intl";
 
 import DEErrorDialog from "./DEErrorDialog";
 import ids from "../ids";
-import messages from "../messages";
 
-const withErrorAnnouncer = (WrappedComponent) =>
-    withI18N(
-        injectIntl((props) => {
-            const theme = useTheme();
-            const { intl } = props;
+const withErrorAnnouncer = (WrappedComponent) => {
+    const WithErrorAnnouncerComponent = (props) => {
+        const theme = useTheme();
+        const { t } = useTranslation("util");
 
-            const [errorDialogOpen, setErrorDialogOpen] = useState(false);
-            const [errorObject, setErrorObject] = useState(null);
+        const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+        const [errorObject, setErrorObject] = useState(null);
 
-            const viewErrorDetails = useCallback(
-                () => (
-                    <Button
-                        variant="outlined"
-                        onClick={() => setErrorDialogOpen(true)}
+        const viewErrorDetails = useCallback(
+            () => (
+                <Button
+                    variant="outlined"
+                    onClick={() => setErrorDialogOpen(true)}
+                >
+                    <Typography
+                        variant="button"
+                        style={{ color: theme.palette.error.contrastText }}
                     >
-                        <Typography
-                            variant="button"
-                            style={{ color: theme.palette.error.contrastText }}
-                        >
-                            {formatMessage(intl, "details")}
-                        </Typography>
-                    </Button>
-                ),
-                [intl, theme.palette.error.contrastText]
-            );
+                        {t("details")}
+                    </Typography>
+                </Button>
+            ),
+            [t, theme.palette.error.contrastText]
+        );
 
-            const showErrorAnnouncer = (text, error) => {
-                setErrorObject(error);
-                announce({
-                    text,
-                    variant: AnnouncerConstants.ERROR,
-                    CustomAction: viewErrorDetails,
-                });
-            };
+        const showErrorAnnouncer = (text, error) => {
+            setErrorObject(error);
+            announce({
+                text,
+                variant: AnnouncerConstants.ERROR,
+                CustomAction: viewErrorDetails,
+            });
+        };
 
-            return (
-                <>
-                    <WrappedComponent
-                        {...props}
-                        showErrorAnnouncer={showErrorAnnouncer}
-                    />
-                    <DEErrorDialog
-                        open={errorDialogOpen}
-                        baseId={ids.ERROR_DLG}
-                        errorObject={errorObject}
-                        handleClose={() => {
-                            setErrorDialogOpen(false);
-                            setErrorObject(null);
-                        }}
-                    />
-                </>
-            );
-        }),
-        messages
-    );
+        return (
+            <>
+                <WrappedComponent
+                    {...props}
+                    showErrorAnnouncer={showErrorAnnouncer}
+                />
+                <DEErrorDialog
+                    open={errorDialogOpen}
+                    baseId={ids.ERROR_DLG}
+                    errorObject={errorObject}
+                    handleClose={() => {
+                        setErrorDialogOpen(false);
+                        setErrorObject(null);
+                    }}
+                />
+            </>
+        );
+    };
+    return WithErrorAnnouncerComponent;
+};
 
 export default withErrorAnnouncer;

@@ -10,10 +10,11 @@ import React, { useEffect, useState } from "react";
 import { Form, Formik } from "formik";
 import { useQuery, queryCache, useMutation } from "react-query";
 import { useRouter } from "next/router";
-import { injectIntl } from "react-intl";
+
+import { useTranslation } from "react-i18next";
 
 import ids from "./ids";
-import messages from "./messages";
+
 import constants from "../../constants";
 import prefConstants from "./constants";
 import General from "./General";
@@ -38,14 +39,7 @@ import {
 import GridLoading from "../utils/GridLoading";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 
-import {
-    announce,
-    AnnouncerConstants,
-    build,
-    getMessage,
-    formatMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
 
 import {
     Button,
@@ -65,7 +59,9 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(styles);
 
 function Preferences(props) {
-    const { baseId, intl, showErrorAnnouncer } = props;
+    const { baseId, showErrorAnnouncer } = props;
+
+    const { t } = useTranslation("preferences");
 
     const router = useRouter();
 
@@ -169,7 +165,7 @@ function Preferences(props) {
         {
             onSuccess: (updatedPref) => {
                 announce({
-                    text: formatMessage(intl, "prefSaveSuccess"),
+                    text: t("prefSaveSuccess"),
                     variant: AnnouncerConstants.SUCCESS,
                 });
                 //update preference in cache
@@ -186,7 +182,7 @@ function Preferences(props) {
                 });
             },
             onError: (e) => {
-                showErrorAnnouncer(formatMessage(intl, "savePrefError"), e);
+                showErrorAnnouncer(t("savePrefError"), e);
             },
         }
     );
@@ -196,14 +192,14 @@ function Preferences(props) {
         {
             onSuccess: () => {
                 announce({
-                    text: formatMessage(intl, "resetTokenSuccess"),
+                    text: t("resetTokenSuccess"),
                     variant: AnnouncerConstants.SUCCESS,
                 });
                 setFetchRedirectURIsQueryEnabled(true);
                 setRequireAgaveAuth(true);
             },
             onError: (e) => {
-                showErrorAnnouncer(formatMessage(intl, "resetTokenError"), e);
+                showErrorAnnouncer(t("resetTokenError"), e);
             },
         }
     );
@@ -221,7 +217,7 @@ function Preferences(props) {
                 }
             },
             onError: (e) => {
-                showErrorAnnouncer(formatMessage(intl, "redirectError"), e);
+                showErrorAnnouncer(t("redirectError"), e);
             },
         },
     });
@@ -235,7 +231,7 @@ function Preferences(props) {
                 const details = resp?.paths[defaultOutputFolder];
                 if (!isWritable(details?.permission)) {
                     setOutputFolderValidationError(
-                        formatMessage(intl, "permissionSelectErrorMessage")
+                        t("permissionSelectErrorMessage")
                     );
                 } else {
                     setOutputFolderValidationError(null);
@@ -243,9 +239,7 @@ function Preferences(props) {
             },
         },
         onError: (e) => {
-            setOutputFolderValidationError(
-                formatMessage(intl, "permissionSelectErrorMessage")
-            );
+            setOutputFolderValidationError(t("permissionSelectErrorMessage"));
         },
     });
 
@@ -254,7 +248,7 @@ function Preferences(props) {
         if (prefMutationStatus !== constants.LOADING) {
             if (outputFolderValidationError) {
                 announce({
-                    text: formatMessage(intl, "validationMessage"),
+                    text: t("validationMessage"),
                 });
             } else {
                 const updatedPref = values;
@@ -343,15 +337,9 @@ function Preferences(props) {
             for (let [key2] of kbMap) {
                 if (key1 !== key2) {
                     if (kbMap.get(key1) === kbMap.get(key2)) {
-                        errors[key2] = formatMessage(
-                            intl,
-                            "duplicateShortcutError"
-                        );
+                        errors[key2] = t("duplicateShortcutError");
                     } else if (!kbMap.get(key1)) {
-                        errors[key1] = formatMessage(
-                            intl,
-                            "requiredShortcutError"
-                        );
+                        errors[key1] = t("requiredShortcutError");
                     }
                 }
             }
@@ -425,9 +413,7 @@ function Preferences(props) {
                                                 setShowRestoreConfirmation(true)
                                             }
                                         >
-                                            {getMessage(
-                                                "restoreDefaultsBtnLbl"
-                                            )}
+                                            {t("restoreDefaultsBtnLbl")}
                                         </Button>
                                     </Grid>
                                     <Grid item>
@@ -440,7 +426,7 @@ function Preferences(props) {
                                             color="primary"
                                             type="submit"
                                         >
-                                            {getMessage("saveBtnLbl")}
+                                            {t("saveBtnLbl")}
                                         </Button>
                                     </Grid>
                                 </Grid>
@@ -453,7 +439,7 @@ function Preferences(props) {
                                     <DialogTitle>Restore Defaults</DialogTitle>
                                     <DialogContent>
                                         <DialogContentText>
-                                            {getMessage("restoreConfirmation")}
+                                            {t("restoreConfirmation")}
                                         </DialogContentText>
                                     </DialogContent>
                                     <DialogActions>
@@ -464,7 +450,7 @@ function Preferences(props) {
                                             )}
                                             color="primary"
                                         >
-                                            {getMessage("okBtnLbl")}
+                                            {t("okBtnLbl")}
                                         </Button>
                                         <Button
                                             id={build(
@@ -478,7 +464,7 @@ function Preferences(props) {
                                             }
                                             color="primary"
                                         >
-                                            {getMessage("cancelBtnLbl")}
+                                            {t("cancelBtnLbl")}
                                         </Button>
                                     </DialogActions>
                                 </Dialog>
@@ -491,4 +477,4 @@ function Preferences(props) {
     );
 }
 
-export default withI18N(injectIntl(withErrorAnnouncer(Preferences)), messages);
+export default withErrorAnnouncer(Preferences);

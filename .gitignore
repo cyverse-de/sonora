@@ -128,4 +128,5 @@ config/*-local*
 
 # storybook
 storybook-static
+public/locales*
 

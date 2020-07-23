@@ -69,7 +69,7 @@ export const cleanDescription = (description) =>
 export const useDashboardSettings = ({
     width,
     marginRight = 16,
-    padding = 16,
+    padding = 24,
 }) => {
     //const [columns, setColumns] = useState(5);
     const [cardWidth, setCardWidth] = useState(0);
@@ -97,7 +97,7 @@ export const useDashboardSettings = ({
         //setColumns(newColumns);
 
         const cardWidth = Math.floor(
-            width / newColumns - marginRight - (padding * 2) / newColumns
+            (width - padding) / newColumns - marginRight
         );
 
         // Try to get a 4:3 ration for width to height

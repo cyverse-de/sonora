@@ -42,7 +42,7 @@ const DashboardSection = ({
     const [width, height] = fns.useDashboardSettings(dimensions);
 
     return (
-        <div className={classes.section} id={id}>
+        <div ref={dashboardEl} className={classes.section} id={id}>
             {showDivider && <Divider classes={{ root: classes.dividerRoot }} />}
 
             <Typography
@@ -55,7 +55,7 @@ const DashboardSection = ({
                 {name}
             </Typography>
 
-            <div ref={dashboardEl} className={classes.sectionItems}>
+            <div className={classes.sectionItems}>
                 {items.map((item, index) => {
                     const obj = getItem({
                         kind,

@@ -2,8 +2,6 @@ import React, { useLayoutEffect, useState, useRef } from "react";
 
 import { Divider, Typography } from "@material-ui/core";
 
-import { getMessage } from "@cyverse-de/ui-lib";
-
 import DashboardItem, { getItem } from "./DashboardItem";
 
 import useStyles from "./styles";
@@ -11,7 +9,7 @@ import * as fns from "./functions";
 import * as constants from "./constants";
 import ids from "./ids";
 
-const DashboardSection = ({ name, kind, items, id, section, intl }) => {
+const DashboardSection = ({ name, kind, items, id, section }) => {
     const classes = useStyles();
 
     const dashboardEl = useRef();
@@ -51,7 +49,7 @@ const DashboardSection = ({ name, kind, items, id, section, intl }) => {
             <Divider classes={{ root: classes.dividerRoot }} />
 
             <div ref={dashboardEl} className={classes.sectionItems}>
-                {items.map((item) => {
+                {items.map((item, index) => {
                     const obj = getItem({
                         kind,
                         section,
@@ -60,7 +58,9 @@ const DashboardSection = ({ name, kind, items, id, section, intl }) => {
                         width,
                         classes,
                     });
-                    return <DashboardItem intl={intl} item={obj} />;
+                    return (
+                        <DashboardItem key={fns.makeID(id, index)} item={obj} />
+                    );
                 })}
             </div>
         </div>
@@ -71,20 +71,19 @@ class SectionBase {
     constructor(kind, name, labelName, idBase) {
         this.kind = kind;
         this.name = name;
-        this.label = getMessage(labelName);
+        this.label = labelName;
         this.id = fns.makeID(idBase);
     }
 
-    getComponent({ intl, data }) {
+    getComponent({ t, data }) {
         return (
             <DashboardSection
                 id={this.id}
                 kind={this.kind}
                 key={`${this.kind}-${this.name}`}
                 items={data[this.kind][this.name]}
-                name={this.label}
+                name={t(this.label)}
                 section={this.name}
-                intl={intl}
             />
         );
     }

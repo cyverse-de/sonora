@@ -9,6 +9,8 @@ import React from "react";
 
 import { useQuery } from "react-query";
 
+import { useTranslation } from "react-i18next";
+
 import { Typography } from "@material-ui/core";
 
 import { Skeleton } from "@material-ui/lab";
@@ -58,6 +60,7 @@ const DashboardSkeleton = () => {
 
 const Dashboard = () => {
     const classes = useStyles();
+    const { t } = useTranslation("dashboard");
     const { status, data, error } = useQuery(
         [DASHBOARD_QUERY_KEY, { limit: constants.SECTION_ITEM_LIMIT }],
         getDashboard
@@ -87,7 +90,7 @@ const Dashboard = () => {
                       data[section.kind].hasOwnProperty(section.name)
               )
               .filter((section) => data[section.kind][section.name].length > 0)
-              .map((section) => section.getComponent({ data }))
+              .map((section) => section.getComponent({ t, data }))
         : [];
 
     let componentContent;

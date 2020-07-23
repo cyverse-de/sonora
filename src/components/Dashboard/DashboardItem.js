@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
 import {
     Avatar,
@@ -15,12 +16,7 @@ import {
 
 import { useTheme } from "@material-ui/styles";
 
-import {
-    build as buildID,
-    getMessage,
-    formatDate,
-    formatMessage,
-} from "@cyverse-de/ui-lib";
+import { build as buildID, formatDate } from "@cyverse-de/ui-lib";
 
 import * as fns from "./functions";
 import * as constants from "./constants";
@@ -92,6 +88,7 @@ const DashboardItem = ({
 }) => {
     const classes = useStyles({ width: item.width, height: item.height });
     const theme = useTheme();
+    const { t } = useTranslation("dashboard");
 
     const isMediumOrLarger = useMediaQuery(theme.breakpoints.up("md"));
 
@@ -99,7 +96,7 @@ const DashboardItem = ({
     const user = item.username;
 
     const description = fns.cleanDescription(item.content.description);
-    const [origination, date] = item.getOrigination(intl);
+    const [origination, date] = item.getOrigination(t);
 
     const rootClass = clsx(classes.cardHeaderDefault, item.headerClass);
 
@@ -162,7 +159,7 @@ const DashboardItem = ({
                 }}
             >
                 <Typography color="textSecondary" variant="body2" component="p">
-                    {description || getMessage("noDescriptionProvided")}
+                    {description || t("noDescriptionProvided")}
                 </Typography>
             </CardContent>
 
@@ -279,15 +276,15 @@ export class AppItem extends ItemBase {
             .setSectionClass();
     }
 
-    getOrigination(intl) {
+    getOrigination(t) {
         let origination;
         let date;
 
         if (this.content.integration_date) {
-            origination = formatMessage(intl, "integratedBy");
+            origination = t("integratedBy");
             date = new Date(this.content.integration_date);
         } else {
-            origination = formatMessage(intl, "editedBy");
+            origination = t("editedBy");
             date = new Date(this.content.edited_date);
         }
 
@@ -361,8 +358,8 @@ export class AnalysisItem extends ItemBase {
             .setSectionClass();
     }
 
-    getOrigination(intl) {
-        const origination = formatMessage(intl, "startedBy");
+    getOrigination(t) {
+        const origination = t("startedBy");
         const date = new Date(this.content.start_date);
 
         return [origination, formatDate(date.valueOf())];
@@ -429,8 +426,8 @@ export class NewsItem extends ItemBase {
             .setSectionClass();
     }
 
-    getOrigination(intl) {
-        const origination = formatMessage(intl, "publishedBy");
+    getOrigination(t) {
+        const origination = t("publishedBy");
         const date = new Date(this.content.date_added);
         return [origination, formatDate(date.valueOf())];
     }
@@ -498,8 +495,8 @@ export class EventItem extends ItemBase {
             .setSectionClass();
     }
 
-    getOrigination(intl) {
-        const origination = formatMessage(intl, "by");
+    getOrigination(t) {
+        const origination = t("by");
         const date = new Date();
         return [origination, formatDate(date.valueOf())];
     }

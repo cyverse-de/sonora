@@ -1,6 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-
-import { withI18N, getMessage as msg } from "@cyverse-de/ui-lib";
+import { useTranslation } from "react-i18next";
 
 import {
     Box,
@@ -25,7 +24,6 @@ import { useTable, useExpanded, useSortBy } from "react-table";
 
 import ActionButtons from "./actionButtons";
 
-import messages from "./messages";
 import ids from "./ids";
 import { id } from "./functions";
 import useStyles from "./styles";
@@ -163,13 +161,21 @@ const CollapsibleTableRow = ({
 export const ExpanderColumn = {
     id: "expander",
     Header: () => null,
-    Cell: ({ row }) => (
-        <span {...row.getToggleRowExpandedProps()}>
-            <IconButton aria-label={msg("expandRow")} size="small">
-                {row.isExpanded ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-            </IconButton>
-        </span>
-    ),
+    Cell: ({ row }) => {
+        const { t } = useTranslation("vice-admin");
+
+        return (
+            <span {...row.getToggleRowExpandedProps()}>
+                <IconButton aria-label={t("expandRow")} size="small">
+                    {row.isExpanded ? (
+                        <KeyboardArrowUp />
+                    ) : (
+                        <KeyboardArrowDown />
+                    )}
+                </IconButton>
+            </span>
+        );
+    },
     disableSortBy: true,
 };
 
@@ -348,4 +354,4 @@ const CollapsibleTable = ({
     );
 };
 
-export default withI18N(CollapsibleTable, messages);
+export default CollapsibleTable;

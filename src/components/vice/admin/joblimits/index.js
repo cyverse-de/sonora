@@ -11,14 +11,11 @@ import {
     FormControl,
 } from "@material-ui/core";
 
-import { getMessage as msg, formatMessage, withI18N } from "@cyverse-de/ui-lib";
-
 import { useMutation } from "react-query";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 
 import { id } from "./functions";
 import ids from "./ids";
-import messages from "./messages";
 
 import {
     getUserJobLimit,
@@ -66,8 +63,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const JobLimits = ({ showErrorAnnouncer, intl }) => {
+const JobLimits = ({ showErrorAnnouncer }) => {
     const classes = useStyles();
+    const { t } = useTranslation("vice-admin");
     const [username, setUsername] = useState("");
     const [previousUsername, setPreviousUsername] = useState("");
     const [newLimit, setNewLimit] = useState("");
@@ -87,12 +85,7 @@ const JobLimits = ({ showErrorAnnouncer, intl }) => {
         },
 
         onError: (e) => {
-            showErrorAnnouncer(
-                formatMessage(intl, "jobLimitLookupError", {
-                    username,
-                }),
-                e
-            );
+            showErrorAnnouncer(t("jobLimitLookupError", { username }), e);
         },
     });
 
@@ -101,10 +94,7 @@ const JobLimits = ({ showErrorAnnouncer, intl }) => {
 
         onError: (e) => {
             showErrorAnnouncer(
-                formatMessage(intl, "jobLimitUpdateError", {
-                    username,
-                    currentLimit: newLimit,
-                }),
+                t("jobLimitUpdateError", { username, currentLimit: newLimit }),
                 e
             );
         },
@@ -113,19 +103,17 @@ const JobLimits = ({ showErrorAnnouncer, intl }) => {
     let infoMsg;
 
     if (currentLimit !== "" && previousUsername !== "") {
-        infoMsg = msg("currentJobLimit", {
-            values: {
-                username: previousUsername,
-                currentLimit,
-            },
+        infoMsg = t("currentJobLimit", {
+            username: previousUsername,
+            currentLimit,
         });
     } else {
-        infoMsg = msg("searchForLimit");
+        infoMsg = t("searchForLimit");
     }
 
     return (
         <Card id={id(ids.CARD)} className={classes.root}>
-            <CardHeader title={msg("jobLimits")} />
+            <CardHeader title={t("jobLimits")} />
 
             <CardContent>
                 <FormControl>
@@ -135,7 +123,7 @@ const JobLimits = ({ showErrorAnnouncer, intl }) => {
 
                     <div className={classes.container}>
                         <TextField
-                            label={msg("username")}
+                            label={t("username")}
                             id={id(ids.CARD, "textfield")}
                             className={classes.textField}
                             value={username}
@@ -154,13 +142,13 @@ const JobLimits = ({ showErrorAnnouncer, intl }) => {
                             onClick={() => getJobLimit({ username })}
                             id={id(ids.CARD, "search", "button")}
                         >
-                            {msg("search")}
+                            {t("search")}
                         </Button>
                     </div>
 
                     <div className={classes.container}>
                         <TextField
-                            label={msg("newJobLimit")}
+                            label={t("newJobLimit")}
                             id={id(ids.CARD, "newjobLimit")}
                             className={classes.textField}
                             value={newLimit}
@@ -184,7 +172,7 @@ const JobLimits = ({ showErrorAnnouncer, intl }) => {
                             }
                             id={id(ids.CARD, "setLimit", "button")}
                         >
-                            {msg("set")}
+                            {t("set")}
                         </Button>
                     </div>
                 </FormControl>
@@ -193,4 +181,4 @@ const JobLimits = ({ showErrorAnnouncer, intl }) => {
     );
 };
 
-export default withI18N(injectIntl(withErrorAnnouncer(JobLimits)), messages);
+export default withErrorAnnouncer(JobLimits);

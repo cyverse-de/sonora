@@ -1,8 +1,7 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Typography, Button, TextField, FormControl } from "@material-ui/core";
-
-import { getMessage as msg } from "@cyverse-de/ui-lib";
 
 import {
     deploymentFields,
@@ -26,6 +25,7 @@ const FilterSection = ({
     addToFilters,
 }) => {
     const classes = useStyles();
+    const { t } = useTranslation("vice-admin");
     const [field, setField] = useState("");
     const [value, setValue] = useState("");
 
@@ -58,7 +58,7 @@ const FilterSection = ({
 
                     <TextField
                         id={valueID}
-                        label={msg("filterValue")}
+                        label={t("filterValue")}
                         className={classes.textField}
                         value={value}
                         onChange={handleValueChange}
@@ -74,7 +74,7 @@ const FilterSection = ({
                         onClick={handleAddClick}
                         id={id("section", kind, "button")}
                     >
-                        {msg("add")}
+                        {t("add")}
                     </Button>
                 </div>
             </FormControl>
@@ -83,13 +83,14 @@ const FilterSection = ({
 };
 
 export const DeploymentFilterSection = ({ addToFilters }) => {
+    const { t } = useTranslation("vice-admin");
     const valueID = id(ids.DEPLOYMENT_FIELD_VALUE);
     const fieldID = id(ids.DEPLOYMENT_FIELD_SELECT);
 
     return (
         <FilterSection
-            section={msg("deployments")}
-            description={msg("deploymentsDescription")}
+            section={t("deployments")}
+            description={t("deploymentsDescription")}
             valueID={valueID}
             fieldID={fieldID}
             fields={deploymentFields}
@@ -100,13 +101,14 @@ export const DeploymentFilterSection = ({ addToFilters }) => {
 };
 
 export const ServiceFilterSection = ({ addToFilters }) => {
+    const { t } = useTranslation("vice-admin");
     const valueID = id(ids.SERVICE_FIELD_VALUE);
     const fieldID = id(ids.SERVICE_FIELD_SELECT);
 
     return (
         <FilterSection
-            section={msg("services")}
-            description={msg("servicesDescription")}
+            section={t("services")}
+            description={t("servicesDescription")}
             valueID={valueID}
             fieldID={fieldID}
             fields={serviceFields}
@@ -117,13 +119,14 @@ export const ServiceFilterSection = ({ addToFilters }) => {
 };
 
 export const CommonFilterSection = ({ addToFilters }) => {
+    const { t } = useTranslation("vice-admin");
     const valueID = id(ids.COMMON_FIELD_VALUE);
     const fieldID = id(ids.COMMON_FIELD_SELECT);
 
     return (
         <FilterSection
-            section={msg("common")}
-            description={msg("commonDescription")}
+            section={t("common")}
+            description={t("commonDescription")}
             valueID={valueID}
             fieldID={fieldID}
             fields={commonFields}
@@ -134,13 +137,14 @@ export const CommonFilterSection = ({ addToFilters }) => {
 };
 
 export const PodFilterSection = ({ addToFilters }) => {
+    const { t } = useTranslation("vice-admin");
     const valueID = id(ids.POD_FIELD_VALUE);
     const fieldID = id(ids.POD_FIELD_VALUE);
 
     return (
         <FilterSection
-            section={msg("pods")}
-            description={msg("podsDescription")}
+            section={t("pods")}
+            description={t("podsDescription")}
             valueID={valueID}
             fieldID={fieldID}
             fields={podFields}

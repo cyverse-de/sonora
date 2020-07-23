@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import classnames from "classnames";
 
@@ -15,10 +16,7 @@ import {
 
 import { ExpandMore } from "@material-ui/icons";
 
-import { getMessage as msg, withI18N } from "@cyverse-de/ui-lib";
-
 import useStyles from "./styles";
-import messages from "./messages";
 import ids from "./ids";
 import { id } from "./functions";
 
@@ -56,13 +54,14 @@ const FilterChip = ({ label, handleDelete }) => {
 
 const AnalysesFilter = ({ filters, addToFilters, deleteFromFilters }) => {
     const classes = useStyles();
+    const { t } = useTranslation("vice-admin");
     const [isExpanded, setIsExpanded] = useState(false);
 
     const filtersPresent = Object.entries(filters).length > 0;
 
     return (
         <Card id={id(ids.ROOT)} className={classes.root}>
-            <CardHeader title={msg("activeFilters")} />
+            <CardHeader title={t("activeFilters")} />
             <CardContent>
                 {filtersPresent ? (
                     <div className={classes.chips}>
@@ -78,7 +77,7 @@ const AnalysesFilter = ({ filters, addToFilters, deleteFromFilters }) => {
                     </div>
                 ) : (
                     <Typography classes={{ body1: classes.info }}>
-                        {msg("noActiveFilters")}
+                        {t("noActiveFilters")}
                     </Typography>
                 )}
             </CardContent>
@@ -90,7 +89,7 @@ const AnalysesFilter = ({ filters, addToFilters, deleteFromFilters }) => {
                     })}
                     onClick={() => setIsExpanded(!isExpanded)}
                     aria-expanded={isExpanded}
-                    aria-label={msg("showFilterOptions")}
+                    aria-label={t("showFilterOptions")}
                 >
                     <ExpandMore />
                 </IconButton>
@@ -108,4 +107,4 @@ const AnalysesFilter = ({ filters, addToFilters, deleteFromFilters }) => {
     );
 };
 
-export default withI18N(AnalysesFilter, messages);
+export default AnalysesFilter;

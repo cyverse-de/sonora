@@ -1,21 +1,14 @@
 import React, { useEffect } from "react";
 import { useQuery } from "react-query";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 
-import {
-    getMessage as msg,
-    formatMessage as fmt,
-    announce,
-    AnnouncerConstants,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { announce, AnnouncerConstants } from "@cyverse-de/ui-lib";
 
 import { id } from "./functions";
 import useStyles from "./styles";
-import messages from "./messages";
 
 import { asyncData } from "../../../../serviceFacades/vice/admin";
 
@@ -27,6 +20,7 @@ const ActionButtonsSkeleton = () => {
 
 const ActionButton = ({ externalID, name, handler, onClick, popperMsgKey }) => {
     const classes = useStyles();
+    const { t } = useTranslation("vice-admin");
 
     return (
         <Button
@@ -40,7 +34,7 @@ const ActionButton = ({ externalID, name, handler, onClick, popperMsgKey }) => {
             }}
             className={classes.actionButton}
         >
-            {msg(name)}
+            {t(name)}
         </Button>
     );
 };
@@ -55,6 +49,7 @@ const ActionButtons = ({
     intl,
 }) => {
     const classes = useStyles();
+    const { t } = useTranslation("vice-admin");
 
     const externalID = row.original.externalID;
 
@@ -79,7 +74,7 @@ const ActionButtons = ({
         const variant = tlErr
             ? AnnouncerConstants.ERROR
             : AnnouncerConstants.SUCCESS;
-        const text = tlErr ? tlErr.message : fmt(intl, msgKey);
+        const text = tlErr ? tlErr.message : t(msgKey);
 
         announce({ text, variant });
 
@@ -146,4 +141,4 @@ const ActionButtons = ({
     );
 };
 
-export default withI18N(injectIntl(ActionButtons), messages);
+export default ActionButtons;

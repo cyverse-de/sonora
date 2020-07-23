@@ -1,8 +1,7 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import { Select, InputLabel, MenuItem } from "@material-ui/core";
-
-import { getMessage as msg } from "@cyverse-de/ui-lib";
 
 import useStyles from "./styles";
 
@@ -15,10 +14,11 @@ export const FieldSelect = ({
     handleChange,
 }) => {
     const classes = useStyles();
+    const { t } = useTranslation("vice-admin");
     const inputLabelID = `${kind}-field-select-label`;
     return (
         <>
-            <InputLabel id={inputLabelID}>{msg(labelI18nKey)}</InputLabel>
+            <InputLabel id={inputLabelID}>{t(labelI18nKey)}</InputLabel>
             <Select
                 labelId={inputLabelID}
                 id={id}
@@ -28,7 +28,7 @@ export const FieldSelect = ({
             >
                 {Object.keys(fields).map((key) => (
                     <MenuItem key={key} value={fields[key]}>
-                        {msg(key)}
+                        {t(key)}
                     </MenuItem>
                 ))}
             </Select>

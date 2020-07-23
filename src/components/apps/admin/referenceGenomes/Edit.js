@@ -7,21 +7,14 @@
  */
 
 import React from "react";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 
 import ids from "./ids";
 import refGenomeConstants from "./constants";
-import messages from "./messages";
 
 import GridLabelValue from "../../../utils/GridLabelValue";
 
-import {
-    FormTextField,
-    build,
-    getMessage,
-    formatMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { FormTextField, build } from "@cyverse-de/ui-lib";
 
 import { Button, Grid, Switch, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -52,12 +45,12 @@ function Edit(props) {
     const {
         baseId,
         onCancel,
-        intl,
         referenceGenome,
         createRefGenome,
         saveRefGenome,
     } = props;
     const classes = useStyles();
+    const { t } = useTranslation("referenceGenomes");
     const onSwitchChange = (setFieldValue, fieldName) => (event, checked) => {
         setFieldValue(fieldName, checked);
     };
@@ -87,14 +80,10 @@ function Edit(props) {
             {(props) => (
                 <Form>
                     <Typography variant="h6" className={classes.sectionHeader}>
-                        {referenceGenome?.name ||
-                            formatMessage(intl, "createNew")}
+                        {referenceGenome?.name || t("createNew")}
                     </Typography>
                     <Grid container spacing={2} className={classes.grid}>
-                        <GridLabelValue
-                            label={formatMessage(intl, "name")}
-                            variant="body1"
-                        >
+                        <GridLabelValue label={t("name")} variant="body1">
                             <Field
                                 id={build(baseId, ids.NAME_TEXT)}
                                 component={FormTextField}
@@ -103,10 +92,7 @@ function Edit(props) {
                                 className={classes.textField}
                             />
                         </GridLabelValue>
-                        <GridLabelValue
-                            label={formatMessage(intl, "path")}
-                            variant="body1"
-                        >
+                        <GridLabelValue label={t("path")} variant="body1">
                             <Field
                                 id={build(baseId, ids.PATH_TEXT)}
                                 component={FormTextField}
@@ -115,10 +101,7 @@ function Edit(props) {
                                 className={classes.textField}
                             />
                         </GridLabelValue>
-                        <GridLabelValue
-                            label={formatMessage(intl, "createdBy")}
-                            variant="body1"
-                        >
+                        <GridLabelValue label={t("createdBy")} variant="body1">
                             <Field
                                 id={build(baseId, ids.CREATED_BY_TEXT)}
                                 component={FormTextField}
@@ -130,10 +113,7 @@ function Edit(props) {
                                 }}
                             />
                         </GridLabelValue>
-                        <GridLabelValue
-                            label={formatMessage(intl, "createdOn")}
-                            variant="body1"
-                        >
+                        <GridLabelValue label={t("createdOn")} variant="body1">
                             <Field
                                 id={build(baseId, ids.CREATED_ON_TEXT)}
                                 component={FormTextField}
@@ -146,7 +126,7 @@ function Edit(props) {
                             />
                         </GridLabelValue>
                         <GridLabelValue
-                            label={formatMessage(intl, "lastModifiedOn")}
+                            label={t("lastModifiedOn")}
                             variant="body1"
                         >
                             <Field
@@ -161,7 +141,7 @@ function Edit(props) {
                             />
                         </GridLabelValue>
                         <GridLabelValue
-                            label={formatMessage(intl, "lastModifiedBy")}
+                            label={t("lastModifiedBy")}
                             variant="body1"
                         >
                             <Field
@@ -175,10 +155,7 @@ function Edit(props) {
                                 }}
                             />
                         </GridLabelValue>
-                        <GridLabelValue
-                            label={formatMessage(intl, "deleted")}
-                            variant="body1"
-                        >
+                        <GridLabelValue label={t("deleted")} variant="body1">
                             <Field
                                 id={build(baseId, ids.DELETED_SWITCH)}
                                 component={FormSwitch}
@@ -195,7 +172,7 @@ function Edit(props) {
                                 className={classes.actionButton}
                                 onClick={onCancel}
                             >
-                                {getMessage("cancel")}
+                                {t("cancel")}
                             </Button>
                         </Grid>
                         <Grid item>
@@ -205,7 +182,7 @@ function Edit(props) {
                                 color="primary"
                                 type="submit"
                             >
-                                {getMessage("ok")}
+                                {t("ok")}
                             </Button>
                         </Grid>
                     </Grid>
@@ -215,4 +192,4 @@ function Edit(props) {
     );
 }
 
-export default withI18N(injectIntl(Edit), messages);
+export default Edit;

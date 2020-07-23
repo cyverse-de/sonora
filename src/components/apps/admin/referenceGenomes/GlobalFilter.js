@@ -4,15 +4,13 @@
  * A Filter filed for admin Reference Genome Listing
  *
  */
-
 import React from "react";
 
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 
 import ids from "./ids";
-import messages from "./messages";
 
-import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 
 import InputBase from "@material-ui/core/InputBase";
 import { makeStyles } from "@material-ui/core/styles";
@@ -56,9 +54,9 @@ const GlobalFilter = ({
     preGlobalFilteredRows,
     globalFilter,
     setGlobalFilter,
-    intl,
 }) => {
     const classes = useStyles();
+    const { t } = useTranslation("referenceGenomes");
     const count = preGlobalFilteredRows.length;
 
     // Global filter only works with pagination from the first page.
@@ -76,15 +74,15 @@ const GlobalFilter = ({
                 onChange={(e) => {
                     setGlobalFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
                 }}
-                placeholder={`${count} ${formatMessage(intl, "genomes")}`}
+                placeholder={`${count} ${t("genomes")}`}
                 classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
                 }}
-                inputProps={{ "aria-label": formatMessage(intl, "search") }}
+                inputProps={{ "aria-label": t("search") }}
             />
         </div>
     );
 };
 
-export default withI18N(injectIntl(GlobalFilter), messages);
+export default GlobalFilter;

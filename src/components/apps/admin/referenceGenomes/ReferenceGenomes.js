@@ -9,11 +9,11 @@
 import React, { useEffect } from "react";
 
 import { useQuery, useMutation, queryCache } from "react-query";
-import { injectIntl } from "react-intl";
+
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 
 import refGenomeConstants from "./constants";
-import messages from "./messages";
 import EnhancedTable from "./TableView";
 import Edit from "./Edit";
 
@@ -34,15 +34,14 @@ import {
     AnnouncerConstants,
     formatDateObject,
     dateConstants,
-    formatMessage,
-    withI18N,
 } from "@cyverse-de/ui-lib";
 
 import { Link, useTheme, Dialog, DialogContent } from "@material-ui/core";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 
 function ReferenceGenomes(props) {
-    const { baseId, intl, showErrorAnnouncer } = props;
+    const { baseId, showErrorAnnouncer } = props;
+    const { t } = useTranslation("referenceGenomes");
     const theme = useTheme();
     const router = useRouter();
     const [userProfile] = useUserProfile();
@@ -51,15 +50,12 @@ function ReferenceGenomes(props) {
         selectedReferenceGenome,
         setSelectedReferenceGenome,
     ] = React.useState(null);
-    const [error, setError] = React.useState(null);
 
-    const { isFetching, data } = useQuery({
+    const { isFetching, error, data } = useQuery({
         queryKey: ADMIN_REFERENCE_GENOMES_QUERY_KEY,
         queryFn: getAdminReferenceGenomes,
         config: {
-            onError: (e) => {
-                setError(e);
-            },
+            enabled: true,
         },
     });
 
@@ -69,13 +65,13 @@ function ReferenceGenomes(props) {
             onSuccess: (updatedGenome) => {
                 setEditDialogOpen(false);
                 announce({
-                    text: formatMessage(intl, "updateSuccess"),
+                    text: t("updateSuccess"),
                     variant: AnnouncerConstants.SUCCESS,
                 });
                 queryCache.invalidateQueries(ADMIN_REFERENCE_GENOMES_QUERY_KEY);
             },
             onError: (e) => {
-                showErrorAnnouncer(formatMessage(intl, "updateFailed"), e);
+                showErrorAnnouncer(t("updateFailed"), e);
             },
         }
     );
@@ -86,13 +82,13 @@ function ReferenceGenomes(props) {
             onSuccess: (createdGenome) => {
                 setEditDialogOpen(false);
                 announce({
-                    text: formatMessage(intl, "createSuccess"),
+                    text: t("createSuccess"),
                     variant: AnnouncerConstants.SUCCESS,
                 });
                 queryCache.invalidateQueries(ADMIN_REFERENCE_GENOMES_QUERY_KEY);
             },
             onError: (e) => {
-                showErrorAnnouncer(formatMessage(intl, "createFailed"), e);
+                showErrorAnnouncer(t("createFailed"), e);
             },
         }
     );
@@ -102,7 +98,7 @@ function ReferenceGenomes(props) {
     const columns = React.useMemo(
         () => [
             {
-                Header: formatMessage(intl, "name"),
+                Header: t("name"),
                 accessor: refGenomeConstants.keys.NAME,
                 Cell: ({ row, value }) => (
                     <>
@@ -123,19 +119,19 @@ function ReferenceGenomes(props) {
                 ),
             },
             {
-                Header: formatMessage(intl, "path"),
+                Header: t("path"),
                 accessor: refGenomeConstants.keys.PATH,
             },
             {
-                Header: formatMessage(intl, "createdBy"),
+                Header: t("createdBy"),
                 accessor: refGenomeConstants.keys.CREATED_BY,
             },
             {
-                Header: formatMessage(intl, "createdOn"),
+                Header: t("createdOn"),
                 accessor: refGenomeConstants.keys.CREATED_ON,
             },
         ],
-        [intl, theme.palette.error.main]
+        [t, theme.palette.error.main]
     );
 
     useEffect(() => {
@@ -147,14 +143,13 @@ function ReferenceGenomes(props) {
     useEffect(() => {
         if (error) {
             const errorString = JSON.stringify(error);
-            setError(null);
             router.push(
-                `/${NavigationConstants.ERROR}?errorInfo=` + errorString
+                `/${NavigationConstants.ERROR}?errorInfo=${errorString}`
             );
         }
     }, [error, router]);
 
-    if (isFetching || genomeMutationStatus || genomeCreationStatus) {
+    if (isFetching || genomeMutationStatus || genomeCreationStatus || !data) {
         return <TableLoading numColumns={5} numRows={100} baseId={baseId} />;
     }
 
@@ -197,7 +192,4 @@ function ReferenceGenomes(props) {
     );
 }
 
-export default withI18N(
-    injectIntl(withErrorAnnouncer(ReferenceGenomes)),
-    messages
-);
+export default withErrorAnnouncer(ReferenceGenomes);

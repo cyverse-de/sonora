@@ -6,14 +6,12 @@
  */
 
 import React from "react";
-
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 
 import ids from "./ids";
 import GlobalFilter from "./GlobalFilter";
-import messages from "./messages";
 
-import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -37,6 +35,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const TableToolbar = (props) => {
     const { baseId } = props;
+    const { t } = useTranslation("referenceGenomes");
     const classes = useToolbarStyles();
     const {
         preGlobalFilteredRows,
@@ -54,7 +53,7 @@ const TableToolbar = (props) => {
                 startIcon={<AddIcon />}
                 onClick={onAddClicked}
             >
-                {getMessage("add")}
+                {t("add")}
             </Button>
             <GlobalFilter
                 baseId={toolbarId}
@@ -65,4 +64,4 @@ const TableToolbar = (props) => {
         </Toolbar>
     );
 };
-export default withI18N(injectIntl(TableToolbar), messages);
+export default TableToolbar;

@@ -9,6 +9,26 @@ import * as fns from "./functions";
 import * as constants from "./constants";
 import ids from "./ids";
 
+const SectionContentCards = ({ items, kind, section, id, height, width }) => {
+    const classes = useStyles();
+
+    return (
+        <div className={classes.sectionItems}>
+            {items.map((item, index) => {
+                const obj = getItem({
+                    kind,
+                    section,
+                    content: item,
+                    height,
+                    width,
+                    classes,
+                });
+                return <DashboardItem key={fns.makeID(id, index)} item={obj} />;
+            })}
+        </div>
+    );
+};
+
 const DashboardSection = ({
     name,
     kind,
@@ -55,21 +75,14 @@ const DashboardSection = ({
                 {name}
             </Typography>
 
-            <div className={classes.sectionItems}>
-                {items.map((item, index) => {
-                    const obj = getItem({
-                        kind,
-                        section,
-                        content: item,
-                        height,
-                        width,
-                        classes,
-                    });
-                    return (
-                        <DashboardItem key={fns.makeID(id, index)} item={obj} />
-                    );
-                })}
-            </div>
+            <SectionContentCards
+                id={id}
+                height={height}
+                width={width}
+                section={section}
+                kind={kind}
+                items={items}
+            />
         </div>
     );
 };

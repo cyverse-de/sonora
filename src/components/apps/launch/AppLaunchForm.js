@@ -664,23 +664,23 @@ const AppLaunchForm = (props) => {
                                 hidden={activeStep !== stepReviewAndLaunch.step}
                             >
                                 <div className={classes.stepContent}>
-                                <ParamsReview
-                                    baseId={formId}
-                                    appType={app_type}
-                                    groups={values.groups}
-                                    errors={errors}
-                                    touched={touched}
-                                    showAll={reviewShowAll}
-                                    setShowAll={setReviewShowAll}
-                                />
-
-                                {values.requirements && (
-                                    <ResourceRequirementsReview
-                                        baseId={stepIdReview}
-                                        requirements={values.requirements}
+                                    <ParamsReview
+                                        baseId={formId}
+                                        appType={app_type}
+                                        groups={values.groups}
+                                        errors={errors}
+                                        touched={touched}
                                         showAll={reviewShowAll}
+                                        setShowAll={setReviewShowAll}
                                     />
-                                )}
+
+                                    {values.requirements && (
+                                        <ResourceRequirementsReview
+                                            baseId={stepIdReview}
+                                            requirements={values.requirements}
+                                            showAll={reviewShowAll}
+                                        />
+                                    )}
                                 </div>
                             </StepContent>
                         </Container>

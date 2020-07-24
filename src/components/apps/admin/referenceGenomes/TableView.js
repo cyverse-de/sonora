@@ -22,7 +22,7 @@ import ids from "./ids";
 import { build } from "@cyverse-de/ui-lib";
 
 import Checkbox from "@material-ui/core/Checkbox";
-import MaUTable from "@material-ui/core/Table";
+import Table from "@material-ui/core/Table";
 import Paper from "@material-ui/core/Paper";
 
 import TableBody from "@material-ui/core/TableBody";
@@ -41,11 +41,7 @@ const IndeterminateCheckbox = React.forwardRef(
             resolvedRef.current.indeterminate = indeterminate;
         }, [resolvedRef, indeterminate]);
 
-        return (
-            <>
-                <Checkbox type="Checkbox" ref={resolvedRef} {...rest} />
-            </>
-        );
+        return <Checkbox type="Checkbox" ref={resolvedRef} {...rest} />;
     }
 );
 
@@ -92,20 +88,16 @@ const EnhancedTable = ({
                     // The header can use the table's getToggleAllRowsSelectedProps method
                     // to render a checkbox
                     Header: ({ getToggleAllRowsSelectedProps }) => (
-                        <div>
-                            <IndeterminateCheckbox
-                                {...getToggleAllRowsSelectedProps()}
-                            />
-                        </div>
+                        <IndeterminateCheckbox
+                            {...getToggleAllRowsSelectedProps()}
+                        />
                     ),
                     // The cell can use the individual row's getToggleRowSelectedProps method
                     // to the render a checkbox
                     Cell: ({ row }) => (
-                        <div>
-                            <IndeterminateCheckbox
-                                {...row.getToggleRowSelectedProps()}
-                            />
-                        </div>
+                        <IndeterminateCheckbox
+                            {...row.getToggleRowSelectedProps()}
+                        />
                     ),
                 },
                 ...columns,
@@ -162,7 +154,7 @@ const EnhancedTable = ({
                 onDeletedClicked={onDeletedClicked}
             />
             <TableContainer component={Paper} style={{ overflow: "auto" }}>
-                <MaUTable size="small" stickyHeader {...getTableProps()}>
+                <Table size="small" stickyHeader {...getTableProps()}>
                     <TableHead>
                         {headerGroups.map((headerGroup) => (
                             <TableRow {...headerGroup.getHeaderGroupProps()}>
@@ -211,7 +203,7 @@ const EnhancedTable = ({
                             );
                         })}
                     </TableBody>
-                </MaUTable>
+                </Table>
             </TableContainer>
         </>
     );

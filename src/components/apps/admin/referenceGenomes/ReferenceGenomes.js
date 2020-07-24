@@ -8,35 +8,38 @@
 
 import React, { useEffect } from "react";
 
-import { useQuery, useMutation, queryCache } from "react-query";
-
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
+import { queryCache, useMutation, useQuery } from "react-query";
 
-import refGenomeConstants from "./constants";
-import EnhancedTable from "./TableView";
-import Edit from "./Edit";
-
+import NavigationConstants from "../../../../common/NavigationConstants";
+import { useUserProfile } from "../../../../contexts/userProfile";
 import {
-    getAdminReferenceGenomes,
-    createReferenceGenome,
-    saveReferenceGenome,
     ADMIN_REFERENCE_GENOMES_QUERY_KEY,
+    createReferenceGenome,
+    getReferenceGenomes,
+    saveReferenceGenome,
 } from "../../../../serviceFacades/referenceGenomes";
 
-import TableLoading from "../../../utils/TableLoading";
 import withErrorAnnouncer from "../../../utils/error/withErrorAnnouncer";
-import { useUserProfile } from "../../../../contexts/userProfile";
-import NavigationConstants from "../../../../common/NavigationConstants";
+import TableLoading from "../../../utils/TableLoading";
+import refGenomeConstants from "./constants";
+import Edit from "./Edit";
+import EnhancedTable from "./TableView";
 
 import {
     announce,
     AnnouncerConstants,
-    formatDateObject,
     dateConstants,
+    formatDateObject,
 } from "@cyverse-de/ui-lib";
-
-import { Link, useTheme, Dialog, DialogContent } from "@material-ui/core";
+import {
+    Dialog,
+    DialogContent,
+    Link,
+    Typography,
+    useTheme,
+} from "@material-ui/core";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 
 function ReferenceGenomes(props) {
@@ -52,8 +55,8 @@ function ReferenceGenomes(props) {
     ] = React.useState(null);
 
     const { isFetching, error, data } = useQuery({
-        queryKey: ADMIN_REFERENCE_GENOMES_QUERY_KEY,
-        queryFn: getAdminReferenceGenomes,
+        queryKey: [ADMIN_REFERENCE_GENOMES_QUERY_KEY, { deleted: true }],
+        queryFn: getReferenceGenomes,
         config: {
             enabled: true,
         },
@@ -149,8 +152,11 @@ function ReferenceGenomes(props) {
         }
     }, [error, router]);
 
-    if (isFetching || genomeMutationStatus || genomeCreationStatus || !data) {
+    if (isFetching || genomeMutationStatus || genomeCreationStatus) {
         return <TableLoading numColumns={5} numRows={100} baseId={baseId} />;
+    }
+    if (!data) {
+        return <Typography> {t("noRefGenomes")} </Typography>;
     }
 
     return (

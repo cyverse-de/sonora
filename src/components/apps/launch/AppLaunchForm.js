@@ -434,7 +434,7 @@ const AppLaunchForm = (props) => {
     }, [props.app, hasReferenceGenomes]);
 
     const { isFetching: referenceGenomesLoading } = useQuery({
-        queryKey: REFERENCE_GENOMES_QUERY_KEY,
+        queryKey: [REFERENCE_GENOMES_QUERY_KEY, { deleted: false }],
         queryFn: getReferenceGenomes,
         config: {
             enabled: referenceGenomesQueryEnabled,

@@ -27,16 +27,6 @@ export default function refGenomeRouter() {
         })
     );
 
-    logger.info("adding the Admin GET /admin/reference-genomes");
-    api.get(
-        "/admin/reference-genomes",
-        auth.authnTokenMiddleware,
-        terrainHandler({
-            method: "GET",
-            pathname: "/reference-genomes",
-        })
-    );
-
     logger.info("adding the Admin POST /admin/reference-genomes");
     api.post(
         "/admin/reference-genomes",

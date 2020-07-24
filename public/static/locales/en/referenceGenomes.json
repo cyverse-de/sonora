@@ -6,6 +6,7 @@
     "createFailed":"Cannot create Reference Genome. Please try again",
     "genomes":"Genomes",
     "name":"Name",
+    "noRefGenomes": "No Reference Genomes to display.",
     "ok":"OK",
     "path":"Path",
     "deleted":"Deleted",

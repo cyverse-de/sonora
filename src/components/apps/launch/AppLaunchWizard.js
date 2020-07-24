@@ -14,6 +14,7 @@ import AppLaunchForm from "./AppLaunchForm";
 import AppLaunchFormSkeleton from "./AppLaunchFormSkeleton";
 
 import { withI18N } from "@cyverse-de/ui-lib";
+import { Divider, Paper } from "@material-ui/core";
 
 const deprecatedParamTypes = Object.values(constants.DEPRECATED_PARAM_TYPE);
 
@@ -27,7 +28,7 @@ function AppLaunchWizard(props) {
     );
 
     return (
-        <>
+        <Paper>
             <AppInfo
                 baseId={baseId}
                 loading={loading}
@@ -35,6 +36,7 @@ function AppLaunchWizard(props) {
                 app={app}
                 hasDeprecatedParams={hasDeprecatedParams}
             />
+            <Divider />
             {loading ? (
                 <AppLaunchFormSkeleton baseId={baseId} />
             ) : (
@@ -43,7 +45,7 @@ function AppLaunchWizard(props) {
                     <AppLaunchForm {...props} />
                 )
             )}
-        </>
+        </Paper>
     );
 }
 

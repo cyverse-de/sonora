@@ -81,95 +81,63 @@ Create a test for your component(s) located in the [/src/__tests__](/src/__tests
 
 ### Internationalization (i18n)
 
-All text displayed to the user should be internationalized. We currently use [react-intl](https://github.com/formatjs/react-intl) for internationalization of our app. There are [helper functions](https://github.com/cyverse-de/ui-lib/blob/master/src/util/I18NWrapper.js) in the [ui-lib](https://github.com/cyverse-de/ui-lib) repo that should be used.
+All text displayed to the user should be internationalized. We currently use [i18next](https://www.i18next.com) and [next-i18next](https://github.com/isaachinman/next-i18next) for internationalization of our app.
 
 Generally, you'll need to:
 
-1. Create a `messages` file similar to the following with all the text your component(s) will need. Generally, the first 3 lines don't change - `locales` and `messages` must be present. Beyond that, you have your text in key-value pairs.
+1. Create a `translation` json file under `/public/static/locales/en` similar to the following with all the text your component(s) will need. The files needs be in JSON format and be saved with `.json` extension.
 
 ```
-export default {
-    locales: "en-US",
-    messages: {
-        header: "Welcome",
-        namedHeader: "Welcome back {name}",
-        stringTitle: "Something that's not an object",
+{
+    "cyverse": "CyVerse",
+    "dashboard": "Dashboard",
+    "welcome" : "Welcome {{name}}",
+    "data": "Data",
+    "deTitle": "Discovery Environment",
+    "discovery": "<b>D</b>iscovery"
     }
-}
 ```
 
-2. Export your component while wrapping it with the `withI18N` [higher-order component](https://reactjs.org/docs/higher-order-components.html) from the [helper function](https://github.com/cyverse-de/ui-lib/blob/master/src/util/I18NWrapper.js) file in the `ui-lib` repo and pass in the `messages` file you created. This basically links them together so `react-intl` knows where to look up text.
+2. Import required translation json file(s) into your react component with filename used as namespace. For example, if you have named the translation files `common.json` and `search.json`, you can import those translations as 
 
+  `const { t } = useTranslation(["common", "search"]);`
+
+3. Once you have imported the translation files, you can use them in your react component.
 ```
 import React from "react";
-+import intlData from "./messages";
-+import { withI18N } from "@cyverse-de/ui-lib";
++import { useTranslation } from "react-i18next";
 
 function MyComponent(props) {
+ +const { t } = useTranslation(["common", "search"]);
+  const name = getUserName();
     return (
         <>
-            <span>Welcome</span>
-            <span>Welcome back {props.name}</span>
+ -           <span>`Welcome ${name}`</span>
+ -           <span>Discovery Environment</span>
+ +           <span>{t("welcome",{ name: name })}
+ +           <span>{t("deTitle")}</span>
         </>
     )
 }
-
--export default MyComponent;
-+export default withI18N(MyComponent, intlData);
-
+export default MyComponent;
 ```
-
-3. Update your component to fetch the internationalized text with the corresponding key you created. The [getMessage(key)](https://github.com/cyverse-de/ui-lib/blob/78880901c263c14ea697a5abd9b607fbd776ec4b/src/util/I18NWrapper.js#L29-L34) helper function covers roughly 80% of the use cases
-
+4. Finally, make sure to add the tranlation namespace to the nextjs page `getInitialProps` to prevent it from downloading unnecessary tranlation files.
 ```
-import React from "react";
-import intlData from "./messages";
--import { withI18N } from "@cyverse-de/ui-lib";
-+import { getMessage, withI18N } from "@cyverse-de/ui-lib";
-
-function MyComponent(props) {
-    return (
-        <>
--            <span>Welcome</span>
--            <span>Welcome back {props.name}</span>
-+            <span>{getMessage("header")}</span>
-+            <span>{getMessage("namedHeader", {values: {name: props.name}})}</span>
-        </>
-    )
+export default function MyPage() {
+    return <MyComponent />;
 }
 
-export default withI18N(MyComponent, intlData);
+MyPage.getInitialProps = async ({ Component, ctx }) => {
+    let pageProps = {};
+
+    if (Component.getInitialProps) {
+        pageProps = await Component.getInitialProps(ctx);
+    }
+
+    return { pageProps, namespacesRequired: ["common", "search"] };
+};
 ```
 
-4. Since `getMessage` returns the [FormattedMessage](https://github.com/formatjs/react-intl/blob/master/docs/Components.md#formattedmessage) component/object, you may have cases where your component or an attribute, for example, only accepts a direct string. For those cases, you can use `formatMessage` like so:
-
-```
-import React from "react";
-import intlData from "./messages";
--import { getMessage, withI18N } from "@cyverse-de/ui-lib";
-+import { formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
-+import { injectIntl } from "react-intl";
-
-function MyComponent(props) {
-    return (
-        <>
--            <span>{getMessage("header")}</span>
-+            <span
-+                title={formatMessage(props.intl, "stringTitle")}
-+            >
-+                {getMessage("header")}
-+            </span>
-            <span>{getMessage("namedHeader", {values: {name: props.name}})}</span>
-        </>
-    )
-}
-
--export default withI18N(MyComponent, intlData);
-+export default withI18N(injectIntl(MyComponent), intlData);
-
-```
-
-If you have multiple components exported from a single file (not unusual if you want to test a sub-component separately), make sure that you have i18n-wrapped versions of the sub-components exported. That enables you to write Stories in Storybook for the sub-components without having to set up an i18n decorator. The unwrapped version of the sub-component can still be used by the parent components, which should pass in the `messages` and/or `intl` prop to the i18n-ized child components.
 
 ### Static IDs
 
@@ -218,6 +186,6 @@ It's recommended that 2 developers review each major pull request though there's
 
 ### Before you submit
 1. Your component should meet all of the above and align with our UI/UX [goals](#ui--ux-goals)
-1. Tests should pass - `npm test`
-1. Lint checking should pass - `npm run lint`
+1. Enusre the code passes the tests, meets linting and formatting requirements by running
+`npm run check`
 1. package-lock.json should be updated and committed (if necessary)

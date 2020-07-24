@@ -17,7 +17,8 @@
         "test-watch": "TZ=UTC jest --watch",
         "format": "prettier --write 'src/**/*.js' 'stories/**/*.js'",
         "lint": "eslint --max-warnings=0 ./src/ ./stories/",
-        "clean": "rimraf ./.next ./dist ./generated-docs"
+        "clean": "rimraf ./.next ./dist ./generated-docs",
+        "check": "npx prettier --check ./src/**/*.js ./.storybook/**/*.js ./stories/**/*.js && eslint --max-warnings=0 ./src/ ./stories/ && TZ=UTC jest"
     },
     "repository": {
         "type": "git",

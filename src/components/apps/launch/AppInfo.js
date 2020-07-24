@@ -6,6 +6,8 @@
 import React from "react";
 import { injectIntl } from "react-intl";
 
+import styles from "./styles";
+
 import { intercomShow } from "../../../common/intercom";
 
 import DEErrorDialog from "../../utils/error/DEErrorDialog";
@@ -19,9 +21,11 @@ import {
     formatMessage,
 } from "@cyverse-de/ui-lib";
 
-import { Box, Link, Paper, Toolbar, Typography } from "@material-ui/core";
+import { Box, Link, makeStyles, Paper, Typography } from "@material-ui/core";
 
 import { Skeleton } from "@material-ui/lab";
+
+const useStyles = makeStyles(styles);
 
 const LoadingErrorDisplay = injectIntl(({ intl, baseId, loadingError }) => {
     const [errorDialogOpen, setErrorDialogOpen] = React.useState(false);
@@ -61,11 +65,11 @@ const AppInfo = ({
         : hasDeprecatedParams
         ? "appParamsDeprecated"
         : null;
-
+        const classes = useStyles();
     return (
         <>
-            <Toolbar component={Paper}>
-                <Typography variant="h6">
+            <Paper className={classes.appInfoContainer} elevation={0}> 
+                <Typography variant="h6" className={classes.appInfoTypography}>
                     {loadingError ? (
                         <LoadingErrorDisplay
                             baseId={baseId}
@@ -77,13 +81,11 @@ const AppInfo = ({
                         app?.name
                     )}
                 </Typography>
-            </Toolbar>
-
-            <Box m={2}>
-                <Typography variant="body2" gutterBottom>
+                <Typography variant="body2" gutterBottom className={classes.appInfoTypography}>
                     {loading ? <Skeleton /> : app?.description}
                 </Typography>
-
+            </Paper>
+            <Box m={2}>
                 {(app?.deleted || app?.disabled || hasDeprecatedParams) && (
                     <Typography color="error" variant="body1" gutterBottom>
                         {getMessage(unavailableMsgKey, {

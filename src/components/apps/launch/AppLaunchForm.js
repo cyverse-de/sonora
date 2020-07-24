@@ -51,6 +51,7 @@ import {
     BottomNavigation,
     BottomNavigationAction,
     Hidden,
+    Paper,
     Stepper,
     Step,
     StepButton,
@@ -88,60 +89,67 @@ const StepperBottomNavigation = ({
     handleNext,
     handleSaveQuickLaunch,
     handleSubmit,
-}) => (
-    <BottomNavigation
-        showLabels
-        value={showSubmitButton ? "submit" : "next"}
-        onChange={(event, value) => {
-            switch (value) {
-                case "submit":
-                    handleSubmit(event);
-                    break;
-                case "saveQL":
-                    handleSaveQuickLaunch();
-                    break;
-                case "next":
-                    handleNext();
-                    break;
-                default:
-                    handleBack();
-                    break;
-            }
-        }}
-    >
-        <BottomNavigationAction
-            id={buildDebugId(formId, ids.BUTTONS.STEP_BACK)}
-            label={getMessage("back")}
-            value="back"
-            icon={<ArrowBack />}
-        />
-        {showSaveQuickLaunchButton ? (
+}) => {
+    const classes = useStyles();
+    return (
+        <BottomNavigation
+            className={classes.bottomNavigation}
+            showLabels
+            onChange={(event, value) => {
+                switch (value) {
+                    case "submit":
+                        handleSubmit(event);
+                        break;
+                    case "saveQL":
+                        handleSaveQuickLaunch();
+                        break;
+                    case "next":
+                        handleNext();
+                        break;
+                    default:
+                        handleBack();
+                        break;
+                }
+            }}
+        >
             <BottomNavigationAction
-                id={buildDebugId(formId, ids.BUTTONS.SAVE_AS_QUICK_LAUNCH)}
-                label={getMessage("saveAsQuickLaunch")}
-                value="saveQL"
-                icon={<Save />}
+                className={classes.bottomNavigationAction}
+                id={buildDebugId(formId, ids.BUTTONS.STEP_BACK)}
+                label={getMessage("back")}
+                value="back"
+                icon={<ArrowBack />}
             />
-        ) : (
-            <BottomNavigationAction disabled={true} />
-        )}
-        {showSubmitButton ? (
-            <BottomNavigationAction
-                id={buildDebugId(formId, ids.BUTTONS.SUBMIT)}
-                label={getMessage("launchAnalysis")}
-                value="submit"
-                icon={<PlayArrow />}
-            />
-        ) : (
-            <BottomNavigationAction
-                id={buildDebugId(formId, ids.BUTTONS.STEP_NEXT)}
-                label={getMessage("next")}
-                value="next"
-                icon={<ArrowForward />}
-            />
-        )}
-    </BottomNavigation>
-);
+            {showSaveQuickLaunchButton ? (
+                <BottomNavigationAction
+                    className={classes.bottomNavigationAction}
+                    id={buildDebugId(formId, ids.BUTTONS.SAVE_AS_QUICK_LAUNCH)}
+                    label={getMessage("saveAsQuickLaunch")}
+                    value="saveQL"
+                    icon={<Save />}
+                />
+            ) : (
+                <BottomNavigationAction disabled={true} />
+            )}
+            {showSubmitButton ? (
+                <BottomNavigationAction
+                    className={classes.bottomNavigationAction}
+                    id={buildDebugId(formId, ids.BUTTONS.SUBMIT)}
+                    label={getMessage("launchAnalysis")}
+                    value="submit"
+                    icon={<PlayArrow />}
+                />
+            ) : (
+                <BottomNavigationAction
+                    className={classes.bottomNavigationAction}
+                    id={buildDebugId(formId, ids.BUTTONS.STEP_NEXT)}
+                    label={getMessage("next")}
+                    value="next"
+                    icon={<ArrowForward />}
+                />
+            )}
+        </BottomNavigation>
+    );
+};
 
 /**
  * @param {string} name - The app name.
@@ -520,7 +528,7 @@ const AppLaunchForm = (props) => {
     };
 
     return (
-        <>
+        <Paper elevation={0}>
             <Formik
                 enableReinitialize
                 initialValues={initValues(props)}
@@ -574,8 +582,8 @@ const AppLaunchForm = (props) => {
                         )}
                         <Container
                             component="div"
-                            className={classes.stepContent}
                             maxWidth="md"
+                            className={classes.stepContainer}
                         >
                             <StepContent
                                 id={buildDebugId(
@@ -602,22 +610,24 @@ const AppLaunchForm = (props) => {
                                     activeStep !== stepParameters.step
                                 }
                             >
-                                {values.groups?.map((group, index) => (
-                                    <ParamGroupForm
-                                        key={group.id}
-                                        baseId={buildDebugId(
-                                            stepIdParams,
-                                            index + 1
-                                        )}
-                                        fieldName={`groups.${index}`}
-                                        group={group}
-                                        startingPath={startingPath}
-                                        referenceGenomes={referenceGenomes}
-                                        referenceGenomesLoading={
-                                            referenceGenomesLoading
-                                        }
-                                    />
-                                ))}
+                                <div className={classes.stepContent}>
+                                    {values.groups?.map((group, index) => (
+                                        <ParamGroupForm
+                                            key={group.id}
+                                            baseId={buildDebugId(
+                                                stepIdParams,
+                                                index + 1
+                                            )}
+                                            fieldName={`groups.${index}`}
+                                            group={group}
+                                            startingPath={startingPath}
+                                            referenceGenomes={referenceGenomes}
+                                            referenceGenomesLoading={
+                                                referenceGenomesLoading
+                                            }
+                                        />
+                                    ))}
+                                </div>
                             </StepContent>
 
                             <StepContent
@@ -653,6 +663,7 @@ const AppLaunchForm = (props) => {
                                 }
                                 hidden={activeStep !== stepReviewAndLaunch.step}
                             >
+                                <div className={classes.stepContent}>
                                 <ParamsReview
                                     baseId={formId}
                                     appType={app_type}
@@ -670,6 +681,7 @@ const AppLaunchForm = (props) => {
                                         showAll={reviewShowAll}
                                     />
                                 )}
+                                </div>
                             </StepContent>
                         </Container>
                         {isSubmitting ? (
@@ -728,7 +740,7 @@ const AppLaunchForm = (props) => {
                     );
                 }}
             />
-        </>
+        </Paper>
     );
 };
 

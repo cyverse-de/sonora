@@ -58,7 +58,7 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 
 const ENTITLEMENT = "entitlement";
-const drawerWidth = 200;
+const drawerWidth = 235;
 const miniDrawerWidth = 65;
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -534,6 +534,26 @@ function CyverseAppBar(props) {
                             <LabelImportantIcon className={classes.icon} />
                         </ListItemIcon>
                         <ListItemText>{t("vice")}</ListItemText>
+                    </ListItem>
+                </Tooltip>
+                <Tooltip title={t("refGenomes")} placement="right" arrow>
+                    <ListItem
+                        button
+                        id={build(ids.DRAWER_MENU, ids.REF_GENOME_MI)}
+                        className={clsx(classes.nested, classes.listItem)}
+                        onClick={() =>
+                            router.push(
+                                "/" +
+                                    NavigationConstants.ADMIN +
+                                    "/" +
+                                    NavigationConstants.REF_GENOMES
+                            )
+                        }
+                    >
+                        <ListItemIcon>
+                            <LabelImportantIcon className={classes.icon} />
+                        </ListItemIcon>
+                        <ListItemText>{t("refGenomes")}</ListItemText>
                     </ListItem>
                 </Tooltip>
             </List>

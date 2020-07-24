@@ -18,6 +18,7 @@ export default {
     MORE_MI: "moreMenuItem",
     NAVIGATION: "navigation",
     NOTIFICATION_BTN: "notificationButton",
+    REF_GENOME_MI: "referenceGenomeMenuItem",
     SEARCH_BTN: "searchButton",
     SEARCH_MI: "searchMenuItem",
     SETTINGS_MI: "settingsMenuItem",

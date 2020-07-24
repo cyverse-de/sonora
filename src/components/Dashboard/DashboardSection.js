@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useState, useRef } from "react";
 
 import { Divider, Typography } from "@material-ui/core";
 
-import DashboardItem, { getItem } from "./DashboardItem";
+import DashboardItem, { getItem, DashboardNewsItem } from "./DashboardItem";
 
 import useStyles from "./styles";
 import * as fns from "./functions";
@@ -24,6 +24,28 @@ const SectionContentCards = ({ items, kind, section, id, height, width }) => {
                     classes,
                 });
                 return <DashboardItem key={fns.makeID(id, index)} item={obj} />;
+            })}
+        </div>
+    );
+};
+
+const SectionContentNews = ({ items, kind, section, id, height, width }) => {
+    const classes = useStyles();
+
+    return (
+        <div className={classes.sectionItems}>
+            {items.map((item, index) => {
+                const obj = getItem({
+                    kind,
+                    section,
+                    content: item,
+                    height,
+                    width,
+                    classes,
+                });
+                return (
+                    <DashboardNewsItem key={fns.makeID(id, index)} item={obj} />
+                );
             })}
         </div>
     );
@@ -74,15 +96,26 @@ const DashboardSection = ({
             >
                 {name}
             </Typography>
-
-            <SectionContentCards
-                id={id}
-                height={height}
-                width={width}
-                section={section}
-                kind={kind}
-                items={items}
-            />
+            {kind === constants.KIND_FEEDS &&
+            section === constants.SECTION_NEWS ? (
+                <SectionContentNews
+                    id={id}
+                    height={height}
+                    width={width}
+                    section={section}
+                    kind={kind}
+                    items={items}
+                />
+            ) : (
+                <SectionContentCards
+                    id={id}
+                    height={height}
+                    width={width}
+                    section={section}
+                    kind={kind}
+                    items={items}
+                />
+            )}
         </div>
     );
 };

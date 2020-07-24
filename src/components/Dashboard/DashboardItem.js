@@ -174,6 +174,37 @@ const DashboardItem = ({
     );
 };
 
+export const DashboardNewsItem = ({ item }) => {
+    const classes = useStyles({ width: item.width, height: item.height });
+    const { t } = useTranslation("dashboard");
+
+    const [origination, date] = item.getOrigination(t);
+    const description = fns.cleanDescription(item.content.description);
+    const user = item.username;
+
+    return (
+        <div className={classes.newsArticle}>
+            <Typography noWrap={true} variant="h6" color="primary">
+                <DashboardLink
+                    target={item.getLinkTarget()}
+                    kind={item.kind}
+                    headerClass={item.headerClass}
+                >
+                    {item.content.name}
+                </DashboardLink>
+            </Typography>
+
+            <Typography noWrap color="textSecondary" variant="subtitle2">
+                {`${origination} ${user} on ${date}`}
+            </Typography>
+
+            <Typography variant="body2" component="p">
+                {description || t("noDescriptionProvided")}
+            </Typography>
+        </div>
+    );
+};
+
 const ItemAction = ({ children, ariaLabel, handleClick }) => (
     <IconButton aria-label={ariaLabel} onClick={handleClick}>
         {children}

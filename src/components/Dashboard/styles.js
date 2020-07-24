@@ -74,6 +74,9 @@ export default makeStyles((theme) => ({
             marginRight: theme.spacing(2),
         },
     },
+    newsArticle: {
+        marginTop: theme.spacing(2),
+    },
     actionsRoot: {
         marginLeft: "auto",
     },

@@ -98,7 +98,7 @@ Generally, you'll need to:
     }
 ```
 
-2. Import all the translation json file(s) into your react component with filename used as namespace. For example, if you have named the translation files `common.json` and `search.json`, you can import those translations as 
+2. Import required translation json file(s) into your react component with filename used as namespace. For example, if you have named the translation files `common.json` and `search.json`, you can import those translations as 
 
   `const { t } = useTranslation(["common", "search"]);`
 
@@ -121,6 +121,23 @@ function MyComponent(props) {
 }
 export default MyComponent;
 ```
+4. Finally, make sure to add the tranlation namespace to the nextjs page `getInitialProps` to prevent it from downloading unnecessary tranlation files.
+```
+export default function MyPage() {
+    return <MyComponent />;
+}
+
+MyPage.getInitialProps = async ({ Component, ctx }) => {
+    let pageProps = {};
+
+    if (Component.getInitialProps) {
+        pageProps = await Component.getInitialProps(ctx);
+    }
+
+    return { pageProps, namespacesRequired: ["common", "search"] };
+};
+```
+
 
 ### Static IDs
 
@@ -169,7 +186,6 @@ It's recommended that 2 developers review each major pull request though there's
 
 ### Before you submit
 1. Your component should meet all of the above and align with our UI/UX [goals](#ui--ux-goals)
-1. Tests should pass - `npm test`
-1. Lint checking should pass - `npm run lint`
-1. Format checking should pass - `npx prettier --check ./src/**/*.js ./.storybook/**/*.js ./stories/**/*.js`
+1. Enusre the code passes the tests, meets linting and formatting requirements by running
+`npm run check`
 1. package-lock.json should be updated and committed (if necessary)

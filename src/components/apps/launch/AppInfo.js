@@ -65,10 +65,10 @@ const AppInfo = ({
         : hasDeprecatedParams
         ? "appParamsDeprecated"
         : null;
-        const classes = useStyles();
+    const classes = useStyles();
     return (
         <>
-            <Paper className={classes.appInfoContainer} elevation={0}> 
+            <Paper className={classes.appInfoContainer} elevation={0}>
                 <Typography variant="h6" className={classes.appInfoTypography}>
                     {loadingError ? (
                         <LoadingErrorDisplay
@@ -81,7 +81,11 @@ const AppInfo = ({
                         app?.name
                     )}
                 </Typography>
-                <Typography variant="body2" gutterBottom className={classes.appInfoTypography}>
+                <Typography
+                    variant="body2"
+                    gutterBottom
+                    className={classes.appInfoTypography}
+                >
                     {loading ? <Skeleton /> : app?.description}
                 </Typography>
             </Paper>

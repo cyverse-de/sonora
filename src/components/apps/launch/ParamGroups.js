@@ -50,7 +50,6 @@ import {
     Typography,
 } from "@material-ui/core";
 
-
 /**
  * @param {string} baseId
  * @param {number} paramIndex

@@ -19,8 +19,8 @@ export default (theme) => ({
     appInfoTypography: {
         color: theme.palette.info.main,
     },
-    bottomNavigation : {
-        margin :theme.spacing(1),
+    bottomNavigation: {
+        margin: theme.spacing(1),
         backgroundColor: theme.palette.primary.main,
     },
     bottomNavigationRoot: {

@@ -7,7 +7,7 @@
         "dev": "nodemon",
         "dev-server": "cross-env NODE_ENV=development babel-node ./src/server/",
         "build-frontend": "next build",
-        "build-server": "babel ./src/server --out-dir dist/server && babel ./src/common --out-dir dist/common",
+        "build-server": "babel ./src/i18n.js ./src/constants.js --out-dir dist/ && babel ./src/server --out-dir dist/server && babel ./src/common --out-dir dist/common",
         "build-docs": "jsdoc -r -d generated-docs ./src",
         "build": "run-p build-frontend build-server build-docs",
         "start": "cross-env NODE_ENV=production node dist/server/index.js",

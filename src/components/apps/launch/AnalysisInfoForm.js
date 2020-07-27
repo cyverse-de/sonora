@@ -36,6 +36,7 @@ const AnalysisInfoForm = ({ formId, appType, startingPath }) => (
             label={getMessage("analysisName")}
             required={true}
             name="name"
+            size="small"
             component={FormTextField}
             inputProps={{ maxLength: 255 }}
         />

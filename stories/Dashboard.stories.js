@@ -86,25 +86,6 @@ export const DashboardTest = () => {
                     username: "ipctest@iplantcollaborative.org",
                     edited_date: "2019-05-20T17:21:07.223Z",
                 },
-                {
-                    id: "57712906-d5e7-11e9-869a-008cfa5ae621",
-                    name: "Copy of NanoDJ",
-                    description:
-                        "A Dockerized Jupyter Notebook for Interactive Oxford Nanopore MinION Sequence Manipulation and Genome Assembly",
-                    wiki_url: null,
-                    integration_date: null,
-                    username: "ipctest@iplantcollaborative.org",
-                    edited_date: "2019-09-13T05:28:39.256Z",
-                },
-                {
-                    id: "ca2fe9aa-d64b-11e9-a503-008cfa5ae621",
-                    name: "ssh-ttyd-demo",
-                    description: "Demo of ssh and ttyd",
-                    wiki_url: null,
-                    integration_date: null,
-                    username: "ipctest@iplantcollaborative.org",
-                    edited_date: "2019-09-13T17:27:41.445Z",
-                },
             ],
             public: [
                 {
@@ -184,26 +165,6 @@ export const DashboardTest = () => {
                     integration_date: "2020-02-17T22:20:28.291Z",
                     username: "ipctest@iplantcollaborative.org",
                     edited_date: "2020-02-17T22:20:28.291Z",
-                },
-                {
-                    id: "c148e480-4fff-11ea-b1a6-008cfa5ae621",
-                    name: "Plantmd",
-                    description:
-                        "Image-based plant disease prediction app that uses CNNs http://plantmd.onrender.com",
-                    wiki_url: null,
-                    integration_date: "2020-02-17T21:33:53.387Z",
-                    username: "ipctest@iplantcollaborative.org",
-                    edited_date: "2020-02-17T21:33:53.387Z",
-                },
-                {
-                    id: "8132982c-0b86-11ea-a290-008cfa5ae621",
-                    name: "PDAL EPT pipeline",
-                    description:
-                        "Point Data Abstraction Library (PDAL) - https://pdal.io/ \n\nUSGS Entwine Point Tile (EPT) archive: https://usgs.entwine.io/ \n\nTool uses a pre-existing JSON file that extracts data from the USGS EPT archive \n\nPipeline needs to follow the EPT format example https://pdal.io/tutorial/iowa-entwine.html#pipeline",
-                    wiki_url: null,
-                    integration_date: "2020-01-29T23:15:52.339Z",
-                    username: "ipctest@iplantcollaborative.org",
-                    edited_date: "2020-01-29T23:15:52.339Z",
                 },
             ],
         },
@@ -290,121 +251,6 @@ export const DashboardTest = () => {
                     link:
                         "https://cyverse.org/UA-Campus-Comes-Together-to-Celebrate-Digital-Literacy",
                     date_added: "2019-09-03T04:41:02.000Z",
-                },
-                {
-                    id: "56 at https://cyverse.org",
-                    name:
-                        "Research Bazaar Returns to the University of Arizona on May 20–22",
-                    description:
-                        "Research Bazaar Returns to the University of Arizona on May 20–22\nlittin\nMon, 09/02/2019 - 21:51",
-                    link:
-                        "https://cyverse.org/Research-Bazaar-Returns-to-the-University-of-Arizona-on-May-20%E2%80%9322",
-                    date_added: "2019-09-03T04:51:48.000Z",
-                },
-                {
-                    id: "57 at https://cyverse.org",
-                    name:
-                        "CyVerse Community Member and Astrophysicist Helps Lead Event Horizon Telescope Data Processing",
-                    description:
-                        "CyVerse Community Member and Astrophysicist Helps Lead Event Horizon Telescope Data Processing\nlittin\nMon, 09/02/2019 - 23:03",
-                    link:
-                        "https://cyverse.org/CyVerse-Community-Member-and-Astrophysicist-Helps-Lead-Event-Horizon-Telescope-Data-Processing",
-                    date_added: "2019-09-03T06:03:54.000Z",
-                },
-                {
-                    id: "114 at https://cyverse.org",
-                    name: " Data Mining 3D Protein Structures, CyVerse Style",
-                    description:
-                        "Data Mining 3D Protein Structures, CyVerse Style\nlittin\nThu, 12/19/2019 - 04:18",
-                    link:
-                        "https://cyverse.org/data-mining-3d-protein-structures-cyverse-style",
-                    date_added: "2019-12-19T11:18:43.000Z",
-                },
-                {
-                    id: "66 at https://cyverse.org",
-                    name: "Researchers Explore Creation of CyVerse Australia",
-                    description:
-                        "Researchers Explore Creation of CyVerse Australia\nmwall\nThu, 10/03/2019 - 12:43",
-                    link:
-                        "https://cyverse.org/Researchers-Explore-Creation-of-CyVerse-Australia",
-                    date_added: "2019-10-03T19:43:44.000Z",
-                },
-                {
-                    id: "72 at https://cyverse.org",
-                    name:
-                        "Data on Demand: Creating a Search Engine for Microbiome Sciences",
-                    description:
-                        "Data on Demand: Creating a Search Engine for Microbiome Sciences\nmwall\nMon, 10/07/2019 - 13:00",
-                    link:
-                        "https://cyverse.org/Data-on-Demand%3A-Creating-a-Search-Engine-for-Microbiome-Sciences",
-                    date_added: "2019-10-07T20:00:23.000Z",
-                },
-                {
-                    id: "74 at https://cyverse.org",
-                    name:
-                        "CyVerse Receives Third NSF Award for Enabling Data Science",
-                    description:
-                        "CyVerse Receives Third NSF Award for Enabling Data Science\nmwall\nMon, 10/07/2019 - 13:36",
-                    link:
-                        "https://cyverse.org/CyVerse-Receives-Third-NSF-Award-for-Enabling-Data-Science",
-                    date_added: "2019-10-07T20:36:30.000Z",
-                },
-                {
-                    id: "75 at https://cyverse.org",
-                    name: "Measuring Species Traits to Monitor Biodiversity",
-                    description:
-                        "Measuring Species Traits to Monitor Biodiversity\nmwall\nMon, 10/07/2019 - 13:48",
-                    link:
-                        "https://cyverse.org/Measuring-Species-Traits-to-Monito-Biodiversity",
-                    date_added: "2019-10-07T20:48:09.000Z",
-                },
-                {
-                    id: "76 at https://cyverse.org",
-                    name:
-                        "Summer Interns Work with Drone Datasets, RNA Analyses",
-                    description:
-                        "Summer Interns Work with Drone Datasets, RNA Analyses\nmwall\nMon, 10/07/2019 - 13:56",
-                    link:
-                        "https://cyverse.org/Summer-Interns-Work-with-Drone-Datasets%2C-RNA-Analyses",
-                    date_added: "2019-10-07T20:56:17.000Z",
-                },
-                {
-                    id: "78 at https://cyverse.org",
-                    name:
-                        "CyVerse Hosts 2018 Earth Science Information Partners",
-                    description:
-                        "CyVerse Hosts 2018 Earth Science Information Partners\nmwall\nMon, 10/07/2019 - 15:01",
-                    link:
-                        "https://cyverse.org/CyVerse-Hosts-2018-Earth-Science-Information-Partners",
-                    date_added: "2019-10-07T22:01:50.000Z",
-                },
-                {
-                    id: "79 at https://cyverse.org",
-                    name: "Observing Ecology with CyVerse Atmosphere",
-                    description:
-                        "Observing Ecology with CyVerse Atmosphere\nmwall\nMon, 10/07/2019 - 15:15",
-                    link:
-                        "https://cyverse.org/Observing-Ecology-with-CyVerse-Atmosphere",
-                    date_added: "2019-10-07T22:15:43.000Z",
-                },
-                {
-                    id: "80 at https://cyverse.org",
-                    name:
-                        "Staff Spotlight: Ramona Walls, Living in a World of Art and Science",
-                    description:
-                        "Staff Spotlight: Ramona Walls, Living in a World of Art and Science\nmwall\nMon, 10/07/2019 - 15:20",
-                    link:
-                        "https://cyverse.org/Staff-Spotlight%3A-Ramona-Walls%2C-Living-in-a-World-of-Art-and-Science",
-                    date_added: "2019-10-07T22:20:17.000Z",
-                },
-                {
-                    id: "77 at https://cyverse.org",
-                    name: "Meeting Those Midnight Computing Needs",
-                    description:
-                        "Meeting Those Midnight Computing Needs\nmwall\nMon, 10/07/2019 - 14:36",
-                    link:
-                        "https://cyverse.org/Meeting-Those-Midnight-Computing-Needs",
-                    date_added: "2019-10-07T21:36:44.000Z",
                 },
             ],
             events: [

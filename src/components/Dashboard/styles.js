@@ -23,6 +23,14 @@ export default makeStyles((theme) => ({
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(5),
     },
+    sectionNews: {
+        width: "66%",
+    },
+    sectionEvents: {
+        width: "33%",
+        overflowWrap: "break-word",
+        overflow: "hidden",
+    },
     sectionItems: {
         display: "flex",
         flexWrap: "wrap",
@@ -46,6 +54,9 @@ export default makeStyles((theme) => ({
         paddingLeft: theme.spacing(3),
         paddingBottom: 0,
         paddingRight: theme.spacing(3),
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "flex-start",
 
         [theme.breakpoints.down("sm")]: {
             paddingTop: 0,

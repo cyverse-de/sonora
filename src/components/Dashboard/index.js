@@ -91,7 +91,13 @@ const Dashboard = () => {
               )
               .filter((section) => data[section.kind][section.name].length > 0)
               .map((section, index) =>
-                  section.getComponent({ t, data, showDivider: index !== 0 })
+                  section.getComponent({
+                      t,
+                      data,
+                      showDivider:
+                          section.name !== constants.SECTION_EVENTS &&
+                          section.name !== constants.SECTION_NEWS,
+                  })
               )
         : [];
 

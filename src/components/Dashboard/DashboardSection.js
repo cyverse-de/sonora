@@ -1,8 +1,9 @@
 import React, { useLayoutEffect, useState, useRef } from "react";
+import clsx from "clsx";
 
 import { Divider, Typography } from "@material-ui/core";
 
-import DashboardItem, { getItem, DashboardNewsItem } from "./DashboardItem";
+import DashboardItem, { getItem, DashboardFeedItem } from "./DashboardItem";
 
 import useStyles from "./styles";
 import * as fns from "./functions";
@@ -29,7 +30,7 @@ const SectionContentCards = ({ items, kind, section, id, height, width }) => {
     );
 };
 
-const SectionContentNews = ({ items, kind, section, id, height, width }) => {
+const SectionContentFeed = ({ items, kind, section, id, height, width }) => {
     const classes = useStyles();
 
     return (
@@ -44,7 +45,7 @@ const SectionContentNews = ({ items, kind, section, id, height, width }) => {
                     classes,
                 });
                 return (
-                    <DashboardNewsItem key={fns.makeID(id, index)} item={obj} />
+                    <DashboardFeedItem key={fns.makeID(id, index)} item={obj} />
                 );
             })}
         </div>
@@ -83,8 +84,22 @@ const DashboardSection = ({
 
     const [width, height] = fns.useDashboardSettings(dimensions);
 
+    const isNewsSection = section === constants.SECTION_NEWS;
+    const isEventsSection = section === constants.SECTION_EVENTS;
+    const isFeedItem =
+        (kind === constants.KIND_FEEDS || kind === constants.KIND_EVENTS) &&
+        (isNewsSection || isEventsSection);
+
     return (
-        <div ref={dashboardEl} className={classes.section} id={id}>
+        <div
+            ref={dashboardEl}
+            className={clsx(
+                classes.section,
+                isNewsSection && classes.sectionNews,
+                isEventsSection && classes.sectionEvents
+            )}
+            id={id}
+        >
             {showDivider && <Divider classes={{ root: classes.dividerRoot }} />}
 
             <Typography
@@ -96,9 +111,8 @@ const DashboardSection = ({
             >
                 {name}
             </Typography>
-            {kind === constants.KIND_FEEDS &&
-            section === constants.SECTION_NEWS ? (
-                <SectionContentNews
+            {isFeedItem ? (
+                <SectionContentFeed
                     id={id}
                     height={height}
                     width={width}
@@ -219,7 +233,7 @@ export class NewsFeed extends SectionBase {
 export class EventsFeed extends SectionBase {
     constructor() {
         super(
-            constants.KIND_EVENTS,
+            constants.KIND_FEEDS,
             constants.SECTION_EVENTS,
             "eventsFeed",
             ids.SECTION_EVENTS

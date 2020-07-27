@@ -174,7 +174,7 @@ const DashboardItem = ({
     );
 };
 
-export const DashboardNewsItem = ({ item }) => {
+export const DashboardFeedItem = ({ item }) => {
     const classes = useStyles({ width: item.width, height: item.height });
     const { t } = useTranslation("dashboard");
 
@@ -184,7 +184,7 @@ export const DashboardNewsItem = ({ item }) => {
 
     return (
         <div className={classes.newsArticle}>
-            <Typography noWrap={true} variant="h6" color="primary">
+            <Typography variant="h6" color="primary">
                 <DashboardLink
                     target={item.getLinkTarget()}
                     kind={item.kind}

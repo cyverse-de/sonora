@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import { useQuery, useMutation, queryCache } from "react-query";
 
@@ -6,10 +7,8 @@ import { makeStyles } from "@material-ui/styles";
 
 import {
     build as buildID,
-    getMessage as msg,
     announce,
     AnnouncerConstants,
-    withI18N,
 } from "@cyverse-de/ui-lib";
 
 import getData, {
@@ -26,7 +25,6 @@ import CollapsibleTable, { defineColumn, ExpanderColumn } from "./table";
 import JobLimits from "./joblimits";
 
 import ids from "./ids";
-import messages from "./messages";
 import {
     DEPLOYMENT_COLUMNS,
     COMMON_COLUMNS,
@@ -219,6 +217,7 @@ const VICEAdminSkeleton = () => {
 
 const VICEAdminTabs = ({ data = {} }) => {
     const classes = useStyles();
+    const { t } = useTranslation("vice-admin");
 
     const [value, setValue] = useState("0");
 
@@ -271,7 +270,7 @@ const VICEAdminTabs = ({ data = {} }) => {
                 >
                     {orderOfTabs.map((tabName, index) => (
                         <Tab
-                            label={msg(tabName)}
+                            label={t(tabName)}
                             id={tabID(tabName)}
                             key={tabID(tabName)}
                             value={`${index}`}
@@ -295,7 +294,7 @@ const VICEAdminTabs = ({ data = {} }) => {
                     <CollapsibleTable
                         data={analysisRows}
                         columns={columns[tabName]}
-                        title={msg(tabName)}
+                        title={t(tabName)}
                         showActions={tabName === "analyses"}
                         handleExit={async (analysisID, externalID) => {
                             const data = await mutantExit({ analysisID });
@@ -415,4 +414,4 @@ const VICEAdmin = () => {
     );
 };
 
-export default withI18N(VICEAdmin, messages);
+export default VICEAdmin;

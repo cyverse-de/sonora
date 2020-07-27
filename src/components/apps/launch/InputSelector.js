@@ -43,8 +43,10 @@ const BrowseButton = (props) => {
         <>
             <Button
                 color="primary"
-                variant="contained"
+                size="small"
+                variant="outlined"
                 onClick={() => setOpen(true)}
+                style={{ marginLeft: 8 }}
             >
                 {getMessage("browse")}
             </Button>
@@ -100,7 +102,12 @@ const InputSelector = ({ intl, acceptedType, startingPath, ...props }) => {
             alignItems="center"
         >
             <Grid item xs>
-                <FormTextField InputProps={inputProps} {...props} />
+                <FormTextField
+                    InputProps={inputProps}
+                    size="small"
+                    style={{ paddingRight: 8 }}
+                    {...props}
+                />
             </Grid>
             <Grid item>
                 <BrowseButton

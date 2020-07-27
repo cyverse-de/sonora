@@ -580,10 +580,7 @@ function CyverseAppBar(props) {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography>
-                            {t("discovery")}
-                            &nbsp;{t("environment")}
-                        </Typography>
+                        <Typography>{t("deTitle")}</Typography>
                     </Hidden>
                     <Hidden xsDown>
                         <a

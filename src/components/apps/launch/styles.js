@@ -1,33 +1,33 @@
 export default (theme) => ({
     accordionDetails: { flexDirection: "column" },
 
-    // Keeps the content panel at a static height
-    // so the nav buttons don't move around below it.
     stepContainer: {
-        height: "55vh",
         overflow: "auto",
     },
     stepContent: {
-        height: "50vh",
         overflow: "auto",
         padding: theme.spacing(1),
     },
     appInfoContainer: {
         margin: theme.spacing(1),
-        padding: theme.spacing(1),
+        [theme.breakpoints.down("xs")]: {
+            margin: theme.spacing(0.3),
+        },
     },
     appInfoTypography: {
         color: theme.palette.info.main,
+        width: "100%",
     },
     bottomNavigation: {
         margin: theme.spacing(1),
         backgroundColor: theme.palette.primary.main,
     },
-    bottomNavigationRoot: {
-        color: theme.palette.primary.contrastText,
-    },
     bottomNavigationAction: {
         margin: theme.spacing(1),
         color: theme.palette.primary.contrastText,
+    },
+    paramsSectionHeader: {
+        marginTop: 8,
+        marginBottom: 8,
     },
 });

@@ -21,7 +21,14 @@ import {
     formatMessage,
 } from "@cyverse-de/ui-lib";
 
-import { Box, Link, makeStyles, Paper, Typography } from "@material-ui/core";
+import {
+    Box,
+    Link,
+    makeStyles,
+    Paper,
+    Typography,
+    Hidden,
+} from "@material-ui/core";
 
 import { Skeleton } from "@material-ui/lab";
 
@@ -81,13 +88,17 @@ const AppInfo = ({
                         app?.name
                     )}
                 </Typography>
-                <Typography
-                    variant="body2"
-                    gutterBottom
-                    className={classes.appInfoTypography}
-                >
-                    {loading ? <Skeleton /> : app?.description}
-                </Typography>
+                <Hidden xsDown>
+                    <Typography
+                        className={classes.appInfoTypography}
+                        variant="body2"
+                        display="block"
+                        gutterBottom
+                        noWrap={true}
+                    >
+                        {loading ? <Skeleton /> : app?.description}
+                    </Typography>
+                </Hidden>
             </Paper>
             <Box m={2}>
                 {(app?.deleted || app?.disabled || hasDeprecatedParams) && (

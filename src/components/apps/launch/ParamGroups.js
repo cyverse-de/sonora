@@ -15,6 +15,7 @@ import ResourceTypes from "../../models/ResourceTypes";
 
 import constants from "./constants";
 import ids from "./ids";
+import styles from "./styles";
 
 import { isEmptyParamValue } from "./validate";
 
@@ -33,10 +34,12 @@ import {
 } from "@cyverse-de/ui-lib";
 
 import {
+    Divider,
     FormControl,
     FormControlLabel,
     FormHelperText,
     Link,
+    makeStyles,
     MenuItem,
     Paper,
     Switch,
@@ -48,6 +51,7 @@ import {
     TextField,
     Toolbar,
     Typography,
+    Grid,
 } from "@material-ui/core";
 
 /**
@@ -58,6 +62,9 @@ import {
  * @returns {string} A debug ID appropriate for the given parameter type, index,
  * and baseId.
  */
+
+const useStyles = makeStyles(styles);
+
 const buildParamId = (baseId, paramIndex, type) => {
     const baseParamId = buildDebugId(baseId, paramIndex);
 
@@ -117,144 +124,168 @@ function ParamGroupForm(props) {
     const {
         baseId,
         fieldName,
+        noOfGroups,
+        index,
         group,
         referenceGenomes,
         referenceGenomesLoading,
         startingPath,
     } = props;
-
+    const classes = useStyles();
     return (
         <>
-            <Typography variant="subtitle2">{group.label}</Typography>
-            {group.parameters?.map((param, paramIndex) => {
-                if (!param.isVisible) {
-                    return null;
-                }
+            <Divider className={classes.paramsSectionHeader} />
+            <Typography variant="h6" component="span">
+                {getMessage("section", {
+                    values: { groupNumber: index + 1, totalGroups: noOfGroups },
+                })}
+                {group.label}
+            </Typography>
+            <Divider className={classes.paramsSectionHeader} />
+            <Grid container spacing={3}>
+                {group.parameters?.map((param, paramIndex) => {
+                    if (!param.isVisible) {
+                        return null;
+                    }
 
-                const name = `${fieldName}.parameters.${paramIndex}.value`;
-                const paramFormId = buildParamId(
-                    baseId,
-                    paramIndex,
-                    param.type
-                );
+                    const name = `${fieldName}.parameters.${paramIndex}.value`;
+                    const paramFormId = buildParamId(
+                        baseId,
+                        paramIndex,
+                        param.type
+                    );
 
-                let fieldProps = {
-                    id: paramFormId,
-                    name,
-                    label: param.label,
-                    helperText: param.description,
-                    required: param.required,
-                    margin: "normal",
-                };
+                    let fieldProps = {
+                        id: paramFormId,
+                        name,
+                        label: param.label,
+                        helperText: param.description,
+                        required: param.required,
+                        margin: "normal",
+                    };
 
-                switch (param.type) {
-                    case constants.PARAM_TYPE.INFO:
-                        fieldProps = {
-                            id: paramFormId,
-                            name,
-                            component: Typography,
-                            variant: "body1",
-                            gutterBottom: true,
-                            dangerouslySetInnerHTML: {
-                                __html: sanitizeHtml(param.label),
-                            },
-                        };
-                        break;
+                    switch (param.type) {
+                        case constants.PARAM_TYPE.INFO:
+                            fieldProps = {
+                                id: paramFormId,
+                                name,
+                                component: Typography,
+                                variant: "body1",
+                                gutterBottom: true,
+                                dangerouslySetInnerHTML: {
+                                    __html: sanitizeHtml(param.label),
+                                },
+                            };
+                            break;
 
-                    case constants.PARAM_TYPE.TEXT:
-                        fieldProps.component = FormTextField;
+                        case constants.PARAM_TYPE.TEXT:
+                            fieldProps.component = FormTextField;
 
-                        if (param.validators?.length > 0) {
-                            const charLimitValidator = param.validators.find(
-                                (validator) =>
-                                    validator.type ===
-                                    constants.VALIDATOR_TYPE.CHARACTER_LIMIT
-                            );
-                            if (charLimitValidator) {
-                                fieldProps.inputProps = {
-                                    maxLength: charLimitValidator.params[0],
-                                };
+                            if (param.validators?.length > 0) {
+                                const charLimitValidator = param.validators.find(
+                                    (validator) =>
+                                        validator.type ===
+                                        constants.VALIDATOR_TYPE.CHARACTER_LIMIT
+                                );
+                                if (charLimitValidator) {
+                                    fieldProps.inputProps = {
+                                        maxLength: charLimitValidator.params[0],
+                                    };
+                                }
                             }
-                        }
-                        break;
+                            break;
 
-                    case constants.PARAM_TYPE.INTEGER:
-                        fieldProps.component = FormIntegerField;
-                        break;
+                        case constants.PARAM_TYPE.INTEGER:
+                            fieldProps.component = FormIntegerField;
+                            break;
 
-                    case constants.PARAM_TYPE.DOUBLE:
-                        fieldProps.component = FormNumberField;
-                        break;
+                        case constants.PARAM_TYPE.DOUBLE:
+                            fieldProps.component = FormNumberField;
+                            break;
 
-                    case constants.PARAM_TYPE.MULTILINE_TEXT:
-                        fieldProps.component = FormMultilineTextField;
-                        break;
+                        case constants.PARAM_TYPE.MULTILINE_TEXT:
+                            fieldProps.component = FormMultilineTextField;
+                            break;
 
-                    case constants.PARAM_TYPE.FLAG:
-                        fieldProps.component = FormCheckbox;
-                        break;
+                        case constants.PARAM_TYPE.FLAG:
+                            fieldProps.component = FormCheckbox;
+                            break;
 
-                    case constants.PARAM_TYPE.TEXT_SELECTION:
-                    case constants.PARAM_TYPE.INTEGER_SELECTION:
-                    case constants.PARAM_TYPE.DOUBLE_SELECTION:
-                        fieldProps.component = FormTextField;
-                        fieldProps.select = true;
-                        fieldProps.variant = "outlined";
-                        fieldProps.children = param.arguments?.map((arg) => (
-                            <MenuItem key={arg.value} value={arg}>
-                                {arg.display}
-                            </MenuItem>
-                        ));
-                        break;
+                        case constants.PARAM_TYPE.TEXT_SELECTION:
+                        case constants.PARAM_TYPE.INTEGER_SELECTION:
+                        case constants.PARAM_TYPE.DOUBLE_SELECTION:
+                            fieldProps.component = FormTextField;
+                            fieldProps.select = true;
+                            fieldProps.variant = "outlined";
+                            fieldProps.children = param.arguments?.map(
+                                (arg) => (
+                                    <MenuItem key={arg.value} value={arg}>
+                                        {arg.display}
+                                    </MenuItem>
+                                )
+                            );
+                            break;
 
-                    case constants.PARAM_TYPE.FILE_INPUT:
-                        fieldProps.component = InputSelector;
-                        fieldProps.startingPath = startingPath;
-                        fieldProps.acceptedType = ResourceTypes.FILE;
-                        break;
+                        case constants.PARAM_TYPE.FILE_INPUT:
+                            fieldProps.component = InputSelector;
+                            fieldProps.startingPath = startingPath;
+                            fieldProps.acceptedType = ResourceTypes.FILE;
+                            break;
 
-                    case constants.PARAM_TYPE.FOLDER_INPUT:
-                        fieldProps.component = InputSelector;
-                        fieldProps.startingPath = startingPath;
-                        fieldProps.acceptedType = ResourceTypes.FOLDER;
-                        break;
+                        case constants.PARAM_TYPE.FOLDER_INPUT:
+                            fieldProps.component = InputSelector;
+                            fieldProps.startingPath = startingPath;
+                            fieldProps.acceptedType = ResourceTypes.FOLDER;
+                            break;
 
-                    case constants.PARAM_TYPE.FILE_FOLDER_INPUT:
-                        fieldProps.component = InputSelector;
-                        fieldProps.startingPath = startingPath;
-                        fieldProps.acceptedType = ResourceTypes.ANY;
-                        break;
+                        case constants.PARAM_TYPE.FILE_FOLDER_INPUT:
+                            fieldProps.component = InputSelector;
+                            fieldProps.startingPath = startingPath;
+                            fieldProps.acceptedType = ResourceTypes.ANY;
+                            break;
 
-                    case constants.PARAM_TYPE.MULTIFILE_SELECTOR:
-                        fieldProps.component = MultiInputSelector;
-                        fieldProps.startingPath = startingPath;
-                        fieldProps.acceptedType = ResourceTypes.FILE;
-                        break;
+                        case constants.PARAM_TYPE.MULTIFILE_SELECTOR:
+                            fieldProps.component = MultiInputSelector;
+                            fieldProps.startingPath = startingPath;
+                            fieldProps.acceptedType = ResourceTypes.FILE;
+                            break;
 
-                    case constants.PARAM_TYPE.REFERENCE_GENOME:
-                    case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
-                    case constants.PARAM_TYPE.REFERENCE_ANNOTATION:
-                        fieldProps.component = ReferenceGenomeSelect;
+                        case constants.PARAM_TYPE.REFERENCE_GENOME:
+                        case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
+                        case constants.PARAM_TYPE.REFERENCE_ANNOTATION:
+                            fieldProps.component = ReferenceGenomeSelect;
 
-                        // Can't be a FastField since it renders with custom props.
-                        return (
-                            <Field
+                            // Can't be a FastField since it renders with custom props.
+                            return (
+                                <Grid item xs={12}>
+                                    <Field
+                                        key={param.id}
+                                        {...fieldProps}
+                                        referenceGenomes={referenceGenomes}
+                                        referenceGenomesLoading={
+                                            referenceGenomesLoading
+                                        }
+                                        size="small"
+                                    />
+                                </Grid>
+                            );
+
+                        default:
+                            fieldProps.component = FormTextField;
+                            break;
+                    }
+
+                    return (
+                        <Grid item xs={12}>
+                            <FastField
                                 key={param.id}
                                 {...fieldProps}
-                                referenceGenomes={referenceGenomes}
-                                referenceGenomesLoading={
-                                    referenceGenomesLoading
-                                }
+                                size="small"
                             />
-                        );
-
-                    default:
-                        fieldProps.component = FormTextField;
-                        break;
-                }
-
-                return <FastField key={param.id} {...fieldProps} />;
-            })}
+                        </Grid>
+                    );
+                })}
+            </Grid>
         </>
     );
 }
@@ -282,6 +313,7 @@ const ParamsReviewValue = ({ param }) => {
                     InputProps={{
                         readOnly: true,
                     }}
+                    style={{ margin: 8 }}
                     value={Array.isArray(value) ? value.join("\n") : value}
                 />
             );

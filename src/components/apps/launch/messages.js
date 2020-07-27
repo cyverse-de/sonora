@@ -73,6 +73,7 @@ export default {
         showAllParametersHelpText:
             "Turn off to hide parameters without values entered or selected.",
         stepLabel: "Step {step}: {label}",
+        section: "Section {groupNumber} of {totalGroups}: ",
         validationAbove: "Must be greater than {min}",
         validationBelow: "Must be less than {max}",
         validationRange: "Must be between {min} and {max}",

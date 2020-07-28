@@ -47,7 +47,6 @@ export default makeStyles((theme) => ({
         // Try to eek as much space out of the iPhone SE cards as possible.
         [theme.breakpoints.down("md")]: {
             padding: 0,
-            justifyContent: "center",
         },
     },
     subtitle: {

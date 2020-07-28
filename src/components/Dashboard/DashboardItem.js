@@ -75,17 +75,7 @@ const DashboardLink = ({ target, kind, headerClass, children }) => {
  * @param {Object} props.content - The content for the item returned from the API.
  * @returns {Object}
  */
-const DashboardItem = ({
-    // kind,
-    // content,
-    // section,
-    // intl,
-    // width,
-    // height,
-    // actions,
-    intl,
-    item,
-}) => {
+const DashboardItem = ({ item }) => {
     const classes = useStyles({ width: item.width, height: item.height });
     const theme = useTheme();
     const { t } = useTranslation("dashboard");

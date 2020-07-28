@@ -173,7 +173,12 @@ export const DashboardFeedItem = ({ item }) => {
     const user = item.username;
 
     return (
-        <div className={classes.feedItem}>
+        <div
+            className={clsx(
+                item.section === constants.SECTION_NEWS && classes.newsItem,
+                item.section === constants.SECTION_EVENTS && classes.eventsItem
+            )}
+        >
             <Typography variant="h6" color="primary">
                 <DashboardLink
                     target={item.getLinkTarget()}

@@ -90,7 +90,16 @@ export default makeStyles((theme) => ({
             marginRight: theme.spacing(2),
         },
     },
-    feedItem: {
+    newsItem: {
+        marginTop: theme.spacing(2),
+        width: "100%",
+        paddingRight: theme.spacing(2),
+
+        [theme.breakpoints.up("lg")]: {
+            width: "47%",
+        },
+    },
+    eventsItem: {
         marginTop: theme.spacing(2),
         width: "100%",
     },

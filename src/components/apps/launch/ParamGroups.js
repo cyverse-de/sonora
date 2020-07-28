@@ -38,6 +38,7 @@ import {
     FormControl,
     FormControlLabel,
     FormHelperText,
+    Grid,
     Link,
     makeStyles,
     MenuItem,
@@ -51,7 +52,8 @@ import {
     TextField,
     Toolbar,
     Typography,
-    Grid,
+    useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
 
 /**
@@ -132,10 +134,16 @@ function ParamGroupForm(props) {
         startingPath,
     } = props;
     const classes = useStyles();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+
     return (
         <>
             <Divider className={classes.paramsSectionHeader} />
-            <Typography variant="h6" component="span">
+            <Typography
+                variant={isMobile ? "subtitle2" : "h6"}
+                component="span"
+            >
                 {getMessage("section", {
                     values: { groupNumber: index + 1, totalGroups: noOfGroups },
                 })}
@@ -291,20 +299,33 @@ function ParamGroupForm(props) {
 }
 
 const ParamsReviewLabel = ({ error, label }) => {
-    return <Typography color={error ? "error" : "initial"}>{label}</Typography>;
+    const classes = useStyles();
+    return (
+        <Typography
+            className={classes.paramsReview}
+            color={error ? "error" : "initial"}
+        >
+            {label}
+        </Typography>
+    );
 };
 
 const ParamsReviewValue = ({ param }) => {
     const { value, type } = param;
-
+    const classes = useStyles();
     switch (type) {
         case constants.PARAM_TYPE.FLAG:
-            return value ? "✔︎" : "";
+            return value ? (
+                <Typography className={classes.paramsReview}>"✔︎" </Typography>
+            ) : (
+                <Typography className={classes.paramsReview}></Typography>
+            );
 
         case constants.PARAM_TYPE.MULTILINE_TEXT:
         case constants.PARAM_TYPE.MULTIFILE_SELECTOR:
             return (
                 <TextField
+                    className={classes.paramsReview}
                     multiline
                     rows={3}
                     variant="outlined"
@@ -313,7 +334,6 @@ const ParamsReviewValue = ({ param }) => {
                     InputProps={{
                         readOnly: true,
                     }}
-                    style={{ margin: 8 }}
                     value={Array.isArray(value) ? value.join("\n") : value}
                 />
             );
@@ -322,7 +342,11 @@ const ParamsReviewValue = ({ param }) => {
         case constants.PARAM_TYPE.INTEGER_SELECTION:
         case constants.PARAM_TYPE.DOUBLE_SELECTION:
             if (value?.display) {
-                return value.display;
+                return (
+                    <Typography className={classes.paramsReview}>
+                        {value.display}
+                    </Typography>
+                );
             }
             break;
 
@@ -330,7 +354,11 @@ const ParamsReviewValue = ({ param }) => {
         case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
         case constants.PARAM_TYPE.REFERENCE_ANNOTATION:
             if (value?.name) {
-                return value.name;
+                return (
+                    <Typography className={classes.paramsReview}>
+                        {value.name}
+                    </Typography>
+                );
             }
             break;
 

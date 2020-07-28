@@ -51,14 +51,14 @@ import {
 
 import {
     Container,
-    BottomNavigation,
-    BottomNavigationAction,
+    Button,
     Hidden,
     Paper,
     Stepper,
     Step,
     StepButton,
     StepLabel,
+    Toolbar,
     Typography,
     makeStyles,
     useMediaQuery,
@@ -69,7 +69,11 @@ import { ArrowBack, ArrowForward, PlayArrow, Save } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
-const BOTTOM_NAVIGATION_BAR_HEIGHT = 220;
+//Includes sonora appbar height, appInfo bar height and bottom navigation bar height.
+//Stepper height is calculated dynamically.
+//TODO: calculate these number dynamically.
+const NAVIGATION_BAR_HEIGHT = 200;
+const MOBILE_NAVIGATION_BAR_HEIGHT = 150;
 
 const ReferenceGenomeParamTypes = [
     constants.PARAM_TYPE.REFERENCE_GENOME,
@@ -100,70 +104,50 @@ const StepperBottomNavigation = ({
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-    //removing label for mobile messes up icon alignment
-    const buttonPadding = {
-        marginTop: isMobile ? theme.spacing(2) : theme.spacing(0),
-        paddingTop: isMobile ? theme.spacing(1) : theme.spacing(0),
-        whiteSpace: "noWrap",
-    };
     return (
-        <BottomNavigation
-            className={classes.bottomNavigation}
-            showLabels={true}
-            onChange={(event, value) => {
-                switch (value) {
-                    case "submit":
-                        handleSubmit(event);
-                        break;
-                    case "saveQL":
-                        handleSaveQuickLaunch();
-                        break;
-                    case "next":
-                        handleNext();
-                        break;
-                    default:
-                        handleBack();
-                        break;
-                }
-            }}
-        >
-            <BottomNavigationAction
-                className={classes.bottomNavigationAction}
+        <Toolbar variant="dense" className={classes.bottomNavigation}>
+            <Button
                 id={buildDebugId(formId, ids.BUTTONS.STEP_BACK)}
-                label={getMessage("back")}
-                value="back"
-                icon={<ArrowBack />}
-            />
-            {showSaveQuickLaunchButton ? (
-                <BottomNavigationAction
+                className={classes.bottomNavigationAction}
+                startIcon={<ArrowBack />}
+                size="small"
+                onClick={handleBack}
+            >
+                {isMobile ? "" : getMessage("back")}
+            </Button>
+            {showSaveQuickLaunchButton && (
+                <Button
                     className={classes.bottomNavigationAction}
                     id={buildDebugId(formId, ids.BUTTONS.SAVE_AS_QUICK_LAUNCH)}
-                    label={getMessage("saveAsQuickLaunch")}
-                    value="saveQL"
-                    style={buttonPadding}
-                    icon={<Save />}
-                />
-            ) : (
-                <BottomNavigationAction disabled={true} />
+                    startIcon={<Save />}
+                    size="small"
+                    onClick={handleSaveQuickLaunch}
+                >
+                    {isMobile ? "" : getMessage("saveAsQuickLaunch")}
+                </Button>
             )}
             {showSubmitButton ? (
-                <BottomNavigationAction
+                <Button
                     className={classes.bottomNavigationAction}
                     id={buildDebugId(formId, ids.BUTTONS.SUBMIT)}
-                    label={getMessage("launchAnalysis")}
-                    value="submit"
-                    icon={<PlayArrow />}
-                />
+                    startIcon={<PlayArrow />}
+                    size="small"
+                    onClick={(event) => handleSubmit(event)}
+                >
+                    {isMobile ? "" : getMessage("launchAnalysis")}
+                </Button>
             ) : (
-                <BottomNavigationAction
+                <Button
                     className={classes.bottomNavigationAction}
                     id={buildDebugId(formId, ids.BUTTONS.STEP_NEXT)}
-                    label={getMessage("next")}
-                    value="next"
-                    icon={<ArrowForward />}
-                />
+                    endIcon={<ArrowForward />}
+                    size="small"
+                    onClick={handleNext}
+                >
+                    {isMobile ? "" : getMessage("next")}
+                </Button>
             )}
-        </BottomNavigation>
+        </Toolbar>
     );
 };
 
@@ -419,6 +403,8 @@ const AppLaunchForm = (props) => {
     ] = React.useState(false);
 
     const classes = useStyles();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
     const {
         baseId,
@@ -450,6 +436,16 @@ const AppLaunchForm = (props) => {
                 ReferenceGenomeParamTypes.includes(param.type)
             )
         );
+
+    const stepperRef = React.useRef(null);
+    const [stepperHeight, setStepperRef] = useComponentHeight();
+    const appBarHeight =
+        stepperHeight +
+        (isMobile ? MOBILE_NAVIGATION_BAR_HEIGHT : NAVIGATION_BAR_HEIGHT);
+
+    React.useEffect(() => {
+        setStepperRef(stepperRef);
+    }, [stepperRef, setStepperRef]);
 
     React.useEffect(() => {
         if (hasReferenceGenomes) {
@@ -542,11 +538,7 @@ const AppLaunchForm = (props) => {
             onError
         );
     };
-    const stepperRef = React.useRef(null);
-    const [stepperHeight, setStepperRef] = useComponentHeight();
-    React.useEffect(() => {
-        setStepperRef(stepperRef);
-    }, [stepperRef, setStepperRef]);
+
     return (
         <Paper elevation={0}>
             <Formik
@@ -571,6 +563,7 @@ const AppLaunchForm = (props) => {
                                 nonLinear
                                 activeStep={activeStep}
                                 ref={stepperRef}
+                                className={classes.stepper}
                             >
                                 {steps.map((step, index) => (
                                     <Step key={step.label}>
@@ -605,11 +598,7 @@ const AppLaunchForm = (props) => {
                             component="div"
                             className={classes.stepContainer}
                         >
-                            <PageWrapper
-                                appBarHeight={
-                                    stepperHeight + BOTTOM_NAVIGATION_BAR_HEIGHT
-                                }
-                            >
+                            <PageWrapper appBarHeight={appBarHeight}>
                                 <StepContent
                                     id={buildDebugId(
                                         formId,
@@ -628,11 +617,8 @@ const AppLaunchForm = (props) => {
                                     />
                                 </StepContent>
                             </PageWrapper>
-                            <PageWrapper
-                                appBarHeight={
-                                    stepperHeight + BOTTOM_NAVIGATION_BAR_HEIGHT
-                                }
-                            >
+
+                            <PageWrapper appBarHeight={appBarHeight}>
                                 <StepContent
                                     id={stepIdParams}
                                     step={stepParameters.step}
@@ -663,12 +649,7 @@ const AppLaunchForm = (props) => {
                                     ))}
                                 </StepContent>
                             </PageWrapper>
-
-                            <PageWrapper
-                                appBarHeight={
-                                    stepperHeight + BOTTOM_NAVIGATION_BAR_HEIGHT
-                                }
-                            >
+                            <PageWrapper appBarHeight={appBarHeight}>
                                 <StepContent
                                     id={stepIdResources}
                                     step={stepAdvanced.step}
@@ -693,11 +674,7 @@ const AppLaunchForm = (props) => {
                                     )}
                                 </StepContent>
                             </PageWrapper>
-                            <PageWrapper
-                                appBarHeight={
-                                    stepperHeight + BOTTOM_NAVIGATION_BAR_HEIGHT
-                                }
-                            >
+                            <PageWrapper appBarHeight={appBarHeight}>
                                 <StepContent
                                     id={stepIdReview}
                                     step={stepReviewAndLaunch.step}

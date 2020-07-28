@@ -23,11 +23,13 @@ import {
 
 import {
     Box,
+    Hidden,
     Link,
     makeStyles,
     Paper,
     Typography,
-    Hidden,
+    useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
 
 import { Skeleton } from "@material-ui/lab";
@@ -73,10 +75,15 @@ const AppInfo = ({
         ? "appParamsDeprecated"
         : null;
     const classes = useStyles();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     return (
         <>
             <Paper className={classes.appInfoContainer} elevation={0}>
-                <Typography variant="h6" className={classes.appInfoTypography}>
+                <Typography
+                    variant={isMobile ? "subtitle2" : "h6"}
+                    className={classes.appInfoTypography}
+                >
                     {loadingError ? (
                         <LoadingErrorDisplay
                             baseId={baseId}

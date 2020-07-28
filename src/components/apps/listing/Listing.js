@@ -373,11 +373,9 @@ function Listing({
             }
             setCategory(category);
             setSelected([]);
-            if (selectedPage === 0) {
-                setPage(0);
-            }
+            setPage(0);
         },
-        [selectedPage]
+        []
     );
 
     const handleFilterChange = (filter) => {

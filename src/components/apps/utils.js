@@ -16,7 +16,7 @@ export const getAppLaunchPath = (systemId, appId) =>
 
 /**
  *
- * @param {stirng} order The apps listing sort order, asc or desc.
+ * @param {string} order The apps listing sort order, asc or desc.
  * @param {string} orderBy The apps listing sort field.
  * @param {string} page The apps listing page.
  * @param {string} rowsPerPage The apps listing page size.

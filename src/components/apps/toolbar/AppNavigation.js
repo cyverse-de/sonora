@@ -127,7 +127,7 @@ function AppNavigation(props) {
             setCategories(categoryList);
             handleAppNavError(null);
         },
-        [allAppsCategory, handleAppNavError]
+        [allAppsCategory, handleAppNavError, setCategories]
     );
 
     const { isFetching } = useQuery({

@@ -1,0 +1,8 @@
+{
+    "asyncDataDeletePending": "File(s)/Folder(s) deletion in progress",
+    "deleteResourceError": "Unable to delete selected resources. Please try again.",
+    "filesQueuedForUploadMsg": "{{count}} file queued for upload",
+    "filesQueuedForUploadMsg_plural": "{{count}} files queued for upload",
+    "infoTypeFetchError": "Unable to fetch info types",
+    "uploadQueue": "View Upload Queue"
+}

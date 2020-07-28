@@ -10,7 +10,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import TableView from "./TableView";
 
 import ids from "../ids";
-import messages from "../messages";
 import Drawer from "../details/Drawer";
 
 import DataToolbar from "../toolbar/Toolbar";
@@ -41,9 +40,10 @@ import {
 
 import withErrorAnnouncer from "../../utils/error/withErrorAnnouncer";
 
-import { announce, build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import { announce, build, AnnouncerConstants } from "@cyverse-de/ui-lib";
 
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
+
 import { queryCache, useMutation, useQuery } from "react-query";
 
 import { Button, Typography, useTheme } from "@material-ui/core";
@@ -78,7 +78,6 @@ function Listing(props) {
         isInvalidSelection = () => false,
         render,
         showErrorAnnouncer,
-        intl,
     } = props;
 
     // Used to force the data listing to refresh when uploads are completed.
@@ -92,6 +91,7 @@ function Listing(props) {
 
     const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
     const [importDialogOpen, setImportDialogOpen] = useState(false);
+    const { t } = useTranslation("data");
 
     const onCloseImportDialog = () => setImportDialogOpen(false);
 
@@ -136,12 +136,14 @@ function Listing(props) {
     const [removeResources, { status: removeResourceStatus }] = useMutation(
         deleteResources,
         {
-            onSuccess: () => refreshListing(),
+            onSuccess: () => {
+                announce({
+                    text: t("asyncDataDeletePending"),
+                    type: AnnouncerConstants.SUCCESS,
+                });
+            },
             onError: (e) => {
-                showErrorAnnouncer(
-                    formatMessage(intl, "deleteResourceError"),
-                    e
-                );
+                showErrorAnnouncer(t("deleteResourceError"), e);
             },
         }
     );
@@ -172,22 +174,22 @@ function Listing(props) {
                     variant="button"
                     style={{ color: theme.palette.primary.contrastText }}
                 >
-                    {formatMessage(intl, "uploadQueue")}
+                    {t("uploadQueue")}
                 </Typography>
             </Button>
         );
-    }, [intl, theme.palette.primary.contrastText]);
+    }, [t, theme.palette.primary.contrastText]);
 
     useEffect(() => {
         if (uploadTracker.uploads.length > 0) {
             announce({
-                text: formatMessage(intl, "filesQueuedForUploadMsg", {
-                    total: uploadTracker.uploads.length,
+                text: t("filesQueuedForUploadMsg", {
+                    count: uploadTracker.uploads.length,
                 }),
                 CustomAction: viewUploadQueue,
             });
         }
-    }, [uploadTracker, intl, viewUploadQueue]);
+    }, [uploadTracker, t, viewUploadQueue]);
 
     useQuery({
         queryKey: "dataFetchInfoTypes",
@@ -197,10 +199,7 @@ function Listing(props) {
             staleTime: Infinity,
             cacheTime: Infinity,
             onError: (e) => {
-                showErrorAnnouncer(
-                    formatMessage(intl, "infoTypeFetchError"),
-                    e
-                );
+                showErrorAnnouncer(t("infoTypeFetchError"), e);
             },
         },
     });
@@ -444,4 +443,4 @@ function Listing(props) {
     );
 }
 
-export default withI18N(injectIntl(withErrorAnnouncer(Listing)), messages);
+export default withErrorAnnouncer(Listing);

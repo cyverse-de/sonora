@@ -13,8 +13,6 @@ import TableView from "./TableView";
 import intlData from "../messages";
 import AppsToolbar from "../toolbar/Toolbar";
 
-import { getAppTypeFilters } from "../toolbar/AppNavigation";
-
 import appType from "../../models/AppType";
 import DEPagination from "../../utils/DEPagination";
 
@@ -36,16 +34,28 @@ import { withI18N } from "@cyverse-de/ui-lib";
 import { injectIntl } from "react-intl";
 import { queryCache, useMutation, useQuery } from "react-query";
 
-function Listing({ baseId, onRouteToApp }) {
+function Listing({
+    baseId,
+    onRouteToApp,
+    onRouteToListing,
+    selectedPage,
+    selectedRowsPerPage,
+    selectedOrder,
+    selectedOrderBy,
+    selectedFilter,
+    selectedCategory,
+}) {
     const [isGridView, setGridView] = useState(false);
-    const [order, setOrder] = useState("asc");
-    const [orderBy, setOrderBy] = useState("name");
+
+    const [order, setOrder] = useState(selectedOrder);
+    const [orderBy, setOrderBy] = useState(selectedOrderBy);
+    const [page, setPage] = useState(selectedPage);
+    const [rowsPerPage, setRowsPerPage] = useState(selectedRowsPerPage);
+    const [filter, setFilter] = useState(selectedFilter);
+    const [category, setCategory] = useState(selectedCategory);
+
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(25);
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [filter, setFilter] = useState(getAppTypeFilters()[0]);
 
     const [data, setData] = useState(null);
     const [agaveAuthDialogOpen, setAgaveAuthDialogOpen] = useState(false);
@@ -75,7 +85,7 @@ function Listing({ baseId, onRouteToApp }) {
 
     //a query with falsy key will not execute until key is set truthy val
     const {
-        status: appInCategoryStatus,
+        isFetching: appInCategoryStatus,
         error: appsInCategoryError,
     } = useQuery({
         queryKey: appsInCategoryKey,
@@ -86,7 +96,7 @@ function Listing({ baseId, onRouteToApp }) {
         },
     });
 
-    const { status: allAppsStatus, error: listingError } = useQuery({
+    const { isFetching: allAppsStatus, error: listingError } = useQuery({
         queryKey: allAppsKey,
         queryFn: getApps,
         config: {
@@ -95,7 +105,7 @@ function Listing({ baseId, onRouteToApp }) {
         },
     });
 
-    const { status: detailsStatus } = useQuery({
+    const { isFetching: detailsStatus } = useQuery({
         queryKey: detailsKey,
         queryFn: getAppDetails,
         config: {
@@ -159,9 +169,53 @@ function Listing({ baseId, onRouteToApp }) {
     };
 
     useEffect(() => {
-        const systemId = selectedCategory?.system_id;
-        const categoryId = selectedCategory?.id;
-        const categoryName = selectedCategory?.name;
+        //JSON objects needs to stringified for urls.
+        const stringFilter = JSON.stringify(filter);
+        const stringCategory = JSON.stringify(category);
+
+        const categoryChanged =
+            selectedCategory &&
+            category &&
+            selectedCategory?.name !== category?.name;
+        const filterChanged = selectedFilter?.name !== filter?.name;
+
+        if (
+            categoryChanged ||
+            filterChanged ||
+            selectedOrder !== order ||
+            selectedOrderBy !== orderBy ||
+            selectedPage !== page ||
+            selectedRowsPerPage !== rowsPerPage
+        ) {
+            onRouteToListing(
+                order,
+                orderBy,
+                page,
+                rowsPerPage,
+                stringFilter,
+                stringCategory
+            );
+        }
+    }, [
+        order,
+        orderBy,
+        page,
+        rowsPerPage,
+        filter,
+        category,
+        onRouteToListing,
+        selectedFilter,
+        selectedOrder,
+        selectedOrderBy,
+        selectedPage,
+        selectedRowsPerPage,
+        selectedCategory,
+    ]);
+
+    useEffect(() => {
+        const systemId = category?.system_id;
+        const categoryId = category?.id;
+        const categoryName = category?.name;
         const appTypeFilter = filter?.name;
         if (categoryName === constants.BROWSE_ALL_APPS) {
             setAllAppsKey([
@@ -192,7 +246,7 @@ function Listing({ baseId, onRouteToApp }) {
             setAppsInCategoryQueryEnabled(true);
             setAllAppsQueryEnabled(false);
         }
-    }, [order, orderBy, page, rowsPerPage, selectedCategory, filter]);
+    }, [order, orderBy, page, rowsPerPage, category, filter]);
 
     useEffect(() => {
         if (data && data.Location && data.status === 302) {
@@ -301,26 +355,27 @@ function Listing({ baseId, onRouteToApp }) {
     };
 
     const handleRequestSort = (event, property) => {
-        const isAsc = orderBy === property && order === "asc";
-        setOrder(isAsc ? "desc" : "asc");
+        const isAsc =
+            orderBy === property && order === constants.SORT_ASCENDING;
+        setOrder(isAsc ? constants.SORT_DESCENDING : constants.SORT_ASCENDING);
         setOrderBy(property);
         setSelected([]);
         setPage(0);
     };
 
     const handleCategoryChange = useCallback(
-        (selectedCategory) => {
+        (category) => {
             if (
-                selectedCategory.system_id?.toLowerCase() ===
+                category.system_id?.toLowerCase() ===
                 appType.agave.toLowerCase()
             ) {
                 setFilter(null);
             }
-            setSelectedCategory(selectedCategory);
+            setCategory(category);
             setSelected([]);
             setPage(0);
         },
-        [setFilter, setSelectedCategory, setPage]
+        []
     );
 
     const handleFilterChange = (filter) => {
@@ -365,11 +420,7 @@ function Listing({ baseId, onRouteToApp }) {
                 onDetailsSelected={onDetailsSelected}
             />
             <TableView
-                loading={
-                    appInCategoryStatus === constants.LOADING ||
-                    allAppsStatus === constants.LOADING ||
-                    categoryStatus
-                }
+                loading={appInCategoryStatus || allAppsStatus || categoryStatus}
                 error={appsInCategoryError || listingError || navError}
                 listing={data}
                 baseId={baseId}
@@ -389,7 +440,7 @@ function Listing({ baseId, onRouteToApp }) {
                     onClose={() => setDetailsOpen(false)}
                     onFavoriteClick={onFavoriteClick}
                     details={details}
-                    detailsLoadingStatus={detailsStatus === constants.LOADING}
+                    detailsLoadingStatus={detailsStatus}
                     ratingMutationStatus={
                         ratingMutationStatus === constants.LOADING
                     }

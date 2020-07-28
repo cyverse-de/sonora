@@ -13,3 +13,23 @@ import NavigationConstants from "../../common/NavigationConstants";
  */
 export const getAppLaunchPath = (systemId, appId) =>
     `/${NavigationConstants.APPS}/${systemId}/${appId}/launch`;
+
+/**
+ *
+ * @param {string} order The apps listing sort order, asc or desc.
+ * @param {string} orderBy The apps listing sort field.
+ * @param {string} page The apps listing page.
+ * @param {string} rowsPerPage The apps listing page size.
+ * @param {string} filter The apps listing filter option.
+ * @param {string} category The apps category
+ */
+
+export const getListingPath = (
+    order,
+    orderBy,
+    page,
+    rowsPerPage,
+    filter,
+    category
+) =>
+    `/${NavigationConstants.APPS}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedFilter=${filter}&selectedCategory=${category}`;

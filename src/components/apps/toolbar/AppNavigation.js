@@ -11,6 +11,7 @@ import ids from "../ids";
 
 import constants from "../../../constants";
 import appType from "../../models/AppType";
+import systemId from "../../models/systemId";
 import {
     getPrivateCategories,
     APP_CATEGORIES_QUERY_KEY,
@@ -21,7 +22,6 @@ import { queryCache, useQuery } from "react-query";
 import { injectIntl } from "react-intl";
 
 import {
-    Divider,
     List,
     ListItem,
     ListItemIcon,
@@ -79,13 +79,6 @@ function getAppTypeFilters() {
     });
 }
 
-function getAllAppsCategory(categoryName) {
-    return {
-        name: categoryName,
-        icon: <AppsIcon />,
-    };
-}
-
 function AppNavigation(props) {
     const {
         handleCategoryChange,
@@ -101,41 +94,40 @@ function AppNavigation(props) {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const appNavId = build(baseId, ids.APPS_NAVIGATION);
-    const allAppsCategory = getAllAppsCategory(constants.BROWSE_ALL_APPS);
+
+    const iconMap = new Map();
+    iconMap.set(constants.APPS_UNDER_DEV, <LockIcon />);
+    iconMap.set(constants.APPS_SHARED_WITH_ME, <FolderSharedIcon />);
+    iconMap.set(constants.FAV_APPS, <FavoriteIcon />);
+    iconMap.set(constants.MY_PUBLIC_APPS, <GroupWorkIcon />);
+    iconMap.set(constants.BROWSE_ALL_APPS, <AppsIcon />);
+    iconMap.set(constants.HPC, <StorageIcon />);
+
+    const allAppsCategory = useCallback(() => {
+        return {
+            name: constants.BROWSE_ALL_APPS,
+            id: constants.BROWSE_ALL_APPS_ID,
+        };
+    }, []);
 
     const preProcessData = useCallback(
         (data) => {
             const privateCat = data.categories.find(
-                (cat) => cat.system_id === "de"
+                (cat) => cat.system_id === systemId.de
             );
             const hpcCat = data.categories.find(
-                (cat) => cat.system_id === "agave"
+                (cat) => cat.system_id === systemId.agave
             );
 
-            privateCat.categories.forEach((category) => {
-                if (category.name === constants.APPS_UNDER_DEV) {
-                    category.icon = <LockIcon />;
-                } else if (
-                    category.name.toLowerCase() ===
-                    constants.SHARED_WITH_ME.toLowerCase()
-                ) {
-                    category.icon = <FolderSharedIcon />;
-                } else if (category.name === constants.FAV_APPS) {
-                    category.icon = <FavoriteIcon />;
-                } else if (category.name === constants.MY_PUBLIC_APPS) {
-                    category.icon = <GroupWorkIcon />;
-                }
-            });
-
+            let categoryList = privateCat.categories;
             if (hpcCat) {
-                hpcCat.icon = <StorageIcon />;
-                setCategories(privateCat.categories.concat(hpcCat));
-            } else {
-                setCategories(privateCat.categories);
+                categoryList = categoryList.concat(hpcCat);
             }
+            categoryList = categoryList.concat(allAppsCategory());
+            setCategories(categoryList);
             handleAppNavError(null);
         },
-        [setCategories, handleAppNavError]
+        [allAppsCategory, handleAppNavError, setCategories]
     );
 
     const { isFetching } = useQuery({
@@ -156,15 +148,13 @@ function AppNavigation(props) {
     }, [isFetching, setCategoryStatus]);
 
     useEffect(() => {
-        if (categories && categories.length > 0) {
-            handleCategoryChange(categories[0]);
-        } else {
+        if (!categories || categories.length === 0) {
             const cacheCat = queryCache.getQueryData(APP_CATEGORIES_QUERY_KEY);
             if (cacheCat) {
                 preProcessData(cacheCat);
             }
         }
-    }, [preProcessData, categories, handleCategoryChange]);
+    }, [preProcessData, categories]);
 
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
@@ -201,7 +191,7 @@ function AppNavigation(props) {
                         "selectedCategoryAriaMenuItemLabel"
                     )}
                 >
-                    {selectedCategory.icon}
+                    {iconMap.get(selectedCategory.name)}
                     <ListItemText
                         id={build(
                             appNavId,
@@ -242,7 +232,9 @@ function AppNavigation(props) {
                         className={classes.listItem}
                         aria-label={menuItem.name}
                     >
-                        <ListItemIcon>{menuItem.icon}</ListItemIcon>
+                        <ListItemIcon>
+                            {iconMap.get(menuItem.name)}
+                        </ListItemIcon>
                         <ListItemText>
                             <Typography className={classes.listItemText}>
                                 {menuItem.name}
@@ -250,30 +242,6 @@ function AppNavigation(props) {
                         </ListItemText>
                     </ListItem>
                 ))}
-                <Divider />
-                <ListItem
-                    id={build(
-                        appNavId,
-                        ids.APPS_CATEGORIES_MENU,
-                        ids.APPS_CATEGORIES_MENU_ITEM,
-                        ids.BROWSE_ALL_APPS
-                    )}
-                    key={allAppsCategory.name}
-                    selected={selectedCategory.name === allAppsCategory.name}
-                    onClick={() => {
-                        setAnchorEl(null);
-                        handleCategoryChange(allAppsCategory);
-                    }}
-                    className={classes.listItem}
-                    aria-label={allAppsCategory.name}
-                >
-                    <ListItemIcon>{allAppsCategory.icon}</ListItemIcon>
-                    <ListItemText>
-                        <Typography className={classes.listItemText}>
-                            {allAppsCategory.name}
-                        </Typography>
-                    </ListItemText>
-                </ListItem>
             </Menu>
         </>
     );

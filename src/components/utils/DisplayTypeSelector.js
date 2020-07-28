@@ -16,7 +16,7 @@ import { Hidden, IconButton, Tooltip } from "@material-ui/core";
 import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
 
 import {
-    Apps as GridIcon,
+    GridOn as GridIcon,
     FormatListBulleted as TableIcon,
 } from "@material-ui/icons";
 

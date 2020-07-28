@@ -135,9 +135,6 @@ export const useDashboardSettings = ({ marginRight = 16, dashboardEl }) => {
 
         setCardWidth(cardWidth);
         setCardHeight(cardHeight);
-        console.log(
-            `width: ${actualWidth}   cardHeight: ${cardHeight}   cardWidth: ${cardWidth}   columns: ${newColumns}`
-        );
     }, [dimensions, marginRight, setCardWidth]);
 
     return [cardWidth, cardHeight];

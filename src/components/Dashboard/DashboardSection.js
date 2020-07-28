@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, useRef } from "react";
+import React from "react";
 import clsx from "clsx";
 
 import { Divider, Typography } from "@material-ui/core";
@@ -58,31 +58,11 @@ const DashboardSection = ({
     items,
     id,
     section,
+    cardWidth,
+    cardHeight,
     showDivider = true,
 }) => {
     const classes = useStyles();
-
-    const dashboardEl = useRef();
-
-    // Adapted from https://stackoverflow.com/questions/49058890/how-to-get-a-react-components-size-height-width-before-render
-    // and https://stackoverflow.com/questions/19014250/rerender-view-on-browser-resize-with-react/19014495#19014495
-    const [dimensions, setDimensions] = useState({ height: 0, width: 0 });
-
-    useLayoutEffect(() => {
-        function updater() {
-            if (dashboardEl.current) {
-                setDimensions({
-                    width: dashboardEl.current.offsetWidth,
-                    height: dashboardEl.current.offsetHeight,
-                });
-            }
-        }
-        window.addEventListener("resize", updater);
-        updater();
-        return () => window.removeEventListener("resize", updater);
-    }, [dashboardEl, setDimensions]);
-
-    const [width, height] = fns.useDashboardSettings(dimensions);
 
     const isNewsSection = section === constants.SECTION_NEWS;
     const isEventsSection = section === constants.SECTION_EVENTS;
@@ -92,7 +72,6 @@ const DashboardSection = ({
 
     return (
         <div
-            ref={dashboardEl}
             className={clsx(
                 classes.section,
                 isNewsSection && classes.sectionNews,
@@ -114,8 +93,8 @@ const DashboardSection = ({
             {isFeedItem ? (
                 <SectionContentFeed
                     id={id}
-                    height={height}
-                    width={width}
+                    height={cardHeight}
+                    width={cardWidth}
                     section={section}
                     kind={kind}
                     items={items}
@@ -123,8 +102,8 @@ const DashboardSection = ({
             ) : (
                 <SectionContentCards
                     id={id}
-                    height={height}
-                    width={width}
+                    height={cardHeight}
+                    width={cardWidth}
                     section={section}
                     kind={kind}
                     items={items}
@@ -142,7 +121,7 @@ class SectionBase {
         this.id = fns.makeID(idBase);
     }
 
-    getComponent({ t, data, showDivider }) {
+    getComponent({ t, cardWidth, cardHeight, data, showDivider }) {
         return (
             <DashboardSection
                 id={this.id}
@@ -152,6 +131,8 @@ class SectionBase {
                 name={t(this.label)}
                 section={this.name}
                 showDivider={showDivider}
+                cardWidth={cardWidth}
+                cardHeight={cardHeight}
             />
         );
     }

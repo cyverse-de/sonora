@@ -5,7 +5,7 @@
  *
  * @module dashboard
  */
-import React from "react";
+import React, { useRef } from "react";
 
 import { useQuery } from "react-query";
 
@@ -61,6 +61,10 @@ const DashboardSkeleton = () => {
 const Dashboard = () => {
     const classes = useStyles();
     const { t } = useTranslation("dashboard");
+
+    const dashboardEl = useRef();
+    const [cardWidth, cardHeight] = fns.useDashboardSettings({ dashboardEl });
+
     const { status, data, error } = useQuery(
         [DASHBOARD_QUERY_KEY, { limit: constants.SECTION_ITEM_LIMIT }],
         getDashboard
@@ -94,6 +98,8 @@ const Dashboard = () => {
                   section.getComponent({
                       t,
                       data,
+                      cardWidth,
+                      cardHeight,
                       showDivider:
                           section.name !== constants.SECTION_EVENTS &&
                           section.name !== constants.SECTION_NEWS,
@@ -112,7 +118,11 @@ const Dashboard = () => {
     }
 
     return (
-        <div id={fns.makeID(ids.ROOT)} className={classes.gridRoot}>
+        <div
+            ref={dashboardEl}
+            id={fns.makeID(ids.ROOT)}
+            className={classes.gridRoot}
+        >
             {isLoading ? <DashboardSkeleton /> : componentContent}
             <div className={classes.footer} />
         </div>

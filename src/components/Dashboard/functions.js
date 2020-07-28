@@ -66,18 +66,47 @@ export const cleanField = (field, comparator) => {
 export const cleanDescription = (description) =>
     cleanField(description, constants.DESC_MAX_LENGTH);
 
-export const useDashboardSettings = ({
-    width,
-    marginRight = 16,
-    padding = 24,
-}) => {
-    //const [columns, setColumns] = useState(5);
+// Adapted from https://stackoverflow.com/questions/49058890/how-to-get-a-react-components-size-height-width-before-render
+// and https://stackoverflow.com/questions/19014250/rerender-view-on-browser-resize-with-react/19014495#19014495
+export const useDashboardSettings = ({ marginRight = 16, dashboardEl }) => {
+    const [dimensions, setDimensions] = useState({
+        height: 0,
+        width: 0,
+        paddingLeft: 0,
+        paddingRight: 0,
+    });
     const [cardWidth, setCardWidth] = useState(0);
     const [cardHeight, setCardHeight] = useState(0);
+
+    useLayoutEffect(() => {
+        function updater() {
+            if (dashboardEl.current) {
+                setDimensions({
+                    width: dashboardEl.current.offsetWidth,
+                    height: dashboardEl.current.offsetHeight,
+                    paddingLeft: parseFloat(
+                        window
+                            .getComputedStyle(dashboardEl.current)
+                            .getPropertyValue("padding-left")
+                    ),
+                    paddingRight: parseFloat(
+                        window
+                            .getComputedStyle(dashboardEl.current)
+                            .getPropertyValue("padding-right")
+                    ),
+                });
+            }
+        }
+        window.addEventListener("resize", updater);
+        updater();
+        return () => window.removeEventListener("resize", updater);
+    }, [dashboardEl, setDimensions]);
 
     // This is used because media queries misbehave on the server and this lets
     // us set values before rendering occurs.
     useLayoutEffect(() => {
+        const { width, paddingLeft, paddingRight } = dimensions;
+
         let newColumns;
 
         if (width >= constants.XL_PIXELS) {
@@ -95,16 +124,21 @@ export const useDashboardSettings = ({
             newColumns = constants.LG_NUM_COLUMNS;
         }
 
-        const cardWidth = Math.floor(
-            (width - padding) / newColumns - marginRight
-        );
+        const actualWidth = width - paddingLeft - paddingRight;
+
+        // Yeah, the 6 is magical. Haven't figured out why it's needed yet.
+        const cardWidth =
+            Math.floor(actualWidth / newColumns - marginRight) - 6;
 
         // Try to get a 4:3 ration for width to height
         const cardHeight = Math.floor(cardWidth - cardWidth / 3);
 
         setCardWidth(cardWidth);
         setCardHeight(cardHeight);
-    }, [width, marginRight, setCardWidth, padding]);
+        console.log(
+            `width: ${actualWidth}   cardHeight: ${cardHeight}   cardWidth: ${cardWidth}   columns: ${newColumns}`
+        );
+    }, [dimensions, marginRight, setCardWidth]);
 
     return [cardWidth, cardHeight];
 };

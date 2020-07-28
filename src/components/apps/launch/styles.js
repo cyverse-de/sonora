@@ -52,4 +52,7 @@ export default (theme) => ({
             margin: theme.spacing(0.3),
         },
     },
+
+    inputSelectorBrowseButton: { marginLeft: theme.spacing(1) },
+    inputSelectorTextFiled: { paddingRight: theme.spacing(1) },
 });

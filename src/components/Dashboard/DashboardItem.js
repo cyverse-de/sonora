@@ -173,7 +173,7 @@ export const DashboardFeedItem = ({ item }) => {
     const user = item.username;
 
     return (
-        <div className={classes.newsArticle}>
+        <div className={classes.feedItem}>
             <Typography variant="h6" color="primary">
                 <DashboardLink
                     target={item.getLinkTarget()}

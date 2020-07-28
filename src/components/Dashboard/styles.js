@@ -25,11 +25,17 @@ export default makeStyles((theme) => ({
     },
     sectionNews: {
         width: "66%",
+        [theme.breakpoints.down("md")]: {
+            width: "100%",
+        },
     },
     sectionEvents: {
         width: "33%",
         overflowWrap: "break-word",
         overflow: "hidden",
+        [theme.breakpoints.down("md")]: {
+            width: "100%",
+        },
     },
     sectionItems: {
         display: "flex",
@@ -39,7 +45,7 @@ export default makeStyles((theme) => ({
         paddingRight: 0,
 
         // Try to eek as much space out of the iPhone SE cards as possible.
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             padding: 0,
             justifyContent: "center",
         },
@@ -85,8 +91,9 @@ export default makeStyles((theme) => ({
             marginRight: theme.spacing(2),
         },
     },
-    newsArticle: {
+    feedItem: {
         marginTop: theme.spacing(2),
+        width: "100%",
     },
     actionsRoot: {
         marginLeft: "auto",

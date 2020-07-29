@@ -1,6 +1,6 @@
 import analysisStatus from "../models/analysisStatus";
 import constants from "../../constants";
-import NavigationConstants from "../../common/NavigationConstants";
+import NavigationConstants from "common/NavigationConstants";
 
 /**
  * Get the user who ran this analysis

@@ -15,7 +15,7 @@ import {
     ANALYSES_LISTING_QUERY_KEY,
     getAnalyses,
     relaunchAnalyses,
-} from "../../../serviceFacades/analyses";
+} from "serviceFacades/analyses";
 import constants from "../../../constants";
 import DEPagination from "../../utils/DEPagination";
 import Drawer from "../details/Drawer";
@@ -26,11 +26,11 @@ import MultiRelaunchWarningDialog from "./MultiRelaunchWarningDialog";
 import TableView from "./TableView";
 
 import AnalysesToolbar, { getOwnershipFilters } from "../toolbar/Toolbar";
-import { getAppTypeFilters } from "../../apps/toolbar/AppNavigation";
-import appType from "../../models/AppType";
+import { getAppTypeFilters } from "components/apps/toolbar/AppNavigation";
+import appType from "components/models/AppType";
 
-import { useUserProfile } from "../../../contexts/userProfile";
-import { useNotifications } from "../../../contexts/pushNotifications";
+import { useUserProfile } from "contexts/userProfile";
+import { useNotifications } from "contexts/pushNotifications";
 
 /**
  * Filters

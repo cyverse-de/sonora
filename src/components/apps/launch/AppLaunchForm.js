@@ -53,7 +53,6 @@ import {
     Container,
     Button,
     Hidden,
-    Paper,
     Stepper,
     Step,
     StepButton,
@@ -69,11 +68,10 @@ import { ArrowBack, ArrowForward, PlayArrow, Save } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
-//Includes sonora appbar height, appInfo bar height and bottom navigation bar height.
-//Stepper height is calculated dynamically.
-//TODO: calculate these number dynamically.
-const NAVIGATION_BAR_HEIGHT = 200;
-const MOBILE_NAVIGATION_BAR_HEIGHT = 150;
+// sonora appbar height.
+//Stepper height, appinfo height and bottom nav height is calculated dynamically.
+const NAVIGATION_BAR_HEIGHT = 105;
+const MOBILE_NAVIGATION_BAR_HEIGHT = 75;
 
 const ReferenceGenomeParamTypes = [
     constants.PARAM_TYPE.REFERENCE_GENOME,
@@ -81,31 +79,36 @@ const ReferenceGenomeParamTypes = [
     constants.PARAM_TYPE.REFERENCE_ANNOTATION,
 ];
 
-const StepContent = ({ id, hidden, step, label, children }) => (
-    <fieldset id={id} hidden={hidden}>
-        <legend>
-            <Typography variant="caption">
-                {getMessage("stepLabel", { values: { step: step + 1, label } })}
-            </Typography>
-        </legend>
-        {children}
-    </fieldset>
+const StepContent = ({ id, hidden, step, label, children, offsetHeight }) => (
+    <PageWrapper appBarHeight={offsetHeight}>
+        <fieldset id={id} hidden={hidden}>
+            <legend>
+                <Typography variant="caption">
+                    {getMessage("stepLabel", {
+                        values: { step: step + 1, label },
+                    })}
+                </Typography>
+            </legend>
+            {children}
+        </fieldset>
+    </PageWrapper>
 );
 
-const StepperBottomNavigation = ({
-    formId,
-    showSaveQuickLaunchButton,
-    showSubmitButton,
-    handleBack,
-    handleNext,
-    handleSaveQuickLaunch,
-    handleSubmit,
-}) => {
+const StepperBottomNavigation = React.forwardRef((props, ref) => {
+    const {
+        formId,
+        showSaveQuickLaunchButton,
+        showSubmitButton,
+        handleBack,
+        handleNext,
+        handleSaveQuickLaunch,
+        handleSubmit,
+    } = props;
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     return (
-        <Toolbar variant="dense" className={classes.bottomNavigation}>
+        <Toolbar variant="dense" className={classes.bottomNavigation} ref={ref}>
             <Button
                 id={buildDebugId(formId, ids.BUTTONS.STEP_BACK)}
                 className={classes.bottomNavigationAction}
@@ -149,7 +152,7 @@ const StepperBottomNavigation = ({
             )}
         </Toolbar>
     );
-};
+});
 
 /**
  * @param {string} name - The app name.
@@ -416,6 +419,7 @@ const AppLaunchForm = (props) => {
         startingPath,
         submitAnalysis,
         intl,
+        appInfoHeight,
         app: { id: app_id, name: appName, app_type, groups, requirements },
     } = props;
 
@@ -439,13 +443,23 @@ const AppLaunchForm = (props) => {
 
     const stepperRef = React.useRef(null);
     const [stepperHeight, setStepperRef] = useComponentHeight();
+
+    const bottomNavRef = React.useRef(null);
+    const [bottomNavHeight, setBottomNavRef] = useComponentHeight();
+
     const appBarHeight =
         stepperHeight +
+        appInfoHeight +
+        bottomNavHeight +
         (isMobile ? MOBILE_NAVIGATION_BAR_HEIGHT : NAVIGATION_BAR_HEIGHT);
 
     React.useEffect(() => {
         setStepperRef(stepperRef);
     }, [stepperRef, setStepperRef]);
+
+    React.useEffect(() => {
+        setBottomNavRef(bottomNavRef);
+    }, [bottomNavRef, setBottomNavRef]);
 
     React.useEffect(() => {
         if (hasReferenceGenomes) {
@@ -540,7 +554,7 @@ const AppLaunchForm = (props) => {
     };
 
     return (
-        <Paper elevation={0}>
+        <>
             <Formik
                 enableReinitialize
                 initialValues={initValues(props)}
@@ -556,7 +570,7 @@ const AppLaunchForm = (props) => {
                 {({ values, errors, touched, handleSubmit, isSubmitting }) => (
                     <Form id={formId}>
                         {isSubmitting ? (
-                            <StepperSkeleton baseId={formId} />
+                            <StepperSkeleton baseId={formId} ref={stepperRef} />
                         ) : (
                             <Stepper
                                 alternativeLabel
@@ -598,121 +612,111 @@ const AppLaunchForm = (props) => {
                             component="div"
                             className={classes.stepContainer}
                         >
-                            <PageWrapper appBarHeight={appBarHeight}>
-                                <StepContent
-                                    id={buildDebugId(
-                                        formId,
-                                        ids.LAUNCH_ANALYSIS_GROUP
-                                    )}
-                                    step={stepAnalysisInfo.step}
-                                    label={getMessage("analysisInfo")}
-                                    hidden={
-                                        activeStep !== stepAnalysisInfo.step
-                                    }
-                                >
-                                    <AnalysisInfoForm
-                                        formId={formId}
-                                        appType={app_type}
+                            <StepContent
+                                id={buildDebugId(
+                                    formId,
+                                    ids.LAUNCH_ANALYSIS_GROUP
+                                )}
+                                step={stepAnalysisInfo.step}
+                                label={getMessage("analysisInfo")}
+                                hidden={activeStep !== stepAnalysisInfo.step}
+                                offsetHeight={appBarHeight}
+                            >
+                                <AnalysisInfoForm
+                                    formId={formId}
+                                    appType={app_type}
+                                    startingPath={startingPath}
+                                />
+                            </StepContent>
+                            <StepContent
+                                id={stepIdParams}
+                                step={stepParameters.step}
+                                label={getMessage("analysisParameters")}
+                                hidden={
+                                    !hasParams ||
+                                    activeStep !== stepParameters.step
+                                }
+                                offsetHeight={appBarHeight}
+                            >
+                                {values.groups?.map((group, index) => (
+                                    <ParamGroupForm
+                                        key={group.id}
+                                        intl={intl}
+                                        index={index + 1}
+                                        noOfGroups={groups.length}
+                                        baseId={buildDebugId(
+                                            stepIdParams,
+                                            index + 1
+                                        )}
+                                        fieldName={`groups.${index}`}
+                                        group={group}
                                         startingPath={startingPath}
+                                        referenceGenomes={referenceGenomes}
+                                        referenceGenomesLoading={
+                                            referenceGenomesLoading
+                                        }
                                     />
-                                </StepContent>
-                            </PageWrapper>
+                                ))}
+                            </StepContent>
+                            <StepContent
+                                id={stepIdResources}
+                                step={stepAdvanced.step}
+                                label={getMessage("advancedSettings")}
+                                hidden={
+                                    !hasAdvancedStep ||
+                                    activeStep !== stepAdvanced.step
+                                }
+                                offsetHeight={appBarHeight}
+                            >
+                                {values.limits && (
+                                    <ResourceRequirementsForm
+                                        baseId={stepIdResources}
+                                        limits={values.limits}
+                                        defaultMaxCPUCores={defaultMaxCPUCores}
+                                        defaultMaxMemory={defaultMaxMemory}
+                                        defaultMaxDiskSpace={
+                                            defaultMaxDiskSpace
+                                        }
+                                    />
+                                )}
+                            </StepContent>
+                            <StepContent
+                                id={stepIdReview}
+                                step={stepReviewAndLaunch.step}
+                                label={
+                                    app_type ===
+                                    GlobalConstants.APP_TYPE_EXTERNAL
+                                        ? getMessage("reviewAndLaunch")
+                                        : getMessage("launchOrSaveAsQL")
+                                }
+                                hidden={activeStep !== stepReviewAndLaunch.step}
+                                offsetHeight={appBarHeight}
+                            >
+                                <ParamsReview
+                                    baseId={formId}
+                                    appType={app_type}
+                                    groups={values.groups}
+                                    errors={errors}
+                                    touched={touched}
+                                    showAll={reviewShowAll}
+                                    setShowAll={setReviewShowAll}
+                                />
 
-                            <PageWrapper appBarHeight={appBarHeight}>
-                                <StepContent
-                                    id={stepIdParams}
-                                    step={stepParameters.step}
-                                    label={getMessage("analysisParameters")}
-                                    hidden={
-                                        !hasParams ||
-                                        activeStep !== stepParameters.step
-                                    }
-                                >
-                                    {values.groups?.map((group, index) => (
-                                        <ParamGroupForm
-                                            key={group.id}
-                                            intl={intl}
-                                            index={index}
-                                            noOfGroups={groups.length}
-                                            baseId={buildDebugId(
-                                                stepIdParams,
-                                                index + 1
-                                            )}
-                                            fieldName={`groups.${index}`}
-                                            group={group}
-                                            startingPath={startingPath}
-                                            referenceGenomes={referenceGenomes}
-                                            referenceGenomesLoading={
-                                                referenceGenomesLoading
-                                            }
-                                        />
-                                    ))}
-                                </StepContent>
-                            </PageWrapper>
-                            <PageWrapper appBarHeight={appBarHeight}>
-                                <StepContent
-                                    id={stepIdResources}
-                                    step={stepAdvanced.step}
-                                    label={getMessage("advancedSettings")}
-                                    hidden={
-                                        !hasAdvancedStep ||
-                                        activeStep !== stepAdvanced.step
-                                    }
-                                >
-                                    {values.limits && (
-                                        <ResourceRequirementsForm
-                                            baseId={stepIdResources}
-                                            limits={values.limits}
-                                            defaultMaxCPUCores={
-                                                defaultMaxCPUCores
-                                            }
-                                            defaultMaxMemory={defaultMaxMemory}
-                                            defaultMaxDiskSpace={
-                                                defaultMaxDiskSpace
-                                            }
-                                        />
-                                    )}
-                                </StepContent>
-                            </PageWrapper>
-                            <PageWrapper appBarHeight={appBarHeight}>
-                                <StepContent
-                                    id={stepIdReview}
-                                    step={stepReviewAndLaunch.step}
-                                    label={
-                                        app_type ===
-                                        GlobalConstants.APP_TYPE_EXTERNAL
-                                            ? getMessage("reviewAndLaunch")
-                                            : getMessage("launchOrSaveAsQL")
-                                    }
-                                    hidden={
-                                        activeStep !== stepReviewAndLaunch.step
-                                    }
-                                >
-                                    <ParamsReview
-                                        baseId={formId}
-                                        appType={app_type}
-                                        groups={values.groups}
-                                        errors={errors}
-                                        touched={touched}
+                                {values.requirements && (
+                                    <ResourceRequirementsReview
+                                        baseId={stepIdReview}
+                                        requirements={values.requirements}
                                         showAll={reviewShowAll}
-                                        setShowAll={setReviewShowAll}
                                     />
-
-                                    {values.requirements && (
-                                        <ResourceRequirementsReview
-                                            baseId={stepIdReview}
-                                            requirements={values.requirements}
-                                            showAll={reviewShowAll}
-                                        />
-                                    )}
-                                </StepContent>
-                            </PageWrapper>
+                                )}
+                            </StepContent>
                         </Container>
-
+                        <div className={classes.spacer}></div>
                         {isSubmitting ? (
-                            <BottomNavigationSkeleton />
+                            <BottomNavigationSkeleton ref={bottomNavRef} />
                         ) : (
                             <StepperBottomNavigation
+                                ref={bottomNavRef}
                                 formId={formId}
                                 showSubmitButton={isLastStep()}
                                 showSaveQuickLaunchButton={
@@ -765,7 +769,7 @@ const AppLaunchForm = (props) => {
                     );
                 }}
             />
-        </Paper>
+        </>
     );
 };
 

@@ -26,23 +26,27 @@ import { Skeleton } from "@material-ui/lab";
 
 const useStyles = makeStyles(styles);
 
-export const StepperSkeleton = ({ baseId }) => (
-    <Skeleton id={buildDebugId(baseId, ids.LOADING_SKELETON)} width="100%">
+export const StepperSkeleton = React.forwardRef(({ baseId }, ref) => (
+    <Skeleton
+        id={buildDebugId(baseId, ids.LOADING_SKELETON)}
+        width="100%"
+        ref={ref}
+    >
         <Stepper alternativeLabel nonLinear>
             <Step>
                 <StepButton>&nbsp;</StepButton>
             </Step>
         </Stepper>
     </Skeleton>
-);
+));
 
-export const BottomNavigationSkeleton = () => (
-    <Skeleton variant="rect" width="100%">
+export const BottomNavigationSkeleton = React.forwardRef((props, ref) => (
+    <Skeleton variant="rect" width="100%" ref={ref}>
         <BottomNavigation>
             <BottomNavigationAction />
         </BottomNavigation>
     </Skeleton>
-);
+));
 
 export default ({ baseId }) => {
     const classes = useStyles();

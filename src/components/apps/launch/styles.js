@@ -17,7 +17,7 @@ export default (theme) => ({
             padding: theme.spacing(0.3),
         },
     },
-    appInfoContainer: {
+    spacer: {
         margin: theme.spacing(1),
         [theme.breakpoints.down("xs")]: {
             margin: theme.spacing(0.3),
@@ -26,6 +26,10 @@ export default (theme) => ({
     appInfoTypography: {
         color: theme.palette.info.main,
         width: "100%",
+        margin: theme.spacing(1),
+        [theme.breakpoints.down("xs")]: {
+            margin: theme.spacing(0.3),
+        },
     },
     bottomNavigation: {
         [theme.breakpoints.down("xs")]: {
@@ -37,22 +41,29 @@ export default (theme) => ({
         flexGrow: 1,
         color: theme.palette.primary.contrastText,
     },
-    paramsSectionHeader: {
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1),
-        [theme.breakpoints.down("xs")]: {
-            marginTop: theme.spacing(0.3),
-            marginBottom: theme.spacing(0.3),
-        },
-    },
-
     paramsReview: {
         margin: theme.spacing(1),
         [theme.breakpoints.down("xs")]: {
             margin: theme.spacing(0.3),
         },
     },
-
-    inputSelectorBrowseButton: { marginLeft: theme.spacing(1) },
-    inputSelectorTextFiled: { paddingRight: theme.spacing(1) },
+    paramsViewSummary: {
+        color: theme.palette.info.contrastText,
+        backgroundColor: theme.palette.info.main,
+    },
+    paramsViewsExpandIcon: {
+        color: theme.palette.info.contrastText,
+    },
+    inputSelectorBrowseButton: {
+        marginLeft: theme.spacing(1),
+        [theme.breakpoints.down("xs")]: {
+            marginLeft: theme.spacing(0.3),
+        },
+    },
+    inputSelectorTextFiled: {
+        paddingRight: theme.spacing(1),
+        [theme.breakpoints.down("xs")]: {
+            paddingRight: theme.spacing(0.3),
+        },
+    },
 });

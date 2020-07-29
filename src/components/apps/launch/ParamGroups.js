@@ -34,11 +34,12 @@ import {
 } from "@cyverse-de/ui-lib";
 
 import {
-    Divider,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails,
     FormControl,
     FormControlLabel,
     FormHelperText,
-    Grid,
     Link,
     makeStyles,
     MenuItem,
@@ -52,9 +53,11 @@ import {
     TextField,
     Toolbar,
     Typography,
-    useMediaQuery,
-    useTheme,
 } from "@material-ui/core";
+
+import { ExpandMore } from "@material-ui/icons";
+
+const useStyles = makeStyles(styles);
 
 /**
  * @param {string} baseId
@@ -64,9 +67,6 @@ import {
  * @returns {string} A debug ID appropriate for the given parameter type, index,
  * and baseId.
  */
-
-const useStyles = makeStyles(styles);
-
 const buildParamId = (baseId, paramIndex, type) => {
     const baseParamId = buildDebugId(baseId, paramIndex);
 
@@ -126,31 +126,38 @@ function ParamGroupForm(props) {
     const {
         baseId,
         fieldName,
-        noOfGroups,
-        index,
         group,
         referenceGenomes,
         referenceGenomesLoading,
         startingPath,
+        index,
+        noOfGroups,
     } = props;
     const classes = useStyles();
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-
     return (
-        <>
-            <Divider className={classes.paramsSectionHeader} />
-            <Typography
-                variant={isMobile ? "subtitle2" : "h6"}
-                component="span"
+        <Accordion id={baseId} defaultExpanded>
+            <AccordionSummary
+                expandIcon={
+                    <ExpandMore
+                        id={buildDebugId(baseId, ids.BUTTONS.EXPAND)}
+                        className={classes.paramsViewsExpandIcon}
+                    />
+                }
+                className={classes.paramsViewSummary}
             >
-                {getMessage("section", {
-                    values: { groupNumber: index + 1, totalGroups: noOfGroups },
-                })}
-                {group.label}
-            </Typography>
-            <Divider className={classes.paramsSectionHeader} />
-            <Grid container spacing={3}>
+                <div>
+                    <Typography variant="subtitle2">{group.label}</Typography>
+                    <Typography variant="caption">
+                        {getMessage("section", {
+                            values: {
+                                groupNumber: index,
+                                totalGroups: noOfGroups,
+                            },
+                        })}
+                    </Typography>
+                </div>
+            </AccordionSummary>
+            <AccordionDetails className={classes.accordionDetails}>
                 {group.parameters?.map((param, paramIndex) => {
                     if (!param.isVisible) {
                         return null;
@@ -184,11 +191,12 @@ function ParamGroupForm(props) {
                                     __html: sanitizeHtml(param.label),
                                 },
                             };
+
                             break;
 
                         case constants.PARAM_TYPE.TEXT:
                             fieldProps.component = FormTextField;
-
+                            fieldProps.size = "small";
                             if (param.validators?.length > 0) {
                                 const charLimitValidator = param.validators.find(
                                     (validator) =>
@@ -205,14 +213,17 @@ function ParamGroupForm(props) {
 
                         case constants.PARAM_TYPE.INTEGER:
                             fieldProps.component = FormIntegerField;
+                            fieldProps.size = "small";
                             break;
 
                         case constants.PARAM_TYPE.DOUBLE:
                             fieldProps.component = FormNumberField;
+                            fieldProps.size = "small";
                             break;
 
                         case constants.PARAM_TYPE.MULTILINE_TEXT:
                             fieldProps.component = FormMultilineTextField;
+                            fieldProps.size = "small";
                             break;
 
                         case constants.PARAM_TYPE.FLAG:
@@ -225,6 +236,7 @@ function ParamGroupForm(props) {
                             fieldProps.component = FormTextField;
                             fieldProps.select = true;
                             fieldProps.variant = "outlined";
+                            fieldProps.size = "small";
                             fieldProps.children = param.arguments?.map(
                                 (arg) => (
                                     <MenuItem key={arg.value} value={arg}>
@@ -265,17 +277,14 @@ function ParamGroupForm(props) {
 
                             // Can't be a FastField since it renders with custom props.
                             return (
-                                <Grid item xs={12}>
-                                    <Field
-                                        key={param.id}
-                                        {...fieldProps}
-                                        referenceGenomes={referenceGenomes}
-                                        referenceGenomesLoading={
-                                            referenceGenomesLoading
-                                        }
-                                        size="small"
-                                    />
-                                </Grid>
+                                <Field
+                                    key={param.id}
+                                    {...fieldProps}
+                                    referenceGenomes={referenceGenomes}
+                                    referenceGenomesLoading={
+                                        referenceGenomesLoading
+                                    }
+                                />
                             );
 
                         default:
@@ -283,18 +292,10 @@ function ParamGroupForm(props) {
                             break;
                     }
 
-                    return (
-                        <Grid item xs={12}>
-                            <FastField
-                                key={param.id}
-                                {...fieldProps}
-                                size="small"
-                            />
-                        </Grid>
-                    );
+                    return <FastField key={param.id} {...fieldProps} />;
                 })}
-            </Grid>
-        </>
+            </AccordionDetails>
+        </Accordion>
     );
 }
 
@@ -315,10 +316,10 @@ const ParamsReviewValue = ({ param }) => {
     const classes = useStyles();
     switch (type) {
         case constants.PARAM_TYPE.FLAG:
-            return value ? (
-                <Typography className={classes.paramsReview}>"✔︎" </Typography>
-            ) : (
-                <Typography className={classes.paramsReview}></Typography>
+            return (
+                <Typography className={classes.paramsReview}>
+                    {value ? "✔︎" : ""}
+                </Typography>
             );
 
         case constants.PARAM_TYPE.MULTILINE_TEXT:

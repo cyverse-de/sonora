@@ -26,7 +26,6 @@ import {
     Hidden,
     Link,
     makeStyles,
-    Paper,
     Typography,
     useMediaQuery,
     useTheme,
@@ -60,13 +59,8 @@ const LoadingErrorDisplay = injectIntl(({ intl, baseId, loadingError }) => {
     );
 });
 
-const AppInfo = ({
-    app,
-    baseId,
-    hasDeprecatedParams,
-    loading,
-    loadingError,
-}) => {
+const AppInfo = React.forwardRef((props, ref) => {
+    const { app, baseId, hasDeprecatedParams, loading, loadingError } = props;
     const unavailableMsgKey = app?.deleted
         ? "appDeprecated"
         : app?.disabled
@@ -78,35 +72,32 @@ const AppInfo = ({
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     return (
-        <>
-            <Paper className={classes.appInfoContainer} elevation={0}>
+        <div ref={ref}>
+            <Typography
+                variant={isMobile ? "subtitle2" : "h6"}
+                className={classes.appInfoTypography}
+            >
+                {loadingError ? (
+                    <LoadingErrorDisplay
+                        baseId={baseId}
+                        loadingError={loadingError}
+                    />
+                ) : loading ? (
+                    <Skeleton width={250} />
+                ) : (
+                    app?.name
+                )}
+            </Typography>
+            <Hidden xsDown>
                 <Typography
-                    variant={isMobile ? "subtitle2" : "h6"}
                     className={classes.appInfoTypography}
+                    variant="body2"
+                    display="block"
+                    gutterBottom
                 >
-                    {loadingError ? (
-                        <LoadingErrorDisplay
-                            baseId={baseId}
-                            loadingError={loadingError}
-                        />
-                    ) : loading ? (
-                        <Skeleton width={250} />
-                    ) : (
-                        app?.name
-                    )}
+                    {loading ? <Skeleton /> : app?.description}
                 </Typography>
-                <Hidden xsDown>
-                    <Typography
-                        className={classes.appInfoTypography}
-                        variant="body2"
-                        display="block"
-                        gutterBottom
-                        noWrap={true}
-                    >
-                        {loading ? <Skeleton /> : app?.description}
-                    </Typography>
-                </Hidden>
-            </Paper>
+            </Hidden>
             <Box m={2}>
                 {(app?.deleted || app?.disabled || hasDeprecatedParams) && (
                     <Typography color="error" variant="body1" gutterBottom>
@@ -130,8 +121,8 @@ const AppInfo = ({
                     </Typography>
                 )}
             </Box>
-        </>
+        </div>
     );
-};
+});
 
 export default AppInfo;

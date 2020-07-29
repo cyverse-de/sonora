@@ -32,6 +32,7 @@ export default {
         advancedSettings: "Advanced Settings (optional)",
         analysisInfo: "Analysis Info",
         analysisName: "Analysis Name",
+        analysisNameHelp: "Enter analysis name",
         analysisParameters: "Analysis Parameters",
         appDeprecated:
             "This application has been deprecated." +
@@ -65,15 +66,13 @@ export default {
         required: "Required",
         resourceRequirements: "Resource Requirements",
         resourceRequirementsForStep: "Resource Requirements for Step {step}",
-        retainInputsLabel:
-            "Retain inputs? Enabling this flag will copy all the input files into the analysis result folder.",
         reviewAndLaunch: "Review and Launch",
         saveAsQuickLaunch: "Save as Quick Launch",
         showAllParameters: "Show All Parameters",
         showAllParametersHelpText:
             "Turn off to hide parameters without values entered or selected.",
         stepLabel: "Step {step}: {label}",
-        section: "Section {groupNumber} of {totalGroups}: ",
+        section: "Section {groupNumber} of {totalGroups}",
         validationAbove: "Must be greater than {min}",
         validationBelow: "Must be less than {max}",
         validationRange: "Must be between {min} and {max}",

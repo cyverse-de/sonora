@@ -13,6 +13,8 @@ import AppInfo from "./AppInfo";
 import AppLaunchForm from "./AppLaunchForm";
 import AppLaunchFormSkeleton from "./AppLaunchFormSkeleton";
 
+import useComponentHeight from "../../utils/useComponentHeight";
+
 import { withI18N } from "@cyverse-de/ui-lib";
 import { Divider, Paper } from "@material-ui/core";
 
@@ -26,6 +28,12 @@ function AppLaunchWizard(props) {
             deprecatedParamTypes.includes(param.type)
         )
     );
+    const appInfoRef = React.useRef(null);
+    const [appInfoHeight, setAppInfoRef] = useComponentHeight();
+
+    React.useEffect(() => {
+        setAppInfoRef(appInfoRef);
+    }, [appInfoRef, setAppInfoRef]);
 
     return (
         <Paper>
@@ -35,6 +43,7 @@ function AppLaunchWizard(props) {
                 loadingError={appError}
                 app={app}
                 hasDeprecatedParams={hasDeprecatedParams}
+                ref={appInfoRef}
             />
             <Divider />
             {loading ? (
@@ -42,7 +51,7 @@ function AppLaunchWizard(props) {
             ) : (
                 app &&
                 !(app.deleted || app.disabled || hasDeprecatedParams) && (
-                    <AppLaunchForm {...props} />
+                    <AppLaunchForm {...props} appInfoHeight={appInfoHeight} />
                 )
             )}
         </Paper>

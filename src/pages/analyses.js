@@ -2,9 +2,9 @@ import React from "react";
 
 import { useRouter } from "next/router";
 
-import { getAnalysisRelaunchPage } from "../components/analyses/utils";
-import { getFolderPage } from "../components/data/utils";
-import Listing from "../components/analyses/listing/Listing";
+import { getAnalysisRelaunchPage } from "components/analyses/utils";
+import { getFolderPage } from "components/data/utils";
+import Listing from "components/analyses/listing/Listing";
 
 export default function Analyses() {
     const router = useRouter();

@@ -10,8 +10,8 @@ import React from "react";
 import messages from "../messages";
 import ids from "../ids";
 
-import { getAppTypeFilters } from "../../apps/toolbar/AppNavigation";
-import DisplayTypeSelector from "../../utils/DisplayTypeSelector";
+import { getAppTypeFilters } from "components/apps/toolbar/AppNavigation";
+import DisplayTypeSelector from "components/utils/DisplayTypeSelector";
 
 import { injectIntl } from "react-intl";
 

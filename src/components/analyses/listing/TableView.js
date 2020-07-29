@@ -10,8 +10,8 @@ import { injectIntl } from "react-intl";
 
 import ids from "../ids";
 import messages from "../messages";
-import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
-import TableLoading from "../../utils/TableLoading";
+import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
+import TableLoading from "components/utils/TableLoading";
 import {
     getAnalysisUser,
     isInteractive,

@@ -29,7 +29,7 @@ import {
     getAnalysisParameters,
     ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSIS_PARAMS_QUERY_KEY,
-} from "../../../serviceFacades/analyses";
+} from "serviceFacades/analyses";
 
 import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
 

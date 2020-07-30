@@ -12,13 +12,12 @@ import styles from "./styles";
 import { build as buildDebugId } from "@cyverse-de/ui-lib";
 
 import {
-    BottomNavigation,
-    BottomNavigationAction,
     Container,
     Step,
     Stepper,
     StepButton,
     TextField,
+    Toolbar,
     Typography,
     makeStyles,
 } from "@material-ui/core";
@@ -42,9 +41,8 @@ export const StepperSkeleton = React.forwardRef(({ baseId }, ref) => (
 
 export const BottomNavigationSkeleton = React.forwardRef((props, ref) => (
     <Skeleton variant="rect" width="100%" ref={ref}>
-        <BottomNavigation>
-            <BottomNavigationAction />
-        </BottomNavigation>
+        <Toolbar>
+        </Toolbar>
     </Skeleton>
 ));
 

@@ -8,7 +8,7 @@
 import React, { useState, useEffect } from "react";
 
 import { useQuery } from "react-query";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 
 import ArgumentTypes from "./ArgumentTypes";
 import {
@@ -20,7 +20,6 @@ import {
     isSelectionArgumentType,
 } from "./ArgumentTypeUtils";
 import ids from "../../analyses/ids";
-import messages from "../../analyses/messages";
 import DETabPanel from "../../utils/DETabPanel";
 import InfoPanel from "./InfoPanel";
 import ParamsPanel from "./ParamsPanel";
@@ -31,7 +30,7 @@ import {
     ANALYSIS_PARAMS_QUERY_KEY,
 } from "serviceFacades/analyses";
 
-import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 
 import { Drawer, Tab, Tabs, Typography } from "@material-ui/core";
 
@@ -83,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
 
 function DetailsDrawer(props) {
     const classes = useStyles();
+    const {t} = useTranslation("analyses");
     const { selectedAnalysis, open, onClose, baseId } = props;
     const [selectedTab, setSelectedTab] = useState(TABS.analysisInfo);
     const [history, setHistory] = useState(null);
@@ -197,14 +197,14 @@ function DetailsDrawer(props) {
             >
                 <Tab
                     value={TABS.analysisInfo}
-                    label={getMessage("info")}
+                    label={t("info")}
                     id={infoTabId}
                     classes={{ selected: classes.tabSelected }}
                     aria-controls={build(infoTabId, ids.PANEL)}
                 />
                 <Tab
                     value={TABS.analysisParams}
-                    label={getMessage("analysisParams")}
+                    label={t("analysisParams")}
                     id={paramsTabId}
                     classes={{ selected: classes.tabSelected }}
                     aria-controls={build(paramsTabId, ids.PANEL)}
@@ -237,4 +237,4 @@ function DetailsDrawer(props) {
         </Drawer>
     );
 }
-export default withI18N(injectIntl(DetailsDrawer), messages);
+export default DetailsDrawer;

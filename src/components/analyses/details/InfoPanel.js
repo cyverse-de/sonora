@@ -6,9 +6,10 @@
  *
  */
 import React, { useState } from "react";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "i18n";
+
 import ids from "../ids";
-import messages from "../messages";
+
 import GridLoading from "../../utils/GridLoading";
 import ErrorTypography from "../../utils/error/ErrorTypography";
 import DEErrorDialog from "../../utils/error/DEErrorDialog";
@@ -17,10 +18,7 @@ import {
     build,
     CopyTextArea,
     EnhancedTableHead,
-    formatMessage,
     formatDate,
-    getMessage,
-    withI18N,
 } from "@cyverse-de/ui-lib";
 import {
     Collapse,
@@ -63,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     expandedCell: { paddingBottom: 0, paddingTop: 0 },
 }));
 
-const columnData = (intl) => [
+const columnData = (t) => [
     {
         id: ids.INFO.EXPAND,
         name: "",
@@ -72,13 +70,13 @@ const columnData = (intl) => [
     },
     {
         id: ids.INFO.TIMESTAMP,
-        name: formatMessage(intl, "date"),
+        name: t("date"),
         numeric: false,
         enableSorting: false,
     },
     {
         id: ids.INFO.STATUS,
-        name: formatMessage(intl, "status"),
+        name: t("status"),
         numeric: false,
         enableSorting: false,
     },
@@ -86,6 +84,7 @@ const columnData = (intl) => [
 
 function UpdateDetails(props) {
     const { status, timestamp, message } = props;
+
     const [open, setOpen] = useState(false);
     const classes = useStyles();
     return (
@@ -118,8 +117,9 @@ function UpdateDetails(props) {
 }
 
 function Updates(props) {
-    const { updates, intl, baseId } = props;
-    let columns = columnData(intl);
+    const { updates, baseId } = props;
+    const { t } = useTranslation("analyses");
+    let columns = columnData(t);
 
     return (
         <Table size="small" stickyHeader={true} style={{ marginTop: 8 }}>
@@ -149,7 +149,8 @@ function Updates(props) {
 
 function Step(props) {
     const { step_number, external_id, step_type, status, updates } = props.step;
-    const { baseId, intl } = props;
+    const { baseId } = props;
+    const { t } = useTranslation("analyses");
     const classes = useStyles();
     return (
         <Accordion>
@@ -162,17 +163,19 @@ function Step(props) {
                 <div>
                     <CopyTextArea
                         text={external_id}
-                        btnText={getMessage("copyAnalysisId")}
+                        btnText={t("copyAnalysisId")}
                     />
                 </div>
-                <Updates updates={updates} baseId={baseId} intl={intl} />
+                <Updates updates={updates} baseId={baseId} t={t} />
             </AccordionDetails>
         </Accordion>
     );
 }
 
 function InfoPanel(props) {
-    const { info, isInfoFetching, infoFetchError, intl, baseId } = props;
+    const { info, isInfoFetching, infoFetchError, baseId } = props;
+    const { t } = useTranslation("analyses");
+
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
 
     const debugId = build(baseId, ids.INFO.INFO);
@@ -189,7 +192,7 @@ function InfoPanel(props) {
         return (
             <>
                 <ErrorTypography
-                    errorMessage={formatMessage(intl, "analysisInfoFetchError")}
+                    errorMessage={t("analysisInfoFetchError")}
                     onDetailsClick={() => setErrorDialogOpen(true)}
                 />
                 <DEErrorDialog
@@ -207,11 +210,11 @@ function InfoPanel(props) {
         <Paper>
             {info.steps.map((s, index) => {
                 return (
-                    <Step key={index} step={s} baseId={debugId} intl={intl} />
+                    <Step key={index} step={s} baseId={debugId} />
                 );
             })}
         </Paper>
     );
 }
 
-export default withI18N(injectIntl(InfoPanel), messages);
+export default InfoPanel;

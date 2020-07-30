@@ -25,3 +25,13 @@ export default function Analyses() {
         />
     );
 }
+
+Analyses.getInitialProps = async ({ Component, ctx }) => {
+    let pageProps = {};
+
+    if (Component.getInitialProps) {
+        pageProps = await Component.getInitialProps(ctx);
+    }
+
+    return { pageProps, namespacesRequired: ["analyses"] };
+};

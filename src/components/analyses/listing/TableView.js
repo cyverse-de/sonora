@@ -5,13 +5,12 @@
  *
  */
 import React, { useState } from "react";
-
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 
 import ids from "../ids";
-import messages from "../messages";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import TableLoading from "components/utils/TableLoading";
+
 import {
     getAnalysisUser,
     isInteractive,
@@ -25,9 +24,6 @@ import {
     EmptyTable,
     EnhancedTableHead,
     formatDate,
-    formatMessage,
-    getMessage,
-    withI18N,
 } from "@cyverse-de/ui-lib";
 
 import {
@@ -109,13 +105,13 @@ function Status(props) {
 
 function Actions(props) {
     const classes = useStyles();
+    const { t } = useTranslation("analyses");
     const { analysis, handleRelaunch } = props;
 
     const interactiveUrls = analysis.interactive_urls;
     const handleInteractiveUrlClick = props.handleInteractiveUrlClick;
     const handleGoToOutputFolder = props.handleGoToOutputFolder;
     const handleBatchIconClick = props.handleBatchIconClick;
-    const intl = props.intl;
     const baseId = props.baseId;
     const mouseOverId = props.mouseOverId;
     const username = props.username;
@@ -130,8 +126,8 @@ function Actions(props) {
     return (
         <>
             <Tooltip
-                aria-label={formatMessage(intl, "goOutputFolder")}
-                title={getMessage("goOutputFolder")}
+                aria-label={t("goOutputFolder")}
+                title={t("goOutputFolder")}
                 id={build(baseId, ids.ICONS.OUTPUT, ids.TOOLTIP)}
             >
                 <IconButton
@@ -146,8 +142,8 @@ function Actions(props) {
 
             {isBatch && (
                 <Tooltip
-                    aria-label={formatMessage(intl, "htDetails")}
-                    title={getMessage("htDetails")}
+                    aria-label={t("htDetails")}
+                    title={t("htDetails")}
                     id={build(baseId, ids.ICONS.BATCH, ids.TOOLTIP)}
                 >
                     <IconButton
@@ -162,8 +158,8 @@ function Actions(props) {
             )}
             {!isDisabled && !isVICE && (
                 <Tooltip
-                    aria-label={formatMessage(intl, "relaunch")}
-                    title={getMessage("relaunch")}
+                    aria-label={t("relaunch")}
+                    title={t("relaunch")}
                     id={build(baseId, ids.ICONS.RELAUNCH, ids.TOOLTIP)}
                 >
                     <IconButton
@@ -179,8 +175,8 @@ function Actions(props) {
             {isVICE && (
                 <Tooltip
                     id={build(baseId, ids.ICONS.INTERACTIVE, ids.TOOLTIP)}
-                    aria-label={formatMessage(intl, "goToVice")}
-                    title={getMessage("goToVice")}
+                    aria-label={t("goToVice")}
+                    title={t("goToVice")}
                 >
                     <IconButton
                         onClick={() =>
@@ -196,8 +192,8 @@ function Actions(props) {
             )}
             {allowTimeExtn && (
                 <Tooltip
-                    aria-label={formatMessage(intl, "extendTime")}
-                    title={getMessage("extendTime")}
+                    aria-label={t("extendTime")}
+                    title={t("extendTime")}
                     id={build(baseId, ids.ICONS.TIME_LIMIT, ids.TOOLTIP)}
                 >
                     <IconButton
@@ -213,45 +209,45 @@ function Actions(props) {
     );
 }
 
-const columnData = (intl) => [
+const columnData = (t) => [
     {
         id: ids.NAME,
-        name: formatMessage(intl, "name"),
+        name: t("name"),
         numeric: false,
         enableSorting: true,
         key: "name",
     },
     {
         id: ids.OWNER,
-        name: formatMessage(intl, "owner"),
+        name: t("owner"),
         numeric: false,
         enableSorting: false,
         key: "owner",
     },
     {
         id: ids.APP,
-        name: formatMessage(intl, "app"),
+        name: t("app"),
         numeric: false,
         enableSorting: false,
         key: "app",
     },
     {
         id: ids.START_DATE,
-        name: formatMessage(intl, "startDate"),
+        name: t("startDate"),
         numeric: false,
         enableSorting: true,
         key: "startdate",
     },
     {
         id: ids.END_DATE,
-        name: formatMessage(intl, "endDate"),
+        name: t("endDate"),
         numeric: false,
         enableSorting: true,
         key: "enddate",
     },
     {
         id: ids.STATUS,
-        name: formatMessage(intl, "status"),
+        name: t("status"),
         numeric: false,
         enableSorting: true,
         key: "status",
@@ -283,12 +279,13 @@ function TableView(props) {
         handleGoToOutputFolder,
         handleRelaunch,
         handleBatchIconClick,
-        intl,
     } = props;
 
     const theme = useTheme();
+    const { t } = useTranslation("analyses");
+
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
-    let columns = columnData(intl);
+    let columns = columnData(t);
     //hide actions on small screens
     if (isSmall) {
         columns = columns.filter((column) => column.id !== ids.ACTIONS);
@@ -308,7 +305,7 @@ function TableView(props) {
                 id={tableId}
                 stickyHeader={true}
                 size="small"
-                aria-label={formatMessage(intl, "ariaTableListing")}
+                aria-label={t("ariaTableListing")}
             >
                 <EnhancedTableHead
                     baseId={baseId}
@@ -332,7 +329,7 @@ function TableView(props) {
                     <TableBody>
                         {(!analyses || analyses.length === 0) && !error && (
                             <EmptyTable
-                                message={getMessage("noAnalyses")}
+                                message={t("noAnalyses")}
                                 numColumns={columns.length}
                             />
                         )}
@@ -370,8 +367,7 @@ function TableView(props) {
                                                 checked={isSelected}
                                                 tabIndex={0}
                                                 inputProps={{
-                                                    "aria-label": formatMessage(
-                                                        intl,
+                                                    "aria-label": t(
                                                         "ariaCheckbox",
                                                         {
                                                             label:
@@ -387,7 +383,6 @@ function TableView(props) {
                                             )}
                                         >
                                             <AnalysisName
-                                                intl={intl}
                                                 analysis={analysis}
                                                 baseId={build(
                                                     rowId +
@@ -422,13 +417,11 @@ function TableView(props) {
                                             <Status
                                                 analysis={analysis}
                                                 baseId={baseId}
-                                                intl={intl}
                                             />
                                         </TableCell>
                                         {!isSmall && (
                                             <TableCell>
                                                 <Actions
-                                                    intl={intl}
                                                     analysis={analysis}
                                                     username={username}
                                                     baseId={build(
@@ -461,4 +454,4 @@ function TableView(props) {
     );
 }
 
-export default withI18N(injectIntl(TableView), messages);
+export default TableView;

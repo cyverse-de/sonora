@@ -5,7 +5,7 @@
         "@/components/*": ["components/*"],
         "@/contexts/*": ["contexts/*"],
         "@/common/*": ["common/*"],
-        "@/serviceFacades/*":["@/serviceFacades/*"],
+        "@/serviceFacades/*":["@/serviceFacades/*"]
       }
     }
   }

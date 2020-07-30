@@ -85,6 +85,17 @@ const allowAnalyesRelaunch = (selectedAnalyses) => {
 const getAnalysisRelaunchPage = (analysisId) =>
     `/${NavigationConstants.ANALYSES}/${analysisId}/relaunch`;
 
+/**
+ *
+ * @param {string} order The analyses listing sort order, asc or desc.
+ * @param {string} orderBy The analyses listing sort field.
+ * @param {string} page The analyses listing page.
+ * @param {string} rowsPerPage The analyses listing page size.
+ */
+
+const getListingPath = (order, orderBy, page, rowsPerPage) =>
+    `/${NavigationConstants.ANALYSES}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}`;
+
 export {
     getAnalysisUser,
     isInteractive,
@@ -92,4 +103,5 @@ export {
     isBatchAnalysis,
     allowAnalyesRelaunch,
     getAnalysisRelaunchPage,
+    getListingPath,
 };

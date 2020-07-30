@@ -49,15 +49,26 @@ const filter = {
 };
 
 function Listing(props) {
-    const { baseId, handleGoToOutputFolder, handleSingleRelaunch } = props;
+    const {
+        baseId,
+        onRouteToListing,
+        handleGoToOutputFolder,
+        handleSingleRelaunch,
+        selectedPage,
+        selectedRowsPerPage,
+        selectedOrder,
+        selectedOrderBy,
+    } = props;
     const { t } = useTranslation("analyses");
     const [isGridView, setGridView] = useState(false);
-    const [order, setOrder] = useState("desc");
-    const [orderBy, setOrderBy] = useState("startdate");
+
+    const [order, setOrder] = useState(selectedOrder);
+    const [orderBy, setOrderBy] = useState(selectedOrderBy);
+    const [page, setPage] = useState(selectedPage);
+    const [rowsPerPage, setRowsPerPage] = useState(selectedRowsPerPage);
+
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(25);
     const [data, setData] = useState(null);
     const [parentAnalysis, setParentAnalyses] = useState(null);
     const [permFilter, setPermFilter] = useState(getOwnershipFilters(t)[0]);
@@ -90,6 +101,17 @@ function Listing(props) {
     ] = useMutation(relaunchAnalyses, {
         onSuccess: () => queryCache.invalidateQueries(analysesKey),
     });
+
+    useEffect(() => {
+        if (
+            selectedOrder !== order ||
+            selectedOrderBy !== orderBy ||
+            selectedPage !== page ||
+            selectedRowsPerPage !== rowsPerPage
+        ) {
+            onRouteToListing(order, orderBy, page, rowsPerPage);
+        }
+    }, [onRouteToListing, order, orderBy, page, rowsPerPage, selectedOrder, selectedOrderBy, selectedPage, selectedRowsPerPage]);
 
     useEffect(() => {
         const filters = [];

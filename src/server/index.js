@@ -9,6 +9,7 @@ import analysesRouter from "./api/analyses";
 import appsRouter from "./api/apps";
 import dashboardRouter from "./api/dashboard";
 import dataRouter from "./api/data";
+import debugRouter from "./api/debug";
 import fileIORouter from "./api/fileio";
 import quickLaunchRouter from "./api/quickLaunch";
 import refGenomeRouter from "./api/referenceGenomes";
@@ -64,8 +65,14 @@ app.prepare()
         server.use(errorLogger);
         server.use(requestLogger);
 
+        logger.info("DEBUG: adding middleware to log cookies");
+        server.use(authn.logSessionCookie);
+
         logger.info("configuring express sessions");
         server.use(authn.sessionMiddleware());
+
+        logger.info("DEBUG: adding middleware to log session info");
+        server.use(authn.logSessionInfo);
 
         logger.info("configuring keycloak");
         server.use(keycloakClient.middleware());
@@ -96,6 +103,7 @@ app.prepare()
         server.use("/api", analysesRouter());
         server.use("/api", dashboardRouter());
         server.use("/api", dataRouter());
+        server.use("/api", debugRouter());
         server.use("/api", fileIORouter());
         server.use("/api", quickLaunchRouter());
         server.use("/api", sharingRouter());

@@ -69,9 +69,6 @@ export default ({ baseId }) => {
                     <Typography variant="h3" gutterBottom>
                         <Skeleton variant="text" />
                     </Typography>
-                    <Typography variant="h3" gutterBottom>
-                        <Skeleton variant="text" />
-                    </Typography>
                 </Container>
             </Container>
             <BottomNavigationSkeleton />

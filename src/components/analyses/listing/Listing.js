@@ -333,7 +333,7 @@ function Listing(props) {
 
     const handleClearBatch = () => {
         setParentAnalyses(null);
-        setPermFilter(getOwnershipFilters(intl)[0]);
+        setPermFilter(getOwnershipFilters(t)[0]);
         setAppTypeFilter(getAppTypeFilters()[0]);
     };
 

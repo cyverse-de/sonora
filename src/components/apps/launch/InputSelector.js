@@ -12,6 +12,7 @@ import { UploadTrackingProvider } from "../../../contexts/uploadTracking";
 
 import ids from "./ids";
 import messages from "./messages";
+import styles from "./styles";
 
 import {
     build as buildDebugId,
@@ -21,9 +22,11 @@ import {
     FormTextField,
 } from "@cyverse-de/ui-lib";
 
-import { Button, Grid, IconButton } from "@material-ui/core";
+import { Button, Grid, IconButton, makeStyles } from "@material-ui/core";
 
 import ClearIcon from "@material-ui/icons/Clear";
+
+const useStyles = makeStyles(styles);
 
 /**
  * A Browse button used by Input Selectors to open the data `SelectionDrawer`.
@@ -37,14 +40,17 @@ const BrowseButton = (props) => {
         onConfirm,
     } = props;
 
+    const classes = useStyles();
     const [open, setOpen] = React.useState(false);
 
     return (
         <>
             <Button
                 color="primary"
-                variant="contained"
+                size="small"
+                variant="outlined"
                 onClick={() => setOpen(true)}
+                className={classes.inputSelectorBrowseButton}
             >
                 {getMessage("browse")}
             </Button>
@@ -72,6 +78,7 @@ const BrowseButton = (props) => {
 const InputSelector = ({ intl, acceptedType, startingPath, ...props }) => {
     // These props need to be spread down into the FormTextField
     const { id, field, form, required } = props;
+    const classes = useStyles();
 
     const { setFieldValue } = form;
 
@@ -100,7 +107,12 @@ const InputSelector = ({ intl, acceptedType, startingPath, ...props }) => {
             alignItems="center"
         >
             <Grid item xs>
-                <FormTextField InputProps={inputProps} {...props} />
+                <FormTextField
+                    InputProps={inputProps}
+                    size="small"
+                    className={classes.inputSelectorTextFiled}
+                    {...props}
+                />
             </Grid>
             <Grid item>
                 <BrowseButton

@@ -15,8 +15,8 @@ import ResourceTypes from "../../models/ResourceTypes";
 
 import constants from "./constants";
 import ids from "./ids";
-import messages from "./messages";
 import styles from "./styles";
+
 import { isEmptyParamValue } from "./validate";
 
 import InputSelector from "./InputSelector";
@@ -31,11 +31,9 @@ import {
     FormNumberField,
     FormTextField,
     getMessage,
-    withI18N,
 } from "@cyverse-de/ui-lib";
 
 import {
-    makeStyles,
     Accordion,
     AccordionSummary,
     AccordionDetails,
@@ -43,6 +41,7 @@ import {
     FormControlLabel,
     FormHelperText,
     Link,
+    makeStyles,
     MenuItem,
     Paper,
     Switch,
@@ -123,9 +122,7 @@ const buildParamId = (baseId, paramIndex, type) => {
 /**
  * Form fields and info display for an app parameter group.
  */
-const ParamGroupForm = withI18N((props) => {
-    const classes = useStyles();
-
+function ParamGroupForm(props) {
     const {
         baseId,
         fieldName,
@@ -133,16 +130,32 @@ const ParamGroupForm = withI18N((props) => {
         referenceGenomes,
         referenceGenomesLoading,
         startingPath,
+        index,
+        noOfGroups,
     } = props;
-
+    const classes = useStyles();
     return (
         <Accordion id={baseId} defaultExpanded>
             <AccordionSummary
                 expandIcon={
-                    <ExpandMore id={buildDebugId(baseId, ids.BUTTONS.EXPAND)} />
+                    <ExpandMore
+                        id={buildDebugId(baseId, ids.BUTTONS.EXPAND)}
+                        className={classes.paramsViewsExpandIcon}
+                    />
                 }
+                className={classes.paramsViewSummary}
             >
-                <Typography variant="subtitle1">{group.label}</Typography>
+                <div>
+                    <Typography variant="subtitle2">{group.label}</Typography>
+                    <Typography variant="caption">
+                        {getMessage("section", {
+                            values: {
+                                groupNumber: index,
+                                totalGroups: noOfGroups,
+                            },
+                        })}
+                    </Typography>
+                </div>
             </AccordionSummary>
             <AccordionDetails className={classes.accordionDetails}>
                 {group.parameters?.map((param, paramIndex) => {
@@ -178,11 +191,12 @@ const ParamGroupForm = withI18N((props) => {
                                     __html: sanitizeHtml(param.label),
                                 },
                             };
+
                             break;
 
                         case constants.PARAM_TYPE.TEXT:
                             fieldProps.component = FormTextField;
-
+                            fieldProps.size = "small";
                             if (param.validators?.length > 0) {
                                 const charLimitValidator = param.validators.find(
                                     (validator) =>
@@ -199,14 +213,17 @@ const ParamGroupForm = withI18N((props) => {
 
                         case constants.PARAM_TYPE.INTEGER:
                             fieldProps.component = FormIntegerField;
+                            fieldProps.size = "small";
                             break;
 
                         case constants.PARAM_TYPE.DOUBLE:
                             fieldProps.component = FormNumberField;
+                            fieldProps.size = "small";
                             break;
 
                         case constants.PARAM_TYPE.MULTILINE_TEXT:
                             fieldProps.component = FormMultilineTextField;
+                            fieldProps.size = "small";
                             break;
 
                         case constants.PARAM_TYPE.FLAG:
@@ -219,6 +236,7 @@ const ParamGroupForm = withI18N((props) => {
                             fieldProps.component = FormTextField;
                             fieldProps.select = true;
                             fieldProps.variant = "outlined";
+                            fieldProps.size = "small";
                             fieldProps.children = param.arguments?.map(
                                 (arg) => (
                                     <MenuItem key={arg.value} value={arg}>
@@ -279,23 +297,36 @@ const ParamGroupForm = withI18N((props) => {
             </AccordionDetails>
         </Accordion>
     );
-}, messages);
+}
 
 const ParamsReviewLabel = ({ error, label }) => {
-    return <Typography color={error ? "error" : "initial"}>{label}</Typography>;
+    const classes = useStyles();
+    return (
+        <Typography
+            className={classes.paramsReview}
+            color={error ? "error" : "initial"}
+        >
+            {label}
+        </Typography>
+    );
 };
 
 const ParamsReviewValue = ({ param }) => {
     const { value, type } = param;
-
+    const classes = useStyles();
     switch (type) {
         case constants.PARAM_TYPE.FLAG:
-            return value ? "✔︎" : "";
+            return (
+                <Typography className={classes.paramsReview}>
+                    {value ? "✔︎" : ""}
+                </Typography>
+            );
 
         case constants.PARAM_TYPE.MULTILINE_TEXT:
         case constants.PARAM_TYPE.MULTIFILE_SELECTOR:
             return (
                 <TextField
+                    className={classes.paramsReview}
                     multiline
                     rows={3}
                     variant="outlined"
@@ -312,7 +343,11 @@ const ParamsReviewValue = ({ param }) => {
         case constants.PARAM_TYPE.INTEGER_SELECTION:
         case constants.PARAM_TYPE.DOUBLE_SELECTION:
             if (value?.display) {
-                return value.display;
+                return (
+                    <Typography className={classes.paramsReview}>
+                        {value.display}
+                    </Typography>
+                );
             }
             break;
 
@@ -320,7 +355,11 @@ const ParamsReviewValue = ({ param }) => {
         case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
         case constants.PARAM_TYPE.REFERENCE_ANNOTATION:
             if (value?.name) {
-                return value.name;
+                return (
+                    <Typography className={classes.paramsReview}>
+                        {value.name}
+                    </Typography>
+                );
             }
             break;
 

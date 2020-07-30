@@ -25,7 +25,6 @@ export default {
     APP_LAUNCH_REFERENCE_GENOME: "referenceGenome",
     APP_LAUNCH_REFERENCE_SEQUENCE: "referenceSequence",
     APP_LAUNCH_RESOURCE_REQUESTS: "resourceRequests",
-    APP_LAUNCH_RETAIN_INPUTS: "retainInputs",
     APP_LAUNCH_REVIEW: "launchAnalysisReview",
     APP_LAUNCH_TEXT_INPUT: "textInput",
     APP_LAUNCH_TEXT_SELECTION: "textSelection",

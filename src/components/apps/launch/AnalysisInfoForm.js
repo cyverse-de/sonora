@@ -8,7 +8,6 @@ import React from "react";
 
 import { FastField } from "formik";
 
-import constants from "../../../constants";
 import ResourceTypes from "../../models/ResourceTypes";
 
 import ids from "./ids";
@@ -18,7 +17,6 @@ import InputSelector from "./InputSelector";
 
 import {
     build as buildDebugId,
-    FormCheckbox,
     FormMultilineTextField,
     FormTextField,
     getMessage,
@@ -36,6 +34,8 @@ const AnalysisInfoForm = ({ formId, appType, startingPath }) => (
             label={getMessage("analysisName")}
             required={true}
             name="name"
+            size="small"
+            helperText={getMessage("analysisNameHelp")}
             component={FormTextField}
             inputProps={{ maxLength: 255 }}
         />
@@ -62,18 +62,6 @@ const AnalysisInfoForm = ({ formId, appType, startingPath }) => (
             startingPath={startingPath}
             acceptedType={ResourceTypes.FOLDER}
         />
-        {appType !== constants.APP_TYPE_EXTERNAL && (
-            <FastField
-                id={buildDebugId(
-                    formId,
-                    ids.LAUNCH_ANALYSIS_GROUP,
-                    ids.APP_LAUNCH_RETAIN_INPUTS
-                )}
-                label={getMessage("retainInputsLabel")}
-                name="debug"
-                component={FormCheckbox}
-            />
-        )}
     </>
 );
 

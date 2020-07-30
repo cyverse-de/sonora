@@ -6,6 +6,8 @@
 import React from "react";
 import { injectIntl } from "react-intl";
 
+import styles from "./styles";
+
 import { intercomShow } from "../../../common/intercom";
 
 import DEErrorDialog from "../../utils/error/DEErrorDialog";
@@ -19,9 +21,19 @@ import {
     formatMessage,
 } from "@cyverse-de/ui-lib";
 
-import { Box, Link, Paper, Toolbar, Typography } from "@material-ui/core";
+import {
+    Box,
+    Hidden,
+    Link,
+    makeStyles,
+    Typography,
+    useMediaQuery,
+    useTheme,
+} from "@material-ui/core";
 
 import { Skeleton } from "@material-ui/lab";
+
+const useStyles = makeStyles(styles);
 
 const LoadingErrorDisplay = injectIntl(({ intl, baseId, loadingError }) => {
     const [errorDialogOpen, setErrorDialogOpen] = React.useState(false);
@@ -47,13 +59,8 @@ const LoadingErrorDisplay = injectIntl(({ intl, baseId, loadingError }) => {
     );
 });
 
-const AppInfo = ({
-    app,
-    baseId,
-    hasDeprecatedParams,
-    loading,
-    loadingError,
-}) => {
+const AppInfo = React.forwardRef((props, ref) => {
+    const { app, baseId, hasDeprecatedParams, loading, loadingError } = props;
     const unavailableMsgKey = app?.deleted
         ? "appDeprecated"
         : app?.disabled
@@ -61,29 +68,37 @@ const AppInfo = ({
         : hasDeprecatedParams
         ? "appParamsDeprecated"
         : null;
-
+    const classes = useStyles();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     return (
-        <>
-            <Toolbar component={Paper}>
-                <Typography variant="h6">
-                    {loadingError ? (
-                        <LoadingErrorDisplay
-                            baseId={baseId}
-                            loadingError={loadingError}
-                        />
-                    ) : loading ? (
-                        <Skeleton width={250} />
-                    ) : (
-                        app?.name
-                    )}
-                </Typography>
-            </Toolbar>
-
-            <Box m={2}>
-                <Typography variant="body2" gutterBottom>
+        <div ref={ref}>
+            <Typography
+                variant={isMobile ? "subtitle2" : "h6"}
+                className={classes.appInfoTypography}
+            >
+                {loadingError ? (
+                    <LoadingErrorDisplay
+                        baseId={baseId}
+                        loadingError={loadingError}
+                    />
+                ) : loading ? (
+                    <Skeleton width={250} />
+                ) : (
+                    app?.name
+                )}
+            </Typography>
+            <Hidden xsDown>
+                <Typography
+                    className={classes.appInfoTypography}
+                    variant="body2"
+                    display="block"
+                    gutterBottom
+                >
                     {loading ? <Skeleton /> : app?.description}
                 </Typography>
-
+            </Hidden>
+            <Box m={2}>
                 {(app?.deleted || app?.disabled || hasDeprecatedParams) && (
                     <Typography color="error" variant="body1" gutterBottom>
                         {getMessage(unavailableMsgKey, {
@@ -106,8 +121,8 @@ const AppInfo = ({
                     </Typography>
                 )}
             </Box>
-        </>
+        </div>
     );
-};
+});
 
 export default AppInfo;

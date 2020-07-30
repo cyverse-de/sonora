@@ -53,9 +53,8 @@ function Listing(props) {
         baseId,
         handleGoToOutputFolder,
         handleSingleRelaunch,
-        intl,
     } = props;
-    const { t } = useTranslation("Analyses");
+    const { t } = useTranslation("analyses");
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("desc");
     const [orderBy, setOrderBy] = useState("startdate");

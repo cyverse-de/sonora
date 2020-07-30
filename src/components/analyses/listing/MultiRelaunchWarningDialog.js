@@ -21,7 +21,6 @@ import { build } from "@cyverse-de/ui-lib";
 
 import ids from "../ids";
 
-
 function MultiRelaunchWarningDialog({
     baseId,
     open,
@@ -29,7 +28,7 @@ function MultiRelaunchWarningDialog({
     confirmMultiRelaunch,
 }) {
     const theme = useTheme();
-    const {t} = useTranslation("analyses");
+    const { t } = useTranslation("analyses");
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
     const dialogTitleId = build(baseId, ids.DIALOG.RELAUNCH, ids.DIALOG.TITLE);
@@ -42,9 +41,7 @@ function MultiRelaunchWarningDialog({
             fullScreen={fullScreen}
             aria-labelledby={dialogTitleId}
         >
-            <DialogTitle id={dialogTitleId}>
-                {t("relaunch")}
-            </DialogTitle>
+            <DialogTitle id={dialogTitleId}>{t("relaunch")}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
                     {t("analysesMultiRelaunchWarning")}

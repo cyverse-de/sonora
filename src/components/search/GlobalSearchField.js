@@ -22,7 +22,6 @@ import {
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 
-
 const CustomInput = withStyles((theme) => ({
     root: {
         "label + &": {

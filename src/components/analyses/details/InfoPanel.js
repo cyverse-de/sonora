@@ -209,9 +209,7 @@ function InfoPanel(props) {
     return (
         <Paper>
             {info.steps.map((s, index) => {
-                return (
-                    <Step key={index} step={s} baseId={debugId} />
-                );
+                return <Step key={index} step={s} baseId={debugId} />;
             })}
         </Paper>
     );

@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
 
 function DetailsDrawer(props) {
     const classes = useStyles();
-    const {t} = useTranslation("analyses");
+    const { t } = useTranslation("analyses");
     const { selectedAnalysis, open, onClose, baseId } = props;
     const [selectedTab, setSelectedTab] = useState(TABS.analysisInfo);
     const [history, setHistory] = useState(null);

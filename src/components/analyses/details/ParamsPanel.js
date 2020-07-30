@@ -27,7 +27,6 @@ import {
     Typography,
 } from "@material-ui/core";
 
-
 function ParameterValue(props) {
     const {
         parameter: {

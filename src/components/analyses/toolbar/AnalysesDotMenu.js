@@ -17,7 +17,7 @@ import {
     allowAnalyesRelaunch,
 } from "../utils";
 
-import { build, DotMenu,} from "@cyverse-de/ui-lib";
+import { build, DotMenu } from "@cyverse-de/ui-lib";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 
 import {
@@ -46,7 +46,7 @@ function DotMenuItems(props) {
         selectedAnalyses,
         isSingleSelection,
     } = props;
-    const {t} = useTranslation("analyses");
+    const { t } = useTranslation("analyses");
     return [
         detailsEnabled && (
             <MenuItem

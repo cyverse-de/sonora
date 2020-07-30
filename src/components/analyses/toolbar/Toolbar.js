@@ -65,11 +65,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getOwnershipFilters(t) {
-    return Object.values([
-        t("all"),
-        t("mine"),
-        t("theirs"),
-    ]).map((filter) => {
+    return Object.values([t("all"), t("mine"), t("theirs")]).map((filter) => {
         return {
             name: filter,
         };
@@ -78,7 +74,7 @@ function getOwnershipFilters(t) {
 
 function BatchFilter(props) {
     const { baseId, name, classes, onClearBatch } = props;
-    const {t} = useTranslation("analyses");
+    const { t } = useTranslation("analyses");
 
     return (
         <>
@@ -116,7 +112,7 @@ function BatchFilter(props) {
 }
 
 function AnalysesToolbar(props) {
-   const {
+    const {
         baseId,
         selected,
         username,
@@ -137,7 +133,7 @@ function AnalysesToolbar(props) {
         handleBatchIconClick,
     } = props;
     const classes = useStyles();
-    const {t} = useTranslation("analyses");
+    const { t } = useTranslation("analyses");
     const analysesNavId = build(baseId, ids.ANALYSES_NAVIGATION);
     return (
         <Toolbar variant="dense" id={analysesNavId}>

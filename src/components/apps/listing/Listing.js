@@ -363,20 +363,14 @@ function Listing({
         setPage(0);
     };
 
-    const handleCategoryChange = useCallback(
-        (category) => {
-            if (
-                category.system_id?.toLowerCase() ===
-                appType.agave.toLowerCase()
-            ) {
-                setFilter(null);
-            }
-            setCategory(category);
-            setSelected([]);
-            setPage(0);
-        },
-        []
-    );
+    const handleCategoryChange = useCallback((category) => {
+        if (category.system_id?.toLowerCase() === appType.agave.toLowerCase()) {
+            setFilter(null);
+        }
+        setCategory(category);
+        setSelected([]);
+        setPage(0);
+    }, []);
 
     const handleFilterChange = (filter) => {
         setFilter(filter);

@@ -31,4 +31,3 @@ Search.getInitialProps = async ({ Component, ctx }) => {
 
     return { pageProps, namespacesRequired: ["common"] };
 };
-

@@ -210,7 +210,6 @@ function CyverseAppBar(props) {
     const { t } = useTranslation(["common"]);
 
     const {
-       
         children,
         activeView,
         setAppBarRef,
@@ -308,7 +307,7 @@ function CyverseAppBar(props) {
         setAdminUser,
         setAvatarLetter,
         config,
-     
+
         showErrorAnnouncer,
     ]);
 
@@ -597,7 +596,6 @@ function CyverseAppBar(props) {
                     <div className={classes.root} />
                     <div style={{ display: "flex" }}>
                         <CustomIntercom
-                          
                             intercomUnreadCount={intercomUnreadCount}
                         />
                         <Notifications />

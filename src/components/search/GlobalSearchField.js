@@ -4,9 +4,11 @@
  * A global search field with options to filter on apps, analyses and data
  */
 import React from "react";
+import { useTranslation } from "react-i18next";
+import { useRouter } from "next/router";
+
 import ids from "./ids";
-import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
-import intlData from "../layout/messages";
+import { build } from "@cyverse-de/ui-lib";
 import NavigationConstants from "../../common/NavigationConstants";
 
 import SearchIcon from "@material-ui/icons/Search";
@@ -19,8 +21,7 @@ import {
 } from "@material-ui/core";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { injectIntl } from "react-intl";
-import { useRouter } from "next/router";
+
 
 const CustomInput = withStyles((theme) => ({
     root: {
@@ -81,8 +82,8 @@ const useStyles = makeStyles((theme) => ({
 
 function GlobalSearchField(props) {
     const classes = useStyles();
+    const { t } = useTranslation(["common"]);
     const router = useRouter();
-    const { intl } = props;
     const [searchText, setSearchText] = React.useState("");
     const [filter, setFilter] = React.useState("all");
 
@@ -108,7 +109,7 @@ function GlobalSearchField(props) {
         <>
             <div id={ids.SEARCH} className={classes.search}>
                 <InputBase
-                    placeholder={formatMessage(intl, "search")}
+                    placeholder={t("search")}
                     value={searchText}
                     onChange={handleChange}
                     onKeyPress={handleKeyPress}
@@ -128,22 +129,14 @@ function GlobalSearchField(props) {
                     className={classes.searchFilter}
                     input={<CustomInput />}
                 >
-                    <MenuItem value="all">
-                        {formatMessage(intl, "all")}
-                    </MenuItem>
-                    <MenuItem value="data">
-                        {formatMessage(intl, "data")}
-                    </MenuItem>
-                    <MenuItem value="apps">
-                        {formatMessage(intl, "apps")}
-                    </MenuItem>
-                    <MenuItem value="analyses">
-                        {formatMessage(intl, "analyses")}
-                    </MenuItem>
+                    <MenuItem value="all">{t("all")}</MenuItem>
+                    <MenuItem value="data">{t("data")}</MenuItem>
+                    <MenuItem value="apps">{t("apps")}</MenuItem>
+                    <MenuItem value="analyses">{t("analyses")}</MenuItem>
                 </Select>
             </FormControl>
         </>
     );
 }
 
-export default withI18N(injectIntl(GlobalSearchField), intlData);
+export default GlobalSearchField;

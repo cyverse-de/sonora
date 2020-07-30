@@ -21,3 +21,14 @@ export default function Search() {
         </>
     );
 }
+
+Search.getInitialProps = async ({ Component, ctx }) => {
+    let pageProps = {};
+
+    if (Component.getInitialProps) {
+        pageProps = await Component.getInitialProps(ctx);
+    }
+
+    return { pageProps, namespacesRequired: ["common"] };
+};
+

@@ -483,6 +483,24 @@ export class NewsItem extends ItemBase {
     }
 }
 
+export class VideoItem extends ItemBase {
+    constructor({ section, content, height, width, classes }) {
+        super({
+            kind: constants.KIND_FEEDS,
+            content,
+            section,
+            height,
+            width,
+            classes,
+        });
+    }
+
+    getLinkTarget() {
+        const [, , videoID] = this.content.id.split(":");
+        return `https://www.youtube.com/embed/${videoID}`;
+    }
+}
+
 export class EventItem extends ItemBase {
     constructor({ section, content, height, width, classes }) {
         super({
@@ -561,6 +579,9 @@ export const getItem = (props) => {
         case constants.KIND_EVENTS:
             return new EventItem(props);
         default:
+            if (props.section === constants.SECTION_VIDEOS) {
+                return new VideoItem(props);
+            }
             return new NewsItem(props); // includes videos
     }
 };

@@ -1,5 +1,5 @@
 {
-    "asyncDataDeletePending": "File(s)/Folder(s) deletion in progress",
+    "asyncDataDeletePending": "Deletion in progress. You will be notified when completed.",
     "deleteResourceError": "Unable to delete selected resources. Please try again.",
     "filesQueuedForUploadMsg": "{{count}} file queued for upload",
     "filesQueuedForUploadMsg_plural": "{{count}} files queued for upload",

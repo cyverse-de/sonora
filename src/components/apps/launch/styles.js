@@ -3,19 +3,10 @@ export default (theme) => ({
 
     stepper: {
         padding: theme.spacing(1),
-        [theme.breakpoints.down("xs")]: {
-            margin: theme.spacing(0.3),
-        },
     },
     stepContainer: {
         overflow: "auto",
-    },
-    stepContent: {
-        overflow: "auto",
-        padding: theme.spacing(1),
-        [theme.breakpoints.down("xs")]: {
-            padding: theme.spacing(0.3),
-        },
+
     },
     spacer: {
         margin: theme.spacing(1),

@@ -90,6 +90,13 @@ export default makeStyles((theme) => ({
             marginRight: theme.spacing(2),
         },
     },
+    dashboardVideo: {
+        width: (props) => props.width,
+        height: (props) => props.height,
+        float: "none",
+        clear: "both",
+        margin: "2px auto",
+    },
     newsItem: {
         marginTop: theme.spacing(2),
         width: "100%",

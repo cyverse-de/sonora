@@ -200,6 +200,18 @@ export const DashboardFeedItem = ({ item }) => {
     );
 };
 
+export const DashboardVideoItem = ({ item }) => {
+    const classes = useStyles(item);
+
+    return (
+        <object
+            className={classes.dashboardVideo}
+            data={item.getLinkTarget()}
+            aria-label={item.content.title}
+        />
+    );
+};
+
 const ItemAction = ({ children, ariaLabel, handleClick }) => (
     <IconButton aria-label={ariaLabel} onClick={handleClick}>
         {children}
@@ -549,7 +561,7 @@ export const getItem = (props) => {
         case constants.KIND_EVENTS:
             return new EventItem(props);
         default:
-            return new NewsItem(props);
+            return new NewsItem(props); // includes videos
     }
 };
 

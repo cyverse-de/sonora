@@ -26,6 +26,7 @@ import {
     PublicApps,
     RecentAnalyses,
     RunningAnalyses,
+    VideosFeed,
 } from "./DashboardSection";
 
 import {
@@ -83,6 +84,7 @@ const Dashboard = () => {
     const sections = [
         new NewsFeed(),
         new EventsFeed(),
+        new VideosFeed(),
         new RecentAnalyses(),
         new RunningAnalyses(),
         new RecentlyAddedApps(),

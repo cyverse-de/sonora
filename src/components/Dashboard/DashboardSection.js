@@ -3,7 +3,11 @@ import clsx from "clsx";
 
 import { Divider, Typography } from "@material-ui/core";
 
-import DashboardItem, { getItem, DashboardFeedItem } from "./DashboardItem";
+import DashboardItem, {
+    getItem,
+    DashboardFeedItem,
+    DashboardVideoItem,
+} from "./DashboardItem";
 
 import useStyles from "./styles";
 import * as fns from "./functions";
@@ -52,6 +56,32 @@ const SectionContentFeed = ({ items, kind, section, id, height, width }) => {
     );
 };
 
+const SectionContentVideos = ({ items, kind, section, id, height, width }) => {
+    const classes = useStyles();
+
+    return (
+        <div className={classes.sectionItems}>
+            {items.map((item, index) => {
+                const obj = getItem({
+                    kind,
+                    section,
+                    content: item,
+                    height,
+                    width,
+                    classes,
+                });
+                return (
+                    <DashboardVideoItem
+                        key={fns.makeID(id, index)}
+                        item={obj}
+                    />
+                );
+            })}
+            ;
+        </div>
+    );
+};
+
 const DashboardSection = ({
     name,
     kind,
@@ -66,9 +96,49 @@ const DashboardSection = ({
 
     const isNewsSection = section === constants.SECTION_NEWS;
     const isEventsSection = section === constants.SECTION_EVENTS;
+
     const isFeedItem =
         (kind === constants.KIND_FEEDS || kind === constants.KIND_EVENTS) &&
         (isNewsSection || isEventsSection);
+
+    const isVideoItem = section === constants.SECTION_VIDEOS;
+
+    let component;
+
+    if (isFeedItem) {
+        component = (
+            <SectionContentFeed
+                id={id}
+                height={cardHeight}
+                width={cardWidth}
+                section={section}
+                kind={kind}
+                items={items}
+            />
+        );
+    } else if (isVideoItem) {
+        component = (
+            <SectionContentVideos
+                id={id}
+                height={cardHeight}
+                width={cardWidth}
+                section={section}
+                kind={kind}
+                items={items}
+            />
+        );
+    } else {
+        component = (
+            <SectionContentCards
+                id={id}
+                height={cardHeight}
+                width={cardWidth}
+                section={section}
+                kind={kind}
+                items={items}
+            />
+        );
+    }
 
     return (
         <div
@@ -90,25 +160,7 @@ const DashboardSection = ({
             >
                 {name}
             </Typography>
-            {isFeedItem ? (
-                <SectionContentFeed
-                    id={id}
-                    height={cardHeight}
-                    width={cardWidth}
-                    section={section}
-                    kind={kind}
-                    items={items}
-                />
-            ) : (
-                <SectionContentCards
-                    id={id}
-                    height={cardHeight}
-                    width={cardWidth}
-                    section={section}
-                    kind={kind}
-                    items={items}
-                />
-            )}
+            {component}
         </div>
     );
 };
@@ -218,6 +270,21 @@ export class EventsFeed extends SectionBase {
             constants.SECTION_EVENTS,
             "eventsFeed",
             ids.SECTION_EVENTS
+        );
+    }
+
+    getComponent(params) {
+        return super.getComponent(params);
+    }
+}
+
+export class VideosFeed extends SectionBase {
+    constructor() {
+        super(
+            constants.KIND_FEEDS,
+            constants.SECTION_VIDEOS,
+            "videosFeed",
+            ids.SECTION_VIDEOS
         );
     }
 

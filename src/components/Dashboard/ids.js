@@ -9,4 +9,5 @@ export default {
     SECTION_PUBLIC_APPS: "section.public-apps",
     SECTION_NEWS: "section.news",
     SECTION_EVENTS: "section.events",
+    SECTION_VIDEOS: "section.videos",
 };

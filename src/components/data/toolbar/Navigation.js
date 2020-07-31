@@ -8,7 +8,6 @@
 
 import React, { useEffect, useState } from "react";
 
-import intlData from "../messages";
 import styles from "../styles";
 import ids from "../ids";
 import constants from "../../../constants";
@@ -18,10 +17,10 @@ import {
 } from "../../../serviceFacades/filesystem";
 import { useUserProfile } from "../../../contexts/userProfile";
 
-import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 import { queryCache, useQuery } from "react-query";
 
 import HomeIcon from "@material-ui/icons/Home";
@@ -129,7 +128,6 @@ function FolderSelectorMenu({
     sharedWithMePath,
     communityDataPath,
     baseId,
-    intl,
 }) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
@@ -142,6 +140,7 @@ function FolderSelectorMenu({
     );
     const pathItems = getPathItems(relativePath);
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const { t } = useTranslation("data");
 
     useEffect(() => {
         setSelectedIndex(pathItems.length > 0 ? pathItems.length - 1 : 0);
@@ -173,21 +172,15 @@ function FolderSelectorMenu({
             <>
                 <List
                     component="nav"
-                    aria-controls={formatMessage(
-                        intl,
-                        "selectedFolderAriaControl"
-                    )}
-                    aria-label={formatMessage(intl, "selectedFolderAriaLabel")}
+                    aria-controls={t("selectedFolderAriaControl")}
+                    aria-label={t("selectedFolderAriaLabel")}
                     id={build(baseId, ids.PATH_ITEMS)}
                     className={classes.list}
                 >
                     <ListItem
                         button
                         aria-haspopup="true"
-                        aria-controls={formatMessage(
-                            intl,
-                            "selectedFolderAriaMenuItemControl"
-                        )}
+                        aria-controls={t("selectedFolderAriaMenuItemControl")}
                         aria-label={pathItems[selectedIndex]}
                         onClick={handleClickListItem}
                         className={classes.selectedListItem}
@@ -216,11 +209,8 @@ function FolderSelectorMenu({
                 <Menu
                     id={build(baseId, ids.PATH_ITEMS_MENU)}
                     aria-haspopup="true"
-                    aria-controls={formatMessage(
-                        intl,
-                        "FolderPathsMenuAriaControl"
-                    )}
-                    aria-label={formatMessage(intl, "FolderPathsMenuAriaLabel")}
+                    aria-controls={t("FolderPathsMenuAriaControl")}
+                    aria-label={t("FolderPathsMenuAriaLabel")}
                     anchorEl={anchorEl}
                     keepMounted
                     open={Boolean(anchorEl)}
@@ -266,9 +256,9 @@ function BreadCrumb({
     sharedWithMePath,
     communityDataPath,
     baseId,
-    intl,
 }) {
     const classes = useStyles();
+    const { t } = useTranslation("data");
     const relativePath = getRelativePath(
         path,
         userHomePath,
@@ -291,20 +281,14 @@ function BreadCrumb({
                 maxItems={2}
                 aria-label="breadcrumb"
                 id={build(baseId, ids.BREADCRUMBS)}
-                aria-controls={formatMessage(
-                    intl,
-                    "dataNavigationBreadcrumbsControl"
-                )}
+                aria-controls={t("dataNavigationBreadcrumbsControl")}
             >
                 {getPathItems(relativePath).map((crumb) => (
                     <Tooltip title={crumb} key={crumb}>
                         <Button
                             variant="text"
                             startIcon={<FolderIcon className={classes.icon} />}
-                            aria-controls={formatMessage(
-                                intl,
-                                "folderPathAriaControl"
-                            )}
+                            aria-controls={t("folderPathAriaControl")}
                             id={build(
                                 baseId,
                                 ids.BREADCRUMBS,
@@ -329,7 +313,8 @@ function BreadCrumb({
 }
 
 function Navigation(props) {
-    const { path, handlePathChange, baseId, handleDataNavError, intl } = props;
+    const { path, handlePathChange, baseId, handleDataNavError } = props;
+    const { t } = useTranslation("data");
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -456,20 +441,14 @@ function Navigation(props) {
         <>
             <List
                 component="nav"
-                aria-label={formatMessage(
-                    intl,
-                    "selectedDataRootMenuAriaLabel"
-                )}
+                aria-label={t("selectedDataRootMenuAriaLabel")}
                 id={build(dataNavId, ids.DATA_ROOTS)}
                 className={classes.list}
             >
                 <ListItem
                     button
                     aria-haspopup="true"
-                    aria-controls={formatMessage(
-                        intl,
-                        "selectedDataRootAriaMenuItemControl"
-                    )}
+                    aria-controls={t("selectedDataRootAriaMenuItemControl")}
                     aria-label={dataRoots[selectedIndex].label}
                     onClick={handleClickListItem}
                     className={classes.selectedListItem}
@@ -495,8 +474,8 @@ function Navigation(props) {
             <Menu
                 id={build(baseId, ids.DATA_ROOTS_MENU)}
                 aria-haspopup="true"
-                aria-controls={formatMessage(intl, "dataRootMenuAriaControl")}
-                aria-label={formatMessage(intl, "dataRootsMenuAriaLabel")}
+                aria-controls={t("dataRootMenuAriaControl")}
+                aria-label={t("dataRootsMenuAriaLabel")}
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
@@ -510,10 +489,7 @@ function Navigation(props) {
                             ids.DATA_ROOTS_MENU_ITEM,
                             menuItem.label
                         )}
-                        aria-controls={formatMessage(
-                            intl,
-                            "dataRootsMenuItemAriaControl"
-                        )}
+                        aria-controls={t("dataRootsMenuItemAriaControl")}
                         aria-label={menuItem.label}
                         key={menuItem.label}
                         selected={index === selectedIndex}
@@ -540,7 +516,6 @@ function Navigation(props) {
                         userTrashPath={userTrashPath}
                         sharedWithMePath={sharedWithMePath}
                         communityDataPath={communityDataPath}
-                        intl={intl}
                     />
                 ) : (
                     <div></div>
@@ -557,7 +532,6 @@ function Navigation(props) {
                         userTrashPath={userTrashPath}
                         sharedWithMePath={sharedWithMePath}
                         communityDataPath={communityDataPath}
-                        intl={intl}
                     />
                 ) : (
                     <div></div>
@@ -567,4 +541,4 @@ function Navigation(props) {
     );
 }
 
-export default withI18N(injectIntl(Navigation), intlData);
+export default Navigation;

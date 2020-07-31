@@ -8,7 +8,7 @@
 
 import React, { Fragment, useState, useEffect } from "react";
 
-import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 import {
     Avatar,
     CircularProgress,
@@ -19,7 +19,7 @@ import {
     Typography,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 
 import Identity from "../Identity";
@@ -34,7 +34,6 @@ import {
     RESOURCE_PERMISSIONS_KEY,
 } from "../../../serviceFacades/filesystem";
 import { updateSharing } from "../../../serviceFacades/sharing";
-import messages from "../messages";
 import isQueryLoading from "../../utils/isQueryLoading";
 import { getUserInfo } from "../../../serviceFacades/users";
 import ErrorTypography from "../../utils/error/ErrorTypography";
@@ -65,7 +64,8 @@ function sortPerms(permissions) {
 
 function PermissionsTabPanel(props) {
     const classes = useStyles();
-    const { baseId, resource, selfPermission, intl } = props;
+    const { baseId, resource, selfPermission } = props;
+    const { t } = useTranslation("data");
     const [fetchUserInfoKey, setFetchUserInfoKey] = useState(
         USER_INFO_QUERY_KEY
     );
@@ -129,7 +129,7 @@ function PermissionsTabPanel(props) {
                 setFetchUserInfoQueryEnabled(false);
             },
             onError: (e) => {
-                setErrorMessage(formatMessage(intl, "fetchPermissionsError"));
+                setErrorMessage(t("fetchPermissionsError"));
                 setErrorObject(e);
             },
         },
@@ -159,7 +159,7 @@ function PermissionsTabPanel(props) {
                 setFetchResourcePermissionsQueryEnabled(false);
             },
             onError: (e) => {
-                setErrorMessage(formatMessage(intl, "fetchPermissionsError"));
+                setErrorMessage(t("fetchPermissionsError"));
                 setErrorObject(e);
             },
         },
@@ -187,7 +187,7 @@ function PermissionsTabPanel(props) {
             );
         },
         onError: (e) => {
-            formatMessage(intl, "updatePermissionsError");
+            t("updatePermissionsError");
             setErrorObject(e);
         },
     });
@@ -264,9 +264,7 @@ function PermissionsTabPanel(props) {
     return (
         <>
             <Typography id={build(baseId, ids.SELF_PERMISSION)}>
-                {getMessage("selfPermission", {
-                    values: { permission: selfPermission },
-                })}
+                {t("selfPermission", { permission: selfPermission })}
             </Typography>
             {fetchResourcePermissionsKey && (
                 <List
@@ -366,4 +364,4 @@ function PermissionsTabPanel(props) {
     );
 }
 
-export default withI18N(injectIntl(PermissionsTabPanel), messages);
+export default PermissionsTabPanel;

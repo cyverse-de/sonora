@@ -6,17 +6,18 @@
  */
 
 import React, { Fragment, useState } from "react";
-import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 import { IconButton, ListItemIcon, Menu, MenuItem } from "@material-ui/core";
 import { Check, Edit } from "@material-ui/icons";
+import { useTranslation } from "react-i18next";
 
 import ids from "../ids";
-import messages from "../messages";
 import Permissions from "../../models/Permissions";
 
 function PermissionSelector(props) {
     const { baseId, currentPermission, onPermissionChange } = props;
     const [anchorEl, setAnchorEl] = useState(null);
+    const { t } = useTranslation("data");
 
     const onEditClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -63,7 +64,7 @@ function PermissionSelector(props) {
                                     <Fragment />
                                 )}
                             </ListItemIcon>
-                            {getMessage(permissionValue)}
+                            {t(permissionValue)}
                         </MenuItem>
                     );
                 })}
@@ -72,4 +73,4 @@ function PermissionSelector(props) {
     );
 }
 
-export default withI18N(PermissionSelector, messages);
+export default PermissionSelector;

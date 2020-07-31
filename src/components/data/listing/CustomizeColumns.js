@@ -7,13 +7,7 @@
 
 import React, { useState } from "react";
 
-import {
-    build,
-    DECheckbox,
-    formatMessage,
-    getMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { build, DECheckbox } from "@cyverse-de/ui-lib";
 import {
     Button,
     Hidden,
@@ -25,10 +19,9 @@ import {
     useTheme,
 } from "@material-ui/core";
 import { Settings } from "@material-ui/icons";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 
 import ids from "../ids";
-import messages from "../messages";
 
 function CustomizeColumns(props) {
     const {
@@ -36,10 +29,10 @@ function CustomizeColumns(props) {
         allTableColumns,
         displayColumns,
         setDisplayColumns,
-        intl,
     } = props;
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down("xs"));
+    const { t } = useTranslation("data");
 
     const [columnSettingEl, setColumnSettingEl] = useState(null);
     const [columnSettingsOpen, setColumnSettingsOpen] = useState(false);
@@ -82,7 +75,7 @@ function CustomizeColumns(props) {
     return (
         <>
             <ButtonType
-                aria-label={formatMessage(intl, "ariaCustomCols")}
+                aria-label={t("ariaCustomCols")}
                 aria-controls={menuId}
                 aria-haspopup="true"
                 size="small"
@@ -92,7 +85,7 @@ function CustomizeColumns(props) {
                 <Hidden smUp>
                     <Settings />
                 </Hidden>
-                <Hidden xsDown>{getMessage("customizeColumns")}</Hidden>
+                <Hidden xsDown>{t("customizeColumns")}</Hidden>
             </ButtonType>
             <Menu
                 id={menuId}
@@ -124,4 +117,4 @@ function CustomizeColumns(props) {
     );
 }
 
-export default withI18N(injectIntl(CustomizeColumns), messages);
+export default CustomizeColumns;

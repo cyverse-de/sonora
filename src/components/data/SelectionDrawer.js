@@ -7,7 +7,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 import {
     Button,
     Drawer,
@@ -21,10 +21,10 @@ import {
 } from "@material-ui/core";
 import { Directions } from "@material-ui/icons";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
 import ids from "./ids";
 import Listing from "./listing/Listing";
-import messages from "./messages";
 import ResourceTypes from "../models/ResourceTypes";
 
 import styles from "./styles";
@@ -51,6 +51,7 @@ function SelectionToolbar(props) {
     } = props;
     const theme = useTheme();
     const classes = useStyles();
+    const { t } = useTranslation("data");
     const [displayPath, setDisplayPath] = useState("");
 
     const toolbarRef = useRef(null);
@@ -94,29 +95,23 @@ function SelectionToolbar(props) {
             <Toolbar id={build(baseId, ids.SELECTION_TOOLBAR)} ref={toolbarRef}>
                 {hasValidSelection ? (
                     <Typography color="primary" variant="subtitle2">
-                        {getMessage("selectedItems", {
-                            values: { total: selectedTotal },
-                        })}
+                        {t("selectedItems", { count: selectedTotal })}
                     </Typography>
                 ) : hasInvalidSelection ? (
                     <Typography
                         variant="subtitle2"
                         style={{ color: theme.palette.error.main }}
                     >
-                        {getMessage("invalidSelection", {
-                            values: {
-                                type: acceptedType,
-                                total: invalidTotal,
-                            },
+                        {t("invalidSelection", {
+                            context: acceptedType,
+                            count: invalidTotal,
                         })}
                     </Typography>
                 ) : (
                     <Typography variant="subtitle2">
-                        {getMessage("selectionSuggestion", {
-                            values: {
-                                type: acceptedType,
-                                multiSelect,
-                            },
+                        {t("selectionSuggestion", {
+                            context: acceptedType,
+                            count: multiSelect ? 0 : 1,
                         })}
                     </Typography>
                 )}
@@ -125,7 +120,7 @@ function SelectionToolbar(props) {
                     id={build(baseId, ids.SELECTION_TOOLBAR, ids.CANCEL_BTN)}
                     onClick={onClose}
                 >
-                    {getMessage("cancel")}
+                    {t("cancel")}
                 </Button>
                 {hasValidSelection && (
                     <Button
@@ -133,14 +128,14 @@ function SelectionToolbar(props) {
                         color={"primary"}
                         onClick={handleConfirm}
                     >
-                        {getMessage("ok")}
+                        {t("ok")}
                     </Button>
                 )}
             </Toolbar>
             <Toolbar>
                 <TextField
                     id={build(baseId, ids.DATA_PATH)}
-                    label={getMessage("path")}
+                    label={t("path")}
                     value={displayPath}
                     onChange={(event) => setDisplayPath(event.target.value)}
                     variant="outlined"
@@ -250,4 +245,4 @@ SelectionDrawer.propTypes = {
     multiSelect: PropTypes.bool,
 };
 
-export default withI18N(SelectionDrawer, messages);
+export default SelectionDrawer;

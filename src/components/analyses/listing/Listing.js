@@ -58,6 +58,8 @@ function Listing(props) {
         selectedRowsPerPage,
         selectedOrder,
         selectedOrderBy,
+        selectedPermFilter,
+        selectedTypeFilter,
     } = props;
     const { t } = useTranslation("analyses");
     const [isGridView, setGridView] = useState(false);
@@ -66,13 +68,14 @@ function Listing(props) {
     const [orderBy, setOrderBy] = useState(selectedOrderBy);
     const [page, setPage] = useState(selectedPage);
     const [rowsPerPage, setRowsPerPage] = useState(selectedRowsPerPage);
+    const [permFilter, setPermFilter] = useState(selectedPermFilter);
+    const [appTypeFilter, setAppTypeFilter] = useState(selectedTypeFilter);
 
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
     const [data, setData] = useState(null);
     const [parentAnalysis, setParentAnalyses] = useState(null);
-    const [permFilter, setPermFilter] = useState(getOwnershipFilters(t)[0]);
-    const [appTypeFilter, setAppTypeFilter] = useState(getAppTypeFilters()[0]);
+
     const [userProfile] = useUserProfile();
     const [currentNotification] = useNotifications();
     const [detailsAnalysis, setDetailsAnalysis] = useState(null);
@@ -103,15 +106,50 @@ function Listing(props) {
     });
 
     useEffect(() => {
+        //JSON objects needs to stringified for urls.
+        const stringPermFilter = JSON.stringify(permFilter);
+        const stringTypeFilter = JSON.stringify(appTypeFilter);
+
+        const permFilterChanged =
+            selectedPermFilter &&
+            permFilter &&
+            selectedPermFilter?.name !== permFilter?.name;
+
+        const typeFilterChanged =
+            selectedTypeFilter?.name !== appTypeFilter?.name;
+
         if (
+            permFilterChanged ||
+            typeFilterChanged ||
             selectedOrder !== order ||
             selectedOrderBy !== orderBy ||
             selectedPage !== page ||
             selectedRowsPerPage !== rowsPerPage
         ) {
-            onRouteToListing(order, orderBy, page, rowsPerPage);
+            onRouteToListing(
+                order,
+                orderBy,
+                page,
+                rowsPerPage,
+                stringPermFilter,
+                stringTypeFilter
+            );
         }
-    }, [onRouteToListing, order, orderBy, page, rowsPerPage, selectedOrder, selectedOrderBy, selectedPage, selectedRowsPerPage]);
+    }, [
+        appTypeFilter,
+        onRouteToListing,
+        order,
+        orderBy,
+        page,
+        permFilter,
+        rowsPerPage,
+        selectedOrder,
+        selectedOrderBy,
+        selectedPage,
+        selectedPermFilter,
+        selectedTypeFilter,
+        selectedRowsPerPage,
+    ]);
 
     useEffect(() => {
         const filters = [];

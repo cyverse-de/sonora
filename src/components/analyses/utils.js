@@ -91,10 +91,19 @@ const getAnalysisRelaunchPage = (analysisId) =>
  * @param {string} orderBy The analyses listing sort field.
  * @param {string} page The analyses listing page.
  * @param {string} rowsPerPage The analyses listing page size.
+ * @param {string} permFilter The permission filter used to filter the analyses listing
+ * @param {string} appTypeFilter The app typle filter used to filter the analyses listing
  */
 
-const getListingPath = (order, orderBy, page, rowsPerPage) =>
-    `/${NavigationConstants.ANALYSES}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}`;
+const getListingPath = (
+    order,
+    orderBy,
+    page,
+    rowsPerPage,
+    permFilter,
+    appTypeFilter
+) =>
+    `/${NavigationConstants.ANALYSES}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedPermFilter=${permFilter}&selectedTypeFilter=${appTypeFilter}`;
 
 export {
     getAnalysisUser,

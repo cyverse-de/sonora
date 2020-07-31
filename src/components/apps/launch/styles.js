@@ -48,13 +48,13 @@ export default (theme) => ({
     inputSelectorBrowseButton: {
         marginLeft: theme.spacing(1),
         [theme.breakpoints.down("xs")]: {
-            marginLeft: theme.spacing(0.3),
+            marginLeft: theme.spacing(0.1),
         },
     },
     inputSelectorTextFiled: {
         paddingRight: theme.spacing(1),
         [theme.breakpoints.down("xs")]: {
-            paddingRight: theme.spacing(0.3),
+            paddingRight: theme.spacing(0.1),
         },
     },
 });

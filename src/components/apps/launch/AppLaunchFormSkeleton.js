@@ -1,5 +1,5 @@
 /**
- * @author psarando
+ * @author psarando, sriram
  *
  * A Loading Mask for the App Launch Form.
  */

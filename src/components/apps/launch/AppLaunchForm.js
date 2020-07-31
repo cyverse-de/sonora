@@ -50,7 +50,7 @@ import {
 } from "@cyverse-de/ui-lib";
 
 import {
-    Container,
+    Box,
     Button,
     MobileStepper,
     Stepper,
@@ -80,7 +80,7 @@ const useStyles = makeStyles(styles);
 const NAVIGATION_BAR_HEIGHT = 105;
 
 //include mobile stepper navigation height
-const MOBILE_NAVIGATION_BAR_HEIGHT = 125;
+const MOBILE_NAVIGATION_BAR_HEIGHT = 135;
 
 const ReferenceGenomeParamTypes = [
     constants.PARAM_TYPE.REFERENCE_GENOME,
@@ -88,20 +88,24 @@ const ReferenceGenomeParamTypes = [
     constants.PARAM_TYPE.REFERENCE_ANNOTATION,
 ];
 
-const StepContent = ({ id, hidden, step, label, children, offsetHeight }) => (
-    <PageWrapper appBarHeight={offsetHeight}>
-        <fieldset id={id} hidden={hidden}>
-            <legend>
-                <Typography variant="caption">
-                    {getMessage("stepLabel", {
-                        values: { step: step + 1, label },
-                    })}
-                </Typography>
-            </legend>
-            {children}
-        </fieldset>
-    </PageWrapper>
-);
+const StepContent = ({ id, hidden, step, label, children, offsetHeight }) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    return (
+        <PageWrapper appBarHeight={offsetHeight}>
+            <fieldset id={id} hidden={hidden}>
+                <legend>
+                    <Typography variant={isMobile? "subtitle2": "caption"} color={isMobile ? "primary" : "inherit"}>
+                        {getMessage("stepLabel", {
+                            values: { step: step + 1, label },
+                        })}
+                    </Typography>
+                </legend>
+                {children}
+            </fieldset>
+        </PageWrapper>
+    );
+};
 
 const StepperBottomNavigation = React.forwardRef((props, ref) => {
     const {
@@ -241,7 +245,7 @@ const LaunchStepper = React.forwardRef((props, ref) => {
                         id={buildDebugId(formId, ids.BUTTONS.STEP_NEXT)}
                         color="primary"
                     >
-                         {getMessage("next")}
+                        {getMessage("next")}
                         {theme.direction === "rtl" ? (
                             <KeyboardArrowLeft />
                         ) : (
@@ -738,10 +742,7 @@ const AppLaunchForm = (props) => {
                                 ref={stepperRef}
                             />
                         )}
-                        <Container
-                            component="div"
-                            className={classes.stepContainer}
-                        >
+                        <Box component="div" className={classes.stepContainer}>
                             <StepContent
                                 id={buildDebugId(
                                     formId,
@@ -840,7 +841,7 @@ const AppLaunchForm = (props) => {
                                     />
                                 )}
                             </StepContent>
-                        </Container>
+                        </Box>
                         <div className={classes.spacer}></div>
                         {isSubmitting ? (
                             <BottomNavigationSkeleton ref={bottomNavRef} />

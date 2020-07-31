@@ -582,7 +582,7 @@ export const getItem = (props) => {
             if (props.section === constants.SECTION_VIDEOS) {
                 return new VideoItem(props);
             }
-            return new NewsItem(props); // includes videos
+            return new NewsItem(props);
     }
 };
 

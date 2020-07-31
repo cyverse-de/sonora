@@ -2,7 +2,6 @@
  * @author sriram
  *
  */
-import { getMessage } from "@cyverse-de/ui-lib";
 
 import constants from "../../constants";
 import NavigationConstants from "../../common/NavigationConstants";
@@ -32,12 +31,12 @@ function getEncodedPath(path) {
 const getFolderPage = (folderPath) =>
     `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}ds${folderPath}`;
 
-const validateDiskResourceName = (name) => {
+const validateDiskResourceName = (name, i18nFn) => {
     if (name === "") {
-        return getMessage("validationEmptyDiskResourceName");
+        return i18nFn("validationEmptyDiskResourceName");
     }
     if (name === "." || name === "..") {
-        return getMessage("validationDiskResourceName");
+        return i18nFn("validationDiskResourceName");
     }
 
     const illegalChars = name?.match(DataConstants.NAME_INVALID_CHARS_REGEX);
@@ -51,7 +50,7 @@ const validateDiskResourceName = (name) => {
             })
             .join("");
 
-        return getMessage("validationInvalidCharacters", {
+        return i18nFn("validationInvalidCharacters", {
             values: { charList },
         });
     }

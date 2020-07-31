@@ -62,7 +62,7 @@ function CreateFolderDialog(props) {
     };
 
     const validate = ({ name }) => {
-        const validationError = validateDiskResourceName(name);
+        const validationError = validateDiskResourceName(name, t);
         return validationError || createFolderError
             ? { name: validationError || createFolderError }
             : {};

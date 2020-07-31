@@ -81,5 +81,8 @@
     "write": "Write",
     "updatePermissionsError":
         "Unable to update permissions. Please try again.",
-    "upload": "Upload"
+    "upload": "Upload",
+    "validationDiskResourceName": "Cannot be named . or ..",
+    "validationEmptyDiskResourceName": "Cannot be empty",
+    "validationInvalidCharacters": "Invalid characters: {{- values.charList}}"
 }

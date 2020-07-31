@@ -28,6 +28,12 @@ import {
 import { useTheme } from "@material-ui/core/styles";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 
+function getDisplayMessage(notification) {
+    return notification.type === "data"
+        ? notification.subject
+        : notification.message.text;
+}
+
 function Notifications(props) {
     const { t } = useTranslation("common");
     const [currentNotification] = useNotifications();
@@ -106,7 +112,7 @@ function Notifications(props) {
                 displayAnalysisNotification(notification, analysisStatus);
             } else {
                 announce({
-                    text: notification.message.text,
+                    text: getDisplayMessage(notification),
                 });
             }
         },

@@ -268,6 +268,10 @@ export class ItemBase {
     getLinkTarget() {
         return this.content.link;
     }
+
+    component(index) {
+        return <DashboardItem key={fns.makeID(this.id, index)} item={this} />;
+    }
 }
 
 export class AppItem extends ItemBase {
@@ -481,6 +485,12 @@ export class NewsItem extends ItemBase {
             />
         );
     }
+
+    component(index) {
+        return (
+            <DashboardFeedItem key={fns.makeID(this.id, index)} item={this} />
+        );
+    }
 }
 
 export class VideoItem extends ItemBase {
@@ -498,6 +508,12 @@ export class VideoItem extends ItemBase {
     getLinkTarget() {
         const [, , videoID] = this.content.id.split(":");
         return `https://www.youtube.com/embed/${videoID}`;
+    }
+
+    component(index) {
+        return (
+            <DashboardVideoItem key={fns.makeID(this.id, index)} item={this} />
+        );
     }
 }
 
@@ -566,6 +582,12 @@ export class EventItem extends ItemBase {
                 color="primary"
                 classes={{ colorPrimary: this.avatarClass }}
             />
+        );
+    }
+
+    component(index) {
+        return (
+            <DashboardFeedItem key={fns.makeID(this.id, index)} item={this} />
         );
     }
 }

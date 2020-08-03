@@ -3,84 +3,12 @@ import clsx from "clsx";
 
 import { Divider, Typography } from "@material-ui/core";
 
-import DashboardItem, {
-    getItem,
-    DashboardFeedItem,
-    DashboardVideoItem,
-} from "./DashboardItem";
+import { getItem } from "./DashboardItem";
 
 import useStyles from "./styles";
 import * as fns from "./functions";
 import * as constants from "./constants";
 import ids from "./ids";
-
-const SectionContentCards = ({ items, kind, section, id, height, width }) => {
-    const classes = useStyles();
-
-    return (
-        <div className={classes.sectionItems}>
-            {items.map((item, index) => {
-                const obj = getItem({
-                    kind,
-                    section,
-                    content: item,
-                    height,
-                    width,
-                    classes,
-                });
-                return <DashboardItem key={fns.makeID(id, index)} item={obj} />;
-            })}
-        </div>
-    );
-};
-
-const SectionContentFeed = ({ items, kind, section, id, height, width }) => {
-    const classes = useStyles();
-
-    return (
-        <div className={classes.sectionItems}>
-            {items.map((item, index) => {
-                const obj = getItem({
-                    kind,
-                    section,
-                    content: item,
-                    height,
-                    width,
-                    classes,
-                });
-                return (
-                    <DashboardFeedItem key={fns.makeID(id, index)} item={obj} />
-                );
-            })}
-        </div>
-    );
-};
-
-const SectionContentVideos = ({ items, kind, section, id, height, width }) => {
-    const classes = useStyles();
-
-    return (
-        <div className={classes.sectionItems}>
-            {items.map((item, index) => {
-                const obj = getItem({
-                    kind,
-                    section,
-                    content: item,
-                    height,
-                    width,
-                    classes,
-                });
-                return (
-                    <DashboardVideoItem
-                        key={fns.makeID(id, index)}
-                        item={obj}
-                    />
-                );
-            })}
-            ;
-        </div>
-    );
-};
 
 const DashboardSection = ({
     name,
@@ -96,49 +24,6 @@ const DashboardSection = ({
 
     const isNewsSection = section === constants.SECTION_NEWS;
     const isEventsSection = section === constants.SECTION_EVENTS;
-
-    const isFeedItem =
-        (kind === constants.KIND_FEEDS || kind === constants.KIND_EVENTS) &&
-        (isNewsSection || isEventsSection);
-
-    const isVideoItem = section === constants.SECTION_VIDEOS;
-
-    let component;
-
-    if (isFeedItem) {
-        component = (
-            <SectionContentFeed
-                id={id}
-                height={cardHeight}
-                width={cardWidth}
-                section={section}
-                kind={kind}
-                items={items}
-            />
-        );
-    } else if (isVideoItem) {
-        component = (
-            <SectionContentVideos
-                id={id}
-                height={cardHeight}
-                width={cardWidth}
-                section={section}
-                kind={kind}
-                items={items}
-            />
-        );
-    } else {
-        component = (
-            <SectionContentCards
-                id={id}
-                height={cardHeight}
-                width={cardWidth}
-                section={section}
-                kind={kind}
-                items={items}
-            />
-        );
-    }
 
     return (
         <div
@@ -160,7 +45,18 @@ const DashboardSection = ({
             >
                 {name}
             </Typography>
-            {component}
+            <div className={classes.sectionItems}>
+                {items.map((item, index) =>
+                    getItem({
+                        kind,
+                        section,
+                        content: item,
+                        height: cardHeight,
+                        width: cardWidth,
+                        classes,
+                    }).component(index)
+                )}
+            </div>
         </div>
     );
 };

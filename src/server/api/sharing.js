@@ -30,5 +30,18 @@ export default function sharingRouter() {
         })
     );
 
+    logger.info("adding the POST /unshare handler");
+    api.post(
+        "/unshare",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/unshare",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

@@ -22,10 +22,18 @@ import callApi from "../common/callApi";
  * @param DataSharingBody A DataSharing object
  * @returns {Promise<any>}
  */
-export const updateSharing = ({ sharingReq: DataSharingBody }) => {
+export const dataSharing = ({ sharingReq: DataSharingBody }) => {
     return callApi({
         endpoint: "/api/share",
         method: "POST",
         body: DataSharingBody,
+    });
+};
+
+export const dataUnsharing = ({ unsharingReq }) => {
+    return callApi({
+        endpoint: "/api/share",
+        method: "POST",
+        body: unsharingReq,
     });
 };

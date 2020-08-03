@@ -33,7 +33,7 @@ import {
     USER_INFO_QUERY_KEY,
     RESOURCE_PERMISSIONS_KEY,
 } from "../../../serviceFacades/filesystem";
-import { updateSharing } from "../../../serviceFacades/sharing";
+import { dataSharing } from "../../../serviceFacades/sharing";
 import isQueryLoading from "../../utils/isQueryLoading";
 import { getUserInfo } from "../../../serviceFacades/users";
 import ErrorTypography from "../../utils/error/ErrorTypography";
@@ -165,7 +165,7 @@ function PermissionsTabPanel(props) {
         },
     });
 
-    const [updatePermissions] = useMutation(updateSharing, {
+    const [updatePermissions] = useMutation(dataSharing, {
         onSuccess: (resp, { currentPermission, newPermissionValue }) => {
             const userPerm = resp?.sharing?.find(
                 (item) => item.user === currentPermission.user

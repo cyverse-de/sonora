@@ -18,10 +18,17 @@ import {
 } from "../utils";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
+import {
+    ListItemIcon,
+    ListItemText,
+    MenuItem,
+    useMediaQuery,
+    useTheme,
+} from "@material-ui/core";
 
 import {
     Info,
+    FilterList,
     HourglassEmptyRounded as HourGlassIcon,
     Launch as LaunchIcon,
     PermMedia as OutputFolderIcon,
@@ -45,8 +52,11 @@ function DotMenuItems(props) {
         onClose,
         selectedAnalyses,
         isSingleSelection,
+        onFilterSelected,
     } = props;
     const { t } = useTranslation("analyses");
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     return [
         detailsEnabled && (
             <MenuItem
@@ -135,6 +145,21 @@ function DotMenuItems(props) {
                     <HourGlassIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary={t("extendTime")} />
+            </MenuItem>
+        ),
+        isMobile && (
+            <MenuItem
+                key={build(baseId, ids.MENUITEM_FILTER)}
+                id={build(baseId, ids.MENUITEM_FILTER)}
+                onClick={() => {
+                    onClose();
+                    onFilterSelected();
+                }}
+            >
+                <ListItemIcon>
+                    <FilterList fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("filterLbl")} />
             </MenuItem>
         ),
     ];

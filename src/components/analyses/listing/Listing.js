@@ -23,7 +23,6 @@ import MultiRelaunchWarningDialog from "./MultiRelaunchWarningDialog";
 import TableView from "./TableView";
 
 import AnalysesToolbar, { getOwnershipFilters } from "../toolbar/Toolbar";
-import { getAppTypeFilters } from "components/apps/toolbar/AppNavigation";
 import appType from "components/models/AppType";
 
 import { useUserProfile } from "contexts/userProfile";
@@ -110,10 +109,7 @@ function Listing(props) {
         const stringPermFilter = JSON.stringify(permFilter);
         const stringTypeFilter = JSON.stringify(appTypeFilter);
 
-        const permFilterChanged =
-            selectedPermFilter &&
-            permFilter &&
-            selectedPermFilter?.name !== permFilter?.name;
+        const permFilterChanged = selectedPermFilter?.name !== permFilter?.name;
 
         const typeFilterChanged =
             selectedTypeFilter?.name !== appTypeFilter?.name;
@@ -390,7 +386,7 @@ function Listing(props) {
     const handleClearBatch = () => {
         setParentAnalyses(null);
         setPermFilter(getOwnershipFilters(t)[0]);
-        setAppTypeFilter(getAppTypeFilters()[0]);
+        setAppTypeFilter(null);
     };
 
     const handleRelaunch = (analyses) => {

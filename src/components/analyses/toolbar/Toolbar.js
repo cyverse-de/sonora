@@ -5,7 +5,8 @@
  * It contains primary ways to filter the analyses view.
  */
 
-import React from "react";
+
+import React, { useState } from "react";
 import { useTranslation } from "i18n";
 
 import AnalysesDotMenu from "./AnalysesDotMenu";
@@ -18,8 +19,10 @@ import { build } from "@cyverse-de/ui-lib";
 
 import {
     Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
     Hidden,
-    IconButton,
     makeStyles,
     TextField,
     Toolbar,
@@ -40,11 +43,11 @@ const useStyles = makeStyles((theme) => ({
     },
     filter: {
         [theme.breakpoints.down("xs")]: {
-            width: 110,
+            width: 175,
             margin: theme.spacing(0.2),
         },
         [theme.breakpoints.up("sm")]: {
-            width: 150,
+            width: 175,
             margin: theme.spacing(1),
         },
     },
@@ -64,6 +67,62 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function AppsTypeFilter(props) {
+    const { baseId, filter, handleFilterChange, classes } = props;
+    const { t } = useTranslation("analyses");
+    return (
+        <Autocomplete
+            id={build(baseId, ids.APP_TYPE_FILTER)}
+            disabled={false}
+            value={filter}
+            options={getAppTypeFilters()}
+            size="small"
+            onChange={(event, newValue) => {
+                handleFilterChange(newValue);
+            }}
+            getOptionLabel={(option) => option.name}
+            getOptionSelected={(option, value) => option.name === value.name}
+            className={classes.filter}
+            renderInput={(params) => (
+                <TextField
+                    {...params}
+                    id={build(baseId, ids.APP_TYPE_FILTER_FIELD)}
+                    label={t("appTypeFilter")}
+                    variant="outlined"
+                />
+            )}
+        />
+    );
+}
+
+function PermissionsFilter(props) {
+    const { baseId, filter, handleFilterChange, classes } = props;
+    const { t } = useTranslation("analyses");
+    return (
+        <Autocomplete
+            id={build(baseId, ids.VIEW_FILTER)}
+            disabled={false}
+            value={filter}
+            options={getOwnershipFilters(t)}
+            size="small"
+            onChange={(event, newValue) => {
+                handleFilterChange(newValue);
+            }}
+            getOptionLabel={(option) => option.name}
+            getOptionSelected={(option, value) => option.name === value.name}
+            className={classes.filter}
+            renderInput={(params) => (
+                <TextField
+                    {...params}
+                    id={build(baseId, ids.VIEW_FILTER_FIELD)}
+                    label={t("viewFilter")}
+                    variant="outlined"
+                />
+            )}
+        />
+    );
+}
+
 function getOwnershipFilters(t) {
     return Object.values([t("all"), t("mine"), t("theirs")]).map((filter) => {
         return {
@@ -77,37 +136,22 @@ function BatchFilter(props) {
     const { t } = useTranslation("analyses");
 
     return (
-        <>
-            <Hidden xsDown>
-                <Tooltip
-                    title={t("viewingBatch", { name: name })}
-                    id={build(baseId, ids.BATCH_FILTER, name)}
-                >
-                    <Button
-                        id={build(baseId, ids.CLEAR_BATCH_FILTER, name)}
-                        size="small"
-                        onClick={onClearBatch}
-                        className={classes.filterIcon}
-                        color="primary"
-                        variant="outlined"
-                        startIcon={<FilterListIcon />}
-                    >
-                        <Typography>{t("viewAll")}</Typography>
-                    </Button>
-                </Tooltip>
-            </Hidden>
-            <Hidden smUp>
-                <IconButton
-                    id={build(baseId, ids.CLEAR_BATCH_FILTER, name)}
-                    size="small"
-                    onClick={onClearBatch}
-                    color="primary"
-                    className={classes.filterIcon}
-                >
-                    <FilterListIcon />
-                </IconButton>
-            </Hidden>
-        </>
+        <Tooltip
+            title={t("viewingBatch", { name: name })}
+            id={build(baseId, ids.BATCH_FILTER, name)}
+        >
+            <Button
+                id={build(baseId, ids.CLEAR_BATCH_FILTER, name)}
+                size="small"
+                onClick={onClearBatch}
+                className={classes.filterIcon}
+                color="primary"
+                variant="outlined"
+                startIcon={<FilterListIcon />}
+            >
+                <Typography>{t("viewAll")}</Typography>
+            </Button>
+        </Tooltip>
     );
 }
 
@@ -135,70 +179,43 @@ function AnalysesToolbar(props) {
     const classes = useStyles();
     const { t } = useTranslation("analyses");
     const analysesNavId = build(baseId, ids.ANALYSES_NAVIGATION);
+    const [openFilterDialog, setOpenFilterDialog] = useState(false);
     return (
-        <Toolbar variant="dense" id={analysesNavId}>
-            <DisplayTypeSelector
-                baseId={analysesNavId}
-                toggleDisplay={toggleDisplay}
-                isGridView={isGridView}
-            />
-            <Autocomplete
-                id={build(analysesNavId, ids.VIEW_FILTER)}
-                disabled={false}
-                value={ownershipFilter}
-                options={getOwnershipFilters(t)}
-                size="small"
-                onChange={(event, newValue) => {
-                    handleOwnershipFilterChange(newValue);
-                }}
-                getOptionLabel={(option) => option.name}
-                getOptionSelected={(option, value) =>
-                    option.name === value.name
-                }
-                className={classes.filter}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        id={build(analysesNavId, ids.VIEW_FILTER_FIELD)}
-                        label={t("viewFilter")}
-                        variant="outlined"
+        <>
+            <Toolbar variant="dense" id={analysesNavId}>
+                <Hidden smDown>
+                    <DisplayTypeSelector
+                        baseId={analysesNavId}
+                        toggleDisplay={toggleDisplay}
+                        isGridView={isGridView}
+                    />
+                </Hidden>
+                <Hidden xsDown>
+                    <>
+                        <PermissionsFilter
+                            baseId={analysesNavId}
+                            filter={ownershipFilter}
+                            classes={classes}
+                            handleFilterChange={handleOwnershipFilterChange}
+                        />
+                        <AppsTypeFilter
+                            baseId={analysesNavId}
+                            filter={appTypeFilter}
+                            classes={classes}
+                            handleFilterChange={handleAppTypeFilterChange}
+                        />
+                    </>
+                </Hidden>
+                {viewBatch && (
+                    <BatchFilter
+                        baseId={analysesNavId}
+                        name={viewBatch.name}
+                        classes={classes}
+                        onClearBatch={onClearBatch}
                     />
                 )}
-            />
 
-            <Autocomplete
-                id={build(analysesNavId, ids.APP_TYPE_FILTER)}
-                disabled={false}
-                value={appTypeFilter}
-                options={getAppTypeFilters()}
-                size="small"
-                onChange={(event, newValue) => {
-                    handleAppTypeFilterChange(newValue);
-                }}
-                getOptionLabel={(option) => option.name}
-                getOptionSelected={(option, value) =>
-                    option.name === value.name
-                }
-                className={classes.filter}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        id={build(analysesNavId, ids.APP_TYPE_FILTER_FIELD)}
-                        label={t("appTypeFilter")}
-                        variant="outlined"
-                    />
-                )}
-            />
-            {viewBatch && (
-                <BatchFilter
-                    baseId={analysesNavId}
-                    name={viewBatch.name}
-                    classes={classes}
-                    onClearBatch={onClearBatch}
-                />
-            )}
-            <div className={classes.divider} />
-            <Hidden smDown>
+                <div className={classes.divider} />
                 {detailsEnabled && (
                     <Button
                         id={build(analysesNavId, ids.DETAILS_BTN)}
@@ -212,8 +229,6 @@ function AnalysesToolbar(props) {
                         {t("details")}
                     </Button>
                 )}
-            </Hidden>
-            {selected?.length > 0 && (
                 <AnalysesDotMenu
                     baseId={analysesNavId}
                     username={username}
@@ -225,9 +240,32 @@ function AnalysesToolbar(props) {
                     handleGoToOutputFolder={handleGoToOutputFolder}
                     handleRelaunch={handleRelaunch}
                     handleBatchIconClick={handleBatchIconClick}
+                    onFilterSelected={() => setOpenFilterDialog(true)}
                 />
-            )}
-        </Toolbar>
+            </Toolbar>
+            <Dialog open={openFilterDialog}>
+                <DialogContent>
+                    <PermissionsFilter
+                        baseId={analysesNavId}
+                        filter={ownershipFilter}
+                        classes={classes}
+                        handleFilterChange={handleOwnershipFilterChange}
+                    />
+                    <br />
+                    <AppsTypeFilter
+                        baseId={analysesNavId}
+                        filter={appTypeFilter}
+                        classes={classes}
+                        handleFilterChange={handleAppTypeFilterChange}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenFilterDialog(false)}>
+                        {t("done")}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 }
 

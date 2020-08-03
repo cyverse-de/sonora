@@ -34,7 +34,7 @@ export default function Analyses() {
 
     const selectedPermFilter = query.selectedPermFilter
         ? JSON.parse(query.selectedPermFilter)
-        : getOwnershipFilters(t)[0];
+        : null;
     const selectedTypeFilter = query.selectedTypeFilter
         ? JSON.parse(query.selectedTypeFilter)
         : null;

@@ -12,42 +12,15 @@ import { build } from "@cyverse-de/ui-lib";
 import NavigationConstants from "../../common/NavigationConstants";
 
 import SearchIcon from "@material-ui/icons/Search";
-import {
-    FormControl,
-    InputAdornment,
-    InputBase,
-    MenuItem,
-    Select,
-} from "@material-ui/core";
+import { FormControl, MenuItem, Select, Input, InputBase } from "@material-ui/core";
+import { Autocomplete } from "@material-ui/lab";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 
-const CustomInput = withStyles((theme) => ({
-    root: {
-        "label + &": {
-            marginTop: theme.spacing(3),
-        },
-    },
-    input: {
-        position: "relative",
-        borderRadius: 0,
-        backgroundColor: theme.palette.white,
-        fontSize: 16,
-        color: theme.palette.info.main,
-        padding: "7px 19px 7px 9px",
-        "&:focus": {
-            backgroundColor: theme.palette.white,
-        },
-    },
-}))(InputBase);
 
 const useStyles = makeStyles((theme) => ({
     search: {
         position: "relative",
-        backgroundColor: theme.palette.white,
-        "&:hover": {
-            backgroundColor: theme.palette.white,
-        },
         marginRight: 0,
         marginLeft: 0,
         [theme.breakpoints.up("sm")]: {
@@ -74,7 +47,15 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(4),
         [theme.breakpoints.down("xs")]: {
             margin: theme.spacing(1),
-            width: 90,
+        },
+    },
+    input: {
+        position: "relative",
+        borderRadius: 0,
+        backgroundColor: theme.palette.info.contrastText,
+        color: theme.palette.info.main,
+        "&:focus": {
+            backgroundColor: theme.palette.info.contrastText,
         },
     },
 }));
@@ -85,22 +66,13 @@ function GlobalSearchField(props) {
     const router = useRouter();
     const [searchText, setSearchText] = React.useState("");
     const [filter, setFilter] = React.useState("all");
+    const [options, setOptions] = React.useState([]);
 
-    const handleChange = (event) => {
-        setSearchText(event.target.value);
+    const handleChange = (event, value, reason) => {
+        console.log("handleChange=>" + value);
+        setSearchText(value);
     };
-    const handleKeyPress = (event) => {
-        if (event.target.value.length >= 3 && event.key === "Enter") {
-            router.push(
-                "/" +
-                    NavigationConstants.SEARCH +
-                    "?searchTerm=" +
-                    event.target.value +
-                    "&filter=" +
-                    filter
-            );
-        }
-    };
+
     const handleFilterChange = (event) => {
         setFilter(event.target.value);
     };
@@ -123,10 +95,9 @@ function GlobalSearchField(props) {
                 <Select
                     id={build(ids.SEARCH, ids.SEARCH_FILTER_MENU)}
                     value={filter}
-                    variant="outlined"
                     onChange={handleFilterChange}
-                    className={classes.searchFilter}
-                    input={<CustomInput />}
+                    className={classes.input}
+                    input={<Input size="small" variant="outlined" disableUnderline/>}
                 >
                     <MenuItem value="all">{t("all")}</MenuItem>
                     <MenuItem value="data">{t("data")}</MenuItem>

@@ -11,6 +11,7 @@ import styles from "./styles";
 import { build as buildDebugId } from "@cyverse-de/ui-lib";
 
 import {
+    Box,
     Button,
     Container,
     MobileStepper,
@@ -79,7 +80,7 @@ export default ({ baseId }) => {
     return (
         <>
             <StepperSkeleton baseId={baseId} />
-            <Container component="div" className={classes.stepContainer}>
+            <Box component="div" className={classes.stepContainer}>
                 <Container component="fieldset">
                     <Typography variant="h3" gutterBottom>
                         <Skeleton variant="text" />
@@ -93,7 +94,7 @@ export default ({ baseId }) => {
                         <Skeleton variant="text" />
                     </Typography>
                 </Container>
-            </Container>
+            </Box>
             {!isMobile && <BottomNavigationSkeleton />}
         </>
     );

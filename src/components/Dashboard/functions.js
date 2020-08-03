@@ -77,6 +77,7 @@ export const useDashboardSettings = ({ marginRight = 16, dashboardEl }) => {
     });
     const [cardWidth, setCardWidth] = useState(0);
     const [cardHeight, setCardHeight] = useState(0);
+    const [numColumns, setNumColumns] = useState(0);
 
     useLayoutEffect(() => {
         function updater() {
@@ -135,7 +136,8 @@ export const useDashboardSettings = ({ marginRight = 16, dashboardEl }) => {
 
         setCardWidth(cardWidth);
         setCardHeight(cardHeight);
-    }, [dimensions, marginRight, setCardWidth]);
+        setNumColumns(newColumns);
+    }, [dimensions, marginRight, setCardWidth, numColumns, setNumColumns]);
 
-    return [cardWidth, cardHeight];
+    return [cardWidth, cardHeight, numColumns];
 };

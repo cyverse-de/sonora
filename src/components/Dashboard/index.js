@@ -66,7 +66,9 @@ const Dashboard = () => {
     const { t } = useTranslation("dashboard");
 
     const dashboardEl = useRef();
-    const [cardWidth, cardHeight] = fns.useDashboardSettings({ dashboardEl });
+    const [cardWidth, cardHeight, numColumns] = fns.useDashboardSettings({
+        dashboardEl,
+    });
     const isSmall = useMediaQuery(theme.breakpoints.down("md"));
 
     const { status, data, error } = useQuery(
@@ -105,6 +107,7 @@ const Dashboard = () => {
                       data,
                       cardWidth,
                       cardHeight,
+                      numColumns,
                       showDivider: isSmall
                           ? section.name !== constants.SECTION_NEWS
                           : section.name !== constants.SECTION_NEWS &&

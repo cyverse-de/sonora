@@ -13,5 +13,7 @@
     "startedBy": "Started by",
     "publishedBy": "Published by",
     "by": "By",
-    "noDescriptionProvided": "No description was provided."
+    "noDescriptionProvided": "No description was provided.",
+    "showMore": "Show More",
+    "showFewer": "Show Fewer"
 }

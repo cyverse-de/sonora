@@ -1,7 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 
-import { Divider, Typography } from "@material-ui/core";
+import { Divider, Typography, Collapse, Button } from "@material-ui/core";
 
 import getItem from "./DashboardItem";
 
@@ -9,6 +9,7 @@ import useStyles from "./styles";
 import * as fns from "./functions";
 import * as constants from "./constants";
 import ids from "./ids";
+import { useTranslation } from "react-i18next";
 
 const DashboardSection = ({
     name,
@@ -19,11 +20,32 @@ const DashboardSection = ({
     cardWidth,
     cardHeight,
     showDivider = true,
+    limit,
+    numColumns,
 }) => {
     const classes = useStyles();
+    const { t } = useTranslation("dashboard");
+    const [expanded, setExpanded] = React.useState(false);
 
     const isNewsSection = section === constants.SECTION_NEWS;
     const isEventsSection = section === constants.SECTION_EVENTS;
+
+    if (!limit) {
+        limit = numColumns;
+    }
+
+    const itemComponent = (item, index) =>
+        getItem({
+            kind,
+            section,
+            content: item,
+            height: cardHeight,
+            width: cardWidth,
+            classes,
+        }).component(index);
+
+    const uncollapsed = items.slice(0, numColumns).map(itemComponent);
+    const collapsible = items.slice(numColumns).map(itemComponent);
 
     return (
         <div
@@ -45,18 +67,18 @@ const DashboardSection = ({
             >
                 {name}
             </Typography>
-            <div className={classes.sectionItems}>
-                {items.map((item, index) =>
-                    getItem({
-                        kind,
-                        section,
-                        content: item,
-                        height: cardHeight,
-                        width: cardWidth,
-                        classes,
-                    }).component(index)
-                )}
-            </div>
+
+            <div className={classes.sectionItems}>{uncollapsed}</div>
+
+            <Collapse collapseHeight={`${cardHeight + 32}px`} in={expanded}>
+                <div className={classes.sectionItems}>{collapsible}</div>
+            </Collapse>
+
+            <Button onClick={() => setExpanded(!expanded)}>
+                <Typography variant="button" display="block">
+                    {t("showMore")}
+                </Typography>
+            </Button>
         </div>
     );
 };
@@ -69,7 +91,7 @@ class SectionBase {
         this.id = fns.makeID(idBase);
     }
 
-    getComponent({ t, cardWidth, cardHeight, data, showDivider }) {
+    getComponent({ t, cardWidth, cardHeight, data, showDivider, numColumns }) {
         return (
             <DashboardSection
                 id={this.id}
@@ -81,6 +103,7 @@ class SectionBase {
                 showDivider={showDivider}
                 cardWidth={cardWidth}
                 cardHeight={cardHeight}
+                numColumns={numColumns}
             />
         );
     }

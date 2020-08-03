@@ -9,7 +9,7 @@ import {
 } from "@material-ui/icons";
 import { formatDate } from "@cyverse-de/ui-lib";
 
-import * as constants from "../Dashboard/constants";
+import * as constants from "../constants";
 
 import ItemBase, { ItemAction } from "./ItemBase";
 

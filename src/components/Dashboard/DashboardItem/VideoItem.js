@@ -1,7 +1,7 @@
 import React from "react";
 
-import * as constants from "../Dashboard/constants";
-import * as fns from "../Dashboard/functions";
+import * as constants from "../constants";
+import * as fns from "../functions";
 
 import ItemBase, { DashboardVideoItem } from "./ItemBase";
 

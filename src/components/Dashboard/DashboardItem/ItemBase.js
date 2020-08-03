@@ -18,10 +18,10 @@ import { useTheme } from "@material-ui/styles";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
 
-import ids from "../Dashboard/ids";
-import * as constants from "../Dashboard/constants";
-import * as fns from "../Dashboard/functions";
-import useStyles from "../Dashboard/styles";
+import ids from "../ids";
+import * as constants from "../constants";
+import * as fns from "../functions";
+import useStyles from "../styles";
 
 const DashboardLink = ({ target, kind, headerClass, children }) => {
     const isNewTab =

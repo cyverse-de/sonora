@@ -1,4 +1,4 @@
-import * as constants from "../Dashboard/constants";
+import * as constants from "../constants";
 
 import AppItem from "./AppItem";
 import AnalysisItem from "./AnalysisItem";

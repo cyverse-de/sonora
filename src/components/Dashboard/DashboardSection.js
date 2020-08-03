@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 import { Divider, Typography } from "@material-ui/core";
 
-import getItem from "../DashboardItem";
+import getItem from "./DashboardItem";
 
 import useStyles from "./styles";
 import * as fns from "./functions";

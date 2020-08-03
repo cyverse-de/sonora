@@ -8,8 +8,8 @@ import {
 } from "@material-ui/icons";
 import { formatDate } from "@cyverse-de/ui-lib";
 
-import * as fns from "../Dashboard/functions";
-import * as constants from "../Dashboard/constants";
+import * as fns from "../functions";
+import * as constants from "../constants";
 
 import ItemBase, { ItemAction, DashboardFeedItem } from "./ItemBase";
 

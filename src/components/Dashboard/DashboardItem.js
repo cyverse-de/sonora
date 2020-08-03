@@ -164,7 +164,7 @@ const DashboardItem = ({ item }) => {
     );
 };
 
-export const DashboardFeedItem = ({ item }) => {
+const DashboardFeedItem = ({ item }) => {
     const classes = useStyles({ width: item.width, height: item.height });
     const { t } = useTranslation("dashboard");
 
@@ -200,7 +200,7 @@ export const DashboardFeedItem = ({ item }) => {
     );
 };
 
-export const DashboardVideoItem = ({ item }) => {
+const DashboardVideoItem = ({ item }) => {
     const classes = useStyles(item);
 
     return (
@@ -350,7 +350,7 @@ export class AppItem extends ItemBase {
     }
 }
 
-export class AnalysisItem extends ItemBase {
+class AnalysisItem extends ItemBase {
     constructor({ section, content, height, width, classes }) {
         super({
             kind: constants.KIND_ANALYSES,
@@ -424,7 +424,7 @@ export class AnalysisItem extends ItemBase {
     }
 }
 
-export class NewsItem extends ItemBase {
+class NewsItem extends ItemBase {
     constructor({ section, content, height, width, classes }) {
         super({
             kind: constants.KIND_FEEDS,
@@ -493,7 +493,7 @@ export class NewsItem extends ItemBase {
     }
 }
 
-export class VideoItem extends ItemBase {
+class VideoItem extends ItemBase {
     constructor({ section, content, height, width, classes }) {
         super({
             kind: constants.KIND_FEEDS,
@@ -517,7 +517,7 @@ export class VideoItem extends ItemBase {
     }
 }
 
-export class EventItem extends ItemBase {
+class EventItem extends ItemBase {
     constructor({ section, content, height, width, classes }) {
         super({
             kind: constants.KIND_EVENTS,
@@ -592,7 +592,7 @@ export class EventItem extends ItemBase {
     }
 }
 
-export const getItem = (props) => {
+export default (props) => {
     switch (props.kind) {
         case constants.KIND_ANALYSES:
             return AnalysisItem.create(props);
@@ -607,5 +607,3 @@ export const getItem = (props) => {
             return new NewsItem(props);
     }
 };
-
-export default DashboardItem;

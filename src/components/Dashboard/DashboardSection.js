@@ -34,6 +34,8 @@ const DashboardSection = ({
         limit = numColumns;
     }
 
+    console.log(`${section} ${limit}`);
+
     const itemComponent = (item, index) =>
         getItem({
             kind,
@@ -44,8 +46,8 @@ const DashboardSection = ({
             classes,
         }).component(index);
 
-    const uncollapsed = items.slice(0, numColumns).map(itemComponent);
-    const collapsible = items.slice(numColumns).map(itemComponent);
+    const uncollapsed = items.slice(0, limit).map(itemComponent);
+    const collapsible = items.slice(limit).map(itemComponent);
 
     return (
         <div
@@ -94,7 +96,15 @@ class SectionBase {
         this.id = fns.makeID(idBase);
     }
 
-    getComponent({ t, cardWidth, cardHeight, data, showDivider, numColumns }) {
+    getComponent({
+        t,
+        cardWidth,
+        cardHeight,
+        data,
+        showDivider,
+        numColumns,
+        limit,
+    }) {
         return (
             <DashboardSection
                 id={this.id}
@@ -107,6 +117,7 @@ class SectionBase {
                 cardWidth={cardWidth}
                 cardHeight={cardHeight}
                 numColumns={numColumns}
+                limit={limit}
             />
         );
     }
@@ -181,6 +192,9 @@ export class NewsFeed extends SectionBase {
     }
 
     getComponent(params) {
+        if (!params.limit) {
+            params.limit = (params.numColumns - 1) * 2;
+        }
         return super.getComponent(params);
     }
 }
@@ -196,6 +210,9 @@ export class EventsFeed extends SectionBase {
     }
 
     getComponent(params) {
+        if (!params.limit) {
+            params.limit = (params.numColumns - 2) * 2;
+        }
         return super.getComponent(params);
     }
 }

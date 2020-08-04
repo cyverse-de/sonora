@@ -13,5 +13,5 @@ export default {
     SEARCH: "search",
     SETTINGS: "settings",
     VICE: "vice",
-    REF_GENOMES: "referencegenomes",
+    REF_GENOMES: "refgenomes",
 };

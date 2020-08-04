@@ -15,7 +15,12 @@ import SearchIcon from "@material-ui/icons/Search";
 import { FormControl, MenuItem, Select, Input, InputBase } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 
+<<<<<<< HEAD
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+=======
+import { makeStyles } from "@material-ui/core/styles";
+import { injectIntl } from "react-intl";
+>>>>>>> b47299c... fix lint issue
 
 
 const useStyles = makeStyles((theme) => ({

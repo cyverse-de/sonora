@@ -78,9 +78,6 @@ function GlobalSearchField(props) {
     const [searchText, setSearchText] = React.useState("");
     const [filter, setFilter] = React.useState("all");
     const [options, setOptions] = React.useState([]);
-    const [searchText, setSearchText] = useState("");
-    const [filter, setFilter] = useState("all");
-    const [options, setOptions] = useState([]);
 
     const [analysesSearchKey, setAnalysesSearchKey] = useState();
     const [appsSearchKey, setAppsSearchKey] = useState();

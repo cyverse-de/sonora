@@ -7,17 +7,16 @@
  */
 
 import React, { useState } from "react";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "i18n";
 
 import { parseNameFromPath } from "../../data/utils";
 import DEErrorDialog from "../../utils/error/DEErrorDialog";
 import ErrorTypography from "../../utils/error/ErrorTypography";
 import TableLoading from "../../utils/TableLoading";
 import ids from "../ids";
-import intlData from "../messages";
 import { isInputType, isReferenceGenomeType } from "./ArgumentTypeUtils";
 
-import { EnhancedTableHead, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import { EnhancedTableHead } from "@cyverse-de/ui-lib";
 
 import {
     Table,
@@ -46,39 +45,34 @@ function ParameterValue(props) {
     }
 }
 
-const columnData = (intl) => [
+const columnData = (t) => [
     {
         id: ids.NAME,
-        name: formatMessage(intl, "name"),
+        name: t("name"),
         numeric: false,
         enableSorting: true,
     },
     {
         id: ids.TYPE,
-        name: formatMessage(intl, "paramType"),
+        name: t("paramType"),
         numeric: false,
         enableSorting: true,
     },
     {
         id: ids.VALUE,
-        name: formatMessage(intl, "value"),
+        name: t("value"),
         numeric: false,
         enableSorting: false,
     },
 ];
 
 function AnalysisParams(props) {
-    const {
-        parameters,
-        isParamsFetching,
-        paramsFetchError,
-        baseId,
-        intl,
-    } = props;
+    const { parameters, isParamsFetching, paramsFetchError, baseId } = props;
+    const { t } = useTranslation("analyses");
     const [order] = useState("desc");
     const [orderBy] = useState("Name");
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
-    let columns = columnData(intl);
+    let columns = columnData(t);
 
     if (isParamsFetching) {
         return <TableLoading numColumns={3} numRows={10} />;
@@ -92,10 +86,7 @@ function AnalysisParams(props) {
         return (
             <>
                 <ErrorTypography
-                    errorMessage={formatMessage(
-                        intl,
-                        "analysisParamFetchError"
-                    )}
+                    errorMessage={t("analysisParamFetchError")}
                     onDetailsClick={() => setErrorDialogOpen(true)}
                 />
                 <DEErrorDialog
@@ -140,4 +131,4 @@ function AnalysisParams(props) {
     );
 }
 
-export default withI18N(injectIntl(AnalysisParams), intlData);
+export default AnalysisParams;

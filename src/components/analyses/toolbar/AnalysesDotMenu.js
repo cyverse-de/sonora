@@ -6,9 +6,10 @@
  */
 
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import ids from "../ids";
-import messages from "../messages";
+
 import {
     isInteractive,
     allowAnalysisTimeExtn,
@@ -16,7 +17,7 @@ import {
     allowAnalyesRelaunch,
 } from "../utils";
 
-import { build, DotMenu, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build, DotMenu } from "@cyverse-de/ui-lib";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 
 import {
@@ -45,6 +46,7 @@ function DotMenuItems(props) {
         selectedAnalyses,
         isSingleSelection,
     } = props;
+    const { t } = useTranslation("analyses");
     return [
         detailsEnabled && (
             <MenuItem
@@ -58,7 +60,7 @@ function DotMenuItems(props) {
                 <ListItemIcon>
                     <Info fontSize="small" />
                 </ListItemIcon>
-                <ListItemText primary={getMessage("details")} />
+                <ListItemText primary={t("details")} />
             </MenuItem>
         ),
         isSingleSelection && (
@@ -73,7 +75,7 @@ function DotMenuItems(props) {
                 <ListItemIcon>
                     <OutputFolderIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText primary={getMessage("goOutputFolder")} />
+                <ListItemText primary={t("goOutputFolder")} />
             </MenuItem>
         ),
         allowRelaunch && (
@@ -88,7 +90,7 @@ function DotMenuItems(props) {
                 <ListItemIcon>
                     <RelaunchIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText primary={getMessage("relaunch")} />
+                <ListItemText primary={t("relaunch")} />
             </MenuItem>
         ),
         isBatch && (
@@ -103,7 +105,7 @@ function DotMenuItems(props) {
                 <ListItemIcon>
                     <UnfoldMoreIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText primary={getMessage("htDetails")} />
+                <ListItemText primary={t("htDetails")} />
             </MenuItem>
         ),
         isVICE && (
@@ -118,7 +120,7 @@ function DotMenuItems(props) {
                 <ListItemIcon>
                     <LaunchIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText primary={getMessage("goToVice")} />
+                <ListItemText primary={t("goToVice")} />
             </MenuItem>
         ),
         allowTimeExtn && (
@@ -132,7 +134,7 @@ function DotMenuItems(props) {
                 <ListItemIcon>
                     <HourGlassIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText primary={getMessage("extendTime")} />
+                <ListItemText primary={t("extendTime")} />
             </MenuItem>
         ),
     ];
@@ -186,4 +188,4 @@ function AnalysesDotMenu(props) {
         />
     );
 }
-export default withI18N(AnalysesDotMenu, messages);
+export default AnalysesDotMenu;

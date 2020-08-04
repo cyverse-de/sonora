@@ -6,16 +6,15 @@
  */
 
 import React from "react";
+import { useTranslation } from "react-i18next";
 
-import messages from "../messages";
+import AnalysesDotMenu from "./AnalysesDotMenu";
 import ids from "../ids";
 
 import { getAppTypeFilters } from "components/apps/toolbar/AppNavigation";
 import DisplayTypeSelector from "components/utils/DisplayTypeSelector";
 
-import { injectIntl } from "react-intl";
-
-import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 
 import {
     Button,
@@ -31,7 +30,6 @@ import {
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import { Info, FilterList as FilterListIcon } from "@material-ui/icons";
-import AnalysesDotMenu from "./AnalysesDotMenu";
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -66,12 +64,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function getOwnershipFilters(intl) {
-    return Object.values([
-        formatMessage(intl, "all"),
-        formatMessage(intl, "mine"),
-        formatMessage(intl, "theirs"),
-    ]).map((filter) => {
+function getOwnershipFilters(t) {
+    return Object.values([t("all"), t("mine"), t("theirs")]).map((filter) => {
         return {
             name: filter,
         };
@@ -80,14 +74,13 @@ function getOwnershipFilters(intl) {
 
 function BatchFilter(props) {
     const { baseId, name, classes, onClearBatch } = props;
+    const { t } = useTranslation("analyses");
 
     return (
         <>
             <Hidden xsDown>
                 <Tooltip
-                    title={getMessage("viewingBatch", {
-                        values: { name: name },
-                    })}
+                    title={t("viewingBatch", { name: name })}
                     id={build(baseId, ids.BATCH_FILTER, name)}
                 >
                     <Button
@@ -99,7 +92,7 @@ function BatchFilter(props) {
                         variant="outlined"
                         startIcon={<FilterListIcon />}
                     >
-                        <Typography>{getMessage("viewAll")}</Typography>
+                        <Typography>{t("viewAll")}</Typography>
                     </Button>
                 </Tooltip>
             </Hidden>
@@ -119,7 +112,6 @@ function BatchFilter(props) {
 }
 
 function AnalysesToolbar(props) {
-    const classes = useStyles();
     const {
         baseId,
         selected,
@@ -132,7 +124,6 @@ function AnalysesToolbar(props) {
         viewBatch,
         onClearBatch,
         isGridView,
-        intl,
         toggleDisplay,
         detailsEnabled,
         onDetailsSelected,
@@ -141,6 +132,8 @@ function AnalysesToolbar(props) {
         handleRelaunch,
         handleBatchIconClick,
     } = props;
+    const classes = useStyles();
+    const { t } = useTranslation("analyses");
     const analysesNavId = build(baseId, ids.ANALYSES_NAVIGATION);
     return (
         <Toolbar variant="dense" id={analysesNavId}>
@@ -153,7 +146,7 @@ function AnalysesToolbar(props) {
                 id={build(analysesNavId, ids.VIEW_FILTER)}
                 disabled={false}
                 value={ownershipFilter}
-                options={getOwnershipFilters(intl)}
+                options={getOwnershipFilters(t)}
                 size="small"
                 onChange={(event, newValue) => {
                     handleOwnershipFilterChange(newValue);
@@ -167,7 +160,7 @@ function AnalysesToolbar(props) {
                     <TextField
                         {...params}
                         id={build(analysesNavId, ids.VIEW_FILTER_FIELD)}
-                        label={formatMessage(intl, "viewFilter")}
+                        label={t("viewFilter")}
                         variant="outlined"
                     />
                 )}
@@ -191,7 +184,7 @@ function AnalysesToolbar(props) {
                     <TextField
                         {...params}
                         id={build(analysesNavId, ids.APP_TYPE_FILTER_FIELD)}
-                        label={formatMessage(intl, "appTypeFilter")}
+                        label={t("appTypeFilter")}
                         variant="outlined"
                     />
                 )}
@@ -216,7 +209,7 @@ function AnalysesToolbar(props) {
                         onClick={onDetailsSelected}
                         startIcon={<Info />}
                     >
-                        {getMessage("details")}
+                        {t("details")}
                     </Button>
                 )}
             </Hidden>
@@ -239,4 +232,4 @@ function AnalysesToolbar(props) {
 }
 
 export { getOwnershipFilters };
-export default withI18N(injectIntl(AnalysesToolbar), messages);
+export default AnalysesToolbar;

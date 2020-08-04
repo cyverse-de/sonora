@@ -4,6 +4,7 @@
  * @author psarando
  */
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import {
     Button,
@@ -16,8 +17,8 @@ import {
     useTheme,
 } from "@material-ui/core";
 
-import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
-import messages from "../messages";
+import { build } from "@cyverse-de/ui-lib";
+
 import ids from "../ids";
 
 function MultiRelaunchWarningDialog({
@@ -27,6 +28,7 @@ function MultiRelaunchWarningDialog({
     confirmMultiRelaunch,
 }) {
     const theme = useTheme();
+    const { t } = useTranslation("analyses");
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
     const dialogTitleId = build(baseId, ids.DIALOG.RELAUNCH, ids.DIALOG.TITLE);
@@ -39,12 +41,10 @@ function MultiRelaunchWarningDialog({
             fullScreen={fullScreen}
             aria-labelledby={dialogTitleId}
         >
-            <DialogTitle id={dialogTitleId}>
-                {getMessage("relaunch")}
-            </DialogTitle>
+            <DialogTitle id={dialogTitleId}>{t("relaunch")}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    {getMessage("analysesMultiRelaunchWarning")}
+                    {t("analysesMultiRelaunchWarning")}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -52,7 +52,7 @@ function MultiRelaunchWarningDialog({
                     id={build(baseId, ids.DIALOG.RELAUNCH, ids.DIALOG.CANCEL)}
                     onClick={onClose}
                 >
-                    {getMessage("cancelBtnText")}
+                    {t("cancelBtnText")}
                 </Button>
                 <Button
                     id={build(baseId, ids.DIALOG.RELAUNCH, ids.DIALOG.CONFIRM)}
@@ -60,11 +60,11 @@ function MultiRelaunchWarningDialog({
                     color="primary"
                     variant="contained"
                 >
-                    {getMessage("okBtnText")}
+                    {t("okBtnText")}
                 </Button>
             </DialogActions>
         </Dialog>
     );
 }
 
-export default withI18N(MultiRelaunchWarningDialog, messages);
+export default MultiRelaunchWarningDialog;

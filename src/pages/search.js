@@ -21,3 +21,7 @@ export default function Search() {
         </>
     );
 }
+
+Search.getInitialProps = async () => ({
+     namespacesRequired: ["common"],
+});

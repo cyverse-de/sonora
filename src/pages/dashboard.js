@@ -6,12 +6,6 @@ export default function DashboardPage() {
     return <Dashboard />;
 }
 
-DashboardPage.getInitialProps = async ({ Component, ctx }) => {
-    let pageProps = {};
-
-    if (Component.getInitialProps) {
-        pageProps = await Component.getInitialProps(ctx);
-    }
-
-    return { pageProps, namespacesRequired: ["dashboard"] };
-};
+DashboardPage.getInitialProps = async () => ({
+    namespacesRequired: ["dashboard"],
+});

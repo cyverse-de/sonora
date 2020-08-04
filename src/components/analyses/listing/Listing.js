@@ -7,9 +7,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import { queryCache, useMutation, useQuery } from "react-query";
-import { injectIntl } from "react-intl";
 
-import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import { useTranslation } from "react-i18next";
 
 import {
     ANALYSES_LISTING_QUERY_KEY,
@@ -19,8 +18,6 @@ import {
 import constants from "../../../constants";
 import DEPagination from "../../utils/DEPagination";
 import Drawer from "../details/Drawer";
-
-import intlData from "../messages";
 
 import MultiRelaunchWarningDialog from "./MultiRelaunchWarningDialog";
 import TableView from "./TableView";
@@ -52,13 +49,8 @@ const filter = {
 };
 
 function Listing(props) {
-    const {
-        baseId,
-        handleGoToOutputFolder,
-        handleSingleRelaunch,
-        intl,
-    } = props;
-
+    const { baseId, handleGoToOutputFolder, handleSingleRelaunch } = props;
+    const { t } = useTranslation("analyses");
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("desc");
     const [orderBy, setOrderBy] = useState("startdate");
@@ -68,7 +60,7 @@ function Listing(props) {
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [data, setData] = useState(null);
     const [parentAnalysis, setParentAnalyses] = useState(null);
-    const [permFilter, setPermFilter] = useState(getOwnershipFilters(intl)[0]);
+    const [permFilter, setPermFilter] = useState(getOwnershipFilters(t)[0]);
     const [appTypeFilter, setAppTypeFilter] = useState(getAppTypeFilters()[0]);
     const [userProfile] = useUserProfile();
     const [currentNotification] = useNotifications();
@@ -117,13 +109,13 @@ function Listing(props) {
         if (permFilter) {
             let val;
             switch (permFilter.name) {
-                case formatMessage(intl, "all"):
+                case t("all"):
                     val = ALL;
                     break;
-                case formatMessage(intl, "mine"):
+                case t("mine"):
                     val = MINE;
                     break;
-                case formatMessage(intl, "theirs"):
+                case t("theirs"):
                     val = THEIRS;
                     break;
                 default:
@@ -154,7 +146,7 @@ function Listing(props) {
         parentAnalysis,
         permFilter,
         appTypeFilter,
-        intl,
+        t,
     ]);
 
     const updateAnalyses = useCallback(
@@ -337,7 +329,7 @@ function Listing(props) {
 
     const handleClearBatch = () => {
         setParentAnalyses(null);
-        setPermFilter(getOwnershipFilters(intl)[0]);
+        setPermFilter(getOwnershipFilters(t)[0]);
         setAppTypeFilter(getAppTypeFilters()[0]);
     };
 
@@ -431,4 +423,4 @@ function Listing(props) {
         </>
     );
 }
-export default withI18N(injectIntl(Listing), intlData);
+export default Listing;

@@ -41,8 +41,7 @@ export const StepperSkeleton = React.forwardRef(({ baseId }, ref) => (
 
 export const BottomNavigationSkeleton = React.forwardRef((props, ref) => (
     <Skeleton variant="rect" width="100%" ref={ref}>
-        <Toolbar>
-        </Toolbar>
+        <Toolbar></Toolbar>
     </Skeleton>
 ));
 

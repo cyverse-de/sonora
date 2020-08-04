@@ -166,3 +166,13 @@ function MyApp({ Component, pageProps }) {
 }
 
 export default appWithTranslation(MyApp);
+
+MyApp.getInitialProps = async ({ Component, ctx }) => {
+    let pageProps = {};
+
+    if (Component.getInitialProps) {
+        pageProps = await Component.getInitialProps(ctx);
+    }
+
+    return { pageProps, namespacesRequired: ["common"] };
+};

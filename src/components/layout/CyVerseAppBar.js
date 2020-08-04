@@ -207,10 +207,9 @@ function CyverseAppBar(props) {
     const router = useRouter();
     const ref = useRef();
     const [config, setConfig] = useConfig();
-    const { t } = useTranslation(["common", "search"]);
+    const { t } = useTranslation(["common"]);
 
     const {
-        intl,
         children,
         activeView,
         setAppBarRef,
@@ -308,7 +307,7 @@ function CyverseAppBar(props) {
         setAdminUser,
         setAvatarLetter,
         config,
-        intl,
+
         showErrorAnnouncer,
     ]);
 
@@ -597,10 +596,9 @@ function CyverseAppBar(props) {
                     <div className={classes.root} />
                     <div style={{ display: "flex" }}>
                         <CustomIntercom
-                            intl={intl}
                             intercomUnreadCount={intercomUnreadCount}
                         />
-                        <Notifications intl={intl} />
+                        <Notifications />
                     </div>
                     <Hidden only={["xs"]}>
                         <div id={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}>

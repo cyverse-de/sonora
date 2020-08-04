@@ -4,3 +4,7 @@ import ReferenceGenomes from "../../components/apps/admin/referenceGenomes/Refer
 export default function RefGenome() {
     return <ReferenceGenomes baseId="adminReferenceGenomes" />;
 }
+
+RefGenome.getInitialProps = async () => ({
+    namespacesRequired: ["referenceGenomes"],
+});

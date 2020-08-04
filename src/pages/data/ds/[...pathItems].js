@@ -49,12 +49,6 @@ export default function DataStore() {
     );
 }
 
-DataStore.getInitialProps = async ({ Component, ctx }) => {
-    let pageProps = {};
-
-    if (Component.getInitialProps) {
-        pageProps = await Component.getInitialProps(ctx);
-    }
-
-    return { pageProps, namespacesRequired: ["data"] };
-};
+DataStore.getInitialProps = async () => ({
+    namespacesRequired: ["data"],
+});

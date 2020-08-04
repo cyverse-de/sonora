@@ -111,6 +111,11 @@ export default makeStyles((theme) => ({
         marginTop: theme.spacing(2),
         width: "100%",
     },
+    showMoreBtn: {
+        marginTop: theme.spacing(2),
+        padding: 0,
+        marginLeft: theme.spacing(0),
+    },
     actionsRoot: {
         marginLeft: "auto",
     },

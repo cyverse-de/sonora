@@ -74,9 +74,12 @@ const DashboardSection = ({
                 <div className={classes.sectionItems}>{collapsible}</div>
             </Collapse>
 
-            <Button onClick={() => setExpanded(!expanded)}>
+            <Button
+                onClick={() => setExpanded(!expanded)}
+                className={classes.showMoreBtn}
+            >
                 <Typography variant="button" display="block">
-                    {t("showMore")}
+                    {expanded ? t("showFewer") : t("showMore")}
                 </Typography>
             </Button>
         </div>

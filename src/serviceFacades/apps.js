@@ -92,6 +92,14 @@ function rateApp({ systemId, appId, rating }) {
     }
 }
 
+function searchApps({ searchTerm, rowsPerPage, orderBy, order, page }) {
+    return callApi({
+        endpoint: `/api/apps?search=${searchTerm}&limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
+            rowsPerPage * page}`,
+        method: "GET",
+    });
+}
+
 export {
     getApps,
     getPrivateCategories,
@@ -100,6 +108,7 @@ export {
     getAppDetails,
     appFavorite,
     rateApp,
+    searchApps,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,

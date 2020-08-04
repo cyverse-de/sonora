@@ -123,3 +123,12 @@ export const createFolder = ({ path }) => {
         body: { path },
     });
 };
+
+
+export const searchData= ({query}) => {
+    return callApi({
+        endpoint: "/api/filesystem/search",
+        method: "POST",
+        body: {query},
+    });
+}

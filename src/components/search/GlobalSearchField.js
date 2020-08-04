@@ -3,24 +3,30 @@
  * @author Sriram
  * A global search field with options to filter on apps, analyses and data
  */
+
 import React from "react";
 import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
+import { useQuery } from "react-query";
+
+import { getAnalyses } from "serviceFacades/analyses";
+import { searchApps } from "serviceFacades/apps";
+import { searchData } from "serviceFacades/filesystem";
 
 import ids from "./ids";
 import { build } from "@cyverse-de/ui-lib";
 import NavigationConstants from "../../common/NavigationConstants";
 
 import SearchIcon from "@material-ui/icons/Search";
-import { FormControl, MenuItem, Select, Input, InputBase } from "@material-ui/core";
+import {
+    CircularProgress,
+    FormControl,
+    MenuItem,
+    Select,
+    Input,
+} from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
-
-<<<<<<< HEAD
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-=======
 import { makeStyles } from "@material-ui/core/styles";
-import { injectIntl } from "react-intl";
->>>>>>> b47299c... fix lint issue
 
 
 const useStyles = makeStyles((theme) => ({
@@ -67,42 +73,130 @@ const useStyles = makeStyles((theme) => ({
 
 function GlobalSearchField(props) {
     const classes = useStyles();
+
     const { t } = useTranslation(["common"]);
-    const router = useRouter();
     const [searchText, setSearchText] = React.useState("");
     const [filter, setFilter] = React.useState("all");
     const [options, setOptions] = React.useState([]);
+    const [searchText, setSearchText] = useState("");
+    const [filter, setFilter] = useState("all");
+    const [options, setOptions] = useState([]);
+
+    const [analysesSearchKey, setAnalysesSearchKey] = useState();
+    const [appsSearchKey, setAppsSearchKey] = useState();
+    const [dataSearchKey, setDataSearchKey] = useState();
+
+    const [
+        analysesSearchQueryEnabled,
+        setAnalysesSearchQueryEnabled,
+    ] = useState(false);
+    const [appsSearchQueryEnabled, setAppsSearchQueryEnabled] = useState(false);
+    const [dataSearchQueryEnabled, setDataSearchQueryEnabled] = useState(false);
+
+    const {
+        isFetching: searchingAnalyses,
+        error: analysesSearchError,
+    } = useQuery({
+        queryKey: analysesSearchKey,
+        queryFn: getAnalyses,
+        config: {
+            enabled: analysesSearchQueryEnabled,
+        },
+    });
+
+    const { isFetching: searchingApps, error: appsSearchError } = useQuery({
+        queryKey: appsSearchKey,
+        queryFn: searchApps,
+        config: {
+            enabled: appsSearchQueryEnabled,
+        },
+    });
+
+    const { isFetching: searchingData, error: dataSearchError } = useQuery({
+        queryKey: dataSearchKey,
+        queryFn: searchData,
+        config: {
+            enabled: dataSearchQueryEnabled,
+        },
+    });
 
     const handleChange = (event, value, reason) => {
         console.log("handleChange=>" + value);
         setSearchText(value);
     };
 
-    const handleFilterChange = (event) => {
-        setFilter(event.target.value);
+    useEffect(() => {
+        if (searchText && searchText.length > 3) {
+        }
+    }, [searchText]);
+
+    if (analysesSearchError || appsSearchError || dataSearchError) {
+        console.log("error when searching...");
+    }
+
+    const getSearchResultLabel = (option) => {
+        return option.name;
     };
+
+    const loading = searchingAnalyses || searchingApps || searchingData;
+
     return (
         <>
-            <div id={ids.SEARCH} className={classes.search}>
-                <InputBase
-                    placeholder={t("search")}
-                    value={searchText}
-                    onChange={handleChange}
-                    onKeyPress={handleKeyPress}
-                    startAdornment={
-                        <InputAdornment position="start">
-                            <SearchIcon color="primary" />
-                        </InputAdornment>
-                    }
-                />
-            </div>
+            <Autocomplete
+                freeSolo
+                id="search"
+                size="small"
+                className={classes.search}
+                options={options}
+                value={searchText}
+                onInputChange={handleChange}
+                getOptionLabel={(option) => getSearchResultLabel(option)}
+                loading={loading}
+                renderInput={(params) => (
+                    <Input
+                        {...params}
+                        size="small"
+                        className={classes.input}
+                        label="Search input"
+                        margin="normal"
+                        variant="outlined"
+                        disableUnderline
+                        onKeyPress={(event) =>
+                            console.log(
+                                "handleKeyPress=>" +
+                                    event.target.value +
+                                    "Key=" +
+                                    event.key
+                            )
+                        }
+                        startAdornment={<SearchIcon />}
+                        endAdornment={
+                            <>
+                                {loading ? (
+                                    <CircularProgress
+                                        color="primary"
+                                        size={20}
+                                    />
+                                ) : null}
+                                {params.InputProps.endAdornment}
+                            </>
+                        }
+                    />
+                )}
+            />
             <FormControl>
                 <Select
                     id={build(ids.SEARCH, ids.SEARCH_FILTER_MENU)}
                     value={filter}
                     onChange={handleFilterChange}
                     className={classes.input}
-                    input={<Input size="small" variant="outlined" disableUnderline/>}
+                    input={
+                        <Input
+                            size="small"
+                            variant="outlined"
+                            disableUnderline
+                        />
+                    }
                 >
                     <MenuItem value="all">{t("all")}</MenuItem>
                     <MenuItem value="data">{t("data")}</MenuItem>

@@ -33,7 +33,7 @@
     "emptyValue":"-",
     "endDate":"End date",
     "extendTime":"Extend time limit",
-    "extendTimeLimitMessage":"This analysis is scheduled to be terminated at {timeLimit}. Do you wish to extend the time limit?",
+    "extendTimeLimitMessage":"This analysis is scheduled to be terminated at {{timeLimit}}. Do you wish to extend the time limit?",
     "filterLbl": "Filter",
     "followLogs":"Follow Logs",
     "goOutputFolder":"Go to output folder",

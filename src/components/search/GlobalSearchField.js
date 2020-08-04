@@ -120,6 +120,10 @@ function GlobalSearchField(props) {
         setSearchText(value);
     };
 
+    const handleFilterChange = (event) => {
+        setFilter(event.target.value);	      
+    };
+
     useEffect(() => {
         if (searchText && searchText.length > 3) {
         }
@@ -173,7 +177,6 @@ function GlobalSearchField(props) {
                                         size={20}
                                     />
                                 ) : null}
-                                {params.InputProps.endAdornment}
                             </>
                         }
                     />

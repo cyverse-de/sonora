@@ -69,6 +69,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const analysesfilter = {
+    field: "",
+    value: "",
+};
+
 function GlobalSearchField(props) {
     const classes = useStyles();
 
@@ -76,6 +81,7 @@ function GlobalSearchField(props) {
     const [searchText, setSearchText] = useState("");
     const [filter, setFilter] = useState("all");
     const [options, setOptions] = useState([]);
+    const [open, setOpen] = React.useState(false);
 
     const [analysesSearchKey, setAnalysesSearchKey] = useState();
     const [appsSearchKey, setAppsSearchKey] = useState();
@@ -104,6 +110,14 @@ function GlobalSearchField(props) {
         queryFn: searchApps,
         config: {
             enabled: appsSearchQueryEnabled,
+            onSuccess: (results) => {
+                if (results && results.apps?.length > 0) {
+                    const apps = results.apps;
+                    results = apps.map((app) => ({ name: app.name }));
+                    setOptions(results);
+                    setOpen(true);
+                }
+            },
         },
     });
 
@@ -121,35 +135,80 @@ function GlobalSearchField(props) {
     };
 
     const handleFilterChange = (event) => {
-        setFilter(event.target.value);	      
+        setFilter(event.target.value);
     };
 
     useEffect(() => {
+        const searchFilters = [];
         if (searchText && searchText.length > 3) {
+            const nameFilterObj = Object.create(analysesfilter);
+            nameFilterObj.field = "name";
+            nameFilterObj.value = searchText;
+            searchFilters.push(nameFilterObj);
+
+            const appNameFilterObj = Object.create(analysesfilter);
+            appNameFilterObj.field = "app_name";
+            appNameFilterObj.value = searchText;
+            searchFilters.push(appNameFilterObj);
+
+            const filterString = searchFilters
+                .map((filterItem) => JSON.stringify(filterItem))
+                .join(",");
+
+            setAnalysesSearchKey([
+                "analysesSearch",
+                {
+                    rowsPerPage: 10,
+                    orderBy: "startdate",
+                    order: "desc",
+                    page: 0,
+                    filter: filterString,
+                },
+            ]);
+            setAnalysesSearchQueryEnabled(true);
+
+            setAppsSearchKey([
+                "appsSearch",
+                {
+                    search: searchText,
+                    rowsPerPage: 10,
+                    orderBy: "name",
+                    order: "asc",
+                    page: 0,
+                },
+            ]);
+            setAppsSearchQueryEnabled(true);
         }
     }, [searchText]);
+
+   
 
     if (analysesSearchError || appsSearchError || dataSearchError) {
         console.log("error when searching...");
     }
-
-    const getSearchResultLabel = (option) => {
-        return option.name;
-    };
 
     const loading = searchingAnalyses || searchingApps || searchingData;
 
     return (
         <>
             <Autocomplete
+                open={open}
+                onOpen={() => {
+                    setOpen(true);
+                }}
+                onClose={() => {
+                    setOpen(false);
+                }}
                 freeSolo
                 id="search"
                 size="small"
                 className={classes.search}
                 options={options}
-                value={searchText}
                 onInputChange={handleChange}
-                getOptionLabel={(option) => getSearchResultLabel(option)}
+                getOptionSelected={(option, value) =>
+                    option.name === value.name
+                }
+             
                 loading={loading}
                 renderInput={(params) => (
                     <Input

@@ -29,4 +29,3 @@ export default function Analyses() {
 Analyses.getInitialProps = async () => ({
     namespacesRequired: ["analyses"],
 });
-

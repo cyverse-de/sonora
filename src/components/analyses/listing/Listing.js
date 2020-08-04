@@ -49,11 +49,7 @@ const filter = {
 };
 
 function Listing(props) {
-    const {
-        baseId,
-        handleGoToOutputFolder,
-        handleSingleRelaunch,
-    } = props;
+    const { baseId, handleGoToOutputFolder, handleSingleRelaunch } = props;
     const { t } = useTranslation("analyses");
     const [isGridView, setGridView] = useState(false);
     const [order, setOrder] = useState("desc");

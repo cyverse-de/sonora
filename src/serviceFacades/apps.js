@@ -95,7 +95,8 @@ function rateApp({ systemId, appId, rating }) {
 function searchApps({ searchTerm, rowsPerPage, orderBy, order, page }) {
     return callApi({
         endpoint: `/api/apps?search=${searchTerm}&limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
-            rowsPerPage * page}`,
+            rowsPerPage * page
+        }`,
         method: "GET",
     });
 }

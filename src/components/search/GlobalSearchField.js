@@ -4,9 +4,9 @@
  * A global search field with options to filter on apps, analyses and data
  */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
-import { useRouter } from "next/router";
+
 import { useQuery } from "react-query";
 
 import { getAnalyses } from "serviceFacades/analyses";
@@ -15,7 +15,6 @@ import { searchData } from "serviceFacades/filesystem";
 
 import ids from "./ids";
 import { build } from "@cyverse-de/ui-lib";
-import NavigationConstants from "../../common/NavigationConstants";
 
 import SearchIcon from "@material-ui/icons/Search";
 import {
@@ -27,7 +26,6 @@ import {
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
-
 
 const useStyles = makeStyles((theme) => ({
     search: {
@@ -75,9 +73,9 @@ function GlobalSearchField(props) {
     const classes = useStyles();
 
     const { t } = useTranslation(["common"]);
-    const [searchText, setSearchText] = React.useState("");
-    const [filter, setFilter] = React.useState("all");
-    const [options, setOptions] = React.useState([]);
+    const [searchText, setSearchText] = useState("");
+    const [filter, setFilter] = useState("all");
+    const [options, setOptions] = useState([]);
 
     const [analysesSearchKey, setAnalysesSearchKey] = useState();
     const [appsSearchKey, setAppsSearchKey] = useState();

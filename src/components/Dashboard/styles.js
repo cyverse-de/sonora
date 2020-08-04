@@ -95,7 +95,8 @@ export default makeStyles((theme) => ({
         height: (props) => props.height,
         float: "none",
         clear: "both",
-        margin: "2px auto",
+        marginRight: theme.spacing(2),
+        marginTop: theme.spacing(2),
     },
     newsItem: {
         marginTop: theme.spacing(2),

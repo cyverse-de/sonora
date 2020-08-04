@@ -21,7 +21,6 @@ export default makeStyles((theme) => ({
     },
     section: {
         marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(5),
     },
     sectionNews: {
         width: "66%",
@@ -41,7 +40,6 @@ export default makeStyles((theme) => ({
         display: "flex",
         flexWrap: "wrap",
         justifyContent: "flex-start",
-        paddingBottom: theme.spacing(2),
         paddingRight: 0,
 
         // Try to eek as much space out of the iPhone SE cards as possible.

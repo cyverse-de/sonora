@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
 
 import { Divider, Typography, Collapse, Button } from "@material-ui/core";
@@ -25,7 +25,7 @@ const DashboardSection = ({
 }) => {
     const classes = useStyles();
     const { t } = useTranslation("dashboard");
-    const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = useState(false);
 
     const isNewsSection = section === constants.SECTION_NEWS;
     const isEventsSection = section === constants.SECTION_EVENTS;

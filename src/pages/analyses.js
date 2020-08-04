@@ -6,10 +6,6 @@ import { getAnalysisRelaunchPage } from "components/analyses/utils";
 import { getFolderPage } from "components/data/utils";
 import Listing from "components/analyses/listing/Listing";
 
-Analyses.getInitialProps = async () => ({
-    namespacesRequired: ["analyses"],
-});
-
 export default function Analyses() {
     const router = useRouter();
 
@@ -29,3 +25,8 @@ export default function Analyses() {
         />
     );
 }
+
+Analyses.getInitialProps = async () => ({
+    namespacesRequired: ["analyses"],
+});
+

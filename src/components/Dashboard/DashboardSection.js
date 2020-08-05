@@ -34,7 +34,7 @@ const DashboardSection = ({
         limit = numColumns;
     }
 
-    const displayShowMore = numColumns < items.length || expanded;
+    const displayShowMore = limit < items.length || expanded;
 
     const itemComponent = (item, index) =>
         getItem({
@@ -72,7 +72,7 @@ const DashboardSection = ({
 
             <div className={classes.sectionItems}>{uncollapsed}</div>
 
-            <Collapse collapseHeight={`${cardHeight + 32}px`} in={expanded}>
+            <Collapse in={expanded}>
                 <div className={classes.sectionItems}>{collapsible}</div>
             </Collapse>
 
@@ -213,7 +213,7 @@ export class EventsFeed extends SectionBase {
 
     getComponent(params) {
         if (!params.limit) {
-            params.limit = params.numColumns - 2 + 1;
+            params.limit = Math.ceil(params.numColumns / 2);
         }
         return super.getComponent(params);
     }

@@ -81,6 +81,7 @@
         "postman-request": "^2.88.1-postman.18",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
+        "react-i18next": "^11.7.0",
         "react-intl": "^3.12.0",
         "react-query": "^2.5.6",
         "react-query-devtools": "^2.1.1",

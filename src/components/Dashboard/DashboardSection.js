@@ -209,7 +209,7 @@ export class EventsFeed extends SectionBase {
 
     getComponent(params) {
         if (!params.limit) {
-            params.limit = (params.numColumns - 2) * 2;
+            params.limit = params.numColumns - 2 + 1;
         }
         return super.getComponent(params);
     }
@@ -226,6 +226,9 @@ export class VideosFeed extends SectionBase {
     }
 
     getComponent(params) {
+        params.numColumns = Math.ceil(params.numColumns / 2);
+        params.cardHeight = params.cardHeight * 2;
+        params.cardWidth = params.cardWidth * 2;
         return super.getComponent(params);
     }
 }

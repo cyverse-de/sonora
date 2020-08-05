@@ -14,15 +14,15 @@ import { searchApps } from "serviceFacades/apps";
 import { searchData } from "serviceFacades/filesystem";
 
 import ids from "./ids";
+import { simpleQueryTemplate, buildQuery } from "./dataSearchQueryBuilder";
 import { build } from "@cyverse-de/ui-lib";
 
 import SearchIcon from "@material-ui/icons/Search";
 import {
     CircularProgress,
-    FormControl,
     MenuItem,
     Select,
-    Input,
+    TextField,
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
@@ -43,23 +43,20 @@ const useStyles = makeStyles((theme) => ({
             width: "50%",
         },
     },
-    searchIcon: {
-        width: theme.spacing(7),
-        height: "100%",
-        position: "absolute",
-        pointerEvents: "none",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-    },
     searchFilter: {
         marginRight: theme.spacing(4),
+        height: theme.spacing(3.6),
+        borderRadius: 0,
+        width: 100,
+        backgroundColor: theme.palette.info.contrastText,
+        color: theme.palette.info.main,
         [theme.breakpoints.down("xs")]: {
             margin: theme.spacing(1),
         },
     },
     input: {
         position: "relative",
+        height: theme.spacing(3.6),
         borderRadius: 0,
         backgroundColor: theme.palette.info.contrastText,
         color: theme.palette.info.main,
@@ -115,7 +112,6 @@ function GlobalSearchField(props) {
                     const apps = results.apps;
                     results = apps.map((app) => ({ name: app.name }));
                     setOptions(results);
-                    setOpen(true);
                 }
             },
         },
@@ -137,6 +133,12 @@ function GlobalSearchField(props) {
     const handleFilterChange = (event) => {
         setFilter(event.target.value);
     };
+
+    React.useEffect(() => {
+        if (!open) {
+            setOptions([]);
+        }
+    }, [open]);
 
     useEffect(() => {
         const searchFilters = [];
@@ -178,10 +180,23 @@ function GlobalSearchField(props) {
                 },
             ]);
             setAppsSearchQueryEnabled(true);
+
+            const template = simpleQueryTemplate(searchText);
+            const query = buildQuery(template);
+            console.log("QUERY is =>" + JSON.stringify(query));
+            query.size = 10;
+            query.from = 0;
+            query.sort = [
+                {
+                    field: "label",
+                    order: "ascending",
+                },
+            ];
+            console.log("Final Query to submit =>" + JSON.stringify(query));
+            setDataSearchKey(["dataSearch", { query }]);
+            setDataSearchQueryEnabled(true);
         }
     }, [searchText]);
-
-   
 
     if (analysesSearchError || appsSearchError || dataSearchError) {
         console.log("error when searching...");
@@ -208,59 +223,46 @@ function GlobalSearchField(props) {
                 getOptionSelected={(option, value) =>
                     option.name === value.name
                 }
-             
+                filterOptions={(options, state) => options}
+                getOptionLabel={(option) => option.name}
                 loading={loading}
                 renderInput={(params) => (
-                    <Input
+                    <TextField
                         {...params}
-                        size="small"
                         className={classes.input}
-                        label="Search input"
-                        margin="normal"
-                        variant="outlined"
-                        disableUnderline
-                        onKeyPress={(event) =>
-                            console.log(
-                                "handleKeyPress=>" +
-                                    event.target.value +
-                                    "Key=" +
-                                    event.key
-                            )
-                        }
-                        startAdornment={<SearchIcon />}
-                        endAdornment={
-                            <>
-                                {loading ? (
-                                    <CircularProgress
-                                        color="primary"
-                                        size={20}
-                                    />
-                                ) : null}
-                            </>
-                        }
+                        InputProps={{
+                            ...params.InputProps,
+                            disableUnderline: true,
+                            startAdornment: <SearchIcon color="primary" />,
+                            endAdornment: (
+                                <React.Fragment>
+                                    {loading ? (
+                                        <CircularProgress
+                                            color="primary"
+                                            size={20}
+                                        />
+                                    ) : null}
+                                    {params.InputProps.endAdornment}
+                                </React.Fragment>
+                            ),
+                        }}
                     />
                 )}
             />
-            <FormControl>
-                <Select
-                    id={build(ids.SEARCH, ids.SEARCH_FILTER_MENU)}
-                    value={filter}
-                    onChange={handleFilterChange}
-                    className={classes.input}
-                    input={
-                        <Input
-                            size="small"
-                            variant="outlined"
-                            disableUnderline
-                        />
-                    }
-                >
-                    <MenuItem value="all">{t("all")}</MenuItem>
-                    <MenuItem value="data">{t("data")}</MenuItem>
-                    <MenuItem value="apps">{t("apps")}</MenuItem>
-                    <MenuItem value="analyses">{t("analyses")}</MenuItem>
-                </Select>
-            </FormControl>
+            <Select
+                id={build(ids.SEARCH, ids.SEARCH_FILTER_MENU)}
+                value={filter}
+                onChange={handleFilterChange}
+                disableUnderline
+                className={classes.searchFilter}
+                size="small"
+                renderInput={() => <TextField size="small" disableUnderline />}
+            >
+                <MenuItem value="all">{t("all")}</MenuItem>
+                <MenuItem value="data">{t("data")}</MenuItem>
+                <MenuItem value="apps">{t("apps")}</MenuItem>
+                <MenuItem value="analyses">{t("analyses")}</MenuItem>
+            </Select>
         </>
     );
 }

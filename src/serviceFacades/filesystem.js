@@ -124,10 +124,10 @@ export const createFolder = ({ path }) => {
     });
 };
 
-export const searchData = ({ query }) => {
+export const searchData = (key, { query }) => {
     return callApi({
         endpoint: "/api/filesystem/search",
         method: "POST",
-        body: { query },
+        body: query,
     });
 };

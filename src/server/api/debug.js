@@ -8,7 +8,6 @@ export default function debugRouter() {
 
     logger.info("************ Adding Debug handlers **********");
 
-    logger.info("adding the GET /apps/categories handler");
     api.get("/debug/auth", (req, res) => {
         let body = {};
 

@@ -34,6 +34,8 @@ const DashboardSection = ({
         limit = numColumns;
     }
 
+    const displayShowMore = numColumns < items.length || expanded;
+
     const itemComponent = (item, index) =>
         getItem({
             kind,
@@ -74,14 +76,16 @@ const DashboardSection = ({
                 <div className={classes.sectionItems}>{collapsible}</div>
             </Collapse>
 
-            <Button
-                onClick={() => setExpanded(!expanded)}
-                className={classes.showMoreBtn}
-            >
-                <Typography variant="button" display="block">
-                    {expanded ? t("showFewer") : t("showMore")}
-                </Typography>
-            </Button>
+            {displayShowMore && (
+                <Button
+                    onClick={() => setExpanded(!expanded)}
+                    className={classes.showMoreBtn}
+                >
+                    <Typography variant="button" display="block">
+                        {expanded ? t("showFewer") : t("showMore")}
+                    </Typography>
+                </Button>
+            )}
         </div>
     );
 };

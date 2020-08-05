@@ -24,3 +24,7 @@ export default function Data() {
 
     return <Fragment />;
 }
+
+Data.getInitialProps = async () => ({
+    namespacesRequired: ["data"],
+});

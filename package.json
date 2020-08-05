@@ -76,7 +76,7 @@
         "jsonpath-plus": "^4.0.0",
         "keycloak-connect": "^7.0.1",
         "next": "^9.4.4",
-        "next-i18next": "^4.5.0",
+        "next-i18next": "^6.0.2",
         "numeral": "^2.0.6",
         "path": "^0.12.7",
         "postman-request": "^2.88.1-postman.18",

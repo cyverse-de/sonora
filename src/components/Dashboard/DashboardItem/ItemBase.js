@@ -194,7 +194,7 @@ export const DashboardVideoItem = ({ item }) => {
             width="100%"
             height="100%"
             src={item.getLinkTarget()}
-            frameborder="0"
+            frameBorder="0"
             controls="1"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"
             allowFullScreen

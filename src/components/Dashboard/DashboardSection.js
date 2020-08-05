@@ -230,9 +230,13 @@ export class VideosFeed extends SectionBase {
     }
 
     getComponent(params) {
-        params.numColumns = Math.ceil(params.numColumns / 2);
-        params.cardHeight = params.cardHeight * 2;
-        params.cardWidth = params.cardWidth * 2;
+        if (params.numColumns > 1) {
+            params.numColumns = Math.ceil(params.numColumns - 1);
+            const dimMulti = 1.0 + 1 / params.numColumns;
+            params.cardHeight = params.cardHeight * dimMulti;
+            params.cardWidth = params.cardWidth * dimMulti;
+        }
+
         return super.getComponent(params);
     }
 }

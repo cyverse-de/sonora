@@ -27,6 +27,7 @@ import {
     bootstrap,
     BOOTSTRAP_KEY,
     USER_PROFILE_QUERY_KEY,
+    USER_PROFILE_REFETCH_INTERVAL,
 } from "../../serviceFacades/users";
 
 import { build, CyVerseAnnouncer } from "@cyverse-de/ui-lib";
@@ -231,8 +232,7 @@ function CyverseAppBar(props) {
         config: {
             enabled: true,
             onSuccess: setUserProfile,
-            cacheTime: Infinity,
-            staleTime: Infinity,
+            refetchInterval: USER_PROFILE_REFETCH_INTERVAL,
         },
     });
 

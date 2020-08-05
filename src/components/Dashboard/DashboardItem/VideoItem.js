@@ -19,7 +19,7 @@ class VideoItem extends ItemBase {
 
     getLinkTarget() {
         const [, , videoID] = this.content.id.split(":");
-        return `https://www.youtube.com/embed/${videoID}`;
+        return `https://www.youtube-nocookie.com/embed/${videoID}`;
     }
 
     component(index) {

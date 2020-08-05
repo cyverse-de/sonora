@@ -34,8 +34,6 @@ const DashboardSection = ({
         limit = numColumns;
     }
 
-    console.log(`${section} ${limit}`);
-
     const itemComponent = (item, index) =>
         getItem({
             kind,

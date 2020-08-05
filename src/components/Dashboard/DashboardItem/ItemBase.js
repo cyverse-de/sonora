@@ -187,11 +187,18 @@ export const DashboardVideoItem = ({ item }) => {
     const classes = useStyles(item);
 
     return (
-        <object
+        <iframe
             className={classes.dashboardVideo}
-            data={item.getLinkTarget()}
-            aria-label={item.content.title}
-        />
+            aria-label={item.content.name}
+            title={item.content.name}
+            width="100%"
+            height="100%"
+            src={item.getLinkTarget()}
+            frameborder="0"
+            controls="1"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            allowFullScreen
+        ></iframe>
     );
 };
 

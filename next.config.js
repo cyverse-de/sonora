@@ -15,6 +15,9 @@ module.exports = withBundleAnalyzer({
         ADMIN_GROUPS: config.get("admin.groups"),
         ADMIN_GROUP_ATTRIBUTE: config.get("admin.group_attribute_name"),
         IRODS_HOME_PATH: config.get("irods.home_path"),
+        SESSION_POLL_INTERVAL_MS: config.has("sessions.poll_interval_ms")
+            ? config.get("sessions.poll_interval_ms")
+            : null,
         TOOLS_PRIVATE_MAX_CPU_LIMIT: config.has("tools.private.max_cpu_limit")
             ? config.get("tools.private.max_cpu_limit")
             : 8,

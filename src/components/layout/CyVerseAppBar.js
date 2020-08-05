@@ -27,7 +27,7 @@ import {
     bootstrap,
     BOOTSTRAP_KEY,
     USER_PROFILE_QUERY_KEY,
-    USER_PROFILE_REFETCH_INTERVAL,
+    DEFAULT_USER_PROFILE_REFETCH_INTERVAL,
 } from "../../serviceFacades/users";
 
 import { build, CyVerseAnnouncer } from "@cyverse-de/ui-lib";
@@ -226,13 +226,20 @@ function CyverseAppBar(props) {
     const [bootstrapQueryKey, setBootstrapQueryKey] = useState(BOOTSTRAP_KEY);
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
 
+    function getUserProfileRefetchInterval() {
+        return (
+            clientConfig?.sessions?.poll_interval_ms ||
+            DEFAULT_USER_PROFILE_REFETCH_INTERVAL
+        );
+    }
+
     useQuery({
         queryKey: USER_PROFILE_QUERY_KEY,
         queryFn: getUserProfile,
         config: {
             enabled: true,
             onSuccess: setUserProfile,
-            refetchInterval: USER_PROFILE_REFETCH_INTERVAL,
+            refetchInterval: getUserProfileRefetchInterval(),
         },
     });
 

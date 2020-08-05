@@ -9,7 +9,7 @@ const BOOTSTRAP_KEY = "bootstrap";
  */
 
 const USER_PROFILE_QUERY_KEY = "fetchUserProfile";
-const USER_PROFILE_REFETCH_INTERVAL = 5000;
+const DEFAULT_USER_PROFILE_REFETCH_INTERVAL = 5000;
 const REDIRECT_URI_QUERY_KEY = "fetchRedirectURI";
 
 const getUserInfo = (key, { userIds }) => {
@@ -63,7 +63,7 @@ function getRedirectURIs() {
 export {
     BOOTSTRAP_KEY,
     USER_PROFILE_QUERY_KEY,
-    USER_PROFILE_REFETCH_INTERVAL,
+    DEFAULT_USER_PROFILE_REFETCH_INTERVAL,
     REDIRECT_URI_QUERY_KEY,
     getUserInfo,
     getUserProfile,

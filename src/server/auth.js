@@ -7,6 +7,7 @@
 import session from "express-session";
 import pgsimple from "connect-pg-simple";
 import keycloak from "keycloak-connect";
+import c from "cookie";
 
 import * as config from "./configuration";
 
@@ -74,6 +75,29 @@ const getSessionStore = () => {
     }
     return sessionStore;
 };
+
+/**
+ * Middleware to log the session cookie.
+ */
+export function logSessionCookie(req, _, next) {
+    var header = req?.headers?.cookie;
+    if (header) {
+        console.log(`DEBUG: cookie ${c.parse(header)["connect.sid"]}`);
+    } else {
+        console.log("DEBUG: no cookie appears to be set.");
+    }
+    next();
+}
+
+/**
+ * Middleware to log the session info.
+ */
+export function logSessionInfo(req, _, next) {
+    console.log(`DEBUG: maxAge: ${req.session.cookie.maxAge}`);
+    console.log(`DEBUG: originalMaxAge: ${req.session.cookie.originalMaxAge}`);
+    console.log(req.session);
+    next();
+}
 
 /**
  * Returns Express middleware for session management.

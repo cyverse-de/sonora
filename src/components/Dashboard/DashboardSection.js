@@ -111,13 +111,13 @@ class SectionBase {
             const firstParsed = Date.parse(first.date_added);
             const secondParsed = Date.parse(second.date_added);
 
-            console.log(`first: ${firstParsed} second: ${secondParsed}`);
-
             let retval;
+
+            // The return values are reversed so we get reverse chronological order.
             if (firstParsed < secondParsed) {
-                retval = -1;
-            } else if (firstParsed > secondParsed) {
                 retval = 1;
+            } else if (firstParsed > secondParsed) {
+                retval = -1;
             } else {
                 retval = 0;
             }

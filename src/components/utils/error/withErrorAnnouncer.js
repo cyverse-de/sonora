@@ -8,7 +8,7 @@
  */
 import React, { useCallback, useState } from "react";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import { announce, AnnouncerConstants } from "@cyverse-de/ui-lib";
 import { Button, Typography, useTheme } from "@material-ui/core";

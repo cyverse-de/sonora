@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense } from "react";
+import React, { useEffect } from "react";
 import { withConsole } from "@storybook/addon-console";
 import { addDecorator, addParameters, configure } from "@storybook/react";
 import { CyVerseAnnouncer } from "@cyverse-de/ui-lib";
@@ -10,8 +10,7 @@ import {
     useUserProfile,
 } from "../src/contexts/userProfile";
 import { ReactQueryConfigProvider } from "react-query";
-import { I18nextProvider } from "react-i18next";
-import i18n from "../src/test_i18n";
+import { I18nProviderWrapper } from "../src/i18n";
 
 function MockUserProfile() {
     const [userProfile, setUserProfile] = useUserProfile();
@@ -40,9 +39,11 @@ addDecorator((storyFn) => (
     <ThemeProvider theme={theme}>
         <UserProfileProvider>
             <ReactQueryConfigProvider config={queryConfig}>
-                <MockUserProfile />
-                {storyFn()}
-                <CyVerseAnnouncer />
+                <I18nProviderWrapper>
+                    <MockUserProfile />
+                    {storyFn()}
+                    <CyVerseAnnouncer />
+                </I18nProviderWrapper>
             </ReactQueryConfigProvider>
         </UserProfileProvider>
     </ThemeProvider>
@@ -50,12 +51,6 @@ addDecorator((storyFn) => (
 
 //redirect console error / logs / warns to action logger
 addDecorator((storyFn, context) => withConsole()(storyFn)(context));
-
-addDecorator((storyFn) => (
-    <I18nextProvider i18n={i18n}>
-        <Suspense fallback="Loading...">{storyFn()}</Suspense>
-    </I18nextProvider>
-));
 
 addParameters({ chromatic: { delay: AXIOS_DELAY + 500 } });
 

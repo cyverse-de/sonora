@@ -9,7 +9,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import { useQuery } from "react-query";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import { makeStyles, useTheme } from "@material-ui/styles";
 import {

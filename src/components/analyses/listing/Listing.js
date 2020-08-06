@@ -8,7 +8,7 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import { queryCache, useMutation, useQuery } from "react-query";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import {
     ANALYSES_LISTING_QUERY_KEY,

@@ -5,7 +5,7 @@
  *
  */
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import ids from "../ids";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";

@@ -105,7 +105,7 @@ Generally, you'll need to:
 3. Once you have imported the translation files, you can use them in your react component.
 ```
 import React from "react";
-+import { useTranslation } from "react-i18next";
++import { useTranslation } from "i18n";
 
 function MyComponent(props) {
  +const { t } = useTranslation(["common", "search"]);

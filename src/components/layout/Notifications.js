@@ -9,7 +9,7 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 import constants from "../../constants";
 import analysisStatus from "../models/analysisStatus";
 import NavigationConstants from "../../common/NavigationConstants";

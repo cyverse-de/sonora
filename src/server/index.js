@@ -2,9 +2,6 @@ import express from "express";
 import expressWs from "express-ws";
 import next from "next";
 
-import nextI18next from "../i18n";
-import nextI18NextMiddleware from "next-i18next/middleware";
-
 import analysesRouter from "./api/analyses";
 import appsRouter from "./api/apps";
 import dashboardRouter from "./api/dashboard";
@@ -84,9 +81,6 @@ app.prepare()
         server.get("/login/*", keycloakClient.protect(), (req, res) => {
             res.redirect(req.url.replace(/^\/login/, ""));
         });
-
-        logger.info("Use translations");
-        server.use(nextI18NextMiddleware(nextI18next));
 
         //get notifications from amqp
         logger.info("Set up notification queue and websocket");

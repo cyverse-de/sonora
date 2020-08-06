@@ -6,9 +6,7 @@
 
 import React, { useState } from "react";
 
-import { useTranslation } from "react-i18next";
-
-import { appWithTranslation } from "../i18n";
+import { appWithTranslation, useTranslation } from "i18n";
 import "./styles.css";
 import { ConfigProvider } from "../contexts/config";
 import CyverseAppBar from "../components/layout/CyVerseAppBar";

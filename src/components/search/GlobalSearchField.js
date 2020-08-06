@@ -4,7 +4,7 @@
  * A global search field with options to filter on apps, analyses and data
  */
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
 
 import ids from "./ids";

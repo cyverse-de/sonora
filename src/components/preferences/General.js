@@ -9,7 +9,7 @@
 import React, { useState } from "react";
 
 import { Field } from "formik";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import prefConstants from "./constants";
 import styles from "./styles";

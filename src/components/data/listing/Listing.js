@@ -42,7 +42,7 @@ import withErrorAnnouncer from "../../utils/error/withErrorAnnouncer";
 
 import { announce, build, AnnouncerConstants } from "@cyverse-de/ui-lib";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import { queryCache, useMutation, useQuery } from "react-query";
 

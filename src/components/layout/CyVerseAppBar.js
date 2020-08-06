@@ -10,7 +10,7 @@ import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import ids from "./ids";
 import constants from "../../constants";

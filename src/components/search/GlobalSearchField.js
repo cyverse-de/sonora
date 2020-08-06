@@ -25,11 +25,39 @@ import {
     Select,
     TextField,
     ListItemText,
+    ListItemIcon,
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
+import DescriptionIcon from "@material-ui/icons/Description";
+import FolderIcon from "@material-ui/icons/Folder";
+import ResourceTypes from "../models/ResourceTypes";
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        position: "relative",
+        marginRight: 0,
+        marginLeft: 0,
+        [theme.breakpoints.up("sm")]: {
+            marginLeft: theme.spacing(2),
+            width: "60%",
+        },
+        [theme.breakpoints.down("xs")]: {
+            backgroundColor: theme.palette.bgGray,
+            float: "left",
+            margin: theme.spacing(1),
+            width: "50%",
+        },
+    },
+    paper: {
+        boxShadow: "none",
+        margin: 0,
+    },
+    option: {
+        minHeight: "auto",
+        padding: theme.spacing(0),
+        margin: theme.spacing(0),
+    },
     search: {
         position: "relative",
         marginRight: 0,
@@ -66,6 +94,9 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: theme.palette.info.contrastText,
         },
     },
+    options: {
+        padding: theme.spacing(1),
+    },
 }));
 
 const analysesfilter = {
@@ -74,14 +105,10 @@ const analysesfilter = {
 };
 
 function SearchOption(props) {
-    const { primary, secondary } = props;
+    const { primary, secondary, icon } = props;
     return (
-        <ListItem
-            alignItems="flex-start"
-            dense={true}
-            divider={true}
-            style={{ padding: 0 }}
-        >
+        <ListItem alignItems="flex-start" dense={true} divider={true}>
+            <ListItemIcon>{icon}</ListItemIcon>
             <ListItemText
                 primary={primary}
                 primaryTypographyProps={{
@@ -91,6 +118,7 @@ function SearchOption(props) {
                 secondary={secondary}
                 secondaryTypographyProps={{
                     variant: "caption",
+                    wrap: true,
                 }}
             />
         </ListItem>
@@ -98,31 +126,39 @@ function SearchOption(props) {
 }
 
 function DataSearchOption(resultItem) {
-    console.log("data name->" + JSON.stringify(resultItem));
     return (
         <SearchOption
             primary={resultItem.option.name}
             secondary={resultItem.option?._source?.path}
+            icon={
+                resultItem.option?._type === ResourceTypes.FILE ? (
+                    <DescriptionIcon />
+                ) : (
+                    <FolderIcon />
+                )
+            }
         />
     );
 }
 
 function AppsSearchOption(resultItem) {
-    console.log("apps name->" + JSON.stringify(resultItem));
+    const { t } = useTranslation("common");
     return (
         <SearchOption
             primary={resultItem.option.name}
             secondary={resultItem.option?.description}
+            icon={<img src="/icon-apps.png" alt={t("apps")} />}
         />
     );
 }
 
 function AnalysesSearchOption(resultItem) {
-    console.log("analyses name->" + JSON.stringify(resultItem));
+    const { t } = useTranslation("common");
     return (
         <SearchOption
             primary={resultItem.option.name}
             secondary={resultItem.option?.status}
+            icon={<img src="/icon-analyses.png" alt={t("analyses")} />}
         />
     );
 }
@@ -226,6 +262,7 @@ function GlobalSearchField(props) {
 
     useEffect(() => {
         const searchFilters = [];
+        //clear exisitng results before searching for a new term.
         setOptions([]);
         if (searchText && searchText.length > 2) {
             const nameFilterObj = Object.create(analysesfilter);
@@ -292,6 +329,11 @@ function GlobalSearchField(props) {
     return (
         <>
             <Autocomplete
+                classes={{
+                    root: classes.root,
+                    paper: classes.paper,
+                    option: classes.option,
+                }}
                 open={open}
                 debug={true}
                 onOpen={() => {
@@ -303,7 +345,6 @@ function GlobalSearchField(props) {
                 freeSolo
                 id="search"
                 size="small"
-                className={classes.search}
                 options={options}
                 onInputChange={handleChange}
                 getOptionLabel={(option) => option.name}
@@ -312,10 +353,12 @@ function GlobalSearchField(props) {
                 }
                 filterOptions={(options, state) => options}
                 loading={loading}
+                noOptionsText="No results to display"
                 value={value}
                 onChange={(event, newValue) => {
                     setValue(newValue);
                 }}
+                groupBy={(option) => option.resultType}
                 renderOption={(option, state) => {
                     switch (option?.resultType) {
                         case t("data"):

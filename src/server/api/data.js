@@ -142,7 +142,7 @@ export default function dataRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
-            pathname: "/filesystem/search",
+            pathname: "/secured/filesystem/search",
             headers: {
                 "Content-Type": "application/json",
             },

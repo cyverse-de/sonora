@@ -26,6 +26,7 @@ import {
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
+import { json } from "express";
 
 const useStyles = makeStyles((theme) => ({
     search: {
@@ -75,10 +76,13 @@ function GlobalSearchField(props) {
     const classes = useStyles();
 
     const { t } = useTranslation(["common"]);
+
     const [searchText, setSearchText] = useState("");
     const [filter, setFilter] = useState("all");
+
     const [options, setOptions] = useState([]);
     const [open, setOpen] = React.useState(false);
+    const [value, setValue] = React.useState(null);
 
     const [analysesSearchKey, setAnalysesSearchKey] = useState();
     const [appsSearchKey, setAppsSearchKey] = useState();
@@ -99,6 +103,15 @@ function GlobalSearchField(props) {
         queryFn: getAnalyses,
         config: {
             enabled: analysesSearchQueryEnabled,
+            onSuccess: (results) => {
+                if (results && results.analyses?.length > 0) {
+                    const analyses = results.analyses;
+                    const analysesSearchResults = analyses.map((analysis) => ({
+                        name: analysis.name,
+                    }));
+                    setOptions([...options, ...analysesSearchResults]);
+                }
+            },
         },
     });
 
@@ -110,8 +123,10 @@ function GlobalSearchField(props) {
             onSuccess: (results) => {
                 if (results && results.apps?.length > 0) {
                     const apps = results.apps;
-                    results = apps.map((app) => ({ name: app.name }));
-                    setOptions(results);
+                    const appsSearchResults = apps.map((app) => ({
+                        name: app.name,
+                    }));
+                    setOptions([...options, ...appsSearchResults]);
                 }
             },
         },
@@ -122,6 +137,15 @@ function GlobalSearchField(props) {
         queryFn: searchData,
         config: {
             enabled: dataSearchQueryEnabled,
+            onSuccess: (results) => {
+                if (results && results.hits?.length > 0) {
+                    const data = results.hits;
+                    const dataSearchResults = data.map((data) => ({
+                        name: data._source?.label,
+                    }));
+                    setOptions([...options, ...dataSearchResults]);
+                }
+            },
         },
     });
 
@@ -134,15 +158,19 @@ function GlobalSearchField(props) {
         setFilter(event.target.value);
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!open) {
             setOptions([]);
         }
     }, [open]);
 
     useEffect(() => {
+        console.log("selected value=>" + JSON.stringify(value));
+    }, [value]);
+
+    useEffect(() => {
         const searchFilters = [];
-        if (searchText && searchText.length > 3) {
+        if (searchText && searchText.length > 2) {
             const nameFilterObj = Object.create(analysesfilter);
             nameFilterObj.field = "name";
             nameFilterObj.value = searchText;
@@ -226,6 +254,10 @@ function GlobalSearchField(props) {
                 filterOptions={(options, state) => options}
                 getOptionLabel={(option) => option.name}
                 loading={loading}
+                value={value}
+                onChange={(event, newValue) => {
+                    setValue(newValue);
+                }}
                 renderInput={(params) => (
                     <TextField
                         {...params}

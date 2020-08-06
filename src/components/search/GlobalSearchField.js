@@ -20,13 +20,14 @@ import { build } from "@cyverse-de/ui-lib";
 import SearchIcon from "@material-ui/icons/Search";
 import {
     CircularProgress,
+    ListItem,
     MenuItem,
     Select,
     TextField,
+    ListItemText,
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
-import { json } from "express";
 
 const useStyles = makeStyles((theme) => ({
     search: {
@@ -72,6 +73,60 @@ const analysesfilter = {
     value: "",
 };
 
+function SearchOption(props) {
+    const { primary, secondary } = props;
+    return (
+        <ListItem
+            alignItems="flex-start"
+            dense={true}
+            divider={true}
+            style={{ padding: 0 }}
+        >
+            <ListItemText
+                primary={primary}
+                primaryTypographyProps={{
+                    variant: "body1",
+                    color: "primary",
+                }}
+                secondary={secondary}
+                secondaryTypographyProps={{
+                    variant: "caption",
+                }}
+            />
+        </ListItem>
+    );
+}
+
+function DataSearchOption(resultItem) {
+    console.log("data name->" + JSON.stringify(resultItem));
+    return (
+        <SearchOption
+            primary={resultItem.option.name}
+            secondary={resultItem.option?._source?.path}
+        />
+    );
+}
+
+function AppsSearchOption(resultItem) {
+    console.log("apps name->" + JSON.stringify(resultItem));
+    return (
+        <SearchOption
+            primary={resultItem.option.name}
+            secondary={resultItem.option?.description}
+        />
+    );
+}
+
+function AnalysesSearchOption(resultItem) {
+    console.log("analyses name->" + JSON.stringify(resultItem));
+    return (
+        <SearchOption
+            primary={resultItem.option.name}
+            secondary={resultItem.option?.status}
+        />
+    );
+}
+
 function GlobalSearchField(props) {
     const classes = useStyles();
 
@@ -106,10 +161,10 @@ function GlobalSearchField(props) {
             onSuccess: (results) => {
                 if (results && results.analyses?.length > 0) {
                     const analyses = results.analyses;
-                    const analysesSearchResults = analyses.map((analysis) => ({
-                        name: analysis.name,
-                    }));
-                    setOptions([...options, ...analysesSearchResults]);
+                    analyses.forEach((analysis) => {
+                        analysis.resultType = t("analyses");
+                    });
+                    setOptions([...options, ...analyses]);
                 }
             },
         },
@@ -123,10 +178,10 @@ function GlobalSearchField(props) {
             onSuccess: (results) => {
                 if (results && results.apps?.length > 0) {
                     const apps = results.apps;
-                    const appsSearchResults = apps.map((app) => ({
-                        name: app.name,
-                    }));
-                    setOptions([...options, ...appsSearchResults]);
+                    apps.forEach((app) => {
+                        app.resultType = t("apps");
+                    });
+                    setOptions([...options, ...apps]);
                 }
             },
         },
@@ -140,17 +195,18 @@ function GlobalSearchField(props) {
             onSuccess: (results) => {
                 if (results && results.hits?.length > 0) {
                     const data = results.hits;
-                    const dataSearchResults = data.map((data) => ({
-                        name: data._source?.label,
-                    }));
-                    setOptions([...options, ...dataSearchResults]);
+                    data.forEach((data) => {
+                        data.name = data._source?.label;
+                        data.resultType = t("data");
+                    });
+                    setOptions([...options, ...data]);
                 }
             },
         },
     });
 
     const handleChange = (event, value, reason) => {
-        console.log("handleChange=>" + value);
+        //console.log("handleChange=>" + value);
         setSearchText(value);
     };
 
@@ -165,11 +221,12 @@ function GlobalSearchField(props) {
     }, [open]);
 
     useEffect(() => {
-        console.log("selected value=>" + JSON.stringify(value));
+        //console.log("selected value=>" + JSON.stringify(value));
     }, [value]);
 
     useEffect(() => {
         const searchFilters = [];
+        setOptions([]);
         if (searchText && searchText.length > 2) {
             const nameFilterObj = Object.create(analysesfilter);
             nameFilterObj.field = "name";
@@ -211,7 +268,7 @@ function GlobalSearchField(props) {
 
             const template = simpleQueryTemplate(searchText);
             const query = buildQuery(template);
-            console.log("QUERY is =>" + JSON.stringify(query));
+            //console.log("QUERY is =>" + JSON.stringify(query));
             query.size = 10;
             query.from = 0;
             query.sort = [
@@ -220,7 +277,7 @@ function GlobalSearchField(props) {
                     order: "ascending",
                 },
             ];
-            console.log("Final Query to submit =>" + JSON.stringify(query));
+            //console.log("Final Query to submit =>" + JSON.stringify(query));
             setDataSearchKey(["dataSearch", { query }]);
             setDataSearchQueryEnabled(true);
         }
@@ -236,6 +293,7 @@ function GlobalSearchField(props) {
         <>
             <Autocomplete
                 open={open}
+                debug={true}
                 onOpen={() => {
                     setOpen(true);
                 }}
@@ -248,15 +306,29 @@ function GlobalSearchField(props) {
                 className={classes.search}
                 options={options}
                 onInputChange={handleChange}
+                getOptionLabel={(option) => option.name}
                 getOptionSelected={(option, value) =>
                     option.name === value.name
                 }
                 filterOptions={(options, state) => options}
-                getOptionLabel={(option) => option.name}
                 loading={loading}
                 value={value}
                 onChange={(event, newValue) => {
                     setValue(newValue);
+                }}
+                renderOption={(option, state) => {
+                    switch (option?.resultType) {
+                        case t("data"):
+                            return <DataSearchOption option={option} />;
+                        case t("apps"):
+                            return <AppsSearchOption option={option} />;
+                        case t("analyses"):
+                            return <AnalysesSearchOption option={option} />;
+                        default:
+                            return (
+                                <SearchOption primary={option.option.name} />
+                            );
+                    }
                 }}
                 renderInput={(params) => (
                     <TextField

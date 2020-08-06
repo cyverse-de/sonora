@@ -22,25 +22,25 @@ const isNegated = (query) => {
 };
 
 const getArgs = (query) => {
-    console.log("getArgs=>" + JSON.stringify(query[ARGS]));
+    //console.log("getArgs=>" + JSON.stringify(query[ARGS]));
     return query[ARGS];
 };
 
 const isGroup = (query) => {
     const type = getTypeValue(query);
-    console.log("isGroup=>" + JSON.stringify(type));
+    //console.log("isGroup=>" + JSON.stringify(type));
     return GROUPS.includes(type);
 };
 
 const getTypeValue = (query) => {
-    console.log("getTypeValue=>" + JSON.stringify(query[TYPE]));
+    //console.log("getTypeValue=>" + JSON.stringify(query[TYPE]));
     return query[TYPE];
 };
 
 const build = (query, subQuery) => {
     const noneList = [];
-    console.log("query=>" + JSON.stringify(query));
-    console.log("subQuery=>" + JSON.stringify(subQuery));
+    //console.log("query=>" + JSON.stringify(query));
+    //console.log("subQuery=>" + JSON.stringify(subQuery));
     if (isGroup(subQuery)) {
         const type = getTypeValue(subQuery);
         const group = {};
@@ -73,7 +73,7 @@ const build = (query, subQuery) => {
             query.splice(query.length, 0, subQuery);
         }
     }
-    console.log("Query inside=>" + JSON.stringify(query));
+   // console.log("Query inside=>" + JSON.stringify(query));
 };
 
 export const simpleQueryTemplate = (searchTerm) => ({
@@ -100,6 +100,6 @@ export const simpleQueryTemplate = (searchTerm) => ({
 export const buildQuery = (template) => {
     const query = {};
     build(query, template);
-    console.log("Query is => " + JSON.stringify(query));
+  //  console.log("Query is => " + JSON.stringify(query));
     return query;
 };

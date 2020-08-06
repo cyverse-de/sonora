@@ -107,12 +107,29 @@ class SectionBase {
         numColumns,
         limit,
     }) {
+        const sorted = data[this.kind][this.name].sort((first, second) => {
+            const firstParsed = Date.parse(first.date_added);
+            const secondParsed = Date.parse(second.date_added);
+
+            console.log(`first: ${firstParsed} second: ${secondParsed}`);
+
+            let retval;
+            if (firstParsed < secondParsed) {
+                retval = -1;
+            } else if (firstParsed > secondParsed) {
+                retval = 1;
+            } else {
+                retval = 0;
+            }
+
+            return retval;
+        });
         return (
             <DashboardSection
                 id={this.id}
                 kind={this.kind}
                 key={`${this.kind}-${this.name}`}
-                items={data[this.kind][this.name]}
+                items={sorted}
                 name={t(this.label)}
                 section={this.name}
                 showDivider={showDivider}

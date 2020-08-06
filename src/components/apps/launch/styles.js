@@ -3,19 +3,9 @@ export default (theme) => ({
 
     stepper: {
         padding: theme.spacing(1),
-        [theme.breakpoints.down("xs")]: {
-            margin: theme.spacing(0.3),
-        },
     },
     stepContainer: {
         overflow: "auto",
-    },
-    stepContent: {
-        overflow: "auto",
-        padding: theme.spacing(1),
-        [theme.breakpoints.down("xs")]: {
-            padding: theme.spacing(0.3),
-        },
     },
     spacer: {
         margin: theme.spacing(1),
@@ -38,8 +28,14 @@ export default (theme) => ({
         backgroundColor: theme.palette.primary.main,
     },
     bottomNavigationAction: {
-        flexGrow: 1,
-        color: theme.palette.primary.contrastText,
+        [theme.breakpoints.down("xs")]: {
+            width: "100%",
+            margin: theme.spacing(0.5),
+        },
+        [theme.breakpoints.up("sm")]: {
+            flexGrow: 1,
+            color: theme.palette.primary.contrastText,
+        },
     },
     paramsReview: {
         margin: theme.spacing(1),
@@ -57,13 +53,13 @@ export default (theme) => ({
     inputSelectorBrowseButton: {
         marginLeft: theme.spacing(1),
         [theme.breakpoints.down("xs")]: {
-            marginLeft: theme.spacing(0.3),
+            marginLeft: theme.spacing(0.1),
         },
     },
     inputSelectorTextFiled: {
         paddingRight: theme.spacing(1),
         [theme.breakpoints.down("xs")]: {
-            paddingRight: theme.spacing(0.3),
+            paddingRight: theme.spacing(0.1),
         },
     },
 });

@@ -50,9 +50,10 @@ import {
 } from "@cyverse-de/ui-lib";
 
 import {
-    Container,
+    Box,
     Button,
-    Hidden,
+    Container,
+    MobileStepper,
     Stepper,
     Step,
     StepButton,
@@ -64,14 +65,23 @@ import {
     useTheme,
 } from "@material-ui/core";
 
-import { ArrowBack, ArrowForward, PlayArrow, Save } from "@material-ui/icons";
+import {
+    ArrowBack,
+    ArrowForward,
+    KeyboardArrowLeft,
+    KeyboardArrowRight,
+    PlayArrow,
+    Save,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
 // sonora appbar height.
 //Stepper height, appinfo height and bottom nav height is calculated dynamically.
 const NAVIGATION_BAR_HEIGHT = 105;
-const MOBILE_NAVIGATION_BAR_HEIGHT = 75;
+
+//include mobile stepper navigation height
+const MOBILE_NAVIGATION_BAR_HEIGHT = 155;
 
 const ReferenceGenomeParamTypes = [
     constants.PARAM_TYPE.REFERENCE_GENOME,
@@ -79,20 +89,27 @@ const ReferenceGenomeParamTypes = [
     constants.PARAM_TYPE.REFERENCE_ANNOTATION,
 ];
 
-const StepContent = ({ id, hidden, step, label, children, offsetHeight }) => (
-    <PageWrapper appBarHeight={offsetHeight}>
-        <fieldset id={id} hidden={hidden}>
-            <legend>
-                <Typography variant="caption">
-                    {getMessage("stepLabel", {
-                        values: { step: step + 1, label },
-                    })}
-                </Typography>
-            </legend>
-            {children}
-        </fieldset>
-    </PageWrapper>
-);
+const StepContent = ({ id, hidden, step, label, children, offsetHeight }) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    return (
+        <PageWrapper appBarHeight={offsetHeight}>
+            <fieldset id={id} hidden={hidden}>
+                <legend>
+                    <Typography
+                        variant={isMobile ? "subtitle2" : "caption"}
+                        color={isMobile ? "primary" : "inherit"}
+                    >
+                        {getMessage("stepLabel", {
+                            values: { step: step + 1, label },
+                        })}
+                    </Typography>
+                </legend>
+                {children}
+            </fieldset>
+        </PageWrapper>
+    );
+};
 
 const StepperBottomNavigation = React.forwardRef((props, ref) => {
     const {
@@ -107,51 +124,194 @@ const StepperBottomNavigation = React.forwardRef((props, ref) => {
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-    return (
-        <Toolbar variant="dense" className={classes.bottomNavigation} ref={ref}>
-            <Button
-                id={buildDebugId(formId, ids.BUTTONS.STEP_BACK)}
-                className={classes.bottomNavigationAction}
-                startIcon={<ArrowBack />}
-                size="small"
-                onClick={handleBack}
+    if (isMobile) {
+        if (showSubmitButton) {
+            return (
+                <Container ref={ref}>
+                    {showSaveQuickLaunchButton && (
+                        <Button
+                            color="primary"
+                            className={classes.bottomNavigationAction}
+                            id={buildDebugId(
+                                formId,
+                                ids.BUTTONS.SAVE_AS_QUICK_LAUNCH
+                            )}
+                            startIcon={<Save />}
+                            size="small"
+                            variant="contained"
+                            onClick={handleSaveQuickLaunch}
+                        >
+                            {getMessage("saveAsQuickLaunch")}
+                        </Button>
+                    )}
+                    <Button
+                        color="primary"
+                        className={classes.bottomNavigationAction}
+                        id={buildDebugId(formId, ids.BUTTONS.SUBMIT)}
+                        startIcon={<PlayArrow />}
+                        size="small"
+                        variant="contained"
+                        onClick={(event) => handleSubmit(event)}
+                    >
+                        {getMessage("launchAnalysis")}
+                    </Button>
+                </Container>
+            );
+        } else {
+            return <div ref={ref} />;
+        }
+    } else {
+        return (
+            <Toolbar
+                variant="dense"
+                className={classes.bottomNavigation}
+                ref={ref}
             >
-                {isMobile ? "" : getMessage("back")}
-            </Button>
-            {showSaveQuickLaunchButton && (
                 <Button
+                    id={buildDebugId(formId, ids.BUTTONS.STEP_BACK)}
                     className={classes.bottomNavigationAction}
-                    id={buildDebugId(formId, ids.BUTTONS.SAVE_AS_QUICK_LAUNCH)}
-                    startIcon={<Save />}
+                    startIcon={<ArrowBack />}
                     size="small"
-                    onClick={handleSaveQuickLaunch}
+                    onClick={handleBack}
                 >
-                    {isMobile ? "" : getMessage("saveAsQuickLaunch")}
+                    {getMessage("back")}
                 </Button>
-            )}
-            {showSubmitButton ? (
-                <Button
-                    className={classes.bottomNavigationAction}
-                    id={buildDebugId(formId, ids.BUTTONS.SUBMIT)}
-                    startIcon={<PlayArrow />}
-                    size="small"
-                    onClick={(event) => handleSubmit(event)}
-                >
-                    {isMobile ? "" : getMessage("launchAnalysis")}
-                </Button>
-            ) : (
-                <Button
-                    className={classes.bottomNavigationAction}
-                    id={buildDebugId(formId, ids.BUTTONS.STEP_NEXT)}
-                    endIcon={<ArrowForward />}
-                    size="small"
-                    onClick={handleNext}
-                >
-                    {isMobile ? "" : getMessage("next")}
-                </Button>
-            )}
-        </Toolbar>
-    );
+                {showSaveQuickLaunchButton && (
+                    <Button
+                        className={classes.bottomNavigationAction}
+                        id={buildDebugId(
+                            formId,
+                            ids.BUTTONS.SAVE_AS_QUICK_LAUNCH
+                        )}
+                        startIcon={<Save />}
+                        size="small"
+                        onClick={handleSaveQuickLaunch}
+                    >
+                        {getMessage("saveAsQuickLaunch")}
+                    </Button>
+                )}
+                {showSubmitButton ? (
+                    <Button
+                        className={classes.bottomNavigationAction}
+                        id={buildDebugId(formId, ids.BUTTONS.SUBMIT)}
+                        startIcon={<PlayArrow />}
+                        size="small"
+                        onClick={(event) => handleSubmit(event)}
+                    >
+                        {getMessage("launchAnalysis")}
+                    </Button>
+                ) : (
+                    <Button
+                        className={classes.bottomNavigationAction}
+                        id={buildDebugId(formId, ids.BUTTONS.STEP_NEXT)}
+                        endIcon={<ArrowForward />}
+                        size="small"
+                        onClick={handleNext}
+                    >
+                        {getMessage("next")}
+                    </Button>
+                )}
+            </Toolbar>
+        );
+    }
+});
+
+const LaunchStepper = React.forwardRef((props, ref) => {
+    const {
+        steps,
+        handleStep,
+        handleNext,
+        handleBack,
+        isLastStep,
+        activeStep,
+        formId,
+        errors,
+        touched,
+        groups,
+    } = props;
+    const theme = useTheme();
+    const classes = useStyles();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+
+    if (isMobile) {
+        return (
+            <MobileStepper
+                activeStep={activeStep}
+                ref={ref}
+                steps={steps?.length}
+                position="bottom"
+                nextButton={
+                    <Button
+                        size="small"
+                        variant="contained"
+                        onClick={handleNext}
+                        disabled={isLastStep()}
+                        id={buildDebugId(formId, ids.BUTTONS.STEP_NEXT)}
+                        color="primary"
+                    >
+                        {getMessage("next")}
+                        {theme.direction === "rtl" ? (
+                            <KeyboardArrowLeft />
+                        ) : (
+                            <KeyboardArrowRight />
+                        )}
+                    </Button>
+                }
+                backButton={
+                    <Button
+                        size="small"
+                        variant="contained"
+                        onClick={handleBack}
+                        disabled={activeStep === 0}
+                        id={buildDebugId(formId, ids.BUTTONS.STEP_BACK)}
+                    >
+                        {theme.direction === "rtl" ? (
+                            <KeyboardArrowRight />
+                        ) : (
+                            <KeyboardArrowLeft />
+                        )}
+                        {getMessage("back")}
+                    </Button>
+                }
+            />
+        );
+    } else {
+        return (
+            <Stepper
+                alternativeLabel
+                nonLinear
+                activeStep={activeStep}
+                ref={ref}
+                className={classes.stepper}
+            >
+                {steps.map((step, index) => (
+                    <Step key={step.label}>
+                        <StepButton
+                            id={buildDebugId(
+                                formId,
+                                ids.BUTTONS.STEP,
+                                index + 1
+                            )}
+                            onClick={handleStep(index)}
+                        >
+                            <StepLabel
+                                error={
+                                    !!displayStepError(
+                                        index,
+                                        errors,
+                                        touched,
+                                        groups
+                                    )
+                                }
+                            >
+                                {step.label}
+                            </StepLabel>
+                        </StepButton>
+                    </Step>
+                ))}
+            </Stepper>
+        );
+    }
 });
 
 /**
@@ -572,46 +732,21 @@ const AppLaunchForm = (props) => {
                         {isSubmitting ? (
                             <StepperSkeleton baseId={formId} ref={stepperRef} />
                         ) : (
-                            <Stepper
-                                alternativeLabel
-                                nonLinear
+                            <LaunchStepper
+                                steps={steps}
+                                handleStep={handleStep}
+                                handleNext={handleNext}
+                                handleBack={handleBack}
                                 activeStep={activeStep}
+                                isLastStep={isLastStep}
+                                formId={formId}
+                                errors={errors}
+                                touched={touched}
+                                groups={groups}
                                 ref={stepperRef}
-                                className={classes.stepper}
-                            >
-                                {steps.map((step, index) => (
-                                    <Step key={step.label}>
-                                        <StepButton
-                                            id={buildDebugId(
-                                                formId,
-                                                ids.BUTTONS.STEP,
-                                                index + 1
-                                            )}
-                                            onClick={handleStep(index)}
-                                        >
-                                            <StepLabel
-                                                error={
-                                                    !!displayStepError(
-                                                        index,
-                                                        errors,
-                                                        touched,
-                                                        groups
-                                                    )
-                                                }
-                                            >
-                                                <Hidden xsDown>
-                                                    {step.label}
-                                                </Hidden>
-                                            </StepLabel>
-                                        </StepButton>
-                                    </Step>
-                                ))}
-                            </Stepper>
+                            />
                         )}
-                        <Container
-                            component="div"
-                            className={classes.stepContainer}
-                        >
+                        <Box component="div" className={classes.stepContainer}>
                             <StepContent
                                 id={buildDebugId(
                                     formId,
@@ -710,7 +845,7 @@ const AppLaunchForm = (props) => {
                                     />
                                 )}
                             </StepContent>
-                        </Container>
+                        </Box>
                         <div className={classes.spacer}></div>
                         {isSubmitting ? (
                             <BottomNavigationSkeleton ref={bottomNavRef} />

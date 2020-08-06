@@ -1,5 +1,5 @@
 /**
- * @author psarando
+ * @author psarando, sriram
  *
  * Input Selector form field for picking a path from the data store.
  */
@@ -22,7 +22,13 @@ import {
     FormTextField,
 } from "@cyverse-de/ui-lib";
 
-import { Button, Grid, IconButton, makeStyles } from "@material-ui/core";
+import {
+    Button,
+    Grid,
+    IconButton,
+    InputAdornment,
+    makeStyles,
+} from "@material-ui/core";
 
 import ClearIcon from "@material-ui/icons/Clear";
 
@@ -40,7 +46,6 @@ const BrowseButton = (props) => {
         onConfirm,
     } = props;
 
-    const classes = useStyles();
     const [open, setOpen] = React.useState(false);
 
     return (
@@ -50,7 +55,6 @@ const BrowseButton = (props) => {
                 size="small"
                 variant="outlined"
                 onClick={() => setOpen(true)}
-                className={classes.inputSelectorBrowseButton}
             >
                 {getMessage("browse")}
             </Button>
@@ -84,6 +88,20 @@ const InputSelector = ({ intl, acceptedType, startingPath, ...props }) => {
 
     const inputProps = {
         readOnly: true,
+        endAdornment: (
+            <InputAdornment position="end">
+                <BrowseButton
+                    baseId={id}
+                    startingPath={startingPath}
+                    acceptedType={acceptedType}
+                    multiSelect={false}
+                    name={field.name}
+                    onConfirm={(selections) => {
+                        setFieldValue(field.name, selections);
+                    }}
+                />
+            </InputAdornment>
+        ),
     };
 
     if (field.value && !required) {
@@ -112,18 +130,6 @@ const InputSelector = ({ intl, acceptedType, startingPath, ...props }) => {
                     size="small"
                     className={classes.inputSelectorTextFiled}
                     {...props}
-                />
-            </Grid>
-            <Grid item>
-                <BrowseButton
-                    baseId={id}
-                    startingPath={startingPath}
-                    acceptedType={acceptedType}
-                    multiSelect={false}
-                    name={field.name}
-                    onConfirm={(selections) => {
-                        setFieldValue(field.name, selections);
-                    }}
                 />
             </Grid>
         </Grid>

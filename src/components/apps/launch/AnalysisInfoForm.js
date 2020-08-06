@@ -1,5 +1,5 @@
 /**
- * @author psarando
+ * @author psarando, sriram
  *
  * An App Launch form for collecting top-level analysis info,
  * such as analysis name, comments, and output folder.

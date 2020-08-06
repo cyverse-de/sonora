@@ -17,6 +17,7 @@ sessions:
     secret: "keyboard cat"
     secure_cookie: false
     ttl: 8
+    poll_interval_ms: 5000
 
 keycloak:
     server_url: "https://kc.cyverse.org/auth"

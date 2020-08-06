@@ -231,8 +231,7 @@ function CyverseAppBar(props) {
         config: {
             enabled: true,
             onSuccess: setUserProfile,
-            cacheTime: Infinity,
-            staleTime: Infinity,
+            refetchInterval: clientConfig.sessions.poll_interval_ms,
         },
     });
 

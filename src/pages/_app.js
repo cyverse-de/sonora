@@ -102,6 +102,9 @@ function MyApp({ Component, pageProps }) {
         const irods = {
             home_path: publicRuntimeConfig.IRODS_HOME_PATH,
         };
+        const sessions = {
+            poll_interval_ms: publicRuntimeConfig.SESSION_POLL_INTERVAL_MS,
+        };
         const tools = {
             private: {
                 max_cpu_limit: publicRuntimeConfig.TOOLS_PRIVATE_MAX_CPU_LIMIT,
@@ -112,8 +115,8 @@ function MyApp({ Component, pageProps }) {
             },
         };
 
-        if (intercom || admin || irods || tools) {
-            setConfig({ intercom, admin, irods, tools });
+        if (intercom || admin || irods || sessions || tools) {
+            setConfig({ intercom, admin, irods, sessions, tools });
         }
         const jssStyles = document.querySelector("#jss-server-side");
         if (jssStyles) {

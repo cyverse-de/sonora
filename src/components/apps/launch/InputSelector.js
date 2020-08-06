@@ -88,7 +88,7 @@ const InputSelector = ({ intl, acceptedType, startingPath, ...props }) => {
 
     const inputProps = {
         readOnly: true,
-        endAdornment:
+        endAdornment: (
             <InputAdornment position="end">
                 <BrowseButton
                     baseId={id}
@@ -101,6 +101,7 @@ const InputSelector = ({ intl, acceptedType, startingPath, ...props }) => {
                     }}
                 />
             </InputAdornment>
+        ),
     };
 
     if (field.value && !required) {

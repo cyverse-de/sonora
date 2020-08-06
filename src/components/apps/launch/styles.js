@@ -6,7 +6,6 @@ export default (theme) => ({
     },
     stepContainer: {
         overflow: "auto",
-
     },
     spacer: {
         margin: theme.spacing(1),
@@ -29,8 +28,14 @@ export default (theme) => ({
         backgroundColor: theme.palette.primary.main,
     },
     bottomNavigationAction: {
-        flexGrow: 1,
-        color: theme.palette.primary.contrastText,
+        [theme.breakpoints.down("xs")]: {
+            width: "100%",
+            margin: theme.spacing(0.5),
+        },
+        [theme.breakpoints.up("sm")]: {
+            flexGrow: 1,
+            color: theme.palette.primary.contrastText,
+        },
     },
     paramsReview: {
         margin: theme.spacing(1),

@@ -52,6 +52,7 @@ import {
 import {
     Box,
     Button,
+    Container,
     MobileStepper,
     Stepper,
     Step,
@@ -80,7 +81,7 @@ const useStyles = makeStyles(styles);
 const NAVIGATION_BAR_HEIGHT = 105;
 
 //include mobile stepper navigation height
-const MOBILE_NAVIGATION_BAR_HEIGHT = 135;
+const MOBILE_NAVIGATION_BAR_HEIGHT = 155;
 
 const ReferenceGenomeParamTypes = [
     constants.PARAM_TYPE.REFERENCE_GENOME,
@@ -95,7 +96,10 @@ const StepContent = ({ id, hidden, step, label, children, offsetHeight }) => {
         <PageWrapper appBarHeight={offsetHeight}>
             <fieldset id={id} hidden={hidden}>
                 <legend>
-                    <Typography variant={isMobile? "subtitle2": "caption"} color={isMobile ? "primary" : "inherit"}>
+                    <Typography
+                        variant={isMobile ? "subtitle2" : "caption"}
+                        color={isMobile ? "primary" : "inherit"}
+                    >
                         {getMessage("stepLabel", {
                             values: { step: step + 1, label },
                         })}
@@ -123,13 +127,10 @@ const StepperBottomNavigation = React.forwardRef((props, ref) => {
     if (isMobile) {
         if (showSubmitButton) {
             return (
-                <Toolbar
-                    variant="dense"
-                    className={classes.bottomNavigation}
-                    ref={ref}
-                >
+                <Container ref={ref}>
                     {showSaveQuickLaunchButton && (
                         <Button
+                            color="primary"
                             className={classes.bottomNavigationAction}
                             id={buildDebugId(
                                 formId,
@@ -137,21 +138,24 @@ const StepperBottomNavigation = React.forwardRef((props, ref) => {
                             )}
                             startIcon={<Save />}
                             size="small"
+                            variant="contained"
                             onClick={handleSaveQuickLaunch}
                         >
                             {getMessage("saveAsQuickLaunch")}
                         </Button>
                     )}
                     <Button
+                        color="primary"
                         className={classes.bottomNavigationAction}
                         id={buildDebugId(formId, ids.BUTTONS.SUBMIT)}
                         startIcon={<PlayArrow />}
                         size="small"
+                        variant="contained"
                         onClick={(event) => handleSubmit(event)}
                     >
                         {getMessage("launchAnalysis")}
                     </Button>
-                </Toolbar>
+                </Container>
             );
         } else {
             return <div ref={ref} />;

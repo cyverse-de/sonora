@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect, useEffect } from "react";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
 
@@ -66,6 +66,12 @@ export const cleanField = (field, comparator) => {
 export const cleanDescription = (description) =>
     cleanField(description, constants.DESC_MAX_LENGTH);
 
+// Adapted from https://medium.com/@alexandereardon/uselayouteffect-and-ssr-192986cdcf7a
+// Should get react to shut up about useLayoutEffect with SSR, which gets displayed even
+// though we actually have a legitimate use-case for useLayoutEffect below.
+const useIsomorphicLayoutEffect =
+    typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
 // Adapted from https://stackoverflow.com/questions/49058890/how-to-get-a-react-components-size-height-width-before-render
 // and https://stackoverflow.com/questions/19014250/rerender-view-on-browser-resize-with-react/19014495#19014495
 export const useDashboardSettings = ({ marginRight = 16, dashboardEl }) => {
@@ -79,7 +85,7 @@ export const useDashboardSettings = ({ marginRight = 16, dashboardEl }) => {
     const [cardHeight, setCardHeight] = useState(0);
     const [numColumns, setNumColumns] = useState(0);
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         function updater() {
             if (dashboardEl.current) {
                 setDimensions({
@@ -105,7 +111,7 @@ export const useDashboardSettings = ({ marginRight = 16, dashboardEl }) => {
 
     // This is used because media queries misbehave on the server and this lets
     // us set values before rendering occurs.
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         const { width, paddingLeft, paddingRight } = dimensions;
 
         let newColumns;

@@ -198,7 +198,7 @@ function GlobalSearchField(props) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
-    //get from cache if not fetch now.
+    //get bootstrap from cache.
     const bootstrapCache = queryCache.getQueryData(BOOTSTRAP_KEY);
 
     const {
@@ -306,7 +306,7 @@ function GlobalSearchField(props) {
                 },
             ]);
             setAppsSearchQueryEnabled(true);
-            console.log("test->" + bootstrapCache?.data_info.user_home_path);
+       
             const userHomeDir = bootstrapCache?.data_info.user_home_path + "/";
             const dataQuery = getDataSimpleSearchQuery(
                 searchTerm,
@@ -318,10 +318,9 @@ function GlobalSearchField(props) {
             setDataSearchKey([DATA_SEARCH_QUERY_KEY, { query: dataQuery }]);
             setDataSearchQueryEnabled(true);
         }
-    }, [searchTerm]);
+    }, [bootstrapCache, searchTerm]);
 
     if (analysesSearchError || appsSearchError || dataSearchError) {
-        console.log("error when searching...");
         showErrorAnnouncer(
             t("searchError"),
             analysesSearchError || appsSearchError || dataSearchError

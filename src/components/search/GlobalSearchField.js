@@ -58,21 +58,6 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(0),
         margin: theme.spacing(0),
     },
-    search: {
-        position: "relative",
-        marginRight: 0,
-        marginLeft: 0,
-        [theme.breakpoints.up("sm")]: {
-            marginLeft: theme.spacing(2),
-            width: "60%",
-        },
-        [theme.breakpoints.down("xs")]: {
-            backgroundColor: theme.palette.bgGray,
-            float: "left",
-            margin: theme.spacing(1),
-            width: "50%",
-        },
-    },
     searchFilter: {
         marginRight: theme.spacing(4),
         height: theme.spacing(3.6),

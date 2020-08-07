@@ -78,6 +78,7 @@ export default {
     DIALOG: {
         CANCEL: "cancel",
         CONFIRM: "confirm",
+        DELETE: "delete",
         RELAUNCH: "relaunch",
         TITLE: "title",
     },

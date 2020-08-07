@@ -61,6 +61,18 @@ const isBatchAnalysis = (analysis) => {
 };
 
 /**
+ * Checks if the user can delete all the given analyses.
+ *
+ * @param {array} analyses
+ * @param {string} currentUser
+ * @returns {boolean} false if any analysis does not belong to the current user
+ */
+const allowAnalysesDelete = (analyses, currentUser) =>
+    analyses &&
+    analyses.length > 0 &&
+    !analyses.find((analysis) => currentUser !== getAnalysisUser(analysis));
+
+/**
  * Check if selected analyses can be relaunched
  * @param {array} selectedAnalyses
  * @returns {boolean}
@@ -110,6 +122,7 @@ export {
     isInteractive,
     allowAnalysisTimeExtn,
     isBatchAnalysis,
+    allowAnalysesDelete,
     allowAnalysesRelaunch,
     getAnalysisRelaunchPage,
     getListingPath,

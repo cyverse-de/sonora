@@ -12,6 +12,7 @@ import { useTranslation } from "i18n";
 
 import {
     ANALYSES_LISTING_QUERY_KEY,
+    deleteAnalyses,
     getAnalyses,
     relaunchAnalyses,
 } from "serviceFacades/analyses";
@@ -19,6 +20,7 @@ import constants from "../../../constants";
 import DEPagination from "../../utils/DEPagination";
 import Drawer from "../details/Drawer";
 
+import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import MultiRelaunchWarningDialog from "./MultiRelaunchWarningDialog";
 import TableView from "./TableView";
 
@@ -80,6 +82,8 @@ function Listing(props) {
     const [detailsAnalysis, setDetailsAnalysis] = useState(null);
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
+
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [relaunchDialogOpen, setRelaunchDialogOpen] = useState(false);
 
     const [analysesKey, setAnalysesKey] = useState(ANALYSES_LISTING_QUERY_KEY);
@@ -95,6 +99,14 @@ function Listing(props) {
             enabled: analysesListingQueryEnabled,
             onSuccess: setData,
         },
+    });
+
+    const [
+        deleteAnalysesMutation,
+        { isLoading: deleteLoading, error: deleteError },
+    ] = useMutation(deleteAnalyses, {
+        onSuccess: () =>
+            queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY),
     });
 
     const [
@@ -403,6 +415,15 @@ function Listing(props) {
         relaunchAnalysesMutation(selected);
     };
 
+    const handleDelete = () => {
+        setDeleteDialogOpen(true);
+    };
+
+    const confirmDelete = () => {
+        setDeleteDialogOpen(false);
+        deleteAnalysesMutation(selected);
+    };
+
     const getSelectedAnalyses = (analyses) => {
         const items = analyses ? analyses : selected;
         return items.map((id) =>
@@ -429,12 +450,13 @@ function Listing(props) {
                 onDetailsSelected={onDetailsSelected}
                 handleInteractiveUrlClick={handleInteractiveUrlClick}
                 handleGoToOutputFolder={handleGoToOutputFolder}
+                handleDelete={handleDelete}
                 handleRelaunch={handleRelaunch}
                 handleBatchIconClick={handleBatchIconClick}
             />
             <TableView
-                loading={isFetching || relaunchLoading}
-                error={error || relaunchError}
+                loading={isFetching || deleteLoading || relaunchLoading}
+                error={error || deleteError || relaunchError}
                 listing={data}
                 baseId={baseId}
                 order={order}
@@ -448,6 +470,13 @@ function Listing(props) {
                 handleGoToOutputFolder={handleGoToOutputFolder}
                 handleRelaunch={handleRelaunch}
                 handleBatchIconClick={handleBatchIconClick}
+            />
+
+            <DeleteConfirmationDialog
+                open={deleteDialogOpen}
+                baseId={baseId}
+                onClose={() => setDeleteDialogOpen(false)}
+                confirmDelete={confirmDelete}
             />
 
             <MultiRelaunchWarningDialog

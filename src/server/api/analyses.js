@@ -53,6 +53,19 @@ export default function analysesRouter() {
         })
     );
 
+    logger.info("adding the POST /analyses/shredder handler");
+    api.post(
+        "/analyses/shredder",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/analyses/shredder",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the GET /analyses/:id/history");
     api.get(
         "/analyses/:id/history",

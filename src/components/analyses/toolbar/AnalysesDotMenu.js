@@ -14,6 +14,7 @@ import {
     isInteractive,
     allowAnalysisTimeExtn,
     isBatchAnalysis,
+    allowAnalysesDelete,
     allowAnalysesRelaunch,
 } from "../utils";
 
@@ -33,6 +34,7 @@ import {
     Launch as LaunchIcon,
     PermMedia as OutputFolderIcon,
     Repeat as RelaunchIcon,
+    Delete as DeleteIcon,
     UnfoldMore as UnfoldMoreIcon,
 } from "@material-ui/icons";
 
@@ -43,11 +45,13 @@ function DotMenuItems(props) {
         detailsEnabled,
         handleInteractiveUrlClick,
         handleGoToOutputFolder,
+        handleDelete,
         handleRelaunch,
         handleBatchIconClick,
         isBatch,
         isVICE,
         allowTimeExtn,
+        allowDelete,
         allowRelaunch,
         onClose,
         selectedAnalyses,
@@ -147,6 +151,21 @@ function DotMenuItems(props) {
                 <ListItemText primary={t("extendTime")} />
             </MenuItem>
         ),
+        allowDelete && (
+            <MenuItem
+                key={build(baseId, ids.MENUITEM_DELETE)}
+                id={build(baseId, ids.MENUITEM_DELETE)}
+                onClick={() => {
+                    onClose();
+                    handleDelete(selectedAnalyses);
+                }}
+            >
+                <ListItemIcon>
+                    <DeleteIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("delete")} />
+            </MenuItem>
+        ),
         isMobile && (
             <MenuItem
                 key={build(baseId, ids.MENUITEM_FILTER)}
@@ -180,6 +199,7 @@ function AnalysesDotMenu(props) {
     let isBatch = false,
         isVICE = false,
         allowTimeExtn = false,
+        allowDelete = false,
         allowRelaunch = false;
 
     if (selectedAnalyses) {
@@ -191,6 +211,7 @@ function AnalysesDotMenu(props) {
                 username
             );
         }
+        allowDelete = allowAnalysesDelete(selectedAnalyses, username);
         allowRelaunch = allowAnalysesRelaunch(selectedAnalyses);
     }
 
@@ -204,6 +225,7 @@ function AnalysesDotMenu(props) {
                     isBatch={isBatch}
                     isVICE={isVICE}
                     allowTimeExtn={allowTimeExtn}
+                    allowDelete={allowDelete}
                     allowRelaunch={allowRelaunch}
                     onClose={onClose}
                     isSingleSelection={isSingleSelection}

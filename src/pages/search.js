@@ -12,7 +12,6 @@ export default function Search() {
             <Hidden only={["sm", "md", "lg", "xl"]}>
                 <GlobalSearchField />
             </Hidden>
-            <div>Global search page!</div>
             {searchTerm && (
                 <div>
                     Searching for {searchTerm} with filter {filter}

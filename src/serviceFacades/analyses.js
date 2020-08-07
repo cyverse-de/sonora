@@ -4,6 +4,7 @@ const ANALYSES_LISTING_QUERY_KEY = "fetchAnalysesListingKey";
 const ANALYSIS_HISTORY_QUERY_KEY = "fetchAnalysisHistoryKey";
 const ANALYSIS_PARAMS_QUERY_KEY = "fetchAnalysisParamsKey";
 const ANALYSIS_RELAUNCH_QUERY_KEY = "fetchAnalysisRelaunchKey";
+const ANALYSES_SEARCH_QUERY_KEY = "searchAnalysesKey";
 
 function getAnalyses(key, { rowsPerPage, orderBy, order, page, filter }) {
     return callApi({
@@ -71,4 +72,5 @@ export {
     ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSIS_PARAMS_QUERY_KEY,
     ANALYSIS_RELAUNCH_QUERY_KEY,
+    ANALYSES_SEARCH_QUERY_KEY,
 };

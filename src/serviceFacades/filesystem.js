@@ -5,6 +5,7 @@ export const USER_INFO_QUERY_KEY = "fetchUserInfo";
 export const RESOURCE_PERMISSIONS_KEY = "fetchResourcePermissions";
 export const DATA_ROOTS_QUERY_KEY = "fetchDataRoots";
 export const DATA_DETAILS_QUERY_KEY = "fetchDataDetails";
+export const DATA_SEARCH_QUERY_KEY = "searchData";
 
 /**
  * Get details on data resources

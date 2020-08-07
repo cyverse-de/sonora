@@ -14,7 +14,7 @@ import {
     isInteractive,
     allowAnalysisTimeExtn,
     isBatchAnalysis,
-    allowAnalyesRelaunch,
+    allowAnalysesRelaunch,
 } from "../utils";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
@@ -191,7 +191,7 @@ function AnalysesDotMenu(props) {
                 username
             );
         }
-        allowRelaunch = allowAnalyesRelaunch(selectedAnalyses);
+        allowRelaunch = allowAnalysesRelaunch(selectedAnalyses);
     }
 
     return (

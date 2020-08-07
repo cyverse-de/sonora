@@ -65,7 +65,7 @@ const isBatchAnalysis = (analysis) => {
  * @param {array} selectedAnalyses
  * @returns {boolean}
  */
-const allowAnalyesRelaunch = (selectedAnalyses) => {
+const allowAnalysesRelaunch = (selectedAnalyses) => {
     if (!selectedAnalyses || selectedAnalyses.length === 0) {
         return false;
     }
@@ -110,7 +110,7 @@ export {
     isInteractive,
     allowAnalysisTimeExtn,
     isBatchAnalysis,
-    allowAnalyesRelaunch,
+    allowAnalysesRelaunch,
     getAnalysisRelaunchPage,
     getListingPath,
 };

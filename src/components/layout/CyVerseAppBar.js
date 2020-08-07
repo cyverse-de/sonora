@@ -224,20 +224,31 @@ function CyverseAppBar(props) {
     const [bootstrapError, setBootstrapError] = useState(null);
     const [bootstrapQueryKey, setBootstrapQueryKey] = useState(BOOTSTRAP_KEY);
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
+    const [profileRefetchInterval, setProfileRefetchInterval] = useState(null);
+
+    function updateUserProfile(profile) {
+        if (
+            (profile === null && userProfile !== null) ||
+            (profile !== null && userProfile === null)
+        ) {
+            setUserProfile(profile);
+        }
+    }
 
     useQuery({
         queryKey: USER_PROFILE_QUERY_KEY,
         queryFn: getUserProfile,
         config: {
-            enabled: true,
-            onSuccess: setUserProfile,
-            refetchInterval: clientConfig.sessions.poll_interval_ms,
+            enabled: profileRefetchInterval != null,
+            onSuccess: updateUserProfile,
+            refetchInterval: profileRefetchInterval,
         },
     });
 
     useEffect(() => {
         if (clientConfig) {
             setConfig(clientConfig);
+            setProfileRefetchInterval(clientConfig.sessions.poll_interval_ms);
         }
     }, [clientConfig, setConfig]);
 

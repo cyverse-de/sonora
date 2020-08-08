@@ -113,7 +113,8 @@ function Listing(props) {
         relaunchAnalysesMutation,
         { isLoading: relaunchLoading, error: relaunchError },
     ] = useMutation(relaunchAnalyses, {
-        onSuccess: () => queryCache.invalidateQueries(analysesKey),
+        onSuccess: () =>
+            queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY),
     });
 
     useEffect(() => {

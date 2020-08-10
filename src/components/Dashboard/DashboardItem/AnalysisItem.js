@@ -11,7 +11,7 @@ import { formatDate } from "@cyverse-de/ui-lib";
 
 import * as constants from "../constants";
 
-import ItemBase, { ItemAction, getSectionClass } from "./ItemBase";
+import ItemBase, { ItemAction } from "./ItemBase";
 
 class AnalysisItem extends ItemBase {
     constructor({ section, content, height, width }) {
@@ -68,9 +68,11 @@ class AnalysisItem extends ItemBase {
     }
 
     getAvatarIcon(classes) {
-        const [, avatarClass] = getSectionClass(this.section, classes);
         return (
-            <BarChart color="primary" classes={{ colorPrimary: avatarClass }} />
+            <BarChart
+                color="primary"
+                classes={{ colorPrimary: classes.avatarIcon }}
+            />
         );
     }
 

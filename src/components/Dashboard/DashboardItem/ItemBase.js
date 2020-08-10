@@ -23,7 +23,7 @@ import * as constants from "../constants";
 import * as fns from "../functions";
 import useStyles from "./styles";
 
-const DashboardLink = ({ target, kind, headerClass, children }) => {
+const DashboardLink = ({ target, kind, children }) => {
     const isNewTab =
         kind === constants.KIND_EVENTS || kind === constants.KIND_FEEDS;
 
@@ -34,17 +34,11 @@ const DashboardLink = ({ target, kind, headerClass, children }) => {
             rel="noopener noreferrer"
             color="inherit"
             underline="always"
-            classes={{ root: headerClass }}
         >
             {children}
         </Link>
     ) : (
-        <Link
-            href={target}
-            color="inherit"
-            underline="always"
-            classes={{ root: headerClass }}
-        >
+        <Link href={target} color="inherit" underline="always">
             {children}
         </Link>
     );
@@ -59,8 +53,14 @@ const DashboardLink = ({ target, kind, headerClass, children }) => {
  * @returns {Object}
  */
 const DashboardItem = ({ item }) => {
-    const classes = useStyles({ width: item.width, height: item.height });
     const theme = useTheme();
+    const color = getSectionColor(item.section, theme);
+    const classes = useStyles({
+        width: item.width,
+        height: item.height,
+        color,
+    });
+
     const { t } = useTranslation(["common", "dashboard"]);
 
     const isMediumOrLarger = useMediaQuery(theme.breakpoints.up("md"));
@@ -70,8 +70,6 @@ const DashboardItem = ({ item }) => {
 
     const description = fns.cleanDescription(item.content.description);
     const [origination, date] = item.getOrigination(t);
-
-    const rootClass = clsx(classes.cardHeaderDefault, item.headerClass);
 
     return (
         <Card
@@ -88,7 +86,7 @@ const DashboardItem = ({ item }) => {
                     )
                 }
                 classes={{
-                    root: rootClass,
+                    root: classes.cardHeaderDefault,
                     content: classes.cardHeaderContent,
                 }}
                 title={
@@ -101,7 +99,6 @@ const DashboardItem = ({ item }) => {
                         <DashboardLink
                             target={item.getLinkTarget()}
                             kind={item.kind}
-                            headerClass={item.headerClass}
                         >
                             {item.content.name}
                         </DashboardLink>
@@ -163,11 +160,7 @@ export const DashboardFeedItem = ({ item }) => {
             )}
         >
             <Typography variant="h6" color="primary">
-                <DashboardLink
-                    target={item.getLinkTarget()}
-                    kind={item.kind}
-                    headerClass={item.headerClass}
-                >
+                <DashboardLink target={item.getLinkTarget()} kind={item.kind}>
                     {item.content.name}
                 </DashboardLink>
             </Typography>
@@ -208,36 +201,31 @@ export const ItemAction = ({ children, ariaLabel, handleClick }) => (
     </IconButton>
 );
 
-export const getSectionClass = (section, classes) => {
-    let header;
-    let avatar;
+export const getSectionColor = (section, theme) => {
+    let color;
+
     switch (section) {
         case constants.SECTION_EVENTS:
-            header = classes.cardHeaderEvents;
-            avatar = classes.cardHeaderEventsAvatar;
+            color = theme.palette.primary.violet;
             break;
         case constants.SECTION_NEWS:
-            header = classes.cardHeaderNews;
-            avatar = classes.cardHeaderNewsAvatar;
+            color = theme.palette.indigo;
             break;
         case constants.SECTION_PUBLIC:
-            header = classes.cardHeaderPublic;
-            avatar = classes.cardHeaderPublicAvatar;
+            color = theme.palette.darkNavy;
             break;
         case constants.SECTION_RECENT:
-            header = classes.cardHeaderRecent;
-            avatar = classes.cardHeaderRecentAvatar;
+            color = theme.palette.navy;
             break;
         case constants.SECTION_RECENTLY_ADDED:
-            header = classes.cardHeaderRecentlyAdded;
-            avatar = classes.cardHeaderRecentlyAddedAvatar;
+            color = theme.palette.gold;
             break;
         default:
-            header = classes.cardHeaderDefault;
-            avatar = classes.cardHeaderDefaultAvatar;
+            color = theme.palette.primary.main;
             break;
     }
-    return [header, avatar];
+
+    return color;
 };
 
 class ItemBase {

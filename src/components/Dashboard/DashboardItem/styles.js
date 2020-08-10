@@ -6,47 +6,16 @@ export default makeStyles((theme) => ({
     },
     avatar: {
         background: theme.palette.white,
-        color: theme.palette.gray,
     },
     cardHeaderDefault: {
-        background: theme.palette.primary.main,
+        background: (props) => props.color,
         marginBottom: theme.spacing(2),
     },
-    cardHeaderDefaultAvatar: {
-        color: theme.palette.primary.main,
+    avatarIcon: {
+        color: (props) => props.color,
     },
     cardHeaderContent: {
         width: "75%",
-    },
-    cardHeaderEvents: {
-        background: theme.palette.violet,
-    },
-    cardHeaderEventsAvatar: {
-        color: theme.palette.violet,
-    },
-    cardHeaderNews: {
-        background: theme.palette.indigo,
-    },
-    cardHeaderNewsAvatar: {
-        color: theme.palette.indigo,
-    },
-    cardHeaderPublic: {
-        background: theme.palette.darkNavy,
-    },
-    cardHeaderPublicAvatar: {
-        color: theme.palette.darkNavy,
-    },
-    cardHeaderRecent: {
-        background: theme.palette.navy,
-    },
-    cardHeaderRecentAvatar: {
-        color: theme.palette.navy,
-    },
-    cardHeaderRecentlyAdded: {
-        background: theme.palette.gold,
-    },
-    cardHeaderRecentlyAddedAvatar: {
-        color: theme.palette.gold,
     },
     cardHeaderText: {
         color: theme.palette.white,

@@ -12,11 +12,7 @@ import { formatDate } from "@cyverse-de/ui-lib";
 import * as fns from "../functions";
 import * as constants from "../constants";
 
-import ItemBase, {
-    ItemAction,
-    DashboardFeedItem,
-    getSectionClass,
-} from "./ItemBase";
+import ItemBase, { ItemAction, DashboardFeedItem } from "./ItemBase";
 
 class EventItem extends ItemBase {
     constructor({ section, content, height, width }) {
@@ -72,9 +68,11 @@ class EventItem extends ItemBase {
     }
 
     getAvatarIcon(classes) {
-        const [, avatarClass] = getSectionClass(this.section, classes);
         return (
-            <Event color="primary" classes={{ colorPrimary: avatarClass }} />
+            <Event
+                color="primary"
+                classes={{ colorPrimary: classes.avatarIcon }}
+            />
         );
     }
 

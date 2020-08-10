@@ -6,8 +6,11 @@
 
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
+import { useRouter } from "next/router";
 
 import { useQuery, queryCache } from "react-query";
+
+import NavigationConstants from "../../common/NavigationConstants";
 
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
 import {
@@ -172,6 +175,7 @@ function AnalysesSearchOption(resultItem) {
 function GlobalSearchField(props) {
     const classes = useStyles();
     const { showErrorAnnouncer } = props;
+    const router = useRouter();
 
     const { t } = useTranslation(["common"]);
 
@@ -278,8 +282,25 @@ function GlobalSearchField(props) {
     }, [open]);
 
     useEffect(() => {
-        //console.log("selected value=>" + JSON.stringify(value));
-    }, [value]);
+        console.log("selected value=>" + JSON.stringify(value));
+        switch (value?.resultType) {
+            case t("data"):
+                router.push(
+                    `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${value._source.path}`
+                );
+                break;
+            case t("apps"):
+                router.push(
+                    `/${NavigationConstants.APPS}/${value.system_id}/${value.id}`
+                );
+                break;
+            case t("analyses"):
+                router.push(`/${NavigationConstants.ANALYSES}/${value.id}`);
+                break;
+            default:
+                console.log("Unknown option");
+        }
+    }, [router, t, value]);
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {

@@ -45,6 +45,7 @@ export default {
     MENUITEM_BATCH_FILTER: "viewBatchDetails",
     MENUITEM_GOTO_VICE: "gotoVICE",
     MENUITEM_EXTEND_TIME_LIMIT: "extendTimeLimit",
+    MENUITEM_FILTER: "filters",
 
     VIEW_PARAMS: ".viewParamsView",
 

@@ -23,7 +23,6 @@ import MultiRelaunchWarningDialog from "./MultiRelaunchWarningDialog";
 import TableView from "./TableView";
 
 import AnalysesToolbar, { getOwnershipFilters } from "../toolbar/Toolbar";
-import { getAppTypeFilters } from "components/apps/toolbar/AppNavigation";
 import appType from "components/models/AppType";
 
 import { useUserProfile } from "contexts/userProfile";
@@ -49,19 +48,33 @@ const filter = {
 };
 
 function Listing(props) {
-    const { baseId, handleGoToOutputFolder, handleSingleRelaunch } = props;
+    const {
+        baseId,
+        onRouteToListing,
+        handleGoToOutputFolder,
+        handleSingleRelaunch,
+        selectedPage,
+        selectedRowsPerPage,
+        selectedOrder,
+        selectedOrderBy,
+        selectedPermFilter,
+        selectedTypeFilter,
+    } = props;
     const { t } = useTranslation("analyses");
     const [isGridView, setGridView] = useState(false);
-    const [order, setOrder] = useState("desc");
-    const [orderBy, setOrderBy] = useState("startdate");
+
+    const [order, setOrder] = useState(selectedOrder);
+    const [orderBy, setOrderBy] = useState(selectedOrderBy);
+    const [page, setPage] = useState(selectedPage);
+    const [rowsPerPage, setRowsPerPage] = useState(selectedRowsPerPage);
+    const [permFilter, setPermFilter] = useState(selectedPermFilter);
+    const [appTypeFilter, setAppTypeFilter] = useState(selectedTypeFilter);
+
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(25);
     const [data, setData] = useState(null);
     const [parentAnalysis, setParentAnalyses] = useState(null);
-    const [permFilter, setPermFilter] = useState(getOwnershipFilters(t)[0]);
-    const [appTypeFilter, setAppTypeFilter] = useState(getAppTypeFilters()[0]);
+
     const [userProfile] = useUserProfile();
     const [currentNotification] = useNotifications();
     const [detailsAnalysis, setDetailsAnalysis] = useState(null);
@@ -90,6 +103,48 @@ function Listing(props) {
     ] = useMutation(relaunchAnalyses, {
         onSuccess: () => queryCache.invalidateQueries(analysesKey),
     });
+
+    useEffect(() => {
+        const permFilterChanged = selectedPermFilter?.name !== permFilter?.name;
+
+        const typeFilterChanged =
+            selectedTypeFilter?.name !== appTypeFilter?.name;
+
+        if (
+            permFilterChanged ||
+            typeFilterChanged ||
+            selectedOrder !== order ||
+            selectedOrderBy !== orderBy ||
+            selectedPage !== page ||
+            selectedRowsPerPage !== rowsPerPage
+        ) {
+            //JSON objects needs to stringified for urls.
+            const stringPermFilter = JSON.stringify(permFilter);
+            const stringTypeFilter = JSON.stringify(appTypeFilter);
+            onRouteToListing(
+                order,
+                orderBy,
+                page,
+                rowsPerPage,
+                stringPermFilter,
+                stringTypeFilter
+            );
+        }
+    }, [
+        appTypeFilter,
+        onRouteToListing,
+        order,
+        orderBy,
+        page,
+        permFilter,
+        rowsPerPage,
+        selectedOrder,
+        selectedOrderBy,
+        selectedPage,
+        selectedPermFilter,
+        selectedTypeFilter,
+        selectedRowsPerPage,
+    ]);
 
     useEffect(() => {
         const filters = [];
@@ -330,7 +385,7 @@ function Listing(props) {
     const handleClearBatch = () => {
         setParentAnalyses(null);
         setPermFilter(getOwnershipFilters(t)[0]);
-        setAppTypeFilter(getAppTypeFilters()[0]);
+        setAppTypeFilter(null);
     };
 
     const handleRelaunch = (analyses) => {

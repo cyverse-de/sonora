@@ -53,3 +53,19 @@ export const unshareApps = ({ appUnsharingRequest }) => {
         body: appUnsharingRequest,
     });
 };
+
+export const shareAnalyses = ({ analysisSharingRequest }) => {
+    return callApi({
+        endpoint: `/api/analyses/sharing`,
+        method: "POST",
+        body: analysisSharingRequest,
+    });
+};
+
+export const unshareAnalyses = ({ analysisUnsharingRequest }) => {
+    return callApi({
+        endpoint: `/api/analyses/unsharing`,
+        method: "POST",
+        body: analysisUnsharingRequest,
+    });
+};

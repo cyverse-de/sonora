@@ -121,6 +121,16 @@ function cancelAnalyses({
     );
 }
 
+function getAnalysisPermissions({ analyses }) {
+    return callApi({
+        endpoint: `/api/analyses/permission-lister`,
+        method: "POST",
+        body: {
+            analyses,
+        },
+    });
+}
+
 export {
     cancelAnalyses,
     cancelAnalysis,
@@ -128,6 +138,7 @@ export {
     getAnalysisHistory,
     getAnalysisParameters,
     getAnalysisRelaunchInfo,
+    getAnalysisPermissions,
     deleteAnalyses,
     relaunchAnalyses,
     renameAnalysis,

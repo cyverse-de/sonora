@@ -332,3 +332,156 @@ export const appUnshareResponse = {
         },
     ],
 };
+export const analysisPermissionRequest = {
+    analyses: [
+        "07a3e96e-c21c-11ea-aa22-008cfa5ae621",
+        "07a3e96e-c21c-11ea-aa22-008cfa5ae622",
+    ],
+};
+
+export const analysisPermissionResponse = {
+    analyses: [
+        {
+            id: "07a3e96e-c21c-11ea-aa22-008cfa5ae621",
+            name: "MMTF Analysis",
+            permissions: [
+                {
+                    subject: {
+                        source_id: "ldap",
+                        id: "user_a",
+                    },
+                    permission: "read",
+                },
+                {
+                    subject: {
+                        source_id: "ldap",
+                        id: "user_b",
+                    },
+                    permission: "write",
+                },
+                {
+                    subject: {
+                        source_id: "ldap",
+                        id: "user_c",
+                    },
+                    permission: "own",
+                },
+            ],
+        },
+        {
+            id: "07a3e96e-c21c-11ea-aa22-008cfa5ae622",
+            name: "Trinity Analysis",
+            permissions: [
+                {
+                    subject: {
+                        source_id: "ldap",
+                        id: "user_a",
+                    },
+                    permission: "write",
+                },
+            ],
+        },
+    ],
+};
+
+export const analysisShareRequest = {
+    sharing: [
+        {
+            subject: {
+                source_id: "ldap",
+                id: "batman_test",
+            },
+            analyses: [
+                {
+                    analysis_id: "07a3e96e-c21c-11ea-aa22-008cfa5ae621",
+                    permission: "read",
+                },
+            ],
+        },
+        {
+            subject: {
+                source_id: "ldap",
+                id: "user_a",
+            },
+            analyses: [
+                {
+                    analysis_id: "07a3e96e-c21c-11ea-aa22-008cfa5ae6212",
+                    permission: "own",
+                },
+            ],
+        },
+    ],
+};
+
+export const analysisShareResponse = {
+    sharing: [
+        {
+            subject: { source_id: "ldap", id: "batman_test" },
+            analyses: [
+                {
+                    analysis_id: "07a3e96e-c21c-11ea-aa22-008cfa5ae621",
+                    permission: "read",
+                    analysis_name: "Wordiest_Count_analysis1",
+                    success: true,
+                    input_errors: [
+                        "unable to share input file, /iplant/home/aramsey/sample1.newick: ERR_DOES_NOT_EXIST",
+                    ],
+                },
+            ],
+        },
+        {
+            subject: { source_id: "ldap", id: "user_a" },
+            analyses: [
+                {
+                    analysis_id: "07a3e96e-c21c-11ea-aa22-008cfa5ae622",
+                    permission: "owm",
+                    analysis_name: "MMTF_analysis1",
+                    success: true,
+                },
+            ],
+        },
+    ],
+};
+
+export const analysisUnshareRequest = {
+    unsharing: [
+        {
+            subject: {
+                source_id: "ldap",
+                id: "user_a",
+            },
+            analyses: [
+                {
+                    analysis_id: "07a3e96e-c21c-11ea-aa22-008cfa5ae622",
+                },
+            ],
+        },
+        {
+            subject: {
+                source_id: "ldap",
+                id: "user_a",
+            },
+            analyses: [
+                {
+                    analysis_id: "07a3e96e-c21c-11ea-aa22-008cfa5ae6212",
+                    permission: "own",
+                },
+            ],
+        },
+    ],
+};
+
+export const analysisUnshareResponse = {
+    unsharing: [
+        {
+            subject: { source_id: "ldap", id: "user_a" },
+            analyses: [
+                {
+                    analysis_id: "07a3e96e-c21c-11ea-aa22-008cfa5ae622",
+                    analysis_name: "MMTF_analysis1",
+                    success: true,
+                },
+            ],
+        },
+    ],
+};

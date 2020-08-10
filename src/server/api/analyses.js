@@ -121,5 +121,18 @@ export default function analysesRouter() {
         })
     );
 
+    logger.info("adding the POST /analyses/permission-lister handler");
+    api.post(
+        "/analyses/permission-lister",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/analyses/permission-lister",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

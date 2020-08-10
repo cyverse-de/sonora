@@ -105,10 +105,6 @@ function Listing(props) {
     });
 
     useEffect(() => {
-        //JSON objects needs to stringified for urls.
-        const stringPermFilter = JSON.stringify(permFilter);
-        const stringTypeFilter = JSON.stringify(appTypeFilter);
-
         const permFilterChanged = selectedPermFilter?.name !== permFilter?.name;
 
         const typeFilterChanged =
@@ -122,6 +118,9 @@ function Listing(props) {
             selectedPage !== page ||
             selectedRowsPerPage !== rowsPerPage
         ) {
+            //JSON objects needs to stringified for urls.
+            const stringPermFilter = JSON.stringify(permFilter);
+            const stringTypeFilter = JSON.stringify(appTypeFilter);
             onRouteToListing(
                 order,
                 orderBy,

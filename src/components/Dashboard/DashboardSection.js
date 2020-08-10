@@ -9,7 +9,7 @@ import useStyles from "./styles";
 import * as fns from "./functions";
 import * as constants from "./constants";
 import ids from "./ids";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 const DashboardSection = ({
     name,

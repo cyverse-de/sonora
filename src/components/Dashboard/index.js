@@ -9,7 +9,7 @@ import React, { useRef } from "react";
 
 import { useQuery } from "react-query";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import { Typography, useMediaQuery } from "@material-ui/core";
 

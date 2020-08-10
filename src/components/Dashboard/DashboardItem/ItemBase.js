@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import {
     Avatar,
@@ -61,7 +61,7 @@ const DashboardLink = ({ target, kind, headerClass, children }) => {
 const DashboardItem = ({ item }) => {
     const classes = useStyles({ width: item.width, height: item.height });
     const theme = useTheme();
-    const { t } = useTranslation("dashboard");
+    const { t } = useTranslation(["common", "dashboard"]);
 
     const isMediumOrLarger = useMediaQuery(theme.breakpoints.up("md"));
 

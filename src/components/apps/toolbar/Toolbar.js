@@ -4,6 +4,11 @@ import ids from "../ids";
 import messages from "../messages";
 import { injectIntl } from "react-intl";
 
+import appType from "../../models/AppType";
+import AppsDotMenu from "./AppsDotMenu";
+import DisplayTypeSelector from "../../utils/DisplayTypeSelector";
+import AppNavigation, { getAppTypeFilters } from "./AppNavigation";
+
 import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
 import {
     Button,
@@ -14,13 +19,10 @@ import {
     DialogActions,
     DialogContent,
 } from "@material-ui/core";
-import DisplayTypeSelector from "../../utils/DisplayTypeSelector";
-import AppNavigation, { getAppTypeFilters } from "./AppNavigation";
+
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import appType from "../../models/AppType";
-import { Info } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
-import AppsDotMenu from "./AppsDotMenu";
+import { Info, FilterList as FilterListIcon } from "@material-ui/icons";
 
 /**
  *
@@ -90,6 +92,7 @@ function AppsToolbar(props) {
         handleFilterChange,
         handleAppNavError,
         setCategoryStatus,
+        viewAllApps,
         filter,
         selectedCategory,
         isGridView,
@@ -121,6 +124,18 @@ function AppsToolbar(props) {
                     selectedCategory={selectedCategory}
                     handleAppNavError={handleAppNavError}
                 />
+                {viewAllApps && (
+                    <Button
+                        id={build(appsToolbarId, ids.VIEW_ALL_APPS)}
+                        variant="outlined"
+                        disableElevation
+                        color="primary"
+                        onClick={viewAllApps}
+                        startIcon={<FilterListIcon />}
+                    >
+                        {getMessage("viewAllApps")}
+                    </Button>
+                )}
                 <div className={classes.divider} />
                 <Hidden xsDown>
                     <AppsTypeFilter

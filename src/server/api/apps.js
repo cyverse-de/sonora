@@ -36,6 +36,16 @@ export default function appsRouter() {
         })
     );
 
+    logger.info("adding the GET /apps/:systemId/:appId handler");
+    api.get(
+        "/apps/:systemId/:appId/listing",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/:systemId/:appId/listing",
+        })
+    );
+
     logger.info(
         "adding the GET /apps/categories/:systemId/:categoryId handler"
     );

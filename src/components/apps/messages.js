@@ -100,6 +100,7 @@ const intlData = {
         ariaTableListing: "Apps table listing",
         fetchCategoryError: "Unable to get App categories. Please try again.",
         done: "Done",
+        viewAllApps: "View All Apps",
     },
 };
 

@@ -11,6 +11,7 @@ const APPS_IN_CATEGORY_QUERY_KEY = "fetchAppsInCategory";
 const APP_DESCRIPTION_QUERY_KEY = "fetchAppDescription";
 const APP_CATEGORIES_QUERY_KEY = "fetchPrivateCategories";
 const APPS_SEARCH_QUERY_KEY = "searchApps";
+const APP_BY_ID_QUERY_KEY = "fetchAppById";
 
 const getAppTypeFilter = (appTypeFilter) => {
     const typeFilter =
@@ -25,6 +26,13 @@ function getApps(key, { rowsPerPage, orderBy, order, page, appTypeFilter }) {
         endpoint: `/api/apps?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
             rowsPerPage * page
         }${getAppTypeFilter(appTypeFilter)}`,
+        method: "GET",
+    });
+}
+
+function getAppById(key, { systemId, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}/listing`,
         method: "GET",
     });
 }
@@ -104,6 +112,7 @@ function searchApps(key, { search, rowsPerPage, orderBy, order, page }) {
 
 export {
     getApps,
+    getAppById,
     getPrivateCategories,
     getAppsInCategory,
     getAppDescription,
@@ -117,4 +126,5 @@ export {
     APP_DESCRIPTION_QUERY_KEY,
     APP_CATEGORIES_QUERY_KEY,
     APPS_SEARCH_QUERY_KEY,
+    APP_BY_ID_QUERY_KEY,
 };

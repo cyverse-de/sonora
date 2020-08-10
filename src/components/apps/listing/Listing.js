@@ -22,8 +22,10 @@ import {
     appFavorite,
     getAppDetails,
     getApps,
+    getAppById,
     getAppsInCategory,
     rateApp,
+    APP_BY_ID_QUERY_KEY,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,
@@ -38,6 +40,8 @@ function Listing({
     baseId,
     onRouteToApp,
     onRouteToListing,
+    selectedSystemId,
+    selectedAppId,
     selectedPage,
     selectedRowsPerPage,
     selectedOrder,
@@ -76,14 +80,16 @@ function Listing({
     const [allAppsKey, setAllAppsKey] = useState(ALL_APPS_QUERY_KEY);
     const [detailsKey, setDetailsKey] = useState(APP_DETAILS_QUERY_KEY);
 
+    const [appByIdKey, setAppByIdKey] = useState(APP_BY_ID_QUERY_KEY);
+
     const [
         appsInCategoryQueryEnabled,
         setAppsInCategoryQueryEnabled,
     ] = useState(false);
     const [allAppsQueryEnabled, setAllAppsQueryEnabled] = useState(false);
     const [detailsQueryEnabled, setDetailsQueryEnabled] = useState(false);
+    const [appByIdQueryEnabled, setAppByIdQueryEnabled] = useState(false);
 
-    //a query with falsy key will not execute until key is set truthy val
     const {
         isFetching: appInCategoryStatus,
         error: appsInCategoryError,
@@ -116,6 +122,15 @@ function Listing({
                 setFavMutationError(null);
                 setRatingMutationError(null);
             },
+        },
+    });
+
+    const { isFetching: appByIdStatus, error: appByIdError } = useQuery({
+        queryKey: appByIdKey,
+        queryFn: getAppById,
+        config: {
+            enabled: appByIdQueryEnabled,
+            onSuccess: setData,
         },
     });
 
@@ -217,7 +232,15 @@ function Listing({
         const categoryId = category?.id;
         const categoryName = category?.name;
         const appTypeFilter = filter?.name;
-        if (categoryName === constants.BROWSE_ALL_APPS) {
+        if (selectedSystemId && selectedAppId) {
+            setAppByIdKey([
+                APP_BY_ID_QUERY_KEY,
+                { systemId: selectedSystemId, appId: selectedAppId },
+            ]);
+            setAppByIdQueryEnabled(true);
+            setAllAppsQueryEnabled(false);
+            setAppsInCategoryQueryEnabled(false);
+        } else if (categoryName === constants.BROWSE_ALL_APPS) {
             setAllAppsKey([
                 ALL_APPS_QUERY_KEY,
                 {
@@ -230,6 +253,7 @@ function Listing({
             ]);
             setAllAppsQueryEnabled(true);
             setAppsInCategoryQueryEnabled(false);
+            setAppByIdQueryEnabled(false);
         } else if (systemId && categoryId) {
             setAppsInCategoryKey([
                 APPS_IN_CATEGORY_QUERY_KEY,
@@ -245,8 +269,18 @@ function Listing({
             ]);
             setAppsInCategoryQueryEnabled(true);
             setAllAppsQueryEnabled(false);
+            setAppByIdQueryEnabled(false);
         }
-    }, [order, orderBy, page, rowsPerPage, category, filter]);
+    }, [
+        order,
+        orderBy,
+        page,
+        rowsPerPage,
+        category,
+        filter,
+        selectedSystemId,
+        selectedAppId,
+    ]);
 
     useEffect(() => {
         if (data && data.Location && data.status === 302) {
@@ -392,6 +426,20 @@ function Listing({
         [setNavError]
     );
 
+    const handleViewAllApps = () => {
+        onRouteToListing(
+            order,
+            orderBy,
+            0,
+            rowsPerPage,
+            null,
+            JSON.stringify({
+                name: constants.BROWSE_ALL_APPS,
+                id: constants.BROWSE_ALL_APPS_ID,
+            })
+        );
+    };
+
     return (
         <>
             <AgaveAuthPromptDialog
@@ -403,6 +451,9 @@ function Listing({
             <AppsToolbar
                 handleCategoryChange={handleCategoryChange}
                 handleFilterChange={handleFilterChange}
+                viewAllApps={
+                    selectedSystemId && selectedAppId ? handleViewAllApps : null
+                }
                 baseId={baseId}
                 filter={filter}
                 selectedCategory={selectedCategory}
@@ -414,8 +465,18 @@ function Listing({
                 onDetailsSelected={onDetailsSelected}
             />
             <TableView
-                loading={appInCategoryStatus || allAppsStatus || categoryStatus}
-                error={appsInCategoryError || listingError || navError}
+                loading={
+                    appInCategoryStatus ||
+                    allAppsStatus ||
+                    categoryStatus ||
+                    appByIdStatus
+                }
+                error={
+                    appsInCategoryError ||
+                    listingError ||
+                    navError ||
+                    appByIdError
+                }
                 listing={data}
                 baseId={baseId}
                 order={order}

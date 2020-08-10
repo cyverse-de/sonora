@@ -123,3 +123,212 @@ export const dataUnshareResponse = {
         },
     ],
 };
+export const appPermissionListRequest = {
+    apps: [
+        {
+            system_id: "de",
+            app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
+        },
+        {
+            system_id: "de",
+            app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae622",
+        },
+    ],
+};
+
+export const appPermissionListResponse = {
+    apps: [
+        {
+            system_id: "de",
+            app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
+            name: "JupJup",
+            permissions: [
+                {
+                    subject: {
+                        source_id: "ldap",
+                        id: "user_a",
+                    },
+                    permission: "read",
+                },
+                {
+                    subject: {
+                        source_id: "ldap",
+                        id: "user_b",
+                    },
+                    permission: "write",
+                },
+                {
+                    subject: {
+                        id: "1448e0f77d794bc9965dea4bf8eddecb",
+                        source_id: "g:gsa",
+                    },
+                    permission: "own",
+                },
+            ],
+        },
+        {
+            system_id: "de",
+            app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae622",
+            name: "MMTF",
+            permissions: [
+                {
+                    subject: {
+                        source_id: "ldap",
+                        id: "user_a",
+                    },
+                    permission: "read",
+                },
+                {
+                    subject: {
+                        source_id: "ldap",
+                        id: "user_b",
+                    },
+                    permission: "write",
+                },
+                {
+                    subject: {
+                        id: "1448e0f77d794bc9965dea4bf8eddecb",
+                        source_id: "g:gsa",
+                    },
+                    permission: "read",
+                },
+            ],
+        },
+    ],
+};
+
+export const appShareRequest = {
+    sharing: [
+        {
+            subject: {
+                source_id: "ldap",
+                id: "batman_test",
+            },
+            apps: [
+                {
+                    system_id: "de",
+                    app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
+                    permission: "read",
+                },
+            ],
+        },
+        {
+            subject: {
+                id: "1448e0f77d794bc9965dea4bf8eddecb",
+                source_id: "g:gsa",
+            },
+            apps: [
+                {
+                    system_id: "de",
+                    app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae622",
+                    permission: "write",
+                },
+            ],
+        },
+    ],
+};
+
+export const appShareResponse = {
+    sharing: [
+        {
+            subject: {
+                source_id: "ldap",
+                id: "batman_test",
+            },
+            apps: [
+                {
+                    system_id: "de",
+                    app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
+                    permission: "read",
+                    app_name: "JupJup",
+                    success: true,
+                },
+            ],
+        },
+        {
+            subject: {
+                id: "1448e0f77d794bc9965dea4bf8eddecb",
+                source_id: "g:gsa",
+            },
+            apps: [
+                {
+                    system_id: "de",
+                    app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae622",
+                    permission: "read",
+                    app_name: "MMTF",
+                    success: false,
+                    error: {
+                        error_code: 500,
+                        reason: "Does not work",
+                    },
+                },
+            ],
+        },
+    ],
+};
+
+export const appUnshareRequest = {
+    unsharing: [
+        {
+            subject: {
+                source_id: "ldap",
+                id: "batman_test",
+            },
+            apps: [
+                {
+                    system_id: "de",
+                    app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
+                },
+            ],
+        },
+        {
+            subject: {
+                id: "1448e0f77d794bc9965dea4bf8eddecb",
+                source_id: "g:gsa",
+            },
+            apps: [
+                {
+                    system_id: "de",
+                    app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
+                },
+            ],
+        },
+    ],
+};
+
+export const appUnshareResponse = {
+    unsharing: [
+        {
+            subject: {
+                source_id: "ldap",
+                id: "batman_test",
+            },
+            apps: [
+                {
+                    system_id: "de",
+                    app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
+                    app_name: "JupJup",
+                    success: true,
+                },
+            ],
+        },
+        {
+            subject: {
+                id: "1448e0f77d794bc9965dea4bf8eddecb",
+                source_id: "g:gsa",
+            },
+            apps: [
+                {
+                    system_id: "de",
+                    app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae622",
+                    app_name: "MMTF",
+                    success: false,
+                    error: {
+                        error_code: 500,
+                        reason: "Does not work",
+                    },
+                },
+            ],
+        },
+    ],
+};

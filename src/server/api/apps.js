@@ -121,5 +121,18 @@ export default function appsRouter() {
         })
     );
 
+    logger.info("adding the POST /apps/permission-lister handler");
+    api.post(
+        "/apps/permission-lister",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/apps/permission-lister",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

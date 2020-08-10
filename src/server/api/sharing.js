@@ -43,5 +43,31 @@ export default function sharingRouter() {
         })
     );
 
+    logger.info("adding the POST /apps/sharing handler");
+    api.post(
+        "/apps/sharing",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/apps/sharing",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the POST /apps/unsharing handler");
+    api.post(
+        "/apps/unsharing",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/apps/unsharing",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

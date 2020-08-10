@@ -6,11 +6,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
-import { useRouter } from "next/router";
-
 import { useQuery, queryCache } from "react-query";
-
-import NavigationConstants from "../../common/NavigationConstants";
 
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
 import {
@@ -113,10 +109,21 @@ const PAGE = 0;
 const ROWS = 10;
 
 function SearchOption(props) {
-    const { primary, secondary, icon } = props;
+    const {
+        primary,
+        secondary,
+        icon,
+        routeToSelectedSearchOption,
+        selectedOption,
+    } = props;
     const classes = useStyles();
     return (
-        <ListItem alignItems="flex-start" dense={true} divider={true}>
+        <ListItem
+            alignItems="flex-start"
+            dense={true}
+            divider={true}
+            onClick={() => routeToSelectedSearchOption(selectedOption)}
+        >
             <ListItemIcon className={classes.icon}>{icon}</ListItemIcon>
             <ListItemText
                 primary={primary}
@@ -134,48 +141,56 @@ function SearchOption(props) {
     );
 }
 
-function DataSearchOption(resultItem) {
+function DataSearchOption(props) {
+    const { selectedOption, routeToSelectedSearchOption } = props;
     return (
         <SearchOption
-            primary={resultItem.option.name}
-            secondary={resultItem.option?._source?.path}
+            selectedOption={selectedOption}
+            primary={selectedOption.name}
+            secondary={selectedOption._source?.path}
             icon={
-                resultItem.option?._type === ResourceTypes.FILE ? (
+                selectedOption._type === ResourceTypes.FILE ? (
                     <DescriptionIcon />
                 ) : (
                     <FolderIcon />
                 )
             }
+            routeToSelectedSearchOption={routeToSelectedSearchOption}
         />
     );
 }
 
-function AppsSearchOption(resultItem) {
+function AppsSearchOption(props) {
     const { t } = useTranslation("common");
+    const { selectedOption, routeToSelectedSearchOption } = props;
     return (
         <SearchOption
-            primary={resultItem.option.name}
-            secondary={resultItem.option?.description}
+            selectedOption={selectedOption}
+            primary={selectedOption.name}
+            secondary={selectedOption.description}
             icon={<img src="/icon-apps.png" alt={t("apps")} />}
+            routeToSelectedSearchOption={routeToSelectedSearchOption}
         />
     );
 }
 
-function AnalysesSearchOption(resultItem) {
+function AnalysesSearchOption(props) {
     const { t } = useTranslation("common");
+    const { selectedOption, routeToSelectedSearchOption } = props;
     return (
         <SearchOption
-            primary={resultItem.option.name}
-            secondary={resultItem.option?.status}
+            selectedOption={selectedOption}
+            primary={selectedOption.name}
+            secondary={selectedOption.status}
             icon={<img src="/icon-analyses.png" alt={t("analyses")} />}
+            routeToSelectedSearchOption={routeToSelectedSearchOption}
         />
     );
 }
 
 function GlobalSearchField(props) {
     const classes = useStyles();
-    const { showErrorAnnouncer } = props;
-    const router = useRouter();
+    const { showErrorAnnouncer, routeToSelectedSearchOption } = props;
 
     const { t } = useTranslation(["common"]);
 
@@ -283,24 +298,8 @@ function GlobalSearchField(props) {
 
     useEffect(() => {
         console.log("selected value=>" + JSON.stringify(value));
-        switch (value?.resultType) {
-            case t("data"):
-                router.push(
-                    `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${value._source.path}`
-                );
-                break;
-            case t("apps"):
-                router.push(
-                    `/${NavigationConstants.APPS}/${value.system_id}/${value.id}`
-                );
-                break;
-            case t("analyses"):
-                router.push(`/${NavigationConstants.ANALYSES}/${value.id}`);
-                break;
-            default:
-                console.log("Unknown option");
-        }
-    }, [router, t, value]);
+        //   routeToSelectedSearchOption(value);
+    }, [routeToSelectedSearchOption, value]);
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
@@ -353,11 +352,32 @@ function GlobalSearchField(props) {
     const renderCustomOption = (option) => {
         switch (option?.resultType) {
             case t("data"):
-                return <DataSearchOption option={option} />;
+                return (
+                    <DataSearchOption
+                        selectedOption={option}
+                        routeToSelectedSearchOption={
+                            routeToSelectedSearchOption
+                        }
+                    />
+                );
             case t("apps"):
-                return <AppsSearchOption option={option} />;
+                return (
+                    <AppsSearchOption
+                        selectedOption={option}
+                        routeToSelectedSearchOption={
+                            routeToSelectedSearchOption
+                        }
+                    />
+                );
             case t("analyses"):
-                return <AnalysesSearchOption option={option} />;
+                return (
+                    <AnalysesSearchOption
+                        selectedOption={option}
+                        routeToSelectedSearchOption={
+                            routeToSelectedSearchOption
+                        }
+                    />
+                );
             default:
                 return <SearchOption primary={option.option.name} />;
         }

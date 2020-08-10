@@ -6,7 +6,7 @@ import { formatDate } from "@cyverse-de/ui-lib";
 
 import * as constants from "../constants";
 
-import ItemBase, { ItemAction } from "./ItemBase";
+import ItemBase, { ItemAction, getSectionClass } from "./ItemBase";
 
 class AppItem extends ItemBase {
     constructor(props) {
@@ -16,40 +16,37 @@ class AppItem extends ItemBase {
             section: props.section,
             height: props.height,
             width: props.width,
-            classes: props.classes,
         });
     }
 
     static create(props) {
         const item = new AppItem(props);
-        return item
-            .addActions([
-                <ItemAction
-                    ariaLabel="launch"
-                    key={`${constants.KIND_APPS}-${props.content.id}-launch`}
-                >
-                    <Launch />
-                </ItemAction>,
-                <ItemAction
-                    arialLabel="open details"
-                    key={`${constants.KIND_APPS}-${props.content.id}-details`}
-                >
-                    <Info />
-                </ItemAction>,
-                <ItemAction
-                    arialLabel="favorite"
-                    key={`${constants.KIND_APPS}-${props.content.id}-favorite`}
-                >
-                    <Favorite />
-                </ItemAction>,
-                <ItemAction
-                    arialLabel="share"
-                    key={`${constants.KIND_APPS}-${props.content.id}-share`}
-                >
-                    <Share />
-                </ItemAction>,
-            ])
-            .setSectionClass();
+        return item.addActions([
+            <ItemAction
+                ariaLabel="launch"
+                key={`${constants.KIND_APPS}-${props.content.id}-launch`}
+            >
+                <Launch />
+            </ItemAction>,
+            <ItemAction
+                arialLabel="open details"
+                key={`${constants.KIND_APPS}-${props.content.id}-details`}
+            >
+                <Info />
+            </ItemAction>,
+            <ItemAction
+                arialLabel="favorite"
+                key={`${constants.KIND_APPS}-${props.content.id}-favorite`}
+            >
+                <Favorite />
+            </ItemAction>,
+            <ItemAction
+                arialLabel="share"
+                key={`${constants.KIND_APPS}-${props.content.id}-share`}
+            >
+                <Share />
+            </ItemAction>,
+        ]);
     }
 
     getOrigination(t) {
@@ -67,16 +64,9 @@ class AppItem extends ItemBase {
         return [origination, formatDate(date.valueOf())];
     }
 
-    getAvatarIcon() {
-        if (!this.headerClass || !this.avatarClass) {
-            this.setSectionClass();
-        }
-        return (
-            <Apps
-                color="primary"
-                classes={{ colorPrimary: this.avatarClass }}
-            />
-        );
+    getAvatarIcon(classes) {
+        const [, avatarClass] = getSectionClass(this.section, classes);
+        return <Apps color="primary" classes={{ colorPrimary: avatarClass }} />;
     }
 
     getLinkTarget() {

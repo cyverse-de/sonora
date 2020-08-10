@@ -7,38 +7,6 @@ import * as constants from "./constants";
 
 export const makeID = (...names) => buildID(ids.BASE, ...names);
 
-export const getSectionClass = (section, classes) => {
-    let header;
-    let avatar;
-    switch (section) {
-        case constants.SECTION_EVENTS:
-            header = classes.cardHeaderEvents;
-            avatar = classes.cardHeaderEventsAvatar;
-            break;
-        case constants.SECTION_NEWS:
-            header = classes.cardHeaderNews;
-            avatar = classes.cardHeaderNewsAvatar;
-            break;
-        case constants.SECTION_PUBLIC:
-            header = classes.cardHeaderPublic;
-            avatar = classes.cardHeaderPublicAvatar;
-            break;
-        case constants.SECTION_RECENT:
-            header = classes.cardHeaderRecent;
-            avatar = classes.cardHeaderRecentAvatar;
-            break;
-        case constants.SECTION_RECENTLY_ADDED:
-            header = classes.cardHeaderRecentlyAdded;
-            avatar = classes.cardHeaderRecentlyAddedAvatar;
-            break;
-        default:
-            header = classes.cardHeaderDefault;
-            avatar = classes.cardHeaderDefaultAvatar;
-            break;
-    }
-    return [header, avatar];
-};
-
 export const cleanUsername = (username) => {
     let user;
     if (username) {

@@ -6,14 +6,13 @@ import * as fns from "../functions";
 import ItemBase, { DashboardVideoItem } from "./ItemBase";
 
 class VideoItem extends ItemBase {
-    constructor({ section, content, height, width, classes }) {
+    constructor({ section, content, height, width }) {
         super({
             kind: constants.KIND_FEEDS,
             content,
             section,
             height,
             width,
-            classes,
         });
     }
 

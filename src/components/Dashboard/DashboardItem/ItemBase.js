@@ -21,7 +21,7 @@ import { build as buildID } from "@cyverse-de/ui-lib";
 import ids from "../ids";
 import * as constants from "../constants";
 import * as fns from "../functions";
-import useStyles from "../styles";
+import useStyles from "./styles";
 
 const DashboardLink = ({ target, kind, headerClass, children }) => {
     const isNewTab =
@@ -83,7 +83,7 @@ const DashboardItem = ({ item }) => {
                 avatar={
                     isMediumOrLarger && (
                         <Avatar className={classes.avatar}>
-                            {item.getAvatarIcon()}
+                            {item.getAvatarIcon(classes)}
                         </Avatar>
                     )
                 }
@@ -208,16 +208,40 @@ export const ItemAction = ({ children, ariaLabel, handleClick }) => (
     </IconButton>
 );
 
+export const getSectionClass = (section, classes) => {
+    let header;
+    let avatar;
+    switch (section) {
+        case constants.SECTION_EVENTS:
+            header = classes.cardHeaderEvents;
+            avatar = classes.cardHeaderEventsAvatar;
+            break;
+        case constants.SECTION_NEWS:
+            header = classes.cardHeaderNews;
+            avatar = classes.cardHeaderNewsAvatar;
+            break;
+        case constants.SECTION_PUBLIC:
+            header = classes.cardHeaderPublic;
+            avatar = classes.cardHeaderPublicAvatar;
+            break;
+        case constants.SECTION_RECENT:
+            header = classes.cardHeaderRecent;
+            avatar = classes.cardHeaderRecentAvatar;
+            break;
+        case constants.SECTION_RECENTLY_ADDED:
+            header = classes.cardHeaderRecentlyAdded;
+            avatar = classes.cardHeaderRecentlyAddedAvatar;
+            break;
+        default:
+            header = classes.cardHeaderDefault;
+            avatar = classes.cardHeaderDefaultAvatar;
+            break;
+    }
+    return [header, avatar];
+};
+
 class ItemBase {
-    constructor({
-        kind,
-        section,
-        content,
-        height,
-        width,
-        classes,
-        actions = [],
-    }) {
+    constructor({ kind, section, content, height, width, actions = [] }) {
         this.kind = kind;
         this.section = section;
         this.content = content;
@@ -226,9 +250,6 @@ class ItemBase {
         this.width = width;
         this.id = buildID(content.id);
         this.username = fns.cleanUsername(content.username);
-        this.classes = classes;
-        this.headerClass = null;
-        this.avatarClass = null;
     }
 
     addActions(actions) {
@@ -241,18 +262,8 @@ class ItemBase {
         return [];
     }
 
-    getAvatarIcon(_colorClass) {
+    getAvatarIcon(_classes) {
         return {};
-    }
-
-    setSectionClass() {
-        const [headerClass, avatarClass] = fns.getSectionClass(
-            this.section,
-            this.classes
-        );
-        this.headerClass = headerClass;
-        this.avatarClass = avatarClass;
-        return this;
     }
 
     getLinkTarget() {

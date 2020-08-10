@@ -11,50 +11,51 @@ import { formatDate } from "@cyverse-de/ui-lib";
 import * as fns from "../functions";
 import * as constants from "../constants";
 
-import ItemBase, { ItemAction, DashboardFeedItem } from "./ItemBase";
+import ItemBase, {
+    ItemAction,
+    DashboardFeedItem,
+    getSectionClass,
+} from "./ItemBase";
 
 class NewsItem extends ItemBase {
-    constructor({ section, content, height, width, classes }) {
+    constructor({ section, content, height, width }) {
         super({
             kind: constants.KIND_FEEDS,
             content,
             section,
             height,
             width,
-            classes,
         });
     }
 
     static create(props) {
         const item = new NewsItem(props);
-        return item
-            .addActions([
-                <ItemAction
-                    ariaLabel="tweet"
-                    key={`${constants.KIND_FEEDS}-${props.content.id}-tweet`}
-                >
-                    <Twitter />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="facebook"
-                    key={`${constants.KIND_FEEDS}-${props.content.id}-facebook`}
-                >
-                    <Facebook />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="open"
-                    key={`${constants.KIND_FEEDS}-${props.content.id}-open`}
-                >
-                    <OpenInBrowser />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="show link"
-                    key={`${constants.KIND_FEEDS}-${props.content.id}-link`}
-                >
-                    <Link />
-                </ItemAction>,
-            ])
-            .setSectionClass();
+        return item.addActions([
+            <ItemAction
+                ariaLabel="tweet"
+                key={`${constants.KIND_FEEDS}-${props.content.id}-tweet`}
+            >
+                <Twitter />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="facebook"
+                key={`${constants.KIND_FEEDS}-${props.content.id}-facebook`}
+            >
+                <Facebook />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="open"
+                key={`${constants.KIND_FEEDS}-${props.content.id}-open`}
+            >
+                <OpenInBrowser />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="show link"
+                key={`${constants.KIND_FEEDS}-${props.content.id}-link`}
+            >
+                <Link />
+            </ItemAction>,
+        ]);
     }
 
     getOrigination(t) {
@@ -63,15 +64,10 @@ class NewsItem extends ItemBase {
         return [origination, formatDate(date.valueOf())];
     }
 
-    getAvatarIcon() {
-        if (!this.headerClass || this.avatarClass) {
-            this.setSectionClass();
-        }
+    getAvatarIcon(classes) {
+        const [, avatarClass] = getSectionClass(this.section, classes);
         return (
-            <RssFeed
-                color="primary"
-                classes={{ colorPrimary: this.avatarClass }}
-            />
+            <RssFeed color="primary" classes={{ colorPrimary: avatarClass }} />
         );
     }
 

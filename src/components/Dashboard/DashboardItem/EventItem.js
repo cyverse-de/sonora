@@ -12,56 +12,57 @@ import { formatDate } from "@cyverse-de/ui-lib";
 import * as fns from "../functions";
 import * as constants from "../constants";
 
-import ItemBase, { ItemAction, DashboardFeedItem } from "./ItemBase";
+import ItemBase, {
+    ItemAction,
+    DashboardFeedItem,
+    getSectionClass,
+} from "./ItemBase";
 
 class EventItem extends ItemBase {
-    constructor({ section, content, height, width, classes }) {
+    constructor({ section, content, height, width }) {
         super({
             kind: constants.KIND_EVENTS,
             content,
             section,
             height,
             width,
-            classes,
         });
     }
 
     static create(props) {
         const item = new EventItem(props);
-        return item
-            .addActions([
-                <ItemAction
-                    ariaLabel="tweet"
-                    key={`${constants.KIND_EVENTS}-${props.content.id}-tweet`}
-                >
-                    <Twitter />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="facebook"
-                    key={`${constants.KIND_EVENTS}-${props.content.id}-facebook`}
-                >
-                    <Facebook />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="open"
-                    key={`${constants.KIND_EVENTS}-${props.content.id}-open`}
-                >
-                    <OpenInBrowser />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="show link"
-                    key={`${constants.KIND_EVENTS}-${props.content.id}-link`}
-                >
-                    <Link />
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel="add to calendar"
-                    key={`${constants.KIND_EVENTS}-${props.content.id}-calendar`}
-                >
-                    <CalendarToday />
-                </ItemAction>,
-            ])
-            .setSectionClass();
+        return item.addActions([
+            <ItemAction
+                ariaLabel="tweet"
+                key={`${constants.KIND_EVENTS}-${props.content.id}-tweet`}
+            >
+                <Twitter />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="facebook"
+                key={`${constants.KIND_EVENTS}-${props.content.id}-facebook`}
+            >
+                <Facebook />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="open"
+                key={`${constants.KIND_EVENTS}-${props.content.id}-open`}
+            >
+                <OpenInBrowser />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="show link"
+                key={`${constants.KIND_EVENTS}-${props.content.id}-link`}
+            >
+                <Link />
+            </ItemAction>,
+            <ItemAction
+                ariaLabel="add to calendar"
+                key={`${constants.KIND_EVENTS}-${props.content.id}-calendar`}
+            >
+                <CalendarToday />
+            </ItemAction>,
+        ]);
     }
 
     getOrigination(t) {
@@ -70,15 +71,10 @@ class EventItem extends ItemBase {
         return [origination, formatDate(date.valueOf())];
     }
 
-    getAvatarIcon() {
-        if (!this.headerClass || this.avatarClass) {
-            this.setSectionClass();
-        }
+    getAvatarIcon(classes) {
+        const [, avatarClass] = getSectionClass(this.section, classes);
         return (
-            <Event
-                color="primary"
-                classes={{ colorPrimary: this.avatarClass }}
-            />
+            <Event color="primary" classes={{ colorPrimary: avatarClass }} />
         );
     }
 

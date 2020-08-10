@@ -43,4 +43,14 @@ function getTools(_, { order, orderBy, page, rowsPerPage }) {
     });
 }
 
-export { getTools, TOOLS_QUERY_KEY };
+function getToolPermissions({ tools }) {
+    return callApi({
+        endpoint: `/api/tools/permission-lister`,
+        method: "POST",
+        body: {
+            tools,
+        },
+    });
+}
+
+export { getTools, getToolPermissions, TOOLS_QUERY_KEY };

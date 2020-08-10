@@ -485,3 +485,128 @@ export const analysisUnshareResponse = {
         },
     ],
 };
+export const toolPermissionRequest = {
+    tools: [
+        "2609f8a8-e928-11e9-a2ea-008cfa5ae621",
+        "2609f8a8-e928-11e9-a2ea-008cfa5ae622",
+    ],
+};
+
+export const toolPermissionResponse = {
+    tools: [
+        {
+            id: "2609f8a8-e928-11e9-a2ea-008cfa5ae621",
+            name: "Test_Tool",
+            permissions: [
+                {
+                    subject: { source_id: "ldap", id: "user_a" },
+                    permission: "read",
+                },
+                {
+                    subject: { source_id: "ldap", id: "user_b" },
+                    permission: "write",
+                },
+                {
+                    subject: { source_id: "ldap", id: "user_c" },
+                    permission: "own",
+                },
+            ],
+        },
+        {
+            id: "2609f8a8-e928-11e9-a2ea-008cfa5ae622",
+            name: "mmtf_tool",
+            permissions: [
+                {
+                    subject: {
+                        id: "1448e0f77d794bc9965dea4bf8eddecb",
+                        source_id: "g:gsa",
+                    },
+                    permission: "read",
+                },
+            ],
+        },
+    ],
+};
+
+export const toolShareRequest = {
+    sharing: [
+        {
+            tools: [
+                {
+                    tool_id: "2609f8a8-e928-11e9-a2ea-008cfa5ae621",
+                    permission: "read",
+                },
+            ],
+            subject: { id: "batman_test", source_id: "ldap" },
+        },
+        {
+            tools: [
+                {
+                    tool_id: "2609f8a8-e928-11e9-a2ea-008cfa5ae621",
+                    permission: "own",
+                },
+            ],
+            subject: { id: "user_a", source_id: "ldap" },
+        },
+    ],
+};
+
+export const toolShareResponse = {
+    sharing: [
+        {
+            subject: {
+                source_id: "ldap",
+                id: "batman_test",
+            },
+            tools: [
+                {
+                    tool_id: "2609f8a8-e928-11e9-a2ea-008cfa5ae621",
+                    permission: "read",
+                    tool_name: "Test_Tool",
+                    success: true,
+                },
+            ],
+        },
+        {
+            subject: {
+                source_id: "ldap",
+                id: "user_a",
+            },
+            tools: [
+                {
+                    tool_id: "2609f8a8-e928-11e9-a2ea-008cfa5ae621",
+                    permission: "own",
+                    tool_name: "Test_Tool",
+                    success: true,
+                },
+            ],
+        },
+    ],
+};
+
+export const toolUnshareRequest = {
+    unsharing: [
+        {
+            tools: ["2609f8a8-e928-11e9-a2ea-008cfa5ae621"],
+            subject: { id: "batman_test", source_id: "ldap" },
+        },
+    ],
+};
+
+export const toolUnshareResponse = {
+    unsharing: [
+        {
+            subject: {
+                source_id: "ldap",
+                id: "batman_test",
+            },
+            tools: [
+                {
+                    tool_id: "2609f8a8-e928-11e9-a2ea-008cfa5ae621",
+                    tool_name: "Test_Tool",
+                    success: true,
+                },
+            ],
+        },
+    ],
+};

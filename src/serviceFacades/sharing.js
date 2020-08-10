@@ -69,3 +69,19 @@ export const unshareAnalyses = ({ analysisUnsharingRequest }) => {
         body: analysisUnsharingRequest,
     });
 };
+
+export const shareTools = ({ toolSharingRequest }) => {
+    return callApi({
+        endpoint: `/api/tools/sharing`,
+        method: "POST",
+        body: toolSharingRequest,
+    });
+};
+
+export const unshareTools = ({ toolUnsharingRequest }) => {
+    return callApi({
+        endpoint: `/api/tools/unsharing`,
+        method: "POST",
+        body: toolUnsharingRequest,
+    });
+};

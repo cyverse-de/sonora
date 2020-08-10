@@ -27,5 +27,18 @@ export default function toolsRouter() {
         })
     );
 
+    logger.info("adding the POST /tools/permission-lister handler");
+    api.post(
+        "/tools/permission-lister",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/tools/permission-lister",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

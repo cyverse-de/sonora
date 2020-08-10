@@ -61,7 +61,7 @@ const DashboardItem = ({ item }) => {
         color,
     });
 
-    const { t } = useTranslation(["common", "dashboard"]);
+    const { t } = useTranslation("dashboard");
 
     const isMediumOrLarger = useMediaQuery(theme.breakpoints.up("md"));
 

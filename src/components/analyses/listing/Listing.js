@@ -29,7 +29,7 @@ import ids from "../ids";
 
 import TableView from "./TableView";
 
-import AnalysesToolbar, { getOwnershipFilters } from "../toolbar/Toolbar";
+import AnalysesToolbar from "../toolbar/Toolbar";
 import appType from "components/models/AppType";
 
 import { useUserProfile } from "contexts/userProfile";
@@ -48,6 +48,7 @@ const THEIRS = "theirs";
 const PARENT_ID_FILTER = "parent_id";
 const OWNERSHIP_FILTER = "ownership";
 const TYPE_FILTER = "type";
+const ID = "id";
 
 const filter = {
     field: "",
@@ -60,6 +61,7 @@ function Listing(props) {
         onRouteToListing,
         handleGoToOutputFolder,
         handleSingleRelaunch,
+        selectedIdFilter,
         selectedPage,
         selectedRowsPerPage,
         selectedOrder,
@@ -77,6 +79,7 @@ function Listing(props) {
     const [rowsPerPage, setRowsPerPage] = useState(selectedRowsPerPage);
     const [permFilter, setPermFilter] = useState(selectedPermFilter);
     const [appTypeFilter, setAppTypeFilter] = useState(selectedTypeFilter);
+    const [idFilter, setIdFilter] = useState(selectedIdFilter);
 
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
@@ -131,10 +134,8 @@ function Listing(props) {
 
     useEffect(() => {
         const permFilterChanged = selectedPermFilter?.name !== permFilter?.name;
-
         const typeFilterChanged =
             selectedTypeFilter?.name !== appTypeFilter?.name;
-
         if (
             permFilterChanged ||
             typeFilterChanged ||
@@ -174,40 +175,47 @@ function Listing(props) {
     useEffect(() => {
         const filters = [];
 
-        const idParentFilter = Object.create(filter);
-        idParentFilter.field = PARENT_ID_FILTER;
-        idParentFilter.value = parentAnalysis?.id || "";
-        filters.push(idParentFilter);
+        if (idFilter) {
+            const idFilterObj = Object.create(filter);
+            idFilterObj.field = ID;
+            idFilterObj.value = idFilter;
+            filters.push(idFilterObj);
+        } else {
+            const idParentFilter = Object.create(filter);
+            idParentFilter.field = PARENT_ID_FILTER;
+            idParentFilter.value = parentAnalysis?.id || "";
+            filters.push(idParentFilter);
 
-        if (appTypeFilter && appTypeFilter.name !== appType.all) {
-            const typeFilter = Object.create(filter);
-            typeFilter.field = TYPE_FILTER;
-            typeFilter.value = appTypeFilter.name;
-            filters.push(typeFilter);
-        }
+            if (appTypeFilter && appTypeFilter.name !== appType.all) {
+                const typeFilter = Object.create(filter);
+                typeFilter.field = TYPE_FILTER;
+                typeFilter.value = appTypeFilter.name;
+                filters.push(typeFilter);
+            }
 
-        if (permFilter) {
-            let val;
-            switch (permFilter.name) {
-                case t("all"):
-                    val = ALL;
-                    break;
-                case t("mine"):
-                    val = MINE;
-                    break;
-                case t("theirs"):
-                    val = THEIRS;
-                    break;
-                default:
-                    val = ALL;
+            if (permFilter) {
+                let val;
+                switch (permFilter.name) {
+                    case t("all"):
+                        val = ALL;
+                        break;
+                    case t("mine"):
+                        val = MINE;
+                        break;
+                    case t("theirs"):
+                        val = THEIRS;
+                        break;
+                    default:
+                        val = ALL;
+                }
+                const viewFilterObj = Object.create(filter);
+                viewFilterObj.field = OWNERSHIP_FILTER;
+                viewFilterObj.value = val;
+                if (viewFilterObj.value) {
+                    idParentFilter.value = "";
+                }
+                filters.push(viewFilterObj);
             }
-            const viewFilterObj = Object.create(filter);
-            viewFilterObj.field = OWNERSHIP_FILTER;
-            viewFilterObj.value = val;
-            if (viewFilterObj.value) {
-                idParentFilter.value = "";
-            }
-            filters.push(viewFilterObj);
         }
         const filterString = filters
             .map((filterItem) => JSON.stringify(filterItem))
@@ -227,6 +235,7 @@ function Listing(props) {
         permFilter,
         appTypeFilter,
         t,
+        idFilter,
     ]);
 
     const updateAnalyses = useCallback(
@@ -404,13 +413,12 @@ function Listing(props) {
         setParentAnalyses(analysis);
         setPermFilter(null);
         setAppTypeFilter(null);
+        setIdFilter(null);
         setSelected([]);
     };
 
-    const handleClearBatch = () => {
-        setParentAnalyses(null);
-        setPermFilter(getOwnershipFilters(t)[0]);
-        setAppTypeFilter(null);
+    const handleClearFilter = () => {
+        onRouteToListing(order, orderBy, 0, rowsPerPage, null, null);
     };
 
     const handleRelaunch = (analyses) => {
@@ -455,8 +463,8 @@ function Listing(props) {
                 handleOwnershipFilterChange={handleOwnershipFilterChange}
                 appTypeFilter={appTypeFilter}
                 ownershipFilter={permFilter}
-                viewBatch={parentAnalysis}
-                onClearBatch={handleClearBatch}
+                viewFiltered={parentAnalysis || idFilter}
+                onClearFilter={handleClearFilter}
                 isGridView={isGridView}
                 toggleDisplay={toggleDisplay}
                 detailsEnabled={detailsEnabled}

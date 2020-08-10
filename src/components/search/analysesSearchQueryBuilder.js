@@ -23,4 +23,4 @@ export const getAnalysesSearchQueryFilter = (searchTerm) => {
         .join(",");
 
     return filterString;
-}
+};

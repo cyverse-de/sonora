@@ -458,7 +458,7 @@ function CyverseAppBar(props) {
                     <ListItemText>{t("analyses")}</ListItemText>
                 </ListItem>
             </Tooltip>
-            <Hidden only={["sm","md", "lg", "xl"]}>
+            <Hidden only={["sm", "md", "lg", "xl"]}>
                 <Tooltip title={t("search")} placement="right" arrow>
                     <ListItem
                         id={build(ids.DRAWER_MENU, ids.SEARCH_MI)}

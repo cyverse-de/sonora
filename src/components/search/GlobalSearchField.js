@@ -306,7 +306,7 @@ function GlobalSearchField(props) {
                 },
             ]);
             setAppsSearchQueryEnabled(true);
-       
+
             const userHomeDir = bootstrapCache?.data_info.user_home_path + "/";
             const dataQuery = getDataSimpleSearchQuery(
                 searchTerm,

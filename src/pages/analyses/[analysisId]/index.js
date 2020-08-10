@@ -1,10 +1,10 @@
 /**
- * 
+ *
  * @author sriram
- * 
- * 
+ *
+ *
  */
-import React, {useCallback} from "react"; 
+import React, { useCallback } from "react";
 import { useRouter } from "next/router";
 
 import constants from "../../../constants";
@@ -18,20 +18,19 @@ import analysisFileds from "components/analyses/analysisFields";
 import Listing from "components/analyses/listing/Listing";
 
 /**
- * 
+ *
  * Handle routing an indvidual analysis by id
- * 
+ *
  */
 
- export default function Analysis() {
+export default function Analysis() {
     const router = useRouter();
-    const selectedPage =  0;
+    const selectedPage = 0;
     const selectedRowsPerPage = 25;
     const selectedOrder = constants.SORT_DESCENDING;
     const selectedOrderBy = analysisFileds.START_DATE.key;
     const selectedPermFilter = null;
     const selectedTypeFilter = null;
-       
 
     const onRouteToListing = useCallback(
         (order, orderBy, page, rowsPerPage, permFilter, appTypeFilter) => {
@@ -42,7 +41,7 @@ import Listing from "components/analyses/listing/Listing";
                     page,
                     rowsPerPage,
                     permFilter,
-                    appTypeFilter,
+                    appTypeFilter
                 )
             );
         },

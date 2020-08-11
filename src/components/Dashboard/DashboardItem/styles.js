@@ -6,19 +6,21 @@ export default makeStyles((theme) => ({
     },
     avatar: {
         background: theme.palette.white,
+        height: theme.spacing(3),
+        width: theme.spacing(3),
     },
     cardHeaderDefault: {
-        background: (props) => props.color,
-        marginBottom: theme.spacing(2),
+        background: theme.palette.white,
     },
     avatarIcon: {
+        backgroundColor: (props) => theme.palette.white,
         color: (props) => props.color,
     },
     cardHeaderContent: {
         width: "75%",
     },
     cardHeaderText: {
-        color: theme.palette.white,
+        color: theme.palette.primary.main,
     },
     dashboardCard: {
         display: "flex",
@@ -60,5 +62,12 @@ export default makeStyles((theme) => ({
         [theme.breakpoints.up("lg")]: {
             width: "47%",
         },
+    },
+    root: {
+        flexGrow: 1,
+        paddingTop: 0,
+        paddingRight: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+        paddingLeft: theme.spacing(2),
     },
 }));

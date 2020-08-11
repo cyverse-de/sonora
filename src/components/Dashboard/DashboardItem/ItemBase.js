@@ -89,39 +89,18 @@ const DashboardItem = ({ item }) => {
                     root: classes.cardHeaderDefault,
                     content: classes.cardHeaderContent,
                 }}
-                title={
-                    <Typography
-                        noWrap={true}
-                        variant="h6"
-                        color="primary"
-                        classes={{ root: classes.cardHeaderText }}
-                    >
-                        <DashboardLink
-                            target={item.getLinkTarget()}
-                            kind={item.kind}
-                        >
-                            {item.content.name}
-                        </DashboardLink>
-                    </Typography>
-                }
+                title={item.content.name}
                 titleTypographyProps={{
                     noWrap: true,
-                    variant: "h6",
-                    color: "primary",
+                    variant: "subtitle2",
                     classes: { colorPrimary: classes.cardHeaderText },
                 }}
-                subheader={
-                    <Typography
-                        noWrap
-                        color="textSecondary"
-                        variant="subtitle2"
-                        classes={{
-                            colorTextSecondary: classes.cardHeaderText,
-                        }}
-                    >
-                        {`${origination} ${user} on ${date}`}
-                    </Typography>
-                }
+                subheader={`${origination} ${user} on ${date}`}
+                subheaderTypographyProps={{
+                    noWrap: true,
+                    variant: "caption",
+                    classes: { colorPrimary: classes.cardHeaderText },
+                }}
             />
             <CardContent
                 classes={{

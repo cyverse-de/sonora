@@ -76,11 +76,8 @@ export default {
     OSG: "osg",
 
     DIALOG: {
-        CANCEL: "cancel",
-        CONFIRM: "confirm",
         DELETE: "delete",
         RELAUNCH: "relaunch",
-        TITLE: "title",
     },
 
     ICONS: {

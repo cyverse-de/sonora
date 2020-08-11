@@ -10,6 +10,8 @@ import { queryCache, useMutation, useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
+import { build } from "@cyverse-de/ui-lib";
+
 import {
     ANALYSES_LISTING_QUERY_KEY,
     deleteAnalyses,
@@ -18,12 +20,13 @@ import {
 } from "serviceFacades/analyses";
 
 import constants from "../../../constants";
+import ConfirmationDialog from "../../utils/ConfirmationDialog";
 import DEPagination from "../../utils/DEPagination";
 import withErrorAnnouncer from "../../utils/error/withErrorAnnouncer";
 import Drawer from "../details/Drawer";
 
-import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
-import MultiRelaunchWarningDialog from "./MultiRelaunchWarningDialog";
+import ids from "../ids";
+
 import TableView from "./TableView";
 
 import AnalysesToolbar, { getOwnershipFilters } from "../toolbar/Toolbar";
@@ -482,18 +485,22 @@ function Listing(props) {
                 handleBatchIconClick={handleBatchIconClick}
             />
 
-            <DeleteConfirmationDialog
+            <ConfirmationDialog
                 open={deleteDialogOpen}
-                baseId={baseId}
+                baseId={build(baseId, ids.DIALOG.DELETE)}
                 onClose={() => setDeleteDialogOpen(false)}
-                confirmDelete={confirmDelete}
+                onConfirm={confirmDelete}
+                title={t("delete")}
+                contentText={t("analysesExecDeleteWarning")}
             />
 
-            <MultiRelaunchWarningDialog
+            <ConfirmationDialog
                 open={relaunchDialogOpen}
-                baseId={baseId}
+                baseId={build(baseId, ids.DIALOG.RELAUNCH)}
                 onClose={() => setRelaunchDialogOpen(false)}
-                confirmMultiRelaunch={confirmMultiRelaunch}
+                onConfirm={confirmMultiRelaunch}
+                title={t("relaunch")}
+                contentText={t("analysesMultiRelaunchWarning")}
             />
 
             {detailsOpen && (

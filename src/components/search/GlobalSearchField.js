@@ -142,8 +142,8 @@ const SearchOption = React.forwardRef((props, ref) => {
 
 function DataSearchOption(props) {
     const { selectedOption } = props;
-    const href = `/${NavigationConstants.DATA}/ds`;
-    const as = `/${NavigationConstants.DATA}/ds${selectedOption._source.path}`;
+    const href = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}`;
+    const as = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${selectedOption._source.path}`;
     return (
         <Link href={href} as={as} passHref>
             <SearchOption
@@ -310,6 +310,7 @@ function GlobalSearchField(props) {
                 PAGE
             );
             setDataSearchKey([DATA_SEARCH_QUERY_KEY, { query: dataQuery }]);
+
             setAppsSearchKey([
                 APPS_SEARCH_QUERY_KEY,
                 {
@@ -320,6 +321,7 @@ function GlobalSearchField(props) {
                     search: searchTerm,
                 },
             ]);
+
             setAnalysesSearchKey([
                 ANALYSES_SEARCH_QUERY_KEY,
                 {
@@ -356,7 +358,7 @@ function GlobalSearchField(props) {
                     setAnalysesSearchQueryEnabled(true);
             }
         }
-    }, [bootstrapCache, filter, searchTerm, t]);
+    }, [bootstrapCache, filter, searchTerm, showErrorAnnouncer, t]);
 
     if (analysesSearchError || appsSearchError || dataSearchError) {
         showErrorAnnouncer(

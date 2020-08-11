@@ -3,32 +3,59 @@ export const getDataSimpleSearchQuery = (
     userHomeDir,
     rowsPerPage,
     offset
-) => ({
-    query: {
-        all: [
-            {
-                type: "label",
-                args: {
-                    exact: false,
-                    negated: false,
-                    label: searchTerm,
-                },
+) => {
+    if (userHomeDir) {
+        return {
+            query: {
+                all: [
+                    {
+                        type: "label",
+                        args: {
+                            exact: false,
+                            negated: false,
+                            label: searchTerm,
+                        },
+                    },
+                    {
+                        type: "path",
+                        args: {
+                            prefix: userHomeDir,
+                            negated: false,
+                        },
+                    },
+                ],
             },
-            {
-                type: "path",
-                args: {
-                    prefix: userHomeDir,
-                    negated: false,
+            size: rowsPerPage,
+            from: offset,
+            sort: [
+                {
+                    field: "label",
+                    order: "ascending",
                 },
+            ],
+        };
+    } else {
+        return {
+            query: {
+                all: [
+                    {
+                        type: "label",
+                        args: {
+                            exact: false,
+                            negated: false,
+                            label: searchTerm,
+                        },
+                    },
+                ],
             },
-        ],
-    },
-    size: rowsPerPage,
-    from: offset,
-    sort: [
-        {
-            field: "label",
-            order: "ascending",
-        },
-    ],
-});
+            size: rowsPerPage,
+            from: offset,
+            sort: [
+                {
+                    field: "label",
+                    order: "ascending",
+                },
+            ],
+        };
+    }
+};

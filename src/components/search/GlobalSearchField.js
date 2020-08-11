@@ -7,6 +7,12 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 import { useQuery, queryCache } from "react-query";
+import Link from "next/link";
+
+import ResourceTypes from "../models/ResourceTypes";
+import constants from "../../constants";
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import NavigationConstants from "common/NavigationConstants";
 
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
 import {
@@ -41,9 +47,6 @@ import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import DescriptionIcon from "@material-ui/icons/Description";
 import FolderIcon from "@material-ui/icons/Folder";
-import ResourceTypes from "../models/ResourceTypes";
-import constants from "../../constants";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -108,21 +111,17 @@ const useStyles = makeStyles((theme) => ({
 const PAGE = 0;
 const ROWS = 10;
 
-function SearchOption(props) {
-    const {
-        primary,
-        secondary,
-        icon,
-        routeToSelectedSearchOption,
-        selectedOption,
-    } = props;
+const SearchOption = React.forwardRef((props, ref) => {
+    const { primary, secondary, icon, onClick, href } = props;
     const classes = useStyles();
     return (
         <ListItem
             alignItems="flex-start"
             dense={true}
             divider={true}
-            onClick={() => routeToSelectedSearchOption(selectedOption)}
+            href={href}
+            onClick={onClick}
+            ref={ref}
         >
             <ListItemIcon className={classes.icon}>{icon}</ListItemIcon>
             <ListItemText
@@ -139,67 +138,72 @@ function SearchOption(props) {
             />
         </ListItem>
     );
-}
+});
 
 function DataSearchOption(props) {
-    const { selectedOption, routeToSelectedSearchOption } = props;
+    const { selectedOption } = props;
+    const href = `/${NavigationConstants.DATA}/ds`;
+    const as = `/${NavigationConstants.DATA}/ds${selectedOption._source.path}`;
     return (
-        <SearchOption
-            selectedOption={selectedOption}
-            primary={selectedOption.name}
-            secondary={selectedOption._source?.path}
-            icon={
-                selectedOption._type === ResourceTypes.FILE ? (
-                    <DescriptionIcon />
-                ) : (
-                    <FolderIcon />
-                )
-            }
-            routeToSelectedSearchOption={routeToSelectedSearchOption}
-        />
+        <Link href={href} as={as} passHref>
+            <SearchOption
+                primary={selectedOption.name}
+                secondary={selectedOption._source?.path}
+                icon={
+                    selectedOption._type === ResourceTypes.FILE ? (
+                        <DescriptionIcon />
+                    ) : (
+                        <FolderIcon />
+                    )
+                }
+            />
+        </Link>
     );
 }
 
 function AppsSearchOption(props) {
     const { t } = useTranslation("common");
-    const { selectedOption, routeToSelectedSearchOption } = props;
+    const { selectedOption } = props;
+    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]`;
+    const as = `/${NavigationConstants.APPS}/${selectedOption.system_id}/${selectedOption.id}`;
     return (
-        <SearchOption
-            selectedOption={selectedOption}
-            primary={selectedOption.name}
-            secondary={selectedOption.description}
-            icon={<img src="/icon-apps.png" alt={t("apps")} />}
-            routeToSelectedSearchOption={routeToSelectedSearchOption}
-        />
+        <Link href={href} as={as} passHref>
+            <SearchOption
+                primary={selectedOption.name}
+                secondary={selectedOption.description}
+                icon={<img src="/icon-apps.png" alt={t("apps")} />}
+            />
+        </Link>
     );
 }
 
 function AnalysesSearchOption(props) {
     const { t } = useTranslation("common");
-    const { selectedOption, routeToSelectedSearchOption } = props;
+    const { selectedOption } = props;
+    const href = `/${NavigationConstants.ANALYSES}/[analysisId]`;
+    const as = `/${NavigationConstants.ANALYSES}/${selectedOption.id}`;
     return (
-        <SearchOption
-            selectedOption={selectedOption}
-            primary={selectedOption.name}
-            secondary={selectedOption.status}
-            icon={<img src="/icon-analyses.png" alt={t("analyses")} />}
-            routeToSelectedSearchOption={routeToSelectedSearchOption}
-        />
+        <Link href={href} as={as} passHref>
+            <SearchOption
+                primary={selectedOption.name}
+                secondary={selectedOption.status}
+                icon={<img src="/icon-analyses.png" alt={t("analyses")} />}
+            />
+        </Link>
     );
 }
 
 function GlobalSearchField(props) {
     const classes = useStyles();
-    const { showErrorAnnouncer, routeToSelectedSearchOption } = props;
+    const { showErrorAnnouncer } = props;
 
     const { t } = useTranslation(["common"]);
 
     const [searchTerm, setSearchTerm] = useState("");
-    const [filter, setFilter] = useState("all");
+    const [filter, setFilter] = useState(t("all"));
 
     const [options, setOptions] = useState([]);
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(null);
 
     const [analysesSearchKey, setAnalysesSearchKey] = useState(
         ANALYSES_SEARCH_QUERY_KEY
@@ -297,24 +301,15 @@ function GlobalSearchField(props) {
     }, [open]);
 
     useEffect(() => {
-        console.log("selected value=>" + JSON.stringify(value));
-        //   routeToSelectedSearchOption(value);
-    }, [routeToSelectedSearchOption, value]);
-
-    useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
-            setAnalysesSearchKey([
-                ANALYSES_SEARCH_QUERY_KEY,
-                {
-                    rowsPerPage: ROWS,
-                    orderBy: analysisFields.START_DATE.key,
-                    order: constants.SORT_DESCENDING,
-                    page: PAGE,
-                    filter: getAnalysesSearchQueryFilter(searchTerm),
-                },
-            ]);
-            setAnalysesSearchQueryEnabled(true);
-
+            const userHomeDir = bootstrapCache?.data_info.user_home_path + "/";
+            const dataQuery = getDataSimpleSearchQuery(
+                searchTerm,
+                userHomeDir,
+                ROWS,
+                PAGE
+            );
+            setDataSearchKey([DATA_SEARCH_QUERY_KEY, { query: dataQuery }]);
             setAppsSearchKey([
                 APPS_SEARCH_QUERY_KEY,
                 {
@@ -325,20 +320,43 @@ function GlobalSearchField(props) {
                     search: searchTerm,
                 },
             ]);
-            setAppsSearchQueryEnabled(true);
-
-            const userHomeDir = bootstrapCache?.data_info.user_home_path + "/";
-            const dataQuery = getDataSimpleSearchQuery(
-                searchTerm,
-                userHomeDir,
-                ROWS,
-                PAGE
-            );
+            setAnalysesSearchKey([
+                ANALYSES_SEARCH_QUERY_KEY,
+                {
+                    rowsPerPage: ROWS,
+                    orderBy: analysisFields.START_DATE.key,
+                    order: constants.SORT_DESCENDING,
+                    page: PAGE,
+                    filter: getAnalysesSearchQueryFilter(searchTerm),
+                },
+            ]);
             // console.log("Final Query to submit =>" + JSON.stringify(dataQuery));
-            setDataSearchKey([DATA_SEARCH_QUERY_KEY, { query: dataQuery }]);
-            setDataSearchQueryEnabled(true);
+            switch (filter) {
+                case t("data"):
+                    setDataSearchQueryEnabled(true);
+                    setAppsSearchQueryEnabled(false);
+                    setAnalysesSearchQueryEnabled(false);
+                    break;
+
+                case t("apps"):
+                    setDataSearchQueryEnabled(false);
+                    setAppsSearchQueryEnabled(true);
+                    setAnalysesSearchQueryEnabled(false);
+                    break;
+
+                case t("analyses"):
+                    setDataSearchQueryEnabled(false);
+                    setAppsSearchQueryEnabled(false);
+                    setAnalysesSearchQueryEnabled(true);
+                    break;
+
+                default:
+                    setDataSearchQueryEnabled(true);
+                    setAppsSearchQueryEnabled(true);
+                    setAnalysesSearchQueryEnabled(true);
+            }
         }
-    }, [bootstrapCache, searchTerm]);
+    }, [bootstrapCache, filter, searchTerm, t]);
 
     if (analysesSearchError || appsSearchError || dataSearchError) {
         showErrorAnnouncer(
@@ -352,34 +370,13 @@ function GlobalSearchField(props) {
     const renderCustomOption = (option) => {
         switch (option?.resultType) {
             case t("data"):
-                return (
-                    <DataSearchOption
-                        selectedOption={option}
-                        routeToSelectedSearchOption={
-                            routeToSelectedSearchOption
-                        }
-                    />
-                );
+                return <DataSearchOption selectedOption={option} />;
             case t("apps"):
-                return (
-                    <AppsSearchOption
-                        selectedOption={option}
-                        routeToSelectedSearchOption={
-                            routeToSelectedSearchOption
-                        }
-                    />
-                );
+                return <AppsSearchOption selectedOption={option} />;
             case t("analyses"):
-                return (
-                    <AnalysesSearchOption
-                        selectedOption={option}
-                        routeToSelectedSearchOption={
-                            routeToSelectedSearchOption
-                        }
-                    />
-                );
+                return <AnalysesSearchOption selectedOption={option} />;
             default:
-                return <SearchOption primary={option.option.name} />;
+                return null;
         }
     };
 
@@ -432,9 +429,6 @@ function GlobalSearchField(props) {
                 filterOptions={(options, state) => options}
                 loading={loading}
                 loadingText={t("searching")}
-                onChange={(event, newValue) => {
-                    setValue(newValue);
-                }}
                 groupBy={(option) => option.resultType}
                 renderOption={(option, state) => renderCustomOption(option)}
                 renderInput={(params) => renderCustomInput(params)}
@@ -449,10 +443,10 @@ function GlobalSearchField(props) {
                 variant={isMobile ? "outlined" : "standard"}
                 renderInput={() => <TextField size="small" disableUnderline />}
             >
-                <MenuItem value="all">{t("all")}</MenuItem>
-                <MenuItem value="data">{t("data")}</MenuItem>
-                <MenuItem value="apps">{t("apps")}</MenuItem>
-                <MenuItem value="analyses">{t("analyses")}</MenuItem>
+                <MenuItem value={t("all")}>{t("all")}</MenuItem>
+                <MenuItem value={t("data")}>{t("data")}</MenuItem>
+                <MenuItem value={t("apps")}>{t("apps")}</MenuItem>
+                <MenuItem value={t("analyses")}>{t("analyses")}</MenuItem>
             </Select>
         </>
     );

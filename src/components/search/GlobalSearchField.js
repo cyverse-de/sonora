@@ -13,6 +13,7 @@ import ResourceTypes from "../models/ResourceTypes";
 import constants from "../../constants";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import NavigationConstants from "common/NavigationConstants";
+import { getParentPath } from "components/data/utils";
 
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
 import {
@@ -142,20 +143,25 @@ const SearchOption = React.forwardRef((props, ref) => {
 
 function DataSearchOption(props) {
     const { selectedOption } = props;
+
+    const type = selectedOption._type;
+    let icon = <FolderIcon />;
+    let path = selectedOption._source.path;
+
+    //SS route to parent folder for the file util we have file viewers ready in sonora.
+    if (type === ResourceTypes.FILE) {
+        path = getParentPath(path);
+        icon = <DescriptionIcon />;
+    }
+
     const href = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}`;
-    const as = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${selectedOption._source.path}`;
+    const as = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${path}`;
     return (
         <Link href={href} as={as} passHref>
             <SearchOption
                 primary={selectedOption.name}
                 secondary={selectedOption._source?.path}
-                icon={
-                    selectedOption._type === ResourceTypes.FILE ? (
-                        <DescriptionIcon />
-                    ) : (
-                        <FolderIcon />
-                    )
-                }
+                icon={icon}
             />
         </Link>
     );
@@ -239,7 +245,7 @@ function GlobalSearchField(props) {
                         analysis.resultType = t("analyses");
                     });
                     setOptions([...options, ...analyses]);
-                }
+                } 
             },
         },
     });
@@ -412,14 +418,13 @@ function GlobalSearchField(props) {
                     option: classes.option,
                 }}
                 open={open}
-                debug={true}
+                debug={false}
                 onOpen={() => {
                     setOpen(true);
                 }}
                 onClose={() => {
                     setOpen(false);
                 }}
-                freeSolo
                 id="search"
                 size="small"
                 options={options}
@@ -434,6 +439,8 @@ function GlobalSearchField(props) {
                 groupBy={(option) => option.resultType}
                 renderOption={(option, state) => renderCustomOption(option)}
                 renderInput={(params) => renderCustomInput(params)}
+                popupIcon={null}
+                noOptionsText={t("noOptions")}
             />
             <Select
                 id={build(ids.SEARCH, ids.SEARCH_FILTER_MENU)}

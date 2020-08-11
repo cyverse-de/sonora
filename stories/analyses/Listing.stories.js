@@ -1,5 +1,6 @@
 import React from "react";
 import Listing from "../../src/components/analyses/listing/Listing";
+import analysisFields from "../../src/components/analyses/analysisFields";
 import constants from "../../src/constants";
 import { mockAxios } from "../axiosMock";
 import { listing } from "./AnalysesMocks";
@@ -13,7 +14,7 @@ function ListingTest(props) {
     const selectedPage = 0;
     const selectedRowsPerPage = 25;
     const selectedOrder = constants.SORT_DESCENDING;
-    const selectedOrderBy = "startdate";
+    const selectedOrderBy = analysisFields.START_DATE.key;
     const selectedPermFilter = null;
     const selectedTypeFilter = null;
     return (

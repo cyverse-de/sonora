@@ -30,7 +30,7 @@ import ids from "./ids";
 import { getDataSimpleSearchQuery } from "./dataSearchQueryBuilder";
 import { getAnalysesSearchQueryFilter } from "./analysesSearchQueryBuilder";
 
-import { build } from "@cyverse-de/ui-lib";
+import { build, Highlighter } from "@cyverse-de/ui-lib";
 
 import SearchIcon from "@material-ui/icons/Search";
 import {
@@ -113,7 +113,7 @@ const PAGE = 0;
 const ROWS = 10;
 
 const SearchOption = React.forwardRef((props, ref) => {
-    const { primary, secondary, icon, onClick, href } = props;
+    const { primary, secondary, icon, searchTerm, onClick, href } = props;
     const classes = useStyles();
     return (
         <ListItem
@@ -126,12 +126,16 @@ const SearchOption = React.forwardRef((props, ref) => {
         >
             <ListItemIcon className={classes.icon}>{icon}</ListItemIcon>
             <ListItemText
-                primary={primary}
+                primary={
+                    <Highlighter search={searchTerm}>{primary}</Highlighter>
+                }
                 primaryTypographyProps={{
                     variant: "body1",
                     color: "primary",
                 }}
-                secondary={secondary}
+                secondary={
+                    <Highlighter search={searchTerm}>{secondary}</Highlighter>
+                }
                 secondaryTypographyProps={{
                     variant: "caption",
                     wrap: "true",
@@ -142,7 +146,7 @@ const SearchOption = React.forwardRef((props, ref) => {
 });
 
 function DataSearchOption(props) {
-    const { selectedOption } = props;
+    const { selectedOption, searchTerm } = props;
 
     const type = selectedOption._type;
     let icon = <FolderIcon />;
@@ -162,6 +166,7 @@ function DataSearchOption(props) {
                 primary={selectedOption.name}
                 secondary={selectedOption._source?.path}
                 icon={icon}
+                searchTerm={searchTerm}
             />
         </Link>
     );
@@ -169,7 +174,7 @@ function DataSearchOption(props) {
 
 function AppsSearchOption(props) {
     const { t } = useTranslation("common");
-    const { selectedOption } = props;
+    const { selectedOption, searchTerm } = props;
     const href = `/${NavigationConstants.APPS}/[systemId]/[appId]`;
     const as = `/${NavigationConstants.APPS}/${selectedOption.system_id}/${selectedOption.id}`;
     return (
@@ -178,6 +183,7 @@ function AppsSearchOption(props) {
                 primary={selectedOption.name}
                 secondary={selectedOption.description}
                 icon={<img src="/icon-apps.png" alt={t("apps")} />}
+                searchTerm={searchTerm}
             />
         </Link>
     );
@@ -185,7 +191,7 @@ function AppsSearchOption(props) {
 
 function AnalysesSearchOption(props) {
     const { t } = useTranslation("common");
-    const { selectedOption } = props;
+    const { selectedOption, searchTerm } = props;
     const href = `/${NavigationConstants.ANALYSES}/[analysisId]`;
     const as = `/${NavigationConstants.ANALYSES}/${selectedOption.id}`;
     return (
@@ -194,6 +200,7 @@ function AnalysesSearchOption(props) {
                 primary={selectedOption.name}
                 secondary={selectedOption.status}
                 icon={<img src="/icon-analyses.png" alt={t("analyses")} />}
+                searchTerm={searchTerm}
             />
         </Link>
     );
@@ -245,7 +252,7 @@ function GlobalSearchField(props) {
                         analysis.resultType = t("analyses");
                     });
                     setOptions([...options, ...analyses]);
-                } 
+                }
             },
         },
     });
@@ -378,11 +385,26 @@ function GlobalSearchField(props) {
     const renderCustomOption = (option) => {
         switch (option?.resultType) {
             case t("data"):
-                return <DataSearchOption selectedOption={option} />;
+                return (
+                    <DataSearchOption
+                        selectedOption={option}
+                        searchTerm={searchTerm}
+                    />
+                );
             case t("apps"):
-                return <AppsSearchOption selectedOption={option} />;
+                return (
+                    <AppsSearchOption
+                        selectedOption={option}
+                        searchTerm={searchTerm}
+                    />
+                );
             case t("analyses"):
-                return <AnalysesSearchOption selectedOption={option} />;
+                return (
+                    <AnalysesSearchOption
+                        selectedOption={option}
+                        searchTerm={searchTerm}
+                    />
+                );
             default:
                 return null;
         }
@@ -441,6 +463,7 @@ function GlobalSearchField(props) {
                 renderInput={(params) => renderCustomInput(params)}
                 popupIcon={null}
                 noOptionsText={t("noOptions")}
+                clearOnEscape={true}
             />
             <Select
                 id={build(ids.SEARCH, ids.SEARCH_FILTER_MENU)}

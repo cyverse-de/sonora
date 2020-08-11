@@ -17,6 +17,7 @@
     "logout": "Logout, {{name}}",
     "more": "More",
     "newNotificationAriaLabel": "Show New Notifications",
+    "noOptions": "No results to display.",
     "openDrawer": "Open Drawer",
     "ok": "OK",
     "refGenomes": "Reference Genomes",

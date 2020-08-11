@@ -16,8 +16,10 @@ import {
     getAnalyses,
     relaunchAnalyses,
 } from "serviceFacades/analyses";
+
 import constants from "../../../constants";
 import DEPagination from "../../utils/DEPagination";
+import withErrorAnnouncer from "../../utils/error/withErrorAnnouncer";
 import Drawer from "../details/Drawer";
 
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
@@ -61,6 +63,7 @@ function Listing(props) {
         selectedOrderBy,
         selectedPermFilter,
         selectedTypeFilter,
+        showErrorAnnouncer,
     } = props;
     const { t } = useTranslation("analyses");
     const [isGridView, setGridView] = useState(false);
@@ -101,20 +104,26 @@ function Listing(props) {
         },
     });
 
-    const [
-        deleteAnalysesMutation,
-        { isLoading: deleteLoading, error: deleteError },
-    ] = useMutation(deleteAnalyses, {
-        onSuccess: () =>
-            queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY),
-    });
+    const [deleteAnalysesMutation, { isLoading: deleteLoading }] = useMutation(
+        deleteAnalyses,
+        {
+            onSuccess: () =>
+                queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY),
+            onError: (error) => {
+                showErrorAnnouncer(t("analysesDeleteError"), error);
+            },
+        }
+    );
 
     const [
         relaunchAnalysesMutation,
-        { isLoading: relaunchLoading, error: relaunchError },
+        { isLoading: relaunchLoading },
     ] = useMutation(relaunchAnalyses, {
         onSuccess: () =>
             queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY),
+        onError: (error) => {
+            showErrorAnnouncer(t("analysesRelaunchError"), error);
+        },
     });
 
     useEffect(() => {
@@ -457,7 +466,7 @@ function Listing(props) {
             />
             <TableView
                 loading={isFetching || deleteLoading || relaunchLoading}
-                error={error || deleteError || relaunchError}
+                error={error}
                 listing={data}
                 baseId={baseId}
                 order={order}
@@ -508,4 +517,4 @@ function Listing(props) {
         </>
     );
 }
-export default Listing;
+export default withErrorAnnouncer(Listing);

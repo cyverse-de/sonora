@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
@@ -225,28 +225,6 @@ function CyverseAppBar(props) {
     const [bootstrapQueryKey, setBootstrapQueryKey] = useState(BOOTSTRAP_KEY);
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
     const [profileRefetchInterval, setProfileRefetchInterval] = useState(null);
-
-
-    const routeToSelectedSearchOption = useCallback((option) => {
-        switch (option?.resultType) {
-            case t("data"):
-                router.push(
-                    `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${option._source.path}`
-                );
-                break;
-            case t("apps"):
-                router.push(
-                    `/${NavigationConstants.APPS}/${option.system_id}/${option.id}`
-                );
-                break;
-            case t("analyses"):
-                router.push(`/${NavigationConstants.ANALYSES}/${option.id}`);
-                break;
-            default:
-                console.log("Unknown option");
-        }
-    },[router, t])
-
 
     function updateUserProfile(profile) {
         if (
@@ -623,7 +601,7 @@ function CyverseAppBar(props) {
                         </a>
                     </Hidden>
                     <Hidden xsDown>
-                        <GlobalSearchField routeToSelectedSearchOption={routeToSelectedSearchOption}/>
+                        <GlobalSearchField />
                     </Hidden>
                     <div className={classes.root} />
                     <div style={{ display: "flex" }}>

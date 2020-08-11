@@ -1,5 +1,6 @@
 import React from "react";
 import Listing from "../../src/components/analyses/listing/Listing";
+import constants from "../../src/constants";
 import { mockAxios } from "../axiosMock";
 import { listing } from "./AnalysesMocks";
 import { NotificationsProvider } from "../../src/contexts/pushNotifications";
@@ -9,10 +10,40 @@ export default {
 };
 
 function ListingTest(props) {
+    const selectedPage = 0;
+    const selectedRowsPerPage = 25;
+    const selectedOrder = constants.SORT_DESCENDING;
+    const selectedOrderBy = "startdate";
+    const selectedPermFilter = null;
+    const selectedTypeFilter = null;
     return (
         <NotificationsProvider>
             <Listing
                 baseId="tableView"
+                selectedPage={selectedPage}
+                selectedRowsPerPage={selectedRowsPerPage}
+                selectedOrder={selectedOrder}
+                selectedOrderBy={selectedOrderBy}
+                selectedPermFilter={selectedPermFilter}
+                selectedTypeFilter={selectedTypeFilter}
+                onRouteToListing={(
+                    order,
+                    orderBy,
+                    page,
+                    rowsPerPage,
+                    permFilter,
+                    appTypeFilter
+                ) => {
+                    console.log(
+                        "onRouteToListing",
+                        order,
+                        orderBy,
+                        page,
+                        rowsPerPage,
+                        permFilter,
+                        appTypeFilter
+                    );
+                }}
                 handleGoToOutputFolder={(analysis) =>
                     console.log("Go to output folder", analysis?.resultfolderid)
                 }

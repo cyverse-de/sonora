@@ -5,7 +5,6 @@
  * It contains primary ways to filter the analyses view.
  */
 
-
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
 
@@ -173,6 +172,7 @@ function AnalysesToolbar(props) {
         onDetailsSelected,
         handleInteractiveUrlClick,
         handleGoToOutputFolder,
+        handleDelete,
         handleRelaunch,
         handleBatchIconClick,
     } = props;
@@ -238,6 +238,7 @@ function AnalysesToolbar(props) {
                     getSelectedAnalyses={getSelectedAnalyses}
                     handleInteractiveUrlClick={handleInteractiveUrlClick}
                     handleGoToOutputFolder={handleGoToOutputFolder}
+                    handleDelete={handleDelete}
                     handleRelaunch={handleRelaunch}
                     handleBatchIconClick={handleBatchIconClick}
                     onFilterSelected={() => setOpenFilterDialog(true)}

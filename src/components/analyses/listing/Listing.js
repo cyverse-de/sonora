@@ -10,16 +10,23 @@ import { queryCache, useMutation, useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
+import { build } from "@cyverse-de/ui-lib";
+
 import {
     ANALYSES_LISTING_QUERY_KEY,
+    deleteAnalyses,
     getAnalyses,
     relaunchAnalyses,
 } from "serviceFacades/analyses";
+
 import constants from "../../../constants";
+import ConfirmationDialog from "../../utils/ConfirmationDialog";
 import DEPagination from "../../utils/DEPagination";
+import withErrorAnnouncer from "../../utils/error/withErrorAnnouncer";
 import Drawer from "../details/Drawer";
 
-import MultiRelaunchWarningDialog from "./MultiRelaunchWarningDialog";
+import ids from "../ids";
+
 import TableView from "./TableView";
 
 import AnalysesToolbar, { getOwnershipFilters } from "../toolbar/Toolbar";
@@ -59,6 +66,7 @@ function Listing(props) {
         selectedOrderBy,
         selectedPermFilter,
         selectedTypeFilter,
+        showErrorAnnouncer,
     } = props;
     const { t } = useTranslation("analyses");
     const [isGridView, setGridView] = useState(false);
@@ -80,6 +88,8 @@ function Listing(props) {
     const [detailsAnalysis, setDetailsAnalysis] = useState(null);
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
+
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [relaunchDialogOpen, setRelaunchDialogOpen] = useState(false);
 
     const [analysesKey, setAnalysesKey] = useState(ANALYSES_LISTING_QUERY_KEY);
@@ -97,11 +107,26 @@ function Listing(props) {
         },
     });
 
+    const [deleteAnalysesMutation, { isLoading: deleteLoading }] = useMutation(
+        deleteAnalyses,
+        {
+            onSuccess: () =>
+                queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY),
+            onError: (error) => {
+                showErrorAnnouncer(t("analysesDeleteError"), error);
+            },
+        }
+    );
+
     const [
         relaunchAnalysesMutation,
-        { isLoading: relaunchLoading, error: relaunchError },
+        { isLoading: relaunchLoading },
     ] = useMutation(relaunchAnalyses, {
-        onSuccess: () => queryCache.invalidateQueries(analysesKey),
+        onSuccess: () =>
+            queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY),
+        onError: (error) => {
+            showErrorAnnouncer(t("analysesRelaunchError"), error);
+        },
     });
 
     useEffect(() => {
@@ -403,6 +428,15 @@ function Listing(props) {
         relaunchAnalysesMutation(selected);
     };
 
+    const handleDelete = () => {
+        setDeleteDialogOpen(true);
+    };
+
+    const confirmDelete = () => {
+        setDeleteDialogOpen(false);
+        deleteAnalysesMutation(selected);
+    };
+
     const getSelectedAnalyses = (analyses) => {
         const items = analyses ? analyses : selected;
         return items.map((id) =>
@@ -429,12 +463,13 @@ function Listing(props) {
                 onDetailsSelected={onDetailsSelected}
                 handleInteractiveUrlClick={handleInteractiveUrlClick}
                 handleGoToOutputFolder={handleGoToOutputFolder}
+                handleDelete={handleDelete}
                 handleRelaunch={handleRelaunch}
                 handleBatchIconClick={handleBatchIconClick}
             />
             <TableView
-                loading={isFetching || relaunchLoading}
-                error={error || relaunchError}
+                loading={isFetching || deleteLoading || relaunchLoading}
+                error={error}
                 listing={data}
                 baseId={baseId}
                 order={order}
@@ -450,11 +485,22 @@ function Listing(props) {
                 handleBatchIconClick={handleBatchIconClick}
             />
 
-            <MultiRelaunchWarningDialog
+            <ConfirmationDialog
+                open={deleteDialogOpen}
+                baseId={build(baseId, ids.DIALOG.DELETE)}
+                onClose={() => setDeleteDialogOpen(false)}
+                onConfirm={confirmDelete}
+                title={t("delete")}
+                contentText={t("analysesExecDeleteWarning")}
+            />
+
+            <ConfirmationDialog
                 open={relaunchDialogOpen}
-                baseId={baseId}
+                baseId={build(baseId, ids.DIALOG.RELAUNCH)}
                 onClose={() => setRelaunchDialogOpen(false)}
-                confirmMultiRelaunch={confirmMultiRelaunch}
+                onConfirm={confirmMultiRelaunch}
+                title={t("relaunch")}
+                contentText={t("analysesMultiRelaunchWarning")}
             />
 
             {detailsOpen && (
@@ -478,4 +524,4 @@ function Listing(props) {
         </>
     );
 }
-export default Listing;
+export default withErrorAnnouncer(Listing);

@@ -58,6 +58,7 @@ function ListingTest(props) {
 export const AnalysesListingTest = () => {
     mockAxios.onGet(/\/api\/analyses*/).reply(200, listing);
     mockAxios.onPost("/api/analyses/relauncher").reply(200);
+    mockAxios.onPost("/api/analyses/shredder").reply(200);
 
     return <ListingTest />;
 };

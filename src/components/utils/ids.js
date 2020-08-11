@@ -17,4 +17,10 @@ export default {
     GRID_VIEW_BTN: "gridViewBtn",
     TABLE_VIEW_BTN: "tableViewBtn",
     ERROR_DLG: "errorDialog",
+
+    DIALOG: {
+        CANCEL: "cancel",
+        CONFIRM: "confirm",
+        TITLE: "title",
+    },
 };

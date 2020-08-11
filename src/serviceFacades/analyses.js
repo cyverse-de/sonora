@@ -22,6 +22,14 @@ function submitAnalysis(submission) {
     });
 }
 
+function deleteAnalyses(analysisIds) {
+    return callApi({
+        endpoint: "/api/analyses/shredder",
+        method: "POST",
+        body: { analyses: analysisIds },
+    });
+}
+
 function relaunchAnalyses(analysisIds) {
     return callApi({
         endpoint: "/api/analyses/relauncher",
@@ -56,6 +64,7 @@ export {
     getAnalysisHistory,
     getAnalysisParameters,
     getAnalysisRelaunchInfo,
+    deleteAnalyses,
     relaunchAnalyses,
     submitAnalysis,
     ANALYSES_LISTING_QUERY_KEY,

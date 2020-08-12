@@ -7,6 +7,7 @@ import { formatDate } from "@cyverse-de/ui-lib";
 import * as constants from "../constants";
 
 import ItemBase, { ItemAction, MenuAction } from "./ItemBase";
+import { IconButton } from "@material-ui/core";
 
 class AppItem extends ItemBase {
     constructor(props) {
@@ -28,14 +29,18 @@ class AppItem extends ItemBase {
                     key={`${constants.KIND_APPS}-${props.content.id}-favorite`}
                     tooltipKey="favoriteAction"
                 >
-                    <Favorite />
+                    <IconButton>
+                        <Favorite />
+                    </IconButton>
                 </ItemAction>,
                 <ItemAction
                     ariaLabel="launch"
                     key={`${constants.KIND_APPS}-${props.content.id}-launch`}
                     tooltipKey="launchAction"
                 >
-                    <Launch />
+                    <IconButton>
+                        <Launch />
+                    </IconButton>
                 </ItemAction>,
             ])
             .addMenuActions([

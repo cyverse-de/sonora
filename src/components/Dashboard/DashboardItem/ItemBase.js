@@ -201,20 +201,9 @@ export const DashboardVideoItem = ({ item }) => {
     );
 };
 
-export const ItemAction = ({
-    children,
-    ariaLabel,
-    handleClick,
-    tooltipKey,
-}) => {
+export const ItemAction = ({ children, tooltipKey }) => {
     const { t } = useTranslation("dashboard");
-    return (
-        <Tooltip title={t(tooltipKey)}>
-            <IconButton aria-label={ariaLabel} onClick={handleClick}>
-                {children}
-            </IconButton>
-        </Tooltip>
-    );
+    return <Tooltip title={t(tooltipKey)}>{children}</Tooltip>;
 };
 
 export const MenuAction = ({

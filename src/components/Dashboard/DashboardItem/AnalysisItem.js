@@ -1,17 +1,22 @@
 import React from "react";
+import Link from "next/link";
 import {
     BarChart,
-    FolderOpen,
-    Replay,
+    Repeat,
     Info,
     Stop,
     People,
+    PermMedia,
 } from "@material-ui/icons";
+import { IconButton } from "@material-ui/core";
+
 import { formatDate } from "@cyverse-de/ui-lib";
 
 import * as constants from "../constants";
 
 import ItemBase, { ItemAction, MenuAction } from "./ItemBase";
+
+import { getFolderPage } from "../../data/utils";
 
 class AnalysisItem extends ItemBase {
     constructor({ section, content, height, width }) {
@@ -33,14 +38,28 @@ class AnalysisItem extends ItemBase {
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-relaunch`}
                     tooltipKey="relaunchAction"
                 >
-                    <Replay />
+                    <Link
+                        href="/analyses/[analysisId]/relaunch"
+                        as={`/analyses/${item.content.id}/relaunch`}
+                    >
+                        <IconButton>
+                            <Repeat />
+                        </IconButton>
+                    </Link>
                 </ItemAction>,
                 <ItemAction
                     ariaLabel="go to output files"
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-outputs`}
                     tooltipKey="outputAction"
                 >
-                    <FolderOpen />
+                    <Link
+                        href="/data/ds/[...pathItems]"
+                        as={getFolderPage(item.content["result_folder_path"])}
+                    >
+                        <IconButton>
+                            <PermMedia />
+                        </IconButton>
+                    </Link>
                 </ItemAction>,
             ])
             .addMenuActions([

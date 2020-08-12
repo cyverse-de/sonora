@@ -110,6 +110,19 @@ function searchApps(key, { search, rowsPerPage, orderBy, order, page }) {
     });
 }
 
+function searhAppsInfiniteQuery(
+    key,
+    { search, rowsPerPage, orderBy, order },
+    page = 0
+) {
+    return callApi({
+        endpoint: `/api/apps?search=${search}&limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
+            rowsPerPage * page
+        }`,
+        method: "GET",
+    });
+}
+
 export {
     getApps,
     getAppById,
@@ -120,6 +133,7 @@ export {
     appFavorite,
     rateApp,
     searchApps,
+    searhAppsInfiniteQuery,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,

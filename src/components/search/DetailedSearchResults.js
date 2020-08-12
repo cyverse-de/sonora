@@ -18,6 +18,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import { AppSearchResults } from "./AppSearchResults";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,10 +41,13 @@ const TABS = {
 };
 
 export default function DetailedSearchResults(props) {
-    const { baseId } = props;
+    const { baseId, searchTerm } = props;
     const classes = useStyles();
     const [selectedTab, setSelectedTab] = useState(TABS.data);
     const { t } = useTranslation(["common"]);
+    const [appsCount, setAppsCount] = useState(0);
+    const [dataCount, setDataCount] = useState(0);
+    const [analysesCount, setAnalysesCount] = useState(0);
 
     const onTabSelectionChange = (event, selectedTab) => {
         setSelectedTab(selectedTab);
@@ -63,22 +67,32 @@ export default function DetailedSearchResults(props) {
                 <Tab
                     value={TABS.data}
                     id={dataTabId}
-                    label={t("data")}
+                    label={t("dataSearchTab", { count: dataCount })}
                     classes={{ selected: classes.tabSelected }}
                 />
                 <Tab
                     value={TABS.apps}
                     tabId={appsTabId}
-                    label={t("apps")}
+                    label={t("appsSearchTab", { count: appsCount })}
                     classes={{ selected: classes.tabSelected }}
                 />
                 <Tab
                     value={TABS.analyses}
                     tabId={analysesTabId}
-                    label={t("analyses")}
+                    label={t("analysesSearchTab", { count: analysesCount })}
                     classes={{ selected: classes.tabSelected }}
                 />
             </Tabs>
+            <DETabPanel
+                tabId={appsTabId}
+                value={TABS.apps}
+                selectedTab={selectedTab}
+            >
+                <AppSearchResults
+                    searchTerm={searchTerm}
+                    updateResultCount={(count) => setAppsCount(count)}
+                />
+            </DETabPanel>
             <DETabPanel
                 tabId={dataTabId}
                 value={TABS.data}
@@ -86,13 +100,7 @@ export default function DetailedSearchResults(props) {
             >
                 Data Results
             </DETabPanel>
-            <DETabPanel
-                tabId={appsTabId}
-                value={TABS.apps}
-                selectedTab={selectedTab}
-            >
-                Apps Results
-            </DETabPanel>
+
             <DETabPanel
                 tabId={analysesTabId}
                 value={TABS.analyses}

@@ -7,6 +7,7 @@ import {
     Stop,
     Share,
 } from "@material-ui/icons";
+import { MenuItem } from "@material-ui/core";
 import { formatDate } from "@cyverse-de/ui-lib";
 
 import * as constants from "../constants";
@@ -26,38 +27,41 @@ class AnalysisItem extends ItemBase {
 
     static create(props) {
         const item = new AnalysisItem(props);
-        return item.addActions([
-            <ItemAction
-                ariaLabel="relaunch"
-                key={`${constants.KIND_ANALYSES}-${props.content.id}-relaunch`}
-            >
-                <Replay />
-            </ItemAction>,
-            <ItemAction
-                ariaLabel="stop"
-                key={`${constants.KIND_ANALYSES}-${props.content.id}-stop`}
-            >
-                <Stop />
-            </ItemAction>,
-            <ItemAction
-                ariaLabel="open details"
-                key={`${constants.KIND_ANALYSES}-${props.content.id}-details`}
-            >
-                <Info />
-            </ItemAction>,
-            <ItemAction
-                ariaLabel="share"
-                key={`${constants.KIND_ANALYSES}-${props.content.id}-share`}
-            >
-                <Share />
-            </ItemAction>,
-            <ItemAction
-                ariaLabel="go to output files"
-                key={`${constants.KIND_ANALYSES}-${props.content.id}-outputs`}
-            >
-                <FolderOpen />
-            </ItemAction>,
-        ]);
+        return item
+            .addActions([
+                <ItemAction
+                    ariaLabel="relaunch"
+                    key={`${constants.KIND_ANALYSES}-${props.content.id}-relaunch`}
+                >
+                    <Replay />
+                </ItemAction>,
+                <ItemAction
+                    ariaLabel="go to output files"
+                    key={`${constants.KIND_ANALYSES}-${props.content.id}-outputs`}
+                >
+                    <FolderOpen />
+                </ItemAction>,
+            ])
+            .addMenuActions([
+                <MenuItem
+                    ariaLabel="stop"
+                    key={`${constants.KIND_ANALYSES}-${props.content.id}-stop`}
+                >
+                    <Stop />
+                </MenuItem>,
+                <MenuItem
+                    ariaLabel="open details"
+                    key={`${constants.KIND_ANALYSES}-${props.content.id}-details`}
+                >
+                    <Info />
+                </MenuItem>,
+                <MenuItem
+                    ariaLabel="share"
+                    key={`${constants.KIND_ANALYSES}-${props.content.id}-share`}
+                >
+                    <Share />
+                </MenuItem>,
+            ]);
     }
 
     getOrigination(t) {

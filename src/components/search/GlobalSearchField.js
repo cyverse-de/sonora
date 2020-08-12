@@ -6,9 +6,15 @@
 
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
-import { useQuery, queryCache } from "react-query";
+import { queryCache } from "react-query";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
+import {
+    useDataSearch,
+    useAppsSearch,
+    useAnalysesSearch,
+} from "./searchQueries";
 import ResourceTypes from "../models/ResourceTypes";
 import constants from "../../constants";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
@@ -16,12 +22,9 @@ import NavigationConstants from "common/NavigationConstants";
 import { getParentPath } from "components/data/utils";
 
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
-import {
-    getAnalyses,
-    ANALYSES_SEARCH_QUERY_KEY,
-} from "serviceFacades/analyses";
-import { searchApps, APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
-import { searchData, DATA_SEARCH_QUERY_KEY } from "serviceFacades/filesystem";
+import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
+import { APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
+import { DATA_SEARCH_QUERY_KEY } from "serviceFacades/filesystem";
 
 import appFields from "components/apps/AppFields";
 import analysisFields from "components/analyses/analysisFields";
@@ -213,6 +216,7 @@ function AnalysesSearchOption(props) {
 
 function GlobalSearchField(props) {
     const classes = useStyles();
+    const router = useRouter();
     const { showErrorAnnouncer } = props;
 
     const { t } = useTranslation(["common"]);
@@ -245,57 +249,48 @@ function GlobalSearchField(props) {
     const {
         isFetching: searchingAnalyses,
         error: analysesSearchError,
-    } = useQuery({
-        queryKey: analysesSearchKey,
-        queryFn: getAnalyses,
-        config: {
-            enabled: analysesSearchQueryEnabled,
-            onSuccess: (results) => {
-                if (results && results.analyses?.length > 0) {
-                    const analyses = results.analyses;
-                    analyses.forEach((analysis) => {
-                        analysis.resultType = t("analyses");
-                    });
-                    setOptions([...options, ...analyses]);
-                }
-            },
-        },
-    });
+    } = useAnalysesSearch(
+        analysesSearchKey,
+        analysesSearchQueryEnabled,
+        (results) => {
+            if (results && results.analyses?.length > 0) {
+                const analyses = results.analyses;
+                analyses.forEach((analysis) => {
+                    analysis.resultType = t("analyses");
+                });
+                setOptions([...options, ...analyses]);
+            }
+        }
+    );
 
-    const { isFetching: searchingApps, error: appsSearchError } = useQuery({
-        queryKey: appsSearchKey,
-        queryFn: searchApps,
-        config: {
-            enabled: appsSearchQueryEnabled,
-            onSuccess: (results) => {
-                if (results && results.apps?.length > 0) {
-                    const apps = results.apps;
-                    apps.forEach((app) => {
-                        app.resultType = t("apps");
-                    });
-                    setOptions([...options, ...apps]);
-                }
-            },
-        },
-    });
+    const { isFetching: searchingApps, error: appsSearchError } = useAppsSearch(
+        appsSearchKey,
+        appsSearchQueryEnabled,
+        (results) => {
+            if (results && results.apps?.length > 0) {
+                const apps = results.apps;
+                apps.forEach((app) => {
+                    app.resultType = t("apps");
+                });
+                setOptions([...options, ...apps]);
+            }
+        }
+    );
 
-    const { isFetching: searchingData, error: dataSearchError } = useQuery({
-        queryKey: dataSearchKey,
-        queryFn: searchData,
-        config: {
-            enabled: dataSearchQueryEnabled,
-            onSuccess: (results) => {
-                if (results && results.hits?.length > 0) {
-                    const data = results.hits;
-                    data.forEach((data) => {
-                        data.name = data._source?.label;
-                        data.resultType = t("data");
-                    });
-                    setOptions([...options, ...data]);
-                }
-            },
-        },
-    });
+    const { isFetching: searchingData, error: dataSearchError } = useDataSearch(
+        dataSearchKey,
+        dataSearchQueryEnabled,
+        (results) => {
+            if (results && results.hits?.length > 0) {
+                const data = results.hits;
+                data.forEach((data) => {
+                    data.name = data._source?.label;
+                    data.resultType = t("data");
+                });
+                setOptions([...options, ...data]);
+            }
+        }
+    );
 
     const handleChange = (event, value, reason) => {
         if (reason === "clear" || value === "") {
@@ -435,6 +430,15 @@ function GlobalSearchField(props) {
                         {params.InputProps.endAdornment}
                     </React.Fragment>
                 ),
+            }}
+            onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                    console.log("enter key pressed!");
+                    setOpen(false);
+                    router.push(
+                        `/${NavigationConstants.SEARCH}?searchTerm=${searchTerm}`
+                    );
+                }
             }}
         />
     );

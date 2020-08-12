@@ -13,6 +13,8 @@ import {
     Typography,
     useMediaQuery,
     IconButton,
+    Tooltip,
+    MenuItem,
 } from "@material-ui/core";
 
 import { MoreVert } from "@material-ui/icons";
@@ -199,11 +201,37 @@ export const DashboardVideoItem = ({ item }) => {
     );
 };
 
-export const ItemAction = ({ children, ariaLabel, handleClick }) => (
-    <IconButton aria-label={ariaLabel} onClick={handleClick}>
-        {children}
-    </IconButton>
-);
+export const ItemAction = ({
+    children,
+    ariaLabel,
+    handleClick,
+    tooltipKey,
+}) => {
+    const { t } = useTranslation("dashboard");
+    return (
+        <Tooltip title={t(tooltipKey)}>
+            <IconButton aria-label={ariaLabel} onClick={handleClick}>
+                {children}
+            </IconButton>
+        </Tooltip>
+    );
+};
+
+export const MenuAction = ({
+    children,
+    ariaLabel,
+    handleClick,
+    tooltipKey,
+}) => {
+    const { t } = useTranslation("dashboard");
+    return (
+        <Tooltip title={t(tooltipKey)}>
+            <MenuItem onClick={handleClick} ariaLabel={ariaLabel}>
+                {children}
+            </MenuItem>
+        </Tooltip>
+    );
+};
 
 export const getSectionColor = (section, theme) => {
     let color;

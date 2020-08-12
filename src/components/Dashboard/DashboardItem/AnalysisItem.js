@@ -5,14 +5,13 @@ import {
     Replay,
     Info,
     Stop,
-    Share,
+    People,
 } from "@material-ui/icons";
-import { MenuItem } from "@material-ui/core";
 import { formatDate } from "@cyverse-de/ui-lib";
 
 import * as constants from "../constants";
 
-import ItemBase, { ItemAction } from "./ItemBase";
+import ItemBase, { ItemAction, MenuAction } from "./ItemBase";
 
 class AnalysisItem extends ItemBase {
     constructor({ section, content, height, width }) {
@@ -32,35 +31,40 @@ class AnalysisItem extends ItemBase {
                 <ItemAction
                     ariaLabel="relaunch"
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-relaunch`}
+                    tooltipKey="relaunchAction"
                 >
                     <Replay />
                 </ItemAction>,
                 <ItemAction
                     ariaLabel="go to output files"
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-outputs`}
+                    tooltipKey="outputAction"
                 >
                     <FolderOpen />
                 </ItemAction>,
             ])
             .addMenuActions([
-                <MenuItem
+                <MenuAction
                     ariaLabel="stop"
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-stop`}
+                    tooltipKey="stopAction"
                 >
                     <Stop />
-                </MenuItem>,
-                <MenuItem
+                </MenuAction>,
+                <MenuAction
                     ariaLabel="open details"
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-details`}
+                    tooltipKey="detailsAction"
                 >
                     <Info />
-                </MenuItem>,
-                <MenuItem
+                </MenuAction>,
+                <MenuAction
                     ariaLabel="share"
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-share`}
+                    tooltipKey="shareAction"
                 >
-                    <Share />
-                </MenuItem>,
+                    <People />
+                </MenuAction>,
             ]);
     }
 

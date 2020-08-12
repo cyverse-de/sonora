@@ -1,13 +1,12 @@
 import React from "react";
 
-import { MenuItem } from "@material-ui/core";
-import { Launch, Info, Favorite, Share, Apps } from "@material-ui/icons";
+import { Launch, Info, Favorite, People, Apps } from "@material-ui/icons";
 
 import { formatDate } from "@cyverse-de/ui-lib";
 
 import * as constants from "../constants";
 
-import ItemBase, { ItemAction } from "./ItemBase";
+import ItemBase, { ItemAction, MenuAction } from "./ItemBase";
 
 class AppItem extends ItemBase {
     constructor(props) {
@@ -27,29 +26,33 @@ class AppItem extends ItemBase {
                 <ItemAction
                     arialLabel="favorite"
                     key={`${constants.KIND_APPS}-${props.content.id}-favorite`}
+                    tooltipKey="favoriteAction"
                 >
                     <Favorite />
                 </ItemAction>,
                 <ItemAction
                     ariaLabel="launch"
                     key={`${constants.KIND_APPS}-${props.content.id}-launch`}
+                    tooltipKey="launchAction"
                 >
                     <Launch />
                 </ItemAction>,
             ])
             .addMenuActions([
-                <MenuItem
+                <MenuAction
                     arialLabel="open details"
                     key={`${constants.KIND_APPS}-${props.content.id}-details`}
+                    tooltipKey="detailsAction"
                 >
                     <Info />
-                </MenuItem>,
-                <MenuItem
+                </MenuAction>,
+                <MenuAction
                     arialLabel="share"
                     key={`${constants.KIND_APPS}-${props.content.id}-share`}
+                    tooltipKey="shareAction"
                 >
-                    <Share />
-                </MenuItem>,
+                    <People />
+                </MenuAction>,
             ]);
     }
 

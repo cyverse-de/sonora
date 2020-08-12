@@ -15,5 +15,12 @@
     "by": "By",
     "noDescriptionProvided": "No description was provided.",
     "showMore": "Show More",
-    "showFewer": "Show Fewer"
+    "showFewer": "Show Fewer",
+    "relaunchAction": "Relaunch",
+    "outputAction": "Show Output Files",
+    "stopAction": "Stop",
+    "detailsAction": "Show Details",
+    "shareAction": "Share",
+    "favoriteAction": "Favorite",
+    "launchAction": "Launch"
 }

@@ -5,7 +5,7 @@ export default makeStyles((theme) => ({
         marginLeft: "auto",
     },
     avatar: {
-        background: theme.palette.white,
+        background: (props) => props.color,
         height: theme.spacing(3),
         width: theme.spacing(3),
     },
@@ -13,8 +13,10 @@ export default makeStyles((theme) => ({
         background: theme.palette.white,
     },
     avatarIcon: {
-        backgroundColor: (props) => theme.palette.white,
-        color: (props) => props.color,
+        color: (props) => theme.palette.white,
+        backgroundColor: (props) => props.color,
+        height: theme.spacing(2),
+        width: theme.spacing(2),
     },
     cardHeaderContent: {
         width: "75%",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
 import { useTranslation } from "i18n";
 
@@ -9,10 +9,13 @@ import {
     CardContent,
     CardHeader,
     Link,
-    useMediaQuery,
+    Menu,
     Typography,
+    useMediaQuery,
     IconButton,
 } from "@material-ui/core";
+
+import { MoreVert } from "@material-ui/icons";
 
 import { useTheme } from "@material-ui/styles";
 
@@ -71,6 +74,9 @@ const DashboardItem = ({ item }) => {
     const description = fns.cleanDescription(item.content.description);
     const [origination, date] = item.getOrigination(t);
 
+    const [menuAnchorEl, setMenuAnchorEl] = useState(null);
+    const menuID = fns.makeID(cardID, "menu");
+
     return (
         <Card
             classes={{ root: classes.dashboardCard }}
@@ -112,12 +118,31 @@ const DashboardItem = ({ item }) => {
                 </Typography>
             </CardContent>
 
-            <CardActions
-                classes={{
-                    root: classes.actionsRoot,
-                }}
-            >
+            <CardActions disableSpacing>
                 {item.actions}
+                {item.menuActions.length > 0 && (
+                    <>
+                        <IconButton
+                            className={classes.tripleDotMenu}
+                            aria-controls="action-menu"
+                            aria-haspopup="true"
+                            onClick={(event) =>
+                                setMenuAnchorEl(event.currentTarget)
+                            }
+                        >
+                            <MoreVert />
+                        </IconButton>
+                        <Menu
+                            id={menuID}
+                            anchorEl={menuAnchorEl}
+                            keepMounted
+                            open={Boolean(menuAnchorEl)}
+                            onClose={() => setMenuAnchorEl(null)}
+                        >
+                            {item.menuActions}
+                        </Menu>
+                    </>
+                )}
             </CardActions>
         </Card>
     );
@@ -208,7 +233,15 @@ export const getSectionColor = (section, theme) => {
 };
 
 class ItemBase {
-    constructor({ kind, section, content, height, width, actions = [] }) {
+    constructor({
+        kind,
+        section,
+        content,
+        height,
+        width,
+        actions = [],
+        menuActions = [],
+    }) {
         this.kind = kind;
         this.section = section;
         this.content = content;
@@ -217,10 +250,16 @@ class ItemBase {
         this.width = width;
         this.id = buildID(content.id);
         this.username = fns.cleanUsername(content.username);
+        this.menuActions = menuActions;
     }
 
     addActions(actions) {
         this.actions = [...this.actions, ...actions];
+        return this;
+    }
+
+    addMenuActions(actions) {
+        this.menuActions = [...this.menuActions, ...actions];
         return this;
     }
 

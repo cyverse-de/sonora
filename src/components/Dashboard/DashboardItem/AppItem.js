@@ -1,5 +1,6 @@
 import React from "react";
 
+import { MenuItem } from "@material-ui/core";
 import { Launch, Info, Favorite, Share, Apps } from "@material-ui/icons";
 
 import { formatDate } from "@cyverse-de/ui-lib";
@@ -21,32 +22,35 @@ class AppItem extends ItemBase {
 
     static create(props) {
         const item = new AppItem(props);
-        return item.addActions([
-            <ItemAction
-                ariaLabel="launch"
-                key={`${constants.KIND_APPS}-${props.content.id}-launch`}
-            >
-                <Launch />
-            </ItemAction>,
-            <ItemAction
-                arialLabel="open details"
-                key={`${constants.KIND_APPS}-${props.content.id}-details`}
-            >
-                <Info />
-            </ItemAction>,
-            <ItemAction
-                arialLabel="favorite"
-                key={`${constants.KIND_APPS}-${props.content.id}-favorite`}
-            >
-                <Favorite />
-            </ItemAction>,
-            <ItemAction
-                arialLabel="share"
-                key={`${constants.KIND_APPS}-${props.content.id}-share`}
-            >
-                <Share />
-            </ItemAction>,
-        ]);
+        return item
+            .addActions([
+                <ItemAction
+                    arialLabel="favorite"
+                    key={`${constants.KIND_APPS}-${props.content.id}-favorite`}
+                >
+                    <Favorite />
+                </ItemAction>,
+                <ItemAction
+                    ariaLabel="launch"
+                    key={`${constants.KIND_APPS}-${props.content.id}-launch`}
+                >
+                    <Launch />
+                </ItemAction>,
+            ])
+            .addMenuActions([
+                <MenuItem
+                    arialLabel="open details"
+                    key={`${constants.KIND_APPS}-${props.content.id}-details`}
+                >
+                    <Info />
+                </MenuItem>,
+                <MenuItem
+                    arialLabel="share"
+                    key={`${constants.KIND_APPS}-${props.content.id}-share`}
+                >
+                    <Share />
+                </MenuItem>,
+            ]);
     }
 
     getOrigination(t) {

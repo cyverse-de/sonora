@@ -15,7 +15,7 @@ import {
     getListingPath,
 } from "components/analyses/utils";
 import { getFolderPage } from "components/data/utils";
-import analysisFileds from "components/analyses/analysisFields";
+import analysisFields from "components/analyses/analysisFields";
 import Listing from "components/analyses/listing/Listing";
 
 export default function Analyses() {
@@ -26,7 +26,7 @@ export default function Analyses() {
     const selectedRowsPerPage = parseInt(query.selectedRowsPerPage) || 25;
     const selectedOrder = query.selectedOrder || constants.SORT_DESCENDING;
     const selectedOrderBy =
-        query.selecetdOrderBy || analysisFileds.START_DATE.key;
+        query.selectedOrderBy || analysisFields.START_DATE.key;
 
     const selectedPermFilter = query.selectedPermFilter
         ? JSON.parse(query.selectedPermFilter)

@@ -2,7 +2,9 @@ export const getDataSimpleSearchQuery = (
     searchTerm,
     userHomeDir,
     rowsPerPage,
-    offset
+    offset,
+    sortField,
+    sortDir,
 ) => {
     if (userHomeDir) {
         return {
@@ -29,8 +31,8 @@ export const getDataSimpleSearchQuery = (
             from: offset,
             sort: [
                 {
-                    field: "label",
-                    order: "ascending",
+                    field: sortField,
+                    order: sortDir,
                 },
             ],
         };
@@ -52,8 +54,8 @@ export const getDataSimpleSearchQuery = (
             from: offset,
             sort: [
                 {
-                    field: "label",
-                    order: "ascending",
+                    field: sortField,
+                    order: sortDir,
                 },
             ],
         };

@@ -49,6 +49,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import DescriptionIcon from "@material-ui/icons/Description";
 import FolderIcon from "@material-ui/icons/Folder";
 
+const ALL = "all";
+const APPS = "apps";
+const DATA = "data";
+const ANALYSES = "analyses";
+
+//gobal search constants
+const PAGE = 0;
+const ROWS = 10;
+
 const useStyles = makeStyles((theme) => ({
     root: {
         position: "relative",
@@ -108,9 +117,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-//gobal search constants
-const PAGE = 0;
-const ROWS = 10;
 
 const SearchOption = React.forwardRef((props, ref) => {
     const { primary, secondary, icon, searchTerm, onClick, href } = props;
@@ -213,7 +219,7 @@ function GlobalSearchField(props) {
     const { t } = useTranslation(["common"]);
 
     const [searchTerm, setSearchTerm] = useState("");
-    const [filter, setFilter] = useState(t("all"));
+    const [filter, setFilter] = useState(ALL);
 
     const [options, setOptions] = useState([]);
     const [open, setOpen] = useState(false);
@@ -315,12 +321,17 @@ function GlobalSearchField(props) {
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
-            const userHomeDir = bootstrapCache?.data_info.user_home_path + "/";
+            let userHomeDir = bootstrapCache?.data_info.user_home_path;
+            if (userHomeDir) {
+                userHomeDir = userHomeDir + "/";
+            }
             const dataQuery = getDataSimpleSearchQuery(
                 searchTerm,
                 userHomeDir,
                 ROWS,
-                PAGE
+                PAGE,
+                "label",
+                "ascending"
             );
             setDataSearchKey([DATA_SEARCH_QUERY_KEY, { query: dataQuery }]);
 
@@ -345,21 +356,20 @@ function GlobalSearchField(props) {
                     filter: getAnalysesSearchQueryFilter(searchTerm),
                 },
             ]);
-            // console.log("Final Query to submit =>" + JSON.stringify(dataQuery));
             switch (filter) {
-                case t("data"):
+                case DATA:
                     setDataSearchQueryEnabled(true);
                     setAppsSearchQueryEnabled(false);
                     setAnalysesSearchQueryEnabled(false);
                     break;
 
-                case t("apps"):
+                case APPS:
                     setDataSearchQueryEnabled(false);
                     setAppsSearchQueryEnabled(true);
                     setAnalysesSearchQueryEnabled(false);
                     break;
 
-                case t("analyses"):
+                case ANALYSES:
                     setDataSearchQueryEnabled(false);
                     setAppsSearchQueryEnabled(false);
                     setAnalysesSearchQueryEnabled(true);
@@ -475,10 +485,10 @@ function GlobalSearchField(props) {
                 variant={isMobile ? "outlined" : "standard"}
                 renderInput={() => <TextField size="small" disableUnderline />}
             >
-                <MenuItem value={t("all")}>{t("all")}</MenuItem>
-                <MenuItem value={t("data")}>{t("data")}</MenuItem>
-                <MenuItem value={t("apps")}>{t("apps")}</MenuItem>
-                <MenuItem value={t("analyses")}>{t("analyses")}</MenuItem>
+                <MenuItem value={ALL}>{t("all")}</MenuItem>
+                <MenuItem value={DATA}>{t("data")}</MenuItem>
+                <MenuItem value={APPS}>{t("apps")}</MenuItem>
+                <MenuItem value={ANALYSES}>{t("analyses")}</MenuItem>
             </Select>
         </>
     );

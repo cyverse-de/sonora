@@ -8,7 +8,7 @@ import React, { useCallback } from "react";
 import { useRouter } from "next/router";
 
 import constants from "../../../../constants";
-import AppFields from "components/apps/AppFields";
+import AppFields from "@/components/apps/appFields";
 import { getAppLaunchPath, getListingPath } from "components/apps/utils";
 import Listing from "components/apps/listing/Listing";
 

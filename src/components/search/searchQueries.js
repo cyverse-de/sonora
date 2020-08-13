@@ -18,7 +18,7 @@ import { getAnalyses } from "serviceFacades/analyses";
  * @param {boolean} dataSearchQueryEnabled
  * @param {function} successCallback
  *
- * @returns
+ * @returns {function}
  */
 function useDataSearch(dataSearchKey, dataSearchQueryEnabled, successCallback) {
     return useQuery({
@@ -38,7 +38,7 @@ function useDataSearch(dataSearchKey, dataSearchQueryEnabled, successCallback) {
  * @param {boolean} appsSearchQueryEnabled
  * @param {function} successCallback
  *
- * @returns
+ * @returns {function}
  */
 function useAppsSearch(appsSearchKey, appsSearchQueryEnabled, successCallback) {
     return useQuery({
@@ -58,7 +58,7 @@ function useAppsSearch(appsSearchKey, appsSearchQueryEnabled, successCallback) {
  * @param {booelan} analysesSearchQueryEnabled
  * @param {function} successCallback
  *
- * @returns
+ * @returns {function}
  */
 function useAnalysesSearch(
     analysesSearchKey,

@@ -26,7 +26,7 @@ import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
 import { APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
 import { DATA_SEARCH_QUERY_KEY } from "serviceFacades/filesystem";
 
-import appFields from "components/apps/AppFields";
+import appFields from "components/apps/appFields";
 import analysisFields from "components/analyses/analysisFields";
 
 import ids from "./ids";
@@ -219,7 +219,9 @@ function GlobalSearchField(props) {
     const router = useRouter();
     const { showErrorAnnouncer } = props;
 
-    const { t } = useTranslation(["common"]);
+    const { t } = useTranslation(["common", "analyses"]);
+
+    const appRecordFields = appFields();
 
     const [searchTerm, setSearchTerm] = useState("");
     const [filter, setFilter] = useState(ALL);
@@ -245,6 +247,10 @@ function GlobalSearchField(props) {
 
     //get bootstrap from cache.
     const bootstrapCache = queryCache.getQueryData(BOOTSTRAP_KEY);
+    let userHomeDir = bootstrapCache?.data_info.user_home_path;
+    if (userHomeDir) {
+        userHomeDir = userHomeDir + "/";
+    }
 
     const {
         isFetching: searchingAnalyses,
@@ -314,10 +320,6 @@ function GlobalSearchField(props) {
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
-            let userHomeDir = bootstrapCache?.data_info.user_home_path;
-            if (userHomeDir) {
-                userHomeDir = userHomeDir + "/";
-            }
             const dataQuery = getDataSimpleSearchQuery(
                 searchTerm,
                 userHomeDir,
@@ -332,21 +334,22 @@ function GlobalSearchField(props) {
                 APPS_SEARCH_QUERY_KEY,
                 {
                     rowsPerPage: ROWS,
-                    orderBy: appFields.NAME.key,
+                    orderBy: appRecordFields.NAME.key,
                     order: constants.SORT_ASCENDING,
                     page: PAGE,
                     search: searchTerm,
                 },
             ]);
 
+            const analysisRecordfields = analysisFields(t);
             setAnalysesSearchKey([
                 ANALYSES_SEARCH_QUERY_KEY,
                 {
                     rowsPerPage: ROWS,
-                    orderBy: analysisFields.START_DATE.key,
+                    orderBy: analysisRecordfields.START_DATE.key,
                     order: constants.SORT_DESCENDING,
                     page: PAGE,
-                    filter: getAnalysesSearchQueryFilter(searchTerm),
+                    filter: getAnalysesSearchQueryFilter(searchTerm, t),
                 },
             ]);
             switch (filter) {
@@ -374,7 +377,15 @@ function GlobalSearchField(props) {
                     setAnalysesSearchQueryEnabled(true);
             }
         }
-    }, [bootstrapCache, filter, searchTerm, showErrorAnnouncer, t]);
+    }, [
+        appRecordFields.NAME.key,
+        bootstrapCache,
+        filter,
+        searchTerm,
+        showErrorAnnouncer,
+        t,
+        userHomeDir,
+    ]);
 
     if (analysesSearchError || appsSearchError || dataSearchError) {
         showErrorAnnouncer(

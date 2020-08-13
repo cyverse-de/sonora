@@ -110,7 +110,7 @@ function searchApps(key, { search, rowsPerPage, orderBy, order, page }) {
     });
 }
 
-function searhAppsInfiniteQuery(
+function searchAppsInfiniteQuery(
     key,
     { search, rowsPerPage, orderBy, order },
     page = 0
@@ -133,7 +133,7 @@ export {
     appFavorite,
     rateApp,
     searchApps,
-    searhAppsInfiniteQuery,
+    searchAppsInfiniteQuery,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,

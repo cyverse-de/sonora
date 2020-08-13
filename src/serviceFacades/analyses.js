@@ -76,6 +76,19 @@ function getAnalysisRelaunchInfo(key, { id }) {
     });
 }
 
+function searchAnalysesInfinite(
+    key,
+    { rowsPerPage, orderBy, order, filter },
+    page = 0
+) {
+    return callApi({
+        endpoint: `/api/analyses?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
+            rowsPerPage * page
+        }&filter=[${filter}]`,
+        method: "GET",
+    });
+}
+
 export {
     getAnalyses,
     getAnalysisHistory,
@@ -86,6 +99,7 @@ export {
     renameAnalysis,
     submitAnalysis,
     updateAnalysisComment,
+    searchAnalysesInfinite,
     ANALYSES_LISTING_QUERY_KEY,
     ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSIS_PARAMS_QUERY_KEY,

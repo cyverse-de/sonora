@@ -18,7 +18,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import { AppSearchResults } from "./AppSearchResults";
+import AppSearchResults from "./AppSearchResults";
+import DataSearchResults from "./DataSearchResults";
+import AnalysesSearchResults from "./AnalysesSearchResults";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -98,7 +100,10 @@ export default function DetailedSearchResults(props) {
                 value={TABS.data}
                 selectedTab={selectedTab}
             >
-                Data Results
+                <DataSearchResults
+                    searchTerm={searchTerm}
+                    updateResultCount={(count) => setDataCount(count)}
+                />
             </DETabPanel>
 
             <DETabPanel
@@ -106,7 +111,10 @@ export default function DetailedSearchResults(props) {
                 value={TABS.analyses}
                 selectedTab={selectedTab}
             >
-                Analyses Results
+                <AnalysesSearchResults
+                    searchTerm={searchTerm}
+                    updateResultCount={(count) => setAnalysesCount(count)}
+                />
             </DETabPanel>
         </Paper>
     );

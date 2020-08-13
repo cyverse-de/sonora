@@ -1,4 +1,5 @@
 import callApi from "../common/callApi";
+import { getDataSimpleSearchQuery } from "components/search/dataSearchQueryBuilder";
 
 export const DATA_LISTING_QUERY_KEY = "fetchDataListing";
 export const USER_INFO_QUERY_KEY = "fetchUserInfo";
@@ -125,7 +126,35 @@ export const createFolder = ({ path }) => {
     });
 };
 
+/**
+ * Search data
+ *
+ * @param {string} key
+ * @param {object} query
+ *
+ * @returns {Promise<*>}
+ */
 export const searchData = (key, { query }) => {
+    return callApi({
+        endpoint: "/api/filesystem/search",
+        method: "POST",
+        body: query,
+    });
+};
+
+export const searchDataInfinite = (
+    key,
+    { userHomeDir, searchTerm, rowsPerPage, sortField, sortDir },
+    page = 0
+) => {
+    const query = getDataSimpleSearchQuery(
+        searchTerm,
+        userHomeDir,
+        rowsPerPage,
+        rowsPerPage * page,
+        sortField,
+        sortDir
+    );
     return callApi({
         endpoint: "/api/filesystem/search",
         method: "POST",

@@ -5,13 +5,7 @@
  */
 import React, { useState } from "react";
 
-import {
-    build,
-    formatMessage,
-    FormTextField,
-    getMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { build, FormTextField } from "@cyverse-de/ui-lib";
 import {
     Button,
     CircularProgress,
@@ -25,12 +19,11 @@ import {
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import { Field, Form, Formik } from "formik";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 import { useMutation } from "react-query";
 
 import { ERROR_CODES, getErrorCode } from "../utils/error/errorCode";
 import ids from "./ids";
-import messages from "./messages";
 import { validateDiskResourceName } from "./utils";
 import { createFolder } from "../../serviceFacades/filesystem";
 import isQueryLoading from "../utils/isQueryLoading";
@@ -40,10 +33,11 @@ import styles from "./styles";
 const useStyles = makeStyles(styles);
 
 function CreateFolderDialog(props) {
-    const { path, open, onClose, onFolderCreated, intl } = props;
+    const { path, open, onClose, onFolderCreated } = props;
     const [createFolderError, setCreateFolderError] = useState(null);
     const classes = useStyles();
     const baseId = ids.CREATE_DLG;
+    const { t } = useTranslation("data");
 
     const [createNewFolder, { status: createFolderStatus }] = useMutation(
         createFolder,
@@ -55,8 +49,8 @@ function CreateFolderDialog(props) {
             onError: (error) => {
                 const text =
                     getErrorCode(error) === ERROR_CODES.ERR_EXISTS
-                        ? formatMessage(intl, "folderExists", { path: path })
-                        : formatMessage(intl, "folderCreationFail");
+                        ? t("folderExists", { path: path })
+                        : t("folderCreationFail");
                 setCreateFolderError(text);
             },
         }
@@ -68,7 +62,7 @@ function CreateFolderDialog(props) {
     };
 
     const validate = ({ name }) => {
-        const validationError = validateDiskResourceName(name);
+        const validationError = validateDiskResourceName(name, t);
         return validationError || createFolderError
             ? { name: validationError || createFolderError }
             : {};
@@ -96,9 +90,9 @@ function CreateFolderDialog(props) {
                             fullWidth
                         >
                             <DialogTitle>
-                                {getMessage("createFolder")}
+                                {t("createFolder")}
                                 <IconButton
-                                    aria-label={formatMessage(intl, "cancel")}
+                                    aria-label={t("cancel")}
                                     onClick={onClose}
                                     size="small"
                                     edge="end"
@@ -111,16 +105,14 @@ function CreateFolderDialog(props) {
                                 <Typography
                                     classes={{ root: classes.bottomPadding }}
                                 >
-                                    {getMessage("newFolderLocation", {
-                                        values: { path: path },
-                                    })}
+                                    {t("newFolderLocation", { path: path })}
                                 </Typography>
                                 <Field
                                     id={build(baseId, ids.FOLDER_NAME)}
                                     name="name"
                                     multiline
                                     required={true}
-                                    label={getMessage("folderName")}
+                                    label={t("folderName")}
                                     onKeyDown={(event) => {
                                         if (event.key === "Enter") {
                                             handleSubmit();
@@ -155,7 +147,7 @@ function CreateFolderDialog(props) {
                                     id={build(baseId, ids.CANCEL_BTN)}
                                     onClick={onClose}
                                 >
-                                    {getMessage("cancel")}
+                                    {t("cancel")}
                                 </Button>
                                 <Button
                                     id={build(baseId, ids.CREATE_BTN)}
@@ -163,7 +155,7 @@ function CreateFolderDialog(props) {
                                     type="submit"
                                     onClick={handleSubmit}
                                 >
-                                    {getMessage("create")}
+                                    {t("create")}
                                 </Button>
                             </DialogActions>
                         </Dialog>
@@ -174,4 +166,4 @@ function CreateFolderDialog(props) {
     );
 }
 
-export default withI18N(injectIntl(CreateFolderDialog), messages);
+export default CreateFolderDialog;

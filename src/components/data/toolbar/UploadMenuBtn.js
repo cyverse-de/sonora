@@ -12,14 +12,13 @@ import FileBrowser from "./FileBrowser";
 
 import ids from "../ids";
 import styles from "../styles";
-import intlData from "../messages";
 
 import { processSelectedFiles, trackUpload } from "../../uploads/UploadDrop";
 import { useUploadTrackingDispatch } from "../../../contexts/uploadTracking";
 
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 
-import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 import { Button, makeStyles, Menu } from "@material-ui/core";
 
 import {
@@ -37,6 +36,7 @@ function UploadMenuBtn(props) {
         setUploadDialogOpen,
         setImportDialogOpen,
     } = props;
+    const { t } = useTranslation("data");
     const classes = useStyles();
     const uploadDispatch = useUploadTrackingDispatch();
     const [uploadAnchor, setUploadAnchor] = useState(null);
@@ -77,7 +77,7 @@ function UploadMenuBtn(props) {
                 startIcon={<UploadIcon />}
                 endIcon={<ArrowDropDownIcon />}
             >
-                {getMessage("upload")}
+                {t("upload")}
             </Button>
             <Menu
                 id={uploadMenuId}
@@ -112,4 +112,4 @@ function UploadMenuBtn(props) {
     );
 }
 
-export default withI18N(injectIntl(UploadMenuBtn), intlData);
+export default UploadMenuBtn;

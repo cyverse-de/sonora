@@ -14,3 +14,7 @@ import DataStore from "./[...pathItems]";
 export default function Data() {
     return <DataStore />;
 }
+
+Data.getInitialProps = async () => ({
+    namespacesRequired: ["data"],
+});

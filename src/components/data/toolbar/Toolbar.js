@@ -8,21 +8,20 @@
 
 import React, { useState } from "react";
 
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 
 import DataDotMenu from "./DataDotMenu";
 import UploadMenuBtn from "./UploadMenuBtn";
 import Navigation from "./Navigation";
 
 import ids from "../ids";
-import messages from "../messages";
 import styles from "../styles";
 import CreateFolderDialog from "../CreateFolderDialog";
 import { isWritable } from "../utils";
 
 import DisplayTypeSelector from "../../utils/DisplayTypeSelector";
 
-import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 
 import { Button, Hidden, makeStyles, Toolbar } from "@material-ui/core";
 
@@ -52,6 +51,7 @@ function DataToolbar(props) {
         uploadMenuId,
     } = props;
 
+    const { t } = useTranslation("data");
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
     const onCreateFolderDlgClose = () => setCreateFolderDlgOpen(false);
     const onCreateFolderClicked = () => setCreateFolderDlgOpen(true);
@@ -82,7 +82,7 @@ function DataToolbar(props) {
                         className={classes.button}
                         startIcon={<Info />}
                     >
-                        <Hidden xsDown>{getMessage("details")}</Hidden>
+                        <Hidden xsDown>{t("details")}</Hidden>
                     </Button>
                 )}
                 {isWritable(permission) && (
@@ -96,7 +96,7 @@ function DataToolbar(props) {
                             className={classes.button}
                             startIcon={<CreateNewFolder />}
                         >
-                            <Hidden xsDown>{getMessage("folder")}</Hidden>
+                            <Hidden xsDown>{t("folder")}</Hidden>
                         </Button>
                         <UploadMenuBtn
                             uploadMenuId={uploadMenuId}
@@ -137,4 +137,4 @@ function DataToolbar(props) {
     );
 }
 
-export default withI18N(injectIntl(DataToolbar), messages);
+export default DataToolbar;

@@ -215,7 +215,7 @@ const validate = (values) => {
     if (!values.name) {
         errors.name = getMessage("required");
     } else {
-        const nameError = validateDiskResourceName(values.name);
+        const nameError = validateDiskResourceName(values.name, getMessage);
         if (nameError) {
             errors.name = nameError;
         }
@@ -253,7 +253,8 @@ const validate = (values) => {
                             case constants.PARAM_TYPE.FILE_OUTPUT:
                             case constants.PARAM_TYPE.FOLDER_OUTPUT:
                                 valueError = validateDiskResourceName(
-                                    param.value
+                                    param.value,
+                                    getMessage
                                 );
                                 break;
 

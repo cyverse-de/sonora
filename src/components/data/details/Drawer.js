@@ -6,12 +6,12 @@
  */
 import React, { useState } from "react";
 
-import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 import { Drawer, makeStyles, Tab, Tabs, Typography } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
 
 import DetailsTabPanel from "./DetailsPanel";
 import ids from "../ids";
-import messages from "../messages";
 import ResourceIcon from "../listing/ResourceIcon";
 import styles from "../styles";
 import PermissionsTabPanel from "./PermissionsPanel";
@@ -40,6 +40,7 @@ function DetailsDrawer(props) {
 
     const [selectedTab, setSelectedTab] = useState(TABS.details);
     const [selfPermission, setSelfPermission] = useState("");
+    const { t } = useTranslation("data");
 
     const onTabSelectionChange = (event, selectedTab) => {
         setSelectedTab(selectedTab);
@@ -77,14 +78,14 @@ function DetailsDrawer(props) {
             >
                 <Tab
                     value={TABS.details}
-                    label={getMessage("details")}
+                    label={t("details")}
                     id={detailsTabId}
                     classes={{ selected: classes.tabSelected }}
                     aria-controls={build(detailsTabId, ids.PANEL)}
                 />
                 <Tab
                     value={TABS.permissions}
-                    label={getMessage("permissions")}
+                    label={t("permissions")}
                     id={permissionsTabId}
                     classes={{ selected: classes.tabSelected }}
                     aria-controls={build(permissionsTabId, ids.PANEL)}
@@ -121,4 +122,4 @@ function DetailsDrawer(props) {
     );
 }
 
-export default withI18N(DetailsDrawer, messages);
+export default DetailsDrawer;

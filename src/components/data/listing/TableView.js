@@ -6,15 +6,12 @@
 
 import React, { Fragment, useState } from "react";
 
-import { injectIntl } from "react-intl";
-
 import CustomizeColumns from "./CustomizeColumns";
 import ResourceIcon from "./ResourceIcon";
 import SpanLink from "./SpanLink";
 import { getFileSize } from "./FileSize";
 
 import ids from "../ids";
-import messages from "../messages";
 import DataDotMenu from "../toolbar/DataDotMenu";
 
 import TableLoading from "../../utils/TableLoading";
@@ -29,9 +26,6 @@ import {
     EmptyTable,
     EnhancedTableHead,
     formatDate,
-    formatMessage,
-    getMessage,
-    withI18N,
 } from "@cyverse-de/ui-lib";
 
 import {
@@ -44,6 +38,8 @@ import {
     TableContainer,
     TableRow,
 } from "@material-ui/core";
+
+import { useTranslation } from "react-i18next";
 
 const COL_KEYS = {
     CHECKBOX: "checkbox",
@@ -151,9 +147,9 @@ function TableView(props) {
         setUploadDialogOpen,
         localUploadId,
         uploadMenuId,
-        intl,
     } = props;
     const invalidRowClass = invalidRowStyles();
+    const { t } = useTranslation("data");
 
     const tableId = build(baseId, ids.LISTING_TABLE);
     const [displayColumns, setDisplayColumns] = useState(
@@ -266,7 +262,7 @@ function TableView(props) {
                 stickyHeader
                 size="small"
                 id={tableId}
-                aria-label={formatMessage(intl, "ariaTableListing", {
+                aria-label={t("ariaTableListing", {
                     path: path,
                 })}
             >
@@ -292,7 +288,7 @@ function TableView(props) {
                     <TableBody>
                         {(!listing || listing.length === 0) && !error && (
                             <EmptyTable
-                                message={getMessage("emptyDataListing")}
+                                message={t("emptyDataListing")}
                                 numColumns={displayColumns.length + 1} // extra for checkbox col
                             />
                         )}
@@ -312,18 +308,12 @@ function TableView(props) {
                                         }
                                         title={
                                             isInvalid
-                                                ? formatMessage(
-                                                      intl,
-                                                      "invalidSelectionRowTitle"
-                                                  )
+                                                ? t("invalidSelectionRowTitle")
                                                 : null
                                         }
                                         aria-label={
                                             isInvalid
-                                                ? formatMessage(
-                                                      intl,
-                                                      "invalidSelectionRowTitle"
-                                                  )
+                                                ? t("invalidSelectionRowTitle")
                                                 : null
                                         }
                                         role="checkbox"
@@ -358,8 +348,7 @@ function TableView(props) {
                                                     )
                                                 }
                                                 inputProps={{
-                                                    "aria-label": formatMessage(
-                                                        intl,
+                                                    "aria-label": t(
                                                         "ariaCheckbox",
                                                         {
                                                             label:
@@ -455,4 +444,4 @@ function TableView(props) {
     );
 }
 
-export default withI18N(injectIntl(TableView), messages);
+export default TableView;

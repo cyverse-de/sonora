@@ -7,12 +7,11 @@
 import React, { useState } from "react";
 
 import ids from "../ids";
-import messages from "../messages";
 import { isOwner, isWritable } from "../utils";
 import CreateFolderDialog from "../CreateFolderDialog";
 import UploadMenuItems from "./UploadMenuItems";
 
-import { build, DotMenu, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build, DotMenu } from "@cyverse-de/ui-lib";
 import {
     Divider,
     ListItemIcon,
@@ -24,6 +23,7 @@ import {
     Delete as DeleteIcon,
     Info,
 } from "@material-ui/icons";
+import { useTranslation } from "react-i18next";
 
 function DataDotMenu(props) {
     const {
@@ -42,6 +42,7 @@ function DataDotMenu(props) {
         selected,
         getSelectedResources,
     } = props;
+    const { t } = useTranslation("data");
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
     const onCreateFolderDlgClose = () => setCreateFolderDlgOpen(false);
     const onCreateFolderClicked = () => setCreateFolderDlgOpen(true);
@@ -68,7 +69,7 @@ function DataDotMenu(props) {
                             <ListItemIcon>
                                 <Info fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText primary={getMessage("details")} />
+                            <ListItemText primary={t("details")} />
                         </MenuItem>
                     ),
                     detailsEnabled && (
@@ -88,7 +89,7 @@ function DataDotMenu(props) {
                             <ListItemIcon>
                                 <CreateNewFolder fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText primary={getMessage("folder")} />
+                            <ListItemText primary={t("folder")} />
                         </MenuItem>
                     ),
                     deleteMiEnabled && (
@@ -103,7 +104,7 @@ function DataDotMenu(props) {
                             <ListItemIcon>
                                 <DeleteIcon fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText primary={getMessage("delete")} />
+                            <ListItemText primary={t("delete")} />
                         </MenuItem>
                     ),
                     <Divider
@@ -140,4 +141,4 @@ function DataDotMenu(props) {
     );
 }
 
-export default withI18N(DataDotMenu, messages);
+export default DataDotMenu;

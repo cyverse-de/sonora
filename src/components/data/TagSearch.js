@@ -7,7 +7,7 @@
  */
 import React, { useState } from "react";
 
-import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 import {
     Chip,
     CircularProgress,
@@ -18,8 +18,8 @@ import {
 } from "@material-ui/core";
 import { HighlightOff } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
-import { injectIntl } from "react-intl";
 import { queryCache, useMutation, useQuery } from "react-query";
+import { useTranslation } from "react-i18next";
 
 import ids from "./ids";
 import {
@@ -29,7 +29,6 @@ import {
     getTagsForResource,
     getTagSuggestions,
 } from "../../serviceFacades/tags";
-import messages from "./messages";
 import styles from "./styles";
 import isQueryLoading from "../utils/isQueryLoading";
 import DEErrorDialog from "../utils/error/DEErrorDialog";
@@ -38,8 +37,9 @@ import ErrorTypography from "../utils/error/ErrorTypography";
 const useStyles = makeStyles(styles);
 
 function TagSearch(props) {
-    const { id, resource, intl } = props;
+    const { id, resource } = props;
     const classes = useStyles();
+    const { t } = useTranslation("data");
 
     const [searchTerm, setSearchTerm] = useState(null);
     const [options, setOptions] = useState([]);
@@ -58,9 +58,7 @@ function TagSearch(props) {
             onSuccess: (resp) => setSelectedTags(resp.tags),
             onError: (e) => {
                 setErrorObject(e);
-                setErrorMessage(
-                    formatMessage(intl, "fetchTagSuggestionsError")
-                );
+                setErrorMessage(t("fetchTagSuggestionsError"));
             },
         },
     });
@@ -80,7 +78,7 @@ function TagSearch(props) {
         {
             onSuccess: () => queryCache.invalidateQueries(fetchTagsQueryKey),
             onError: (e) => {
-                setErrorMessage(formatMessage(intl, "modifyTagsError"));
+                setErrorMessage(t("modifyTagsError"));
                 setErrorObject(e);
             },
         }
@@ -102,7 +100,7 @@ function TagSearch(props) {
                 onTagSelected(null, newTag);
             },
             onError: (e) => {
-                setErrorMessage(formatMessage(intl, "modifyTagsError"));
+                setErrorMessage(t("modifyTagsError"));
                 setErrorObject(e);
             },
         }
@@ -116,7 +114,7 @@ function TagSearch(props) {
                 return queryCache.invalidateQueries(fetchTagsQueryKey);
             },
             onError: (e) => {
-                setErrorMessage(formatMessage(intl, "modifyTagsError"));
+                setErrorMessage(t("modifyTagsError"));
                 setErrorObject(e);
             },
         }
@@ -159,7 +157,7 @@ function TagSearch(props) {
 
     return (
         <>
-            <Typography variant="subtitle1">{getMessage("tags")}</Typography>
+            <Typography variant="subtitle1">{t("tags")}</Typography>
 
             <Autocomplete
                 id={id}
@@ -183,7 +181,7 @@ function TagSearch(props) {
                     if (searchTerm && !hasOption) {
                         const fakeAdderTag = {
                             id: null,
-                            value: formatMessage(intl, "createTag", {
+                            value: t("createTag", {
                                 label: searchTerm,
                             }),
                             tagValue: searchTerm,
@@ -197,7 +195,7 @@ function TagSearch(props) {
                 renderInput={(params) => (
                     <TextField
                         {...params}
-                        label={getMessage("searchTags")}
+                        label={t("searchTags")}
                         fullWidth
                         variant="outlined"
                         InputProps={{
@@ -261,4 +259,4 @@ function TagSearch(props) {
     );
 }
 
-export default withI18N(injectIntl(TagSearch), messages);
+export default TagSearch;

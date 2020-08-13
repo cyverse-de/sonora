@@ -6,14 +6,7 @@
  */
 import React, { useState } from "react";
 
-import {
-    build,
-    CopyTextArea,
-    formatDate,
-    formatMessage,
-    getMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { build, CopyTextArea, formatDate } from "@cyverse-de/ui-lib";
 import {
     Divider,
     Grid,
@@ -22,12 +15,11 @@ import {
     MenuItem,
     Select,
 } from "@material-ui/core";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 import { queryCache, useMutation, useQuery } from "react-query";
 
 import { getFileSize } from "../listing/FileSize";
 import ids from "../ids";
-import messages from "../messages";
 import styles from "../styles";
 import TagSearch from "../TagSearch";
 import {
@@ -45,7 +37,8 @@ const useStyles = makeStyles(styles);
 
 function DetailsTabPanel(props) {
     const classes = useStyles();
-    const { baseId, resource, infoTypes, setSelfPermission, intl } = props;
+    const { baseId, resource, infoTypes, setSelfPermission } = props;
+    const { t } = useTranslation("data");
 
     const [details, setDetails] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -67,7 +60,7 @@ function DetailsTabPanel(props) {
                 setSelfPermission(details?.permission);
             },
             onError: (e) => {
-                setErrorMessage(formatMessage(intl, "detailsError"));
+                setErrorMessage(t("detailsError"));
                 setErrorObject(e);
             },
         },
@@ -78,7 +71,7 @@ function DetailsTabPanel(props) {
         {
             onSuccess: () => queryCache.invalidateQueries(fetchDetailsKey),
             onError: (e) => {
-                setErrorMessage(formatMessage(intl, "updateInfoTypeError"));
+                setErrorMessage(t("updateInfoTypeError"));
                 setErrorObject(e);
             },
         }
@@ -117,7 +110,7 @@ function DetailsTabPanel(props) {
         <>
             <Grid container spacing={2}>
                 {isFile && (
-                    <GridLabelValue label={getMessage("type")}>
+                    <GridLabelValue label={t("type")}>
                         {details["content-type"]}
                     </GridLabelValue>
                 )}
@@ -128,7 +121,7 @@ function DetailsTabPanel(props) {
                                 classes={{ root: classes.inputLabel }}
                                 id={build(baseId, ids.INFO_TYPES, ids.LABEL)}
                             >
-                                {getMessage("infoType")}
+                                {t("infoType")}
                             </InputLabel>
                         }
                     >
@@ -160,7 +153,7 @@ function DetailsTabPanel(props) {
                             classes={{ root: classes.inputLabel }}
                             id={build(baseId, ids.PATH, ids.LABEL)}
                         >
-                            {getMessage("path")}
+                            {t("path")}
                         </InputLabel>
                     }
                 >
@@ -171,18 +164,18 @@ function DetailsTabPanel(props) {
                     />
                 </GridLabelValue>
                 {isFile && (
-                    <GridLabelValue label={getMessage("fileSize")}>
+                    <GridLabelValue label={t("fileSize")}>
                         {getFileSize(details["file-size"])}
                     </GridLabelValue>
                 )}
-                <GridLabelValue label={getMessage("modified")}>
+                <GridLabelValue label={t("modified")}>
                     {formatDate(details["date-modified"])}
                 </GridLabelValue>
-                <GridLabelValue label={getMessage("created")}>
+                <GridLabelValue label={t("created")}>
                     {formatDate(details["date-created"])}
                 </GridLabelValue>
                 {isFile && (
-                    <GridLabelValue label={getMessage("md5")}>
+                    <GridLabelValue label={t("md5")}>
                         {details.md5}
                     </GridLabelValue>
                 )}
@@ -193,4 +186,4 @@ function DetailsTabPanel(props) {
     );
 }
 
-export default withI18N(injectIntl(DetailsTabPanel), messages);
+export default DetailsTabPanel;

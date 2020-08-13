@@ -8,12 +8,11 @@
 import React from "react";
 
 import ids from "../ids";
-import intlData from "../messages";
 
-import { injectIntl } from "react-intl";
+import { useTranslation } from "react-i18next";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 
-import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 
 import UploadIcon from "@material-ui/icons/CloudUpload";
 import QueueIcon from "@material-ui/icons/Sort";
@@ -26,6 +25,7 @@ function UploadMenuItems(props) {
         onImportFromURL,
         onUploadQueue,
     } = props;
+    const { t } = useTranslation("data");
     return [
         <label htmlFor={localUploadId}>
             <MenuItem
@@ -36,7 +36,7 @@ function UploadMenuItems(props) {
                 <ListItemIcon>
                     <UploadIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText primary={getMessage("browseLocal")} />
+                <ListItemText primary={t("browseLocal")} />
             </MenuItem>
         </label>,
         <MenuItem
@@ -47,7 +47,7 @@ function UploadMenuItems(props) {
             <ListItemIcon>
                 <UploadIcon fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary={getMessage("importUrl")} />
+            <ListItemText primary={t("importUrl")} />
         </MenuItem>,
         <MenuItem
             key={build(uploadMenuId, ids.UPLOAD_QUEUE_MI)}
@@ -59,9 +59,9 @@ function UploadMenuItems(props) {
             <ListItemIcon>
                 <QueueIcon fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary={getMessage("uploadQueue")} />
+            <ListItemText primary={t("uploadQueue")} />
         </MenuItem>,
     ];
 }
 
-export default withI18N(injectIntl(UploadMenuItems), intlData);
+export default UploadMenuItems;

@@ -103,7 +103,9 @@ export const useDashboardSettings = ({ marginRight = 16, dashboardEl }) => {
 
         // Yeah, the 6 is magical. Haven't figured out why it's needed yet.
         const cardWidth =
-            Math.floor(actualWidth / newColumns - marginRight) - 6;
+            newColumns > 1
+                ? Math.floor(actualWidth / newColumns - marginRight) - 6
+                : actualWidth;
 
         // Try to get a 4:3 ration for width to height
         const cardHeight = Math.floor(cardWidth - cardWidth / 3);

@@ -8,13 +8,13 @@ import {
     People,
     PermMedia,
 } from "@material-ui/icons";
-import { IconButton } from "@material-ui/core";
+import { IconButton, MenuItem } from "@material-ui/core";
 
 import { formatDate } from "@cyverse-de/ui-lib";
 
 import * as constants from "../constants";
 
-import ItemBase, { ItemAction, MenuAction } from "./ItemBase";
+import ItemBase, { ItemAction } from "./ItemBase";
 
 import { getFolderPage } from "../../data/utils";
 
@@ -61,29 +61,38 @@ class AnalysisItem extends ItemBase {
                         </IconButton>
                     </Link>
                 </ItemAction>,
-            ])
-            .addMenuActions([
-                <MenuAction
-                    ariaLabel="stop"
-                    key={`${constants.KIND_ANALYSES}-${props.content.id}-stop`}
-                    tooltipKey="stopAction"
-                >
-                    <Stop />
-                </MenuAction>,
-                <MenuAction
-                    ariaLabel="open details"
-                    key={`${constants.KIND_ANALYSES}-${props.content.id}-details`}
-                    tooltipKey="detailsAction"
-                >
-                    <Info />
-                </MenuAction>,
-                <MenuAction
+                <ItemAction
                     ariaLabel="share"
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-share`}
                     tooltipKey="shareAction"
                 >
-                    <People />
-                </MenuAction>,
+                    <IconButton>
+                        <People />
+                    </IconButton>
+                </ItemAction>,
+            ])
+            .addMenuActions([
+                <MenuItem
+                    key={`${constants.KIND_ANALYSES}-${props.content.id}-stop`}
+                >
+                    <ItemAction ariaLabel="stop" tooltipKey="stopAction">
+                        <IconButton>
+                            <Stop />
+                        </IconButton>
+                    </ItemAction>
+                </MenuItem>,
+                <MenuItem
+                    key={`${constants.KIND_ANALYSES}-${props.content.id}-details`}
+                >
+                    <ItemAction
+                        ariaLabel="open details"
+                        tooltipKey="detailsAction"
+                    >
+                        <IconButton>
+                            <Info />
+                        </IconButton>
+                    </ItemAction>
+                </MenuItem>,
             ]);
     }
 

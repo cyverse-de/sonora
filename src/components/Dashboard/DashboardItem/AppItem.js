@@ -1,13 +1,13 @@
 import React from "react";
 
 import { Launch, Info, Favorite, People, Apps } from "@material-ui/icons";
+import { IconButton, MenuItem } from "@material-ui/core";
 
 import { formatDate } from "@cyverse-de/ui-lib";
 
 import * as constants from "../constants";
 
-import ItemBase, { ItemAction, MenuAction } from "./ItemBase";
-import { IconButton } from "@material-ui/core";
+import ItemBase, { ItemAction } from "./ItemBase";
 
 class AppItem extends ItemBase {
     constructor(props) {
@@ -42,22 +42,28 @@ class AppItem extends ItemBase {
                         <Launch />
                     </IconButton>
                 </ItemAction>,
-            ])
-            .addMenuActions([
-                <MenuAction
-                    arialLabel="open details"
-                    key={`${constants.KIND_APPS}-${props.content.id}-details`}
-                    tooltipKey="detailsAction"
-                >
-                    <Info />
-                </MenuAction>,
-                <MenuAction
+                <ItemAction
                     arialLabel="share"
                     key={`${constants.KIND_APPS}-${props.content.id}-share`}
                     tooltipKey="shareAction"
                 >
-                    <People />
-                </MenuAction>,
+                    <IconButton>
+                        <People />
+                    </IconButton>
+                </ItemAction>,
+            ])
+            .addMenuActions([
+                <MenuItem
+                    key={`${constants.KIND_APPS}-${props.content.id}-details`}
+                >
+                    <ItemAction
+                        arialLabel="open details"
+                        key={`${constants.KIND_APPS}-${props.content.id}-details`}
+                        tooltipKey="detailsAction"
+                    >
+                        <Info />
+                    </ItemAction>
+                </MenuItem>,
             ]);
     }
 

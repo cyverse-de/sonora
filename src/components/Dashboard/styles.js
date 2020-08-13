@@ -14,6 +14,7 @@ export default makeStyles((theme) => ({
     },
     section: {
         marginTop: theme.spacing(2),
+        width: "100%",
     },
     sectionNews: {
         width: "66%",

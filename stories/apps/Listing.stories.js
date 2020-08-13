@@ -25,7 +25,7 @@ function ListingTest(props) {
         )
         .reply(200, appDetails);
 
-    const fields = appFields();    
+    const fields = appFields();
     const selectedPage = 0;
     const selectedRowsPerPage = 25;
     const selectedOrder = constants.SORT_ASCENDING;

@@ -16,6 +16,7 @@ import {
     useAnalysesSearch,
 } from "./searchQueries";
 import ResourceTypes from "../models/ResourceTypes";
+import searchConstants from "./constants";
 import constants from "../../constants";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import NavigationConstants from "common/NavigationConstants";
@@ -56,10 +57,6 @@ const ALL = "all";
 const APPS = "apps";
 const DATA = "data";
 const ANALYSES = "analyses";
-
-//gobal search constants
-const PAGE = 0;
-const ROWS = 10;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -323,8 +320,8 @@ function GlobalSearchField(props) {
             const dataQuery = getDataSimpleSearchQuery(
                 searchTerm,
                 userHomeDir,
-                ROWS,
-                PAGE,
+                searchConstants.GLOABAL_SEARCH_PAGE_SIZE,
+                searchConstants.GLOBALE_SEARCH_PAGE,
                 "label",
                 "ascending"
             );
@@ -333,10 +330,10 @@ function GlobalSearchField(props) {
             setAppsSearchKey([
                 APPS_SEARCH_QUERY_KEY,
                 {
-                    rowsPerPage: ROWS,
+                    rowsPerPage: searchConstants.GLOABAL_SEARCH_PAGE_SIZE,
                     orderBy: appRecordFields.NAME.key,
                     order: constants.SORT_ASCENDING,
-                    page: PAGE,
+                    page: searchConstants.GLOBALE_SEARCH_PAGE,
                     search: searchTerm,
                 },
             ]);
@@ -345,10 +342,10 @@ function GlobalSearchField(props) {
             setAnalysesSearchKey([
                 ANALYSES_SEARCH_QUERY_KEY,
                 {
-                    rowsPerPage: ROWS,
+                    rowsPerPage: searchConstants.GLOABAL_SEARCH_PAGE_SIZE,
                     orderBy: analysisRecordfields.START_DATE.key,
                     order: constants.SORT_DESCENDING,
-                    page: PAGE,
+                    page: searchConstants.GLOBALE_SEARCH_PAGE,
                     filter: getAnalysesSearchQueryFilter(searchTerm, t),
                 },
             ]);

@@ -5,4 +5,5 @@ export default {
     DATA_SEARCH_RESULTS_TAB: "dataSearchResultsTab",
     APPS_SEARCH_RESULTS_TAB: "appsSearchResultsTab",
     ANALYSES_SEARCH_RESULTS_TAB: "analysessSearchResultsTab",
+    TABLE_VIEW: "tableView",
 };

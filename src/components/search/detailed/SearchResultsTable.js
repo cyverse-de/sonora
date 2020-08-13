@@ -10,7 +10,7 @@ import React from "react";
 import { useTable } from "react-table";
 
 import PageWrapper from "components/layout/PageWrapper";
-import ids from "./ids";
+import ids from "../ids";
 
 import { build } from "@cyverse-de/ui-lib";
 
@@ -43,7 +43,7 @@ const SearchResultsTable = ({
         <PageWrapper appBarHeight={150}>
             {isFetchingMore && (
                 <CircularProgress
-                    size={20}
+                    thickness={7}
                     color="primary"
                     style={{
                         position: "absolute",

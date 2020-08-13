@@ -9,21 +9,23 @@
 import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 
+import { useTranslation } from "i18n";
+
 import SearchResultsTable from "./SearchResultsTable";
-import { getAnalysesSearchQueryFilter } from "./analysesSearchQueryBuilder";
-import constants from "../../constants";
-import TableLoading from "../utils/TableLoading";
+import { getAnalysesSearchQueryFilter } from "../analysesSearchQueryBuilder";
+import searchConstants from "../constants";
+import constants from "../../../constants";
+import TableLoading from "../../utils/TableLoading";
 import {
     searchAnalysesInfinite,
     ANALYSES_SEARCH_QUERY_KEY,
 } from "serviceFacades/analyses";
-import analysisFields from "../analyses/analysisFields";
+import analysisFields from "../../analyses/analysisFields";
 
 import { Typography } from "@material-ui/core";
-import { useTranslation } from "i18n";
 
 export default function AnalysesSearchResults(props) {
-    const { searchTerm, updateResultCount } = props;
+    const { searchTerm, updateResultCount, baseId } = props;
     const [analysesSearchKey, setAnalysesSearchKey] = useState(
         ANALYSES_SEARCH_QUERY_KEY
     );
@@ -31,7 +33,7 @@ export default function AnalysesSearchResults(props) {
         analysesSearchQueryEnabled,
         setAnalysesSearchQueryEnabled,
     ] = useState(false);
-    const { t } = useTranslation(["analyses"]);
+    const { t } = useTranslation(["analyses, search"]);
     //TODO: pass `t` into this function
     const analysisRecordFields = analysisFields(t);
     const {
@@ -60,7 +62,7 @@ export default function AnalysesSearchResults(props) {
             setAnalysesSearchKey([
                 ANALYSES_SEARCH_QUERY_KEY,
                 {
-                    rowsPerPage: 100,
+                    rowsPerPage: searchConstants.DETAILED_SEARCH_PAGE_SIZE,
                     orderBy: analysisRecordFields.NAME.key,
                     order: constants.SORT_ASCENDING,
                     filter: getAnalysesSearchQueryFilter(searchTerm, t),
@@ -91,19 +93,13 @@ export default function AnalysesSearchResults(props) {
         ]
     );
     if (status === "loading") {
-        return (
-            <TableLoading
-                numColumns={5}
-                numRows={100}
-                baseId="analysesSearchResults"
-            />
-        );
+        return <TableLoading numColumns={5} numRows={100} baseId={baseId} />;
     }
     if (error) {
-        return <Typography> Unable to search </Typography>;
+        return <Typography> {t("errorAnalysesSearch")} </Typography>;
     }
     if (!data) {
-        return <Typography> No Analyses. </Typography>;
+        return <Typography>{t("noResults")}</Typography>;
     }
     let flatdata = [];
     data.forEach((page) => {
@@ -118,7 +114,7 @@ export default function AnalysesSearchResults(props) {
         <SearchResultsTable
             columns={columns}
             data={flatdata}
-            baseId="analysesSearchResults"
+            baseId={baseId}
             fetchMore={fetchMore}
             ref={loadMoreButtonRef}
             isFetchingMore={isFetchingMore}

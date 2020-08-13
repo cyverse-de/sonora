@@ -9,8 +9,8 @@
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
 
-import ids from "./ids";
-import DETabPanel from "../utils/DETabPanel";
+import ids from "../ids";
+import DETabPanel from "../../utils/DETabPanel";
 
 import { build } from "@cyverse-de/ui-lib";
 
@@ -85,16 +85,7 @@ export default function DetailedSearchResults(props) {
                     classes={{ selected: classes.tabSelected }}
                 />
             </Tabs>
-            <DETabPanel
-                tabId={appsTabId}
-                value={TABS.apps}
-                selectedTab={selectedTab}
-            >
-                <AppSearchResults
-                    searchTerm={searchTerm}
-                    updateResultCount={(count) => setAppsCount(count)}
-                />
-            </DETabPanel>
+
             <DETabPanel
                 tabId={dataTabId}
                 value={TABS.data}
@@ -103,9 +94,20 @@ export default function DetailedSearchResults(props) {
                 <DataSearchResults
                     searchTerm={searchTerm}
                     updateResultCount={(count) => setDataCount(count)}
+                    baseId={dataTabId}
                 />
             </DETabPanel>
-
+            <DETabPanel
+                tabId={appsTabId}
+                value={TABS.apps}
+                selectedTab={selectedTab}
+            >
+                <AppSearchResults
+                    searchTerm={searchTerm}
+                    updateResultCount={(count) => setAppsCount(count)}
+                    baseId={appsTabId}
+                />
+            </DETabPanel>
             <DETabPanel
                 tabId={analysesTabId}
                 value={TABS.analyses}
@@ -114,6 +116,7 @@ export default function DetailedSearchResults(props) {
                 <AnalysesSearchResults
                     searchTerm={searchTerm}
                     updateResultCount={(count) => setAnalysesCount(count)}
+                    baseId={analysesTabId}
                 />
             </DETabPanel>
         </Paper>

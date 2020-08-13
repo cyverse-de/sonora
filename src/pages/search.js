@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import { Hidden } from "@material-ui/core";
 import GlobalSearchField from "components/search/GlobalSearchField";
-import DetailedSearchResults from "components/search/DetailedSearchResults";
+import DetailedSearchResults from "components/search/detailed/DetailedSearchResults";
 
 export default function Search() {
     const router = useRouter();
@@ -20,5 +20,5 @@ export default function Search() {
 }
 
 Search.getInitialProps = async () => ({
-    namespacesRequired: ["common"],
+    namespacesRequired: ["common", "search", "analyses"],
 });

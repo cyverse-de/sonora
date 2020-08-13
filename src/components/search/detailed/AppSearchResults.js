@@ -8,24 +8,25 @@
 
 import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
+import { useTranslation } from "i18n";
 
 import SearchResultsTable from "./SearchResultsTable";
-
-import constants from "../../constants";
-import TableLoading from "../utils/TableLoading";
+import searchConstants from "../constants";
+import constants from "../../../constants";
+import TableLoading from "../../utils/TableLoading";
 import {
     searchAppsInfiniteQuery,
     APPS_SEARCH_QUERY_KEY,
 } from "serviceFacades/apps";
-import appFields from "../apps/appFields";
+import appFields from "../../apps/appFields";
 
 import { Typography } from "@material-ui/core";
 
 export default function AppSearchResults(props) {
-    const { searchTerm, updateResultCount } = props;
+    const { searchTerm, updateResultCount, baseId } = props;
     const [appsSearchKey, setAppsSearchKey] = useState(APPS_SEARCH_QUERY_KEY);
     const [appsSearchQueryEnabled, setAppsSearchQueryEnabled] = useState(false);
-
+    const { t } = useTranslation([" search"]);
     //TODO: pass `t` into this function
     const appRecordFields = appFields();
     const {
@@ -54,7 +55,7 @@ export default function AppSearchResults(props) {
             setAppsSearchKey([
                 APPS_SEARCH_QUERY_KEY,
                 {
-                    rowsPerPage: 100,
+                    rowsPerPage: searchConstants.DETAILED_SEARCH_PAGE_SIZE,
                     orderBy: appRecordFields.NAME.key,
                     order: constants.SORT_ASCENDING,
                     search: searchTerm,
@@ -88,20 +89,15 @@ export default function AppSearchResults(props) {
         ]
     );
     if (status === "loading") {
-        return (
-            <TableLoading
-                numColumns={5}
-                numRows={100}
-                baseId="appSearchResults"
-            />
-        );
+        return <TableLoading numColumns={5} numRows={100} baseId={baseId} />;
     }
     if (error) {
-        return <Typography> Unable to search </Typography>;
+        return <Typography> {t("errorAppsSearch")} </Typography>;
     }
     if (!data) {
-        return <Typography> No apps. </Typography>;
+        return <Typography>{t("noResults")}</Typography>;
     }
+
     let flatdata = [];
     data.forEach((page) => {
         flatdata = [...flatdata, ...page.apps];
@@ -115,7 +111,7 @@ export default function AppSearchResults(props) {
         <SearchResultsTable
             columns={columns}
             data={flatdata}
-            baseId="appSearchResults"
+            baseId={baseId}
             fetchMore={fetchMore}
             ref={loadMoreButtonRef}
             isFetchingMore={isFetchingMore}

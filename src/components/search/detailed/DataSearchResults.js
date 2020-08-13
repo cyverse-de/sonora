@@ -9,9 +9,11 @@
 import React, { useEffect, useState } from "react";
 import { useInfiniteQuery, queryCache } from "react-query";
 
-import SearchResultsTable from "./SearchResultsTable";
+import { useTranslation } from "i18n";
 
-import TableLoading from "../utils/TableLoading";
+import SearchResultsTable from "./SearchResultsTable";
+import searchConstants from "../constants";
+import TableLoading from "../../utils/TableLoading";
 import {
     searchDataInfinite,
     DATA_SEARCH_QUERY_KEY,
@@ -22,9 +24,11 @@ import ResourceIcon from "components/data/listing/ResourceIcon";
 import { Typography } from "@material-ui/core";
 
 export default function DataSearchResults(props) {
-    const { searchTerm, updateResultCount } = props;
+    const { searchTerm, updateResultCount, baseId } = props;
     const [dataSearchKey, setDataSearchKey] = useState(DATA_SEARCH_QUERY_KEY);
     const [dataSearchQueryEnabled, setDataSearchQueryEnabled] = useState(false);
+
+    const { t } = useTranslation([" search"]);
 
     const bootstrapCache = queryCache.getQueryData(BOOTSTRAP_KEY);
     let userHomeDir = bootstrapCache?.data_info.user_home_path;
@@ -59,7 +63,7 @@ export default function DataSearchResults(props) {
                 {
                     searchTerm,
                     userHomeDir,
-                    rowsPerPage: 100,
+                    rowsPerPage: searchConstants.DETAILED_SEARCH_PAGE_SIZE,
                     sortField: "label",
                     sortDir: "ascending",
                 },
@@ -93,20 +97,14 @@ export default function DataSearchResults(props) {
     );
 
     if (status === "loading") {
-        return (
-            <TableLoading
-                numColumns={5}
-                numRows={100}
-                baseId="dataSearchResults"
-            />
-        );
+        return <TableLoading numColumns={5} numRows={100} baseId={baseId} />;
     }
     if (error) {
-        return <Typography> Unable to search </Typography>;
+        return <Typography> {t("errorDataSearch")} </Typography>;
     }
 
-    if (!data || data.length === 0) {
-        return <Typography> No Data. </Typography>;
+    if (!data) {
+        return <Typography>{t("noResults")}</Typography>;
     }
 
     let flatdata = [];
@@ -122,7 +120,7 @@ export default function DataSearchResults(props) {
         <SearchResultsTable
             columns={columns}
             data={flatdata}
-            baseId="dataSearchResults"
+            baseId={baseId}
             fetchMore={fetchMore}
             ref={loadMoreButtonRef}
             isFetchingMore={isFetchingMore}

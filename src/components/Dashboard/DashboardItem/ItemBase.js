@@ -203,7 +203,14 @@ export const DashboardVideoItem = ({ item }) => {
 
 export const ItemAction = ({ children, tooltipKey }) => {
     const { t } = useTranslation("dashboard");
-    return <Tooltip title={t(tooltipKey)}>{children}</Tooltip>;
+
+    // The nested div prevents props from the Tooltip from getting propagated
+    // down to components that may not support them, like Next.js's Link.
+    return (
+        <Tooltip title={t(tooltipKey)}>
+            <div>{children}</div>
+        </Tooltip>
+    );
 };
 
 export const MenuAction = ({

@@ -6,4 +6,8 @@ const appFields = () => ({
     STATUS: { fieldName: "", key: "status" },
 });
 
+<<<<<<< HEAD
 export default appFields;
+=======
+export default appFields;
+>>>>>>> a1cee8a... Refactor code.

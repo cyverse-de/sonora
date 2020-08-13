@@ -14,7 +14,6 @@ export const getDataSimpleSearchQuery = (
                         type: "label",
                         args: {
                             exact: false,
-                            negated: false,
                             label: searchTerm,
                         },
                     },
@@ -22,7 +21,6 @@ export const getDataSimpleSearchQuery = (
                         type: "path",
                         args: {
                             prefix: userHomeDir,
-                            negated: false,
                         },
                     },
                 ],

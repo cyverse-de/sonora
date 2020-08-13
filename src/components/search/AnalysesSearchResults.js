@@ -1,6 +1,6 @@
 /**
  *
- * Display tablular view of detailed apps search results
+ * Display tablular view of detailed analyses search results
  *
  * @author sriram
  *
@@ -10,24 +10,30 @@ import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 
 import SearchResultsTable from "./SearchResultsTable";
-
+import { getAnalysesSearchQueryFilter } from "./analysesSearchQueryBuilder";
 import constants from "../../constants";
 import TableLoading from "../utils/TableLoading";
 import {
-    searchAppsInfiniteQuery,
-    APPS_SEARCH_QUERY_KEY,
-} from "serviceFacades/apps";
-import appFields from "../apps/appFields";
+    searchAnalysesInfinite,
+    ANALYSES_SEARCH_QUERY_KEY,
+} from "serviceFacades/analyses";
+import analysisFields from "../analyses/analysisFields";
 
 import { Typography } from "@material-ui/core";
+import { useTranslation } from "i18n";
 
-export default function AppSearchResults(props) {
+export default function AnalysesSearchResults(props) {
     const { searchTerm, updateResultCount } = props;
-    const [appsSearchKey, setAppsSearchKey] = useState(APPS_SEARCH_QUERY_KEY);
-    const [appsSearchQueryEnabled, setAppsSearchQueryEnabled] = useState(false);
-
+    const [analysesSearchKey, setAnalysesSearchKey] = useState(
+        ANALYSES_SEARCH_QUERY_KEY
+    );
+    const [
+        analysesSearchQueryEnabled,
+        setAnalysesSearchQueryEnabled,
+    ] = useState(false);
+    const { t } = useTranslation(["analyses"]);
     //TODO: pass `t` into this function
-    const appRecordFields = appFields();
+    const analysisRecordFields = analysisFields(t);
     const {
         status,
         data,
@@ -35,8 +41,8 @@ export default function AppSearchResults(props) {
         fetchMore,
         canFetchMore,
         error,
-    } = useInfiniteQuery(appsSearchKey, searchAppsInfiniteQuery, {
-        enabled: appsSearchQueryEnabled,
+    } = useInfiniteQuery(analysesSearchKey, searchAnalysesInfinite, {
+        enabled: analysesSearchQueryEnabled,
         getFetchMore: (lastGroup, allGroups) => {
             const totalPage = Math.ceil(lastGroup?.total / 100);
             if (allGroups.length < totalPage) {
@@ -51,40 +57,37 @@ export default function AppSearchResults(props) {
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
-            setAppsSearchKey([
-                APPS_SEARCH_QUERY_KEY,
+            setAnalysesSearchKey([
+                ANALYSES_SEARCH_QUERY_KEY,
                 {
                     rowsPerPage: 100,
-                    orderBy: appRecordFields.NAME.key,
+                    orderBy: analysisRecordFields.NAME.key,
                     order: constants.SORT_ASCENDING,
-                    search: searchTerm,
+                    filter: getAnalysesSearchQueryFilter(searchTerm, t),
                 },
             ]);
-            setAppsSearchQueryEnabled(true);
+            setAnalysesSearchQueryEnabled(true);
         } else {
-            setAppsSearchQueryEnabled(false);
+            setAnalysesSearchQueryEnabled(false);
         }
-    }, [appRecordFields.NAME.key, searchTerm]);
+    }, [analysisRecordFields.NAME.key, searchTerm, t]);
 
     const columns = React.useMemo(
         () => [
             {
-                Header: "Name",
-                accessor: appRecordFields.NAME.key,
+                Header: analysisRecordFields.NAME.fieldName,
+                accessor: analysisRecordFields.NAME.key,
             },
             {
-                Header: "Integrator",
-                accessor: appRecordFields.INTEGRATOR.key,
-            },
-            {
-                Header: "System",
-                accessor: appRecordFields.SYSTEM.key,
+                Header: analysisRecordFields.STATUS.fieldName,
+                accessor: analysisRecordFields.STATUS.key,
             },
         ],
         [
-            appRecordFields.INTEGRATOR.key,
-            appRecordFields.NAME.key,
-            appRecordFields.SYSTEM.key,
+            analysisRecordFields.NAME.fieldName,
+            analysisRecordFields.NAME.key,
+            analysisRecordFields.STATUS.fieldName,
+            analysisRecordFields.STATUS.key,
         ]
     );
     if (status === "loading") {
@@ -92,7 +95,7 @@ export default function AppSearchResults(props) {
             <TableLoading
                 numColumns={5}
                 numRows={100}
-                baseId="appSearchResults"
+                baseId="analysesSearchResults"
             />
         );
     }
@@ -100,11 +103,11 @@ export default function AppSearchResults(props) {
         return <Typography> Unable to search </Typography>;
     }
     if (!data) {
-        return <Typography> No apps. </Typography>;
+        return <Typography> No Analyses. </Typography>;
     }
     let flatdata = [];
     data.forEach((page) => {
-        flatdata = [...flatdata, ...page.apps];
+        flatdata = [...flatdata, ...page.analyses];
     });
 
     if (status === "success") {
@@ -115,7 +118,7 @@ export default function AppSearchResults(props) {
         <SearchResultsTable
             columns={columns}
             data={flatdata}
-            baseId="appSearchResults"
+            baseId="analysesSearchResults"
             fetchMore={fetchMore}
             ref={loadMoreButtonRef}
             isFetchingMore={isFetchingMore}

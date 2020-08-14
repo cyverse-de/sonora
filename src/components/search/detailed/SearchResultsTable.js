@@ -65,7 +65,6 @@ const SearchResultsTable = ({
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const tableId = build(baseId, ids.TABLE_VIEW);
     const { t } = useTranslation("search");
-
     return (
         <PageWrapper appBarHeight={isMobile ? 210 : 225}>
             {isFetchingMore && (

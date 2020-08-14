@@ -11,6 +11,7 @@ import { useInfiniteQuery, queryCache } from "react-query";
 
 import { useTranslation } from "i18n";
 
+import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
 import searchConstants from "../constants";
 import TableLoading from "../../utils/TableLoading";
@@ -26,9 +27,11 @@ import { Typography } from "@material-ui/core";
 export default function DataSearchResults(props) {
     const { searchTerm, updateResultCount, baseId } = props;
     const [dataSearchKey, setDataSearchKey] = useState(DATA_SEARCH_QUERY_KEY);
+    const [sortField, setSortField] = useState("label");
+    const [sortOrder, setSortOrder] = useState("ascending");
     const [dataSearchQueryEnabled, setDataSearchQueryEnabled] = useState(false);
 
-    const { t } = useTranslation([" search"]);
+    const { t } = useTranslation(["search"]);
 
     const bootstrapCache = queryCache.getQueryData(BOOTSTRAP_KEY);
     let userHomeDir = bootstrapCache?.data_info.user_home_path;
@@ -47,7 +50,7 @@ export default function DataSearchResults(props) {
         enabled: dataSearchQueryEnabled,
         getFetchMore: (lastGroup, allGroups) => {
             console.log("lastGroup=>" + lastGroup?.total);
-            const totalPage = Math.ceil(lastGroup?.total / 100);
+            const totalPage = Math.ceil(lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE);
             if (allGroups.length < totalPage) {
                 return allGroups.length;
             } else {
@@ -64,13 +67,13 @@ export default function DataSearchResults(props) {
                     searchTerm,
                     userHomeDir,
                     rowsPerPage: searchConstants.DETAILED_SEARCH_PAGE_SIZE,
-                    sortField: "label",
-                    sortDir: "ascending",
+                    sortField: sortField,
+                    sortDir: sortOrder,
                 },
             ]);
             setDataSearchQueryEnabled(true);
         }
-    }, [searchTerm, userHomeDir]);
+    }, [searchTerm, sortField, sortOrder, userHomeDir]);
 
     const loadMoreButtonRef = React.useRef();
 
@@ -83,6 +86,7 @@ export default function DataSearchResults(props) {
                     const original = row?.original;
                     return <ResourceIcon type={original._type} />;
                 },
+                disableSortBy: true,
             },
             {
                 Header: "Name",
@@ -91,6 +95,7 @@ export default function DataSearchResults(props) {
             {
                 Header: "Path",
                 accessor: "_source.path",
+                disableSortBy: true,
             },
         ],
         []
@@ -100,10 +105,9 @@ export default function DataSearchResults(props) {
         return <TableLoading numColumns={5} numRows={100} baseId={baseId} />;
     }
     if (error) {
-        return <Typography> {t("errorDataSearch")} </Typography>;
+        return <SearchError error={error} baseId={baseId} />;
     }
-
-    if (!data) {
+    if (!data || data.length === 0 || data[0]?.hits.length === 0) {
         return <Typography>{t("noResults")}</Typography>;
     }
 
@@ -125,6 +129,18 @@ export default function DataSearchResults(props) {
             ref={loadMoreButtonRef}
             isFetchingMore={isFetchingMore}
             canFetchMore={canFetchMore}
+            initialSortBy={[
+                {
+                    id: "_source." + sortField,
+                    desc: sortOrder === "descending",
+                },
+            ]}
+            onSort={(colId, descending) => {
+                setSortField(colId.split(".")[1]);
+                descending
+                    ? setSortOrder("descending")
+                    : setSortOrder("ascending");
+            }}
         />
     );
 }

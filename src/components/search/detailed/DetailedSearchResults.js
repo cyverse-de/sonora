@@ -46,7 +46,7 @@ export default function DetailedSearchResults(props) {
     const { baseId, searchTerm } = props;
     const classes = useStyles();
     const [selectedTab, setSelectedTab] = useState(TABS.data);
-    const { t } = useTranslation(["common"]);
+    const { t } = useTranslation(["common", "search"]);
     const [appsCount, setAppsCount] = useState(0);
     const [dataCount, setDataCount] = useState(0);
     const [analysesCount, setAnalysesCount] = useState(0);

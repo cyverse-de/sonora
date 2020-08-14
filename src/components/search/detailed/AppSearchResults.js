@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 import { useTranslation } from "i18n";
 
+import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
 import searchConstants from "../constants";
 import constants from "../../../constants";
@@ -26,9 +27,12 @@ export default function AppSearchResults(props) {
     const { searchTerm, updateResultCount, baseId } = props;
     const [appsSearchKey, setAppsSearchKey] = useState(APPS_SEARCH_QUERY_KEY);
     const [appsSearchQueryEnabled, setAppsSearchQueryEnabled] = useState(false);
-    const { t } = useTranslation([" search"]);
+
+    const { t } = useTranslation(["search"]);
     //TODO: pass `t` into this function
     const appRecordFields = appFields();
+    const [order, setOrder] = useState(constants.SORT_ASCENDING);
+    const [orderBy, setOrderBy] = useState(appRecordFields.NAME.key);
     const {
         status,
         data,
@@ -39,7 +43,7 @@ export default function AppSearchResults(props) {
     } = useInfiniteQuery(appsSearchKey, searchAppsInfiniteQuery, {
         enabled: appsSearchQueryEnabled,
         getFetchMore: (lastGroup, allGroups) => {
-            const totalPage = Math.ceil(lastGroup?.total / 100);
+            const totalPage = Math.ceil(lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE);
             if (allGroups.length < totalPage) {
                 return allGroups.length;
             } else {
@@ -56,8 +60,8 @@ export default function AppSearchResults(props) {
                 APPS_SEARCH_QUERY_KEY,
                 {
                     rowsPerPage: searchConstants.DETAILED_SEARCH_PAGE_SIZE,
-                    orderBy: appRecordFields.NAME.key,
-                    order: constants.SORT_ASCENDING,
+                    orderBy: orderBy,
+                    order: order,
                     search: searchTerm,
                 },
             ]);
@@ -65,7 +69,7 @@ export default function AppSearchResults(props) {
         } else {
             setAppsSearchQueryEnabled(false);
         }
-    }, [appRecordFields.NAME.key, searchTerm]);
+    }, [appRecordFields.NAME.key, order, orderBy, searchTerm]);
 
     const columns = React.useMemo(
         () => [
@@ -92,9 +96,9 @@ export default function AppSearchResults(props) {
         return <TableLoading numColumns={5} numRows={100} baseId={baseId} />;
     }
     if (error) {
-        return <Typography> {t("errorAppsSearch")} </Typography>;
+        return <SearchError error={error} baseId={baseId} />;
     }
-    if (!data) {
+    if (!data || data.length === 0 || data[0].apps.length === 0) {
         return <Typography>{t("noResults")}</Typography>;
     }
 
@@ -116,6 +120,13 @@ export default function AppSearchResults(props) {
             ref={loadMoreButtonRef}
             isFetchingMore={isFetchingMore}
             canFetchMore={canFetchMore}
+            initialSortBy={[{ id: orderBy, desc: order === constants.SORT_DESCENDING }]}
+            onSort={(colId, descending) => {
+                setOrderBy(colId);
+                descending
+                    ? setOrder(constants.SORT_DESCENDING)
+                    : setOrder(constants.SORT_ASCENDING);
+            }}
         />
     );
 }

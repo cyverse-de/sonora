@@ -299,7 +299,6 @@ function GlobalSearchField(props) {
     });
 
     const handleChange = (event, value, reason) => {
-        //console.log("handleChange=>" + value);
         if (reason === "clear" || value === "") {
             setAnalysesSearchQueryEnabled(false);
             setAppsSearchQueryEnabled(false);
@@ -457,7 +456,7 @@ function GlobalSearchField(props) {
                 onClose={() => {
                     setOpen(false);
                 }}
-                id="search"
+                id={ids.GLOBAL_SEARCH_FIELD}
                 size="small"
                 options={options}
                 onInputChange={handleChange}

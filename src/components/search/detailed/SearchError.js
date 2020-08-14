@@ -12,17 +12,14 @@ import DEErrorDialog from "components/utils/error/DEErrorDialog";
 import ErrorTypography from "components/utils/error/ErrorTypography";
 
 export default function SearchError(props) {
-    const {error, baseId} = props;
+    const { error, baseId } = props;
     const { t } = useTranslation(["search"]);
     const [errorDialogOpen, setErrorDialogOpen] = React.useState(false);
 
     return (
         <>
             <ErrorTypography
-                errorMessage={
-                    error.message ||
-                    t("errorSearch")
-                }
+                errorMessage={error.message || t("errorSearch")}
                 onDetailsClick={() => setErrorDialogOpen(true)}
             />
             <DEErrorDialog
@@ -35,4 +32,4 @@ export default function SearchError(props) {
             />
         </>
     );
-};
+}

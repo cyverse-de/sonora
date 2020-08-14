@@ -19,11 +19,10 @@ import { getFolderPage } from "components/data/utils";
 import analysisFields from "components/analyses/analysisFields";
 import Listing from "components/analyses/listing/Listing";
 
-
 export default function Analyses() {
     const router = useRouter();
     const query = router.query;
-    const {t} = useTranslation("analyses");
+    const { t } = useTranslation("analyses");
     const analysisRecordFields = analysisFields(t);
     const selectedPage = parseInt(query.selectedPage) || 0;
     const selectedRowsPerPage = parseInt(query.selectedRowsPerPage) || 25;

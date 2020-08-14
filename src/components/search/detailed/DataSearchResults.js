@@ -50,7 +50,9 @@ export default function DataSearchResults(props) {
         enabled: dataSearchQueryEnabled,
         getFetchMore: (lastGroup, allGroups) => {
             console.log("lastGroup=>" + lastGroup?.total);
-            const totalPage = Math.ceil(lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE);
+            const totalPage = Math.ceil(
+                lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
+            );
             if (allGroups.length < totalPage) {
                 return allGroups.length;
             } else {

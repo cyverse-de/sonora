@@ -57,7 +57,7 @@ const SearchResultsTable = ({
         useSortBy
     );
     const tableId = build(baseId, ids.TABLE_VIEW);
-    const {t} = useTranslation("search");   
+    const { t } = useTranslation("search");
     return (
         <PageWrapper appBarHeight={150}>
             {isFetchingMore && (
@@ -86,8 +86,11 @@ const SearchResultsTable = ({
                                             column.getSortByToggleProps()
                                         )}
                                         onClick={() => {
-                                            if(onSort) {
-                                                onSort(column.id, !column.isSortedDesc);
+                                            if (onSort) {
+                                                onSort(
+                                                    column.id,
+                                                    !column.isSortedDesc
+                                                );
                                             }
                                             toggleSortBy(
                                                 column.id,

@@ -100,12 +100,9 @@ export default function AnalysesSearchResults(props) {
                 Header: analysisRecordFields.START_DATE.fieldName,
                 accessor: analysisRecordFields.START_DATE.key,
                 Cell: ({ row }) => {
-                    const sd = row.original[analysisRecordFields.START_DATE.key];
-                    return (
-                        <Typography>
-                            {formatDate(sd)}
-                        </Typography>
-                    );
+                    const sd =
+                        row.original[analysisRecordFields.START_DATE.key];
+                    return <Typography>{formatDate(sd)}</Typography>;
                 },
             },
             {

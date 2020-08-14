@@ -43,7 +43,9 @@ export default function AppSearchResults(props) {
     } = useInfiniteQuery(appsSearchKey, searchAppsInfiniteQuery, {
         enabled: appsSearchQueryEnabled,
         getFetchMore: (lastGroup, allGroups) => {
-            const totalPage = Math.ceil(lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE);
+            const totalPage = Math.ceil(
+                lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
+            );
             if (allGroups.length < totalPage) {
                 return allGroups.length;
             } else {
@@ -120,7 +122,9 @@ export default function AppSearchResults(props) {
             ref={loadMoreButtonRef}
             isFetchingMore={isFetchingMore}
             canFetchMore={canFetchMore}
-            initialSortBy={[{ id: orderBy, desc: order === constants.SORT_DESCENDING }]}
+            initialSortBy={[
+                { id: orderBy, desc: order === constants.SORT_DESCENDING },
+            ]}
             onSort={(colId, descending) => {
                 setOrderBy(colId);
                 descending

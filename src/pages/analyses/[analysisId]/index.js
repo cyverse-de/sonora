@@ -26,7 +26,7 @@ import Listing from "components/analyses/listing/Listing";
 
 export default function Analysis() {
     const router = useRouter();
-    const {t} = useTranslation("analyses");
+    const { t } = useTranslation("analyses");
     const analysisRecordFields = analysisFields(t);
     const selectedPage = 0;
     const selectedRowsPerPage = 25;

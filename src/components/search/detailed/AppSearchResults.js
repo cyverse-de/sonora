@@ -8,9 +8,6 @@
 
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
-import Link from "next/link";
-
-import NameLink from "./NameLink";
 
 import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
@@ -18,23 +15,23 @@ import { useAppsSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
 import constants from "../../../constants";
 
+import AppName from "components/apps/AppName";
 import { APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
 import appFields from "components/apps/appFields";
-import NavigationConstants from "common/NavigationConstants";
 
 import { IconButton, Typography } from "@material-ui/core";
 import { Info } from "@material-ui/icons";
 
 function Name(props) {
     const { selectedOption, searchTerm } = props;
-
-    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch`;
-    const as = `/${NavigationConstants.APPS}/${selectedOption?.system_id}/${selectedOption?.id}/launch`;
-
     return (
-        <Link href={href} as={as} passHref>
-            <NameLink name={selectedOption?.name} searchTerm={searchTerm} />
-        </Link>
+        <AppName
+            name={selectedOption?.name}
+            systemId={selectedOption?.system_id}
+            appId={selectedOption?.id}
+            isDisabled={selectedOption?.disabled}
+            searchTerm={searchTerm}
+        />
     );
 }
 

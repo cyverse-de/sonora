@@ -77,6 +77,7 @@ export default {
     DIALOG: {
         DELETE: "delete",
         RELAUNCH: "relaunch",
+        RENAME: "rename",
     },
 
     ICONS: {

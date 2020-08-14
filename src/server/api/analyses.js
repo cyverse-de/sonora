@@ -1,8 +1,7 @@
 /**
- * @author sriram
+ * @author sriram, psarando
  *
- * Add analyses handler
- *
+ * Adds analyses handlers.
  */
 
 import express from "express";
@@ -60,6 +59,19 @@ export default function analysesRouter() {
         terrainHandler({
             method: "POST",
             pathname: "/analyses/shredder",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the PATCH /analyses/:id handler");
+    api.patch(
+        "/analyses/:id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/analyses/:id",
             headers: {
                 "Content-Type": "application/json",
             },

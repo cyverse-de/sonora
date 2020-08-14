@@ -90,6 +90,16 @@ const allowAnalysesRelaunch = (selectedAnalyses) => {
 };
 
 /**
+ * Checks if the user can rename the given analysis.
+ *
+ * @param {array} analysis
+ * @param {string} currentUser
+ * @returns {boolean} true if the analysis belongs to the current user
+ */
+const allowAnalysisRename = (analysis, currentUser) =>
+    currentUser === getAnalysisUser(analysis);
+
+/**
  * Builds a path to the Analysis Relaunch page for the given analysis ID.
  *
  * @param {string} analysisId The analysis ID.
@@ -124,6 +134,7 @@ export {
     isBatchAnalysis,
     allowAnalysesDelete,
     allowAnalysesRelaunch,
+    allowAnalysisRename,
     getAnalysisRelaunchPage,
     getListingPath,
 };

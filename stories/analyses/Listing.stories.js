@@ -56,10 +56,34 @@ function ListingTest(props) {
     );
 }
 
+const errorResponse = {
+    error_code: "ERR_GOOD_NEWS_EVERYONE",
+    reason: "This error will only occur once! Please try again...",
+};
+
 export const AnalysesListingTest = () => {
     mockAxios.onGet(/\/api\/analyses*/).reply(200, listing);
-    mockAxios.onPost("/api/analyses/relauncher").reply(200);
-    mockAxios.onPost("/api/analyses/shredder").reply(200);
+
+    mockAxios.onPost("/api/analyses/relauncher").replyOnce(500, errorResponse);
+    mockAxios.onPost("/api/analyses/relauncher").reply((config) => {
+        console.log("Relaunch analysis", config.url, config.data);
+
+        return [200, {}];
+    });
+
+    mockAxios.onPost("/api/analyses/shredder").replyOnce(500, errorResponse);
+    mockAxios.onPost("/api/analyses/shredder").reply((config) => {
+        console.log("Delete analysis", config.url, config.data);
+
+        return [200, {}];
+    });
+
+    mockAxios.onPatch(/\/api\/analyses*/).replyOnce(500, errorResponse);
+    mockAxios.onPatch(/\/api\/analyses*/).reply((config) => {
+        console.log("Rename analysis", config.url, config.data);
+
+        return [200, {}];
+    });
 
     return <ListingTest />;
 };

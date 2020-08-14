@@ -17,6 +17,7 @@ import {
     deleteAnalyses,
     getAnalyses,
     relaunchAnalyses,
+    renameAnalyses,
 } from "serviceFacades/analyses";
 
 import constants from "../../../constants";
@@ -26,6 +27,7 @@ import withErrorAnnouncer from "../../utils/error/withErrorAnnouncer";
 import Drawer from "../details/Drawer";
 
 import ids from "../ids";
+import RenameAnalysisDialog from "../RenameAnalysisDialog";
 
 import TableView from "./TableView";
 
@@ -88,12 +90,14 @@ function Listing(props) {
 
     const [userProfile] = useUserProfile();
     const [currentNotification] = useNotifications();
-    const [detailsAnalysis, setDetailsAnalysis] = useState(null);
-    const [detailsEnabled, setDetailsEnabled] = useState(false);
-    const [detailsOpen, setDetailsOpen] = useState(false);
 
+    const [selectedAnalysis, setSelectedAnalysis] = useState(null);
+    const [isSingleSelection, setSingleSelection] = useState(false);
+
+    const [detailsOpen, setDetailsOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [relaunchDialogOpen, setRelaunchDialogOpen] = useState(false);
+    const [renameDialogOpen, setRenameDialogOpen] = useState(false);
 
     const [analysesKey, setAnalysesKey] = useState(ANALYSES_LISTING_QUERY_KEY);
     const [
@@ -131,6 +135,19 @@ function Listing(props) {
             showErrorAnnouncer(t("analysesRelaunchError"), error);
         },
     });
+
+    const [renameAnalysesMutation, { isLoading: renameLoading }] = useMutation(
+        renameAnalyses,
+        {
+            onSuccess: () => {
+                queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
+                setRenameDialogOpen(false);
+            },
+            onError: (error) => {
+                showErrorAnnouncer(t("analysisRenameError"), error);
+            },
+        }
+    );
 
     useEffect(() => {
         const permFilterChanged = selectedPermFilter?.name !== permFilter?.name;
@@ -297,19 +314,19 @@ function Listing(props) {
     }, [currentNotification, updateAnalyses]);
 
     useEffect(() => {
-        setDetailsEnabled(selected && selected.length === 1);
+        setSingleSelection(selected && selected.length === 1);
     }, [selected]);
 
     useEffect(() => {
-        if (detailsOpen && data?.analyses) {
+        if (data?.analyses) {
             const selectedId = selected[0];
-            setDetailsAnalysis(
+            setSelectedAnalysis(
                 data.analyses.find((item) => item.id === selectedId)
             );
         } else {
-            setDetailsAnalysis(null);
+            setSelectedAnalysis(null);
         }
-    }, [data, detailsOpen, selected]);
+    }, [data, selected]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);
@@ -445,6 +462,10 @@ function Listing(props) {
         deleteAnalysesMutation(selected);
     };
 
+    const handleRename = () => {
+        setRenameDialogOpen(true);
+    };
+
     const getSelectedAnalyses = (analyses) => {
         const items = analyses ? analyses : selected;
         return items.map((id) =>
@@ -467,16 +488,22 @@ function Listing(props) {
                 onClearFilter={handleClearFilter}
                 isGridView={isGridView}
                 toggleDisplay={toggleDisplay}
-                detailsEnabled={detailsEnabled}
+                isSingleSelection={isSingleSelection}
                 onDetailsSelected={onDetailsSelected}
                 handleInteractiveUrlClick={handleInteractiveUrlClick}
                 handleGoToOutputFolder={handleGoToOutputFolder}
                 handleDelete={handleDelete}
                 handleRelaunch={handleRelaunch}
+                handleRename={handleRename}
                 handleBatchIconClick={handleBatchIconClick}
             />
             <TableView
-                loading={isFetching || deleteLoading || relaunchLoading}
+                loading={
+                    isFetching ||
+                    deleteLoading ||
+                    relaunchLoading ||
+                    renameLoading
+                }
                 error={error}
                 listing={data}
                 baseId={baseId}
@@ -511,9 +538,17 @@ function Listing(props) {
                 contentText={t("analysesMultiRelaunchWarning")}
             />
 
+            <RenameAnalysisDialog
+                open={renameDialogOpen}
+                selectedAnalysis={selectedAnalysis}
+                isLoading={renameLoading}
+                onClose={() => setRenameDialogOpen(false)}
+                handleRename={renameAnalysesMutation}
+            />
+
             {detailsOpen && (
                 <Drawer
-                    selectedAnalysis={detailsAnalysis}
+                    selectedAnalysis={selectedAnalysis}
                     open={detailsOpen}
                     baseId={baseId}
                     onClose={() => setDetailsOpen(false)}

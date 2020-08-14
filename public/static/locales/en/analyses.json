@@ -10,6 +10,7 @@
     "analysisParamFetchError":"Unable to fetch analysis parameters. Please try again.",
     "analysisParamTitle":"Viewing parameters for {{name}}",
     "analysisParams":"Parameters",
+    "analysisRenameError": "Unable to rename analysis. Please try again.",
     "analysesDeleteError": "Unable to delete analyses. Please try again.",
     "analysesExecDeleteWarning":"This will remove the selected analyses and the parameters information associated with those analyses. Outputs can still be viewed in the Data window within the folder created by these analyses.",
     "analysesMultiRelaunchWarning":

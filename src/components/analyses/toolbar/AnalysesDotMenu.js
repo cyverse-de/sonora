@@ -16,6 +16,7 @@ import {
     isBatchAnalysis,
     allowAnalysesDelete,
     allowAnalysesRelaunch,
+    allowAnalysisRename,
 } from "../utils";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
@@ -34,6 +35,7 @@ import {
     Launch as LaunchIcon,
     PermMedia as OutputFolderIcon,
     Repeat as RelaunchIcon,
+    Edit as RenameIcon,
     Delete as DeleteIcon,
     UnfoldMore as UnfoldMoreIcon,
 } from "@material-ui/icons";
@@ -42,17 +44,18 @@ function DotMenuItems(props) {
     const {
         baseId,
         onDetailsSelected,
-        detailsEnabled,
         handleInteractiveUrlClick,
         handleGoToOutputFolder,
         handleDelete,
         handleRelaunch,
+        handleRename,
         handleBatchIconClick,
         isBatch,
         isVICE,
         allowTimeExtn,
         allowDelete,
         allowRelaunch,
+        allowRename,
         onClose,
         selectedAnalyses,
         isSingleSelection,
@@ -62,7 +65,7 @@ function DotMenuItems(props) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     return [
-        detailsEnabled && (
+        isSingleSelection && (
             <MenuItem
                 key={build(baseId, ids.MENUITEM_DETAILS)}
                 id={build(baseId, ids.MENUITEM_DETAILS)}
@@ -105,6 +108,21 @@ function DotMenuItems(props) {
                     <RelaunchIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary={t("relaunch")} />
+            </MenuItem>
+        ),
+        allowRename && (
+            <MenuItem
+                key={build(baseId, ids.MENUITEM_RENAME)}
+                id={build(baseId, ids.MENUITEM_RENAME)}
+                onClick={() => {
+                    onClose();
+                    handleRename(selectedAnalyses[0]);
+                }}
+            >
+                <ListItemIcon>
+                    <RenameIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("rename")} />
             </MenuItem>
         ),
         isBatch && (
@@ -184,26 +202,27 @@ function DotMenuItems(props) {
     ];
 }
 
-function AnalysesDotMenu(props) {
-    const {
-        baseId,
-        ButtonProps,
-        username,
-        selected,
-        getSelectedAnalyses,
-    } = props;
+function AnalysesDotMenu({
+    ButtonProps,
+    username,
+    getSelectedAnalyses,
+    ...props
+}) {
+    // These props need to be spread down into DotMenuItems below.
+    const { baseId, isSingleSelection } = props;
 
-    const isSingleSelection = selected?.length === 1;
     const selectedAnalyses = getSelectedAnalyses ? getSelectedAnalyses() : null;
 
     let isBatch = false,
         isVICE = false,
         allowTimeExtn = false,
         allowDelete = false,
-        allowRelaunch = false;
+        allowRelaunch = false,
+        allowRename = false;
 
     if (selectedAnalyses) {
         if (isSingleSelection) {
+            allowRename = allowAnalysisRename(selectedAnalyses[0], username);
             isBatch = isBatchAnalysis(selectedAnalyses[0]);
             isVICE = isInteractive(selectedAnalyses[0]);
             allowTimeExtn = allowAnalysisTimeExtn(
@@ -227,8 +246,8 @@ function AnalysesDotMenu(props) {
                     allowTimeExtn={allowTimeExtn}
                     allowDelete={allowDelete}
                     allowRelaunch={allowRelaunch}
+                    allowRename={allowRename}
                     onClose={onClose}
-                    isSingleSelection={isSingleSelection}
                     selectedAnalyses={selectedAnalyses}
                 />
             )}

@@ -109,6 +109,7 @@ dist
 
 # VSCode config
 .vscode/
+DE.code-workspace
 
 # IntelliJ config
 .idea/

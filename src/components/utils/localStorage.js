@@ -1,3 +1,5 @@
+import { useState, useLayoutEffect } from "react";
+
 /**
  * @author aramsey
  *
@@ -21,3 +23,36 @@ export function setLocalStorage(key, value) {
         return;
     }
 }
+
+/**
+ * @author johnworth
+ *
+ * Custom hook for accessing and setting values in localStorage. Should be
+ * SSR-safe.
+ *
+ * @param {string} key
+ * @param {*} initialValue
+ * @returns {Array}
+ */
+export const useLocalStorage = (key, initialValue) => {
+    // effectively caches the value from localStorage.
+    const [value, setValue] = useState(initialValue);
+
+    // Should update the state from localStorage before rendering
+    // preventing an annoying flash as the state updates.
+    useLayoutEffect(() => {
+        const currValue = getLocalStorage(key);
+        if (currValue === null) {
+            setValue(initialValue);
+        } else {
+            setValue(currValue);
+        }
+    }, [key, initialValue]);
+
+    const setValueFn = (newValue) => {
+        setValue(newValue);
+        setLocalStorage(key, newValue);
+    };
+
+    return [value, setValueFn];
+};

@@ -5,10 +5,10 @@
  *
  */
 
-import { useQuery } from "react-query";
-import { searchData } from "serviceFacades/filesystem";
-import { searchApps } from "serviceFacades/apps";
-import { getAnalyses } from "serviceFacades/analyses";
+import { useQuery, useInfiniteQuery } from "react-query";
+import { searchData, searchDataInfinite } from "serviceFacades/filesystem";
+import { searchApps, searchAppsInfiniteQuery } from "serviceFacades/apps";
+import { getAnalyses, searchAnalysesInfinite } from "serviceFacades/analyses";
 
 /**
  *
@@ -75,4 +75,60 @@ function useAnalysesSearch(
     });
 }
 
-export { useDataSearch, useAppsSearch, useAnalysesSearch };
+/**
+ * Analyses infinite load search query
+ * @param {object} analysesSearchKey
+ * @param {boolean} analysesSearchQueryEnabled
+ * @param {function} getFetchMore
+ *
+ * @returns {function}
+ */
+function useAnalysesSearchInfinite(
+    analysesSearchKey,
+    analysesSearchQueryEnabled,
+    getFetchMore
+) {
+    return useInfiniteQuery(analysesSearchKey, searchAnalysesInfinite, {
+        enabled: analysesSearchQueryEnabled,
+        getFetchMore: getFetchMore,
+    });
+}
+
+/**
+ *
+ * Data infinite load search query
+ *
+ * @param {*} dataSearchKey
+ * @param {*} dataSearchQueryEnabled
+ * @param {*} getFetchMore
+ */
+function useDataSearchInfinite(
+    dataSearchKey,
+    dataSearchQueryEnabled,
+    getFetchMore
+) {
+    return useInfiniteQuery(dataSearchKey, searchDataInfinite, {
+        enabled: dataSearchQueryEnabled,
+        getFetchMore: getFetchMore,
+    });
+}
+
+function useAppsSearchInfinite(
+    appsSearchKey,
+    appsSearchQueryEnabled,
+    getFetchMore
+) {
+    return useInfiniteQuery(appsSearchKey, searchAppsInfiniteQuery, {
+        enabled: appsSearchQueryEnabled,
+        getFetchMore: getFetchMore,
+    });
+}
+
+export {
+    useDataSearch,
+    useAppsSearch,
+    useAnalysesSearch,
+    useAnalysesSearchInfinite,
+    useDataSearchInfinite,
+    useAppsSearchInfinite,
+};

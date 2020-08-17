@@ -7,10 +7,10 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { useInfiniteQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
+import { useAnalysesSearchInfinite } from "../searchQueries";
 import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
 import { getAnalysesSearchQueryFilter } from "../analysesSearchQueryBuilder";
@@ -19,10 +19,7 @@ import constants from "../../../constants";
 
 import { formatDate } from "@cyverse-de/ui-lib";
 
-import {
-    searchAnalysesInfinite,
-    ANALYSES_SEARCH_QUERY_KEY,
-} from "serviceFacades/analyses";
+import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
 import TableLoading from "components/utils/TableLoading";
 import analysisFields from "components/analyses/analysisFields";
 import { Typography } from "@material-ui/core";
@@ -51,9 +48,10 @@ export default function AnalysesSearchResults(props) {
         fetchMore,
         canFetchMore,
         error,
-    } = useInfiniteQuery(analysesSearchKey, searchAnalysesInfinite, {
-        enabled: analysesSearchQueryEnabled,
-        getFetchMore: (lastGroup, allGroups) => {
+    } = useAnalysesSearchInfinite(
+        analysesSearchKey,
+        analysesSearchQueryEnabled,
+        (lastGroup, allGroups) => {
             const totalPage = Math.ceil(
                 lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
             );
@@ -62,8 +60,8 @@ export default function AnalysesSearchResults(props) {
             } else {
                 return false;
             }
-        },
-    });
+        }
+    );
 
     const loadMoreButtonRef = React.useRef();
     useEffect(() => {

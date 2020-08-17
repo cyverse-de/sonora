@@ -7,16 +7,16 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { useInfiniteQuery, queryCache } from "react-query";
+import { queryCache } from "react-query";
 
 import { useTranslation } from "i18n";
 
 import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
+import { useDataSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
 import TableLoading from "../../utils/TableLoading";
 import {
-    searchDataInfinite,
     DATA_SEARCH_QUERY_KEY,
 } from "serviceFacades/filesystem";
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
@@ -46,10 +46,10 @@ export default function DataSearchResults(props) {
         fetchMore,
         canFetchMore,
         error,
-    } = useInfiniteQuery(dataSearchKey, searchDataInfinite, {
-        enabled: dataSearchQueryEnabled,
-        getFetchMore: (lastGroup, allGroups) => {
-            console.log("lastGroup=>" + lastGroup?.total);
+    } = useDataSearchInfinite(
+        dataSearchKey,
+        dataSearchQueryEnabled,
+        (lastGroup, allGroups) => {
             const totalPage = Math.ceil(
                 lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
             );
@@ -58,8 +58,8 @@ export default function DataSearchResults(props) {
             } else {
                 return false;
             }
-        },
-    });
+        }
+    );
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {

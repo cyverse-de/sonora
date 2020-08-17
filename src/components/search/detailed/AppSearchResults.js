@@ -7,11 +7,11 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { useInfiniteQuery } from "react-query";
 import { useTranslation } from "i18n";
 
 import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
+import { useAppsSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
 import constants from "../../../constants";
 import TableLoading from "../../utils/TableLoading";
@@ -40,9 +40,10 @@ export default function AppSearchResults(props) {
         fetchMore,
         canFetchMore,
         error,
-    } = useInfiniteQuery(appsSearchKey, searchAppsInfiniteQuery, {
-        enabled: appsSearchQueryEnabled,
-        getFetchMore: (lastGroup, allGroups) => {
+    } = useAppsSearchInfinite(
+        appsSearchKey,
+        appsSearchQueryEnabled,
+        (lastGroup, allGroups) => {
             const totalPage = Math.ceil(
                 lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
             );
@@ -51,8 +52,8 @@ export default function AppSearchResults(props) {
             } else {
                 return false;
             }
-        },
-    });
+        }
+    );
 
     const loadMoreButtonRef = React.useRef();
 

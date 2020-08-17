@@ -41,7 +41,6 @@ import {
     CircularProgress,
     ListItem,
     MenuItem,
-    Select,
     TextField,
     ListItemText,
     ListItemIcon,
@@ -181,7 +180,7 @@ function AppsSearchOption(props) {
     const { t } = useTranslation("common");
     const { selectedOption, searchTerm } = props;
     const href = `/${NavigationConstants.APPS}/[systemId]/[appId]`;
-    const as = `/${NavigationConstants.APPS}/${selectedOption.system_id}/${selectedOption.id}`;
+    const as = `/${NavigationConstants.APPS}/${selectedOption?.system_id}/${selectedOption?.id}`;
     return (
         <Link href={href} as={as} passHref>
             <SearchOption
@@ -198,7 +197,7 @@ function AnalysesSearchOption(props) {
     const { t } = useTranslation("common");
     const { selectedOption, searchTerm } = props;
     const href = `/${NavigationConstants.ANALYSES}/[analysisId]`;
-    const as = `/${NavigationConstants.ANALYSES}/${selectedOption.id}`;
+    const as = `/${NavigationConstants.ANALYSES}/${selectedOption?.id}`;
     return (
         <Link href={href} as={as} passHref>
             <SearchOption
@@ -214,13 +213,13 @@ function AnalysesSearchOption(props) {
 function GlobalSearchField(props) {
     const classes = useStyles();
     const router = useRouter();
-    const { showErrorAnnouncer } = props;
+    const { search, showErrorAnnouncer } = props;
 
     const { t } = useTranslation(["common", "analyses"]);
 
     const appRecordFields = appFields();
 
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useState(search);
     const [filter, setFilter] = useState(ALL);
 
     const [options, setOptions] = useState([]);
@@ -384,12 +383,20 @@ function GlobalSearchField(props) {
         userHomeDir,
     ]);
 
-    if (analysesSearchError || appsSearchError || dataSearchError) {
-        showErrorAnnouncer(
-            t("searchError"),
-            analysesSearchError || appsSearchError || dataSearchError
-        );
-    }
+    useEffect(() => {
+        if (analysesSearchError || appsSearchError || dataSearchError) {
+            showErrorAnnouncer(
+                t("searchError"),
+                analysesSearchError || appsSearchError || dataSearchError
+            );
+        }
+    }, [
+        analysesSearchError,
+        appsSearchError,
+        dataSearchError,
+        showErrorAnnouncer,
+        t,
+    ]);
 
     const loading = searchingAnalyses || searchingApps || searchingData;
 
@@ -426,6 +433,7 @@ function GlobalSearchField(props) {
             {...params}
             className={classes.input}
             variant={isMobile ? "outlined" : "standard"}
+            value={search}
             InputProps={{
                 ...params.InputProps,
                 disableUnderline: true,
@@ -484,22 +492,25 @@ function GlobalSearchField(props) {
                 popupIcon={null}
                 noOptionsText={t("noOptions")}
                 clearOnEscape={true}
+                inputValue={searchTerm}
             />
-            <Select
+            <TextField
                 id={build(ids.SEARCH, ids.SEARCH_FILTER_MENU)}
+                select
+                size="small"
                 value={filter}
                 onChange={handleFilterChange}
-                disableUnderline
                 className={classes.searchFilter}
-                size="small"
                 variant={isMobile ? "outlined" : "standard"}
-                renderInput={() => <TextField size="small" disableUnderline />}
+                InputProps={{
+                    disableUnderline: true,
+                }}
             >
                 <MenuItem value={ALL}>{t("all")}</MenuItem>
                 <MenuItem value={DATA}>{t("data")}</MenuItem>
                 <MenuItem value={APPS}>{t("apps")}</MenuItem>
                 <MenuItem value={ANALYSES}>{t("analyses")}</MenuItem>
-            </Select>
+            </TextField>
         </>
     );
 }

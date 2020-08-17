@@ -205,6 +205,7 @@ function CyverseAppBar(props) {
     const classes = useStyles();
     const theme = useTheme();
     const router = useRouter();
+    const {searchTerm} = router?.query;
     const ref = useRef();
     const [config, setConfig] = useConfig();
     const { t } = useTranslation(["common"]);
@@ -601,7 +602,7 @@ function CyverseAppBar(props) {
                         </a>
                     </Hidden>
                     <Hidden xsDown>
-                        <GlobalSearchField />
+                        <GlobalSearchField search={searchTerm}/>
                     </Hidden>
                     <div className={classes.root} />
                     <div style={{ display: "flex" }}>

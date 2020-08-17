@@ -8,21 +8,63 @@
 
 import React, { useEffect, useState } from "react";
 import { queryCache } from "react-query";
-
+import Link from "next/link";
 import { useTranslation } from "i18n";
 
+import styles from "./styles";
+import constants from "../../../constants";
 import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
 import { useDataSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
-import TableLoading from "../../utils/TableLoading";
-import {
-    DATA_SEARCH_QUERY_KEY,
-} from "serviceFacades/filesystem";
-import { BOOTSTRAP_KEY } from "serviceFacades/users";
 
+import { DATA_SEARCH_QUERY_KEY } from "serviceFacades/filesystem";
+import { BOOTSTRAP_KEY } from "serviceFacades/users";
+import NavigationConstants from "common/NavigationConstants";
 import ResourceIcon from "components/data/listing/ResourceIcon";
-import { Typography } from "@material-ui/core";
+import { getParentPath } from "components/data/utils";
+import ResourceTypes from "components/models/ResourceTypes";
+
+import { Highlighter } from "@cyverse-de/ui-lib";
+
+import { Typography, Link as MuiLink, makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles(styles);
+
+const NameLink = React.forwardRef((props, ref) => {
+    const { name, searchTerm, onClick, href } = props;
+    const classes = useStyles();
+    return (
+        <MuiLink
+            href={href}
+            onClick={onClick}
+            ref={ref}
+            className={classes.dataLink}
+        >
+            <Highlighter search={searchTerm}>{name}</Highlighter>
+        </MuiLink>
+    );
+});
+
+function Name(props) {
+    const { resource, searchTerm } = props;
+
+    const type = resource._type;
+    let path = resource._source.path;
+
+    //SS route to parent folder for the file util we have file viewers ready in sonora.
+    if (type === ResourceTypes.FILE) {
+        path = getParentPath(path);
+    }
+
+    const href = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}`;
+    const as = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${path}`;
+    return (
+        <Link href={href} as={as} passHref>
+            <NameLink name={resource._source?.label} searchTerm={searchTerm} />
+        </Link>
+    );
+}
 
 export default function DataSearchResults(props) {
     const { searchTerm, updateResultCount, baseId } = props;
@@ -77,7 +119,11 @@ export default function DataSearchResults(props) {
         }
     }, [searchTerm, sortField, sortOrder, userHomeDir]);
 
-    const loadMoreButtonRef = React.useRef();
+    useEffect(() => {
+        if (data && data.length > 0) {
+            updateResultCount(data[0].total);
+        }
+    }, [data, updateResultCount]);
 
     const columns = React.useMemo(
         () => [
@@ -93,6 +139,9 @@ export default function DataSearchResults(props) {
             {
                 Header: "Name",
                 accessor: "_source.label",
+                Cell: ({ row }) => (
+                    <Name resource={row?.original} searchTerm={searchTerm} />
+                ),
             },
             {
                 Header: "Path",
@@ -100,26 +149,24 @@ export default function DataSearchResults(props) {
                 disableSortBy: true,
             },
         ],
-        []
+        [searchTerm]
     );
 
-    if (status === "loading") {
-        return <TableLoading numColumns={5} numRows={100} baseId={baseId} />;
-    }
     if (error) {
         return <SearchError error={error} baseId={baseId} />;
     }
-    if (!data || data.length === 0 || data[0]?.hits.length === 0) {
+    if (
+        status !== constants.LOADING &&
+        (!data || data.length === 0 || data[0]?.hits.length === 0)
+    ) {
         return <Typography>{t("noResults")}</Typography>;
     }
 
     let flatdata = [];
-    data.forEach((page) => {
-        flatdata = [...flatdata, ...page.hits];
-    });
-
-    if (status === "success") {
-        updateResultCount(data[0].total);
+    if (data && data.length > 0) {
+        data.forEach((page) => {
+            flatdata = [...flatdata, ...page.hits];
+        });
     }
 
     return (
@@ -127,8 +174,8 @@ export default function DataSearchResults(props) {
             columns={columns}
             data={flatdata}
             baseId={baseId}
+            loading={status === constants.LOADING}
             fetchMore={fetchMore}
-            ref={loadMoreButtonRef}
             isFetchingMore={isFetchingMore}
             canFetchMore={canFetchMore}
             initialSortBy={[

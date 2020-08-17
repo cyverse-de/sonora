@@ -10,21 +10,26 @@ import React, { useState } from "react";
 import { useTranslation } from "i18n";
 
 import ids from "../ids";
-import DETabPanel from "../../utils/DETabPanel";
 
 import { build } from "@cyverse-de/ui-lib";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import Tabs from "@material-ui/core/Tabs";
+
 import Tab from "@material-ui/core/Tab";
 import AppSearchResults from "./AppSearchResults";
 import DataSearchResults from "./DataSearchResults";
 import AnalysesSearchResults from "./AnalysesSearchResults";
 
+import DETabPanel from "components/utils/DETabPanel";
+
+import { useMediaQuery, useTheme, Tabs } from "@material-ui/core";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        margin: 0,
+        padding: 0,
     },
     tabIndicator: {
         backgroundColor: theme.palette.secondary.main,
@@ -45,6 +50,8 @@ const TABS = {
 export default function DetailedSearchResults(props) {
     const { baseId, searchTerm } = props;
     const classes = useStyles();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const [selectedTab, setSelectedTab] = useState(TABS.data);
     const { t } = useTranslation(["common", "search"]);
     const [appsCount, setAppsCount] = useState(0);
@@ -64,7 +71,9 @@ export default function DetailedSearchResults(props) {
                 value={selectedTab}
                 onChange={onTabSelectionChange}
                 classes={{ indicator: classes.tabIndicator }}
-                centered
+                centered={!isMobile}
+                variant={isMobile ? "fullWidth" : "standard"}
+                style={{ padding: 4 }}
             >
                 <Tab
                     value={TABS.data}
@@ -74,13 +83,13 @@ export default function DetailedSearchResults(props) {
                 />
                 <Tab
                     value={TABS.apps}
-                    tabId={appsTabId}
+                    id={appsTabId}
                     label={t("appsSearchTab", { count: appsCount })}
                     classes={{ selected: classes.tabSelected }}
                 />
                 <Tab
                     value={TABS.analyses}
-                    tabId={analysesTabId}
+                    id={analysesTabId}
                     label={t("analysesSearchTab", { count: analysesCount })}
                     classes={{ selected: classes.tabSelected }}
                 />

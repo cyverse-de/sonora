@@ -8,20 +8,52 @@
 
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
+import Link from "next/link";
 
+import styles from "./styles";
 import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
 import { useAppsSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
 import constants from "../../../constants";
 import TableLoading from "../../utils/TableLoading";
-import {
-    searchAppsInfiniteQuery,
-    APPS_SEARCH_QUERY_KEY,
-} from "serviceFacades/apps";
-import appFields from "../../apps/appFields";
+import { APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
+import appFields from "components/apps/appFields";
+import NavigationConstants from "common/NavigationConstants";
 
-import { Typography } from "@material-ui/core";
+import { Highlighter } from "@cyverse-de/ui-lib";
+
+import { Typography, Link as MuiLink, makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles(styles);
+
+const NameLink = React.forwardRef((props, ref) => {
+    const { name, searchTerm, onClick, href } = props;
+    const classes = useStyles();
+    return (
+        <MuiLink
+            href={href}
+            onClick={onClick}
+            ref={ref}
+            className={classes.dataLink}
+        >
+            <Highlighter search={searchTerm}>{name}</Highlighter>
+        </MuiLink>
+    );
+});
+
+function Name(props) {
+    const { selectedOption, searchTerm } = props;
+
+    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch`;
+    const as = `/${NavigationConstants.APPS}/${selectedOption?.system_id}/${selectedOption?.id}/launch`;
+
+    return (
+        <Link href={href} as={as} passHref>
+            <NameLink name={selectedOption?.name} searchTerm={searchTerm} />
+        </Link>
+    );
+}
 
 export default function AppSearchResults(props) {
     const { searchTerm, updateResultCount, baseId } = props;
@@ -55,8 +87,6 @@ export default function AppSearchResults(props) {
         }
     );
 
-    const loadMoreButtonRef = React.useRef();
-
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
             setAppsSearchKey([
@@ -74,11 +104,23 @@ export default function AppSearchResults(props) {
         }
     }, [appRecordFields.NAME.key, order, orderBy, searchTerm]);
 
+    useEffect(() => {
+        if (data && data.length > 0) {
+            updateResultCount(data[0].total);
+        }
+    }, [data, updateResultCount]);
+
     const columns = React.useMemo(
         () => [
             {
                 Header: "Name",
                 accessor: appRecordFields.NAME.key,
+                Cell: ({ row }) => (
+                    <Name
+                        selectedOption={row?.original}
+                        searchTerm={searchTerm}
+                    />
+                ),
             },
             {
                 Header: "Integrator",
@@ -93,25 +135,24 @@ export default function AppSearchResults(props) {
             appRecordFields.INTEGRATOR.key,
             appRecordFields.NAME.key,
             appRecordFields.SYSTEM.key,
+            searchTerm,
         ]
     );
-    if (status === "loading") {
-        return <TableLoading numColumns={5} numRows={100} baseId={baseId} />;
-    }
     if (error) {
         return <SearchError error={error} baseId={baseId} />;
     }
-    if (!data || data.length === 0 || data[0].apps.length === 0) {
+    if (
+        status !== constants.LOADING &&
+        (!data || data.length === 0 || data[0].apps.length === 0)
+    ) {
         return <Typography>{t("noResults")}</Typography>;
     }
 
     let flatdata = [];
-    data.forEach((page) => {
-        flatdata = [...flatdata, ...page.apps];
-    });
-
-    if (status === "success") {
-        updateResultCount(data[0].total);
+    if (data && data.length > 0) {
+        data.forEach((page) => {
+            flatdata = [...flatdata, ...page.apps];
+        });
     }
 
     return (
@@ -119,8 +160,8 @@ export default function AppSearchResults(props) {
             columns={columns}
             data={flatdata}
             baseId={baseId}
+            loading={status === constants.LOADING}
             fetchMore={fetchMore}
-            ref={loadMoreButtonRef}
             isFetchingMore={isFetchingMore}
             canFetchMore={canFetchMore}
             initialSortBy={[

@@ -63,7 +63,6 @@ export default function AnalysesSearchResults(props) {
         }
     );
 
-    const loadMoreButtonRef = React.useRef();
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
             setAnalysesSearchKey([
@@ -87,6 +86,12 @@ export default function AnalysesSearchResults(props) {
         searchTerm,
         t,
     ]);
+
+    useEffect(() => {
+        if (data && data.length > 0) {
+            updateResultCount(data[0].total);
+        }
+    }, [data, updateResultCount]);
 
     const columns = React.useMemo(
         () => [
@@ -118,23 +123,21 @@ export default function AnalysesSearchResults(props) {
         ]
     );
 
-    if (status === "loading") {
-        return <TableLoading numColumns={5} numRows={100} baseId={baseId} />;
-    }
     if (error) {
         return <SearchError error={error} baseId={baseId} />;
     }
-    if (!data || data.length === 0 || data[0]?.analyses.length === 0) {
+    if (
+        status !== constants.LOADING &&
+        (!data || data.length === 0 || data[0]?.analyses.length === 0)
+    ) {
         return <Typography>{t("noResults")}</Typography>;
     }
 
     let flatdata = [];
-    data.forEach((page) => {
-        flatdata = [...flatdata, ...page.analyses];
-    });
-
-    if (status === "success") {
-        updateResultCount(data[0].total);
+    if (data && data.length > 0) {
+        data.forEach((page) => {
+            flatdata = [...flatdata, ...page.analyses];
+        });
     }
 
     return (
@@ -142,8 +145,8 @@ export default function AnalysesSearchResults(props) {
             columns={columns}
             data={flatdata}
             baseId={baseId}
+            loading={status === constants.LOADING}
             fetchMore={fetchMore}
-            ref={loadMoreButtonRef}
             isFetchingMore={isFetchingMore}
             canFetchMore={canFetchMore}
             initialSortBy={[

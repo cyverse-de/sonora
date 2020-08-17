@@ -11,6 +11,7 @@ import { useTable, useSortBy } from "react-table";
 import { useTranslation } from "i18n";
 
 import PageWrapper from "components/layout/PageWrapper";
+import TableLoading from "../../utils/TableLoading";
 import ids from "../ids";
 
 import { build } from "@cyverse-de/ui-lib";
@@ -26,12 +27,13 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Toolbar from "@material-ui/core/Toolbar";
+import {useMediaQuery, useTheme} from "@material-ui/core";
 
 const SearchResultsTable = ({
     baseId,
     columns,
     data,
-    ref,
+    loading,
     fetchMore,
     canFetchMore,
     isFetchingMore,
@@ -58,8 +60,10 @@ const SearchResultsTable = ({
     );
     const tableId = build(baseId, ids.TABLE_VIEW);
     const { t } = useTranslation("search");
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     return (
-        <PageWrapper appBarHeight={150}>
+        <PageWrapper appBarHeight={isMobile ? 210 : 150}>
             {isFetchingMore && (
                 <CircularProgress
                     thickness={7}
@@ -73,7 +77,7 @@ const SearchResultsTable = ({
             )}
             <TableContainer
                 component={Paper}
-                style={{ overflow: "auto" }}
+                style={{ overflow: "auto"}}
                 id={tableId}
             >
                 <Table size="small" stickyHeader {...getTableProps()}>
@@ -116,22 +120,33 @@ const SearchResultsTable = ({
                             </TableRow>
                         ))}
                     </TableHead>
-                    <TableBody>
-                        {rows.map((row, index) => {
-                            prepareRow(row);
-                            return (
-                                <TableRow {...row.getRowProps()}>
-                                    {row.cells.map((cell) => {
-                                        return (
-                                            <TableCell {...cell.getCellProps()}>
-                                                {cell.render("Cell")}
-                                            </TableCell>
-                                        );
-                                    })}
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
+                    {loading && (
+                        <TableLoading
+                            numColumns={columns.length}
+                            numRows={100}
+                            baseId={baseId}
+                        />
+                    )}
+                    {!loading && (
+                        <TableBody>
+                            {rows.map((row, index) => {
+                                prepareRow(row);
+                                return (
+                                    <TableRow {...row.getRowProps()}>
+                                        {row.cells.map((cell) => {
+                                            return (
+                                                <TableCell
+                                                    {...cell.getCellProps()}
+                                                >
+                                                    {cell.render("Cell")}
+                                                </TableCell>
+                                            );
+                                        })}
+                                    </TableRow>
+                                );
+                            })}
+                        </TableBody>
+                    )}
                 </Table>
             </TableContainer>
             <Toolbar>
@@ -139,7 +154,6 @@ const SearchResultsTable = ({
                     variant="outlined"
                     color="primary"
                     style={{ flex: 1 }}
-                    ref={ref}
                     onClick={() => fetchMore()}
                     disabled={!canFetchMore || isFetchingMore}
                 >

@@ -500,7 +500,7 @@ export function RefGenomeListingTest(props) {
         ],
     };
     mockAxios
-        .onGet("/api/admin/reference-genomes?deleted=true")
+        .onGet("/api/reference-genomes?deleted=true")
         .reply(200, genomesListing);
     return (
         <UploadTrackingProvider>

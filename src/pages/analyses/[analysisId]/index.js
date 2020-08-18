@@ -1,39 +1,36 @@
 /**
+ *
  * @author sriram
  *
- * Analyses listing page
  *
  */
-
 import React, { useCallback } from "react";
 import { useRouter } from "next/router";
 
-import constants from "../constants";
+import constants from "../../../constants";
 
 import {
     getAnalysisRelaunchPage,
     getListingPath,
 } from "components/analyses/utils";
 import { getFolderPage } from "components/data/utils";
-import analysisFields from "components/analyses/analysisFields";
+import analysisFileds from "components/analyses/analysisFields";
 import Listing from "components/analyses/listing/Listing";
 
-export default function Analyses() {
+/**
+ *
+ * Handle routing an indvidual analysis by id
+ *
+ */
+
+export default function Analysis() {
     const router = useRouter();
-    const query = router.query;
-
-    const selectedPage = parseInt(query.selectedPage) || 0;
-    const selectedRowsPerPage = parseInt(query.selectedRowsPerPage) || 25;
-    const selectedOrder = query.selectedOrder || constants.SORT_DESCENDING;
-    const selectedOrderBy =
-        query.selectedOrderBy || analysisFields.START_DATE.key;
-
-    const selectedPermFilter = query.selectedPermFilter
-        ? JSON.parse(query.selectedPermFilter)
-        : null;
-    const selectedTypeFilter = query.selectedTypeFilter
-        ? JSON.parse(query.selectedTypeFilter)
-        : null;
+    const selectedPage = 0;
+    const selectedRowsPerPage = 25;
+    const selectedOrder = constants.SORT_DESCENDING;
+    const selectedOrderBy = analysisFileds.START_DATE.key;
+    const selectedPermFilter = null;
+    const selectedTypeFilter = null;
 
     const onRouteToListing = useCallback(
         (order, orderBy, page, rowsPerPage, permFilter, appTypeFilter) => {
@@ -55,7 +52,7 @@ export default function Analyses() {
         <Listing
             baseId="analyses"
             onRouteToListing={onRouteToListing}
-            selectedIdFilter=""
+            selectedIdFilter={router.query?.analysisId}
             selectedPage={selectedPage}
             selectedRowsPerPage={selectedRowsPerPage}
             selectedOrder={selectedOrder}
@@ -76,6 +73,6 @@ export default function Analyses() {
     );
 }
 
-Analyses.getInitialProps = async () => ({
+Analysis.getInitialProps = async () => ({
     namespacesRequired: ["analyses"],
 });

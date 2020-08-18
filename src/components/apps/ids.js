@@ -39,6 +39,7 @@ export default {
     TOOLS_USED: "toolsUsed",
     AVERAGE_RATING: "averageRating",
     FILTER_MENU_ITEM: "filter",
+    VIEW_ALL_APPS: "viewAllApps",
     QUICK_LAUNCH: {
         name: "name",
         description: "description",

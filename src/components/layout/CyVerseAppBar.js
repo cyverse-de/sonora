@@ -458,7 +458,7 @@ function CyverseAppBar(props) {
                     <ListItemText>{t("analyses")}</ListItemText>
                 </ListItem>
             </Tooltip>
-            <Hidden only={["md", "lg", "xl"]}>
+            <Hidden only={["sm", "md", "lg", "xl"]}>
                 <Tooltip title={t("search")} placement="right" arrow>
                     <ListItem
                         id={build(ids.DRAWER_MENU, ids.SEARCH_MI)}
@@ -600,7 +600,7 @@ function CyverseAppBar(props) {
                             <img src="/de_white.png" alt={t("cyverse")}></img>
                         </a>
                     </Hidden>
-                    <Hidden smDown>
+                    <Hidden xsDown>
                         <GlobalSearchField />
                     </Hidden>
                     <div className={classes.root} />

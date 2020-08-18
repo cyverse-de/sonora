@@ -130,19 +130,16 @@ function getOwnershipFilters(t) {
     });
 }
 
-function BatchFilter(props) {
-    const { baseId, name, classes, onClearBatch } = props;
+function ClearFilter(props) {
+    const { baseId, classes, onClearFilter } = props;
     const { t } = useTranslation("analyses");
 
     return (
-        <Tooltip
-            title={t("viewingBatch", { name: name })}
-            id={build(baseId, ids.BATCH_FILTER, name)}
-        >
+        <Tooltip title={t("clearFilter")} id={build(baseId, ids.CLEAR_FILTER)}>
             <Button
-                id={build(baseId, ids.CLEAR_BATCH_FILTER, name)}
+                id={build(baseId, ids.CLEAR_FILTER)}
                 size="small"
-                onClick={onClearBatch}
+                onClick={onClearFilter}
                 className={classes.filterIcon}
                 color="primary"
                 variant="outlined"
@@ -164,8 +161,8 @@ function AnalysesToolbar(props) {
         ownershipFilter,
         handleAppTypeFilterChange,
         handleOwnershipFilterChange,
-        viewBatch,
-        onClearBatch,
+        viewFiltered,
+        onClearFilter,
         isGridView,
         toggleDisplay,
         detailsEnabled,
@@ -206,12 +203,11 @@ function AnalysesToolbar(props) {
                         />
                     </>
                 </Hidden>
-                {viewBatch && (
-                    <BatchFilter
+                {viewFiltered && (
+                    <ClearFilter
                         baseId={analysesNavId}
-                        name={viewBatch.name}
                         classes={classes}
-                        onClearBatch={onClearBatch}
+                        onClearFilter={onClearFilter}
                     />
                 )}
 

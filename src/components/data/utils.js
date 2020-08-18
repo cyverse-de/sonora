@@ -89,6 +89,16 @@ const parseNameFromPath = (path) => {
     return path?.split(constants.PATH_SEPARATOR).pop();
 };
 
+const getParentPath = (path) => {
+    if (path) {
+        const pathItems = path.split(constants.PATH_SEPARATOR);
+        pathItems.pop();
+        const parentPath = pathItems.join(constants.PATH_SEPARATOR);
+        return constants.PATH_SEPARATOR + parentPath;
+    }
+    return null;
+};
+
 export {
     getEncodedPath,
     getFolderPage,
@@ -98,4 +108,5 @@ export {
     isWritable,
     isReadable,
     parseNameFromPath,
+    getParentPath,
 };

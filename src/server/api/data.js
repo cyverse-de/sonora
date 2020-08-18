@@ -136,5 +136,18 @@ export default function dataRouter() {
         })
     );
 
+    logger.info("adding the POST /api/filesystem/search handler");
+    api.post(
+        "/filesystem/search",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/filesystem/search",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

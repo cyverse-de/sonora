@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { SearchField } from "../../stories/GlobalSearchField.stories";
+import { SearchField } from "../../stories/search/GlobalSearchField.stories";
 import { I18nProviderWrapper } from "../i18n";
 
 test("Search field renders", () => {

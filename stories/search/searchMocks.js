@@ -1,16 +1,5 @@
-/**
- * @author sriram
- *
- * Global search story
- *
- */
-
-import React from "react";
-import { mockAxios } from "./axiosMock";
-import GlobalSearchField from "components/search/GlobalSearchField";
-
-const dataSearchResp = {
-    total: 149,
+export const dataSearchResp = {
+    total: 11149,
     max_score: null,
     hits: [
         {
@@ -445,7 +434,7 @@ const dataSearchResp = {
         },
     ],
 };
-const appsSearchResp = {
+export const appsSearchResp = {
     total: 4,
     apps: [
         {
@@ -558,7 +547,7 @@ const appsSearchResp = {
         },
     ],
 };
-const analysesSearchResp = {
+export const analysesSearchResp = {
     analyses: [
         {
             description: "",
@@ -585,15 +574,3 @@ const analysesSearchResp = {
     total: 1,
     "status-count": [{ count: 1, status: "Completed" }],
 };
-
-function GlobalSearchFieldTest() {
-    mockAxios.onPost(/\/api\/filesystem\/search.*/).reply(200, dataSearchResp);
-    mockAxios.onGet(/\/api\/apps.*/).reply(200, appsSearchResp);
-    mockAxios.onGet(/\/api\/analyses.*/).reply(200, analysesSearchResp);
-
-    return <GlobalSearchField />;
-}
-
-export default { title: "Global Search Field" };
-
-export const SearchField = () => <GlobalSearchFieldTest />;

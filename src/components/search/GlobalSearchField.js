@@ -468,7 +468,6 @@ function GlobalSearchField(props) {
                 onClose={() => {
                     setOpen(false);
                 }}
-
                 id={ids.GLOBAL_SEARCH_FIELD}
                 size="small"
                 options={options}
@@ -503,7 +502,9 @@ function GlobalSearchField(props) {
                 <MenuItem value={searchConstants.ALL}>{t("all")}</MenuItem>
                 <MenuItem value={searchConstants.DATA}>{t("data")}</MenuItem>
                 <MenuItem value={searchConstants.APPS}>{t("apps")}</MenuItem>
-                <MenuItem value={searchConstants.ANALYSES}>{t("analyses")}</MenuItem>
+                <MenuItem value={searchConstants.ANALYSES}>
+                    {t("analyses")}
+                </MenuItem>
             </TextField>
         </>
     );

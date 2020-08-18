@@ -32,10 +32,10 @@ export default function AnalysesSearchResults(props) {
         analysesSearchQueryEnabled,
         setAnalysesSearchQueryEnabled,
     ] = useState(false);
-  
+
     const { t } = useTranslation("search");
     const { t: at } = useTranslation("analyses");
-  
+
     let analysisRecordFields = analysisFields(at);
 
     const [order, setOrder] = useState(constants.SORT_DESCENDING);

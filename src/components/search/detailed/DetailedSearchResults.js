@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.secondary.main,
     },
     tabRoot: {
-        padding: theme.spacing(.25),
+        padding: theme.spacing(0.25),
         margin: 0,
         height: 72,
         [theme.breakpoints.down("xs")]: {
@@ -63,8 +63,8 @@ const useStyles = makeStyles((theme) => ({
     },
     searchInfo: {
         color: theme.palette.info.main,
-        margin: theme.spacing(.25),
-    }
+        margin: theme.spacing(0.25),
+    },
 }));
 
 const TABS = {
@@ -80,7 +80,7 @@ export default function DetailedSearchResults(props) {
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const [selectedTab, setSelectedTab] = useState(TABS.data);
     const { t } = useTranslation("common");
-    const {t: i18Search} = useTranslation("search"); 
+    const { t: i18Search } = useTranslation("search");
     const [appsCount, setAppsCount] = useState(0);
     const [dataCount, setDataCount] = useState(0);
     const [analysesCount, setAnalysesCount] = useState(0);
@@ -183,7 +183,7 @@ export default function DetailedSearchResults(props) {
         <Paper className={classes.root}>
             {!isMobile && (
                 <Typography className={classes.searchInfo}>
-                    {i18Search("searchInfo", { term:  `"${searchTerm}"` })}
+                    {i18Search("searchInfo", { term: `"${searchTerm}"` })}
                     <AnimatedNumber
                         value={dataCount + appsCount + analysesCount}
                         formatValue={(value) => value.toFixed(0)}

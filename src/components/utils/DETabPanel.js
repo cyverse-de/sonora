@@ -26,7 +26,7 @@ export default function DETabPanel(props) {
                 id={build(tabId, ids.PANEL)}
                 aria-labelledby={tabId}
             >
-                <Box p={isMobile? 1 : 3}>{children}</Box>
+                <Box p={isMobile ? 1 : 3}>{children}</Box>
             </Typography>
         </>
     );

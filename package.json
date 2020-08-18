@@ -58,6 +58,7 @@
         "@material-ui/styles": "^4.10.0",
         "@next/bundle-analyzer": "^9.4.0",
         "amqplib": "^0.6.0",
+        "animated-number-react": "^0.1.1",
         "axios": "^0.19.2",
         "bowser": "^2.9.0",
         "camelcase": "^5.3.1",

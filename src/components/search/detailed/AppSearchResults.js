@@ -16,7 +16,7 @@ import SearchResultsTable from "./SearchResultsTable";
 import { useAppsSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
 import constants from "../../../constants";
-import TableLoading from "../../utils/TableLoading";
+
 import { APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
 import appFields from "components/apps/appFields";
 import NavigationConstants from "common/NavigationConstants";
@@ -61,7 +61,7 @@ export default function AppSearchResults(props) {
     const [appsSearchQueryEnabled, setAppsSearchQueryEnabled] = useState(false);
 
     const { t } = useTranslation(["search"]);
-    //TODO: pass `t` into this function
+    //SS TODO: pass `t` into this function
     const appRecordFields = appFields();
     const [order, setOrder] = useState(constants.SORT_ASCENDING);
     const [orderBy, setOrderBy] = useState(appRecordFields.NAME.key);

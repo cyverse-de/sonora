@@ -10,7 +10,7 @@ import { Box, Divider, Typography } from "@material-ui/core";
 import { build } from "@cyverse-de/ui-lib";
 import ids from "../data/ids";
 
-import { useMediaQuery, useTheme, Tabs } from "@material-ui/core";
+import { useMediaQuery, useTheme } from "@material-ui/core";
 
 export default function DETabPanel(props) {
     const { children, value, selectedTab, tabId } = props;

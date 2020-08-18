@@ -20,7 +20,6 @@ import constants from "../../../constants";
 import { formatDate } from "@cyverse-de/ui-lib";
 
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
-import TableLoading from "components/utils/TableLoading";
 import analysisFields from "components/analyses/analysisFields";
 import { Typography } from "@material-ui/core";
 
@@ -33,9 +32,10 @@ export default function AnalysesSearchResults(props) {
         analysesSearchQueryEnabled,
         setAnalysesSearchQueryEnabled,
     ] = useState(false);
-    // SS: array syntax did'nt work. Haven't figured out why
+  
     const { t } = useTranslation("search");
     const { t: at } = useTranslation("analyses");
+  
     let analysisRecordFields = analysisFields(at);
 
     const [order, setOrder] = useState(constants.SORT_DESCENDING);

@@ -16,18 +16,21 @@ import ids from "../ids";
 
 import { build } from "@cyverse-de/ui-lib";
 
-import Table from "@material-ui/core/Table";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Toolbar from "@material-ui/core/Toolbar";
-import {useMediaQuery, useTheme} from "@material-ui/core";
+import {
+    Button,
+    CircularProgress,
+    Paper,
+    useMediaQuery,
+    useTheme,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableSortLabel,
+    TableHead,
+    TableRow,
+    Toolbar,
+} from "@material-ui/core";
 
 const SearchResultsTable = ({
     baseId,
@@ -58,12 +61,13 @@ const SearchResultsTable = ({
         },
         useSortBy
     );
-    const tableId = build(baseId, ids.TABLE_VIEW);
-    const { t } = useTranslation("search");
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const tableId = build(baseId, ids.TABLE_VIEW);
+    const { t } = useTranslation("search");
+
     return (
-        <PageWrapper appBarHeight={isMobile ? 210 : 150}>
+        <PageWrapper appBarHeight={isMobile ? 210 : 225}>
             {isFetchingMore && (
                 <CircularProgress
                     thickness={7}
@@ -77,7 +81,7 @@ const SearchResultsTable = ({
             )}
             <TableContainer
                 component={Paper}
-                style={{ overflow: "auto"}}
+                style={{ overflow: "auto" }}
                 id={tableId}
             >
                 <Table size="small" stickyHeader {...getTableProps()}>
@@ -100,9 +104,6 @@ const SearchResultsTable = ({
                                                 column.id,
                                                 !column.isSortedDesc,
                                                 false
-                                            );
-                                            console.log(
-                                                "header click=>" + column.id
                                             );
                                         }}
                                     >

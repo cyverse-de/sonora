@@ -52,11 +52,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import DescriptionIcon from "@material-ui/icons/Description";
 import FolderIcon from "@material-ui/icons/Folder";
 
-const ALL = "all";
-const APPS = "apps";
-const DATA = "data";
-const ANALYSES = "analyses";
-
 const useStyles = makeStyles((theme) => ({
     root: {
         position: "relative",
@@ -220,7 +215,7 @@ function GlobalSearchField(props) {
     const appRecordFields = appFields();
 
     const [searchTerm, setSearchTerm] = useState(search);
-    const [filter, setFilter] = useState(ALL);
+    const [filter, setFilter] = useState(searchConstants.ALL);
 
     const [options, setOptions] = useState([]);
     const [open, setOpen] = useState(false);
@@ -349,19 +344,19 @@ function GlobalSearchField(props) {
                 },
             ]);
             switch (filter) {
-                case DATA:
+                case searchConstants.DATA:
                     setDataSearchQueryEnabled(true);
                     setAppsSearchQueryEnabled(false);
                     setAnalysesSearchQueryEnabled(false);
                     break;
 
-                case APPS:
+                case searchConstants.APPS:
                     setDataSearchQueryEnabled(false);
                     setAppsSearchQueryEnabled(true);
                     setAnalysesSearchQueryEnabled(false);
                     break;
 
-                case ANALYSES:
+                case searchConstants.ANALYSES:
                     setDataSearchQueryEnabled(false);
                     setAppsSearchQueryEnabled(false);
                     setAnalysesSearchQueryEnabled(true);
@@ -433,7 +428,6 @@ function GlobalSearchField(props) {
             {...params}
             className={classes.input}
             variant={isMobile ? "outlined" : "standard"}
-            value={search}
             InputProps={{
                 ...params.InputProps,
                 disableUnderline: true,
@@ -449,10 +443,9 @@ function GlobalSearchField(props) {
             }}
             onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                    console.log("enter key pressed!");
                     setOpen(false);
                     router.push(
-                        `/${NavigationConstants.SEARCH}?searchTerm=${searchTerm}`
+                        `/${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}`
                     );
                 }
             }}
@@ -475,6 +468,7 @@ function GlobalSearchField(props) {
                 onClose={() => {
                     setOpen(false);
                 }}
+
                 id={ids.GLOBAL_SEARCH_FIELD}
                 size="small"
                 options={options}
@@ -492,7 +486,7 @@ function GlobalSearchField(props) {
                 popupIcon={null}
                 noOptionsText={t("noOptions")}
                 clearOnEscape={true}
-                inputValue={searchTerm}
+                clearOnBlur={false}
             />
             <TextField
                 id={build(ids.SEARCH, ids.SEARCH_FILTER_MENU)}
@@ -506,10 +500,10 @@ function GlobalSearchField(props) {
                     disableUnderline: true,
                 }}
             >
-                <MenuItem value={ALL}>{t("all")}</MenuItem>
-                <MenuItem value={DATA}>{t("data")}</MenuItem>
-                <MenuItem value={APPS}>{t("apps")}</MenuItem>
-                <MenuItem value={ANALYSES}>{t("analyses")}</MenuItem>
+                <MenuItem value={searchConstants.ALL}>{t("all")}</MenuItem>
+                <MenuItem value={searchConstants.DATA}>{t("data")}</MenuItem>
+                <MenuItem value={searchConstants.APPS}>{t("apps")}</MenuItem>
+                <MenuItem value={searchConstants.ANALYSES}>{t("analyses")}</MenuItem>
             </TextField>
         </>
     );

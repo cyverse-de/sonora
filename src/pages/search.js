@@ -6,15 +6,16 @@ import DetailedSearchResults from "components/search/detailed/DetailedSearchResu
 
 export default function Search() {
     const router = useRouter();
-    const {searchTerm} = router?.query;
+    const {searchTerm, filter} = router?.query;
     return (
         <>
             <Hidden only={["sm", "md", "lg", "xl"]}>
-                <GlobalSearchField search={searchTerm}/>
+                <GlobalSearchField search={searchTerm} filter={filter}/>
             </Hidden>
             <DetailedSearchResults
                 baseId="search"
                 searchTerm={router.query?.searchTerm}
+                filter={filter}
             />
         </>
     );

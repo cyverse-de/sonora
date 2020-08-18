@@ -1,5 +1,7 @@
 {
-    "noResults": "No results to display.",
-    "errorSearch": "Unable to search. Please try again.",
-    "loadMore": "Load More"
-}
+    "noResults":"No results to display.",
+    "errorSearch":"Unable to search. Please try again.",
+    "loadMore":"Load More",
+    "searchInfo":"Searching for {{term}}. Found ",
+    "matchingResults":"matching results."
+ }

@@ -6,24 +6,31 @@
  *
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
+import AnimatedNumber from "animated-number-react";
 
 import ids from "../ids";
 
 import { build } from "@cyverse-de/ui-lib";
 
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-
-import Tab from "@material-ui/core/Tab";
 import AppSearchResults from "./AppSearchResults";
 import DataSearchResults from "./DataSearchResults";
 import AnalysesSearchResults from "./AnalysesSearchResults";
+import searchConstants from "../constants";
 
 import DETabPanel from "components/utils/DETabPanel";
 
-import { useMediaQuery, useTheme, Tabs } from "@material-ui/core";
+import {
+    Divider,
+    Paper,
+    makeStyles,
+    useMediaQuery,
+    useTheme,
+    Tab,
+    Tabs,
+    Typography,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,11 +41,30 @@ const useStyles = makeStyles((theme) => ({
     tabIndicator: {
         backgroundColor: theme.palette.secondary.main,
     },
-
+    tabRoot: {
+        padding: theme.spacing(.25),
+        margin: 0,
+        height: 72,
+        [theme.breakpoints.down("xs")]: {
+            height: 68,
+        },
+    },
     tabSelected: {
         color: theme.palette.primary.contrastText,
         backgroundColor: theme.palette.primary.main,
     },
+    tabIcon: {
+        height: 24,
+        width: 24,
+        [theme.breakpoints.down("xs")]: {
+            height: 18,
+            width: 18,
+        },
+    },
+    searchInfo: {
+        color: theme.palette.info.main,
+        margin: theme.spacing(.25),
+    }
 }));
 
 const TABS = {
@@ -48,12 +74,13 @@ const TABS = {
 };
 
 export default function DetailedSearchResults(props) {
-    const { baseId, searchTerm } = props;
+    const { baseId, searchTerm, filter } = props;
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const [selectedTab, setSelectedTab] = useState(TABS.data);
-    const { t } = useTranslation(["common", "search"]);
+    const { t } = useTranslation("common");
+    const {t: i18Search} = useTranslation("search"); 
     const [appsCount, setAppsCount] = useState(0);
     const [dataCount, setDataCount] = useState(0);
     const [analysesCount, setAnalysesCount] = useState(0);
@@ -65,34 +92,117 @@ export default function DetailedSearchResults(props) {
     const appsTabId = build(baseId, ids.APPS_SEARCH_RESULTS_TAB);
     const analysesTabId = build(baseId, ids.ANALYSES_SEARCH_RESULTS_TAB);
 
+    useEffect(() => {
+        if (filter === searchConstants.ALL || filter === searchConstants.DATA) {
+            setSelectedTab(TABS.data);
+        } else if (filter === searchConstants.APPS) {
+            setSelectedTab(TABS.apps);
+        } else if (filter === searchConstants.ANALYSES) {
+            setSelectedTab(TABS.analyses);
+        }
+    }, [filter, setSelectedTab]);
+
+    const dataTabIcon =
+        selectedTab === TABS.data ? "/data_selected.png" : "/icon-data.png";
+    const appsTabIcon =
+        selectedTab === TABS.apps ? "/apps_selected.png" : "/icon-apps.png";
+    const analysesTabIcon =
+        selectedTab === TABS.analyses
+            ? "/analyses_selected.png"
+            : "/icon-analyses.png";
+
+    const dataTab = (
+        <Tab
+            value={TABS.data}
+            key={dataTabId}
+            id={dataTabId}
+            label={
+                isMobile ? dataCount : t("dataSearchTab", { count: dataCount })
+            }
+            classes={{ selected: classes.tabSelected }}
+            icon={
+                <img
+                    src={`${dataTabIcon}`}
+                    alt={t("data")}
+                    className={classes.tabIcon}
+                />
+            }
+        />
+    );
+
+    const appsTab = (
+        <Tab
+            value={TABS.apps}
+            key={appsTabId}
+            id={appsTabId}
+            label={
+                isMobile ? appsCount : t("appsSearchTab", { count: appsCount })
+            }
+            classes={{ selected: classes.tabSelected }}
+            icon={
+                <img
+                    src={`${appsTabIcon}`}
+                    alt={t("apps")}
+                    className={classes.tabIcon}
+                />
+            }
+        />
+    );
+
+    const analysesTab = (
+        <Tab
+            value={TABS.analyses}
+            key={analysesTabId}
+            id={analysesTabId}
+            label={
+                isMobile
+                    ? analysesCount
+                    : t("analysesSearchTab", { count: analysesCount })
+            }
+            classes={{ selected: classes.tabSelected }}
+            icon={
+                <img
+                    src={`${analysesTabIcon}`}
+                    alt={t("analyses")}
+                    className={classes.tabIcon}
+                />
+            }
+        />
+    );
+
+    let tabsToRender = [dataTab, appsTab, analysesTab];
+    if (filter === searchConstants.DATA) {
+        tabsToRender = dataTab;
+    } else if (filter === searchConstants.APPS) {
+        tabsToRender = appsTab;
+    } else if (filter === searchConstants.ANALYSES) {
+        tabsToRender = analysesTab;
+    }
+
     return (
         <Paper className={classes.root}>
+            {!isMobile && (
+                <Typography className={classes.searchInfo}>
+                    {i18Search("searchInfo", { term:  `"${searchTerm}"` })}
+                    <AnimatedNumber
+                        value={dataCount + appsCount + analysesCount}
+                        formatValue={(value) => value.toFixed(0)}
+                    />{" "}
+                    {i18Search("matchingResults")}
+                </Typography>
+            )}
+            <Divider />
             <Tabs
                 value={selectedTab}
                 onChange={onTabSelectionChange}
-                classes={{ indicator: classes.tabIndicator }}
+                classes={{
+                    indicator: classes.tabIndicator,
+                    root: classes.tabRoot,
+                }}
                 centered={!isMobile}
                 variant={isMobile ? "fullWidth" : "standard"}
-                style={{ padding: 4 }}
             >
-                <Tab
-                    value={TABS.data}
-                    id={dataTabId}
-                    label={t("dataSearchTab", { count: dataCount })}
-                    classes={{ selected: classes.tabSelected }}
-                />
-                <Tab
-                    value={TABS.apps}
-                    id={appsTabId}
-                    label={t("appsSearchTab", { count: appsCount })}
-                    classes={{ selected: classes.tabSelected }}
-                />
-                <Tab
-                    value={TABS.analyses}
-                    id={analysesTabId}
-                    label={t("analysesSearchTab", { count: analysesCount })}
-                    classes={{ selected: classes.tabSelected }}
-                />
+                {tabsToRender}
             </Tabs>
 
             <DETabPanel

@@ -205,7 +205,7 @@ function CyverseAppBar(props) {
     const classes = useStyles();
     const theme = useTheme();
     const router = useRouter();
-   
+
     const ref = useRef();
     const [config, setConfig] = useConfig();
     const { t } = useTranslation(["common"]);

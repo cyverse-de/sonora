@@ -8,7 +8,11 @@
 import React from "react";
 import { mockAxios } from "../axiosMock";
 import GlobalSearchField from "components/search/GlobalSearchField";
-import {dataSearchResp, appsSearchResp, analysesSearchResp} from "./searchMocks";
+import {
+    dataSearchResp,
+    appsSearchResp,
+    analysesSearchResp,
+} from "./searchMocks";
 
 function GlobalSearchFieldTest() {
     mockAxios.onPost(/\/api\/filesystem\/search.*/).reply(200, dataSearchResp);

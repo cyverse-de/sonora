@@ -8,7 +8,11 @@
 import React from "react";
 import { mockAxios } from "../axiosMock";
 import DetailedSearchResults from "components/search/detailed/DetailedSearchResults";
-import {dataSearchResp, appsSearchResp, analysesSearchResp} from "./searchMocks";
+import {
+    dataSearchResp,
+    appsSearchResp,
+    analysesSearchResp,
+} from "./searchMocks";
 
 function DetailedSearchResultsTest() {
     mockAxios.onPost(/\/api\/filesystem\/search.*/).reply(200, dataSearchResp);

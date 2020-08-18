@@ -92,10 +92,10 @@ export default function DataSearchResults(props) {
         dataSearchKey,
         dataSearchQueryEnabled,
         (lastGroup, allGroups) => {
-            const totalPage = Math.ceil(
+            const totalPages = Math.ceil(
                 lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
             );
-            if (allGroups.length < totalPage) {
+            if (allGroups.length < totalPages) {
                 return allGroups.length;
             } else {
                 return false;

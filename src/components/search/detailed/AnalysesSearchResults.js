@@ -24,11 +24,12 @@ import NavigationConstants from "common/NavigationConstants";
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
 import analysisFields from "components/analyses/analysisFields";
 import { Typography } from "@material-ui/core";
-
-import DetailsDrawer from "components/analyses/details/Drawer";
+import { Info } from "@material-ui/icons";
 import Actions from "components/analyses/listing/Actions";
 import { openInteractiveUrl } from "components/analyses/utils";
 import { useUserProfile } from "contexts/userProfile";
+import DetailsDrawer from "components/analyses/details/Drawer";
+
 
 function Name(props) {
     const { analysis, searchTerm } = props;
@@ -40,7 +41,6 @@ function Name(props) {
         </Link>
     );
 }
-
 
 
 export default function AnalysesSearchResults(props) {
@@ -61,8 +61,7 @@ export default function AnalysesSearchResults(props) {
 
     const [order, setOrder] = useState(constants.SORT_DESCENDING);
     const [orderBy, setOrderBy] = useState(analysisRecordFields.START_DATE.key);
-    const [selectedAnalysis, setSelectedAnalysis] = useState("");
-
+    const [selectedAnalysis, setSelectedAnalysis] = useState(null);
     const {
         status,
         data,
@@ -107,9 +106,6 @@ export default function AnalysesSearchResults(props) {
             updateResultCount(data[0].total);
         }
     }, [data, updateResultCount]);
-
-    let flatData = [];
-    const memoFlatData = React.useMemo(() => flatData,[flatData]);
 
     const columns = React.useMemo(
         () => [
@@ -159,7 +155,7 @@ export default function AnalysesSearchResults(props) {
             analysisRecordFields.STATUS.key,
             baseId,
             searchTerm,
-            userProfile,
+            userProfile.id,
         ]
     );
 

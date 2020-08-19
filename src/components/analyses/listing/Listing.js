@@ -96,11 +96,10 @@ function Listing(props) {
 
     const [userProfile] = useUserProfile();
     const [currentNotification] = useNotifications();
-
-    const [selectedAnalysis, setSelectedAnalysis] = useState(null);
-    const [isSingleSelection, setSingleSelection] = useState(false);
-
+    const [detailsAnalysis, setDetailsAnalysis] = useState(null);
+    const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
+
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [relaunchDialogOpen, setRelaunchDialogOpen] = useState(false);
     const [renameDialogOpen, setRenameDialogOpen] = useState(false);
@@ -379,19 +378,19 @@ function Listing(props) {
     }, [currentNotification, updateAnalyses]);
 
     useEffect(() => {
-        setSingleSelection(selected && selected.length === 1);
+        setDetailsEnabled(selected && selected.length === 1);
     }, [selected]);
 
     useEffect(() => {
-        if (data?.analyses) {
+        if (detailsOpen && data?.analyses) {
             const selectedId = selected[0];
-            setSelectedAnalysis(
+            setDetailsAnalysis(
                 data.analyses.find((item) => item.id === selectedId)
             );
         } else {
-            setSelectedAnalysis(null);
+            setDetailsAnalysis(null);
         }
-    }, [data, selected]);
+    }, [data, detailsOpen, selected]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);
@@ -563,14 +562,13 @@ function Listing(props) {
                 onClearFilter={handleClearFilter}
                 isGridView={isGridView}
                 toggleDisplay={toggleDisplay}
-                isSingleSelection={isSingleSelection}
+                detailsEnabled={detailsEnabled}
                 onDetailsSelected={onDetailsSelected}
                 handleComments={handleComments}
                 handleInteractiveUrlClick={openInteractiveUrl}
                 handleCancel={handleCancel}
                 handleDelete={handleDelete}
                 handleRelaunch={handleRelaunch}
-                handleRename={handleRename}
                 handleBatchIconClick={handleBatchIconClick}
             />
             <TableView
@@ -635,7 +633,7 @@ function Listing(props) {
 
             {detailsOpen && (
                 <Drawer
-                    selectedAnalysis={selectedAnalysis}
+                    selectedAnalysis={detailsAnalysis}
                     open={detailsOpen}
                     baseId={baseId}
                     onClose={() => setDetailsOpen(false)}

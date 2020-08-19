@@ -14,9 +14,9 @@ import { getAnalyses, searchAnalysesInfinite } from "serviceFacades/analyses";
  *
  * Data search query
  *
- * @param {object} dataSearchKey
- * @param {boolean} dataSearchQueryEnabled
- * @param {function} successCallback
+ * @param {object} dataSearchKey - The query key to be used.
+ * @param {boolean} dataSearchQueryEnabled - Enable / diable query.
+ * @param {function} successCallback - Callback function to be used when the query succeeds.
  *
  * @returns {function}
  */
@@ -34,9 +34,9 @@ function useDataSearch(dataSearchKey, dataSearchQueryEnabled, successCallback) {
 /**
  * Apps search query
  *
- * @param {object} appsSearchKey
- * @param {boolean} appsSearchQueryEnabled
- * @param {function} successCallback
+ * @param {object} appsSearchKey - The query key to be used.
+ * @param {boolean} appsSearchQueryEnabled - Enable / diable query.
+ * @param {function} successCallback - Callback function to be used when the query succeeds.
  *
  * @returns {function}
  */
@@ -54,9 +54,9 @@ function useAppsSearch(appsSearchKey, appsSearchQueryEnabled, successCallback) {
 /**
  * Analyses search query
  *
- * @param {object} analysesSearchKey
- * @param {booelan} analysesSearchQueryEnabled
- * @param {function} successCallback
+ * @param {object} analysesSearchKey - The query key to be used.
+ * @param {booelan} analysesSearchQueryEnabled - Enable / diable query.
+ * @param {function} successCallback - Callback function to be used when the query succeeds.
  *
  * @returns {function}
  */
@@ -77,9 +77,9 @@ function useAnalysesSearch(
 
 /**
  * Analyses infinite load search query
- * @param {object} analysesSearchKey
- * @param {boolean} analysesSearchQueryEnabled
- * @param {function} getFetchMore
+ * @param {object} analysesSearchKey - The query key to be used.
+ * @param {boolean} analysesSearchQueryEnabled - Enable / diable query.
+ * @param {function} getFetchMore - Function to be used when more data needs to be loaded.
  *
  * @returns {function}
  */
@@ -98,9 +98,9 @@ function useAnalysesSearchInfinite(
  *
  * Data infinite load search query
  *
- * @param {*} dataSearchKey
- * @param {*} dataSearchQueryEnabled
- * @param {*} getFetchMore
+ * @param {*} dataSearchKey - The query key to be used.
+ * @param {*} dataSearchQueryEnabled - Enable / diable query.
+ * @param {*} getFetchMore - Function to be used when more data needs to be loaded.
  */
 function useDataSearchInfinite(
     dataSearchKey,
@@ -113,6 +113,13 @@ function useDataSearchInfinite(
     });
 }
 
+/**
+ * Apps infinite load search query
+ *
+ * @param {*} appsSearchKey - The query key to be used.
+ * @param {*} appsSearchQueryEnabled - Enable / diable query.
+ * @param {*} getFetchMore - Function to be used when more data needs to be loaded.
+ */
 function useAppsSearchInfinite(
     appsSearchKey,
     appsSearchQueryEnabled,

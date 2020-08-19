@@ -85,3 +85,10 @@ export const unshareTools = ({ toolUnsharingRequest }) => {
         body: toolUnsharingRequest,
     });
 };
+
+export const searchSubjects = ({ searchTerm }) => {
+    return callApi({
+        endpoint: `/api/subjects`,
+        params: { search: searchTerm.trim() },
+    });
+};

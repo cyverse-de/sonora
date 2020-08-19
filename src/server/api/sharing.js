@@ -121,5 +121,18 @@ export default function sharingRouter() {
         })
     );
 
+    logger.info("adding the GET /subjects handler");
+    api.get(
+        "/subjects",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/subjects",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

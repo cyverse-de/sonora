@@ -7,44 +7,33 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { queryCache } from "react-query";
+import { useQuery, queryCache } from "react-query";
 import Link from "next/link";
 import { useTranslation } from "i18n";
 
-import styles from "./styles";
+import NameLink from "./NameLink";
+
 import constants from "../../../constants";
 import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
 import { useDataSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
 
-import { DATA_SEARCH_QUERY_KEY } from "serviceFacades/filesystem";
+import {
+    DATA_SEARCH_QUERY_KEY,
+    INFO_TYPES_QUERY_KEY,
+    getInfoTypes,
+} from "serviceFacades/filesystem";
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
 import NavigationConstants from "common/NavigationConstants";
 import ResourceIcon from "components/data/listing/ResourceIcon";
 import { getParentPath } from "components/data/utils";
 import ResourceTypes from "components/models/ResourceTypes";
+import DetailsDrawer from "components/data/details/Drawer";
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
-import { Highlighter } from "@cyverse-de/ui-lib";
-
-import { Typography, Link as MuiLink, makeStyles } from "@material-ui/core";
-
-const useStyles = makeStyles(styles);
-
-const NameLink = React.forwardRef((props, ref) => {
-    const { name, searchTerm, onClick, href } = props;
-    const classes = useStyles();
-    return (
-        <MuiLink
-            href={href}
-            onClick={onClick}
-            ref={ref}
-            className={classes.dataLink}
-        >
-            <Highlighter search={searchTerm}>{name}</Highlighter>
-        </MuiLink>
-    );
-});
+import { Typography } from "@material-ui/core";
+import { Info } from "@material-ui/icons";
 
 function Name(props) {
     const { resource, searchTerm } = props;
@@ -66,13 +55,15 @@ function Name(props) {
     );
 }
 
-export default function DataSearchResults(props) {
-    const { searchTerm, updateResultCount, baseId } = props;
+function DataSearchResults(props) {
+    const { searchTerm, updateResultCount, baseId, showErrorAnnouncer } = props;
     const [dataSearchKey, setDataSearchKey] = useState(DATA_SEARCH_QUERY_KEY);
     const [sortField, setSortField] = useState("label");
     const [sortOrder, setSortOrder] = useState("ascending");
     const [dataSearchQueryEnabled, setDataSearchQueryEnabled] = useState(false);
-
+    const [deatilsResource, setDetailsResource] = useState(null);
+    const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
+    const [infoTypes, setInfoTypes] = useState([]);
     const { t } = useTranslation(["search"]);
 
     const bootstrapCache = queryCache.getQueryData(BOOTSTRAP_KEY);
@@ -80,6 +71,32 @@ export default function DataSearchResults(props) {
     if (userHomeDir) {
         userHomeDir = userHomeDir + "/";
     }
+
+    let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
+
+    useEffect(() => {
+        if (!infoTypesCache || infoTypesCache.length === 0) {
+            setInfoTypesQueryEnabled(true);
+        } else {
+            if (infoTypes === null || infoTypes.length === 0) {
+                setInfoTypes(infoTypesCache);
+            }
+        }
+    }, [infoTypes, infoTypesCache]);
+
+    useQuery({
+        queryKey: INFO_TYPES_QUERY_KEY,
+        queryFn: getInfoTypes,
+        config: {
+            enabled: infoTypesQueryEnabled,
+            onSuccess: (resp) => setInfoTypes(resp.types),
+            staleTime: Infinity,
+            cacheTime: Infinity,
+            onError: (e) => {
+                showErrorAnnouncer(t("infoTypeFetchError"), e);
+            },
+        },
+    });
 
     const {
         status,
@@ -148,6 +165,22 @@ export default function DataSearchResults(props) {
                 accessor: "_source.path",
                 disableSortBy: true,
             },
+            {
+                Header: "",
+                accessor: "actions",
+                Cell: ({ row }) => {
+                    const original = row?.original;
+                    return (
+                        <Info
+                            onClick={() => setDetailsResource(original)}
+                            fontSize="small"
+                            color="primary"
+                            style={{cursor: "pointer"}}
+                        />
+                    );
+                },
+                disableSortBy: true,
+            },
         ],
         [searchTerm]
     );
@@ -170,26 +203,38 @@ export default function DataSearchResults(props) {
     }
 
     return (
-        <SearchResultsTable
-            columns={columns}
-            data={flatdata}
-            baseId={baseId}
-            loading={status === constants.LOADING}
-            fetchMore={fetchMore}
-            isFetchingMore={isFetchingMore}
-            canFetchMore={canFetchMore}
-            initialSortBy={[
-                {
-                    id: "_source." + sortField,
-                    desc: sortOrder === "descending",
-                },
-            ]}
-            onSort={(colId, descending) => {
-                setSortField(colId.split(".")[1]);
-                descending
-                    ? setSortOrder("descending")
-                    : setSortOrder("ascending");
-            }}
-        />
+        <>
+            <SearchResultsTable
+                columns={columns}
+                data={flatdata}
+                baseId={baseId}
+                loading={status === constants.LOADING}
+                fetchMore={fetchMore}
+                isFetchingMore={isFetchingMore}
+                canFetchMore={canFetchMore}
+                initialSortBy={[
+                    {
+                        id: "_source." + sortField,
+                        desc: sortOrder === "descending",
+                    },
+                ]}
+                onSort={(colId, descending) => {
+                    setSortField(colId.split(".")[1]);
+                    descending
+                        ? setSortOrder("descending")
+                        : setSortOrder("ascending");
+                }}
+            />
+            {deatilsResource && (
+                <DetailsDrawer
+                    resource={deatilsResource._source}
+                    onClose={() => setDetailsResource(null)}
+                    baseId={baseId}
+                    open={deatilsResource !== null}
+                    infoTypes={infoTypes}
+                />
+            )}
+        </>
     );
 }
+export default withErrorAnnouncer(DataSearchResults);

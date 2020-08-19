@@ -31,10 +31,6 @@ function DetailsDrawer(props) {
         onClose,
         baseId,
         infoTypes,
-        handleDetailsError,
-        handleInfoTypeChangeError,
-        handleUpdatePermissionsError,
-        handleFetchPermissionsError,
     } = props;
     const classes = useStyles();
 
@@ -101,8 +97,6 @@ function DetailsDrawer(props) {
                     resource={resource}
                     infoTypes={infoTypes}
                     setSelfPermission={setSelfPermission}
-                    handleDetailsError={handleDetailsError}
-                    handleInfoTypeChangeError={handleInfoTypeChangeError}
                 />
             </DETabPanel>
             <DETabPanel
@@ -114,8 +108,6 @@ function DetailsDrawer(props) {
                     baseId={permissionsTabId}
                     resource={resource}
                     selfPermission={selfPermission}
-                    handleFetchPermissionsError={handleFetchPermissionsError}
-                    handelUpdatePermissionsError={handleUpdatePermissionsError}
                 />
             </DETabPanel>
         </Drawer>

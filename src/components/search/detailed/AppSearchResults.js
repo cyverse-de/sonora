@@ -10,7 +10,8 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 import Link from "next/link";
 
-import styles from "./styles";
+import NameLink from "./NameLink";
+
 import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
 import { useAppsSearchInfinite } from "../searchQueries";
@@ -21,26 +22,8 @@ import { APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
 import appFields from "components/apps/appFields";
 import NavigationConstants from "common/NavigationConstants";
 
-import { Highlighter } from "@cyverse-de/ui-lib";
-
-import { Typography, Link as MuiLink, makeStyles } from "@material-ui/core";
-
-const useStyles = makeStyles(styles);
-
-const NameLink = React.forwardRef((props, ref) => {
-    const { name, searchTerm, onClick, href } = props;
-    const classes = useStyles();
-    return (
-        <MuiLink
-            href={href}
-            onClick={onClick}
-            ref={ref}
-            className={classes.dataLink}
-        >
-            <Highlighter search={searchTerm}>{name}</Highlighter>
-        </MuiLink>
-    );
-});
+import { Typography } from "@material-ui/core";
+import { Info } from "@material-ui/icons";
 
 function Name(props) {
     const { selectedOption, searchTerm } = props;
@@ -59,7 +42,7 @@ export default function AppSearchResults(props) {
     const { searchTerm, updateResultCount, baseId } = props;
     const [appsSearchKey, setAppsSearchKey] = useState(APPS_SEARCH_QUERY_KEY);
     const [appsSearchQueryEnabled, setAppsSearchQueryEnabled] = useState(false);
-
+    const [deatilsResource, setDetailsResource] = useState(null);
     const { t } = useTranslation(["search"]);
     //SS TODO: pass `t` into this function
     const appRecordFields = appFields();
@@ -130,6 +113,22 @@ export default function AppSearchResults(props) {
                 Header: "System",
                 accessor: appRecordFields.SYSTEM.key,
             },
+            {
+                Header: "",
+                accessor: "actions",
+                Cell: ({ row }) => {
+                    const original = row?.original;
+                    return (
+                        <Info
+                            onClick={() => setDetailsResource(original)}
+                            fontSize="small"
+                            color="primary"
+                            style={{cursor: "pointer"}}
+                        />
+                    );
+                },
+                disableSortBy: true,
+            },
         ],
         [
             appRecordFields.INTEGRATOR.key,
@@ -156,6 +155,7 @@ export default function AppSearchResults(props) {
     }
 
     return (
+        <>
         <SearchResultsTable
             columns={columns}
             data={flatdata}
@@ -174,5 +174,6 @@ export default function AppSearchResults(props) {
                     : setOrder(constants.SORT_ASCENDING);
             }}
         />
+        </>
     );
 }

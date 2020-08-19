@@ -24,6 +24,21 @@ import NavigationConstants from "common/NavigationConstants";
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
 import analysisFields from "components/analyses/analysisFields";
 import { Typography } from "@material-ui/core";
+import { Info } from "@material-ui/icons";
+import Actions from "components/analyses/listing/Actions";
+import { openInteractiveUrl } from "components/analyses/utils";
+import { useUserProfile } from "contexts/userProfile";
+
+function Name(props) {
+    const { analysis, searchTerm } = props;
+    const href = `/${NavigationConstants.ANALYSES}/[analysisId]`;
+    const as = `/${NavigationConstants.ANALYSES}/${analysis?.id}`;
+    return (
+        <Link href={href} as={as} passHref>
+            <NameLink name={analysis.name} searchTerm={searchTerm} />
+        </Link>
+    );
+}
 
 import DetailsDrawer from "components/analyses/details/Drawer";
 import Actions from "components/analyses/listing/Actions";
@@ -172,11 +187,7 @@ export default function AnalysesSearchResults(props) {
         return <Typography>{t("noResults")}</Typography>;
     }
 
-<<<<<<< HEAD
     let flatData = [];
-=======
-   
->>>>>>> 128a82a... address PR comments
     if (data && data.length > 0) {
         data.forEach((page) => {
             flatData = [...flatData, ...page.analyses];
@@ -186,7 +197,6 @@ export default function AnalysesSearchResults(props) {
     
 
     return (
-<<<<<<< HEAD
         <>
             <SearchResultsTable
                 columns={columns}
@@ -218,28 +228,5 @@ export default function AnalysesSearchResults(props) {
                 />
             )}
         </>
-=======
-        <SearchResultsTable
-            columns={columns}
-            data={memoFlatData}
-            baseId={baseId}
-            loading={status === constants.LOADING}
-            fetchMore={fetchMore}
-            isFetchingMore={isFetchingMore}
-            canFetchMore={canFetchMore}
-            initialSortBy={[
-                {
-                    id: analysisRecordFields.START_DATE.key,
-                    desc: order === constants.SORT_DESCENDING,
-                },
-            ]}
-            onSort={(colId, descending) => {
-                setOrderBy(colId);
-                descending
-                    ? setOrder(constants.SORT_DESCENDING)
-                    : setOrder(constants.SORT_ASCENDING);
-            }}
-        />
->>>>>>> 128a82a... address PR comments
     );
 }

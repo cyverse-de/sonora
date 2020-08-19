@@ -7,9 +7,10 @@
  */
 
 import React, { useEffect, useState } from "react";
-
+import Link from "next/link";
 import { useTranslation } from "i18n";
 
+import NameLink from "./NameLink";
 import { useAnalysesSearchInfinite } from "../searchQueries";
 import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
@@ -19,12 +20,29 @@ import constants from "../../../constants";
 
 import { formatDate } from "@cyverse-de/ui-lib";
 
+import NavigationConstants from "common/NavigationConstants";
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
 import analysisFields from "components/analyses/analysisFields";
 import { Typography } from "@material-ui/core";
+import { Info } from "@material-ui/icons";
+import Actions from "components/analyses/listing/Actions";
+import { openInteractiveUrl } from "components/analyses/utils";
+import { useUserProfile } from "contexts/userProfile";
+
+function Name(props) {
+    const { analysis, searchTerm } = props;
+    const href = `/${NavigationConstants.ANALYSES}/[analysisId]`;
+    const as = `/${NavigationConstants.ANALYSES}/${analysis?.id}`;
+    return (
+        <Link href={href} as={as} passHref>
+            <NameLink name={analysis.name} searchTerm={searchTerm} />
+        </Link>
+    );
+}
 
 export default function AnalysesSearchResults(props) {
     const { searchTerm, updateResultCount, baseId } = props;
+    const [userProfile] = useUserProfile();
     const [analysesSearchKey, setAnalysesSearchKey] = useState(
         ANALYSES_SEARCH_QUERY_KEY
     );
@@ -40,7 +58,7 @@ export default function AnalysesSearchResults(props) {
 
     const [order, setOrder] = useState(constants.SORT_DESCENDING);
     const [orderBy, setOrderBy] = useState(analysisRecordFields.START_DATE.key);
-
+    const [selectedAnalysis, setSelectedAnalysis] = useState(null);
     const {
         status,
         data,
@@ -91,6 +109,9 @@ export default function AnalysesSearchResults(props) {
             {
                 Header: analysisRecordFields.NAME.fieldName,
                 accessor: analysisRecordFields.NAME.key,
+                Cell: ({ row }) => (
+                    <Name analysis={row?.original} searchTerm={searchTerm} />
+                ),
             },
             {
                 Header: analysisRecordFields.START_DATE.fieldName,
@@ -105,14 +126,32 @@ export default function AnalysesSearchResults(props) {
                 Header: analysisRecordFields.STATUS.fieldName,
                 accessor: analysisRecordFields.STATUS.key,
             },
+            {
+                Header: "",
+                accessor: analysisRecordFields.ACTIONS.key,
+                Cell: ({ row }) => (
+                    <Actions
+                        analysis={row.original}
+                        username={userProfile?.id}
+                        baseId={baseId}
+                        allowBatchDrillDown={false}
+                        handleInteractiveUrlClick={openInteractiveUrl}
+                    />
+                ),
+                disableSortBy: true,
+            },
         ],
         [
+            analysisRecordFields.ACTIONS.key,
             analysisRecordFields.NAME.fieldName,
             analysisRecordFields.NAME.key,
             analysisRecordFields.START_DATE.fieldName,
             analysisRecordFields.START_DATE.key,
             analysisRecordFields.STATUS.fieldName,
             analysisRecordFields.STATUS.key,
+            baseId,
+            searchTerm,
+            userProfile.id,
         ]
     );
 

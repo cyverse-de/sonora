@@ -22,6 +22,8 @@ import {
     updateAnalysisComment,
 } from "serviceFacades/analyses";
 
+import {openInteractiveUrl} from "../utils";
+
 import constants from "../../../constants";
 import ConfirmationDialog from "../../utils/ConfirmationDialog";
 import DEPagination from "../../utils/DEPagination";
@@ -474,9 +476,6 @@ function Listing(props) {
         setSelected([]);
         setPage(0);
     };
-    const handleInteractiveUrlClick = (url) => {
-        window.open(url, "_blank");
-    };
 
     const handleAppTypeFilterChange = (appTypeFilter) => {
         setAppTypeFilter(appTypeFilter);
@@ -563,7 +562,7 @@ function Listing(props) {
                 isSingleSelection={isSingleSelection}
                 onDetailsSelected={onDetailsSelected}
                 handleComments={handleComments}
-                handleInteractiveUrlClick={handleInteractiveUrlClick}
+                handleInteractiveUrlClick={openInteractiveUrl}
                 handleGoToOutputFolder={handleGoToOutputFolder}
                 handleCancel={handleCancel}
                 handleDelete={handleDelete}
@@ -588,7 +587,7 @@ function Listing(props) {
                 handleSelectAllClick={handleSelectAllClick}
                 handleClick={handleClick}
                 handleRequestSort={handleRequestSort}
-                handleInteractiveUrlClick={handleInteractiveUrlClick}
+                handleInteractiveUrlClick={openInteractiveUrl}
                 handleGoToOutputFolder={handleGoToOutputFolder}
                 handleRelaunch={handleRelaunch}
                 handleBatchIconClick={handleBatchIconClick}

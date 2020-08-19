@@ -75,7 +75,9 @@ app.prepare()
         server.use(keycloakClient.middleware());
 
         logger.info("adding the /login handler");
-        server.get("/login", keycloakClient.protect());
+        server.get("/login", keycloakClient.protect(), (req, res) => {
+            res.redirect("/");
+        });
 
         logger.info("adding the /login/* handler");
         server.get("/login/*", keycloakClient.protect(), (req, res) => {

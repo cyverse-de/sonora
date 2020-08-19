@@ -41,6 +41,8 @@ function Name(props) {
     );
 }
 
+
+
 export default function AnalysesSearchResults(props) {
     const { searchTerm, updateResultCount, baseId } = props;
     const [userProfile] = useUserProfile();
@@ -59,8 +61,7 @@ export default function AnalysesSearchResults(props) {
 
     const [order, setOrder] = useState(constants.SORT_DESCENDING);
     const [orderBy, setOrderBy] = useState(analysisRecordFields.START_DATE.key);
-    const [selectedAnalysis, setSelectedAnalysis] = useState("");
-
+    const [selectedAnalysis, setSelectedAnalysis] = useState(null);
     const {
         status,
         data,

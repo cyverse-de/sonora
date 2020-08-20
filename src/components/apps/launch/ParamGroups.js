@@ -4,14 +4,14 @@
  * Form fields for displaying app parameters and parameter groups.
  */
 import React from "react";
-
+import { useTranslation } from "i18n";
 import sanitizeHtml from "sanitize-html";
 import { FastField, Field, getIn } from "formik";
 
 import GlobalConstants from "../../../constants";
-import { intercomShow } from "../../../common/intercom";
+import { intercomShow } from "common/intercom";
 
-import ResourceTypes from "../../models/ResourceTypes";
+import ResourceTypes from "components/models/ResourceTypes";
 
 import constants from "./constants";
 import ids from "./ids";
@@ -30,7 +30,6 @@ import {
     FormIntegerField,
     FormNumberField,
     FormTextField,
-    getMessage,
 } from "@cyverse-de/ui-lib";
 
 import {
@@ -134,6 +133,7 @@ function ParamGroupForm(props) {
         noOfGroups,
     } = props;
     const classes = useStyles();
+    const { t } = useTranslation("launch");
     return (
         <Accordion id={baseId} defaultExpanded>
             <AccordionSummary
@@ -148,11 +148,9 @@ function ParamGroupForm(props) {
                 <div>
                     <Typography variant="subtitle2">{group.label}</Typography>
                     <Typography variant="caption">
-                        {getMessage("section", {
-                            values: {
-                                groupNumber: index,
-                                totalGroups: noOfGroups,
-                            },
+                        {t("section", {
+                            groupNumber: index,
+                            totalGroups: noOfGroups,
                         })}
                     </Typography>
                 </div>
@@ -370,9 +368,9 @@ const ParamsReviewValue = ({ param }) => {
     return value;
 };
 
-const HPCWaitTimesMessage = ({ baseId }) =>
-    getMessage("hpcAppWaitTimes", {
-        values: {
+const HPCWaitTimesMessage = ({ baseId, t }) =>
+    t("hpcAppWaitTimes",
+        {
             p: (...chunks) => <Typography variant="body1">{chunks}</Typography>,
             support: (...chunks) => (
                 <Link
@@ -410,12 +408,12 @@ const HPCWaitTimesMessage = ({ baseId }) =>
                 </Link>
             ),
         },
-    });
+    );
 
 const ShowAllParameters = ({ baseId, checked, onChange }) => {
     const switchId = buildDebugId(baseId, ids.BUTTONS.SHOW_ALL_PARAMETERS);
     const helperTextID = buildDebugId(switchId, ids.BUTTONS.HELPER_TEXT);
-
+    const { t } = useTranslation("launch");
     return (
         <Toolbar component={Paper}>
             <FormControl fullWidth margin="normal">
@@ -429,10 +427,10 @@ const ShowAllParameters = ({ baseId, checked, onChange }) => {
                             onChange={onChange}
                         />
                     }
-                    label={getMessage("showAllParameters")}
+                    label={t("showAllParameters")}
                 />
                 <FormHelperText id={helperTextID}>
-                    {getMessage("showAllParametersHelpText")}
+                    {t("showAllParametersHelpText")}
                 </FormHelperText>
             </FormControl>
         </Toolbar>
@@ -450,54 +448,59 @@ const ParamsReview = ({
     groups,
     showAll,
     setShowAll,
-}) => (
-    <>
-        {appType === GlobalConstants.APP_TYPE_EXTERNAL && (
-            <HPCWaitTimesMessage baseId={baseId} />
-        )}
+}) => {
+    const { t } = useTranslation("launch");
+    return (
+        <>
+            {appType === GlobalConstants.APP_TYPE_EXTERNAL && (
+                <HPCWaitTimesMessage baseId={baseId} t={t} />
+            )}
 
-        <ShowAllParameters
-            baseId={baseId}
-            checked={showAll}
-            onChange={(event) => setShowAll(event.target.checked)}
-        />
+            <ShowAllParameters
+                baseId={baseId}
+                checked={showAll}
+                onChange={(event) => setShowAll(event.target.checked)}
+            />
 
-        <TableContainer component={Paper}>
-            <Table>
-                <TableBody>
-                    {groups?.map((group, groupIndex) =>
-                        group.parameters.map((param, paramIndex) => {
-                            const fieldName = `groups.${groupIndex}.parameters.${paramIndex}`;
-                            const paramError = getIn(errors, fieldName);
-                            const hasValue = !isEmptyParamValue(param.value);
+            <TableContainer component={Paper}>
+                <Table>
+                    <TableBody>
+                        {groups?.map((group, groupIndex) =>
+                            group.parameters.map((param, paramIndex) => {
+                                const fieldName = `groups.${groupIndex}.parameters.${paramIndex}`;
+                                const paramError = getIn(errors, fieldName);
+                                const hasValue = !isEmptyParamValue(
+                                    param.value
+                                );
 
-                            return (
-                                param.isVisible &&
-                                param.type !== constants.PARAM_TYPE.INFO &&
-                                (showAll || paramError || hasValue) && (
-                                    <TableRow key={param.id}>
-                                        <TableCell>
-                                            <ParamsReviewLabel
-                                                error={!!paramError}
-                                                label={param.label}
-                                            />
-                                        </TableCell>
-                                        <TableCell>
-                                            {hasValue && (
-                                                <ParamsReviewValue
-                                                    param={param}
+                                return (
+                                    param.isVisible &&
+                                    param.type !== constants.PARAM_TYPE.INFO &&
+                                    (showAll || paramError || hasValue) && (
+                                        <TableRow key={param.id}>
+                                            <TableCell>
+                                                <ParamsReviewLabel
+                                                    error={!!paramError}
+                                                    label={param.label}
                                                 />
-                                            )}
-                                        </TableCell>
-                                    </TableRow>
-                                )
-                            );
-                        })
-                    )}
-                </TableBody>
-            </Table>
-        </TableContainer>
-    </>
-);
+                                            </TableCell>
+                                            <TableCell>
+                                                {hasValue && (
+                                                    <ParamsReviewValue
+                                                        param={param}
+                                                    />
+                                                )}
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                );
+                            })
+                        )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>
+    );
+};
 
 export { ParamGroupForm, ParamsReview };

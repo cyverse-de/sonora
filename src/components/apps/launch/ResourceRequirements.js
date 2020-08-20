@@ -8,22 +8,17 @@
  * or from 0 to a reasonable max value set by this component.
  */
 import React from "react";
-
+import { useTranslation } from "i18n";
 import { FastField } from "formik";
 import numeral from "numeral";
 
 import constants from "../../../constants";
 
 import ids from "./ids";
-import messages from "./messages";
+
 import styles from "./styles";
 
-import {
-    FormSelectField,
-    build as buildDebugId,
-    getMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { FormSelectField, build as buildDebugId } from "@cyverse-de/ui-lib";
 
 import {
     makeStyles,
@@ -87,6 +82,8 @@ const StepResourceRequirementsForm = ({
     defaultMaxMemory,
     defaultMaxDiskSpace,
 }) => {
+    const { t } = useTranslation("launch");
+
     const {
         min_cpu_cores,
         max_cpu_cores,
@@ -94,7 +91,6 @@ const StepResourceRequirementsForm = ({
         memory_limit,
         min_disk_space,
     } = requirements;
-
     const minCPUCoreList = buildLimitList(
         1,
         min_cpu_cores || 0,
@@ -117,7 +113,7 @@ const StepResourceRequirementsForm = ({
                 <FastField
                     id={buildDebugId(baseId, ids.RESOURCE_REQUESTS.TOOL_CPU)}
                     name={`requirements.${index}.min_cpu_cores`}
-                    label={getMessage("minCPUCores")}
+                    label={t("minCPUCores")}
                     component={FormSelectField}
                 >
                     {minCPUCoreList.map((size, index) => (
@@ -131,7 +127,7 @@ const StepResourceRequirementsForm = ({
                 <FastField
                     id={buildDebugId(baseId, ids.RESOURCE_REQUESTS.TOOL_MEM)}
                     name={`requirements.${index}.min_memory_limit`}
-                    label={getMessage("minMemory")}
+                    label={t("minMemory")}
                     component={FormSelectField}
                     renderValue={formatGBValue}
                 >
@@ -149,7 +145,7 @@ const StepResourceRequirementsForm = ({
                         ids.RESOURCE_REQUESTS.MIN_DISK_SPACE
                     )}
                     name={`requirements.${index}.min_disk_space`}
-                    label={getMessage("minDiskSpace")}
+                    label={t("minDiskSpace")}
                     component={FormSelectField}
                     renderValue={formatGBValue}
                 >
@@ -164,107 +160,103 @@ const StepResourceRequirementsForm = ({
     );
 };
 
-const ResourceRequirementsHeader = ({ headerMessageKey, step }) =>
-    getMessage(headerMessageKey, { values: { step } });
+const ResourceRequirementsHeader = ({ headerMessageKey, step, t }) =>
+    t(headerMessageKey, { step });
 
-const ResourceRequirementsForm = withI18N(
-    ({
-        baseId,
-        defaultMaxCPUCores,
-        defaultMaxMemory,
-        defaultMaxDiskSpace,
-        limits,
-    }) => {
-        const classes = useStyles();
+const ResourceRequirementsForm = ({
+    baseId,
+    defaultMaxCPUCores,
+    defaultMaxMemory,
+    defaultMaxDiskSpace,
+    limits,
+}) => {
+    const classes = useStyles();
+    const { t } = useTranslation("apps");
+    return (
+        <>
+            <Accordion defaultExpanded>
+                <AccordionSummary
+                    expandIcon={
+                        <ExpandMore
+                            id={buildDebugId(baseId, ids.BUTTONS.EXPAND)}
+                        />
+                    }
+                >
+                    <Typography variant="subtitle1">
+                        <ResourceRequirementsHeader
+                            headerMessageKey="resourceRequirements"
+                            t={t}
+                        />
+                    </Typography>
+                </AccordionSummary>
 
-        return (
-            <>
-                <Accordion defaultExpanded>
-                    <AccordionSummary
-                        expandIcon={
-                            <ExpandMore
-                                id={buildDebugId(baseId, ids.BUTTONS.EXPAND)}
-                            />
-                        }
-                    >
-                        <Typography variant="subtitle1">
-                            <ResourceRequirementsHeader headerMessageKey="resourceRequirements" />
-                        </Typography>
-                    </AccordionSummary>
-
-                    <AccordionDetails className={classes.accordionDetails}>
-                        <Typography component="span" variant="body1">
-                            {getMessage("helpMsgResourceRequirements")}
-                        </Typography>
-                        {limits.length === 1 ? (
-                            <StepResourceRequirementsForm
-                                baseId={buildDebugId(
-                                    baseId,
-                                    limits[0].step_number
-                                )}
-                                requirements={limits[0]}
-                                index={0}
-                                defaultMaxCPUCores={defaultMaxCPUCores}
-                                defaultMaxMemory={defaultMaxMemory}
-                                defaultMaxDiskSpace={defaultMaxDiskSpace}
-                            />
-                        ) : (
-                            // For apps with more than 1 step,
-                            // each step's resource requirements will be nested
-                            // under its own expansion panel.
-                            limits.map((reqs, index) => {
-                                return (
-                                    <Accordion key={reqs.step_number}>
-                                        <AccordionSummary
-                                            expandIcon={
-                                                <ExpandMore
-                                                    id={buildDebugId(
-                                                        baseId,
-                                                        reqs.step_number,
-                                                        ids.BUTTONS.EXPAND
-                                                    )}
-                                                />
-                                            }
-                                        >
-                                            <Typography variant="subtitle1">
-                                                <ResourceRequirementsHeader
-                                                    headerMessageKey="resourceRequirementsForStep"
-                                                    step={reqs.step_number + 1}
-                                                />
-                                            </Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails
-                                            className={classes.accordionDetails}
-                                        >
-                                            <StepResourceRequirementsForm
-                                                baseId={buildDebugId(
+                <AccordionDetails className={classes.accordionDetails}>
+                    <Typography component="span" variant="body1">
+                        {t("helpMsgResourceRequirements")}
+                    </Typography>
+                    {limits.length === 1 ? (
+                        <StepResourceRequirementsForm
+                            baseId={buildDebugId(baseId, limits[0].step_number)}
+                            requirements={limits[0]}
+                            index={0}
+                            defaultMaxCPUCores={defaultMaxCPUCores}
+                            defaultMaxMemory={defaultMaxMemory}
+                            defaultMaxDiskSpace={defaultMaxDiskSpace}
+                        />
+                    ) : (
+                        // For apps with more than 1 step,
+                        // each step's resource requirements will be nested
+                        // under its own expansion panel.
+                        limits.map((reqs, index) => {
+                            return (
+                                <Accordion key={reqs.step_number}>
+                                    <AccordionSummary
+                                        expandIcon={
+                                            <ExpandMore
+                                                id={buildDebugId(
                                                     baseId,
-                                                    reqs.step_number
+                                                    reqs.step_number,
+                                                    ids.BUTTONS.EXPAND
                                                 )}
-                                                requirements={reqs}
-                                                index={index}
-                                                defaultMaxCPUCores={
-                                                    defaultMaxCPUCores
-                                                }
-                                                defaultMaxMemory={
-                                                    defaultMaxMemory
-                                                }
-                                                defaultMaxDiskSpace={
-                                                    defaultMaxDiskSpace
-                                                }
                                             />
-                                        </AccordionDetails>
-                                    </Accordion>
-                                );
-                            })
-                        )}
-                    </AccordionDetails>
-                </Accordion>
-            </>
-        );
-    },
-    messages
-);
+                                        }
+                                    >
+                                        <Typography variant="subtitle1">
+                                            <ResourceRequirementsHeader
+                                                headerMessageKey="resourceRequirementsForStep"
+                                                step={reqs.step_number + 1}
+                                                t={t}
+                                            />
+                                        </Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails
+                                        className={classes.accordionDetails}
+                                    >
+                                        <StepResourceRequirementsForm
+                                            baseId={buildDebugId(
+                                                baseId,
+                                                reqs.step_number
+                                            )}
+                                            requirements={reqs}
+                                            index={index}
+                                            defaultMaxCPUCores={
+                                                defaultMaxCPUCores
+                                            }
+                                            defaultMaxMemory={defaultMaxMemory}
+                                            defaultMaxDiskSpace={
+                                                defaultMaxDiskSpace
+                                            }
+                                        />
+                                    </AccordionDetails>
+                                </Accordion>
+                            );
+                        })
+                    )}
+                </AccordionDetails>
+            </Accordion>
+        </>
+    );
+};
 
 const StepResourceRequirementsReview = ({
     baseId,
@@ -272,6 +264,7 @@ const StepResourceRequirementsReview = ({
     headerMessageKey,
     showAll,
 }) => {
+    const { t } = useTranslation("launch");
     const {
         step_number,
         min_cpu_cores,
@@ -299,6 +292,7 @@ const StepResourceRequirementsReview = ({
                         <ResourceRequirementsHeader
                             headerMessageKey={headerMessageKey}
                             step={step_number + 1}
+                            t={t}
                         />
                     </Typography>
                 </AccordionSummary>
@@ -310,7 +304,7 @@ const StepResourceRequirementsReview = ({
                                 {(showAll || !!min_cpu_cores) && (
                                     <TableRow>
                                         <TableCell>
-                                            {getMessage("minCPUCores")}
+                                            {t("minCPUCores")}
                                         </TableCell>
                                         <TableCell>
                                             {min_cpu_cores || ""}
@@ -319,9 +313,7 @@ const StepResourceRequirementsReview = ({
                                 )}
                                 {(showAll || !!min_memory_limit) && (
                                     <TableRow>
-                                        <TableCell>
-                                            {getMessage("minMemory")}
-                                        </TableCell>
+                                        <TableCell>{t("minMemory")}</TableCell>
                                         <TableCell>
                                             {formatGBValue(min_memory_limit) ||
                                                 ""}
@@ -331,7 +323,7 @@ const StepResourceRequirementsReview = ({
                                 {(showAll || !!min_disk_space) && (
                                     <TableRow>
                                         <TableCell>
-                                            {getMessage("minDiskSpace")}
+                                            {t("minDiskSpace")}
                                         </TableCell>
                                         <TableCell>
                                             {formatGBValue(min_disk_space) ||
@@ -360,24 +352,20 @@ const StepResourceRequirementsReview = ({
  * @param {number} props.requirements[].min_memory_limit
  * @param {number} props.requirements[].min_disk_space
  */
-const ResourceRequirementsReview = withI18N(
-    ({ baseId, requirements, showAll }) => {
-        const headerMessageKey =
-            requirements.length === 1
-                ? "resourceRequirements"
-                : "resourceRequirementsForStep";
+const ResourceRequirementsReview = ({ baseId, requirements, showAll }) => {
+    const headerMessageKey =
+        requirements.length === 1
+            ? "resourceRequirements"
+            : "resourceRequirementsForStep";
 
-        return requirements.map((stepRequirements) => (
-            <StepResourceRequirementsReview
-                baseId={baseId}
-                key={stepRequirements.step_number}
-                stepRequirements={stepRequirements}
-                headerMessageKey={headerMessageKey}
-                showAll={showAll}
-            />
-        ));
-    },
-    messages
-);
-
+    return requirements.map((stepRequirements) => (
+        <StepResourceRequirementsReview
+            baseId={baseId}
+            key={stepRequirements.step_number}
+            stepRequirements={stepRequirements}
+            headerMessageKey={headerMessageKey}
+            showAll={showAll}
+        />
+    ));
+};
 export { ResourceRequirementsForm, ResourceRequirementsReview };

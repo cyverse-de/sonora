@@ -117,7 +117,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
 const SearchOption = React.forwardRef((props, ref) => {
     const { primary, secondary, icon, searchTerm, onClick, href } = props;
     const classes = useStyles();

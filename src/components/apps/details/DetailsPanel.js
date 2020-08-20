@@ -1,23 +1,15 @@
 import React, { useState } from "react";
+import { useTranslation } from "i18n";
 
-import messages from "../messages";
-import GridLabelValue from "../../utils/GridLabelValue";
+import GridLabelValue from "components/utils/GridLabelValue";
 import ids from "../ids";
 
-import {
-    build,
-    formatDate,
-    formatMessage,
-    getMessage,
-    Rate,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { build, formatDate, Rate } from "@cyverse-de/ui-lib";
 
 import { CircularProgress, Grid } from "@material-ui/core";
-import GridLoading from "../../utils/GridLoading";
-import ErrorTypography from "../../utils/error/ErrorTypography";
-import DEErrorDialog from "../../utils/error/DEErrorDialog";
-import { injectIntl } from "react-intl";
+import GridLoading from "components/utils/GridLoading";
+import ErrorTypography from "components/utils/error/ErrorTypography";
+import DEErrorDialog from "components/utils/error/DEErrorDialog";
 
 /**
  * @author sriram
@@ -39,9 +31,8 @@ function DetailsPanel(props) {
         detailsError,
         favMutationError,
         ratingMutationError,
-        intl,
     } = props;
-
+    const { t } = useTranslation("apps");
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
 
     if (detailsLoadingStatus) {
@@ -52,11 +43,11 @@ function DetailsPanel(props) {
 
     let errorMessage;
     if (detailsError) {
-        errorMessage = formatMessage(intl, "appDetailsError");
+        errorMessage = t("appDetailsError");
     } else if (favMutationError) {
-        errorMessage = formatMessage(intl, "favMutationError");
+        errorMessage = t("favMutationError");
     } else if (ratingMutationError) {
-        errorMessage = formatMessage(intl, "ratingMutationError");
+        errorMessage = t("ratingMutationError");
     }
 
     return (
@@ -95,10 +86,10 @@ function DetailsPanel(props) {
                             {details.description}
                         </Grid>
                         <Grid item xs={12}>
-                            {getMessage("details")}
+                            {t("details")}
                         </Grid>
                         {!isExternal && isPublic && (
-                            <GridLabelValue label={getMessage("yourRating")}>
+                            <GridLabelValue label={t("yourRating")}>
                                 <Rate
                                     name={"user." + details.id}
                                     value={userRating}
@@ -112,21 +103,19 @@ function DetailsPanel(props) {
                                 />
                             </GridLabelValue>
                         )}
-                        <GridLabelValue label={getMessage("publishedOn")}>
+                        <GridLabelValue label={t("publishedOn")}>
                             {formatDate(details.integration_date)}
                         </GridLabelValue>
-                        <GridLabelValue label={getMessage("integratorName")}>
+                        <GridLabelValue label={t("integratorName")}>
                             {details.integrator_name}
                         </GridLabelValue>
-                        <GridLabelValue label={getMessage("integratorEmail")}>
+                        <GridLabelValue label={t("integratorEmail")}>
                             {details.integrator_email}
                         </GridLabelValue>
-                        <GridLabelValue label={getMessage("analysesCompleted")}>
+                        <GridLabelValue label={t("analysesCompleted")}>
                             {details.job_stats.job_count_completed || 0}
                         </GridLabelValue>
-                        <GridLabelValue
-                            label={getMessage("detailsLastCompleted")}
-                        >
+                        <GridLabelValue label={t("detailsLastCompleted")}>
                             {formatDate(details.job_stats.job_last_completed)}
                         </GridLabelValue>
                     </Grid>
@@ -136,4 +125,4 @@ function DetailsPanel(props) {
     );
 }
 
-export default withI18N(injectIntl(DetailsPanel), messages);
+export default DetailsPanel;

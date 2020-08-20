@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 
 import ids from "../ids";
-import messages from "../messages";
-import { injectIntl } from "react-intl";
+
+import { useTranslation } from "i18n";
 
 import appType from "../../models/AppType";
 import AppsDotMenu from "./AppsDotMenu";
 import DisplayTypeSelector from "../../utils/DisplayTypeSelector";
 import AppNavigation, { getAppTypeFilters } from "./AppNavigation";
 
-import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 import {
     Button,
     Hidden,
@@ -57,8 +57,8 @@ function AppsTypeFilter(props) {
         filter,
         handleFilterChange,
         classes,
-        intl,
     } = props;
+    const { t } = useTranslation("apps");
     return (
         <Autocomplete
             id={build(baseId, ids.APPS_FILTER)}
@@ -78,7 +78,7 @@ function AppsTypeFilter(props) {
             renderInput={(params) => (
                 <TextField
                     {...params}
-                    label={formatMessage(intl, "filterLbl")}
+                    label={t("filterLbl")}
                     variant="outlined"
                 />
             )}
@@ -102,7 +102,7 @@ function AppsToolbar(props) {
         intl,
         baseId,
     } = props;
-
+    const { t } = useTranslation("apps");
     const classes = useStyles();
     const appsToolbarId = build(baseId, ids.APPS_TOOLBAR);
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
@@ -133,7 +133,7 @@ function AppsToolbar(props) {
                         onClick={viewAllApps}
                         startIcon={<FilterListIcon />}
                     >
-                        {getMessage("viewAllApps")}
+                        {t("viewAllApps")}
                     </Button>
                 )}
                 <div className={classes.divider} />
@@ -157,7 +157,7 @@ function AppsToolbar(props) {
                             onClick={onDetailsSelected}
                             startIcon={<Info />}
                         >
-                            {getMessage("details")}
+                            {t("details")}
                         </Button>
                     )}
                 </Hidden>
@@ -181,7 +181,7 @@ function AppsToolbar(props) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setOpenFilterDialog(false)}>
-                        {getMessage("done")}
+                        {t("done")}
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -189,4 +189,4 @@ function AppsToolbar(props) {
     );
 }
 
-export default withI18N(injectIntl(AppsToolbar), messages);
+export default AppsToolbar;

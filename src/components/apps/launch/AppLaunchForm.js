@@ -8,11 +8,11 @@
 import React from "react";
 
 import { Formik, Form } from "formik";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "i18n";
 import { useQuery } from "react-query";
 
-import PageWrapper from "../../../components/layout/PageWrapper";
-import useComponentHeight from "../../utils/useComponentHeight";
+import PageWrapper from "components/layout/PageWrapper";
+import useComponentHeight from "components/utils/useComponentHeight";
 
 import GlobalConstants from "../../../constants";
 
@@ -20,7 +20,6 @@ import CreateQuickLaunchDialog from "../quickLaunch/CreateQuickLaunchDialog";
 
 import constants from "./constants";
 import ids from "./ids";
-import messages from "./messages";
 import styles from "./styles";
 import validate from "./validate";
 
@@ -38,15 +37,12 @@ import {
 import {
     getReferenceGenomes,
     REFERENCE_GENOMES_QUERY_KEY,
-} from "../../../serviceFacades/referenceGenomes";
+} from "serviceFacades/referenceGenomes";
 
 import {
     build as buildDebugId,
-    getMessage,
-    formatMessage,
     stableSort,
     getFormError,
-    withI18N,
 } from "@cyverse-de/ui-lib";
 
 import {
@@ -92,6 +88,7 @@ const ReferenceGenomeParamTypes = [
 const StepContent = ({ id, hidden, step, label, children, offsetHeight }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const { t } = useTranslation("launch");
     return (
         <PageWrapper appBarHeight={offsetHeight}>
             <fieldset id={id} hidden={hidden}>
@@ -100,9 +97,7 @@ const StepContent = ({ id, hidden, step, label, children, offsetHeight }) => {
                         variant={isMobile ? "subtitle2" : "caption"}
                         color={isMobile ? "primary" : "inherit"}
                     >
-                        {getMessage("stepLabel", {
-                            values: { step: step + 1, label },
-                        })}
+                        {t("stepLabel", { step: step + 1, label })}
                     </Typography>
                 </legend>
                 {children}
@@ -123,6 +118,7 @@ const StepperBottomNavigation = React.forwardRef((props, ref) => {
     } = props;
     const classes = useStyles();
     const theme = useTheme();
+    const { t } = useTranslation("launch");
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     if (isMobile) {
         if (showSubmitButton) {
@@ -141,7 +137,7 @@ const StepperBottomNavigation = React.forwardRef((props, ref) => {
                             variant="contained"
                             onClick={handleSaveQuickLaunch}
                         >
-                            {getMessage("saveAsQuickLaunch")}
+                            {t("saveAsQuickLaunch")}
                         </Button>
                     )}
                     <Button
@@ -153,7 +149,7 @@ const StepperBottomNavigation = React.forwardRef((props, ref) => {
                         variant="contained"
                         onClick={(event) => handleSubmit(event)}
                     >
-                        {getMessage("launchAnalysis")}
+                        {t("launchAnalysis")}
                     </Button>
                 </Container>
             );
@@ -174,7 +170,7 @@ const StepperBottomNavigation = React.forwardRef((props, ref) => {
                     size="small"
                     onClick={handleBack}
                 >
-                    {getMessage("back")}
+                    {t("back")}
                 </Button>
                 {showSaveQuickLaunchButton && (
                     <Button
@@ -187,7 +183,7 @@ const StepperBottomNavigation = React.forwardRef((props, ref) => {
                         size="small"
                         onClick={handleSaveQuickLaunch}
                     >
-                        {getMessage("saveAsQuickLaunch")}
+                        {t("saveAsQuickLaunch")}
                     </Button>
                 )}
                 {showSubmitButton ? (
@@ -198,7 +194,7 @@ const StepperBottomNavigation = React.forwardRef((props, ref) => {
                         size="small"
                         onClick={(event) => handleSubmit(event)}
                     >
-                        {getMessage("launchAnalysis")}
+                        {t("launchAnalysis")}
                     </Button>
                 ) : (
                     <Button
@@ -208,7 +204,7 @@ const StepperBottomNavigation = React.forwardRef((props, ref) => {
                         size="small"
                         onClick={handleNext}
                     >
-                        {getMessage("next")}
+                        {t("next")}
                     </Button>
                 )}
             </Toolbar>
@@ -232,7 +228,7 @@ const LaunchStepper = React.forwardRef((props, ref) => {
     const theme = useTheme();
     const classes = useStyles();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-
+    const { t } = useTranslation("launch");
     if (isMobile) {
         return (
             <MobileStepper
@@ -249,7 +245,7 @@ const LaunchStepper = React.forwardRef((props, ref) => {
                         id={buildDebugId(formId, ids.BUTTONS.STEP_NEXT)}
                         color="primary"
                     >
-                        {getMessage("next")}
+                        {t("next")}
                         {theme.direction === "rtl" ? (
                             <KeyboardArrowLeft />
                         ) : (
@@ -270,7 +266,7 @@ const LaunchStepper = React.forwardRef((props, ref) => {
                         ) : (
                             <KeyboardArrowLeft />
                         )}
-                        {getMessage("back")}
+                        {t("back")}
                     </Button>
                 }
             />
@@ -319,13 +315,8 @@ const LaunchStepper = React.forwardRef((props, ref) => {
  * @returns {string} - Formatted app name as a new analysis name,
  * replacing spaces with underscores `_`.
  */
-const formatAnalysisName = (intl, name) =>
-    name
-        ? formatMessage(intl, "newAnalysisName", { appName: name }).replace(
-              / /g,
-              "_"
-          )
-        : "";
+const formatAnalysisName = (t, name) =>
+    name ? t("newAnalysisName", { appName: name }).replace(/ /g, "_") : "";
 
 /**
  * Initializes the submission and form values from the given props.
@@ -348,12 +339,14 @@ const formatAnalysisName = (intl, name) =>
  *
  * @returns Initial form and submission values.
  */
-const initValues = ({
-    intl,
-    notify,
-    defaultOutputDir,
-    app: { id, system_id, name, requirements, groups },
-}) => {
+const initValues = (
+    t,
+    {
+        notify,
+        defaultOutputDir,
+        app: { id, system_id, name, requirements, groups },
+    }
+) => {
     const groupInitValues = groups?.map((group) => ({
         ...group,
         parameters: group.parameters?.map((param) => {
@@ -414,7 +407,7 @@ const initValues = ({
         debug: false,
         notify,
         output_dir: defaultOutputDir,
-        name: formatAnalysisName(intl, name),
+        name: formatAnalysisName(t, name),
         description: "",
         app_id: id,
         system_id,
@@ -548,6 +541,7 @@ const anyParamErrorAndTouched = (errors, touched, groups) =>
     );
 
 const AppLaunchForm = (props) => {
+    const { t } = useTranslation("launch");
     const [activeStep, setActiveStep] = React.useState(0);
 
     const [referenceGenomes, setReferenceGenomes] = React.useState([]);
@@ -578,7 +572,6 @@ const AppLaunchForm = (props) => {
         saveQuickLaunch,
         startingPath,
         submitAnalysis,
-        intl,
         appInfoHeight,
         app: { id: app_id, name: appName, app_type, groups, requirements },
     } = props;
@@ -648,19 +641,19 @@ const AppLaunchForm = (props) => {
     const hasAdvancedStep = requirements?.length > 0;
 
     const stepAnalysisInfo = {
-        label: formatMessage(intl, "analysisInfo"),
+        label: t("analysisInfo"),
         step: 0,
     };
     const stepParameters = {
-        label: formatMessage(intl, "parameters"),
+        label: t("parameters"),
         step: 1,
     };
     const stepAdvanced = {
-        label: formatMessage(intl, "advancedSettings"),
+        label: t("advancedSettings"),
         step: 2,
     };
     const stepReviewAndLaunch = {
-        label: formatMessage(intl, "reviewAndLaunch"),
+        label: t("reviewAndLaunch"),
         step: 3,
     };
 
@@ -717,7 +710,7 @@ const AppLaunchForm = (props) => {
         <>
             <Formik
                 enableReinitialize
-                initialValues={initValues(props)}
+                initialValues={initValues(t, props)}
                 validate={validate}
                 onSubmit={(values, { setSubmitting }) => {
                     submitAnalysis(
@@ -753,7 +746,7 @@ const AppLaunchForm = (props) => {
                                     ids.LAUNCH_ANALYSIS_GROUP
                                 )}
                                 step={stepAnalysisInfo.step}
-                                label={getMessage("analysisInfo")}
+                                label={t("analysisInfo")}
                                 hidden={activeStep !== stepAnalysisInfo.step}
                                 offsetHeight={appBarHeight}
                             >
@@ -766,7 +759,7 @@ const AppLaunchForm = (props) => {
                             <StepContent
                                 id={stepIdParams}
                                 step={stepParameters.step}
-                                label={getMessage("analysisParameters")}
+                                label={t("analysisParameters")}
                                 hidden={
                                     !hasParams ||
                                     activeStep !== stepParameters.step
@@ -776,7 +769,6 @@ const AppLaunchForm = (props) => {
                                 {values.groups?.map((group, index) => (
                                     <ParamGroupForm
                                         key={group.id}
-                                        intl={intl}
                                         index={index + 1}
                                         noOfGroups={groups.length}
                                         baseId={buildDebugId(
@@ -796,7 +788,7 @@ const AppLaunchForm = (props) => {
                             <StepContent
                                 id={stepIdResources}
                                 step={stepAdvanced.step}
-                                label={getMessage("advancedSettings")}
+                                label={t("advancedSettings")}
                                 hidden={
                                     !hasAdvancedStep ||
                                     activeStep !== stepAdvanced.step
@@ -821,8 +813,8 @@ const AppLaunchForm = (props) => {
                                 label={
                                     app_type ===
                                     GlobalConstants.APP_TYPE_EXTERNAL
-                                        ? getMessage("reviewAndLaunch")
-                                        : getMessage("launchOrSaveAsQL")
+                                        ? t("reviewAndLaunch")
+                                        : t("launchOrSaveAsQL")
                                 }
                                 hidden={activeStep !== stepReviewAndLaunch.step}
                                 offsetHeight={appBarHeight}
@@ -908,4 +900,4 @@ const AppLaunchForm = (props) => {
     );
 };
 
-export default withI18N(injectIntl(AppLaunchForm), messages);
+export default AppLaunchForm;

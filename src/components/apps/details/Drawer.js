@@ -6,20 +6,16 @@
  */
 
 import React, { useState } from "react";
+import { useTranslation } from "i18n";
 
 import ids from "../../apps/ids";
 import DETabPanel from "../../utils/DETabPanel";
-import messages from "../../apps/messages";
+
 import DetailsPanel from "./DetailsPanel";
 import constants from "../../../constants";
 
-import {
-    build,
-    formatMessage,
-    getMessage,
-    Rate,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { build, Rate } from "@cyverse-de/ui-lib";
+
 import {
     CircularProgress,
     Drawer,
@@ -32,7 +28,6 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import ToolsUsedPanel from "./ToolUsedPanel";
 import AppFavorite from "../AppFavorite";
-import { injectIntl } from "react-intl";
 import LinkIcon from "@material-ui/icons/Link";
 
 const TABS = {
@@ -85,10 +80,10 @@ function DetailsHeader({
     isPublic,
     isFavorite,
     onFavoriteClick,
-    intl,
     classes,
     baseId,
 }) {
+    const { t } = useTranslation("apps");
     return (
         <>
             <Typography variant="h6" component="span">
@@ -97,14 +92,13 @@ function DetailsHeader({
             {!isExternal && isPublic && (
                 <div className={classes.headerOperations}>
                     <AppFavorite
-                        intl={intl}
                         baseId={baseId}
                         isFavorite={isFavorite}
                         isExternal={isExternal}
                         onFavoriteClick={onFavoriteClick}
                     />
                     {/*TODO: Sriram - implement app link*/}
-                    <Tooltip title={formatMessage(intl, "linkToThisApp")}>
+                    <Tooltip title={t("linkToThisApp")}>
                         <IconButton size="small">
                             <LinkIcon color="primary" />
                         </IconButton>
@@ -156,7 +150,9 @@ function DetailsDrawer(props) {
         favMutationError,
         ratingMutationError,
     } = props;
+
     const [selectedTab, setSelectedTab] = useState(TABS.appInfo);
+    const { t } = useTranslation("apps");
 
     const onTabSelectionChange = (event, selectedTab) => {
         setSelectedTab(selectedTab);
@@ -220,14 +216,14 @@ function DetailsDrawer(props) {
             >
                 <Tab
                     value={TABS.appInfo}
-                    label={getMessage("details")}
+                    label={t("details")}
                     id={detailsTabId}
                     classes={{ selected: classes.tabSelected }}
                     aria-controls={build(detailsTabId, ids.PANEL)}
                 />
                 <Tab
                     value={TABS.toolInfo}
-                    label={getMessage("toolsUsedByApp")}
+                    label={t("toolsUsedByApp")}
                     id={toolInfoTabId}
                     classes={{ selected: classes.tabSelected }}
                     aria-controls={build(toolInfoTabId, ids.PANEL)}
@@ -269,4 +265,4 @@ function DetailsDrawer(props) {
     );
 }
 
-export default withI18N(injectIntl(DetailsDrawer), messages);
+export default DetailsDrawer;

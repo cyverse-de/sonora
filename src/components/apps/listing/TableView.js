@@ -6,16 +6,13 @@
  */
 
 import React from "react";
-
+import { useTranslation } from "i18n";
 import {
     build,
     DECheckbox,
     EmptyTable,
     EnhancedTableHead,
-    formatMessage,
-    getMessage,
     Rate,
-    withI18N,
 } from "@cyverse-de/ui-lib";
 import {
     Paper,
@@ -27,13 +24,13 @@ import {
 } from "@material-ui/core";
 
 import ids from "../ids";
-import TableLoading from "../../utils/TableLoading";
+
 import AppStatusIcon from "../AppStatusIcon";
 import AppName from "../AppName";
 import AppFields from "../AppFields";
-import { injectIntl } from "react-intl";
-import messages from "../messages";
-import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
+
+import TableLoading from "components/utils/TableLoading";
+import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 
 function getTableColumns(deletable, enableMenu) {
     let tableColumns = [
@@ -105,9 +102,8 @@ function TableView(props) {
         order,
         orderBy,
         selected,
-        intl,
     } = props;
-
+    const { t } = useTranslation("apps");
     const apps = listing?.apps;
     const columnData = getTableColumns(false, false);
     const tableId = build(baseId, ids.LISTING_TABLE);
@@ -121,7 +117,7 @@ function TableView(props) {
             <Table
                 stickyHeader={true}
                 size="small"
-                aria-label={formatMessage(intl, "ariaTableListing")}
+                aria-label={t("ariaTableListing")}
                 id={tableId}
             >
                 <EnhancedTableHead
@@ -146,7 +142,7 @@ function TableView(props) {
                     <TableBody>
                         {(!apps || apps.length === 0) && !error && (
                             <EmptyTable
-                                message={getMessage("noApps")}
+                                message={t("noApps")}
                                 numColumns={columnData.length}
                             />
                         )}
@@ -182,8 +178,7 @@ function TableView(props) {
                                                 tabIndex={0}
                                                 id={build(rowId, ids.checkbox)}
                                                 inputProps={{
-                                                    "aria-label": formatMessage(
-                                                        intl,
+                                                    "aria-label": t(
                                                         "ariaCheckbox",
                                                         {
                                                             label: appName,
@@ -256,4 +251,4 @@ function TableView(props) {
         </TableContainer>
     );
 }
-export default withI18N(injectIntl(TableView), messages);
+export default TableView;

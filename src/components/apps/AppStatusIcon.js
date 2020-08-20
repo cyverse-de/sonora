@@ -1,11 +1,10 @@
 import React from "react";
+import { useTranslation } from "i18n";
 import PropTypes from "prop-types";
-import messages from "./messages";
 
 import Disabled from "@material-ui/icons/Block";
 import Lock from "@material-ui/icons/Lock";
 import ToolTip from "@material-ui/core/Tooltip";
-import { getMessage, withI18N } from "@cyverse-de/ui-lib";
 
 /**
  * @author aramsey
@@ -36,27 +35,30 @@ AppStatusIcon.propTypes = {
 };
 
 function PrivateIcon(props) {
+    const { t } = useTranslation("apps");
     return (
-        <ToolTip title={getMessage("privateAppTooltip")}>
+        <ToolTip title={t("privateAppTooltip")}>
             <Lock {...props} />
         </ToolTip>
     );
 }
 
 function DisabledIcon(props) {
+    const { t } = useTranslation("apps");
     return (
-        <ToolTip title={getMessage("disabledAppTooltip")}>
+        <ToolTip title={t("disabledAppTooltip")}>
             <Disabled {...props} />
         </ToolTip>
     );
 }
 
 function BetaIcon(props) {
+    const { t } = useTranslation("apps");
     return (
-        <ToolTip title={getMessage("betaAppTooltip")}>
+        <ToolTip title={t("betaAppTooltip")}>
             <img src="/betaSymbol.svg" alt="/betaSymbol.png" />
         </ToolTip>
     );
 }
 
-export default withI18N(AppStatusIcon, messages);
+export default AppStatusIcon;

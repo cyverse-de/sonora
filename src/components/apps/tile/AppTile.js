@@ -5,18 +5,17 @@
 
 import React from "react";
 import classnames from "classnames";
-import { injectIntl } from "react-intl";
+
 import md5 from "md5";
 import PropTypes from "prop-types";
 
 import AppStatusIcon from "../AppStatusIcon";
-import intlData from "../messages";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core";
 import AppName from "../AppName";
 import AppMenu from "../AppMenu";
 import ids from "../ids";
-import { Highlighter, build, withI18N, Rate } from "@cyverse-de/ui-lib";
+import { Highlighter, build, Rate } from "@cyverse-de/ui-lib";
 
 const styles = (theme) => ({
     card: {
@@ -101,7 +100,6 @@ function AppTile(props) {
         isExternal,
         isFavorite,
         onRatingChange,
-        intl,
         selected,
         onDeleteRatingClick,
         onAppNameClick,
@@ -158,7 +156,6 @@ function AppTile(props) {
             <div>
                 <AppName
                     baseDebugId={build(tileId, ids.APP_NAME)}
-                    intl={intl}
                     name={name}
                     isDisabled={isDisabled}
                     classes={classes}
@@ -233,4 +230,4 @@ AppTile.propTypes = {
     ]),
 };
 
-export default withStyles(styles)(withI18N(injectIntl(AppTile), intlData));
+export default withStyles(styles)(AppTile);

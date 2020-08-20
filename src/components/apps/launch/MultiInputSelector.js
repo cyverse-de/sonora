@@ -6,21 +6,17 @@
 import React from "react";
 
 import { FieldArray, getIn } from "formik";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "i18n";
 
 import constants from "./constants";
 import ids from "./ids";
-import messages from "./messages";
 
 import { BrowseButton } from "./InputSelector";
 
 import {
     build as buildDebugId,
     getFormError,
-    getMessage,
-    formatMessage,
     stableSort,
-    withI18N,
     EmptyTable,
     EnhancedTableHead,
 } from "@cyverse-de/ui-lib";
@@ -43,11 +39,11 @@ import {
 
 import ClearIcon from "@material-ui/icons/Clear";
 
-const multiInputColumnData = (intl) => [
+const multiInputColumnData = (t) => [
     {
         key: "name",
         id: constants.PARAM_TYPE.MULTIFILE_SELECTOR,
-        name: formatMessage(intl, "name"),
+        name: t("name"),
         numeric: false,
         enableSorting: true,
     },
@@ -77,7 +73,6 @@ const getSortedPaths = (order, paths) => {
  */
 const MultiInputSelector = (props) => {
     const {
-        intl,
         id,
         label,
         helperText,
@@ -87,8 +82,8 @@ const MultiInputSelector = (props) => {
         field: { name },
         form: { values, touched, errors, setFieldValue },
     } = props;
-
-    const columnData = multiInputColumnData(intl);
+    const { t } = useTranslation("launch");
+    const columnData = multiInputColumnData(t);
     const nameColumn = columnData[0];
 
     const [order, setOrder] = React.useState("asc");
@@ -168,9 +163,7 @@ const MultiInputSelector = (props) => {
                                 <TableBody>
                                     {!paths?.length ? (
                                         <EmptyTable
-                                            message={getMessage(
-                                                "multiInputEmptyLabel"
-                                            )}
+                                            message={t("multiInputEmptyLabel")}
                                             numColumns={3}
                                         />
                                     ) : (
@@ -206,23 +199,26 @@ const MultiInputSelector = (props) => {
     );
 };
 
-const MultiInputRow = injectIntl(({ intl, id, path, onRowDeleted }) => (
-    <TableRow id={id} hover>
-        <TableCell>
-            <Tooltip title={path}>
-                <Typography>{getPathBaseName(path)}</Typography>
-            </Tooltip>
-        </TableCell>
-        <TableCell align="right">
-            <IconButton
-                id={buildDebugId(id, ids.BUTTONS.DELETE)}
-                aria-label={formatMessage(intl, "delete")}
-                onClick={onRowDeleted}
-            >
-                <ClearIcon />
-            </IconButton>
-        </TableCell>
-    </TableRow>
-));
+const MultiInputRow = ({ intl, id, path, onRowDeleted }) => {
+    const { t } = useTranslation("launch");
+    return (
+        <TableRow id={id} hover>
+            <TableCell>
+                <Tooltip title={path}>
+                    <Typography>{getPathBaseName(path)}</Typography>
+                </Tooltip>
+            </TableCell>
+            <TableCell align="right">
+                <IconButton
+                    id={buildDebugId(id, ids.BUTTONS.DELETE)}
+                    aria-label={t("delete")}
+                    onClick={onRowDeleted}
+                >
+                    <ClearIcon />
+                </IconButton>
+            </TableCell>
+        </TableRow>
+    );
+};
 
-export default injectIntl(withI18N(MultiInputSelector, messages));
+export default MultiInputSelector;

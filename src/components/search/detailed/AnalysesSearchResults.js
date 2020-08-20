@@ -24,21 +24,6 @@ import NavigationConstants from "common/NavigationConstants";
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
 import analysisFields from "components/analyses/analysisFields";
 import { Typography } from "@material-ui/core";
-import { Info } from "@material-ui/icons";
-import Actions from "components/analyses/listing/Actions";
-import { openInteractiveUrl } from "components/analyses/utils";
-import { useUserProfile } from "contexts/userProfile";
-
-function Name(props) {
-    const { analysis, searchTerm } = props;
-    const href = `/${NavigationConstants.ANALYSES}/[analysisId]`;
-    const as = `/${NavigationConstants.ANALYSES}/${analysis?.id}`;
-    return (
-        <Link href={href} as={as} passHref>
-            <NameLink name={analysis.name} searchTerm={searchTerm} />
-        </Link>
-    );
-}
 
 import DetailsDrawer from "components/analyses/details/Drawer";
 import Actions from "components/analyses/listing/Actions";
@@ -76,7 +61,8 @@ export default function AnalysesSearchResults(props) {
 
     const [order, setOrder] = useState(constants.SORT_DESCENDING);
     const [orderBy, setOrderBy] = useState(analysisRecordFields.START_DATE.key);
-    const [selectedAnalysis, setSelectedAnalysis] = useState(null);
+    const [selectedAnalysis, setSelectedAnalysis] = useState("");
+
     const {
         status,
         data,

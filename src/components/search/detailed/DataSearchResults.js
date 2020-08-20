@@ -32,7 +32,7 @@ import ResourceTypes from "components/models/ResourceTypes";
 import DetailsDrawer from "components/data/details/Drawer";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
-import { Typography } from "@material-ui/core";
+import { IconButton, Typography } from "@material-ui/core";
 import { Info } from "@material-ui/icons";
 
 function Name(props) {
@@ -171,12 +171,13 @@ function DataSearchResults(props) {
                 Cell: ({ row }) => {
                     const original = row?.original;
                     return (
-                        <Info
+                        <IconButton
                             onClick={() => setDetailsResource(original)}
                             fontSize="small"
                             color="primary"
-                            style={{cursor: "pointer"}}
-                        />
+                            >
+                            <Info fontSize="small"/>
+                        </IconButton>
                     );
                 },
                 disableSortBy: true,

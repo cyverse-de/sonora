@@ -153,8 +153,6 @@ function TableView(props) {
         handleSelectAllClick,
         handleClick,
         handleInteractiveUrlClick,
-        handleGoToOutputFolder,
-        handleRelaunch,
         handleBatchIconClick,
     } = props;
 

@@ -54,7 +54,7 @@ const RelaunchButton = React.forwardRef((props, ref) => {
             onClick={onClick}
             ref={ref}
         >
-            <RelaunchIcon />
+            <RelaunchIcon fontSize="small" />
         </IconButton>
     );
 });
@@ -70,7 +70,7 @@ const GotoOutputFolderButton = React.forwardRef((props, ref) => {
             onClick={onClick}
             ref={ref}
         >
-            <OutputFolderIcon />
+            <OutputFolderIcon fontSize="small" />
         </IconButton>
     );
 });
@@ -122,7 +122,7 @@ export default function Actions(props) {
                         id={build(baseId, ids.ICONS.BATCH, ids.BUTTON)}
                         className={className}
                     >
-                        <UnfoldMoreIcon />
+                        <UnfoldMoreIcon fontSize="small"/>
                     </IconButton>
                 </Tooltip>
             )}
@@ -151,7 +151,7 @@ export default function Actions(props) {
                         id={build(baseId, ids.ICONS.INTERACTIVE, ids.BUTTON)}
                         className={className}
                     >
-                        <LaunchIcon />
+                        <LaunchIcon fontSize="small"/>
                     </IconButton>
                 </Tooltip>
             )}
@@ -166,7 +166,7 @@ export default function Actions(props) {
                         size="small"
                         className={className}
                     >
-                        <HourGlass />
+                        <HourGlass fontSize="small" />
                     </IconButton>
                 </Tooltip>
             )}

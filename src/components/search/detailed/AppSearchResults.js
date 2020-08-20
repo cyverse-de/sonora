@@ -22,7 +22,7 @@ import { APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
 import appFields from "components/apps/appFields";
 import NavigationConstants from "common/NavigationConstants";
 
-import { Typography } from "@material-ui/core";
+import { IconButton, Typography } from "@material-ui/core";
 import { Info } from "@material-ui/icons";
 
 function Name(props) {
@@ -119,12 +119,13 @@ export default function AppSearchResults(props) {
                 Cell: ({ row }) => {
                     const original = row?.original;
                     return (
-                        <Info
+                        <IconButton
                             onClick={() => setDetailsResource(original)}
                             fontSize="small"
                             color="primary"
-                            style={{cursor: "pointer"}}
-                        />
+                        >
+                            <Info fontSize="small"/>
+                        </IconButton>
                     );
                 },
                 disableSortBy: true,
@@ -156,24 +157,24 @@ export default function AppSearchResults(props) {
 
     return (
         <>
-        <SearchResultsTable
-            columns={columns}
-            data={flatdata}
-            baseId={baseId}
-            loading={status === constants.LOADING}
-            fetchMore={fetchMore}
-            isFetchingMore={isFetchingMore}
-            canFetchMore={canFetchMore}
-            initialSortBy={[
-                { id: orderBy, desc: order === constants.SORT_DESCENDING },
-            ]}
-            onSort={(colId, descending) => {
-                setOrderBy(colId);
-                descending
-                    ? setOrder(constants.SORT_DESCENDING)
-                    : setOrder(constants.SORT_ASCENDING);
-            }}
-        />
+            <SearchResultsTable
+                columns={columns}
+                data={flatdata}
+                baseId={baseId}
+                loading={status === constants.LOADING}
+                fetchMore={fetchMore}
+                isFetchingMore={isFetchingMore}
+                canFetchMore={canFetchMore}
+                initialSortBy={[
+                    { id: orderBy, desc: order === constants.SORT_DESCENDING },
+                ]}
+                onSort={(colId, descending) => {
+                    setOrderBy(colId);
+                    descending
+                        ? setOrder(constants.SORT_DESCENDING)
+                        : setOrder(constants.SORT_ASCENDING);
+                }}
+            />
         </>
     );
 }

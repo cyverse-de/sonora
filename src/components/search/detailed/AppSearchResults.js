@@ -124,7 +124,7 @@ export default function AppSearchResults(props) {
                             fontSize="small"
                             color="primary"
                         >
-                            <Info fontSize="small"/>
+                            <Info fontSize="small" />
                         </IconButton>
                     );
                 },

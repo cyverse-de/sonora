@@ -150,30 +150,31 @@ const getListingPath = (
 
 /**
  * Open a new tab / window with VICE access url is clicked
- * @param {*} url 
- */    
+ * @param {*} url
+ */
+
 const openInteractiveUrl = (url) => {
     window.open(url, "_blank");
 };
 
 /**
  * A custom hook to get `href` and `as` for using with analysis relaunch next/link
- * 
+ *
  * @param {object} analysis - selected analysis for relaunch
- * 
+ *
  * @return {array} href and as to be used in next/link
  */
 const useRelaunchLink = (analysis) => {
     const href = `/${NavigationConstants.ANALYSES}/[analysisId]/relaunch`;
     const as = `/${NavigationConstants.ANALYSES}/${analysis?.id}/relaunch`;
     return [href, as];
-}
+};
 
 const useGotoOutputFolderLink = (analysis) => {
     const href = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}`;
     const as = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${analysis.resultfolderid}`;
     return [href, as];
-}
+};
 
 export {
     getAnalysisUser,
@@ -188,5 +189,5 @@ export {
     getListingPath,
     openInteractiveUrl,
     useRelaunchLink,
-    useGotoOutputFolderLink
+    useGotoOutputFolderLink,
 };

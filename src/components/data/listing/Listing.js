@@ -36,7 +36,7 @@ import {
     getInfoTypes,
     getPagedListing,
     DATA_LISTING_QUERY_KEY,
-    INFO_TYPES_QUERY_KEY
+    INFO_TYPES_QUERY_KEY,
 } from "../../../serviceFacades/filesystem";
 
 import withErrorAnnouncer from "../../utils/error/withErrorAnnouncer";

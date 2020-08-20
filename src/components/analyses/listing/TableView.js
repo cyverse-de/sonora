@@ -4,7 +4,7 @@
  * A tabular view of analyses
  *
  */
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "i18n";
 
 import Actions from "./Actions";

@@ -25,13 +25,7 @@ const TABS = {
 const useStyles = makeStyles(styles);
 
 function DetailsDrawer(props) {
-    const {
-        resource,
-        open,
-        onClose,
-        baseId,
-        infoTypes,
-    } = props;
+    const { resource, open, onClose, baseId, infoTypes } = props;
     const classes = useStyles();
 
     const [selectedTab, setSelectedTab] = useState(TABS.details);

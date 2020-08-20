@@ -1,7 +1,7 @@
 import React from "react";
 import { Highlighter } from "@cyverse-de/ui-lib";
 import { Link as MuiLink, makeStyles } from "@material-ui/core";
-const useStyles =  makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
     link: {
         cursor: "pointer",
         "&:hover": {
@@ -9,7 +9,6 @@ const useStyles =  makeStyles((theme) => ({
             color: theme.palette.primary.main,
         },
     },
-
 }));
 const NameLink = React.forwardRef((props, ref) => {
     const { name, searchTerm, onClick, href } = props;

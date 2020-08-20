@@ -175,8 +175,8 @@ function DataSearchResults(props) {
                             onClick={() => setDetailsResource(original)}
                             size="small"
                             color="primary"
-                            >
-                            <Info fontSize="small"/>
+                        >
+                            <Info fontSize="small" />
                         </IconButton>
                     );
                 },

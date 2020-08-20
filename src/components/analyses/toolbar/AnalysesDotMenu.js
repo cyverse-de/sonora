@@ -77,7 +77,7 @@ const OutputFolderMenuItem = React.forwardRef((props, ref) => {
             ref={ref}
         >
             <ListItemIcon>
-                <RelaunchIcon fontSize="small" />
+                <OutputFolderIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText primary={t("goOutputFolder")} />
         </MenuItem>

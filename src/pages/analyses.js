@@ -11,9 +11,7 @@ import { useTranslation } from "i18n";
 
 import constants from "../constants";
 
-import {
-    getListingPath,
-} from "components/analyses/utils";
+import { getListingPath } from "components/analyses/utils";
 import analysisFields from "components/analyses/analysisFields";
 import Listing from "components/analyses/listing/Listing";
 

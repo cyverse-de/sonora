@@ -70,7 +70,7 @@ const GotoOutputFolderButton = React.forwardRef((props, ref) => {
 export default function Actions(props) {
     const { t } = useTranslation("analyses");
     const { analysis, allowBatchDrillDown = true } = props;
-  
+
     const interactiveUrls = analysis.interactive_urls;
 
     const handleDetailsClick = props.handleDetailsClick;
@@ -84,10 +84,10 @@ export default function Actions(props) {
     const isVICE = isInteractive(analysis);
     const allowTimeExtn = allowAnalysisTimeExtn(analysis, username);
     const [href, as] = useRelaunchLink(analysis);
-    const [resultHref, resultAs] = useGotoOutputFolderLink(analysis);
+    const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(analysis);
     return (
         <>
-            <Link href={resultHref} as={resultAs} passHref>
+            <Link href={outputFolderHref} as={outputFolderAs} passHref>
                 <GotoOutputFolderButton baseId={baseId} />
             </Link>
             {allowBatchDrillDown && isBatch && (
@@ -129,7 +129,7 @@ export default function Actions(props) {
                     <HourGlass fontSize="small" />
                 </IconButton>
             )}
-             <IconButton
+            <IconButton
                 onClick={() => handleDetailsClick(analysis)}
                 size="small"
                 color="primary"

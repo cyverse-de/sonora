@@ -22,7 +22,7 @@ import {
     updateAnalysisComment,
 } from "serviceFacades/analyses";
 
-import {openInteractiveUrl} from "../utils";
+import { openInteractiveUrl } from "../utils";
 
 import constants from "../../../constants";
 import ConfirmationDialog from "../../utils/ConfirmationDialog";
@@ -423,6 +423,11 @@ function Listing(props) {
         }
     };
 
+    const handleCheckboxClick = (event, id, index) => {
+        toggleSelection(id);
+        setLastSelectIndex(index);
+    };
+
     const rangeSelect = (start, end, targetId) => {
         // when a user first click on a row with shift key pressed,
         // start is -1 (which is lastSelectIndex) and
@@ -443,7 +448,7 @@ function Listing(props) {
                 ? rangeSelect(index, lastSelectIndex, id)
                 : rangeSelect(lastSelectIndex, index, id);
         } else {
-            toggleSelection(id);
+            setSelected([id]);
         }
 
         setLastSelectIndex(index);
@@ -586,11 +591,13 @@ function Listing(props) {
                 username={userProfile?.id}
                 handleSelectAllClick={handleSelectAllClick}
                 handleClick={handleClick}
+                handleCheckboxClick={handleCheckboxClick}
                 handleRequestSort={handleRequestSort}
                 handleInteractiveUrlClick={openInteractiveUrl}
                 handleGoToOutputFolder={handleGoToOutputFolder}
                 handleRelaunch={handleRelaunch}
                 handleBatchIconClick={handleBatchIconClick}
+                handleDetailsClick={onDetailsSelected}
             />
 
             <ConfirmationDialog

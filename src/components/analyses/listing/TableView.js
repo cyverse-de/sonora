@@ -14,9 +14,7 @@ import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import TableLoading from "components/utils/TableLoading";
 import analysisFields from "../analysisFields";
 
-import {
-    getAnalysisUser,
-} from "../utils";
+import { getAnalysisUser } from "../utils";
 
 import {
     build,
@@ -154,6 +152,8 @@ function TableView(props) {
         handleClick,
         handleInteractiveUrlClick,
         handleBatchIconClick,
+        handleDetailsClick,
+        handleCheckboxClick,
     } = props;
 
     const theme = useTheme();
@@ -168,7 +168,6 @@ function TableView(props) {
 
     const analyses = listing?.analyses;
     const tableId = build(baseId, ids.LISTING_TABLE);
-    const [mouseOverId, setMouseOverId] = useState("");
 
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
@@ -220,14 +219,6 @@ function TableView(props) {
                                         onClick={(event) =>
                                             handleClick(event, id, index)
                                         }
-                                        onMouseOver={() => {
-                                            setMouseOverId(id);
-                                        }}
-                                        onMouseOut={() => {
-                                            setMouseOverId("");
-                                        }}
-                                        onFocus={() => setMouseOverId(id)}
-                                        onBlur={() => setMouseOverId("")}
                                         role="checkbox"
                                         aria-checked={isSelected}
                                         tabIndex={-1}
@@ -241,6 +232,13 @@ function TableView(props) {
                                                 id={build(rowId, ids.CHECKBOX)}
                                                 checked={isSelected}
                                                 tabIndex={0}
+                                                onChange={(event) =>
+                                                    handleCheckboxClick(
+                                                        event,
+                                                        id,
+                                                        index
+                                                    )
+                                                }
                                                 inputProps={{
                                                     "aria-label": t(
                                                         "ariaCheckbox",
@@ -309,7 +307,13 @@ function TableView(props) {
                                                     handleBatchIconClick={
                                                         handleBatchIconClick
                                                     }
-                                                    mouseOverId={mouseOverId}
+                                                    handleDetailsClick={(
+                                                        analysis
+                                                    ) =>
+                                                        handleDetailsClick(
+                                                            analysis
+                                                        )
+                                                    }
                                                 />
                                             </TableCell>
                                         )}

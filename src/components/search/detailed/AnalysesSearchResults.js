@@ -24,7 +24,8 @@ import NavigationConstants from "common/NavigationConstants";
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
 import analysisFields from "components/analyses/analysisFields";
 import { Typography } from "@material-ui/core";
-import { Info } from "@material-ui/icons";
+
+import DetailsDrawer from "components/analyses/details/Drawer";
 import Actions from "components/analyses/listing/Actions";
 import { openInteractiveUrl } from "components/analyses/utils";
 import { useUserProfile } from "contexts/userProfile";
@@ -58,7 +59,8 @@ export default function AnalysesSearchResults(props) {
 
     const [order, setOrder] = useState(constants.SORT_DESCENDING);
     const [orderBy, setOrderBy] = useState(analysisRecordFields.START_DATE.key);
-    const [selectedAnalysis, setSelectedAnalysis] = useState(null);
+    const [selectedAnalysis, setSelectedAnalysis] = useState("");
+
     const {
         status,
         data,
@@ -136,6 +138,9 @@ export default function AnalysesSearchResults(props) {
                         baseId={baseId}
                         allowBatchDrillDown={false}
                         handleInteractiveUrlClick={openInteractiveUrl}
+                        handleDetailsClick={(analysis) =>
+                            setSelectedAnalysis(analysis)
+                        }
                     />
                 ),
                 disableSortBy: true,
@@ -151,7 +156,7 @@ export default function AnalysesSearchResults(props) {
             analysisRecordFields.STATUS.key,
             baseId,
             searchTerm,
-            userProfile.id,
+            userProfile,
         ]
     );
 
@@ -173,26 +178,35 @@ export default function AnalysesSearchResults(props) {
     }
 
     return (
-        <SearchResultsTable
-            columns={columns}
-            data={flatData}
-            baseId={baseId}
-            loading={status === constants.LOADING}
-            fetchMore={fetchMore}
-            isFetchingMore={isFetchingMore}
-            canFetchMore={canFetchMore}
-            initialSortBy={[
-                {
-                    id: analysisRecordFields.START_DATE.key,
-                    desc: order === constants.SORT_DESCENDING,
-                },
-            ]}
-            onSort={(colId, descending) => {
-                setOrderBy(colId);
-                descending
-                    ? setOrder(constants.SORT_DESCENDING)
-                    : setOrder(constants.SORT_ASCENDING);
-            }}
-        />
+        <>
+            <SearchResultsTable
+                columns={columns}
+                data={flatData}
+                baseId={baseId}
+                loading={status === constants.LOADING}
+                fetchMore={fetchMore}
+                isFetchingMore={isFetchingMore}
+                canFetchMore={canFetchMore}
+                initialSortBy={[
+                    {
+                        id: analysisRecordFields.START_DATE.key,
+                        desc: order === constants.SORT_DESCENDING,
+                    },
+                ]}
+                onSort={(colId, descending) => {
+                    setOrderBy(colId);
+                    descending
+                        ? setOrder(constants.SORT_DESCENDING)
+                        : setOrder(constants.SORT_ASCENDING);
+                }}
+            />
+            {selectedAnalysis && (
+                <DetailsDrawer
+                    baseId={baseId}
+                    open={selectedAnalysis !== null}
+                    onClose={setSelectedAnalysis(null)}
+                />
+            )}
+        </>
     );
 }

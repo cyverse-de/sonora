@@ -68,7 +68,6 @@ function Listing(props) {
     const {
         baseId,
         onRouteToListing,
-        handleGoToOutputFolder,
         handleSingleRelaunch,
         selectedIdFilter,
         selectedPage,
@@ -568,7 +567,6 @@ function Listing(props) {
                 onDetailsSelected={onDetailsSelected}
                 handleComments={handleComments}
                 handleInteractiveUrlClick={openInteractiveUrl}
-                handleGoToOutputFolder={handleGoToOutputFolder}
                 handleCancel={handleCancel}
                 handleDelete={handleDelete}
                 handleRelaunch={handleRelaunch}
@@ -594,7 +592,6 @@ function Listing(props) {
                 handleCheckboxClick={handleCheckboxClick}
                 handleRequestSort={handleRequestSort}
                 handleInteractiveUrlClick={openInteractiveUrl}
-                handleGoToOutputFolder={handleGoToOutputFolder}
                 handleRelaunch={handleRelaunch}
                 handleBatchIconClick={handleBatchIconClick}
                 handleDetailsClick={onDetailsSelected}

@@ -12,10 +12,8 @@ import { useTranslation } from "i18n";
 import constants from "../constants";
 
 import {
-    getAnalysisRelaunchPage,
     getListingPath,
 } from "components/analyses/utils";
-import { getFolderPage } from "components/data/utils";
 import analysisFields from "components/analyses/analysisFields";
 import Listing from "components/analyses/listing/Listing";
 
@@ -64,16 +62,6 @@ export default function Analyses() {
             selectedOrderBy={selectedOrderBy}
             selectedPermFilter={selectedPermFilter}
             selectedTypeFilter={selectedTypeFilter}
-            handleGoToOutputFolder={(analysis) => {
-                if (analysis?.resultfolderid) {
-                    router.push(getFolderPage(analysis.resultfolderid));
-                }
-            }}
-            handleSingleRelaunch={(analysis) => {
-                if (analysis?.id) {
-                    router.push(getAnalysisRelaunchPage(analysis.id));
-                }
-            }}
         />
     );
 }

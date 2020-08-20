@@ -173,7 +173,7 @@ function DataSearchResults(props) {
                     return (
                         <IconButton
                             onClick={() => setDetailsResource(original)}
-                            fontSize="small"
+                            size="small"
                             color="primary"
                             >
                             <Info fontSize="small"/>

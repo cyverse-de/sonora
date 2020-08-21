@@ -5,6 +5,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
+import {Trans} from 'react-i18next';
 
 import styles from "./styles";
 
@@ -51,18 +52,48 @@ const LoadingErrorDisplay = ({ baseId, loadingError }) => {
         </>
     );
 };
+const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
+    let message = "";
+    const {t} = useTranslation("launch");
+    if (app?.deleted) {
+        message = (
+            <Trans i18nKey="appDeprecated">
+                This application has been deprecated. If you need access to it,
+                please{" "}
+                <Link
+                    id={buildDebugId(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
+                    component="button"
+                    onClick={intercomShow}
+                >
+                    contact support.
+                </Link>
+            </Trans>
+        );
+    } else if (app?.disabled) {
+        message = t("appUnavailable");
+    } else if (hasDeprecatedParams) {
+        message = (
+            <Trans i18nKey="appParamsDeprecated">
+               This application uses 1 or more parameters that have been deprecated. If you still need access to this application, please {" "}
+                <Link
+                    id={buildDebugId(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
+                    component="button"
+                    onClick={intercomShow}
+                >
+                    contact support.
+                </Link>
+            </Trans>
+        );
+    }
 
+    return (
+        <Typography color="error" variant="body1" gutterBottom component="span">
+            {message}
+        </Typography>
+    );
+};
 const AppInfo = React.forwardRef((props, ref) => {
     const { app, baseId, hasDeprecatedParams, loading, loadingError } = props;
-    const unavailableMsgKey = app?.deleted
-        ? "appDeprecated"
-        : app?.disabled
-        ? "appUnavailable"
-        : hasDeprecatedParams
-        ? "appParamsDeprecated"
-        : null;
-    const { t } = useTranslation("launch");
-    const {t: i18Common} = useTranslation("common");
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -95,21 +126,7 @@ const AppInfo = React.forwardRef((props, ref) => {
             </Hidden>
             <Box m={2}>
                 {(app?.deleted || app?.disabled || hasDeprecatedParams) && (
-                    <>
-                    <Typography color="error" variant="body1" gutterBottom component="span">
-                        {t(unavailableMsgKey)}
-                    </Typography>
-                    <Link
-                            id={buildDebugId(
-                                baseId,
-                                ids.BUTTONS.CONTACT_SUPPORT
-                            )}
-                            component="button"
-                            onClick={intercomShow}
-                        >
-                            {i18Common("contactSupport")}.
-                        </Link>
-                    </>
+                   <UnavailableMsg app={app} hasDeprecatedParams={hasDeprecatedParams} baseId={baseId}/>
                 )}
             </Box>
         </div>

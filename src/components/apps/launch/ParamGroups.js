@@ -5,6 +5,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
+import { Trans } from "react-i18next";
 import sanitizeHtml from "sanitize-html";
 import { FastField, Field, getIn } from "formik";
 
@@ -368,47 +369,54 @@ const ParamsReviewValue = ({ param }) => {
     return value;
 };
 
-const HPCWaitTimesMessage = ({ baseId, t }) =>
-    t("hpcAppWaitTimes",
-        {
-            p: (...chunks) => <Typography variant="body1">{chunks}</Typography>,
-            support: (...chunks) => (
-                <Link
-                    key="support"
-                    id={buildDebugId(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
-                    component="button"
-                    variant="body1"
-                    onClick={(event) => {
-                        // prevent form submission
-                        event.preventDefault();
-                        intercomShow();
-                    }}
-                >
-                    {chunks}
-                </Link>
-            ),
-            hpc: (...chunks) => (
-                <Link
-                    key="hpc"
-                    href={GlobalConstants.HPC_WIKI_LINK}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    {chunks}
-                </Link>
-            ),
-            xsede: (...chunks) => (
-                <Link
-                    key="xsede"
-                    href={constants.XSEDE_ALLOC_LINK}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    {chunks}
-                </Link>
-            ),
-        },
-    );
+const HPCWaitTimesMessage = ({ baseId }) => (
+    <Trans i18nKey="hpcAppWaitTimes">
+        <p>
+            This application runs on XSEDE, the U.S. National Supercomputing
+            Network. Analyses run on this system enter a queue that includes
+            many non-CyVerse users. Wait times for your analyses (jobs) to
+            submit and run may be up to several days for large-memory
+            applications. Please do not resubmit your analysis. If the status of
+            your analysis has not changed from Submitted to Running after
+            several days,{" "}
+            <Link
+                id={buildDebugId(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
+                component="button"
+                onClick={(event) => {
+                    // prevent form submission
+                    event.preventDefault();
+                    intercomShow();
+                }}
+            >
+                contact support
+            </Link>
+            . To learn more about HPC apps, see{" "}
+            <Link
+                key="hpc"
+                href={GlobalConstants.HPC_WIKI_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Using HPC Apps in the DE
+            </Link>
+            .
+        </p>
+        <p>
+            Apply for your own XSEDE allocation to gain access to additional
+            resources at{" "}
+            <Link
+                key="xsede"
+                href={constants.XSEDE_ALLOC_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                XRAS - Submit Allocation Request
+            </Link>
+            . Access to this powerful system is made available to CyVerse users
+            at no cost through a grant from the National Science Foundation.
+        </p>
+    </Trans>
+);
 
 const ShowAllParameters = ({ baseId, checked, onChange }) => {
     const switchId = buildDebugId(baseId, ids.BUTTONS.SHOW_ALL_PARAMETERS);
@@ -449,11 +457,10 @@ const ParamsReview = ({
     showAll,
     setShowAll,
 }) => {
-    const { t } = useTranslation("launch");
     return (
         <>
             {appType === GlobalConstants.APP_TYPE_EXTERNAL && (
-                <HPCWaitTimesMessage baseId={baseId} t={t} />
+                <HPCWaitTimesMessage baseId={baseId} />
             )}
 
             <ShowAllParameters

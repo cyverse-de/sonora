@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "i18n";
 import AnimatedNumber from "animated-number-react";
 
@@ -69,52 +69,49 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const TABS = {
+const SEARCH_RESULTS_TABS = {
     data: "DATA",
     apps: "APPS",
     analyses: "ANALYSES",
 };
 
-export default function DetailedSearchResults(props) {
-    const { baseId, searchTerm, filter } = props;
+function DetailedSearchResults(props) {
+    const {
+        baseId,
+        searchTerm,
+        filter,
+        selectedTab,
+        onTabSelectionChange,
+    } = props;
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-    const [selectedTab, setSelectedTab] = useState(TABS.data);
     const { t } = useTranslation(["common", "search"]);
+
     const [appsCount, setAppsCount] = useState(0);
     const [dataCount, setDataCount] = useState(0);
     const [analysesCount, setAnalysesCount] = useState(0);
 
-    const onTabSelectionChange = (event, selectedTab) => {
-        setSelectedTab(selectedTab);
-    };
     const dataTabId = build(baseId, ids.DATA_SEARCH_RESULTS_TAB);
     const appsTabId = build(baseId, ids.APPS_SEARCH_RESULTS_TAB);
     const analysesTabId = build(baseId, ids.ANALYSES_SEARCH_RESULTS_TAB);
 
-    useEffect(() => {
-        if (filter === searchConstants.ALL || filter === searchConstants.DATA) {
-            setSelectedTab(TABS.data);
-        } else if (filter === searchConstants.APPS) {
-            setSelectedTab(TABS.apps);
-        } else if (filter === searchConstants.ANALYSES) {
-            setSelectedTab(TABS.analyses);
-        }
-    }, [filter, setSelectedTab]);
-
     const dataTabIcon =
-        selectedTab === TABS.data ? "/data_selected.png" : "/icon-data.png";
+        selectedTab === SEARCH_RESULTS_TABS.data
+            ? "/data_selected.png"
+            : "/icon-data.png";
     const appsTabIcon =
-        selectedTab === TABS.apps ? "/apps_selected.png" : "/icon-apps.png";
+        selectedTab === SEARCH_RESULTS_TABS.apps
+            ? "/apps_selected.png"
+            : "/icon-apps.png";
     const analysesTabIcon =
-        selectedTab === TABS.analyses
+        selectedTab === SEARCH_RESULTS_TABS.analyses
             ? "/analyses_selected.png"
             : "/icon-analyses.png";
 
     const dataTab = (
         <Tab
-            value={TABS.data}
+            value={SEARCH_RESULTS_TABS.data}
             key={dataTabId}
             id={dataTabId}
             label={
@@ -135,7 +132,7 @@ export default function DetailedSearchResults(props) {
 
     const appsTab = (
         <Tab
-            value={TABS.apps}
+            value={SEARCH_RESULTS_TABS.apps}
             key={appsTabId}
             id={appsTabId}
             label={
@@ -156,7 +153,7 @@ export default function DetailedSearchResults(props) {
 
     const analysesTab = (
         <Tab
-            value={TABS.analyses}
+            value={SEARCH_RESULTS_TABS.analyses}
             key={analysesTabId}
             id={analysesTabId}
             label={
@@ -176,12 +173,16 @@ export default function DetailedSearchResults(props) {
     );
 
     let tabsToRender = [dataTab, appsTab, analysesTab];
+    let totalResults = dataCount + appsCount + analysesCount;
     if (filter === searchConstants.DATA) {
         tabsToRender = dataTab;
+        totalResults = dataCount
     } else if (filter === searchConstants.APPS) {
         tabsToRender = appsTab;
+        totalResults = appsCount;
     } else if (filter === searchConstants.ANALYSES) {
         tabsToRender = analysesTab;
+        totalResults = analysesCount;
     }
 
     if (!searchTerm && !isMobile) {
@@ -205,7 +206,7 @@ export default function DetailedSearchResults(props) {
                 <Typography className={classes.searchInfo}>
                     {t("search:searchInfo", { term: `"${searchTerm}"` })}
                     <AnimatedNumber
-                        value={dataCount + appsCount + analysesCount}
+                        value={totalResults}
                         formatValue={(value) => value.toFixed(0)}
                     />{" "}
                     {t("search:matchingResults")}
@@ -227,7 +228,7 @@ export default function DetailedSearchResults(props) {
 
             <DETabPanel
                 tabId={dataTabId}
-                value={TABS.data}
+                value={SEARCH_RESULTS_TABS.data}
                 selectedTab={selectedTab}
             >
                 <DataSearchResults
@@ -238,7 +239,7 @@ export default function DetailedSearchResults(props) {
             </DETabPanel>
             <DETabPanel
                 tabId={appsTabId}
-                value={TABS.apps}
+                value={SEARCH_RESULTS_TABS.apps}
                 selectedTab={selectedTab}
             >
                 <AppSearchResults
@@ -249,7 +250,7 @@ export default function DetailedSearchResults(props) {
             </DETabPanel>
             <DETabPanel
                 tabId={analysesTabId}
-                value={TABS.analyses}
+                value={SEARCH_RESULTS_TABS.analyses}
                 selectedTab={selectedTab}
             >
                 <AnalysesSearchResults
@@ -261,3 +262,5 @@ export default function DetailedSearchResults(props) {
         </Paper>
     );
 }
+export { SEARCH_RESULTS_TABS };
+export default DetailedSearchResults;

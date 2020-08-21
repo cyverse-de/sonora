@@ -84,7 +84,9 @@ export default function Actions(props) {
     const isVICE = isInteractive(analysis);
     const allowTimeExtn = allowAnalysisTimeExtn(analysis, username);
     const [href, as] = useRelaunchLink(analysis);
-    const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(analysis);
+    const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(
+        analysis
+    );
     return (
         <>
             <Link href={outputFolderHref} as={outputFolderAs} passHref>

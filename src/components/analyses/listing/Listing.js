@@ -139,9 +139,18 @@ function Listing(props) {
     const [renameAnalysesMutation, { isLoading: renameLoading }] = useMutation(
         renameAnalyses,
         {
-            onSuccess: () => {
-                queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
+            onSuccess: (analysis) => {
                 setRenameDialogOpen(false);
+
+                const newPage = {
+                    ...data,
+                    analyses: data.analyses.map((a) =>
+                        a.id === analysis.id ? { ...a, name: analysis.name } : a
+                    ),
+                };
+
+                setData(newPage);
+                queryCache.setQueryData(analysesKey, newPage);
             },
             onError: (error) => {
                 showErrorAnnouncer(t("analysisRenameError"), error);

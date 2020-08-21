@@ -4,6 +4,7 @@ import * as constants from "../constants";
 import * as fns from "../functions";
 
 import ItemBase, { DashboardVideoItem } from "./ItemBase";
+import NavConstants from "../../../common/NavigationConstants";
 
 class VideoItem extends ItemBase {
     constructor({ section, content, height, width }) {
@@ -18,7 +19,7 @@ class VideoItem extends ItemBase {
 
     getLinkTarget() {
         const [, , videoID] = this.content.id.split(":");
-        return `https://www.youtube-nocookie.com/embed/${videoID}`;
+        return `${NavConstants.YOUTUBE_EMBED_BASE}/${videoID}`;
     }
 
     component(index) {

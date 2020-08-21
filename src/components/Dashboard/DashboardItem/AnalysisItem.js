@@ -18,6 +18,8 @@ import ItemBase, { ItemAction } from "./ItemBase";
 
 import { getFolderPage } from "../../data/utils";
 
+import NavConstants from "../../../common/NavigationConstants";
+
 class AnalysisItem extends ItemBase {
     constructor({ section, content, height, width }) {
         super({
@@ -39,8 +41,8 @@ class AnalysisItem extends ItemBase {
                     tooltipKey="relaunchAction"
                 >
                     <Link
-                        href="/analyses/[analysisId]/relaunch"
-                        as={`/analyses/${item.content.id}/relaunch`}
+                        href={`/${NavConstants.ANALYSES}/[analysisId]/${NavConstants.RELAUNCH}`}
+                        as={`/${NavConstants.ANALYSES}/${item.content.id}/${NavConstants.RELAUNCH}`}
                     >
                         <IconButton>
                             <Repeat />
@@ -53,7 +55,7 @@ class AnalysisItem extends ItemBase {
                     tooltipKey="outputAction"
                 >
                     <Link
-                        href="/data/ds/[...pathItems]"
+                        href={`/${NavConstants.DATA}/ds/[...pathItems]`}
                         as={getFolderPage(item.content["result_folder_path"])}
                     >
                         <IconButton>

@@ -154,7 +154,6 @@ function ClearFilter(props) {
 function AnalysesToolbar(props) {
     const {
         baseId,
-        selected,
         username,
         getSelectedAnalyses,
         appTypeFilter,
@@ -165,12 +164,13 @@ function AnalysesToolbar(props) {
         onClearFilter,
         isGridView,
         toggleDisplay,
-        detailsEnabled,
+        isSingleSelection,
         onDetailsSelected,
         handleInteractiveUrlClick,
         handleGoToOutputFolder,
         handleDelete,
         handleRelaunch,
+        handleRename,
         handleBatchIconClick,
     } = props;
     const classes = useStyles();
@@ -212,7 +212,7 @@ function AnalysesToolbar(props) {
                 )}
 
                 <div className={classes.divider} />
-                {detailsEnabled && (
+                {isSingleSelection && (
                     <Button
                         id={build(analysesNavId, ids.DETAILS_BTN)}
                         className={classes.toolbarItems}
@@ -229,13 +229,13 @@ function AnalysesToolbar(props) {
                     baseId={analysesNavId}
                     username={username}
                     onDetailsSelected={onDetailsSelected}
-                    detailsEnabled={detailsEnabled}
-                    selected={selected}
+                    isSingleSelection={isSingleSelection}
                     getSelectedAnalyses={getSelectedAnalyses}
                     handleInteractiveUrlClick={handleInteractiveUrlClick}
                     handleGoToOutputFolder={handleGoToOutputFolder}
                     handleDelete={handleDelete}
                     handleRelaunch={handleRelaunch}
+                    handleRename={handleRename}
                     handleBatchIconClick={handleBatchIconClick}
                     onFilterSelected={() => setOpenFilterDialog(true)}
                 />

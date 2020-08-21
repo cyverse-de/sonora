@@ -5,7 +5,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import {Trans} from 'react-i18next';
+import { Trans } from "react-i18next";
 
 import styles from "./styles";
 
@@ -54,7 +54,7 @@ const LoadingErrorDisplay = ({ baseId, loadingError }) => {
 };
 const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
     let message = "";
-    const {t} = useTranslation("launch");
+    const { t } = useTranslation("launch");
     if (app?.deleted) {
         message = (
             <Trans i18nKey="appDeprecated">
@@ -74,7 +74,8 @@ const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
     } else if (hasDeprecatedParams) {
         message = (
             <Trans i18nKey="appParamsDeprecated">
-               This application uses 1 or more parameters that have been deprecated. If you still need access to this application, please {" "}
+                This application uses 1 or more parameters that have been
+                deprecated. If you still need access to this application, please{" "}
                 <Link
                     id={buildDebugId(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
                     component="button"
@@ -126,7 +127,11 @@ const AppInfo = React.forwardRef((props, ref) => {
             </Hidden>
             <Box m={2}>
                 {(app?.deleted || app?.disabled || hasDeprecatedParams) && (
-                   <UnavailableMsg app={app} hasDeprecatedParams={hasDeprecatedParams} baseId={baseId}/>
+                    <UnavailableMsg
+                        app={app}
+                        hasDeprecatedParams={hasDeprecatedParams}
+                        baseId={baseId}
+                    />
                 )}
             </Box>
         </div>

@@ -199,7 +199,7 @@ const MultiInputSelector = (props) => {
     );
 };
 
-const MultiInputRow = ({ intl, id, path, onRowDeleted }) => {
+const MultiInputRow = ({ id, path, onRowDeleted }) => {
     const { t } = useTranslation("launch");
     return (
         <TableRow id={id} hover>

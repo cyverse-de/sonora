@@ -72,7 +72,7 @@ const BrowseButton = (props) => {
 /**
  * An Input Selector form field for picking data store file or folder paths.
  */
-const InputSelector = ({ intl, acceptedType, startingPath, ...props }) => {
+const InputSelector = ({ acceptedType, startingPath, ...props }) => {
     // These props need to be spread down into the FormTextField
     const { id, field, form, required } = props;
     const classes = useStyles();

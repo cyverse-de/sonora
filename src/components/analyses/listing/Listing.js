@@ -33,9 +33,13 @@ import TableView from "./TableView";
 
 import AnalysesToolbar from "../toolbar/Toolbar";
 import appType from "components/models/AppType";
+import DEErrorDialog from "components/utils/error/DEErrorDialog";
+import ErrorTypography from "components/utils/error/ErrorTypography";
 
 import { useUserProfile } from "contexts/userProfile";
 import { useNotifications } from "contexts/pushNotifications";
+
+import { Button, Typography } from "@material-ui/core";
 
 /**
  * Filters
@@ -72,7 +76,7 @@ function Listing(props) {
         selectedTypeFilter,
         showErrorAnnouncer,
     } = props;
-    const { t } = useTranslation("analyses");
+    const { t } = useTranslation(["analyses", "util"]);
     const [isGridView, setGridView] = useState(false);
 
     const [order, setOrder] = useState(selectedOrder);
@@ -98,6 +102,7 @@ function Listing(props) {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [relaunchDialogOpen, setRelaunchDialogOpen] = useState(false);
     const [renameDialogOpen, setRenameDialogOpen] = useState(false);
+    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
 
     const [analysesKey, setAnalysesKey] = useState(ANALYSES_LISTING_QUERY_KEY);
     const [
@@ -136,27 +141,24 @@ function Listing(props) {
         },
     });
 
-    const [renameAnalysesMutation, { isLoading: renameLoading }] = useMutation(
-        renameAnalyses,
-        {
-            onSuccess: (analysis) => {
-                setRenameDialogOpen(false);
+    const [
+        renameAnalysesMutation,
+        { isLoading: renameLoading, error: renameError },
+    ] = useMutation(renameAnalyses, {
+        onSuccess: (analysis) => {
+            setRenameDialogOpen(false);
 
-                const newPage = {
-                    ...data,
-                    analyses: data.analyses.map((a) =>
-                        a.id === analysis.id ? { ...a, name: analysis.name } : a
-                    ),
-                };
+            const newPage = {
+                ...data,
+                analyses: data.analyses.map((a) =>
+                    a.id === analysis.id ? { ...a, name: analysis.name } : a
+                ),
+            };
 
-                setData(newPage);
-                queryCache.setQueryData(analysesKey, newPage);
-            },
-            onError: (error) => {
-                showErrorAnnouncer(t("analysisRenameError"), error);
-            },
-        }
-    );
+            setData(newPage);
+            queryCache.setQueryData(analysesKey, newPage);
+        },
+    });
 
     useEffect(() => {
         const permFilterChanged = selectedPermFilter?.name !== permFilter?.name;
@@ -507,12 +509,7 @@ function Listing(props) {
                 handleBatchIconClick={handleBatchIconClick}
             />
             <TableView
-                loading={
-                    isFetching ||
-                    deleteLoading ||
-                    relaunchLoading ||
-                    renameLoading
-                }
+                loading={isFetching || deleteLoading || relaunchLoading}
                 error={error}
                 listing={data}
                 baseId={baseId}
@@ -551,8 +548,34 @@ function Listing(props) {
                 open={renameDialogOpen}
                 selectedAnalysis={selectedAnalysis}
                 isLoading={renameLoading}
+                submissionError={
+                    renameError && (
+                        <>
+                            <ErrorTypography
+                                errorMessage={t("analysisRenameError")}
+                            />
+                            <Button
+                                size="small"
+                                variant="outlined"
+                                onClick={() => setErrorDialogOpen(true)}
+                            >
+                                <Typography variant="button" color="error">
+                                    {t("util:details")}
+                                </Typography>
+                            </Button>
+                        </>
+                    )
+                }
                 onClose={() => setRenameDialogOpen(false)}
                 handleRename={renameAnalysesMutation}
+            />
+            <DEErrorDialog
+                open={errorDialogOpen}
+                baseId={ids.DIALOG.ERROR}
+                errorObject={renameError}
+                handleClose={() => {
+                    setErrorDialogOpen(false);
+                }}
             />
 
             {detailsOpen && (

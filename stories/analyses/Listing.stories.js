@@ -82,7 +82,13 @@ export const AnalysesListingTest = () => {
     mockAxios.onPatch(/\/api\/analyses*/).reply((config) => {
         console.log("Rename analysis", config.url, config.data);
 
-        return [200, {}];
+        return [
+            200,
+            {
+                id: config.url.replace(/.*\//, ""),
+                name: JSON.parse(config.data)?.name,
+            },
+        ];
     });
 
     return <ListingTest />;

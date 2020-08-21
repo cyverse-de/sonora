@@ -26,7 +26,14 @@ import {
 } from "@material-ui/core";
 
 function RenameAnalysisDialog(props) {
-    const { open, isLoading, onClose, handleRename, selectedAnalysis } = props;
+    const {
+        open,
+        isLoading,
+        submissionError,
+        onClose,
+        handleRename,
+        selectedAnalysis,
+    } = props;
 
     // Using separate hooks so that analyses and data message keys
     // don't require a prefix.
@@ -87,6 +94,7 @@ function RenameAnalysisDialog(props) {
                                         ),
                                     }}
                                     component={FormTextField}
+                                    helperText={submissionError}
                                 />
                             </DialogContent>
 

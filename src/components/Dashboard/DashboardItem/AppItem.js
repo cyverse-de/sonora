@@ -8,6 +8,7 @@ import { formatDate } from "@cyverse-de/ui-lib";
 import * as constants from "../constants";
 
 import ItemBase, { ItemAction } from "./ItemBase";
+import { useTranslation } from "i18n";
 
 class AppItem extends ItemBase {
     constructor(props) {
@@ -22,10 +23,11 @@ class AppItem extends ItemBase {
 
     static create(props) {
         const item = new AppItem(props);
+        const { t } = useTranslation("dashboard");
         return item
             .addActions([
                 <ItemAction
-                    arialLabel="favorite"
+                    arialLabel={t("favoriteAria")}
                     key={`${constants.KIND_APPS}-${props.content.id}-favorite`}
                     tooltipKey="favoriteAction"
                 >
@@ -34,7 +36,7 @@ class AppItem extends ItemBase {
                     </IconButton>
                 </ItemAction>,
                 <ItemAction
-                    ariaLabel="launch"
+                    ariaLabel={t("launchAria")}
                     key={`${constants.KIND_APPS}-${props.content.id}-launch`}
                     tooltipKey="launchAction"
                 >
@@ -43,7 +45,7 @@ class AppItem extends ItemBase {
                     </IconButton>
                 </ItemAction>,
                 <ItemAction
-                    arialLabel="share"
+                    arialLabel={t("shareAria")}
                     key={`${constants.KIND_APPS}-${props.content.id}-share`}
                     tooltipKey="shareAction"
                 >
@@ -57,7 +59,7 @@ class AppItem extends ItemBase {
                     key={`${constants.KIND_APPS}-${props.content.id}-details`}
                 >
                     <ItemAction
-                        arialLabel="open details"
+                        arialLabel={t("openDetailsAria")}
                         key={`${constants.KIND_APPS}-${props.content.id}-details`}
                         tooltipKey="detailsAction"
                     >

@@ -13,6 +13,7 @@ import * as fns from "../functions";
 import * as constants from "../constants";
 
 import ItemBase, { ItemAction, DashboardFeedItem } from "./ItemBase";
+import { useTranslation } from "i18n";
 
 class EventItem extends ItemBase {
     constructor({ section, content, height, width }) {
@@ -27,33 +28,34 @@ class EventItem extends ItemBase {
 
     static create(props) {
         const item = new EventItem(props);
+        const { t } = useTranslation("dashboard");
         return item.addActions([
             <ItemAction
-                ariaLabel="tweet"
+                ariaLabel={t("tweetAria")}
                 key={`${constants.KIND_EVENTS}-${props.content.id}-tweet`}
             >
                 <Twitter />
             </ItemAction>,
             <ItemAction
-                ariaLabel="facebook"
+                ariaLabel={t("facebookAria")}
                 key={`${constants.KIND_EVENTS}-${props.content.id}-facebook`}
             >
                 <Facebook />
             </ItemAction>,
             <ItemAction
-                ariaLabel="open"
+                ariaLabel={t("openAria")}
                 key={`${constants.KIND_EVENTS}-${props.content.id}-open`}
             >
                 <OpenInBrowser />
             </ItemAction>,
             <ItemAction
-                ariaLabel="show link"
+                ariaLabel={t("showLinkAria")}
                 key={`${constants.KIND_EVENTS}-${props.content.id}-link`}
             >
                 <Link />
             </ItemAction>,
             <ItemAction
-                ariaLabel="add to calendar"
+                ariaLabel={t("addToCalendarAria")}
                 key={`${constants.KIND_EVENTS}-${props.content.id}-calendar`}
             >
                 <CalendarToday />

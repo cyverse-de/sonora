@@ -29,5 +29,11 @@
     "stopAria": "stop",
     "openDetailsAria": "open details",
     "origination": "{{origination}} {{user}} on {{date}}",
-    "noContentFound": "No content found."
+    "noContentFound": "No content found.",
+    "favoriteAria": "favorite",
+    "tweetAria": "tweet",
+    "facebookAria": "facebook",
+    "openAria": "open",
+    "showLinkAria": "show link",
+    "addToCalendarAria": "add to calendar"
 }

@@ -19,6 +19,7 @@ import ItemBase, { ItemAction } from "./ItemBase";
 import { getFolderPage } from "../../data/utils";
 
 import NavConstants from "../../../common/NavigationConstants";
+import { useTranslation } from "i18n";
 
 class AnalysisItem extends ItemBase {
     constructor({ section, content, height, width }) {
@@ -33,10 +34,11 @@ class AnalysisItem extends ItemBase {
 
     static create(props) {
         const item = new AnalysisItem(props);
+        const { t } = useTranslation("dashboard");
         return item
             .addActions([
                 <ItemAction
-                    ariaLabel="relaunch"
+                    ariaLabel={t("relaunchAria")}
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-relaunch`}
                     tooltipKey="relaunchAction"
                 >
@@ -50,7 +52,7 @@ class AnalysisItem extends ItemBase {
                     </Link>
                 </ItemAction>,
                 <ItemAction
-                    ariaLabel="go to output files"
+                    ariaLabel={t("outputFilesAria")}
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-outputs`}
                     tooltipKey="outputAction"
                 >
@@ -64,7 +66,7 @@ class AnalysisItem extends ItemBase {
                     </Link>
                 </ItemAction>,
                 <ItemAction
-                    ariaLabel="share"
+                    ariaLabel={t("shareAria")}
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-share`}
                     tooltipKey="shareAction"
                 >
@@ -77,7 +79,10 @@ class AnalysisItem extends ItemBase {
                 <MenuItem
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-stop`}
                 >
-                    <ItemAction ariaLabel="stop" tooltipKey="stopAction">
+                    <ItemAction
+                        ariaLabel={t("stopAria")}
+                        tooltipKey="stopAction"
+                    >
                         <IconButton>
                             <Stop />
                         </IconButton>
@@ -87,7 +92,7 @@ class AnalysisItem extends ItemBase {
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-details`}
                 >
                     <ItemAction
-                        ariaLabel="open details"
+                        ariaLabel={t("openDetailsAria")}
                         tooltipKey="detailsAction"
                     >
                         <IconButton>

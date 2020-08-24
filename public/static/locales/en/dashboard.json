@@ -22,5 +22,10 @@
     "detailsAction": "Show Details",
     "shareAction": "Share",
     "favoriteAction": "Favorite",
-    "launchAction": "Launch"
+    "launchAction": "Launch",
+    "relaunchAria": "relaunch",
+    "outputFilesAria": "go to output files",
+    "shareAria": "share",
+    "stopAria": "stop",
+    "openDetailsAria": "open details"
 }

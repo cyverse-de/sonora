@@ -103,7 +103,11 @@ const DashboardItem = ({ item }) => {
                     variant: "subtitle2",
                     classes: { colorPrimary: classes.cardHeaderText },
                 }}
-                subheader={`${origination} ${user} on ${date}`}
+                subheader={t("origination", {
+                    origination,
+                    user,
+                    date,
+                })}
                 subheaderTypographyProps={{
                     noWrap: true,
                     variant: "caption",

@@ -27,5 +27,6 @@
     "outputFilesAria": "go to output files",
     "shareAria": "share",
     "stopAria": "stop",
-    "openDetailsAria": "open details"
+    "openDetailsAria": "open details",
+    "origination": "{{origination}} {{user}} on {{date}}"
 }

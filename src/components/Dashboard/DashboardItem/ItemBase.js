@@ -126,7 +126,7 @@ const DashboardItem = ({ item }) => {
                     <>
                         <IconButton
                             className={classes.tripleDotMenu}
-                            aria-controls="action-menu"
+                            aria-controls={menuID}
                             aria-haspopup="true"
                             onClick={(event) =>
                                 setMenuAnchorEl(event.currentTarget)

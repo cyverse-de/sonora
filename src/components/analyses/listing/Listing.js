@@ -39,8 +39,6 @@ import ErrorTypography from "components/utils/error/ErrorTypography";
 import { useUserProfile } from "contexts/userProfile";
 import { useNotifications } from "contexts/pushNotifications";
 
-import { Button, Typography } from "@material-ui/core";
-
 /**
  * Filters
  *
@@ -76,7 +74,7 @@ function Listing(props) {
         selectedTypeFilter,
         showErrorAnnouncer,
     } = props;
-    const { t } = useTranslation(["analyses", "util"]);
+    const { t } = useTranslation("analyses");
     const [isGridView, setGridView] = useState(false);
 
     const [order, setOrder] = useState(selectedOrder);
@@ -550,20 +548,10 @@ function Listing(props) {
                 isLoading={renameLoading}
                 submissionError={
                     renameError && (
-                        <>
-                            <ErrorTypography
-                                errorMessage={t("analysisRenameError")}
-                            />
-                            <Button
-                                size="small"
-                                variant="outlined"
-                                onClick={() => setErrorDialogOpen(true)}
-                            >
-                                <Typography variant="button" color="error">
-                                    {t("util:details")}
-                                </Typography>
-                            </Button>
-                        </>
+                        <ErrorTypography
+                            errorMessage={t("analysisRenameError")}
+                            onDetailsClick={() => setErrorDialogOpen(true)}
+                        />
                     )
                 }
                 onClose={() => setRenameDialogOpen(false)}

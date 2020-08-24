@@ -1,20 +1,21 @@
 /**
- * @author sriram
+ * @author sriram, psarando
  *
- * A typography that displays error message with a button to view details
+ * A typography that displays an error message with a button to view details.
  *
  */
 
 import React from "react";
-import { Typography, useTheme } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import { withI18N, getMessage } from "@cyverse-de/ui-lib";
-import { injectIntl } from "react-intl";
-import messages from "../messages";
+
+import { useTranslation } from "i18n";
+
+import { Button, Typography, useTheme } from "@material-ui/core";
 
 function ErrorTypography(props) {
     const { errorMessage, onDetailsClick } = props;
     const theme = useTheme();
+    const { t } = useTranslation("util");
+
     return (
         <Typography color="error" variant="caption">
             {errorMessage}
@@ -22,14 +23,11 @@ function ErrorTypography(props) {
                 <Button
                     variant="outlined"
                     onClick={onDetailsClick}
-                    style={{ color: theme.palette.error.main, margin: 1 }}
+                    style={{ marginLeft: theme.spacing(1) }}
                     size="small"
                 >
-                    <Typography
-                        variant="caption"
-                        style={{ color: theme.palette.error.main }}
-                    >
-                        {getMessage("viewDetails")}
+                    <Typography color="error" variant="caption">
+                        {t("viewDetails")}
                     </Typography>
                 </Button>
             )}
@@ -37,4 +35,4 @@ function ErrorTypography(props) {
     );
 }
 
-export default withI18N(injectIntl(ErrorTypography), messages);
+export default ErrorTypography;

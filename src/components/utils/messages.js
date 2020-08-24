@@ -23,7 +23,6 @@ const intlData = {
         host: "Host",
         timestamp: "Timestamp",
         ok: "OK",
-        viewDetails: "View Details",
         close: "Close",
         gridView: "Grid View",
         tableView: "Table View",

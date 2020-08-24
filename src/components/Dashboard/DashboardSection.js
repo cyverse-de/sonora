@@ -151,10 +151,6 @@ export class RecentAnalyses extends SectionBase {
             ids.SECTION_RECENT_ANALYSES
         );
     }
-
-    getComponent(params) {
-        return super.getComponent(params);
-    }
 }
 
 export class RunningAnalyses extends SectionBase {
@@ -165,9 +161,6 @@ export class RunningAnalyses extends SectionBase {
             "runningAnalyses",
             ids.SECTION_RECENT_ANALYSES
         );
-    }
-    getComponent(params) {
-        return super.getComponent(params);
     }
 }
 
@@ -180,9 +173,6 @@ export class RecentlyAddedApps extends SectionBase {
             ids.SECTION_RECENTLY_ADDED_APPS
         );
     }
-    getComponent(params) {
-        return super.getComponent(params);
-    }
 }
 
 export class PublicApps extends SectionBase {
@@ -193,10 +183,6 @@ export class PublicApps extends SectionBase {
             "publicApps",
             ids.SECTION_PUBLIC_APPS
         );
-    }
-
-    getComponent(params) {
-        return super.getComponent(params);
     }
 }
 

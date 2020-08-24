@@ -176,7 +176,11 @@ export const DashboardFeedItem = ({ item }) => {
             </Typography>
 
             <Typography noWrap color="textSecondary" variant="subtitle2">
-                {`${origination} ${user} on ${date}`}
+                {t("origination", {
+                    origination,
+                    user,
+                    date,
+                })}
             </Typography>
 
             <Typography variant="body2" component="p">

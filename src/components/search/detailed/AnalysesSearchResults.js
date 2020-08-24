@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "i18n";
 
-import NameLink from "./NameLink";
+import NameLink from "components/utils/NameLink";
 import { useAnalysesSearchInfinite } from "../searchQueries";
 import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";

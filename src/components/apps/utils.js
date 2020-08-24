@@ -33,3 +33,15 @@ export const getListingPath = (
     category
 ) =>
     `/${NavigationConstants.APPS}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedFilter=${filter}&selectedCategory=${category}`;
+
+/**
+ * Builds a path to the App Launch Wizard for the app with the given IDs.
+ *
+ * @param {string} systemId The app's system ID.
+ * @param {string} appId The app's ID.
+ */
+export const useAppLaunchLink = (systemId, appId) => {
+    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch`;
+    const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch`;
+    return [href, as];
+};

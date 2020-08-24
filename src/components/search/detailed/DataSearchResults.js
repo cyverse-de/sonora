@@ -11,7 +11,7 @@ import { useQuery, queryCache } from "react-query";
 import Link from "next/link";
 import { useTranslation } from "i18n";
 
-import NameLink from "./NameLink";
+import NameLink from "components/utils/NameLink";
 
 import constants from "../../../constants";
 import SearchError from "./SearchError";

@@ -208,12 +208,8 @@ function TableView(props) {
                                                 )}
                                                 isDisabled={app.disabled}
                                                 name={app.name}
-                                                onAppNameClicked={() =>
-                                                    onRouteToApp(
-                                                        app.system_id,
-                                                        app.id
-                                                    )
-                                                }
+                                                systemId={app.system_id}
+                                                appId={app.id}
                                             />
                                         </TableCell>
                                         <TableCell

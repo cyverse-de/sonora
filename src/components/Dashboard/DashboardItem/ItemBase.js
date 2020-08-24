@@ -222,7 +222,7 @@ export const MenuAction = ({
     const { t } = useTranslation("dashboard");
     return (
         <Tooltip title={t(tooltipKey)}>
-            <MenuItem onClick={handleClick} ariaLabel={ariaLabel}>
+            <MenuItem onClick={handleClick} aria-label={ariaLabel}>
                 {children}
             </MenuItem>
         </Tooltip>

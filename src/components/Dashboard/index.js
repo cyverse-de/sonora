@@ -122,7 +122,7 @@ const Dashboard = () => {
         componentContent = filteredSections;
     } else {
         componentContent = (
-            <Typography color="textSecondary">No content found.</Typography>
+            <Typography color="textSecondary">{t("noContentFound")}</Typography>
         );
     }
 

@@ -28,5 +28,6 @@
     "shareAria": "share",
     "stopAria": "stop",
     "openDetailsAria": "open details",
-    "origination": "{{origination}} {{user}} on {{date}}"
+    "origination": "{{origination}} {{user}} on {{date}}",
+    "noContentFound": "No content found."
 }

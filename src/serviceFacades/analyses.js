@@ -39,7 +39,7 @@ function relaunchAnalyses(analysisIds) {
     });
 }
 
-function renameAnalyses({ id, name }) {
+function renameAnalysis({ id, name }) {
     return callApi({
         endpoint: `/api/analyses/${id}`,
         method: "PATCH",
@@ -75,7 +75,7 @@ export {
     getAnalysisRelaunchInfo,
     deleteAnalyses,
     relaunchAnalyses,
-    renameAnalyses,
+    renameAnalysis,
     submitAnalysis,
     ANALYSES_LISTING_QUERY_KEY,
     ANALYSIS_HISTORY_QUERY_KEY,

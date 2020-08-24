@@ -17,7 +17,7 @@ import {
     deleteAnalyses,
     getAnalyses,
     relaunchAnalyses,
-    renameAnalyses,
+    renameAnalysis,
 } from "serviceFacades/analyses";
 
 import constants from "../../../constants";
@@ -140,9 +140,9 @@ function Listing(props) {
     });
 
     const [
-        renameAnalysesMutation,
+        renameAnalysisMutation,
         { isLoading: renameLoading, error: renameError },
-    ] = useMutation(renameAnalyses, {
+    ] = useMutation(renameAnalysis, {
         onSuccess: (analysis) => {
             setRenameDialogOpen(false);
 
@@ -555,7 +555,7 @@ function Listing(props) {
                     )
                 }
                 onClose={() => setRenameDialogOpen(false)}
-                handleRename={renameAnalysesMutation}
+                handleRename={renameAnalysisMutation}
             />
             <DEErrorDialog
                 open={errorDialogOpen}

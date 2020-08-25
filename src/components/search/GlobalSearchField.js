@@ -338,6 +338,13 @@ function GlobalSearchField(props) {
     }, [searchI18N, searchTerm, t, value]);
 
     useEffect(() => {
+        if (value === searchI18N("viewAllResults", { name: t("analyses") })) {
+            console.log("view all now");
+            setValue(searchTerm);
+        }
+    }, [searchI18N, searchTerm, t, value]);
+
+    useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
             const dataQuery = getDataSimpleSearchQuery(
                 searchTerm,

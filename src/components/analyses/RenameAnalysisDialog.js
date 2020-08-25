@@ -8,10 +8,11 @@ import React from "react";
 import { Field, Form, Formik } from "formik";
 import { useTranslation } from "i18n";
 
-import { validateDiskResourceName } from "../data/utils";
-
 import ids from "./ids";
-import UtilIds from "../utils/ids.js";
+
+import { validateDiskResourceName } from "components/data/utils";
+import UtilIds from "components/utils/ids.js";
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
 import { build, FormTextField } from "@cyverse-de/ui-lib";
 
@@ -94,7 +95,16 @@ function RenameAnalysisDialog(props) {
                                         ),
                                     }}
                                     component={FormTextField}
-                                    helperText={submissionError}
+                                    helperText={
+                                        submissionError && (
+                                            <ErrorTypographyWithDialog
+                                                errorMessage={t(
+                                                    "analysisRenameError"
+                                                )}
+                                                errorObject={submissionError}
+                                            />
+                                        )
+                                    }
                                 />
                             </DialogContent>
 

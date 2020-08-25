@@ -80,13 +80,15 @@ export const AnalysesListingTest = () => {
 
     mockAxios.onPatch(/\/api\/analyses*/).replyOnce(500, errorResponse);
     mockAxios.onPatch(/\/api\/analyses*/).reply((config) => {
-        console.log("Rename analysis", config.url, config.data);
+        console.log("Edit analysis", config.url, config.data);
+        const req = JSON.parse(config.data);
 
         return [
             200,
             {
                 id: config.url.replace(/.*\//, ""),
-                name: JSON.parse(config.data)?.name,
+                name: req?.name,
+                description: req?.description,
             },
         ];
     });

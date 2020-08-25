@@ -166,6 +166,7 @@ function AnalysesToolbar(props) {
         toggleDisplay,
         isSingleSelection,
         onDetailsSelected,
+        handleComments,
         handleInteractiveUrlClick,
         handleGoToOutputFolder,
         handleDelete,
@@ -231,6 +232,7 @@ function AnalysesToolbar(props) {
                     onDetailsSelected={onDetailsSelected}
                     isSingleSelection={isSingleSelection}
                     getSelectedAnalyses={getSelectedAnalyses}
+                    handleComments={handleComments}
                     handleInteractiveUrlClick={handleInteractiveUrlClick}
                     handleGoToOutputFolder={handleGoToOutputFolder}
                     handleDelete={handleDelete}

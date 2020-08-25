@@ -90,13 +90,13 @@ const allowAnalysesRelaunch = (selectedAnalyses) => {
 };
 
 /**
- * Checks if the user can rename the given analysis.
+ * Checks if the user can rename or update comments for the given analysis.
  *
  * @param {array} analysis
  * @param {string} currentUser
  * @returns {boolean} true if the analysis belongs to the current user
  */
-const allowAnalysisRename = (analysis, currentUser) =>
+const allowAnalysisEdit = (analysis, currentUser) =>
     currentUser === getAnalysisUser(analysis);
 
 /**
@@ -134,7 +134,7 @@ export {
     isBatchAnalysis,
     allowAnalysesDelete,
     allowAnalysesRelaunch,
-    allowAnalysisRename,
+    allowAnalysisEdit,
     getAnalysisRelaunchPage,
     getListingPath,
 };

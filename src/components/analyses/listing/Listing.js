@@ -18,6 +18,7 @@ import {
     getAnalyses,
     relaunchAnalyses,
     renameAnalysis,
+    updateAnalysisComment,
 } from "serviceFacades/analyses";
 
 import constants from "../../../constants";
@@ -28,6 +29,7 @@ import Drawer from "../details/Drawer";
 
 import ids from "../ids";
 import RenameAnalysisDialog from "../RenameAnalysisDialog";
+import AnalysisCommentDialog from "../AnalysisCommentDialog";
 
 import TableView from "./TableView";
 
@@ -98,6 +100,7 @@ function Listing(props) {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [relaunchDialogOpen, setRelaunchDialogOpen] = useState(false);
     const [renameDialogOpen, setRenameDialogOpen] = useState(false);
+    const [commentDialogOpen, setCommentDialogOpen] = useState(false);
 
     const [analysesKey, setAnalysesKey] = useState(ANALYSES_LISTING_QUERY_KEY);
     const [
@@ -147,6 +150,27 @@ function Listing(props) {
                 ...data,
                 analyses: data.analyses.map((a) =>
                     a.id === analysis.id ? { ...a, name: analysis.name } : a
+                ),
+            };
+
+            setData(newPage);
+            queryCache.setQueryData(analysesKey, newPage);
+        },
+    });
+
+    const [
+        analysisCommentMutation,
+        { isLoading: commentLoading, error: commentError },
+    ] = useMutation(updateAnalysisComment, {
+        onSuccess: (analysis) => {
+            setCommentDialogOpen(false);
+
+            const newPage = {
+                ...data,
+                analyses: data.analyses.map((a) =>
+                    a.id === analysis.id
+                        ? { ...a, description: analysis.description }
+                        : a
                 ),
             };
 
@@ -472,6 +496,10 @@ function Listing(props) {
         setRenameDialogOpen(true);
     };
 
+    const handleComments = () => {
+        setCommentDialogOpen(true);
+    };
+
     const getSelectedAnalyses = (analyses) => {
         const items = analyses ? analyses : selected;
         return items.map((id) =>
@@ -496,6 +524,7 @@ function Listing(props) {
                 toggleDisplay={toggleDisplay}
                 isSingleSelection={isSingleSelection}
                 onDetailsSelected={onDetailsSelected}
+                handleComments={handleComments}
                 handleInteractiveUrlClick={handleInteractiveUrlClick}
                 handleGoToOutputFolder={handleGoToOutputFolder}
                 handleDelete={handleDelete}
@@ -546,6 +575,15 @@ function Listing(props) {
                 submissionError={renameError}
                 onClose={() => setRenameDialogOpen(false)}
                 handleRename={renameAnalysisMutation}
+            />
+
+            <AnalysisCommentDialog
+                open={commentDialogOpen}
+                selectedAnalysis={selectedAnalysis}
+                isLoading={commentLoading}
+                submissionError={commentError}
+                onClose={() => setCommentDialogOpen(false)}
+                handleUpdateComment={analysisCommentMutation}
             />
 
             {detailsOpen && (

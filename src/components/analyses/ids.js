@@ -76,6 +76,7 @@ export default {
 
     DIALOG: {
         DELETE: "delete",
+        COMMENT: "comment",
         RELAUNCH: "relaunch",
         RENAME: "rename",
     },

@@ -47,6 +47,14 @@ function renameAnalysis({ id, name }) {
     });
 }
 
+function updateAnalysisComment({ id, description }) {
+    return callApi({
+        endpoint: `/api/analyses/${id}`,
+        method: "PATCH",
+        body: { description },
+    });
+}
+
 function getAnalysisHistory(key, { id }) {
     return callApi({
         endpoint: `/api/analyses/${id}/history`,
@@ -77,6 +85,7 @@ export {
     relaunchAnalyses,
     renameAnalysis,
     submitAnalysis,
+    updateAnalysisComment,
     ANALYSES_LISTING_QUERY_KEY,
     ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSIS_PARAMS_QUERY_KEY,

@@ -193,16 +193,30 @@ function AnalysesSearchOption(props) {
     const { selectedOption, searchTerm } = props;
     const href = `/${NavigationConstants.ANALYSES}/[analysisId]`;
     const as = `/${NavigationConstants.ANALYSES}/${selectedOption?.id}`;
-    return (
-        <Link href={href} as={as} passHref>
-            <SearchOption
-                primary={selectedOption.name}
-                secondary={selectedOption.status}
-                icon={<img src="/icon-analyses.png" alt={t("analyses")} />}
-                searchTerm={searchTerm}
-            />
-        </Link>
-    );
+    const searchHref = `/${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${searchConstants.ANALYSES}`;
+    const searchAs = `/${NavigationConstants.SEARCH}`;
+    if (selectedOption?.id === "viewAllResults") {
+        return (
+            <Link href={searchHref} as={searchAs} passHref>
+                <SearchOption
+                    primary={selectedOption.name}
+                    icon={<img src="/icon-analyses.png" alt={t("analyses")} />}
+                    searchTerm={searchTerm}
+                />
+            </Link>
+        );
+    } else {
+        return (
+            <Link href={href} as={as} passHref>
+                <SearchOption
+                    primary={selectedOption.name}
+                    secondary={selectedOption.status}
+                    icon={<img src="/icon-analyses.png" alt={t("analyses")} />}
+                    searchTerm={searchTerm}
+                />
+            </Link>
+        );
+    }
 }
 
 function GlobalSearchField(props) {
@@ -211,12 +225,14 @@ function GlobalSearchField(props) {
     const { search, showErrorAnnouncer } = props;
 
     const { t } = useTranslation(["common", "analyses"]);
+    const { t: searchI18N } = useTranslation("search");
 
     const appRecordFields = appFields();
 
     const [searchTerm, setSearchTerm] = useState(search);
     const [filter, setFilter] = useState(searchConstants.ALL);
 
+    const [value, setValue] = useState();
     const [options, setOptions] = useState([]);
     const [open, setOpen] = useState(false);
 
@@ -255,7 +271,12 @@ function GlobalSearchField(props) {
                 analyses.forEach((analysis) => {
                     analysis.resultType = t("analyses");
                 });
-                setOptions([...options, ...analyses]);
+                const viewAllOptions = {
+                    id: "viewAllResults",
+                    name: searchI18N("viewAllResults", { name: t("analyses") }),
+                    resultType: t("analyses"),
+                };
+                setOptions([...options, ...analyses, viewAllOptions]);
             }
         }
     );
@@ -308,6 +329,13 @@ function GlobalSearchField(props) {
             setOptions([]);
         }
     }, [open]);
+
+    useEffect(() => {
+        if (value === searchI18N("viewAllResults", { name: t("analyses") })) {
+            console.log("view all now");
+            setValue(searchTerm);
+        }
+    }, [searchI18N, searchTerm, t, value]);
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
@@ -460,6 +488,7 @@ function GlobalSearchField(props) {
                     paper: classes.paper,
                     option: classes.option,
                 }}
+                value={value}
                 open={open}
                 debug={false}
                 onOpen={() => {

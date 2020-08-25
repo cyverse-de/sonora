@@ -1,6 +1,6 @@
 export default {
-    GLOABAL_SEARCH_PAGE_SIZE: 10,
-    GLOBALE_SEARCH_PAGE: 0,
+    GLOBAL_SEARCH_PAGE_SIZE: 10,
+    GLOBAL_SEARCH_PAGE: 0,
     DETAILED_SEARCH_PAGE_SIZE: 100,
     ALL: "all",
     APPS: "apps",

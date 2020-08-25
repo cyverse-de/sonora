@@ -105,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
     },
     icon: {
         marginTop: theme.spacing(2),
-        marginBotton: 0,
+        marginBottom: 0,
         marginLeft: 0,
         marginRight: 0,
     },
@@ -314,8 +314,8 @@ function GlobalSearchField(props) {
             const dataQuery = getDataSimpleSearchQuery(
                 searchTerm,
                 userHomeDir,
-                searchConstants.GLOABAL_SEARCH_PAGE_SIZE,
-                searchConstants.GLOBALE_SEARCH_PAGE,
+                searchConstants.GLOBAL_SEARCH_PAGE_SIZE,
+                searchConstants.GLOBAL_SEARCH_PAGE,
                 "label",
                 "ascending"
             );
@@ -324,10 +324,10 @@ function GlobalSearchField(props) {
             setAppsSearchKey([
                 APPS_SEARCH_QUERY_KEY,
                 {
-                    rowsPerPage: searchConstants.GLOABAL_SEARCH_PAGE_SIZE,
+                    rowsPerPage: searchConstants.GLOBAL_SEARCH_PAGE_SIZE,
                     orderBy: appRecordFields.NAME.key,
                     order: constants.SORT_ASCENDING,
-                    page: searchConstants.GLOBALE_SEARCH_PAGE,
+                    page: searchConstants.GLOBAL_SEARCH_PAGE,
                     search: searchTerm,
                 },
             ]);
@@ -336,10 +336,10 @@ function GlobalSearchField(props) {
             setAnalysesSearchKey([
                 ANALYSES_SEARCH_QUERY_KEY,
                 {
-                    rowsPerPage: searchConstants.GLOABAL_SEARCH_PAGE_SIZE,
+                    rowsPerPage: searchConstants.GLOBAL_SEARCH_PAGE_SIZE,
                     orderBy: analysisRecordfields.START_DATE.key,
                     order: constants.SORT_DESCENDING,
-                    page: searchConstants.GLOBALE_SEARCH_PAGE,
+                    page: searchConstants.GLOBAL_SEARCH_PAGE,
                     filter: getAnalysesSearchQueryFilter(searchTerm, t),
                 },
             ]);

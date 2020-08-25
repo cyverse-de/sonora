@@ -50,6 +50,7 @@ import {
 import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import DescriptionIcon from "@material-ui/icons/Description";
+import PageviewIcon from "@material-ui/icons/Pageview";
 import FolderIcon from "@material-ui/icons/Folder";
 
 const useStyles = makeStyles((theme) => ({
@@ -114,6 +115,7 @@ const useStyles = makeStyles((theme) => ({
 const SearchOption = React.forwardRef((props, ref) => {
     const { primary, secondary, icon, searchTerm, onClick, href } = props;
     const classes = useStyles();
+    const theme = useTheme();
     return (
         <ListItem
             alignItems="flex-start"
@@ -130,7 +132,7 @@ const SearchOption = React.forwardRef((props, ref) => {
                 }
                 primaryTypographyProps={{
                     variant: "body1",
-                    color: "primary",
+                    color: theme.palette.info.primary,
                 }}
                 secondary={
                     <Highlighter search={searchTerm}>{secondary}</Highlighter>
@@ -138,14 +140,40 @@ const SearchOption = React.forwardRef((props, ref) => {
                 secondaryTypographyProps={{
                     variant: "caption",
                     wrap: "true",
+                    color: theme.palette.info.primary,
                 }}
             />
         </ListItem>
     );
 });
 
+function ViewAllOption(props) {
+    const { searchTerm, filter, prompt } = props;
+    const href = `${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}`;
+    const as = `${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}`;
+    return (
+        <Link href={href} as={as} passHref>
+            <SearchOption
+                primary={searchTerm}
+                secondary={prompt}
+                icon={<PageviewIcon color="primary" />}
+            />
+        </Link>
+    );
+}
+
 function DataSearchOption(props) {
-    const { selectedOption, searchTerm } = props;
+    const { filter, selectedOption, searchTerm } = props;
+
+    if (selectedOption?.id === "viewAll") {
+        return (
+            <ViewAllOption
+                searchTerm={searchTerm}
+                filter={filter}
+                prompt={"View all Data results for '" + searchTerm + "'"}
+            />
+        );
+    }
 
     const type = selectedOption._type;
     let icon = <FolderIcon />;
@@ -173,7 +201,18 @@ function DataSearchOption(props) {
 
 function AppsSearchOption(props) {
     const { t } = useTranslation("common");
-    const { selectedOption, searchTerm } = props;
+    const { filter, selectedOption, searchTerm } = props;
+
+    if (selectedOption?.id === "viewAll") {
+        return (
+            <ViewAllOption
+                searchTerm={searchTerm}
+                filter={filter}
+                prompt={"View all Apps results for '" + searchTerm + "'"}
+            />
+        );
+    }
+
     const href = `/${NavigationConstants.APPS}/[systemId]/[appId]`;
     const as = `/${NavigationConstants.APPS}/${selectedOption?.system_id}/${selectedOption?.id}`;
     return (
@@ -190,7 +229,18 @@ function AppsSearchOption(props) {
 
 function AnalysesSearchOption(props) {
     const { t } = useTranslation("common");
-    const { selectedOption, searchTerm } = props;
+    const { filter, selectedOption, searchTerm } = props;
+
+    if (selectedOption?.id === "viewAll") {
+        return (
+            <ViewAllOption
+                searchTerm={searchTerm}
+                filter={filter}
+                prompt={"View all Analyses results for '" + searchTerm + "'"}
+            />
+        );
+    }
+
     const href = `/${NavigationConstants.ANALYSES}/[analysisId]`;
     const as = `/${NavigationConstants.ANALYSES}/${selectedOption?.id}`;
     return (
@@ -211,7 +261,7 @@ function GlobalSearchField(props) {
     const { search, showErrorAnnouncer } = props;
 
     const { t } = useTranslation(["common", "analyses"]);
-  
+
     const appRecordFields = appFields();
 
     const [searchTerm, setSearchTerm] = useState(search);
@@ -255,7 +305,12 @@ function GlobalSearchField(props) {
                 analyses.forEach((analysis) => {
                     analysis.resultType = t("analyses");
                 });
-                setOptions([...options, ...analyses]);
+                const viewAll = {
+                    id: "viewAll",
+                    name: "",
+                    resultType: t("analyses"),
+                };
+                setOptions([...options, ...analyses, viewAll]);
             }
         }
     );
@@ -269,7 +324,12 @@ function GlobalSearchField(props) {
                 apps.forEach((app) => {
                     app.resultType = t("apps");
                 });
-                setOptions([...options, ...apps]);
+                const viewAll = {
+                    id: "viewAll",
+                    name: "",
+                    resultType: t("apps"),
+                };
+                setOptions([...options, ...apps, viewAll]);
             }
         }
     );
@@ -284,7 +344,12 @@ function GlobalSearchField(props) {
                     data.name = data._source?.label;
                     data.resultType = t("data");
                 });
-                setOptions([...options, ...data]);
+                const viewAll = {
+                    id: "viewAll",
+                    name: "",
+                    resultType: t("data"),
+                };
+                setOptions([...options, ...data, viewAll]);
             }
         }
     );
@@ -309,12 +374,23 @@ function GlobalSearchField(props) {
         }
     }, [open]);
 
-    useEffect(() => {
-        if (value === searchI18N("viewAllResults", { name: t("analyses") })) {
-            console.log("view all now");
-            setValue(searchTerm);
+
+    /*     useEffect(() => {
+        const searchComplete = !(
+            searchingAnalyses &&
+            searchingApps &&
+            searchingData
+        );
+        const viewAllResultsAdded = options?.find(option => option.id === "viewAll");
+        if (searchComplete && options?.length > 0 && !viewAllResultsAdded) {
+            const viewAll = {
+                id: "viewAll",
+                name: "",
+                resultType: "View All Results"
+            };
+            setOptions([...options, viewAll]);
         }
-    }, [searchI18N, searchTerm, t, value]);
+    }, [options, searchTerm, searchingAnalyses, searchingApps, searchingData]); */
 
     useEffect(() => {
         if (value === searchI18N("viewAllResults", { name: t("analyses") })) {
@@ -325,6 +401,7 @@ function GlobalSearchField(props) {
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
+            setOptions([]);
             const dataQuery = getDataSimpleSearchQuery(
                 searchTerm,
                 userHomeDir,
@@ -386,6 +463,7 @@ function GlobalSearchField(props) {
         appRecordFields.NAME.key,
         bootstrapCache,
         filter,
+        setOptions,
         searchTerm,
         showErrorAnnouncer,
         t,
@@ -416,6 +494,7 @@ function GlobalSearchField(props) {
                     <DataSearchOption
                         selectedOption={option}
                         searchTerm={searchTerm}
+                        filter={filter}
                     />
                 );
             case t("apps"):
@@ -423,6 +502,7 @@ function GlobalSearchField(props) {
                     <AppsSearchOption
                         selectedOption={option}
                         searchTerm={searchTerm}
+                        filter={filter}
                     />
                 );
             case t("analyses"):
@@ -430,6 +510,7 @@ function GlobalSearchField(props) {
                     <AnalysesSearchOption
                         selectedOption={option}
                         searchTerm={searchTerm}
+                        filter={filter}
                     />
                 );
             default:

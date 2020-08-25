@@ -6,4 +6,5 @@ export default {
     APPS: "apps",
     DATA: "data",
     ANALYSES: "analyses",
+    VIEW_ALL_ID: "viewAll",
 };

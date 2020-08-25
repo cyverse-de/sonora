@@ -164,13 +164,14 @@ function ViewAllOption(props) {
 
 function DataSearchOption(props) {
     const { filter, selectedOption, searchTerm } = props;
+    const { t: i18NSearch } = useTranslation("search");
 
-    if (selectedOption?.id === "viewAll") {
+    if (selectedOption?.id === searchConstants.VIEW_ALL_ID) {
         return (
             <ViewAllOption
                 searchTerm={searchTerm}
                 filter={filter}
-                prompt={"View all Data results for '" + searchTerm + "'"}
+                prompt={i18NSearch("viewAllDataResults", { searchTerm })}
             />
         );
     }
@@ -201,14 +202,15 @@ function DataSearchOption(props) {
 
 function AppsSearchOption(props) {
     const { t } = useTranslation("common");
+    const { t: i18NSearch } = useTranslation("search");
     const { filter, selectedOption, searchTerm } = props;
 
-    if (selectedOption?.id === "viewAll") {
+    if (selectedOption?.id === searchConstants.VIEW_ALL_ID) {
         return (
             <ViewAllOption
                 searchTerm={searchTerm}
                 filter={filter}
-                prompt={"View all Apps results for '" + searchTerm + "'"}
+                prompt={i18NSearch("viewAllAppsResults", { searchTerm })}
             />
         );
     }
@@ -229,14 +231,15 @@ function AppsSearchOption(props) {
 
 function AnalysesSearchOption(props) {
     const { t } = useTranslation("common");
+    const { t: i18NSearch } = useTranslation("search");
     const { filter, selectedOption, searchTerm } = props;
 
-    if (selectedOption?.id === "viewAll") {
+    if (selectedOption?.id === searchConstants.VIEW_ALL_ID) {
         return (
             <ViewAllOption
                 searchTerm={searchTerm}
                 filter={filter}
-                prompt={"View all Analyses results for '" + searchTerm + "'"}
+                prompt={i18NSearch("viewAllAnalysesResults", { searchTerm })}
             />
         );
     }
@@ -303,12 +306,18 @@ function GlobalSearchField(props) {
             if (results && results.analyses?.length > 0) {
                 const analyses = results.analyses;
                 analyses.forEach((analysis) => {
-                    analysis.resultType = t("analyses");
+                    analysis.resultType = {
+                        type: t("analyses"),
+                        id: searchConstants.ANALYSES,
+                    };
                 });
                 const viewAll = {
-                    id: "viewAll",
+                    id: searchConstants.VIEW_ALL_ID,
                     name: "",
-                    resultType: t("analyses"),
+                    resultType: {
+                        type: t("analyses"),
+                        id: searchConstants.ANALYSES,
+                    },
                 };
                 setOptions([...options, ...analyses, viewAll]);
             }
@@ -322,12 +331,15 @@ function GlobalSearchField(props) {
             if (results && results.apps?.length > 0) {
                 const apps = results.apps;
                 apps.forEach((app) => {
-                    app.resultType = t("apps");
+                    app.resultType = {
+                        type: t("apps"),
+                        id: searchConstants.APPS,
+                    };
                 });
                 const viewAll = {
-                    id: "viewAll",
+                    id: searchConstants.VIEW_ALL_ID,
                     name: "",
-                    resultType: t("apps"),
+                    resultType: { type: t("apps"), id: searchConstants.APPS },
                 };
                 setOptions([...options, ...apps, viewAll]);
             }
@@ -342,12 +354,15 @@ function GlobalSearchField(props) {
                 const data = results.hits;
                 data.forEach((data) => {
                     data.name = data._source?.label;
-                    data.resultType = t("data");
+                    data.resultType = {
+                        type: t("data"),
+                        id: searchConstants.DATA,
+                    };
                 });
                 const viewAll = {
-                    id: "viewAll",
+                    id: searchConstants.VIEW_ALL_ID,
                     name: "",
-                    resultType: t("data"),
+                    resultType: { type: t("data"), id: searchConstants.DATA },
                 };
                 setOptions([...options, ...data, viewAll]);
             }
@@ -374,6 +389,7 @@ function GlobalSearchField(props) {
         }
     }, [open]);
 
+<<<<<<< HEAD
 
     /*     useEffect(() => {
         const searchComplete = !(
@@ -392,6 +408,8 @@ function GlobalSearchField(props) {
         }
     }, [options, searchTerm, searchingAnalyses, searchingApps, searchingData]); */
 
+=======
+>>>>>>> 5566f6b... Add `view all` to global search results.
     useEffect(() => {
         if (value === searchI18N("viewAllResults", { name: t("analyses") })) {
             console.log("view all now");
@@ -488,8 +506,8 @@ function GlobalSearchField(props) {
     const loading = searchingAnalyses || searchingApps || searchingData;
 
     const renderCustomOption = (option) => {
-        switch (option?.resultType) {
-            case t("data"):
+        switch (option?.resultType?.id) {
+            case searchConstants.DATA:
                 return (
                     <DataSearchOption
                         selectedOption={option}
@@ -497,7 +515,7 @@ function GlobalSearchField(props) {
                         filter={filter}
                     />
                 );
-            case t("apps"):
+            case searchConstants.APPS:
                 return (
                     <AppsSearchOption
                         selectedOption={option}
@@ -505,7 +523,7 @@ function GlobalSearchField(props) {
                         filter={filter}
                     />
                 );
-            case t("analyses"):
+            case searchConstants.ANALYSES:
                 return (
                     <AnalysesSearchOption
                         selectedOption={option}
@@ -574,7 +592,7 @@ function GlobalSearchField(props) {
                 filterOptions={(options, state) => options}
                 loading={loading}
                 loadingText={t("searching")}
-                groupBy={(option) => option.resultType}
+                groupBy={(option) => option.resultType.type}
                 renderOption={(option, state) => renderCustomOption(option)}
                 renderInput={(params) => renderCustomInput(params)}
                 popupIcon={null}

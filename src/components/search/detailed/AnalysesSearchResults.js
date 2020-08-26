@@ -202,9 +202,10 @@ export default function AnalysesSearchResults(props) {
             />
             {selectedAnalysis && (
                 <DetailsDrawer
+                    selectedAnalysis={selectedAnalysis}
                     baseId={baseId}
                     open={selectedAnalysis !== null}
-                    onClose={setSelectedAnalysis(null)}
+                    onClose={()=>setSelectedAnalysis(null)}
                 />
             )}
         </>

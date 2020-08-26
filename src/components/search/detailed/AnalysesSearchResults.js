@@ -205,7 +205,7 @@ export default function AnalysesSearchResults(props) {
                     selectedAnalysis={selectedAnalysis}
                     baseId={baseId}
                     open={selectedAnalysis !== null}
-                    onClose={()=>setSelectedAnalysis(null)}
+                    onClose={() => setSelectedAnalysis(null)}
                 />
             )}
         </>

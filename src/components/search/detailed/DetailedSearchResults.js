@@ -176,7 +176,7 @@ function DetailedSearchResults(props) {
     let totalResults = dataCount + appsCount + analysesCount;
     if (filter === searchConstants.DATA) {
         tabsToRender = dataTab;
-        totalResults = dataCount
+        totalResults = dataCount;
     } else if (filter === searchConstants.APPS) {
         tabsToRender = appsTab;
         totalResults = appsCount;

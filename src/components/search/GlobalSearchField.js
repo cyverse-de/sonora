@@ -211,7 +211,7 @@ function GlobalSearchField(props) {
     const { search, showErrorAnnouncer } = props;
 
     const { t } = useTranslation(["common", "analyses"]);
-  
+
     const appRecordFields = appFields();
 
     const [searchTerm, setSearchTerm] = useState(search);
@@ -308,7 +308,6 @@ function GlobalSearchField(props) {
             setOptions([]);
         }
     }, [open]);
-
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {

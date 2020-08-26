@@ -200,21 +200,6 @@ function DetailedSearchResults(props) {
         );
     }
 
-    if (!searchTerm && !isMobile) {
-        return (
-            <div>
-                <span>
-                    <IconButton disabled>
-                        <SearchIcon color="primary" />
-                    </IconButton>
-                </span>
-                <Typography className={classes.searchInfo} component="span" >
-                    {t("search:searchPagePrompt")}
-                </Typography>
-            </div>
-        );
-    }
-
     return (
         <Paper className={classes.root}>
             {!isMobile && (

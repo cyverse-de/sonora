@@ -150,17 +150,17 @@ const getListingPath = (
 
 /**
  * Open a new tab / window with VICE access url is clicked
- * @param {*} url 
- */    
+ * @param {*} url
+ */
 const openInteractiveUrl = (url) => {
     window.open(url, "_blank");
 };
 
 /**
  * A custom hook to get `href` and `as` for using with analysis relaunch next/link
- * 
+ *
  * @param {object} analysis - selected analysis for relaunch
- * 
+ *
  * @return {array} href and as to be used in next/link
  */
 const useRelaunchLink = (analysis) => {
@@ -188,5 +188,5 @@ export {
     getListingPath,
     openInteractiveUrl,
     useRelaunchLink,
-    useGotoOutputFolderLink
+    useGotoOutputFolderLink,
 };

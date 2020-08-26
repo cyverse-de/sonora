@@ -1,6 +1,6 @@
 /**
  *
- * Display tablular view of detailed analyses search results
+ * Display tabular view of detailed analyses search results
  *
  * @author sriram
  *
@@ -92,8 +92,7 @@ export default function AnalysesSearchResults(props) {
         }
     }, [data, updateResultCount]);
 
-    let flatData = [];
-    const memoFlatData = React.useMemo(() => flatData,[flatData]);
+   
 
     const columns = React.useMemo(
         () => [
@@ -135,7 +134,7 @@ export default function AnalysesSearchResults(props) {
         return <Typography>{t("noResults")}</Typography>;
     }
 
-   
+    let flatData = [];
     if (data && data.length > 0) {
         data.forEach((page) => {
             flatData = [...flatData, ...page.analyses];
@@ -147,7 +146,7 @@ export default function AnalysesSearchResults(props) {
     return (
         <SearchResultsTable
             columns={columns}
-            data={memoFlatData}
+            data={flatData}
             baseId={baseId}
             loading={status === constants.LOADING}
             fetchMore={fetchMore}

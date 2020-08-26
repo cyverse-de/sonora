@@ -1,7 +1,11 @@
 {
-    "noResults":"No results to display.",
-    "errorSearch":"Unable to search. Please try again.",
-    "loadMore":"Load More",
-    "searchInfo":"Searching for {{term}}. Found ",
-    "matchingResults":"matching results."
- }
+    "analysesSearchTab": "Analyses ({{count}})",
+    "appsSearchTab": "Apps ({{count}})",
+    "dataSearchTab": "Data ({{count}})",
+    "errorSearch": "Unable to search. Please try again.",
+    "noResults": "No results to display.",
+    "matchingResults": "matching results.",
+    "loadMore": "Load More",
+    "searchInfo": "Searching for {{term}}. Found ",
+    "searchPagePrompt": "Begin searching by typing on the search field."
+}

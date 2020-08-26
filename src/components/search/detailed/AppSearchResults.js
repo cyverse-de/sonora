@@ -102,7 +102,7 @@ export default function AppSearchResults(props) {
         } else {
             setAppsSearchQueryEnabled(false);
         }
-    }, [appRecordFields.NAME.key, order, orderBy, searchTerm]);
+    }, [order, orderBy, searchTerm, setAppsSearchQueryEnabled]);
 
     useEffect(() => {
         if (data && data.length > 0) {

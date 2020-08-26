@@ -79,8 +79,7 @@ export default function AnalysesSearchResults(props) {
             setAnalysesSearchQueryEnabled(false);
         }
     }, [
-        analysisRecordFields.NAME.key,
-        analysisRecordFields.START_DATE.key,
+        setAnalysesSearchQueryEnabled,
         order,
         orderBy,
         searchTerm,
@@ -92,6 +91,9 @@ export default function AnalysesSearchResults(props) {
             updateResultCount(data[0].total);
         }
     }, [data, updateResultCount]);
+
+    let flatData = [];
+    const memoFlatData = React.useMemo(() => flatData,[flatData]);
 
     const columns = React.useMemo(
         () => [
@@ -133,17 +135,19 @@ export default function AnalysesSearchResults(props) {
         return <Typography>{t("noResults")}</Typography>;
     }
 
-    let flatdata = [];
+   
     if (data && data.length > 0) {
         data.forEach((page) => {
-            flatdata = [...flatdata, ...page.analyses];
+            flatData = [...flatData, ...page.analyses];
         });
     }
+
+    
 
     return (
         <SearchResultsTable
             columns={columns}
-            data={flatdata}
+            data={memoFlatData}
             baseId={baseId}
             loading={status === constants.LOADING}
             fetchMore={fetchMore}

@@ -332,12 +332,12 @@ function GlobalSearchField(props) {
                 },
             ]);
 
-            const analysisRecordfields = analysisFields(t);
+            const analysisRecordFields = analysisFields(t);
             setAnalysesSearchKey([
                 ANALYSES_SEARCH_QUERY_KEY,
                 {
                     rowsPerPage: searchConstants.GLOBAL_SEARCH_PAGE_SIZE,
-                    orderBy: analysisRecordfields.START_DATE.key,
+                    orderBy: analysisRecordFields.START_DATE.key,
                     order: constants.SORT_DESCENDING,
                     page: searchConstants.GLOBAL_SEARCH_PAGE,
                     filter: getAnalysesSearchQueryFilter(searchTerm, t),

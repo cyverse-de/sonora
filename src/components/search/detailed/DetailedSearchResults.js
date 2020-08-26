@@ -24,6 +24,7 @@ import DETabPanel from "components/utils/DETabPanel";
 import {
     Divider,
     Paper,
+    IconButton,
     makeStyles,
     useMediaQuery,
     useTheme,
@@ -31,6 +32,7 @@ import {
     Tabs,
     Typography,
 } from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -79,8 +81,7 @@ export default function DetailedSearchResults(props) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const [selectedTab, setSelectedTab] = useState(TABS.data);
-    const { t } = useTranslation("common");
-    const { t: i18Search } = useTranslation("search");
+    const { t } = useTranslation(["common", "search"]);
     const [appsCount, setAppsCount] = useState(0);
     const [dataCount, setDataCount] = useState(0);
     const [analysesCount, setAnalysesCount] = useState(0);
@@ -117,7 +118,9 @@ export default function DetailedSearchResults(props) {
             key={dataTabId}
             id={dataTabId}
             label={
-                isMobile ? dataCount : t("dataSearchTab", { count: dataCount })
+                isMobile
+                    ? dataCount
+                    : t("search:dataSearchTab", { count: dataCount })
             }
             classes={{ selected: classes.tabSelected }}
             icon={
@@ -136,7 +139,9 @@ export default function DetailedSearchResults(props) {
             key={appsTabId}
             id={appsTabId}
             label={
-                isMobile ? appsCount : t("appsSearchTab", { count: appsCount })
+                isMobile
+                    ? appsCount
+                    : t("search:appsSearchTab", { count: appsCount })
             }
             classes={{ selected: classes.tabSelected }}
             icon={
@@ -157,7 +162,7 @@ export default function DetailedSearchResults(props) {
             label={
                 isMobile
                     ? analysesCount
-                    : t("analysesSearchTab", { count: analysesCount })
+                    : t("search:analysesSearchTab", { count: analysesCount })
             }
             classes={{ selected: classes.tabSelected }}
             icon={
@@ -179,16 +184,31 @@ export default function DetailedSearchResults(props) {
         tabsToRender = analysesTab;
     }
 
+    if (!searchTerm && !isMobile) {
+        return (
+            <div>
+                <span>
+                    <IconButton disabled>
+                        <SearchIcon color="primary" />
+                    </IconButton>
+                </span>
+                <Typography className={classes.searchInfo} component="span" >
+                    {t("search:searchPagePrompt")}
+                </Typography>
+            </div>
+        );
+    }
+
     return (
         <Paper className={classes.root}>
             {!isMobile && (
                 <Typography className={classes.searchInfo}>
-                    {i18Search("searchInfo", { term: `"${searchTerm}"` })}
+                    {t("search:searchInfo", { term: `"${searchTerm}"` })}
                     <AnimatedNumber
                         value={dataCount + appsCount + analysesCount}
                         formatValue={(value) => value.toFixed(0)}
                     />{" "}
-                    {i18Search("matchingResults")}
+                    {t("search:matchingResults")}
                 </Typography>
             )}
             <Divider />

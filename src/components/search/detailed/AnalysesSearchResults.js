@@ -107,6 +107,9 @@ export default function AnalysesSearchResults(props) {
         }
     }, [data, updateResultCount]);
 
+    let flatData = [];
+    const memoFlatData = React.useMemo(() => flatData,[flatData]);
+
     const columns = React.useMemo(
         () => [
             {
@@ -169,14 +172,21 @@ export default function AnalysesSearchResults(props) {
         return <Typography>{t("noResults")}</Typography>;
     }
 
+<<<<<<< HEAD
     let flatData = [];
+=======
+   
+>>>>>>> 128a82a... address PR comments
     if (data && data.length > 0) {
         data.forEach((page) => {
             flatData = [...flatData, ...page.analyses];
         });
     }
 
+    
+
     return (
+<<<<<<< HEAD
         <>
             <SearchResultsTable
                 columns={columns}
@@ -208,5 +218,28 @@ export default function AnalysesSearchResults(props) {
                 />
             )}
         </>
+=======
+        <SearchResultsTable
+            columns={columns}
+            data={memoFlatData}
+            baseId={baseId}
+            loading={status === constants.LOADING}
+            fetchMore={fetchMore}
+            isFetchingMore={isFetchingMore}
+            canFetchMore={canFetchMore}
+            initialSortBy={[
+                {
+                    id: analysisRecordFields.START_DATE.key,
+                    desc: order === constants.SORT_DESCENDING,
+                },
+            ]}
+            onSort={(colId, descending) => {
+                setOrderBy(colId);
+                descending
+                    ? setOrder(constants.SORT_DESCENDING)
+                    : setOrder(constants.SORT_ASCENDING);
+            }}
+        />
+>>>>>>> 128a82a... address PR comments
     );
 }

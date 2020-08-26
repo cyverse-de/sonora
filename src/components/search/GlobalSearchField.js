@@ -389,7 +389,6 @@ function GlobalSearchField(props) {
         }
     }, [open]);
 
-<<<<<<< HEAD
 
     /*     useEffect(() => {
         const searchComplete = !(
@@ -407,15 +406,6 @@ function GlobalSearchField(props) {
             setOptions([...options, viewAll]);
         }
     }, [options, searchTerm, searchingAnalyses, searchingApps, searchingData]); */
-
-=======
->>>>>>> 5566f6b... Add `view all` to global search results.
-    useEffect(() => {
-        if (value === searchI18N("viewAllResults", { name: t("analyses") })) {
-            console.log("view all now");
-            setValue(searchTerm);
-        }
-    }, [searchI18N, searchTerm, t, value]);
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {

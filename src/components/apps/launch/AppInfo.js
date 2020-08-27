@@ -57,33 +57,43 @@ const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
     const { t } = useTranslation("launch");
     if (app?.deleted) {
         message = (
-            <Trans i18nKey="appDeprecated">
-                This application has been deprecated. If you need access to it,
-                please{" "}
-                <Link
-                    id={buildDebugId(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
-                    component="button"
-                    onClick={intercomShow}
-                >
-                    contact support.
-                </Link>
-            </Trans>
+            <Trans
+                t={t}
+                i18nKey="appDeprecated"
+                components={{
+                    support: (
+                        <Link
+                            id={buildDebugId(
+                                baseId,
+                                ids.BUTTONS.CONTACT_SUPPORT
+                            )}
+                            component="button"
+                            onClick={intercomShow}
+                        />
+                    ),
+                }}
+            />
         );
     } else if (app?.disabled) {
         message = t("appUnavailable");
     } else if (hasDeprecatedParams) {
         message = (
-            <Trans i18nKey="appParamsDeprecated">
-                This application uses 1 or more parameters that have been
-                deprecated. If you still need access to this application, please{" "}
-                <Link
-                    id={buildDebugId(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
-                    component="button"
-                    onClick={intercomShow}
-                >
-                    contact support.
-                </Link>
-            </Trans>
+            <Trans
+                t={t}
+                i18nKey="appParamsDeprecated"
+                components={{
+                    support: (
+                        <Link
+                            id={buildDebugId(
+                                baseId,
+                                ids.BUTTONS.CONTACT_SUPPORT
+                            )}
+                            component="button"
+                            onClick={intercomShow}
+                        />
+                    ),
+                }}
+            />
         );
     }
 

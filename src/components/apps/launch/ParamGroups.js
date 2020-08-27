@@ -369,54 +369,45 @@ const ParamsReviewValue = ({ param }) => {
     return value;
 };
 
-const HPCWaitTimesMessage = ({ baseId }) => (
-    <Trans i18nKey="hpcAppWaitTimes">
-        <p>
-            This application runs on XSEDE, the U.S. National Supercomputing
-            Network. Analyses run on this system enter a queue that includes
-            many non-CyVerse users. Wait times for your analyses (jobs) to
-            submit and run may be up to several days for large-memory
-            applications. Please do not resubmit your analysis. If the status of
-            your analysis has not changed from Submitted to Running after
-            several days,{" "}
-            <Link
-                id={buildDebugId(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
-                component="button"
-                onClick={(event) => {
-                    // prevent form submission
-                    event.preventDefault();
-                    intercomShow();
-                }}
-            >
-                contact support
-            </Link>
-            . To learn more about HPC apps, see{" "}
-            <Link
-                key="hpc"
-                href={GlobalConstants.HPC_WIKI_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Using HPC Apps in the DE
-            </Link>
-            .
-        </p>
-        <p>
-            Apply for your own XSEDE allocation to gain access to additional
-            resources at{" "}
-            <Link
-                key="xsede"
-                href={constants.XSEDE_ALLOC_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                XRAS - Submit Allocation Request
-            </Link>
-            . Access to this powerful system is made available to CyVerse users
-            at no cost through a grant from the National Science Foundation.
-        </p>
-    </Trans>
-);
+const HPCWaitTimesMessage = ({ baseId }) => {
+    const { t } = useTranslation("launch");
+    return (
+        <Trans
+            t={t}
+            i18nKey="hpcAppWaitTimes"
+            components={{
+                p: <p />,
+                support: (
+                    <Link
+                        id={buildDebugId(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
+                        component="button"
+                        onClick={(event) => {
+                            // prevent form submission
+                            event.preventDefault();
+                            intercomShow();
+                        }}
+                    />
+                ),
+                hpcLink: (
+                    <Link
+                        key="hpc"
+                        href={GlobalConstants.HPC_WIKI_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+                xsede: (
+                    <Link
+                        key="xsede"
+                        href={constants.XSEDE_ALLOC_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+            }}
+        />
+    );
+};
 
 const ShowAllParameters = ({ baseId, checked, onChange }) => {
     const switchId = buildDebugId(baseId, ids.BUTTONS.SHOW_ALL_PARAMETERS);

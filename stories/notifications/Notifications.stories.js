@@ -1,12 +1,10 @@
-
-
 /**
  * @author Flynn
  *
  */
 
 import React, {Component} from "react";
-import NotificationsPreview from "../../src/pages/notifications/notificationPreview.js"
+import NotificationsPreview from "../../src/pages/notifications/components/notificationsPreview";
 
 class NotificationsPreviewTest extends Component{
     render() {
@@ -1117,35 +1115,37 @@ const trimmed_notifications = {
     ],
     "system-messages": [],
 };
-//
-// const presenter = {
-//     getNotifications: (
-//         limit,
-//         offset,
-//         filter,
-//         sortDir,
-//         resultCallback,
-//         errorCallback
-//     ) => {
-//         resultCallback(notifications, 10);
-//     },
-//     deleteNotifications: (
-//         selected,
-//         rowsPerPage,
-//         resultCallback,
-//         errorCallback
-//     ) => {
-//         resultCallback(trimmed_notifications, 8);
-//     },
-//     onNotificationToolbarMarkAsSeenClicked: () =>
-//         logger("Mark As Seen"),
-//     onMessageClicked: () => logger("MessageClicked!"),
-// };
-// const logger =
-//     this.props.logger ||
-//     ((Notification) => {
-//         console.log(Notification);
-//     });
+
+const logger =
+    this.props.logger ||
+    ((Notification) => {
+        console.log(Notification);
+    });
+
+const presenter = {
+    getNotifications: (
+        limit,
+        offset,
+        filter,
+        sortDir,
+        resultCallback,
+        errorCallback
+    ) => {
+        resultCallback(notifications, 10);
+    },
+    deleteNotifications: (
+        selected,
+        rowsPerPage,
+        resultCallback,
+        errorCallback
+    ) => {
+        resultCallback(trimmed_notifications, 8);
+    },
+    onNotificationToolbarMarkAsSeenClicked: () =>
+        logger("Mark As Seen"),
+    onMessageClicked: () => logger("MessageClicked!"),
+};
+
 
 return (
     <NotificationsPreview

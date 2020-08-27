@@ -23,7 +23,6 @@ import {
     getAppsInCategory,
     APP_BY_ID_QUERY_KEY,
     ALL_APPS_QUERY_KEY,
-    APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,
 } from "serviceFacades/apps";
 
@@ -397,7 +396,8 @@ function Listing({
             />
             {detailsApp && (
                 <Drawer
-                    selectedApp={detailsApp}
+                    appId={detailsApp?.id}
+                    systemId={detailsApp?.system_id}
                     open={detailsOpen}
                     baseId={baseId}
                     onClose={() => setDetailsOpen(false)}

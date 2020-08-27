@@ -19,7 +19,9 @@ import constants from "../../../constants";
 import {
     appFavorite,
     getAppDetails,
+    getAppById,
     rateApp,
+    APP_BY_ID_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
 } from "serviceFacades/apps";
 
@@ -144,7 +146,8 @@ function DetailsSubHeader({
 
 function DetailsDrawer(props) {
     const classes = useStyles();
-    const { selectedApp, open, onClose, baseId,appsInCategoryQueryEnabled,appsInCategoryKey, allAppsKey, intl } = props;
+    const { appId, systemId, open, onClose, baseId, intl } = props;
+    const [selectedApp, setSelectedApp] = useState(null);
     const [selectedTab, setSelectedTab] = useState(TABS.appInfo);
     const [detailsError, setDetailsError] = useState(null);
     const [favMutationError, setFavMutationError] = useState(null);
@@ -158,26 +161,40 @@ function DetailsDrawer(props) {
         selectedApp?.app_type.toUpperCase() ===
         constants.APP_TYPE_EXTERNAL.toUpperCase();
 
-    const appId = selectedApp.id;
-    const appName = selectedApp.name;
-    const isPublic = selectedApp.is_public;
-    const isFavorite = selectedApp.is_favorite;
-    const { average: averageRating, total: totalRating } = selectedApp.rating;
+    const appName = selectedApp?.name;
+    const isPublic = selectedApp?.is_public;
+    const isFavorite = selectedApp?.is_favorite;
+    const {
+        average: averageRating,
+        total: totalRating,
+    } = selectedApp?.rating || { average: 0, total: 0 };
 
     const drawerId = build(baseId, ids.DETAILS_DRAWER);
     const detailsTabId = build(drawerId, ids.DETAILS_TAB);
     const toolInfoTabId = build(drawerId, ids.TOOLS_INFO_TAB);
 
+    const { isFetching: appByIdStatus, error: appByIdError } = useQuery({
+        queryKey: [APP_BY_ID_QUERY_KEY, { systemId, appId }],
+        queryFn: getAppById,
+        config: {
+            enabled: appId != null && systemId !== null,
+            onSuccess: (result) => {
+                setSelectedApp(result?.apps[0]);
+            },
+        },
+    });
+
     const { isFetching: detailsStatus } = useQuery({
         queryKey: [
             APP_DETAILS_QUERY_KEY,
             {
-                systemId: selectedApp.system_id,
-                appId: selectedApp.id,
+                systemId,
+                appId
             },
         ],
         queryFn: getAppDetails,
         config: {
+            enabled: appId != null && systemId !== null,
             onSuccess: setDetails,
             onError: (e) => {
                 setDetailsError(e);
@@ -189,9 +206,10 @@ function DetailsDrawer(props) {
 
     const [favorite, { status: favMutationStatus }] = useMutation(appFavorite, {
         onSuccess: () =>
-            queryCache.invalidateQueries(
-                appsInCategoryQueryEnabled ? appsInCategoryKey : allAppsKey
-            ),
+            queryCache.invalidateQueries([
+                APP_BY_ID_QUERY_KEY,
+                { systemId, appId },
+            ]),
         onError: (e) => {
             setFavMutationError(e);
             setDetailsError(null);
@@ -201,10 +219,10 @@ function DetailsDrawer(props) {
 
     const [rating, { status: ratingMutationStatus }] = useMutation(rateApp, {
         onSuccess: () =>
-            //return a promise so mutate() only resolves after the onSuccess callback
-            queryCache.invalidateQueries(
-                appsInCategoryQueryEnabled ? appsInCategoryKey : allAppsKey
-            ),
+            queryCache.invalidateQueries([
+                APP_BY_ID_QUERY_KEY,
+                { systemId, appId },
+            ]),
         onError: (e) => {
             setRatingMutationError(e);
             setDetailsError(null);
@@ -299,13 +317,15 @@ function DetailsDrawer(props) {
                     details={details}
                     isPublic={isPublic}
                     isExternal={isExternal}
-                    detailsLoadingStatus={detailsStatus}
-                    ratingMutationStatus={ratingMutationStatus === constants.LOADING}
+                    detailsLoadingStatus={detailsStatus || appByIdStatus}
+                    ratingMutationStatus={
+                        ratingMutationStatus === constants.LOADING
+                    }
                     baseId={baseId}
                     onRatingChange={onRatingChange}
                     onDeleteRatingClick={onDeleteRating}
                     onFavoriteClick={onFavoriteClick}
-                    detailsError={detailsError}
+                    detailsError={detailsError || appByIdError}
                     favMutationError={favMutationError}
                     ratingMutationError={ratingMutationError}
                 />
@@ -318,7 +338,8 @@ function DetailsDrawer(props) {
                 <ToolsUsedPanel
                     details={details}
                     baseId={baseId}
-                    loading={detailsStatus}
+                    loading={detailsStatus || appByIdStatus}
+                    error={detailsError || appByIdError}
                 />
             </DETabPanel>
         </Drawer>

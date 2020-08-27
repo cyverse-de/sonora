@@ -25,8 +25,7 @@
     "emptyDataListing": "No files/folders",
     "fetchPermissionsError": "Unable to fetch permissions. Please try again.",
     "fetchTagsError": "Unable to fetch tags. Please try again.",
-    "fetchTagSuggestionsError":
-        "Unable to fetch tag suggestions.  Please try again.",
+    "fetchTagSuggestionsError": "Unable to fetch tag suggestions.  Please try again.",
     "file": "File",
     "fileSize": "File Size",
     "filesQueuedForUploadMsg": "{{count}} file queued for upload",
@@ -65,8 +64,7 @@
     "selectedFolderAriaLabel": "Selected folder",
     "selectedFolderAriaMenuItemControl": "Selected folder menu item",
     "selectedItems": "{{count}} selected",
-    "selectionSuggestion":
-        "Select a {{context}}",
+    "selectionSuggestion": "Select a {{context}}",
     "selectionSuggestion_any": "Select a resource",
     "selectionSuggestion_plural": "Select {{context}}s",
     "suggestionSelection_any_plural": "Select resources",
@@ -79,8 +77,7 @@
     "updateInfoTypeError": "Unable to update info type. Please try again.",
     "uploadQueue": "View Upload Queue",
     "write": "Write",
-    "updatePermissionsError":
-        "Unable to update permissions. Please try again.",
+    "updatePermissionsError": "Unable to update permissions. Please try again.",
     "upload": "Upload",
     "validationDiskResourceName": "Cannot be named . or ..",
     "validationEmptyDiskResourceName": "Cannot be empty",

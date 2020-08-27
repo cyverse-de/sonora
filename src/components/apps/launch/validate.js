@@ -37,9 +37,9 @@ const validateText = ({ value, validators }, t) => {
                         try {
                             const regex = new RegExp(regexPattern);
                             if (!regex.test(value)) {
-                                validatorMsg = t("validationRegex", 
-                                    {values:  regexPattern }
-                                );
+                                validatorMsg = t("validationRegex", {
+                                    values: regexPattern,
+                                });
                             }
                         } catch (invalidRegex) {}
                         break;
@@ -47,9 +47,9 @@ const validateText = ({ value, validators }, t) => {
                     case constants.VALIDATOR_TYPE.CHARACTER_LIMIT:
                         const limit = validator.params[0];
                         if (value.length > limit) {
-                            validatorMsg = t("validationCharLimit", 
-                                {values:  limit }
-                            );
+                            validatorMsg = t("validationCharLimit", {
+                                values: limit,
+                            });
                         }
                         break;
 
@@ -69,9 +69,7 @@ const validateText = ({ value, validators }, t) => {
 
 const validateAbove = (value, min, t) => {
     if (value <= min) {
-        return t("validationAbove", 
-            { min }
-        );
+        return t("validationAbove", { min });
     }
 
     return null;
@@ -79,24 +77,20 @@ const validateAbove = (value, min, t) => {
 
 const validateBelow = (value, max, t) => {
     if (value >= max) {
-        return t("validationBelow", 
-            { max },
-        );
+        return t("validationBelow", { max });
     }
 
     return null;
 };
 
-const validateRange = (value, params,t) => {
+const validateRange = (value, params, t) => {
     let [min, max] = params;
     if (min > max) {
         [max, min] = params;
     }
 
     if (value < min || max < value) {
-        return t("validationRange", 
-            { min, max },
-        );
+        return t("validationRange", { min, max });
     }
 
     return null;

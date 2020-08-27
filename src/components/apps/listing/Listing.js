@@ -10,11 +10,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
 import Drawer from "../details/Drawer";
 import TableView from "./TableView";
-import intlData from "../messages";
 import AppsToolbar from "../toolbar/Toolbar";
 
-import appType from "../../models/AppType";
-import DEPagination from "../../utils/DEPagination";
+import appType from "components/models/AppType";
+import DEPagination from "components/utils/DEPagination";
 
 import constants from "../../../constants";
 
@@ -29,11 +28,8 @@ import {
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,
-} from "../../../serviceFacades/apps";
+} from "serviceFacades/apps";
 
-import { withI18N } from "@cyverse-de/ui-lib";
-
-import { injectIntl } from "react-intl";
 import { queryCache, useMutation, useQuery } from "react-query";
 
 function Listing({
@@ -521,4 +517,4 @@ function Listing({
     );
 }
 
-export default withI18N(injectIntl(Listing), intlData);
+export default Listing;

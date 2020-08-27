@@ -1,10 +1,8 @@
 import React from "react";
+import { useTranslation } from "i18n";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core";
 import classnames from "classnames";
-import { injectIntl } from "react-intl";
-import intlData from "./messages";
-import { formatMessage, withI18N } from "@cyverse-de/ui-lib";
 
 const useStyles = makeStyles((theme) => ({
     name: {
@@ -25,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AppName(props) {
-    const { baseDebugId, isDisabled, name, onAppNameClicked, intl } = props;
+    const { baseDebugId, isDisabled, name, onAppNameClicked } = props;
+    const { t } = useTranslation("apps");
     const classes = useStyles();
     const classname =
         isDisabled || !onAppNameClicked
@@ -34,9 +33,7 @@ function AppName(props) {
     const handleClick = isDisabled ? undefined : onAppNameClicked;
     let title = "";
     if (handleClick) {
-        title = isDisabled
-            ? formatMessage(intl, "disabledAppTooltip")
-            : formatMessage(intl, "useAppTooltip");
+        title = isDisabled ? t("disabledAppTooltip") : t("useAppTooltip");
     }
     return (
         <div
@@ -67,4 +64,4 @@ AppName.propTypes = {
         PropTypes.instanceOf(RegExp),
     ]),
 };
-export default withI18N(injectIntl(AppName), intlData);
+export default AppName;

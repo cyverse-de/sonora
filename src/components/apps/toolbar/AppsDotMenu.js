@@ -5,10 +5,10 @@
  */
 
 import React from "react";
+import { useTranslation } from "i18n";
 import ids from "../ids";
-import messages from "../messages";
 
-import { build, DotMenu, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build, DotMenu } from "@cyverse-de/ui-lib";
 import {
     ListItemIcon,
     ListItemText,
@@ -26,6 +26,7 @@ function AppsDotMenu(props) {
         onDetailsSelected,
         onFilterSelected,
     } = props;
+    const { t } = useTranslation("apps");
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     return (
@@ -45,7 +46,7 @@ function AppsDotMenu(props) {
                         <ListItemIcon>
                             <Info fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText primary={getMessage("details")} />
+                        <ListItemText primary={t("details")} />
                     </MenuItem>
                 ),
                 isMobile && (
@@ -60,7 +61,7 @@ function AppsDotMenu(props) {
                         <ListItemIcon>
                             <FilterList fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText primary={getMessage("filterLbl")} />
+                        <ListItemText primary={t("filterLbl")} />
                     </MenuItem>
                 ),
             ]}
@@ -68,4 +69,4 @@ function AppsDotMenu(props) {
     );
 }
 
-export default withI18N(AppsDotMenu, messages);
+export default AppsDotMenu;

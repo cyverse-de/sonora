@@ -5,22 +5,15 @@
  */
 import React from "react";
 
-import { injectIntl } from "react-intl";
+import { useTranslation } from "i18n";
 
-import DataSelectionDrawer from "../../data/SelectionDrawer";
+import DataSelectionDrawer from "components/data/SelectionDrawer";
 import { UploadTrackingProvider } from "../../../contexts/uploadTracking";
 
 import ids from "./ids";
-import messages from "./messages";
 import styles from "./styles";
 
-import {
-    build as buildDebugId,
-    getMessage,
-    formatMessage,
-    withI18N,
-    FormTextField,
-} from "@cyverse-de/ui-lib";
+import { build as buildDebugId, FormTextField } from "@cyverse-de/ui-lib";
 
 import {
     Button,
@@ -45,7 +38,7 @@ const BrowseButton = (props) => {
         multiSelect,
         onConfirm,
     } = props;
-
+    const { t } = useTranslation("launch");
     const [open, setOpen] = React.useState(false);
 
     return (
@@ -56,7 +49,7 @@ const BrowseButton = (props) => {
                 variant="outlined"
                 onClick={() => setOpen(true)}
             >
-                {getMessage("browse")}
+                {t("browse")}
             </Button>
             <UploadTrackingProvider>
                 <DataSelectionDrawer
@@ -79,11 +72,11 @@ const BrowseButton = (props) => {
 /**
  * An Input Selector form field for picking data store file or folder paths.
  */
-const InputSelector = ({ intl, acceptedType, startingPath, ...props }) => {
+const InputSelector = ({ acceptedType, startingPath, ...props }) => {
     // These props need to be spread down into the FormTextField
     const { id, field, form, required } = props;
     const classes = useStyles();
-
+    const { t } = useTranslation("launch");
     const { setFieldValue } = form;
 
     const inputProps = {
@@ -108,7 +101,7 @@ const InputSelector = ({ intl, acceptedType, startingPath, ...props }) => {
         inputProps.endAdornment = (
             <IconButton
                 id={buildDebugId(field.name, ids.BUTTONS.DELETE)}
-                aria-label={formatMessage(intl, "clearInput")}
+                aria-label={t("clearInput")}
                 size="small"
                 onClick={() => setFieldValue(field.name, "")}
             >
@@ -138,4 +131,4 @@ const InputSelector = ({ intl, acceptedType, startingPath, ...props }) => {
 
 export { BrowseButton };
 
-export default injectIntl(withI18N(InputSelector, messages));
+export default InputSelector;

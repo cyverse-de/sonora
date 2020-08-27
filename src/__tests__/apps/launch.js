@@ -15,7 +15,7 @@ import { Pipeline } from "../../../stories/apps/launch/Pipeline.stories";
 import { ReferenceGenomeParams } from "../../../stories/apps/launch/ReferenceGenomeParams.stories";
 import { SelectParams } from "../../../stories/apps/launch/SelectParams.stories";
 import { TextParams } from "../../../stories/apps/launch/TextParams.stories";
-
+import { I18nProviderWrapper } from "../../i18n";
 beforeEach(() => {
     mockAxios.reset();
 });
@@ -25,61 +25,109 @@ afterEach(() => {
 });
 
 test("App Launch DEWordCount renders", () => {
-    const component = TestRenderer.create(<DEWordCount />);
+    const component = TestRenderer.create(
+        <I18nProviderWrapper>
+            <DEWordCount />
+        </I18nProviderWrapper>
+    );
     component.unmount();
 });
 
 test("App Launch AgaveWordCount renders", () => {
-    const component = TestRenderer.create(<AgaveWordCount />);
+    const component = TestRenderer.create(
+        <I18nProviderWrapper>
+            <AgaveWordCount />
+        </I18nProviderWrapper>
+    );
     component.unmount();
 });
 
 test("App Launch DeprecatedParams renders", () => {
-    const component = TestRenderer.create(<DeprecatedParams />);
+    const component = TestRenderer.create(
+        <I18nProviderWrapper>
+            <DeprecatedParams />
+        </I18nProviderWrapper>
+    );
     component.unmount();
 });
 
 test("App Launch FlagParams renders", () => {
-    const component = TestRenderer.create(<FlagParams />);
+    const component = TestRenderer.create(
+        <I18nProviderWrapper>
+            <FlagParams />
+        </I18nProviderWrapper>
+    );
     component.unmount();
 });
 
 test("App Launch InputParams renders", () => {
-    const component = TestRenderer.create(<InputParams />);
+    const component = TestRenderer.create(
+        <I18nProviderWrapper>
+            <InputParams />
+        </I18nProviderWrapper>
+    );
     component.unmount();
 });
 
 test("App Launch JupyterLabNoParams renders", () => {
-    const component = TestRenderer.create(<JupyterLabNoParams />);
+    const component = TestRenderer.create(
+        <I18nProviderWrapper>
+            <JupyterLabNoParams />
+        </I18nProviderWrapper>
+    );
     component.unmount();
 });
 
 test("App Launch NumberParams renders", () => {
-    const component = TestRenderer.create(<NumberParams />);
+    const component = TestRenderer.create(
+        <I18nProviderWrapper>
+            <NumberParams />
+        </I18nProviderWrapper>
+    );
     component.unmount();
 });
 
 test("App Launch OutputParams renders", () => {
-    const component = TestRenderer.create(<OutputParams />);
+    const component = TestRenderer.create(
+        <I18nProviderWrapper>
+            <OutputParams />
+        </I18nProviderWrapper>
+    );
     component.unmount();
 });
 
 test("App Launch Pipeline renders", () => {
-    const component = TestRenderer.create(<Pipeline />);
+    const component = TestRenderer.create(
+        <I18nProviderWrapper>
+            <Pipeline />
+        </I18nProviderWrapper>
+    );
     component.unmount();
 });
 
 test("App Launch ReferenceGenomeParams renders", () => {
-    const component = TestRenderer.create(<ReferenceGenomeParams />);
+    const component = TestRenderer.create(
+        <I18nProviderWrapper>
+            <ReferenceGenomeParams />
+        </I18nProviderWrapper>
+    );
     component.unmount();
 });
 
 test("App Launch SelectParams renders", () => {
-    const component = TestRenderer.create(<SelectParams />);
+    const component = TestRenderer.create(
+        <I18nProviderWrapper>
+            <SelectParams />
+        </I18nProviderWrapper>
+    );
     component.unmount();
 });
 
 test("App Launch TextParams renders", () => {
-    const component = TestRenderer.create(<TextParams />);
+    const component = TestRenderer.create(
+        <I18nProviderWrapper>
+            <TextParams />
+        </I18nProviderWrapper>
+    );
     component.unmount();
 });

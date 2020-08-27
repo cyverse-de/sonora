@@ -4,22 +4,19 @@
  * The App Launch Wizard header that displays the app name and description.
  */
 import React from "react";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "i18n";
+import { Trans } from "react-i18next";
 
 import styles from "./styles";
 
-import { intercomShow } from "../../../common/intercom";
+import { intercomShow } from "common/intercom";
 
-import DEErrorDialog from "../../utils/error/DEErrorDialog";
-import ErrorTypography from "../../utils/error/ErrorTypography";
+import DEErrorDialog from "components/utils/error/DEErrorDialog";
+import ErrorTypography from "components/utils/error/ErrorTypography";
 
 import ids from "./ids";
 
-import {
-    build as buildDebugId,
-    getMessage,
-    formatMessage,
-} from "@cyverse-de/ui-lib";
+import { build as buildDebugId } from "@cyverse-de/ui-lib";
 
 import {
     Box,
@@ -35,16 +32,13 @@ import { Skeleton } from "@material-ui/lab";
 
 const useStyles = makeStyles(styles);
 
-const LoadingErrorDisplay = injectIntl(({ intl, baseId, loadingError }) => {
+const LoadingErrorDisplay = ({ baseId, loadingError }) => {
     const [errorDialogOpen, setErrorDialogOpen] = React.useState(false);
-
+    const { t } = useTranslation("launch");
     return (
         <>
             <ErrorTypography
-                errorMessage={
-                    loadingError.message ||
-                    formatMessage(intl, "appLoadingError")
-                }
+                errorMessage={loadingError.message || t("appLoadingError")}
                 onDetailsClick={() => setErrorDialogOpen(true)}
             />
             <DEErrorDialog
@@ -57,17 +51,60 @@ const LoadingErrorDisplay = injectIntl(({ intl, baseId, loadingError }) => {
             />
         </>
     );
-});
+};
+const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
+    let message = "";
+    const { t } = useTranslation("launch");
+    if (app?.deleted) {
+        message = (
+            <Trans
+                t={t}
+                i18nKey="appDeprecated"
+                components={{
+                    support: (
+                        <Link
+                            id={buildDebugId(
+                                baseId,
+                                ids.BUTTONS.CONTACT_SUPPORT
+                            )}
+                            component="button"
+                            onClick={intercomShow}
+                        />
+                    ),
+                }}
+            />
+        );
+    } else if (app?.disabled) {
+        message = t("appUnavailable");
+    } else if (hasDeprecatedParams) {
+        message = (
+            <Trans
+                t={t}
+                i18nKey="appParamsDeprecated"
+                components={{
+                    support: (
+                        <Link
+                            id={buildDebugId(
+                                baseId,
+                                ids.BUTTONS.CONTACT_SUPPORT
+                            )}
+                            component="button"
+                            onClick={intercomShow}
+                        />
+                    ),
+                }}
+            />
+        );
+    }
 
+    return (
+        <Typography color="error" variant="body1" gutterBottom component="span">
+            {message}
+        </Typography>
+    );
+};
 const AppInfo = React.forwardRef((props, ref) => {
     const { app, baseId, hasDeprecatedParams, loading, loadingError } = props;
-    const unavailableMsgKey = app?.deleted
-        ? "appDeprecated"
-        : app?.disabled
-        ? "appUnavailable"
-        : hasDeprecatedParams
-        ? "appParamsDeprecated"
-        : null;
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -100,25 +137,11 @@ const AppInfo = React.forwardRef((props, ref) => {
             </Hidden>
             <Box m={2}>
                 {(app?.deleted || app?.disabled || hasDeprecatedParams) && (
-                    <Typography color="error" variant="body1" gutterBottom>
-                        {getMessage(unavailableMsgKey, {
-                            values: {
-                                support: (...chunks) => (
-                                    <Link
-                                        id={buildDebugId(
-                                            baseId,
-                                            ids.BUTTONS.CONTACT_SUPPORT
-                                        )}
-                                        component="button"
-                                        variant="body1"
-                                        onClick={intercomShow}
-                                    >
-                                        {chunks}
-                                    </Link>
-                                ),
-                            },
-                        })}
-                    </Typography>
+                    <UnavailableMsg
+                        app={app}
+                        hasDeprecatedParams={hasDeprecatedParams}
+                        baseId={baseId}
+                    />
                 )}
             </Box>
         </div>

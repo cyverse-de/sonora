@@ -6,20 +6,19 @@
  */
 import React, { useCallback, useEffect, useState } from "react";
 
-import intlData from "../messages";
 import ids from "../ids";
 
 import constants from "../../../constants";
-import appType from "../../models/AppType";
-import systemId from "../../models/systemId";
+import appType from "components/models/AppType";
+import systemId from "components/models/systemId";
 import {
     getPrivateCategories,
     APP_CATEGORIES_QUERY_KEY,
-} from "../../../serviceFacades/apps";
+} from "serviceFacades/apps";
 
 import { queryCache, useQuery } from "react-query";
 
-import { injectIntl } from "react-intl";
+import { useTranslation } from "i18n";
 
 import {
     List,
@@ -31,7 +30,7 @@ import {
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 
 import {
     Apps as AppsIcon,
@@ -85,11 +84,10 @@ function AppNavigation(props) {
         setCategoryStatus,
         handleAppNavError,
         selectedCategory,
-        intl,
         baseId,
     } = props;
     const classes = useStyles();
-
+    const { t } = useTranslation("apps");
     const [categories, setCategories] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -177,7 +175,7 @@ function AppNavigation(props) {
         <>
             <List
                 component="nav"
-                aria-label={formatMessage(intl, "selectedCategoryAriaLabel")}
+                aria-label={t("selectedCategoryAriaLabel")}
                 id={build(appNavId, ids.APPS_CATEGORIES)}
                 className={classes.list}
             >
@@ -186,10 +184,7 @@ function AppNavigation(props) {
                     aria-haspopup="true"
                     onClick={handleClickListItem}
                     className={classes.selectedListItem}
-                    aria-label={formatMessage(
-                        intl,
-                        "selectedCategoryAriaMenuItemLabel"
-                    )}
+                    aria-label={t("selectedCategoryAriaMenuItemLabel")}
                 >
                     {iconMap.get(selectedCategory.name)}
                     <ListItemText
@@ -216,7 +211,7 @@ function AppNavigation(props) {
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
-                aria-label={formatMessage(intl, "categoriesMenuAriaLabel")}
+                aria-label={t("categoriesMenuAriaLabel")}
             >
                 {categories.map((menuItem, index) => (
                     <ListItem
@@ -246,5 +241,5 @@ function AppNavigation(props) {
         </>
     );
 }
-export default withI18N(injectIntl(AppNavigation), intlData);
+export default AppNavigation;
 export { getAppTypeFilters };

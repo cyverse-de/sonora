@@ -5,6 +5,8 @@
  */
 
 import React from "react";
+import { useTranslation } from "i18n";
+
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -13,12 +15,13 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
-import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
-import intlData from "./messages";
+import { build } from "@cyverse-de/ui-lib";
+
 import ids from "./ids";
 
 function AgaveAuthPromptDialog(props) {
     const { baseId, location, open, handleClose } = props;
+    const { t } = useTranslation("apps");
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
     const redirectUser = () => {
@@ -39,11 +42,11 @@ function AgaveAuthPromptDialog(props) {
             aria-labelledby={dialogTitleId}
         >
             <DialogTitle id={dialogTitleId}>
-                {getMessage("agaveRedirectTitle")}
+                {t("agaveRedirectTitle")}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    {getMessage("agaveRedirectMessage")}
+                    {t("agaveRedirectMessage")}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -55,7 +58,7 @@ function AgaveAuthPromptDialog(props) {
                         ids.AGAVE_AUTH_PROMPT_DIALOG_DENY_BTN
                     )}
                 >
-                    {getMessage("declineAuthBtnText")}
+                    {t("declineAuthBtnText")}
                 </Button>
                 <Button
                     onClick={redirectUser}
@@ -66,11 +69,11 @@ function AgaveAuthPromptDialog(props) {
                         ids.AGAVE_AUTH_PROMPT_DIALOG_AUTH_BTN
                     )}
                 >
-                    {getMessage("authenticateBtnText")}
+                    {t("authenticateBtnText")}
                 </Button>
             </DialogActions>
         </Dialog>
     );
 }
 
-export default withI18N(AgaveAuthPromptDialog, intlData);
+export default AgaveAuthPromptDialog;

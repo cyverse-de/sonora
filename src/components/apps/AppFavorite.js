@@ -1,16 +1,17 @@
+import React from "react";
+import { useTranslation } from "i18n";
 import { IconButton, Tooltip } from "@material-ui/core";
-import { build, formatMessage } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 import ids from "./ids";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import UnFavoriteIcon from "@material-ui/icons/FavoriteBorderOutlined";
-import React from "react";
 
 export default function AppFavorite(props) {
-    const { isFavorite, isExternal, onFavoriteClick, intl, baseId } = props;
-
+    const { isFavorite, isExternal, onFavoriteClick, baseId } = props;
+    const { t } = useTranslation("apps");
     if (isFavorite) {
         return (
-            <Tooltip title={formatMessage(intl, "removeFromFavorites")}>
+            <Tooltip title={t("removeFromFavorites")}>
                 <IconButton
                     id={build(baseId, ids.APP_FAVORITE)}
                     onClick={() => onFavoriteClick(isExternal)}
@@ -23,7 +24,7 @@ export default function AppFavorite(props) {
         );
     } else {
         return (
-            <Tooltip title={formatMessage(intl, "addToFavorites")}>
+            <Tooltip title={t("addToFavorites")}>
                 <IconButton
                     id={build(baseId, ids.APP_UNFAVORITE)}
                     onClick={() => onFavoriteClick(isExternal)}

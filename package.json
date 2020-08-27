@@ -15,10 +15,10 @@
         "build-storybook": "build-storybook -s public",
         "test": "TZ=UTC jest",
         "test-watch": "TZ=UTC jest --watch",
-        "format": "prettier --write 'src/**/*.js' 'stories/**/*.js'",
+        "format": "prettier --write 'src/**/*.js' 'stories/**/*.js' 'public/static/locales/**/*.json'",
         "lint": "eslint --max-warnings=0 ./src/ ./stories/",
         "clean": "rimraf ./.next ./dist ./generated-docs",
-        "check": "npx prettier --check ./src/**/*.js ./.storybook/**/*.js ./stories/**/*.js && eslint --max-warnings=0 ./src/ ./stories/ && TZ=UTC jest"
+        "check": "npx prettier --check ./src/**/*.js ./.storybook/**/*.js ./stories/**/*.js public/static/locales/**/*.json && eslint --max-warnings=0 ./src/ ./stories/ && TZ=UTC jest"
     },
     "repository": {
         "type": "git",

@@ -3,7 +3,6 @@
  *
  * App Launch Form validation functions.
  */
-import { getMessage } from "@cyverse-de/ui-lib";
 
 import { validateDiskResourceName } from "../../data/utils";
 
@@ -16,15 +15,15 @@ import constants from "./constants";
 const isEmptyParamValue = (value) =>
     (!value && value !== 0) || (Array.isArray(value) && value.length < 1);
 
-const validateUnixGlob = (pattern) => {
+const validateUnixGlob = (pattern, t) => {
     if (pattern && (pattern.startsWith("/") || pattern.indexOf("../") >= 0)) {
-        return getMessage("validationUnixGlob");
+        return t("validationUnixGlob");
     }
 
     return null;
 };
 
-const validateText = ({ value, validators }) => {
+const validateText = ({ value, validators }, t) => {
     let errorMsg = null;
 
     if (validators?.length > 0) {
@@ -38,8 +37,8 @@ const validateText = ({ value, validators }) => {
                         try {
                             const regex = new RegExp(regexPattern);
                             if (!regex.test(value)) {
-                                validatorMsg = getMessage("validationRegex", {
-                                    values: { regexPattern },
+                                validatorMsg = t("validationRegex", {
+                                    regexPattern,
                                 });
                             }
                         } catch (invalidRegex) {}
@@ -48,8 +47,8 @@ const validateText = ({ value, validators }) => {
                     case constants.VALIDATOR_TYPE.CHARACTER_LIMIT:
                         const limit = validator.params[0];
                         if (value.length > limit) {
-                            validatorMsg = getMessage("validationCharLimit", {
-                                values: { limit },
+                            validatorMsg = t("validationCharLimit", {
+                                limit,
                             });
                         }
                         break;
@@ -68,42 +67,36 @@ const validateText = ({ value, validators }) => {
     return errorMsg;
 };
 
-const validateAbove = (value, min) => {
+const validateAbove = (value, min, t) => {
     if (value <= min) {
-        return getMessage("validationAbove", {
-            values: { min },
-        });
+        return t("validationAbove", { min });
     }
 
     return null;
 };
 
-const validateBelow = (value, max) => {
+const validateBelow = (value, max, t) => {
     if (value >= max) {
-        return getMessage("validationBelow", {
-            values: { max },
-        });
+        return t("validationBelow", { max });
     }
 
     return null;
 };
 
-const validateRange = (value, params) => {
+const validateRange = (value, params, t) => {
     let [min, max] = params;
     if (min > max) {
         [max, min] = params;
     }
 
     if (value < min || max < value) {
-        return getMessage("validationRange", {
-            values: { min, max },
-        });
+        return t("validationRange", { min, max });
     }
 
     return null;
 };
 
-const validateInteger = ({ value, validators }) => {
+const validateInteger = ({ value, validators }, t) => {
     let errorMsg = null;
 
     if (validators?.length > 0) {
@@ -115,14 +108,16 @@ const validateInteger = ({ value, validators }) => {
                     case constants.VALIDATOR_TYPE.INT_ABOVE:
                         validatorMsg = validateAbove(
                             value,
-                            validator.params[0]
+                            validator.params[0],
+                            t
                         );
                         break;
 
                     case constants.VALIDATOR_TYPE.INT_BELOW:
                         validatorMsg = validateBelow(
                             value,
-                            validator.params[0]
+                            validator.params[0],
+                            t
                         );
                         break;
 
@@ -130,7 +125,8 @@ const validateInteger = ({ value, validators }) => {
                         if (validator.params.length >= 2) {
                             validatorMsg = validateRange(
                                 value,
-                                validator.params
+                                validator.params,
+                                t
                             );
                         }
                         break;
@@ -149,7 +145,7 @@ const validateInteger = ({ value, validators }) => {
     return errorMsg;
 };
 
-const validateDouble = ({ value, validators }) => {
+const validateDouble = ({ value, validators }, t) => {
     let errorMsg = null;
 
     if (validators?.length > 0) {
@@ -161,14 +157,16 @@ const validateDouble = ({ value, validators }) => {
                     case constants.VALIDATOR_TYPE.DOUBLE_ABOVE:
                         validatorMsg = validateAbove(
                             value,
-                            validator.params[0]
+                            validator.params[0],
+                            t
                         );
                         break;
 
                     case constants.VALIDATOR_TYPE.DOUBLE_BELOW:
                         validatorMsg = validateBelow(
                             value,
-                            validator.params[0]
+                            validator.params[0],
+                            t
                         );
                         break;
 
@@ -176,7 +174,8 @@ const validateDouble = ({ value, validators }) => {
                         if (validator.params.length >= 2) {
                             validatorMsg = validateRange(
                                 value,
-                                validator.params
+                                validator.params,
+                                t
                             );
                         }
                         break;
@@ -209,20 +208,20 @@ const validateDouble = ({ value, validators }) => {
  * May also contain custom error fields not found in `values`.
  * If an empty object is returned, then there were no errors.
  */
-const validate = (values) => {
+const validate = (t) => (values) => {
     const errors = {};
 
     if (!values.name) {
-        errors.name = getMessage("required");
+        errors.name = t("required");
     } else {
-        const nameError = validateDiskResourceName(values.name, getMessage);
+        const nameError = validateDiskResourceName(values.name, t);
         if (nameError) {
             errors.name = nameError;
         }
     }
 
     if (!values.output_dir) {
-        errors.output_dir = getMessage("required");
+        errors.output_dir = t("required");
     }
 
     if (values.groups) {
@@ -235,31 +234,31 @@ const validate = (values) => {
                     let valueError = null;
 
                     if (param.required && isEmptyParamValue(param.value)) {
-                        valueError = getMessage("required");
+                        valueError = t("required");
                     } else {
                         switch (param.type) {
                             case constants.PARAM_TYPE.TEXT:
-                                valueError = validateText(param);
+                                valueError = validateText(param, t);
                                 break;
 
                             case constants.PARAM_TYPE.INTEGER:
-                                valueError = validateInteger(param);
+                                valueError = validateInteger(param, t);
                                 break;
 
                             case constants.PARAM_TYPE.DOUBLE:
-                                valueError = validateDouble(param);
+                                valueError = validateDouble(param, t);
                                 break;
 
                             case constants.PARAM_TYPE.FILE_OUTPUT:
                             case constants.PARAM_TYPE.FOLDER_OUTPUT:
                                 valueError = validateDiskResourceName(
                                     param.value,
-                                    getMessage
+                                    t
                                 );
                                 break;
 
                             case constants.PARAM_TYPE.MULTIFILE_OUTPUT:
-                                valueError = validateUnixGlob(param.value);
+                                valueError = validateUnixGlob(param.value, t);
                                 break;
 
                             default:

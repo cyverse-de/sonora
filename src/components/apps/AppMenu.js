@@ -1,15 +1,17 @@
 import React, { useState } from "react";
+import { useTranslation } from "i18n";
 import PropTypes from "prop-types";
+
 import { IconButton, makeStyles, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { injectIntl } from "react-intl";
+
 import InfoIcon from "@material-ui/icons/InfoOutlined";
 import UnFavoriteIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import CommentsIcon from "@material-ui/icons/CommentOutlined";
 import PlayIcon from "@material-ui/icons/PlayArrow";
-import { build, withI18N, formatMessage, getMessage } from "@cyverse-de/ui-lib";
-import intlData from "./messages";
+import { build } from "@cyverse-de/ui-lib";
+
 import ids from "./ids";
 
 /**
@@ -38,8 +40,8 @@ function AppMenu(props) {
         baseDebugId,
         isExternal,
         isFavorite,
-        intl,
     } = props;
+    const { t } = useTranslation("apps");
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClose = () => setAnchorEl(null);
@@ -48,7 +50,7 @@ function AppMenu(props) {
         <div>
             <IconButton
                 id={build(baseDebugId, ids.DOT_MENU)}
-                aria-label={formatMessage(intl, "more")}
+                aria-label={t("more")}
                 aria-owns={open ? "long-menu" : null}
                 aria-haspopup="true"
                 onClick={(event) => setAnchorEl(event.currentTarget)}
@@ -67,7 +69,7 @@ function AppMenu(props) {
                     }}
                 >
                     <InfoIcon className={classes.toolbarItemColor} />
-                    {getMessage("appInfo")}
+                    {t("appInfo")}
                 </MenuItem>
                 {!isFavorite && !isExternal && (
                     <MenuItem
@@ -81,7 +83,7 @@ function AppMenu(props) {
                         }}
                     >
                         <FavoriteIcon className={classes.toolbarItemColor} />
-                        {getMessage("addToFavorites")}
+                        {t("addToFavorites")}
                     </MenuItem>
                 )}
                 {isFavorite && !isExternal && (
@@ -96,7 +98,7 @@ function AppMenu(props) {
                         }}
                     >
                         <UnFavoriteIcon className={classes.toolbarItemColor} />
-                        {getMessage("removeFromFavorites")}
+                        {t("removeFromFavorites")}
                     </MenuItem>
                 )}
                 {!isExternal && [
@@ -112,7 +114,7 @@ function AppMenu(props) {
                         }}
                     >
                         <PlayIcon className={classes.toolbarItemColor} />
-                        {getMessage("quickLaunch")}
+                        {t("quickLaunch")}
                     </MenuItem>,
                     <MenuItem
                         id={build(baseDebugId, ids.APP_COMMENTS)}
@@ -126,7 +128,7 @@ function AppMenu(props) {
                         }}
                     >
                         <CommentsIcon className={classes.toolbarItemColor} />
-                        {getMessage("comments")}
+                        {t("comments")}
                     </MenuItem>,
                 ]}
                 {isExternal && [
@@ -137,7 +139,7 @@ function AppMenu(props) {
                         data-disabled={false}
                         onClick={handleClose}
                     >
-                        {getMessage("favoriteNotSupported")}
+                        {t("favoriteNotSupported")}
                     </MenuItem>,
                     <MenuItem
                         id={build(baseDebugId, ids.APP_COMMENTS)}
@@ -146,7 +148,7 @@ function AppMenu(props) {
                         data-disabled={false}
                         onClick={handleClose}
                     >
-                        {getMessage("commentsNotSupported")}
+                        {t("commentsNotSupported")}
                     </MenuItem>,
                 ]}
             </Menu>
@@ -162,4 +164,4 @@ AppMenu.propTypes = {
     isExternal: PropTypes.bool.isRequired,
     isFavorite: PropTypes.bool.isRequired,
 };
-export default withI18N(injectIntl(AppMenu), intlData);
+export default AppMenu;

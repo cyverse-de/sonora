@@ -5,21 +5,13 @@
  */
 import React from "react";
 import { Field, Form, Formik } from "formik";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "i18n";
 
-import ErrorTypography from "../../utils/error/ErrorTypography";
+import ErrorTypography from "components/utils/error/ErrorTypography";
 
 import ids from "../ids";
-import intlData from "../messages";
 
-import {
-    build,
-    FormCheckbox,
-    FormTextField,
-    formatMessage,
-    getMessage,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { build, FormCheckbox, FormTextField } from "@cyverse-de/ui-lib";
 
 import {
     Button,
@@ -41,14 +33,13 @@ const useStyles = makeStyles((theme) => ({
 
 function CreateQuickLaunchDialog(props) {
     const {
-        intl,
         baseDebugId,
         appName,
         dialogOpen,
         createQuickLaunch,
         onHide,
     } = props;
-
+    const { t } = useTranslation("apps");
     const [saveError, setSaveError] = React.useState(null);
 
     const classes = useStyles();
@@ -80,7 +71,7 @@ function CreateQuickLaunchDialog(props) {
                 {appName}
                 <IconButton
                     className={classes.closeButton}
-                    aria-label={formatMessage(intl, "cancelLabel")}
+                    aria-label={t("cancelLabel")}
                     onClick={onHide}
                     size="small"
                     edge="end"
@@ -98,14 +89,12 @@ function CreateQuickLaunchDialog(props) {
                             <Field
                                 id={build(baseDebugId, ids.QUICK_LAUNCH.name)}
                                 name="name"
-                                label={getMessage("quickLaunchNameLabel")}
+                                label={t("quickLaunchNameLabel")}
                                 required={true}
                                 component={FormTextField}
                             />
 
-                            <Tooltip
-                                title={formatMessage(intl, "publicQLTooltip")}
-                            >
+                            <Tooltip title={t("publicQLTooltip")}>
                                 <div>
                                     <Field
                                         id={build(
@@ -113,7 +102,7 @@ function CreateQuickLaunchDialog(props) {
                                             ids.QUICK_LAUNCH.public
                                         )}
                                         name="is_public"
-                                        label={getMessage("publicLabel")}
+                                        label={t("publicLabel")}
                                         required={false}
                                         component={FormCheckbox}
                                     />
@@ -135,7 +124,7 @@ function CreateQuickLaunchDialog(props) {
                                 disabled={isSubmitting}
                                 onClick={onHide}
                             >
-                                {getMessage("cancelLabel")}
+                                {t("cancelLabel")}
                             </Button>
                             <Button
                                 id={build(baseDebugId, ids.QUICK_LAUNCH.create)}
@@ -144,7 +133,7 @@ function CreateQuickLaunchDialog(props) {
                                 type="submit"
                                 disabled={isSubmitting}
                             >
-                                {getMessage("createQuickLaunchLabel")}
+                                {t("createQuickLaunchLabel")}
                             </Button>
                         </DialogActions>
                     </Form>
@@ -154,4 +143,4 @@ function CreateQuickLaunchDialog(props) {
     );
 }
 
-export default withI18N(injectIntl(CreateQuickLaunchDialog), intlData);
+export default CreateQuickLaunchDialog;

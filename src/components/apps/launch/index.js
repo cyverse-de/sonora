@@ -9,13 +9,13 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useMutation } from "react-query";
 
-import NavigationConstants from "../../../common/NavigationConstants";
+import NavigationConstants from "common/NavigationConstants";
 
 import { useConfig } from "../../../contexts/config";
 import { useUserProfile } from "../../../contexts/userProfile";
 
-import { submitAnalysis } from "../../../serviceFacades/analyses";
-import { addQuickLaunch } from "../../../serviceFacades/quickLaunches";
+import { submitAnalysis } from "serviceFacades/analyses";
+import { addQuickLaunch } from "serviceFacades/quickLaunches";
 
 import AppLaunchWizard from "./AppLaunchWizard";
 

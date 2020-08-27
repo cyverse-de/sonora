@@ -3,8 +3,9 @@
  *
  */
 import React from "react";
-import intlData from "../messages";
-import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { useTranslation } from "i18n";
+
+import { build } from "@cyverse-de/ui-lib";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -13,11 +14,12 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
-import GridLabelValue from "../../utils/GridLabelValue";
-import GridLoading from "../../utils/GridLoading";
+import GridLabelValue from "components/utils/GridLabelValue";
+import GridLoading from "components/utils/GridLoading";
 import ids from "../ids";
 
 function ToolsUsedPanel({ details, loading, baseId, error }) {
+    const { t } = useTranslation("apps");
     if (loading) {
         return <GridLoading baseId={baseId} rows={10} />;
     }
@@ -41,23 +43,21 @@ function ToolsUsedPanel({ details, loading, baseId, error }) {
                 <AccordionDetails>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            {getMessage("details")}
+                            {t("details")}
                         </Grid>
-                        <GridLabelValue label={getMessage("toolNameLabel")}>
+                        <GridLabelValue label={t("toolNameLabel")}>
                             {toolInfo.name}
                         </GridLabelValue>
-                        <GridLabelValue label={getMessage("descriptionLabel")}>
+                        <GridLabelValue label={t("descriptionLabel")}>
                             {toolInfo.description}
                         </GridLabelValue>
-                        <GridLabelValue label={getMessage("imageLabel")}>
+                        <GridLabelValue label={t("imageLabel")}>
                             {toolInfo.image}
                         </GridLabelValue>
-                        <GridLabelValue label={getMessage("toolVersionLabel")}>
+                        <GridLabelValue label={t("toolVersionLabel")}>
                             {toolInfo.version}
                         </GridLabelValue>
-                        <GridLabelValue
-                            label={getMessage("toolAttributionLabel")}
-                        >
+                        <GridLabelValue label={t("toolAttributionLabel")}>
                             {toolInfo.attribution}
                         </GridLabelValue>
                     </Grid>
@@ -69,4 +69,4 @@ function ToolsUsedPanel({ details, loading, baseId, error }) {
     }
 }
 
-export default withI18N(ToolsUsedPanel, intlData);
+export default ToolsUsedPanel;

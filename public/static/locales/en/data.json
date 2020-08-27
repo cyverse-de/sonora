@@ -81,5 +81,5 @@
     "upload": "Upload",
     "validationDiskResourceName": "Cannot be named . or ..",
     "validationEmptyDiskResourceName": "Cannot be empty",
-    "validationInvalidCharacters": "Invalid characters: {{- values.charList}}"
+    "validationInvalidCharacters": "Invalid characters: {{- charList}}"
 }

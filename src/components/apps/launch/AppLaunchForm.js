@@ -541,7 +541,7 @@ const anyParamErrorAndTouched = (errors, touched, groups) =>
     );
 
 const AppLaunchForm = (props) => {
-    const { t } = useTranslation("launch");
+    const { t } = useTranslation(["launch", "data"]);
     const [activeStep, setActiveStep] = React.useState(0);
 
     const [referenceGenomes, setReferenceGenomes] = React.useState([]);
@@ -711,7 +711,7 @@ const AppLaunchForm = (props) => {
             <Formik
                 enableReinitialize
                 initialValues={initValues(t, props)}
-                validate={validate}
+                validate={validate(t)}
                 onSubmit={(values, { setSubmitting }) => {
                     submitAnalysis(
                         formatSubmission(defaultOutputDir, values),

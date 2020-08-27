@@ -33,10 +33,10 @@ const getFolderPage = (folderPath) =>
 
 const validateDiskResourceName = (name, i18nFn) => {
     if (name === "") {
-        return i18nFn("validationEmptyDiskResourceName");
+        return i18nFn("data:validationEmptyDiskResourceName");
     }
     if (name === "." || name === "..") {
-        return i18nFn("validationDiskResourceName");
+        return i18nFn("data:validationDiskResourceName");
     }
 
     const illegalChars = name?.match(DataConstants.NAME_INVALID_CHARS_REGEX);
@@ -50,8 +50,8 @@ const validateDiskResourceName = (name, i18nFn) => {
             })
             .join("");
 
-        return i18nFn("validationInvalidCharacters", {
-            values: { charList },
+        return i18nFn("data:validationInvalidCharacters", {
+            charList,
         });
     }
 

@@ -76,7 +76,15 @@ function getAnalysisRelaunchInfo(key, { id }) {
     });
 }
 
+function cancelAnalysis({ id }) {
+    return callApi({
+        endpoint: `/api/analyses/${id}/stop`,
+        method: "POST",
+    });
+}
+
 export {
+    cancelAnalysis,
     getAnalyses,
     getAnalysisHistory,
     getAnalysisParameters,

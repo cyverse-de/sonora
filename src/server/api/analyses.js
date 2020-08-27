@@ -108,5 +108,18 @@ export default function analysesRouter() {
         })
     );
 
+    logger.info("adding the POST /analyses/:id/stop handler");
+    api.post(
+        "/analyses/:id/stop",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/analyses/:id/stop",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

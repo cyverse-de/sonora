@@ -17,7 +17,8 @@ import {
     deleteAnalyses,
     getAnalyses,
     relaunchAnalyses,
-    renameAnalyses,
+    renameAnalysis,
+    updateAnalysisComment,
 } from "serviceFacades/analyses";
 
 import constants from "../../../constants";
@@ -28,13 +29,12 @@ import Drawer from "../details/Drawer";
 
 import ids from "../ids";
 import RenameAnalysisDialog from "../RenameAnalysisDialog";
+import AnalysisCommentDialog from "../AnalysisCommentDialog";
 
 import TableView from "./TableView";
 
 import AnalysesToolbar from "../toolbar/Toolbar";
 import appType from "components/models/AppType";
-import DEErrorDialog from "components/utils/error/DEErrorDialog";
-import ErrorTypography from "components/utils/error/ErrorTypography";
 
 import { useUserProfile } from "contexts/userProfile";
 import { useNotifications } from "contexts/pushNotifications";
@@ -100,7 +100,7 @@ function Listing(props) {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [relaunchDialogOpen, setRelaunchDialogOpen] = useState(false);
     const [renameDialogOpen, setRenameDialogOpen] = useState(false);
-    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+    const [commentDialogOpen, setCommentDialogOpen] = useState(false);
 
     const [analysesKey, setAnalysesKey] = useState(ANALYSES_LISTING_QUERY_KEY);
     const [
@@ -140,9 +140,9 @@ function Listing(props) {
     });
 
     const [
-        renameAnalysesMutation,
+        renameAnalysisMutation,
         { isLoading: renameLoading, error: renameError },
-    ] = useMutation(renameAnalyses, {
+    ] = useMutation(renameAnalysis, {
         onSuccess: (analysis) => {
             setRenameDialogOpen(false);
 
@@ -150,6 +150,27 @@ function Listing(props) {
                 ...data,
                 analyses: data.analyses.map((a) =>
                     a.id === analysis.id ? { ...a, name: analysis.name } : a
+                ),
+            };
+
+            setData(newPage);
+            queryCache.setQueryData(analysesKey, newPage);
+        },
+    });
+
+    const [
+        analysisCommentMutation,
+        { isLoading: commentLoading, error: commentError },
+    ] = useMutation(updateAnalysisComment, {
+        onSuccess: (analysis) => {
+            setCommentDialogOpen(false);
+
+            const newPage = {
+                ...data,
+                analyses: data.analyses.map((a) =>
+                    a.id === analysis.id
+                        ? { ...a, description: analysis.description }
+                        : a
                 ),
             };
 
@@ -475,6 +496,10 @@ function Listing(props) {
         setRenameDialogOpen(true);
     };
 
+    const handleComments = () => {
+        setCommentDialogOpen(true);
+    };
+
     const getSelectedAnalyses = (analyses) => {
         const items = analyses ? analyses : selected;
         return items.map((id) =>
@@ -499,6 +524,7 @@ function Listing(props) {
                 toggleDisplay={toggleDisplay}
                 isSingleSelection={isSingleSelection}
                 onDetailsSelected={onDetailsSelected}
+                handleComments={handleComments}
                 handleInteractiveUrlClick={handleInteractiveUrlClick}
                 handleGoToOutputFolder={handleGoToOutputFolder}
                 handleDelete={handleDelete}
@@ -546,24 +572,18 @@ function Listing(props) {
                 open={renameDialogOpen}
                 selectedAnalysis={selectedAnalysis}
                 isLoading={renameLoading}
-                submissionError={
-                    renameError && (
-                        <ErrorTypography
-                            errorMessage={t("analysisRenameError")}
-                            onDetailsClick={() => setErrorDialogOpen(true)}
-                        />
-                    )
-                }
+                submissionError={renameError}
                 onClose={() => setRenameDialogOpen(false)}
-                handleRename={renameAnalysesMutation}
+                handleRename={renameAnalysisMutation}
             />
-            <DEErrorDialog
-                open={errorDialogOpen}
-                baseId={ids.DIALOG.ERROR}
-                errorObject={renameError}
-                handleClose={() => {
-                    setErrorDialogOpen(false);
-                }}
+
+            <AnalysisCommentDialog
+                open={commentDialogOpen}
+                selectedAnalysis={selectedAnalysis}
+                isLoading={commentLoading}
+                submissionError={commentError}
+                onClose={() => setCommentDialogOpen(false)}
+                handleUpdateComment={analysisCommentMutation}
             />
 
             {detailsOpen && (

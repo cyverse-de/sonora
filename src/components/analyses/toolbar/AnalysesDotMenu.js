@@ -16,7 +16,7 @@ import {
     isBatchAnalysis,
     allowAnalysesDelete,
     allowAnalysesRelaunch,
-    allowAnalysisRename,
+    allowAnalysisEdit,
 } from "../utils";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
@@ -36,6 +36,7 @@ import {
     PermMedia as OutputFolderIcon,
     Repeat as RelaunchIcon,
     Edit as RenameIcon,
+    Comment as CommentIcon,
     Delete as DeleteIcon,
     UnfoldMore as UnfoldMoreIcon,
 } from "@material-ui/icons";
@@ -44,6 +45,7 @@ function DotMenuItems(props) {
     const {
         baseId,
         onDetailsSelected,
+        handleComments,
         handleInteractiveUrlClick,
         handleGoToOutputFolder,
         handleDelete,
@@ -55,7 +57,7 @@ function DotMenuItems(props) {
         allowTimeExtn,
         allowDelete,
         allowRelaunch,
-        allowRename,
+        allowEdit,
         onClose,
         selectedAnalyses,
         isSingleSelection,
@@ -110,7 +112,7 @@ function DotMenuItems(props) {
                 <ListItemText primary={t("relaunch")} />
             </MenuItem>
         ),
-        allowRename && (
+        allowEdit && (
             <MenuItem
                 key={build(baseId, ids.MENUITEM_RENAME)}
                 id={build(baseId, ids.MENUITEM_RENAME)}
@@ -123,6 +125,21 @@ function DotMenuItems(props) {
                     <RenameIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary={t("rename")} />
+            </MenuItem>
+        ),
+        allowEdit && (
+            <MenuItem
+                key={build(baseId, ids.MENUITEM_UPDATE_COMMENTS)}
+                id={build(baseId, ids.MENUITEM_UPDATE_COMMENTS)}
+                onClick={() => {
+                    onClose();
+                    handleComments(selectedAnalyses[0]);
+                }}
+            >
+                <ListItemIcon>
+                    <CommentIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("updateComments")} />
             </MenuItem>
         ),
         isBatch && (
@@ -218,11 +235,11 @@ function AnalysesDotMenu({
         allowTimeExtn = false,
         allowDelete = false,
         allowRelaunch = false,
-        allowRename = false;
+        allowEdit = false;
 
     if (selectedAnalyses) {
         if (isSingleSelection) {
-            allowRename = allowAnalysisRename(selectedAnalyses[0], username);
+            allowEdit = allowAnalysisEdit(selectedAnalyses[0], username);
             isBatch = isBatchAnalysis(selectedAnalyses[0]);
             isVICE = isInteractive(selectedAnalyses[0]);
             allowTimeExtn = allowAnalysisTimeExtn(
@@ -246,7 +263,7 @@ function AnalysesDotMenu({
                     allowTimeExtn={allowTimeExtn}
                     allowDelete={allowDelete}
                     allowRelaunch={allowRelaunch}
-                    allowRename={allowRename}
+                    allowEdit={allowEdit}
                     onClose={onClose}
                     selectedAnalyses={selectedAnalyses}
                 />

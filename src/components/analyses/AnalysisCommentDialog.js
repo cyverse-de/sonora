@@ -1,5 +1,5 @@
 /**
- * A dialog that allows users to rename an analysis.
+ * A dialog that allows users to update analysis comments.
  *
  * @author psarando
  */
@@ -10,7 +10,6 @@ import { useTranslation } from "i18n";
 
 import ids from "./ids";
 
-import { validateDiskResourceName } from "components/data/utils";
 import UtilIds from "components/utils/ids.js";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
@@ -26,37 +25,28 @@ import {
     InputAdornment,
 } from "@material-ui/core";
 
-function RenameAnalysisDialog(props) {
+function AnalysisCommentDialog(props) {
     const {
         open,
         isLoading,
         submissionError,
         onClose,
-        handleRename,
+        handleUpdateComment,
         selectedAnalysis,
     } = props;
 
-    // Using separate hooks so that analyses and data message keys
-    // don't require a prefix.
     const { t } = useTranslation(["analyses", "common"]);
-    const { t: dataI18N } = useTranslation("data");
 
-    const baseId = ids.DIALOG.RENAME;
-
-    const validate = ({ name }) => {
-        const validationError = validateDiskResourceName(name, dataI18N);
-        return validationError ? { name: validationError } : {};
-    };
+    const baseId = ids.DIALOG.COMMENT;
 
     return (
         <Formik
             enableReinitialize
             initialValues={{
                 id: selectedAnalysis?.id,
-                name: selectedAnalysis?.name,
+                description: selectedAnalysis?.description,
             }}
-            validate={validate}
-            onSubmit={handleRename}
+            onSubmit={handleUpdateComment}
         >
             {({ handleSubmit }) => {
                 return (
@@ -67,18 +57,14 @@ function RenameAnalysisDialog(props) {
                             maxWidth="sm"
                             fullWidth
                         >
-                            <DialogTitle>{t("renameDlgHeader")}</DialogTitle>
+                            <DialogTitle>{t("commentsDlgHeader")}</DialogTitle>
                             <DialogContent>
                                 <Field
-                                    id={build(baseId, ids.NAME)}
-                                    name="name"
-                                    required={true}
-                                    label={t("renamePrompt")}
-                                    onKeyDown={(event) => {
-                                        if (event.key === "Enter") {
-                                            handleSubmit();
-                                        }
-                                    }}
+                                    id={build(baseId, ids.COMMENTS)}
+                                    name="description"
+                                    label={t("commentsPrompt")}
+                                    multiline
+                                    rows={3}
                                     InputProps={{
                                         readOnly: isLoading,
                                         endAdornment: isLoading && (
@@ -99,7 +85,7 @@ function RenameAnalysisDialog(props) {
                                         submissionError && (
                                             <ErrorTypographyWithDialog
                                                 errorMessage={t(
-                                                    "analysisRenameError"
+                                                    "analysisCommentError"
                                                 )}
                                                 errorObject={submissionError}
                                             />
@@ -132,4 +118,4 @@ function RenameAnalysisDialog(props) {
     );
 }
 
-export default RenameAnalysisDialog;
+export default AnalysisCommentDialog;

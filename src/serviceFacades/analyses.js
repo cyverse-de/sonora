@@ -39,11 +39,19 @@ function relaunchAnalyses(analysisIds) {
     });
 }
 
-function renameAnalyses({ id, name }) {
+function renameAnalysis({ id, name }) {
     return callApi({
         endpoint: `/api/analyses/${id}`,
         method: "PATCH",
         body: { name },
+    });
+}
+
+function updateAnalysisComment({ id, description }) {
+    return callApi({
+        endpoint: `/api/analyses/${id}`,
+        method: "PATCH",
+        body: { description },
     });
 }
 
@@ -75,8 +83,9 @@ export {
     getAnalysisRelaunchInfo,
     deleteAnalyses,
     relaunchAnalyses,
-    renameAnalyses,
+    renameAnalysis,
     submitAnalysis,
+    updateAnalysisComment,
     ANALYSES_LISTING_QUERY_KEY,
     ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSIS_PARAMS_QUERY_KEY,

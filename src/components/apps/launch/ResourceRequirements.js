@@ -171,7 +171,7 @@ const ResourceRequirementsForm = ({
     limits,
 }) => {
     const classes = useStyles();
-    const { t } = useTranslation("apps");
+    const { t } = useTranslation("launch");
     return (
         <>
             <Accordion defaultExpanded>

@@ -38,7 +38,7 @@ const validateText = ({ value, validators }, t) => {
                             const regex = new RegExp(regexPattern);
                             if (!regex.test(value)) {
                                 validatorMsg = t("validationRegex", {
-                                    values: regexPattern,
+                                    regexPattern,
                                 });
                             }
                         } catch (invalidRegex) {}
@@ -48,7 +48,7 @@ const validateText = ({ value, validators }, t) => {
                         const limit = validator.params[0];
                         if (value.length > limit) {
                             validatorMsg = t("validationCharLimit", {
-                                values: limit,
+                                limit,
                             });
                         }
                         break;

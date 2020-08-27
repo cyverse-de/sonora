@@ -18,19 +18,17 @@ import DEPagination from "components/utils/DEPagination";
 import constants from "../../../constants";
 
 import {
-    appFavorite,
-    getAppDetails,
     getApps,
     getAppById,
     getAppsInCategory,
-    rateApp,
     APP_BY_ID_QUERY_KEY,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,
 } from "serviceFacades/apps";
 
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
+
 
 function Listing({
     baseId,
@@ -62,19 +60,14 @@ function Listing({
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [detailsApp, setDetailsApp] = useState(null);
-    const [details, setDetails] = useState(null);
 
     const [categoryStatus, setCategoryStatus] = useState(false);
     const [navError, setNavError] = useState(null);
-    const [detailsError, setDetailsError] = useState(null);
-    const [favMutationError, setFavMutationError] = useState(null);
-    const [ratingMutationError, setRatingMutationError] = useState(null);
 
     const [appsInCategoryKey, setAppsInCategoryKey] = useState(
         APPS_IN_CATEGORY_QUERY_KEY
     );
     const [allAppsKey, setAllAppsKey] = useState(ALL_APPS_QUERY_KEY);
-    const [detailsKey, setDetailsKey] = useState(APP_DETAILS_QUERY_KEY);
 
     const [appByIdKey, setAppByIdKey] = useState(APP_BY_ID_QUERY_KEY);
 
@@ -83,7 +76,6 @@ function Listing({
         setAppsInCategoryQueryEnabled,
     ] = useState(false);
     const [allAppsQueryEnabled, setAllAppsQueryEnabled] = useState(false);
-    const [detailsQueryEnabled, setDetailsQueryEnabled] = useState(false);
     const [appByIdQueryEnabled, setAppByIdQueryEnabled] = useState(false);
 
     const {
@@ -107,20 +99,6 @@ function Listing({
         },
     });
 
-    const { isFetching: detailsStatus } = useQuery({
-        queryKey: detailsKey,
-        queryFn: getAppDetails,
-        config: {
-            enabled: detailsQueryEnabled,
-            onSuccess: setDetails,
-            onError: (e) => {
-                setDetailsError(e);
-                setFavMutationError(null);
-                setRatingMutationError(null);
-            },
-        },
-    });
-
     const { isFetching: appByIdStatus, error: appByIdError } = useQuery({
         queryKey: appByIdKey,
         queryFn: getAppById,
@@ -129,55 +107,6 @@ function Listing({
             onSuccess: setData,
         },
     });
-
-    const [favorite, { status: favMutationStatus }] = useMutation(appFavorite, {
-        onSuccess: () =>
-            queryCache.invalidateQueries(
-                appsInCategoryQueryEnabled ? appsInCategoryKey : allAppsKey
-            ),
-        onError: (e) => {
-            setFavMutationError(e);
-            setDetailsError(null);
-            setRatingMutationError(null);
-        },
-    });
-
-    const [rating, { status: ratingMutationStatus }] = useMutation(rateApp, {
-        onSuccess: () =>
-            //return a promise so mutate() only resolves after the onSuccess callback
-            queryCache.invalidateQueries(
-                appsInCategoryQueryEnabled ? appsInCategoryKey : allAppsKey
-            ),
-        onError: (e) => {
-            setRatingMutationError(e);
-            setDetailsError(null);
-            setFavMutationError(null);
-        },
-    });
-
-    const onFavoriteClick = () => {
-        favorite({
-            isFav: !detailsApp.is_favorite,
-            appId: detailsApp.id,
-            systemId: detailsApp.system_id,
-        });
-    };
-
-    const onRatingChange = (event, value) => {
-        rating({
-            appId: detailsApp.id,
-            systemId: detailsApp.system_id,
-            rating: value,
-        });
-    };
-
-    const onDeleteRating = () => {
-        rating({
-            appId: detailsApp.id,
-            systemId: detailsApp.system_id,
-            rating: null,
-        });
-    };
 
     useEffect(() => {
         //JSON objects needs to stringified for urls.
@@ -298,20 +227,6 @@ function Listing({
         setDetailsEnabled(enabled);
     }, [selected]);
 
-    useEffect(() => {
-        if (detailsApp) {
-            setDetailsKey([
-                APP_DETAILS_QUERY_KEY,
-                {
-                    systemId: detailsApp.system_id,
-                    appId: detailsApp.id,
-                },
-            ]);
-            setDetailsQueryEnabled(true);
-        } else {
-            setDetailsQueryEnabled(false);
-        }
-    }, [detailsApp]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);
@@ -410,9 +325,6 @@ function Listing({
 
     const onDetailsSelected = () => {
         setDetailsOpen(true);
-        setRatingMutationError(null);
-        setDetailsError(null);
-        setFavMutationError(null);
     };
 
     const handleAppNavError = useCallback(
@@ -483,24 +395,12 @@ function Listing({
                 handleRequestSort={handleRequestSort}
                 onRouteToApp={onRouteToApp}
             />
-            {detailsOpen && (
+            {detailsApp && (
                 <Drawer
                     selectedApp={detailsApp}
                     open={detailsOpen}
                     baseId={baseId}
                     onClose={() => setDetailsOpen(false)}
-                    onFavoriteClick={onFavoriteClick}
-                    details={details}
-                    detailsLoadingStatus={detailsStatus}
-                    ratingMutationStatus={
-                        ratingMutationStatus === constants.LOADING
-                    }
-                    favMutationStatus={favMutationStatus === constants.LOADING}
-                    onRatingChange={onRatingChange}
-                    onDeleteRatingClick={onDeleteRating}
-                    detailsError={detailsError}
-                    favMutationError={favMutationError}
-                    ratingMutationError={ratingMutationError}
                 />
             )}
             {data && data.total > 0 && (

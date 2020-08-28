@@ -14,6 +14,7 @@ import { build } from "@cyverse-de/ui-lib";
 
 import {
     ANALYSES_LISTING_QUERY_KEY,
+    cancelAnalysis,
     deleteAnalyses,
     getAnalyses,
     relaunchAnalyses,
@@ -34,6 +35,8 @@ import AnalysisCommentDialog from "../AnalysisCommentDialog";
 import TableView from "./TableView";
 
 import AnalysesToolbar from "../toolbar/Toolbar";
+
+import analysisStatus from "components/models/analysisStatus";
 import appType from "components/models/AppType";
 
 import { useUserProfile } from "contexts/userProfile";
@@ -178,6 +181,28 @@ function Listing(props) {
             queryCache.setQueryData(analysesKey, newPage);
         },
     });
+
+    const [analysisCancelMutation, { isLoading: cancelLoading }] = useMutation(
+        cancelAnalysis,
+        {
+            onSuccess: (analysis) => {
+                const newPage = {
+                    ...data,
+                    analyses: data.analyses.map((a) =>
+                        a.id === analysis.id
+                            ? { ...a, status: analysisStatus.CANCELED }
+                            : a
+                    ),
+                };
+
+                setData(newPage);
+                queryCache.setQueryData(analysesKey, newPage);
+            },
+            onError: (error) => {
+                showErrorAnnouncer(t("analysisCancelError"), error);
+            },
+        }
+    );
 
     useEffect(() => {
         const permFilterChanged = selectedPermFilter?.name !== permFilter?.name;
@@ -500,6 +525,10 @@ function Listing(props) {
         setCommentDialogOpen(true);
     };
 
+    const handleCancel = () => {
+        selected.forEach((id) => analysisCancelMutation({ id }));
+    };
+
     const getSelectedAnalyses = (analyses) => {
         const items = analyses ? analyses : selected;
         return items.map((id) =>
@@ -527,13 +556,19 @@ function Listing(props) {
                 handleComments={handleComments}
                 handleInteractiveUrlClick={handleInteractiveUrlClick}
                 handleGoToOutputFolder={handleGoToOutputFolder}
+                handleCancel={handleCancel}
                 handleDelete={handleDelete}
                 handleRelaunch={handleRelaunch}
                 handleRename={handleRename}
                 handleBatchIconClick={handleBatchIconClick}
             />
             <TableView
-                loading={isFetching || deleteLoading || relaunchLoading}
+                loading={
+                    isFetching ||
+                    cancelLoading ||
+                    deleteLoading ||
+                    relaunchLoading
+                }
                 error={error}
                 listing={data}
                 baseId={baseId}

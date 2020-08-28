@@ -2,6 +2,7 @@
     "all": "All",
     "analyses": "Analyses",
     "analysis": "Analysis",
+    "analysisCancelError": "Unable to cancel analysis. Please try again.",
     "analysisCommentError": "Unable to update analysis comments. Please try again.",
     "analysisId": "Analysis ID",
     "analysisInfo": "View Analysis Info",

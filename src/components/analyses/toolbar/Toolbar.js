@@ -169,6 +169,7 @@ function AnalysesToolbar(props) {
         handleComments,
         handleInteractiveUrlClick,
         handleGoToOutputFolder,
+        handleCancel,
         handleDelete,
         handleRelaunch,
         handleRename,
@@ -235,6 +236,7 @@ function AnalysesToolbar(props) {
                     handleComments={handleComments}
                     handleInteractiveUrlClick={handleInteractiveUrlClick}
                     handleGoToOutputFolder={handleGoToOutputFolder}
+                    handleCancel={handleCancel}
                     handleDelete={handleDelete}
                     handleRelaunch={handleRelaunch}
                     handleRename={handleRename}

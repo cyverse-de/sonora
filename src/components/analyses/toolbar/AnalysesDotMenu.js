@@ -14,6 +14,7 @@ import {
     isInteractive,
     allowAnalysisTimeExtn,
     isBatchAnalysis,
+    allowAnalysesCancel,
     allowAnalysesDelete,
     allowAnalysesRelaunch,
     allowAnalysisEdit,
@@ -36,6 +37,7 @@ import {
     PermMedia as OutputFolderIcon,
     Repeat as RelaunchIcon,
     Edit as RenameIcon,
+    Cancel as CancelIcon,
     Comment as CommentIcon,
     Delete as DeleteIcon,
     UnfoldMore as UnfoldMoreIcon,
@@ -48,6 +50,7 @@ function DotMenuItems(props) {
         handleComments,
         handleInteractiveUrlClick,
         handleGoToOutputFolder,
+        handleCancel,
         handleDelete,
         handleRelaunch,
         handleRename,
@@ -55,6 +58,7 @@ function DotMenuItems(props) {
         isBatch,
         isVICE,
         allowTimeExtn,
+        allowCancel,
         allowDelete,
         allowRelaunch,
         allowEdit,
@@ -186,6 +190,21 @@ function DotMenuItems(props) {
                 <ListItemText primary={t("extendTime")} />
             </MenuItem>
         ),
+        allowCancel && (
+            <MenuItem
+                key={build(baseId, ids.MENUITEM_CANCEL)}
+                id={build(baseId, ids.MENUITEM_CANCEL)}
+                onClick={() => {
+                    onClose();
+                    handleCancel(selectedAnalyses);
+                }}
+            >
+                <ListItemIcon>
+                    <CancelIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("cancel")} />
+            </MenuItem>
+        ),
         allowDelete && (
             <MenuItem
                 key={build(baseId, ids.MENUITEM_DELETE)}
@@ -233,6 +252,7 @@ function AnalysesDotMenu({
     let isBatch = false,
         isVICE = false,
         allowTimeExtn = false,
+        allowCancel = false,
         allowDelete = false,
         allowRelaunch = false,
         allowEdit = false;
@@ -247,6 +267,7 @@ function AnalysesDotMenu({
                 username
             );
         }
+        allowCancel = allowAnalysesCancel(selectedAnalyses, username);
         allowDelete = allowAnalysesDelete(selectedAnalyses, username);
         allowRelaunch = allowAnalysesRelaunch(selectedAnalyses);
     }
@@ -261,6 +282,7 @@ function AnalysesDotMenu({
                     isBatch={isBatch}
                     isVICE={isVICE}
                     allowTimeExtn={allowTimeExtn}
+                    allowCancel={allowCancel}
                     allowDelete={allowDelete}
                     allowRelaunch={allowRelaunch}
                     allowEdit={allowEdit}

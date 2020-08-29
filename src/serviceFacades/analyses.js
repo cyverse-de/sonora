@@ -83,7 +83,20 @@ function cancelAnalysis({ id }) {
     });
 }
 
+function cancelAnalyses(analysisIds) {
+    return (
+        analysisIds &&
+        analysisIds.length > 0 &&
+        new Promise((resolve, reject) =>
+            Promise.all(analysisIds.map((id) => cancelAnalysis({ id })))
+                .then((values) => resolve(values))
+                .catch((error) => reject(error))
+        )
+    );
+}
+
 export {
+    cancelAnalyses,
     cancelAnalysis,
     getAnalyses,
     getAnalysisHistory,

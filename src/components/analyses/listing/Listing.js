@@ -14,7 +14,7 @@ import { build } from "@cyverse-de/ui-lib";
 
 import {
     ANALYSES_LISTING_QUERY_KEY,
-    cancelAnalysis,
+    cancelAnalyses,
     deleteAnalyses,
     getAnalyses,
     relaunchAnalyses,
@@ -182,14 +182,16 @@ function Listing(props) {
         },
     });
 
-    const [analysisCancelMutation, { isLoading: cancelLoading }] = useMutation(
-        cancelAnalysis,
+    const [analysesCancelMutation, { isLoading: cancelLoading }] = useMutation(
+        cancelAnalyses,
         {
-            onSuccess: (analysis) => {
+            onSuccess: (analyses) => {
+                const analysisIds = analyses?.map(({ id }) => id);
+
                 const newPage = {
                     ...data,
                     analyses: data.analyses.map((a) =>
-                        a.id === analysis.id
+                        analysisIds?.includes(a.id)
                             ? { ...a, status: analysisStatus.CANCELED }
                             : a
                     ),
@@ -199,7 +201,14 @@ function Listing(props) {
                 queryCache.setQueryData(analysesKey, newPage);
             },
             onError: (error) => {
-                showErrorAnnouncer(t("analysisCancelError"), error);
+                if (selected.length > 1) {
+                    showErrorAnnouncer(t("analysesCancelError"), error);
+
+                    // Some analyses may have been successfully canceled.
+                    queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
+                } else {
+                    showErrorAnnouncer(t("analysisCancelError"), error);
+                }
             },
         }
     );
@@ -526,7 +535,7 @@ function Listing(props) {
     };
 
     const handleCancel = () => {
-        selected.forEach((id) => analysisCancelMutation({ id }));
+        analysesCancelMutation(selected);
     };
 
     const getSelectedAnalyses = (analyses) => {

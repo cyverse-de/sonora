@@ -31,8 +31,8 @@ import TableLoading from "components/utils/TableLoading";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import appFields from "../appFields";
 
-function getTableColumns(deletable, enableMenu) {
-    const fields = appFields();
+function getTableColumns(deletable, enableMenu, t) {
+    const fields = appFields(t);
     let tableColumns = [
         {
             name: "",
@@ -98,14 +98,13 @@ function TableView(props) {
         handleRequestSort,
         handleSelectAllClick,
         handleClick,
-        onRouteToApp,
         order,
         orderBy,
         selected,
     } = props;
     const { t } = useTranslation("apps");
     const apps = listing?.apps;
-    const columnData = getTableColumns(false, false);
+    const columnData = getTableColumns(false, false, t);
     const tableId = build(baseId, ids.LISTING_TABLE);
 
     if (error) {

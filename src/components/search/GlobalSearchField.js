@@ -263,9 +263,8 @@ function GlobalSearchField(props) {
     const router = useRouter();
     const { search, showErrorAnnouncer } = props;
 
-    const { t } = useTranslation(["common", "analyses"]);
-
-    const appRecordFields = appFields();
+    const { t } = useTranslation(["common", "analyses", "apps"]);
+    const appRecordFields = appFields(t);
 
     const [searchTerm, setSearchTerm] = useState(search);
     const [filter, setFilter] = useState(searchConstants.ALL);

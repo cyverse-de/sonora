@@ -75,7 +75,12 @@ function getAnalysisRelaunchInfo(key, { id }) {
         method: "GET",
     });
 }
-
+/**
+ * Search Analyses
+ * @param {string} key - react-query key
+ * @param {object} param - parameters for searching analyses. 
+ * @param {integer} page - the page to retrieve. The last parameter must be the page number as required by react-query useInfiniteQuery.
+ */
 function searchAnalysesInfinite(
     key,
     { rowsPerPage, orderBy, order, filter },

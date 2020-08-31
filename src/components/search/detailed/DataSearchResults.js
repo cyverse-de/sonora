@@ -1,6 +1,6 @@
 /**
  *
- * Display tablular view of detailed data search results
+ * Display tabular view of detailed data search results
  *
  * @author sriram
  *
@@ -61,7 +61,7 @@ function DataSearchResults(props) {
     const [sortField, setSortField] = useState("label");
     const [sortOrder, setSortOrder] = useState("ascending");
     const [dataSearchQueryEnabled, setDataSearchQueryEnabled] = useState(false);
-    const [deatilsResource, setDetailsResource] = useState(null);
+    const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
     const [infoTypes, setInfoTypes] = useState([]);
     const { t } = useTranslation(["search"]);
@@ -196,10 +196,10 @@ function DataSearchResults(props) {
         return <Typography>{t("noResults")}</Typography>;
     }
 
-    let flatdata = [];
+    let flatData = [];
     if (data && data.length > 0) {
         data.forEach((page) => {
-            flatdata = [...flatdata, ...page.hits];
+            flatData = [...flatData, ...page.hits];
         });
     }
 
@@ -207,7 +207,7 @@ function DataSearchResults(props) {
         <>
             <SearchResultsTable
                 columns={columns}
-                data={flatdata}
+                data={flatData}
                 baseId={baseId}
                 loading={status === constants.LOADING}
                 fetchMore={fetchMore}
@@ -226,12 +226,12 @@ function DataSearchResults(props) {
                         : setSortOrder("ascending");
                 }}
             />
-            {deatilsResource && (
+            {detailsResource && (
                 <DetailsDrawer
-                    resource={deatilsResource._source}
+                    resource={detailsResource._source}
                     onClose={() => setDetailsResource(null)}
                     baseId={baseId}
-                    open={deatilsResource !== null}
+                    open={detailsResource !== null}
                     infoTypes={infoTypes}
                 />
             )}

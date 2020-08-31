@@ -25,10 +25,7 @@ import {
     APP_DETAILS_QUERY_KEY,
 } from "serviceFacades/apps";
 
-import {
-    build,
-    Rate,
-  } from "@cyverse-de/ui-lib";
+import { build, Rate } from "@cyverse-de/ui-lib";
 import {
     CircularProgress,
     Drawer,
@@ -146,13 +143,17 @@ function DetailsSubHeader({
 
 function DetailsDrawer(props) {
     const classes = useStyles();
-    const { appId, systemId, open, onClose, baseId, intl } = props;
+    const { appId, systemId, open, onClose, baseId } = props;
+
+    const { t } = useTranslation("apps");
+
     const [selectedApp, setSelectedApp] = useState(null);
     const [selectedTab, setSelectedTab] = useState(TABS.appInfo);
     const [detailsError, setDetailsError] = useState(null);
     const [favMutationError, setFavMutationError] = useState(null);
     const [ratingMutationError, setRatingMutationError] = useState(null);
     const [details, setDetails] = useState(null);
+
     const onTabSelectionChange = (event, selectedTab) => {
         setSelectedTab(selectedTab);
     };
@@ -189,7 +190,7 @@ function DetailsDrawer(props) {
             APP_DETAILS_QUERY_KEY,
             {
                 systemId,
-                appId
+                appId,
             },
         ],
         queryFn: getAppDetails,
@@ -273,7 +274,6 @@ function DetailsDrawer(props) {
                     isPublic={isPublic}
                     isFavorite={isFavorite}
                     onFavoriteClick={onFavoriteClick}
-                    intl={intl}
                     classes={classes}
                     baseId={baseId}
                 />

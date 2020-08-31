@@ -389,7 +389,6 @@ function GlobalSearchField(props) {
         }
     }, [open]);
 
-
     /*     useEffect(() => {
         const searchComplete = !(
             searchingAnalyses &&

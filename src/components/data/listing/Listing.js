@@ -64,6 +64,7 @@ function Listing(props) {
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
+    const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
     const [pagedListingKey, setPagedListingKey] = useState(
         DATA_LISTING_QUERY_KEY
     );
@@ -192,10 +193,23 @@ function Listing(props) {
         }
     }, [uploadTracker, t, viewUploadQueue]);
 
+    let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
+
+    useEffect(() => {
+        if (!infoTypesCache || infoTypesCache.length === 0) {
+            setInfoTypesQueryEnabled(true);
+        } else {
+            if (infoTypes === null || infoTypes.length === 0) {
+                setInfoTypes(infoTypesCache);
+            }
+        }
+    }, [infoTypes, infoTypesCache]);
+
     useQuery({
         queryKey: INFO_TYPES_QUERY_KEY,
         queryFn: getInfoTypes,
         config: {
+            enabled: infoTypesQueryEnabled,
             onSuccess: (resp) => setInfoTypes(resp.types),
             staleTime: Infinity,
             cacheTime: Infinity,

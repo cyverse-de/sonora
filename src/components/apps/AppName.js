@@ -21,7 +21,7 @@ function AppName(props) {
         systemId,
         searchTerm,
     } = props;
-    const {t} = useTranslation("apps");
+    const { t } = useTranslation("apps");
     let title = "";
     if (isDisabled) {
         title = t("disabledAppTooltip");

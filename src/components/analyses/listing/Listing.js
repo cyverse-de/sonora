@@ -96,8 +96,10 @@ function Listing(props) {
 
     const [userProfile] = useUserProfile();
     const [currentNotification] = useNotifications();
-    const [detailsAnalysis, setDetailsAnalysis] = useState(null);
-    const [detailsEnabled, setDetailsEnabled] = useState(false);
+
+    const [selectedAnalysis, setSelectedAnalysis] = useState(null);
+    const [isSingleSelection, setSingleSelection] = useState(false);
+
     const [detailsOpen, setDetailsOpen] = useState(false);
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -378,19 +380,19 @@ function Listing(props) {
     }, [currentNotification, updateAnalyses]);
 
     useEffect(() => {
-        setDetailsEnabled(selected && selected.length === 1);
+        setSingleSelection(selected && selected.length === 1);
     }, [selected]);
 
     useEffect(() => {
-        if (detailsOpen && data?.analyses) {
+        if (data?.analyses) {
             const selectedId = selected[0];
-            setDetailsAnalysis(
+            setSelectedAnalysis(
                 data.analyses.find((item) => item.id === selectedId)
             );
         } else {
-            setDetailsAnalysis(null);
+            setSelectedAnalysis(null);
         }
-    }, [data, detailsOpen, selected]);
+    }, [data, selected]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);
@@ -562,13 +564,14 @@ function Listing(props) {
                 onClearFilter={handleClearFilter}
                 isGridView={isGridView}
                 toggleDisplay={toggleDisplay}
-                detailsEnabled={detailsEnabled}
+                isSingleSelection={isSingleSelection}
                 onDetailsSelected={onDetailsSelected}
                 handleComments={handleComments}
                 handleInteractiveUrlClick={openInteractiveUrl}
                 handleCancel={handleCancel}
                 handleDelete={handleDelete}
                 handleRelaunch={handleRelaunch}
+                handleRename={handleRename}
                 handleBatchIconClick={handleBatchIconClick}
             />
             <TableView
@@ -633,7 +636,7 @@ function Listing(props) {
 
             {detailsOpen && (
                 <Drawer
-                    selectedAnalysis={detailsAnalysis}
+                    selectedAnalysis={selectedAnalysis}
                     open={detailsOpen}
                     baseId={baseId}
                     onClose={() => setDetailsOpen(false)}

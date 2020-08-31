@@ -28,7 +28,6 @@ import {
 
 import { useQuery } from "react-query";
 
-
 function Listing({
     baseId,
     onRouteToApp,
@@ -225,7 +224,6 @@ function Listing({
         const enabled = selected && selected.length === 1;
         setDetailsEnabled(enabled);
     }, [selected]);
-
 
     const toggleDisplay = () => {
         setGridView(!isGridView);

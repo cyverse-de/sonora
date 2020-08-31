@@ -1,6 +1,6 @@
 /**
  *
- * Display tablular view of detailed apps search results
+ * Display tabular view of detailed apps search results
  *
  * @author sriram
  *
@@ -42,7 +42,7 @@ export default function AppSearchResults(props) {
     const { searchTerm, updateResultCount, baseId } = props;
     const [appsSearchKey, setAppsSearchKey] = useState(APPS_SEARCH_QUERY_KEY);
     const [appsSearchQueryEnabled, setAppsSearchQueryEnabled] = useState(false);
-    const [deatilsResource, setDetailsResource] = useState(null);
+    const [detailsResource, setDetailsResource] = useState(null);
     const { t } = useTranslation(["search"]);
     //SS TODO: pass `t` into this function
     const appRecordFields = appFields();
@@ -148,10 +148,10 @@ export default function AppSearchResults(props) {
         return <Typography>{t("noResults")}</Typography>;
     }
 
-    let flatdata = [];
+    let flatData = [];
     if (data && data.length > 0) {
         data.forEach((page) => {
-            flatdata = [...flatdata, ...page.apps];
+            flatData = [...flatData, ...page.apps];
         });
     }
 
@@ -159,7 +159,7 @@ export default function AppSearchResults(props) {
         <>
             <SearchResultsTable
                 columns={columns}
-                data={flatdata}
+                data={flatData}
                 baseId={baseId}
                 loading={status === constants.LOADING}
                 fetchMore={fetchMore}

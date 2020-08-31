@@ -78,21 +78,13 @@ export default function AnalysesSearchResults(props) {
         } else {
             setAnalysesSearchQueryEnabled(false);
         }
-    }, [
-        setAnalysesSearchQueryEnabled,
-        order,
-        orderBy,
-        searchTerm,
-        t,
-    ]);
+    }, [setAnalysesSearchQueryEnabled, order, orderBy, searchTerm, t]);
 
     useEffect(() => {
         if (data && data.length > 0) {
             updateResultCount(data[0].total);
         }
     }, [data, updateResultCount]);
-
-   
 
     const columns = React.useMemo(
         () => [
@@ -140,8 +132,6 @@ export default function AnalysesSearchResults(props) {
             flatData = [...flatData, ...page.analyses];
         });
     }
-
-    
 
     return (
         <SearchResultsTable

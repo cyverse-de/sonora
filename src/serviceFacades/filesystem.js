@@ -144,7 +144,7 @@ export const searchData = (key, { query }) => {
 /**
  * Search data
  * @param {string} key - react-query key
- * @param {object} param - parameters for searching data. 
+ * @param {object} param - parameters for searching data.
  * @param {integer} page - the page to retrieve. The last parameter must be the page number as required by react-query useInfiniteQuery.
  */
 export const searchDataInfinite = (

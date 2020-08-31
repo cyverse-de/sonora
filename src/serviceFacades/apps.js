@@ -113,7 +113,7 @@ function searchApps(key, { search, rowsPerPage, orderBy, order, page }) {
 /**
  * Search Apps
  * @param {string} key - react-query key
- * @param {object} param - parameters for searching apps. 
+ * @param {object} param - parameters for searching apps.
  * @param {integer} page - the page to retrieve. The last parameter must be the page number as required by react-query useInfiniteQuery.
  */
 function searchAppsInfiniteQuery(

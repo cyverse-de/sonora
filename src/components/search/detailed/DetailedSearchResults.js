@@ -192,7 +192,7 @@ export default function DetailedSearchResults(props) {
                         <SearchIcon color="primary" />
                     </IconButton>
                 </span>
-                <Typography className={classes.searchInfo} component="span" >
+                <Typography className={classes.searchInfo} component="span">
                     {t("search:searchPagePrompt")}
                 </Typography>
             </div>

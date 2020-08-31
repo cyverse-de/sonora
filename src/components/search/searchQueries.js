@@ -60,11 +60,7 @@ function useAppsSearch(appsSearchKey, enabled, onSuccess) {
  *
  * @returns {function}
  */
-function useAnalysesSearch(
-    analysesSearchKey,
-    enabled,
-    onSuccess
-) {
+function useAnalysesSearch(analysesSearchKey, enabled, onSuccess) {
     return useQuery({
         queryKey: analysesSearchKey,
         queryFn: getAnalyses,
@@ -83,14 +79,10 @@ function useAnalysesSearch(
  *
  * @returns {function}
  */
-function useAnalysesSearchInfinite(
-    analysesSearchKey,
-    enabled,
-    getFetchMore
-) {
+function useAnalysesSearchInfinite(analysesSearchKey, enabled, getFetchMore) {
     return useInfiniteQuery(analysesSearchKey, searchAnalysesInfinite, {
         enabled,
-        getFetchMore
+        getFetchMore,
     });
 }
 
@@ -102,14 +94,10 @@ function useAnalysesSearchInfinite(
  * @param {boolean} enabled - Enable / disable query.
  * @param {function} getFetchMore - Function to be used when more data needs to be loaded.
  */
-function useDataSearchInfinite(
-    dataSearchKey,
-    enabled,
-    getFetchMore
-) {
+function useDataSearchInfinite(dataSearchKey, enabled, getFetchMore) {
     return useInfiniteQuery(dataSearchKey, searchDataInfinite, {
         enabled,
-        getFetchMore
+        getFetchMore,
     });
 }
 
@@ -120,14 +108,10 @@ function useDataSearchInfinite(
  * @param {*} enabled - Enable / disable query.
  * @param {*} getFetchMore - Function to be used when more data needs to be loaded.
  */
-function useAppsSearchInfinite(
-    appsSearchKey,
-    enabled,
-    getFetchMore
-) {
+function useAppsSearchInfinite(appsSearchKey, enabled, getFetchMore) {
     return useInfiniteQuery(appsSearchKey, searchAppsInfiniteQuery, {
         enabled,
-        getFetchMore
+        getFetchMore,
     });
 }
 

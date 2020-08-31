@@ -26,6 +26,8 @@ import {
 } from "serviceFacades/filesystem";
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
 import NavigationConstants from "common/NavigationConstants";
+
+import dataFields from "components/data/dataFields";
 import ResourceIcon from "components/data/listing/ResourceIcon";
 import { getParentPath } from "components/data/utils";
 import ResourceTypes from "components/models/ResourceTypes";
@@ -34,6 +36,7 @@ import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
 import { IconButton, Typography } from "@material-ui/core";
 import { Info } from "@material-ui/icons";
+
 
 function Name(props) {
     const { resource, searchTerm } = props;
@@ -64,7 +67,9 @@ function DataSearchResults(props) {
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
     const [infoTypes, setInfoTypes] = useState([]);
-    const { t } = useTranslation(["search"]);
+    const { t } = useTranslation("search");
+    const {t: dataI18n} = useTranslation("data");
+    const dataRecordFields = dataFields(dataI18n);
 
     const bootstrapCache = queryCache.getQueryData(BOOTSTRAP_KEY);
     let userHomeDir = bootstrapCache?.data_info.user_home_path;
@@ -161,7 +166,7 @@ function DataSearchResults(props) {
                 ),
             },
             {
-                Header: "Path",
+                Header: dataRecordFields.PATH.fieldName,
                 accessor: "_source.path",
                 disableSortBy: true,
             },
@@ -183,7 +188,7 @@ function DataSearchResults(props) {
                 disableSortBy: true,
             },
         ],
-        [searchTerm]
+        [dataRecordFields, searchTerm]
     );
 
     if (error) {

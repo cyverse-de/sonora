@@ -6,24 +6,28 @@
 
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
-import { useQuery, queryCache } from "react-query";
+import { queryCache } from "react-query";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
+import {
+    useDataSearch,
+    useAppsSearch,
+    useAnalysesSearch,
+} from "./searchQueries";
 import ResourceTypes from "../models/ResourceTypes";
+import searchConstants from "./constants";
 import constants from "../../constants";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import NavigationConstants from "common/NavigationConstants";
 import { getParentPath } from "components/data/utils";
 
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
-import {
-    getAnalyses,
-    ANALYSES_SEARCH_QUERY_KEY,
-} from "serviceFacades/analyses";
-import { searchApps, APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
-import { searchData, DATA_SEARCH_QUERY_KEY } from "serviceFacades/filesystem";
+import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
+import { APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
+import { DATA_SEARCH_QUERY_KEY } from "serviceFacades/filesystem";
 
-import appFields from "components/apps/AppFields";
+import appFields from "components/apps/appFields";
 import analysisFields from "components/analyses/analysisFields";
 
 import ids from "./ids";
@@ -37,7 +41,6 @@ import {
     CircularProgress,
     ListItem,
     MenuItem,
-    Select,
     TextField,
     ListItemText,
     ListItemIcon,
@@ -48,15 +51,6 @@ import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import DescriptionIcon from "@material-ui/icons/Description";
 import FolderIcon from "@material-ui/icons/Folder";
-
-const ALL = "all";
-const APPS = "apps";
-const DATA = "data";
-const ANALYSES = "analyses";
-
-//gobal search constants
-const PAGE = 0;
-const ROWS = 10;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -111,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
     },
     icon: {
         marginTop: theme.spacing(2),
-        marginBotton: 0,
+        marginBottom: 0,
         marginLeft: 0,
         marginRight: 0,
     },
@@ -181,7 +175,7 @@ function AppsSearchOption(props) {
     const { t } = useTranslation("common");
     const { selectedOption, searchTerm } = props;
     const href = `/${NavigationConstants.APPS}/[systemId]/[appId]`;
-    const as = `/${NavigationConstants.APPS}/${selectedOption.system_id}/${selectedOption.id}`;
+    const as = `/${NavigationConstants.APPS}/${selectedOption?.system_id}/${selectedOption?.id}`;
     return (
         <Link href={href} as={as} passHref>
             <SearchOption
@@ -198,7 +192,7 @@ function AnalysesSearchOption(props) {
     const { t } = useTranslation("common");
     const { selectedOption, searchTerm } = props;
     const href = `/${NavigationConstants.ANALYSES}/[analysisId]`;
-    const as = `/${NavigationConstants.ANALYSES}/${selectedOption.id}`;
+    const as = `/${NavigationConstants.ANALYSES}/${selectedOption?.id}`;
     return (
         <Link href={href} as={as} passHref>
             <SearchOption
@@ -213,12 +207,15 @@ function AnalysesSearchOption(props) {
 
 function GlobalSearchField(props) {
     const classes = useStyles();
-    const { showErrorAnnouncer } = props;
+    const router = useRouter();
+    const { search, showErrorAnnouncer } = props;
 
-    const { t } = useTranslation(["common"]);
+    const { t } = useTranslation(["common", "analyses"]);
 
-    const [searchTerm, setSearchTerm] = useState("");
-    const [filter, setFilter] = useState(ALL);
+    const appRecordFields = appFields();
+
+    const [searchTerm, setSearchTerm] = useState(search);
+    const [filter, setFilter] = useState(searchConstants.ALL);
 
     const [options, setOptions] = useState([]);
     const [open, setOpen] = useState(false);
@@ -241,61 +238,56 @@ function GlobalSearchField(props) {
 
     //get bootstrap from cache.
     const bootstrapCache = queryCache.getQueryData(BOOTSTRAP_KEY);
+    let userHomeDir = bootstrapCache?.data_info.user_home_path;
+    if (userHomeDir) {
+        userHomeDir = userHomeDir + "/";
+    }
 
     const {
         isFetching: searchingAnalyses,
         error: analysesSearchError,
-    } = useQuery({
-        queryKey: analysesSearchKey,
-        queryFn: getAnalyses,
-        config: {
-            enabled: analysesSearchQueryEnabled,
-            onSuccess: (results) => {
-                if (results && results.analyses?.length > 0) {
-                    const analyses = results.analyses;
-                    analyses.forEach((analysis) => {
-                        analysis.resultType = t("analyses");
-                    });
-                    setOptions([...options, ...analyses]);
-                }
-            },
-        },
-    });
+    } = useAnalysesSearch(
+        analysesSearchKey,
+        analysesSearchQueryEnabled,
+        (results) => {
+            if (results && results.analyses?.length > 0) {
+                const analyses = results.analyses;
+                analyses.forEach((analysis) => {
+                    analysis.resultType = t("analyses");
+                });
+                setOptions([...options, ...analyses]);
+            }
+        }
+    );
 
-    const { isFetching: searchingApps, error: appsSearchError } = useQuery({
-        queryKey: appsSearchKey,
-        queryFn: searchApps,
-        config: {
-            enabled: appsSearchQueryEnabled,
-            onSuccess: (results) => {
-                if (results && results.apps?.length > 0) {
-                    const apps = results.apps;
-                    apps.forEach((app) => {
-                        app.resultType = t("apps");
-                    });
-                    setOptions([...options, ...apps]);
-                }
-            },
-        },
-    });
+    const { isFetching: searchingApps, error: appsSearchError } = useAppsSearch(
+        appsSearchKey,
+        appsSearchQueryEnabled,
+        (results) => {
+            if (results && results.apps?.length > 0) {
+                const apps = results.apps;
+                apps.forEach((app) => {
+                    app.resultType = t("apps");
+                });
+                setOptions([...options, ...apps]);
+            }
+        }
+    );
 
-    const { isFetching: searchingData, error: dataSearchError } = useQuery({
-        queryKey: dataSearchKey,
-        queryFn: searchData,
-        config: {
-            enabled: dataSearchQueryEnabled,
-            onSuccess: (results) => {
-                if (results && results.hits?.length > 0) {
-                    const data = results.hits;
-                    data.forEach((data) => {
-                        data.name = data._source?.label;
-                        data.resultType = t("data");
-                    });
-                    setOptions([...options, ...data]);
-                }
-            },
-        },
-    });
+    const { isFetching: searchingData, error: dataSearchError } = useDataSearch(
+        dataSearchKey,
+        dataSearchQueryEnabled,
+        (results) => {
+            if (results && results.hits?.length > 0) {
+                const data = results.hits;
+                data.forEach((data) => {
+                    data.name = data._source?.label;
+                    data.resultType = t("data");
+                });
+                setOptions([...options, ...data]);
+            }
+        }
+    );
 
     const handleChange = (event, value, reason) => {
         if (reason === "clear" || value === "") {
@@ -319,15 +311,11 @@ function GlobalSearchField(props) {
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
-            let userHomeDir = bootstrapCache?.data_info.user_home_path;
-            if (userHomeDir) {
-                userHomeDir = userHomeDir + "/";
-            }
             const dataQuery = getDataSimpleSearchQuery(
                 searchTerm,
                 userHomeDir,
-                ROWS,
-                PAGE,
+                searchConstants.GLOBAL_SEARCH_PAGE_SIZE,
+                searchConstants.GLOBAL_SEARCH_PAGE,
                 "label",
                 "ascending"
             );
@@ -336,38 +324,39 @@ function GlobalSearchField(props) {
             setAppsSearchKey([
                 APPS_SEARCH_QUERY_KEY,
                 {
-                    rowsPerPage: ROWS,
-                    orderBy: appFields.NAME.key,
+                    rowsPerPage: searchConstants.GLOBAL_SEARCH_PAGE_SIZE,
+                    orderBy: appRecordFields.NAME.key,
                     order: constants.SORT_ASCENDING,
-                    page: PAGE,
+                    page: searchConstants.GLOBAL_SEARCH_PAGE,
                     search: searchTerm,
                 },
             ]);
 
+            const analysisRecordFields = analysisFields(t);
             setAnalysesSearchKey([
                 ANALYSES_SEARCH_QUERY_KEY,
                 {
-                    rowsPerPage: ROWS,
-                    orderBy: analysisFields.START_DATE.key,
+                    rowsPerPage: searchConstants.GLOBAL_SEARCH_PAGE_SIZE,
+                    orderBy: analysisRecordFields.START_DATE.key,
                     order: constants.SORT_DESCENDING,
-                    page: PAGE,
-                    filter: getAnalysesSearchQueryFilter(searchTerm),
+                    page: searchConstants.GLOBAL_SEARCH_PAGE,
+                    filter: getAnalysesSearchQueryFilter(searchTerm, t),
                 },
             ]);
             switch (filter) {
-                case DATA:
+                case searchConstants.DATA:
                     setDataSearchQueryEnabled(true);
                     setAppsSearchQueryEnabled(false);
                     setAnalysesSearchQueryEnabled(false);
                     break;
 
-                case APPS:
+                case searchConstants.APPS:
                     setDataSearchQueryEnabled(false);
                     setAppsSearchQueryEnabled(true);
                     setAnalysesSearchQueryEnabled(false);
                     break;
 
-                case ANALYSES:
+                case searchConstants.ANALYSES:
                     setDataSearchQueryEnabled(false);
                     setAppsSearchQueryEnabled(false);
                     setAnalysesSearchQueryEnabled(true);
@@ -379,14 +368,30 @@ function GlobalSearchField(props) {
                     setAnalysesSearchQueryEnabled(true);
             }
         }
-    }, [bootstrapCache, filter, searchTerm, showErrorAnnouncer, t]);
+    }, [
+        appRecordFields.NAME.key,
+        bootstrapCache,
+        filter,
+        searchTerm,
+        showErrorAnnouncer,
+        t,
+        userHomeDir,
+    ]);
 
-    if (analysesSearchError || appsSearchError || dataSearchError) {
-        showErrorAnnouncer(
-            t("searchError"),
-            analysesSearchError || appsSearchError || dataSearchError
-        );
-    }
+    useEffect(() => {
+        if (analysesSearchError || appsSearchError || dataSearchError) {
+            showErrorAnnouncer(
+                t("searchError"),
+                analysesSearchError || appsSearchError || dataSearchError
+            );
+        }
+    }, [
+        analysesSearchError,
+        appsSearchError,
+        dataSearchError,
+        showErrorAnnouncer,
+        t,
+    ]);
 
     const loading = searchingAnalyses || searchingApps || searchingData;
 
@@ -436,6 +441,14 @@ function GlobalSearchField(props) {
                     </React.Fragment>
                 ),
             }}
+            onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                    setOpen(false);
+                    router.push(
+                        `/${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}`
+                    );
+                }
+            }}
         />
     );
 
@@ -472,22 +485,27 @@ function GlobalSearchField(props) {
                 popupIcon={null}
                 noOptionsText={t("noOptions")}
                 clearOnEscape={true}
+                clearOnBlur={false}
             />
-            <Select
+            <TextField
                 id={build(ids.SEARCH, ids.SEARCH_FILTER_MENU)}
+                select
+                size="small"
                 value={filter}
                 onChange={handleFilterChange}
-                disableUnderline
                 className={classes.searchFilter}
-                size="small"
                 variant={isMobile ? "outlined" : "standard"}
-                renderInput={() => <TextField size="small" disableUnderline />}
+                InputProps={{
+                    disableUnderline: true,
+                }}
             >
-                <MenuItem value={ALL}>{t("all")}</MenuItem>
-                <MenuItem value={DATA}>{t("data")}</MenuItem>
-                <MenuItem value={APPS}>{t("apps")}</MenuItem>
-                <MenuItem value={ANALYSES}>{t("analyses")}</MenuItem>
-            </Select>
+                <MenuItem value={searchConstants.ALL}>{t("all")}</MenuItem>
+                <MenuItem value={searchConstants.DATA}>{t("data")}</MenuItem>
+                <MenuItem value={searchConstants.APPS}>{t("apps")}</MenuItem>
+                <MenuItem value={searchConstants.ANALYSES}>
+                    {t("analyses")}
+                </MenuItem>
+            </TextField>
         </>
     );
 }

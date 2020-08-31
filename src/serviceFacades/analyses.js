@@ -75,6 +75,24 @@ function getAnalysisRelaunchInfo(key, { id }) {
         method: "GET",
     });
 }
+/**
+ * Search Analyses
+ * @param {string} key - react-query key
+ * @param {object} param - parameters for searching analyses.
+ * @param {integer} page - the page to retrieve. The last parameter must be the page number as required by react-query useInfiniteQuery.
+ */
+function searchAnalysesInfinite(
+    key,
+    { rowsPerPage, orderBy, order, filter },
+    page = 0
+) {
+    return callApi({
+        endpoint: `/api/analyses?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
+            rowsPerPage * page
+        }&filter=[${filter}]`,
+        method: "GET",
+    });
+}
 
 export {
     getAnalyses,
@@ -86,6 +104,7 @@ export {
     renameAnalysis,
     submitAnalysis,
     updateAnalysisComment,
+    searchAnalysesInfinite,
     ANALYSES_LISTING_QUERY_KEY,
     ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSIS_PARAMS_QUERY_KEY,

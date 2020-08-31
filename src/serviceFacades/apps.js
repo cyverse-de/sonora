@@ -110,6 +110,25 @@ function searchApps(key, { search, rowsPerPage, orderBy, order, page }) {
     });
 }
 
+/**
+ * Search Apps
+ * @param {string} key - react-query key
+ * @param {object} param - parameters for searching apps.
+ * @param {integer} page - the page to retrieve. The last parameter must be the page number as required by react-query useInfiniteQuery.
+ */
+function searchAppsInfiniteQuery(
+    key,
+    { search, rowsPerPage, orderBy, order },
+    page = 0
+) {
+    return callApi({
+        endpoint: `/api/apps?search=${search}&limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
+            rowsPerPage * page
+        }`,
+        method: "GET",
+    });
+}
+
 export {
     getApps,
     getAppById,
@@ -120,6 +139,7 @@ export {
     appFavorite,
     rateApp,
     searchApps,
+    searchAppsInfiniteQuery,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,

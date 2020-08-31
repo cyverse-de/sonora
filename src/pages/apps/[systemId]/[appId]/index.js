@@ -8,7 +8,7 @@ import React, { useCallback } from "react";
 import { useRouter } from "next/router";
 
 import constants from "../../../../constants";
-import AppFields from "components/apps/AppFields";
+import appFields from "components/apps/appFields";
 import { getAppLaunchPath, getListingPath } from "components/apps/utils";
 import Listing from "components/apps/listing/Listing";
 
@@ -22,11 +22,11 @@ import Listing from "components/apps/listing/Listing";
 export default function App() {
     const router = useRouter();
     const { systemId, appId } = router.query;
-
+    const appRecordFields = appFields();
     const selectedPage = 0;
     const selectedRowsPerPage = 25;
     const selectedOrder = constants.SORT_ASCENDING;
-    const selectedOrderBy = AppFields.NAME.key;
+    const selectedOrderBy = appRecordFields.NAME.key;
 
     const selectedFilter = null;
     const selectedCategory = null;

@@ -1,26 +1,26 @@
 import React from "react";
-import { Hidden } from "@material-ui/core";
-import GlobalSearchField from "../components/search/GlobalSearchField";
 import { useRouter } from "next/router";
+import { Hidden } from "@material-ui/core";
+import GlobalSearchField from "components/search/GlobalSearchField";
+import DetailedSearchResults from "components/search/detailed/DetailedSearchResults";
 
 export default function Search() {
     const router = useRouter();
-    const searchTerm = router?.query?.searchTerm;
-    const filter = router?.query.filter;
+    const { searchTerm, filter } = router?.query;
     return (
         <>
             <Hidden only={["sm", "md", "lg", "xl"]}>
-                <GlobalSearchField />
+                <GlobalSearchField search={searchTerm} filter={filter} />
             </Hidden>
-            {searchTerm && (
-                <div>
-                    Searching for {searchTerm} with filter {filter}
-                </div>
-            )}
+            <DetailedSearchResults
+                baseId="search"
+                searchTerm={router.query?.searchTerm}
+                filter={filter}
+            />
         </>
     );
 }
 
 Search.getInitialProps = async () => ({
-    namespacesRequired: ["common"],
+    namespacesRequired: ["common", "search", "analyses"],
 });

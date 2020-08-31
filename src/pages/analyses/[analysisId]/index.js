@@ -6,6 +6,7 @@
  */
 import React, { useCallback } from "react";
 import { useRouter } from "next/router";
+import { useTranslation } from "i18n";
 
 import constants from "../../../constants";
 
@@ -14,7 +15,7 @@ import {
     getListingPath,
 } from "components/analyses/utils";
 import { getFolderPage } from "components/data/utils";
-import analysisFileds from "components/analyses/analysisFields";
+import analysisFields from "components/analyses/analysisFields";
 import Listing from "components/analyses/listing/Listing";
 
 /**
@@ -25,10 +26,12 @@ import Listing from "components/analyses/listing/Listing";
 
 export default function Analysis() {
     const router = useRouter();
+    const { t } = useTranslation("analyses");
+    const analysisRecordFields = analysisFields(t);
     const selectedPage = 0;
     const selectedRowsPerPage = 25;
     const selectedOrder = constants.SORT_DESCENDING;
-    const selectedOrderBy = analysisFileds.START_DATE.key;
+    const selectedOrderBy = analysisRecordFields.START_DATE.key;
     const selectedPermFilter = null;
     const selectedTypeFilter = null;
 

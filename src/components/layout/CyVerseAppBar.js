@@ -21,7 +21,7 @@ import Notifications from "./Notifications";
 import CustomIntercom from "./CustomIntercom";
 import { useUserProfile } from "../../contexts/userProfile";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
-
+import searchConstants from "components/search/constants";
 import {
     getUserProfile,
     bootstrap,
@@ -205,9 +205,13 @@ function CyverseAppBar(props) {
     const classes = useStyles();
     const theme = useTheme();
     const router = useRouter();
+
     const ref = useRef();
     const [config, setConfig] = useConfig();
     const { t } = useTranslation(["common"]);
+
+    const searchTerm = router?.query?.searchTerm || "";
+    const filter = router?.query?.filter || searchConstants.ALL;
 
     const {
         children,
@@ -601,7 +605,10 @@ function CyverseAppBar(props) {
                         </a>
                     </Hidden>
                     <Hidden xsDown>
-                        <GlobalSearchField />
+                        <GlobalSearchField
+                            search={searchTerm}
+                            filter={filter}
+                        />
                     </Hidden>
                     <div className={classes.root} />
                     <div style={{ display: "flex" }}>

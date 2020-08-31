@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "i18n";
 import Listing from "../../src/components/analyses/listing/Listing";
 import analysisFields from "../../src/components/analyses/analysisFields";
 import constants from "../../src/constants";
@@ -14,7 +15,9 @@ function ListingTest(props) {
     const selectedPage = 0;
     const selectedRowsPerPage = 25;
     const selectedOrder = constants.SORT_DESCENDING;
-    const selectedOrderBy = analysisFields.START_DATE.key;
+    const { t } = useTranslation("analyses");
+    const analysesRecordFields = analysisFields(t);
+    const selectedOrderBy = analysesRecordFields.START_DATE.key;
     const selectedPermFilter = null;
     const selectedTypeFilter = null;
     return (

@@ -146,9 +146,11 @@ function ReferenceGenomes(props) {
     useEffect(() => {
         if (error) {
             const errorString = JSON.stringify(error);
-            router.push(
-                `/${NavigationConstants.ERROR}?errorInfo=${errorString}`
-            );
+            if (router) {
+                router.push(
+                    `/${NavigationConstants.ERROR}?errorInfo=${errorString}`
+                );
+            }
         }
     }, [error, router]);
 

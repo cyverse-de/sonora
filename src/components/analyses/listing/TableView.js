@@ -10,6 +10,7 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import TableLoading from "components/utils/TableLoading";
+import analysisFields from "../analysisFields";
 
 import {
     getAnalysisUser,
@@ -209,57 +210,60 @@ function Actions(props) {
     );
 }
 
-const columnData = (t) => [
-    {
-        id: ids.NAME,
-        name: t("name"),
-        numeric: false,
-        enableSorting: true,
-        key: "name",
-    },
-    {
-        id: ids.OWNER,
-        name: t("owner"),
-        numeric: false,
-        enableSorting: false,
-        key: "owner",
-    },
-    {
-        id: ids.APP,
-        name: t("app"),
-        numeric: false,
-        enableSorting: false,
-        key: "app",
-    },
-    {
-        id: ids.START_DATE,
-        name: t("startDate"),
-        numeric: false,
-        enableSorting: true,
-        key: "startdate",
-    },
-    {
-        id: ids.END_DATE,
-        name: t("endDate"),
-        numeric: false,
-        enableSorting: true,
-        key: "enddate",
-    },
-    {
-        id: ids.STATUS,
-        name: t("status"),
-        numeric: false,
-        enableSorting: true,
-        key: "status",
-    },
-    {
-        id: ids.ACTIONS,
-        name: "",
-        numeric: false,
-        enableSorting: false,
-        key: "actions",
-    },
-];
+const columnData = (t) => {
+    const fields = analysisFields(t);
+    return [
+        {
+            id: ids.NAME,
+            name: fields.NAME.fieldName,
+            numeric: false,
+            enableSorting: true,
+            key: fields.NAME.key,
+        },
+        {
+            id: ids.OWNER,
+            name: fields.OWNER.fieldName,
+            numeric: false,
+            enableSorting: false,
+            key: fields.OWNER.key,
+        },
+        {
+            id: ids.APP,
+            name: fields.APP.fieldName,
+            numeric: false,
+            enableSorting: false,
+            key: fields.APP.key,
+        },
+        {
+            id: ids.START_DATE,
+            name: fields.START_DATE.fieldName,
+            numeric: false,
+            enableSorting: true,
+            key: fields.START_DATE.key,
+        },
+        {
+            id: ids.END_DATE,
+            name: fields.END_DATE.fieldName,
+            numeric: false,
+            enableSorting: true,
+            key: fields.END_DATE.key,
+        },
+        {
+            id: ids.STATUS,
+            name: fields.STATUS.fieldName,
+            numeric: false,
+            enableSorting: true,
+            key: fields.STATUS.key,
+        },
+        {
+            id: ids.ACTIONS,
+            name: fields.ACTIONS.fieldName,
+            numeric: false,
+            enableSorting: false,
+            key: fields.ACTIONS.key,
+        },
+    ];
+};
 
 function TableView(props) {
     const {

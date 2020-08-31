@@ -5,7 +5,7 @@ import testConfig from "../configMock";
 import { appDetails, appListing, categories } from "./AppMocks";
 
 import constants from "../../src/constants";
-import AppFields from "../../src/components/apps/AppFields";
+import appFields from "../../src/components/apps/appFields";
 import { getAppTypeFilters } from "../../src/components/apps/toolbar/AppNavigation";
 import Listing from "../../src/components/apps/listing/Listing";
 import { ConfigProvider } from "../../src/contexts/config";
@@ -25,10 +25,11 @@ function ListingTest(props) {
         )
         .reply(200, appDetails);
 
+    const fields = appFields();
     const selectedPage = 0;
     const selectedRowsPerPage = 25;
     const selectedOrder = constants.SORT_ASCENDING;
-    const selectedOrderBy = AppFields.NAME.key;
+    const selectedOrderBy = fields.NAME.key;
 
     const selectedFilter = getAppTypeFilters()[0];
 

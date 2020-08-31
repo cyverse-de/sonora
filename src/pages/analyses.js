@@ -7,6 +7,7 @@
 
 import React, { useCallback } from "react";
 import { useRouter } from "next/router";
+import { useTranslation } from "i18n";
 
 import constants from "../constants";
 
@@ -21,12 +22,13 @@ import Listing from "components/analyses/listing/Listing";
 export default function Analyses() {
     const router = useRouter();
     const query = router.query;
-
+    const { t } = useTranslation("analyses");
+    const analysisRecordFields = analysisFields(t);
     const selectedPage = parseInt(query.selectedPage) || 0;
     const selectedRowsPerPage = parseInt(query.selectedRowsPerPage) || 25;
     const selectedOrder = query.selectedOrder || constants.SORT_DESCENDING;
     const selectedOrderBy =
-        query.selectedOrderBy || analysisFields.START_DATE.key;
+        query.selectedOrderBy || analysisRecordFields.START_DATE.key;
 
     const selectedPermFilter = query.selectedPermFilter
         ? JSON.parse(query.selectedPermFilter)

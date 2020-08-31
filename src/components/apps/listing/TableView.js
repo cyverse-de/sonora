@@ -27,44 +27,44 @@ import ids from "../ids";
 
 import AppStatusIcon from "../AppStatusIcon";
 import AppName from "../AppName";
-import AppFields from "../AppFields";
-
 import TableLoading from "components/utils/TableLoading";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
+import appFields from "../appFields";
 
 function getTableColumns(deletable, enableMenu) {
+    const fields = appFields();
     let tableColumns = [
         {
             name: "",
             numeric: false,
             enableSorting: false,
-            key: AppFields.STATUS.key,
-            id: AppFields.STATUS.key,
+            key: fields.STATUS.key,
+            id: fields.STATUS.key,
         },
 
         {
-            name: AppFields.NAME.fieldName,
+            name: fields.NAME.fieldName,
             enableSorting: true,
-            key: AppFields.NAME.key,
-            id: AppFields.NAME.key,
+            key: fields.NAME.key,
+            id: fields.NAME.key,
         },
         {
-            name: AppFields.INTEGRATOR.fieldName,
+            name: fields.INTEGRATOR.fieldName,
             enableSorting: true,
-            key: AppFields.INTEGRATOR.key,
-            id: AppFields.INTEGRATOR.key,
+            key: fields.INTEGRATOR.key,
+            id: fields.INTEGRATOR.key,
         },
         {
-            name: AppFields.RATING.fieldName,
+            name: fields.RATING.fieldName,
             enableSorting: true,
-            key: AppFields.RATING.key,
-            id: AppFields.RATING.key,
+            key: fields.RATING.key,
+            id: fields.RATING.key,
         },
         {
-            name: AppFields.SYSTEM.fieldName,
+            name: fields.SYSTEM.fieldName,
             enableSorting: false,
-            key: AppFields.SYSTEM.key,
-            id: AppFields.SYSTEM.key,
+            key: fields.SYSTEM.key,
+            id: fields.SYSTEM.key,
             align: "right",
         },
     ];

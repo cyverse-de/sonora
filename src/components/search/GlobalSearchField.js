@@ -31,6 +31,7 @@ import appFields from "components/apps/appFields";
 import analysisFields from "components/analyses/analysisFields";
 
 import ids from "./ids";
+import {SEARCH_RESULTS_TABS} from "components/search/detailed/DetailedSearchResults";
 import { getDataSimpleSearchQuery } from "./dataSearchQueryBuilder";
 import { getAnalysesSearchQueryFilter } from "./analysesSearchQueryBuilder";
 
@@ -148,9 +149,9 @@ const SearchOption = React.forwardRef((props, ref) => {
 });
 
 function ViewAllOption(props) {
-    const { searchTerm, filter, prompt } = props;
-    const href = `${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}`;
-    const as = `${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}`;
+    const { searchTerm, filter, prompt, selectedTab } = props;
+    const href = `${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selectedTab}`;
+    const as = `${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selectedTab}`;
     return (
         <Link href={href} as={as} passHref>
             <SearchOption
@@ -172,6 +173,7 @@ function DataSearchOption(props) {
                 searchTerm={searchTerm}
                 filter={filter}
                 prompt={i18NSearch("viewAllDataResults", { searchTerm })}
+                selectedTab={SEARCH_RESULTS_TABS.data}
             />
         );
     }
@@ -211,6 +213,7 @@ function AppsSearchOption(props) {
                 searchTerm={searchTerm}
                 filter={filter}
                 prompt={i18NSearch("viewAllAppsResults", { searchTerm })}
+                selectedTab={SEARCH_RESULTS_TABS.apps}
             />
         );
     }
@@ -240,6 +243,7 @@ function AnalysesSearchOption(props) {
                 searchTerm={searchTerm}
                 filter={filter}
                 prompt={i18NSearch("viewAllAnalysesResults", { searchTerm })}
+                selectedTab={SEARCH_RESULTS_TABS.analyses}
             />
         );
     }
@@ -312,7 +316,7 @@ function GlobalSearchField(props) {
                 });
                 const viewAll = {
                     id: searchConstants.VIEW_ALL_ID,
-                    name: "",
+                    name: searchTerm,
                     resultType: {
                         type: t("analyses"),
                         id: searchConstants.ANALYSES,
@@ -337,7 +341,7 @@ function GlobalSearchField(props) {
                 });
                 const viewAll = {
                     id: searchConstants.VIEW_ALL_ID,
-                    name: "",
+                    name: searchTerm,
                     resultType: { type: t("apps"), id: searchConstants.APPS },
                 };
                 setOptions([...options, ...apps, viewAll]);
@@ -360,7 +364,7 @@ function GlobalSearchField(props) {
                 });
                 const viewAll = {
                     id: searchConstants.VIEW_ALL_ID,
-                    name: "",
+                    name: searchTerm,
                     resultType: { type: t("data"), id: searchConstants.DATA },
                 };
                 setOptions([...options, ...data, viewAll]);
@@ -387,23 +391,6 @@ function GlobalSearchField(props) {
             setOptions([]);
         }
     }, [open]);
-
-    /*     useEffect(() => {
-        const searchComplete = !(
-            searchingAnalyses &&
-            searchingApps &&
-            searchingData
-        );
-        const viewAllResultsAdded = options?.find(option => option.id === "viewAll");
-        if (searchComplete && options?.length > 0 && !viewAllResultsAdded) {
-            const viewAll = {
-                id: "viewAll",
-                name: "",
-                resultType: "View All Results"
-            };
-            setOptions([...options, viewAll]);
-        }
-    }, [options, searchTerm, searchingAnalyses, searchingApps, searchingData]); */
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
@@ -501,6 +488,7 @@ function GlobalSearchField(props) {
                         selectedOption={option}
                         searchTerm={searchTerm}
                         filter={filter}
+                        
                     />
                 );
             case searchConstants.APPS:

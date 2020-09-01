@@ -1,6 +1,5 @@
 import React from "react";
 
-import { useLocalStorage } from "../utils/localStorage";
 import {
     Drawer,
     IconButton,
@@ -35,17 +34,6 @@ export class BagItem {
         return this.display.label || this.item.id;
     }
 }
-
-export const useOpsBag = (name) => {
-    const [bagValue, setBagValue] = useLocalStorage(name, []);
-
-    const addToBag = (bagItem) => setBagValue([...bagValue, bagItem]);
-
-    const removeFromBag = (index) =>
-        setBagValue([...bagValue].splice(index, 1));
-
-    return [bagValue, addToBag, removeFromBag];
-};
 
 export default ({ bagItems, open, remove }) => {
     return (

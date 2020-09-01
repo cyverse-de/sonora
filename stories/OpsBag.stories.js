@@ -19,16 +19,6 @@ const data = [
 
 export const TestOpsBag = () => {
     const open = boolean("Open", true);
-    //const [bagItems, add, remove] = useOpsBag("testbag");
-
-    // Clean out the bag first, if necessary.
-    // if (bagItems && bagItems.length > 0) {
-    //     bagItems.forEach((_, index) => {
-    //         remove(index);
-    //     });
-    // }
-
-    //data.forEach((item) => add(item));
 
     return <OpsBag open={open} bagItems={data} remove={() => {}} />;
 };

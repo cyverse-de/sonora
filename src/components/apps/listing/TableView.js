@@ -209,6 +209,7 @@ function TableView(props) {
                                                 name={app.name}
                                                 systemId={app.system_id}
                                                 appId={app.id}
+                                                searchTerm=""
                                             />
                                         </TableCell>
                                         <TableCell

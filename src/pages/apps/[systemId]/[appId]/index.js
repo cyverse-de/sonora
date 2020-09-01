@@ -23,7 +23,7 @@ import Listing from "components/apps/listing/Listing";
 export default function App() {
     const router = useRouter();
     const { systemId, appId } = router.query;
-    const {t} = useTranslation("apps");
+    const { t } = useTranslation("apps");
     const appRecordFields = appFields(t);
     const selectedPage = 0;
     const selectedRowsPerPage = 25;

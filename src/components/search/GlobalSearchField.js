@@ -31,7 +31,7 @@ import appFields from "components/apps/appFields";
 import analysisFields from "components/analyses/analysisFields";
 
 import ids from "./ids";
-import {SEARCH_RESULTS_TABS} from "components/search/detailed/DetailedSearchResults";
+import { SEARCH_RESULTS_TABS } from "components/search/detailed/DetailedSearchResults";
 import { getDataSimpleSearchQuery } from "./dataSearchQueryBuilder";
 import { getAnalysesSearchQueryFilter } from "./analysesSearchQueryBuilder";
 
@@ -114,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SearchOption = React.forwardRef((props, ref) => {
-    const { id ,primary, secondary, icon, searchTerm, onClick, href } = props;
+    const { id, primary, secondary, icon, searchTerm, onClick, href } = props;
     const classes = useStyles();
     const theme = useTheme();
     return (
@@ -150,7 +150,7 @@ const SearchOption = React.forwardRef((props, ref) => {
 });
 
 function ViewAllOption(props) {
-    const {id, searchTerm, filter, prompt, selectedTab } = props;
+    const { id, searchTerm, filter, prompt, selectedTab } = props;
     const href = `${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selectedTab}`;
     const as = `${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selectedTab}`;
     return (
@@ -497,7 +497,7 @@ function GlobalSearchField(props) {
                         searchTerm={searchTerm}
                         filter={filter}
                         baseId={build(ids.SEARCH, ids.DATA_SEARCH_OPTION)}
-                     />
+                    />
                 );
             case searchConstants.APPS:
                 return (

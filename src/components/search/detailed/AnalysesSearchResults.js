@@ -145,12 +145,7 @@ export default function AnalysesSearchResults(props) {
                 disableSortBy: true,
             },
         ],
-        [
-            analysisRecordFields,
-            baseId,
-            searchTerm,
-            userProfile,
-        ]
+        [analysisRecordFields, baseId, searchTerm, userProfile]
     );
 
     if (error) {

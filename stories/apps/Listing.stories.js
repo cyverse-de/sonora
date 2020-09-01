@@ -25,7 +25,7 @@ function ListingTest(props) {
         )
         .reply(200, appDetails);
 
-    const {t} = useTranslation("apps");    
+    const { t } = useTranslation("apps");
     const fields = appFields(t);
     const selectedPage = 0;
     const selectedRowsPerPage = 25;

@@ -42,7 +42,7 @@ export default function AppSearchResults(props) {
     const [appsSearchQueryEnabled, setAppsSearchQueryEnabled] = useState(false);
     const [detailsApp, setDetailsApp] = useState(null);
     const { t } = useTranslation("search");
-    const {t: appsI18n} = useTranslation("apps");
+    const { t: appsI18n } = useTranslation("apps");
     const appRecordFields = appFields(appsI18n);
     const [order, setOrder] = useState(constants.SORT_ASCENDING);
     const [orderBy, setOrderBy] = useState(appRecordFields.NAME.key);

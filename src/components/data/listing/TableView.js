@@ -5,7 +5,7 @@
  */
 
 import React, { Fragment, useState } from "react";
-import {useTranslation} from "i18n";
+import { useTranslation } from "i18n";
 import CustomizeColumns from "./CustomizeColumns";
 import dataFields from "../dataFields";
 import ResourceIcon from "./ResourceIcon";
@@ -40,7 +40,6 @@ import {
     TableRow,
 } from "@material-ui/core";
 
-
 function SizeCell({ resource }) {
     return <TableCell>{getFileSize(resource.fileSize)}</TableCell>;
 }
@@ -66,7 +65,7 @@ function PathCell({ resource }) {
 }
 
 function getColumnCell(key, resource, dataRecordFields) {
-     switch (key) {
+    switch (key) {
         case dataRecordFields.SIZE.key:
             return <SizeCell resource={resource} />;
         case dataRecordFields.LAST_MODIFIED.key:
@@ -194,8 +193,8 @@ function TableView(props) {
                 name: dataRecordFields.PATH.fieldName,
                 align: "left",
                 enableSorting: true,
-                key:  dataRecordFields.PATH.key,
-                id:  dataRecordFields.PATH.key,
+                key: dataRecordFields.PATH.key,
+                id: dataRecordFields.PATH.key,
             },
         ];
     };
@@ -207,14 +206,14 @@ function TableView(props) {
                 align: "center",
                 enableSorting: false,
                 key: dataRecordFields.CHECKBOX.key,
-                id:  dataRecordFields.CHECKBOX.key,
+                id: dataRecordFields.CHECKBOX.key,
             },
             {
                 name: dataRecordFields.NAME.fieldName,
                 align: "left",
                 enableSorting: true,
-                key:  dataRecordFields.NAME.key,
-                id:  dataRecordFields.NAME.key,
+                key: dataRecordFields.NAME.key,
+                id: dataRecordFields.NAME.key,
             },
             ...optionalColumns(),
             {

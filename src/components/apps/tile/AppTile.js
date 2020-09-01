@@ -109,7 +109,7 @@ function AppTile(props) {
         onFavoriteClick,
         onQuickLaunchClick,
         baseDebugId,
-        searchText,
+        searchTerm,
     } = props;
 
     const {
@@ -160,7 +160,7 @@ function AppTile(props) {
                     isDisabled={isDisabled}
                     classes={classes}
                     onAppNameClicked={onAppNameClick}
-                    searchText={searchText}
+                    searchTerm={searchTerm}
                 />
                 <div className={classes.more}>
                     <AppMenu
@@ -183,7 +183,7 @@ function AppTile(props) {
             </div>
 
             <div className={classes.creator}>
-                <Highlighter search={searchText}>{creator}</Highlighter>
+                <Highlighter search={searchTerm}>{creator}</Highlighter>
             </div>
             <div className={classes.rating}>
                 <Rate

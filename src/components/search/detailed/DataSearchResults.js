@@ -37,7 +37,6 @@ import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import { IconButton, Typography } from "@material-ui/core";
 import { Info } from "@material-ui/icons";
 
-
 function Name(props) {
     const { resource, searchTerm } = props;
 
@@ -68,7 +67,7 @@ function DataSearchResults(props) {
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
     const [infoTypes, setInfoTypes] = useState([]);
     const { t } = useTranslation("search");
-    const {t: dataI18n} = useTranslation("data");
+    const { t: dataI18n } = useTranslation("data");
     const dataRecordFields = dataFields(dataI18n);
 
     const bootstrapCache = queryCache.getQueryData(BOOTSTRAP_KEY);

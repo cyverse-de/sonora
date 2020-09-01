@@ -114,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SearchOption = React.forwardRef((props, ref) => {
-    const { primary, secondary, icon, searchTerm, onClick, href } = props;
+    const { id ,primary, secondary, icon, searchTerm, onClick, href } = props;
     const classes = useStyles();
     const theme = useTheme();
     return (
@@ -125,6 +125,7 @@ const SearchOption = React.forwardRef((props, ref) => {
             href={href}
             onClick={onClick}
             ref={ref}
+            id={id}
         >
             <ListItemIcon className={classes.icon}>{icon}</ListItemIcon>
             <ListItemText
@@ -149,7 +150,7 @@ const SearchOption = React.forwardRef((props, ref) => {
 });
 
 function ViewAllOption(props) {
-    const { searchTerm, filter, prompt, selectedTab } = props;
+    const {id, searchTerm, filter, prompt, selectedTab } = props;
     const href = `${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selectedTab}`;
     const as = `${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selectedTab}`;
     return (
@@ -158,13 +159,14 @@ function ViewAllOption(props) {
                 primary={searchTerm}
                 secondary={prompt}
                 icon={<PageviewIcon color="primary" />}
+                id={id}
             />
         </Link>
     );
 }
 
 function DataSearchOption(props) {
-    const { filter, selectedOption, searchTerm } = props;
+    const { baseId, filter, selectedOption, searchTerm } = props;
     const { t: i18NSearch } = useTranslation("search");
 
     if (selectedOption?.id === searchConstants.VIEW_ALL_ID) {
@@ -174,6 +176,7 @@ function DataSearchOption(props) {
                 filter={filter}
                 prompt={i18NSearch("viewAllDataResults", { searchTerm })}
                 selectedTab={SEARCH_RESULTS_TABS.data}
+                id={build(baseId, ids.VIEW_ALL)}
             />
         );
     }
@@ -197,6 +200,7 @@ function DataSearchOption(props) {
                 secondary={selectedOption._source?.path}
                 icon={icon}
                 searchTerm={searchTerm}
+                id={build(baseId, selectedOption._source.id)}
             />
         </Link>
     );
@@ -205,7 +209,7 @@ function DataSearchOption(props) {
 function AppsSearchOption(props) {
     const { t } = useTranslation("common");
     const { t: i18NSearch } = useTranslation("search");
-    const { filter, selectedOption, searchTerm } = props;
+    const { baseId, filter, selectedOption, searchTerm } = props;
 
     if (selectedOption?.id === searchConstants.VIEW_ALL_ID) {
         return (
@@ -214,6 +218,7 @@ function AppsSearchOption(props) {
                 filter={filter}
                 prompt={i18NSearch("viewAllAppsResults", { searchTerm })}
                 selectedTab={SEARCH_RESULTS_TABS.apps}
+                id={build(baseId, ids.VIEW_ALL)}
             />
         );
     }
@@ -227,6 +232,7 @@ function AppsSearchOption(props) {
                 secondary={selectedOption.description}
                 icon={<img src="/icon-apps.png" alt={t("apps")} />}
                 searchTerm={searchTerm}
+                id={build(baseId, selectedOption.id)}
             />
         </Link>
     );
@@ -235,7 +241,7 @@ function AppsSearchOption(props) {
 function AnalysesSearchOption(props) {
     const { t } = useTranslation("common");
     const { t: i18NSearch } = useTranslation("search");
-    const { filter, selectedOption, searchTerm } = props;
+    const { baseId, filter, selectedOption, searchTerm } = props;
 
     if (selectedOption?.id === searchConstants.VIEW_ALL_ID) {
         return (
@@ -244,6 +250,7 @@ function AnalysesSearchOption(props) {
                 filter={filter}
                 prompt={i18NSearch("viewAllAnalysesResults", { searchTerm })}
                 selectedTab={SEARCH_RESULTS_TABS.analyses}
+                id={build(baseId, ids.VIEW_ALL)}
             />
         );
     }
@@ -257,6 +264,7 @@ function AnalysesSearchOption(props) {
                 secondary={selectedOption.status}
                 icon={<img src="/icon-analyses.png" alt={t("analyses")} />}
                 searchTerm={searchTerm}
+                id={build(baseId, selectedOption.id)}
             />
         </Link>
     );
@@ -488,8 +496,8 @@ function GlobalSearchField(props) {
                         selectedOption={option}
                         searchTerm={searchTerm}
                         filter={filter}
-                        
-                    />
+                        baseId={build(ids.SEARCH, ids.DATA_SEARCH_OPTION)}
+                     />
                 );
             case searchConstants.APPS:
                 return (
@@ -497,6 +505,7 @@ function GlobalSearchField(props) {
                         selectedOption={option}
                         searchTerm={searchTerm}
                         filter={filter}
+                        baseId={build(ids.SEARCH, ids.APPS_SEARCH_OPTION)}
                     />
                 );
             case searchConstants.ANALYSES:
@@ -505,6 +514,7 @@ function GlobalSearchField(props) {
                         selectedOption={option}
                         searchTerm={searchTerm}
                         filter={filter}
+                        baseId={build(ids.SEARCH, ids.ANALYSES_SEARCH_OPTION)}
                     />
                 );
             default:
@@ -514,6 +524,7 @@ function GlobalSearchField(props) {
 
     const renderCustomInput = (params) => (
         <TextField
+            id={build(ids.SEARCH, ids.SEARCH_INPUT_FILED)}
             {...params}
             className={classes.input}
             variant={isMobile ? "outlined" : "standard"}
@@ -557,7 +568,7 @@ function GlobalSearchField(props) {
                 onClose={() => {
                     setOpen(false);
                 }}
-                id={ids.GLOBAL_SEARCH_FIELD}
+                id={build(ids.SEARCH, ids.GLOBAL_SEARCH_FIELD)}
                 size="small"
                 options={options}
                 onInputChange={handleChange}

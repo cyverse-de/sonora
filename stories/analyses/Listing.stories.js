@@ -81,6 +81,18 @@ export const AnalysesListingTest = () => {
         return [200, {}];
     });
 
+    mockAxios.onPost(/\/api\/analyses\/.*\/stop/).replyOnce(500, errorResponse);
+    mockAxios.onPost(/\/api\/analyses\/.*\/stop/).reply((config) => {
+        console.log("Cancel analysis", config.url);
+
+        return [
+            200,
+            {
+                id: config.url.split("/")[3],
+            },
+        ];
+    });
+
     mockAxios.onPatch(/\/api\/analyses*/).replyOnce(500, errorResponse);
     mockAxios.onPatch(/\/api\/analyses*/).reply((config) => {
         console.log("Edit analysis", config.url, config.data);

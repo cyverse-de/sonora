@@ -94,7 +94,28 @@ function searchAnalysesInfinite(
     });
 }
 
+function cancelAnalysis({ id }) {
+    return callApi({
+        endpoint: `/api/analyses/${id}/stop`,
+        method: "POST",
+    });
+}
+
+function cancelAnalyses(analysisIds) {
+    return (
+        analysisIds &&
+        analysisIds.length > 0 &&
+        new Promise((resolve, reject) =>
+            Promise.all(analysisIds.map((id) => cancelAnalysis({ id })))
+                .then((values) => resolve(values))
+                .catch((error) => reject(error))
+        )
+    );
+}
+
 export {
+    cancelAnalyses,
+    cancelAnalysis,
     getAnalyses,
     getAnalysisHistory,
     getAnalysisParameters,

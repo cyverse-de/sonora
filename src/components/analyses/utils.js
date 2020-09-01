@@ -61,6 +61,27 @@ const isBatchAnalysis = (analysis) => {
 };
 
 /**
+ * Checks if the user can cancel all of the given analyses.
+ *
+ * @param {array} analyses
+ * @param {string} currentUser
+ * @returns {boolean} false if any analysis does not belong to the current user
+ *  or is not in the running, idle, or submitted status.
+ */
+const allowAnalysesCancel = (analyses, currentUser) => {
+    return (
+        analyses &&
+        !analyses.find(
+            (analysis) =>
+                currentUser !== getAnalysisUser(analysis) ||
+                (analysis.status !== analysisStatus.RUNNING &&
+                    analysis.status !== analysisStatus.IDLE &&
+                    analysis.status !== analysisStatus.SUBMITTED)
+        )
+    );
+};
+
+/**
  * Checks if the user can delete all the given analyses.
  *
  * @param {array} analyses
@@ -132,6 +153,7 @@ export {
     isInteractive,
     allowAnalysisTimeExtn,
     isBatchAnalysis,
+    allowAnalysesCancel,
     allowAnalysesDelete,
     allowAnalysesRelaunch,
     allowAnalysisEdit,

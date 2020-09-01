@@ -171,7 +171,7 @@ const useRelaunchLink = (analysis) => {
 
 const useGotoOutputFolderLink = (analysis) => {
     const href = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}`;
-    const as = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${analysis.resultfolderid}`;
+    const as = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${analysis?.resultfolderid}`;
     return [href, as];
 };
 

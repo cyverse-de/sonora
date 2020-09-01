@@ -119,7 +119,7 @@ export default function AppSearchResults(props) {
                     return (
                         <IconButton
                             onClick={() => setDetailsApp(original)}
-                            fontSize="small"
+                            size="small"
                             color="primary"
                         >
                             <Info fontSize="small" />

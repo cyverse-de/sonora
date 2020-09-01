@@ -10,7 +10,6 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "i18n";
 
-import NameLink from "components/utils/NameLink";
 import { useAnalysesSearchInfinite } from "../searchQueries";
 import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
@@ -23,12 +22,14 @@ import { formatDate } from "@cyverse-de/ui-lib";
 import NavigationConstants from "common/NavigationConstants";
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
 import analysisFields from "components/analyses/analysisFields";
-import { Typography } from "@material-ui/core";
 
+import NameLink from "components/utils/NameLink";
 import Drawer from "components/analyses/details/Drawer";
 import Actions from "components/analyses/listing/Actions";
 import { openInteractiveUrl } from "components/analyses/utils";
 import { useUserProfile } from "contexts/userProfile";
+
+import { Typography } from "@material-ui/core";
 
 function Name(props) {
     const { analysis, searchTerm } = props;
@@ -145,13 +146,7 @@ export default function AnalysesSearchResults(props) {
             },
         ],
         [
-            analysisRecordFields.ACTIONS.key,
-            analysisRecordFields.NAME.fieldName,
-            analysisRecordFields.NAME.key,
-            analysisRecordFields.START_DATE.fieldName,
-            analysisRecordFields.START_DATE.key,
-            analysisRecordFields.STATUS.fieldName,
-            analysisRecordFields.STATUS.key,
+            analysisRecordFields,
             baseId,
             searchTerm,
             userProfile,

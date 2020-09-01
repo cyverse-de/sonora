@@ -19,7 +19,7 @@ export default function SearchError(props) {
     return (
         <>
             <ErrorTypography
-                errorMessage={error.message || t("errorSearch")}
+                errorMessage={error?.message || t("errorSearch")}
                 onDetailsClick={() => setErrorDialogOpen(true)}
             />
             <DEErrorDialog

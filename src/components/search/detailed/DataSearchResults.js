@@ -159,7 +159,7 @@ function DataSearchResults(props) {
                 disableSortBy: true,
             },
             {
-                Header: "Name",
+                Header: dataRecordFields.NAME.fieldName,
                 accessor: "_source.label",
                 Cell: ({ row }) => (
                     <Name resource={row?.original} searchTerm={searchTerm} />

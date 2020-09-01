@@ -4,6 +4,7 @@ import next from "next";
 
 import analysesRouter from "./api/analyses";
 import appsRouter from "./api/apps";
+import bagsRouter from "./api/bags";
 import dashboardRouter from "./api/dashboard";
 import dataRouter from "./api/data";
 import debugRouter from "./api/debug";
@@ -98,6 +99,7 @@ app.prepare()
         );
         server.use("/api", appsRouter());
         server.use("/api", analysesRouter());
+        server.use("/api", bagsRouter());
         server.use("/api", dashboardRouter());
         server.use("/api", dataRouter());
         server.use("/api", debugRouter());

@@ -535,7 +535,7 @@ function Listing(props) {
     };
 
     const handleCancel = () => {
-        analysesCancelMutation(selected);
+        analysesCancelMutation({ ids: selected });
     };
 
     const getSelectedAnalyses = (analyses) => {

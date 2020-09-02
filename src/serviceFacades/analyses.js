@@ -1,5 +1,7 @@
 import callApi from "../common/callApi";
 
+import AnalysisStatus from "components/models/analysisStatus";
+
 const ANALYSES_LISTING_QUERY_KEY = "fetchAnalysesListingKey";
 const ANALYSIS_HISTORY_QUERY_KEY = "fetchAnalysisHistoryKey";
 const ANALYSIS_PARAMS_QUERY_KEY = "fetchAnalysisParamsKey";
@@ -94,19 +96,25 @@ function searchAnalysesInfinite(
     });
 }
 
-function cancelAnalysis({ id }) {
+function cancelAnalysis({ id, job_status }) {
     return callApi({
         endpoint: `/api/analyses/${id}/stop`,
         method: "POST",
+        params: { job_status },
     });
 }
 
-function cancelAnalyses(analysisIds) {
+function cancelAnalyses({
+    ids: analysisIds,
+    job_status = AnalysisStatus.CANCELED,
+}) {
     return (
         analysisIds &&
         analysisIds.length > 0 &&
         new Promise((resolve, reject) =>
-            Promise.all(analysisIds.map((id) => cancelAnalysis({ id })))
+            Promise.all(
+                analysisIds.map((id) => cancelAnalysis({ id, job_status }))
+            )
                 .then((values) => resolve(values))
                 .catch((error) => reject(error))
         )

@@ -6,7 +6,10 @@
 import React from "react";
 import { useRouter } from "next/router";
 import Listing from "components/data/listing/Listing";
-import { getEncodedPath } from "../../../components/data/utils";
+import { getEncodedPath } from "components/data/utils";
+import ResourceTypes from "components/models/ResourceTypes";
+import { Viewers } from "components/data/viewers/Viewers";
+
 
 /**
  * This variable value needs to match the name of this file for the routing to work
@@ -25,28 +28,40 @@ const dynamicPathName = "/[...pathItems]";
  */
 export default function DataStore() {
     const router = useRouter();
+    const query = router.query;
+    const isFile = query.file;
     const routerPathname = router.pathname;
     const fullPath = router.asPath;
     // Remove the dynamic part of the path if it's there
     // (it won't be there if user navigates directly to /data/ds)
     const baseRoutingPath = routerPathname.replace(dynamicPathName, "");
-    const path = fullPath.replace(baseRoutingPath, "");
+    const path = fullPath.replace(baseRoutingPath, "").replace("?file=true", "");
 
-    const handlePathChange = (path) => {
+    const handlePathChange = (path, resourceType) => {
         const encodedPath = getEncodedPath(path);
-        router.push(
-            `${baseRoutingPath}${dynamicPathName}`,
-            `${baseRoutingPath}${encodedPath}`
-        );
+        if (!resourceType || resourceType === ResourceTypes.FOLDER) {
+            router.push(
+                `${baseRoutingPath}${dynamicPathName}`,
+                `${baseRoutingPath}${encodedPath}`
+            );
+        } else {
+            router.push(
+                `${baseRoutingPath}${dynamicPathName}?file=true`,
+                `${baseRoutingPath}${encodedPath}?file=true`
+            );
+        }
     };
-
-    return (
-        <Listing
-            path={decodeURIComponent(path)}
-            handlePathChange={handlePathChange}
-            baseId="data"
-        />
-    );
+    if (!isFile) {
+        return (
+            <Listing
+                path={decodeURIComponent(path)}
+                handlePathChange={handlePathChange}
+                baseId="data"
+            />
+        );
+    } else {
+        return <Viewers path={decodeURIComponent(path)} baseId="data.viewer" />;
+    }
 }
 
 DataStore.getInitialProps = async () => ({

@@ -149,5 +149,15 @@ export default function dataRouter() {
         })
     );
 
+    logger.info("adding the GET /api/filesystem/file/manifest handler");
+    api.get(
+        "/filesystem/file/manifest",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/filesystem/file/manifest",
+        })
+    );
+
     return api;
 }

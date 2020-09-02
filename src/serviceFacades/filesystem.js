@@ -8,6 +8,7 @@ export const DATA_ROOTS_QUERY_KEY = "fetchDataRoots";
 export const DATA_DETAILS_QUERY_KEY = "fetchDataDetails";
 export const DATA_SEARCH_QUERY_KEY = "searchData";
 export const INFO_TYPES_QUERY_KEY = "fetchInfoTypes";
+export const FETCH_FILE_MANIFEST_QUERY_KEY = "fetchFileManifest";
 
 /**
  * Get details on data resources
@@ -167,3 +168,15 @@ export const searchDataInfinite = (
         body: query,
     });
 };
+
+/**
+ * Get file manifest
+ * @param {*} key - react-query key
+ * @param {object} param - parameters for fetching manifest
+ */
+export const fileManifest = (key, path) => {
+    return callApi({
+        endpoint: `/api/filesystem/file/manifest?path=${encodeURIComponent(path)}`,
+        method: "GET",
+    });
+}

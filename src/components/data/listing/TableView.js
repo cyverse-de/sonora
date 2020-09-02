@@ -358,14 +358,10 @@ function TableView(props) {
                                                     ids.navLink
                                                 )}
                                                 onClick={() => {
-                                                    if (
-                                                        resource.type ===
-                                                        ResourceTypes.FOLDER
-                                                    ) {
-                                                        handlePathChange(
-                                                            `${path}/${resource.label}`
-                                                        );
-                                                    }
+                                                    handlePathChange(
+                                                        `${path}/${resource.label}`,
+                                                        resource.type
+                                                    );
                                                 }}
                                             >
                                                 {resource.label}

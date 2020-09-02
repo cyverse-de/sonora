@@ -40,6 +40,7 @@ import {
     Cancel as CancelIcon,
     Comment as CommentIcon,
     Delete as DeleteIcon,
+    Save as SaveIcon,
     UnfoldMore as UnfoldMoreIcon,
 } from "@material-ui/icons";
 
@@ -54,6 +55,7 @@ function DotMenuItems(props) {
         handleDelete,
         handleRelaunch,
         handleRename,
+        handleSaveAndComplete,
         handleBatchIconClick,
         isBatch,
         isVICE,
@@ -188,6 +190,21 @@ function DotMenuItems(props) {
                     <HourGlassIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary={t("extendTime")} />
+            </MenuItem>
+        ),
+        allowCancel && (
+            <MenuItem
+                key={build(baseId, ids.MENUITEM_COMPLETE)}
+                id={build(baseId, ids.MENUITEM_COMPLETE)}
+                onClick={() => {
+                    onClose();
+                    handleSaveAndComplete(selectedAnalyses);
+                }}
+            >
+                <ListItemIcon>
+                    <SaveIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("completeAndSave")} />
             </MenuItem>
         ),
         allowCancel && (

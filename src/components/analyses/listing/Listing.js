@@ -10,7 +10,7 @@ import { queryCache, useMutation, useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
-import { build } from "@cyverse-de/ui-lib";
+import { AnnouncerConstants, announce, build } from "@cyverse-de/ui-lib";
 
 import {
     ANALYSES_LISTING_QUERY_KEY,
@@ -185,14 +185,24 @@ function Listing(props) {
     const [analysesCancelMutation, { isLoading: cancelLoading }] = useMutation(
         cancelAnalyses,
         {
-            onSuccess: (analyses) => {
+            onSuccess: (analyses, { job_status }) => {
+                announce({
+                    text: t("analysisCancelSuccess", {
+                        count: analyses?.length,
+                        name: selectedAnalysis?.name,
+                    }),
+                    variant: AnnouncerConstants.SUCCESS,
+                });
                 const analysisIds = analyses?.map(({ id }) => id);
 
                 const newPage = {
                     ...data,
                     analyses: data.analyses.map((a) =>
                         analysisIds?.includes(a.id)
-                            ? { ...a, status: analysisStatus.CANCELED }
+                            ? {
+                                  ...a,
+                                  status: job_status || analysisStatus.CANCELED,
+                              }
                             : a
                     ),
                 };
@@ -201,13 +211,13 @@ function Listing(props) {
                 queryCache.setQueryData(analysesKey, newPage);
             },
             onError: (error) => {
+                showErrorAnnouncer(
+                    t("analysisCancelError", { count: selected.length }),
+                    error
+                );
                 if (selected.length > 1) {
-                    showErrorAnnouncer(t("analysesCancelError"), error);
-
                     // Some analyses may have been successfully canceled.
                     queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
-                } else {
-                    showErrorAnnouncer(t("analysisCancelError"), error);
                 }
             },
         }
@@ -538,6 +548,13 @@ function Listing(props) {
         analysesCancelMutation({ ids: selected });
     };
 
+    const handleSaveAndComplete = () => {
+        analysesCancelMutation({
+            ids: selected,
+            job_status: analysisStatus.COMPLETED,
+        });
+    };
+
     const getSelectedAnalyses = (analyses) => {
         const items = analyses ? analyses : selected;
         return items.map((id) =>
@@ -569,6 +586,7 @@ function Listing(props) {
                 handleDelete={handleDelete}
                 handleRelaunch={handleRelaunch}
                 handleRename={handleRename}
+                handleSaveAndComplete={handleSaveAndComplete}
                 handleBatchIconClick={handleBatchIconClick}
             />
             <TableView

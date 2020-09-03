@@ -168,7 +168,8 @@ function DetailsDrawer(props) {
     const {
         average: averageRating,
         total: totalRating,
-    } = selectedApp?.rating || { average: 0, total: 0 };
+        user: userRating
+    } = selectedApp?.rating || { average: 0, total: 0, user: 0 };
 
     const drawerId = build(baseId, ids.DETAILS_DRAWER);
     const detailsTabId = build(drawerId, ids.DETAILS_TAB);
@@ -313,8 +314,8 @@ function DetailsDrawer(props) {
                 selectedTab={selectedTab}
             >
                 <DetailsPanel
-                    app={selectedApp}
                     details={details}
+                    userRating={userRating}
                     isPublic={isPublic}
                     isExternal={isExternal}
                     detailsLoadingStatus={detailsStatus || appByIdStatus}

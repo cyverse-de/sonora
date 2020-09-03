@@ -19,8 +19,8 @@ import DEErrorDialog from "components/utils/error/DEErrorDialog";
 
 function DetailsPanel(props) {
     const {
-        app,
         details,
+        userRating,
         detailsLoadingStatus,
         ratingMutationStatus,
         baseId,
@@ -38,8 +38,6 @@ function DetailsPanel(props) {
     if (detailsLoadingStatus) {
         return <GridLoading baseId={baseId} rows={10} />;
     }
-
-    const { user: userRating } = app.rating;
 
     let errorMessage;
     if (detailsError) {

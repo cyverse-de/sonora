@@ -26,6 +26,8 @@ const NameLink = React.forwardRef((props, ref) => {
     const classes = useStyles();
     return (
         <Link
+            id={id}
+            title={title}
             href={href}
             onClick={onClick}
             ref={ref}

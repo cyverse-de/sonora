@@ -8,24 +8,31 @@
 
 import React, { useEffect, useState } from "react";
 
-import { useQuery } from "react-query";
+import { useQuery, useInfiniteQuery } from "react-query";
 
 import {
     FETCH_FILE_MANIFEST_QUERY_KEY,
+    READ_CHUNK_QUERY_KEY,
     fileManifest,
+    readFileChuck,
 } from "serviceFacades/filesystem";
 
-import {mimeTypes, getViewerMode} from "components/models/mimeTypes";
+import {
+    mimeTypes,
+    getMimeTypefromString,
+    getViewerMode,
+} from "components/models/mimeTypes";
+import TextViewer from "./TextViewer";
 import { CircularProgress } from "@material-ui/core";
 
-export function Viewers(props) {
+export default function FileViewer(props) {
     const { path } = props;
     const [contentType, setContentType] = useState("");
     const [infoType, setInfoType] = useState("");
     const [visURLs, setVisURLs] = useState([]);
     const [mode, setMode] = useState(null);
-
-
+    const [readChunkKey, setReadChunkKey] = useState(READ_CHUNK_QUERY_KEY);
+    const [readChunkQueryEnabled, setReadChunkQueryEnabled] = useState(false);
     const { isFetching } = useQuery({
         queryKey: [FETCH_FILE_MANIFEST_QUERY_KEY, path],
         queryFn: fileManifest,
@@ -43,9 +50,29 @@ export function Viewers(props) {
         },
     });
 
+    const {
+        status,
+        data,
+        isFetchingMore,
+        fetchMore,
+        canFetchMore,
+        error,
+    } = useInfiniteQuery(readChunkKey, readFileChuck, {
+        enabled: readChunkQueryEnabled,
+        getFetchMore: (lastGroup, allGroups) => {
+            const totalPages = Math.ceil(lastGroup["file-size"] / 8192);
+            if (allGroups.length < totalPages) {
+                return allGroups.length;
+            } else {
+                return false;
+            }
+        },
+    });
+
     useEffect(() => {
-        setMode(getViewerMode(contentType));
-        switch (contentType) {
+        const mimeType = getMimeTypefromString(contentType);
+        setMode(getViewerMode(mimeType));
+        switch (mimeType) {
             case mimeTypes.PNG:
             case mimeTypes.JPEG:
             case mimeTypes.GIF:
@@ -119,6 +146,11 @@ export function Viewers(props) {
                                                                editing,
                                                                presenter);
                 viewers.add(textViewer); */
+                setReadChunkKey([
+                    READ_CHUNK_QUERY_KEY,
+                    { path, chunkSize: 8192 },
+                ]);
+                setReadChunkQueryEnabled(true);
                 break;
 
             case mimeTypes.PLAIN:
@@ -159,11 +191,10 @@ export function Viewers(props) {
                 viewers.add(textViewer1); */
                 break;
         }
-    }, [contentType]);
+    }, [contentType, path]);
 
-    if (isFetching) {
+    if (isFetching || !data || data.length === 0) {
         return <CircularProgress />;
-    } else {
-        return <div> Got manifest!</div>;
     }
+    return <TextViewer data={data[0].chunk} mode={mode} />;
 }

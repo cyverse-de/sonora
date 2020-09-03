@@ -9,6 +9,7 @@ export const DATA_DETAILS_QUERY_KEY = "fetchDataDetails";
 export const DATA_SEARCH_QUERY_KEY = "searchData";
 export const INFO_TYPES_QUERY_KEY = "fetchInfoTypes";
 export const FETCH_FILE_MANIFEST_QUERY_KEY = "fetchFileManifest";
+export const READ_CHUNK_QUERY_KEY = "readChunk";
 
 /**
  * Get details on data resources

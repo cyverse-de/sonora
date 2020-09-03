@@ -180,3 +180,24 @@ export const fileManifest = (key, path) => {
         method: "GET",
     });
 }
+
+/**
+ * Read a chunk of a file
+ * @param {*} key - react-query key
+ * @param {*} param - parameters for reading the file chunk 
+ * @param {*} page - file seek position
+ */
+export const readFileChuck = (key, {path, chunkSize}, page = 0) => {
+    const body = {};
+    body.path = path;
+    body["chunk-size"] = `${chunkSize}`;
+    body.position = `${page * 8 * 1024}`;
+    return callApi({
+        endpoint: "/api/filesystem/read-chunk",
+        method:"POST",
+        body
+    });
+
+}
+
+

@@ -159,5 +159,18 @@ export default function dataRouter() {
         })
     );
 
+    logger.info("adding the POST /api/filesystem/read-chunk handler");
+    api.post(
+        "/filesystem/read-chunk",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/filesystem/read-chunk",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

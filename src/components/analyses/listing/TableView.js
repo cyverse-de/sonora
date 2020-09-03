@@ -4,20 +4,17 @@
  * A tabular view of analyses
  *
  */
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "i18n";
 
+import Actions from "./Actions";
 import ids from "../ids";
+
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import TableLoading from "components/utils/TableLoading";
 import analysisFields from "../analysisFields";
 
-import {
-    getAnalysisUser,
-    isInteractive,
-    allowAnalysisTimeExtn,
-    isBatchAnalysis,
-} from "../utils";
+import { getAnalysisUser } from "../utils";
 
 import {
     build,
@@ -28,7 +25,6 @@ import {
 } from "@cyverse-de/ui-lib";
 
 import {
-    IconButton,
     makeStyles,
     Paper,
     Table,
@@ -42,28 +38,9 @@ import {
     useTheme,
 } from "@material-ui/core";
 
-import {
-    HourglassEmptyRounded as HourGlass,
-    Launch as LaunchIcon,
-    PermMedia as OutputFolderIcon,
-    Repeat as RelaunchIcon,
-    UnfoldMore as UnfoldMoreIcon,
-} from "@material-ui/icons";
-
 const useStyles = makeStyles((theme) => ({
     name: {
         paddingLeft: theme.spacing(1),
-    },
-    action: {
-        color: theme.palette.info.main,
-        margin: theme.spacing(0.5),
-        "&:hover": {
-            color: theme.palette.primary.main,
-        },
-    },
-    actionHover: {
-        margin: theme.spacing(0.5),
-        color: theme.palette.primary.main,
     },
 }));
 
@@ -101,112 +78,6 @@ function Status(props) {
         <Typography variant="body2" id={build(baseId, ids.STATUS)}>
             {analysis.status}
         </Typography>
-    );
-}
-
-function Actions(props) {
-    const classes = useStyles();
-    const { t } = useTranslation("analyses");
-    const { analysis, handleRelaunch } = props;
-
-    const interactiveUrls = analysis.interactive_urls;
-    const handleInteractiveUrlClick = props.handleInteractiveUrlClick;
-    const handleGoToOutputFolder = props.handleGoToOutputFolder;
-    const handleBatchIconClick = props.handleBatchIconClick;
-    const baseId = props.baseId;
-    const mouseOverId = props.mouseOverId;
-    const username = props.username;
-    const isDisabled = analysis.app_disabled;
-    const className =
-        mouseOverId === analysis.id ? classes.actionHover : classes.action;
-
-    const isBatch = isBatchAnalysis(analysis);
-    const isVICE = isInteractive(analysis);
-    const allowTimeExtn = allowAnalysisTimeExtn(analysis, username);
-
-    return (
-        <>
-            <Tooltip
-                aria-label={t("goOutputFolder")}
-                title={t("goOutputFolder")}
-                id={build(baseId, ids.ICONS.OUTPUT, ids.TOOLTIP)}
-            >
-                <IconButton
-                    size="small"
-                    onClick={() => handleGoToOutputFolder(analysis)}
-                    id={build(baseId, ids.ICONS.OUTPUT, ids.BUTTON)}
-                    className={className}
-                >
-                    <OutputFolderIcon />
-                </IconButton>
-            </Tooltip>
-
-            {isBatch && (
-                <Tooltip
-                    aria-label={t("htDetails")}
-                    title={t("htDetails")}
-                    id={build(baseId, ids.ICONS.BATCH, ids.TOOLTIP)}
-                >
-                    <IconButton
-                        size="small"
-                        onClick={() => handleBatchIconClick(analysis)}
-                        id={build(baseId, ids.ICONS.BATCH, ids.BUTTON)}
-                        className={className}
-                    >
-                        <UnfoldMoreIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
-            {!isDisabled && !isVICE && (
-                <Tooltip
-                    aria-label={t("relaunch")}
-                    title={t("relaunch")}
-                    id={build(baseId, ids.ICONS.RELAUNCH, ids.TOOLTIP)}
-                >
-                    <IconButton
-                        size="small"
-                        onClick={() => handleRelaunch([analysis])}
-                        id={build(baseId, ids.ICONS.RELAUNCH, ids.BUTTON)}
-                        className={className}
-                    >
-                        <RelaunchIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
-            {isVICE && (
-                <Tooltip
-                    id={build(baseId, ids.ICONS.INTERACTIVE, ids.TOOLTIP)}
-                    aria-label={t("goToVice")}
-                    title={t("goToVice")}
-                >
-                    <IconButton
-                        onClick={() =>
-                            handleInteractiveUrlClick(interactiveUrls[0])
-                        }
-                        size="small"
-                        id={build(baseId, ids.ICONS.INTERACTIVE, ids.BUTTON)}
-                        className={className}
-                    >
-                        <LaunchIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
-            {allowTimeExtn && (
-                <Tooltip
-                    aria-label={t("extendTime")}
-                    title={t("extendTime")}
-                    id={build(baseId, ids.ICONS.TIME_LIMIT, ids.TOOLTIP)}
-                >
-                    <IconButton
-                        id={build(baseId, ids.ICONS.TIME_LIMIT)}
-                        size="small"
-                        className={className}
-                    >
-                        <HourGlass />
-                    </IconButton>
-                </Tooltip>
-            )}
-        </>
     );
 }
 
@@ -280,9 +151,9 @@ function TableView(props) {
         handleSelectAllClick,
         handleClick,
         handleInteractiveUrlClick,
-        handleGoToOutputFolder,
-        handleRelaunch,
         handleBatchIconClick,
+        handleDetailsClick,
+        handleCheckboxClick,
     } = props;
 
     const theme = useTheme();
@@ -297,7 +168,6 @@ function TableView(props) {
 
     const analyses = listing?.analyses;
     const tableId = build(baseId, ids.LISTING_TABLE);
-    const [mouseOverId, setMouseOverId] = useState("");
 
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
@@ -349,14 +219,6 @@ function TableView(props) {
                                         onClick={(event) =>
                                             handleClick(event, id, index)
                                         }
-                                        onMouseOver={() => {
-                                            setMouseOverId(id);
-                                        }}
-                                        onMouseOut={() => {
-                                            setMouseOverId("");
-                                        }}
-                                        onFocus={() => setMouseOverId(id)}
-                                        onBlur={() => setMouseOverId("")}
                                         role="checkbox"
                                         aria-checked={isSelected}
                                         tabIndex={-1}
@@ -370,6 +232,13 @@ function TableView(props) {
                                                 id={build(rowId, ids.CHECKBOX)}
                                                 checked={isSelected}
                                                 tabIndex={0}
+                                                onChange={(event) =>
+                                                    handleCheckboxClick(
+                                                        event,
+                                                        id,
+                                                        index
+                                                    )
+                                                }
                                                 inputProps={{
                                                     "aria-label": t(
                                                         "ariaCheckbox",
@@ -435,16 +304,12 @@ function TableView(props) {
                                                     handleInteractiveUrlClick={
                                                         handleInteractiveUrlClick
                                                     }
-                                                    handleGoToOutputFolder={
-                                                        handleGoToOutputFolder
-                                                    }
-                                                    handleRelaunch={
-                                                        handleRelaunch
-                                                    }
                                                     handleBatchIconClick={
                                                         handleBatchIconClick
                                                     }
-                                                    mouseOverId={mouseOverId}
+                                                    handleDetailsClick={
+                                                        handleDetailsClick
+                                                    }
                                                 />
                                             </TableCell>
                                         )}

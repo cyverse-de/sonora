@@ -7,5 +7,6 @@
     "matchingResults": "matching results.",
     "loadMore": "Load More",
     "searchInfo": "Searching for {{term}}. Found ",
-    "searchPagePrompt": "Begin searching by typing on the search field."
+    "searchPagePrompt": "Begin searching by typing in the search field.",
+    "viewAllResults": "View All {{name}} Results"
 }

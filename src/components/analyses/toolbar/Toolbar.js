@@ -168,7 +168,6 @@ function AnalysesToolbar(props) {
         onDetailsSelected,
         handleComments,
         handleInteractiveUrlClick,
-        handleGoToOutputFolder,
         handleCancel,
         handleDelete,
         handleRelaunch,
@@ -235,7 +234,6 @@ function AnalysesToolbar(props) {
                     getSelectedAnalyses={getSelectedAnalyses}
                     handleComments={handleComments}
                     handleInteractiveUrlClick={handleInteractiveUrlClick}
-                    handleGoToOutputFolder={handleGoToOutputFolder}
                     handleCancel={handleCancel}
                     handleDelete={handleDelete}
                     handleRelaunch={handleRelaunch}

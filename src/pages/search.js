@@ -3,10 +3,21 @@ import { useRouter } from "next/router";
 import { Hidden } from "@material-ui/core";
 import GlobalSearchField from "components/search/GlobalSearchField";
 import DetailedSearchResults from "components/search/detailed/DetailedSearchResults";
+import { SEARCH_RESULTS_TABS } from "components/search/detailed/DetailedSearchResults";
+import searchConstants from "components/search//constants";
+import NavigationConstants from "common/NavigationConstants";
 
 export default function Search() {
     const router = useRouter();
-    const { searchTerm, filter } = router?.query;
+    const { searchTerm, filter, selectedTab } = router?.query;
+    let tab = selectedTab || SEARCH_RESULTS_TABS.data;
+
+    if (filter === searchConstants.APPS) {
+        tab = SEARCH_RESULTS_TABS.apps;
+    } else if (filter === searchConstants.ANALYSES) {
+        tab = SEARCH_RESULTS_TABS.analyses;
+    }
+
     return (
         <>
             <Hidden only={["sm", "md", "lg", "xl"]}>
@@ -16,6 +27,12 @@ export default function Search() {
                 baseId="search"
                 searchTerm={router.query?.searchTerm}
                 filter={filter}
+                selectedTab={tab}
+                onTabSelectionChange={(event, selection) => {
+                    router.push(
+                        `/${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selection}`
+                    );
+                }}
             />
         </>
     );

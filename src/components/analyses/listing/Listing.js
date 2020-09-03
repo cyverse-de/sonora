@@ -22,6 +22,8 @@ import {
     updateAnalysisComment,
 } from "serviceFacades/analyses";
 
+import { openInteractiveUrl } from "../utils";
+
 import constants from "../../../constants";
 import ConfirmationDialog from "../../utils/ConfirmationDialog";
 import DEPagination from "../../utils/DEPagination";
@@ -66,7 +68,6 @@ function Listing(props) {
     const {
         baseId,
         onRouteToListing,
-        handleGoToOutputFolder,
         handleSingleRelaunch,
         selectedIdFilter,
         selectedPage,
@@ -421,6 +422,11 @@ function Listing(props) {
         }
     };
 
+    const handleCheckboxClick = (event, id, index) => {
+        toggleSelection(id);
+        setLastSelectIndex(index);
+    };
+
     const rangeSelect = (start, end, targetId) => {
         // when a user first click on a row with shift key pressed,
         // start is -1 (which is lastSelectIndex) and
@@ -441,7 +447,7 @@ function Listing(props) {
                 ? rangeSelect(index, lastSelectIndex, id)
                 : rangeSelect(lastSelectIndex, index, id);
         } else {
-            toggleSelection(id);
+            setSelected([id]);
         }
 
         setLastSelectIndex(index);
@@ -473,9 +479,6 @@ function Listing(props) {
         setOrderBy(property);
         setSelected([]);
         setPage(0);
-    };
-    const handleInteractiveUrlClick = (url) => {
-        window.open(url, "_blank");
     };
 
     const handleAppTypeFilterChange = (appTypeFilter) => {
@@ -563,8 +566,7 @@ function Listing(props) {
                 isSingleSelection={isSingleSelection}
                 onDetailsSelected={onDetailsSelected}
                 handleComments={handleComments}
-                handleInteractiveUrlClick={handleInteractiveUrlClick}
-                handleGoToOutputFolder={handleGoToOutputFolder}
+                handleInteractiveUrlClick={openInteractiveUrl}
                 handleCancel={handleCancel}
                 handleDelete={handleDelete}
                 handleRelaunch={handleRelaunch}
@@ -587,11 +589,12 @@ function Listing(props) {
                 username={userProfile?.id}
                 handleSelectAllClick={handleSelectAllClick}
                 handleClick={handleClick}
+                handleCheckboxClick={handleCheckboxClick}
                 handleRequestSort={handleRequestSort}
-                handleInteractiveUrlClick={handleInteractiveUrlClick}
-                handleGoToOutputFolder={handleGoToOutputFolder}
+                handleInteractiveUrlClick={openInteractiveUrl}
                 handleRelaunch={handleRelaunch}
                 handleBatchIconClick={handleBatchIconClick}
+                handleDetailsClick={onDetailsSelected}
             />
 
             <ConfirmationDialog

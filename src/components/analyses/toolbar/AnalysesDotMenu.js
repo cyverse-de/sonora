@@ -7,6 +7,7 @@
 
 import React from "react";
 import { useTranslation } from "i18n";
+import Link from "next/link";
 
 import ids from "../ids";
 
@@ -18,6 +19,8 @@ import {
     allowAnalysesDelete,
     allowAnalysesRelaunch,
     allowAnalysisEdit,
+    useRelaunchLink,
+    useGotoOutputFolderLink,
 } from "../utils";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
@@ -43,13 +46,50 @@ import {
     UnfoldMore as UnfoldMoreIcon,
 } from "@material-ui/icons";
 
+const RelaunchMenuItem = React.forwardRef((props, ref) => {
+    const { baseId, onClick, href } = props;
+    const { t } = useTranslation("analyses");
+    return (
+        <MenuItem
+            key={build(baseId, ids.MENUITEM_RELAUNCH)}
+            id={build(baseId, ids.MENUITEM_RELAUNCH)}
+            href={href}
+            onClick={onClick}
+            ref={ref}
+        >
+            <ListItemIcon>
+                <RelaunchIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary={t("relaunch")} />
+        </MenuItem>
+    );
+});
+
+const OutputFolderMenuItem = React.forwardRef((props, ref) => {
+    const { baseId, onClick, href } = props;
+    const { t } = useTranslation("analyses");
+    return (
+        <MenuItem
+            key={build(baseId, ids.MENUITEM_GO_TO_FOLDER)}
+            id={build(baseId, ids.MENUITEM_GO_TO_FOLDER)}
+            href={href}
+            onClick={onClick}
+            ref={ref}
+        >
+            <ListItemIcon>
+                <OutputFolderIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary={t("goOutputFolder")} />
+        </MenuItem>
+    );
+});
+
 function DotMenuItems(props) {
     const {
         baseId,
         onDetailsSelected,
         handleComments,
         handleInteractiveUrlClick,
-        handleGoToOutputFolder,
         handleCancel,
         handleDelete,
         handleRelaunch,
@@ -70,6 +110,10 @@ function DotMenuItems(props) {
     const { t } = useTranslation("analyses");
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const [href, as] = useRelaunchLink(selectedAnalyses[0]);
+    const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(
+        selectedAnalyses[0]
+    );
     return [
         isSingleSelection && (
             <MenuItem
@@ -87,21 +131,16 @@ function DotMenuItems(props) {
             </MenuItem>
         ),
         isSingleSelection && (
-            <MenuItem
-                key={build(baseId, ids.MENUITEM_GO_TO_FOLDER)}
-                id={build(baseId, ids.MENUITEM_GO_TO_FOLDER)}
-                onClick={() => {
-                    onClose();
-                    handleGoToOutputFolder(selectedAnalyses[0]);
-                }}
-            >
-                <ListItemIcon>
-                    <OutputFolderIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText primary={t("goOutputFolder")} />
-            </MenuItem>
+            <Link href={outputFolderHref} as={outputFolderAs} passHref>
+                <OutputFolderMenuItem baseId={baseId} />
+            </Link>
         ),
-        allowRelaunch && (
+        isSingleSelection && allowRelaunch && (
+            <Link href={href} as={as} passHref>
+                <RelaunchMenuItem baseId={baseId} />
+            </Link>
+        ),
+        !isSingleSelection && allowRelaunch && (
             <MenuItem
                 key={build(baseId, ids.MENUITEM_RELAUNCH)}
                 id={build(baseId, ids.MENUITEM_RELAUNCH)}

@@ -307,12 +307,8 @@ function TableView(props) {
                                                     handleBatchIconClick={
                                                         handleBatchIconClick
                                                     }
-                                                    handleDetailsClick={(
-                                                        analysis
-                                                    ) =>
-                                                        handleDetailsClick(
-                                                            analysis
-                                                        )
+                                                    handleDetailsClick={
+                                                        handleDetailsClick
                                                     }
                                                 />
                                             </TableCell>

@@ -138,9 +138,7 @@ export default function AnalysesSearchResults(props) {
                         baseId={baseId}
                         allowBatchDrillDown={false}
                         handleInteractiveUrlClick={openInteractiveUrl}
-                        handleDetailsClick={(analysis) =>
-                            setSelectedAnalysis(analysis)
-                        }
+                        handleDetailsClick={setSelectedAnalysis}
                     />
                 ),
                 disableSortBy: true,

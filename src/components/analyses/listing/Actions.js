@@ -69,21 +69,23 @@ const GotoOutputFolderButton = React.forwardRef((props, ref) => {
 
 export default function Actions(props) {
     const { t } = useTranslation("analyses");
-    const { analysis, allowBatchDrillDown = true } = props;
+    const {
+        analysis,
+        allowBatchDrillDown = true,
+        handleDetailsClick,
+        handleInteractiveUrlClick,
+        handleBatchIconClick,
+        baseId,
+        username,
+    } = props;
 
     const interactiveUrls = analysis.interactive_urls;
-
-    const handleDetailsClick = props.handleDetailsClick;
-    const handleInteractiveUrlClick = props.handleInteractiveUrlClick;
-    const handleBatchIconClick = props.handleBatchIconClick;
-    const baseId = props.baseId;
-    const username = props.username;
     const isDisabled = analysis.app_disabled;
 
     const isBatch = isBatchAnalysis(analysis);
     const isVICE = isInteractive(analysis);
     const allowTimeExtn = allowAnalysisTimeExtn(analysis, username);
-    const [href, as] = useRelaunchLink(analysis);
+    const [relaunchHref, relaunchAs] = useRelaunchLink(analysis);
     const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(
         analysis
     );
@@ -104,7 +106,7 @@ export default function Actions(props) {
                 </IconButton>
             )}
             {!isDisabled && !isVICE && (
-                <Link href={href} as={as} passHref>
+                <Link href={relaunchHref} as={relaunchAs} passHref>
                     <RelaunchButton baseId={baseId} />
                 </Link>
             )}

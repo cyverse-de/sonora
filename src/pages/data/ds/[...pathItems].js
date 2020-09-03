@@ -8,8 +8,7 @@ import { useRouter } from "next/router";
 import Listing from "components/data/listing/Listing";
 import { getEncodedPath } from "components/data/utils";
 import ResourceTypes from "components/models/ResourceTypes";
-import { Viewers } from "components/data/viewers/Viewers";
-
+import FileViewer from "components/data/viewers/FileViewer";
 
 /**
  * This variable value needs to match the name of this file for the routing to work
@@ -60,7 +59,7 @@ export default function DataStore() {
             />
         );
     } else {
-        return <Viewers path={decodeURIComponent(path)} baseId="data.viewer" />;
+        return <FileViewer path={decodeURIComponent(path)} baseId="data.viewer" />;
     }
 }
 

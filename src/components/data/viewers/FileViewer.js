@@ -15,7 +15,7 @@ import {
     fileManifest,
 } from "serviceFacades/filesystem";
 
-import MimeTypes from "components/models/MimeTypes";
+import {mimeTypes, getViewerMode} from "components/models/mimeTypes";
 import { CircularProgress } from "@material-ui/core";
 
 export function Viewers(props) {
@@ -23,6 +23,8 @@ export function Viewers(props) {
     const [contentType, setContentType] = useState("");
     const [infoType, setInfoType] = useState("");
     const [visURLs, setVisURLs] = useState([]);
+    const [mode, setMode] = useState(null);
+
 
     const { isFetching } = useQuery({
         queryKey: [FETCH_FILE_MANIFEST_QUERY_KEY, path],
@@ -42,10 +44,11 @@ export function Viewers(props) {
     });
 
     useEffect(() => {
+        setMode(getViewerMode(contentType));
         switch (contentType) {
-            case MimeTypes.PNG:
-            case MimeTypes.JPEG:
-            case MimeTypes.GIF:
+            case mimeTypes.PNG:
+            case mimeTypes.JPEG:
+            case mimeTypes.GIF:
                 /*         if(editing) {
                     announcer.schedule(new ErrorAnnouncementConfig("Editing is not supported for this type of file."));
                 }
@@ -56,9 +59,9 @@ export function Viewers(props) {
                     viewers.add(imgViewer);
                 }
          */ break;
-            case MimeTypes.MP4:
-            case MimeTypes.OGG:
-            case MimeTypes.WEBM:
+            case mimeTypes.MP4:
+            case mimeTypes.OGG:
+            case mimeTypes.WEBM:
                 /*         if((file != null) && !file.getPath().isEmpty()){
                     String videoUrl = fileEditorService.getServletDownloadUrl(file.getPath());
 
@@ -67,7 +70,7 @@ export function Viewers(props) {
                     viewers.add(videoViewer);
                 }
          */ break;
-            case MimeTypes.PDF:
+            case mimeTypes.PDF:
                 /*   if(editing) {
                     announcer.schedule(new ErrorAnnouncementConfig("Editing is not supported for this type of file."));
                 }
@@ -79,8 +82,8 @@ export function Viewers(props) {
                 }
                */ break;
 
-            case MimeTypes.HTML:
-            case MimeTypes.XHTML_XML:
+            case mimeTypes.HTML:
+            case mimeTypes.XHTML_XML:
                 /*    if(editing) {
                     announcer.schedule(new ErrorAnnouncementConfig("Editing is not supported for this type of file."));
                 }
@@ -92,7 +95,7 @@ export function Viewers(props) {
                 }
               */ break;
 
-            case MimeTypes.VIZ:
+            case mimeTypes.VIZ:
                 /*    ExternalVisualizationURLViewerImpl vizUrlViewer = new ExternalVisualizationURLViewerImpl(
                         file,
                         infoType,
@@ -102,11 +105,11 @@ export function Viewers(props) {
                 viewers.add(vizUrlViewer);
               */ break;
 
-            case MimeTypes.X_SH:
-            case MimeTypes.X_RSRC:
-            case MimeTypes.X_PYTHON:
-            case MimeTypes.X_PERL:
-            case MimeTypes.X_WEB_MARKDOWN:
+            case mimeTypes.X_SH:
+            case mimeTypes.X_RSRC:
+            case mimeTypes.X_PYTHON:
+            case mimeTypes.X_PERL:
+            case mimeTypes.X_WEB_MARKDOWN:
                 /*  Preconditions.checkArgument(!Strings.isNullOrEmpty(textViewerMode),
                                             "Text viewer mode should not be empty or null.");
                 LOG.fine("mode-->" + textViewerMode);
@@ -118,8 +121,8 @@ export function Viewers(props) {
                 viewers.add(textViewer); */
                 break;
 
-            case MimeTypes.PLAIN:
-            case MimeTypes.PREVIEW:
+            case mimeTypes.PLAIN:
+            case mimeTypes.PREVIEW:
             default:
                 /*   Integer columns = null;
                 if(manifest.getColumns() != null){

@@ -8,7 +8,6 @@ export default class MyDocument extends Document {
         return (
             <html lang="en">
                 <Head>
-                    {/* PWA primary color */}
                     <meta
                         name="theme-color"
                         content={theme.palette.primary.main}
@@ -22,6 +21,7 @@ export default class MyDocument extends Document {
                         type="image/x-icon"
                         href="/cyverse_whitelogo.png"
                     />
+                    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" rel="stylesheet"/>
                 </Head>
                 <body>
                     <Main />

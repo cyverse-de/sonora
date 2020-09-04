@@ -1,6 +1,6 @@
 import callApi from "../common/callApi";
 import { getDataSimpleSearchQuery } from "components/search/dataSearchQueryBuilder";
-
+import viewerConstants from "components/data/viewers/constants";
 export const DATA_LISTING_QUERY_KEY = "fetchDataListing";
 export const USER_INFO_QUERY_KEY = "fetchUserInfo";
 export const RESOURCE_PERMISSIONS_KEY = "fetchResourcePermissions";
@@ -177,28 +177,45 @@ export const searchDataInfinite = (
  */
 export const fileManifest = (key, path) => {
     return callApi({
-        endpoint: `/api/filesystem/file/manifest?path=${encodeURIComponent(path)}`,
+        endpoint: `/api/filesystem/file/manifest?path=${encodeURIComponent(
+            path
+        )}`,
         method: "GET",
     });
-}
+};
 
 /**
  * Read a chunk of a file
  * @param {*} key - react-query key
- * @param {*} param - parameters for reading the file chunk 
+ * @param {*} param - parameters for reading the file chunk
  * @param {*} page - file seek position
  */
-export const readFileChuck = (key, {path, chunkSize}, page = 0) => {
+export const readFileChuck = (
+    key,
+    { path, chunkSize, separator },
+    page = 0
+) => {
+    console.log("page->" + page);
+    console.log("separator->" + separator);
     const body = {};
     body.path = path;
     body["chunk-size"] = `${chunkSize}`;
-    body.position = `${page * 8 * 1024}`;
-    return callApi({
-        endpoint: "/api/filesystem/read-chunk",
-        method:"POST",
-        body
-    });
-
-}
-
+    if (separator) {
+        body.page = "1";
+        body.separator = separator;
+        return callApi({
+            endpoint: "/api/filesystem/read-csv-chunk",
+            method: "POST",
+            body,
+        });
+    } else {
+        const pos = page * viewerConstants.DEFAULT_PAGE_SIZE;
+        body.position = `${pos}`;
+        return callApi({
+            endpoint: "/api/filesystem/read-chunk",
+            method: "POST",
+            body,
+        });
+    }
+};
 

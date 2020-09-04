@@ -82,6 +82,7 @@
         "path": "^0.12.7",
         "postman-request": "^2.88.1-postman.18",
         "react": "^16.13.1",
+        "react-csv-to-table": "0.0.4",
         "react-dom": "^16.13.1",
         "react-i18next": "^11.7.0",
         "react-intl": "^3.12.0",

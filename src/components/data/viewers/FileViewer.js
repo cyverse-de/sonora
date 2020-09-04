@@ -8,22 +8,28 @@
 
 import React, { useEffect, useState } from "react";
 
-import { useQuery, useInfiniteQuery } from "react-query";
-
+import { useFileManifest, useReadChunk } from "./queries";
 import {
     FETCH_FILE_MANIFEST_QUERY_KEY,
     READ_CHUNK_QUERY_KEY,
-    fileManifest,
-    readFileChuck,
 } from "serviceFacades/filesystem";
-
 import {
     mimeTypes,
     getMimeTypefromString,
     getViewerMode,
 } from "components/models/mimeTypes";
+import infoTypes from "components/models/InfoTypes";
+
+import viewerConstants from "./constants";
 import TextViewer from "./TextViewer";
+import StructuredTextViewer from "./StructuredTextViewer";
+
 import { CircularProgress } from "@material-ui/core";
+
+const VIEWER_TYPE = {
+    PLAIN: "plain",
+    STRUCTURED: "structured",
+};
 
 export default function FileViewer(props) {
     const { path } = props;
@@ -33,22 +39,17 @@ export default function FileViewer(props) {
     const [mode, setMode] = useState(null);
     const [readChunkKey, setReadChunkKey] = useState(READ_CHUNK_QUERY_KEY);
     const [readChunkQueryEnabled, setReadChunkQueryEnabled] = useState(false);
-    const { isFetching } = useQuery({
-        queryKey: [FETCH_FILE_MANIFEST_QUERY_KEY, path],
-        queryFn: fileManifest,
-        config: {
-            enabled: path !== null && path !== undefined,
-            onSuccess: (respData) => {
-                console.log(JSON.stringify(respData));
-                setContentType(respData["content-type"]);
-                setInfoType(respData?.infoType);
-                setVisURLs(respData?.urls);
-            },
-            onError: (e) => {
-                console.log("error=>" + e);
-            },
-        },
-    });
+    const [viewerType, setViewerType] = useState(VIEWER_TYPE.PLAIN);
+    const { isFetching, error: manifestError } = useFileManifest(
+        [FETCH_FILE_MANIFEST_QUERY_KEY, path],
+        path !== null && path !== undefined,
+        (respData) => {
+            console.log(JSON.stringify(respData));
+            setContentType(respData["content-type"]);
+            setInfoType(respData?.infoType);
+            setVisURLs(respData?.urls);
+        }
+    );
 
     const {
         status,
@@ -56,18 +57,39 @@ export default function FileViewer(props) {
         isFetchingMore,
         fetchMore,
         canFetchMore,
-        error,
-    } = useInfiniteQuery(readChunkKey, readFileChuck, {
-        enabled: readChunkQueryEnabled,
-        getFetchMore: (lastGroup, allGroups) => {
-            const totalPages = Math.ceil(lastGroup["file-size"] / 8192);
+        error: chunkError,
+    } = useReadChunk(
+        readChunkKey,
+        readChunkQueryEnabled,
+        (lastGroup, allGroups) => {
+            const totalPages = Math.ceil(
+                lastGroup["file-size"] / viewerConstants.DEFAULT_PAGE_SIZE
+            );
             if (allGroups.length < totalPages) {
                 return allGroups.length;
             } else {
                 return false;
             }
-        },
-    });
+        }
+    );
+    const getColumnDelimiter = (infoType) => {
+        if (infoTypes.CSV === infoType) {
+            return viewerConstants.COMMA_DELIMITER;
+        } else if (
+            infoTypes.TSV === infoType ||
+            infoTypes.VCF === infoType ||
+            infoTypes.GFF === infoType ||
+            infoTypes.BED === infoType ||
+            infoTypes.GTF === infoType ||
+            infoTypes.BOWTIE === infoType ||
+            infoTypes.HT_ANALYSIS_PATH_LIST === infoType ||
+            infoTypes.MULTI_INPUT_PATH_LIST === infoType
+        ) {
+            return viewerConstants.TAB_DELIMITER;
+        } else {
+            return viewerConstants.SPACE_DELIMITER;
+        }
+    };
 
     useEffect(() => {
         const mimeType = getMimeTypefromString(contentType);
@@ -137,64 +159,72 @@ export default function FileViewer(props) {
             case mimeTypes.X_PYTHON:
             case mimeTypes.X_PERL:
             case mimeTypes.X_WEB_MARKDOWN:
-                /*  Preconditions.checkArgument(!Strings.isNullOrEmpty(textViewerMode),
-                                            "Text viewer mode should not be empty or null.");
-                LOG.fine("mode-->" + textViewerMode);
-                TextViewerImpl textViewer = new TextViewerImpl(file,
-                                                               infoType,
-                                                               textViewerMode,
-                                                               editing,
-                                                               presenter);
-                viewers.add(textViewer); */
-                setReadChunkKey([
-                    READ_CHUNK_QUERY_KEY,
-                    { path, chunkSize: 8192 },
-                ]);
-                setReadChunkQueryEnabled(true);
-                break;
-
             case mimeTypes.PLAIN:
             case mimeTypes.PREVIEW:
+                setReadChunkKey([
+                    READ_CHUNK_QUERY_KEY,
+                    { path, chunkSize: viewerConstants.DEFAULT_PAGE_SIZE },
+                ]);
+                setReadChunkQueryEnabled(true);
+                setViewerType(VIEWER_TYPE.PLAIN);
+                break;
+
             default:
-                /*   Integer columns = null;
-                if(manifest.getColumns() != null){
-                    columns = manifest.getColumns();
-                    LOG.fine("Columns are defined: " + columns);
-                }
-                if(CSV.toString().equals(infoType)
-                    || TSV.toString().equals(infoType)
-                    || VCF.toString().equals(infoType)
-                    || GFF.toString().equals(infoType)
-                    || GTF.toString().equals(infoType)
-                    || BED.toString().equals(infoType)
-                    || BOWTIE.toString().equals(infoType)){
-                    StructuredTextViewer structuredTextViewer = new StructuredTextViewer(file,
-                                                                                         infoType,
-                                                                                         editing,
-                                                                                         columns,
-                                                                                         presenter);
-                    viewers.add(structuredTextViewer);
-                } else if (HT_ANALYSIS_PATH_LIST.toString().equals(infoType)
+                if (
+                    infoTypes.CSV === infoType ||
+                    infoTypes.TSV === infoType ||
+                    infoTypes.VCF === infoType ||
+                    infoTypes.GFF === infoType ||
+                    infoTypes.GTF === infoType ||
+                    infoTypes.BED === infoType ||
+                    infoTypes.BOWTIE === infoType
+                ) {
+                    const separator = getColumnDelimiter(infoType);
+                    setReadChunkKey([
+                        READ_CHUNK_QUERY_KEY,
+                        {
+                            path,
+                            separator,
+                            chunkSize: viewerConstants.DEFAULT_PAGE_SIZE,
+                        },
+                    ]);
+                    setReadChunkQueryEnabled(true);
+                    setViewerType(VIEWER_TYPE.STRUCTURED);
+                    break;
+                } /* else if (HT_ANALYSIS_PATH_LIST.toString().equals(infoType)
                            || MULTI_INPUT_PATH_LIST.toString().equals(infoType)) {
                     PathListViewer pathListViewer = new PathListViewer(file,
                                                                      infoType,
                                                                      editing,
                                                                        presenter,
                                                                        diskResourceUtil);
-                    viewers.add(pathListViewer);
-                }
-                TextViewerImpl textViewer1 = new TextViewerImpl(file,
-                                                                infoType,
-                                                                null,
-                                                                editing,
-                                                                presenter);
-                viewers.add(textViewer1); */
+                   
+                } */
+
                 break;
         }
-    }, [contentType, path]);
+    }, [contentType, infoType, path]);
 
     if (isFetching || !data || data.length === 0) {
         return <CircularProgress />;
     }
-    return <TextViewer data={data[0].chunk} mode={mode} />;
+    let flatData = [];
+
+    if (viewerType === VIEWER_TYPE.PLAIN) {
+        data.forEach((page) => {
+            flatData = [...flatData, ...page.chunk];
+        });
+        return <TextViewer data={flatData} mode={mode} />;
+    } else if (viewerType === VIEWER_TYPE.STRUCTURED) {
+        data.forEach((page) => {
+            flatData = [...flatData, ...page.csv];
+        });
+        return (
+            <StructuredTextViewer
+                data={flatData}
+                columns = {data[0]["max-cols"]}
+                delimiter={getColumnDelimiter(infoType)}
+            />
+        );
+    }
 }

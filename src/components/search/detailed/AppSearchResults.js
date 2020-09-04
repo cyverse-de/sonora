@@ -9,12 +9,12 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 
-import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
 import { useAppsSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
 import constants from "../../../constants";
 
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import AppName from "components/apps/AppName";
 import { APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
 import appFields from "components/apps/appFields";
@@ -132,7 +132,13 @@ export default function AppSearchResults(props) {
         [appRecordFields, searchTerm]
     );
     if (error) {
-        return <SearchError error={error} baseId={baseId} />;
+        return (
+            <ErrorTypographyWithDialog
+                errorMessage={t("errorSearch")}
+                errorObject={error}
+                baseId={baseId}
+            />
+        );
     }
     if (
         status !== constants.LOADING &&

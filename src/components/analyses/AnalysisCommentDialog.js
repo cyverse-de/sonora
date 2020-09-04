@@ -84,6 +84,7 @@ function AnalysisCommentDialog(props) {
                                     helperText={
                                         submissionError && (
                                             <ErrorTypographyWithDialog
+                                                baseId={baseId}
                                                 errorMessage={t(
                                                     "analysisCommentError"
                                                 )}

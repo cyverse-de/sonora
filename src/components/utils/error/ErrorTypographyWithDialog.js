@@ -10,7 +10,9 @@ import ids from "../ids";
 import ErrorTypography from "./ErrorTypography";
 import DEErrorDialog from "./DEErrorDialog";
 
-const ErrorTypographyWithDialog = ({ errorMessage, errorObject }) => {
+import {build} from "@cyverse-de/ui-lib";
+
+const ErrorTypographyWithDialog = ({ baseId, errorMessage, errorObject }) => {
     const [errorDialogOpen, setErrorDialogOpen] = React.useState(false);
 
     return (
@@ -21,7 +23,7 @@ const ErrorTypographyWithDialog = ({ errorMessage, errorObject }) => {
             />
             <DEErrorDialog
                 open={errorDialogOpen}
-                baseId={ids.ERROR_DLG}
+                baseId={build(baseId, ids.ERROR_DLG)}
                 errorObject={errorObject}
                 handleClose={() => {
                     setErrorDialogOpen(false);

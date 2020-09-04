@@ -14,7 +14,6 @@ import { useTranslation } from "i18n";
 import NameLink from "components/utils/NameLink";
 
 import constants from "../../../constants";
-import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
 import { useDataSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
@@ -27,6 +26,7 @@ import {
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
 import NavigationConstants from "common/NavigationConstants";
 
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import dataFields from "components/data/dataFields";
 import ResourceIcon from "components/data/listing/ResourceIcon";
 import { getParentPath } from "components/data/utils";
@@ -191,7 +191,13 @@ function DataSearchResults(props) {
     );
 
     if (error) {
-        return <SearchError error={error} baseId={baseId} />;
+        return (
+            <ErrorTypographyWithDialog
+                errorMessage={t("errorSearch")}
+                errorObject={error}
+                baseId={baseId}
+            />
+        );
     }
     if (
         status !== constants.LOADING &&

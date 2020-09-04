@@ -275,9 +275,11 @@ function GlobalSearchField(props) {
     const router = useRouter();
     const { search, showErrorAnnouncer } = props;
 
-    const { t } = useTranslation(["common", "analyses", "apps"]);
-    const appRecordFields = appFields(t);
-
+    const { t } = useTranslation("common");
+    const {t: appsI18n} = useTranslation("apps");
+    const {t: analysesI18n} =useTranslation("analyses");
+    const appRecordFields = appFields(appsI18n);
+ 
     const [searchTerm, setSearchTerm] = useState(search);
     const [filter, setFilter] = useState(searchConstants.ALL);
 
@@ -424,7 +426,7 @@ function GlobalSearchField(props) {
                 },
             ]);
 
-            const analysisRecordFields = analysisFields(t);
+            const analysisRecordFields = analysisFields(analysesI18n);
             setAnalysesSearchKey([
                 ANALYSES_SEARCH_QUERY_KEY,
                 {

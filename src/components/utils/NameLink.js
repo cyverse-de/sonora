@@ -1,5 +1,5 @@
 /**
- * A component that display Name field using material-ui/Link.
+ * A component that display a Name field using material-ui/Link.
  * This component needs to wrapped by next/Link to avoid whole app refresh issue.
  *
  * @example

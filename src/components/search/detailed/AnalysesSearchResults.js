@@ -11,7 +11,6 @@ import Link from "next/link";
 import { useTranslation } from "i18n";
 
 import { useAnalysesSearchInfinite } from "../searchQueries";
-import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
 import { getAnalysesSearchQueryFilter } from "../analysesSearchQueryBuilder";
 import searchConstants from "../constants";
@@ -19,6 +18,7 @@ import constants from "../../../constants";
 
 import { formatDate } from "@cyverse-de/ui-lib";
 
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import NavigationConstants from "common/NavigationConstants";
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
 import analysisFields from "components/analyses/analysisFields";
@@ -54,9 +54,9 @@ export default function AnalysesSearchResults(props) {
     ] = useState(false);
 
     const { t } = useTranslation("search");
-    const { t: at } = useTranslation("analyses");
+    const { t: analysisI18n } = useTranslation("analyses");
 
-    let analysisRecordFields = analysisFields(at);
+    let analysisRecordFields = analysisFields(analysisI18n);
 
     const [order, setOrder] = useState(constants.SORT_DESCENDING);
     const [orderBy, setOrderBy] = useState(analysisRecordFields.START_DATE.key);
@@ -149,7 +149,13 @@ export default function AnalysesSearchResults(props) {
     );
 
     if (error) {
-        return <SearchError error={error} baseId={baseId} />;
+        return (
+            <ErrorTypographyWithDialog
+                errorMessage={t("errorSearch")}
+                errorObject={error}
+                baseId={baseId}
+            />
+        );
     }
     if (
         status !== constants.LOADING &&

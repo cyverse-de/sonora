@@ -9,6 +9,7 @@
 import React, { useCallback } from "react";
 
 import { useRouter } from "next/router";
+import { useTranslation } from "i18n";
 
 import constants from "../constants";
 import appFields from "components/apps/appFields";
@@ -18,11 +19,12 @@ import Listing from "../components/apps/listing/Listing";
 export default function Apps() {
     const router = useRouter();
     const query = router.query;
-    const appRecordFields = appFields();
+    const { t } = useTranslation("apps");
+    const appRecordFields = appFields(t);
     const selectedPage = parseInt(query.selectedPage) || 0;
     const selectedRowsPerPage = parseInt(query.selectedRowsPerPage) || 25;
     const selectedOrder = query.selectedOrder || constants.SORT_ASCENDING;
-    const selectedOrderBy = query.selecetdOrderBy || appRecordFields.NAME.key;
+    const selectedOrderBy = query.selectedOrderBy || appRecordFields.NAME.key;
 
     const selectedFilter = query.selectedFilter
         ? JSON.parse(query.selectedFilter)

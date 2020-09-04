@@ -325,7 +325,7 @@ class AppTileTest extends Component {
                             onAppNameClick={() =>
                                 console.log("App name clicked!")
                             }
-                            searchText=""
+                            searchTerm="Bowtie"
                         />
                     </Grid>
                 ))}

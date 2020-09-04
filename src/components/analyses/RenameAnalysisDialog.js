@@ -98,6 +98,7 @@ function RenameAnalysisDialog(props) {
                                     helperText={
                                         submissionError && (
                                             <ErrorTypographyWithDialog
+                                                baseId={baseId}
                                                 errorMessage={t(
                                                     "analysisRenameError"
                                                 )}

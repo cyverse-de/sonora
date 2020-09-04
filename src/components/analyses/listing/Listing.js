@@ -101,6 +101,7 @@ function Listing(props) {
     const [isSingleSelection, setSingleSelection] = useState(false);
 
     const [detailsOpen, setDetailsOpen] = useState(false);
+
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [relaunchDialogOpen, setRelaunchDialogOpen] = useState(false);
     const [renameDialogOpen, setRenameDialogOpen] = useState(false);

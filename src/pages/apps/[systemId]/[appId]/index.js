@@ -6,6 +6,7 @@
  */
 import React, { useCallback } from "react";
 import { useRouter } from "next/router";
+import { useTranslation } from "i18n";
 
 import constants from "../../../../constants";
 import appFields from "components/apps/appFields";
@@ -22,7 +23,8 @@ import Listing from "components/apps/listing/Listing";
 export default function App() {
     const router = useRouter();
     const { systemId, appId } = router.query;
-    const appRecordFields = appFields();
+    const { t } = useTranslation("apps");
+    const appRecordFields = appFields(t);
     const selectedPage = 0;
     const selectedRowsPerPage = 25;
     const selectedOrder = constants.SORT_ASCENDING;

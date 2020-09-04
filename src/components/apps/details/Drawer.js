@@ -8,14 +8,24 @@
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
 
+import { queryCache, useMutation, useQuery } from "react-query";
+
 import ids from "../../apps/ids";
 import DETabPanel from "../../utils/DETabPanel";
 
 import DetailsPanel from "./DetailsPanel";
 import constants from "../../../constants";
 
-import { build, Rate } from "@cyverse-de/ui-lib";
+import {
+    appFavorite,
+    getAppDetails,
+    getAppById,
+    rateApp,
+    APP_BY_ID_QUERY_KEY,
+    APP_DETAILS_QUERY_KEY,
+} from "serviceFacades/apps";
 
+import { build, Rate } from "@cyverse-de/ui-lib";
 import {
     CircularProgress,
     Drawer,
@@ -133,48 +143,118 @@ function DetailsSubHeader({
 
 function DetailsDrawer(props) {
     const classes = useStyles();
-    const {
-        selectedApp,
-        details,
-        open,
-        onClose,
-        baseId,
-        intl,
-        onFavoriteClick,
-        onRatingChange,
-        onDeleteRatingClick,
-        detailsLoadingStatus,
-        ratingMutationStatus,
-        favMutationStatus,
-        detailsError,
-        favMutationError,
-        ratingMutationError,
-    } = props;
+    const { appId, systemId, open, onClose, baseId } = props;
 
-    const [selectedTab, setSelectedTab] = useState(TABS.appInfo);
     const { t } = useTranslation("apps");
+
+    const [selectedApp, setSelectedApp] = useState(null);
+    const [selectedTab, setSelectedTab] = useState(TABS.appInfo);
+    const [detailsError, setDetailsError] = useState(null);
+    const [favMutationError, setFavMutationError] = useState(null);
+    const [ratingMutationError, setRatingMutationError] = useState(null);
+    const [details, setDetails] = useState(null);
 
     const onTabSelectionChange = (event, selectedTab) => {
         setSelectedTab(selectedTab);
     };
 
-    if (!selectedApp) {
-        return null;
-    }
-
     const isExternal =
-        selectedApp.app_type.toUpperCase() ===
+        selectedApp?.app_type.toUpperCase() ===
         constants.APP_TYPE_EXTERNAL.toUpperCase();
 
-    const appId = selectedApp.id;
-    const appName = selectedApp.name;
-    const isPublic = selectedApp.is_public;
-    const isFavorite = selectedApp.is_favorite;
-    const { average: averageRating, total: totalRating } = selectedApp.rating;
+    const appName = selectedApp?.name;
+    const isPublic = selectedApp?.is_public;
+    const isFavorite = selectedApp?.is_favorite;
+    const {
+        average: averageRating,
+        total: totalRating,
+        user: userRating
+    } = selectedApp?.rating || { average: 0, total: 0, user: 0 };
 
     const drawerId = build(baseId, ids.DETAILS_DRAWER);
     const detailsTabId = build(drawerId, ids.DETAILS_TAB);
     const toolInfoTabId = build(drawerId, ids.TOOLS_INFO_TAB);
+
+    const { isFetching: appByIdStatus, error: appByIdError } = useQuery({
+        queryKey: [APP_BY_ID_QUERY_KEY, { systemId, appId }],
+        queryFn: getAppById,
+        config: {
+            enabled: appId != null && systemId !== null,
+            onSuccess: (result) => {
+                setSelectedApp(result?.apps[0]);
+            },
+        },
+    });
+
+    const { isFetching: detailsStatus } = useQuery({
+        queryKey: [
+            APP_DETAILS_QUERY_KEY,
+            {
+                systemId,
+                appId,
+            },
+        ],
+        queryFn: getAppDetails,
+        config: {
+            enabled: appId != null && systemId !== null,
+            onSuccess: setDetails,
+            onError: (e) => {
+                setDetailsError(e);
+                setFavMutationError(null);
+                setRatingMutationError(null);
+            },
+        },
+    });
+
+    const [favorite, { status: favMutationStatus }] = useMutation(appFavorite, {
+        onSuccess: () =>
+            queryCache.invalidateQueries([
+                APP_BY_ID_QUERY_KEY,
+                { systemId, appId },
+            ]),
+        onError: (e) => {
+            setFavMutationError(e);
+            setDetailsError(null);
+            setRatingMutationError(null);
+        },
+    });
+
+    const [rating, { status: ratingMutationStatus }] = useMutation(rateApp, {
+        onSuccess: () =>
+            queryCache.invalidateQueries([
+                APP_BY_ID_QUERY_KEY,
+                { systemId, appId },
+            ]),
+        onError: (e) => {
+            setRatingMutationError(e);
+            setDetailsError(null);
+            setFavMutationError(null);
+        },
+    });
+
+    const onFavoriteClick = () => {
+        favorite({
+            isFav: !selectedApp.is_favorite,
+            appId: selectedApp.id,
+            systemId: selectedApp.system_id,
+        });
+    };
+
+    const onRatingChange = (event, value) => {
+        rating({
+            appId: selectedApp.id,
+            systemId: selectedApp.system_id,
+            rating: value,
+        });
+    };
+
+    const onDeleteRating = () => {
+        rating({
+            appId: selectedApp.id,
+            systemId: selectedApp.system_id,
+            rating: null,
+        });
+    };
 
     return (
         <Drawer
@@ -189,13 +269,12 @@ function DetailsDrawer(props) {
         >
             <div className={classes.drawerHeader}>
                 <DetailsHeader
-                    loading={favMutationStatus}
+                    loading={favMutationStatus === constants.LOADING}
                     appName={appName}
                     isExternal={isExternal}
                     isPublic={isPublic}
                     isFavorite={isFavorite}
                     onFavoriteClick={onFavoriteClick}
-                    intl={intl}
                     classes={classes}
                     baseId={baseId}
                 />
@@ -235,17 +314,19 @@ function DetailsDrawer(props) {
                 selectedTab={selectedTab}
             >
                 <DetailsPanel
-                    app={selectedApp}
                     details={details}
+                    userRating={userRating}
                     isPublic={isPublic}
                     isExternal={isExternal}
-                    detailsLoadingStatus={detailsLoadingStatus}
-                    ratingMutationStatus={ratingMutationStatus}
+                    detailsLoadingStatus={detailsStatus || appByIdStatus}
+                    ratingMutationStatus={
+                        ratingMutationStatus === constants.LOADING
+                    }
                     baseId={baseId}
                     onRatingChange={onRatingChange}
-                    onDeleteRatingClick={onDeleteRatingClick}
+                    onDeleteRatingClick={onDeleteRating}
                     onFavoriteClick={onFavoriteClick}
-                    detailsError={detailsError}
+                    detailsError={detailsError || appByIdError}
                     favMutationError={favMutationError}
                     ratingMutationError={ratingMutationError}
                 />
@@ -258,7 +339,8 @@ function DetailsDrawer(props) {
                 <ToolsUsedPanel
                     details={details}
                     baseId={baseId}
-                    loading={detailsLoadingStatus}
+                    loading={detailsStatus || appByIdStatus}
+                    error={detailsError || appByIdError}
                 />
             </DETabPanel>
         </Drawer>

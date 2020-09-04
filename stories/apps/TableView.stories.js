@@ -19,6 +19,7 @@ export const AppsTableViewTest = () => {
                 console.log("onRouteToApp", systemId, appId)
             }
             selected={[]}
+            searchTerm=""
         />
     );
 };

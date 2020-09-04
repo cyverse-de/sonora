@@ -125,7 +125,7 @@ function DetailsTabPanel(props) {
                             </InputLabel>
                         }
                     >
-                        {infoTypes ? (
+                        {infoTypes && infoTypes.length > 0 ? (
                             <Select
                                 labelId={build(
                                     baseId,

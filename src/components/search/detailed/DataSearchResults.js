@@ -11,10 +11,9 @@ import { useQuery, queryCache } from "react-query";
 import Link from "next/link";
 import { useTranslation } from "i18n";
 
-import NameLink from "./NameLink";
+import NameLink from "components/utils/NameLink";
 
 import constants from "../../../constants";
-import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
 import { useDataSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
@@ -26,6 +25,9 @@ import {
 } from "serviceFacades/filesystem";
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
 import NavigationConstants from "common/NavigationConstants";
+
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import dataFields from "components/data/dataFields";
 import ResourceIcon from "components/data/listing/ResourceIcon";
 import { getParentPath } from "components/data/utils";
 import ResourceTypes from "components/models/ResourceTypes";
@@ -64,7 +66,9 @@ function DataSearchResults(props) {
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
     const [infoTypes, setInfoTypes] = useState([]);
-    const { t } = useTranslation(["search"]);
+    const { t } = useTranslation("search");
+    const { t: dataI18n } = useTranslation("data");
+    const dataRecordFields = dataFields(dataI18n);
 
     const bootstrapCache = queryCache.getQueryData(BOOTSTRAP_KEY);
     let userHomeDir = bootstrapCache?.data_info.user_home_path;
@@ -154,14 +158,14 @@ function DataSearchResults(props) {
                 disableSortBy: true,
             },
             {
-                Header: "Name",
+                Header: dataRecordFields.NAME.fieldName,
                 accessor: "_source.label",
                 Cell: ({ row }) => (
                     <Name resource={row?.original} searchTerm={searchTerm} />
                 ),
             },
             {
-                Header: "Path",
+                Header: dataRecordFields.PATH.fieldName,
                 accessor: "_source.path",
                 disableSortBy: true,
             },
@@ -183,11 +187,17 @@ function DataSearchResults(props) {
                 disableSortBy: true,
             },
         ],
-        [searchTerm]
+        [dataRecordFields, searchTerm]
     );
 
     if (error) {
-        return <SearchError error={error} baseId={baseId} />;
+        return (
+            <ErrorTypographyWithDialog
+                errorMessage={t("errorSearch")}
+                errorObject={error}
+                baseId={baseId}
+            />
+        );
     }
     if (
         status !== constants.LOADING &&

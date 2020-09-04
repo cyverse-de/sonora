@@ -8,33 +8,31 @@
 
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
-import Link from "next/link";
 
-import NameLink from "./NameLink";
-
-import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
 import { useAppsSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
 import constants from "../../../constants";
 
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import AppName from "components/apps/AppName";
 import { APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
 import appFields from "components/apps/appFields";
-import NavigationConstants from "common/NavigationConstants";
+import Drawer from "components/apps/details/Drawer";
 
 import { IconButton, Typography } from "@material-ui/core";
 import { Info } from "@material-ui/icons";
 
 function Name(props) {
     const { selectedOption, searchTerm } = props;
-
-    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch`;
-    const as = `/${NavigationConstants.APPS}/${selectedOption?.system_id}/${selectedOption?.id}/launch`;
-
     return (
-        <Link href={href} as={as} passHref>
-            <NameLink name={selectedOption?.name} searchTerm={searchTerm} />
-        </Link>
+        <AppName
+            name={selectedOption?.name}
+            systemId={selectedOption?.system_id}
+            appId={selectedOption?.id}
+            isDisabled={selectedOption?.disabled}
+            searchTerm={searchTerm}
+        />
     );
 }
 
@@ -42,10 +40,10 @@ export default function AppSearchResults(props) {
     const { searchTerm, updateResultCount, baseId } = props;
     const [appsSearchKey, setAppsSearchKey] = useState(APPS_SEARCH_QUERY_KEY);
     const [appsSearchQueryEnabled, setAppsSearchQueryEnabled] = useState(false);
-    const [detailsResource, setDetailsResource] = useState(null);
-    const { t } = useTranslation(["search"]);
-    //SS TODO: pass `t` into this function
-    const appRecordFields = appFields();
+    const [detailsApp, setDetailsApp] = useState(null);
+    const { t } = useTranslation("search");
+    const { t: appsI18n } = useTranslation("apps");
+    const appRecordFields = appFields(appsI18n);
     const [order, setOrder] = useState(constants.SORT_ASCENDING);
     const [orderBy, setOrderBy] = useState(appRecordFields.NAME.key);
     const {
@@ -96,7 +94,7 @@ export default function AppSearchResults(props) {
     const columns = React.useMemo(
         () => [
             {
-                Header: "Name",
+                Header: appRecordFields.NAME.fieldName,
                 accessor: appRecordFields.NAME.key,
                 Cell: ({ row }) => (
                     <Name
@@ -106,11 +104,11 @@ export default function AppSearchResults(props) {
                 ),
             },
             {
-                Header: "Integrator",
+                Header: appRecordFields.INTEGRATOR.fieldName,
                 accessor: appRecordFields.INTEGRATOR.key,
             },
             {
-                Header: "System",
+                Header: appRecordFields.SYSTEM.fieldName,
                 accessor: appRecordFields.SYSTEM.key,
             },
             {
@@ -120,8 +118,8 @@ export default function AppSearchResults(props) {
                     const original = row?.original;
                     return (
                         <IconButton
-                            onClick={() => setDetailsResource(original)}
-                            fontSize="small"
+                            onClick={() => setDetailsApp(original)}
+                            size="small"
                             color="primary"
                         >
                             <Info fontSize="small" />
@@ -131,15 +129,16 @@ export default function AppSearchResults(props) {
                 disableSortBy: true,
             },
         ],
-        [
-            appRecordFields.INTEGRATOR.key,
-            appRecordFields.NAME.key,
-            appRecordFields.SYSTEM.key,
-            searchTerm,
-        ]
+        [appRecordFields, searchTerm]
     );
     if (error) {
-        return <SearchError error={error} baseId={baseId} />;
+        return (
+            <ErrorTypographyWithDialog
+                errorMessage={t("errorSearch")}
+                errorObject={error}
+                baseId={baseId}
+            />
+        );
     }
     if (
         status !== constants.LOADING &&
@@ -175,6 +174,15 @@ export default function AppSearchResults(props) {
                         : setOrder(constants.SORT_ASCENDING);
                 }}
             />
+            {detailsApp && (
+                <Drawer
+                    appId={detailsApp?.id}
+                    systemId={detailsApp?.system_id}
+                    open={detailsApp !== null}
+                    baseId={baseId}
+                    onClose={() => setDetailsApp(null)}
+                />
+            )}
         </>
     );
 }

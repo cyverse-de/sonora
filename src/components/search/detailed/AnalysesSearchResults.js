@@ -10,9 +10,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "i18n";
 
-import NameLink from "./NameLink";
 import { useAnalysesSearchInfinite } from "../searchQueries";
-import SearchError from "./SearchError";
 import SearchResultsTable from "./SearchResultsTable";
 import { getAnalysesSearchQueryFilter } from "../analysesSearchQueryBuilder";
 import searchConstants from "../constants";
@@ -20,15 +18,18 @@ import constants from "../../../constants";
 
 import { formatDate } from "@cyverse-de/ui-lib";
 
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import NavigationConstants from "common/NavigationConstants";
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
 import analysisFields from "components/analyses/analysisFields";
-import { Typography } from "@material-ui/core";
 
-import DetailsDrawer from "components/analyses/details/Drawer";
+import NameLink from "components/utils/NameLink";
+import Drawer from "components/analyses/details/Drawer";
 import Actions from "components/analyses/listing/Actions";
 import { openInteractiveUrl } from "components/analyses/utils";
 import { useUserProfile } from "contexts/userProfile";
+
+import { Typography } from "@material-ui/core";
 
 function Name(props) {
     const { analysis, searchTerm } = props;
@@ -53,13 +54,13 @@ export default function AnalysesSearchResults(props) {
     ] = useState(false);
 
     const { t } = useTranslation("search");
-    const { t: at } = useTranslation("analyses");
+    const { t: analysisI18n } = useTranslation("analyses");
 
-    let analysisRecordFields = analysisFields(at);
+    let analysisRecordFields = analysisFields(analysisI18n);
 
     const [order, setOrder] = useState(constants.SORT_DESCENDING);
     const [orderBy, setOrderBy] = useState(analysisRecordFields.START_DATE.key);
-    const [selectedAnalysis, setSelectedAnalysis] = useState("");
+    const [selectedAnalysis, setSelectedAnalysis] = useState();
 
     const {
         status,
@@ -144,22 +145,17 @@ export default function AnalysesSearchResults(props) {
                 disableSortBy: true,
             },
         ],
-        [
-            analysisRecordFields.ACTIONS.key,
-            analysisRecordFields.NAME.fieldName,
-            analysisRecordFields.NAME.key,
-            analysisRecordFields.START_DATE.fieldName,
-            analysisRecordFields.START_DATE.key,
-            analysisRecordFields.STATUS.fieldName,
-            analysisRecordFields.STATUS.key,
-            baseId,
-            searchTerm,
-            userProfile,
-        ]
+        [analysisRecordFields, baseId, searchTerm, userProfile]
     );
 
     if (error) {
-        return <SearchError error={error} baseId={baseId} />;
+        return (
+            <ErrorTypographyWithDialog
+                errorMessage={t("errorSearch")}
+                errorObject={error}
+                baseId={baseId}
+            />
+        );
     }
     if (
         status !== constants.LOADING &&
@@ -199,7 +195,7 @@ export default function AnalysesSearchResults(props) {
                 }}
             />
             {selectedAnalysis && (
-                <DetailsDrawer
+                <Drawer
                     selectedAnalysis={selectedAnalysis}
                     baseId={baseId}
                     open={selectedAnalysis !== null}

@@ -5,8 +5,9 @@
  */
 
 import React, { Fragment, useState } from "react";
-
+import { useTranslation } from "i18n";
 import CustomizeColumns from "./CustomizeColumns";
+import dataFields from "../dataFields";
 import ResourceIcon from "./ResourceIcon";
 import SpanLink from "./SpanLink";
 import { getFileSize } from "./FileSize";
@@ -39,20 +40,6 @@ import {
     TableRow,
 } from "@material-ui/core";
 
-import { useTranslation } from "react-i18next";
-
-const COL_KEYS = {
-    CHECKBOX: "checkbox",
-    DOT_MENU: "dotMenu",
-    NAME: "name",
-    SIZE: "size",
-    LAST_MODIFIED: "datemodified",
-    INFO_TYPE: "infoType",
-    PERMISSION: "permission",
-    CREATED: "datecreated",
-    PATH: "path",
-};
-
 function SizeCell({ resource }) {
     return <TableCell>{getFileSize(resource.fileSize)}</TableCell>;
 }
@@ -77,19 +64,19 @@ function PathCell({ resource }) {
     return <TableCell>{resource.path}</TableCell>;
 }
 
-function getColumnCell(key, resource) {
+function getColumnCell(key, resource, dataRecordFields) {
     switch (key) {
-        case COL_KEYS.SIZE:
+        case dataRecordFields.SIZE.key:
             return <SizeCell resource={resource} />;
-        case COL_KEYS.LAST_MODIFIED:
+        case dataRecordFields.LAST_MODIFIED.key:
             return <ModifiedCell resource={resource} />;
-        case COL_KEYS.CREATED:
+        case dataRecordFields.CREATED.key:
             return <CreatedCell resource={resource} />;
-        case COL_KEYS.PATH:
+        case dataRecordFields.PATH.key:
             return <PathCell resource={resource} />;
-        case COL_KEYS.PERMISSION:
+        case dataRecordFields.PERMISSION.key:
             return <PermissionCell resource={resource} />;
-        case COL_KEYS.INFO_TYPE:
+        case dataRecordFields.INFO_TYPE.key:
             return <InfoTypeCell resource={resource} />;
         default:
             return null;
@@ -150,13 +137,13 @@ function TableView(props) {
     } = props;
     const invalidRowClass = invalidRowStyles();
     const { t } = useTranslation("data");
-
+    const dataRecordFields = dataFields(t);
     const tableId = build(baseId, ids.LISTING_TABLE);
     const [displayColumns, setDisplayColumns] = useState(
         getLocalStorageCols() || [
-            COL_KEYS.CHECKBOX,
-            COL_KEYS.NAME,
-            COL_KEYS.DOT_MENU,
+            dataRecordFields.CHECKBOX.key,
+            dataRecordFields.NAME.key,
+            dataRecordFields.DOT_MENU.key,
         ]
     );
 
@@ -168,46 +155,46 @@ function TableView(props) {
     const optionalColumns = () => {
         return [
             {
-                name: "Last Modified",
+                name: dataRecordFields.LAST_MODIFIED.fieldName,
                 align: "left",
                 enableSorting: true,
-                key: COL_KEYS.LAST_MODIFIED,
-                id: COL_KEYS.LAST_MODIFIED,
+                key: dataRecordFields.LAST_MODIFIED.key,
+                id: dataRecordFields.LAST_MODIFIED.key,
             },
             {
-                name: "Date Submitted",
+                name: dataRecordFields.CREATED.fieldName,
                 align: "left",
                 enableSorting: true,
-                key: COL_KEYS.CREATED,
-                id: COL_KEYS.CREATED,
+                key: dataRecordFields.CREATED.key,
+                id: dataRecordFields.CREATED.key,
             },
             {
-                name: "Size",
+                name: dataRecordFields.SIZE.fieldName,
                 align: "left",
                 enableSorting: true,
-                key: COL_KEYS.SIZE,
-                id: COL_KEYS.SIZE,
+                key: dataRecordFields.SIZE.key,
+                id: dataRecordFields.SIZE.key,
             },
             {
-                name: "Info Type",
+                name: dataRecordFields.INFO_TYPE.fieldName,
                 align: "left",
                 enableSorting: false,
-                key: COL_KEYS.INFO_TYPE,
-                id: COL_KEYS.INFO_TYPE,
+                key: dataRecordFields.INFO_TYPE.key,
+                id: dataRecordFields.INFO_TYPE.key,
             },
             {
-                name: "Permission",
+                name: dataRecordFields.PERMISSION.fieldName,
                 align: "left",
                 enableSorting: false,
-                key: COL_KEYS.PERMISSION,
-                id: COL_KEYS.PERMISSION,
+                key: dataRecordFields.PERMISSION.key,
+                id: dataRecordFields.PERMISSION.key,
             },
             {
-                name: "Path",
+                name: dataRecordFields.PATH.fieldName,
                 align: "left",
                 enableSorting: true,
-                key: COL_KEYS.PATH,
-                id: COL_KEYS.PATH,
+                key: dataRecordFields.PATH.key,
+                id: dataRecordFields.PATH.key,
             },
         ];
     };
@@ -218,15 +205,15 @@ function TableView(props) {
                 name: "",
                 align: "center",
                 enableSorting: false,
-                key: COL_KEYS.CHECKBOX,
-                id: COL_KEYS.CHECKBOX,
+                key: dataRecordFields.CHECKBOX.key,
+                id: dataRecordFields.CHECKBOX.key,
             },
             {
-                name: "Name",
+                name: dataRecordFields.NAME.fieldName,
                 align: "left",
                 enableSorting: true,
-                key: COL_KEYS.NAME,
-                id: COL_KEYS.NAME,
+                key: dataRecordFields.NAME.key,
+                id: dataRecordFields.NAME.key,
             },
             ...optionalColumns(),
             {
@@ -240,15 +227,15 @@ function TableView(props) {
                 ),
                 align: "right",
                 enableSorting: false,
-                key: COL_KEYS.DOT_MENU,
-                id: COL_KEYS.DOT_MENU,
+                key: dataRecordFields.DOT_MENU.key,
+                id: dataRecordFields.DOT_MENU.key,
             },
         ];
     };
 
     const getColumnDetails = (keys) => {
         return keys.map((key) =>
-            getTableColumns().find((col) => col.key === key)
+            getTableColumns(dataRecordFields).find((col) => col.key === key)
         );
     };
 
@@ -389,7 +376,8 @@ function TableView(props) {
                                                 <Fragment key={index}>
                                                     {getColumnCell(
                                                         column.key,
-                                                        resource
+                                                        resource,
+                                                        dataRecordFields
                                                     )}
                                                 </Fragment>
                                             )

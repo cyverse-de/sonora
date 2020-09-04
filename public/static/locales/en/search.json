@@ -8,5 +8,7 @@
     "loadMore": "Load More",
     "searchInfo": "Searching for {{term}}. Found ",
     "searchPagePrompt": "Begin searching by typing in the search field.",
-    "viewAllResults": "View All {{name}} Results"
+    "viewAllAppsResults": "View all apps results for {{searchTerm}}",
+    "viewAllAnalysesResults": "View all analyses results for {{searchTerm}}",
+    "viewAllDataResults": "View all data results for {{searchTerm}}"
 }

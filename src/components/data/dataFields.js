@@ -1,35 +1,35 @@
-const dataFields = () => ({
+const dataFields = (dataI18n) => ({
     NAME: {
-        fieldName: "Name",
+        fieldName: dataI18n("name"),
         key: "name",
     },
     LAST_MODIFIED: {
-        fieldName: "Last Modified",
+        fieldName: dataI18n("modified"),
         key: "datemodified",
     },
     CREATED: {
-        fieldName: "Date Submitted",
+        fieldName: dataI18n("created"),
         key: "datecreated",
     },
     SIZE: {
-        fieldName: "Size",
+        fieldName: dataI18n("fileSize"),
         key: "size",
     },
 
     INFO_TYPE: {
-        field: "Info Type",
+        fieldName: dataI18n("infoType"),
         key: "infoType",
     },
     PERMISSION: {
-        name: "Permission",
+        fieldName: dataI18n("permissions"),
         key: "permission",
     },
     PATH: {
-        name: "Path",
+        fieldName: dataI18n("path"),
         key: "path",
     },
-    CHECKBOX: { name: "", key: "checkbox" },
-    DOT_MENU: { name: "", key: "dotMenu" },
+    CHECKBOX: { fieldName: "", key: "checkbox" },
+    DOT_MENU: { fieldName: "", key: "dotMenu" },
 });
 
 export default dataFields;

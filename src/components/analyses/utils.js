@@ -152,7 +152,6 @@ const getListingPath = (
  * Open a new tab / window with VICE access url is clicked
  * @param {*} url
  */
-
 const openInteractiveUrl = (url) => {
     window.open(url, "_blank");
 };
@@ -172,7 +171,7 @@ const useRelaunchLink = (analysis) => {
 
 const useGotoOutputFolderLink = (analysis) => {
     const href = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}`;
-    const as = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${analysis.resultfolderid}`;
+    const as = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${analysis?.resultfolderid}`;
     return [href, as];
 };
 

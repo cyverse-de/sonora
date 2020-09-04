@@ -31,6 +31,7 @@ import appFields from "components/apps/appFields";
 import analysisFields from "components/analyses/analysisFields";
 
 import ids from "./ids";
+import { SEARCH_RESULTS_TABS } from "components/search/detailed/DetailedSearchResults";
 import { getDataSimpleSearchQuery } from "./dataSearchQueryBuilder";
 import { getAnalysesSearchQueryFilter } from "./analysesSearchQueryBuilder";
 
@@ -50,6 +51,7 @@ import {
 import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import DescriptionIcon from "@material-ui/icons/Description";
+import PageviewIcon from "@material-ui/icons/Pageview";
 import FolderIcon from "@material-ui/icons/Folder";
 
 const useStyles = makeStyles((theme) => ({
@@ -112,8 +114,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SearchOption = React.forwardRef((props, ref) => {
-    const { primary, secondary, icon, searchTerm, onClick, href } = props;
+    const { id, primary, secondary, icon, searchTerm, onClick, href } = props;
     const classes = useStyles();
+    const theme = useTheme();
     return (
         <ListItem
             alignItems="flex-start"
@@ -122,6 +125,7 @@ const SearchOption = React.forwardRef((props, ref) => {
             href={href}
             onClick={onClick}
             ref={ref}
+            id={id}
         >
             <ListItemIcon className={classes.icon}>{icon}</ListItemIcon>
             <ListItemText
@@ -130,7 +134,7 @@ const SearchOption = React.forwardRef((props, ref) => {
                 }
                 primaryTypographyProps={{
                     variant: "body1",
-                    color: "primary",
+                    color: theme.palette.info.primary,
                 }}
                 secondary={
                     <Highlighter search={searchTerm}>{secondary}</Highlighter>
@@ -138,14 +142,44 @@ const SearchOption = React.forwardRef((props, ref) => {
                 secondaryTypographyProps={{
                     variant: "caption",
                     wrap: "true",
+                    color: theme.palette.info.primary,
                 }}
             />
         </ListItem>
     );
 });
 
+function ViewAllOption(props) {
+    const { id, searchTerm, filter, prompt, selectedTab } = props;
+    const href = `${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selectedTab}`;
+    const as = `${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selectedTab}`;
+    return (
+        <Link href={href} as={as} passHref>
+            <SearchOption
+                primary={searchTerm}
+                secondary={prompt}
+                icon={<PageviewIcon color="primary" />}
+                id={id}
+            />
+        </Link>
+    );
+}
+
 function DataSearchOption(props) {
-    const { selectedOption, searchTerm } = props;
+    const { baseId, filter, selectedOption, searchTerm } = props;
+    const { t: i18NSearch } = useTranslation("search");
+
+    if (selectedOption?.id === searchConstants.VIEW_ALL_ID) {
+        return (
+            <ViewAllOption
+                searchTerm={searchTerm}
+                filter={filter}
+                prompt={i18NSearch("viewAllDataResults", { searchTerm })}
+                selectedTab={SEARCH_RESULTS_TABS.data}
+                id={build(baseId, ids.VIEW_ALL)}
+            />
+        );
+    }
 
     const type = selectedOption._type;
     let icon = <FolderIcon />;
@@ -166,6 +200,7 @@ function DataSearchOption(props) {
                 secondary={selectedOption._source?.path}
                 icon={icon}
                 searchTerm={searchTerm}
+                id={build(baseId, selectedOption._source.id)}
             />
         </Link>
     );
@@ -173,7 +208,21 @@ function DataSearchOption(props) {
 
 function AppsSearchOption(props) {
     const { t } = useTranslation("common");
-    const { selectedOption, searchTerm } = props;
+    const { t: i18NSearch } = useTranslation("search");
+    const { baseId, filter, selectedOption, searchTerm } = props;
+
+    if (selectedOption?.id === searchConstants.VIEW_ALL_ID) {
+        return (
+            <ViewAllOption
+                searchTerm={searchTerm}
+                filter={filter}
+                prompt={i18NSearch("viewAllAppsResults", { searchTerm })}
+                selectedTab={SEARCH_RESULTS_TABS.apps}
+                id={build(baseId, ids.VIEW_ALL)}
+            />
+        );
+    }
+
     const href = `/${NavigationConstants.APPS}/[systemId]/[appId]`;
     const as = `/${NavigationConstants.APPS}/${selectedOption?.system_id}/${selectedOption?.id}`;
     return (
@@ -183,6 +232,7 @@ function AppsSearchOption(props) {
                 secondary={selectedOption.description}
                 icon={<img src="/icon-apps.png" alt={t("apps")} />}
                 searchTerm={searchTerm}
+                id={build(baseId, selectedOption.id)}
             />
         </Link>
     );
@@ -190,7 +240,21 @@ function AppsSearchOption(props) {
 
 function AnalysesSearchOption(props) {
     const { t } = useTranslation("common");
-    const { selectedOption, searchTerm } = props;
+    const { t: i18NSearch } = useTranslation("search");
+    const { baseId, filter, selectedOption, searchTerm } = props;
+
+    if (selectedOption?.id === searchConstants.VIEW_ALL_ID) {
+        return (
+            <ViewAllOption
+                searchTerm={searchTerm}
+                filter={filter}
+                prompt={i18NSearch("viewAllAnalysesResults", { searchTerm })}
+                selectedTab={SEARCH_RESULTS_TABS.analyses}
+                id={build(baseId, ids.VIEW_ALL)}
+            />
+        );
+    }
+
     const href = `/${NavigationConstants.ANALYSES}/[analysisId]`;
     const as = `/${NavigationConstants.ANALYSES}/${selectedOption?.id}`;
     return (
@@ -200,6 +264,7 @@ function AnalysesSearchOption(props) {
                 secondary={selectedOption.status}
                 icon={<img src="/icon-analyses.png" alt={t("analyses")} />}
                 searchTerm={searchTerm}
+                id={build(baseId, selectedOption.id)}
             />
         </Link>
     );
@@ -210,10 +275,11 @@ function GlobalSearchField(props) {
     const router = useRouter();
     const { search, showErrorAnnouncer } = props;
 
-    const { t } = useTranslation(["common", "analyses"]);
-
-    const appRecordFields = appFields();
-
+    const { t } = useTranslation("common");
+    const {t: appsI18n} = useTranslation("apps");
+    const {t: analysesI18n} =useTranslation("analyses");
+    const appRecordFields = appFields(appsI18n);
+ 
     const [searchTerm, setSearchTerm] = useState(search);
     const [filter, setFilter] = useState(searchConstants.ALL);
 
@@ -253,9 +319,20 @@ function GlobalSearchField(props) {
             if (results && results.analyses?.length > 0) {
                 const analyses = results.analyses;
                 analyses.forEach((analysis) => {
-                    analysis.resultType = t("analyses");
+                    analysis.resultType = {
+                        type: t("analyses"),
+                        id: searchConstants.ANALYSES,
+                    };
                 });
-                setOptions([...options, ...analyses]);
+                const viewAll = {
+                    id: searchConstants.VIEW_ALL_ID,
+                    name: searchTerm,
+                    resultType: {
+                        type: t("analyses"),
+                        id: searchConstants.ANALYSES,
+                    },
+                };
+                setOptions([...options, ...analyses, viewAll]);
             }
         }
     );
@@ -267,9 +344,17 @@ function GlobalSearchField(props) {
             if (results && results.apps?.length > 0) {
                 const apps = results.apps;
                 apps.forEach((app) => {
-                    app.resultType = t("apps");
+                    app.resultType = {
+                        type: t("apps"),
+                        id: searchConstants.APPS,
+                    };
                 });
-                setOptions([...options, ...apps]);
+                const viewAll = {
+                    id: searchConstants.VIEW_ALL_ID,
+                    name: searchTerm,
+                    resultType: { type: t("apps"), id: searchConstants.APPS },
+                };
+                setOptions([...options, ...apps, viewAll]);
             }
         }
     );
@@ -282,9 +367,17 @@ function GlobalSearchField(props) {
                 const data = results.hits;
                 data.forEach((data) => {
                     data.name = data._source?.label;
-                    data.resultType = t("data");
+                    data.resultType = {
+                        type: t("data"),
+                        id: searchConstants.DATA,
+                    };
                 });
-                setOptions([...options, ...data]);
+                const viewAll = {
+                    id: searchConstants.VIEW_ALL_ID,
+                    name: searchTerm,
+                    resultType: { type: t("data"), id: searchConstants.DATA },
+                };
+                setOptions([...options, ...data, viewAll]);
             }
         }
     );
@@ -311,6 +404,7 @@ function GlobalSearchField(props) {
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
+            setOptions([]);
             const dataQuery = getDataSimpleSearchQuery(
                 searchTerm,
                 userHomeDir,
@@ -332,7 +426,7 @@ function GlobalSearchField(props) {
                 },
             ]);
 
-            const analysisRecordFields = analysisFields(t);
+            const analysisRecordFields = analysisFields(analysesI18n);
             setAnalysesSearchKey([
                 ANALYSES_SEARCH_QUERY_KEY,
                 {
@@ -372,6 +466,7 @@ function GlobalSearchField(props) {
         appRecordFields.NAME.key,
         bootstrapCache,
         filter,
+        setOptions,
         searchTerm,
         showErrorAnnouncer,
         t,
@@ -396,26 +491,32 @@ function GlobalSearchField(props) {
     const loading = searchingAnalyses || searchingApps || searchingData;
 
     const renderCustomOption = (option) => {
-        switch (option?.resultType) {
-            case t("data"):
+        switch (option?.resultType?.id) {
+            case searchConstants.DATA:
                 return (
                     <DataSearchOption
                         selectedOption={option}
                         searchTerm={searchTerm}
+                        filter={filter}
+                        baseId={build(ids.SEARCH, ids.DATA_SEARCH_OPTION)}
                     />
                 );
-            case t("apps"):
+            case searchConstants.APPS:
                 return (
                     <AppsSearchOption
                         selectedOption={option}
                         searchTerm={searchTerm}
+                        filter={filter}
+                        baseId={build(ids.SEARCH, ids.APPS_SEARCH_OPTION)}
                     />
                 );
-            case t("analyses"):
+            case searchConstants.ANALYSES:
                 return (
                     <AnalysesSearchOption
                         selectedOption={option}
                         searchTerm={searchTerm}
+                        filter={filter}
+                        baseId={build(ids.SEARCH, ids.ANALYSES_SEARCH_OPTION)}
                     />
                 );
             default:
@@ -425,6 +526,7 @@ function GlobalSearchField(props) {
 
     const renderCustomInput = (params) => (
         <TextField
+            id={build(ids.SEARCH, ids.SEARCH_INPUT_FILED)}
             {...params}
             className={classes.input}
             variant={isMobile ? "outlined" : "standard"}
@@ -468,7 +570,7 @@ function GlobalSearchField(props) {
                 onClose={() => {
                     setOpen(false);
                 }}
-                id={ids.GLOBAL_SEARCH_FIELD}
+                id={build(ids.SEARCH, ids.GLOBAL_SEARCH_FIELD)}
                 size="small"
                 options={options}
                 onInputChange={handleChange}
@@ -479,7 +581,7 @@ function GlobalSearchField(props) {
                 filterOptions={(options, state) => options}
                 loading={loading}
                 loadingText={t("searching")}
-                groupBy={(option) => option.resultType}
+                groupBy={(option) => option.resultType.type}
                 renderOption={(option, state) => renderCustomOption(option)}
                 renderInput={(params) => renderCustomInput(params)}
                 popupIcon={null}

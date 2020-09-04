@@ -94,7 +94,7 @@ const getParentPath = (path) => {
         const pathItems = path.split(constants.PATH_SEPARATOR);
         pathItems.pop();
         const parentPath = pathItems.join(constants.PATH_SEPARATOR);
-        return constants.PATH_SEPARATOR + parentPath;
+        return parentPath;
     }
     return null;
 };

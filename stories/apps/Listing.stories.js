@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useTranslation } from "i18n";
 import { AXIOS_DELAY, mockAxios } from "../axiosMock";
 import testConfig from "../configMock";
 import { appDetails, appListing, categories } from "./AppMocks";
@@ -25,7 +25,8 @@ function ListingTest(props) {
         )
         .reply(200, appDetails);
 
-    const fields = appFields();
+    const { t } = useTranslation("apps");
+    const fields = appFields(t);
     const selectedPage = 0;
     const selectedRowsPerPage = 25;
     const selectedOrder = constants.SORT_ASCENDING;

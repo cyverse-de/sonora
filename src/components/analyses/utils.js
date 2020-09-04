@@ -71,6 +71,7 @@ const isBatchAnalysis = (analysis) => {
 const allowAnalysesCancel = (analyses, currentUser) => {
     return (
         analyses &&
+        analyses.length > 0 &&
         !analyses.find(
             (analysis) =>
                 currentUser !== getAnalysisUser(analysis) ||

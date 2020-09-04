@@ -83,7 +83,7 @@ export const AnalysesListingTest = () => {
 
     mockAxios.onPost(/\/api\/analyses\/.*\/stop/).replyOnce(500, errorResponse);
     mockAxios.onPost(/\/api\/analyses\/.*\/stop/).reply((config) => {
-        console.log("Cancel analysis", config.url);
+        console.log("Stop analysis", config.url, config.params);
 
         return [
             200,

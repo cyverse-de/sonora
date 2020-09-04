@@ -172,6 +172,7 @@ function AnalysesToolbar(props) {
         handleDelete,
         handleRelaunch,
         handleRename,
+        handleSaveAndComplete,
         handleBatchIconClick,
     } = props;
     const classes = useStyles();
@@ -238,6 +239,7 @@ function AnalysesToolbar(props) {
                     handleDelete={handleDelete}
                     handleRelaunch={handleRelaunch}
                     handleRename={handleRename}
+                    handleSaveAndComplete={handleSaveAndComplete}
                     handleBatchIconClick={handleBatchIconClick}
                     onFilterSelected={() => setOpenFilterDialog(true)}
                 />

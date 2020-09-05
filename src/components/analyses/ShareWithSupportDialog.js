@@ -1,73 +1,76 @@
 /**
  *
- * @author Sriram
+ * @author Sriram, psarando
  *
  */
 import React from "react";
+
+import { useTranslation } from "i18n";
 import PropTypes from "prop-types";
-import { injectIntl } from "react-intl";
+import { Trans } from "react-i18next";
 
-import ids from "../../ids";
-import analysisStatus from "../../model/analysisStatus";
+import ids from "./ids";
+import constants from "./constants";
 
-import intlData from "../../messages";
+import { intercomShow } from "common/intercom";
+import analysisStatus from "components/models/analysisStatus";
+import UtilIds from "components/utils/ids";
+
+import { build, formatDate } from "@cyverse-de/ui-lib";
 
 import {
-    build,
-    DEDialogHeader,
-    formatHTMLMessage,
-    formatMessage,
-    getMessage,
-    formatDate,
-    withI18N,
-} from "@cyverse-de/ui-lib";
-
-import Button from "@material-ui/core/Button/Button";
-import Checkbox from "@material-ui/core/Checkbox/Checkbox";
-import Dialog from "@material-ui/core/Dialog/Dialog";
-import DialogContent from "@material-ui/core/DialogContent/DialogContent";
-import FormControl from "@material-ui/core/FormControl/FormControl";
-import FormLabel from "@material-ui/core/FormLabel/FormLabel";
-import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
-import Grid from "@material-ui/core/Grid/Grid";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import TextField from "@material-ui/core/TextField";
+    Button,
+    Checkbox,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    FormControl,
+    FormLabel,
+    FormControlLabel,
+    Grid,
+    Link,
+    Radio,
+    RadioGroup,
+    TextField,
+} from "@material-ui/core";
 
 function AnalysisInfo(props) {
     const { analysis, name, email } = props;
+
+    const { t } = useTranslation("analyses");
+
     if (analysis) {
         return (
             <Grid container spacing={3} style={{ marginTop: 2, fontSize: 12 }}>
                 <Grid item xs={6}>
-                    {getMessage("analysis")}: {analysis.name}
+                    {t("analysis")}: {analysis.name}
                 </Grid>
                 <Grid item xs={12}>
-                    {getMessage("analysisId")} : {analysis.id}
+                    {t("analysisId")} : {analysis.id}
                 </Grid>
                 <Grid item xs={12}>
-                    {getMessage("app")} : {analysis.app_name}
+                    {t("app")} : {analysis.app_name}
                 </Grid>
                 <Grid item xs={12}>
-                    {getMessage("currentStatus")} : {analysis.status}
+                    {t("currentStatus")} : {analysis.status}
                 </Grid>
                 <Grid item xs={12}>
-                    {getMessage("outputFolder")} : {analysis.resultfolderid}
+                    {t("outputFolder")} : {analysis.resultfolderid}
                 </Grid>
                 <Grid item xs={12}>
-                    {getMessage("startDate")} : {formatDate(analysis.startdate)}
+                    {t("startDate")} : {formatDate(analysis.startdate)}
                 </Grid>
                 <Grid item xs={12}>
-                    {getMessage("endDate")} : {formatDate(analysis.enddate)}
+                    {t("endDate")} : {formatDate(analysis.enddate)}
                 </Grid>
                 <Grid item xs={12}>
-                    {getMessage("user")} : {analysis.username}
+                    {t("user")} : {analysis.username}
                 </Grid>
                 <Grid item xs={12}>
-                    {getMessage("name")} : {name}
+                    {t("name")} : {name}
                 </Grid>
                 <Grid item xs={12}>
-                    {getMessage("email")} : {email}
+                    {t("email")} : {email}
                 </Grid>
             </Grid>
         );
@@ -76,29 +79,31 @@ function AnalysisInfo(props) {
     }
 }
 
-function CompletedStateCondition(props) {
+function CompletedStateCondition({ outputCondition, handleConditionChange }) {
+    const { t } = useTranslation("analyses");
+
     return (
         <FormControl component="fieldset">
             <FormLabel
                 component="legend"
                 style={{ padding: 5, fontWeight: "bold" }}
             >
-                {getMessage("outputConditionHeader")}
+                {t("statusHelpOutputConditionHeader")}
             </FormLabel>
             <RadioGroup
                 name="condition"
-                value={props.outputCondition}
-                onChange={props.handleConditionChange}
+                value={outputCondition}
+                onChange={handleConditionChange}
             >
                 <FormControlLabel
                     value="noOutput"
                     control={<Radio />}
-                    label={getMessage("noOutput")}
+                    label={t("statusHelpNoOutput")}
                 />
                 <FormControlLabel
-                    value="unExpectedOutput"
+                    value="unexpectedOutput"
                     control={<Radio />}
-                    label={getMessage("unExpectedOutput")}
+                    label={t("statusHelpUnexpectedOutput")}
                 />
             </RadioGroup>
         </FormControl>
@@ -107,189 +112,406 @@ function CompletedStateCondition(props) {
 
 function SubmittedStateSupport(props) {
     const { analysis } = props;
+
+    const { t } = useTranslation("analyses");
+
     if (analysis.system_id === "de") {
-        return <div>{formatHTMLMessage("condorSubmitted")}</div>;
-    } else {
-        return <div>{formatHTMLMessage("agaveSubmitted")}</div>;
-    }
-}
-
-function FailedStateSupport(props) {
-    return <div>{formatHTMLMessage("failed")}</div>;
-}
-
-function RunningStateSupport(props) {
-    const { analysis } = props;
-    if (analysis.system_id === "de") {
-        return <div>{formatHTMLMessage("condorRunning")}</div>;
-    } else {
-        return <div>{formatHTMLMessage("agaveRunning")}</div>;
-    }
-}
-
-function CompletedNoOutputSupport() {
-    return <div>{formatHTMLMessage("completedNoOutput")}</div>;
-}
-
-function CompletedUnExpectedOutputSupport() {
-    return <div>{formatHTMLMessage("completedUnExpectedOutput")}</div>;
-}
-
-class ShareWithSupportDialog extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            outputCondition: "noOutput",
-            shareWithSupport: false,
-            enableSubmit: false,
-            comment: "",
-        };
-        this.handleConditionChange = this.handleConditionChange.bind(this);
-    }
-
-    handleConditionChange(event) {
-        this.setState({ outputCondition: event.target.value });
-    }
-
-    render() {
-        const {
-            analysis,
-            intl,
-            name,
-            email,
-            onShareWithSupport,
-            baseId,
-        } = this.props;
-        const { outputCondition, shareWithSupport, enableSubmit } = this.state;
-        const status = analysis.status;
-        const baseDebugID = build(baseId, ids.SHARE_WITH_SUPPORT);
         return (
-            <Dialog open={this.props.dialogOpen}>
-                <DEDialogHeader
-                    heading={analysis.name}
-                    onClose={() => {
-                        this.setState({ shareWithSupport: false });
-                        onShareWithSupport(analysis, this.state.comment, false);
-                    }}
-                />
-                <DialogContent>
-                    {!shareWithSupport && (
-                        <React.Fragment>
-                            {status === analysisStatus.COMPLETED && (
-                                <CompletedStateCondition
-                                    analysis={analysis}
-                                    handleConditionChange={
-                                        this.handleConditionChange
-                                    }
-                                    outputCondition={outputCondition}
-                                />
-                            )}
-
-                            {status === analysisStatus.SUBMITTED && (
-                                <SubmittedStateSupport analysis={analysis} />
-                            )}
-
-                            {status === analysisStatus.RUNNING && (
-                                <RunningStateSupport analysis={analysis} />
-                            )}
-
-                            {status === analysisStatus.FAILED && (
-                                <FailedStateSupport analysis={analysis} />
-                            )}
-
-                            {outputCondition === "noOutput" &&
-                                status === analysisStatus.COMPLETED && (
-                                    <CompletedNoOutputSupport />
-                                )}
-
-                            {outputCondition === "unExpectedOutput" &&
-                                status === analysisStatus.COMPLETED && (
-                                    <CompletedUnExpectedOutputSupport />
-                                )}
-
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                style={{
-                                    textTransform: "none",
-                                    float: "right",
-                                }}
-                                onClick={() => {
-                                    this.setState({ shareWithSupport: true });
-                                }}
-                            >
-                                {getMessage("needHelp")}
-                            </Button>
-                        </React.Fragment>
-                    )}
-
-                    {shareWithSupport && (
-                        <React.Fragment>
-                            <AnalysisInfo
-                                analysis={analysis}
-                                name={name}
-                                email={email}
-                            />
-                            <TextField
-                                id={build(baseDebugID, ids.COMMENTS)}
-                                placeholder={formatMessage(intl, "comments")}
-                                style={{ margin: 8 }}
-                                fullWidth
-                                multiline
-                                margin="normal"
-                                variant="outlined"
-                                onChange={(event) => {
-                                    this.setState({
-                                        comment: event.target.value,
-                                    });
-                                }}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={enableSubmit}
-                                        onChange={(event) =>
-                                            this.setState({
-                                                enableSubmit:
-                                                    event.target.checked,
-                                            })
-                                        }
-                                        value={enableSubmit}
-                                    />
-                                }
-                                label={formatHTMLMessage("shareDisclaimer")}
-                            />
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                style={{
-                                    textTransform: "none",
-                                    float: "right",
-                                }}
-                                disabled={!enableSubmit}
-                                onClick={() => {
-                                    this.setState({ shareWithSupport: false });
-                                    onShareWithSupport(
-                                        analysis,
-                                        this.state.comment,
-                                        true
-                                    );
-                                }}
-                            >
-                                {getMessage("submit")}
-                            </Button>
-                        </React.Fragment>
-                    )}
-                </DialogContent>
-            </Dialog>
+            <Trans
+                t={t}
+                i18nKey="statusHelpCondorSubmitted"
+                components={{
+                    // eslint-disable-next-line jsx-a11y/heading-has-content
+                    heading: <h4 />,
+                    content: <p style={{ margin: 10 }} />,
+                }}
+            />
+        );
+    } else {
+        return (
+            <Trans
+                t={t}
+                i18nKey="statusHelpAgaveSubmitted"
+                components={{
+                    // eslint-disable-next-line jsx-a11y/heading-has-content
+                    heading: <h4 />,
+                    content: <p style={{ margin: 10 }} />,
+                    xsede: (
+                        <Link
+                            href={constants.XSEDE_ACCESS_LINK}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        />
+                    ),
+                }}
+            />
         );
     }
 }
 
+function FailedStateSupport(props) {
+    const { t } = useTranslation("analyses");
+
+    return (
+        <Trans
+            t={t}
+            i18nKey="statusHelpFailed"
+            components={{
+                // eslint-disable-next-line jsx-a11y/heading-has-content
+                heading: <h4 />,
+                b: <b />,
+                content: <p style={{ margin: 10 }} />,
+                content2: <p style={{ paddingLeft: 10, margin: 10 }} />,
+                content3: <p style={{ paddingLeft: 20, margin: 10 }} />,
+                appCommentsLink: (
+                    <Link
+                        href={constants.APP_RATINGS_COMMENTS_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+                appManualLink: (
+                    <Link
+                        href={constants.APP_MANUAL_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+                appStatusLink: (
+                    <Link
+                        href={constants.APP_STATUS_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+                exampleFileLink: (
+                    <Link
+                        href={constants.EXAMPLE_FILE_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+                specialCharsLink: (
+                    <Link
+                        href={constants.SPECIAL_CHARS_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+                toolInfoLink: (
+                    <Link
+                        href={constants.TOOL_INFO_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+            }}
+        />
+    );
+}
+
+function RunningStateSupport(props) {
+    const { analysis, baseId } = props;
+
+    const { t } = useTranslation("analyses");
+
+    if (analysis.system_id === "de") {
+        return (
+            <Trans
+                t={t}
+                i18nKey="statusHelpCondorRunning"
+                components={{
+                    // eslint-disable-next-line jsx-a11y/heading-has-content
+                    heading: <h4 />,
+                    content: <p style={{ paddingLeft: 10, margin: 10 }} />,
+                    appManualLink: (
+                        <Link
+                            href={constants.APP_MANUAL_LINK}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        />
+                    ),
+                    support: (
+                        <Link
+                            id={build(baseId, UtilIds.CONTACT_SUPPORT_BUTTON)}
+                            component="button"
+                            onClick={(event) => {
+                                // prevent form submission
+                                event.preventDefault();
+                                intercomShow();
+                            }}
+                        />
+                    ),
+                }}
+            />
+        );
+    } else {
+        return (
+            <Trans
+                t={t}
+                i18nKey="statusHelpAgaveRunning"
+                components={{
+                    // eslint-disable-next-line jsx-a11y/heading-has-content
+                    heading: <h4 />,
+                    content: <p style={{ margin: 10 }} />,
+                }}
+            />
+        );
+    }
+}
+
+function CompletedNoOutputSupport() {
+    const { t } = useTranslation("analyses");
+
+    return (
+        <Trans
+            t={t}
+            i18nKey="statusHelpCompletedNoOutput"
+            components={{
+                // eslint-disable-next-line jsx-a11y/heading-has-content
+                heading: <h4 />,
+                b: <b />,
+                content: <p style={{ margin: 10 }} />,
+                content2: <p style={{ paddingLeft: 10, margin: 10 }} />,
+                appManualLink: (
+                    <Link
+                        href={constants.APP_MANUAL_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+                logFilesLink: (
+                    <Link
+                        href={constants.LOG_FILES_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+                specialCharsLink: (
+                    <Link
+                        href={constants.SPECIAL_CHARS_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+            }}
+        />
+    );
+}
+
+function CompletedUnexpectedOutputSupport() {
+    const { t } = useTranslation("analyses");
+
+    return (
+        <Trans
+            t={t}
+            i18nKey="statusHelpCompletedUnexpectedOutput"
+            components={{
+                // eslint-disable-next-line jsx-a11y/heading-has-content
+                heading: <h4 />,
+                b: <b />,
+                content: <p style={{ margin: 10 }} />,
+                content2: <p style={{ paddingLeft: 10, margin: 10 }} />,
+                content3: <p style={{ paddingLeft: 20, margin: 10 }} />,
+                appCommentsLink: (
+                    <Link
+                        href={constants.APP_RATINGS_COMMENTS_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+                appManualLink: (
+                    <Link
+                        href={constants.APP_MANUAL_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+                appStatusLink: (
+                    <Link
+                        href={constants.APP_STATUS_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+                logFilesLink: (
+                    <Link
+                        href={constants.LOG_FILES_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+            }}
+        />
+    );
+}
+
+function ShareDisclaimer() {
+    const { t } = useTranslation("analyses");
+
+    return (
+        <Trans
+            t={t}
+            i18nKey="statusHelpShareDisclaimer"
+            components={{
+                content: <span style={{ overflow: "auto" }} />,
+                sciInformaticiansLink: (
+                    <Link
+                        href={constants.SCI_INFORMATICIANS_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+                shareLink: (
+                    <Link
+                        href={constants.SHARE_ANALYSIS_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
+                ),
+            }}
+        />
+    );
+}
+
+const ShareWithSupportDialog = ({
+    open,
+    analysis,
+    name,
+    email,
+    onShareWithSupport,
+    baseId,
+}) => {
+    const [outputCondition, setOutputCondition] = React.useState("noOutput");
+    const [shareWithSupport, setShareWithSupport] = React.useState(false);
+    const [enableSubmit, setEnableSubmit] = React.useState(false);
+    const [comment, setComment] = React.useState("");
+
+    const { t } = useTranslation("analyses");
+
+    const status = analysis.status;
+    const baseDebugID = build(baseId, ids.SHARE_WITH_SUPPORT);
+
+    return (
+        <Dialog
+            open={open}
+            onClose={() => {
+                setShareWithSupport(false);
+                onShareWithSupport(analysis, comment, false);
+            }}
+        >
+            <DialogTitle>{analysis.name}</DialogTitle>
+            <DialogContent>
+                {!shareWithSupport && (
+                    <React.Fragment>
+                        {status === analysisStatus.COMPLETED && (
+                            <CompletedStateCondition
+                                handleConditionChange={(event) => {
+                                    setOutputCondition(event.target.value);
+                                }}
+                                outputCondition={outputCondition}
+                            />
+                        )}
+
+                        {status === analysisStatus.SUBMITTED && (
+                            <SubmittedStateSupport analysis={analysis} />
+                        )}
+
+                        {status === analysisStatus.RUNNING && (
+                            <RunningStateSupport
+                                analysis={analysis}
+                                baseId={baseDebugID}
+                            />
+                        )}
+
+                        {status === analysisStatus.FAILED && (
+                            <FailedStateSupport />
+                        )}
+
+                        {outputCondition === "noOutput" &&
+                            status === analysisStatus.COMPLETED && (
+                                <CompletedNoOutputSupport />
+                            )}
+
+                        {outputCondition === "unexpectedOutput" &&
+                            status === analysisStatus.COMPLETED && (
+                                <CompletedUnexpectedOutputSupport />
+                            )}
+
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            style={{
+                                textTransform: "none",
+                                float: "right",
+                            }}
+                            onClick={() => {
+                                setShareWithSupport(true);
+                            }}
+                        >
+                            {t("needHelp")}
+                        </Button>
+                    </React.Fragment>
+                )}
+
+                {shareWithSupport && (
+                    <React.Fragment>
+                        <AnalysisInfo
+                            analysis={analysis}
+                            name={name}
+                            email={email}
+                        />
+                        <TextField
+                            id={build(baseDebugID, ids.COMMENTS)}
+                            placeholder={t("comments")}
+                            style={{ margin: 8 }}
+                            fullWidth
+                            multiline
+                            margin="normal"
+                            variant="outlined"
+                            onChange={(event) => {
+                                setComment(event.target.value);
+                            }}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={enableSubmit}
+                                    onChange={(event) =>
+                                        setEnableSubmit(event.target.checked)
+                                    }
+                                    value={enableSubmit}
+                                />
+                            }
+                            label={<ShareDisclaimer />}
+                        />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            style={{
+                                textTransform: "none",
+                                float: "right",
+                            }}
+                            disabled={!enableSubmit}
+                            onClick={() => {
+                                setShareWithSupport(false);
+                                onShareWithSupport(analysis, comment, true);
+                            }}
+                        >
+                            {t("submit")}
+                        </Button>
+                    </React.Fragment>
+                )}
+            </DialogContent>
+        </Dialog>
+    );
+};
+
 ShareWithSupportDialog.propTypes = {
     analysis: PropTypes.object.isRequired,
 };
-export default withI18N(injectIntl(ShareWithSupportDialog), intlData);
+
+export default ShareWithSupportDialog;

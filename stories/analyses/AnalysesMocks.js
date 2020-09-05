@@ -1,3 +1,43 @@
+export const deWordCountAnalysis = {
+    description: "",
+    name: "DE_Word_Count_analysis1",
+    can_share: true,
+    username: "sriram@iplantcollaborative.org",
+    app_id: "67d15627-22c5-42bd-8daf-9af5deecceab",
+    system_id: "de",
+    app_disabled: false,
+    batch: false,
+    enddate: "1586786169987",
+    status: "Completed",
+    id: "727c6ffe-7d8e-11ea-bedd-c2a97b34bb42",
+    startdate: "1586786134287",
+    app_description: "Counts the number of words in a file",
+    wiki_url: "https://wiki.cyverse.org/wiki/display/DEapps/Word+Count",
+    notify: true,
+    resultfolderid:
+        "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-13-55-34.2",
+    app_name: "DE Word Count",
+};
+
+export const agaveWordCountAnalysis = {
+    description: "",
+    name: "Word_Count_DE-2_0.0.3_analysis1",
+    can_share: true,
+    username: "ipcdev@iplantcollaborative.org",
+    app_id: "word-count-de-2-0.0.3",
+    system_id: "agave",
+    app_disabled: false,
+    batch: false,
+    enddate: "1586394120300",
+    status: "Failed",
+    id: "5ee4e23d-74ef-48c2-b59c-77a6c9361270",
+    startdate: "1586391837091",
+    wiki_url: "",
+    notify: true,
+    resultfolderid:
+        "/iplant/home/ipcdev/analyses/Word_Count_DE-2_0.0.3_analysis1-2020-04-09-00-23-54.1",
+};
+
 export const listing = {
     analyses: [
         {
@@ -81,29 +121,11 @@ export const listing = {
                 "/iplant/home/ipcdev/analyses_qa/ten-rules-jupyter_analysis1-2020-04-15-11-30-35.1",
             app_name: "ten-rules-jupyter",
         },
-        {
-            description: "",
-            name: "DE_Word_Count_analysis1",
-            can_share: true,
-            username: "sriram@iplantcollaborative.org",
-            app_id: "67d15627-22c5-42bd-8daf-9af5deecceab",
-            system_id: "de",
-            app_disabled: false,
-            batch: false,
-            enddate: "1586786169987",
-            status: "Completed",
-            id: "727c6ffe-7d8e-11ea-bedd-c2a97b34bb42",
-            startdate: "1586786134287",
-            app_description: "Counts the number of words in a file",
-            wiki_url: "https://wiki.cyverse.org/wiki/display/DEapps/Word+Count",
-            notify: true,
-            resultfolderid:
-                "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-13-55-34.2",
-            app_name: "DE Word Count",
-        },
+        deWordCountAnalysis,
+        agaveWordCountAnalysis,
     ],
     timestamp: "1587108592817",
-    total: 5,
+    total: 6,
 };
 
 export const params = {
@@ -1076,25 +1098,4 @@ export const info = {
     ],
     timestamp: "1553818603053",
     total: 1,
-};
-
-export const selectedAnalysis = {
-    description: "",
-    name: "DE_Word_Count_analysis1",
-    can_share: true,
-    username: "sriram@iplantcollaborative.org",
-    app_id: "67d15627-22c5-42bd-8daf-9af5deecceab",
-    system_id: "de",
-    app_disabled: false,
-    batch: false,
-    enddate: "1586786169987",
-    status: "Completed",
-    id: "727c6ffe-7d8e-11ea-bedd-c2a97b34bb42",
-    startdate: "1586786134287",
-    app_description: "Counts the number of words in a file",
-    wiki_url: "https://wiki.cyverse.org/wiki/display/DEapps/Word+Count",
-    notify: true,
-    resultfolderid:
-        "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-13-55-34.2",
-    app_name: "DE Word Count",
 };

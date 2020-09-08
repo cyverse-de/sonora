@@ -56,6 +56,36 @@ export default function bagsRouter() {
         })
     );
 
+    logger.info("adding the GET /bags/default handler");
+    api.get(
+        "/bags/default",
+        auth.authnTokenMiddleware,
+        terrain({
+            method: "GET",
+            pathname: "/bags/default",
+        })
+    );
+
+    logger.info("adding the POST /bags/default handler");
+    api.post(
+        "/bags/default",
+        auth.authnTokenMiddleware,
+        terrain({
+            method: "POST",
+            pathname: "/bags/default",
+        })
+    );
+
+    logger.info("adding the DELETE /bags/default handler");
+    api.delete(
+        "/bags/default",
+        auth.authnTokenMiddleware,
+        terrain({
+            method: "DELETE",
+            pathname: "/bags/default",
+        })
+    );
+
     logger.info("adding the GET /bags/:id handler");
     api.get(
         "/bags/:id",

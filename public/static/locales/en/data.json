@@ -44,6 +44,7 @@
     "infoTypeFetchError": "Unable to fetch info types",
     "invalidSelection": "Only {{context}}s permitted. Invalid selections: {{count}}",
     "invalidSelectionRowTitle": "Invalid selection",
+    "loadMore": "Load More",
     "manualUpload": "Manual Upload via Third-Party Apps",
     "md5": "md5 Checksum",
     "metadata": "Metadata",

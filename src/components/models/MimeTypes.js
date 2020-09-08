@@ -41,7 +41,7 @@ const getViewerMode = (mimeType) => {
     return mode;
 };
 
-const getMimeTypefromString = (typeString) => {
+const getMimeTypeFromString = (typeString) => {
     if(!typeString) {
         return null;
     }
@@ -61,4 +61,4 @@ const getKeyByValue = (object, value) => {
     return Object.keys(object).find(key => object[key] === value);
   }
 
-export { mimeTypes, getMimeTypefromString, getViewerMode };
+export { mimeTypes, getMimeTypeFromString, getViewerMode };

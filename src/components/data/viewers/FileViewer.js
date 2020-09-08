@@ -7,15 +7,20 @@
  */
 
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "i18n";
+import { useRouter } from "next/router";
 
 import { useFileManifest, useReadChunk } from "./queries";
+import constants from "../../../constants";
+import NavigationConstants from "../../../common/NavigationConstants";
+
 import {
     FETCH_FILE_MANIFEST_QUERY_KEY,
     READ_CHUNK_QUERY_KEY,
 } from "serviceFacades/filesystem";
 import {
     mimeTypes,
-    getMimeTypefromString,
+    getMimeTypeFromString,
     getViewerMode,
 } from "components/models/mimeTypes";
 import infoTypes from "components/models/InfoTypes";
@@ -24,7 +29,7 @@ import viewerConstants from "./constants";
 import TextViewer from "./TextViewer";
 import StructuredTextViewer from "./StructuredTextViewer";
 
-import { CircularProgress } from "@material-ui/core";
+import { Button, CircularProgress, Toolbar } from "@material-ui/core";
 
 const VIEWER_TYPE = {
     PLAIN: "plain",
@@ -33,13 +38,17 @@ const VIEWER_TYPE = {
 
 export default function FileViewer(props) {
     const { path } = props;
+
+    const { t } = useTranslation("data");
+    const router = useRouter();
+
     const [contentType, setContentType] = useState("");
     const [infoType, setInfoType] = useState("");
-    const [visURLs, setVisURLs] = useState([]);
     const [mode, setMode] = useState(null);
     const [readChunkKey, setReadChunkKey] = useState(READ_CHUNK_QUERY_KEY);
     const [readChunkQueryEnabled, setReadChunkQueryEnabled] = useState(false);
     const [viewerType, setViewerType] = useState(VIEWER_TYPE.PLAIN);
+
     const { isFetching, error: manifestError } = useFileManifest(
         [FETCH_FILE_MANIFEST_QUERY_KEY, path],
         path !== null && path !== undefined,
@@ -47,7 +56,6 @@ export default function FileViewer(props) {
             console.log(JSON.stringify(respData));
             setContentType(respData["content-type"]);
             setInfoType(respData?.infoType);
-            setVisURLs(respData?.urls);
         }
     );
 
@@ -92,7 +100,7 @@ export default function FileViewer(props) {
     };
 
     useEffect(() => {
-        const mimeType = getMimeTypefromString(contentType);
+        const mimeType = getMimeTypeFromString(contentType);
         setMode(getViewerMode(mimeType));
         switch (mimeType) {
             case mimeTypes.PNG:
@@ -205,26 +213,68 @@ export default function FileViewer(props) {
         }
     }, [contentType, infoType, path]);
 
-    if (isFetching || !data || data.length === 0) {
-        return <CircularProgress />;
-    }
-    let flatData = [];
+    const busy = isFetching || status === constants.LOADING;
 
+    if (busy) {
+        return (
+            <CircularProgress
+                thickness={7}
+                color="primary"
+                style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                }}
+            />
+        );
+    }
+
+    if (manifestError || chunkError) {
+        const errorString = JSON.stringify(manifestError || chunkError);
+        router.push(`/${NavigationConstants.ERROR}?errorInfo=` + errorString);
+    }
+
+    if (!busy && (!data || data.length === 0)) {
+        return <div>No content to display.</div>;
+    }
+
+    const LoadMoreButton = () => (
+        <Toolbar>
+            <Button
+                variant="outlined"
+                color="primary"
+                style={{ flex: 1 }}
+                onClick={() => fetchMore()}
+                disabled={!canFetchMore || isFetchingMore}
+            >
+                {t("loadMore")}
+            </Button>
+        </Toolbar>
+    );
     if (viewerType === VIEWER_TYPE.PLAIN) {
+        let flatData ="";
         data.forEach((page) => {
-            flatData = [...flatData, ...page.chunk];
+            flatData = flatData.concat(page.chunk);
         });
-        return <TextViewer data={flatData} mode={mode} />;
+        return (
+            <>
+                <TextViewer data={flatData} mode={mode} loading={isFetchingMore}/>
+                <LoadMoreButton />
+            </>
+        );
     } else if (viewerType === VIEWER_TYPE.STRUCTURED) {
+        let flatData = [];
         data.forEach((page) => {
             flatData = [...flatData, ...page.csv];
         });
         return (
-            <StructuredTextViewer
-                data={flatData}
-                columns = {data[0]["max-cols"]}
-                delimiter={getColumnDelimiter(infoType)}
-            />
+            <>
+                <StructuredTextViewer
+                    data={flatData}
+                    loading={isFetchingMore}
+                />
+                <LoadMoreButton />
+            </>
         );
     }
 }

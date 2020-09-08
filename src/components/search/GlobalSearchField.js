@@ -276,10 +276,10 @@ function GlobalSearchField(props) {
     const { search, showErrorAnnouncer } = props;
 
     const { t } = useTranslation("common");
-    const {t: appsI18n} = useTranslation("apps");
-    const {t: analysesI18n} =useTranslation("analyses");
+    const { t: appsI18n } = useTranslation("apps");
+    const { t: analysesI18n } = useTranslation("analyses");
     const appRecordFields = appFields(appsI18n);
- 
+
     const [searchTerm, setSearchTerm] = useState(search);
     const [filter, setFilter] = useState(searchConstants.ALL);
 
@@ -471,6 +471,7 @@ function GlobalSearchField(props) {
         showErrorAnnouncer,
         t,
         userHomeDir,
+        analysesI18n,
     ]);
 
     useEffect(() => {

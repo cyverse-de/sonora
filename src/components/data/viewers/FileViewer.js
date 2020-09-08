@@ -34,6 +34,7 @@ import { Button, CircularProgress, Toolbar } from "@material-ui/core";
 const VIEWER_TYPE = {
     PLAIN: "plain",
     STRUCTURED: "structured",
+    IMAGE: "image",
 };
 
 export default function FileViewer(props) {
@@ -106,16 +107,8 @@ export default function FileViewer(props) {
             case mimeTypes.PNG:
             case mimeTypes.JPEG:
             case mimeTypes.GIF:
-                /*         if(editing) {
-                    announcer.schedule(new ErrorAnnouncementConfig("Editing is not supported for this type of file."));
-                }
-                if((file != null) && !file.getId().isEmpty()){
-                    String imageUrl = fileEditorService.getServletDownloadUrl(file.getPath());
-                    LOG.fine("Image viewer url: " + imageUrl);
-                    ImageViewerImpl imgViewer = new ImageViewerImpl(file, imageUrl);
-                    viewers.add(imgViewer);
-                }
-         */ break;
+                setViewerType(VIEWER_TYPE.IMAGE);
+             break;
             case mimeTypes.MP4:
             case mimeTypes.OGG:
             case mimeTypes.WEBM:
@@ -137,7 +130,12 @@ export default function FileViewer(props) {
                     LOG.fine("PDF viewer url: " + url);
                     WindowUtil.open(url);
                 }
-               */ break;
+               */
+                window.open(
+                    "http://localhost:3000/api/download?path=/iplant/home/sriram/menu.pdf&attachment=0",
+                    "_blank"
+                );
+                break;
 
             case mimeTypes.HTML:
             case mimeTypes.XHTML_XML:
@@ -234,7 +232,7 @@ export default function FileViewer(props) {
         router.push(`/${NavigationConstants.ERROR}?errorInfo=` + errorString);
     }
 
-    if (!busy && (!data || data.length === 0)) {
+    if (!busy && viewerType !== VIEWER_TYPE.IMAGE && (!data || data.length === 0)) {
         return <div>No content to display.</div>;
     }
 
@@ -252,13 +250,17 @@ export default function FileViewer(props) {
         </Toolbar>
     );
     if (viewerType === VIEWER_TYPE.PLAIN) {
-        let flatData ="";
+        let flatData = "";
         data.forEach((page) => {
             flatData = flatData.concat(page.chunk);
         });
         return (
             <>
-                <TextViewer data={flatData} mode={mode} loading={isFetchingMore}/>
+                <TextViewer
+                    data={flatData}
+                    mode={mode}
+                    loading={isFetchingMore}
+                />
                 <LoadMoreButton />
             </>
         );
@@ -276,5 +278,7 @@ export default function FileViewer(props) {
                 <LoadMoreButton />
             </>
         );
+    } else if(viewerType === VIEWER_TYPE.IMAGE) {
+        return <img src="http://localhost:3000/api/download?path=/iplant/home/sriram/sriram1.jpg" alt="sriram"/>
     }
 }

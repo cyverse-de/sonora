@@ -5,38 +5,88 @@
  *
  */
 
-import React from "react";
-import dynamic from "next/dynamic";
+import React, { useMemo } from "react";
+import { useTable } from "react-table";
 import PageWrapper from "components/layout/PageWrapper";
-import { NoSsr } from "@material-ui/core";
+import {
+    CircularProgress,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+} from "@material-ui/core";
 
-const CsvTable = dynamic(() =>
-    import("react-csv-to-table").then((mod) => mod.CsvToHtmlTable)
-);
+function getColumns(data) {
+    let cols = [];
+    if (!data || data.length === 0) {
+        return cols;
+    }
+    Object.keys(data[0]).forEach((colId) =>
+        cols.push({
+            Heading: colId,
+            accessor: colId,
+            disableSortBy: true,
+        })
+    );
+    return cols;
+}
 
 export default function StructuredTextViewer(props) {
-    let csv = "";
-    const { data, columns, delimiter } = props;
-    if (data?.length > 0) {
-        data.forEach((row, index) => {
-            let csvRow = "";
-            for (let i = 0; i < columns; i++) {
-                csvRow = Object.values(row).join(",");
-            }
-            csv = csv.concat(csvRow, "\n");
-        });
-    }
+    const { data, loading } = props;
+    let columns = useMemo(() => getColumns(data), [data]);
+
+    const { getTableProps, headerGroups, rows, prepareRow } = useTable({
+        columns,
+        data,
+    });
+
     return (
-        <NoSsr>
-            <PageWrapper appBarHeight={60}>
-                <div style={{ overflow: "auto" }}>
-                    <CsvTable
-                        data={csv}
-                        csvDelimiter={delimiter}
-                        tableClassName="table table-striped table-hover"
-                    />
-                </div>
-            </PageWrapper>
-        </NoSsr>
+        <PageWrapper appBarHeight={60}>
+            {loading && (
+                <CircularProgress
+                    thickness={7}
+                    color="primary"
+                    style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                    }}
+                />
+            )}
+            <TableContainer component={Paper} style={{ overflow: "auto" }}>
+                <Table size="small" stickyHeader {...getTableProps()}>
+                    <TableHead>
+                        {headerGroups.map((headerGroup) => (
+                            <TableRow {...headerGroup.getHeaderGroupProps()}>
+                                {headerGroup.headers.map((column) => (
+                                    <TableCell {...column.getHeaderProps()}>
+                                        {column.render("Header")}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        ))}
+                    </TableHead>
+                    <TableBody>
+                        {rows.map((row, index) => {
+                            prepareRow(row);
+                            return (
+                                <TableRow {...row.getRowProps()}>
+                                    {row.cells.map((cell) => {
+                                        return (
+                                            <TableCell {...cell.getCellProps()}>
+                                                {cell.render("Cell")}
+                                            </TableCell>
+                                        );
+                                    })}
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </PageWrapper>
     );
 }

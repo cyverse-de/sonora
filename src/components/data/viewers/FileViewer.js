@@ -26,7 +26,7 @@ import {
     mimeTypes,
     getMimeTypeFromString,
     getViewerMode,
-} from "components/models/mimeTypes";
+} from "components/models/MimeTypes";
 import infoTypes from "components/models/InfoTypes";
 
 import viewerConstants from "./constants";

@@ -1,8 +1,8 @@
 /**
  * @author sriram
- * 
+ *
  * react-queries for file viewers.
- * 
+ *
  */
 
 import { useQuery, useInfiniteQuery } from "react-query";
@@ -37,6 +37,5 @@ function useReadChunk(queryKey, enabled, getFetchMore) {
         getFetchMore,
     });
 }
-
 
 export { useFileManifest, useReadChunk };

@@ -39,8 +39,7 @@ const handler = async (req, res) => {
 
     req.pipe(
         doDownloadFromTerrain(userID, accessToken, filePath, attachment, res)
-    )
-    .pipe(res);
+    ).pipe(res);
 };
 
 const doDownloadFromTerrain = (

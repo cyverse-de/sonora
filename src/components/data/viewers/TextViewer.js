@@ -8,15 +8,13 @@ import React from "react";
 
 import SyntaxHighlighter from "react-syntax-highlighter";
 import PageWrapper from "components/layout/PageWrapper";
-import {
-    CircularProgress
- } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 
- export default function TextViewer(props) {
-    const {data, loading, mode} = props;
+export default function TextViewer(props) {
+    const { data, loading, mode } = props;
     return (
         <PageWrapper appBarHeight={120}>
-             {loading && (
+            {loading && (
                 <CircularProgress
                     thickness={7}
                     color="primary"
@@ -28,7 +26,11 @@ import {
                 />
             )}
             <SyntaxHighlighter
-                customStyle={{ overflow: "auto", width: "auto", backgroundColor: "white" }}
+                customStyle={{
+                    overflow: "auto",
+                    width: "auto",
+                    backgroundColor: "white",
+                }}
                 language={mode}
                 showLineNumbers={true}
                 showInlineLineNumbers={true}

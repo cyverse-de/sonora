@@ -168,7 +168,7 @@ function DetailsDrawer(props) {
     const {
         average: averageRating,
         total: totalRating,
-        user: userRating
+        user: userRating,
     } = selectedApp?.rating || { average: 0, total: 0, user: 0 };
 
     const drawerId = build(baseId, ids.DETAILS_DRAWER);

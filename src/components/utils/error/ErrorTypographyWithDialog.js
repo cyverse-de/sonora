@@ -10,7 +10,7 @@ import ids from "../ids";
 import ErrorTypography from "./ErrorTypography";
 import DEErrorDialog from "./DEErrorDialog";
 
-import {build} from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 
 const ErrorTypographyWithDialog = ({ baseId, errorMessage, errorObject }) => {
     const [errorDialogOpen, setErrorDialogOpen] = React.useState(false);

@@ -21,9 +21,9 @@ export default function ImageViewer(props) {
         setUrl(`${host}/api/download?path=${path}`);
     }, [path]);
 
-    if(url) {
-    return <img src={`${url}`} alt={parseNameFromPath(path)} />;
+    if (url) {
+        return <img src={`${url}`} alt={parseNameFromPath(path)} />;
     } else {
-        return  <Typography>{t("loading")}</Typography>
+        return <Typography>{t("loading")}</Typography>;
     }
 }

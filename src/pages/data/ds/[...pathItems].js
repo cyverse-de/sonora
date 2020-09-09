@@ -34,7 +34,9 @@ export default function DataStore() {
     // Remove the dynamic part of the path if it's there
     // (it won't be there if user navigates directly to /data/ds)
     const baseRoutingPath = routerPathname.replace(dynamicPathName, "");
-    const path = fullPath.replace(baseRoutingPath, "").replace("?file=true", "");
+    const path = fullPath
+        .replace(baseRoutingPath, "")
+        .replace("?file=true", "");
 
     const handlePathChange = (path, resourceType) => {
         const encodedPath = getEncodedPath(path);
@@ -59,7 +61,9 @@ export default function DataStore() {
             />
         );
     } else {
-        return <FileViewer path={decodeURIComponent(path)} baseId="data.viewer" />;
+        return (
+            <FileViewer path={decodeURIComponent(path)} baseId="data.viewer" />
+        );
     }
 }
 

@@ -36,29 +36,29 @@ const getViewerMode = (mimeType) => {
             mode = "markdown";
             break;
         default:
-            break  
+            break;
     }
     return mode;
 };
 
 const getMimeTypeFromString = (typeString) => {
-    if(!typeString) {
+    if (!typeString) {
         return null;
     }
     const tokens = typeString.split("/");
-    if(tokens?.length > 1) {
+    if (tokens?.length > 1) {
         const type = getKeyByValue(mimeTypes, tokens[1]);
-        console.log("mime type => "+ type);
+        console.log("mime type => " + type);
         return mimeTypes[type];
     } else {
         const type = getKeyByValue(mimeTypes, tokens[0]);
-        console.log("0 len. mime type => "+ type);
+        console.log("0 len. mime type => " + type);
         return mimeTypes[type];
     }
-}
+};
 
 const getKeyByValue = (object, value) => {
-    return Object.keys(object).find(key => object[key] === value);
-  }
+    return Object.keys(object).find((key) => object[key] === value);
+};
 
 export { mimeTypes, getMimeTypeFromString, getViewerMode };

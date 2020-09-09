@@ -23,12 +23,15 @@ import {
     ANALYSIS_TYPE,
     APP_TYPE,
 } from "./classes";
+import { useTranslation } from "i18n";
 
 const BagSkeleton = () => (
     <Skeleton variant="rect" animation="wave" height={100} width="100%" />
 );
 
 export default ({ open, remove }) => {
+    const { t } = useTranslation(["bags", "common"]);
+
     const { status, data, error } = useQuery(
         [facade.DEFAULT_BAG_QUERY_KEY],
         facade.getDefaultBag
@@ -54,13 +57,13 @@ export default ({ open, remove }) => {
                         return (
                             <ListItem key={index}>
                                 <ListItemAvatar>
-                                    <Avatar>{bagItem.icon}</Avatar>
+                                    <Avatar>{bagItem.icon(t)}</Avatar>
                                 </ListItemAvatar>
                                 <ListItemText primary={bagItem.label} />
                                 <ListItemSecondaryAction>
                                     <IconButton
                                         edge="end"
-                                        aria-label="delete"
+                                        aria-label={t("delete")}
                                         onClick={remove(index)}
                                     >
                                         <Delete />

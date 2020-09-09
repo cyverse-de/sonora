@@ -6,7 +6,7 @@ class BagItem {
         this.item = item;
     }
 
-    get icon() {
+    icon(t) {
         return <Label />;
     }
 
@@ -21,26 +21,26 @@ class BagItem {
 }
 
 class FileBagItem extends BagItem {
-    get icon() {
+    icon(t) {
         return <InsertDriveFile />;
     }
 }
 
 class FolderBagItem extends BagItem {
-    get icon() {
+    icon(t) {
         return <Folder />;
     }
 }
 
 class AnalysisBagItem extends BagItem {
-    get icon() {
-        return <img src="/analyses_selected.png" alt={"analyses"} />;
+    icon(t) {
+        return <img src="/analyses_selected.png" alt={t("common:analyses")} />;
     }
 }
 
 class AppBagItem extends BagItem {
-    get icon() {
-        return <img src="/apps_selected.png" alt={"apps"} />;
+    icon(t) {
+        return <img src="/apps_selected.png" alt={t("common:apps")} />;
     }
 }
 

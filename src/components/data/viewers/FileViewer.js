@@ -10,6 +10,10 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
 
+import DocumentViewer from "./DocumentViewer";
+import ImageViewer from "./ImageViewer";
+import VideoViewer from "./VideoViewer";
+
 import { useFileManifest, useReadChunk } from "./queries";
 import constants from "../../../constants";
 import NavigationConstants from "../../../common/NavigationConstants";
@@ -29,12 +33,19 @@ import viewerConstants from "./constants";
 import TextViewer from "./TextViewer";
 import StructuredTextViewer from "./StructuredTextViewer";
 
-import { Button, CircularProgress, Toolbar } from "@material-ui/core";
+import {
+    Button,
+    CircularProgress,
+    Toolbar,
+    Typography,
+} from "@material-ui/core";
 
 const VIEWER_TYPE = {
     PLAIN: "plain",
     STRUCTURED: "structured",
     IMAGE: "image",
+    VIDEO: "video",
+    DOCUMENT: "document", //pdf,xml etc...
 };
 
 export default function FileViewer(props) {
@@ -108,47 +119,17 @@ export default function FileViewer(props) {
             case mimeTypes.JPEG:
             case mimeTypes.GIF:
                 setViewerType(VIEWER_TYPE.IMAGE);
-             break;
+                break;
             case mimeTypes.MP4:
             case mimeTypes.OGG:
             case mimeTypes.WEBM:
-                /*         if((file != null) && !file.getPath().isEmpty()){
-                    String videoUrl = fileEditorService.getServletDownloadUrl(file.getPath());
-
-                    LOG.fine("Video viewer url: " + videoUrl);
-                    VideoViewerImpl videoViewer = new VideoViewerImpl(file, videoUrl);
-                    viewers.add(videoViewer);
-                }
-         */ break;
-            case mimeTypes.PDF:
-                /*   if(editing) {
-                    announcer.schedule(new ErrorAnnouncementConfig("Editing is not supported for this type of file."));
-                }
-                if(!Strings.isNullOrEmpty(filePath)){
-                    String downloadUrl = fileEditorService.getServletDownloadUrl(filePath);
-                    String url = downloadUrl + "&attachment=0";
-                    LOG.fine("PDF viewer url: " + url);
-                    WindowUtil.open(url);
-                }
-               */
-                window.open(
-                    "http://localhost:3000/api/download?path=/iplant/home/sriram/menu.pdf&attachment=0",
-                    "_blank"
-                );
+                setViewerType(VIEWER_TYPE.VIDEO);
                 break;
-
+            case mimeTypes.PDF:
             case mimeTypes.HTML:
             case mimeTypes.XHTML_XML:
-                /*    if(editing) {
-                    announcer.schedule(new ErrorAnnouncementConfig("Editing is not supported for this type of file."));
-                }
-                if(!Strings.isNullOrEmpty(filePath)){
-                    String downloadUrl = fileEditorService.getServletDownloadUrl(filePath);
-                    String url = downloadUrl + "&attachment=0";
-                    LOG.fine(type.toString() + " viewer url: " + url);
-                    WindowUtil.open(url);
-                }
-              */ break;
+                setViewerType(VIEWER_TYPE.DOCUMENT);
+                break;
 
             case mimeTypes.VIZ:
                 /*    ExternalVisualizationURLViewerImpl vizUrlViewer = new ExternalVisualizationURLViewerImpl(
@@ -232,8 +213,14 @@ export default function FileViewer(props) {
         router.push(`/${NavigationConstants.ERROR}?errorInfo=` + errorString);
     }
 
-    if (!busy && viewerType !== VIEWER_TYPE.IMAGE && (!data || data.length === 0)) {
-        return <div>No content to display.</div>;
+    if (
+        !busy &&
+        viewerType !== VIEWER_TYPE.IMAGE &&
+        viewerType !== VIEWER_TYPE.DOCUMENT &&
+        viewerType !== VIEWER_TYPE.VIDEO &&
+        (!data || data.length === 0)
+    ) {
+        return <Typography>{t("noContent")}</Typography>;
     }
 
     const LoadMoreButton = () => (
@@ -249,6 +236,7 @@ export default function FileViewer(props) {
             </Button>
         </Toolbar>
     );
+
     if (viewerType === VIEWER_TYPE.PLAIN) {
         let flatData = "";
         data.forEach((page) => {
@@ -278,7 +266,11 @@ export default function FileViewer(props) {
                 <LoadMoreButton />
             </>
         );
-    } else if(viewerType === VIEWER_TYPE.IMAGE) {
-        return <img src="http://localhost:3000/api/download?path=/iplant/home/sriram/sriram1.jpg" alt="sriram"/>
+    } else if (viewerType === VIEWER_TYPE.IMAGE) {
+        return <ImageViewer path={path} />;
+    } else if (viewerType === VIEWER_TYPE.DOCUMENT) {
+        return <DocumentViewer path={path} />;
+    } else if (viewerType === VIEWER_TYPE.VIDEO) {
+        return <VideoViewer path={path} />;
     }
 }

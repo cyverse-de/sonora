@@ -16,6 +16,12 @@ const data = {
         {
             name: "test file 1",
             path: "/test/path/1",
+            type: "file",
+        },
+        {
+            name: "test folder 1",
+            path: "/test/folder/1",
+            type: "dir",
         },
     ],
 };

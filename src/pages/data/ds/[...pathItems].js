@@ -5,7 +5,7 @@
 
 import React from "react";
 import { useRouter } from "next/router";
-import Listing from "../../../components/data/listing/Listing";
+import Listing from "components/data/listing/Listing";
 import { getEncodedPath } from "../../../components/data/utils";
 
 /**

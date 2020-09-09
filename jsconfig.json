@@ -1,11 +1,5 @@
 {
-    "compilerOptions": {
-      "baseUrl": "./src",
-      "paths": {
-        "@/components/*": ["components/*"],
-        "@/contexts/*": ["contexts/*"],
-        "@/common/*": ["common/*"],
-        "@/serviceFacades/*":["@/serviceFacades/*"]
-      }
-    }
+  "compilerOptions": {
+    "baseUrl": "./src"
   }
+}

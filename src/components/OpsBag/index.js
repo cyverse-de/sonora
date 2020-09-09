@@ -9,6 +9,8 @@ import {
     Avatar,
     ListItemText,
     ListItemSecondaryAction,
+    makeStyles,
+    Typography,
 } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 
@@ -25,11 +27,28 @@ import {
 } from "./classes";
 import { useTranslation } from "i18n";
 
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        width: "33%",
+    },
+    title: {
+        paddingLeft: theme.spacing(2),
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+    },
+    help: {
+        paddingLeft: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+        overflowWrap: "break-word",
+    },
+}));
+
 const BagSkeleton = () => (
     <Skeleton variant="rect" animation="wave" height={100} width="100%" />
 );
 
 export default ({ open, remove }) => {
+    const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
 
     const { status, data, error } = useQuery(
@@ -48,32 +67,39 @@ export default ({ open, remove }) => {
     bagItems = bagItems.map((item) => createNewBagItem(item));
 
     return (
-        <Drawer anchor="left" open={open}>
+        <Drawer anchor="right" open={open} classes={{ paper: classes.paper }}>
             {isLoading ? (
                 <BagSkeleton />
             ) : (
-                <List>
-                    {bagItems.map((bagItem, index) => {
-                        return (
-                            <ListItem key={index}>
-                                <ListItemAvatar>
-                                    <Avatar>{bagItem.icon(t)}</Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary={bagItem.label} />
-                                <ListItemSecondaryAction>
-                                    <IconButton
-                                        edge="end"
-                                        aria-label={t("delete")}
-                                        onClick={remove(index)}
-                                    >
-                                        <Delete />
-                                    </IconButton>
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        );
-                    })}
-                    ;
-                </List>
+                <>
+                    <Typography variant="h4" className={classes.title}>
+                        {t("yourItemBag")}
+                    </Typography>
+                    <Typography variant="body1" className={classes.help}>
+                        {t("bagHelp")}
+                    </Typography>
+                    <List>
+                        {bagItems.map((bagItem, index) => {
+                            return (
+                                <ListItem key={index}>
+                                    <ListItemAvatar>
+                                        <Avatar>{bagItem.icon(t)}</Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText primary={bagItem.label} />
+                                    <ListItemSecondaryAction>
+                                        <IconButton
+                                            edge="end"
+                                            aria-label={t("delete")}
+                                            onClick={remove(index)}
+                                        >
+                                            <Delete />
+                                        </IconButton>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            );
+                        })}
+                    </List>
+                </>
             )}
         </Drawer>
     );

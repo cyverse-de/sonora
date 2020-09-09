@@ -1,3 +1,5 @@
 {
-    "delete": "Delete Item From Bag"
+    "delete": "Delete Item From Bag",
+    "yourItemBag": "Your Item Bag",
+    "bagHelp": "Perform sharing or downloading operations on a set of items."
 }

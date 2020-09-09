@@ -24,7 +24,7 @@ import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
 import ids from "./ids";
-import Listing from "./listing/Listing";
+import Listing from "components/data/listing/Listing";
 import ResourceTypes from "../models/ResourceTypes";
 
 import styles from "./styles";

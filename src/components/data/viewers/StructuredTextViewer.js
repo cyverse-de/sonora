@@ -7,6 +7,9 @@
 
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
+
+import Toolbar from "./Toolbar";
+
 import PageWrapper from "components/layout/PageWrapper";
 import {
     CircularProgress,
@@ -20,31 +23,58 @@ import {
 } from "@material-ui/core";
 
 function getColumns(data) {
-    let cols = [];
+    let cols = [{ Heading: "#", accessor: "index", disableSortBy: true }];
     if (!data || data.length === 0) {
         return cols;
     }
-    Object.keys(data[0]).forEach((colId) =>
-        cols.push({
-            Heading: colId,
-            accessor: colId,
-            disableSortBy: true,
-        })
-    );
+    Object.keys(data[0]).forEach((colId) => {
+        if (colId !== "index") {
+            cols.push({
+                Heading: colId,
+                accessor: colId,
+                disableSortBy: true,
+            });
+        }
+    });
     return cols;
 }
 
 export default function StructuredTextViewer(props) {
-    const { data, loading } = props;
+    const { path, resourceId, data, loading } = props;
+
     let columns = useMemo(() => getColumns(data), [data]);
 
-    const { getTableProps, headerGroups, rows, prepareRow } = useTable({
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
+        setHiddenColumns,
+        state,
+    } = useTable({
         columns,
         data,
+        initialState: {
+            hiddenColumns: [],
+        },
     });
 
     return (
         <PageWrapper appBarHeight={60}>
+            <Toolbar
+                path={path}
+                resourceId={resourceId}
+                allowLineNumbers={true}
+                showLineNumbers={!state?.hiddenColumns?.includes("index")}
+                onShowLineNumbers={(showLineNumbers) => {
+                    if (showLineNumbers) {
+                        setHiddenColumns([]);
+                    } else {
+                        setHiddenColumns(["index"]);
+                    }
+                }}
+            />
             {loading && (
                 <CircularProgress
                     thickness={7}
@@ -69,7 +99,7 @@ export default function StructuredTextViewer(props) {
                             </TableRow>
                         ))}
                     </TableHead>
-                    <TableBody>
+                    <TableBody {...getTableBodyProps()}>
                         {rows.map((row, index) => {
                             prepareRow(row);
                             return (

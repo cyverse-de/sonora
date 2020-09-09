@@ -16,7 +16,6 @@ import ids from "../ids";
 import DataDotMenu from "../toolbar/DataDotMenu";
 
 import TableLoading from "../../utils/TableLoading";
-import ResourceTypes from "../../models/ResourceTypes";
 import constants from "../../../constants";
 import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
 import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
@@ -360,7 +359,8 @@ function TableView(props) {
                                                 onClick={() => {
                                                     handlePathChange(
                                                         `${path}/${resource.label}`,
-                                                        resource.type
+                                                        resource.type,
+                                                        resource.id
                                                     );
                                                 }}
                                             >

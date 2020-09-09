@@ -29,16 +29,15 @@ export default function DataStore() {
     const router = useRouter();
     const query = router.query;
     const isFile = query.file;
+    const resourceId = query.resourceId;
     const routerPathname = router.pathname;
     const fullPath = router.asPath;
     // Remove the dynamic part of the path if it's there
     // (it won't be there if user navigates directly to /data/ds)
     const baseRoutingPath = routerPathname.replace(dynamicPathName, "");
-    const path = fullPath
-        .replace(baseRoutingPath, "")
-        .replace("?file=true", "");
+    const path = fullPath.replace(baseRoutingPath, "").split("?")[0];
 
-    const handlePathChange = (path, resourceType) => {
+    const handlePathChange = (path, resourceType, id) => {
         const encodedPath = getEncodedPath(path);
         if (!resourceType || resourceType === ResourceTypes.FOLDER) {
             router.push(
@@ -47,8 +46,8 @@ export default function DataStore() {
             );
         } else {
             router.push(
-                `${baseRoutingPath}${dynamicPathName}?file=true`,
-                `${baseRoutingPath}${encodedPath}?file=true`
+                `${baseRoutingPath}${dynamicPathName}?file=true&resourceId=${id}`,
+                `${baseRoutingPath}${encodedPath}?file=true&resourceId=${id}`
             );
         }
     };
@@ -62,7 +61,11 @@ export default function DataStore() {
         );
     } else {
         return (
-            <FileViewer path={decodeURIComponent(path)} baseId="data.viewer" />
+            <FileViewer
+                resourceId={resourceId}
+                path={decodeURIComponent(path)}
+                baseId="data.viewer"
+            />
         );
     }
 }

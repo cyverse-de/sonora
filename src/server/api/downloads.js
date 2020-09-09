@@ -10,7 +10,6 @@ import path from "path";
 import logger from "../logging";
 
 import { terrainURL } from "../configuration";
-import { set } from "numeral";
 
 /**
  * Express handler for file download requests. The response from this

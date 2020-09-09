@@ -200,7 +200,7 @@ function Listing(props) {
             setInfoTypesQueryEnabled(true);
         } else {
             if (infoTypes === null || infoTypes.length === 0) {
-                setInfoTypes(infoTypesCache);
+                setInfoTypes(infoTypesCache.types);
             }
         }
     }, [infoTypes, infoTypesCache]);

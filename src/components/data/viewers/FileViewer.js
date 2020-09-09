@@ -49,7 +49,7 @@ const VIEWER_TYPE = {
 };
 
 export default function FileViewer(props) {
-    const { path } = props;
+    const { path, resourceId } = props;
 
     const { t } = useTranslation("data");
     const router = useRouter();
@@ -178,7 +178,17 @@ export default function FileViewer(props) {
                     setReadChunkQueryEnabled(true);
                     setViewerType(VIEWER_TYPE.STRUCTURED);
                     break;
-                } /* else if (HT_ANALYSIS_PATH_LIST.toString().equals(infoType)
+                } else {
+                    setReadChunkKey([
+                        READ_CHUNK_QUERY_KEY,
+                        { path, chunkSize: viewerConstants.DEFAULT_PAGE_SIZE },
+                    ]);
+                    setReadChunkQueryEnabled(true);
+                    setViewerType(VIEWER_TYPE.PLAIN);
+                    break;
+                }
+
+            /* else if (HT_ANALYSIS_PATH_LIST.toString().equals(infoType)
                            || MULTI_INPUT_PATH_LIST.toString().equals(infoType)) {
                     PathListViewer pathListViewer = new PathListViewer(file,
                                                                      infoType,
@@ -187,8 +197,6 @@ export default function FileViewer(props) {
                                                                        diskResourceUtil);
                    
                 } */
-
-                break;
         }
     }, [contentType, infoType, path]);
 
@@ -245,6 +253,8 @@ export default function FileViewer(props) {
         return (
             <>
                 <TextViewer
+                    path={path}
+                    resourceId={resourceId}
                     data={flatData}
                     mode={mode}
                     loading={isFetchingMore}
@@ -257,9 +267,15 @@ export default function FileViewer(props) {
         data.forEach((page) => {
             flatData = [...flatData, ...page.csv];
         });
+        flatData.forEach((row, index) => {
+            row.index = index + 1; //line number starts from 1
+        });
+        console.log("rows=>" + JSON.stringify(flatData));
         return (
             <>
                 <StructuredTextViewer
+                    path={path}
+                    resourceId={resourceId}
                     data={flatData}
                     loading={isFetchingMore}
                 />

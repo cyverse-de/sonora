@@ -4,7 +4,12 @@ import { withKnobs, boolean } from "@storybook/addon-knobs";
 
 import { mockAxios } from "../axiosMock";
 
-import OpsBag from "../../src/components/OpsBag";
+import OpsBag, {
+    FILE_TYPE,
+    FOLDER_TYPE,
+    ANALYSIS_TYPE,
+    APP_TYPE,
+} from "../../src/components/OpsBag";
 
 export default {
     title: "Bags/OpsBag",
@@ -16,13 +21,18 @@ const data = {
         {
             name: "test file 1",
             path: "/test/path/1",
-            type: "file",
+            type: FILE_TYPE,
         },
         {
             name: "test folder 1",
             path: "/test/folder/1",
-            type: "dir",
+            type: FOLDER_TYPE,
         },
+        {
+            name: "test analysis 1",
+            type: ANALYSIS_TYPE,
+        },
+        { name: "test app 1", type: APP_TYPE },
     ],
 };
 

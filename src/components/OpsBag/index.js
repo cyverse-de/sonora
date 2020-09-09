@@ -16,7 +16,13 @@ import { useQuery } from "react-query";
 import * as facade from "../../serviceFacades/bags";
 import { Skeleton } from "@material-ui/lab";
 
-import { createNewBagItem } from "./classes";
+import {
+    createNewBagItem,
+    FILE_TYPE,
+    FOLDER_TYPE,
+    ANALYSIS_TYPE,
+    APP_TYPE,
+} from "./classes";
 
 const BagSkeleton = () => (
     <Skeleton variant="rect" animation="wave" height={100} width="100%" />
@@ -69,3 +75,5 @@ export default ({ open, remove }) => {
         </Drawer>
     );
 };
+
+export { FILE_TYPE, FOLDER_TYPE, ANALYSIS_TYPE, APP_TYPE };

@@ -35,9 +35,10 @@ const handler = async (req, res) => {
 
     const filePath = req?.query?.path;
     const attachment = req?.query?.attachment || 0;
+    const url = req?.query?.url;
 
     req.pipe(
-        doDownloadFromTerrain(userID, accessToken, filePath, attachment, res)
+        doDownloadFromTerrain(userID, accessToken, filePath, attachment, url)
     ).pipe(res);
 };
 
@@ -46,11 +47,22 @@ const doDownloadFromTerrain = (
     accessToken,
     filePath,
     attachment,
-    resp
+    url
 ) => {
     const apiURL = new URL(terrainURL);
-    apiURL.pathname = path.join(apiURL.pathname, "/secured/fileio/download");
-    apiURL.search = "path=" + filePath;
+    if (url) {
+        apiURL.pathname = path.join(
+            apiURL.pathname,
+            "/secured/filesystem/display-download"
+        );
+        apiURL.search = "path=" + filePath + "&attachment=" + attachment;
+    } else {
+        apiURL.pathname = path.join(
+            apiURL.pathname,
+            "/secured/fileio/download"
+        );
+        apiURL.search = "path=" + filePath;
+    }
     logger.info(`TERRAIN ${userID} GET ${apiURL.href}`);
     const requestOptions = {
         method: "GET",
@@ -58,12 +70,6 @@ const doDownloadFromTerrain = (
         headers: {
             Authorization: `Bearer ${accessToken.token}`,
             Accept: "application/octet-stream",
-        },
-        callback: (err, response, body) => {
-            logger.info(response.statusCode);
-            logger.info(response.headers["content-type"]);
-            logger.info(response.headers["content-disposition"]);
-            logger.info("attachment =>" + attachment);
         },
     };
     return request(requestOptions).on("error", function (err) {

@@ -20,29 +20,72 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    Typography,
 } from "@material-ui/core";
 
-function getColumns(data) {
-    let cols = [{ Heading: "#", accessor: "index", disableSortBy: true }];
+const LINE_NUMBER_ACCESSOR = "lineNumber";
+
+function getColumns(data, firstRowHeader) {
+    let cols = [
+        {
+            Header: "#",
+            accessor: LINE_NUMBER_ACCESSOR,
+            disableSortBy: true,
+            Cell: ({ row }) => {
+                return (
+                    <Typography color="primary">
+                        {row.original[LINE_NUMBER_ACCESSOR]}
+                    </Typography>
+                );
+            },
+        },
+    ];
+
     if (!data || data.length === 0) {
         return cols;
     }
+
+    let colHeaders = null;
+    if (firstRowHeader) {
+        colHeaders = data[0];
+    }
     Object.keys(data[0]).forEach((colId) => {
-        if (colId !== "index") {
-            cols.push({
-                Heading: colId,
-                accessor: colId,
-                disableSortBy: true,
-            });
+        if (colId !== LINE_NUMBER_ACCESSOR) {
+            if (colHeaders) {
+                cols.push({
+                    Header: colHeaders[colId],
+                    accessor: colId,
+                    disableSortBy: true,
+                });
+            } else {
+                cols.push({
+                    Header: colId,
+                    accessor: colId,
+                    disableSortBy: true,
+                });
+            }
         }
     });
     return cols;
 }
 
-export default function StructuredTextViewer(props) {
+function StructuredTextViewer(props) {
     const { path, resourceId, data, loading } = props;
+    const [firstRowHeader, setFirstRowHeader] = React.useState(false);
 
-    let columns = useMemo(() => getColumns(data), [data]);
+    let columns = useMemo(() => getColumns(data, firstRowHeader), [
+        data,
+        firstRowHeader,
+    ]);
+
+    const dataToDisplay = useMemo(
+        () => (firstRowHeader ? data.slice(1) : data),
+        [data, firstRowHeader]
+    );
+
+    dataToDisplay.forEach((row, index) => {
+        row[LINE_NUMBER_ACCESSOR] = index + 1; //line number starts from 1
+    });
 
     const {
         getTableProps,
@@ -54,7 +97,7 @@ export default function StructuredTextViewer(props) {
         state,
     } = useTable({
         columns,
-        data,
+        data: dataToDisplay,
         initialState: {
             hiddenColumns: [],
         },
@@ -66,14 +109,18 @@ export default function StructuredTextViewer(props) {
                 path={path}
                 resourceId={resourceId}
                 allowLineNumbers={true}
-                showLineNumbers={!state?.hiddenColumns?.includes("index")}
+                showLineNumbers={
+                    !state?.hiddenColumns?.includes(LINE_NUMBER_ACCESSOR)
+                }
                 onShowLineNumbers={(showLineNumbers) => {
                     if (showLineNumbers) {
                         setHiddenColumns([]);
                     } else {
-                        setHiddenColumns(["index"]);
+                        setHiddenColumns([LINE_NUMBER_ACCESSOR]);
                     }
                 }}
+                firstRowHeader={firstRowHeader}
+                onFirstRowHeader={(header) => setFirstRowHeader(header)}
             />
             {loading && (
                 <CircularProgress
@@ -120,3 +167,5 @@ export default function StructuredTextViewer(props) {
         </PageWrapper>
     );
 }
+export default StructuredTextViewer;
+export { LINE_NUMBER_ACCESSOR };

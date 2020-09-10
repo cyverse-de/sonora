@@ -28,6 +28,7 @@
     "fetchTagsError": "Unable to fetch tags. Please try again.",
     "fetchTagSuggestionsError": "Unable to fetch tag suggestions.  Please try again.",
     "file": "File",
+    "firstRowHeader": "First Row Header",
     "fileSize": "Size",
     "filesQueuedForUploadMsg": "{{count}} file queued for upload",
     "filesQueuedForUploadMsg_plural": "{{count}} files queued for upload",

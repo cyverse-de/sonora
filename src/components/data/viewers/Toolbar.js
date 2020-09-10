@@ -50,6 +50,8 @@ function ViewerToolbar(props) {
         showLineNumbers,
         onShowLineNumbers,
         showErrorAnnouncer,
+        firstRowHeader,
+        onFirstRowHeader,
     } = props;
     const { t } = useTranslation("data");
     const [detailsResource, setDetailsResource] = useState(null);
@@ -104,6 +106,11 @@ function ViewerToolbar(props) {
 
                 {onShowLineNumbers && (
                     <>
+                        <Divider
+                            orientation="vertical"
+                            flexItem
+                            style={{ margin: 8 }}
+                        />
                         <FormGroup row>
                             <FormControlLabel
                                 control={
@@ -126,12 +133,29 @@ function ViewerToolbar(props) {
                                 }
                             />
                         </FormGroup>
-                        <Divider
-                            orientation="vertical"
-                            flexItem
-                            style={{ margin: 8 }}
-                        />
                     </>
+                )}
+                {onFirstRowHeader && (
+                    <FormGroup row>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    size="small"
+                                    checked={firstRowHeader}
+                                    onChange={(event) =>
+                                        onFirstRowHeader(event.target.checked)
+                                    }
+                                    name={t("firstRowHeader")}
+                                    color="primary"
+                                />
+                            }
+                            label={
+                                <Typography variant="body2">
+                                    {t("firstRowHeader")}
+                                </Typography>
+                            }
+                        />
+                    </FormGroup>
                 )}
                 <div className={classes.divider} />
                 <Button

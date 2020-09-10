@@ -52,22 +52,18 @@ export default function FileViewer(props) {
 
     const { t } = useTranslation("data");
     const router = useRouter();
-
-    const [contentType, setContentType] = useState("");
-    const [infoType, setInfoType] = useState("");
     const [mode, setMode] = useState(null);
     const [readChunkKey, setReadChunkKey] = useState(READ_CHUNK_QUERY_KEY);
     const [readChunkQueryEnabled, setReadChunkQueryEnabled] = useState(false);
     const [viewerType, setViewerType] = useState(VIEWER_TYPE.PLAIN);
 
-    const { isFetching, error: manifestError } = useFileManifest(
+    const {
+        isFetching,
+        data: manifest,
+        error: manifestError,
+    } = useFileManifest(
         [FETCH_FILE_MANIFEST_QUERY_KEY, path],
-        path !== null && path !== undefined,
-        (respData) => {
-            console.log("manifest=>" + JSON.stringify(respData));
-            setContentType(respData["content-type"]);
-            setInfoType(respData?.infoType);
-        }
+        path !== null && path !== undefined
     );
 
     const {
@@ -111,73 +107,71 @@ export default function FileViewer(props) {
     };
 
     useEffect(() => {
-        const mimeType = getMimeTypeFromString(contentType);
-        setMode(getViewerMode(mimeType));
-        switch (mimeType) {
-            case mimeTypes.PNG:
-            case mimeTypes.JPEG:
-            case mimeTypes.GIF:
-                setViewerType(VIEWER_TYPE.IMAGE);
-                break;
-            case mimeTypes.MP4:
-            case mimeTypes.OGG:
-            case mimeTypes.WEBM:
-                setViewerType(VIEWER_TYPE.VIDEO);
-                break;
-            case mimeTypes.PDF:
-            case mimeTypes.HTML:
-            case mimeTypes.XHTML_XML:
-                setViewerType(VIEWER_TYPE.DOCUMENT);
-                break;
-
-            case mimeTypes.X_SH:
-            case mimeTypes.X_RSRC:
-            case mimeTypes.X_PYTHON:
-            case mimeTypes.X_PERL:
-            case mimeTypes.X_WEB_MARKDOWN:
-            case mimeTypes.PLAIN:
-            case mimeTypes.PREVIEW:
-                setReadChunkKey([
-                    READ_CHUNK_QUERY_KEY,
-                    { path, chunkSize: viewerConstants.DEFAULT_PAGE_SIZE },
-                ]);
-                setReadChunkQueryEnabled(true);
-                setViewerType(VIEWER_TYPE.PLAIN);
-                break;
-
-            default:
-                if (
-                    infoTypes.CSV === infoType ||
-                    infoTypes.TSV === infoType ||
-                    infoTypes.VCF === infoType ||
-                    infoTypes.GFF === infoType ||
-                    infoTypes.GTF === infoType ||
-                    infoTypes.BED === infoType ||
-                    infoTypes.BOWTIE === infoType
-                ) {
-                    const separator = getColumnDelimiter(infoType);
-                    setReadChunkKey([
-                        READ_CHUNK_QUERY_KEY,
-                        {
-                            path,
-                            separator,
-                            chunkSize: viewerConstants.DEFAULT_PAGE_SIZE,
-                        },
-                    ]);
-                    setReadChunkQueryEnabled(true);
-                    setViewerType(VIEWER_TYPE.STRUCTURED);
+        if (manifest) {
+            const mimeType = getMimeTypeFromString(manifest["content-type"]);
+            const infoType = manifest?.infoType;
+            setMode(getViewerMode(mimeType));
+            switch (mimeType) {
+                case mimeTypes.PNG:
+                case mimeTypes.JPEG:
+                case mimeTypes.GIF:
+                    setViewerType(VIEWER_TYPE.IMAGE);
                     break;
-                } else {
-                    setReadChunkKey([
-                        READ_CHUNK_QUERY_KEY,
-                        { path, chunkSize: viewerConstants.DEFAULT_PAGE_SIZE },
-                    ]);
-                    setReadChunkQueryEnabled(true);
-                    setViewerType(VIEWER_TYPE.PLAIN);
+                case mimeTypes.MP4:
+                case mimeTypes.OGG:
+                case mimeTypes.WEBM:
+                    setViewerType(VIEWER_TYPE.VIDEO);
                     break;
-                }
+                case mimeTypes.PDF:
+                case mimeTypes.HTML:
+                case mimeTypes.XHTML_XML:
+                    setViewerType(VIEWER_TYPE.DOCUMENT);
+                    break;
+
+                case mimeTypes.X_SH:
+                case mimeTypes.X_RSRC:
+                case mimeTypes.X_PYTHON:
+                case mimeTypes.X_PERL:
+                case mimeTypes.X_WEB_MARKDOWN:
+                case mimeTypes.PLAIN:
+                case mimeTypes.PREVIEW:
+                default:
+                    if (
+                        infoTypes.CSV === infoType ||
+                        infoTypes.TSV === infoType ||
+                        infoTypes.VCF === infoType ||
+                        infoTypes.GFF === infoType ||
+                        infoTypes.GTF === infoType ||
+                        infoTypes.BED === infoType ||
+                        infoTypes.BOWTIE === infoType
+                    ) {
+                        const separator = getColumnDelimiter(infoType);
+                        setReadChunkKey([
+                            READ_CHUNK_QUERY_KEY,
+                            {
+                                path,
+                                separator,
+                                chunkSize: viewerConstants.DEFAULT_PAGE_SIZE,
+                            },
+                        ]);
+                        setReadChunkQueryEnabled(true);
+                        setViewerType(VIEWER_TYPE.STRUCTURED);
+                        break;
+                    } else {
+                        setReadChunkKey([
+                            READ_CHUNK_QUERY_KEY,
+                            {
+                                path,
+                                chunkSize: viewerConstants.DEFAULT_PAGE_SIZE,
+                            },
+                        ]);
+                        setReadChunkQueryEnabled(true);
+                        setViewerType(VIEWER_TYPE.PLAIN);
+                        break;
+                    }
+            }
         }
-    }, [contentType, infoType, path]);
+    }, [manifest, path]);
 
     const busy = isFetching || status === constants.LOADING;
 
@@ -196,8 +190,12 @@ export default function FileViewer(props) {
     }
 
     if (manifestError || chunkError) {
-        const errorString = JSON.stringify(manifestError || chunkError);
-        router.push(`/${NavigationConstants.ERROR}?errorInfo=` + errorString);
+        if (router) {
+            const errorString = JSON.stringify(manifestError || chunkError);
+            router.push(
+                `/${NavigationConstants.ERROR}?errorInfo=` + errorString
+            );
+        }
     }
 
     if (

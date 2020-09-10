@@ -195,8 +195,6 @@ export const readFileChuck = (
     { path, chunkSize, separator },
     page = 0
 ) => {
-    console.log("page->" + page);
-    console.log("separator->" + separator);
     const body = {};
     body.path = path;
     body["chunk-size"] = `${chunkSize}`;

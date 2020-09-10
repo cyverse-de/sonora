@@ -12,15 +12,13 @@ import { fileManifest, readFileChuck } from "serviceFacades/filesystem";
  * Get manifest for a file
  * @param {*} queryKey - The query key to be used.
  * @param {*} enabled - Enable / disable query.
- * @param {*} onSuccess - Callback function to be used when the query succeeds.
  */
-function useFileManifest(queryKey, enabled, onSuccess) {
+function useFileManifest(queryKey, enabled) {
     return useQuery({
         queryKey,
         queryFn: fileManifest,
         config: {
             enabled,
-            onSuccess,
         },
     });
 }

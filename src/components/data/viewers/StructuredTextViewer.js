@@ -104,7 +104,7 @@ function StructuredTextViewer(props) {
     });
 
     return (
-        <PageWrapper appBarHeight={60}>
+        <PageWrapper appBarHeight={120}>
             <Toolbar
                 path={path}
                 resourceId={resourceId}

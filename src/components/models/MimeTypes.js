@@ -48,11 +48,9 @@ const getMimeTypeFromString = (typeString) => {
     const tokens = typeString.split("/");
     if (tokens?.length > 1) {
         const type = getKeyByValue(mimeTypes, tokens[1]);
-        console.log("mime type => " + type);
         return mimeTypes[type];
     } else {
         const type = getKeyByValue(mimeTypes, tokens[0]);
-        console.log("0 len. mime type => " + type);
         return mimeTypes[type];
     }
 };

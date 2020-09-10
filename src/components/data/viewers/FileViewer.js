@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
 
+import ids from "./ids";
 import viewerConstants from "./constants";
 import TextViewer from "./TextViewer";
 import StructuredTextViewer from "./StructuredTextViewer";
@@ -32,6 +33,8 @@ import {
 } from "components/models/MimeTypes";
 import infoTypes from "components/models/InfoTypes";
 
+import { build } from "@cyverse-de/ui-lib";
+
 import {
     Button,
     CircularProgress,
@@ -48,7 +51,7 @@ const VIEWER_TYPE = {
 };
 
 export default function FileViewer(props) {
-    const { path, resourceId } = props;
+    const { path, resourceId, baseId } = props;
 
     const { t } = useTranslation("data");
     const router = useRouter();
@@ -211,6 +214,7 @@ export default function FileViewer(props) {
     const LoadMoreButton = () => (
         <Toolbar>
             <Button
+                id={build(baseId, ids.LOAD_MORE_BTN)}
                 variant="outlined"
                 color="primary"
                 style={{ flex: 1 }}
@@ -230,6 +234,7 @@ export default function FileViewer(props) {
         return (
             <>
                 <TextViewer
+                    baseId={baseId}
                     path={path}
                     resourceId={resourceId}
                     data={flatData}
@@ -247,6 +252,7 @@ export default function FileViewer(props) {
         return (
             <>
                 <StructuredTextViewer
+                    baseId={baseId}
                     path={path}
                     resourceId={resourceId}
                     data={flatData}
@@ -256,10 +262,10 @@ export default function FileViewer(props) {
             </>
         );
     } else if (viewerType === VIEWER_TYPE.IMAGE) {
-        return <ImageViewer path={path} />;
+        return <ImageViewer baseId={baseId} path={path} />;
     } else if (viewerType === VIEWER_TYPE.DOCUMENT) {
-        return <DocumentViewer path={path} />;
+        return <DocumentViewer baseId={baseId} path={path} />;
     } else if (viewerType === VIEWER_TYPE.VIDEO) {
-        return <VideoViewer path={path} />;
+        return <VideoViewer baseId={baseId} path={path} />;
     }
 }

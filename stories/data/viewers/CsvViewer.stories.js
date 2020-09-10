@@ -10,6 +10,7 @@ export default {
 function CSVViewerTest(props) {
     return (
         <FileViewer
+            baseId="data.viewer"
             path="/iplant/home/ipctest/geospiza.csv"
             resourceId="f5469f94-aq12-11e9-80c7-d8d385e427d4"
         />

@@ -13,7 +13,7 @@ import Toolbar from "./Toolbar";
 import { Typography } from "@material-ui/core";
 
 export default function VideoViewer(props) {
-    const { path, resourceId } = props;
+    const { baseId, path, resourceId } = props;
     const { t } = useTranslation("data");
     const [url, setUrl] = useState("");
     useEffect(() => {

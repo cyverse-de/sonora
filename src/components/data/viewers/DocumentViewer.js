@@ -6,13 +6,14 @@
  */
 import React, { useEffect } from "react";
 import { useTranslation } from "i18n";
-
+import ids from "./ids";
 import Toolbar from "./Toolbar";
 
+import { build } from "@cyverse-de/ui-lib";
 import { Typography } from "@material-ui/core";
 
 export default function DocumentViewer(props) {
-    const { path, resourceId } = props;
+    const { baseId, path, resourceId } = props;
     const { t } = useTranslation("data");
     useEffect(() => {
         const protocol = window.location.protocol.concat("//");
@@ -26,6 +27,7 @@ export default function DocumentViewer(props) {
     return (
         <>
             <Toolbar
+                baseId={build(baseId, ids.VIEWER_DOC, ids.TOOLBAR)}
                 path={path}
                 resourceId={resourceId}
                 allowLineNumbers={false}

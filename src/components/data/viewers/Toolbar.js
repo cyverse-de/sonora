@@ -9,10 +9,13 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 import { useQuery, queryCache } from "react-query";
 
+import ids from "./ids";
 import { parseNameFromPath } from "../utils";
 import ResourceTypes from "components/models/ResourceTypes";
 import DetailsDrawer from "components/data/details/Drawer";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+
+import { build } from "@cyverse-de/ui-lib";
 
 import { getInfoTypes, INFO_TYPES_QUERY_KEY } from "serviceFacades/filesystem";
 
@@ -45,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ViewerToolbar(props) {
     const {
+        baseId,
         path,
         resourceId,
         showLineNumbers,
@@ -99,7 +103,7 @@ function ViewerToolbar(props) {
 
     return (
         <>
-            <Toolbar variant="dense">
+            <Toolbar variant="dense" id={baseId}>
                 <Typography variant="body2" color="primary">
                     {label}
                 </Typography>
@@ -115,6 +119,10 @@ function ViewerToolbar(props) {
                             <FormControlLabel
                                 control={
                                     <Switch
+                                        id={build(
+                                            baseId,
+                                            ids.LINE_NUMBERS_SWITCH
+                                        )}
                                         size="small"
                                         checked={showLineNumbers}
                                         onChange={(event) =>
@@ -140,6 +148,7 @@ function ViewerToolbar(props) {
                         <FormControlLabel
                             control={
                                 <Switch
+                                    id={build(baseId, ids.HEADER_SWITCH)}
                                     size="small"
                                     checked={firstRowHeader}
                                     onChange={(event) =>
@@ -159,6 +168,7 @@ function ViewerToolbar(props) {
                 )}
                 <div className={classes.divider} />
                 <Button
+                    id={build(baseId, ids.DETAILS_BTN)}
                     className={classes.toolbarItems}
                     variant="outlined"
                     disableElevation
@@ -176,6 +186,7 @@ function ViewerToolbar(props) {
                     <Hidden xsDown>{t("details")}</Hidden>
                 </Button>
                 <Button
+                    id={build(baseId, ids.DOWNLOAD_BTN)}
                     className={classes.toolbarItems}
                     variant="outlined"
                     disableElevation
@@ -188,9 +199,9 @@ function ViewerToolbar(props) {
             </Toolbar>
             {detailsResource && (
                 <DetailsDrawer
+                    baseId={baseId}
                     resource={detailsResource}
                     onClose={() => setDetailsResource(null)}
-                    baseId={"viewer"}
                     open={detailsResource !== null}
                     infoTypes={infoTypes}
                 />

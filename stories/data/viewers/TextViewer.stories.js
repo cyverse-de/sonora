@@ -10,6 +10,7 @@ export default {
 function PlainTextViewerTest(props) {
     return (
         <FileViewer
+            baseId="data.viewer"
             path="/iplant/home/ipctest/test.txt"
             resourceId="f5469f94-aq12-11e9-81er-d8d385e427d4"
         />

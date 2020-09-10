@@ -7,10 +7,13 @@
 
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
-
+import ids from "./ids";
 import Toolbar from "./Toolbar";
-
+import { parseNameFromPath } from "../utils";
 import PageWrapper from "components/layout/PageWrapper";
+
+import { build } from "@cyverse-de/ui-lib";
+
 import {
     CircularProgress,
     Paper,
@@ -70,9 +73,9 @@ function getColumns(data, firstRowHeader) {
 }
 
 function StructuredTextViewer(props) {
-    const { path, resourceId, data, loading } = props;
+    const { baseId, path, resourceId, data, loading } = props;
     const [firstRowHeader, setFirstRowHeader] = React.useState(false);
-
+    const fileName = parseNameFromPath(path);
     let columns = useMemo(() => getColumns(data, firstRowHeader), [
         data,
         firstRowHeader,
@@ -106,6 +109,7 @@ function StructuredTextViewer(props) {
     return (
         <PageWrapper appBarHeight={120}>
             <Toolbar
+                baseId={build(baseId, ids.VIEWER_STRUCTURED, ids.TOOLBAR)}
                 path={path}
                 resourceId={resourceId}
                 allowLineNumbers={true}
@@ -134,7 +138,12 @@ function StructuredTextViewer(props) {
                 />
             )}
             <TableContainer component={Paper} style={{ overflow: "auto" }}>
-                <Table size="small" stickyHeader {...getTableProps()}>
+                <Table
+                    id={build(baseId, ids.VIEWER_STRUCTURED, fileName)}
+                    size="small"
+                    stickyHeader
+                    {...getTableProps()}
+                >
                     <TableHead>
                         {headerGroups.map((headerGroup) => (
                             <TableRow {...headerGroup.getHeaderGroupProps()}>

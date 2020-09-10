@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { withKnobs, boolean } from "@storybook/addon-knobs";
+import { withKnobs, button } from "@storybook/addon-knobs";
 
 import { mockAxios } from "../axiosMock";
 
@@ -37,8 +37,13 @@ const data = {
 };
 
 export const TestOpsBag = () => {
-    const open = boolean("Open", true);
+    const [open, setOpen] = useState(true);
+
+    button("Open", () => setOpen(true));
+
     mockAxios.onGet("/api/bags/default").reply(200, data);
 
-    return <OpsBag open={open} remove={() => {}} />;
+    return (
+        <OpsBag open={open} remove={() => {}} onClose={() => setOpen(false)} />
+    );
 };

@@ -29,7 +29,11 @@ import { useTranslation } from "i18n";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        width: "33%",
+        width: theme.spacing(80),
+
+        [theme.breakpoints.down("sm")]: {
+            width: "90%",
+        },
     },
     title: {
         paddingLeft: theme.spacing(2),
@@ -47,7 +51,7 @@ const BagSkeleton = () => (
     <Skeleton variant="rect" animation="wave" height={100} width="100%" />
 );
 
-export default ({ open, remove }) => {
+export default ({ open, remove, onClose }) => {
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
 
@@ -67,7 +71,12 @@ export default ({ open, remove }) => {
     bagItems = bagItems.map((item) => createNewBagItem(item));
 
     return (
-        <Drawer anchor="right" open={open} classes={{ paper: classes.paper }}>
+        <Drawer
+            anchor="right"
+            open={open}
+            classes={{ paper: classes.paper }}
+            onClose={onClose}
+        >
             {isLoading ? (
                 <BagSkeleton />
             ) : (

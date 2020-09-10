@@ -10,13 +10,16 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
 
+import viewerConstants from "./constants";
+import TextViewer from "./TextViewer";
+import StructuredTextViewer from "./StructuredTextViewer";
 import DocumentViewer from "./DocumentViewer";
 import ImageViewer from "./ImageViewer";
 import VideoViewer from "./VideoViewer";
 
 import { useFileManifest, useReadChunk } from "./queries";
-import constants from "../../../constants";
-import NavigationConstants from "../../../common/NavigationConstants";
+import constants from "constants";
+import NavigationConstants from "common/NavigationConstants";
 
 import {
     FETCH_FILE_MANIFEST_QUERY_KEY,
@@ -28,10 +31,6 @@ import {
     getViewerMode,
 } from "components/models/MimeTypes";
 import infoTypes from "components/models/InfoTypes";
-
-import viewerConstants from "./constants";
-import TextViewer from "./TextViewer";
-import StructuredTextViewer from "./StructuredTextViewer";
 
 import {
     Button,
@@ -65,7 +64,7 @@ export default function FileViewer(props) {
         [FETCH_FILE_MANIFEST_QUERY_KEY, path],
         path !== null && path !== undefined,
         (respData) => {
-            console.log(JSON.stringify(respData));
+            console.log("manifest=>" + JSON.stringify(respData));
             setContentType(respData["content-type"]);
             setInfoType(respData?.infoType);
         }
@@ -131,16 +130,6 @@ export default function FileViewer(props) {
                 setViewerType(VIEWER_TYPE.DOCUMENT);
                 break;
 
-            case mimeTypes.VIZ:
-                /*    ExternalVisualizationURLViewerImpl vizUrlViewer = new ExternalVisualizationURLViewerImpl(
-                        file,
-                        infoType,
-                        fileEditorService,
-                        diskResourceServiceFacade,
-                        genomeBrowserUtil);
-                viewers.add(vizUrlViewer);
-              */ break;
-
             case mimeTypes.X_SH:
             case mimeTypes.X_RSRC:
             case mimeTypes.X_PYTHON:
@@ -187,16 +176,6 @@ export default function FileViewer(props) {
                     setViewerType(VIEWER_TYPE.PLAIN);
                     break;
                 }
-
-            /* else if (HT_ANALYSIS_PATH_LIST.toString().equals(infoType)
-                           || MULTI_INPUT_PATH_LIST.toString().equals(infoType)) {
-                    PathListViewer pathListViewer = new PathListViewer(file,
-                                                                     infoType,
-                                                                     editing,
-                                                                       presenter,
-                                                                       diskResourceUtil);
-                   
-                } */
         }
     }, [contentType, infoType, path]);
 
@@ -267,10 +246,6 @@ export default function FileViewer(props) {
         data.forEach((page) => {
             flatData = [...flatData, ...page.csv];
         });
-        flatData.forEach((row, index) => {
-            row.index = index + 1; //line number starts from 1
-        });
-        console.log("rows=>" + JSON.stringify(flatData));
         return (
             <>
                 <StructuredTextViewer

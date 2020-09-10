@@ -19,9 +19,8 @@ export default function ImageViewer(props) {
     const { t } = useTranslation("data");
     const [url, setUrl] = useState("");
     useEffect(() => {
-        const protocol = window.location.protocol;
-        const slashes = protocol.concat("//");
-        const host = slashes.concat(window.location.host);
+        const protocol = window.location.protocol.concat("//");
+        const host = protocol.concat(window.location.host);
         setUrl(`${host}/api/download?path=${path}`);
     }, [path]);
 

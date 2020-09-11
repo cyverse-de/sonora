@@ -11,8 +11,9 @@ import {
     ListItemSecondaryAction,
     makeStyles,
     Typography,
+    Button,
 } from "@material-ui/core";
-import { Delete } from "@material-ui/icons";
+import { Delete, GetApp, People } from "@material-ui/icons";
 
 import { useQuery } from "react-query";
 import * as facade from "../../serviceFacades/bags";
@@ -44,6 +45,10 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(2),
         paddingBottom: theme.spacing(2),
         overflowWrap: "break-word",
+    },
+    button: {
+        margin: theme.spacing(2),
+        width: theme.spacing(20),
     },
 }));
 
@@ -103,6 +108,22 @@ export const BagUI = ({ remove }) => {
                             );
                         })}
                     </List>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        startIcon={<GetApp />}
+                    >
+                        {t("download")}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        startIcon={<People />}
+                    >
+                        {t("share")}
+                    </Button>
                 </>
             )}
         </>

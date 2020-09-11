@@ -49,6 +49,10 @@ const useStyles = makeStyles((theme) => ({
     button: {
         margin: theme.spacing(2),
         width: theme.spacing(20),
+
+        [theme.breakpoints.down("sm")]: {
+            width: "100%",
+        },
     },
     actionContainer: {
         display: "flex",

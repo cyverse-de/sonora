@@ -50,6 +50,11 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(2),
         width: theme.spacing(20),
     },
+    actionContainer: {
+        display: "flex",
+        flexFlow: "row wrap",
+        justifyContent: "flex-end",
+    },
 }));
 
 const BagSkeleton = () => (
@@ -108,22 +113,24 @@ export const BagUI = ({ remove }) => {
                             );
                         })}
                     </List>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                        startIcon={<GetApp />}
-                    >
-                        {t("download")}
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                        startIcon={<People />}
-                    >
-                        {t("share")}
-                    </Button>
+                    <div className={classes.actionContainer}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.button}
+                            startIcon={<GetApp />}
+                        >
+                            {t("download")}
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.button}
+                            startIcon={<People />}
+                        >
+                            {t("share")}
+                        </Button>
+                    </div>
                 </>
             )}
         </>

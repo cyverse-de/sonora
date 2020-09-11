@@ -9,6 +9,7 @@ import React, { useMemo } from "react";
 import { useTable } from "react-table";
 import ids from "./ids";
 import Toolbar from "./Toolbar";
+import { getColumns, LINE_NUMBER_ACCESSOR } from "./utils";
 import { parseNameFromPath } from "../utils";
 import PageWrapper from "components/layout/PageWrapper";
 
@@ -23,56 +24,9 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Typography,
 } from "@material-ui/core";
 
-const LINE_NUMBER_ACCESSOR = "lineNumber";
-
-function getColumns(data, firstRowHeader) {
-    let cols = [
-        {
-            Header: "#",
-            accessor: LINE_NUMBER_ACCESSOR,
-            disableSortBy: true,
-            Cell: ({ row }) => {
-                return (
-                    <Typography color="primary">
-                        {row.original[LINE_NUMBER_ACCESSOR]}
-                    </Typography>
-                );
-            },
-        },
-    ];
-
-    if (!data || data.length === 0) {
-        return cols;
-    }
-
-    let colHeaders = null;
-    if (firstRowHeader) {
-        colHeaders = data[0];
-    }
-    Object.keys(data[0]).forEach((colId) => {
-        if (colId !== LINE_NUMBER_ACCESSOR) {
-            if (colHeaders) {
-                cols.push({
-                    Header: colHeaders[colId],
-                    accessor: colId,
-                    disableSortBy: true,
-                });
-            } else {
-                cols.push({
-                    Header: colId,
-                    accessor: colId,
-                    disableSortBy: true,
-                });
-            }
-        }
-    });
-    return cols;
-}
-
-function StructuredTextViewer(props) {
+export default function StructuredTextViewer(props) {
     const { baseId, path, resourceId, data, loading } = props;
     const [firstRowHeader, setFirstRowHeader] = React.useState(false);
     const fileName = parseNameFromPath(path);
@@ -176,5 +130,3 @@ function StructuredTextViewer(props) {
         </PageWrapper>
     );
 }
-export default StructuredTextViewer;
-export { LINE_NUMBER_ACCESSOR };

@@ -1,4 +1,6 @@
 export default {
+    ADD_BTN: "addRowButton",
+    DELETE_BTN: "deleteRowButton",
     DETAILS_BTN: "detailsButton",
     DOWNLOAD_BTN: "downloadButton",
     HEADER_SWITCH: "headerSwitch",

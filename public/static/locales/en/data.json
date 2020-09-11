@@ -1,4 +1,5 @@
 {
+    "add": "Add",
     "ariaCheckbox": "{{label}} checkbox",
     "ariaCustomCols": "Customize table columns",
     "ariaTableListing": "{{path}} Data Table",

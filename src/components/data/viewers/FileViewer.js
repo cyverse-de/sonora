@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
 
+import { flattenStructureData } from "./utils";
 import ids from "./ids";
 import viewerConstants from "./constants";
 import TextViewer from "./TextViewer";
@@ -41,9 +42,11 @@ import {
     Toolbar,
     Typography,
 } from "@material-ui/core";
+import PathListViewer from "./PathListViewer";
 
 const VIEWER_TYPE = {
     PLAIN: "plain",
+    PATH_LIST: "pathList",
     STRUCTURED: "structured",
     IMAGE: "image",
     VIDEO: "video",
@@ -157,8 +160,24 @@ export default function FileViewer(props) {
                                 chunkSize: viewerConstants.DEFAULT_PAGE_SIZE,
                             },
                         ]);
-                        setReadChunkQueryEnabled(true);
                         setViewerType(VIEWER_TYPE.STRUCTURED);
+                        setReadChunkQueryEnabled(true);
+                        break;
+                    } else if (
+                        infoTypes.HT_ANALYSIS_PATH_LIST === infoType ||
+                        infoTypes.MULTI_INPUT_PATH_LIST === infoType
+                    ) {
+                        const separator = getColumnDelimiter(infoType);
+                        setReadChunkKey([
+                            READ_CHUNK_QUERY_KEY,
+                            {
+                                path,
+                                separator,
+                                chunkSize: viewerConstants.DEFAULT_PAGE_SIZE,
+                            },
+                        ]);
+                        setViewerType(VIEWER_TYPE.PATH_LIST);
+                        setReadChunkQueryEnabled(true);
                         break;
                     } else {
                         setReadChunkKey([
@@ -245,17 +264,13 @@ export default function FileViewer(props) {
             </>
         );
     } else if (viewerType === VIEWER_TYPE.STRUCTURED) {
-        let flatData = [];
-        data.forEach((page) => {
-            flatData = [...flatData, ...page.csv];
-        });
         return (
             <>
                 <StructuredTextViewer
                     baseId={baseId}
                     path={path}
                     resourceId={resourceId}
-                    data={flatData}
+                    data={flattenStructureData(data)}
                     loading={isFetchingMore}
                 />
                 <LoadMoreButton />
@@ -267,5 +282,15 @@ export default function FileViewer(props) {
         return <DocumentViewer baseId={baseId} path={path} />;
     } else if (viewerType === VIEWER_TYPE.VIDEO) {
         return <VideoViewer baseId={baseId} path={path} />;
+    } else if (viewerType === VIEWER_TYPE.PATH_LIST) {
+        return (
+            <PathListViewer
+                baseId={baseId}
+                path={path}
+                resourceId={resourceId}
+                data={flattenStructureData(data)}
+                loading={isFetchingMore}
+            />
+        );
     }
 }

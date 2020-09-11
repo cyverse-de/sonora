@@ -51,7 +51,7 @@ const BagSkeleton = () => (
     <Skeleton variant="rect" animation="wave" height={100} width="100%" />
 );
 
-export default ({ open, remove, onClose }) => {
+export const BagUI = ({ remove }) => {
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
 
@@ -71,12 +71,7 @@ export default ({ open, remove, onClose }) => {
     bagItems = bagItems.map((item) => createNewBagItem(item));
 
     return (
-        <Drawer
-            anchor="right"
-            open={open}
-            classes={{ paper: classes.paper }}
-            onClose={onClose}
-        >
+        <>
             {isLoading ? (
                 <BagSkeleton />
             ) : (
@@ -110,6 +105,21 @@ export default ({ open, remove, onClose }) => {
                     </List>
                 </>
             )}
+        </>
+    );
+};
+
+export default ({ open, remove, onClose }) => {
+    const classes = useStyles();
+
+    return (
+        <Drawer
+            anchor="right"
+            open={open}
+            classes={{ paper: classes.paper }}
+            onClose={onClose}
+        >
+            <BagUI remove={remove} />
         </Drawer>
     );
 };

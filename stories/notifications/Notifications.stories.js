@@ -4,9 +4,20 @@
  */
 
 import React, {Component} from "react";
-import NotificationsPreview from "../../src/pages/notifications/components/notificationsPreview";
+import NotificationsPreview from "../../src/components/notifications/notificationsPreview";
 
 class NotificationsPreviewTest extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            unSeenCount: 0,
+            notifications: {},
+            notificationsError: false,
+            notificationLoading: false,
+            error: false,
+        }
+    }
+
     render() {
 
 const notifications = {
@@ -1123,37 +1134,22 @@ const logger =
     });
 
 const presenter = {
-    getNotifications: (
-        limit,
-        offset,
-        filter,
-        sortDir,
-        resultCallback,
-        errorCallback
-    ) => {
-        resultCallback(notifications, 10);
+    getNotifications: (resultCallback) => {
+        logger("getNotifications");
+        resultCallback(notifications);
     },
-    deleteNotifications: (
-        selected,
-        rowsPerPage,
-        resultCallback,
-        errorCallback
-    ) => {
-        resultCallback(trimmed_notifications, 8);
-    },
-    onNotificationToolbarMarkAsSeenClicked: () =>
-        logger("Mark As Seen"),
-    onMessageClicked: () => logger("MessageClicked!"),
 };
-
 
 return (
     <NotificationsPreview
-        // presenter={presenter}
+        presenter={presenter}
+        notifications={notifications}
+        unSeenCount={trimmed_notifications.unSeenCount}
+        notificationClicked={this.onNotificationClicked}
         baseDebugId="notificationWindow"
     />
-);
-}
+       );
+    }
 }
 
 export default { title: "NotificationsPreviewTest" };

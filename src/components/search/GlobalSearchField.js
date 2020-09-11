@@ -4,7 +4,7 @@
  * A global search field with options to filter on apps, analyses and data
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 import { queryCache } from "react-query";
 import Link from "next/link";
@@ -40,19 +40,20 @@ import { build, Highlighter } from "@cyverse-de/ui-lib";
 import SearchIcon from "@material-ui/icons/Search";
 import {
     CircularProgress,
-    ListItem,
     MenuItem,
     TextField,
-    ListItemText,
-    ListItemIcon,
     useMediaQuery,
     useTheme,
+    Typography,
+    Link as MuiLink,
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
-import DescriptionIcon from "@material-ui/icons/Description";
-import PageviewIcon from "@material-ui/icons/Pageview";
-import FolderIcon from "@material-ui/icons/Folder";
+import {
+    Description as DescriptionIcon,
+    Pageview as PageviewIcon,
+    Folder as FolderIcon,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -105,11 +106,12 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: theme.palette.info.contrastText,
         },
     },
-    icon: {
-        marginTop: theme.spacing(2),
-        marginBottom: 0,
-        marginLeft: 0,
-        marginRight: 0,
+    optionIcon: {
+        marginRight: theme.spacing(0.5),
+    },
+    optionDiv: {
+        flexGrow: 1,
+        margin: theme.spacing(1),
     },
 }));
 
@@ -118,34 +120,35 @@ const SearchOption = React.forwardRef((props, ref) => {
     const classes = useStyles();
     const theme = useTheme();
     return (
-        <ListItem
-            alignItems="flex-start"
-            dense={true}
-            divider={true}
-            href={href}
-            onClick={onClick}
-            ref={ref}
-            id={id}
-        >
-            <ListItemIcon className={classes.icon}>{icon}</ListItemIcon>
-            <ListItemText
-                primary={
-                    <Highlighter search={searchTerm}>{primary}</Highlighter>
-                }
-                primaryTypographyProps={{
-                    variant: "body1",
-                    color: theme.palette.info.primary,
-                }}
-                secondary={
-                    <Highlighter search={searchTerm}>{secondary}</Highlighter>
-                }
-                secondaryTypographyProps={{
-                    variant: "caption",
-                    wrap: "true",
-                    color: theme.palette.info.primary,
-                }}
-            />
-        </ListItem>
+        <>
+            <span className={classes.optionIcon}>{icon}</span>
+            <MuiLink
+                href={href}
+                onClick={onClick}
+                ref={ref}
+                id={id}
+                underline="none"
+                color="inherit"
+            >
+                <div className={classes.optionDiv}>
+                    <Typography
+                        variant={"subtitle2"}
+                        color={theme.palette.info.primary}
+                    >
+                        <Highlighter search={searchTerm}>{primary}</Highlighter>
+                    </Typography>
+                    <Typography
+                        variant={"caption"}
+                        wrap={true}
+                        color={theme.palette.info.primary}
+                    >
+                        <Highlighter search={searchTerm}>
+                            {secondary}
+                        </Highlighter>
+                    </Typography>
+                </div>
+            </MuiLink>
+        </>
     );
 });
 
@@ -157,6 +160,7 @@ function ViewAllOption(props) {
         <Link href={href} as={as} passHref>
             <SearchOption
                 primary={searchTerm}
+                searchTerm={searchTerm}
                 secondary={prompt}
                 icon={<PageviewIcon color="primary" />}
                 id={id}
@@ -168,6 +172,7 @@ function ViewAllOption(props) {
 function DataSearchOption(props) {
     const { baseId, filter, selectedOption, searchTerm } = props;
     const { t: i18NSearch } = useTranslation("search");
+    const theme = useTheme();
 
     if (selectedOption?.id === searchConstants.VIEW_ALL_ID) {
         return (
@@ -182,13 +187,13 @@ function DataSearchOption(props) {
     }
 
     const type = selectedOption._type;
-    let icon = <FolderIcon />;
+    let icon = <FolderIcon style={{ color: theme.palette.info.main }} />;
     let path = selectedOption._source.path;
 
     //SS route to parent folder for the file util we have file viewers ready in sonora.
     if (type === ResourceTypes.FILE) {
         path = getParentPath(path);
-        icon = <DescriptionIcon />;
+        icon = <DescriptionIcon style={{ color: theme.palette.info.main }} />;
     }
 
     const href = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}`;
@@ -402,77 +407,80 @@ function GlobalSearchField(props) {
         }
     }, [open]);
 
-    useEffect(() => {
-        if (searchTerm && searchTerm.length > 2) {
-            setOptions([]);
-            const dataQuery = getDataSimpleSearchQuery(
-                searchTerm,
-                userHomeDir,
-                searchConstants.GLOBAL_SEARCH_PAGE_SIZE,
-                searchConstants.GLOBAL_SEARCH_PAGE,
-                "label",
-                "ascending"
-            );
-            setDataSearchKey([DATA_SEARCH_QUERY_KEY, { query: dataQuery }]);
+    const doSearch = useCallback(() => {
+        setOptions([]);
+        const dataQuery = getDataSimpleSearchQuery(
+            searchTerm,
+            userHomeDir,
+            searchConstants.GLOBAL_SEARCH_PAGE_SIZE,
+            searchConstants.GLOBAL_SEARCH_PAGE,
+            "label",
+            "ascending"
+        );
+        setDataSearchKey([DATA_SEARCH_QUERY_KEY, { query: dataQuery }]);
 
-            setAppsSearchKey([
-                APPS_SEARCH_QUERY_KEY,
-                {
-                    rowsPerPage: searchConstants.GLOBAL_SEARCH_PAGE_SIZE,
-                    orderBy: appRecordFields.NAME.key,
-                    order: constants.SORT_ASCENDING,
-                    page: searchConstants.GLOBAL_SEARCH_PAGE,
-                    search: searchTerm,
-                },
-            ]);
+        setAppsSearchKey([
+            APPS_SEARCH_QUERY_KEY,
+            {
+                rowsPerPage: searchConstants.GLOBAL_SEARCH_PAGE_SIZE,
+                orderBy: appRecordFields.NAME.key,
+                order: constants.SORT_ASCENDING,
+                page: searchConstants.GLOBAL_SEARCH_PAGE,
+                search: searchTerm,
+            },
+        ]);
 
-            const analysisRecordFields = analysisFields(analysesI18n);
-            setAnalysesSearchKey([
-                ANALYSES_SEARCH_QUERY_KEY,
-                {
-                    rowsPerPage: searchConstants.GLOBAL_SEARCH_PAGE_SIZE,
-                    orderBy: analysisRecordFields.START_DATE.key,
-                    order: constants.SORT_DESCENDING,
-                    page: searchConstants.GLOBAL_SEARCH_PAGE,
-                    filter: getAnalysesSearchQueryFilter(searchTerm, t),
-                },
-            ]);
-            switch (filter) {
-                case searchConstants.DATA:
-                    setDataSearchQueryEnabled(true);
-                    setAppsSearchQueryEnabled(false);
-                    setAnalysesSearchQueryEnabled(false);
-                    break;
+        const analysisRecordFields = analysisFields(analysesI18n);
+        setAnalysesSearchKey([
+            ANALYSES_SEARCH_QUERY_KEY,
+            {
+                rowsPerPage: searchConstants.GLOBAL_SEARCH_PAGE_SIZE,
+                orderBy: analysisRecordFields.START_DATE.key,
+                order: constants.SORT_DESCENDING,
+                page: searchConstants.GLOBAL_SEARCH_PAGE,
+                filter: getAnalysesSearchQueryFilter(searchTerm, t),
+            },
+        ]);
+        switch (filter) {
+            case searchConstants.DATA:
+                setDataSearchQueryEnabled(true);
+                setAppsSearchQueryEnabled(false);
+                setAnalysesSearchQueryEnabled(false);
+                break;
 
-                case searchConstants.APPS:
-                    setDataSearchQueryEnabled(false);
-                    setAppsSearchQueryEnabled(true);
-                    setAnalysesSearchQueryEnabled(false);
-                    break;
+            case searchConstants.APPS:
+                setDataSearchQueryEnabled(false);
+                setAppsSearchQueryEnabled(true);
+                setAnalysesSearchQueryEnabled(false);
+                break;
 
-                case searchConstants.ANALYSES:
-                    setDataSearchQueryEnabled(false);
-                    setAppsSearchQueryEnabled(false);
-                    setAnalysesSearchQueryEnabled(true);
-                    break;
+            case searchConstants.ANALYSES:
+                setDataSearchQueryEnabled(false);
+                setAppsSearchQueryEnabled(false);
+                setAnalysesSearchQueryEnabled(true);
+                break;
 
-                default:
-                    setDataSearchQueryEnabled(true);
-                    setAppsSearchQueryEnabled(true);
-                    setAnalysesSearchQueryEnabled(true);
-            }
+            default:
+                setDataSearchQueryEnabled(true);
+                setAppsSearchQueryEnabled(true);
+                setAnalysesSearchQueryEnabled(true);
         }
     }, [
+        analysesI18n,
         appRecordFields.NAME.key,
-        bootstrapCache,
         filter,
-        setOptions,
         searchTerm,
-        showErrorAnnouncer,
         t,
         userHomeDir,
-        analysesI18n,
     ]);
+
+    useEffect(() => {
+        let timeOutId = null;
+        if (searchTerm && searchTerm.length > 2) {
+            timeOutId = setTimeout(() => doSearch(), 500);
+        }
+        return () => clearTimeout(timeOutId);
+    }, [searchTerm, doSearch]);
 
     useEffect(() => {
         if (analysesSearchError || appsSearchError || dataSearchError) {

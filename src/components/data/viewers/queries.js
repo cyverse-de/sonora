@@ -6,7 +6,7 @@
  */
 
 import { useQuery, useInfiniteQuery } from "react-query";
-import { fileManifest, readFileChuck } from "serviceFacades/filesystem";
+import { fileManifest, readFileChunk } from "serviceFacades/filesystem";
 
 /**
  * Get manifest for a file
@@ -30,7 +30,7 @@ function useFileManifest(queryKey, enabled) {
  * @param {*} getFetchMore - Function to be used when more data needs to be loaded.
  */
 function useReadChunk(queryKey, enabled, getFetchMore) {
-    return useInfiniteQuery(queryKey, readFileChuck, {
+    return useInfiniteQuery(queryKey, readFileChunk, {
         enabled,
         getFetchMore,
     });

@@ -190,7 +190,7 @@ export const fileManifest = (key, path) => {
  * @param {*} param - parameters for reading the file chunk
  * @param {*} page - file seek position
  */
-export const readFileChuck = (
+export const readFileChunk = (
     key,
     { path, chunkSize, separator },
     page = 0

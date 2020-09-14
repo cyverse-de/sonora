@@ -9,10 +9,10 @@ import OpsBag, {
     FOLDER_TYPE,
     ANALYSIS_TYPE,
     APP_TYPE,
-} from "../../src/components/OpsBag";
+} from "../../src/components/Bag";
 
 export default {
-    title: "Bags/OpsBag",
+    title: "Bags/Bag",
     decorators: [withKnobs],
 };
 
@@ -36,7 +36,7 @@ const data = {
     ],
 };
 
-export const TestOpsBag = () => {
+export const TestBag = () => {
     const [open, setOpen] = useState(true);
 
     button("Open", () => setOpen(true));

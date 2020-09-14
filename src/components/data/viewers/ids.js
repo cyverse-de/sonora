@@ -6,6 +6,7 @@ export default {
     HEADER_SWITCH: "headerSwitch",
     LOAD_MORE_BTN: "loadMoreButton",
     LINE_NUMBERS_SWITCH: "lineNumberSwitch",
+    SAVE_BTN: "saveButton",
     TOOLBAR: "toolbar",
     VIEWER_DOC: "doc",
     VIEWER_IMAGE: "image",

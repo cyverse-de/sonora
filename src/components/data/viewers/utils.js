@@ -1,3 +1,4 @@
+import React from "react";
 import { Typography } from "@material-ui/core";
 
 const LINE_NUMBER_ACCESSOR = "lineNumber";

@@ -6,14 +6,22 @@
  */
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useRowSelect, useTable } from "react-table";
+import { useMutation } from "react-query";
+import { useTranslation } from "i18n";
+
+import constants from "../../../constants";
 import ids from "./ids";
+
+import { uploadTextAsFile } from "serviceFacades/fileio";
 import Toolbar from "./Toolbar";
 import { getColumns, LINE_NUMBER_ACCESSOR } from "./utils";
 import { parseNameFromPath } from "../utils";
+
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import PageWrapper from "components/layout/PageWrapper";
 import DataSelectionDrawer from "components/data/SelectionDrawer";
 import { UploadTrackingProvider } from "../../../contexts/uploadTracking";
-import { build } from "@cyverse-de/ui-lib";
+import { AnnouncerConstants, announce, build } from "@cyverse-de/ui-lib";
 
 import {
     Checkbox,
@@ -40,10 +48,21 @@ const IndeterminateCheckbox = React.forwardRef(
     }
 );
 
-export default function PathListViewer(props) {
-    const { baseId, path, resourceId, loading } = props;
+function PathListViewer(props) {
+    const {
+        baseId,
+        path,
+        resourceId,
+        separator,
+        loading,
+        showErrorAnnouncer,
+    } = props;
     const [data, setData] = useState(props.data);
+
+    const { t } = useTranslation("data");
     const [open, setOpen] = useState(false);
+    const [dirty, setDirty] = useState(false);
+
     const fileName = parseNameFromPath(path);
     let columns = useMemo(() => getColumns(data, false), [data]);
 
@@ -53,6 +72,42 @@ export default function PathListViewer(props) {
     dataToDisplay.forEach((row, index) => {
         row[LINE_NUMBER_ACCESSOR] = index + 1; //line number starts from 1
     });
+
+    const [saveTextAsFile, { status: fileSaveStatus }] = useMutation(
+        uploadTextAsFile,
+        {
+            onSuccess: () => {
+                setDirty(false);
+                announce({
+                    text: t("fileSaveSuccess", {
+                        fileName,
+                    }),
+                    variant: AnnouncerConstants.SUCCESS,
+                });
+            },
+            onError: (error) => {
+                showErrorAnnouncer(t("fileSaveError", { fileName }), error);
+            },
+        }
+    );
+
+    const getContent = () => {
+        //add back the shebang line
+        let content = data[0][columns[1].Header].concat("\n");
+        data.forEach((row, index) => {
+            if (index !== 0) {
+                content = content
+                    .concat(row[columns[1].Header])
+                    .concat(separator)
+                    .concat("\n");
+            }
+        });
+        return content;
+    };
+
+    const saveFile = () => {
+        saveTextAsFile({ dest: path, content: getContent(), newFile: false });
+    };
 
     const {
         getTableProps,
@@ -112,6 +167,7 @@ export default function PathListViewer(props) {
                         setHiddenColumns([LINE_NUMBER_ACCESSOR]);
                     }
                 }}
+                editing={true}
                 onAddRow={() => {
                     setOpen(true);
                 }}
@@ -123,11 +179,14 @@ export default function PathListViewer(props) {
                                 selRow.original[columns[1].Header]
                         );
                         setData([...newData]);
+                        setDirty(true);
                     });
                 }}
+                onSave={saveFile}
+                dirty={dirty}
                 selectionCount={Object.keys(selectedRowIds).length}
             />
-            {loading && (
+            {(loading || fileSaveStatus === constants.LOADING) && (
                 <CircularProgress
                     thickness={7}
                     color="primary"
@@ -188,6 +247,7 @@ export default function PathListViewer(props) {
                             selPaths.push(pathObj);
                         });
                         setData([...data, ...selPaths]);
+                        setDirty(true);
                     }}
                     baseId={build(baseId, "dataSelection")}
                     multiSelect={true}
@@ -196,3 +256,5 @@ export default function PathListViewer(props) {
         </PageWrapper>
     );
 }
+
+export default withErrorAnnouncer(PathListViewer);

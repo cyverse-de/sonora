@@ -14,3 +14,20 @@ export const uploadByUrl = ({ dest, address }) => {
         body: { dest, address },
     });
 };
+
+/**
+ * Upload text as file
+ *
+ * @param {string} key - The react-query key
+ * @param {object} param - Params to end-point
+ */
+export const uploadTextAsFile = ({ dest, content, newFile }) => {
+    return callApi({
+        endpoint: "/api/fileio/save",
+        method: "POST",
+        body: {
+            dest,
+            content,
+        },
+    });
+};

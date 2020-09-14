@@ -62,7 +62,7 @@ export default function FileViewer(props) {
     const [readChunkKey, setReadChunkKey] = useState(READ_CHUNK_QUERY_KEY);
     const [readChunkQueryEnabled, setReadChunkQueryEnabled] = useState(false);
     const [viewerType, setViewerType] = useState(VIEWER_TYPE.PLAIN);
-
+    const [separator, setSeparator] = useState("");
     const {
         isFetching,
         data: manifest,
@@ -152,6 +152,7 @@ export default function FileViewer(props) {
                         infoTypes.BOWTIE === infoType
                     ) {
                         const separator = getColumnDelimiter(infoType);
+                        setSeparator(separator);
                         setReadChunkKey([
                             READ_CHUNK_QUERY_KEY,
                             {
@@ -168,6 +169,7 @@ export default function FileViewer(props) {
                         infoTypes.MULTI_INPUT_PATH_LIST === infoType
                     ) {
                         const separator = getColumnDelimiter(infoType);
+                        setSeparator(separator);
                         setReadChunkKey([
                             READ_CHUNK_QUERY_KEY,
                             {
@@ -291,6 +293,7 @@ export default function FileViewer(props) {
                     resourceId={resourceId}
                     data={flattenStructureData(data)}
                     loading={isFetchingMore}
+                    separator={separator}
                 />
                 <LoadMoreButton />
             </>

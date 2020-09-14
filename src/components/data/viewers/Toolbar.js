@@ -30,7 +30,7 @@ import {
     Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Add, Delete, Info, CloudDownload } from "@material-ui/icons";
+import { Add, Delete, Save, Info, CloudDownload } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -58,7 +58,10 @@ function ViewerToolbar(props) {
         onFirstRowHeader,
         onAddRow,
         onDeleteRow,
+        editing,
+        onSave,
         selectionCount,
+        dirty,
     } = props;
     const { t } = useTranslation("data");
     const [detailsResource, setDetailsResource] = useState(null);
@@ -170,32 +173,49 @@ function ViewerToolbar(props) {
                     </FormGroup>
                 )}
                 <div className={classes.divider} />
-                {onAddRow && (
-                    <Button
-                        id={build(baseId, ids.ADD_BTN)}
-                        className={classes.toolbarItems}
-                        variant="outlined"
-                        disableElevation
-                        color="primary"
-                        onClick={onAddRow}
-                        startIcon={<Add />}
-                    >
-                        <Hidden xsDown>{t("add")}</Hidden>
-                    </Button>
-                )}
-                {onDeleteRow && (
-                    <Button
-                        id={build(baseId, ids.DELETE_BTN)}
-                        className={classes.toolbarItems}
-                        variant="outlined"
-                        disableElevation
-                        color="primary"
-                        onClick={onDeleteRow}
-                        startIcon={<Delete />}
-                        disabled={selectionCount === 0}
-                    >
-                        <Hidden xsDown>{t("delete")}</Hidden>
-                    </Button>
+                {editing && (
+                    <>
+                        <Button
+                            id={build(baseId, ids.ADD_BTN)}
+                            className={classes.toolbarItems}
+                            variant="outlined"
+                            disableElevation
+                            color="primary"
+                            onClick={onAddRow}
+                            startIcon={<Add fontSize="small" />}
+                        >
+                            <Hidden xsDown>{t("add")}</Hidden>
+                        </Button>
+                        <Button
+                            id={build(baseId, ids.DELETE_BTN)}
+                            className={classes.toolbarItems}
+                            variant="outlined"
+                            disableElevation
+                            color="primary"
+                            onClick={onDeleteRow}
+                            startIcon={<Delete fontSize="small" />}
+                            disabled={selectionCount === 0}
+                        >
+                            <Hidden xsDown>{t("delete")}</Hidden>
+                        </Button>
+                        <Button
+                            id={build(baseId, ids.SAVE_BTN)}
+                            className={classes.toolbarItems}
+                            variant="outlined"
+                            disableElevation
+                            color="primary"
+                            onClick={onSave}
+                            startIcon={<Save fontSize="small" />}
+                            disabled={!dirty}
+                        >
+                            <Hidden xsDown>{t("save")}</Hidden>
+                        </Button>
+                        <Divider
+                            orientation="vertical"
+                            flexItem
+                            style={{ margin: 8 }}
+                        />
+                    </>
                 )}
                 <Button
                     id={build(baseId, ids.DETAILS_BTN)}

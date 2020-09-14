@@ -309,6 +309,12 @@ export const plainManifestResp = {
     urls: [],
 };
 
+export const pathListManifestResp = {
+    "content-type": "text/plain",
+    infoType: "ht-analysis-path-list",
+    urls: [],
+};
+
 export const csvChunkResp = {
     path: "/iplant/home/ipctest/geospiza.csv",
     user: "sriram",
@@ -546,4 +552,65 @@ export const userInfoResp = {
         id: GROUP_ID,
         source_id: "g:gsa",
     },
+};
+
+export const pathListChunk = {
+    path: "/iplant/home/sriram/ht-limit",
+    user: "sriram",
+    "chunk-size": "899",
+    "file-size": "899",
+    page: "1",
+    "number-pages": "1",
+    "max-cols": "2",
+    csv: [
+        { 0: "# application/vnd.de.path-list+csv; version=1" },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_character-polymorphic-uncertain.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_character-polymorphic.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_character-state-frequency.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_character-uncertain.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_characters-block_format_01.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_characters-block_format_02.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_characters-block_initial.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_notes-text.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_wtset-scores.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/04_block_level_methods.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/04_charactersblock_methods_01.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/04_charactersblock_methods_02.nex",
+            1: "",
+        },
+    ],
 };

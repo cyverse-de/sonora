@@ -5,8 +5,11 @@
  *
  */
 
-import { useQuery, useInfiniteQuery } from "react-query";
+
+import { useQuery, useInfiniteQuery, useMutation } from "react-query";
 import { fileManifest, readFileChunk } from "serviceFacades/filesystem";
+import { uploadTextAsFile } from "serviceFacades/fileio";
+
 
 /**
  * Get manifest for a file
@@ -36,4 +39,15 @@ function useReadChunk(queryKey, enabled, getFetchMore) {
     });
 }
 
-export { useFileManifest, useReadChunk };
+/**
+ *
+ * Save text as a file
+ *
+ * @param {function} onSuccess
+ * @param {function} onError
+ */
+function useSaveTextAsFile(onSuccess, onError) {
+    return useMutation(uploadTextAsFile, { onSuccess, onError });
+}
+
+export { useFileManifest, useReadChunk, useSaveTextAsFile };

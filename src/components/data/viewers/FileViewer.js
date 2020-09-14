@@ -284,13 +284,16 @@ export default function FileViewer(props) {
         return <VideoViewer baseId={baseId} path={path} />;
     } else if (viewerType === VIEWER_TYPE.PATH_LIST) {
         return (
-            <PathListViewer
-                baseId={baseId}
-                path={path}
-                resourceId={resourceId}
-                data={flattenStructureData(data)}
-                loading={isFetchingMore}
-            />
+            <>
+                <PathListViewer
+                    baseId={baseId}
+                    path={path}
+                    resourceId={resourceId}
+                    data={flattenStructureData(data)}
+                    loading={isFetchingMore}
+                />
+                <LoadMoreButton />
+            </>
         );
     }
 }

@@ -4,7 +4,7 @@ const LINE_NUMBER_ACCESSOR = "lineNumber";
 
 /**
  *
- * Get columns array definition to use with react-table
+ * Get columns array definition to use with react-table in PathListViewer and StructuredTextViewer
  *
  * @param {string} data - data to be displayed in react table.
  * @param {boolean} firstRowHeader - first row to be used as header or not

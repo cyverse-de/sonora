@@ -41,7 +41,8 @@ const IndeterminateCheckbox = React.forwardRef(
 );
 
 export default function PathListViewer(props) {
-    const { baseId, path, resourceId, data, loading } = props;
+    const { baseId, path, resourceId, loading } = props;
+    const [data, setData] = useState(props.data);
     const [open, setOpen] = useState(false);
     const fileName = parseNameFromPath(path);
     let columns = useMemo(() => getColumns(data, false), [data]);
@@ -112,23 +113,17 @@ export default function PathListViewer(props) {
                     }
                 }}
                 onAddRow={() => {
-                    console.log("open selection drawer");
                     setOpen(true);
                 }}
                 onDeleteRow={() => {
-                    console.log(
-                        "delete row=> " +
-                            JSON.stringify(
-                                {
-                                    selectedRowIds: selectedRowIds,
-                                    "selectedFlatRows[].original": selectedFlatRows.map(
-                                        (d) => d.original
-                                    ),
-                                },
-                                null,
-                                2
-                            )
-                    );
+                    selectedFlatRows.forEach((selRow) => {
+                        const newData = data.filter(
+                            (row) =>
+                                row[columns[1].Header] !==
+                                selRow.original[columns[1].Header]
+                        );
+                        setData([...newData]);
+                    });
                 }}
                 selectionCount={Object.keys(selectedRowIds).length}
             />
@@ -185,9 +180,14 @@ export default function PathListViewer(props) {
                     onClose={() => setOpen(false)}
                     onConfirm={(selections) => {
                         setOpen(false);
-                        console.log(
-                            "selections=>" + JSON.stringify(selections)
-                        );
+                        const selPaths = [];
+                        selections.forEach((path) => {
+                            const key = columns[1].Header;
+                            const pathObj = {};
+                            pathObj[key] = path;
+                            selPaths.push(pathObj);
+                        });
+                        setData([...data, ...selPaths]);
                     }}
                     baseId={build(baseId, "dataSelection")}
                     multiSelect={true}

@@ -4,11 +4,12 @@ import { useTranslation } from "i18n";
 import { useQuery, useMutation, queryCache } from "react-query";
 
 import { makeStyles } from "@material-ui/styles";
+import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 
 import {
     build as buildID,
-    announce,
-    AnnouncerConstants,
+    // announce,
+    // AnnouncerConstants,
 } from "@cyverse-de/ui-lib";
 
 import getData, {
@@ -36,7 +37,6 @@ import { Skeleton, TabList, TabContext, TabPanel } from "@material-ui/lab";
 import { JSONPath } from "jsonpath-plus";
 import efcs from "./filter/efcs";
 import { AppBar, Tab } from "@material-ui/core";
-import constants from "../../../constants";
 
 const id = (...values) => buildID(ids.ROOT, ...values);
 
@@ -350,10 +350,10 @@ const VICEAdminTabs = ({ data = {} }) => {
 const VICEAdmin = () => {
     const classes = useStyles();
 
-    const { status, data, error } = useQuery(VICE_ADMIN_QUERY_KEY, getData);
-
-    const isLoading = status === constants.LOADING;
-    const hasErrored = status === constants.ERROR;
+    const { isError: hasErrored, isLoading, data, error } = useQuery(
+        VICE_ADMIN_QUERY_KEY,
+        getData
+    );
 
     const [filters, setFilters] = useState({});
 
@@ -383,14 +383,9 @@ const VICEAdmin = () => {
         data
     );
 
-    useEffect(() => {
-        if (hasErrored) {
-            announce({
-                text: error.message,
-                variant: AnnouncerConstants.ERROR,
-            });
-        }
-    }, [hasErrored, error]);
+    if (hasErrored) {
+        return <WrappedErrorHandler errorObject={error} baseId="admin.vice" />;
+    }
 
     return (
         <div id={id(ids.ROOT)} className={classes.root}>

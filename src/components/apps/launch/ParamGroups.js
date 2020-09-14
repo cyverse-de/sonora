@@ -13,6 +13,7 @@ import GlobalConstants from "../../../constants";
 import { intercomShow } from "common/intercom";
 
 import ResourceTypes from "components/models/ResourceTypes";
+import ExternalLink from "components/utils/ExternalLink";
 
 import constants from "./constants";
 import ids from "./ids";
@@ -389,19 +390,15 @@ const HPCWaitTimesMessage = ({ baseId }) => {
                     />
                 ),
                 hpcLink: (
-                    <Link
+                    <ExternalLink
                         key="hpc"
                         href={GlobalConstants.HPC_WIKI_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
                     />
                 ),
                 xsede: (
-                    <Link
+                    <ExternalLink
                         key="xsede"
                         href={constants.XSEDE_ALLOC_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
                     />
                 ),
             }}

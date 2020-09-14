@@ -13,7 +13,9 @@ import ids from "./ids";
 import constants from "./constants";
 
 import { intercomShow } from "common/intercom";
+
 import analysisStatus from "components/models/analysisStatus";
+import ExternalLink from "components/utils/ExternalLink";
 import UtilIds from "components/utils/ids";
 
 import { build, formatDate } from "@cyverse-de/ui-lib";
@@ -136,13 +138,7 @@ function SubmittedStateSupport(props) {
                     // eslint-disable-next-line jsx-a11y/heading-has-content
                     heading: <h4 />,
                     content: <p style={{ margin: 10 }} />,
-                    xsede: (
-                        <Link
-                            href={constants.XSEDE_ACCESS_LINK}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        />
-                    ),
+                    xsede: <ExternalLink href={constants.XSEDE_ACCESS_LINK} />,
                 }}
             />
         );
@@ -164,47 +160,21 @@ function FailedStateSupport(props) {
                 content2: <p style={{ paddingLeft: 10, margin: 10 }} />,
                 content3: <p style={{ paddingLeft: 20, margin: 10 }} />,
                 appCommentsLink: (
-                    <Link
-                        href={constants.APP_RATINGS_COMMENTS_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    />
+                    <ExternalLink href={constants.APP_RATINGS_COMMENTS_LINK} />
                 ),
                 appManualLink: (
-                    <Link
-                        href={constants.APP_MANUAL_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    />
+                    <ExternalLink href={constants.APP_MANUAL_LINK} />
                 ),
                 appStatusLink: (
-                    <Link
-                        href={constants.APP_STATUS_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    />
+                    <ExternalLink href={constants.APP_STATUS_LINK} />
                 ),
                 exampleFileLink: (
-                    <Link
-                        href={constants.EXAMPLE_FILE_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    />
+                    <ExternalLink href={constants.EXAMPLE_FILE_LINK} />
                 ),
                 specialCharsLink: (
-                    <Link
-                        href={constants.SPECIAL_CHARS_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    />
+                    <ExternalLink href={constants.SPECIAL_CHARS_LINK} />
                 ),
-                toolInfoLink: (
-                    <Link
-                        href={constants.TOOL_INFO_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    />
-                ),
+                toolInfoLink: <ExternalLink href={constants.TOOL_INFO_LINK} />,
             }}
         />
     );
@@ -225,11 +195,7 @@ function RunningStateSupport(props) {
                     heading: <h4 />,
                     content: <p style={{ paddingLeft: 10, margin: 10 }} />,
                     appManualLink: (
-                        <Link
-                            href={constants.APP_MANUAL_LINK}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        />
+                        <ExternalLink href={constants.APP_MANUAL_LINK} />
                     ),
                     support: (
                         <Link
@@ -274,25 +240,11 @@ function CompletedNoOutputSupport() {
                 content: <p style={{ margin: 10 }} />,
                 content2: <p style={{ paddingLeft: 10, margin: 10 }} />,
                 appManualLink: (
-                    <Link
-                        href={constants.APP_MANUAL_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    />
+                    <ExternalLink href={constants.APP_MANUAL_LINK} />
                 ),
-                logFilesLink: (
-                    <Link
-                        href={constants.LOG_FILES_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    />
-                ),
+                logFilesLink: <ExternalLink href={constants.LOG_FILES_LINK} />,
                 specialCharsLink: (
-                    <Link
-                        href={constants.SPECIAL_CHARS_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    />
+                    <ExternalLink href={constants.SPECIAL_CHARS_LINK} />
                 ),
             }}
         />
@@ -314,33 +266,15 @@ function CompletedUnexpectedOutputSupport() {
                 content2: <p style={{ paddingLeft: 10, margin: 10 }} />,
                 content3: <p style={{ paddingLeft: 20, margin: 10 }} />,
                 appCommentsLink: (
-                    <Link
-                        href={constants.APP_RATINGS_COMMENTS_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    />
+                    <ExternalLink href={constants.APP_RATINGS_COMMENTS_LINK} />
                 ),
                 appManualLink: (
-                    <Link
-                        href={constants.APP_MANUAL_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    />
+                    <ExternalLink href={constants.APP_MANUAL_LINK} />
                 ),
                 appStatusLink: (
-                    <Link
-                        href={constants.APP_STATUS_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    />
+                    <ExternalLink href={constants.APP_STATUS_LINK} />
                 ),
-                logFilesLink: (
-                    <Link
-                        href={constants.LOG_FILES_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    />
-                ),
+                logFilesLink: <ExternalLink href={constants.LOG_FILES_LINK} />,
             }}
         />
     );
@@ -356,18 +290,10 @@ function ShareDisclaimer() {
             components={{
                 content: <span style={{ overflow: "auto" }} />,
                 sciInformaticiansLink: (
-                    <Link
-                        href={constants.SCI_INFORMATICIANS_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    />
+                    <ExternalLink href={constants.SCI_INFORMATICIANS_LINK} />
                 ),
                 shareLink: (
-                    <Link
-                        href={constants.SHARE_ANALYSIS_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    />
+                    <ExternalLink href={constants.SHARE_ANALYSIS_LINK} />
                 ),
             }}
         />

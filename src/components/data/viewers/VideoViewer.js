@@ -9,6 +9,7 @@ import { useTranslation } from "i18n";
 import ReactPlayer from "react-player/file";
 
 import ids from "./ids";
+import { getHost } from "../../utils/getHost";
 import Toolbar from "./Toolbar";
 import { parseNameFromPath } from "../utils";
 
@@ -23,9 +24,7 @@ export default function VideoViewer(props) {
     const fileName = parseNameFromPath(path);
 
     useEffect(() => {
-        const protocol = window.location.protocol.concat("//");
-        const host = protocol.concat(window.location.host);
-        setUrl(`${host}/api/download?path=${path}`);
+        setUrl(`${getHost()}/api/download?path=${path}`);
     }, [path]);
 
     if (url) {

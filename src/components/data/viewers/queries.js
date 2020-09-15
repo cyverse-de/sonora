@@ -5,11 +5,9 @@
  *
  */
 
-
 import { useQuery, useInfiniteQuery, useMutation } from "react-query";
 import { fileManifest, readFileChunk } from "serviceFacades/filesystem";
 import { uploadTextAsFile } from "serviceFacades/fileio";
-
 
 /**
  * Get manifest for a file

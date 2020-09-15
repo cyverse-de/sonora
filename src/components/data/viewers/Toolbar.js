@@ -10,6 +10,7 @@ import { useTranslation } from "i18n";
 import { useQuery, queryCache } from "react-query";
 
 import ids from "./ids";
+import { getHost } from "../../utils/getHost";
 import { parseNameFromPath } from "../utils";
 import ResourceTypes from "components/models/ResourceTypes";
 import DetailsDrawer from "components/data/details/Drawer";
@@ -85,10 +86,7 @@ function ViewerToolbar(props) {
 
     useEffect(() => {
         if (download) {
-            const protocol = window.location.protocol;
-            const slashes = protocol.concat("//");
-            const host = slashes.concat(window.location.host);
-            window.open(`${host}/api/download?path=${path}`, "_blank");
+            window.open(`${getHost()}/api/download?path=${path}`, "_blank");
             setDownload(false);
         }
     }, [path, download]);

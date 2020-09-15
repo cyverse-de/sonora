@@ -116,7 +116,11 @@ export default function FileViewer(props) {
         if (manifest) {
             const mimeType = getMimeTypeFromString(manifest["content-type"]);
             const infoType = manifest?.infoType;
+            const separator = getColumnDelimiter(infoType);
+
             setMode(getViewerMode(mimeType));
+            setSeparator(separator);
+
             switch (mimeType) {
                 case mimeTypes.PNG:
                 case mimeTypes.JPEG:
@@ -151,8 +155,6 @@ export default function FileViewer(props) {
                         infoTypes.BED === infoType ||
                         infoTypes.BOWTIE === infoType
                     ) {
-                        const separator = getColumnDelimiter(infoType);
-                        setSeparator(separator);
                         setReadChunkKey([
                             READ_CHUNK_QUERY_KEY,
                             {
@@ -168,8 +170,6 @@ export default function FileViewer(props) {
                         infoTypes.HT_ANALYSIS_PATH_LIST === infoType ||
                         infoTypes.MULTI_INPUT_PATH_LIST === infoType
                     ) {
-                        const separator = getColumnDelimiter(infoType);
-                        setSeparator(separator);
                         setReadChunkKey([
                             READ_CHUNK_QUERY_KEY,
                             {
@@ -195,7 +195,7 @@ export default function FileViewer(props) {
                     }
             }
         }
-    }, [manifest, path]);
+    }, [manifest, path, separator]);
 
     const busy = isFetching || status === constants.LOADING;
 

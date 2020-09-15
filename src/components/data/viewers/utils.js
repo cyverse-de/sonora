@@ -9,8 +9,9 @@ const LINE_NUMBER_ACCESSOR = "lineNumber";
  *
  * @param {string} data - data to be displayed in react table.
  * @param {boolean} firstRowHeader - first row to be used as header or not
+ * @param {string} pathLabel - optional label for path column for pathListViewers
  */
-function getColumns(data, firstRowHeader) {
+function getColumns(data, firstRowHeader, pathLabel) {
     let cols = [
         {
             Header: "#",
@@ -27,6 +28,15 @@ function getColumns(data, firstRowHeader) {
     ];
 
     if (!data || data.length === 0) {
+        return cols;
+    }
+
+    if (pathLabel) {
+        cols.push({
+            Header: pathLabel,
+            accessor: Object.keys(data[0])[0],
+            disableSortBy: true,
+        });
         return cols;
     }
 

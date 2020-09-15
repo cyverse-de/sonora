@@ -64,7 +64,7 @@ function PathListViewer(props) {
     const [dirty, setDirty] = useState(false);
 
     const fileName = parseNameFromPath(path);
-    let columns = useMemo(() => getColumns(data, false), [data]);
+    let columns = useMemo(() => getColumns(data, false, t("path")), [data, t]);
 
     //hide the shebang row
     const dataToDisplay = useMemo(() => data.slice(1), [data]);

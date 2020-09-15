@@ -73,5 +73,15 @@ export default function userRouter() {
         })
     );
 
+    logger.info("adding the GET /workspaces handler");
+    api.get(
+        "/workspaces",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/workspaces",
+        })
+    );
+
     return api;
 }

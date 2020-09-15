@@ -11,7 +11,7 @@ import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
 
 import ids from "./ids";
-import viewerConstants from "../../../constants";
+import viewerConstants from "./constants";
 import TextViewer from "./TextViewer";
 import StructuredTextViewer from "./StructuredTextViewer";
 import DocumentViewer from "./DocumentViewer";
@@ -19,7 +19,7 @@ import ImageViewer from "./ImageViewer";
 import VideoViewer from "./VideoViewer";
 
 import { useFileManifest, useReadChunk } from "./queries";
-import constants from "constants";
+import constants from "../../../constants";
 import NavigationConstants from "common/NavigationConstants";
 
 import {

@@ -6,16 +6,20 @@
  */
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useRowSelect, useTable } from "react-table";
-import { useMutation } from "react-query";
+import { queryCache, useQuery, useMutation } from "react-query";
 import { useTranslation } from "i18n";
 
 import constants from "../../../constants";
 import ids from "./ids";
 
 import { uploadTextAsFile } from "serviceFacades/fileio";
+import {
+    getResourceDetails,
+    DATA_DETAILS_QUERY_KEY,
+} from "serviceFacades/filesystem";
 import Toolbar from "./Toolbar";
 import { getColumns, LINE_NUMBER_ACCESSOR } from "./utils";
-import { parseNameFromPath } from "../utils";
+import { parseNameFromPath, isWritable } from "../utils";
 
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import PageWrapper from "components/layout/PageWrapper";
@@ -56,14 +60,17 @@ function PathListViewer(props) {
         separator,
         loading,
         showErrorAnnouncer,
+        query_key,
     } = props;
-    const [data, setData] = useState(props.data);
 
     const { t } = useTranslation("data");
+
+    const [data, setData] = useState(props.data);
     const [open, setOpen] = useState(false);
     const [dirty, setDirty] = useState(false);
-
+    const [permission, setPermission] = useState(null);
     const fileName = parseNameFromPath(path);
+
     let columns = useMemo(() => getColumns(data, false, t("path")), [data, t]);
 
     //hide the shebang row
@@ -84,6 +91,8 @@ function PathListViewer(props) {
                     }),
                     variant: AnnouncerConstants.SUCCESS,
                 });
+                //invalidate query to prevent cached data from loading
+                queryCache.invalidateQueries(query_key);
             },
             onError: (error) => {
                 showErrorAnnouncer(t("fileSaveError", { fileName }), error);
@@ -91,13 +100,28 @@ function PathListViewer(props) {
         }
     );
 
+    const { isFetching: fetchingDetails } = useQuery({
+        queryKey: [DATA_DETAILS_QUERY_KEY, { paths: [path] }],
+        queryFn: getResourceDetails,
+        config: {
+            enabled: true,
+            onSuccess: (resp) => {
+                const details = resp?.paths[path];
+                setPermission(details?.permission);
+            },
+            onError: (e) => {
+                showErrorAnnouncer(t("detailsError"), e);
+            },
+        },
+    });
+
     const getContent = () => {
         //add back the shebang line
-        let content = data[0][columns[1].Header].concat("\n");
+        let content = data[0][columns[1].accessor].concat("\n");
         data.forEach((row, index) => {
             if (index !== 0) {
                 content = content
-                    .concat(row[columns[1].Header])
+                    .concat(row[columns[1].accessor])
                     .concat(separator)
                     .concat("\n");
             }
@@ -167,7 +191,7 @@ function PathListViewer(props) {
                         setHiddenColumns([LINE_NUMBER_ACCESSOR]);
                     }
                 }}
-                editing={true}
+                editing={!fetchingDetails && isWritable(permission)}
                 onAddRow={() => {
                     setOpen(true);
                 }}
@@ -175,8 +199,8 @@ function PathListViewer(props) {
                     selectedFlatRows.forEach((selRow) => {
                         const newData = data.filter(
                             (row) =>
-                                row[columns[1].Header] !==
-                                selRow.original[columns[1].Header]
+                                row[columns[1].accessor] !==
+                                selRow.original[columns[1].accessor]
                         );
                         setData([...newData]);
                         setDirty(true);
@@ -241,7 +265,7 @@ function PathListViewer(props) {
                         setOpen(false);
                         const selPaths = [];
                         selections.forEach((path) => {
-                            const key = columns[1].Header;
+                            const key = columns[1].accessor;
                             const pathObj = {};
                             pathObj[key] = path;
                             selPaths.push(pathObj);

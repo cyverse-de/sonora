@@ -288,6 +288,7 @@ export default function FileViewer(props) {
         return (
             <>
                 <PathListViewer
+                    query_key={readChunkKey}
                     baseId={baseId}
                     path={path}
                     resourceId={resourceId}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import clsx from "clsx";
 
-import { Divider, Typography, Collapse, Button } from "@material-ui/core";
+import { Typography, Collapse, Button } from "@material-ui/core";
 
 import getItem from "./DashboardItem";
 
@@ -19,7 +19,6 @@ const DashboardSection = ({
     section,
     cardWidth,
     cardHeight,
-    showDivider = true,
     limit,
     numColumns,
 }) => {
@@ -58,8 +57,6 @@ const DashboardSection = ({
             )}
             id={id}
         >
-            {showDivider && <Divider classes={{ root: classes.dividerRoot }} />}
-
             <Typography
                 noWrap
                 gutterBottom

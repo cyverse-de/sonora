@@ -1,5 +1,7 @@
 import callApi from "../../common/callApi";
 
+import constants from "../../constants";
+
 export const VICE_ADMIN_QUERY_KEY = "fetchViceAdmin";
 export const ASYNC_DATA_QUERY_KEY = "fetchAsyncData";
 
@@ -65,6 +67,19 @@ export const setUserJobLimit = ({ username, newLimit }) =>
             concurrent_jobs: parseInt(newLimit, 10),
         },
     });
+
+export const userExists = ({ username }) => {
+    const suffix = `@${constants.IPLANT}.org`;
+
+    if (!username.endsWith(suffix)) {
+        username = `${username}${suffix}`;
+    }
+
+    return callApi({
+        endpoint: `/api/workspaces?username=${username}`,
+        method: "GET",
+    });
+};
 
 export default () =>
     callApi({

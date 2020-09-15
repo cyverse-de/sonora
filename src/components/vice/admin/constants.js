@@ -63,3 +63,4 @@ export const INGRESS_COLUMNS = {
 export const LOADING = "loading";
 export const ERROR = "error";
 export const REFETCH_INTERVAL = 10000;
+export const BASE_ID = "admin.vice";

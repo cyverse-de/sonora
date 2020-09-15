@@ -6,11 +6,7 @@ import { useQuery, useMutation, queryCache } from "react-query";
 import { makeStyles } from "@material-ui/styles";
 import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 
-import {
-    build as buildID,
-    // announce,
-    // AnnouncerConstants,
-} from "@cyverse-de/ui-lib";
+import { build as buildID } from "@cyverse-de/ui-lib";
 
 import getData, {
     saveOutputFiles,
@@ -31,6 +27,7 @@ import {
     COMMON_COLUMNS,
     SERVICE_COLUMNS,
     POD_COLUMNS,
+    BASE_ID,
 } from "./constants";
 import { Skeleton, TabList, TabContext, TabPanel } from "@material-ui/lab";
 
@@ -384,7 +381,7 @@ const VICEAdmin = () => {
     );
 
     if (hasErrored) {
-        return <WrappedErrorHandler errorObject={error} baseId="admin.vice" />;
+        return <WrappedErrorHandler errorObject={error} baseId={BASE_ID} />;
     }
 
     return (

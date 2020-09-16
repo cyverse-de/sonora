@@ -55,7 +55,14 @@ const VIEWER_TYPE = {
 };
 
 export default function FileViewer(props) {
-    const { path, resourceId, createFile, onRefresh,onNewFileSaved, baseId } = props;
+    const {
+        path,
+        resourceId,
+        createFile,
+        onRefresh,
+        onNewFileSaved,
+        baseId,
+    } = props;
 
     const { t } = useTranslation("data");
     const router = useRouter();

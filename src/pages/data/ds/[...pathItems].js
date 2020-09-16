@@ -83,7 +83,7 @@ export default function DataStore() {
 
     const onRefresh = () => {
         router.reload();
-    }
+    };
 
     if (!isFile) {
         return (

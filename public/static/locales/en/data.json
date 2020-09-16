@@ -59,6 +59,8 @@
     "myData": "My Data",
     "name": "Name",
     "newFolderLocation": "New folder will be created in: {{- path}}",
+    "newHTAnalysisPathListFile": "New HT analysis path list file...",
+    "newMultiInputPathListFile": "New Multi-Input path list file...",
     "noContent": "No content to display.",
     "ok": "OK",
     "own": "Own",

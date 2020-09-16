@@ -85,7 +85,7 @@ const JobLimits = ({ showErrorAnnouncer }) => {
         },
 
         onError: (e) => {
-            showErrorAnnouncer(t("jobLimitLookupError", { username }), e);
+            showErrorAnnouncer(t("jobLimitLookupError", { error: e }), e);
         },
     });
 
@@ -93,10 +93,8 @@ const JobLimits = ({ showErrorAnnouncer }) => {
         onSuccess: () => getJobLimit({ username }),
 
         onError: (e) => {
-            showErrorAnnouncer(
-                t("jobLimitUpdateError", { username, currentLimit: newLimit }),
-                e
-            );
+            console.log(e.message);
+            showErrorAnnouncer(t("jobLimitUpdateError", { error: e }), e);
         },
     });
 

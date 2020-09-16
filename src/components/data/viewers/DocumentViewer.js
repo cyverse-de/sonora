@@ -13,7 +13,7 @@ import { build } from "@cyverse-de/ui-lib";
 import { Typography } from "@material-ui/core";
 
 export default function DocumentViewer(props) {
-    const { baseId, path, resourceId } = props;
+    const { baseId, path, resourceId, onRefresh } = props;
     const { t } = useTranslation("data");
     useEffect(() => {
         window.open(
@@ -29,6 +29,7 @@ export default function DocumentViewer(props) {
                 path={path}
                 resourceId={resourceId}
                 allowLineNumbers={false}
+                onRefresh={onRefresh}
             />
             <Typography>{t("disablePopup")}</Typography>
         </>

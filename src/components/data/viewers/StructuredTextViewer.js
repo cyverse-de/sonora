@@ -27,7 +27,7 @@ import {
 } from "@material-ui/core";
 
 export default function StructuredTextViewer(props) {
-    const { baseId, path, resourceId, data, loading } = props;
+    const { baseId, path, resourceId, data, loading, onRefresh } = props;
     const [firstRowHeader, setFirstRowHeader] = React.useState(false);
     const fileName = parseNameFromPath(path);
     let columns = useMemo(() => getColumns(data, firstRowHeader), [
@@ -79,6 +79,7 @@ export default function StructuredTextViewer(props) {
                 }}
                 firstRowHeader={firstRowHeader}
                 onFirstRowHeader={(header) => setFirstRowHeader(header)}
+                onRefresh={onRefresh}
             />
             {loading && (
                 <CircularProgress

@@ -16,7 +16,7 @@ import PageWrapper from "components/layout/PageWrapper";
 import { Typography } from "@material-ui/core";
 
 export default function ImageViewer(props) {
-    const { baseId, path, resourceId } = props;
+    const { baseId, path, resourceId, onRefresh } = props;
     const { t } = useTranslation("data");
     const [url, setUrl] = useState("");
     const fileName = parseNameFromPath(path);
@@ -32,6 +32,7 @@ export default function ImageViewer(props) {
                     path={path}
                     resourceId={resourceId}
                     allowLineNumbers={false}
+                    onRefresh={onRefresh}
                 />
                 <img
                     id={build(baseId, ids.VIEWER_IMAGE, fileName)}

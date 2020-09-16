@@ -18,7 +18,7 @@ import { build } from "@cyverse-de/ui-lib";
 import { Typography } from "@material-ui/core";
 
 export default function VideoViewer(props) {
-    const { baseId, path, resourceId } = props;
+    const { baseId, path, resourceId, onRefresh } = props;
     const { t } = useTranslation("data");
     const [url, setUrl] = useState("");
     const fileName = parseNameFromPath(path);
@@ -35,6 +35,7 @@ export default function VideoViewer(props) {
                     path={path}
                     resourceId={resourceId}
                     allowLineNumbers={false}
+                    onRefresh={onRefresh}
                 />
                 <ReactPlayer url={url} controls={true} />
             </div>

@@ -17,7 +17,7 @@ import { build } from "@cyverse-de/ui-lib";
 import { CircularProgress } from "@material-ui/core";
 
 export default function TextViewer(props) {
-    const { baseId, path, resourceId, data, loading, mode } = props;
+    const { baseId, path, resourceId, data, loading, mode, onRefresh } = props;
     const [showLineNumbers, setShowLineNumbers] = useState(true);
     const fileName = parseNameFromPath(path);
     return (
@@ -32,6 +32,7 @@ export default function TextViewer(props) {
                 allowLineNumbers={true}
                 showLineNumbers={showLineNumbers}
                 onShowLineNumbers={(show) => setShowLineNumbers(show)}
+                onRefresh={onRefresh}
             />
             {loading && (
                 <CircularProgress

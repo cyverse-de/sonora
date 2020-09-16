@@ -68,14 +68,23 @@ export const getUserJobLimit = ({ username }) => {
     });
 };
 
-export const setUserJobLimit = ({ username, newLimit }) =>
-    callApi({
+export const setUserJobLimit = ({ username, newLimit }) => {
+    const existsPromise = userExists({ username });
+    const setJobLimitPromise = callApi({
         endpoint: `/api/admin/vice/concurrent-job-limits/${username}`,
         method: "PUT",
         body: {
             concurrent_jobs: parseInt(newLimit, 10),
         },
     });
+
+    return existsPromise.then((doesExist) => {
+        if (!doesExist) {
+            throw new Error(`User ${username} does not exist`);
+        }
+        return setJobLimitPromise;
+    });
+};
 
 export const userExists = ({ username }) => {
     const suffix = `@${constants.IPLANT}.org`;

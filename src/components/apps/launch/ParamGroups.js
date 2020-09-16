@@ -392,7 +392,7 @@ const HPCWaitTimesMessage = ({ baseId }) => {
                 hpcLink: (
                     <ExternalLink
                         key="hpc"
-                        href={GlobalConstants.HPC_WIKI_LINK}
+                        href={GlobalConstants.HELP_DOCS.HPC_APPS}
                     />
                 ),
                 xsede: (

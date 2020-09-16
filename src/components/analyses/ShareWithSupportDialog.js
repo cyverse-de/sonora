@@ -10,7 +10,8 @@ import PropTypes from "prop-types";
 import { Trans } from "react-i18next";
 
 import ids from "./ids";
-import constants from "./constants";
+
+import constants from "../../constants";
 
 import { intercomShow } from "common/intercom";
 
@@ -138,7 +139,7 @@ function SubmittedStateSupport(props) {
                     // eslint-disable-next-line jsx-a11y/heading-has-content
                     heading: <h4 />,
                     content: <p style={{ margin: 10 }} />,
-                    xsede: <ExternalLink href={constants.XSEDE_ACCESS_LINK} />,
+                    xsede: <ExternalLink href={constants.HELP_DOCS.HPC_APPS} />,
                 }}
             />
         );
@@ -160,21 +161,25 @@ function FailedStateSupport(props) {
                 content2: <p style={{ paddingLeft: 10, margin: 10 }} />,
                 content3: <p style={{ paddingLeft: 20, margin: 10 }} />,
                 appCommentsLink: (
-                    <ExternalLink href={constants.APP_RATINGS_COMMENTS_LINK} />
+                    <ExternalLink
+                        href={constants.HELP_DOCS.APP_RATINGS_COMMENTS}
+                    />
                 ),
                 appManualLink: (
-                    <ExternalLink href={constants.APP_MANUAL_LINK} />
+                    <ExternalLink href={constants.HELP_DOCS.APP_MANUAL} />
                 ),
                 appStatusLink: (
-                    <ExternalLink href={constants.APP_STATUS_LINK} />
+                    <ExternalLink href={constants.HELP_DOCS.APP_STATUS} />
                 ),
                 exampleFileLink: (
-                    <ExternalLink href={constants.EXAMPLE_FILE_LINK} />
+                    <ExternalLink href={constants.HELP_DOCS.EXAMPLE_FILE} />
                 ),
                 specialCharsLink: (
-                    <ExternalLink href={constants.SPECIAL_CHARS_LINK} />
+                    <ExternalLink href={constants.HELP_DOCS.SPECIAL_CHARS} />
                 ),
-                toolInfoLink: <ExternalLink href={constants.TOOL_INFO_LINK} />,
+                toolInfoLink: (
+                    <ExternalLink href={constants.HELP_DOCS.TOOL_INFO} />
+                ),
             }}
         />
     );
@@ -195,7 +200,7 @@ function RunningStateSupport(props) {
                     heading: <h4 />,
                     content: <p style={{ paddingLeft: 10, margin: 10 }} />,
                     appManualLink: (
-                        <ExternalLink href={constants.APP_MANUAL_LINK} />
+                        <ExternalLink href={constants.HELP_DOCS.APP_MANUAL} />
                     ),
                     support: (
                         <Link
@@ -240,11 +245,13 @@ function CompletedNoOutputSupport() {
                 content: <p style={{ margin: 10 }} />,
                 content2: <p style={{ paddingLeft: 10, margin: 10 }} />,
                 appManualLink: (
-                    <ExternalLink href={constants.APP_MANUAL_LINK} />
+                    <ExternalLink href={constants.HELP_DOCS.APP_MANUAL} />
                 ),
-                logFilesLink: <ExternalLink href={constants.LOG_FILES_LINK} />,
+                logFilesLink: (
+                    <ExternalLink href={constants.HELP_DOCS.LOG_FILES} />
+                ),
                 specialCharsLink: (
-                    <ExternalLink href={constants.SPECIAL_CHARS_LINK} />
+                    <ExternalLink href={constants.HELP_DOCS.SPECIAL_CHARS} />
                 ),
             }}
         />
@@ -266,15 +273,19 @@ function CompletedUnexpectedOutputSupport() {
                 content2: <p style={{ paddingLeft: 10, margin: 10 }} />,
                 content3: <p style={{ paddingLeft: 20, margin: 10 }} />,
                 appCommentsLink: (
-                    <ExternalLink href={constants.APP_RATINGS_COMMENTS_LINK} />
+                    <ExternalLink
+                        href={constants.HELP_DOCS.APP_RATINGS_COMMENTS}
+                    />
                 ),
                 appManualLink: (
-                    <ExternalLink href={constants.APP_MANUAL_LINK} />
+                    <ExternalLink href={constants.HELP_DOCS.APP_MANUAL} />
                 ),
                 appStatusLink: (
-                    <ExternalLink href={constants.APP_STATUS_LINK} />
+                    <ExternalLink href={constants.HELP_DOCS.APP_STATUS} />
                 ),
-                logFilesLink: <ExternalLink href={constants.LOG_FILES_LINK} />,
+                logFilesLink: (
+                    <ExternalLink href={constants.HELP_DOCS.LOG_FILES} />
+                ),
             }}
         />
     );
@@ -290,10 +301,12 @@ function ShareDisclaimer() {
             components={{
                 content: <span style={{ overflow: "auto" }} />,
                 sciInformaticiansLink: (
-                    <ExternalLink href={constants.SCI_INFORMATICIANS_LINK} />
+                    <ExternalLink
+                        href={constants.HELP_DOCS.SCI_INFORMATICIANS}
+                    />
                 ),
                 shareLink: (
-                    <ExternalLink href={constants.SHARE_ANALYSIS_LINK} />
+                    <ExternalLink href={constants.HELP_DOCS.SHARE_ANALYSIS} />
                 ),
             }}
         />

@@ -13,7 +13,6 @@ export default {
     FAV_APPS: "Favorite Apps",
     MY_PUBLIC_APPS: "My public apps",
     HPC: "High-Performance Computing",
-    HPC_WIKI_LINK: "https://cyverse.atlassian.net/wiki/x/6QltDg",
     BROWSE_ALL_APPS: "Browse All Apps",
     BROWSE_ALL_APPS_ID: "pppppppp-pppp-pppp-pppp-pppppppppppp",
     APP_TYPE_EXTERNAL: "External",
@@ -44,4 +43,19 @@ export default {
     AGAVE_SYSTEM_ID: "agave",
     SORT_ASCENDING: "asc",
     SORT_DESCENDING: "desc",
+    HELP_DOCS: {
+        APP_MANUAL: "https://wiki.cyverse.org/wiki/x/pAOZ",
+        APP_RATINGS_COMMENTS:
+            "https://wiki.cyverse.org/wiki/display/DEmanual/Using+App+Ratings+and+App+Comments",
+        APP_STATUS:
+            "https://wiki.cyverse.org/wiki/x/6gGO#UsingtheAppsWindowandSubmittinganAnalysis-AppStatus",
+        EXAMPLE_FILE: "https://wiki.cyverse.org/wiki/x/jwy",
+        HPC_APPS: "https://cyverse.atlassian.net/wiki/x/6QltDg",
+        LOG_FILES: "https://wiki.cyverse.org/wiki/x/GVi",
+        SCI_INFORMATICIANS: "https://wiki.cyverse.org/wiki/x/XRfHAQ",
+        SHARE_ANALYSIS: "https://wiki.cyverse.org/wiki/x/KBfHAQ",
+        SPECIAL_CHARS: "https://wiki.cyverse.org/wiki/x/O6ui",
+        TOOL_INFO:
+            "https://wiki.cyverse.org/wiki/display/DEmanual/Viewing+App+and+Tool+Information",
+    },
 };

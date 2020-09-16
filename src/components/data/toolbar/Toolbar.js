@@ -49,6 +49,8 @@ function DataToolbar(props) {
         setUploadDialogOpen,
         localUploadId,
         uploadMenuId,
+        onCreateHTFileSelected,
+        onCreateMultiInputFileSelected,
     } = props;
 
     const { t } = useTranslation("data");
@@ -123,6 +125,8 @@ function DataToolbar(props) {
                 setImportDialogOpen={setImportDialogOpen}
                 getSelectedResources={getSelectedResources}
                 selected={selected}
+                onCreateHTFileSelected={onCreateHTFileSelected}
+                onCreateMultiInputFileSelected={onCreateMultiInputFileSelected}
             />
             <CreateFolderDialog
                 path={path}

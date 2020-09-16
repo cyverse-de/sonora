@@ -116,10 +116,30 @@ function MyApp({ Component, pageProps }) {
                     publicRuntimeConfig.TOOLS_PRIVATE_MAX_DISK_LIMIT,
             },
         };
+        const fileIdentifiers = {
+            htPathList: publicRuntimeConfig.HT_PATH_LIST_IDENTIFIER,
+            multiInputPathList:
+                publicRuntimeConfig.MULTI_INPUT_PATH_LIST_IDENTIFIER,
+        };
 
-        if (intercom || admin || irods || sessions || tools) {
-            setConfig({ intercom, admin, irods, sessions, tools });
+        if (
+            intercom ||
+            admin ||
+            irods ||
+            sessions ||
+            tools ||
+            fileIdentifiers
+        ) {
+            setConfig({
+                intercom,
+                admin,
+                irods,
+                sessions,
+                tools,
+                fileIdentifiers,
+            });
         }
+
         const jssStyles = document.querySelector("#jss-server-side");
         if (jssStyles) {
             jssStyles.parentElement.removeChild(jssStyles);

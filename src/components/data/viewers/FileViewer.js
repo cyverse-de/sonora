@@ -19,6 +19,7 @@ import DocumentViewer from "./DocumentViewer";
 import ImageViewer from "./ImageViewer";
 import VideoViewer from "./VideoViewer";
 
+import { useConfig } from "../../../contexts/config";
 import { useFileManifest, useReadChunk } from "./queries";
 import constants from "../../../constants";
 import NavigationConstants from "common/NavigationConstants";
@@ -54,22 +55,24 @@ const VIEWER_TYPE = {
 };
 
 export default function FileViewer(props) {
-    const { path, resourceId, baseId } = props;
+    const { path, resourceId, createFile, onRefresh,onNewFileSaved, baseId } = props;
 
     const { t } = useTranslation("data");
     const router = useRouter();
     const [mode, setMode] = useState(null);
     const [readChunkKey, setReadChunkKey] = useState(READ_CHUNK_QUERY_KEY);
     const [readChunkQueryEnabled, setReadChunkQueryEnabled] = useState(false);
-    const [viewerType, setViewerType] = useState(VIEWER_TYPE.PLAIN);
+    const [viewerType, setViewerType] = useState(null);
+    const [manifest, setManifest] = useState(null);
     const [separator, setSeparator] = useState("");
-    const {
-        isFetching,
-        data: manifest,
-        error: manifestError,
-    } = useFileManifest(
+    const [config] = useConfig();
+
+    const { isFetching, error: manifestError } = useFileManifest(
         [FETCH_FILE_MANIFEST_QUERY_KEY, path],
-        path !== null && path !== undefined
+        path !== null && path !== undefined && !createFile,
+        (resp) => {
+            setManifest(resp);
+        }
     );
 
     const {
@@ -111,6 +114,19 @@ export default function FileViewer(props) {
             return viewerConstants.SPACE_DELIMITER;
         }
     };
+
+    useEffect(() => {
+        if (
+            createFile === infoTypes.HT_ANALYSIS_PATH_LIST ||
+            createFile === infoTypes.MULTI_INPUT_PATH_LIST
+        ) {
+            setManifest({
+                "content-type": "text/plain",
+                infoType: createFile,
+                urls: [],
+            });
+        }
+    }, [createFile]);
 
     useEffect(() => {
         if (manifest) {
@@ -170,16 +186,19 @@ export default function FileViewer(props) {
                         infoTypes.HT_ANALYSIS_PATH_LIST === infoType ||
                         infoTypes.MULTI_INPUT_PATH_LIST === infoType
                     ) {
-                        setReadChunkKey([
-                            READ_CHUNK_QUERY_KEY,
-                            {
-                                path,
-                                separator,
-                                chunkSize: viewerConstants.DEFAULT_PAGE_SIZE,
-                            },
-                        ]);
+                        if (!createFile) {
+                            setReadChunkKey([
+                                READ_CHUNK_QUERY_KEY,
+                                {
+                                    path,
+                                    separator,
+                                    chunkSize:
+                                        viewerConstants.DEFAULT_PAGE_SIZE,
+                                },
+                            ]);
+                            setReadChunkQueryEnabled(true);
+                        }
                         setViewerType(VIEWER_TYPE.PATH_LIST);
-                        setReadChunkQueryEnabled(true);
                         break;
                     } else {
                         setReadChunkKey([
@@ -195,7 +214,7 @@ export default function FileViewer(props) {
                     }
             }
         }
-    }, [manifest, path, separator]);
+    }, [createFile, manifest, path, separator]);
 
     const busy = isFetching || status === constants.LOADING;
 
@@ -227,6 +246,7 @@ export default function FileViewer(props) {
         viewerType !== VIEWER_TYPE.IMAGE &&
         viewerType !== VIEWER_TYPE.DOCUMENT &&
         viewerType !== VIEWER_TYPE.VIDEO &&
+        !createFile &&
         (!data || data.length === 0)
     ) {
         return <Typography>{t("noContent")}</Typography>;
@@ -261,6 +281,7 @@ export default function FileViewer(props) {
                     data={flatData}
                     mode={mode}
                     loading={isFetchingMore}
+                    onRefresh={onRefresh}
                 />
                 <LoadMoreButton />
             </>
@@ -274,30 +295,52 @@ export default function FileViewer(props) {
                     resourceId={resourceId}
                     data={flattenStructureData(data)}
                     loading={isFetchingMore}
+                    onRefresh={onRefresh}
                 />
                 <LoadMoreButton />
             </>
         );
     } else if (viewerType === VIEWER_TYPE.IMAGE) {
-        return <ImageViewer baseId={baseId} path={path} />;
+        return (
+            <ImageViewer baseId={baseId} path={path} onRefresh={onRefresh} />
+        );
     } else if (viewerType === VIEWER_TYPE.DOCUMENT) {
-        return <DocumentViewer baseId={baseId} path={path} />;
+        return (
+            <DocumentViewer baseId={baseId} path={path} onRefresh={onRefresh} />
+        );
     } else if (viewerType === VIEWER_TYPE.VIDEO) {
-        return <VideoViewer baseId={baseId} path={path} />;
+        return (
+            <VideoViewer baseId={baseId} path={path} onRefresh={onRefresh} />
+        );
     } else if (viewerType === VIEWER_TYPE.PATH_LIST) {
+        let dataToView = "";
+        if (createFile) {
+            if (createFile === infoTypes.HT_ANALYSIS_PATH_LIST) {
+                dataToView = [{ 1: config.fileIdentifiers.htPathList }];
+            } else if (createFile === infoTypes.MULTI_INPUT_PATH_LIST) {
+                dataToView = [{ 1: config.fileIdentifiers.multiInputPathList }];
+            }
+        } else {
+            dataToView = flattenStructureData(data);
+        }
         return (
             <>
                 <PathListViewer
+                    createFile={createFile}
                     query_key={readChunkKey}
                     baseId={baseId}
                     path={path}
                     resourceId={resourceId}
-                    data={flattenStructureData(data)}
+                    data={dataToView}
                     loading={isFetchingMore}
                     separator={separator}
+                    onRefresh={onRefresh}
+                    onNewFileSaved={onNewFileSaved}
                 />
                 <LoadMoreButton />
             </>
         );
+    } else {
+        return null;
     }
 }

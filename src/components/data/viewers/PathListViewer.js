@@ -19,8 +19,9 @@ import {
 } from "serviceFacades/filesystem";
 import Toolbar from "./Toolbar";
 import { getColumns, LINE_NUMBER_ACCESSOR } from "./utils";
-import { parseNameFromPath, isWritable } from "../utils";
+import { getParentPath, parseNameFromPath, isWritable } from "../utils";
 
+import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import PageWrapper from "components/layout/PageWrapper";
 import DataSelectionDrawer from "components/data/SelectionDrawer";
@@ -38,6 +39,7 @@ import {
     TableHead,
     TableRow,
 } from "@material-ui/core";
+import SaveAsDialog from "../SaveAsDialog";
 
 const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
@@ -61,14 +63,19 @@ function PathListViewer(props) {
         loading,
         showErrorAnnouncer,
         query_key,
+        createFile,
+        onRefresh,
+        onNewFileSaved,
     } = props;
 
     const { t } = useTranslation("data");
 
     const [data, setData] = useState(props.data);
     const [open, setOpen] = useState(false);
+    const [saveAsDialogOpen, setSaveAsDialogOpen] = useState(false);
     const [dirty, setDirty] = useState(false);
     const [permission, setPermission] = useState(null);
+    const [saveNewFileError, setSaveNewFileError] = useState(null);
     const fileName = parseNameFromPath(path);
 
     let columns = useMemo(() => getColumns(data, false, t("path")), [data, t]);
@@ -83,19 +90,34 @@ function PathListViewer(props) {
     const [saveTextAsFile, { status: fileSaveStatus }] = useMutation(
         uploadTextAsFile,
         {
-            onSuccess: () => {
+            onSuccess: (resp) => {
                 setDirty(false);
                 announce({
                     text: t("fileSaveSuccess", {
-                        fileName,
+                        fileName: resp?.file.label,
                     }),
                     variant: AnnouncerConstants.SUCCESS,
                 });
-                //invalidate query to prevent cached data from loading
-                queryCache.invalidateQueries(query_key);
+                if (query_key) {
+                    //invalidate query to prevent cached data from loading
+                    queryCache.invalidateQueries(query_key);
+                }
+
+                if (createFile && onRefresh) {
+                    //reload the viewer
+                    onNewFileSaved(resp?.file.path, resp?.file.id);
+                }
             },
             onError: (error) => {
-                showErrorAnnouncer(t("fileSaveError", { fileName }), error);
+                if (createFile) {
+                    const text =
+                        getErrorCode(error) === ERROR_CODES.ERR_EXISTS
+                            ? t("fileExists", { path: path })
+                            : t("fileSaveError");
+                    setSaveNewFileError(text);
+                } else {
+                    showErrorAnnouncer(t("fileSaveError", { fileName }), error);
+                }
             },
         }
     );
@@ -104,7 +126,7 @@ function PathListViewer(props) {
         queryKey: [DATA_DETAILS_QUERY_KEY, { paths: [path] }],
         queryFn: getResourceDetails,
         config: {
-            enabled: true,
+            enabled: !createFile,
             onSuccess: (resp) => {
                 const details = resp?.paths[path];
                 setPermission(details?.permission);
@@ -130,7 +152,11 @@ function PathListViewer(props) {
     };
 
     const saveFile = () => {
-        saveTextAsFile({ dest: path, content: getContent(), newFile: false });
+        saveTextAsFile({
+            dest: path,
+            content: getContent(),
+            newFile: false,
+        });
     };
 
     const {
@@ -191,7 +217,9 @@ function PathListViewer(props) {
                         setHiddenColumns([LINE_NUMBER_ACCESSOR]);
                     }
                 }}
-                editing={!fetchingDetails && isWritable(permission)}
+                editing={
+                    (!fetchingDetails && isWritable(permission)) || createFile
+                }
                 onAddRow={() => {
                     setOpen(true);
                 }}
@@ -206,9 +234,16 @@ function PathListViewer(props) {
                         setDirty(true);
                     });
                 }}
-                onSave={saveFile}
+                onSave={() => {
+                    if (createFile && dirty) {
+                        setSaveAsDialogOpen(true);
+                    } else {
+                        saveFile();
+                    }
+                }}
                 dirty={dirty}
                 selectionCount={Object.keys(selectedRowIds).length}
+                onRefresh={onRefresh}
             />
             {(loading || fileSaveStatus === constants.LOADING) && (
                 <CircularProgress
@@ -277,6 +312,20 @@ function PathListViewer(props) {
                     multiSelect={true}
                 />
             </UploadTrackingProvider>
+            <SaveAsDialog
+                path={getParentPath(path)}
+                open={saveAsDialogOpen}
+                onClose={() => setSaveAsDialogOpen(false)}
+                saveFileError={saveNewFileError}
+                onSaveAs={(newPath) => {
+                    saveTextAsFile({
+                        dest: newPath,
+                        content: getContent(),
+                        newFile: createFile && dirty,
+                    });
+                }}
+                loading={fileSaveStatus === constants.LOADING}
+            />
         </PageWrapper>
     );
 }

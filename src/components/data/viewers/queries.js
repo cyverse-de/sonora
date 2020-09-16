@@ -11,15 +11,17 @@ import { uploadTextAsFile } from "serviceFacades/fileio";
 
 /**
  * Get manifest for a file
- * @param {*} queryKey - The query key to be used.
- * @param {*} enabled - Enable / disable query.
+ * @param {Object} queryKey - The query key to be used.
+ * @param {boolean} enabled - Enable / disable query.
+ * @param {function} onSuccess - Function to callback when query succeeds.
  */
-function useFileManifest(queryKey, enabled) {
+function useFileManifest(queryKey, enabled, onSuccess) {
     return useQuery({
         queryKey,
         queryFn: fileManifest,
         config: {
             enabled,
+            onSuccess,
         },
     });
 }

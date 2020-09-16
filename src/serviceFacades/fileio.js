@@ -23,7 +23,7 @@ export const uploadByUrl = ({ dest, address }) => {
  */
 export const uploadTextAsFile = ({ dest, content, newFile }) => {
     return callApi({
-        endpoint: "/api/fileio/save",
+        endpoint: newFile ? "/api/fileio/saveas" : "/api/fileio/save",
         method: "POST",
         body: {
             dest,

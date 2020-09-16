@@ -6,6 +6,8 @@ export default {
     CREATE_BTN: "createBtn",
     CREATE_FILE_MI: "createFileMenuItem",
     CREATE_FOLDER_MI: "createFolderMenuItem",
+    CREATE_HT_FILE_MI: "createHTFileMenuItem",
+    CREATE_MULTI_INPUT_MI: "createMultiInputFileMenuItem",
     CREATE_MENU: "createMenu",
     CREATE_DLG: "createResourceDlg",
     CUSTOM_COLS: "customCols",

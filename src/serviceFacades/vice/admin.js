@@ -53,11 +53,20 @@ export const downloadInputFiles = ({ analysisID }) =>
         method: "POST",
     });
 
-export const getUserJobLimit = ({ username }) =>
-    callApi({
+export const getUserJobLimit = ({ username }) => {
+    const existsPromise = userExists({ username });
+    const jobLimitPromise = callApi({
         endpoint: `/api/admin/vice/concurrent-job-limits/${username}`,
         method: "GET",
     });
+
+    return existsPromise.then((doesExist) => {
+        if (!doesExist) {
+            throw new Error(`User ${username} does not exist`);
+        }
+        return jobLimitPromise;
+    });
+};
 
 export const setUserJobLimit = ({ username, newLimit }) =>
     callApi({
@@ -78,11 +87,13 @@ export const userExists = ({ username }) => {
     return callApi({
         endpoint: `/api/workspaces?username=${username}`,
         method: "GET",
-    });
+    }).then((data) => data.workspaces.length > 0);
 };
 
-export default () =>
+const resources = () =>
     callApi({
         endpoint: "/api/admin/vice/resources",
         method: "GET",
     });
+
+export default resources;

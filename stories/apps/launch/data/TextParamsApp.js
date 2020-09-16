@@ -32,15 +32,11 @@ export default {
                     required: false,
                 },
                 {
-                    description: "single line text",
+                    description: "single line text (10 chars max)",
                     arguments: [],
                     name: "--text",
                     type: "Text",
                     validators: [
-                        {
-                            type: "Regex",
-                            params: ["[a-zA-Z]+"],
-                        },
                         {
                             type: "CharacterLimit",
                             params: [10],
@@ -50,8 +46,27 @@ export default {
                     id:
                         "17794ff6-5a83-11ea-9e38-008cfa5ae621_8a4cf0fa-5a83-11ea-9e38-008cfa5ae621",
                     isVisible: true,
-                    defaultValue: "defaultxt",
+                    defaultValue: "defaultext",
                     required: true,
+                },
+                {
+                    description:
+                        "single line text (regex validation: no numbers)",
+                    arguments: [],
+                    name: "--text",
+                    type: "Text",
+                    validators: [
+                        {
+                            type: "Regex",
+                            params: ["^[a-zA-Z\\W]+$"],
+                        },
+                    ],
+                    label: "Single-line Text",
+                    id:
+                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_8a4cf0fa-5a83-11ea-9e38-008cfa5ae621",
+                    isVisible: true,
+                    defaultValue: "No Numbers",
+                    required: false,
                 },
                 {
                     description: "Multiple lines",

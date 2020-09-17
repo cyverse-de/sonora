@@ -1,7 +1,7 @@
 import React from "react";
 
 import {
-    Drawer,
+    Dialog,
     IconButton,
     List,
     ListItem,
@@ -12,6 +12,7 @@ import {
     makeStyles,
     Typography,
     Button,
+    useMediaQuery,
 } from "@material-ui/core";
 import { Delete, GetApp, People } from "@material-ui/icons";
 
@@ -27,6 +28,7 @@ import {
     APP_TYPE,
 } from "./classes";
 import { useTranslation } from "i18n";
+import { useTheme } from "@material-ui/styles";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -142,17 +144,14 @@ export const BagUI = ({ remove }) => {
 };
 
 export default ({ open, remove, onClose }) => {
-    const classes = useStyles();
+    const theme = useTheme();
+
+    const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
     return (
-        <Drawer
-            anchor="right"
-            open={open}
-            classes={{ paper: classes.paper }}
-            onClose={onClose}
-        >
+        <Dialog fullScreen={fullScreen} open={open} onClose={onClose}>
             <BagUI remove={remove} />
-        </Drawer>
+        </Dialog>
     );
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
     Dialog,
@@ -13,6 +13,8 @@ import {
     Typography,
     Button,
     useMediaQuery,
+    Tabs,
+    Tab,
 } from "@material-ui/core";
 import { Delete, GetApp, People } from "@material-ui/icons";
 
@@ -67,6 +69,58 @@ const BagSkeleton = () => (
     <Skeleton variant="rect" animation="wave" height={100} width="100%" />
 );
 
+const BagTab = ({
+    id,
+    value,
+    index,
+    bagItems,
+    remove,
+    onClick = () => {},
+    translationKey,
+    startIcon,
+}) => {
+    const classes = useStyles();
+    const { t } = useTranslation(["bags", "common"]);
+
+    return (
+        <div hidden={value !== index} id={id}>
+            <List>
+                {bagItems.map((bagItem, index) => {
+                    return (
+                        <ListItem key={index}>
+                            <ListItemAvatar>
+                                <Avatar>{bagItem.icon(t)}</Avatar>
+                            </ListItemAvatar>
+                            <ListItemText primary={bagItem.label} />
+                            <ListItemSecondaryAction>
+                                <IconButton
+                                    edge="end"
+                                    aria-label={t("delete")}
+                                    onClick={remove(index)}
+                                >
+                                    <Delete />
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    );
+                })}
+            </List>
+
+            <div className={classes.actionContainer}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    startIcon={startIcon}
+                    onClick={onClick}
+                >
+                    {t(translationKey)}
+                </Button>
+            </div>
+        </div>
+    );
+};
+
 export const BagUI = ({ remove }) => {
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
@@ -86,6 +140,12 @@ export const BagUI = ({ remove }) => {
     let bagItems = data?.items || [];
     bagItems = bagItems.map((item) => createNewBagItem(item));
 
+    const [tabValue, setTabValue] = useState(0);
+
+    const handleTabChange = (event, newValue) => {
+        setTabValue(newValue);
+    };
+
     return (
         <>
             {isLoading ? (
@@ -98,45 +158,35 @@ export const BagUI = ({ remove }) => {
                     <Typography variant="body1" className={classes.help}>
                         {t("bagHelp")}
                     </Typography>
-                    <List>
-                        {bagItems.map((bagItem, index) => {
-                            return (
-                                <ListItem key={index}>
-                                    <ListItemAvatar>
-                                        <Avatar>{bagItem.icon(t)}</Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText primary={bagItem.label} />
-                                    <ListItemSecondaryAction>
-                                        <IconButton
-                                            edge="end"
-                                            aria-label={t("delete")}
-                                            onClick={remove(index)}
-                                        >
-                                            <Delete />
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                            );
-                        })}
-                    </List>
-                    <div className={classes.actionContainer}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className={classes.button}
-                            startIcon={<GetApp />}
-                        >
-                            {t("download")}
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className={classes.button}
-                            startIcon={<People />}
-                        >
-                            {t("share")}
-                        </Button>
-                    </div>
+
+                    <Tabs
+                        value={tabValue}
+                        onChange={handleTabChange}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        centered
+                    >
+                        <Tab label={t("download")} />
+                        <Tab label={t("share")}></Tab>
+                    </Tabs>
+
+                    <BagTab
+                        value={tabValue}
+                        index={0}
+                        bagItems={bagItems}
+                        remove={remove}
+                        translationKey="download"
+                        startIcon={<GetApp />}
+                    />
+
+                    <BagTab
+                        value={tabValue}
+                        index={1}
+                        bagItems={bagItems}
+                        remove={remove}
+                        translationKey="share"
+                        startIcon={<People />}
+                    />
                 </>
             )}
         </>

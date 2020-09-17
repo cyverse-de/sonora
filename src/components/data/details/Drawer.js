@@ -52,10 +52,7 @@ function DetailsDrawer(props) {
             }}
         >
             <div className={classes.drawerHeader}>
-                <ResourceIcon
-                    className={classes.resourceIcon}
-                    type={resource.type}
-                />
+                <ResourceIcon type={resource.type} />
                 <Typography variant="h6" className={classes.restrictWidth}>
                     {resource.label}
                 </Typography>

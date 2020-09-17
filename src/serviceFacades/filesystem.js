@@ -1,6 +1,6 @@
 import callApi from "../common/callApi";
 import { getDataSimpleSearchQuery } from "components/search/dataSearchQueryBuilder";
-
+import viewerConstants from "components/data/viewers/constants";
 export const DATA_LISTING_QUERY_KEY = "fetchDataListing";
 export const USER_INFO_QUERY_KEY = "fetchUserInfo";
 export const RESOURCE_PERMISSIONS_KEY = "fetchResourcePermissions";
@@ -8,6 +8,8 @@ export const DATA_ROOTS_QUERY_KEY = "fetchDataRoots";
 export const DATA_DETAILS_QUERY_KEY = "fetchDataDetails";
 export const DATA_SEARCH_QUERY_KEY = "searchData";
 export const INFO_TYPES_QUERY_KEY = "fetchInfoTypes";
+export const FETCH_FILE_MANIFEST_QUERY_KEY = "fetchFileManifest";
+export const READ_CHUNK_QUERY_KEY = "readChunk";
 
 /**
  * Get details on data resources
@@ -166,4 +168,51 @@ export const searchDataInfinite = (
         method: "POST",
         body: query,
     });
+};
+
+/**
+ * Get file manifest
+ * @param {*} key - react-query key
+ * @param {object} param - parameters for fetching manifest
+ */
+export const fileManifest = (key, path) => {
+    return callApi({
+        endpoint: `/api/filesystem/file/manifest?path=${encodeURIComponent(
+            path
+        )}`,
+        method: "GET",
+    });
+};
+
+/**
+ * Read a chunk of a file
+ * @param {*} key - react-query key
+ * @param {*} param - parameters for reading the file chunk
+ * @param {*} page - file seek position
+ */
+export const readFileChunk = (
+    key,
+    { path, chunkSize, separator },
+    page = 0
+) => {
+    const body = {};
+    body.path = path;
+    body["chunk-size"] = `${chunkSize}`;
+    if (separator) {
+        body.page = page + 1;
+        body.separator = separator;
+        return callApi({
+            endpoint: "/api/filesystem/read-csv-chunk",
+            method: "POST",
+            body,
+        });
+    } else {
+        const pos = page * viewerConstants.DEFAULT_PAGE_SIZE;
+        body.position = `${pos}`;
+        return callApi({
+            endpoint: "/api/filesystem/read-chunk",
+            method: "POST",
+            body,
+        });
+    }
 };

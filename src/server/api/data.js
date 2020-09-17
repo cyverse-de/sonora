@@ -149,5 +149,41 @@ export default function dataRouter() {
         })
     );
 
+    logger.info("adding the GET /api/filesystem/file/manifest handler");
+    api.get(
+        "/filesystem/file/manifest",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/filesystem/file/manifest",
+        })
+    );
+
+    logger.info("adding the POST /api/filesystem/read-chunk handler");
+    api.post(
+        "/filesystem/read-chunk",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/filesystem/read-chunk",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the POST /api/filesystem/read-csv-chunk handler");
+    api.post(
+        "/filesystem/read-csv-chunk",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/filesystem/read-csv-chunk",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

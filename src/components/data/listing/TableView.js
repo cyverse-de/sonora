@@ -16,7 +16,6 @@ import ids from "../ids";
 import DataDotMenu from "../toolbar/DataDotMenu";
 
 import TableLoading from "../../utils/TableLoading";
-import ResourceTypes from "../../models/ResourceTypes";
 import constants from "../../../constants";
 import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
 import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
@@ -358,14 +357,11 @@ function TableView(props) {
                                                     ids.navLink
                                                 )}
                                                 onClick={() => {
-                                                    if (
-                                                        resource.type ===
-                                                        ResourceTypes.FOLDER
-                                                    ) {
-                                                        handlePathChange(
-                                                            `${path}/${resource.label}`
-                                                        );
-                                                    }
+                                                    handlePathChange(
+                                                        `${path}/${resource.label}`,
+                                                        resource.type,
+                                                        resource.id
+                                                    );
                                                 }}
                                             >
                                                 {resource.label}

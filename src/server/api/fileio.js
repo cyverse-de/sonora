@@ -12,6 +12,7 @@ import logger from "../logging";
 
 import { handler as terrainHandler } from "./terrain";
 import uploadHandler from "./uploads";
+import downloadHandler from "./downloads";
 
 export default function fileIORouter() {
     const api = express.Router();
@@ -35,13 +36,6 @@ export default function fileIORouter() {
     );
 
     logger.info("adding the GET /api/download handler");
-    api.get(
-        "/download",
-        auth.authnTokenMiddleware,
-        terrainHandler({
-            method: "GET",
-            pathname: "/secured/fileio/download",
-        })
-    );
+    api.get("/download", auth.authnTokenMiddleware, downloadHandler);
     return api;
 }

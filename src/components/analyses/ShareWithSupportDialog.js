@@ -35,6 +35,7 @@ import {
     Radio,
     RadioGroup,
     TextField,
+    Typography,
 } from "@material-ui/core";
 
 function AnalysisInfo(props) {
@@ -113,71 +114,130 @@ function CompletedStateCondition({ outputCondition, handleConditionChange }) {
     );
 }
 
+const HelpHeading = (props) => (
+    <Typography variant="h6" component="h1" {...props} />
+);
+const HelpContent = (props) => <Typography variant="body2" {...props} />;
+
 function SubmittedStateSupport(props) {
     const { analysis } = props;
 
     const { t } = useTranslation("analyses");
 
-    if (analysis.system_id === "de") {
-        return (
-            <Trans
-                t={t}
-                i18nKey="statusHelpCondorSubmitted"
-                components={{
-                    // eslint-disable-next-line jsx-a11y/heading-has-content
-                    heading: <h4 />,
-                    content: <p style={{ margin: 10 }} />,
-                }}
-            />
-        );
-    } else {
-        return (
-            <Trans
-                t={t}
-                i18nKey="statusHelpAgaveSubmitted"
-                components={{
-                    // eslint-disable-next-line jsx-a11y/heading-has-content
-                    heading: <h4 />,
-                    content: <p style={{ margin: 10 }} />,
-                    xsede: <ExternalLink href={constants.HELP_DOCS.HPC_APPS} />,
-                }}
-            />
-        );
-    }
+    return (
+        <dl>
+            <dt>
+                <HelpHeading>{t("statusHelpSubmittedHeader")}</HelpHeading>
+            </dt>
+            <dd>
+                <HelpContent>
+                    <Trans
+                        t={t}
+                        i18nKey={
+                            analysis.system_id === "de"
+                                ? "statusHelpCondorSubmitted"
+                                : "statusHelpAgaveSubmitted"
+                        }
+                        components={{
+                            xsede: (
+                                <ExternalLink
+                                    href={constants.HELP_DOCS.HPC_APPS}
+                                />
+                            ),
+                        }}
+                    />
+                </HelpContent>
+            </dd>
+        </dl>
+    );
 }
 
-function FailedStateSupport(props) {
-    const { t } = useTranslation("analyses");
-
+function HelpSpecialChars({ t }) {
     return (
         <Trans
             t={t}
-            i18nKey="statusHelpFailed"
+            i18nKey="statusHelpSpecialChars"
             components={{
-                // eslint-disable-next-line jsx-a11y/heading-has-content
-                heading: <h4 />,
                 b: <b />,
-                content: <p style={{ margin: 10 }} />,
-                content2: <p style={{ paddingLeft: 10, margin: 10 }} />,
-                content3: <p style={{ paddingLeft: 20, margin: 10 }} />,
-                appCommentsLink: (
-                    <ExternalLink
-                        href={constants.HELP_DOCS.APP_RATINGS_COMMENTS}
-                    />
-                ),
-                appManualLink: (
-                    <ExternalLink
-                        href={constants.HELP_DOCS.APP_AND_TOOL_INFO}
-                    />
-                ),
-                appStatusLink: (
-                    <ExternalLink href={constants.HELP_DOCS.APP_STATUS} />
-                ),
                 exampleFileLink: (
                     <ExternalLink href={constants.HELP_DOCS.EXAMPLE_FILE} />
                 ),
                 specialCharsLink: (
                     <ExternalLink href={constants.HELP_DOCS.SPECIAL_CHARS} />
+                ),
+            }}
+        />
+    );
+}
+
+function HelpInputFileFormat({ t }) {
+    return (
+        <Trans
+            t={t}
+            i18nKey="statusHelpInputFileFormat"
+            components={{
+                b: <b />,
+                appManualLink: (
+                    <ExternalLink
+                        href={constants.HELP_DOCS.APP_AND_TOOL_INFO}
+                    />
+                ),
+            }}
+        />
+    );
+}
+
+function HelpCorruptedInput({ t }) {
+    return (
+        <Trans
+            t={t}
+            i18nKey="statusHelpCorruptedInput"
+            components={{
+                b: <b />,
+                exampleFileLink: (
+                    <ExternalLink href={constants.HELP_DOCS.EXAMPLE_FILE} />
+                ),
+            }}
+        />
+    );
+}
+
+function HelpInvalidParameters({ t }) {
+    return (
+        <Trans
+            t={t}
+            i18nKey="statusHelpInvalidParameters"
+            components={{
+                b: <b />,
+                appManualLink: (
+                    <ExternalLink
+                        href={constants.HELP_DOCS.APP_AND_TOOL_INFO}
+                    />
+                ),
+                logFilesLink: (
+                    <ExternalLink href={constants.HELP_DOCS.LOG_FILES} />
+                ),
+            }}
+        />
+    );
+}
+
+function HelpAppProblem({ t }) {
+    return (
+        <Trans
+            t={t}
+            i18nKey="statusHelpAppProblem"
+            components={{
+                b: <b />,
+                ul: <ul />,
+                li: <li />,
+                appCommentsLink: (
+                    <ExternalLink
+                        href={constants.HELP_DOCS.APP_RATINGS_COMMENTS}
+                    />
+                ),
+                appStatusLink: (
+                    <ExternalLink href={constants.HELP_DOCS.APP_STATUS} />
                 ),
                 toolInfoLink: (
                     <ExternalLink
@@ -189,80 +249,131 @@ function FailedStateSupport(props) {
     );
 }
 
+function FailedStateSupport(props) {
+    const { t } = useTranslation("analyses");
+
+    return (
+        <dl>
+            <dt>
+                <HelpHeading>{t("statusHelpFailedHeader")}</HelpHeading>
+            </dt>
+            <dd>
+                <HelpContent component="span">
+                    <Trans
+                        t={t}
+                        i18nKey="statusHelpFailed"
+                        components={{
+                            p: <p />,
+                        }}
+                    />
+                    <ul>
+                        <li>
+                            <HelpSpecialChars t={t} />
+                        </li>
+                        <li>
+                            <HelpInputFileFormat t={t} />
+                        </li>
+                        <li>
+                            <HelpCorruptedInput t={t} />
+                        </li>
+                    </ul>
+                    <p>{t("statusHelpFailedOtherReasons")}</p>
+                    <ul>
+                        <li>
+                            <HelpInvalidParameters t={t} />
+                        </li>
+                        <li>
+                            <HelpAppProblem t={t} />
+                        </li>
+                    </ul>
+                </HelpContent>
+            </dd>
+        </dl>
+    );
+}
+
 function RunningStateSupport(props) {
     const { analysis, baseId } = props;
 
     const { t } = useTranslation("analyses");
 
-    if (analysis.system_id === "de") {
-        return (
-            <Trans
-                t={t}
-                i18nKey="statusHelpCondorRunning"
-                components={{
-                    // eslint-disable-next-line jsx-a11y/heading-has-content
-                    heading: <h4 />,
-                    content: <p style={{ paddingLeft: 10, margin: 10 }} />,
-                    appManualLink: (
-                        <ExternalLink
-                            href={constants.HELP_DOCS.APP_AND_TOOL_INFO}
-                        />
-                    ),
-                    support: (
-                        <Link
-                            id={build(baseId, UtilIds.CONTACT_SUPPORT_BUTTON)}
-                            component="button"
-                            onClick={(event) => {
-                                // prevent form submission
-                                event.preventDefault();
-                                intercomShow();
-                            }}
-                        />
-                    ),
-                }}
-            />
-        );
-    } else {
-        return (
-            <Trans
-                t={t}
-                i18nKey="statusHelpAgaveRunning"
-                components={{
-                    // eslint-disable-next-line jsx-a11y/heading-has-content
-                    heading: <h4 />,
-                    content: <p style={{ margin: 10 }} />,
-                }}
-            />
-        );
-    }
+    return (
+        <dl>
+            <dt>
+                <HelpHeading>{t("statusHelpRunningHeader")}</HelpHeading>
+            </dt>
+            <dd>
+                <HelpContent component="span">
+                    <Trans
+                        t={t}
+                        i18nKey={
+                            analysis.system_id === "de"
+                                ? "statusHelpCondorRunning"
+                                : "statusHelpAgaveRunning"
+                        }
+                        components={{
+                            ul: <ul />,
+                            li: <li />,
+                            appManualLink: (
+                                <ExternalLink
+                                    href={constants.HELP_DOCS.APP_AND_TOOL_INFO}
+                                />
+                            ),
+                            support: (
+                                <Link
+                                    id={build(
+                                        baseId,
+                                        UtilIds.CONTACT_SUPPORT_BUTTON
+                                    )}
+                                    component="button"
+                                    onClick={(event) => {
+                                        // prevent form submission
+                                        event.preventDefault();
+                                        intercomShow();
+                                    }}
+                                />
+                            ),
+                        }}
+                    />
+                </HelpContent>
+            </dd>
+        </dl>
+    );
 }
 
 function CompletedNoOutputSupport() {
     const { t } = useTranslation("analyses");
 
     return (
-        <Trans
-            t={t}
-            i18nKey="statusHelpCompletedNoOutput"
-            components={{
-                // eslint-disable-next-line jsx-a11y/heading-has-content
-                heading: <h4 />,
-                b: <b />,
-                content: <p style={{ margin: 10 }} />,
-                content2: <p style={{ paddingLeft: 10, margin: 10 }} />,
-                appManualLink: (
-                    <ExternalLink
-                        href={constants.HELP_DOCS.APP_AND_TOOL_INFO}
+        <dl>
+            <dt>
+                <HelpHeading>{t("statusHelpNoOutput")}</HelpHeading>
+            </dt>
+            <dd>
+                <HelpContent component="span">
+                    <Trans
+                        t={t}
+                        i18nKey="statusHelpCompletedNoOutput"
+                        components={{
+                            b: <b />,
+                            logFilesLink: (
+                                <ExternalLink
+                                    href={constants.HELP_DOCS.LOG_FILES}
+                                />
+                            ),
+                        }}
                     />
-                ),
-                logFilesLink: (
-                    <ExternalLink href={constants.HELP_DOCS.LOG_FILES} />
-                ),
-                specialCharsLink: (
-                    <ExternalLink href={constants.HELP_DOCS.SPECIAL_CHARS} />
-                ),
-            }}
-        />
+                    <ul>
+                        <li>
+                            <HelpSpecialChars t={t} />
+                        </li>
+                        <li>
+                            <HelpCorruptedInput t={t} />
+                        </li>
+                    </ul>
+                </HelpContent>
+            </dd>
+        </dl>
     );
 }
 
@@ -270,34 +381,24 @@ function CompletedUnexpectedOutputSupport() {
     const { t } = useTranslation("analyses");
 
     return (
-        <Trans
-            t={t}
-            i18nKey="statusHelpCompletedUnexpectedOutput"
-            components={{
-                // eslint-disable-next-line jsx-a11y/heading-has-content
-                heading: <h4 />,
-                b: <b />,
-                content: <p style={{ margin: 10 }} />,
-                content2: <p style={{ paddingLeft: 10, margin: 10 }} />,
-                content3: <p style={{ paddingLeft: 20, margin: 10 }} />,
-                appCommentsLink: (
-                    <ExternalLink
-                        href={constants.HELP_DOCS.APP_RATINGS_COMMENTS}
-                    />
-                ),
-                appManualLink: (
-                    <ExternalLink
-                        href={constants.HELP_DOCS.APP_AND_TOOL_INFO}
-                    />
-                ),
-                appStatusLink: (
-                    <ExternalLink href={constants.HELP_DOCS.APP_STATUS} />
-                ),
-                logFilesLink: (
-                    <ExternalLink href={constants.HELP_DOCS.LOG_FILES} />
-                ),
-            }}
-        />
+        <dl>
+            <dt>
+                <HelpHeading>{t("statusHelpUnexpectedOutput")}</HelpHeading>
+            </dt>
+            <dd>
+                <HelpContent component="span">
+                    {t("statusHelpCompletedUnexpectedOutput")}
+                    <ul>
+                        <li>
+                            <HelpInvalidParameters t={t} />
+                        </li>
+                        <li>
+                            <HelpAppProblem t={t} />
+                        </li>
+                    </ul>
+                </HelpContent>
+            </dd>
+        </dl>
     );
 }
 
@@ -305,21 +406,24 @@ function ShareDisclaimer() {
     const { t } = useTranslation("analyses");
 
     return (
-        <Trans
-            t={t}
-            i18nKey="statusHelpShareDisclaimer"
-            components={{
-                content: <span style={{ overflow: "auto" }} />,
-                sciInformaticiansLink: (
-                    <ExternalLink
-                        href={constants.HELP_DOCS.SCI_INFORMATICIANS}
-                    />
-                ),
-                shareLink: (
-                    <ExternalLink href={constants.HELP_DOCS.SHARE_ANALYSIS} />
-                ),
-            }}
-        />
+        <HelpContent style={{ overflow: "auto" }}>
+            <Trans
+                t={t}
+                i18nKey="statusHelpShareDisclaimer"
+                components={{
+                    sciInformaticiansLink: (
+                        <ExternalLink
+                            href={constants.HELP_DOCS.SCI_INFORMATICIANS}
+                        />
+                    ),
+                    shareLink: (
+                        <ExternalLink
+                            href={constants.HELP_DOCS.SHARE_ANALYSIS}
+                        />
+                    ),
+                }}
+            />
+        </HelpContent>
     );
 }
 

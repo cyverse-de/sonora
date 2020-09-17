@@ -233,8 +233,10 @@ const validate = (t) => (values) => {
                 group.parameters.forEach((param, paramIndex) => {
                     let valueError = null;
 
-                    if (param.required && isEmptyParamValue(param.value)) {
-                        valueError = t("required");
+                    if (isEmptyParamValue(param.value)) {
+                        if (param.required) {
+                            valueError = t("required");
+                        }
                     } else {
                         switch (param.type) {
                             case constants.PARAM_TYPE.TEXT:

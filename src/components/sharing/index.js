@@ -36,6 +36,7 @@ import {
     getUserSet,
     groupName,
     isGroup,
+    TYPE,
 } from "./util";
 import { getUserInfo } from "../../serviceFacades/users";
 import { USER_INFO_QUERY_KEY } from "../../serviceFacades/filesystem";
@@ -81,7 +82,6 @@ function Sharing(props) {
         queryKey: [GET_PERMISSIONS_QUERY_KEY, { resources }],
         queryFn: getPermissions,
         config: {
-            enabled: permissions.length === 0,
             onSuccess: (results) => {
                 setPermissions(results);
                 setUserIdList(getUserSet(results));
@@ -110,8 +110,8 @@ function Sharing(props) {
 
     useEffect(() => {
         if (resources) {
-            const hasPaths = resources["paths"];
-            setHasData(hasPaths && hasPaths.length > 0);
+            const data = resources[TYPE.DATA];
+            setHasData(data && data.length > 0);
             setResourceTotal(getResourceTotal(resources));
         }
     }, [resources]);
@@ -130,7 +130,7 @@ function Sharing(props) {
     };
 
     const onPermissionChange = (user, permission) => {
-        const id = user.id;
+        const userId = user.id;
 
         // Cannot update permissions for groups if data is included
         if (isGroup(user) && hasData) {
@@ -142,16 +142,12 @@ function Sharing(props) {
         }
 
         // Add any missing resources to the users resources list
-        const currentResources = user.resources || [];
-        const hasMissingResources = currentResources.length !== resourceTotal;
-        const updatedUser = hasMissingResources
-            ? addMissingResourcesToUser(user, resources)
-            : { ...user };
+        const updatedUser = addMissingResourcesToUser(user, resources);
 
         // Update the userMap so the user has the new display permission
         setUserMap({
             ...userMap,
-            [id]: { ...updatedUser, displayPermission: permission },
+            [userId]: { ...updatedUser, displayPermission: permission },
         });
     };
 

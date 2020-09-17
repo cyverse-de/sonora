@@ -30,7 +30,6 @@ import {
     Typography,
     ListItemIcon,
     ListItemText,
-    ListItemSecondaryAction,
     MenuItem,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -41,8 +40,6 @@ import {
     Info,
     Refresh,
     Save,
-    FormatListNumbered,
-    TableChart,
 } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -290,18 +287,8 @@ function ViewerToolbar(props) {
                                             baseId,
                                             ids.LINE_NUMBER_MENU_ITEM
                                         )}
-                                        id={build(
-                                            baseId,
-                                            ids.LINE_NUMBER_MENU_ITEM
-                                        )}
                                     >
                                         <ListItemIcon>
-                                            <FormatListNumbered fontSize="small" />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            primary={t("showLineNumbers")}
-                                        />
-                                        <ListItemSecondaryAction>
                                             <Switch
                                                 id={build(
                                                     baseId,
@@ -313,11 +300,23 @@ function ViewerToolbar(props) {
                                                     onShowLineNumbers(
                                                         event.target.checked
                                                     );
-                                                    onClose();
                                                 }}
                                                 color="primary"
+                                                inputProps={{
+                                                    "aria-labelledby": build(
+                                                        baseId,
+                                                        ids.LINE_NUMBER_MENU_ITEM
+                                                    ),
+                                                }}
                                             />
-                                        </ListItemSecondaryAction>
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            id={build(
+                                                baseId,
+                                                ids.LINE_NUMBER_MENU_ITEM
+                                            )}
+                                            primary={t("showLineNumbers")}
+                                        />
                                     </MenuItem>
                                 ),
                                 onFirstRowHeader && (
@@ -326,18 +325,8 @@ function ViewerToolbar(props) {
                                             baseId,
                                             ids.FIRST_ROW_HEADER_MENU_ITEM
                                         )}
-                                        id={build(
-                                            baseId,
-                                            ids.FIRST_ROW_HEADER_MENU_ITEM
-                                        )}
                                     >
                                         <ListItemIcon>
-                                            <TableChart fontSize="small" />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            primary={t("firstRowHeader")}
-                                        />
-                                        <ListItemSecondaryAction>
                                             <Switch
                                                 id={build(
                                                     baseId,
@@ -349,11 +338,23 @@ function ViewerToolbar(props) {
                                                     onFirstRowHeader(
                                                         event.target.checked
                                                     );
-                                                    onClose();
                                                 }}
                                                 color="primary"
+                                                inputProps={{
+                                                    "aria-labelledby": build(
+                                                        baseId,
+                                                        ids.FIRST_ROW_HEADER_MENU_ITEM
+                                                    ),
+                                                }}
                                             />
-                                        </ListItemSecondaryAction>
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            id={build(
+                                                baseId,
+                                                ids.FIRST_ROW_HEADER_MENU_ITEM
+                                            )}
+                                            primary={t("firstRowHeader")}
+                                        />
                                     </MenuItem>
                                 ),
 

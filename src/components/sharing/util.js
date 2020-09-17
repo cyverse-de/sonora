@@ -20,7 +20,10 @@ const getUniqueList = (list) => {
 
 // Takes a list of permission values (i.e. read, write, own) and returns
 // what to display as their overall permission
-const getDisplayPermission = (permissionList) => {
+const getDisplayPermission = (permissionList, resourceTotal) => {
+    if (permissionList.length !== resourceTotal) {
+        return SharingPermissions.VARIES;
+    }
     const values = getUniqueList(permissionList);
     return values.length === 1 ? values[0] : SharingPermissions.VARIES;
 };
@@ -113,6 +116,29 @@ export const getSharingFns = (type) => {
     }
 };
 
+const addDisplayPermissions = (userMap, resourceTotal) => {
+    return Object.keys(userMap).reduce(
+        (acc, userId) => {
+            const permissions = acc[userId]["resources"].map(
+                (resource) => resource.permission
+            );
+            const displayPermission = getDisplayPermission(
+                permissions,
+                resourceTotal
+            );
+            return {
+                ...acc,
+                [userId]: {
+                    ...acc[userId],
+                    displayPermission,
+                    originalPermission: displayPermission,
+                },
+            };
+        },
+        { ...userMap }
+    );
+};
+
 /**
  * This will create a mapping where each key is a user ID.  The value is
  * the user's information from the user-info service with 3 things added:
@@ -127,10 +153,11 @@ export const getSharingFns = (type) => {
  *
  * @param responses - permission-lister responses
  * @param userInfos
+ * @param resourceTotal
  * @returns {{}}
  */
-export const getUserMap = (responses, userInfos) => {
-    return responses.reduce((acc, resp) => {
+export const getUserMap = (responses, userInfos, resourceTotal) => {
+    const userMap = responses.reduce((acc, resp) => {
         const type = getResponseType(resp);
         const { permListFn, userIdFn, permListKey } = getSharingFns(type);
         return resp[type].reduce(
@@ -157,15 +184,8 @@ export const getUserMap = (responses, userInfos) => {
                             ...(userMap[userId] || userInfos[userId]),
                         };
 
-                        const displayPermission = getDisplayPermission([
-                            currentUser["displayPermission"],
-                            permissionValue,
-                        ]);
-
                         const updatedUser = {
                             ...currentUser,
-                            displayPermission,
-                            originalPermission: displayPermission,
                             resources: [
                                 ...(currentUser["resources"] || []),
                                 resourceWithPermission,
@@ -179,6 +199,7 @@ export const getUserMap = (responses, userInfos) => {
             { ...acc }
         );
     }, {});
+    return addDisplayPermissions(userMap, resourceTotal);
 };
 
 // Takes a user and examines its resource key to compare against the

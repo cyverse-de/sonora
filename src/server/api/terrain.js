@@ -51,12 +51,12 @@ export const handler = ({ method, pathname, headers }) => {
                     //if we don't set it to 200, react-query wont get the custom response with Location
                     res.status(200);
                     res.send({
-                        Location: e.response.headers.location,
+                        Location: e.response?.headers?.location,
                         status: 302,
                     });
                 } else {
-                    res.status(e.response.status);
-                    res.send(e.response.data);
+                    res.status(e.response?.status);
+                    res.send(e.response?.data);
                 }
             });
     };

@@ -41,14 +41,17 @@ const withErrorAnnouncer = (WrappedComponent) => {
             [t, theme.palette.error.contrastText]
         );
 
-        const showErrorAnnouncer = (text, error) => {
-            setErrorObject(error);
-            announce({
-                text,
-                variant: AnnouncerConstants.ERROR,
-                CustomAction: viewErrorDetails,
-            });
-        };
+        const showErrorAnnouncer = useCallback(
+            (text, error) => {
+                setErrorObject(error);
+                announce({
+                    text,
+                    variant: AnnouncerConstants.ERROR,
+                    CustomAction: viewErrorDetails,
+                });
+            },
+            [viewErrorDetails]
+        );
 
         return (
             <>

@@ -181,39 +181,25 @@ export const getUserMap = (responses, userInfos) => {
     }, {});
 };
 
-// Takes an array of permission-lister response objects and returns one object
-// where the keys are the different response types e.g. TYPE.DATA, TYPE.APPS...
-export const getResourceMap = (responses) => {
-    return responses.reduce((acc, resp) => {
-        const type = getResponseType(resp);
-        return {
-            ...acc,
-            [type]: resp[type],
-        };
-    });
-};
-
 // Takes a user and examines its resource key to compare against the
-// resourceMap to find missing resources.  Adds the missing resources.
-export const addMissingResourcesToUser = (user, resourceMap) => {
+// resources list to find missing resources.  Adds the missing resources.
+export const addMissingResourcesToUser = (user, resources) => {
     const currentResources = user.resources || [];
 
-    const updatedResources = Object.keys(resourceMap).reduce(
+    const updatedResources = Object.keys(resources).reduce(
         (acc, type) => {
-            const { idKey, permListKey } = getSharingFns(type);
-            return resourceMap[type].reduce(
-                (shares, sharing) => {
+            const { idKey } = getSharingFns(type);
+            return resources[type].reduce(
+                (shares, resource) => {
                     const hasResource = acc.some(
-                        (perm) => perm[idKey] === sharing[idKey]
+                        (perm) => perm[idKey] === resource[idKey]
                     );
                     if (!hasResource) {
                         // Create new sharing object
                         const updatedSharing = {
-                            ...sharing,
+                            ...resource,
                             type,
                         };
-                        // Remove the old permission list which included other users
-                        delete updatedSharing[permListKey];
 
                         return [...shares, updatedSharing];
                     } else {
@@ -245,10 +231,9 @@ export const getUserSet = (responses) => {
     }, []);
 };
 
-// Takes the resourceMap returned by `groupByResource` and returns
-// the total number of resources
-export const getResourceTotal = (resourceMap) => {
-    return Object.values(resourceMap).reduce((acc, type) => {
+// Takes the resources provided from the bag and returns the total #
+export const getResourceTotal = (resources) => {
+    return Object.values(resources).reduce((acc, type) => {
         return acc + type.length;
     }, 0);
 };

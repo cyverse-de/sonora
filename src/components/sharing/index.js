@@ -28,7 +28,6 @@ import { useMutation, useQuery } from "react-query";
 
 import {
     addMissingResourcesToUser,
-    getResourceMap,
     getResourceTotal,
     getShareResponseValues,
     getSharingUpdates,
@@ -66,7 +65,6 @@ function Sharing(props) {
     const [permissions, setPermissions] = useState([]);
     const [originalUsers, setOriginalUsers] = useState({});
     const [userIdList, setUserIdList] = useState([]);
-    const [resourceMap, setResourceMap] = useState(null);
     const [hasData, setHasData] = useState(false);
     const [userMap, setUserMap] = useState({});
     const [resourceTotal, setResourceTotal] = useState(0);
@@ -99,11 +97,8 @@ function Sharing(props) {
         queryFn: getUserInfo,
         config: {
             onSuccess: (results) => {
-                const resourceMap = getResourceMap(permissions);
-                const userMap = getUserMap(permissions, results);
+                const userMap = getUserMap(permissions, results, resourceTotal);
 
-                setResourceMap(resourceMap);
-                setResourceTotal(getResourceTotal(resourceMap));
                 setUserMap(userMap);
                 setOriginalUsers(userMap);
             },
@@ -114,11 +109,12 @@ function Sharing(props) {
     });
 
     useEffect(() => {
-        if (resourceMap) {
-            const hasPaths = resourceMap["paths"];
+        if (resources) {
+            const hasPaths = resources["paths"];
             setHasData(hasPaths && hasPaths.length > 0);
+            setResourceTotal(getResourceTotal(resources));
         }
-    }, [resourceMap]);
+    }, [resources]);
 
     const getUserAvatar = (user) => {
         return isGroup(user) ? <Group /> : user.email[0].toUpperCase();
@@ -126,7 +122,7 @@ function Sharing(props) {
 
     const addUser = (user) => {
         const id = user.id;
-        const updatedUser = addMissingResourcesToUser(user, resourceMap);
+        const updatedUser = addMissingResourcesToUser(user, resources);
         setUserMap({
             ...userMap,
             [id]: { ...updatedUser, displayPermission: Permissions.READ },
@@ -149,7 +145,7 @@ function Sharing(props) {
         const currentResources = user.resources || [];
         const hasMissingResources = currentResources.length !== resourceTotal;
         const updatedUser = hasMissingResources
-            ? addMissingResourcesToUser(user, resourceMap)
+            ? addMissingResourcesToUser(user, resources)
             : { ...user };
 
         // Update the userMap so the user has the new display permission

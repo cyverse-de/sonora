@@ -6,7 +6,7 @@
  */
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useRowSelect, useTable } from "react-table";
 import { useTranslation } from "i18n";
 

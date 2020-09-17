@@ -18,11 +18,27 @@ class BagItem {
             "override label() please"
         );
     }
+
+    get shareable() {
+        return false;
+    }
+
+    get downloadable() {
+        return false;
+    }
 }
 
 class FileBagItem extends BagItem {
     icon(t) {
         return <InsertDriveFile />;
+    }
+
+    get shareable() {
+        return true;
+    }
+
+    get downloadable() {
+        return true;
     }
 }
 
@@ -30,17 +46,29 @@ class FolderBagItem extends BagItem {
     icon(t) {
         return <Folder />;
     }
+
+    get shareable() {
+        return true;
+    }
 }
 
 class AnalysisBagItem extends BagItem {
     icon(t) {
         return <img src="/analyses_selected.png" alt={t("common:analyses")} />;
     }
+
+    get shareable() {
+        return true;
+    }
 }
 
 class AppBagItem extends BagItem {
     icon(t) {
         return <img src="/apps_selected.png" alt={t("common:apps")} />;
+    }
+
+    get shareable() {
+        return true;
     }
 }
 

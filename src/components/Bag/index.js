@@ -140,6 +140,9 @@ export const BagUI = ({ remove }) => {
     let bagItems = data?.items || [];
     bagItems = bagItems.map((item) => createNewBagItem(item));
 
+    const shareableItems = bagItems.filter((item) => item.shareable);
+    const downloadableItems = bagItems.filter((item) => item.downloadable);
+
     const [tabValue, setTabValue] = useState(0);
 
     const handleTabChange = (event, newValue) => {
@@ -173,7 +176,7 @@ export const BagUI = ({ remove }) => {
                     <BagTab
                         value={tabValue}
                         index={0}
-                        bagItems={bagItems}
+                        bagItems={downloadableItems}
                         remove={remove}
                         translationKey="download"
                         startIcon={<GetApp />}
@@ -182,7 +185,7 @@ export const BagUI = ({ remove }) => {
                     <BagTab
                         value={tabValue}
                         index={1}
-                        bagItems={bagItems}
+                        bagItems={shareableItems}
                         remove={remove}
                         translationKey="share"
                         startIcon={<People />}

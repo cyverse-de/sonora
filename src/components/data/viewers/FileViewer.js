@@ -354,7 +354,6 @@ export default function FileViewer(props) {
             <>
                 <PathListViewer
                     createFile={createFile}
-                    query_key={readChunkKey}
                     baseId={baseId}
                     path={path}
                     fileName={fileName}

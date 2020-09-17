@@ -63,30 +63,36 @@ function PathListViewer(props) {
         separator,
         loading,
         showErrorAnnouncer,
-        query_key,
         createFile,
         onRefresh,
         onNewFileSaved,
         fileName,
+        data,
     } = props;
 
     const { t } = useTranslation("data");
 
-    const [data, setData] = useState(props.data);
     const [open, setOpen] = useState(false);
     const [saveAsDialogOpen, setSaveAsDialogOpen] = useState(false);
     const [dirty, setDirty] = useState(false);
     const [permission, setPermission] = useState(null);
     const [saveNewFileError, setSaveNewFileError] = useState(null);
+    const [editorData, setEditorData] = useState([]);
 
     let columns = useMemo(() => getColumns(data, false, t("path")), [data, t]);
-
     //hide the shebang row
     const dataToDisplay = useMemo(() => data.slice(1), [data]);
 
-    dataToDisplay.forEach((row, index) => {
-        row[LINE_NUMBER_ACCESSOR] = index + 1; //line number starts from 1
-    });
+    const setLineNumbers = (tableData) => {
+        tableData.forEach((row, index) => {
+            row[LINE_NUMBER_ACCESSOR] = index + 1; //line number starts from 1
+        });
+        return tableData;
+    };
+
+    useEffect(() => {
+        setEditorData(setLineNumbers(dataToDisplay));
+    }, [dataToDisplay]);
 
     const [saveTextAsFile, { status: fileSaveStatus }] = useMutation(
         uploadTextAsFile,
@@ -99,10 +105,6 @@ function PathListViewer(props) {
                     }),
                     variant: AnnouncerConstants.SUCCESS,
                 });
-                if (query_key) {
-                    //invalidate query to prevent cached data from loading
-                    queryCache.invalidateQueries(query_key);
-                }
 
                 if (createFile && onRefresh) {
                     //reload the viewer
@@ -141,13 +143,11 @@ function PathListViewer(props) {
     const getContent = () => {
         //add back the shebang line
         let content = data[0][columns[1].accessor].concat("\n");
-        data.forEach((row, index) => {
-            if (index !== 0) {
-                content = content
-                    .concat(row[columns[1].accessor])
-                    .concat(separator)
-                    .concat("\n");
-            }
+        editorData.forEach((row, index) => {
+            content = content
+                .concat(row[columns[1].accessor])
+                .concat(separator)
+                .concat("\n");
         });
         return content;
     };
@@ -172,7 +172,7 @@ function PathListViewer(props) {
     } = useTable(
         {
             columns,
-            data: dataToDisplay,
+            data: editorData,
             initialState: {
                 hiddenColumns: [],
             },
@@ -226,17 +226,15 @@ function PathListViewer(props) {
                 }}
                 onDeleteRow={() => {
                     selectedFlatRows.forEach((selRow) => {
-                        const newData = data.filter(
-                            (row) =>
-                                row[columns[1].accessor] !==
-                                selRow.original[columns[1].accessor]
+                        const newData = editorData.filter(
+                            (row, index) => index !== selRow.index
                         );
-                        setData([...newData]);
+                        setEditorData(setLineNumbers([...newData]));
                         setDirty(true);
                     });
                 }}
                 onSave={() => {
-                    if (createFile && dirty) {
+                    if (createFile) {
                         setSaveAsDialogOpen(true);
                     } else {
                         saveFile();
@@ -307,7 +305,9 @@ function PathListViewer(props) {
                             pathObj[key] = path;
                             selPaths.push(pathObj);
                         });
-                        setData([...data, ...selPaths]);
+                        setEditorData(
+                            setLineNumbers([...editorData, ...selPaths])
+                        );
                         setDirty(true);
                     }}
                     baseId={build(baseId, ids.DATA_SELECTOR)}

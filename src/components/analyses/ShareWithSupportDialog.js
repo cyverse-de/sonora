@@ -166,7 +166,9 @@ function FailedStateSupport(props) {
                     />
                 ),
                 appManualLink: (
-                    <ExternalLink href={constants.HELP_DOCS.APP_MANUAL} />
+                    <ExternalLink
+                        href={constants.HELP_DOCS.APP_AND_TOOL_INFO}
+                    />
                 ),
                 appStatusLink: (
                     <ExternalLink href={constants.HELP_DOCS.APP_STATUS} />
@@ -178,7 +180,9 @@ function FailedStateSupport(props) {
                     <ExternalLink href={constants.HELP_DOCS.SPECIAL_CHARS} />
                 ),
                 toolInfoLink: (
-                    <ExternalLink href={constants.HELP_DOCS.TOOL_INFO} />
+                    <ExternalLink
+                        href={constants.HELP_DOCS.APP_AND_TOOL_INFO}
+                    />
                 ),
             }}
         />
@@ -200,7 +204,9 @@ function RunningStateSupport(props) {
                     heading: <h4 />,
                     content: <p style={{ paddingLeft: 10, margin: 10 }} />,
                     appManualLink: (
-                        <ExternalLink href={constants.HELP_DOCS.APP_MANUAL} />
+                        <ExternalLink
+                            href={constants.HELP_DOCS.APP_AND_TOOL_INFO}
+                        />
                     ),
                     support: (
                         <Link
@@ -245,7 +251,9 @@ function CompletedNoOutputSupport() {
                 content: <p style={{ margin: 10 }} />,
                 content2: <p style={{ paddingLeft: 10, margin: 10 }} />,
                 appManualLink: (
-                    <ExternalLink href={constants.HELP_DOCS.APP_MANUAL} />
+                    <ExternalLink
+                        href={constants.HELP_DOCS.APP_AND_TOOL_INFO}
+                    />
                 ),
                 logFilesLink: (
                     <ExternalLink href={constants.HELP_DOCS.LOG_FILES} />
@@ -278,7 +286,9 @@ function CompletedUnexpectedOutputSupport() {
                     />
                 ),
                 appManualLink: (
-                    <ExternalLink href={constants.HELP_DOCS.APP_MANUAL} />
+                    <ExternalLink
+                        href={constants.HELP_DOCS.APP_AND_TOOL_INFO}
+                    />
                 ),
                 appStatusLink: (
                     <ExternalLink href={constants.HELP_DOCS.APP_STATUS} />

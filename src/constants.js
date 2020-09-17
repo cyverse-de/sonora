@@ -44,18 +44,21 @@ export default {
     SORT_ASCENDING: "asc",
     SORT_DESCENDING: "desc",
     HELP_DOCS: {
-        APP_MANUAL: "https://wiki.cyverse.org/wiki/x/pAOZ",
+        APP_AND_TOOL_INFO:
+            "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027152/Viewing+App+and+Tool+Information",
         APP_RATINGS_COMMENTS:
             "https://wiki.cyverse.org/wiki/display/DEmanual/Using+App+Ratings+and+App+Comments",
         APP_STATUS:
             "https://wiki.cyverse.org/wiki/x/6gGO#UsingtheAppsWindowandSubmittinganAnalysis-AppStatus",
-        EXAMPLE_FILE: "https://wiki.cyverse.org/wiki/x/jwy",
+        EXAMPLE_FILE:
+            "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027163/Troubleshooting+an+Analysis#TroubleshootinganAnalysis-5.Checkistheappisfunctioningproperly",
         HPC_APPS: "https://cyverse.atlassian.net/wiki/x/6QltDg",
-        LOG_FILES: "https://wiki.cyverse.org/wiki/x/GVi",
-        SCI_INFORMATICIANS: "https://wiki.cyverse.org/wiki/x/XRfHAQ",
-        SHARE_ANALYSIS: "https://wiki.cyverse.org/wiki/x/KBfHAQ",
-        SPECIAL_CHARS: "https://wiki.cyverse.org/wiki/x/O6ui",
-        TOOL_INFO:
-            "https://wiki.cyverse.org/wiki/display/DEmanual/Viewing+App+and+Tool+Information",
+        LOG_FILES:
+            "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027163/Troubleshooting+an+Analysis#TroubleshootinganAnalysis-2.Checkthelogfiles",
+        SCI_INFORMATICIANS: "https://cyverse.org/team#science",
+        SHARE_ANALYSIS:
+            "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027128/Sharing+and+Unsharing+an+Analysis",
+        SPECIAL_CHARS:
+            "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027163/Troubleshooting+an+Analysis#TroubleshootinganAnalysis-3.Checktheinputfilesandparameter",
     },
 };

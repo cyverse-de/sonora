@@ -88,6 +88,7 @@ export default function StructuredTextViewer(props) {
                 firstRowHeader={firstRowHeader}
                 onFirstRowHeader={(header) => setFirstRowHeader(header)}
                 onRefresh={onRefresh}
+                fileName={fileName}
             />
             {loading && (
                 <CircularProgress

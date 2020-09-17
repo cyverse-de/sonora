@@ -368,7 +368,7 @@ function ViewerToolbar(props) {
                                         }}
                                     >
                                         <ListItemIcon>
-                                            <Info fontSize="small" />
+                                            <Add fontSize="small" />
                                         </ListItemIcon>
                                         <ListItemText primary={t("add")} />
                                     </MenuItem>,

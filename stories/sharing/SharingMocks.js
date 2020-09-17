@@ -1,7 +1,7 @@
 export const dataUserPermRequest = {
     paths: [
         "/iplant/home/aramsey/CORE-9077-path.list",
-        "/iplant/home/aramsey/Discovery Environment-CyVerse-blue.svg",
+        "/iplant/home/aramsey/TestFolder",
     ],
 };
 
@@ -10,18 +10,31 @@ export const dataUserPermResp = {
         {
             path: "/iplant/home/aramsey/CORE-9077-path.list",
             "user-permissions": [
-                { user: "user_a", permission: "read" },
-                { user: "user_b", permission: "write" },
-                { user: "user_c", permission: "own" },
+                { user: "alfred", permission: "read" },
+                { user: "robin", permission: "write" },
+                { user: "joker", permission: "own" },
             ],
         },
         {
-            path: "/iplant/home/aramsey/Discovery Environment-CyVerse-blue.svg",
+            path: "/iplant/home/aramsey/TestFolder",
             "user-permissions": [
-                { user: "user_a", permission: "read" },
-                { user: "user_b", permission: "write" },
-                { user: "user_c", permission: "read" },
+                { user: "alfred", permission: "read" },
+                { user: "robin", permission: "write" },
+                { user: "joker", permission: "read" },
             ],
+        },
+    ],
+};
+
+export const dataUserEmptyPermResp = {
+    paths: [
+        {
+            path: "/iplant/home/aramsey/CORE-9077-path.list",
+            "user-permissions": [],
+        },
+        {
+            path: "/iplant/home/aramsey/TestFolder",
+            "user-permissions": [],
         },
     ],
 };
@@ -29,7 +42,7 @@ export const dataUserPermResp = {
 export const dataShareRequest = {
     sharing: [
         {
-            user: "batman_test",
+            user: "joker",
             paths: [
                 {
                     path: "/iplant/home/aramsey/CORE-9077-path.list",
@@ -38,20 +51,11 @@ export const dataShareRequest = {
             ],
         },
         {
-            user: "user_a",
+            user: "alfred",
             paths: [
                 {
                     path: "/iplant/home/aramsey/CORE-9077-path.list",
                     permission: "own",
-                },
-            ],
-        },
-        {
-            user: "not_a_user",
-            paths: [
-                {
-                    path: "/iplant/home/aramsey/CORE-9077-path.list",
-                    permission: "write",
                 },
             ],
         },
@@ -61,8 +65,8 @@ export const dataShareRequest = {
 export const dataShareResponse = {
     sharing: [
         {
-            user: "batman_test",
-            sharing: [
+            user: "joker",
+            paths: [
                 {
                     path: "/iplant/home/aramsey/CORE-9077-path.list",
                     permission: "read",
@@ -71,26 +75,12 @@ export const dataShareResponse = {
             ],
         },
         {
-            user: "user_a",
+            user: "alfred",
             paths: [
                 {
                     path: "/iplant/home/aramsey/CORE-9077-path.list",
                     permission: "own",
                     success: true,
-                },
-            ],
-        },
-        {
-            user: "not_a_user",
-            sharing: [
-                {
-                    path: "/iplant/home/aramsey/CORE-9077-path.list",
-                    permission: "read",
-                    success: false,
-                    error: {
-                        error_code: "ERR_NOT_A_USER",
-                        users: ["not_a_user"],
-                    },
                 },
             ],
         },
@@ -100,12 +90,8 @@ export const dataShareResponse = {
 export const dataUnshareRequest = {
     unshare: [
         {
-            user: "batman_test",
-            paths: [
-                {
-                    path: "/iplant/home/aramsey/CORE-9077-path.list",
-                },
-            ],
+            user: "joker",
+            paths: ["/iplant/home/aramsey/CORE-9077-path.list"],
         },
     ],
 };
@@ -113,7 +99,7 @@ export const dataUnshareRequest = {
 export const dataUnshareResponse = {
     unshare: [
         {
-            user: "batman_test",
+            user: "joker",
             sharing: [
                 {
                     path: "/iplant/home/aramsey/CORE-9077-path.list",
@@ -129,10 +115,6 @@ export const appPermissionListRequest = {
             system_id: "de",
             app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
         },
-        {
-            system_id: "de",
-            app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae622",
-        },
     ],
 };
 
@@ -146,14 +128,14 @@ export const appPermissionListResponse = {
                 {
                     subject: {
                         source_id: "ldap",
-                        id: "user_a",
+                        id: "alfred",
                     },
                     permission: "read",
                 },
                 {
                     subject: {
                         source_id: "ldap",
-                        id: "user_b",
+                        id: "robin",
                     },
                     permission: "write",
                 },
@@ -166,34 +148,6 @@ export const appPermissionListResponse = {
                 },
             ],
         },
-        {
-            system_id: "de",
-            app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae622",
-            name: "MMTF",
-            permissions: [
-                {
-                    subject: {
-                        source_id: "ldap",
-                        id: "user_a",
-                    },
-                    permission: "read",
-                },
-                {
-                    subject: {
-                        source_id: "ldap",
-                        id: "user_b",
-                    },
-                    permission: "write",
-                },
-                {
-                    subject: {
-                        id: "1448e0f77d794bc9965dea4bf8eddecb",
-                        source_id: "g:gsa",
-                    },
-                    permission: "read",
-                },
-            ],
-        },
     ],
 };
 
@@ -202,7 +156,7 @@ export const appShareRequest = {
         {
             subject: {
                 source_id: "ldap",
-                id: "batman_test",
+                id: "robin",
             },
             apps: [
                 {
@@ -220,7 +174,7 @@ export const appShareRequest = {
             apps: [
                 {
                     system_id: "de",
-                    app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae622",
+                    app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
                     permission: "write",
                 },
             ],
@@ -233,7 +187,7 @@ export const appShareResponse = {
         {
             subject: {
                 source_id: "ldap",
-                id: "batman_test",
+                id: "robin",
             },
             apps: [
                 {
@@ -253,14 +207,10 @@ export const appShareResponse = {
             apps: [
                 {
                     system_id: "de",
-                    app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae622",
+                    app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
                     permission: "read",
-                    app_name: "MMTF",
-                    success: false,
-                    error: {
-                        error_code: 500,
-                        reason: "Does not work",
-                    },
+                    app_name: "JupJup",
+                    success: true,
                 },
             ],
         },
@@ -272,7 +222,7 @@ export const appUnshareRequest = {
         {
             subject: {
                 source_id: "ldap",
-                id: "batman_test",
+                id: "robin",
             },
             apps: [
                 {
@@ -301,7 +251,7 @@ export const appUnshareResponse = {
         {
             subject: {
                 source_id: "ldap",
-                id: "batman_test",
+                id: "robin",
             },
             apps: [
                 {
@@ -320,8 +270,8 @@ export const appUnshareResponse = {
             apps: [
                 {
                     system_id: "de",
-                    app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae622",
-                    app_name: "MMTF",
+                    app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
+                    app_name: "JupJup",
                     success: false,
                     error: {
                         error_code: 500,
@@ -333,10 +283,7 @@ export const appUnshareResponse = {
     ],
 };
 export const analysisPermissionRequest = {
-    analyses: [
-        "07a3e96e-c21c-11ea-aa22-008cfa5ae621",
-        "07a3e96e-c21c-11ea-aa22-008cfa5ae622",
-    ],
+    analyses: ["07a3e96e-c21c-11ea-aa22-008cfa5ae621"],
 };
 
 export const analysisPermissionResponse = {
@@ -348,36 +295,23 @@ export const analysisPermissionResponse = {
                 {
                     subject: {
                         source_id: "ldap",
-                        id: "user_a",
+                        id: "alfred",
                     },
                     permission: "read",
                 },
                 {
                     subject: {
                         source_id: "ldap",
-                        id: "user_b",
+                        id: "robin",
                     },
                     permission: "write",
                 },
                 {
                     subject: {
                         source_id: "ldap",
-                        id: "user_c",
+                        id: "joker",
                     },
                     permission: "own",
-                },
-            ],
-        },
-        {
-            id: "07a3e96e-c21c-11ea-aa22-008cfa5ae622",
-            name: "Trinity Analysis",
-            permissions: [
-                {
-                    subject: {
-                        source_id: "ldap",
-                        id: "user_a",
-                    },
-                    permission: "write",
                 },
             ],
         },
@@ -389,7 +323,7 @@ export const analysisShareRequest = {
         {
             subject: {
                 source_id: "ldap",
-                id: "batman_test",
+                id: "joker",
             },
             analyses: [
                 {
@@ -401,11 +335,11 @@ export const analysisShareRequest = {
         {
             subject: {
                 source_id: "ldap",
-                id: "user_a",
+                id: "alfred",
             },
             analyses: [
                 {
-                    analysis_id: "07a3e96e-c21c-11ea-aa22-008cfa5ae6212",
+                    analysis_id: "07a3e96e-c21c-11ea-aa22-008cfa5ae6211",
                     permission: "own",
                 },
             ],
@@ -416,24 +350,21 @@ export const analysisShareRequest = {
 export const analysisShareResponse = {
     sharing: [
         {
-            subject: { source_id: "ldap", id: "batman_test" },
+            subject: { source_id: "ldap", id: "joker" },
             analyses: [
                 {
                     analysis_id: "07a3e96e-c21c-11ea-aa22-008cfa5ae621",
                     permission: "read",
-                    analysis_name: "Wordiest_Count_analysis1",
+                    analysis_name: "MMTF Analysis",
                     success: true,
-                    input_errors: [
-                        "unable to share input file, /iplant/home/aramsey/sample1.newick: ERR_DOES_NOT_EXIST",
-                    ],
                 },
             ],
         },
         {
-            subject: { source_id: "ldap", id: "user_a" },
+            subject: { source_id: "ldap", id: "alfred" },
             analyses: [
                 {
-                    analysis_id: "07a3e96e-c21c-11ea-aa22-008cfa5ae622",
+                    analysis_id: "07a3e96e-c21c-11ea-aa22-008cfa5ae621",
                     permission: "owm",
                     analysis_name: "MMTF_analysis1",
                     success: true,
@@ -448,25 +379,16 @@ export const analysisUnshareRequest = {
         {
             subject: {
                 source_id: "ldap",
-                id: "user_a",
+                id: "joker",
             },
-            analyses: [
-                {
-                    analysis_id: "07a3e96e-c21c-11ea-aa22-008cfa5ae622",
-                },
-            ],
+            analyses: ["07a3e96e-c21c-11ea-aa22-008cfa5ae621"],
         },
         {
             subject: {
                 source_id: "ldap",
-                id: "user_a",
+                id: "alfred",
             },
-            analyses: [
-                {
-                    analysis_id: "07a3e96e-c21c-11ea-aa22-008cfa5ae6212",
-                    permission: "own",
-                },
-            ],
+            analyses: ["07a3e96e-c21c-11ea-aa22-008cfa5ae621"],
         },
     ],
 };
@@ -474,10 +396,10 @@ export const analysisUnshareRequest = {
 export const analysisUnshareResponse = {
     unsharing: [
         {
-            subject: { source_id: "ldap", id: "user_a" },
+            subject: { source_id: "ldap", id: "joker" },
             analyses: [
                 {
-                    analysis_id: "07a3e96e-c21c-11ea-aa22-008cfa5ae622",
+                    analysis_id: "07a3e96e-c21c-11ea-aa22-008cfa5ae621",
                     analysis_name: "MMTF_analysis1",
                     success: true,
                 },
@@ -486,10 +408,7 @@ export const analysisUnshareResponse = {
     ],
 };
 export const toolPermissionRequest = {
-    tools: [
-        "2609f8a8-e928-11e9-a2ea-008cfa5ae621",
-        "2609f8a8-e928-11e9-a2ea-008cfa5ae622",
-    ],
+    tools: ["2609f8a8-e928-11e9-a2ea-008cfa5ae621"],
 };
 
 export const toolPermissionResponse = {
@@ -499,29 +418,16 @@ export const toolPermissionResponse = {
             name: "Test_Tool",
             permissions: [
                 {
-                    subject: { source_id: "ldap", id: "user_a" },
+                    subject: { source_id: "ldap", id: "alfred" },
                     permission: "read",
                 },
                 {
-                    subject: { source_id: "ldap", id: "user_b" },
+                    subject: { source_id: "ldap", id: "robin" },
                     permission: "write",
                 },
                 {
-                    subject: { source_id: "ldap", id: "user_c" },
+                    subject: { source_id: "ldap", id: "joker" },
                     permission: "own",
-                },
-            ],
-        },
-        {
-            id: "2609f8a8-e928-11e9-a2ea-008cfa5ae622",
-            name: "mmtf_tool",
-            permissions: [
-                {
-                    subject: {
-                        id: "1448e0f77d794bc9965dea4bf8eddecb",
-                        source_id: "g:gsa",
-                    },
-                    permission: "read",
                 },
             ],
         },
@@ -537,7 +443,7 @@ export const toolShareRequest = {
                     permission: "read",
                 },
             ],
-            subject: { id: "batman_test", source_id: "ldap" },
+            subject: { id: "joker", source_id: "ldap" },
         },
         {
             tools: [
@@ -546,7 +452,7 @@ export const toolShareRequest = {
                     permission: "own",
                 },
             ],
-            subject: { id: "user_a", source_id: "ldap" },
+            subject: { id: "alfred", source_id: "ldap" },
         },
     ],
 };
@@ -556,7 +462,7 @@ export const toolShareResponse = {
         {
             subject: {
                 source_id: "ldap",
-                id: "batman_test",
+                id: "joker",
             },
             tools: [
                 {
@@ -570,7 +476,7 @@ export const toolShareResponse = {
         {
             subject: {
                 source_id: "ldap",
-                id: "user_a",
+                id: "alfred",
             },
             tools: [
                 {
@@ -588,7 +494,7 @@ export const toolUnshareRequest = {
     unsharing: [
         {
             tools: ["2609f8a8-e928-11e9-a2ea-008cfa5ae621"],
-            subject: { id: "batman_test", source_id: "ldap" },
+            subject: { id: "joker", source_id: "ldap" },
         },
     ],
 };
@@ -598,7 +504,7 @@ export const toolUnshareResponse = {
         {
             subject: {
                 source_id: "ldap",
-                id: "batman_test",
+                id: "joker",
             },
             tools: [
                 {
@@ -610,3 +516,10 @@ export const toolUnshareResponse = {
         },
     ],
 };
+
+export const allPermissionListerResponses = [
+    dataUserPermResp,
+    appPermissionListResponse,
+    analysisPermissionResponse,
+    toolPermissionResponse,
+];

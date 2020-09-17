@@ -7,43 +7,43 @@
  */
 
 import React, { useEffect, useState } from "react";
+
+import { useConfig } from "contexts/config";
 import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
 
-import { flattenStructureData } from "./utils";
-import ids from "./ids";
-import viewerConstants from "./constants";
-import TextViewer from "./TextViewer";
-import StructuredTextViewer from "./StructuredTextViewer";
-import DocumentViewer from "./DocumentViewer";
-import ImageViewer from "./ImageViewer";
-import VideoViewer from "./VideoViewer";
-
-import { useConfig } from "../../../contexts/config";
-import { useFileManifest, useReadChunk } from "./queries";
-import constants from "../../../constants";
 import NavigationConstants from "common/NavigationConstants";
+import infoTypes from "components/models/InfoTypes";
+import {
+    getMimeTypeFromString,
+    getViewerMode,
+    mimeTypes,
+} from "components/models/MimeTypes";
 
 import {
     FETCH_FILE_MANIFEST_QUERY_KEY,
     READ_CHUNK_QUERY_KEY,
 } from "serviceFacades/filesystem";
-import {
-    mimeTypes,
-    getMimeTypeFromString,
-    getViewerMode,
-} from "components/models/MimeTypes";
-import infoTypes from "components/models/InfoTypes";
+import constants from "../../../constants";
+import viewerConstants from "./constants";
+import DocumentViewer from "./DocumentViewer";
+import ids from "./ids";
+import ImageViewer from "./ImageViewer";
+import PathListViewer from "./PathListViewer";
+import { useFileManifest, useReadChunk } from "./queries";
+import StructuredTextViewer from "./StructuredTextViewer";
+import TextViewer from "./TextViewer";
+import { flattenStructureData } from "./utils";
+import VideoViewer from "./VideoViewer";
+import { parseNameFromPath } from "../utils";
 
 import { build } from "@cyverse-de/ui-lib";
-
 import {
     Button,
     CircularProgress,
     Toolbar,
     Typography,
 } from "@material-ui/core";
-import PathListViewer from "./PathListViewer";
 
 const VIEWER_TYPE = {
     PLAIN: "plain",
@@ -74,6 +74,8 @@ export default function FileViewer(props) {
     const [separator, setSeparator] = useState("");
     const [config] = useConfig();
 
+    const fileName = parseNameFromPath(path);
+
     const { isFetching, error: manifestError } = useFileManifest(
         [FETCH_FILE_MANIFEST_QUERY_KEY, path],
         path !== null && path !== undefined && !createFile,
@@ -103,6 +105,7 @@ export default function FileViewer(props) {
             }
         }
     );
+
     const getColumnDelimiter = (infoType) => {
         if (infoTypes.CSV === infoType) {
             return viewerConstants.COMMA_DELIMITER;
@@ -284,6 +287,7 @@ export default function FileViewer(props) {
                 <TextViewer
                     baseId={baseId}
                     path={path}
+                    fileName={fileName}
                     resourceId={resourceId}
                     data={flatData}
                     mode={mode}
@@ -299,6 +303,7 @@ export default function FileViewer(props) {
                 <StructuredTextViewer
                     baseId={baseId}
                     path={path}
+                    fileName={fileName}
                     resourceId={resourceId}
                     data={flattenStructureData(data)}
                     loading={isFetchingMore}
@@ -309,15 +314,30 @@ export default function FileViewer(props) {
         );
     } else if (viewerType === VIEWER_TYPE.IMAGE) {
         return (
-            <ImageViewer baseId={baseId} path={path} onRefresh={onRefresh} />
+            <ImageViewer
+                baseId={baseId}
+                path={path}
+                fileName={fileName}
+                onRefresh={onRefresh}
+            />
         );
     } else if (viewerType === VIEWER_TYPE.DOCUMENT) {
         return (
-            <DocumentViewer baseId={baseId} path={path} onRefresh={onRefresh} />
+            <DocumentViewer
+                baseId={baseId}
+                path={path}
+                fileName={fileName}
+                onRefresh={onRefresh}
+            />
         );
     } else if (viewerType === VIEWER_TYPE.VIDEO) {
         return (
-            <VideoViewer baseId={baseId} path={path} onRefresh={onRefresh} />
+            <VideoViewer
+                baseId={baseId}
+                path={path}
+                fileName={fileName}
+                onRefresh={onRefresh}
+            />
         );
     } else if (viewerType === VIEWER_TYPE.PATH_LIST) {
         let dataToView = "";
@@ -337,6 +357,7 @@ export default function FileViewer(props) {
                     query_key={readChunkKey}
                     baseId={baseId}
                     path={path}
+                    fileName={fileName}
                     resourceId={resourceId}
                     data={dataToView}
                     loading={isFetchingMore}

@@ -5,28 +5,30 @@
  *
  */
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useRowSelect, useTable } from "react-table";
-import { queryCache, useQuery, useMutation } from "react-query";
-import { useTranslation } from "i18n";
 
-import constants from "../../../constants";
-import ids from "./ids";
+import { queryCache, useMutation, useQuery } from "react-query";
+import { useRowSelect, useTable } from "react-table";
+import { useTranslation } from "i18n";
 
 import { uploadTextAsFile } from "serviceFacades/fileio";
 import {
-    getResourceDetails,
     DATA_DETAILS_QUERY_KEY,
+    getResourceDetails,
 } from "serviceFacades/filesystem";
+import constants from "../../../constants";
+import { UploadTrackingProvider } from "../../../contexts/uploadTracking";
+import SaveAsDialog from "../SaveAsDialog";
+import { getParentPath, isWritable } from "../utils";
+import ids from "./ids";
 import Toolbar from "./Toolbar";
 import { getColumns, LINE_NUMBER_ACCESSOR } from "./utils";
-import { getParentPath, parseNameFromPath, isWritable } from "../utils";
 
+import DataSelectionDrawer from "components/data/SelectionDrawer";
+import PageWrapper from "components/layout/PageWrapper";
 import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
-import PageWrapper from "components/layout/PageWrapper";
-import DataSelectionDrawer from "components/data/SelectionDrawer";
-import { UploadTrackingProvider } from "../../../contexts/uploadTracking";
-import { AnnouncerConstants, announce, build } from "@cyverse-de/ui-lib";
+
+import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
 
 import {
     Checkbox,
@@ -39,7 +41,6 @@ import {
     TableHead,
     TableRow,
 } from "@material-ui/core";
-import SaveAsDialog from "../SaveAsDialog";
 
 const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
@@ -66,6 +67,7 @@ function PathListViewer(props) {
         createFile,
         onRefresh,
         onNewFileSaved,
+        fileName,
     } = props;
 
     const { t } = useTranslation("data");
@@ -76,7 +78,6 @@ function PathListViewer(props) {
     const [dirty, setDirty] = useState(false);
     const [permission, setPermission] = useState(null);
     const [saveNewFileError, setSaveNewFileError] = useState(null);
-    const fileName = parseNameFromPath(path);
 
     let columns = useMemo(() => getColumns(data, false, t("path")), [data, t]);
 
@@ -244,6 +245,7 @@ function PathListViewer(props) {
                 dirty={dirty}
                 selectionCount={Object.keys(selectedRowIds).length}
                 onRefresh={onRefresh}
+                fileName={fileName}
             />
             {(loading || fileSaveStatus === constants.LOADING) && (
                 <CircularProgress
@@ -308,7 +310,7 @@ function PathListViewer(props) {
                         setData([...data, ...selPaths]);
                         setDirty(true);
                     }}
-                    baseId={build(baseId, "dataSelection")}
+                    baseId={build(baseId, ids.DATA_SELECTOR)}
                     multiSelect={true}
                 />
             </UploadTrackingProvider>

@@ -1,5 +1,6 @@
 import React from "react";
 
+import { ConfigProvider } from "../../../src/contexts/config";
 import FileViewer from "components/data/viewers/FileViewer";
 import { mockAxios } from "../../axiosMock";
 import { fileTypesResp, csvMainfestResp, csvChunkResp } from "../DataMocks";
@@ -9,11 +10,13 @@ export default {
 
 function CSVViewerTest(props) {
     return (
-        <FileViewer
-            baseId="data.viewer"
-            path="/iplant/home/ipctest/geospiza.csv"
-            resourceId="f5469f94-aq12-11e9-80c7-d8d385e427d4"
-        />
+        <ConfigProvider>
+            <FileViewer
+                baseId="data.viewer"
+                path="/iplant/home/ipctest/geospiza.csv"
+                resourceId="f5469f94-aq12-11e9-80c7-d8d385e427d4"
+            />
+        </ConfigProvider>
     );
 }
 

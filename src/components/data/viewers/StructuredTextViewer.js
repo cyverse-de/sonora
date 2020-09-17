@@ -4,17 +4,17 @@
  * @author sriram
  *
  */
-
 import React, { useMemo } from "react";
+
 import { useTable } from "react-table";
+
 import ids from "./ids";
 import Toolbar from "./Toolbar";
 import { getColumns, LINE_NUMBER_ACCESSOR } from "./utils";
-import { parseNameFromPath } from "../utils";
+
 import PageWrapper from "components/layout/PageWrapper";
 
 import { build } from "@cyverse-de/ui-lib";
-
 import {
     CircularProgress,
     Paper,
@@ -27,9 +27,17 @@ import {
 } from "@material-ui/core";
 
 export default function StructuredTextViewer(props) {
-    const { baseId, path, resourceId, data, loading, onRefresh } = props;
+    const {
+        baseId,
+        path,
+        resourceId,
+        data,
+        loading,
+        onRefresh,
+        fileName,
+    } = props;
     const [firstRowHeader, setFirstRowHeader] = React.useState(false);
-    const fileName = parseNameFromPath(path);
+
     let columns = useMemo(() => getColumns(data, firstRowHeader), [
         data,
         firstRowHeader,

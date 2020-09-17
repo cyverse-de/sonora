@@ -6,20 +6,21 @@
  *
  */
 import React, { useEffect, useState } from "react";
+
+import { build } from "@cyverse-de/ui-lib";
+import { Typography } from "@material-ui/core";
+import PageWrapper from "components/layout/PageWrapper";
 import { useTranslation } from "i18n";
+
+import { getHost } from "../../utils/getHost";
 import ids from "./ids";
 import Toolbar from "./Toolbar";
-import { parseNameFromPath } from "../utils";
-import { getHost } from "../../utils/getHost";
-import { build } from "@cyverse-de/ui-lib";
-import PageWrapper from "components/layout/PageWrapper";
-import { Typography } from "@material-ui/core";
 
 export default function ImageViewer(props) {
-    const { baseId, path, resourceId, onRefresh } = props;
+    const { baseId, path, resourceId, onRefresh, fileName } = props;
     const { t } = useTranslation("data");
     const [url, setUrl] = useState("");
-    const fileName = parseNameFromPath(path);
+
     useEffect(() => {
         setUrl(`${getHost()}/api/download?path=${path}`);
     }, [path]);
@@ -33,6 +34,7 @@ export default function ImageViewer(props) {
                     resourceId={resourceId}
                     allowLineNumbers={false}
                     onRefresh={onRefresh}
+                    fileName={fileName}
                 />
                 <img
                     id={build(baseId, ids.VIEWER_IMAGE, fileName)}

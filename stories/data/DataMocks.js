@@ -258,6 +258,26 @@ export const fileStatResp = {
     ids: {},
 };
 
+export const pathListfileStatResp = {
+    paths: {
+        "/iplant/home/ipctest/sample-pathlist": {
+            infoType: "bam",
+            path: "/iplant/home/ipctest/sample-pathlist",
+            "share-count": 0,
+            "date-created": 1569007396000,
+            md5: "e02ad19784cef44fe4ecdfqwba33c8fc",
+            permission: "own",
+            "date-modified": 1569007396000,
+            type: "file",
+            "file-size": 270233707,
+            label: "accepted_hits.bam",
+            id: "1cbb2f32-dbdc-11e9-8c1e-90e2ba675364",
+            "content-type": "application/gzip",
+        },
+    },
+    ids: {},
+};
+
 export const resourceTagResp = {
     tags: [
         {

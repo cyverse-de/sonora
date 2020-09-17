@@ -1,11 +1,13 @@
 export default {
     ADD_BTN: "addRowButton",
+    DATA_SELECTOR: "dataSelector",
     DELETE_BTN: "deleteRowButton",
     DETAILS_BTN: "detailsButton",
     DOWNLOAD_BTN: "downloadButton",
     HEADER_SWITCH: "headerSwitch",
     LOAD_MORE_BTN: "loadMoreButton",
     LINE_NUMBERS_SWITCH: "lineNumberSwitch",
+    REFRESH_BTN: "refershButton",
     SAVE_BTN: "saveButton",
     TOOLBAR: "toolbar",
     VIEWER_DOC: "doc",

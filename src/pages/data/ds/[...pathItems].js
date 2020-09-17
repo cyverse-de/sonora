@@ -2,14 +2,13 @@
  * @author sriram, aramsey
  *
  */
-
 import React from "react";
 import { useRouter } from "next/router";
 import Listing from "components/data/listing/Listing";
 import { getEncodedPath } from "components/data/utils";
-import ResourceTypes from "components/models/ResourceTypes";
-import infoTypes from "components/models/InfoTypes";
 import FileViewer from "components/data/viewers/FileViewer";
+import infoTypes from "components/models/InfoTypes";
+import ResourceTypes from "components/models/ResourceTypes";
 
 /**
  * This variable value needs to match the name of this file for the routing to work
@@ -29,10 +28,10 @@ const dynamicPathName = "/[...pathItems]";
 export default function DataStore() {
     const router = useRouter();
     const query = router.query;
+
     const isFile = query.file;
     const resourceId = query.resourceId;
     const createFile = query.createFile;
-
     const routerPathname = router.pathname;
 
     const fullPath = router.asPath;
@@ -40,6 +39,7 @@ export default function DataStore() {
     // (it won't be there if user navigates directly to /data/ds)
     const baseRoutingPath = routerPathname.replace(dynamicPathName, "");
     const path = fullPath.replace(baseRoutingPath, "").split("?")[0];
+
     const handlePathChange = (path, resourceType, id) => {
         const encodedPath = getEncodedPath(path);
         if (!resourceType || resourceType === ResourceTypes.FOLDER) {

@@ -6,26 +6,25 @@
  *
  */
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "i18n";
-import { useQuery, queryCache } from "react-query";
 
-import ids from "./ids";
+import { queryCache, useQuery } from "react-query";
+import { useTranslation } from "i18n";
+
 import { getHost } from "../../utils/getHost";
-import { parseNameFromPath } from "../utils";
-import ResourceTypes from "components/models/ResourceTypes";
+import ids from "./ids";
+
+import { getInfoTypes, INFO_TYPES_QUERY_KEY } from "serviceFacades/filesystem";
 import DetailsDrawer from "components/data/details/Drawer";
+import ResourceTypes from "components/models/ResourceTypes";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
 import { build } from "@cyverse-de/ui-lib";
-
-import { getInfoTypes, INFO_TYPES_QUERY_KEY } from "serviceFacades/filesystem";
-
 import {
     Button,
     Divider,
-    Hidden,
-    FormGroup,
     FormControlLabel,
+    FormGroup,
+    Hidden,
     Switch,
     Toolbar,
     Typography,
@@ -33,11 +32,11 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import {
     Add,
-    Delete,
-    Save,
-    Info,
     CloudDownload,
+    Delete,
+    Info,
     Refresh,
+    Save,
 } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -71,13 +70,13 @@ function ViewerToolbar(props) {
         selectionCount,
         dirty,
         onRefresh,
+        fileName,
     } = props;
     const { t } = useTranslation("data");
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
     const [download, setDownload] = useState(false);
-    const label = parseNameFromPath(path);
     const classes = useStyles();
 
     let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
@@ -117,7 +116,7 @@ function ViewerToolbar(props) {
         <>
             <Toolbar variant="dense" id={baseId}>
                 <Typography variant="body2" color="primary">
-                    {label}
+                    {fileName}
                 </Typography>
 
                 {onShowLineNumbers && (
@@ -237,7 +236,7 @@ function ViewerToolbar(props) {
                         setDetailsResource({
                             id: resourceId,
                             path,
-                            label,
+                            label: fileName,
                             type: ResourceTypes.FILE,
                         })
                     }

@@ -8,18 +8,28 @@ import React, { useState } from "react";
 
 import SyntaxHighlighter from "react-syntax-highlighter";
 
-import { parseNameFromPath } from "../utils";
-import PageWrapper from "components/layout/PageWrapper";
 import ids from "./ids";
 import Toolbar from "./Toolbar";
 
+import PageWrapper from "components/layout/PageWrapper";
+
 import { build } from "@cyverse-de/ui-lib";
+
 import { CircularProgress } from "@material-ui/core";
 
 export default function TextViewer(props) {
-    const { baseId, path, resourceId, data, loading, mode, onRefresh } = props;
+    const {
+        baseId,
+        path,
+        resourceId,
+        data,
+        loading,
+        mode,
+        onRefresh,
+        fileName,
+    } = props;
     const [showLineNumbers, setShowLineNumbers] = useState(true);
-    const fileName = parseNameFromPath(path);
+
     return (
         <PageWrapper
             appBarHeight={120}
@@ -33,6 +43,7 @@ export default function TextViewer(props) {
                 showLineNumbers={showLineNumbers}
                 onShowLineNumbers={(show) => setShowLineNumbers(show)}
                 onRefresh={onRefresh}
+                fileName={fileName}
             />
             {loading && (
                 <CircularProgress

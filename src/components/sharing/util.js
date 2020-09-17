@@ -1,13 +1,5 @@
-import {
-    Apps,
-    Assessment as AnalysisIcon,
-    Build as ToolIcon,
-    InsertDriveFileOutlined as FileIcon,
-} from "@material-ui/icons";
-import React from "react";
 import { groupBy } from "../../common/functions";
 import { SharingPermissions } from "../models/Permissions";
-import { parseNameFromPath } from "../data/utils";
 
 // Returns whether the given user object (returned from user-info call) is a group
 export const isGroup = (user) => {
@@ -35,7 +27,7 @@ const getDisplayPermission = (permissionList) => {
 
 // These are the keys to each permission-lister response object and correspond
 // to each type of resource that can be shared in Sonora
-const TYPE = {
+export const TYPE = {
     DATA: "paths",
     APPS: "apps",
     ANALYSES: "analyses",
@@ -81,19 +73,15 @@ export const getSharingFns = (type) => {
                 permListKey: "user-permissions",
                 permListFn: (sharing) => sharing["user-permissions"],
                 userIdFn: (permission) => permission.user,
-                labelFn: (sharing) => parseNameFromPath(sharing.path),
-                icon: <FileIcon />,
             };
         }
         case TYPE.APPS: {
             return {
-                idKey: "app_id",
+                idKey: "id",
                 idFn: (sharing) => sharing.app_id,
                 permListKey: "permissions",
                 permListFn: (sharing) => sharing.permissions,
                 userIdFn: (permission) => permission.subject.id,
-                labelFn: (sharing) => sharing.name,
-                icon: <Apps />,
             };
         }
         case TYPE.ANALYSES: {
@@ -103,8 +91,6 @@ export const getSharingFns = (type) => {
                 permListKey: "permissions",
                 permListFn: (sharing) => sharing.permissions,
                 userIdFn: (permission) => permission.subject.id,
-                labelFn: (sharing) => sharing.name,
-                icon: <AnalysisIcon />,
             };
         }
         case TYPE.TOOLS: {
@@ -114,8 +100,6 @@ export const getSharingFns = (type) => {
                 permListKey: "permissions",
                 permListFn: (sharing) => sharing.permissions,
                 userIdFn: (permission) => permission.subject.id,
-                labelFn: (sharing) => sharing.name,
-                icon: <ToolIcon />,
             };
         }
         default:
@@ -125,8 +109,6 @@ export const getSharingFns = (type) => {
                 permListKey: "permissions",
                 permListFn: (sharing) => sharing.permissions,
                 userIdFn: (permission) => permission.subject.id,
-                labelFn: (sharing) => sharing.name,
-                icon: null,
             };
     }
 };

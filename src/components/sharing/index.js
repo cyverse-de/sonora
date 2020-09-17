@@ -346,15 +346,15 @@ function Sharing(props) {
                         </Grid>
                         <Grid item sm={12} md={5} zeroMinWidth>
                             <Typography>{tSharing("resources")}</Typography>
-                            {resourceMap &&
-                                Object.keys(resourceMap).map((type) => {
-                                    return resourceMap[type].map(
-                                        (sharing, index) => (
+                            {resources &&
+                                Object.keys(resources).map((type) => {
+                                    return resources[type].map(
+                                        (resource, index) => (
                                             <Grid item key={index}>
                                                 <SharedItem
                                                     baseId={baseId}
                                                     type={type}
-                                                    item={sharing}
+                                                    item={resource}
                                                 />
                                             </Grid>
                                         )

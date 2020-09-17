@@ -155,8 +155,41 @@ export const doSharingUpdates = ({ sharing, unsharing }) => {
     });
 };
 
+const getPaths = (resources) => {
+    return resources.paths
+        ? resources.paths.map((resource) => resource.path)
+        : null;
+};
+
+const getAppIds = (resources) => {
+    return resources.apps
+        ? resources.apps.map((resource) => {
+              return {
+                  app_id: resource.id,
+                  system_id: resource.system_id,
+              };
+          })
+        : null;
+};
+
+const getAnalysisIds = (resources) => {
+    return resources.analyses
+        ? resources.analyses.map((resource) => resource.id)
+        : null;
+};
+
+const getToolIds = (resources) => {
+    return resources.tools
+        ? resources.tools.map((resource) => resource.id)
+        : null;
+};
+
 export const getPermissions = (key, { resources }) => {
-    const { paths, apps, analyses, tools } = resources;
+    const paths = getPaths(resources);
+    const apps = getAppIds(resources);
+    const analyses = getAnalysisIds(resources);
+    const tools = getToolIds(resources);
+
     let permissionPromises = [];
     if (paths && paths.length > 0) {
         permissionPromises.push(

@@ -53,17 +53,36 @@ export const SharingTest = () => {
 
     const resources = {
         paths: [
-            "/iplant/home/aramsey/CORE-9077-path.list",
-            "/iplant/home/aramsey/Discovery Environment-CyVerse-blue.svg",
+            {
+                label: "CORE-9077-path.list",
+                path: "/iplant/home/aramsey/CORE-9077-path.list",
+                type: "file",
+            },
+            {
+                label: "TestFolder",
+                path: "/iplant/home/aramsey/TestFolder",
+                type: "folder",
+            },
         ],
         apps: [
             {
+                name: "JupJup",
                 system_id: "de",
-                app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
+                id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
             },
         ],
-        analyses: ["07a3e96e-c21c-11ea-aa22-008cfa5ae621"],
-        tools: ["2609f8a8-e928-11e9-a2ea-008cfa5ae621"],
+        analyses: [
+            {
+                name: "MMTF Analysis",
+                id: "07a3e96e-c21c-11ea-aa22-008cfa5ae621",
+            },
+        ],
+        tools: [
+            {
+                name: "Test_Tool",
+                id: "2609f8a8-e928-11e9-a2ea-008cfa5ae621",
+            },
+        ],
     };
 
     return (

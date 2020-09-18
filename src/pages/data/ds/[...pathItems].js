@@ -2,7 +2,8 @@
  * @author sriram, aramsey
  *
  */
-import React from "react";
+import React, { useCallback } from "react";
+
 import { useRouter } from "next/router";
 import Listing from "components/data/listing/Listing";
 import { getEncodedPath } from "components/data/utils";
@@ -40,50 +41,62 @@ export default function DataStore() {
     const baseRoutingPath = routerPathname.replace(dynamicPathName, "");
     const path = fullPath.replace(baseRoutingPath, "").split("?")[0];
 
-    const handlePathChange = (path, resourceType, id) => {
-        const encodedPath = getEncodedPath(path);
-        if (!resourceType || resourceType === ResourceTypes.FOLDER) {
+    const handlePathChange = useCallback(
+        (path, resourceType, id) => {
+            const encodedPath = getEncodedPath(path);
+            if (!resourceType || resourceType === ResourceTypes.FOLDER) {
+                router.push(
+                    `${baseRoutingPath}${dynamicPathName}`,
+                    `${baseRoutingPath}${encodedPath}`
+                );
+            } else {
+                router.push(
+                    `${baseRoutingPath}${dynamicPathName}?file=true&resourceId=${id}`,
+                    `${baseRoutingPath}${encodedPath}?file=true&resourceId=${id}`
+                );
+            }
+        },
+        [baseRoutingPath, router]
+    );
+
+    const onCreateHTFileSelected = useCallback(
+        (path) => {
+            const createFile = infoTypes.HT_ANALYSIS_PATH_LIST;
+            const encodedPath = getEncodedPath(path.concat("/untitled"));
             router.push(
-                `${baseRoutingPath}${dynamicPathName}`,
-                `${baseRoutingPath}${encodedPath}`
+                `${baseRoutingPath}${dynamicPathName}?file=true&createFile=${createFile}`,
+                `${baseRoutingPath}${encodedPath}?file=true&createFile=${createFile}`
             );
-        } else {
+        },
+        [baseRoutingPath, router]
+    );
+
+    const onCreateMultiInputFileSelected = useCallback(
+        (path) => {
+            const createFile = infoTypes.MULTI_INPUT_PATH_LIST;
+            const encodedPath = getEncodedPath(path.concat("/untitled"));
             router.push(
-                `${baseRoutingPath}${dynamicPathName}?file=true&resourceId=${id}`,
-                `${baseRoutingPath}${encodedPath}?file=true&resourceId=${id}`
+                `${baseRoutingPath}${dynamicPathName}?file=true&createFile=${createFile}`,
+                `${baseRoutingPath}${encodedPath}?file=true&createFile=${createFile}`
             );
-        }
-    };
+        },
+        [baseRoutingPath, router]
+    );
 
-    const onCreateHTFileSelected = (path) => {
-        const createFile = infoTypes.HT_ANALYSIS_PATH_LIST;
-        const encodedPath = getEncodedPath(path.concat("/untitled"));
-        router.push(
-            `${baseRoutingPath}${dynamicPathName}?file=true&createFile=${createFile}`,
-            `${baseRoutingPath}${encodedPath}?file=true&createFile=${createFile}`
-        );
-    };
+    const onNewFileSaved = useCallback(
+        (path, resourceId) => {
+            const encodedPath = getEncodedPath(path);
+            router.push(
+                `${baseRoutingPath}${dynamicPathName}?file=true&resourceId=${resourceId}`,
+                `${baseRoutingPath}${encodedPath}?file=true&resourceId=${resourceId}`
+            );
+        },
+        [baseRoutingPath, router]
+    );
 
-    const onCreateMultiInputFileSelected = (path) => {
-        const createFile = infoTypes.MULTI_INPUT_PATH_LIST;
-        const encodedPath = getEncodedPath(path.concat("/untitled"));
-        router.push(
-            `${baseRoutingPath}${dynamicPathName}?file=true&createFile=${createFile}`,
-            `${baseRoutingPath}${encodedPath}?file=true&createFile=${createFile}`
-        );
-    };
-
-    const onNewFileSaved = (path, resourceId) => {
-        const encodedPath = getEncodedPath(path);
-        router.push(
-            `${baseRoutingPath}${dynamicPathName}?file=true&resourceId=${resourceId}`,
-            `${baseRoutingPath}${encodedPath}?file=true&resourceId=${resourceId}`
-        );
-    };
-
-    const onRefresh = () => {
-        router.reload();
-    };
+    const onRefresh = useCallback(() => {
+        router.reload(); //equivalent to browser refresh
+    }, [router]);
 
     if (!isFile) {
         return (

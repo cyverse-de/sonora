@@ -192,6 +192,13 @@ function SelectionDrawer(props) {
 
     const [toolbarHeight, setToolbarRef] = useComponentHeight();
 
+    const handlePathChange = (path, resourceType, id) => {
+        //disable file viewer from selection drawer
+        if (resourceType !== ResourceTypes.FILE) {
+            setCurrentPath(path);
+        }
+    };
+
     return (
         <Drawer
             id={id}
@@ -206,7 +213,7 @@ function SelectionDrawer(props) {
             <PageWrapper appBarHeight={toolbarHeight + PAGINATION_BAR_HEIGHT}>
                 <Listing
                     path={currentPath}
-                    handlePathChange={setCurrentPath}
+                    handlePathChange={handlePathChange}
                     baseId={build(id, ids.DATA_VIEW)}
                     multiSelect={multiSelect}
                     isInvalidSelection={isInvalidSelection}

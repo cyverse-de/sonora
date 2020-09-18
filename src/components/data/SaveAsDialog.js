@@ -36,7 +36,7 @@ import styles from "./styles";
 const useStyles = makeStyles(styles);
 
 function SaveAsDialog(props) {
-    const { path, open, onClose, onSaveAs, saveFileError, loading } = props;
+    const { path, open, onClose, onSaveAs, saveFileError, loading, setSaveNewFileError } = props;
     const [dest, setDest] = useState(path);
     const [selectionDrawerOpen, setSelectionDrawerOpen] = useState(false);
     const classes = useStyles();
@@ -65,6 +65,7 @@ function SaveAsDialog(props) {
                 {({ handleSubmit, validateForm }) => {
                     if (saveFileError) {
                         validateForm();
+                        setSaveNewFileError();
                     }
                     return (
                         <Form>

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { useConfig } from "contexts/config";
 import { useTranslation } from "i18n";
@@ -226,6 +226,7 @@ export default function FileViewer(props) {
         }
     }, [createFile, manifest, path, separator]);
 
+    const memoizedData = useMemo(() => data, [data]);
     const busy = isFetching || status === constants.LOADING;
 
     if (busy) {
@@ -257,7 +258,7 @@ export default function FileViewer(props) {
         viewerType !== VIEWER_TYPE.DOCUMENT &&
         viewerType !== VIEWER_TYPE.VIDEO &&
         !createFile &&
-        (!data || data.length === 0)
+        (!memoizedData || memoizedData.length === 0)
     ) {
         return <Typography>{t("noContent")}</Typography>;
     }
@@ -279,7 +280,7 @@ export default function FileViewer(props) {
 
     if (viewerType === VIEWER_TYPE.PLAIN) {
         let flatData = "";
-        data.forEach((page) => {
+        memoizedData.forEach((page) => {
             flatData = flatData.concat(page.chunk);
         });
         return (
@@ -305,7 +306,7 @@ export default function FileViewer(props) {
                     path={path}
                     fileName={fileName}
                     resourceId={resourceId}
-                    data={flattenStructureData(data)}
+                    data={flattenStructureData(memoizedData)}
                     loading={isFetchingMore}
                     onRefresh={onRefresh}
                 />
@@ -348,7 +349,7 @@ export default function FileViewer(props) {
                 dataToView = [{ 1: config.fileIdentifiers.multiInputPathList }];
             }
         } else {
-            dataToView = flattenStructureData(data);
+            dataToView = flattenStructureData(memoizedData);
         }
         return (
             <>

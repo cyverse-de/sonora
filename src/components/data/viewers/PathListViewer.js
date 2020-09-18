@@ -4,7 +4,13 @@
  * @author sriram
  *
  */
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 
 import { useMutation, useQuery } from "react-query";
 import { useRowSelect, useTable } from "react-table";
@@ -16,7 +22,7 @@ import {
     getResourceDetails,
 } from "serviceFacades/filesystem";
 import constants from "../../../constants";
-import { UploadTrackingProvider } from "../../../contexts/uploadTracking";
+import { UploadTrackingProvider } from "contexts/uploadTracking";
 import SaveAsDialog from "../SaveAsDialog";
 import { getParentPath, isWritable } from "../utils";
 import ids from "./ids";
@@ -71,7 +77,6 @@ function PathListViewer(props) {
     } = props;
 
     const { t } = useTranslation("data");
-
     const [open, setOpen] = useState(false);
     const [saveAsDialogOpen, setSaveAsDialogOpen] = useState(false);
     const [dirty, setDirty] = useState(false);
@@ -79,20 +84,32 @@ function PathListViewer(props) {
     const [saveNewFileError, setSaveNewFileError] = useState(null);
     const [editorData, setEditorData] = useState([]);
 
-    let columns = useMemo(() => getColumns(data, false, t("path")), [data, t]);
-    //hide the shebang row
-    const dataToDisplay = useMemo(() => data.slice(1), [data]);
+    const columns = useMemo(() => getColumns(data, false, t("path")), [
+        data,
+        t,
+    ]);
 
-    const setLineNumbers = (tableData) => {
-        tableData.forEach((row, index) => {
-            row[LINE_NUMBER_ACCESSOR] = index + 1; //line number starts from 1
-        });
-        return tableData;
-    };
+    const setLineNumbers = useCallback(
+        (tableData) => {
+            const tableDataWithLineNumbers = tableData.map((row, index) => {
+                const pathKey = columns[1].accessor;
+                const val = row[pathKey];
+                const newRow = {};
+                //line number starts from 1
+                newRow[LINE_NUMBER_ACCESSOR] = index + 1;
+                newRow[pathKey] = val;
+                return newRow;
+            });
+            return tableDataWithLineNumbers;
+        },
+        [columns]
+    );
 
     useEffect(() => {
+        //hide the shebang row
+        const dataToDisplay = data.slice(1);
         setEditorData(setLineNumbers(dataToDisplay));
-    }, [dataToDisplay]);
+    }, [data, setLineNumbers]);
 
     const [saveTextAsFile, { status: fileSaveStatus }] = useMutation(
         uploadTextAsFile,
@@ -202,7 +219,6 @@ function PathListViewer(props) {
             ]);
         }
     );
-
     return (
         <PageWrapper appBarHeight={120}>
             <Toolbar
@@ -298,19 +314,22 @@ function PathListViewer(props) {
                     onClose={() => setOpen(false)}
                     onConfirm={(selections) => {
                         setOpen(false);
-                        const selPaths = [];
-                        selections.forEach((path) => {
-                            const key = columns[1].accessor;
-                            const pathObj = {};
-                            pathObj[key] = path;
-                            selPaths.push(pathObj);
-                        });
-                        setEditorData(
-                            setLineNumbers([...editorData, ...selPaths])
-                        );
-                        setDirty(true);
+                        if (selections?.length > 0) {
+                            const selPaths = [];
+                            selections.forEach((path) => {
+                                const key = columns[1].accessor;
+                                const pathObj = {};
+                                pathObj[key] = path;
+                                selPaths.push(pathObj);
+                            });
+                            const dataWithLineNumbers = setLineNumbers([
+                                ...editorData,
+                                ...selPaths,
+                            ]);
+                            setEditorData(dataWithLineNumbers);
+                            setDirty(true);
+                        }
                     }}
-                    baseId={build(baseId, ids.DATA_SELECTOR)}
                     multiSelect={true}
                 />
             </UploadTrackingProvider>
@@ -323,10 +342,11 @@ function PathListViewer(props) {
                     saveTextAsFile({
                         dest: newPath,
                         content: getContent(),
-                        newFile: createFile && dirty,
+                        newFile: createFile ? true : false,
                     });
                 }}
                 loading={fileSaveStatus === constants.LOADING}
+                setSaveNewFileError={setSaveNewFileError}
             />
         </PageWrapper>
     );

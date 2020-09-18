@@ -196,7 +196,7 @@ export const BagUI = ({ remove }) => {
     );
 };
 
-export default ({ open, remove, onClose }) => {
+export default ({ open, remove = () => {}, onClose }) => {
     const theme = useTheme();
 
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));

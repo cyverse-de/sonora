@@ -44,6 +44,12 @@ export const TestBag = () => {
     mockAxios.onGet("/api/bags/default").reply(200, data);
 
     return (
-        <OpsBag open={open} remove={() => {}} onClose={() => setOpen(false)} />
+        <OpsBag
+            open={open}
+            remove={() => {}}
+            onClose={() => {
+                setOpen(false);
+            }}
+        />
     );
 };

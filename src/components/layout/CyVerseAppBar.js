@@ -23,7 +23,7 @@ import { useUserProfile } from "contexts/userProfile";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 import searchConstants from "components/search/constants";
 import { usePreferences } from "contexts/userPreferences";
-
+import Bag from "components/Bag";
 import {
     getUserProfile,
     useBootStrap,
@@ -55,6 +55,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 
@@ -201,6 +202,34 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(4),
     },
 }));
+
+const BagMenu = () => {
+    const classes = useStyles();
+    const [bagDlgOpen, setBagDlgOpen] = useState(false);
+
+    const handleClick = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        setBagDlgOpen(!bagDlgOpen);
+    };
+
+    const handleClose = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        setBagDlgOpen(false);
+    };
+
+    return (
+        <Hidden only={["xs"]}>
+            <IconButton className={classes.menuIcon} onClick={handleClick}>
+                <ShoppingBasketIcon />
+                <Bag open={bagDlgOpen} onClose={handleClose} />
+            </IconButton>
+        </Hidden>
+    );
+};
 
 function CyverseAppBar(props) {
     const classes = useStyles();
@@ -605,6 +634,7 @@ function CyverseAppBar(props) {
                         <CustomIntercom
                             intercomUnreadCount={intercomUnreadCount}
                         />
+                        <BagMenu />
                         <Notifications />
                     </div>
                     <Hidden only={["xs"]}>

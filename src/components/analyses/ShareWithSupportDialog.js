@@ -25,6 +25,7 @@ import {
     Button,
     Checkbox,
     Dialog,
+    DialogActions,
     DialogContent,
     DialogTitle,
     FormControl,
@@ -429,6 +430,7 @@ function ShareDisclaimer() {
 
 const ShareWithSupportDialog = ({
     open,
+    onClose,
     analysis,
     name,
     email,
@@ -446,13 +448,7 @@ const ShareWithSupportDialog = ({
     const baseDebugID = build(baseId, ids.SHARE_WITH_SUPPORT);
 
     return (
-        <Dialog
-            open={open}
-            onClose={() => {
-                setShareWithSupport(false);
-                onShareWithSupport(analysis, comment, false);
-            }}
-        >
+        <Dialog open={open} onClose={onClose}>
             <DialogTitle>{analysis.name}</DialogTitle>
             <DialogContent>
                 {!shareWithSupport && (
@@ -490,20 +486,6 @@ const ShareWithSupportDialog = ({
                             status === analysisStatus.COMPLETED && (
                                 <CompletedUnexpectedOutputSupport />
                             )}
-
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            style={{
-                                textTransform: "none",
-                                float: "right",
-                            }}
-                            onClick={() => {
-                                setShareWithSupport(true);
-                            }}
-                        >
-                            {t("needHelp")}
-                        </Button>
                     </React.Fragment>
                 )}
 
@@ -541,30 +523,53 @@ const ShareWithSupportDialog = ({
                             }
                             label={<ShareDisclaimer />}
                         />
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            style={{
-                                textTransform: "none",
-                                float: "right",
-                            }}
-                            disabled={!enableSubmit}
-                            onClick={() => {
-                                setShareWithSupport(false);
-                                onShareWithSupport(analysis, comment, true);
-                            }}
-                        >
-                            {t("submit")}
-                        </Button>
                     </React.Fragment>
                 )}
             </DialogContent>
+            <DialogActions>
+                <Button
+                    variant="outlined"
+                    onClick={() => {
+                        setShareWithSupport(false);
+                        onClose();
+                    }}
+                >
+                    {t("cancel")}
+                </Button>
+
+                {shareWithSupport ? (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        disabled={!enableSubmit}
+                        onClick={() => {
+                            setShareWithSupport(false);
+                            onShareWithSupport(analysis, comment);
+                        }}
+                    >
+                        {t("submit")}
+                    </Button>
+                ) : (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => {
+                            setShareWithSupport(true);
+                        }}
+                    >
+                        {t("needHelp")}
+                    </Button>
+                )}
+            </DialogActions>
         </Dialog>
     );
 };
 
 ShareWithSupportDialog.propTypes = {
     analysis: PropTypes.object.isRequired,
+    open: PropTypes.bool,
+    onClose: PropTypes.func.isRequired,
+    onShareWithSupport: PropTypes.func.isRequired,
 };
 
 export default ShareWithSupportDialog;

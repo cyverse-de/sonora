@@ -39,13 +39,9 @@ export const ShareAnalysisWithSupport = () => {
             analysis={analysis}
             name={"IpcDev"}
             email={"ipcdev@cyverse.org"}
-            onShareWithSupport={(analysis, comment, supportRequested) =>
-                console.log(
-                    "onShareWithSupport",
-                    analysis,
-                    comment,
-                    supportRequested
-                )
+            onClose={() => console.log("Dialog closed.")}
+            onShareWithSupport={(analysis, comment) =>
+                console.log("onShareWithSupport", analysis, comment)
             }
         />
     );

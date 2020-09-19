@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 
 import { build } from "@cyverse-de/ui-lib";
-import { CircularProgress, TextField } from "@material-ui/core";
+import {
+    CircularProgress,
+    TextField,
+    useMediaQuery,
+    useTheme,
+} from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { useQuery } from "react-query";
 
@@ -16,6 +21,8 @@ function SubjectSearchField(props) {
     const { t } = useTranslation("sharing");
     const [searchTerm, setSearchTerm] = useState(null);
     const [options, setOptions] = useState([]);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const { status: subjectSearchStatus } = useQuery({
         queryKey: { searchTerm },
@@ -83,7 +90,7 @@ function SubjectSearchField(props) {
             renderInput={(params) => (
                 <TextField
                     {...params}
-                    label={t("searchUsers")}
+                    label={isMobile ? t("searchUsersMobile") : t("searchUsers")}
                     fullWidth
                     variant="outlined"
                     InputProps={{

@@ -16,6 +16,7 @@ import {
     DialogContent,
     DialogTitle,
     Divider,
+    FormControl,
     Grid,
     IconButton,
     makeStyles,
@@ -266,30 +267,34 @@ function Sharing(props) {
                                 {userMap &&
                                     Object.values(userMap).map((user) => {
                                         const permissionSelector = () => (
-                                            <SharingPermissionSelector
-                                                baseId={build(
-                                                    baseId,
-                                                    user.id,
-                                                    ids.PERMISSION_SELECTOR
-                                                )}
-                                                classes={{
-                                                    root: classes.closeButton,
-                                                }}
-                                                currentPermission={
-                                                    user.displayPermission
+                                            <FormControl
+                                                className={
+                                                    isMobile &&
+                                                    classes.mobilePermission
                                                 }
-                                                onPermissionChange={(
-                                                    updatedPermission
-                                                ) =>
-                                                    onPermissionChange(
-                                                        user,
+                                            >
+                                                <SharingPermissionSelector
+                                                    baseId={build(
+                                                        baseId,
+                                                        user.id,
+                                                        ids.PERMISSION_SELECTOR
+                                                    )}
+                                                    currentPermission={
+                                                        user.displayPermission
+                                                    }
+                                                    onPermissionChange={(
                                                         updatedPermission
-                                                    )
-                                                }
-                                                onRemoveSelected={() =>
-                                                    onRemoveUser(user)
-                                                }
-                                            />
+                                                    ) =>
+                                                        onPermissionChange(
+                                                            user,
+                                                            updatedPermission
+                                                        )
+                                                    }
+                                                    onRemoveSelected={() =>
+                                                        onRemoveUser(user)
+                                                    }
+                                                />
+                                            </FormControl>
                                         );
                                         return (
                                             <Fragment key={user.id}>
@@ -337,7 +342,9 @@ function Sharing(props) {
                             />
                         </Grid>
                         <Grid item sm={12} md={5} zeroMinWidth>
-                            <Typography>{tSharing("resources")}</Typography>
+                            <Typography className={classes.typographyPadding}>
+                                {tSharing("resources")}
+                            </Typography>
                             {resources &&
                                 Object.keys(resources).map((type) => {
                                     return resources[type].map(

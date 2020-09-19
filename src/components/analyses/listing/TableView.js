@@ -10,8 +10,10 @@ import { useTranslation } from "i18n";
 import Actions from "./Actions";
 import ids from "../ids";
 
+import analysisStatus from "components/models/analysisStatus";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import TableLoading from "components/utils/TableLoading";
+
 import analysisFields from "../analysisFields";
 
 import { getAnalysisUser } from "../utils";
@@ -26,6 +28,7 @@ import {
 
 import {
     makeStyles,
+    Link,
     Paper,
     Table,
     TableBody,
@@ -73,11 +76,29 @@ function AppName(props) {
 }
 
 function Status(props) {
-    const { analysis, baseId } = props;
+    const { analysis, baseId, onStatusClick } = props;
+
+    let StatusDisplay = Typography,
+        statusDisplayProps = {
+            id: build(baseId, ids.STATUS),
+            variant: "body2",
+        };
+
+    if (
+        [
+            analysisStatus.SUBMITTED,
+            analysisStatus.RUNNING,
+            analysisStatus.COMPLETED,
+            analysisStatus.FAILED,
+        ].includes(analysis.status)
+    ) {
+        StatusDisplay = Link;
+        statusDisplayProps.component = "button";
+        statusDisplayProps.onClick = () => onStatusClick(analysis);
+    }
+
     return (
-        <Typography variant="body2" id={build(baseId, ids.STATUS)}>
-            {analysis.status}
-        </Typography>
+        <StatusDisplay {...statusDisplayProps}>{analysis.status}</StatusDisplay>
     );
 }
 
@@ -154,6 +175,7 @@ function TableView(props) {
         handleBatchIconClick,
         handleDetailsClick,
         handleCheckboxClick,
+        handleStatusClick,
     } = props;
 
     const theme = useTheme();
@@ -290,6 +312,9 @@ function TableView(props) {
                                             <Status
                                                 analysis={analysis}
                                                 baseId={baseId}
+                                                onStatusClick={
+                                                    handleStatusClick
+                                                }
                                             />
                                         </TableCell>
                                         {!isSmall && (

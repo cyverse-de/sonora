@@ -79,6 +79,7 @@ export default {
         COMMENT: "comment",
         RELAUNCH: "relaunch",
         RENAME: "rename",
+        STATUS_HELP: "statusHelp",
     },
 
     ICONS: {

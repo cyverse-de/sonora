@@ -33,6 +33,7 @@ import Drawer from "../details/Drawer";
 import ids from "../ids";
 import RenameAnalysisDialog from "../RenameAnalysisDialog";
 import AnalysisCommentDialog from "../AnalysisCommentDialog";
+import ShareWithSupportDialog from "../ShareWithSupportDialog";
 
 import TableView from "./TableView";
 
@@ -99,6 +100,9 @@ function Listing(props) {
 
     const [selectedAnalysis, setSelectedAnalysis] = useState(null);
     const [isSingleSelection, setSingleSelection] = useState(false);
+    const [shareWithSupportAnalysis, setShareWithSupportAnalysis] = useState(
+        null
+    );
 
     const [detailsOpen, setDetailsOpen] = useState(false);
 
@@ -559,6 +563,15 @@ function Listing(props) {
         });
     };
 
+    const handleStatusClick = (analysis) => {
+        setShareWithSupportAnalysis(analysis);
+    };
+
+    const onShareWithSupport = (analysis, comment) => {
+        setShareWithSupportAnalysis(null);
+        console.log("onShareWithSupport", analysis, comment);
+    };
+
     const getSelectedAnalyses = (analyses) => {
         const items = analyses ? analyses : selected;
         return items.map((id) =>
@@ -614,6 +627,7 @@ function Listing(props) {
                 handleRelaunch={handleRelaunch}
                 handleBatchIconClick={handleBatchIconClick}
                 handleDetailsClick={onDetailsSelected}
+                handleStatusClick={handleStatusClick}
             />
 
             <ConfirmationDialog
@@ -651,6 +665,18 @@ function Listing(props) {
                 onClose={() => setCommentDialogOpen(false)}
                 handleUpdateComment={analysisCommentMutation}
             />
+
+            {shareWithSupportAnalysis && (
+                <ShareWithSupportDialog
+                    baseId={build(baseId, ids.DIALOG.STATUS_HELP)}
+                    open={!!shareWithSupportAnalysis}
+                    analysis={shareWithSupportAnalysis}
+                    name={userProfile?.attributes.name}
+                    email={userProfile?.attributes.email}
+                    onClose={() => setShareWithSupportAnalysis(null)}
+                    onShareWithSupport={onShareWithSupport}
+                />
+            )}
 
             {detailsOpen && (
                 <Drawer

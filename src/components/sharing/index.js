@@ -83,6 +83,7 @@ function Sharing(props) {
         queryKey: [GET_PERMISSIONS_QUERY_KEY, { resources }],
         queryFn: getPermissions,
         config: {
+            enabled: open && resources !== null,
             onSuccess: (results) => {
                 setPermissions(results);
                 setUserIdList(getUserSet(results));

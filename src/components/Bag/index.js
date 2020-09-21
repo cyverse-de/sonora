@@ -2,6 +2,9 @@ import React, { useState } from "react";
 
 import {
     Dialog,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     IconButton,
     List,
     ListItem,
@@ -10,13 +13,12 @@ import {
     ListItemText,
     ListItemSecondaryAction,
     makeStyles,
-    Typography,
     Button,
     useMediaQuery,
     Tabs,
     Tab,
 } from "@material-ui/core";
-import { Delete, GetApp, People } from "@material-ui/icons";
+import { Delete, GetApp, People, Close } from "@material-ui/icons";
 
 import { useQuery } from "react-query";
 import * as facade from "../../serviceFacades/bags";
@@ -44,6 +46,11 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(2),
         paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(2),
+    },
+    closeButton: {
+        position: "absolute",
+        right: theme.spacing(1),
+        top: theme.spacing(1),
     },
     help: {
         paddingLeft: theme.spacing(2),
@@ -126,7 +133,6 @@ const BagTab = ({
 };
 
 export const BagUI = ({ remove }) => {
-    const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
 
     const { status, data, error } = useQuery(
@@ -159,13 +165,6 @@ export const BagUI = ({ remove }) => {
                 <BagSkeleton />
             ) : (
                 <>
-                    <Typography variant="h4" className={classes.title}>
-                        {t("yourItemBag")}
-                    </Typography>
-                    <Typography variant="body1" className={classes.help}>
-                        {t("bagHelp")}
-                    </Typography>
-
                     <Tabs
                         value={tabValue}
                         onChange={handleTabChange}
@@ -200,12 +199,26 @@ export const BagUI = ({ remove }) => {
 
 export default ({ open, remove = () => {}, onClose }) => {
     const theme = useTheme();
+    const classes = useStyles();
+    const { t } = useTranslation(["bags", "common"]);
 
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
     return (
         <Dialog fullScreen={fullScreen} open={open} onClose={onClose}>
-            <BagUI remove={remove} />
+            <DialogTitle>
+                {t("yourItemBag")}
+
+                <IconButton onClick={onClose} className={classes.closeButton}>
+                    <Close />
+                </IconButton>
+            </DialogTitle>
+
+            <DialogContent>
+                <DialogContentText>{t("bagHelp")}</DialogContentText>
+
+                <BagUI remove={remove} />
+            </DialogContent>
         </Dialog>
     );
 };

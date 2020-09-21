@@ -385,9 +385,9 @@ function ViewerToolbar(props) {
                                         id={build(baseId, ids.DELETE_MENU_ITEM)}
                                         onClick={() => {
                                             onClose();
-                                            onDeleteRow();
+                                            onSave();
                                         }}
-                                        disabled={selectionCount === 0}
+                                        disabled={!dirty}
                                     >
                                         <ListItemIcon>
                                             <Save fontSize="small" />
@@ -399,9 +399,9 @@ function ViewerToolbar(props) {
                                         id={build(baseId, ids.SAVE_MENU_ITEM)}
                                         onClick={() => {
                                             onClose();
-                                            onSave();
+                                            onDeleteRow();
                                         }}
-                                        disabled={!dirty}
+                                        disabled={selectionCount === 0}
                                     >
                                         <ListItemIcon>
                                             <Delete fontSize="small" />

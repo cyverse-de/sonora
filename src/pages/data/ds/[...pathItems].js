@@ -5,6 +5,8 @@
 import React, { useCallback } from "react";
 
 import { useRouter } from "next/router";
+
+import viewerConstants from "components/data/viewers/constants";
 import Listing from "components/data/listing/Listing";
 import { getEncodedPath } from "components/data/utils";
 import FileViewer from "components/data/viewers/FileViewer";
@@ -62,7 +64,9 @@ export default function DataStore() {
     const onCreateHTFileSelected = useCallback(
         (path) => {
             const createFile = infoTypes.HT_ANALYSIS_PATH_LIST;
-            const encodedPath = getEncodedPath(path.concat("/untitled"));
+            const encodedPath = getEncodedPath(
+                path.concat(`/${viewerConstants.NEW_FILE_NAME}`)
+            );
             router.push(
                 `${baseRoutingPath}${dynamicPathName}?file=true&createFile=${createFile}`,
                 `${baseRoutingPath}${encodedPath}?file=true&createFile=${createFile}`
@@ -74,7 +78,9 @@ export default function DataStore() {
     const onCreateMultiInputFileSelected = useCallback(
         (path) => {
             const createFile = infoTypes.MULTI_INPUT_PATH_LIST;
-            const encodedPath = getEncodedPath(path.concat("/untitled"));
+            const encodedPath = getEncodedPath(
+                path.concat(`/${viewerConstants.NEW_FILE_NAME}`)
+            );
             router.push(
                 `${baseRoutingPath}${dynamicPathName}?file=true&createFile=${createFile}`,
                 `${baseRoutingPath}${encodedPath}?file=true&createFile=${createFile}`

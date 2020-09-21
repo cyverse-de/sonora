@@ -3,4 +3,5 @@ export default {
     COMMA_DELIMITER: ",",
     TAB_DELIMITER: "\t",
     SPACE_DELIMITER: " ",
+    NEW_FILE_NAME: "untitled",
 };

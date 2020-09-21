@@ -54,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
             margin: theme.spacing(1),
         },
     },
+    separator: {
+        margin: theme.spacing(0.5),
+    },
 }));
 
 function ViewerToolbar(props) {
@@ -128,7 +131,7 @@ function ViewerToolbar(props) {
                             <Divider
                                 orientation="vertical"
                                 flexItem
-                                style={{ margin: 8 }}
+                                className={classes.separator}
                             />
                             <FormGroup row>
                                 <FormControlLabel
@@ -228,7 +231,7 @@ function ViewerToolbar(props) {
                             <Divider
                                 orientation="vertical"
                                 flexItem
-                                style={{ margin: 8 }}
+                                className={classes.separator}
                             />
                         </>
                     )}

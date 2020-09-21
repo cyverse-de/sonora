@@ -120,8 +120,17 @@ function Sharing(props) {
         }
     }, [resources]);
 
+    const getUserPrimaryText = (user) => {
+        const { email, id } = user;
+        return email ? email : id;
+    };
+
     const getUserAvatar = (user) => {
-        return isGroup(user) ? <Group /> : user.email[0].toUpperCase();
+        return isGroup(user) ? (
+            <Group />
+        ) : (
+            getUserPrimaryText(user)[0].toUpperCase()
+        );
     };
 
     const addUser = (user) => {
@@ -314,7 +323,9 @@ function Sharing(props) {
                                                     primaryText={
                                                         isGroup(user)
                                                             ? groupName(user)
-                                                            : user.email
+                                                            : getUserPrimaryText(
+                                                                  user
+                                                              )
                                                     }
                                                     secondaryText={
                                                         user.institution ||

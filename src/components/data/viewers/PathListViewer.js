@@ -132,7 +132,9 @@ function PathListViewer(props) {
                 if (createFile) {
                     const text =
                         getErrorCode(error) === ERROR_CODES.ERR_EXISTS
-                            ? t("fileExists", { path: path })
+                            ? t("fileExists", {
+                                  path: getParentPath(error?.path),
+                              })
                             : t("fileSaveError");
                     setSaveNewFileError(text);
                 } else {
@@ -260,6 +262,7 @@ function PathListViewer(props) {
                 selectionCount={Object.keys(selectedRowIds).length}
                 onRefresh={onRefresh}
                 fileName={fileName}
+                createFile={createFile}
             />
             {(loading || fileSaveStatus === constants.LOADING) && (
                 <CircularProgress

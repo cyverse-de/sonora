@@ -30,7 +30,7 @@ import DocumentViewer from "./DocumentViewer";
 import ids from "./ids";
 import ImageViewer from "./ImageViewer";
 import PathListViewer from "./PathListViewer";
-import { useFileManifest, useReadChunk } from "./queries";
+import { refreshViewer, useFileManifest, useReadChunk } from "./queries";
 import StructuredTextViewer from "./StructuredTextViewer";
 import TextViewer from "./TextViewer";
 import { flattenStructureData } from "./utils";
@@ -55,14 +55,7 @@ const VIEWER_TYPE = {
 };
 
 export default function FileViewer(props) {
-    const {
-        path,
-        resourceId,
-        createFile,
-        onRefresh,
-        onNewFileSaved,
-        baseId,
-    } = props;
+    const { path, resourceId, createFile, onNewFileSaved, baseId } = props;
 
     const { t } = useTranslation("data");
     const router = useRouter();
@@ -75,9 +68,10 @@ export default function FileViewer(props) {
     const [config] = useConfig();
 
     const fileName = parseNameFromPath(path);
+    const manifestKey = [FETCH_FILE_MANIFEST_QUERY_KEY, path];
 
     const { isFetching, error: manifestError } = useFileManifest(
-        [FETCH_FILE_MANIFEST_QUERY_KEY, path],
+        manifestKey,
         path !== null && path !== undefined && !createFile,
         (resp) => {
             setManifest(resp);
@@ -293,7 +287,7 @@ export default function FileViewer(props) {
                     data={flatData}
                     mode={mode}
                     loading={isFetchingMore}
-                    onRefresh={onRefresh}
+                    onRefresh={() => refreshViewer(manifestKey)}
                 />
                 <LoadMoreButton />
             </>
@@ -308,7 +302,7 @@ export default function FileViewer(props) {
                     resourceId={resourceId}
                     data={flattenStructureData(memoizedData)}
                     loading={isFetchingMore}
-                    onRefresh={onRefresh}
+                    onRefresh={() => refreshViewer(manifestKey)}
                 />
                 <LoadMoreButton />
             </>
@@ -319,7 +313,7 @@ export default function FileViewer(props) {
                 baseId={baseId}
                 path={path}
                 fileName={fileName}
-                onRefresh={onRefresh}
+                onRefresh={() => refreshViewer(manifestKey)}
             />
         );
     } else if (viewerType === VIEWER_TYPE.DOCUMENT) {
@@ -328,7 +322,7 @@ export default function FileViewer(props) {
                 baseId={baseId}
                 path={path}
                 fileName={fileName}
-                onRefresh={onRefresh}
+                onRefresh={() => refreshViewer(manifestKey)}
             />
         );
     } else if (viewerType === VIEWER_TYPE.VIDEO) {
@@ -337,7 +331,7 @@ export default function FileViewer(props) {
                 baseId={baseId}
                 path={path}
                 fileName={fileName}
-                onRefresh={onRefresh}
+                onRefresh={() => refreshViewer(manifestKey)}
             />
         );
     } else if (viewerType === VIEWER_TYPE.PATH_LIST) {
@@ -362,7 +356,7 @@ export default function FileViewer(props) {
                     data={dataToView}
                     loading={isFetchingMore}
                     separator={separator}
-                    onRefresh={onRefresh}
+                    onRefresh={() => refreshViewer(manifestKey)}
                     onNewFileSaved={onNewFileSaved}
                 />
                 <LoadMoreButton />

@@ -7,14 +7,15 @@
  */
 import React, { useEffect, useState } from "react";
 
-import { build } from "@cyverse-de/ui-lib";
-import { Typography } from "@material-ui/core";
 import PageWrapper from "components/layout/PageWrapper";
 import { useTranslation } from "i18n";
 
 import { getHost } from "../../utils/getHost";
 import ids from "./ids";
 import Toolbar from "./Toolbar";
+
+import { build } from "@cyverse-de/ui-lib";
+import { Typography } from "@material-ui/core";
 
 export default function ImageViewer(props) {
     const { baseId, path, resourceId, onRefresh, fileName } = props;

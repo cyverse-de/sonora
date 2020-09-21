@@ -74,6 +74,7 @@ function ViewerToolbar(props) {
         dirty,
         onRefresh,
         fileName,
+        createFile,
     } = props;
     const { t } = useTranslation("data");
     const [detailsResource, setDetailsResource] = useState(null);
@@ -231,37 +232,41 @@ function ViewerToolbar(props) {
                             />
                         </>
                     )}
-                    <Button
-                        id={build(baseId, ids.DETAILS_BTN)}
-                        size="small"
-                        className={classes.toolbarItems}
-                        variant="outlined"
-                        disableElevation
-                        color="primary"
-                        onClick={() =>
-                            setDetailsResource({
-                                id: resourceId,
-                                path,
-                                label: fileName,
-                                type: ResourceTypes.FILE,
-                            })
-                        }
-                        startIcon={<Info />}
-                    >
-                        <Hidden xsDown>{t("details")}</Hidden>
-                    </Button>
-                    <Button
-                        id={build(baseId, ids.DOWNLOAD_BTN)}
-                        size="small"
-                        className={classes.toolbarItems}
-                        variant="outlined"
-                        disableElevation
-                        color="primary"
-                        onClick={() => setDownload(true)}
-                        startIcon={<CloudDownload fontSize="small" />}
-                    >
-                        <Hidden xsDown>{t("download")}</Hidden>
-                    </Button>
+                    {!createFile && (
+                        <>
+                            <Button
+                                id={build(baseId, ids.DETAILS_BTN)}
+                                size="small"
+                                className={classes.toolbarItems}
+                                variant="outlined"
+                                disableElevation
+                                color="primary"
+                                onClick={() =>
+                                    setDetailsResource({
+                                        id: resourceId,
+                                        path,
+                                        label: fileName,
+                                        type: ResourceTypes.FILE,
+                                    })
+                                }
+                                startIcon={<Info />}
+                            >
+                                <Hidden xsDown>{t("details")}</Hidden>
+                            </Button>
+                            <Button
+                                id={build(baseId, ids.DOWNLOAD_BTN)}
+                                size="small"
+                                className={classes.toolbarItems}
+                                variant="outlined"
+                                disableElevation
+                                color="primary"
+                                onClick={() => setDownload(true)}
+                                startIcon={<CloudDownload fontSize="small" />}
+                            >
+                                <Hidden xsDown>{t("download")}</Hidden>
+                            </Button>
+                        </>
+                    )}
                     <Button
                         id={build(baseId, ids.REFRESH_BTN)}
                         size="small"
@@ -269,7 +274,7 @@ function ViewerToolbar(props) {
                         variant="outlined"
                         disableElevation
                         color="primary"
-                        onClick={() => onRefresh(path, resourceId)}
+                        onClick={onRefresh}
                         startIcon={<Refresh fontSize="small" />}
                     >
                         <Hidden xsDown>{t("refresh")}</Hidden>
@@ -438,10 +443,7 @@ function ViewerToolbar(props) {
                                 <MenuItem
                                     key={build(baseId, ids.REFRESH_MENU_ITEM)}
                                     id={build(baseId, ids.REFRESH_MENU_ITEM)}
-                                    onClick={() => {
-                                        onClose();
-                                        onRefresh(path, resourceId);
-                                    }}
+                                    onClick={onRefresh}
                                 >
                                     <ListItemIcon>
                                         <Refresh fontSize="small" />

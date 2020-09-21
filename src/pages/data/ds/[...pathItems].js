@@ -94,10 +94,6 @@ export default function DataStore() {
         [baseRoutingPath, router]
     );
 
-    const onRefresh = useCallback(() => {
-        router.reload(); //equivalent to browser refresh
-    }, [router]);
-
     if (!isFile) {
         return (
             <Listing
@@ -116,7 +112,6 @@ export default function DataStore() {
                 createFile={createFile}
                 baseId="data.viewer"
                 onNewFileSaved={onNewFileSaved}
-                onRefresh={onRefresh}
             />
         );
     }

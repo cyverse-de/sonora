@@ -5,7 +5,12 @@
  *
  */
 
-import { useQuery, useInfiniteQuery, useMutation } from "react-query";
+import {
+    queryCache,
+    useQuery,
+    useInfiniteQuery,
+    useMutation,
+} from "react-query";
 import { fileManifest, readFileChunk } from "serviceFacades/filesystem";
 import { uploadTextAsFile } from "serviceFacades/fileio";
 
@@ -50,4 +55,13 @@ function useSaveTextAsFile(onSuccess, onError) {
     return useMutation(uploadTextAsFile, { onSuccess, onError });
 }
 
-export { useFileManifest, useReadChunk, useSaveTextAsFile };
+/**
+ * Invalidate and refetch viewer manifest and chunk
+ *
+ * @param {*} key - The query key to be used.
+ */
+function refreshViewer(key) {
+    queryCache.invalidateQueries(key, { exact: true, refetchInactive: true });
+}
+
+export { refreshViewer, useFileManifest, useReadChunk, useSaveTextAsFile };

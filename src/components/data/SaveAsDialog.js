@@ -36,7 +36,15 @@ import styles from "./styles";
 const useStyles = makeStyles(styles);
 
 function SaveAsDialog(props) {
-    const { path, open, onClose, onSaveAs, saveFileError, loading, setSaveNewFileError } = props;
+    const {
+        path,
+        open,
+        onClose,
+        onSaveAs,
+        saveFileError,
+        loading,
+        setSaveNewFileError,
+    } = props;
     const [dest, setDest] = useState(path);
     const [selectionDrawerOpen, setSelectionDrawerOpen] = useState(false);
     const classes = useStyles();
@@ -101,6 +109,7 @@ function SaveAsDialog(props) {
                                         </Typography>
                                         <Button
                                             id={build(baseId, ids.SAVE_BTN)}
+                                            size="small"
                                             style={{ marginLeft: 8 }}
                                             variant="outlined"
                                             disableElevation

@@ -1,4 +1,9 @@
 export default (theme) => ({
+    button: {
+        [theme.breakpoints.up("sm")]: {
+            margin: theme.spacing(1),
+        },
+    },
     chip: {
         marginBottom: theme.spacing(1),
     },

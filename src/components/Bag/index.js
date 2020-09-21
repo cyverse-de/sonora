@@ -74,29 +74,33 @@ const BagTab = ({
     value,
     index,
     bagItems,
-    remove,
     onClick = () => {},
     translationKey,
     startIcon,
 }) => {
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
+    const [tabItems, setTabItems] = useState([...bagItems]);
 
     return (
         <div hidden={value !== index} id={id}>
             <List>
-                {bagItems.map((bagItem, index) => {
+                {tabItems.map((tabItem, tabIndex) => {
                     return (
-                        <ListItem key={index}>
+                        <ListItem key={tabIndex}>
                             <ListItemAvatar>
-                                <Avatar>{bagItem.icon(t)}</Avatar>
+                                <Avatar>{tabItem.icon(t)}</Avatar>
                             </ListItemAvatar>
-                            <ListItemText primary={bagItem.label} />
+                            <ListItemText primary={tabItem.label} />
                             <ListItemSecondaryAction>
                                 <IconButton
                                     edge="end"
                                     aria-label={t("delete")}
-                                    onClick={remove(index)}
+                                    onClick={() => {
+                                        let newItems = [...tabItems];
+                                        newItems.splice(tabIndex, 1);
+                                        setTabItems(newItems);
+                                    }}
                                 >
                                     <Delete />
                                 </IconButton>
@@ -177,7 +181,6 @@ export const BagUI = ({ remove }) => {
                         value={tabValue}
                         index={0}
                         bagItems={downloadableItems}
-                        remove={remove}
                         translationKey="download"
                         startIcon={<GetApp />}
                     />
@@ -186,7 +189,6 @@ export const BagUI = ({ remove }) => {
                         value={tabValue}
                         index={1}
                         bagItems={shareableItems}
-                        remove={remove}
                         translationKey="share"
                         startIcon={<People />}
                     />

@@ -225,7 +225,8 @@ export const getUserMap = (responses, userInfos, resourceTotal) => {
 
             return permissions.reduce((userMap, permission) => {
                 const userId = getUserId(permission);
-                const currentUser = userMap[userId] || userInfos[userId];
+                const currentUser = userMap[userId] ||
+                    userInfos[userId] || { id: userId };
                 const permissionValue = permission.permission;
 
                 // Create an obj with the resource details and the user's

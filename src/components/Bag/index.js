@@ -35,27 +35,10 @@ import { useTranslation } from "i18n";
 import { useTheme } from "@material-ui/styles";
 
 const useStyles = makeStyles((theme) => ({
-    paper: {
-        width: theme.spacing(80),
-
-        [theme.breakpoints.down("sm")]: {
-            width: "90%",
-        },
-    },
-    title: {
-        paddingLeft: theme.spacing(2),
-        paddingTop: theme.spacing(2),
-        paddingBottom: theme.spacing(2),
-    },
     closeButton: {
         position: "absolute",
         right: theme.spacing(1),
         top: theme.spacing(1),
-    },
-    help: {
-        paddingLeft: theme.spacing(2),
-        paddingBottom: theme.spacing(2),
-        overflowWrap: "break-word",
     },
     button: {
         margin: theme.spacing(2),

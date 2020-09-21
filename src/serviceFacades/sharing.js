@@ -103,20 +103,20 @@ export const searchSubjects = ({ searchTerm }) => {
 };
 
 export const doSharingUpdates = ({ sharing, unsharing }) => {
-    const { data, apps, analyses, tools } = sharing;
+    const { paths, apps, analyses, tools } = sharing;
     const {
-        data: dataUnshare,
+        paths: dataUnshare,
         apps: appsUnshare,
         analyses: analysesUnshare,
         tools: toolsUnshare,
     } = unsharing;
     let promises = [];
-    if (data && data.length > 0) {
-        promises.push(dataSharing({ sharingReq: { sharing: data } }));
+    if (paths && paths.length > 0) {
+        promises.push(dataSharing({ sharingReq: { sharing: paths } }));
     }
     if (dataUnshare && dataUnshare.length > 0) {
         promises.push(
-            dataUnsharing({ unsharingReq: { unsharing: dataUnshare } })
+            dataUnsharing({ unsharingReq: { unshare: dataUnshare } })
         );
     }
     if (apps && apps.length > 0) {

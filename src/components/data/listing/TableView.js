@@ -13,7 +13,6 @@ import SpanLink from "./SpanLink";
 import { getFileSize } from "./FileSize";
 
 import ids from "../ids";
-import DataDotMenu from "../toolbar/DataDotMenu";
 
 import TableLoading from "../../utils/TableLoading";
 import constants from "../../../constants";
@@ -38,6 +37,7 @@ import {
     TableContainer,
     TableRow,
 } from "@material-ui/core";
+import RowDotMenu from "./RowDotMenu";
 
 function SizeCell({ resource }) {
     return <TableCell>{getFileSize(resource.fileSize)}</TableCell>;
@@ -110,16 +110,12 @@ function TableView(props) {
     const {
         loading,
         path,
-        permission,
         error,
         handlePathChange,
         listing,
         baseId,
         isInvalidSelection = () => false,
         onDetailsSelected,
-        onDownloadSelected,
-        onEditSelected,
-        onMetadataSelected,
         onDeleteSelected,
         handleRequestSort,
         handleSelectAllClick,
@@ -128,11 +124,7 @@ function TableView(props) {
         order,
         orderBy,
         selected,
-        detailsEnabled,
-        setImportDialogOpen,
-        setUploadDialogOpen,
-        localUploadId,
-        uploadMenuId,
+        setSharingDlgOpen,
     } = props;
     const invalidRowClass = invalidRowStyles();
     const { t } = useTranslation("data");
@@ -379,43 +371,21 @@ function TableView(props) {
                                             )
                                         )}
                                         <TableCell align="right">
-                                            <DataDotMenu
+                                            <RowDotMenu
                                                 baseId={build(
                                                     tableId,
                                                     resourceName
                                                 )}
-                                                path={path}
-                                                permission={permission}
                                                 onDetailsSelected={
                                                     onDetailsSelected
-                                                }
-                                                detailsEnabled={detailsEnabled}
-                                                MenuProps={{ tabIndex: 0 }}
-                                                onDownloadSelected={() =>
-                                                    onDownloadSelected(
-                                                        resourceId
-                                                    )
-                                                }
-                                                onEditSelected={() =>
-                                                    onEditSelected(resourceId)
-                                                }
-                                                onMetadataSelected={() =>
-                                                    onMetadataSelected(
-                                                        resourceId
-                                                    )
                                                 }
                                                 onDeleteSelected={() =>
                                                     onDeleteSelected(resourceId)
                                                 }
-                                                setUploadDialogOpen={
-                                                    setUploadDialogOpen
+                                                resource={resource}
+                                                setSharingDlgOpen={
+                                                    setSharingDlgOpen
                                                 }
-                                                setImportDialogOpen={
-                                                    setImportDialogOpen
-                                                }
-                                                selected={selected}
-                                                localUploadId={localUploadId}
-                                                uploadMenuId={uploadMenuId}
                                             />
                                         </TableCell>
                                     </TableRow>

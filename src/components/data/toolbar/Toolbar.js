@@ -8,7 +8,7 @@
 
 import React, { useState } from "react";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import DataDotMenu from "./DataDotMenu";
 import UploadMenuBtn from "./UploadMenuBtn";
@@ -17,7 +17,7 @@ import Navigation from "./Navigation";
 import ids from "../ids";
 import styles from "../styles";
 import CreateFolderDialog from "../CreateFolderDialog";
-import { isWritable } from "../utils";
+import { isOwner, isWritable } from "../utils";
 
 import DisplayTypeSelector from "../../utils/DisplayTypeSelector";
 
@@ -26,6 +26,7 @@ import { build } from "@cyverse-de/ui-lib";
 import { Button, Hidden, makeStyles, Toolbar } from "@material-ui/core";
 
 import { CreateNewFolder, Info } from "@material-ui/icons";
+import SharingButton from "../../sharing/SharingButton";
 
 const useStyles = makeStyles(styles);
 
@@ -51,12 +52,15 @@ function DataToolbar(props) {
         uploadMenuId,
         onCreateHTFileSelected,
         onCreateMultiInputFileSelected,
+        setSharingDlgOpen,
     } = props;
 
     const { t } = useTranslation("data");
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
     const onCreateFolderDlgClose = () => setCreateFolderDlgOpen(false);
     const onCreateFolderClicked = () => setCreateFolderDlgOpen(true);
+    const selectedResources = getSelectedResources();
+    const canShare = isOwner(selectedResources);
 
     let toolbarId = build(baseId, ids.TOOLBAR);
     return (
@@ -109,25 +113,37 @@ function DataToolbar(props) {
                         />
                     </>
                 )}
+                {canShare && (
+                    <SharingButton
+                        baseId={toolbarId}
+                        setSharingDlgOpen={setSharingDlgOpen}
+                    />
+                )}
             </Hidden>
-            <DataDotMenu
-                baseId={toolbarId}
-                path={path}
-                onDeleteSelected={onDeleteSelected}
-                onCreateFolderSelected={onCreateFolderClicked}
-                onDetailsSelected={onDetailsSelected}
-                permission={permission}
-                refreshListing={refreshListing}
-                detailsEnabled={detailsEnabled}
-                uploadMenuId={uploadMenuId}
-                localUploadId={localUploadId}
-                setUploadDialogOpen={setUploadDialogOpen}
-                setImportDialogOpen={setImportDialogOpen}
-                getSelectedResources={getSelectedResources}
-                selected={selected}
-                onCreateHTFileSelected={onCreateHTFileSelected}
-                onCreateMultiInputFileSelected={onCreateMultiInputFileSelected}
-            />
+            <Hidden mdUp>
+                <DataDotMenu
+                    baseId={toolbarId}
+                    path={path}
+                    onDeleteSelected={onDeleteSelected}
+                    onCreateFolderSelected={onCreateFolderClicked}
+                    onDetailsSelected={onDetailsSelected}
+                    permission={permission}
+                    refreshListing={refreshListing}
+                    detailsEnabled={detailsEnabled}
+                    uploadMenuId={uploadMenuId}
+                    localUploadId={localUploadId}
+                    setUploadDialogOpen={setUploadDialogOpen}
+                    setImportDialogOpen={setImportDialogOpen}
+                    getSelectedResources={getSelectedResources}
+                    selected={selected}
+                    onCreateHTFileSelected={onCreateHTFileSelected}
+                    onCreateMultiInputFileSelected={
+                        onCreateMultiInputFileSelected
+                    }
+                    canShare={canShare}
+                    setSharingDlgOpen={setSharingDlgOpen}
+                />
+            </Hidden>
             <CreateFolderDialog
                 path={path}
                 open={createFolderDlgOpen}

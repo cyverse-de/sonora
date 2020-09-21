@@ -409,3 +409,16 @@ export const getUnsharingUpdates = (originalUsers, userMap) => {
         return acc;
     }, {});
 };
+
+export const formatSharedData = (selectedData) => {
+    const formattedData =
+        selectedData?.map((data) => {
+            return {
+                label: data.label,
+                path: data.path,
+                type: data.type,
+            };
+        }) || [];
+
+    return { [TYPE.DATA]: formattedData };
+};

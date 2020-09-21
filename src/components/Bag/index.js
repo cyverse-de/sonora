@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import {
     Dialog,
+    DialogActions,
     DialogContent,
-    DialogContentText,
     DialogTitle,
     IconButton,
     List,
@@ -17,6 +17,7 @@ import {
     useMediaQuery,
     Tabs,
     Tab,
+    Typography,
 } from "@material-ui/core";
 import { Delete, GetApp, People, Close } from "@material-ui/icons";
 
@@ -35,6 +36,14 @@ import { useTranslation } from "i18n";
 import { useTheme } from "@material-ui/styles";
 
 const useStyles = makeStyles((theme) => ({
+    help: {
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(1),
+    },
+    paper: {
+        width: theme.spacing(60),
+        height: theme.spacing(70),
+    },
     closeButton: {
         position: "absolute",
         right: theme.spacing(1),
@@ -59,22 +68,14 @@ const BagSkeleton = () => (
     <Skeleton variant="rect" animation="wave" height={100} width="100%" />
 );
 
-const BagTab = ({
-    id,
-    value,
-    index,
-    bagItems,
-    onClick = () => {},
-    translationKey,
-    startIcon,
-}) => {
+const BagTab = ({ id, value, index, bagItems }) => {
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
     const [tabItems, setTabItems] = useState([...bagItems]);
 
     return (
         <div hidden={value !== index} id={id}>
-            <List>
+            <List classes={{ root: classes.list }}>
                 {tabItems.map((tabItem, tabIndex) => {
                     return (
                         <ListItem key={tabIndex}>
@@ -99,43 +100,12 @@ const BagTab = ({
                     );
                 })}
             </List>
-
-            <div className={classes.actionContainer}>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                    startIcon={startIcon}
-                    onClick={onClick}
-                >
-                    {t(translationKey)}
-                </Button>
-            </div>
         </div>
     );
 };
 
-export const BagUI = ({ remove }) => {
+export const BagUI = ({ downloadableItems, shareableItems, isLoading }) => {
     const { t } = useTranslation(["bags", "common"]);
-
-    const { status, data, error } = useQuery(
-        [facade.DEFAULT_BAG_QUERY_KEY],
-        facade.getDefaultBag
-    );
-
-    const isLoading = status === "loading";
-    const hasErrored = status === "error";
-
-    if (hasErrored) {
-        console.log(error.message);
-    }
-
-    let bagItems = data?.items || [];
-    bagItems = bagItems.map((item) => createNewBagItem(item));
-
-    const shareableItems = bagItems.filter((item) => item.shareable);
-    const downloadableItems = bagItems.filter((item) => item.downloadable);
-
     const [tabValue, setTabValue] = useState(0);
 
     const handleTabChange = (event, newValue) => {
@@ -164,7 +134,6 @@ export const BagUI = ({ remove }) => {
                         index={0}
                         bagItems={downloadableItems}
                         translationKey="download"
-                        startIcon={<GetApp />}
                     />
 
                     <BagTab
@@ -172,7 +141,6 @@ export const BagUI = ({ remove }) => {
                         index={1}
                         bagItems={shareableItems}
                         translationKey="share"
-                        startIcon={<People />}
                     />
                 </>
             )}
@@ -184,13 +152,43 @@ export default ({ open, remove = () => {}, onClose }) => {
     const theme = useTheme();
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
-
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
+    const { isLoading, status, data, error } = useQuery(
+        [facade.DEFAULT_BAG_QUERY_KEY],
+        facade.getDefaultBag
+    );
+
+    const hasErrored = status === "error";
+
+    if (hasErrored) {
+        console.log(error.message);
+    }
+
+    let bagItems = data?.items || [];
+    bagItems = bagItems.map((item) => createNewBagItem(item));
+
+    const shareableItems = bagItems.filter((item) => item.shareable);
+    const downloadableItems = bagItems.filter((item) => item.downloadable);
+
     return (
-        <Dialog fullScreen={fullScreen} open={open} onClose={onClose}>
+        <Dialog
+            fullScreen={fullScreen}
+            open={open}
+            onClose={onClose}
+            classes={{ paper: classes.paper }}
+        >
             <DialogTitle>
                 {t("yourItemBag")}
+
+                <Typography
+                    component="p"
+                    variant="body1"
+                    color="textSecondary"
+                    classes={{ root: classes.help }}
+                >
+                    {t("bagHelp")}
+                </Typography>
 
                 <IconButton onClick={onClose} className={classes.closeButton}>
                     <Close />
@@ -198,10 +196,34 @@ export default ({ open, remove = () => {}, onClose }) => {
             </DialogTitle>
 
             <DialogContent>
-                <DialogContentText>{t("bagHelp")}</DialogContentText>
-
-                <BagUI remove={remove} />
+                <BagUI
+                    isLoading={isLoading}
+                    shareableItems={shareableItems}
+                    downloadableItems={downloadableItems}
+                />
             </DialogContent>
+
+            <DialogActions>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    startIcon={<GetApp />}
+                    onClick={() => {}}
+                >
+                    {t("download")}
+                </Button>
+
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    startIcon={<People />}
+                    onClick={() => {}}
+                >
+                    {t("share")}
+                </Button>
+            </DialogActions>
         </Dialog>
     );
 };

@@ -33,6 +33,16 @@ const data = {
             type: ANALYSIS_TYPE,
         },
         { name: "test app 1", type: APP_TYPE },
+        { name: "test app 2", type: APP_TYPE },
+        { name: "test app 3", type: APP_TYPE },
+        { name: "test app 4", type: APP_TYPE },
+        { name: "test app 5", type: APP_TYPE },
+        { name: "test app 6", type: APP_TYPE },
+        { name: "test app 7", type: APP_TYPE },
+        { name: "test app 8", type: APP_TYPE },
+        { name: "test app 9", type: APP_TYPE },
+        { name: "test app 10", type: APP_TYPE },
+        { name: "test app 11", type: APP_TYPE },
     ],
 };
 

@@ -41,7 +41,7 @@ export const dataSharing = ({ sharingReq: DataSharingBody }) => {
 
 export const dataUnsharing = ({ unsharingReq }) => {
     return callApi({
-        endpoint: "/api/share",
+        endpoint: "/api/unshare",
         method: "POST",
         body: unsharingReq,
     });

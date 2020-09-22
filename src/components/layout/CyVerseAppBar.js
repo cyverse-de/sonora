@@ -221,8 +221,9 @@ const BagMenu = () => {
         setBagDlgOpen(false);
     };
 
+    // Removing the <Hidden> causes the unit tests to fail for some strange reason.
     return (
-        <Hidden only={["xs"]}>
+        <Hidden only={[]}>
             <IconButton className={classes.menuIcon} onClick={handleClick}>
                 <ShoppingBasketIcon />
                 <Bag open={bagDlgOpen} onClose={handleClose} />

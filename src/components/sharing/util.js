@@ -435,3 +435,15 @@ export const formatSharedApps = (selectedApps) => {
 
     return { [TYPE.APPS]: formattedApps };
 };
+
+export const formatSharedAnalyses = (selectedAnalyses) => {
+    const formattedAnalyses =
+        selectedAnalyses?.map((analysis) => {
+            return {
+                name: analysis.name,
+                id: analysis.id,
+            };
+        }) || [];
+
+    return { [TYPE.ANALYSES]: formattedAnalyses };
+};

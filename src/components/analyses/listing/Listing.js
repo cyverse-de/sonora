@@ -29,7 +29,7 @@ import {
     submitAnalysisSupportRequest,
 } from "serviceFacades/support";
 
-import { openInteractiveUrl } from "../utils";
+import { canShare, openInteractiveUrl } from "../utils";
 
 import constants from "../../../constants";
 import ConfirmationDialog from "../../utils/ConfirmationDialog";
@@ -627,6 +627,8 @@ function Listing(props) {
         );
     };
 
+    const sharingEnabled = canShare(getSelectedAnalyses());
+
     return (
         <>
             <AnalysesToolbar
@@ -652,6 +654,7 @@ function Listing(props) {
                 handleRename={handleRename}
                 handleSaveAndComplete={handleSaveAndComplete}
                 handleBatchIconClick={handleBatchIconClick}
+                canShare={sharingEnabled}
             />
             <TableView
                 loading={

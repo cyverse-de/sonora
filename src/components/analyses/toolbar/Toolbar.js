@@ -32,6 +32,9 @@ import {
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import { Info, FilterList as FilterListIcon } from "@material-ui/icons";
+import SharingButton from "../../sharing/SharingButton";
+import Sharing from "../../sharing";
+import { formatSharedAnalyses } from "../../sharing/util";
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -174,11 +177,16 @@ function AnalysesToolbar(props) {
         handleRename,
         handleSaveAndComplete,
         handleBatchIconClick,
+        canShare,
     } = props;
     const classes = useStyles();
     const { t } = useTranslation("analyses");
     const analysesNavId = build(baseId, ids.ANALYSES_NAVIGATION);
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
+    const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
+
+    const sharingAnalyses = formatSharedAnalyses(getSelectedAnalyses());
+
     return (
         <>
             <Toolbar variant="dense" id={analysesNavId}>
@@ -227,6 +235,12 @@ function AnalysesToolbar(props) {
                         {t("details")}
                     </Button>
                 )}
+                {canShare && (
+                    <SharingButton
+                        baseId={baseId}
+                        setSharingDlgOpen={setSharingDlgOpen}
+                    />
+                )}
                 <AnalysesDotMenu
                     baseId={analysesNavId}
                     username={username}
@@ -242,6 +256,8 @@ function AnalysesToolbar(props) {
                     handleSaveAndComplete={handleSaveAndComplete}
                     handleBatchIconClick={handleBatchIconClick}
                     onFilterSelected={() => setOpenFilterDialog(true)}
+                    canShare={canShare}
+                    setSharingDlgOpen={setSharingDlgOpen}
                 />
             </Toolbar>
             <Dialog open={openFilterDialog}>
@@ -266,6 +282,11 @@ function AnalysesToolbar(props) {
                     </Button>
                 </DialogActions>
             </Dialog>
+            <Sharing
+                open={sharingDlgOpen}
+                onClose={() => setSharingDlgOpen(false)}
+                resources={sharingAnalyses}
+            />
         </>
     );
 }

@@ -1,5 +1,7 @@
 import callApi from "../../common/callApi";
 
+import constants from "../../constants";
+
 export const VICE_ADMIN_QUERY_KEY = "fetchViceAdmin";
 export const ASYNC_DATA_QUERY_KEY = "fetchAsyncData";
 
@@ -51,14 +53,24 @@ export const downloadInputFiles = ({ analysisID }) =>
         method: "POST",
     });
 
-export const getUserJobLimit = ({ username }) =>
-    callApi({
+export const getUserJobLimit = ({ username }) => {
+    const existsPromise = userExists({ username });
+    const jobLimitPromise = callApi({
         endpoint: `/api/admin/vice/concurrent-job-limits/${username}`,
         method: "GET",
     });
 
-export const setUserJobLimit = ({ username, newLimit }) =>
-    callApi({
+    return existsPromise.then((doesExist) => {
+        if (!doesExist) {
+            throw new Error(`User ${username} does not exist`);
+        }
+        return jobLimitPromise;
+    });
+};
+
+export const setUserJobLimit = ({ username, newLimit }) => {
+    const existsPromise = userExists({ username });
+    const setJobLimitPromise = callApi({
         endpoint: `/api/admin/vice/concurrent-job-limits/${username}`,
         method: "PUT",
         body: {
@@ -66,8 +78,31 @@ export const setUserJobLimit = ({ username, newLimit }) =>
         },
     });
 
-export default () =>
+    return existsPromise.then((doesExist) => {
+        if (!doesExist) {
+            throw new Error(`User ${username} does not exist`);
+        }
+        return setJobLimitPromise;
+    });
+};
+
+export const userExists = ({ username }) => {
+    const suffix = `@${constants.IPLANT}.org`;
+
+    if (!username.endsWith(suffix)) {
+        username = `${username}${suffix}`;
+    }
+
+    return callApi({
+        endpoint: `/api/workspaces?username=${username}`,
+        method: "GET",
+    }).then((data) => data.workspaces.length > 0);
+};
+
+const resources = () =>
     callApi({
         endpoint: "/api/admin/vice/resources",
         method: "GET",
     });
+
+export default resources;

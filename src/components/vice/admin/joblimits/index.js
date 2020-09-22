@@ -81,22 +81,23 @@ const JobLimits = ({ showErrorAnnouncer }) => {
             setPreviousUsername(username); // set the displayed username.
             setCurrentLimit(data?.concurrent_jobs); // set the displayed limit.
             setNewLimit(""); // reset new limit text box.
-            setUsername(""); // reset username text box.
         },
 
         onError: (e) => {
-            showErrorAnnouncer(t("jobLimitLookupError", { username }), e);
+            showErrorAnnouncer(t("jobLimitLookupError", { error: e }), e);
         },
     });
 
     const [setLimitMutation] = useMutation(setUserJobLimit, {
-        onSuccess: () => getJobLimit({ username }),
+        onSuccess: () => {
+            getJobLimit({ username });
+            setUsername("");
+            setNewLimit("");
+        },
 
         onError: (e) => {
-            showErrorAnnouncer(
-                t("jobLimitUpdateError", { username, currentLimit: newLimit }),
-                e
-            );
+            console.log(e.message);
+            showErrorAnnouncer(t("jobLimitUpdateError", { error: e }), e);
         },
     });
 

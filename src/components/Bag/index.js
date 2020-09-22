@@ -195,7 +195,7 @@ export default ({ open, remove = () => {}, onClose }) => {
                 </IconButton>
             </DialogTitle>
 
-            <DialogContent>
+            <DialogContent dividers>
                 <BagUI
                     isLoading={isLoading}
                     shareableItems={shareableItems}

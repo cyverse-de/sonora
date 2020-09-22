@@ -11,7 +11,7 @@ import { useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
-import { Typography, useMediaQuery } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 import { Skeleton } from "@material-ui/lab";
 
@@ -33,7 +33,6 @@ import {
     getDashboard,
     DASHBOARD_QUERY_KEY,
 } from "../../serviceFacades/dashboard";
-import { useTheme } from "@material-ui/styles";
 
 const DashboardSkeleton = () => {
     const classes = useStyles();
@@ -62,14 +61,12 @@ const DashboardSkeleton = () => {
 
 const Dashboard = () => {
     const classes = useStyles();
-    const theme = useTheme();
     const { t } = useTranslation("dashboard");
 
     const dashboardEl = useRef();
     const [cardWidth, cardHeight, numColumns] = fns.useDashboardSettings({
         dashboardEl,
     });
-    const isSmall = useMediaQuery(theme.breakpoints.down("md"));
 
     const { status, data, error } = useQuery(
         [DASHBOARD_QUERY_KEY, { limit: constants.SECTION_ITEM_LIMIT }],
@@ -108,10 +105,6 @@ const Dashboard = () => {
                       cardWidth,
                       cardHeight,
                       numColumns,
-                      showDivider: isSmall
-                          ? section.name !== constants.SECTION_NEWS
-                          : section.name !== constants.SECTION_NEWS &&
-                            section.name !== constants.SECTION_EVENTS,
                   })
               )
         : [];

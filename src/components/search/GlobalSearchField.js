@@ -20,7 +20,7 @@ import searchConstants from "./constants";
 import constants from "../../constants";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import NavigationConstants from "common/NavigationConstants";
-import { getParentPath } from "components/data/utils";
+import { useDataNavigationLink } from "components/data/utils";
 
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
@@ -190,14 +190,11 @@ function DataSearchOption(props) {
     let icon = <FolderIcon style={{ color: theme.palette.info.main }} />;
     let path = selectedOption._source.path;
 
-    //SS route to parent folder for the file util we have file viewers ready in sonora.
     if (type === ResourceTypes.FILE) {
-        path = getParentPath(path);
         icon = <DescriptionIcon style={{ color: theme.palette.info.main }} />;
     }
 
-    const href = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}`;
-    const as = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${path}`;
+    const [href, as] = useDataNavigationLink(path, selectedOption?._id, type);
     return (
         <Link href={href} as={as} passHref>
             <SearchOption

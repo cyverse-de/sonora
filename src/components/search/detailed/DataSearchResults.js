@@ -24,13 +24,12 @@ import {
     getInfoTypes,
 } from "serviceFacades/filesystem";
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
-import NavigationConstants from "common/NavigationConstants";
 
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import dataFields from "components/data/dataFields";
 import ResourceIcon from "components/data/listing/ResourceIcon";
-import { getParentPath } from "components/data/utils";
-import ResourceTypes from "components/models/ResourceTypes";
+import { useDataNavigationLink } from "components/data/utils";
+
 import DetailsDrawer from "components/data/details/Drawer";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
@@ -43,13 +42,7 @@ function Name(props) {
     const type = resource._type;
     let path = resource._source.path;
 
-    //SS route to parent folder for the file util we have file viewers ready in sonora.
-    if (type === ResourceTypes.FILE) {
-        path = getParentPath(path);
-    }
-
-    const href = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}`;
-    const as = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${path}`;
+    const [href, as] = useDataNavigationLink(path, resource?._id, type);
     return (
         <Link href={href} as={as} passHref>
             <NameLink name={resource._source?.label} searchTerm={searchTerm} />

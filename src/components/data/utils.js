@@ -99,6 +99,17 @@ const getParentPath = (path) => {
     return null;
 };
 
+const useDataNavigationLink = (path, resourceId, type) => {
+    let href = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}?type=${type}&resourceId=${resourceId}`;
+    let as = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${path}?type=${type}&resourceId=${resourceId}`;
+
+    if (resourceId) {
+        href = href.concat(`&resourceId=${resourceId}`);
+    }
+
+    return [href, as];
+};
+
 export {
     getEncodedPath,
     getFolderPage,
@@ -109,4 +120,5 @@ export {
     isReadable,
     parseNameFromPath,
     getParentPath,
+    useDataNavigationLink,
 };

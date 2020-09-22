@@ -23,6 +23,9 @@ import {
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
 import { Info, FilterList as FilterListIcon } from "@material-ui/icons";
+import SharingButton from "../../sharing/SharingButton";
+import Sharing from "../../sharing";
+import { formatSharedApps } from "../../sharing/util";
 
 /**
  *
@@ -99,6 +102,8 @@ function AppsToolbar(props) {
         toggleDisplay,
         detailsEnabled,
         onDetailsSelected,
+        canShare,
+        selectedApps,
         intl,
         baseId,
     } = props;
@@ -106,6 +111,9 @@ function AppsToolbar(props) {
     const classes = useStyles();
     const appsToolbarId = build(baseId, ids.APPS_TOOLBAR);
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
+    const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
+
+    const sharingApps = formatSharedApps(selectedApps);
 
     return (
         <>
@@ -160,12 +168,20 @@ function AppsToolbar(props) {
                             {t("details")}
                         </Button>
                     )}
+                    {canShare && (
+                        <SharingButton
+                            baseId={baseId}
+                            setSharingDlgOpen={setSharingDlgOpen}
+                        />
+                    )}
                 </Hidden>
                 <AppsDotMenu
                     baseId={appsToolbarId}
                     detailsEnabled={detailsEnabled}
                     onDetailsSelected={onDetailsSelected}
                     onFilterSelected={() => setOpenFilterDialog(true)}
+                    canShare={canShare}
+                    setSharingDlgOpen={setSharingDlgOpen}
                 />
             </Toolbar>
             <Dialog open={openFilterDialog}>
@@ -185,6 +201,11 @@ function AppsToolbar(props) {
                     </Button>
                 </DialogActions>
             </Dialog>
+            <Sharing
+                open={sharingDlgOpen}
+                onClose={() => setSharingDlgOpen(false)}
+                resources={sharingApps}
+            />
         </>
     );
 }

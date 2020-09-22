@@ -7,6 +7,7 @@
 import React from "react";
 import { useTranslation } from "i18n";
 import ids from "../ids";
+import shareIds from "components/sharing/ids";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 import {
@@ -17,6 +18,7 @@ import {
     useTheme,
 } from "@material-ui/core";
 import { FilterList, Info } from "@material-ui/icons";
+import SharingMenuItem from "../../sharing/SharingMenuItem";
 
 function AppsDotMenu(props) {
     const {
@@ -25,6 +27,8 @@ function AppsDotMenu(props) {
         detailsEnabled,
         onDetailsSelected,
         onFilterSelected,
+        canShare,
+        setSharingDlgOpen,
     } = props;
     const { t } = useTranslation("apps");
     const theme = useTheme();
@@ -63,6 +67,14 @@ function AppsDotMenu(props) {
                         </ListItemIcon>
                         <ListItemText primary={t("filterLbl")} />
                     </MenuItem>
+                ),
+                canShare && (
+                    <SharingMenuItem
+                        key={build(baseId, shareIds.SHARING_MENU_ITEM)}
+                        baseId={baseId}
+                        onClose={onClose}
+                        setSharingDlgOpen={setSharingDlgOpen}
+                    />
                 ),
             ]}
         />

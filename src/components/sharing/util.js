@@ -422,3 +422,16 @@ export const formatSharedData = (selectedData) => {
 
     return { [TYPE.DATA]: formattedData };
 };
+
+export const formatSharedApps = (selectedApps) => {
+    const formattedApps =
+        selectedApps?.map((app) => {
+            return {
+                name: app.name,
+                id: app.id,
+                system_id: app.system_id,
+            };
+        }) || [];
+
+    return { [TYPE.APPS]: formattedApps };
+};

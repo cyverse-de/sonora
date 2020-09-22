@@ -27,6 +27,7 @@ import {
 } from "serviceFacades/apps";
 
 import { useQuery } from "react-query";
+import { canShare } from "../utils";
 
 function Listing({
     baseId,
@@ -75,6 +76,12 @@ function Listing({
     ] = useState(false);
     const [allAppsQueryEnabled, setAllAppsQueryEnabled] = useState(false);
     const [appByIdQueryEnabled, setAppByIdQueryEnabled] = useState(false);
+
+    const getSelectedApps = () => {
+        return selected.map((id) => data?.apps.find((app) => app.id === id));
+    };
+
+    const shareEnabled = canShare(getSelectedApps());
 
     const {
         isFetching: appInCategoryStatus,
@@ -368,6 +375,8 @@ function Listing({
                 toggleDisplay={toggleDisplay}
                 detailsEnabled={detailsEnabled}
                 onDetailsSelected={onDetailsSelected}
+                canShare={shareEnabled}
+                selectedApps={getSelectedApps()}
             />
             <TableView
                 loading={

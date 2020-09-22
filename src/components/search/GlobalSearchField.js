@@ -173,6 +173,11 @@ function DataSearchOption(props) {
     const { baseId, filter, selectedOption, searchTerm } = props;
     const { t: i18NSearch } = useTranslation("search");
     const theme = useTheme();
+    const type = selectedOption._type;
+    const path = selectedOption._source?.path;
+    const resourceId = selectedOption._source?.id;
+    const name = selectedOption.name;
+    const [href, as] = useDataNavigationLink(path, resourceId, type);
 
     if (selectedOption?.id === searchConstants.VIEW_ALL_ID) {
         return (
@@ -186,23 +191,19 @@ function DataSearchOption(props) {
         );
     }
 
-    const type = selectedOption._type;
     let icon = <FolderIcon style={{ color: theme.palette.info.main }} />;
-    let path = selectedOption._source.path;
-
     if (type === ResourceTypes.FILE) {
         icon = <DescriptionIcon style={{ color: theme.palette.info.main }} />;
     }
 
-    const [href, as] = useDataNavigationLink(path, selectedOption?._id, type);
-    return (
+   return (
         <Link href={href} as={as} passHref>
             <SearchOption
-                primary={selectedOption.name}
-                secondary={selectedOption._source?.path}
+                primary={name}
+                secondary={path}
                 icon={icon}
                 searchTerm={searchTerm}
-                id={build(baseId, selectedOption._source.id)}
+                id={build(baseId, resourceId)}
             />
         </Link>
     );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { formatDistance } from "date-fns";
+import { formatDistance, fromUnixTime } from "date-fns";
 import {
     ListItemText,
     makeStyles,
@@ -7,15 +7,25 @@ import {
     MenuItem,
     Typography,
 } from "@material-ui/core";
+import { NOTIFICATIONS_KEY, getNotifications} from "./../../serviceFacades/notifications";
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import { useQuery } from "react-query";
+import { Skeleton } from '@material-ui/lab';
 import NotificationStyles from "./NotificationStyles";
 import Divider from "@material-ui/core/Divider";
+import ids from "./notificationsIDs"
+import build from "@cyverse-de/ui-lib/src/util/DebugIDUtil";
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles(NotificationStyles);
 
-/*
-   This function takes a string in format `yyyy-mm-dd  hh:mm:ss` and returns a date object with that
-   time
- */
+function ErrorComponent(props) {
+    return (
+        <Alert onClose={() => {}}>
+            There was an error fetching the latest notifications. Please try again!
+        </Alert>
+    );
+}
 
 function getDisplayMessage(notification) {
     return notification.type === "data"
@@ -23,9 +33,15 @@ function getDisplayMessage(notification) {
         : notification.message.text;
 }
 
-function NotificationsMenu(props) {
-    const { notifications, unSeenCount, baseDebugId } = props;
+function getTimeStamp(time) {
+    const d = fromUnixTime(time);
+    const newDate = new Date();
+    return formatDistance(d, new Date());
+}
 
+function NotificationsMenu(props) {
+    const { unSeenCount, baseDebugId } = props;
+    const [ notifications, setNotifications ] = useState();
     const [anchorEl, setAnchorEl] = useState(true);
     const classes = useStyles();
 
@@ -37,6 +53,15 @@ function NotificationsMenu(props) {
         setAnchorEl(null);
     };
 
+    const { isFetching } = useQuery({
+        queryKey: NOTIFICATIONS_KEY,
+        queryFn: getNotifications,
+        config: {
+            onSuccess: (results) => setNotifications(results),
+            onError: (error) => ErrorComponent(),
+        },
+    });
+
     const messages =
         notifications &&
         notifications.messages &&
@@ -45,30 +70,57 @@ function NotificationsMenu(props) {
             : [];
 
     return (
+        <div>
+
+            <NotificationsIcon aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                Notifications
+            </NotificationsIcon>
+
+
         <Menu
             anchorEl={anchorEl}
+            id={build(baseDebugId, ids.NOTIFICATIONS_MENU)}
             keepMounted
             open={Boolean(anchorEl)}
             onClose={handleClose}
         >
+
+            <Typography
+                className={classes.header}
+                id={build(baseDebugId, ids.NOTIFICATIONS_MENU, ids.NOTIFICATIONS_HEADER)}
+                variant="h6">
+                Notifications
+            </Typography>
+            <Divider />
+
             {messages.map((n) => (
-                <MenuItem>
-                    <ListItemText
-                        className={classes.notificationText}
-                        primary={getDisplayMessage(n)}
-                    />
-                    <Typography className={classes.timeStamp}>
-                        {formatDistance(
-                            new Date("2020-08-20T09:25:31.708Z"),
-                            new Date()
-                        )}
+                <>
+                <MenuItem
+                id={build(baseDebugId, NotificationsMenu)}>
+                    <ListItemText>
+                         <Typography
+                            id={build(baseDebugId,ids.NOTIFICATIONS_MENU,n.message.id)}
+                            className={classes.notificationText}
+                            variant="subtitle2">
+                            {getDisplayMessage(n)}
+                         </Typography>
+                    </ListItemText>
+
+                    <Typography
+                        className={classes.timeStamp}
+                        id={build(baseDebugId,ids.NOTIFICATIONS_MENU,ids.TIME_STAMP)}
+                        variant="caption">
+                        {getTimeStamp(n.message.timestamp)}
                     </Typography>
                 </MenuItem>
+                <Divider light />
+                </>
+
             ))}
             <div>
                 <Divider light />
-                <Typography
-                    // onClick={this.props.onViewAllNotificationsClicked}
+                <Typography className={classes.footer}
+                    id={build(baseDebugId, ids.NOTIFICATION_TEXT, ids.NOTIFICATION_FOOTER)}
                     variant="subtitle1"
                     unSeenCount={unSeenCount}
                     onClick={handleClose}
@@ -77,6 +129,8 @@ function NotificationsMenu(props) {
                 </Typography>
             </div>
         </Menu>
+
+        </div>
     );
 }
 

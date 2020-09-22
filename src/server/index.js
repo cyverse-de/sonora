@@ -9,6 +9,7 @@ import dashboardRouter from "./api/dashboard";
 import dataRouter from "./api/data";
 import debugRouter from "./api/debug";
 import fileIORouter from "./api/fileio";
+import notificationRouter from "./api/notifications";
 import quickLaunchRouter from "./api/quickLaunch";
 import refGenomeRouter from "./api/referenceGenomes";
 import sharingRouter from "./api/sharing";
@@ -104,6 +105,7 @@ app.prepare()
         server.use("/api", dataRouter());
         server.use("/api", debugRouter());
         server.use("/api", fileIORouter());
+        server.use("/api", notificationRouter());
         server.use("/api", quickLaunchRouter());
         server.use("/api", sharingRouter());
         server.use("/api", supportRouter());

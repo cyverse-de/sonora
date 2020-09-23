@@ -1,82 +1,64 @@
-import React from "react";
+import { useMutation, useQuery, useQueryCache } from "react-query";
+import * as facade from "../serviceFacades/bags";
 
-const BagStateContext = React.createContext();
-const BagDispatchContext = React.createContext();
+export const useBag = () => {
+    return useQuery(facade.DEFAULT_BAG_QUERY_KEY, facade.getDefaultBag);
+};
 
-const BagProvider = ({ children }) => {
-    const bagReducer = React.useCallback((state, action) => {
-        switch (action.kind) {
-            case "add":
-                break;
-            case "remove":
-                break;
-            case "removeAll":
-                break;
-            case "get":
-            default:
-                break;
-        }
-    }, []);
-
-    const [state, dispatch] = React.useReducer(bagReducer, {
-        items: [],
+export const useBagRemoveItems = () => {
+    const queryCache = useQueryCache();
+    return useMutation(facade.deleteDefaultBag, {
+        onSuccess: () => {
+            queryCache.setQueryData(facade.DEFAULT_BAG_QUERY_KEY, {
+                items: [],
+            });
+        },
+        onError: (error) => {
+            console.log(`error from useBagRemoveItems: ${error}`);
+        },
+        onSettled: () => {
+            queryCache.invalidateQueries(facade.DEFAULT_BAG_QUERY_KEY);
+        },
     });
-
-    return (
-        <BagStateContext.Provider value={state}>
-            <BagDispatchContext.Provider value={dispatch}>
-                {children}
-            </BagDispatchContext.Provider>
-        </BagStateContext.Provider>
-    );
 };
 
-const useBagState = () => {
-    const context = React.useContext(BagStateContext);
-    if (!context) {
-        throw new Error("useBagState must be used within a <BagProvider>");
-    }
-    return context;
-};
-
-const useBagDispatch = () => {
-    const context = React.useContext(BagDispatchContext);
-    if (!context) {
-        throw new Error("useBagDispatch must be used within a <BagProvider>");
-    }
-    return context;
-};
-
-const useBag = () => {
-    const dispatch = useBagDispatch();
-
-    const addItem = React.useCallback(
-        (item) => dispatch(item, { kind: "add" }),
-        [dispatch]
-    );
-
-    const removeItem = React.useCallback(
-        (item) => dispatch(item, { kind: "remove" }),
-        [dispatch]
-    );
-
-    const removeAllItems = React.useCallback(
-        (item) => dispatch(item, { kind: "removeAll" }),
-        [dispatch]
-    );
-
-    const getItems = React.useCallback(
-        (item) => dispatch(item, { kind: "get" }),
-        [dispatch]
-    );
-
-    return {
-        state: useBagState(),
-        addItem,
-        removeItem,
-        removeAllItems,
-        getItems,
+export const useBagRemoveItem = (item) => {
+    const queryCache = useQueryCache();
+    const [mutate] = useMutation(facade.updateDefaultBag, {
+        onSuccess: (data, variables) => {
+            queryCache.setQueryData(facade.DEFAULT_BAG_QUERY_KEY, data);
+        },
+        onError: (error) => {
+            console.log(`error from useBagRemoveItem: ${error}`);
+        },
+        onSettled: () => {
+            queryCache.invalidateQueries(facade.DEFAULT_BAG_QUERY_KEY);
+        },
+    });
+    return async (item) => {
+        let data = queryCache.getQueryData(facade.DEFAULT_BAG_QUERY_DATA);
+        data.items = data.items.filter((i) => i.id !== item.id);
+        return await mutate(data);
     };
 };
 
-export { BagProvider, useBag };
+export const useBagAddItem = (item) => {
+    const queryCache = useQueryCache();
+    const [mutate] = useMutation(facade.updateDefaultBag, {
+        onSuccess: (data, variables) => {
+            queryCache.setQueryData(facade.DEFAULT_BAG_QUERY_KEY, data);
+        },
+        onError: (error) => {
+            console.log(`error from useBagAddItem: ${error}`);
+        },
+        onSettled: () => {
+            queryCache.invalidateQueries(facade.DEFAULT_BAG_QUERY_DATA);
+        },
+    });
+
+    return async (item) => {
+        let data = queryCache.getQueryData(facade.DEFAULT_BAG_QUERY_DATA);
+        data.items = [...data.items, item];
+        return await mutate(data);
+    };
+};

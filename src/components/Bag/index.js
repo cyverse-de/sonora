@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import {
+    Badge,
     Dialog,
     DialogActions,
     DialogContent,
@@ -200,7 +201,13 @@ export default ({ menuIconClass }) => {
     return (
         <>
             <IconButton className={menuIconClass} onClick={handleMenuClick}>
-                <ShoppingBasketIcon />
+                <Badge
+                    badgeContent={bagItems.length}
+                    invisible={bagItems.length < 1}
+                    color="error"
+                >
+                    <ShoppingBasketIcon />
+                </Badge>
             </IconButton>
 
             <Dialog

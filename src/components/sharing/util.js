@@ -317,7 +317,8 @@ export const getResourceTotal = (resources) => {
  */
 export const getShareResponseValues = (resp) => {
     return (
-        resp[TYPE.DATA] ||
+        resp["sharing"] ||
+        resp["unshare"] ||
         resp[TYPE.APPS] ||
         resp[TYPE.ANALYSES] ||
         resp[TYPE.TOOLS]

@@ -200,7 +200,8 @@ function Sharing(props) {
             onSuccess: (results) => {
                 let failures = [];
                 results.forEach((type) => {
-                    const sharing = type.sharing || type.unsharing;
+                    const sharing =
+                        type.sharing || type.unshare || type.unsharing;
                     sharing.forEach((shares) => {
                         const updates = getShareResponseValues(shares);
                         const successFalse = updates.filter(

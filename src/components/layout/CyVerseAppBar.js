@@ -226,8 +226,8 @@ const BagMenu = () => {
         <Hidden only={[]}>
             <IconButton className={classes.menuIcon} onClick={handleClick}>
                 <ShoppingBasketIcon />
-                <Bag open={bagDlgOpen} onClose={handleClose} />
             </IconButton>
+            <Bag open={bagDlgOpen} onClose={handleClose} />
         </Hidden>
     );
 };

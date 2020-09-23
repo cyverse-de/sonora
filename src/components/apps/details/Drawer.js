@@ -5,16 +5,21 @@
  *
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 
 import { queryCache, useMutation, useQuery } from "react-query";
+
+import ToolsUsedPanel from "./ToolUsedPanel";
+import AppFavorite from "../AppFavorite";
 
 import ids from "../../apps/ids";
 import DETabPanel from "../../utils/DETabPanel";
 
 import DetailsPanel from "./DetailsPanel";
 import constants from "../../../constants";
+
+import NavigationConstants from "common/NavigationConstants";
 
 import {
     appFavorite,
@@ -25,9 +30,12 @@ import {
     APP_DETAILS_QUERY_KEY,
 } from "serviceFacades/apps";
 
-import { build, Rate } from "@cyverse-de/ui-lib";
+import { build, CopyTextArea, Rate } from "@cyverse-de/ui-lib";
 import {
     CircularProgress,
+    Dialog,
+    DialogContent,
+    DialogTitle,
     Drawer,
     IconButton,
     Tab,
@@ -35,9 +43,9 @@ import {
     Tooltip,
     Typography,
 } from "@material-ui/core";
+
 import { makeStyles } from "@material-ui/core/styles";
-import ToolsUsedPanel from "./ToolUsedPanel";
-import AppFavorite from "../AppFavorite";
+import Close from "@material-ui/icons/Close";
 import LinkIcon from "@material-ui/icons/Link";
 
 const TABS = {
@@ -84,6 +92,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DetailsHeader({
+    appId,
+    systemId,
     loading,
     appName,
     isExternal,
@@ -94,6 +104,17 @@ function DetailsHeader({
     baseId,
 }) {
     const { t } = useTranslation("apps");
+    const [link, setLink] = useState(null);
+    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        const protocol = window.location.protocol.concat("//");
+        const host = protocol.concat(window.location.host);
+        setLink(
+            host.concat(`/${NavigationConstants.APPS}/${systemId}/${appId}`)
+        );
+    }, [appId, systemId]);
+
     return (
         <>
             <Typography variant="h6" component="span">
@@ -107,14 +128,31 @@ function DetailsHeader({
                         isExternal={isExternal}
                         onFavoriteClick={onFavoriteClick}
                     />
-                    {/*TODO: Sriram - implement app link*/}
-                    <Tooltip title={t("linkToThisApp")}>
-                        <IconButton size="small">
-                            <LinkIcon color="primary" />
+                    <Tooltip title={t("linkToThisApp", { name: appName })}>
+                        <IconButton size="small" onClick={() => setOpen(true)}>
+                            <LinkIcon color="primary" fontSize="small" />
                         </IconButton>
                     </Tooltip>
                 </div>
             )}
+            <Dialog open={open} onClose={() => setOpen(false)} fullWidth>
+                <DialogTitle>
+                    {t("linkToThisApp", { name: appName })}
+                    <IconButton
+                        size="small"
+                        onClick={() => setOpen(false)}
+                        style={{ float: "right" }}
+                    >
+                        <Close fontSize="small" />
+                    </IconButton>
+                </DialogTitle>
+                <DialogContent>
+                    <CopyTextArea
+                        text={link}
+                        debugIdPrefix={build(baseId, appId)}
+                    />
+                </DialogContent>
+            </Dialog>
             {loading && <CircularProgress size={30} thickness={5} />}
         </>
     );
@@ -269,6 +307,8 @@ function DetailsDrawer(props) {
         >
             <div className={classes.drawerHeader}>
                 <DetailsHeader
+                    appId={appId}
+                    systemId={systemId}
                     loading={favMutationStatus === constants.LOADING}
                     appName={appName}
                     isExternal={isExternal}

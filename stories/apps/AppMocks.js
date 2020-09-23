@@ -702,6 +702,45 @@ export const selectedApp = {
         total: 10,
     },
 };
+
+export const listingById = {
+    total: 1,
+    apps: [
+        {
+            integration_date: "2013-05-24T21:44:49.000Z",
+            description:
+                "This App will add existing reference annotation information to newly assembled transcripts in GFF format.",
+            deleted: false,
+            pipeline_eligibility: {
+                is_valid: true,
+                reason: "",
+            },
+            is_favorite: true,
+            integrator_name: "Roger Barthelson",
+            beta: false,
+            permission: "read",
+            can_favor: true,
+            disabled: false,
+            can_rate: true,
+            name: "Annotate transcripts",
+            system_id: "de",
+            is_public: true,
+            id: "676846d4-854a-11e4-980d-7f0fcca75dbb",
+            edited_date: "2013-05-24T20:56:03.000Z",
+            step_count: 1,
+            can_run: true,
+            integrator_email: "rogerab@email.arizona.edu",
+            app_type: "de",
+            wiki_url:
+                "http://pods.iplantcollaborative.org/wiki/display/DEapps/Annotate+transcripts",
+            rating: {
+                average: 3.0,
+                total: 10,
+            },
+        },
+    ],
+};
+
 export const appDetails = {
     integration_date: "2013-05-24T21:44:49.000Z",
     description:

@@ -1,3 +1,5 @@
+import { useMutation, useQuery, useQueryCache } from "react-query";
+
 import callAPI from "../common/callApi";
 
 export const DEFAULT_BAG_QUERY_KEY = "getDefaultBag";
@@ -22,3 +24,65 @@ export const deleteDefaultBag = (key) =>
         endpoint: "/api/bags/default",
         method: "DELETE",
     });
+
+export const useBag = () => {
+    return useQuery(DEFAULT_BAG_QUERY_KEY, getDefaultBag);
+};
+
+export const useBagRemoveItems = () => {
+    const queryCache = useQueryCache();
+    return useMutation(deleteDefaultBag, {
+        onSuccess: () => {
+            queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, {
+                items: [],
+            });
+        },
+        onError: (error) => {
+            console.log(`error from useBagRemoveItems: ${error}`);
+        },
+        onSettled: () => {
+            queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
+        },
+    });
+};
+
+export const useBagRemoveItem = (item) => {
+    const queryCache = useQueryCache();
+    const [mutate] = useMutation(updateDefaultBag, {
+        onSuccess: (data, variables) => {
+            queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, data);
+        },
+        onError: (error) => {
+            console.log(`error from useBagRemoveItem: ${error}`);
+        },
+        onSettled: () => {
+            queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
+        },
+    });
+    return async (item) => {
+        let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY);
+        data.items = data.items.filter((i) => i.id !== item.id);
+        return await mutate(data);
+    };
+};
+
+export const useBagAddItem = (item) => {
+    const queryCache = useQueryCache();
+    const [mutate] = useMutation(updateDefaultBag, {
+        onSuccess: (data, variables) => {
+            queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, data);
+        },
+        onError: (error) => {
+            console.log(`error from useBagAddItem: ${error}`);
+        },
+        onSettled: () => {
+            queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
+        },
+    });
+
+    return async (item) => {
+        let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY);
+        data.items = [...data.items, item];
+        return await mutate(data);
+    };
+};

@@ -148,7 +148,7 @@ export const BagUI = ({ downloadableItems, shareableItems, isLoading }) => {
     );
 };
 
-export default ({ open, remove = () => {}, onClose }) => {
+export default ({ open, onClose }) => {
     const theme = useTheme();
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
@@ -170,6 +170,8 @@ export default ({ open, remove = () => {}, onClose }) => {
 
     const shareableItems = bagItems.filter((item) => item.shareable);
     const downloadableItems = bagItems.filter((item) => item.downloadable);
+
+    console.log(`Open is ${open}`);
 
     return (
         <Dialog

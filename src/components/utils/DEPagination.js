@@ -67,7 +67,7 @@ function ItemsPerPage(props) {
     const anchorRef = React.useRef(null);
 
     const router = useRouter();
-    const type = router.pathname
+    const type = router?.pathname
         ? router.pathname.split(constants.PATH_SEPARATOR)[1]
         : NavigationConstants.DASHBOARD;
 

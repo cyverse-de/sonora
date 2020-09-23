@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+
+import { useRouter } from "next/router";
+
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Pagination from "@material-ui/lab/Pagination";
 import {
@@ -18,7 +21,9 @@ import { injectIntl } from "react-intl";
 import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
 import ids from "./ids";
 import intlData from "./messages";
-
+import { setLocalStorage } from "components/utils/localStorage";
+import constants from "../../constants";
+import NavigationConstants from "common/NavigationConstants";
 const useStyles = makeStyles((theme) => ({
     paper: {
         flexShrink: 0,
@@ -35,13 +40,40 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const options = [25, 50, 100, 200, 500];
+const options = [100, 200, 500];
+
+function savePageSizeToLocalStorage(type, selectedPageSize) {
+    let pageSizeKey = null;
+    if (type === NavigationConstants.DATA) {
+        pageSizeKey = constants.LOCAL_STORAGE.DATA.PAGE_SIZE;
+    } else if (type === NavigationConstants.APPS) {
+        pageSizeKey = constants.LOCAL_STORAGE.APPS.PAGE_SIZE;
+    } else if (type === NavigationConstants.ANALYSES) {
+        pageSizeKey = constants.LOCAL_STORAGE.ANALYSES.PAGE_SIZE;
+    }
+    if (pageSizeKey) {
+        console.log(
+            "saving page size for " + pageSizeKey + " size=" + selectedPageSize
+        );
+        setLocalStorage(pageSizeKey, selectedPageSize);
+    }
+}
 
 function ItemsPerPage(props) {
     const { onPageSizeChange, selectedPageSize, baseId, intl } = props;
+
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
+
+    const router = useRouter();
+    const type = router.pathname
+        ? router.pathname.split(constants.PATH_SEPARATOR)[1]
+        : NavigationConstants.DASHBOARD;
+
+    useEffect(() => {
+        savePageSizeToLocalStorage(type, selectedPageSize);
+    }, [type, selectedPageSize]);
 
     const handleMenuItemClick = (event, index) => {
         onPageSizeChange(options[index]);

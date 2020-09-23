@@ -31,6 +31,13 @@ export default {
     LOCAL_STORAGE: {
         DATA: {
             COLUMNS: "sonora.data.columns",
+            PAGE_SIZE: "sonora.data.pageSize",
+        },
+        APPS: {
+            PAGE_SIZE: "sonora.apps.pageSize",
+        },
+        ANALYSES: {
+            PAGE_SIZE: "sonora.analyses.pageSize",
         },
     },
     CHROMATIC_IGNORE: "chromatic-ignore",

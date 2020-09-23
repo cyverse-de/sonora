@@ -28,7 +28,7 @@ function SubjectSearchField(props) {
         queryKey: { searchTerm },
         queryFn: searchSubjects,
         config: {
-            enabled: !!searchTerm,
+            enabled: !!searchTerm && searchTerm.length > 2,
             onSuccess: (resp) => {
                 setOptions(resp.subjects);
             },

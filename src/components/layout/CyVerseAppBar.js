@@ -55,7 +55,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
+
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 
@@ -205,29 +205,11 @@ const useStyles = makeStyles((theme) => ({
 
 const BagMenu = () => {
     const classes = useStyles();
-    const [bagDlgOpen, setBagDlgOpen] = useState(false);
-
-    const handleClick = (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        setBagDlgOpen(!bagDlgOpen);
-    };
-
-    const handleClose = (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        setBagDlgOpen(false);
-    };
 
     // Removing the <Hidden> causes the unit tests to fail for some strange reason.
     return (
         <Hidden only={[]}>
-            <IconButton className={classes.menuIcon} onClick={handleClick}>
-                <ShoppingBasketIcon />
-            </IconButton>
-            <Bag open={bagDlgOpen} onClose={handleClose} />
+            <Bag menuIconClass={classes.menuIcon} />
         </Hidden>
     );
 };

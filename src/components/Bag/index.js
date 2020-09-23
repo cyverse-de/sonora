@@ -19,7 +19,13 @@ import {
     Tab,
     Typography,
 } from "@material-ui/core";
-import { Delete, GetApp, People, Close } from "@material-ui/icons";
+import {
+    Delete,
+    GetApp,
+    People,
+    Close,
+    ShoppingBasket as ShoppingBasketIcon,
+} from "@material-ui/icons";
 
 import { useQuery } from "react-query";
 import * as facade from "../../serviceFacades/bags";
@@ -148,11 +154,15 @@ export const BagUI = ({ downloadableItems, shareableItems, isLoading }) => {
     );
 };
 
-export default ({ open, onClose }) => {
+export default ({ menuIconClass }) => {
     const theme = useTheme();
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+    if (!menuIconClass) {
+        menuIconClass = classes.menuIcon;
+    }
 
     const { isLoading, status, data, error } = useQuery(
         [facade.DEFAULT_BAG_QUERY_KEY],
@@ -171,62 +181,85 @@ export default ({ open, onClose }) => {
     const shareableItems = bagItems.filter((item) => item.shareable);
     const downloadableItems = bagItems.filter((item) => item.downloadable);
 
-    console.log(`Open is ${open}`);
+    const [bagDlgOpen, setBagDlgOpen] = useState(false);
+
+    const handleMenuClick = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        setBagDlgOpen(!bagDlgOpen);
+    };
+
+    const handleClose = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        setBagDlgOpen(false);
+    };
 
     return (
-        <Dialog
-            fullScreen={fullScreen}
-            open={open}
-            onClose={onClose}
-            classes={{ paper: classes.paper }}
-        >
-            <DialogTitle>
-                {t("yourItemBag")}
+        <>
+            <IconButton className={menuIconClass} onClick={handleMenuClick}>
+                <ShoppingBasketIcon />
+            </IconButton>
 
-                <Typography
-                    component="p"
-                    variant="body1"
-                    color="textSecondary"
-                    classes={{ root: classes.help }}
-                >
-                    {t("bagHelp")}
-                </Typography>
+            <Dialog
+                fullScreen={fullScreen}
+                open={bagDlgOpen}
+                onClose={handleClose}
+                classes={{ paper: classes.paper }}
+            >
+                <DialogTitle>
+                    {t("yourItemBag")}
 
-                <IconButton onClick={onClose} className={classes.closeButton}>
-                    <Close />
-                </IconButton>
-            </DialogTitle>
+                    <Typography
+                        component="p"
+                        variant="body1"
+                        color="textSecondary"
+                        classes={{ root: classes.help }}
+                    >
+                        {t("bagHelp")}
+                    </Typography>
 
-            <DialogContent dividers>
-                <BagUI
-                    isLoading={isLoading}
-                    shareableItems={shareableItems}
-                    downloadableItems={downloadableItems}
-                />
-            </DialogContent>
+                    <IconButton
+                        onClick={handleClose}
+                        className={classes.closeButton}
+                    >
+                        <Close />
+                    </IconButton>
+                </DialogTitle>
 
-            <DialogActions>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                    startIcon={<GetApp />}
-                    onClick={() => {}}
-                >
-                    {t("download")}
-                </Button>
+                <DialogContent dividers>
+                    <BagUI
+                        isLoading={isLoading}
+                        shareableItems={shareableItems}
+                        downloadableItems={downloadableItems}
+                    />
+                </DialogContent>
 
-                <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                    startIcon={<People />}
-                    onClick={() => {}}
-                >
-                    {t("share")}
-                </Button>
-            </DialogActions>
-        </Dialog>
+                <DialogActions>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        startIcon={<GetApp />}
+                        onClick={() => {}}
+                    >
+                        {t("download")}
+                    </Button>
+
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        startIcon={<People />}
+                        onClick={() => {}}
+                    >
+                        {t("share")}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 };
 

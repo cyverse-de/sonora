@@ -11,8 +11,9 @@ import { useMutation } from "react-query";
 
 import NavigationConstants from "common/NavigationConstants";
 
-import { useConfig } from "../../../contexts/config";
-import { useUserProfile } from "../../../contexts/userProfile";
+import { useConfig } from "contexts/config";
+import { useUserProfile } from "contexts/userProfile";
+import { usePreferences } from "contexts/userPreferences";
 
 import { submitAnalysis } from "serviceFacades/analyses";
 import { addQuickLaunch } from "serviceFacades/quickLaunches";
@@ -21,7 +22,7 @@ import AppLaunchWizard from "./AppLaunchWizard";
 
 export default ({ app, launchError, loading }) => {
     const [submissionError, setSubmissionError] = React.useState(null);
-
+    const [preferences] = usePreferences();
     const [config] = useConfig();
     const [userProfile] = useUserProfile();
 
@@ -55,16 +56,16 @@ export default ({ app, launchError, loading }) => {
         }
     );
 
-    // FIXME: notify, defaultOutputDir, and startingPath
-    // need to come from user prefs.
-    const notify = false;
+    const notify = preferences?.enableAnalysisEmailNotification || false;
     const irodsHomePath = config?.irods?.home_path;
     const username = userProfile?.id;
 
     const homePath =
         irodsHomePath && username ? `${irodsHomePath}/${username}` : "";
-    const startingPath = homePath || "";
-    const defaultOutputDir = homePath ? `${homePath}/analyses` : "";
+    const startingPath = preferences?.lastFolder || homePath || "";
+    const defaultOutputDir =
+        preferences?.default_output_folder?.path ||
+        preferences?.system_default_output_dir?.path;
 
     const defaultMaxCPUCores = config?.tools?.private.max_cpu_limit;
     const defaultMaxMemory = config?.tools?.private.max_memory_limit;

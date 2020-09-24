@@ -7,8 +7,14 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 
+import { getParentPath } from "components/data/utils";
 import DataSelectionDrawer from "components/data/SelectionDrawer";
-import { UploadTrackingProvider } from "../../../contexts/uploadTracking";
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+
+import { UploadTrackingProvider } from "contexts/uploadTracking";
+import { usePreferences } from "contexts/userPreferences";
+
+import { useSavePreferences } from "serviceFacades/users";
 
 import ids from "./ids";
 import styles from "./styles";
@@ -72,12 +78,29 @@ const BrowseButton = (props) => {
 /**
  * An Input Selector form field for picking data store file or folder paths.
  */
-const InputSelector = ({ acceptedType, startingPath, ...props }) => {
+const InputSelector = ({
+    acceptedType,
+    startingPath,
+    showErrorAnnouncer,
+    ...props
+}) => {
     // These props need to be spread down into the FormTextField
     const { id, field, form, required } = props;
     const classes = useStyles();
     const { t } = useTranslation("launch");
+    const { t: prefI18n } = useTranslation("preferences");
     const { setFieldValue } = form;
+    const [preferences, setPreferences] = usePreferences();
+
+    //update last folder used.
+    const [mutatePreferences] = useSavePreferences(
+        (updatedPref) => {
+            setPreferences(updatedPref.preferences);
+        },
+        (e) => {
+            showErrorAnnouncer(prefI18n("savePrefError"), e);
+        }
+    );
 
     const inputProps = {
         readOnly: true,
@@ -89,8 +112,13 @@ const InputSelector = ({ acceptedType, startingPath, ...props }) => {
                     acceptedType={acceptedType}
                     multiSelect={false}
                     name={field.name}
-                    onConfirm={(selections) => {
-                        setFieldValue(field.name, selections);
+                    onConfirm={(selection) => {
+                        setFieldValue(field.name, selection);
+                        const updatedPref = {
+                            ...preferences,
+                            lastFolder: getParentPath(selection),
+                        };
+                        mutatePreferences(updatedPref);
                     }}
                 />
             </InputAdornment>
@@ -131,4 +159,4 @@ const InputSelector = ({ acceptedType, startingPath, ...props }) => {
 
 export { BrowseButton };
 
-export default InputSelector;
+export default withErrorAnnouncer(InputSelector);

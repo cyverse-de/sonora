@@ -376,7 +376,7 @@ function Sharing(props) {
                     type="submit"
                     onClick={onSave}
                 >
-                    {tCommon("save")}
+                    {tCommon("done")}
                 </Button>
             </DialogActions>
         </Dialog>

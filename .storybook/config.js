@@ -9,6 +9,7 @@ import {
     UserProfileProvider,
     useUserProfile,
 } from "../src/contexts/userProfile";
+import { PreferencesProvider } from "../src/contexts/userPreferences";
 import { ReactQueryConfigProvider } from "react-query";
 import { I18nProviderWrapper } from "../src/i18n";
 
@@ -41,8 +42,10 @@ addDecorator((storyFn) => (
             <ReactQueryConfigProvider config={queryConfig}>
                 <I18nProviderWrapper>
                     <MockUserProfile />
-                    {storyFn()}
-                    <CyVerseAnnouncer />
+                    <PreferencesProvider>
+                        {storyFn()}
+                        <CyVerseAnnouncer />
+                    </PreferencesProvider>
                 </I18nProviderWrapper>
             </ReactQueryConfigProvider>
         </UserProfileProvider>

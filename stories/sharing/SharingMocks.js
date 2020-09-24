@@ -1,3 +1,5 @@
+import { GROUP_ID } from "../data/DataMocks";
+
 export const dataUserPermRequest = {
     paths: [
         "/iplant/home/aramsey/CORE-9077-path.list",
@@ -141,7 +143,7 @@ export const appPermissionListResponse = {
                 },
                 {
                     subject: {
-                        id: "1448e0f77d794bc9965dea4bf8eddecb",
+                        id: GROUP_ID,
                         source_id: "g:gsa",
                     },
                     permission: "own",
@@ -168,7 +170,7 @@ export const appShareRequest = {
         },
         {
             subject: {
-                id: "1448e0f77d794bc9965dea4bf8eddecb",
+                id: GROUP_ID,
                 source_id: "g:gsa",
             },
             apps: [
@@ -201,7 +203,7 @@ export const appShareResponse = {
         },
         {
             subject: {
-                id: "1448e0f77d794bc9965dea4bf8eddecb",
+                id: GROUP_ID,
                 source_id: "g:gsa",
             },
             apps: [
@@ -233,7 +235,7 @@ export const appUnshareRequest = {
         },
         {
             subject: {
-                id: "1448e0f77d794bc9965dea4bf8eddecb",
+                id: GROUP_ID,
                 source_id: "g:gsa",
             },
             apps: [
@@ -264,7 +266,7 @@ export const appUnshareResponse = {
         },
         {
             subject: {
-                id: "1448e0f77d794bc9965dea4bf8eddecb",
+                id: GROUP_ID,
                 source_id: "g:gsa",
             },
             apps: [

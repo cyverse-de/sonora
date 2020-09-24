@@ -10,7 +10,7 @@ import {
     allPermissionListerResponses,
     dataUserPermResp,
 } from "../../stories/sharing/SharingMocks";
-import { userInfoResp } from "../../stories/data/DataMocks";
+import { GROUP_ID, userInfoResp } from "../../stories/data/DataMocks";
 
 const alfredUser = userInfoResp["alfred"];
 
@@ -55,8 +55,8 @@ const resources = {
  * A sample mapping of users with their resources built by the getUserMap function
  */
 const userMap = {
-    "1448e0f77d794bc9965dea4bf8eddecb": {
-        ...userInfoResp["1448e0f77d794bc9965dea4bf8eddecb"],
+    [GROUP_ID]: {
+        ...userInfoResp[GROUP_ID],
         apps: [
             {
                 app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
@@ -157,12 +157,7 @@ const userMap = {
 
 it("tests userSet given all permission-lister responses", () => {
     const result = getUserSet(allPermissionListerResponses);
-    const expected = [
-        "alfred",
-        "robin",
-        "joker",
-        "1448e0f77d794bc9965dea4bf8eddecb",
-    ];
+    const expected = ["alfred", "robin", "joker", GROUP_ID];
 
     expect(result).toStrictEqual(expected);
 });

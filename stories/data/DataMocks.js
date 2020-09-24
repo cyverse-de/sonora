@@ -467,6 +467,8 @@ export const plainChunk = {
         '"It was a dark and stormy night; the rain fell in torrents--except at occasional intervals, when it was checked by a violent gust of wind which swept up the streets (for it is in London that our scene lies), rattling along the housetops, and fiercely agitating the scanty flame of the lamps that struggled against the darkness."\n',
 };
 
+export const GROUP_ID = "1448e0f77d794bc9965dea4bf8eddecb";
+
 export const userInfoResp = {
     batman: {
         email: "batman@iplantcollaborative.org",
@@ -538,10 +540,10 @@ export const userInfoResp = {
         first_name: "Victor",
         source_id: "ldap",
     },
-    "1448e0f77d794bc9965dea4bf8eddecb": {
+    [GROUP_ID]: {
         name: "iplant:de:qa:teams:freeze:gotham_gang",
         description: "Gotham Baddies",
-        id: "1448e0f77d794bc9965dea4bf8eddecb",
+        id: GROUP_ID,
         source_id: "g:gsa",
     },
 };

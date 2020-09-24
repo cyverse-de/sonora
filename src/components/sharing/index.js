@@ -284,8 +284,9 @@ function Sharing(props) {
                                         const permissionSelector = () => (
                                             <FormControl
                                                 className={
-                                                    isMobile &&
-                                                    classes.mobilePermission
+                                                    isMobile
+                                                        ? classes.mobilePermission
+                                                        : null
                                                 }
                                             >
                                                 <SharingPermissionSelector

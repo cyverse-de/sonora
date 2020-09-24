@@ -154,7 +154,8 @@ function AppsToolbar(props) {
                         handleFilterChange={handleFilterChange}
                         selectedCategory={selectedCategory}
                     />
-
+                </Hidden>
+                <Hidden smDown>
                     {detailsEnabled && (
                         <Button
                             id={build(appsToolbarId, ids.DETAILS_BTN)}
@@ -175,14 +176,16 @@ function AppsToolbar(props) {
                         />
                     )}
                 </Hidden>
-                <AppsDotMenu
-                    baseId={appsToolbarId}
-                    detailsEnabled={detailsEnabled}
-                    onDetailsSelected={onDetailsSelected}
-                    onFilterSelected={() => setOpenFilterDialog(true)}
-                    canShare={canShare}
-                    setSharingDlgOpen={setSharingDlgOpen}
-                />
+                <Hidden mdUp>
+                    <AppsDotMenu
+                        baseId={appsToolbarId}
+                        detailsEnabled={detailsEnabled}
+                        onDetailsSelected={onDetailsSelected}
+                        onFilterSelected={() => setOpenFilterDialog(true)}
+                        canShare={canShare}
+                        setSharingDlgOpen={setSharingDlgOpen}
+                    />
+                </Hidden>
             </Toolbar>
             <Dialog open={openFilterDialog}>
                 <DialogContent>

@@ -58,14 +58,14 @@ const getResponseType = (resp) => Object.keys(resp)[0];
  *
  * A "resource" is a resource object that the user has selected to share
  *
- * -idFn will return a resource's ID
- * -permListFn will return the list of permissions in the sharing object
- * -userIdFn will return a user's ID
- * -fmtSubjectFn will return the formatted user information meant for sending
+ * -getId will return a resource's ID
+ * -getPermList will return the list of permissions in the sharing object
+ * -getUserId will return a user's ID
+ * -formatSubject will return the formatted user information meant for sending
  * to the sharing and unsharing endpoints
- * -fmtSharingFn will return the formatted resource information meant for sending
+ * -formatSharing will return the formatted resource information meant for sending
  * to the sharing endpoints
- * -fmtUnsharingFn will return the formatted resource information meant for
+ * -formatUnsharing will return the formatted resource information meant for
  * sending to the unsharing endpoints
  *
  * @param type
@@ -74,28 +74,28 @@ export const getSharingFns = (type) => {
     switch (type) {
         case TYPE.DATA: {
             return {
-                idFn: (sharing) => sharing.path,
-                permListFn: (sharing) => sharing["user-permissions"],
-                userIdFn: (permission) => permission.user,
-                fmtSubjectFn: (user) => {
+                getId: (sharing) => sharing.path,
+                getPermList: (sharing) => sharing["user-permissions"],
+                getUserId: (permission) => permission.user,
+                formatSubject: (user) => {
                     return {
                         user: user.id,
                     };
                 },
-                fmtSharingFn: (resource) => {
+                formatSharing: (resource) => {
                     return {
                         path: resource.path,
                     };
                 },
-                fmtUnsharingFn: (resource) => resource.path,
+                formatUnsharing: (resource) => resource.path,
             };
         }
         case TYPE.APPS: {
             return {
-                idFn: (sharing) => sharing.app_id || sharing.id,
-                permListFn: (sharing) => sharing.permissions,
-                userIdFn: (permission) => permission.subject.id,
-                fmtSubjectFn: (user) => {
+                getId: (sharing) => sharing.app_id || sharing.id,
+                getPermList: (sharing) => sharing.permissions,
+                getUserId: (permission) => permission.subject.id,
+                formatSubject: (user) => {
                     return {
                         subject: {
                             source_id: user.source_id,
@@ -103,13 +103,13 @@ export const getSharingFns = (type) => {
                         },
                     };
                 },
-                fmtSharingFn: (resource) => {
+                formatSharing: (resource) => {
                     return {
                         app_id: resource.id || resource.app_id,
                         system_id: resource.system_id,
                     };
                 },
-                fmtUnsharingFn: (resource) => {
+                formatUnsharing: (resource) => {
                     return {
                         app_id: resource.id || resource.app_id,
                         system_id: resource.system_id,
@@ -119,10 +119,10 @@ export const getSharingFns = (type) => {
         }
         case TYPE.ANALYSES: {
             return {
-                idFn: (sharing) => sharing.id || sharing.analysis_id,
-                permListFn: (sharing) => sharing.permissions,
-                userIdFn: (permission) => permission.subject.id,
-                fmtSubjectFn: (user) => {
+                getId: (sharing) => sharing.id || sharing.analysis_id,
+                getPermList: (sharing) => sharing.permissions,
+                getUserId: (permission) => permission.subject.id,
+                formatSubject: (user) => {
                     return {
                         subject: {
                             source_id: user.source_id,
@@ -130,21 +130,21 @@ export const getSharingFns = (type) => {
                         },
                     };
                 },
-                fmtSharingFn: (resource) => {
+                formatSharing: (resource) => {
                     return {
                         analysis_id: resource.id || resource.analysis_id,
                     };
                 },
-                fmtUnsharingFn: (resource) =>
+                formatUnsharing: (resource) =>
                     resource.id || resource.analysis_id,
             };
         }
         case TYPE.TOOLS: {
             return {
-                idFn: (sharing) => sharing.id || sharing.tool_id,
-                permListFn: (sharing) => sharing.permissions,
-                userIdFn: (permission) => permission.subject.id,
-                fmtSubjectFn: (user) => {
+                getId: (sharing) => sharing.id || sharing.tool_id,
+                getPermList: (sharing) => sharing.permissions,
+                getUserId: (permission) => permission.subject.id,
+                formatSubject: (user) => {
                     return {
                         subject: {
                             source_id: user.source_id,
@@ -152,12 +152,12 @@ export const getSharingFns = (type) => {
                         },
                     };
                 },
-                fmtSharingFn: (resource) => {
+                formatSharing: (resource) => {
                     return {
                         tool_id: resource.id || resource.tool_id,
                     };
                 },
-                fmtUnsharingFn: (resource) => resource.id || resource.tool_id,
+                formatUnsharing: (resource) => resource.id || resource.tool_id,
             };
         }
         default:
@@ -222,14 +222,14 @@ const addDisplayPermissions = (userMap, resourceTotal) => {
 export const getUserMap = (responses, userInfos, resourceTotal) => {
     const userMap = responses.reduce((acc, resp) => {
         const type = getResponseType(resp);
-        const { permListFn, userIdFn, fmtSharingFn } = getSharingFns(type);
+        const { getPermList, getUserId, formatSharing } = getSharingFns(type);
         return resp[type].reduce(
             (shares, sharing) => {
-                const permissions = permListFn(sharing);
+                const permissions = getPermList(sharing);
 
                 return permissions.reduce(
                     (userMap, permission) => {
-                        const userId = userIdFn(permission);
+                        const userId = getUserId(permission);
                         const currentUser = {
                             ...(userMap[userId] || userInfos[userId]),
                         };
@@ -238,7 +238,7 @@ export const getUserMap = (responses, userInfos, resourceTotal) => {
                         // Create an obj with the resource details and the user's
                         // current permission
                         const resourceWithPermission = {
-                            ...fmtSharingFn(sharing),
+                            ...formatSharing(sharing),
                             permission: permissionValue,
                         };
 
@@ -267,15 +267,15 @@ export const addMissingResourcesToUser = (user, resources) => {
 
     return Object.keys(resources).reduce(
         (acc, type) => {
-            const { idFn, fmtSharingFn } = getSharingFns(type);
+            const { getId, formatSharing } = getSharingFns(type);
             return resources[type].reduce(
                 (resources, resource) => {
                     const hasResource = currentResources.some(
-                        (perm) => idFn(perm) === idFn(resource)
+                        (perm) => getId(perm) === getId(resource)
                     );
                     if (!hasResource) {
                         // Create new sharing object
-                        const updatedSharing = fmtSharingFn(resource);
+                        const updatedSharing = formatSharing(resource);
 
                         return {
                             ...resources,
@@ -302,11 +302,11 @@ export const getUserSet = (responses) => {
     //resource type
     const allUsers = responses.reduce((acc, resp) => {
         const type = getResponseType(resp);
-        const { permListFn, userIdFn } = getSharingFns(type);
+        const { getPermList, getUserId } = getSharingFns(type);
         // permission list
         const users = resp[type].reduce((currUsers, sharing) => {
-            const permList = permListFn(sharing);
-            return [...currUsers, ...permList.map((perm) => userIdFn(perm))];
+            const permList = getPermList(sharing);
+            return [...currUsers, ...permList.map((perm) => getUserId(perm))];
         }, []);
         return [...acc, ...users];
     }, []);
@@ -349,7 +349,7 @@ export const getSharingUpdates = (userMap) => {
                     const resources = user[type];
 
                     if (resources && resources.length > 0) {
-                        const { fmtSubjectFn } = getSharingFns(type);
+                        const { formatSubject } = getSharingFns(type);
                         const updates = resources.filter(
                             (resource) =>
                                 displayPermission !== resource.permission
@@ -357,7 +357,7 @@ export const getSharingUpdates = (userMap) => {
 
                         if (updates && updates.length > 0) {
                             const sharingReq = {
-                                ...fmtSubjectFn(user),
+                                ...formatSubject(user),
                                 [type]: updates.map((resource) => {
                                     return {
                                         ...resource,
@@ -404,14 +404,15 @@ export const getUnsharingUpdates = (originalUsers, userMap) => {
                     const resources = user[type];
 
                     if (resources && resources.length > 0) {
-                        const { fmtSubjectFn, fmtUnsharingFn } = getSharingFns(
-                            type
-                        );
-                        const subject = fmtSubjectFn(user);
+                        const {
+                            formatSubject,
+                            formatUnsharing,
+                        } = getSharingFns(type);
+                        const subject = formatSubject(user);
                         const unshareReq = {
                             ...subject,
                             [type]: resources.map((resource) =>
-                                fmtUnsharingFn(resource)
+                                formatUnsharing(resource)
                             ),
                         };
                         return {

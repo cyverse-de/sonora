@@ -185,6 +185,9 @@ function AnalysesToolbar(props) {
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
 
+    const hasSelection = getSelectedAnalyses
+        ? getSelectedAnalyses().length > 0
+        : false;
     const sharingAnalyses = formatSharedAnalyses(getSelectedAnalyses());
 
     return (
@@ -222,43 +225,47 @@ function AnalysesToolbar(props) {
                 )}
 
                 <div className={classes.divider} />
-                {isSingleSelection && (
-                    <Button
-                        id={build(analysesNavId, ids.DETAILS_BTN)}
-                        className={classes.toolbarItems}
-                        variant="outlined"
-                        disableElevation
-                        color="primary"
-                        onClick={onDetailsSelected}
-                        startIcon={<Info />}
-                    >
-                        {t("details")}
-                    </Button>
-                )}
-                {canShare && (
-                    <SharingButton
-                        baseId={baseId}
+                <Hidden smDown>
+                    {isSingleSelection && (
+                        <Button
+                            id={build(analysesNavId, ids.DETAILS_BTN)}
+                            className={classes.toolbarItems}
+                            variant="outlined"
+                            disableElevation
+                            color="primary"
+                            onClick={onDetailsSelected}
+                            startIcon={<Info />}
+                        >
+                            {t("details")}
+                        </Button>
+                    )}
+                    {canShare && (
+                        <SharingButton
+                            baseId={baseId}
+                            setSharingDlgOpen={setSharingDlgOpen}
+                        />
+                    )}
+                </Hidden>
+                {hasSelection && (
+                    <AnalysesDotMenu
+                        baseId={analysesNavId}
+                        username={username}
+                        onDetailsSelected={onDetailsSelected}
+                        isSingleSelection={isSingleSelection}
+                        getSelectedAnalyses={getSelectedAnalyses}
+                        handleComments={handleComments}
+                        handleInteractiveUrlClick={handleInteractiveUrlClick}
+                        handleCancel={handleCancel}
+                        handleDelete={handleDelete}
+                        handleRelaunch={handleRelaunch}
+                        handleRename={handleRename}
+                        handleSaveAndComplete={handleSaveAndComplete}
+                        handleBatchIconClick={handleBatchIconClick}
+                        onFilterSelected={() => setOpenFilterDialog(true)}
+                        canShare={canShare}
                         setSharingDlgOpen={setSharingDlgOpen}
                     />
                 )}
-                <AnalysesDotMenu
-                    baseId={analysesNavId}
-                    username={username}
-                    onDetailsSelected={onDetailsSelected}
-                    isSingleSelection={isSingleSelection}
-                    getSelectedAnalyses={getSelectedAnalyses}
-                    handleComments={handleComments}
-                    handleInteractiveUrlClick={handleInteractiveUrlClick}
-                    handleCancel={handleCancel}
-                    handleDelete={handleDelete}
-                    handleRelaunch={handleRelaunch}
-                    handleRename={handleRename}
-                    handleSaveAndComplete={handleSaveAndComplete}
-                    handleBatchIconClick={handleBatchIconClick}
-                    onFilterSelected={() => setOpenFilterDialog(true)}
-                    canShare={canShare}
-                    setSharingDlgOpen={setSharingDlgOpen}
-                />
             </Toolbar>
             <Dialog open={openFilterDialog}>
                 <DialogContent>

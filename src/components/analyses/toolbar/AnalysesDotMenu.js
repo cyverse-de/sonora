@@ -26,6 +26,7 @@ import {
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 import {
+    Hidden,
     ListItemIcon,
     ListItemText,
     MenuItem,
@@ -121,29 +122,31 @@ function DotMenuItems(props) {
         selectedAnalyses[0]
     );
     return [
-        isSingleSelection && (
-            <MenuItem
-                key={build(baseId, ids.MENUITEM_DETAILS)}
-                id={build(baseId, ids.MENUITEM_DETAILS)}
-                onClick={() => {
-                    onClose();
-                    onDetailsSelected();
-                }}
-            >
-                <ListItemIcon>
-                    <Info fontSize="small" />
-                </ListItemIcon>
-                <ListItemText primary={t("details")} />
-            </MenuItem>
-        ),
-        canShare && (
-            <SharingMenuItem
-                key={build(baseId, shareIds.SHARING_MENU_ITEM)}
-                baseId={baseId}
-                onClose={onClose}
-                setSharingDlgOpen={setSharingDlgOpen}
-            />
-        ),
+        <Hidden mdUp>
+            {isSingleSelection && (
+                <MenuItem
+                    key={build(baseId, ids.MENUITEM_DETAILS)}
+                    id={build(baseId, ids.MENUITEM_DETAILS)}
+                    onClick={() => {
+                        onClose();
+                        onDetailsSelected();
+                    }}
+                >
+                    <ListItemIcon>
+                        <Info fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary={t("details")} />
+                </MenuItem>
+            )}
+            {canShare && (
+                <SharingMenuItem
+                    key={build(baseId, shareIds.SHARING_MENU_ITEM)}
+                    baseId={baseId}
+                    onClose={onClose}
+                    setSharingDlgOpen={setSharingDlgOpen}
+                />
+            )}
+        </Hidden>,
         isSingleSelection && (
             <Link href={outputFolderHref} as={outputFolderAs} passHref>
                 <OutputFolderMenuItem baseId={baseId} />

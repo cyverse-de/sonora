@@ -177,8 +177,11 @@ it("tests userSet given no permission-lister responses", () => {
 });
 
 /**
- * Tests for a user with permissions on only 1 resource, a user with varied
- * permissions, and users with uniform permissions on all resources
+ * Tests all permission-lister responses from Storybook which should include:
+ * a user with permissions on only 1 resource (the gotham baddies group),
+ * a user with varied permissions (joker has 'own' and 'read')
+ * and users with uniform permissions on all resources (alfred has 'read' on all
+ * and robin has 'write' on all)
  */
 it("tests userMap given all permission-lister responses", () => {
     const resourceTotal = getResourceTotal(resources);

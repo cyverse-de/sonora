@@ -28,7 +28,6 @@ import {
     ShoppingBasket as ShoppingBasketIcon,
 } from "@material-ui/icons";
 
-import { useQuery } from "react-query";
 import * as facade from "../../serviceFacades/bags";
 import { Skeleton } from "@material-ui/lab";
 
@@ -165,10 +164,7 @@ export default ({ menuIconClass }) => {
         menuIconClass = classes.menuIcon;
     }
 
-    const { isLoading, status, data, error } = useQuery(
-        [facade.DEFAULT_BAG_QUERY_KEY],
-        facade.getDefaultBag
-    );
+    const { isLoading, status, data, error } = facade.useBag();
 
     const hasErrored = status === "error";
 

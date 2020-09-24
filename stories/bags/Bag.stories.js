@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { withKnobs, button } from "@storybook/addon-knobs";
+import { withKnobs } from "@storybook/addon-knobs";
 
 import { mockAxios } from "../axiosMock";
 
-import OpsBag, {
+import Bag, {
     FILE_TYPE,
     FOLDER_TYPE,
     ANALYSIS_TYPE,
@@ -47,19 +47,7 @@ const data = {
 };
 
 export const TestBag = () => {
-    const [open, setOpen] = useState(true);
-
-    button("Open", () => setOpen(true));
-
     mockAxios.onGet("/api/bags/default").reply(200, data);
 
-    return (
-        <OpsBag
-            open={open}
-            remove={() => {}}
-            onClose={() => {
-                setOpen(false);
-            }}
-        />
-    );
+    return <Bag />;
 };

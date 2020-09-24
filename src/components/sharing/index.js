@@ -39,15 +39,15 @@ import {
     isGroup,
     TYPE,
 } from "./util";
-import { getUserInfo } from "../../serviceFacades/users";
-import { USER_INFO_QUERY_KEY } from "../../serviceFacades/filesystem";
+import { getUserInfo } from "serviceFacades/users";
+import { USER_INFO_QUERY_KEY } from "serviceFacades/filesystem";
 import isQueryLoading from "../utils/isQueryLoading";
 import GridLoading from "../utils/GridLoading";
 import ids from "./ids";
 import SharedItem from "./SharedItem";
 import Identity from "../data/Identity";
 import SubjectSearchField from "./SubjectSearchField";
-import { useUserProfile } from "../../contexts/userProfile";
+import { useUserProfile } from "contexts/userProfile";
 import { useTranslation } from "i18n";
 import SharingPermissionSelector from "components/sharing/SharingPermissionSelector";
 import Permissions from "components/models/Permissions";

@@ -24,20 +24,20 @@ import { useMutation, useQuery } from "react-query";
 
 import Identity from "../Identity";
 import ids from "../ids";
-import { groupBy } from "../../../common/functions";
+import { groupBy } from "common/functions";
 import styles from "../styles";
 import PermissionSelector from "./PermissionSelector";
-import Permissions from "../../models/Permissions";
+import Permissions from "components/models/Permissions";
 import {
     getResourcePermissions,
     USER_INFO_QUERY_KEY,
     RESOURCE_PERMISSIONS_KEY,
-} from "../../../serviceFacades/filesystem";
-import { dataSharing } from "../../../serviceFacades/sharing";
-import isQueryLoading from "../../utils/isQueryLoading";
-import { getUserInfo } from "../../../serviceFacades/users";
-import ErrorTypography from "../../utils/error/ErrorTypography";
-import DEErrorDialog from "../../utils/error/DEErrorDialog";
+} from "serviceFacades/filesystem";
+import { dataSharing } from "serviceFacades/sharing";
+import isQueryLoading from "components/utils/isQueryLoading";
+import { getUserInfo } from "serviceFacades/users";
+import ErrorTypography from "components/utils/error/ErrorTypography";
+import DEErrorDialog from "components/utils/error/DEErrorDialog";
 
 const useStyles = makeStyles(styles);
 

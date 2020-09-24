@@ -11,9 +11,9 @@ import { Autocomplete } from "@material-ui/lab";
 import { useQuery } from "react-query";
 
 import ids from "./ids";
-import { searchSubjects } from "../../serviceFacades/sharing";
+import { searchSubjects } from "serviceFacades/sharing";
 import isQueryLoading from "../utils/isQueryLoading";
-import { useTranslation } from "../../i18n";
+import { useTranslation } from "i18n";
 import { isGroup } from "components/sharing/util";
 
 function SubjectSearchField(props) {

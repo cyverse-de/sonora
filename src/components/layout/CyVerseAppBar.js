@@ -27,7 +27,6 @@ import { usePreferences } from "contexts/userPreferences";
 import {
     getUserProfile,
     useBootStrap,
-    BOOTSTRAP_KEY,
     USER_PROFILE_QUERY_KEY,
 } from "serviceFacades/users";
 

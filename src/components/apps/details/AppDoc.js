@@ -120,11 +120,11 @@ function AppDoc(props) {
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                        <div
-                            dangerouslySetInnerHTML={{
-                                __html: markDownToHtml(),
-                            }}
-                        />
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: markDownToHtml(),
+                        }}
+                    />
                 </AccordionDetails>
             </Accordion>
             <Divider />

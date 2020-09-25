@@ -145,7 +145,5 @@ export default function appsRouter() {
         })
     );
 
-
-
     return api;
 }

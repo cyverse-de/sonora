@@ -12,6 +12,7 @@ import styles from "./styles";
 
 import { intercomShow } from "common/intercom";
 
+import AppDoc from "components/apps/details/AppDoc";
 import DetailsDrawer from "components/apps/details/Drawer";
 import DEErrorDialog from "components/utils/error/DEErrorDialog";
 import ErrorTypography from "components/utils/error/ErrorTypography";
@@ -32,7 +33,7 @@ import {
     useTheme,
 } from "@material-ui/core";
 
-import { ArrowBack, Info } from "@material-ui/icons";
+import { ArrowBack, Info, MenuBook } from "@material-ui/icons";
 
 import { Skeleton } from "@material-ui/lab";
 
@@ -116,7 +117,8 @@ const AppInfo = React.forwardRef((props, ref) => {
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-    const [open, setOpen] = React.useState(false);
+    const [detailsDrawerOpen, setDetailsDrawerOpen] = React.useState(false);
+    const [docDialogOpen, setDocDialogOpen] = React.useState(false);
     return (
         <div ref={ref}>
             <Typography
@@ -144,15 +146,28 @@ const AppInfo = React.forwardRef((props, ref) => {
                     ) : (
                         <>
                             {app?.name}
-                            <IconButton onClick={() => setOpen(true)}>
+                            <IconButton
+                                onClick={() => setDetailsDrawerOpen(true)}
+                            >
                                 <Info color="primary" fontSize="small" />
+                            </IconButton>
+                            <IconButton onClick={() => setDocDialogOpen(true)}>
+                                <MenuBook color="primary" fontSize="small" />
                             </IconButton>
                             <DetailsDrawer
                                 appId={app?.id}
                                 systemId={app?.system_id}
-                                open={open}
-                                onClose={() => setOpen(false)}
+                                open={detailsDrawerOpen}
+                                onClose={() => setDetailsDrawerOpen(false)}
                                 baseId="launch"
+                            />
+                            <AppDoc
+                                open={docDialogOpen}
+                                wiki_url={app?.wiki_url}
+                                appId={app?.id}
+                                systemId={app?.system_id}
+                                name={app?.name}
+                                onClose={() => setDocDialogOpen(false)}
                             />
                         </>
                     )}

@@ -11,15 +11,18 @@ import { useTranslation } from "i18n";
 
 import { APP_DOC_QUERY_KEY, getAppDoc } from "serviceFacades/apps";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
-import GridLoading from "components/utils/GridLoading";
 
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import Divider from "@material-ui/core/Divider";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Link from "@material-ui/core/Link";
-import Typography from "@material-ui/core/Typography";
+import {
+    Dialog,
+    Divider,
+    DialogTitle,
+    DialogContent,
+    IconButton,
+    Link,
+    CircularProgress,
+    Typography,
+} from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 
 function References(props) {
     const { references } = props;
@@ -50,7 +53,7 @@ function WikiUrl(props) {
 }
 
 function AppDoc(props) {
-    const { wiki_url, appId, systemId, name } = props;
+    const { open, wiki_url, appId, systemId, name, onClose } = props;
 
     const [documentation, setDocumentation] = useState(null);
     const [references, setReferences] = useState(null);
@@ -92,10 +95,6 @@ function AppDoc(props) {
         },
     });
 
-    if (isFetching) {
-        return <GridLoading rows={5} />;
-    }
-
     if (wiki_url) {
         return <WikiUrl wiki_url={wiki_url} name={name} />;
     }
@@ -111,26 +110,35 @@ function AppDoc(props) {
 
     return (
         <>
-            <Accordion>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon color="primary" />}
-                >
-                    <Typography variant="subtitle2">
-                        {t("documentation")}
-                    </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <div
-                        dangerouslySetInnerHTML={{
-                            __html: markDownToHtml(),
-                        }}
-                    />
-                </AccordionDetails>
-            </Accordion>
-            <Divider />
-            {references && references.length > 0 && (
-                <References references={references} />
-            )}
+            <Dialog open={open} onClose={onClose}>
+                <DialogTitle>
+                    {t("documentation")}
+                    <IconButton
+                        aria-label={t("close")}
+                        onClick={onClose}
+                        style={{ float: "right" }}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                    <Divider />
+                </DialogTitle>
+                <DialogContent>
+                    {isFetching && <CircularProgress size={30} thickness={5} />}
+                    {documentation && (
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: markDownToHtml(),
+                            }}
+                        />
+                    )}
+                    {references && references.length > 0 && (
+                        <>
+                            <Divider />
+                            <References references={references} />
+                        </>
+                    )}
+                </DialogContent>
+            </Dialog>
         </>
     );
 }

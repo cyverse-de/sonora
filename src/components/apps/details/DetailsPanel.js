@@ -3,12 +3,11 @@ import { useTranslation } from "i18n";
 
 import GridLabelValue from "components/utils/GridLabelValue";
 
-import AppDoc from "./AppDoc";
 import ids from "../ids";
 
 import { build, formatDate, Rate } from "@cyverse-de/ui-lib";
 
-import { CircularProgress, Divider, Grid } from "@material-ui/core";
+import { CircularProgress, Grid } from "@material-ui/core";
 import GridLoading from "components/utils/GridLoading";
 import ErrorTypography from "components/utils/error/ErrorTypography";
 import DEErrorDialog from "components/utils/error/DEErrorDialog";
@@ -21,7 +20,6 @@ import DEErrorDialog from "components/utils/error/DEErrorDialog";
 
 function DetailsPanel(props) {
     const {
-        selectedApp,
         details,
         userRating,
         detailsLoadingStatus,
@@ -122,13 +120,6 @@ function DetailsPanel(props) {
                     </Grid>
                 </>
             )}
-            <Divider style={{ marginTop: 16, marginBottom: 16 }} />
-            <AppDoc
-                name={selectedApp?.name}
-                appId={details?.id}
-                systemId={details?.system_id}
-                wiki_url={selectedApp?.wiki_url}
-            />
         </>
     );
 }

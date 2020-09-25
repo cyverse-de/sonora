@@ -354,7 +354,6 @@ function DetailsDrawer(props) {
                 selectedTab={selectedTab}
             >
                 <DetailsPanel
-                    selectedApp={selectedApp}
                     details={details}
                     userRating={userRating}
                     isPublic={isPublic}

@@ -1,22 +1,39 @@
 import { SharingPermissions } from "../models/Permissions";
 
-// Returns whether the given user object (returned from user-info call) is a group
+/**
+ * Returns a boolean indicating if the given user is a group
+ * @param {Subject} user
+ * @returns {boolean} True if the user is a group
+ */
 export const isGroup = (user) => {
     return user.source_id === "g:gsa";
 };
 
-// Returns the short group name for display
+/**
+ * Returns a group's short name for display
+ * @param {Subject} subject
+ * @returns {string} The displayable group name
+ */
 export const groupName = (subject) => {
     return subject.name.split(":").pop();
 };
 
-// Takes a list and returns a new list with only unique, non-empty values
+/**
+ * Takes a list and returns a new list with only unique, non-empty values
+ * @param {any[]} list
+ * @returns {any[]}
+ */
 const getUniqueList = (list) => {
     return [...new Set(list)].filter((item) => !!item);
 };
 
-// Takes a list of permission values (i.e. read, write, own) and returns
-// what to display as their overall permission
+/**
+ * Takes a list of permission values {@link SharingPermissions} and returns
+ * what to display as the overall permission
+ * @param {SharingPermissions[]} permissionList
+ * @param {number} resourceTotal
+ * @returns {string}
+ */
 const getDisplayPermission = (permissionList, resourceTotal) => {
     if (permissionList.length !== resourceTotal) {
         return SharingPermissions.VARIES;
@@ -25,8 +42,10 @@ const getDisplayPermission = (permissionList, resourceTotal) => {
     return values.length === 1 ? values[0] : SharingPermissions.VARIES;
 };
 
-// These are the keys to each permission-lister response object and correspond
-// to each type of resource that can be shared in Sonora
+/**
+ * These are the keys to each permission-lister response object and correspond
+ * to each type of resource that can be shared in Sonora
+ */
 export const TYPE = {
     DATA: "paths",
     APPS: "apps",
@@ -36,37 +55,18 @@ export const TYPE = {
 
 const allResourceTypes = [TYPE.DATA, TYPE.APPS, TYPE.ANALYSES, TYPE.TOOLS];
 
-// Function for returning the response type based on the key in the `resp` obj
-// The key should be one of those keys in TYPE
+/**
+ * Takes a permission list response object and returns the TYPE
+ * @param {PermissionListResponse} resp
+ * @returns {string} One of the types (TYPE)
+ */
 const getResponseType = (resp) => Object.keys(resp)[0];
 
 /**
  * Helper functions for retrieving information across the different types of
  * permission-lister responses.
- *
- * A "sharing" is the object containing the resource information,
- * such as the resource id and name, plus an array of permissions for that
- * resource.
- *
- * A "permission" is the object containing the subject information
- * and the actual permission value that the subject has on a resource.
- *
- * A "user" is an object containing the details for a user returned from the user-info
- * service
- *
- * A "resource" is a resource object that the user has selected to share
- *
- * -getId will return a resource's ID
- * -getPermList will return the list of permissions in the sharing object
- * -getUserId will return a user's ID
- * -formatSubject will return the formatted user information meant for sending
- * to the sharing and unsharing endpoints
- * -formatSharing will return the formatted resource information meant for sending
- * to the sharing endpoints
- * -formatUnsharing will return the formatted resource information meant for
- * sending to the unsharing endpoints
- *
- * @param type
+ * @param {string} type - one of TYPE
+ * @returns {{formatUnsharing: (function(Resource): *), formatSharing: (function(Resource): *), formatSubject: (function(Subject): *), getId: (function(Sharing): *), getPermList: (function(Sharing): *), getUserId: (function(AnySubjectPermission): *)}}
  */
 export const getSharingFns = (type) => {
     switch (type) {
@@ -163,8 +163,12 @@ export const getSharingFns = (type) => {
     }
 };
 
-// A user can have all or no resources.  Check for each resource type and
-// return a list containing them all
+/**
+ * Returns a list containing all the resources a user has or will have
+ * permissions on
+ * @param {SharingUser} user
+ * @return {Resource[]}
+ */
 const getUserResourceList = (user) => {
     return [
         ...(user[TYPE.DATA] || []),
@@ -174,6 +178,13 @@ const getUserResourceList = (user) => {
     ];
 };
 
+/**
+ * Takes a userMap and returns the same userMap with the displayPermission
+ * and originalPermission values set
+ * @param {UserMap} userMap - original userMap
+ * @param {number} resourceTotal - the total number of resources supplied to the sharing dialog
+ * @return {UserMap} userMap with original and display permissions added
+ */
 const addDisplayPermissions = (userMap, resourceTotal) => {
     return Object.keys(userMap).reduce((userMap, userId) => {
         const user = userMap[userId];
@@ -196,21 +207,14 @@ const addDisplayPermissions = (userMap, resourceTotal) => {
 };
 
 /**
- * This will create a mapping where each key is a user ID.  The value is
- * the user's information from the user-info service with 3 things added:
- * - originalPermission: contains the original overall permission for the user
+ * This will create a UserMap based on the resources provided to the sharing
+ * dialog.  The basic structure is each key will be a user ID and the values
+ * will be SharingUser objects
  *
- * - displayPermission: contains the current overall permission for the user.
- * If the user's permission gets updated in the sharing dialog, this value will
- * update.
- *
- * - paths, apps, analyses, tools keys for storing the array of resources the
- * user has or will have permissions on
- *
- * @param responses - permission-lister responses
- * @param userInfos
- * @param resourceTotal
- * @returns {{}}
+ * @param {PermissionListResponse[]} responses
+ * @param {Subject[]} userInfos
+ * @param {number} resourceTotal
+ * @returns {UserMap}
  */
 export const getUserMap = (responses, userInfos, resourceTotal) => {
     const userMap = responses.reduce((acc, resp) => {
@@ -245,8 +249,13 @@ export const getUserMap = (responses, userInfos, resourceTotal) => {
     return addDisplayPermissions(userMap, resourceTotal);
 };
 
-// Takes a user and examines its paths, apps, analyses, and tools keys to compare
-// against the resources list to find missing resources.  Adds the missing resources.
+/**
+ * Takes a user and examines its paths, apps, analyses, and tools keys to compare
+ * against the resources list to find missing resources.  Adds the missing resources.
+ * @param {SharingUser} user
+ * @param {Resource[]} resources
+ * @return {SharingUser}
+ */
 export const addMissingResourcesToUser = (user, resources) => {
     const currentResources = getUserResourceList(user);
 
@@ -268,9 +277,13 @@ export const addMissingResourcesToUser = (user, resources) => {
     }, user);
 };
 
-// Takes as input an array of all the permission-lister responses and returns a
-// list of each unique user ID found in those responses for the purpose
-// of fetching their detailed info from the user-info service
+/**
+ * Takes as input an array of all the permission-lister responses and returns a
+ * list of each unique user ID found in those responses for the purpose
+ * of fetching their detailed info from the user-info service
+ * @param {PermissionListResponse[]} responses
+ * @return {string[]} - array of user IDs
+ */
 export const getUserSet = (responses) => {
     //resource type
     const allUsers = responses.reduce((acc, resp) => {
@@ -286,15 +299,21 @@ export const getUserSet = (responses) => {
     return getUniqueList(allUsers);
 };
 
-// Takes the resources provided from the bag and returns the total #
+/**
+ * Takes the resources provided from the bag and returns the total #
+ * @param {Resource[]} resources
+ * @return {number} - total
+ */
 export const getResourceTotal = (resources) => {
     return Object.values(resources).reduce((acc, type) => {
         return acc + type.length;
     }, 0);
 };
 
-// Checks a response from the sharing endpoints and will find which resource
-// type key exists and will return the values
+/**
+ * Checks a response from the sharing endpoints and will find which resource
+ * type key exists and will return the values
+ */
 export const getShareResponseValues = (resp) => {
     return (
         resp[TYPE.DATA] ||
@@ -307,9 +326,8 @@ export const getShareResponseValues = (resp) => {
 /**
  * Takes the userMap returned from `groupByUser`, and returns all the
  * sharing requests that need to be sent out for each resource type.
- * Will return an object that looks like
- * `{paths: [updates], apps: [updates], analyses: [updates], tools: [updates]}`
- * @param userMap
+ * @param {UserMap} userMap
+ * @return {{string, ShareRequest[]}} - keys are TYPEs, values are the sharing requests
  */
 export const getSharingUpdates = (userMap) => {
     return Object.keys(userMap).reduce((acc, userId) => {
@@ -353,10 +371,9 @@ export const getSharingUpdates = (userMap) => {
 /**
  * Takes two userMaps (generated by `groupByUsers`) and finds which users
  * have been removed in order to create unsharing requests.
- * Will return an object that looks like
- * `{paths: [updates], apps: [updates], analyses: [updates], tools: [updates]}`
- * @param originalUsers - original userMap
- * @param userMap - updated userMap
+ * @param {UserMap} originalUsers - original userMap
+ * @param {UserMap} userMap - updated userMap
+ * @return {{string, UnshareRequest[]}} - keys are TYPEs, values are unshare requests
  */
 export const getUnsharingUpdates = (originalUsers, userMap) => {
     const currentUserIds = Object.keys(userMap);

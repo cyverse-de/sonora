@@ -1,11 +1,11 @@
 /**
  * @author Jack Mitt, sriram
  *
- *  Diaplay user preferences.
+ *  Allow users to edit / save their preferences.
  *
  *
  */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { Form, Formik } from "formik";
 import { useQuery, queryCache, useMutation } from "react-query";
@@ -20,24 +20,26 @@ import prefConstants from "./constants";
 import General from "./General";
 import Shortcuts from "./Shortcuts";
 import styles from "./styles";
-
 import { isWritable } from "../data/utils";
-import NavigationConstants from "../../common/NavigationConstants";
+
+import { usePreferences } from "contexts/userPreferences";
+
+import NavigationConstants from "common/NavigationConstants";
 
 import {
-    bootstrap,
+    useBootStrap,
     getRedirectURIs,
-    savePreferences,
+    useSavePreferences,
     resetToken,
     BOOTSTRAP_KEY,
     REDIRECT_URI_QUERY_KEY,
-} from "../../serviceFacades/users";
+} from "serviceFacades/users";
 import {
     getResourceDetails,
     DATA_DETAILS_QUERY_KEY,
-} from "../../serviceFacades/filesystem";
-import GridLoading from "../utils/GridLoading";
-import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
+} from "serviceFacades/filesystem";
+import GridLoading from "components/utils/GridLoading";
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
 import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
 
@@ -62,20 +64,26 @@ function Preferences(props) {
     const { baseId, showErrorAnnouncer } = props;
 
     const { t } = useTranslation("preferences");
+    const [preferences, setPreferences] = usePreferences();
 
     const router = useRouter();
 
     const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(
         false
     );
-    const [userPref, setUserPref] = useState({});
     const [fetchDetailsKey, setFetchDetailsKey] = useState(
         DATA_DETAILS_QUERY_KEY
     );
     const [fetchDetailsQueryEnabled, setFetchDetailsQueryEnabled] = useState(
         false
     );
+
     const [defaultOutputFolder, setDefaultOutputFolder] = useState(null);
+    const [
+        defaultOutputFolderDetails,
+        setDefaultOutputFolderDetails,
+    ] = useState(null);
+
     const [requireAgaveAuth, setRequireAgaveAuth] = useState(true);
     const [
         outputFolderValidationError,
@@ -94,29 +102,33 @@ function Preferences(props) {
     //get from cache if not fetch now.
     const prefCache = queryCache.getQueryData(BOOTSTRAP_KEY);
 
-    const preProcessData = (respData) => {
-        let pref = respData.preferences;
-        setDefaultOutputFolder(
-            pref?.default_output_folder?.path ||
-                pref?.system_default_output_dir?.path
-        );
-        setBootstrapQueryEnabled(false);
-        setUserPref(pref);
-        const session = respData?.session;
-        const agaveKey = session?.auth_redirect?.agave;
-        if (agaveKey) {
-            setRequireAgaveAuth(true);
-        } else {
-            setRequireAgaveAuth(false);
-        }
-    };
+    const preProcessData = useCallback(
+        (respData) => {
+            let pref = respData.preferences;
+            setDefaultOutputFolder(
+                pref?.default_output_folder?.path ||
+                    pref?.system_default_output_dir?.path
+            );
+            setBootstrapQueryEnabled(false);
+            setPreferences(pref);
+            const session = respData?.session;
+            const agaveKey = session?.auth_redirect?.agave;
+            if (agaveKey) {
+                setRequireAgaveAuth(true);
+            } else {
+                setRequireAgaveAuth(false);
+            }
+        },
+        [setPreferences]
+    );
+
     useEffect(() => {
         if (prefCache) {
             preProcessData(prefCache);
         } else {
             setBootstrapQueryEnabled(true);
         }
-    }, [prefCache]);
+    }, [preProcessData, prefCache]);
 
     useEffect(() => {
         if (defaultOutputFolder) {
@@ -146,44 +158,25 @@ function Preferences(props) {
         }
     }, [bootstrapError, router]);
 
-    const { isFetching } = useQuery({
-        queryKey: BOOTSTRAP_KEY,
-        queryFn: bootstrap,
-        config: {
-            enabled: bootstrapQueryEnabled,
-            onSuccess: (respData) => preProcessData(respData),
-            onError: (e) => {
-                setBootstrapError(e);
-            },
-            staleTime: Infinity,
-            cacheTime: Infinity,
-        },
-    });
+    const { isFetching } = useBootStrap(
+        bootstrapQueryEnabled,
+        (respData) => preProcessData(respData),
+        setBootstrapError
+    );
 
-    const [preferences, { status: prefMutationStatus }] = useMutation(
-        savePreferences,
-        {
-            onSuccess: (updatedPref) => {
-                announce({
-                    text: t("prefSaveSuccess"),
-                    variant: AnnouncerConstants.SUCCESS,
-                });
-                //update preference in cache
-                queryCache.setQueryData(BOOTSTRAP_KEY, (bootstrapData) => {
-                    if (bootstrapData && updatedPref) {
-                        const updatedBootstrap = {
-                            ...bootstrapData,
-                            preferences: { ...updatedPref.preferences },
-                        };
-                        return updatedBootstrap;
-                    } else {
-                        return bootstrapData;
-                    }
-                });
-            },
-            onError: (e) => {
-                showErrorAnnouncer(t("savePrefError"), e);
-            },
+    const [
+        mutatePreferences,
+        { status: prefMutationStatus },
+    ] = useSavePreferences(
+        (updatedPref) => {
+            announce({
+                text: t("prefSaveSuccess"),
+                variant: AnnouncerConstants.SUCCESS,
+            });
+            setPreferences(updatedPref.preferences);
+        },
+        (e) => {
+            showErrorAnnouncer(t("savePrefError"), e);
         }
     );
 
@@ -234,6 +227,7 @@ function Preferences(props) {
                         t("permissionSelectErrorMessage")
                     );
                 } else {
+                    setDefaultOutputFolderDetails(details);
                     setOutputFolderValidationError(null);
                 }
             },
@@ -252,11 +246,8 @@ function Preferences(props) {
                 });
             } else {
                 const updatedPref = values;
-                updatedPref.default_output_folder.id =
-                    values.defaultOutputFolder;
-                updatedPref.default_output_folder.path =
-                    values.defaultOutputFolder;
-                preferences(updatedPref);
+                updatedPref.default_output_folder = defaultOutputFolderDetails;
+                mutatePreferences(values);
             }
         }
     };
@@ -291,7 +282,7 @@ function Preferences(props) {
         );
         setFieldValue(
             prefConstants.keys.DEFAULT_OUTPUT_FOLDER,
-            userPref.system_default_output_dir.path
+            preferences.system_default_output_dir.path
         );
         setShowRestoreConfirmation(false);
     };
@@ -301,7 +292,7 @@ function Preferences(props) {
         setDefaultOutputFolder(newFolder);
     };
 
-    if (isFetching && !userPref) {
+    if (isFetching && !preferences) {
         return (
             <>
                 <GridLoading rows={5} />
@@ -367,7 +358,7 @@ function Preferences(props) {
             <Container className={classes.root}>
                 <Paper>
                     <Formik
-                        initialValues={userPref}
+                        initialValues={preferences}
                         onSubmit={handleSubmit}
                         enableReinitialize
                         validate={validateShortCuts}

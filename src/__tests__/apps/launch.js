@@ -16,6 +16,7 @@ import { ReferenceGenomeParams } from "../../../stories/apps/launch/ReferenceGen
 import { SelectParams } from "../../../stories/apps/launch/SelectParams.stories";
 import { TextParams } from "../../../stories/apps/launch/TextParams.stories";
 import { I18nProviderWrapper } from "../../i18n";
+import { PreferencesProvider } from "contexts/userPreferences";
 beforeEach(() => {
     mockAxios.reset();
 });
@@ -27,7 +28,9 @@ afterEach(() => {
 test("App Launch DEWordCount renders", () => {
     const component = TestRenderer.create(
         <I18nProviderWrapper>
-            <DEWordCount />
+            <PreferencesProvider>
+                <DEWordCount />
+            </PreferencesProvider>
         </I18nProviderWrapper>
     );
     component.unmount();
@@ -36,7 +39,9 @@ test("App Launch DEWordCount renders", () => {
 test("App Launch AgaveWordCount renders", () => {
     const component = TestRenderer.create(
         <I18nProviderWrapper>
-            <AgaveWordCount />
+            <PreferencesProvider>
+                <AgaveWordCount />
+            </PreferencesProvider>
         </I18nProviderWrapper>
     );
     component.unmount();
@@ -45,7 +50,9 @@ test("App Launch AgaveWordCount renders", () => {
 test("App Launch DeprecatedParams renders", () => {
     const component = TestRenderer.create(
         <I18nProviderWrapper>
-            <DeprecatedParams />
+            <PreferencesProvider>
+                <DeprecatedParams />
+            </PreferencesProvider>
         </I18nProviderWrapper>
     );
     component.unmount();
@@ -54,7 +61,9 @@ test("App Launch DeprecatedParams renders", () => {
 test("App Launch FlagParams renders", () => {
     const component = TestRenderer.create(
         <I18nProviderWrapper>
-            <FlagParams />
+            <PreferencesProvider>
+                <FlagParams />
+            </PreferencesProvider>
         </I18nProviderWrapper>
     );
     component.unmount();
@@ -63,7 +72,9 @@ test("App Launch FlagParams renders", () => {
 test("App Launch InputParams renders", () => {
     const component = TestRenderer.create(
         <I18nProviderWrapper>
-            <InputParams />
+            <PreferencesProvider>
+                <InputParams />
+            </PreferencesProvider>
         </I18nProviderWrapper>
     );
     component.unmount();
@@ -72,7 +83,9 @@ test("App Launch InputParams renders", () => {
 test("App Launch JupyterLabNoParams renders", () => {
     const component = TestRenderer.create(
         <I18nProviderWrapper>
-            <JupyterLabNoParams />
+            <PreferencesProvider>
+                <JupyterLabNoParams />
+            </PreferencesProvider>
         </I18nProviderWrapper>
     );
     component.unmount();
@@ -81,7 +94,9 @@ test("App Launch JupyterLabNoParams renders", () => {
 test("App Launch NumberParams renders", () => {
     const component = TestRenderer.create(
         <I18nProviderWrapper>
-            <NumberParams />
+            <PreferencesProvider>
+                <NumberParams />
+            </PreferencesProvider>
         </I18nProviderWrapper>
     );
     component.unmount();
@@ -90,7 +105,9 @@ test("App Launch NumberParams renders", () => {
 test("App Launch OutputParams renders", () => {
     const component = TestRenderer.create(
         <I18nProviderWrapper>
-            <OutputParams />
+            <PreferencesProvider>
+                <OutputParams />
+            </PreferencesProvider>
         </I18nProviderWrapper>
     );
     component.unmount();
@@ -99,7 +116,9 @@ test("App Launch OutputParams renders", () => {
 test("App Launch Pipeline renders", () => {
     const component = TestRenderer.create(
         <I18nProviderWrapper>
-            <Pipeline />
+            <PreferencesProvider>
+                <Pipeline />
+            </PreferencesProvider>
         </I18nProviderWrapper>
     );
     component.unmount();
@@ -108,7 +127,9 @@ test("App Launch Pipeline renders", () => {
 test("App Launch ReferenceGenomeParams renders", () => {
     const component = TestRenderer.create(
         <I18nProviderWrapper>
-            <ReferenceGenomeParams />
+            <PreferencesProvider>
+                <ReferenceGenomeParams />
+            </PreferencesProvider>
         </I18nProviderWrapper>
     );
     component.unmount();
@@ -117,7 +138,9 @@ test("App Launch ReferenceGenomeParams renders", () => {
 test("App Launch SelectParams renders", () => {
     const component = TestRenderer.create(
         <I18nProviderWrapper>
-            <SelectParams />
+            <PreferencesProvider>
+                <SelectParams />
+            </PreferencesProvider>
         </I18nProviderWrapper>
     );
     component.unmount();
@@ -126,7 +149,9 @@ test("App Launch SelectParams renders", () => {
 test("App Launch TextParams renders", () => {
     const component = TestRenderer.create(
         <I18nProviderWrapper>
-            <TextParams />
+            <PreferencesProvider>
+                <TextParams />
+            </PreferencesProvider>
         </I18nProviderWrapper>
     );
     component.unmount();

@@ -1,4 +1,5 @@
 import callApi from "../common/callApi";
+import { useQuery, useMutation, queryCache } from "react-query";
 
 const BOOTSTRAP_KEY = "bootstrap";
 
@@ -59,6 +60,57 @@ function getRedirectURIs() {
     });
 }
 
+/**
+ * Query to get user bootstrap and preferences
+ * @param {boolean} enabled - Enabled / disable this query.
+ * @param {Function} onSuccess - Callback function to use when query succeeds.
+ * @param {Function} onError - Callback function to use when query failed.
+ */
+function useBootStrap(enabled, onSuccess, onError) {
+    return useQuery({
+        queryKey: BOOTSTRAP_KEY,
+        queryFn: bootstrap,
+        config: {
+            enabled,
+            onSuccess,
+            onError,
+            staleTime: Infinity,
+            cacheTime: Infinity,
+            retry: 3,
+            //copied from react-query doc. Add exponential delay for retry.
+            retryDelay: (attempt) =>
+                Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000),
+        },
+    });
+}
+/**
+ * Query to save preferences
+ * @param {Function} onSuccessCallback - Callback function to use when query succeeds.
+ * @param {Function} onError - Callback function to use when query failed.
+ */
+function useSavePreferences(onSuccessCallback, onError) {
+    return useMutation(savePreferences, {
+        onSuccess: (updatedPref) => {
+            //update preference in cache
+            queryCache.setQueryData(BOOTSTRAP_KEY, (bootstrapData) => {
+                if (bootstrapData && updatedPref) {
+                    const updatedBootstrap = {
+                        ...bootstrapData,
+                        preferences: { ...updatedPref.preferences },
+                    };
+                    return updatedBootstrap;
+                } else {
+                    return bootstrapData;
+                }
+            });
+            if (onSuccessCallback) {
+                onSuccessCallback(updatedPref);
+            }
+        },
+        onError,
+    });
+}
+
 export {
     BOOTSTRAP_KEY,
     USER_PROFILE_QUERY_KEY,
@@ -69,4 +121,6 @@ export {
     savePreferences,
     resetToken,
     getRedirectURIs,
+    useBootStrap,
+    useSavePreferences,
 };

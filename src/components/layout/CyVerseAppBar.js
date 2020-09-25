@@ -14,20 +14,21 @@ import { useTranslation } from "i18n";
 
 import ids from "./ids";
 import constants from "../../constants";
-import { useConfig } from "../../contexts/config";
+import { useConfig } from "contexts/config";
 import GlobalSearchField from "../search/GlobalSearchField";
-import NavigationConstants from "../../common/NavigationConstants";
+import NavigationConstants from "common/NavigationConstants";
 import Notifications from "./Notifications";
 import CustomIntercom from "./CustomIntercom";
-import { useUserProfile } from "../../contexts/userProfile";
+import { useUserProfile } from "contexts/userProfile";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 import searchConstants from "components/search/constants";
+import { usePreferences } from "contexts/userPreferences";
+
 import {
     getUserProfile,
-    bootstrap,
-    BOOTSTRAP_KEY,
+    useBootStrap,
     USER_PROFILE_QUERY_KEY,
-} from "../../serviceFacades/users";
+} from "serviceFacades/users";
 
 import { build, CyVerseAnnouncer } from "@cyverse-de/ui-lib";
 
@@ -226,10 +227,9 @@ function CyverseAppBar(props) {
     const [open, setOpen] = useState(false);
     const [adminUser, setAdminUser] = useState(false);
     const [bootstrapError, setBootstrapError] = useState(null);
-    const [bootstrapQueryKey, setBootstrapQueryKey] = useState(BOOTSTRAP_KEY);
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
     const [profileRefetchInterval, setProfileRefetchInterval] = useState(null);
-
+    const setPreferences = usePreferences()[1];
     function updateUserProfile(profile) {
         if (
             (profile === null && userProfile !== null) ||
@@ -272,27 +272,17 @@ function CyverseAppBar(props) {
 
     useEffect(() => {
         if (userProfile) {
-            setBootstrapQueryKey(BOOTSTRAP_KEY);
             setBootstrapQueryEnabled(true);
         }
     }, [userProfile]);
 
-    useQuery({
-        queryKey: bootstrapQueryKey,
-        queryFn: bootstrap,
-        config: {
-            enabled: bootstrapQueryEnabled,
-            staleTime: Infinity,
-            cacheTime: Infinity,
-            retry: 3,
-            //copied from react-query doc. Add exponential delay for retry.
-            retryDelay: (attempt) =>
-                Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000),
-            onError: (e) => {
-                setBootstrapError(e);
-            },
+    useBootStrap(
+        bootstrapQueryEnabled,
+        (respData) => {
+            setPreferences(respData.preferences);
         },
-    });
+        setBootstrapError
+    );
 
     React.useEffect(() => {
         if (userProfile?.id) {

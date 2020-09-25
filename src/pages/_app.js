@@ -8,19 +8,21 @@ import React, { useState } from "react";
 
 import { appWithTranslation, useTranslation } from "i18n";
 import "./styles.css";
-import { ConfigProvider } from "../contexts/config";
-import CyverseAppBar from "../components/layout/CyVerseAppBar";
-import NavigationConstants from "../common/NavigationConstants";
-import UploadManager from "../components/uploads/manager";
-import theme from "../components/theme/default";
-import ids from "../components/layout/ids";
 
-import { UploadTrackingProvider } from "../contexts/uploadTracking";
-import { UserProfileProvider } from "../contexts/userProfile";
+import CyverseAppBar from "components/layout/CyVerseAppBar";
+import NavigationConstants from "common/NavigationConstants";
+import UploadManager from "components/uploads/manager";
+import theme from "components/theme/default";
+import ids from "components/layout/ids";
 
-import { NotificationsProvider } from "../contexts/pushNotifications";
-import PageWrapper from "../components/layout/PageWrapper";
-import useComponentHeight from "../components/utils/useComponentHeight";
+import { ConfigProvider } from "contexts/config";
+import { UploadTrackingProvider } from "contexts/uploadTracking";
+import { UserProfileProvider } from "contexts/userProfile";
+import { NotificationsProvider } from "contexts/pushNotifications";
+import { PreferencesProvider } from "contexts/userPreferences";
+
+import PageWrapper from "components/layout/PageWrapper";
+import useComponentHeight from "components/utils/useComponentHeight";
 import constants from "../constants";
 
 import Head from "next/head";
@@ -142,21 +144,27 @@ function MyApp({ Component, pageProps }) {
                         <CssBaseline />
                         <NotificationsProvider>
                             <ConfigProvider>
-                                <CyverseAppBar
-                                    setAppBarRef={setAppBarRef}
-                                    activeView={pathname}
-                                    intercomUnreadCount={unReadCount}
-                                    clientConfig={config}
-                                >
-                                    <Head>
-                                        <title>{t("deTitle")}</title>
-                                    </Head>
-                                    <ReactQueryDevtools initialIsOpen={false} />
-                                    <PageWrapper appBarHeight={appBarHeight}>
-                                        <Component {...pageProps} />
-                                    </PageWrapper>
-                                    <UploadManager />
-                                </CyverseAppBar>
+                                <PreferencesProvider>
+                                    <CyverseAppBar
+                                        setAppBarRef={setAppBarRef}
+                                        activeView={pathname}
+                                        intercomUnreadCount={unReadCount}
+                                        clientConfig={config}
+                                    >
+                                        <Head>
+                                            <title>{t("deTitle")}</title>
+                                        </Head>
+                                        <ReactQueryDevtools
+                                            initialIsOpen={false}
+                                        />
+                                        <PageWrapper
+                                            appBarHeight={appBarHeight}
+                                        >
+                                            <Component {...pageProps} />
+                                        </PageWrapper>
+                                        <UploadManager />
+                                    </CyverseAppBar>
+                                </PreferencesProvider>
                             </ConfigProvider>
                         </NotificationsProvider>
                     </ReactQueryConfigProvider>

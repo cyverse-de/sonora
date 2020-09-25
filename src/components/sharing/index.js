@@ -181,7 +181,7 @@ function Sharing(props) {
         const updated = { ...userMap };
         delete updated[user.id];
 
-        setUserMap({ ...updated });
+        setUserMap(updated);
     };
 
     const [sendSharingUpdates, { isLoading: isSaving }] = useMutation(

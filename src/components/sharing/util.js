@@ -12,9 +12,7 @@ export const groupName = (subject) => {
 
 // Takes a list and returns a new list with only unique, non-empty values
 const getUniqueList = (list) => {
-    return list.filter(
-        (item, index, self) => !!item && self.indexOf(item) === index
-    );
+    return [...new Set(list)].filter((item) => !!item);
 };
 
 // Takes a list of permission values (i.e. read, write, own) and returns
@@ -177,29 +175,24 @@ const getUserResourceList = (user) => {
 };
 
 const addDisplayPermissions = (userMap, resourceTotal) => {
-    return Object.keys(userMap).reduce(
-        (acc, userId) => {
-            const user = acc[userId];
-            const resources = getUserResourceList(user);
+    return Object.keys(userMap).reduce((userMap, userId) => {
+        const user = userMap[userId];
+        const resources = getUserResourceList(user);
 
-            const permissions = resources.map(
-                (resource) => resource.permission
-            );
-            const displayPermission = getDisplayPermission(
-                permissions,
-                resourceTotal
-            );
-            return {
-                ...acc,
-                [userId]: {
-                    ...user,
-                    displayPermission,
-                    originalPermission: displayPermission,
-                },
-            };
-        },
-        { ...userMap }
-    );
+        const permissions = resources.map((resource) => resource.permission);
+        const displayPermission = getDisplayPermission(
+            permissions,
+            resourceTotal
+        );
+        return {
+            ...userMap,
+            [userId]: {
+                ...user,
+                displayPermission,
+                originalPermission: displayPermission,
+            },
+        };
+    }, userMap);
 };
 
 /**
@@ -223,39 +216,31 @@ export const getUserMap = (responses, userInfos, resourceTotal) => {
     const userMap = responses.reduce((acc, resp) => {
         const type = getResponseType(resp);
         const { getPermList, getUserId, formatSharing } = getSharingFns(type);
-        return resp[type].reduce(
-            (shares, sharing) => {
-                const permissions = getPermList(sharing);
+        return resp[type].reduce((shares, sharing) => {
+            const permissions = getPermList(sharing);
 
-                return permissions.reduce(
-                    (userMap, permission) => {
-                        const userId = getUserId(permission);
-                        const currentUser = {
-                            ...(userMap[userId] || userInfos[userId]),
-                        };
-                        const permissionValue = permission.permission;
+            return permissions.reduce((userMap, permission) => {
+                const userId = getUserId(permission);
+                const currentUser = userMap[userId] || userInfos[userId];
+                const permissionValue = permission.permission;
 
-                        // Create an obj with the resource details and the user's
-                        // current permission
-                        const resourceWithPermission = {
-                            ...formatSharing(sharing),
-                            permission: permissionValue,
-                        };
+                // Create an obj with the resource details and the user's
+                // current permission
+                const resourceWithPermission = {
+                    ...formatSharing(sharing),
+                    permission: permissionValue,
+                };
 
-                        const updatedUser = {
-                            ...currentUser,
-                            [type]: [
-                                ...(currentUser[type] || []),
-                                resourceWithPermission,
-                            ],
-                        };
-                        return { ...userMap, [userId]: updatedUser };
-                    },
-                    { ...shares }
-                );
-            },
-            { ...acc }
-        );
+                const updatedUser = {
+                    ...currentUser,
+                    [type]: [
+                        ...(currentUser[type] || []),
+                        resourceWithPermission,
+                    ],
+                };
+                return { ...userMap, [userId]: updatedUser };
+            }, shares);
+        }, acc);
     }, {});
     return addDisplayPermissions(userMap, resourceTotal);
 };
@@ -265,34 +250,22 @@ export const getUserMap = (responses, userInfos, resourceTotal) => {
 export const addMissingResourcesToUser = (user, resources) => {
     const currentResources = getUserResourceList(user);
 
-    return Object.keys(resources).reduce(
-        (acc, type) => {
-            const { getId, formatSharing } = getSharingFns(type);
-            return resources[type].reduce(
-                (resources, resource) => {
-                    const hasResource = currentResources.some(
-                        (perm) => getId(perm) === getId(resource)
-                    );
-                    if (!hasResource) {
-                        // Create new sharing object
-                        const updatedSharing = formatSharing(resource);
-
-                        return {
-                            ...resources,
-                            [type]: [
-                                ...(resources[type] || []),
-                                updatedSharing,
-                            ],
-                        };
-                    } else {
-                        return { ...resources };
-                    }
-                },
-                { ...acc }
-            );
-        },
-        { ...user }
-    );
+    return Object.keys(resources).reduce((newUser, type) => {
+        const { getId, formatSharing } = getSharingFns(type);
+        return resources[type].reduce((newResources, resource) => {
+            return currentResources.some(
+                (perm) => getId(perm) === getId(resource)
+            )
+                ? newResources
+                : {
+                      ...newResources,
+                      [type]: [
+                          ...(newResources[type] || []),
+                          formatSharing(resource),
+                      ],
+                  };
+        }, newUser);
+    }, user);
 };
 
 // Takes as input an array of all the permission-lister responses and returns a
@@ -344,43 +317,36 @@ export const getSharingUpdates = (userMap) => {
         const { originalPermission, displayPermission } = user;
 
         if (originalPermission !== displayPermission) {
-            return allResourceTypes.reduce(
-                (acc, type) => {
-                    const resources = user[type];
+            return allResourceTypes.reduce((acc, type) => {
+                const resources = user[type];
 
-                    if (resources && resources.length > 0) {
-                        const { formatSubject } = getSharingFns(type);
-                        const updates = resources.filter(
-                            (resource) =>
-                                displayPermission !== resource.permission
-                        );
+                if (resources && resources.length > 0) {
+                    const { formatSubject } = getSharingFns(type);
+                    const updates = resources.filter(
+                        (resource) => displayPermission !== resource.permission
+                    );
 
-                        if (updates && updates.length > 0) {
-                            const sharingReq = {
-                                ...formatSubject(user),
-                                [type]: updates.map((resource) => {
-                                    return {
-                                        ...resource,
-                                        permission: displayPermission,
-                                    };
-                                }),
-                            };
-                            return {
-                                ...acc,
-                                [type]: [...(acc[type] || []), sharingReq],
-                            };
-                        } else {
-                            return { ...acc };
-                        }
-                    } else {
-                        return { ...acc };
+                    if (updates && updates.length > 0) {
+                        const sharingReq = {
+                            ...formatSubject(user),
+                            [type]: updates.map((resource) => {
+                                return {
+                                    ...resource,
+                                    permission: displayPermission,
+                                };
+                            }),
+                        };
+                        return {
+                            ...acc,
+                            [type]: [...(acc[type] || []), sharingReq],
+                        };
                     }
-                },
-                { ...acc }
-            );
-        } else {
-            return { ...acc };
+                    return acc;
+                }
+                return acc;
+            }, acc);
         }
+        return acc;
     }, {});
 };
 
@@ -399,34 +365,28 @@ export const getUnsharingUpdates = (originalUsers, userMap) => {
         if (!currentUserIds.includes(id)) {
             const user = originalUsers[id];
 
-            return allResourceTypes.reduce(
-                (acc, type) => {
-                    const resources = user[type];
+            return allResourceTypes.reduce((acc, type) => {
+                const resources = user[type];
 
-                    if (resources && resources.length > 0) {
-                        const {
-                            formatSubject,
-                            formatUnsharing,
-                        } = getSharingFns(type);
-                        const subject = formatSubject(user);
-                        const unshareReq = {
-                            ...subject,
-                            [type]: resources.map((resource) =>
-                                formatUnsharing(resource)
-                            ),
-                        };
-                        return {
-                            ...acc,
-                            [type]: [...(acc[type] || []), unshareReq],
-                        };
-                    } else {
-                        return { ...acc };
-                    }
-                },
-                { ...acc }
-            );
-        } else {
-            return { ...acc };
+                if (resources && resources.length > 0) {
+                    const { formatSubject, formatUnsharing } = getSharingFns(
+                        type
+                    );
+                    const subject = formatSubject(user);
+                    const unshareReq = {
+                        ...subject,
+                        [type]: resources.map((resource) =>
+                            formatUnsharing(resource)
+                        ),
+                    };
+                    return {
+                        ...acc,
+                        [type]: [...(acc[type] || []), unshareReq],
+                    };
+                }
+                return acc;
+            }, acc);
         }
+        return acc;
     }, {});
 };

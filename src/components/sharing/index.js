@@ -112,7 +112,10 @@ function Sharing(props) {
     useEffect(() => {
         if (resources) {
             const data = resources[TYPE.DATA];
-            setHasData(data && data.length > 0);
+            const analyses = resources[TYPE.ANALYSES];
+            setHasData(
+                (data && data.length > 0) || (analyses && analyses.length > 0)
+            );
             setResourceTotal(getResourceTotal(resources));
         }
     }, [resources]);
@@ -133,7 +136,8 @@ function Sharing(props) {
     const onPermissionChange = (user, permission) => {
         const userId = user.id;
 
-        // Cannot update permissions for groups if data is included
+        // Cannot update permissions for groups if data (which also means
+        // analyses) are included
         if (isGroup(user) && hasData) {
             announce({
                 text: tSharing("dataGroupSharingDisabled"),

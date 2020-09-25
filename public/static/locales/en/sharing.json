@@ -1,6 +1,6 @@
 {
     "cannotAddSelf": "Cannot add yourself for sharing",
-    "dataGroupSharingDisabled": "Data resources cannot be shared with groups at this time",
+    "dataGroupSharingDisabled": "Data and/or analyses resources cannot be shared with groups at this time",
     "fetchPermissionsError": "Failed to fetch resource permissions",
     "fetchUserInfoError": "Failed to fetch user information",
     "noUsersFound": "No users found",

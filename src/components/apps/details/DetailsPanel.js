@@ -111,10 +111,10 @@ function DetailsPanel(props) {
                             {details.integrator_email}
                         </GridLabelValue>
                         <GridLabelValue label={t("analysesCompleted")}>
-                            {details.job_stats.job_count_completed || 0}
+                            {details.job_stats?.job_count_completed || 0}
                         </GridLabelValue>
                         <GridLabelValue label={t("detailsLastCompleted")}>
-                            {formatDate(details.job_stats.job_last_completed)}
+                            {formatDate(details.job_stats?.job_last_completed)}
                         </GridLabelValue>
                     </Grid>
                 </>

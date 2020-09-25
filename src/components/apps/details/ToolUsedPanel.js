@@ -16,6 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
 import GridLabelValue from "components/utils/GridLabelValue";
 import GridLoading from "components/utils/GridLoading";
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import ids from "../ids";
 
 function ToolsUsedPanel({ details, loading, baseId, error }) {
@@ -24,7 +25,12 @@ function ToolsUsedPanel({ details, loading, baseId, error }) {
         return <GridLoading baseId={baseId} rows={10} />;
     }
     if (error) {
-        return <span>{error}</span>;
+        return (
+            <ErrorTypographyWithDialog
+                errorObject={error}
+                errorMessage={t("toolUsedError")}
+            />
+        );
     }
     if (details) {
         const toolUsedBaseId = build(baseId, details.id, ids.TOOLS_USED);

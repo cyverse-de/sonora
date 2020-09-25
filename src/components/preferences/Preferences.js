@@ -227,9 +227,6 @@ function Preferences(props) {
                         t("permissionSelectErrorMessage")
                     );
                 } else {
-                    console.log(
-                        "output folder details=>" + JSON.stringify(details)
-                    );
                     setDefaultOutputFolderDetails(details);
                     setOutputFolderValidationError(null);
                 }

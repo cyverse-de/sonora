@@ -144,15 +144,7 @@ export const doSharingUpdates = ({ sharing, unsharing }) => {
         );
     }
 
-    return new Promise((resolve, reject) => {
-        Promise.all(promises)
-            .then((values) => {
-                resolve(values);
-            })
-            .catch((error) => {
-                reject(error);
-            });
-    });
+    return Promise.all(promises);
 };
 
 const getPaths = ({ paths }) => {
@@ -200,13 +192,5 @@ export const getPermissions = (key, { resources }) => {
         permissionPromises.push(getToolPermissions({ tools }));
     }
 
-    return new Promise((resolve, reject) => {
-        Promise.all(permissionPromises)
-            .then((values) => {
-                resolve(values);
-            })
-            .catch((error) => {
-                reject(error);
-            });
-    });
+    return Promise.all(permissionPromises);
 };

@@ -7,7 +7,8 @@
 import React from "react";
 
 import { useRouter } from "next/router";
-import { useMutation } from "react-query";
+import { useMutation, queryCache } from "react-query";
+import { BOOTSTRAP_KEY } from "serviceFacades/users";
 
 import NavigationConstants from "common/NavigationConstants";
 
@@ -56,16 +57,23 @@ export default ({ app, launchError, loading }) => {
         }
     );
 
-    const notify = preferences?.enableAnalysisEmailNotification || false;
+    const bootstrapCache = queryCache.getQueryData(BOOTSTRAP_KEY);
+    const userHomeFromBootStrap = bootstrapCache?.data_info?.user_home_path;
     const irodsHomePath = config?.irods?.home_path;
     const username = userProfile?.id;
-
     const homePath =
-        irodsHomePath && username ? `${irodsHomePath}/${username}` : "";
+        userHomeFromBootStrap || (irodsHomePath && username)
+            ? `${irodsHomePath}/${username}`
+            : "";
+
     const startingPath = preferences?.lastFolder || homePath || "";
     const defaultOutputDir =
         preferences?.default_output_folder?.path ||
-        preferences?.system_default_output_dir?.path;
+        preferences?.system_default_output_dir?.path ||
+        (homePath && `${homePath}/analyses`) ||
+        "";
+
+    const notify = preferences?.enableAnalysisEmailNotification || false;
 
     const defaultMaxCPUCores = config?.tools?.private.max_cpu_limit;
     const defaultMaxMemory = config?.tools?.private.max_memory_limit;

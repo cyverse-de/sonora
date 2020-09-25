@@ -12,6 +12,7 @@ const APP_DESCRIPTION_QUERY_KEY = "fetchAppDescription";
 const APP_CATEGORIES_QUERY_KEY = "fetchPrivateCategories";
 const APPS_SEARCH_QUERY_KEY = "searchApps";
 const APP_BY_ID_QUERY_KEY = "fetchAppById";
+const APP_DOC_QUERY_KEY = "fetchAppDoc";
 
 const getAppTypeFilter = (appTypeFilter) => {
     const typeFilter =
@@ -139,6 +140,13 @@ function getAppPermissions({ apps }) {
     });
 }
 
+function getAppDoc(key, { systemId, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}/documentation`,
+        method: "GET",
+    });
+}
+
 export {
     getApps,
     getAppById,
@@ -151,6 +159,7 @@ export {
     rateApp,
     searchApps,
     searchAppsInfiniteQuery,
+    getAppDoc,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,
@@ -158,4 +167,5 @@ export {
     APP_CATEGORIES_QUERY_KEY,
     APPS_SEARCH_QUERY_KEY,
     APP_BY_ID_QUERY_KEY,
+    APP_DOC_QUERY_KEY,
 };

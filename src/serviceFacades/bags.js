@@ -31,7 +31,7 @@ export const useBag = () => {
 
 export const useBagRemoveItems = () => {
     const queryCache = useQueryCache();
-    return useMutation(deleteDefaultBag, {
+    const [mutate] = useMutation(deleteDefaultBag, {
         onSuccess: () => {
             queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, {
                 items: [],
@@ -44,6 +44,8 @@ export const useBagRemoveItems = () => {
             queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
         },
     });
+
+    return async () => await mutate();
 };
 
 export const useBagRemoveItem = (item) => {

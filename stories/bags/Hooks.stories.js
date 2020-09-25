@@ -25,7 +25,7 @@ const getCount = () => {
     return counter;
 };
 
-const data = {
+const originalData = {
     items: [
         {
             id: getCount(),
@@ -58,7 +58,9 @@ const data = {
     ],
 };
 
-export const TestAddAndDeleteFromBag = () => {
+const data = { ...originalData };
+
+export const TestAddAndDelete = () => {
     const addItem = facade.useBagAddItem();
     const deleteAllItems = facade.useBagRemoveItems();
 
@@ -89,6 +91,26 @@ export const TestAddAndDeleteFromBag = () => {
     mockAxios.onGet("/api/bags/default").reply(200, data);
     mockAxios.onPost("/api/bags/default").reply(addItemHandler);
     mockAxios.onDelete("/api/bags/default").reply(deleteAllHandler);
+
+    return <Bag />;
+};
+
+const deleteData = { ...originalData };
+
+export const TestDelete = () => {
+    const deleteItem = facade.useBagRemoveItem();
+
+    const deleteItemHandler = () => {
+        deleteData.items = [
+            ...deleteData.items.slice(0, deleteData.items.length - 2),
+        ];
+        return [200, deleteData];
+    };
+
+    button("Delete Item", () => deleteItem({ id: counter - 1 }));
+
+    mockAxios.onGet("/api/bags/default").reply(200, data);
+    mockAxios.onPost("/api/bags/default").reply(deleteItemHandler);
 
     return <Bag />;
 };

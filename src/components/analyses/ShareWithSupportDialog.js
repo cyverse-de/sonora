@@ -24,6 +24,7 @@ import { build, formatDate } from "@cyverse-de/ui-lib";
 import {
     Button,
     Checkbox,
+    CircularProgress,
     Dialog,
     DialogActions,
     DialogContent,
@@ -435,6 +436,7 @@ const ShareWithSupportDialog = ({
     name,
     email,
     onShareWithSupport,
+    loading,
     baseId,
 }) => {
     const [outputCondition, setOutputCondition] = React.useState("noOutput");
@@ -529,6 +531,7 @@ const ShareWithSupportDialog = ({
             <DialogActions>
                 <Button
                     variant="outlined"
+                    disabled={loading}
                     onClick={() => {
                         setShareWithSupport(false);
                         onClose();
@@ -541,13 +544,12 @@ const ShareWithSupportDialog = ({
                     <Button
                         variant="contained"
                         color="primary"
-                        disabled={!enableSubmit}
+                        disabled={!enableSubmit || loading}
                         onClick={() => {
-                            setShareWithSupport(false);
                             onShareWithSupport(analysis, comment);
                         }}
                     >
-                        {t("submit")}
+                        {loading ? <CircularProgress size={25} /> : t("submit")}
                     </Button>
                 ) : (
                     <Button

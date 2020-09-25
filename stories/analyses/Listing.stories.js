@@ -1,11 +1,19 @@
 import React from "react";
+
 import { useTranslation } from "i18n";
-import Listing from "../../src/components/analyses/listing/Listing";
-import analysisFields from "../../src/components/analyses/analysisFields";
+
 import constants from "../../src/constants";
+
 import { mockAxios } from "../axiosMock";
+import testConfig from "../configMock";
+
 import { listing } from "./AnalysesMocks";
-import { NotificationsProvider } from "../../src/contexts/pushNotifications";
+
+import Listing from "components/analyses/listing/Listing";
+import analysisFields from "components/analyses/analysisFields";
+
+import { ConfigProvider, useConfig } from "contexts/config";
+import { NotificationsProvider } from "contexts/pushNotifications";
 
 export default {
     title: "Analyses",
@@ -20,6 +28,12 @@ function ListingTest(props) {
     const selectedOrderBy = analysesRecordFields.START_DATE.key;
     const selectedPermFilter = null;
     const selectedTypeFilter = null;
+
+    const setConfig = useConfig()[1];
+    React.useEffect(() => {
+        setConfig(testConfig);
+    }, [setConfig]);
+
     return (
         <NotificationsProvider>
             <Listing
@@ -108,5 +122,39 @@ export const AnalysesListingTest = () => {
         ];
     });
 
-    return <ListingTest />;
+    const sharingResponse = (success) => (config) => {
+        const req = JSON.parse(config.data);
+        console.log("Share analysis", config.url, req);
+
+        return [
+            200,
+            {
+                sharing: req.sharing.map((share) => ({
+                    ...share,
+                    analyses: share.analyses.map((analysis) => ({
+                        ...analysis,
+                        success,
+                    })),
+                })),
+            },
+        ];
+    };
+
+    // Return an unsuccessful share twice, since the first one will be ignored
+    // due to the initial support-email 500 response below.
+    mockAxios.onPost("/api/analyses/sharing").replyOnce(sharingResponse(false));
+    mockAxios.onPost("/api/analyses/sharing").replyOnce(sharingResponse(false));
+    mockAxios.onPost("/api/analyses/sharing").reply(sharingResponse(true));
+
+    mockAxios.onPost("/api/support-email").replyOnce(500, errorResponse);
+    mockAxios.onPost("/api/support-email").reply((config) => {
+        console.log("Support Email", config.url, JSON.parse(config.data));
+        return [200];
+    });
+
+    return (
+        <ConfigProvider>
+            <ListingTest />
+        </ConfigProvider>
+    );
 };

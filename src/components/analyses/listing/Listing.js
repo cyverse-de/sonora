@@ -22,6 +22,13 @@ import {
     updateAnalysisComment,
 } from "serviceFacades/analyses";
 
+import { getAnalysisShareWithSupportRequest } from "serviceFacades/sharing";
+
+import {
+    analysisSupportRequest,
+    submitAnalysisSupportRequest,
+} from "serviceFacades/support";
+
 import { openInteractiveUrl } from "../utils";
 
 import constants from "../../../constants";
@@ -42,6 +49,7 @@ import AnalysesToolbar from "../toolbar/Toolbar";
 import analysisStatus from "components/models/analysisStatus";
 import appType from "components/models/AppType";
 
+import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import { useNotifications } from "contexts/pushNotifications";
 
@@ -95,6 +103,7 @@ function Listing(props) {
     const [data, setData] = useState(null);
     const [parentAnalysis, setParentAnalyses] = useState(null);
 
+    const [config] = useConfig();
     const [userProfile] = useUserProfile();
     const [currentNotification] = useNotifications();
 
@@ -225,6 +234,32 @@ function Listing(props) {
                     // Some analyses may have been successfully canceled.
                     queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
                 }
+            },
+        }
+    );
+
+    const [shareAnalysesMutation, { isLoading: shareLoading }] = useMutation(
+        submitAnalysisSupportRequest,
+        {
+            onSuccess: (responses) => {
+                const shareError =
+                    responses?.length > 1 &&
+                    responses[0].sharing.find((share) =>
+                        share.analyses.find((analysis) => !analysis.success)
+                    );
+
+                if (shareError) {
+                    showErrorAnnouncer(t("statusHelpShareError"));
+                } else {
+                    setShareWithSupportAnalysis(null);
+                    announce({
+                        text: t("statusHelpShareSuccess"),
+                        variant: AnnouncerConstants.SUCCESS,
+                    });
+                }
+            },
+            onError: (error) => {
+                showErrorAnnouncer(t("statusHelpShareError"), error);
             },
         }
     );
@@ -568,8 +603,21 @@ function Listing(props) {
     };
 
     const onShareWithSupport = (analysis, comment) => {
-        setShareWithSupportAnalysis(null);
-        console.log("onShareWithSupport", analysis, comment);
+        shareAnalysesMutation({
+            ...getAnalysisShareWithSupportRequest(
+                config?.analysis?.supportUser,
+                analysis.id
+            ),
+            supportRequest: analysisSupportRequest(
+                userProfile?.id,
+                userProfile?.attributes.email,
+                t("statusHelpRequestSubject", {
+                    name: userProfile?.attributes.name,
+                }),
+                comment,
+                analysis
+            ),
+        });
     };
 
     const getSelectedAnalyses = (analyses) => {
@@ -673,6 +721,7 @@ function Listing(props) {
                     analysis={shareWithSupportAnalysis}
                     name={userProfile?.attributes.name}
                     email={userProfile?.attributes.email}
+                    loading={shareLoading}
                     onClose={() => setShareWithSupportAnalysis(null)}
                     onShareWithSupport={onShareWithSupport}
                 />

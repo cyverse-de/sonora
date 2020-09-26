@@ -5,6 +5,8 @@ import { IconButton, MenuItem } from "@material-ui/core";
 
 import { formatDate } from "@cyverse-de/ui-lib";
 
+import NavigationConstants from "common/NavigationConstants";
+
 import * as constants from "../constants";
 
 import ItemBase, { ItemAction } from "./ItemBase";
@@ -24,32 +26,40 @@ class AppItem extends ItemBase {
     static create(props) {
         const item = new AppItem(props);
         const { t } = useTranslation("dashboard");
+
+        // Functions to build keys and links.
+        const app = props.content;
+        const buildKey = (keyType) =>
+            `${constants.KIND_APPS}-${app.system_id}-${app.id}-${keyType}`;
+        const buildRef = (refType) =>
+            `${NavigationConstants.APPS}/${app.system_id}/${app.id}/${refType}`;
+
         return item
             .addActions([
                 <ItemAction
                     arialLabel={t("favoriteAria")}
-                    key={`${constants.KIND_APPS}-${props.content.id}-favorite`}
+                    key={buildKey("favorite")}
                     tooltipKey="favoriteAction"
                 >
-                    <IconButton>
+                    <IconButton href={buildRef("favorite")}>
                         <Favorite />
                     </IconButton>
                 </ItemAction>,
                 <ItemAction
                     ariaLabel={t("launchAria")}
-                    key={`${constants.KIND_APPS}-${props.content.id}-launch`}
+                    key={buildKey("launch")}
                     tooltipKey="launchAction"
                 >
-                    <IconButton>
+                    <IconButton href={buildRef("launch")}>
                         <Launch />
                     </IconButton>
                 </ItemAction>,
                 <ItemAction
                     arialLabel={t("shareAria")}
-                    key={`${constants.KIND_APPS}-${props.content.id}-share`}
+                    key={buildKey("share")}
                     tooltipKey="shareAction"
                 >
-                    <IconButton>
+                    <IconButton href={buildRef("share")}>
                         <People />
                     </IconButton>
                 </ItemAction>,

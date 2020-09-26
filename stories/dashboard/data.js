@@ -3,6 +3,7 @@ export default {
         recentlyAdded: [
             {
                 id: "d6bda456-46d4-11ea-a4de-008cfa5ae621",
+                system_id: "de",
                 name: "Copy of Rstudio-DESeq2",
                 description: "Rstudio DESeq2 VICE image",
                 wiki_url: null,
@@ -12,6 +13,7 @@ export default {
             },
             {
                 id: "a25da189-ffe6-4f61-9a91-704711f36bd7",
+                system_id: "de",
                 name: "New app",
                 description: "asdf",
                 wiki_url: null,
@@ -21,6 +23,7 @@ export default {
             },
             {
                 id: "9ed50f34-fa8f-11e9-9bfc-008cfa5ae621",
+                system_id: "de",
                 name: "Copy of sequenceserver",
                 description: "sequenceserver test app",
                 wiki_url: null,
@@ -30,6 +33,7 @@ export default {
             },
             {
                 id: "39896e30-3b5c-11e7-90ce-008cfa5ae621",
+                system_id: "de",
                 name: "Copy of New app",
                 description: "asdf",
                 wiki_url: null,
@@ -39,6 +43,7 @@ export default {
             },
             {
                 id: "b390f5f0-4f13-11e9-8949-008cfa5ae621",
+                system_id: "de",
                 name: "test-vice-delay",
                 description:
                     "A test app for testing a tool that has a significant delay or amount of processing to perform in its entrpoint.",
@@ -49,6 +54,7 @@ export default {
             },
             {
                 id: "8bc52f58-4ff6-11e9-adb1-008cfa5ae621",
+                system_id: "de",
                 name: "wheee",
                 description: "testing testing testing",
                 wiki_url: null,
@@ -58,6 +64,7 @@ export default {
             },
             {
                 id: "d3ec0a42-6142-11e9-b580-008cfa5ae621",
+                system_id: "de",
                 name: "test-vice-potree-entwine",
                 description: "testing",
                 wiki_url: null,
@@ -67,6 +74,7 @@ export default {
             },
             {
                 id: "a74b9840-7b23-11e9-86f2-008cfa5ae621",
+                system_id: "de",
                 name: "Copy of GEA RNA-Seq QC Demo 0.1",
                 description:
                     "This is a demonstration application for the genomics education alliance RNA-Seq pipeline",
@@ -79,6 +87,7 @@ export default {
         public: [
             {
                 id: "0dfe3e35-0000-4995-bc31-24b94ee7eada",
+                system_id: "de",
                 name: "QA_App-Endpoint-Test-Mod5_QA",
                 description: "Testing new app endpoints.  Modified.",
                 wiki_url: null,
@@ -88,6 +97,7 @@ export default {
             },
             {
                 id: "c81731dc-6755-11ea-908b-c2a97b34bb42",
+                system_id: "de",
                 name: "QA_TestForMultiplePanelsTerrain_QA",
                 description: "This is a new description for the shared app.",
                 wiki_url: null,
@@ -97,6 +107,7 @@ export default {
             },
             {
                 id: "9e989f50-6109-11ea-ab9d-008cfa5ae621",
+                system_id: "de",
                 name: "Snakemake-VICE",
                 description:
                     "VICE app with jupyter lab and snakemake-minimal. Also conda and RNAseq analysis tools",
@@ -107,6 +118,7 @@ export default {
             },
             {
                 id: "b91ffda4-4df0-11ea-bd40-008cfa5ae621",
+                system_id: "de",
                 name: "HTSeqQC 1.0",
                 description:
                     "HTSeqQC is an automated quality control analysis tool for a single and paired-end high-throughput sequencing data (HTS) generated from Illumina sequencing platforms.",
@@ -117,6 +129,7 @@ export default {
             },
             {
                 id: "aee316c6-15d5-11ea-933d-008cfa5ae621",
+                system_id: "de",
                 name: "Sequence Properties Analyser",
                 description:
                     "Compares statistical properties of two sets of protein sequences.",
@@ -127,6 +140,7 @@ export default {
             },
             {
                 id: "58f783bc-5c95-11ea-b10d-008cfa5ae621",
+                system_id: "de",
                 name: "ALLMAPS",
                 description: "Performs ALLMAPS merge and path",
                 wiki_url: null,
@@ -136,6 +150,7 @@ export default {
             },
             {
                 id: "6ff82cda-5c98-11ea-aad3-008cfa5ae621",
+                system_id: "de",
                 name: "ALLMAPS merge",
                 description:
                     "ALLMAPS orders scaffolds by maximizing colinearity to a collection of genetic/genomic maps into the final chromosome build.  This is step one: merging maps into a bed file and generating the weights file. http://goo.gl/KI61Ow",
@@ -146,6 +161,7 @@ export default {
             },
             {
                 id: "a847402e-ff2a-11e9-815d-008cfa5ae621",
+                system_id: "de",
                 name: "QGIS Xpra Desktop",
                 description:
                     "desktop running Xpra with QGIS, SAGA-GIS, GRASS, GDAL, PDAL",

@@ -8,6 +8,11 @@ const Permissions = {
     READ: "read",
 };
 
+export const SharingPermissions = {
+    ...Permissions,
+    VARIES: "varies",
+};
+
 export const permissionHierarchy = (permission) => {
     switch (permission) {
         case Permissions.OWN:

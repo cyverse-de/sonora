@@ -1,0 +1,20 @@
+{
+    "cannotAddSelf": "Cannot add yourself for sharing",
+    "dataGroupSharingDisabled": "Data and/or analyses resources cannot be shared with groups at this time",
+    "fetchPermissionsError": "Failed to fetch resource permissions",
+    "fetchUserInfoError": "Failed to fetch user information",
+    "noUsersFound": "No users found",
+    "own": "Own",
+    "read": "Read",
+    "remove": "Remove",
+    "resources": "Resources",
+    "searchUsers": "Search By CyVerse ID, email, or group name...",
+    "searchUsersMobile": "Search for users...",
+    "sharing": "Sharing",
+    "sharingAccess": "Who Has Access",
+    "sharingError": "Sharing could not be completed",
+    "sharingUnsuccessful": "Sharing failed. Please try again",
+    "userAlreadyAdded": "User has already been added",
+    "varies": "Varies",
+    "write": "Write"
+}

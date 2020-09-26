@@ -129,6 +129,16 @@ function searchAppsInfiniteQuery(
     });
 }
 
+function getAppPermissions({ apps }) {
+    return callApi({
+        endpoint: `/api/apps/permission-lister`,
+        method: "POST",
+        body: {
+            apps,
+        },
+    });
+}
+
 export {
     getApps,
     getAppById,
@@ -136,6 +146,7 @@ export {
     getAppsInCategory,
     getAppDescription,
     getAppDetails,
+    getAppPermissions,
     appFavorite,
     rateApp,
     searchApps,

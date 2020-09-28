@@ -165,9 +165,7 @@ export default ({ menuIconClass }) => {
         menuIconClass = classes.menuIcon;
     }
 
-    const { isLoading, status, data, error } = facade.useBag();
-
-    const hasErrored = status === "error";
+    const { isLoading, isError: hasErrored, data, error } = facade.useBag();
 
     if (hasErrored) {
         console.log(error.message);

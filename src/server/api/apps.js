@@ -134,7 +134,6 @@ export default function appsRouter() {
         })
     );
 
-
     logger.info("adding the GET /apps/:systemId/:appId/documentation handler");
     api.get(
         "/apps/:systemId/:appId/documentation",

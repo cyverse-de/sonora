@@ -163,7 +163,6 @@ const AppInfo = React.forwardRef((props, ref) => {
                             />
                             <AppDoc
                                 open={docDialogOpen}
-                                wiki_url={app?.wiki_url}
                                 appId={app?.id}
                                 systemId={app?.system_id}
                                 name={app?.name}

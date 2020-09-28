@@ -3,26 +3,39 @@
  *
  **/
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import sanitizeHtml from "sanitize-html";
 import showdown from "showdown";
 import { useTranslation } from "i18n";
 
-import { APP_DOC_QUERY_KEY, getAppDoc } from "serviceFacades/apps";
+import { useUserProfile } from "contexts/userProfile";
+import {
+    APP_DOC_QUERY_KEY,
+    APP_DETAILS_QUERY_KEY,
+    getAppDoc,
+    getAppDetails,
+} from "serviceFacades/apps";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
-
+import GridLoading from "components/utils/GridLoading";
 import {
     Dialog,
     Divider,
     DialogTitle,
     DialogContent,
+    Fab,
     IconButton,
-    Link,
-    CircularProgress,
+    TextField,
+    Tooltip,
     Typography,
 } from "@material-ui/core";
+
 import CloseIcon from "@material-ui/icons/Close";
+import EditIcon from "@material-ui/icons/Edit";
+import SaveIcon from "@material-ui/icons/Save";
+
+export const EDIT_MODE = "edit";
+export const VIEW_MODE = "view";
 
 function References(props) {
     const { references } = props;
@@ -37,30 +50,22 @@ function References(props) {
             </React.Fragment>
         );
     }
-
     return null;
 }
 
-function WikiUrl(props) {
-    const { wiki_url, name } = props;
+function Documentation(props) {
+    const {
+        documentation,
+        references,
+        loading,
+        error,
+        editable,
+        mode,
+        setMode,
+        onDocChange,
+        onSave,
+    } = props;
     const { t } = useTranslation("apps");
-    return (
-        <>
-            <Typography variant="subtitle2">{t("documentation")}</Typography>
-            <Link onClick={() => window.open(wiki_url, "_blank")}>{name}</Link>
-        </>
-    );
-}
-
-function AppDoc(props) {
-    const { open, wiki_url, appId, systemId, name, onClose } = props;
-
-    const [documentation, setDocumentation] = useState(null);
-    const [references, setReferences] = useState(null);
-    const [error, setError] = useState(false);
-
-    const { t } = useTranslation("apps");
-
     const markDownToHtml = () => {
         const converter = new showdown.Converter();
         converter.setFlavor("github");
@@ -70,8 +75,97 @@ function AppDoc(props) {
             return "";
         }
     };
+    if (loading) {
+        return <GridLoading rows={5} baseId="appDoc" />;
+    }
+    if (error) {
+        return (
+            <ErrorTypographyWithDialog
+                errorMessage={t("docFetchError")}
+                errorObject={error}
+            />
+        );
+    }
+    if (documentation) {
+        return (
+            <>
+                {mode === VIEW_MODE && (
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: markDownToHtml(),
+                        }}
+                    />
+                )}
+                {VIEW_MODE && references && references.length > 0 && (
+                    <>
+                        <Divider />
+                        <References references={references} />
+                    </>
+                )}
+                {mode === EDIT_MODE && (
+                    <TextField
+                        multiline={true}
+                        rows={20}
+                        value={documentation}
+                        fullWidth={true}
+                        onChange={(event) => onDocChange(event.target.value)}
+                    />
+                )}
+                {editable && mode === VIEW_MODE && (
+                    <Tooltip title={t("edit")} aria-label={t("edit")}>
+                        <Fab
+                            color="primary"
+                            aria-label={t("edit")}
+                            style={{ float: "right" }}
+                            size="medium"
+                            onClick={() => setMode(EDIT_MODE)}
+                        >
+                            <EditIcon />
+                        </Fab>
+                    </Tooltip>
+                )}
+                {editable && mode === EDIT_MODE && (
+                    <Tooltip title={t("save")} aria-label={t("save")}>
+                        <Fab
+                            color="primary"
+                            aria-label={t("save")}
+                            style={{ float: "right" }}
+                            size="medium"
+                            onClick={onSave}
+                        >
+                            <SaveIcon />
+                        </Fab>
+                    </Tooltip>
+                )}
+            </>
+        );
+    }
+    return null;
+}
 
-    const { isFetching } = useQuery({
+function AppDoc(props) {
+    const { open, appId, systemId, onClose } = props;
+    const [userProfile] = useUserProfile();
+    const [documentation, setDocumentation] = useState(null);
+    const [references, setReferences] = useState(null);
+    const [details, setDetails] = useState(null);
+    const [error, setError] = useState(false);
+    const [allowEditing, setAllowEditing] = useState(false);
+    const [mode, setMode] = useState(VIEW_MODE);
+    const [dirty, setDirty] = useState(false);
+
+    const { t } = useTranslation("apps");
+    const enabled = appId != null && systemId !== null;
+
+    const handleClose = () => {
+        if (dirty) {
+            console.log("unsaved changes!");
+        } else {
+            onClose();
+        }
+    };
+
+    const { isFetching: docStatus } = useQuery({
         queryKey: [
             APP_DOC_QUERY_KEY,
             {
@@ -81,10 +175,7 @@ function AppDoc(props) {
         ],
         queryFn: getAppDoc,
         config: {
-            enabled:
-                appId != null &&
-                systemId !== null &&
-                (wiki_url === undefined || wiki_url === null),
+            enabled,
             onSuccess: (doc) => {
                 setDocumentation(doc.documentation);
                 setReferences(doc.references);
@@ -95,27 +186,40 @@ function AppDoc(props) {
         },
     });
 
-    if (wiki_url) {
-        return <WikiUrl wiki_url={wiki_url} name={name} />;
-    }
+    const { isFetching: detailsStatus } = useQuery({
+        queryKey: [
+            APP_DETAILS_QUERY_KEY,
+            {
+                systemId,
+                appId,
+            },
+        ],
+        queryFn: getAppDetails,
+        config: {
+            enabled,
+            onSuccess: setDetails,
+            onError: (e) => {
+                setError(e);
+            },
+        },
+    });
 
-    if (error) {
-        return (
-            <ErrorTypographyWithDialog
-                errorMessage={t("docFetchError")}
-                errorObject={error}
-            />
-        );
-    }
+    useEffect(() => {
+        console.log("details => " + JSON.stringify(details));
+        console.log("email=>" + userProfile?.attributes?.email);
+        if (userProfile?.attributes?.email === details?.integrator_email) {
+            setAllowEditing(true);
+        }
+    }, [details, userProfile]);
 
     return (
         <>
-            <Dialog open={open} onClose={onClose}>
+            <Dialog open={open} onClose={handleClose} disableBackdropClick>
                 <DialogTitle>
                     {t("documentation")}
                     <IconButton
                         aria-label={t("close")}
-                        onClick={onClose}
+                        onClick={handleClose}
                         style={{ float: "right" }}
                     >
                         <CloseIcon />
@@ -123,20 +227,23 @@ function AppDoc(props) {
                     <Divider />
                 </DialogTitle>
                 <DialogContent>
-                    {isFetching && <CircularProgress size={30} thickness={5} />}
-                    {documentation && (
-                        <div
-                            dangerouslySetInnerHTML={{
-                                __html: markDownToHtml(),
-                            }}
-                        />
-                    )}
-                    {references && references.length > 0 && (
-                        <>
-                            <Divider />
-                            <References references={references} />
-                        </>
-                    )}
+                    <Documentation
+                        loading={docStatus || detailsStatus}
+                        documentation={documentation}
+                        references={references}
+                        error={error}
+                        editable={allowEditing}
+                        mode={mode}
+                        setMode={setMode}
+                        onDocChange={(updatedDoc) => {
+                            setDocumentation(updatedDoc);
+                            setDirty(true);
+                        }}
+                        onSave={() => {
+                            setDirty(false);
+                            setMode(VIEW_MODE);
+                        }}
+                    />
                 </DialogContent>
             </Dialog>
         </>

@@ -32,9 +32,9 @@ import {
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import { Info, FilterList as FilterListIcon } from "@material-ui/icons";
-import SharingButton from "../../sharing/SharingButton";
-import Sharing from "../../sharing";
-import { formatSharedAnalyses } from "../../sharing/util";
+import SharingButton from "components/sharing/SharingButton";
+import Sharing from "components/sharing";
+import { formatSharedAnalyses } from "components/sharing/util";
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {

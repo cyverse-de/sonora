@@ -23,9 +23,9 @@ import {
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
 import { Info, FilterList as FilterListIcon } from "@material-ui/icons";
-import SharingButton from "../../sharing/SharingButton";
-import Sharing from "../../sharing";
-import { formatSharedApps } from "../../sharing/util";
+import SharingButton from "components/sharing/SharingButton";
+import Sharing from "components/sharing";
+import { formatSharedApps } from "components/sharing/util";
 
 /**
  *

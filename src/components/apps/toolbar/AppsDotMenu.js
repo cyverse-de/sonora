@@ -18,7 +18,7 @@ import {
     useTheme,
 } from "@material-ui/core";
 import { FilterList, Info } from "@material-ui/icons";
-import SharingMenuItem from "../../sharing/SharingMenuItem";
+import SharingMenuItem from "components/sharing/SharingMenuItem";
 
 function AppsDotMenu(props) {
     const {

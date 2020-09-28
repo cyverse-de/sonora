@@ -28,7 +28,7 @@ import {
 import { useTranslation } from "i18n";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DeleteMenuItem from "../menuItems/DeleteMenuItem";
-import SharingMenuItem from "../../sharing/SharingMenuItem";
+import SharingMenuItem from "components/sharing/SharingMenuItem";
 
 function DataDotMenu(props) {
     const {

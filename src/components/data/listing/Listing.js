@@ -28,6 +28,8 @@ import UploadDropTarget from "components/uploads/UploadDropTarget";
 import { camelcaseit } from "common/functions";
 import { getLocalStorage } from "components/utils/localStorage";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import Sharing from "components/sharing";
+import { formatSharedData } from "components/sharing/util";
 
 import {
     useUploadTrackingState,
@@ -49,8 +51,6 @@ import { useTranslation } from "i18n";
 import { queryCache, useMutation, useQuery } from "react-query";
 
 import { Button, Typography, useTheme } from "@material-ui/core";
-import Sharing from "../../sharing";
-import { formatSharedData } from "../../sharing/util";
 
 function Listing(props) {
     const uploadTracker = useUploadTrackingState();

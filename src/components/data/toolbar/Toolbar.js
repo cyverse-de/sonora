@@ -18,6 +18,7 @@ import ids from "../ids";
 import styles from "../styles";
 import CreateFolderDialog from "../CreateFolderDialog";
 import { isOwner, isWritable } from "../utils";
+import SharingButton from "components/sharing/SharingButton";
 
 import DisplayTypeSelector from "../../utils/DisplayTypeSelector";
 
@@ -26,7 +27,6 @@ import { build } from "@cyverse-de/ui-lib";
 import { Button, Hidden, makeStyles, Toolbar } from "@material-ui/core";
 
 import { CreateNewFolder, Info } from "@material-ui/icons";
-import SharingButton from "../../sharing/SharingButton";
 
 const useStyles = makeStyles(styles);
 

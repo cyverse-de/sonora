@@ -24,6 +24,7 @@ import {
     Delete,
     GetApp,
     People,
+    Clear,
     Close,
     ShoppingBasket as ShoppingBasketIcon,
 } from "@material-ui/icons";
@@ -194,6 +195,8 @@ export default ({ menuIconClass }) => {
         setBagDlgOpen(false);
     };
 
+    const clearAll = facade.useBagRemoveItems();
+
     return (
         <>
             <IconButton className={menuIconClass} onClick={handleMenuClick}>
@@ -241,6 +244,16 @@ export default ({ menuIconClass }) => {
                 </DialogContent>
 
                 <DialogActions>
+                    <Button
+                        variant="contained"
+                        color="default"
+                        className={classes.button}
+                        startIcon={<Clear />}
+                        onClick={() => clearAll()}
+                    >
+                        {t("clearBag")}
+                    </Button>
+
                     <Button
                         variant="contained"
                         color="primary"

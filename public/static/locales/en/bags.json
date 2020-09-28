@@ -3,5 +3,6 @@
     "yourItemBag": "Your Item Bag",
     "bagHelp": "Perform sharing or downloading operations on a set of items.",
     "download" : "Download",
-    "share" : "Share"
+    "share" : "Share",
+    "clearBag" : "Clear Bag"
 }

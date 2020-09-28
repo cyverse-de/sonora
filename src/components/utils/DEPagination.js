@@ -1,4 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+
+import { useRouter } from "next/router";
+import { useTranslation } from "i18n";
+
+import { build } from "@cyverse-de/ui-lib";
+import ids from "./ids";
+import { setLocalStorage } from "components/utils/localStorage";
+import constants from "../../constants";
+import NavigationConstants from "common/NavigationConstants";
+
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Pagination from "@material-ui/lab/Pagination";
 import {
@@ -14,10 +24,6 @@ import {
     useMediaQuery,
 } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import { injectIntl } from "react-intl";
-import { build, formatMessage, withI18N } from "@cyverse-de/ui-lib";
-import ids from "./ids";
-import intlData from "./messages";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -35,13 +41,39 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const options = [25, 50, 100, 200, 500];
+const options = [100, 200, 500];
+
+function savePageSizeToLocalStorage(type, selectedPageSize) {
+    let pageSizeKey = null;
+    if (type === NavigationConstants.DATA) {
+        pageSizeKey = constants.LOCAL_STORAGE.DATA.PAGE_SIZE;
+    } else if (type === NavigationConstants.APPS) {
+        pageSizeKey = constants.LOCAL_STORAGE.APPS.PAGE_SIZE;
+    } else if (type === NavigationConstants.ANALYSES) {
+        pageSizeKey = constants.LOCAL_STORAGE.ANALYSES.PAGE_SIZE;
+    }
+    if (pageSizeKey) {
+        setLocalStorage(pageSizeKey, selectedPageSize);
+    }
+}
 
 function ItemsPerPage(props) {
-    const { onPageSizeChange, selectedPageSize, baseId, intl } = props;
+    const { onPageSizeChange, selectedPageSize, baseId } = props;
+
+    const { t } = useTranslation("util");
+
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
+
+    const router = useRouter();
+    const type = router?.pathname
+        ? router.pathname.split(constants.PATH_SEPARATOR)[1]
+        : NavigationConstants.DASHBOARD;
+
+    useEffect(() => {
+        savePageSizeToLocalStorage(type, selectedPageSize);
+    }, [type, selectedPageSize]);
 
     const handleMenuItemClick = (event, index) => {
         onPageSizeChange(options[index]);
@@ -61,7 +93,7 @@ function ItemsPerPage(props) {
     const menuId = build(baseId, ids.PAGE_SIZE_MENU);
     return (
         <>
-            <Tooltip title={formatMessage(intl, "selectPageSize")}>
+            <Tooltip title={t("selectPageSize")}>
                 <Button
                     className={classes.buttonPadding}
                     color="primary"
@@ -69,7 +101,7 @@ function ItemsPerPage(props) {
                     ref={anchorRef}
                     aria-controls={open ? menuId : undefined}
                     aria-expanded={open ? "true" : undefined}
-                    aria-label={formatMessage(intl, "selectPageSize")}
+                    aria-label={t("selectPageSize")}
                     aria-haspopup="menu"
                     onClick={handleToggle}
                 >
@@ -163,4 +195,4 @@ function DEPagination(props) {
     );
 }
 
-export default withI18N(injectIntl(DEPagination), intlData);
+export default DEPagination;

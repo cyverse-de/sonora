@@ -11,25 +11,28 @@ import TableView from "./TableView";
 
 import ids from "../ids";
 import Drawer from "../details/Drawer";
-
-import DataToolbar from "../toolbar/Toolbar";
-
-import DEPagination from "../../utils/DEPagination";
-import ResourceTypes from "../../models/ResourceTypes";
-import isQueryLoading from "../../utils/isQueryLoading";
-
-import URLImportDialog from "../../URLImportDialog";
-import UploadDialog from "../../uploads/dialog";
 import FileBrowser from "../toolbar/FileBrowser";
+import DataToolbar from "../toolbar/Toolbar";
+import constants from "../../../constants";
 
-import { processSelectedFiles, trackUpload } from "../../uploads/UploadDrop";
-import UploadDropTarget from "../../uploads/UploadDropTarget";
+import DEPagination from "components/utils/DEPagination";
+import ResourceTypes from "components/models/ResourceTypes";
+import isQueryLoading from "components/utils/isQueryLoading";
+import URLImportDialog from "components/URLImportDialog";
+import UploadDialog from "components/uploads/dialog";
+import {
+    processSelectedFiles,
+    trackUpload,
+} from "components/uploads/UploadDrop";
+import UploadDropTarget from "components/uploads/UploadDropTarget";
+import { camelcaseit } from "common/functions";
+import { getLocalStorage } from "components/utils/localStorage";
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
-import { camelcaseit } from "../../../common/functions";
 import {
     useUploadTrackingState,
     useUploadTrackingDispatch,
-} from "../../../contexts/uploadTracking";
+} from "contexts/uploadTracking";
 
 import {
     deleteResources,
@@ -37,9 +40,7 @@ import {
     getPagedListing,
     DATA_LISTING_QUERY_KEY,
     INFO_TYPES_QUERY_KEY,
-} from "../../../serviceFacades/filesystem";
-
-import withErrorAnnouncer from "../../utils/error/withErrorAnnouncer";
+} from "serviceFacades/filesystem";
 
 import { announce, build, AnnouncerConstants } from "@cyverse-de/ui-lib";
 
@@ -58,7 +59,9 @@ function Listing(props) {
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [rowsPerPage, setRowsPerPage] = useState(
+        getLocalStorage(constants.LOCAL_STORAGE.DATA.PAGE_SIZE) || 100
+    );
     const [data, setData] = useState({ total: 0, listing: [] });
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);

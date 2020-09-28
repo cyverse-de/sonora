@@ -12,11 +12,11 @@ import constants from "../../../../constants";
 import {
     getAppDescription,
     APP_DESCRIPTION_QUERY_KEY,
-} from "../../../../serviceFacades/apps";
+} from "serviceFacades/apps";
 
-import AppLaunch from "../../../../components/apps/launch";
+import AppLaunch from "components/apps/launch";
 
-export default () => {
+export default function Launch() {
     const [appKey, setAppKey] = React.useState(APP_DESCRIPTION_QUERY_KEY);
     const [
         appDescriptionQueryEnabled,
@@ -57,4 +57,8 @@ export default () => {
     const loading = appStatus === constants.LOADING;
 
     return <AppLaunch app={app} launchError={launchError} loading={loading} />;
-};
+}
+
+Launch.getInitialProps = async () => ({
+    namespacesRequired: ["apps", "launch", "common", "util"],
+});

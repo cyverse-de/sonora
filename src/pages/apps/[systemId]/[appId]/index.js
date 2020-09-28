@@ -8,6 +8,8 @@ import React, { useCallback } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
 
+import { getLocalStorage } from "components/utils/localStorage";
+
 import constants from "../../../../constants";
 import appFields from "components/apps/appFields";
 import { getAppLaunchPath, getListingPath } from "components/apps/utils";
@@ -22,11 +24,15 @@ import Listing from "components/apps/listing/Listing";
 
 export default function App() {
     const router = useRouter();
+
     const { systemId, appId } = router.query;
     const { t } = useTranslation("apps");
     const appRecordFields = appFields(t);
+
     const selectedPage = 0;
-    const selectedRowsPerPage = 25;
+    const selectedRowsPerPage =
+        parseInt(getLocalStorage(constants.LOCAL_STORAGE.APPS.PAGE_SIZE)) ||
+        100;
     const selectedOrder = constants.SORT_ASCENDING;
     const selectedOrderBy = appRecordFields.NAME.key;
 
@@ -66,3 +72,6 @@ export default function App() {
         />
     );
 }
+App.getInitialProps = async () => ({
+    namespacesRequired: ["apps", "common", "util"],
+});

@@ -11,6 +11,7 @@ import { useTranslation } from "i18n";
 
 import constants from "../constants";
 
+import { getLocalStorage } from "components/utils/localStorage";
 import { getListingPath } from "components/analyses/utils";
 import analysisFields from "components/analyses/analysisFields";
 import Listing from "components/analyses/listing/Listing";
@@ -21,7 +22,9 @@ export default function Analyses() {
     const { t } = useTranslation("analyses");
     const analysisRecordFields = analysisFields(t);
     const selectedPage = parseInt(query.selectedPage) || 0;
-    const selectedRowsPerPage = parseInt(query.selectedRowsPerPage) || 25;
+    const selectedRowsPerPage =
+        parseInt(getLocalStorage(constants.LOCAL_STORAGE.ANALYSES.PAGE_SIZE)) ||
+        100;
     const selectedOrder = query.selectedOrder || constants.SORT_DESCENDING;
     const selectedOrderBy =
         query.selectedOrderBy || analysisRecordFields.START_DATE.key;
@@ -65,5 +68,5 @@ export default function Analyses() {
 }
 
 Analyses.getInitialProps = async () => ({
-    namespacesRequired: ["analyses", "common", "data"],
+    namespacesRequired: ["analyses", "common", "data", "util"],
 });

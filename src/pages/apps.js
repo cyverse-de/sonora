@@ -73,3 +73,6 @@ export default function Apps() {
         />
     );
 }
+Apps.getInitialProps = async () => ({
+    namespacesRequired: ["apps", "common", "util"],
+});

@@ -68,5 +68,5 @@ export default function Analyses() {
 }
 
 Analyses.getInitialProps = async () => ({
-    namespacesRequired: ["analyses", "common", "data"],
+    namespacesRequired: ["analyses", "common", "data", "util"],
 });

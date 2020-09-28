@@ -71,5 +71,5 @@ export default function DataStore() {
 }
 
 DataStore.getInitialProps = async () => ({
-    namespacesRequired: ["data"],
+    namespacesRequired: ["data", "util"],
 });

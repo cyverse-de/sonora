@@ -1,4 +1,5 @@
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 import { Label, InsertDriveFile, Folder } from "@material-ui/icons";
 
 class BagItem {
@@ -78,6 +79,10 @@ export const ANALYSIS_TYPE = "analysis";
 export const APP_TYPE = "app";
 
 export const createNewBagItem = (item) => {
+    if (!item?.id) {
+        item.id = uuidv4();
+    }
+
     if (item?.name && item?.path && item?.type !== FOLDER_TYPE) {
         return new FileBagItem(item);
     }

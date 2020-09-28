@@ -79,6 +79,7 @@ const BagTab = ({ id, value, index, bagItems }) => {
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
     const [tabItems, setTabItems] = useState([]);
+    const removeItem = facade.useBagRemoveItem();
 
     useEffect(() => {
         setTabItems(bagItems);
@@ -87,7 +88,7 @@ const BagTab = ({ id, value, index, bagItems }) => {
     return (
         <div hidden={value !== index} id={id}>
             <List classes={{ root: classes.list }}>
-                {bagItems.map((tabItem, tabIndex) => {
+                {tabItems.map((tabItem, tabIndex) => {
                     return (
                         <ListItem key={tabIndex}>
                             <ListItemAvatar>
@@ -98,10 +99,10 @@ const BagTab = ({ id, value, index, bagItems }) => {
                                 <IconButton
                                     edge="end"
                                     aria-label={t("delete")}
-                                    onClick={() => {
-                                        let newItems = [...tabItems];
-                                        newItems.splice(tabIndex, 1);
-                                        setTabItems(newItems);
+                                    onClick={(event) => {
+                                        event.stopPropagation();
+                                        event.preventDefault();
+                                        removeItem(tabItem);
                                     }}
                                 >
                                     <Delete />

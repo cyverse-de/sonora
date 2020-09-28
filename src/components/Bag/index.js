@@ -84,8 +84,6 @@ const BagTab = ({ id, value, index, bagItems }) => {
         setTabItems(bagItems);
     }, [setTabItems, bagItems]);
 
-    console.log(`tab bagItems length: ${bagItems.length}`);
-
     return (
         <div hidden={value !== index} id={id}>
             <List classes={{ root: classes.list }}>
@@ -125,11 +123,8 @@ export const BagUI = ({ items, isLoading }) => {
     const [downloadableItems, setDownloadableItems] = useState([]);
 
     useEffect(() => {
-        console.log("in bag ui's useEffect");
         if (!isLoading) {
-            console.log(`not loading anymore. items length is ${items.length}`);
             const bagItems = items.map((item) => createNewBagItem(item));
-            console.log(`bagItems length ${bagItems.length}`);
             setShareableItems(bagItems.filter((item) => item.shareable));
             setDownloadableItems(bagItems.filter((item) => item.downloadable));
         }
@@ -138,9 +133,6 @@ export const BagUI = ({ items, isLoading }) => {
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
     };
-
-    console.log(`shareableItems length : ${shareableItems.length}`);
-    console.log(`downloadableItems length: ${downloadableItems.length}`);
 
     return (
         <>
@@ -199,17 +191,13 @@ export default ({ menuIconClass }) => {
 
     useEffect(() => {
         if (isLoading) {
-            console.log("setting bagItems to empty");
             setBagItems([]);
         } else {
-            console.log("setting bagItems to data");
             setBagItems(data?.items || []);
         }
     }, [data, bagItems, setBagItems, isLoading]);
 
     useEffect(() => {
-        console.log(`setting badgeCount to ${bagItems.length}`);
-
         setBadgeCount(bagItems.length);
     }, [bagItems, setBadgeCount]);
 

@@ -78,7 +78,7 @@ const BagSkeleton = () => (
 const BagTab = ({ id, value, index, bagItems }) => {
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
-    const [tabItems, setTabItems] = useState(bagItems);
+    const [tabItems, setTabItems] = useState([]);
 
     useEffect(() => {
         setTabItems(bagItems);
@@ -123,11 +123,9 @@ export const BagUI = ({ items, isLoading }) => {
     const [downloadableItems, setDownloadableItems] = useState([]);
 
     useEffect(() => {
-        if (!isLoading) {
-            const bagItems = items.map((item) => createNewBagItem(item));
-            setShareableItems(bagItems.filter((item) => item.shareable));
-            setDownloadableItems(bagItems.filter((item) => item.downloadable));
-        }
+        const bagItems = items.map((item) => createNewBagItem(item));
+        setShareableItems(bagItems.filter((item) => item.shareable));
+        setDownloadableItems(bagItems.filter((item) => item.downloadable));
     }, [items, isLoading]);
 
     const handleTabChange = (event, newValue) => {
@@ -190,12 +188,8 @@ export default ({ menuIconClass }) => {
     }
 
     useEffect(() => {
-        if (isLoading) {
-            setBagItems([]);
-        } else {
-            setBagItems(data?.items || []);
-        }
-    }, [data, bagItems, setBagItems, isLoading]);
+        setBagItems(data?.items || []);
+    }, [data, setBagItems]);
 
     useEffect(() => {
         setBadgeCount(bagItems.length);

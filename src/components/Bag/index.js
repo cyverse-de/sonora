@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
     Badge,
@@ -78,12 +78,18 @@ const BagSkeleton = () => (
 const BagTab = ({ id, value, index, bagItems }) => {
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
-    const [tabItems, setTabItems] = useState([...bagItems]);
+    const [tabItems, setTabItems] = useState(bagItems);
+
+    useEffect(() => {
+        setTabItems(bagItems);
+    }, [setTabItems, bagItems]);
+
+    console.log(`tab bagItems length: ${bagItems.length}`);
 
     return (
         <div hidden={value !== index} id={id}>
             <List classes={{ root: classes.list }}>
-                {tabItems.map((tabItem, tabIndex) => {
+                {bagItems.map((tabItem, tabIndex) => {
                     return (
                         <ListItem key={tabIndex}>
                             <ListItemAvatar>
@@ -111,13 +117,30 @@ const BagTab = ({ id, value, index, bagItems }) => {
     );
 };
 
-export const BagUI = ({ downloadableItems, shareableItems, isLoading }) => {
+export const BagUI = ({ items, isLoading }) => {
     const { t } = useTranslation(["bags", "common"]);
     const [tabValue, setTabValue] = useState(0);
+
+    const [shareableItems, setShareableItems] = useState([]);
+    const [downloadableItems, setDownloadableItems] = useState([]);
+
+    useEffect(() => {
+        console.log("in bag ui's useEffect");
+        if (!isLoading) {
+            console.log(`not loading anymore. items length is ${items.length}`);
+            const bagItems = items.map((item) => createNewBagItem(item));
+            console.log(`bagItems length ${bagItems.length}`);
+            setShareableItems(bagItems.filter((item) => item.shareable));
+            setDownloadableItems(bagItems.filter((item) => item.downloadable));
+        }
+    }, [items, isLoading]);
 
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
     };
+
+    console.log(`shareableItems length : ${shareableItems.length}`);
+    console.log(`downloadableItems length: ${downloadableItems.length}`);
 
     return (
         <>
@@ -167,15 +190,28 @@ export default ({ menuIconClass }) => {
 
     const { isLoading, isError: hasErrored, data, error } = facade.useBag();
 
+    const [badgeCount, setBadgeCount] = useState(0);
+    const [bagItems, setBagItems] = useState([]);
+
     if (hasErrored) {
         console.log(error.message);
     }
 
-    let bagItems = data?.items || [];
-    bagItems = bagItems.map((item) => createNewBagItem(item));
+    useEffect(() => {
+        if (isLoading) {
+            console.log("setting bagItems to empty");
+            setBagItems([]);
+        } else {
+            console.log("setting bagItems to data");
+            setBagItems(data?.items || []);
+        }
+    }, [data, bagItems, setBagItems, isLoading]);
 
-    const shareableItems = bagItems.filter((item) => item.shareable);
-    const downloadableItems = bagItems.filter((item) => item.downloadable);
+    useEffect(() => {
+        console.log(`setting badgeCount to ${bagItems.length}`);
+
+        setBadgeCount(bagItems.length);
+    }, [bagItems, setBadgeCount]);
 
     const [bagDlgOpen, setBagDlgOpen] = useState(false);
 
@@ -199,8 +235,8 @@ export default ({ menuIconClass }) => {
         <>
             <IconButton className={menuIconClass} onClick={handleMenuClick}>
                 <Badge
-                    badgeContent={bagItems.length}
-                    invisible={bagItems.length < 1}
+                    badgeContent={badgeCount}
+                    invisible={badgeCount < 1}
                     color="error"
                 >
                     <ShoppingBasketIcon />
@@ -234,11 +270,7 @@ export default ({ menuIconClass }) => {
                 </DialogTitle>
 
                 <DialogContent dividers>
-                    <BagUI
-                        isLoading={isLoading}
-                        shareableItems={shareableItems}
-                        downloadableItems={downloadableItems}
-                    />
+                    <BagUI isLoading={isLoading} items={bagItems} />
                 </DialogContent>
 
                 <DialogActions>

@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "i18n";
 import { AXIOS_DELAY, mockAxios } from "../axiosMock";
 import testConfig from "../configMock";
-import { appDetails, appListing, categories } from "./AppMocks";
+import { appListing, categories } from "./AppMocks";
 
 import constants from "../../src/constants";
 import appFields from "../../src/components/apps/appFields";

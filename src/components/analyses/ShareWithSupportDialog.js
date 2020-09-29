@@ -92,10 +92,7 @@ function CompletedStateCondition({ outputCondition, handleConditionChange }) {
 
     return (
         <FormControl component="fieldset">
-            <FormLabel
-                component="legend"
-                style={{ padding: 5, fontWeight: "bold" }}
-            >
+            <FormLabel component="legend">
                 {t("statusHelpOutputConditionHeader")}
             </FormLabel>
             <RadioGroup
@@ -306,15 +303,11 @@ function RunningStateSupport(props) {
             <dt>
                 <HelpHeading>{t("statusHelpRunningHeader")}</HelpHeading>
             </dt>
-            <dd>
-                <HelpContent component="span">
+            {analysis.system_id === systemId.de ? (
+                <HelpContent component="dd">
                     <Trans
                         t={t}
-                        i18nKey={
-                            analysis.system_id === systemId.de
-                                ? "statusHelpCondorRunning"
-                                : "statusHelpAgaveRunning"
-                        }
+                        i18nKey={"statusHelpCondorRunning"}
                         components={{
                             ul: <ul />,
                             li: <li />,
@@ -340,7 +333,13 @@ function RunningStateSupport(props) {
                         }}
                     />
                 </HelpContent>
-            </dd>
+            ) : (
+                <dd>
+                    <HelpContent component="span">
+                        {t("statusHelpAgaveRunning")}
+                    </HelpContent>
+                </dd>
+            )}
         </dl>
     );
 }
@@ -503,7 +502,6 @@ const ShareWithSupportDialog = ({
                         <TextField
                             id={build(baseDebugID, ids.COMMENTS)}
                             placeholder={t("comments")}
-                            style={{ margin: 8 }}
                             fullWidth
                             multiline
                             margin="normal"

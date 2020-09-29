@@ -16,6 +16,8 @@ import constants from "../../constants";
 import { intercomShow } from "common/intercom";
 
 import analysisStatus from "components/models/analysisStatus";
+import systemId from "components/models/systemId";
+
 import ExternalLink from "components/utils/ExternalLink";
 import UtilIds from "components/utils/ids";
 
@@ -136,7 +138,7 @@ function SubmittedStateSupport(props) {
                     <Trans
                         t={t}
                         i18nKey={
-                            analysis.system_id === "de"
+                            analysis.system_id === systemId.de
                                 ? "statusHelpCondorSubmitted"
                                 : "statusHelpAgaveSubmitted"
                         }
@@ -309,7 +311,7 @@ function RunningStateSupport(props) {
                     <Trans
                         t={t}
                         i18nKey={
-                            analysis.system_id === "de"
+                            analysis.system_id === systemId.de
                                 ? "statusHelpCondorRunning"
                                 : "statusHelpAgaveRunning"
                         }

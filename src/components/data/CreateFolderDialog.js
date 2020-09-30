@@ -110,7 +110,6 @@ function CreateFolderDialog(props) {
                                 <Field
                                     id={build(baseId, ids.FOLDER_NAME)}
                                     name="name"
-                                    multiline
                                     required={true}
                                     label={t("folderName")}
                                     onKeyDown={(event) => {

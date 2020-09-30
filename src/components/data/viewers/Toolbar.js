@@ -79,7 +79,10 @@ function ViewerToolbar(props) {
         fileName,
         createFile,
     } = props;
+
     const { t } = useTranslation("data");
+    const { t: i18nCommon } = useTranslation("common");
+
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
@@ -226,7 +229,7 @@ function ViewerToolbar(props) {
                                 startIcon={<Save fontSize="small" />}
                                 disabled={!dirty}
                             >
-                                <Hidden xsDown>{t("save")}</Hidden>
+                                <Hidden xsDown>{i18nCommon("save")}</Hidden>
                             </Button>
                             <Divider
                                 orientation="vertical"
@@ -280,7 +283,7 @@ function ViewerToolbar(props) {
                         onClick={onRefresh}
                         startIcon={<Refresh fontSize="small" />}
                     >
-                        <Hidden xsDown>{t("refresh")}</Hidden>
+                        <Hidden xsDown>{i18nCommon("refresh")}</Hidden>
                     </Button>
                 </Hidden>
                 <Hidden mdUp>
@@ -395,7 +398,9 @@ function ViewerToolbar(props) {
                                         <ListItemIcon>
                                             <Save fontSize="small" />
                                         </ListItemIcon>
-                                        <ListItemText primary={t("save")} />
+                                        <ListItemText
+                                            primary={i18nCommon("save")}
+                                        />
                                     </MenuItem>,
                                     <MenuItem
                                         key={build(baseId, ids.SAVE_MENU_ITEM)}
@@ -451,7 +456,9 @@ function ViewerToolbar(props) {
                                     <ListItemIcon>
                                         <Refresh fontSize="small" />
                                     </ListItemIcon>
-                                    <ListItemText primary={t("refresh")} />
+                                    <ListItemText
+                                        primary={i18nCommon("refresh")}
+                                    />
                                 </MenuItem>,
                             ]}
                         />

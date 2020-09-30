@@ -28,6 +28,7 @@ import {
     IconButton,
     InputAdornment,
     Typography,
+    useTheme,
 } from "@material-ui/core";
 import { Close, Folder } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
@@ -49,7 +50,11 @@ function SaveAsDialog(props) {
     const [selectionDrawerOpen, setSelectionDrawerOpen] = useState(false);
     const classes = useStyles();
     const baseId = ids.CREATE_DLG;
+
     const { t } = useTranslation("data");
+    const { t: i18nCommon } = useTranslation("common");
+
+    const theme = useTheme();
 
     const handleSaveFile = ({ name }, { resetForm }) => {
         const newPath = `${dest}/${name}`;
@@ -84,9 +89,9 @@ function SaveAsDialog(props) {
                                 fullWidth
                             >
                                 <DialogTitle>
-                                    {t("saveAs")}
+                                    {i18nCommon("saveAs")}
                                     <IconButton
-                                        aria-label={t("cancel")}
+                                        aria-label={i18nCommon("cancel")}
                                         onClick={onClose}
                                         size="small"
                                         edge="end"
@@ -110,7 +115,9 @@ function SaveAsDialog(props) {
                                         <Button
                                             id={build(baseId, ids.SAVE_BTN)}
                                             size="small"
-                                            style={{ marginLeft: 8 }}
+                                            style={{
+                                                marginLeft: theme.spacing(1),
+                                            }}
                                             variant="outlined"
                                             disableElevation
                                             color="primary"
@@ -129,7 +136,6 @@ function SaveAsDialog(props) {
                                     <Field
                                         id={build(baseId, ids.FILE_NAME)}
                                         name="name"
-                                        multiline
                                         required={true}
                                         label={t("fileName")}
                                         onKeyDown={(event) => {
@@ -166,7 +172,7 @@ function SaveAsDialog(props) {
                                         id={build(baseId, ids.CANCEL_BTN)}
                                         onClick={onClose}
                                     >
-                                        {t("cancel")}
+                                        {i18nCommon("cancel")}
                                     </Button>
                                     <Button
                                         id={build(baseId, ids.CREATE_BTN)}
@@ -174,7 +180,7 @@ function SaveAsDialog(props) {
                                         type="submit"
                                         onClick={handleSubmit}
                                     >
-                                        {t("save")}
+                                        {i18nCommon("save")}
                                     </Button>
                                 </DialogActions>
                             </Dialog>

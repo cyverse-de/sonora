@@ -89,10 +89,12 @@ function PathListViewer(props) {
         t,
     ]);
 
+    const pathAccessor = columns[1].accessor;
+
     const setLineNumbers = useCallback(
         (tableData) => {
             const tableDataWithLineNumbers = tableData.map((row, index) => {
-                const pathKey = columns[1].accessor;
+                const pathKey = pathAccessor;
                 const val = row[pathKey];
                 const newRow = {};
                 //line number starts from 1
@@ -102,7 +104,7 @@ function PathListViewer(props) {
             });
             return tableDataWithLineNumbers;
         },
-        [columns]
+        [pathAccessor]
     );
 
     useEffect(() => {
@@ -123,7 +125,7 @@ function PathListViewer(props) {
                     variant: AnnouncerConstants.SUCCESS,
                 });
 
-                if (createFile && onRefresh) {
+                if (createFile && onNewFileSaved) {
                     //reload the viewer
                     onNewFileSaved(resp?.file.path, resp?.file.id);
                 }
@@ -161,10 +163,10 @@ function PathListViewer(props) {
 
     const getContent = () => {
         //add back the shebang line
-        let content = data[0][columns[1].accessor].concat("\n");
+        let content = data[0][pathAccessor].concat("\n");
         editorData.forEach((row, index) => {
             content = content
-                .concat(row[columns[1].accessor])
+                .concat(row[pathAccessor])
                 .concat(separator)
                 .concat("\n");
         });
@@ -320,7 +322,7 @@ function PathListViewer(props) {
                         if (selections?.length > 0) {
                             const selPaths = [];
                             selections.forEach((path) => {
-                                const key = columns[1].accessor;
+                                const key = pathAccessor;
                                 const pathObj = {};
                                 pathObj[key] = path;
                                 selPaths.push(pathObj);

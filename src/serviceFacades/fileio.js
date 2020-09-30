@@ -17,9 +17,11 @@ export const uploadByUrl = ({ dest, address }) => {
 
 /**
  * Upload text as file
+ * @param dest - Destination of the file being uploaded
+ * @param content - File content
+ * @param newFile - true if this a new file.
  *
- * @param {string} key - The react-query key
- * @param {object} param - Params to end-point
+ * @returns {Promise<any>}
  */
 export const uploadTextAsFile = ({ dest, content, newFile }) => {
     return callApi({

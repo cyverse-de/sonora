@@ -192,7 +192,7 @@ function SelectionDrawer(props) {
 
     const [toolbarHeight, setToolbarRef] = useComponentHeight();
 
-    const handlePathChange = (path, resourceType, id) => {
+    const handlePathChange = (path, resourceType) => {
         //disable file viewer from selection drawer
         if (resourceType !== ResourceTypes.FILE) {
             setCurrentPath(path);

@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "i18n";
 import { AXIOS_DELAY, mockAxios } from "../axiosMock";
 import testConfig from "../configMock";
-import { appDetails, appListing, categories } from "./AppMocks";
+import { appListing, categories } from "./AppMocks";
 
 import constants from "../../src/constants";
 import appFields from "../../src/components/apps/appFields";
@@ -10,6 +10,7 @@ import { getAppTypeFilters } from "../../src/components/apps/toolbar/AppNavigati
 import Listing from "../../src/components/apps/listing/Listing";
 import { ConfigProvider } from "../../src/contexts/config";
 import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
+import { UserProfileProvider } from "../../src/contexts/userProfile";
 
 export default {
     title: "Apps",
@@ -35,38 +36,40 @@ function ListingTest(props) {
 
     return (
         <UploadTrackingProvider>
-            <ConfigProvider config={testConfig}>
-                <Listing
-                    baseId="tableView"
-                    onRouteToApp={(systemId, appId) =>
-                        console.log("onRouteToApp", systemId, appId)
-                    }
-                    onRouteToListing={(
-                        order,
-                        orderBy,
-                        page,
-                        rowsPerPage,
-                        filter,
-                        category
-                    ) => {
-                        console.log(
-                            "onRouteToListing",
+            <UserProfileProvider>
+                <ConfigProvider config={testConfig}>
+                    <Listing
+                        baseId="tableView"
+                        onRouteToApp={(systemId, appId) =>
+                            console.log("onRouteToApp", systemId, appId)
+                        }
+                        onRouteToListing={(
                             order,
                             orderBy,
                             page,
                             rowsPerPage,
                             filter,
                             category
-                        );
-                    }}
-                    selectedPage={selectedPage}
-                    selectedRowsPerPage={selectedRowsPerPage}
-                    selectedOrder={selectedOrder}
-                    selectedOrderBy={selectedOrderBy}
-                    selectedFilter={selectedFilter}
-                    selectedCategory={selectedCategory}
-                />
-            </ConfigProvider>
+                        ) => {
+                            console.log(
+                                "onRouteToListing",
+                                order,
+                                orderBy,
+                                page,
+                                rowsPerPage,
+                                filter,
+                                category
+                            );
+                        }}
+                        selectedPage={selectedPage}
+                        selectedRowsPerPage={selectedRowsPerPage}
+                        selectedOrder={selectedOrder}
+                        selectedOrderBy={selectedOrderBy}
+                        selectedFilter={selectedFilter}
+                        selectedCategory={selectedCategory}
+                    />
+                </ConfigProvider>
+            </UserProfileProvider>
         </UploadTrackingProvider>
     );
 }

@@ -104,7 +104,6 @@ function AppsToolbar(props) {
         onDetailsSelected,
         canShare,
         selectedApps,
-        intl,
         baseId,
     } = props;
     const { t } = useTranslation("apps");
@@ -149,7 +148,6 @@ function AppsToolbar(props) {
                     <AppsTypeFilter
                         baseId={appsToolbarId}
                         classes={classes}
-                        intl={intl}
                         filter={filter}
                         handleFilterChange={handleFilterChange}
                         selectedCategory={selectedCategory}
@@ -192,7 +190,6 @@ function AppsToolbar(props) {
                     <AppsTypeFilter
                         baseId={appsToolbarId}
                         classes={classes}
-                        intl={intl}
                         filter={filter}
                         handleFilterChange={handleFilterChange}
                         selectedCategory={selectedCategory}

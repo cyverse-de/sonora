@@ -262,7 +262,7 @@ function Sharing(props) {
             <DialogContent>
                 {isLoading && (
                     <GridLoading
-                        rows={25}
+                        rows={5}
                         baseId={build(ids.DIALOG, ids.LOADING)}
                     />
                 )}

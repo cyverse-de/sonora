@@ -19,6 +19,7 @@ import {
     FormControl,
     Grid,
     IconButton,
+    List,
     makeStyles,
     Typography,
     useMediaQuery,
@@ -360,23 +361,23 @@ function Sharing(props) {
                             />
                         </Grid>
                         <Grid item sm={12} md={5} zeroMinWidth>
-                            <Typography className={classes.typographyPadding}>
-                                {tSharing("resources")}
-                            </Typography>
-                            {resources &&
-                                Object.keys(resources).map((type) => {
-                                    return resources[type].map(
-                                        (resource, index) => (
-                                            <Grid item key={index}>
-                                                <SharedItem
-                                                    baseId={baseId}
-                                                    type={type}
-                                                    item={resource}
-                                                />
-                                            </Grid>
-                                        )
-                                    );
-                                })}
+                            <Typography>{tSharing("resources")}</Typography>
+                            <List>
+                                {resources &&
+                                    Object.keys(resources).map((type) => {
+                                        return resources[type].map(
+                                            (resource, index) => (
+                                                <Grid item key={index}>
+                                                    <SharedItem
+                                                        baseId={baseId}
+                                                        type={type}
+                                                        item={resource}
+                                                    />
+                                                </Grid>
+                                            )
+                                        );
+                                    })}
+                            </List>
                         </Grid>
                     </Grid>
                 )}

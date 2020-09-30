@@ -4,9 +4,6 @@ export default (theme) => ({
             margin: theme.spacing(1),
         },
     },
-    chip: {
-        marginBottom: theme.spacing(1),
-    },
 
     closeButton: {
         float: "right",

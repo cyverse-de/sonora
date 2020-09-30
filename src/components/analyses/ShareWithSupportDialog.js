@@ -19,6 +19,7 @@ import analysisStatus from "components/models/analysisStatus";
 import systemId from "components/models/systemId";
 
 import ExternalLink from "components/utils/ExternalLink";
+import GridLabelValue from "components/utils/GridLabelValue";
 import UtilIds from "components/utils/ids";
 
 import { build, formatDate } from "@cyverse-de/ui-lib";
@@ -42,6 +43,8 @@ import {
     Typography,
 } from "@material-ui/core";
 
+const InfoGridValue = (props) => <Typography variant="body2" {...props} />;
+
 function AnalysisInfo(props) {
     const { analysis, name, email } = props;
 
@@ -50,36 +53,40 @@ function AnalysisInfo(props) {
     if (analysis) {
         return (
             <Grid container spacing={3} style={{ marginTop: 2, fontSize: 12 }}>
-                <Grid item xs={6}>
-                    {t("analysis")}: {analysis.name}
-                </Grid>
-                <Grid item xs={12}>
-                    {t("analysisId")} : {analysis.id}
-                </Grid>
-                <Grid item xs={12}>
-                    {t("app")} : {analysis.app_name}
-                </Grid>
-                <Grid item xs={12}>
-                    {t("currentStatus")} : {analysis.status}
-                </Grid>
-                <Grid item xs={12}>
-                    {t("outputFolder")} : {analysis.resultfolderid}
-                </Grid>
-                <Grid item xs={12}>
-                    {t("startDate")} : {formatDate(analysis.startdate)}
-                </Grid>
-                <Grid item xs={12}>
-                    {t("endDate")} : {formatDate(analysis.enddate)}
-                </Grid>
-                <Grid item xs={12}>
-                    {t("user")} : {analysis.username}
-                </Grid>
-                <Grid item xs={12}>
-                    {t("name")} : {name}
-                </Grid>
-                <Grid item xs={12}>
-                    {t("email")} : {email}
-                </Grid>
+                <GridLabelValue label={t("analysis")}>
+                    <InfoGridValue>{analysis.name}</InfoGridValue>
+                </GridLabelValue>
+                <GridLabelValue label={t("analysisId")}>
+                    <InfoGridValue>{analysis.id}</InfoGridValue>
+                </GridLabelValue>
+                <GridLabelValue label={t("app")}>
+                    <InfoGridValue>{analysis.app_name}</InfoGridValue>
+                </GridLabelValue>
+                <GridLabelValue label={t("currentStatus")}>
+                    <InfoGridValue>{analysis.status}</InfoGridValue>
+                </GridLabelValue>
+                <GridLabelValue label={t("outputFolder")}>
+                    <InfoGridValue>{analysis.resultfolderid}</InfoGridValue>
+                </GridLabelValue>
+                <GridLabelValue label={t("startDate")}>
+                    <InfoGridValue>
+                        {formatDate(analysis.startdate)}
+                    </InfoGridValue>
+                </GridLabelValue>
+                <GridLabelValue label={t("endDate")}>
+                    <InfoGridValue>
+                        {formatDate(analysis.enddate)}
+                    </InfoGridValue>
+                </GridLabelValue>
+                <GridLabelValue label={t("user")}>
+                    <InfoGridValue>{analysis.username}</InfoGridValue>
+                </GridLabelValue>
+                <GridLabelValue label={t("name")}>
+                    <InfoGridValue>{name}</InfoGridValue>
+                </GridLabelValue>
+                <GridLabelValue label={t("email")}>
+                    <InfoGridValue>{email}</InfoGridValue>
+                </GridLabelValue>
             </Grid>
         );
     } else {

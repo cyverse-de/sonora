@@ -258,6 +258,26 @@ export const fileStatResp = {
     ids: {},
 };
 
+export const pathListfileStatResp = {
+    paths: {
+        "/iplant/home/ipctest/sample-pathlist": {
+            infoType: "bam",
+            path: "/iplant/home/ipctest/sample-pathlist",
+            "share-count": 0,
+            "date-created": 1569007396000,
+            md5: "e02ad19784cef44fe4ecdfqwba33c8fc",
+            permission: "own",
+            "date-modified": 1569007396000,
+            type: "file",
+            "file-size": 270233707,
+            label: "accepted_hits.bam",
+            id: "1cbb2f32-dbdc-11e9-8c1e-90e2ba675364",
+            "content-type": "application/gzip",
+        },
+    },
+    ids: {},
+};
+
 export const resourceTagResp = {
     tags: [
         {
@@ -306,6 +326,12 @@ export const csvMainfestResp = {
 export const plainManifestResp = {
     "content-type": "text/plain",
     infoType: "unknown",
+    urls: [],
+};
+
+export const pathListManifestResp = {
+    "content-type": "text/plain",
+    infoType: "ht-analysis-path-list",
     urls: [],
 };
 
@@ -546,4 +572,65 @@ export const userInfoResp = {
         id: GROUP_ID,
         source_id: "g:gsa",
     },
+};
+
+export const pathListChunk = {
+    path: "/iplant/home/sriram/ht-limit",
+    user: "sriram",
+    "chunk-size": "899",
+    "file-size": "899",
+    page: "1",
+    "number-pages": "1",
+    "max-cols": "2",
+    csv: [
+        { 0: "# application/vnd.de.path-list+csv; version=1" },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_character-polymorphic-uncertain.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_character-polymorphic.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_character-state-frequency.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_character-uncertain.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_characters-block_format_01.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_characters-block_format_02.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_characters-block_initial.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_notes-text.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/02_wtset-scores.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/04_block_level_methods.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/04_charactersblock_methods_01.nex",
+            1: "",
+        },
+        {
+            0: "/iplant/home/sriram/data_files/Bio-Perl/04_charactersblock_methods_02.nex",
+            1: "",
+        },
+    ],
 };

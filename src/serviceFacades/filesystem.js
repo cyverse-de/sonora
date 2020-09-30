@@ -200,7 +200,7 @@ export const readFileChunk = (
     body["chunk-size"] = `${chunkSize}`;
     if (separator) {
         body.page = page + 1;
-        body.separator = separator;
+        body.separator = encodeURIComponent(separator);
         return callApi({
             endpoint: "/api/filesystem/read-csv-chunk",
             method: "POST",

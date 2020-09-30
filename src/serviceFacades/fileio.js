@@ -14,3 +14,22 @@ export const uploadByUrl = ({ dest, address }) => {
         body: { dest, address },
     });
 };
+
+/**
+ * Upload text as file
+ * @param dest - Destination of the file being uploaded
+ * @param content - File content
+ * @param newFile - true if this a new file.
+ *
+ * @returns {Promise<any>}
+ */
+export const uploadTextAsFile = ({ dest, content, newFile }) => {
+    return callApi({
+        endpoint: newFile ? "/api/fileio/saveas" : "/api/fileio/save",
+        method: "POST",
+        body: {
+            dest,
+            content,
+        },
+    });
+};

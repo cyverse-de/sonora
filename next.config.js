@@ -29,5 +29,7 @@ module.exports = withBundleAnalyzer({
         TOOLS_PRIVATE_MAX_DISK_LIMIT: config.has("tools.private.max_disk_limit")
             ? config.get("tools.private.max_disk_limit")
             : 512 * ONE_GiB,
+        HT_PATH_LIST_IDENTIFIER: config.get("fileIdentifier.htPathList"),
+        MULTI_INPUT_PATH_LIST_IDENTIFIER: config.get("fileIdentifier.multiInputPathList")  
     },
 });

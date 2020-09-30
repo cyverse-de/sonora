@@ -22,6 +22,7 @@ import {
     CreateNewFolder,
     Delete as DeleteIcon,
     Info,
+    ListAlt,
 } from "@material-ui/icons";
 import { useTranslation } from "react-i18next";
 
@@ -41,6 +42,8 @@ function DataDotMenu(props) {
         setImportDialogOpen,
         selected,
         getSelectedResources,
+        onCreateHTFileSelected,
+        onCreateMultiInputFileSelected,
     } = props;
     const { t } = useTranslation("data");
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
@@ -77,7 +80,7 @@ function DataDotMenu(props) {
                             key={build(baseId, ids.DETAILS_MENU_ITEM_DIVIDER)}
                         />
                     ),
-                    isWritable(permission) && (
+                    isWritable(permission) && [
                         <MenuItem
                             key={build(baseId, ids.CREATE_FOLDER_MI)}
                             id={build(baseId, ids.CREATE_FOLDER_MI)}
@@ -90,8 +93,38 @@ function DataDotMenu(props) {
                                 <CreateNewFolder fontSize="small" />
                             </ListItemIcon>
                             <ListItemText primary={t("folder")} />
-                        </MenuItem>
-                    ),
+                        </MenuItem>,
+                        <MenuItem
+                            key={build(baseId, ids.CREATE_HT_FILE_MI)}
+                            id={build(baseId, ids.CREATE_HT_FILE_MI)}
+                            onClick={() => {
+                                onClose();
+                                onCreateHTFileSelected();
+                            }}
+                        >
+                            <ListItemIcon>
+                                <ListAlt fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={t("newHTAnalysisPathListFile")}
+                            />
+                        </MenuItem>,
+                        <MenuItem
+                            key={build(baseId, ids.CREATE_MULTI_INPUT_MI)}
+                            id={build(baseId, ids.CREATE_MULTI_INPUT_MI)}
+                            onClick={() => {
+                                onClose();
+                                onCreateMultiInputFileSelected();
+                            }}
+                        >
+                            <ListItemIcon>
+                                <ListAlt fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={t("newMultiInputPathListFile")}
+                            />
+                        </MenuItem>,
+                    ],
                     deleteMiEnabled && (
                         <MenuItem
                             key={build(baseId, ids.DELETE_MENU_ITEM)}

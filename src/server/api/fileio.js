@@ -35,7 +35,34 @@ export default function fileIORouter() {
         })
     );
 
+    logger.info("adding the POST /api/fileio/save");
+    api.post(
+        "/fileio/save",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/fileio/save",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the POST /api/fileio/saveas");
+    api.post(
+        "/fileio/saveas",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/fileio/saveas",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the GET /api/download handler");
     api.get("/download", auth.authnTokenMiddleware, downloadHandler);
+
     return api;
 }

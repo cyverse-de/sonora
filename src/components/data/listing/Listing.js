@@ -83,6 +83,8 @@ function Listing(props) {
         isInvalidSelection = () => false,
         render,
         showErrorAnnouncer,
+        onCreateHTFileSelected,
+        onCreateMultiInputFileSelected,
     } = props;
 
     // Used to force the data listing to refresh when uploads are completed.
@@ -389,6 +391,10 @@ function Listing(props) {
                     setImportDialogOpen={setImportDialogOpen}
                     localUploadId={localUploadId}
                     uploadMenuId={build(baseId, ids.TOOLBAR, ids.UPLOAD_MENU)}
+                    onCreateHTFileSelected={() => onCreateHTFileSelected(path)}
+                    onCreateMultiInputFileSelected={() =>
+                        onCreateMultiInputFileSelected(path)
+                    }
                 />
                 {!isGridView && (
                     <TableView

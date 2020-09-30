@@ -52,7 +52,7 @@ function AnalysisInfo(props) {
 
     if (analysis) {
         return (
-            <Grid container spacing={3} style={{ marginTop: 2, fontSize: 12 }}>
+            <Grid container spacing={3}>
                 <GridLabelValue label={t("analysis")}>
                     <InfoGridValue>{analysis.name}</InfoGridValue>
                 </GridLabelValue>

@@ -537,6 +537,7 @@ const ShareWithSupportDialog = ({
             </DialogContent>
             <DialogActions>
                 <Button
+                    id={build(baseDebugID, ids.DIALOG.CANCEL)}
                     variant="outlined"
                     disabled={loading}
                     onClick={() => {
@@ -549,6 +550,7 @@ const ShareWithSupportDialog = ({
 
                 {shareWithSupport ? (
                     <Button
+                        id={build(baseDebugID, ids.DIALOG.SUBMIT)}
                         variant="contained"
                         color="primary"
                         disabled={!enableSubmit || loading}
@@ -560,6 +562,7 @@ const ShareWithSupportDialog = ({
                     </Button>
                 ) : (
                     <Button
+                        id={build(baseDebugID, ids.DIALOG.MORE_HELP)}
                         variant="contained"
                         color="primary"
                         onClick={() => {

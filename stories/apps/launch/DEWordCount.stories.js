@@ -1,6 +1,8 @@
 import React from "react";
 
 import constants from "../../../src/constants";
+import { mockAxios } from "../../axiosMock";
+import { appDetails, listingById, appDocumentation } from "../AppMocks";
 
 import { saveQuickLaunch, submitAnalysis } from "./constants";
 
@@ -46,6 +48,18 @@ export const DEWordCount = () => {
     };
 
     const app = { ...WordCountApp, deleted, disabled };
+
+    mockAxios
+        .onGet(`/api/apps/${app.system_id}/${app.id}/details`)
+        .reply(200, appDetails);
+
+    mockAxios
+        .onGet(`/api/apps/${app.system_id}/${app.id}/listing`)
+        .reply(200, listingById);
+
+    mockAxios
+        .onGet(`/api/apps/${app.system_id}/${app.id}/documentation`)
+        .reply(200, appDocumentation);
 
     return (
         <AppLaunchStoryBase

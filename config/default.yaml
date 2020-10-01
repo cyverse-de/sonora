@@ -35,6 +35,11 @@ admin:
     groups: some-group
     group_attribute_name: entitlement
 
+analysis:
+    support:
+        user: siuser
+        source_id: ldap
+
 irods:
     home_path: /iplant/home
 

@@ -101,6 +101,12 @@ function MyApp({ Component, pageProps }) {
             groups: publicRuntimeConfig.ADMIN_GROUPS,
             group_attribute_name: publicRuntimeConfig.ADMIN_GROUP_ATTRIBUTE,
         };
+        const analysis = {
+            supportUser: {
+                id: publicRuntimeConfig.ANALYSIS_SUPPORT_USER,
+                source_id: publicRuntimeConfig.ANALYSIS_SUPPORT_SOURCE_ID,
+            },
+        };
         const irods = {
             home_path: publicRuntimeConfig.IRODS_HOME_PATH,
         };
@@ -125,6 +131,7 @@ function MyApp({ Component, pageProps }) {
         if (
             intercom ||
             admin ||
+            analysis ||
             irods ||
             sessions ||
             tools ||
@@ -133,6 +140,7 @@ function MyApp({ Component, pageProps }) {
             setConfig({
                 intercom,
                 admin,
+                analysis,
                 irods,
                 sessions,
                 tools,

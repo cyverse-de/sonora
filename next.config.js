@@ -14,6 +14,8 @@ module.exports = withBundleAnalyzer({
         INTERCOM_COMPANY_NAME: config.get("intercom.company_name"),
         ADMIN_GROUPS: config.get("admin.groups"),
         ADMIN_GROUP_ATTRIBUTE: config.get("admin.group_attribute_name"),
+        ANALYSIS_SUPPORT_USER: config.get("analysis.support.user"),
+        ANALYSIS_SUPPORT_SOURCE_ID: config.get("analysis.support.source_id"),
         IRODS_HOME_PATH: config.get("irods.home_path"),
         SESSION_POLL_INTERVAL_MS: config.has("sessions.poll_interval_ms")
             ? config.get("sessions.poll_interval_ms")

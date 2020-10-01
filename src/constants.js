@@ -13,7 +13,6 @@ export default {
     FAV_APPS: "Favorite Apps",
     MY_PUBLIC_APPS: "My public apps",
     HPC: "High-Performance Computing",
-    HPC_WIKI_LINK: "https://cyverse.atlassian.net/wiki/x/6QltDg",
     BROWSE_ALL_APPS: "Browse All Apps",
     BROWSE_ALL_APPS_ID: "pppppppp-pppp-pppp-pppp-pppppppppppp",
     APP_TYPE_EXTERNAL: "External",
@@ -44,4 +43,22 @@ export default {
     AGAVE_SYSTEM_ID: "agave",
     SORT_ASCENDING: "asc",
     SORT_DESCENDING: "desc",
+    HELP_DOCS: {
+        APP_AND_TOOL_INFO:
+            "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027152/Viewing+App+and+Tool+Information",
+        APP_RATINGS_COMMENTS:
+            "https://wiki.cyverse.org/wiki/display/DEmanual/Using+App+Ratings+and+App+Comments",
+        APP_STATUS:
+            "https://wiki.cyverse.org/wiki/x/6gGO#UsingtheAppsWindowandSubmittinganAnalysis-AppStatus",
+        EXAMPLE_FILE:
+            "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027163/Troubleshooting+an+Analysis#TroubleshootinganAnalysis-5.Checkistheappisfunctioningproperly",
+        HPC_APPS: "https://cyverse.atlassian.net/wiki/x/6QltDg",
+        LOG_FILES:
+            "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027163/Troubleshooting+an+Analysis#TroubleshootinganAnalysis-2.Checkthelogfiles",
+        SCI_INFORMATICIANS: "https://cyverse.org/team#science",
+        SHARE_ANALYSIS:
+            "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027128/Sharing+and+Unsharing+an+Analysis",
+        SPECIAL_CHARS:
+            "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027163/Troubleshooting+an+Analysis#TroubleshootinganAnalysis-3.Checktheinputfilesandparameter",
+    },
 };

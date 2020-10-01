@@ -76,9 +76,13 @@ export default {
 
     DIALOG: {
         DELETE: "delete",
+        CANCEL: "cancel",
         COMMENT: "comment",
+        MORE_HELP: "moreHelp",
         RELAUNCH: "relaunch",
         RENAME: "rename",
+        STATUS_HELP: "statusHelp",
+        SUBMIT: "submit",
     },
 
     ICONS: {

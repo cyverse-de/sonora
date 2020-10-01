@@ -1,8 +1,12 @@
 import callApi from "../common/callApi";
+
+import Permissions from "../components/models/Permissions";
+
 import { getResourcePermissions, RESOURCE_PERMISSIONS_KEY } from "./filesystem";
 import { getAppPermissions } from "./apps";
 import { getAnalysisPermissions } from "./analyses";
 import { getToolPermissions } from "./tools";
+
 export const GET_PERMISSIONS_QUERY_KEY = "fetchSharingPermissions";
 
 /**
@@ -194,3 +198,29 @@ export const getPermissions = (key, { resources }) => {
 
     return Promise.all(permissionPromises);
 };
+
+/**
+ * Builds a sharing request, for use with the shareAnalyses API call,
+ * to share an analysis with support.
+ *
+ * @param {object} supportUser - The support user object (from configs).
+ * @param {string} analysis_id - ID of the analysis to share.
+ */
+export const getAnalysisShareWithSupportRequest = (
+    supportUser,
+    analysis_id
+) => ({
+    analysisSharingRequest: {
+        sharing: [
+            {
+                subject: supportUser,
+                analyses: [
+                    {
+                        analysis_id,
+                        permission: Permissions.READ,
+                    },
+                ],
+            },
+        ],
+    },
+});

@@ -11,6 +11,7 @@ import fileIORouter from "./api/fileio";
 import quickLaunchRouter from "./api/quickLaunch";
 import refGenomeRouter from "./api/referenceGenomes";
 import sharingRouter from "./api/sharing";
+import supportRouter from "./api/support";
 import tagsRouter from "./api/tags";
 import toolsRouter from "./api/tools";
 import userRouter from "./api/user";
@@ -103,6 +104,7 @@ app.prepare()
         server.use("/api", fileIORouter());
         server.use("/api", quickLaunchRouter());
         server.use("/api", sharingRouter());
+        server.use("/api", supportRouter());
         server.use("/api", refGenomeRouter());
         server.use("/api", tagsRouter());
         server.use("/api", toolsRouter());

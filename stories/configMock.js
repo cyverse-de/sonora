@@ -12,4 +12,5 @@ export default {
         groups: "test",
         group_attribute_name: "entitlement",
     },
+    analysis: { supportUser: { user: "support_user", source_id: "ldap" } },
 };

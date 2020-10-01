@@ -22,6 +22,13 @@ import {
     updateAnalysisComment,
 } from "serviceFacades/analyses";
 
+import { getAnalysisShareWithSupportRequest } from "serviceFacades/sharing";
+
+import {
+    analysisSupportRequest,
+    submitAnalysisSupportRequest,
+} from "serviceFacades/support";
+
 import { openInteractiveUrl } from "../utils";
 
 import constants from "../../../constants";
@@ -33,6 +40,7 @@ import Drawer from "../details/Drawer";
 import ids from "../ids";
 import RenameAnalysisDialog from "../RenameAnalysisDialog";
 import AnalysisCommentDialog from "../AnalysisCommentDialog";
+import ShareWithSupportDialog from "../ShareWithSupportDialog";
 
 import TableView from "./TableView";
 
@@ -41,6 +49,7 @@ import AnalysesToolbar from "../toolbar/Toolbar";
 import analysisStatus from "components/models/analysisStatus";
 import appType from "components/models/AppType";
 
+import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import { useNotifications } from "contexts/pushNotifications";
 
@@ -94,11 +103,15 @@ function Listing(props) {
     const [data, setData] = useState(null);
     const [parentAnalysis, setParentAnalyses] = useState(null);
 
+    const [config] = useConfig();
     const [userProfile] = useUserProfile();
     const [currentNotification] = useNotifications();
 
     const [selectedAnalysis, setSelectedAnalysis] = useState(null);
     const [isSingleSelection, setSingleSelection] = useState(false);
+    const [shareWithSupportAnalysis, setShareWithSupportAnalysis] = useState(
+        null
+    );
 
     const [detailsOpen, setDetailsOpen] = useState(false);
 
@@ -221,6 +234,32 @@ function Listing(props) {
                     // Some analyses may have been successfully canceled.
                     queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
                 }
+            },
+        }
+    );
+
+    const [shareAnalysesMutation, { isLoading: shareLoading }] = useMutation(
+        submitAnalysisSupportRequest,
+        {
+            onSuccess: (responses) => {
+                const shareError =
+                    responses?.length > 1 &&
+                    responses[0].sharing.find((share) =>
+                        share.analyses.find((analysis) => !analysis.success)
+                    );
+
+                if (shareError) {
+                    showErrorAnnouncer(t("statusHelpShareError"));
+                } else {
+                    setShareWithSupportAnalysis(null);
+                    announce({
+                        text: t("statusHelpShareSuccess"),
+                        variant: AnnouncerConstants.SUCCESS,
+                    });
+                }
+            },
+            onError: (error) => {
+                showErrorAnnouncer(t("statusHelpShareError"), error);
             },
         }
     );
@@ -559,6 +598,28 @@ function Listing(props) {
         });
     };
 
+    const handleStatusClick = (analysis) => {
+        setShareWithSupportAnalysis(analysis);
+    };
+
+    const onShareWithSupport = (analysis, comment) => {
+        shareAnalysesMutation({
+            ...getAnalysisShareWithSupportRequest(
+                config?.analysis?.supportUser,
+                analysis.id
+            ),
+            supportRequest: analysisSupportRequest(
+                userProfile?.id,
+                userProfile?.attributes.email,
+                t("statusHelpRequestSubject", {
+                    name: userProfile?.attributes.name,
+                }),
+                comment,
+                analysis
+            ),
+        });
+    };
+
     const getSelectedAnalyses = (analyses) => {
         const items = analyses ? analyses : selected;
         return items.map((id) =>
@@ -614,6 +675,7 @@ function Listing(props) {
                 handleRelaunch={handleRelaunch}
                 handleBatchIconClick={handleBatchIconClick}
                 handleDetailsClick={onDetailsSelected}
+                handleStatusClick={handleStatusClick}
             />
 
             <ConfirmationDialog
@@ -651,6 +713,19 @@ function Listing(props) {
                 onClose={() => setCommentDialogOpen(false)}
                 handleUpdateComment={analysisCommentMutation}
             />
+
+            {shareWithSupportAnalysis && (
+                <ShareWithSupportDialog
+                    baseId={build(baseId, ids.DIALOG.STATUS_HELP)}
+                    open={!!shareWithSupportAnalysis}
+                    analysis={shareWithSupportAnalysis}
+                    name={userProfile?.attributes.name}
+                    email={userProfile?.attributes.email}
+                    loading={shareLoading}
+                    onClose={() => setShareWithSupportAnalysis(null)}
+                    onShareWithSupport={onShareWithSupport}
+                />
+            )}
 
             {detailsOpen && (
                 <Drawer

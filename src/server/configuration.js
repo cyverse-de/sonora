@@ -93,6 +93,10 @@ const validate = () => {
     //groups
     validateConfigSetting("admin.groups");
 
+    //analysis settings
+    validateConfigSetting("analysis.support.user");
+    validateConfigSetting("analysis.support.source_id");
+
     //irods settings
     validateConfigSetting("irods.home_path");
 };

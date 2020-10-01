@@ -196,7 +196,7 @@ function DataSearchOption(props) {
         icon = <DescriptionIcon style={{ color: theme.palette.info.main }} />;
     }
 
-   return (
+    return (
         <Link href={href} as={as} passHref>
             <SearchOption
                 primary={name}

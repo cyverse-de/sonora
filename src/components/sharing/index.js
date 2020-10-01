@@ -5,18 +5,16 @@
  * to modify with whom those resources are shared
  */
 
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
 import {
-    Avatar,
     Button,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
     Divider,
-    FormControl,
     Grid,
     IconButton,
     List,
@@ -36,7 +34,6 @@ import {
     getUnsharingUpdates,
     getUserMap,
     getUserSet,
-    groupName,
     isGroup,
     TYPE,
 } from "./util";
@@ -46,11 +43,9 @@ import isQueryLoading from "../utils/isQueryLoading";
 import GridLoading from "../utils/GridLoading";
 import ids from "./ids";
 import SharedItem from "./SharedItem";
-import Identity from "../data/Identity";
 import SubjectSearchField from "./SubjectSearchField";
 import { useUserProfile } from "contexts/userProfile";
 import { useTranslation } from "i18n";
-import SharingPermissionSelector from "components/sharing/SharingPermissionSelector";
 import Permissions from "components/models/Permissions";
 import {
     doSharingUpdates,
@@ -59,6 +54,7 @@ import {
 } from "../../serviceFacades/sharing";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import styles from "./styles";
+import UserTable from "./UserTable";
 
 const useStyles = makeStyles(styles);
 
@@ -121,19 +117,6 @@ function Sharing(props) {
             setResourceTotal(getResourceTotal(resources));
         }
     }, [resources]);
-
-    const getUserPrimaryText = (user) => {
-        const { email, id } = user;
-        return email || id;
-    };
-
-    const getUserAvatar = (user) => {
-        return isGroup(user) ? (
-            <Group />
-        ) : (
-            getUserPrimaryText(user)[0].toUpperCase()
-        );
-    };
 
     const addUser = (user) => {
         const id = user.id;
@@ -280,72 +263,14 @@ function Sharing(props) {
                                 <Typography>
                                     {tSharing("sharingAccess")}
                                 </Typography>
-                                {userMap &&
-                                    Object.values(userMap).map((user) => {
-                                        const permissionSelector = () => (
-                                            <FormControl
-                                                className={
-                                                    isMobile
-                                                        ? classes.mobilePermission
-                                                        : null
-                                                }
-                                            >
-                                                <SharingPermissionSelector
-                                                    baseId={build(
-                                                        baseId,
-                                                        user.id,
-                                                        ids.PERMISSION_SELECTOR
-                                                    )}
-                                                    currentPermission={
-                                                        user.displayPermission
-                                                    }
-                                                    onPermissionChange={(
-                                                        updatedPermission
-                                                    ) =>
-                                                        onPermissionChange(
-                                                            user,
-                                                            updatedPermission
-                                                        )
-                                                    }
-                                                    onRemoveSelected={() =>
-                                                        onRemoveUser(user)
-                                                    }
-                                                />
-                                            </FormControl>
-                                        );
-                                        return (
-                                            <Fragment key={user.id}>
-                                                <Identity
-                                                    ContainerComponent="div"
-                                                    avatar={
-                                                        <Avatar>
-                                                            {getUserAvatar(
-                                                                user
-                                                            )}
-                                                        </Avatar>
-                                                    }
-                                                    primaryText={
-                                                        isGroup(user)
-                                                            ? groupName(user)
-                                                            : getUserPrimaryText(
-                                                                  user
-                                                              )
-                                                    }
-                                                    secondaryText={
-                                                        user.institution ||
-                                                        user.description
-                                                    }
-                                                    secondaryAction={
-                                                        !isMobile
-                                                            ? permissionSelector()
-                                                            : null
-                                                    }
-                                                />
-                                                {isMobile &&
-                                                    permissionSelector()}
-                                            </Fragment>
-                                        );
-                                    })}
+                                {userMap && (
+                                    <UserTable
+                                        baseId={baseId}
+                                        userMap={userMap}
+                                        onPermissionChange={onPermissionChange}
+                                        onRemoveUser={onRemoveUser}
+                                    />
+                                )}
                             </>
                         </Grid>
                         <Grid

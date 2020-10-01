@@ -232,8 +232,6 @@ const Bag = ({ menuIconClass }) => {
         return acc;
     };
 
-    console.log(sharingResources);
-
     const handleSharingClick = (event) => {
         event.preventDefault();
         event.stopPropagation();

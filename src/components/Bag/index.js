@@ -25,6 +25,7 @@ import {
     GetApp,
     People,
     Clear,
+    ClearAll,
     Close,
     ShoppingBasket as ShoppingBasketIcon,
 } from "@material-ui/icons";
@@ -63,7 +64,9 @@ const useStyles = makeStyles((theme) => ({
         width: theme.spacing(20),
 
         [theme.breakpoints.down("sm")]: {
-            width: "100%",
+            // width: "100%",
+            margin: theme.spacing(1),
+            width: theme.spacing(20),
         },
     },
     actionContainer: {
@@ -300,35 +303,57 @@ const Bag = ({ menuIconClass }) => {
                 </DialogContent>
 
                 <DialogActions>
-                    <Button
-                        variant="contained"
-                        color="default"
-                        className={classes.button}
-                        startIcon={<Clear />}
-                        onClick={() => clearAll()}
-                    >
-                        {t("clearBag")}
-                    </Button>
+                    {fullScreen ? (
+                        <IconButton onClick={() => clearAll()}>
+                            <ClearAll />
+                        </IconButton>
+                    ) : (
+                        <Button
+                            variant="contained"
+                            color="default"
+                            className={classes.button}
+                            startIcon={<Clear />}
+                            size="small"
+                            onClick={() => clearAll()}
+                        >
+                            {t("clearBag")}
+                        </Button>
+                    )}
 
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                        startIcon={<GetApp />}
-                        onClick={() => {}}
-                    >
-                        {t("download")}
-                    </Button>
+                    {fullScreen ? (
+                        <IconButton onClick={() => {}}>
+                            <GetApp />
+                        </IconButton>
+                    ) : (
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.button}
+                            startIcon={<GetApp />}
+                            onClick={() => {}}
+                            disabled={true}
+                            size="small"
+                        >
+                            {t("download")}
+                        </Button>
+                    )}
 
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                        startIcon={<People />}
-                        onClick={handleSharingClick}
-                    >
-                        {t("share")}
-                    </Button>
+                    {fullScreen ? (
+                        <IconButton onClick={handleSharingClick}>
+                            <People />
+                        </IconButton>
+                    ) : (
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.button}
+                            startIcon={<People />}
+                            onClick={handleSharingClick}
+                            size="small"
+                        >
+                            {t("share")}
+                        </Button>
+                    )}
                 </DialogActions>
             </Dialog>
 

@@ -52,14 +52,15 @@ import {
     GET_PERMISSIONS_QUERY_KEY,
     getPermissions,
 } from "../../serviceFacades/sharing";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import styles from "./styles";
 import UserTable from "./UserTable";
+import ErrorTypography from "../utils/error/ErrorTypography";
+import DEErrorDialog from "../utils/error/DEErrorDialog";
 
 const useStyles = makeStyles(styles);
 
 function Sharing(props) {
-    const { open, onClose, resources, showErrorAnnouncer } = props;
+    const { open, onClose, resources } = props;
 
     const [permissions, setPermissions] = useState([]);
     const [originalUsers, setOriginalUsers] = useState({});
@@ -67,6 +68,8 @@ function Sharing(props) {
     const [hasData, setHasData] = useState(false);
     const [userMap, setUserMap] = useState({});
     const [resourceTotal, setResourceTotal] = useState(0);
+    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+    const [errorDetails, setErrorDetails] = useState(null);
     const [userProfile] = useUserProfile();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -86,7 +89,10 @@ function Sharing(props) {
                 setUserIdList(getUserSet(results));
             },
             onError: (error) => {
-                showErrorAnnouncer(tSharing("fetchPermissionsError"), error);
+                setErrorDetails({
+                    message: tSharing("fetchPermissionsError"),
+                    error,
+                });
             },
         },
     });
@@ -102,7 +108,10 @@ function Sharing(props) {
                 setOriginalUsers(userMap);
             },
             onError: (error) => {
-                showErrorAnnouncer(tSharing("fetchUserInfoError"), error);
+                setErrorDetails({
+                    message: tSharing("fetchUserInfoError"),
+                    error,
+                });
             },
         },
     });
@@ -197,16 +206,19 @@ function Sharing(props) {
                     });
                 });
                 if (failures.length > 0) {
-                    announce({
-                        text: tSharing("sharingUnsuccessful"),
-                        variant: AnnouncerConstants.ERROR,
+                    setErrorDetails({
+                        message: tSharing("sharingUnsuccessful"),
+                        error: failures,
                     });
                 } else {
                     onClose();
                 }
             },
             onError: (error) => {
-                showErrorAnnouncer(tSharing("sharingError"), error);
+                setErrorDetails({
+                    message: tSharing("sharingError"),
+                    error,
+                });
             },
         }
     );
@@ -257,6 +269,24 @@ function Sharing(props) {
                                 baseId={build(ids.DIALOG, ids.SEARCH_FIELD)}
                                 onUserSelected={onUserSelected}
                             />
+                            {errorDetails && (
+                                <>
+                                    <ErrorTypography
+                                        errorMessage={errorDetails.message}
+                                        onDetailsClick={() =>
+                                            setErrorDialogOpen(true)
+                                        }
+                                    />
+                                    <DEErrorDialog
+                                        open={errorDialogOpen}
+                                        baseId={baseId}
+                                        errorObject={errorDetails.error}
+                                        handleClose={() => {
+                                            setErrorDialogOpen(false);
+                                        }}
+                                    />
+                                </>
+                            )}
                         </Grid>
                         <Grid item sm={12} md={6} zeroMinWidth>
                             <>
@@ -310,7 +340,10 @@ function Sharing(props) {
             <DialogActions>
                 <Button
                     id={build(baseId, ids.BUTTONS.CANCEL)}
-                    onClick={onClose}
+                    onClick={() => {
+                        setErrorDetails(null);
+                        onClose();
+                    }}
                 >
                     {tCommon("cancel")}
                 </Button>
@@ -318,7 +351,10 @@ function Sharing(props) {
                     id={build(baseId, ids.BUTTONS.SAVE)}
                     color="primary"
                     type="submit"
-                    onClick={onSave}
+                    onClick={() => {
+                        setErrorDetails(null);
+                        onSave();
+                    }}
                 >
                     {tCommon("done")}
                 </Button>
@@ -327,4 +363,4 @@ function Sharing(props) {
     );
 }
 
-export default withErrorAnnouncer(Sharing);
+export default Sharing;

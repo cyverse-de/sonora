@@ -71,7 +71,6 @@
     "path": "Path",
     "permissions": "Permissions",
     "read": "Read",
-    "save": "Save",
     "searchTags": "Search tags...",
     "selectedDataRootMenuAriaLabel": "Selected data root",
     "selectedDataRootMenuAriaControl": "Selected data root menu",

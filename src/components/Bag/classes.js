@@ -79,7 +79,7 @@ export const ANALYSIS_TYPE = "analysis";
 export const APP_TYPE = "app";
 
 export const createNewBagItem = (item) => {
-    if (!item?.id) {
+    if (!item.id) {
         item.id = uuidv4();
     }
 

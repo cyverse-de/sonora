@@ -29,6 +29,8 @@ import {
     ShoppingBasket as ShoppingBasketIcon,
 } from "@material-ui/icons";
 
+import SharingView from "../sharing";
+
 import * as facade from "../../serviceFacades/bags";
 import { Skeleton } from "@material-ui/lab";
 
@@ -169,7 +171,7 @@ export const BagUI = ({ items, isLoading }) => {
     );
 };
 
-export default ({ menuIconClass }) => {
+const Bag = ({ menuIconClass }) => {
     const theme = useTheme();
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
@@ -197,6 +199,49 @@ export default ({ menuIconClass }) => {
     }, [bagItems, setBadgeCount]);
 
     const [bagDlgOpen, setBagDlgOpen] = useState(false);
+    const [sharingOpen, setSharingOpen] = useState(false);
+    const [sharingResources, setSharingResources] = useState({
+        tools: [],
+        apps: [],
+        paths: [],
+        analyses: [],
+        unknown: [],
+    });
+
+    const sharingReducer = (acc, curr) => {
+        switch (curr.type) {
+            case FILE_TYPE:
+            case FOLDER_TYPE:
+                if (!curr.label) {
+                    curr.label = curr.path.substr(
+                        curr.path.lastIndexOf("/") + 1
+                    );
+                }
+                acc.paths = [...acc.paths, curr];
+                break;
+            case APP_TYPE:
+                acc.apps = [...acc.apps, curr];
+                break;
+            case ANALYSIS_TYPE:
+                acc.analyses = [...acc.analyses, curr];
+                break;
+            default:
+                acc.unknown = [...acc.unknown, curr];
+                break;
+        }
+        return acc;
+    };
+
+    console.log(sharingResources);
+
+    const handleSharingClick = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        setSharingResources(bagItems.reduce(sharingReducer, sharingResources));
+        setBagDlgOpen(false);
+        setSharingOpen(true);
+    };
 
     const handleMenuClick = (event) => {
         event.preventDefault();
@@ -282,14 +327,23 @@ export default ({ menuIconClass }) => {
                         color="primary"
                         className={classes.button}
                         startIcon={<People />}
-                        onClick={() => {}}
+                        onClick={handleSharingClick}
                     >
                         {t("share")}
                     </Button>
                 </DialogActions>
             </Dialog>
+
+            <SharingView
+                open={sharingOpen}
+                onClose={() => {
+                    setSharingOpen(false);
+                }}
+                resources={sharingResources}
+            />
         </>
     );
 };
 
 export { FILE_TYPE, FOLDER_TYPE, ANALYSIS_TYPE, APP_TYPE };
+export default Bag;

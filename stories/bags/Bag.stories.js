@@ -20,12 +20,12 @@ const data = {
     items: [
         {
             name: "test file 1",
-            path: "/test/path/1",
+            path: "/test/path/file1",
             type: FILE_TYPE,
         },
         {
             name: "test folder 1",
-            path: "/test/folder/1",
+            path: "/test/folder/folder1",
             type: FOLDER_TYPE,
         },
         {

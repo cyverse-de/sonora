@@ -1,4 +1,8 @@
 export default (theme) => ({
+    analysesIcon: {
+        width: "28px",
+    },
+
     button: {
         [theme.breakpoints.up("sm")]: {
             margin: theme.spacing(1),

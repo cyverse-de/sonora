@@ -3,17 +3,19 @@ import { build } from "@cyverse-de/ui-lib";
 
 import { TYPE } from "./util";
 import {
-    Apps,
-    Assessment as AnalysisIcon,
     Build as ToolIcon,
     Folder as FolderIcon,
     InsertDriveFileOutlined as FileIcon,
 } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/styles";
 import ResourceTypes from "../models/ResourceTypes";
 import { useTranslation } from "../../i18n";
 import Identity from "../data/Identity";
+import styles from "./styles";
 
-const getItemDetails = (type, t, subtype) => {
+const useStyles = makeStyles(styles);
+
+const getItemDetails = (type, t, classes, subtype) => {
     switch (type) {
         case TYPE.DATA: {
             return {
@@ -33,7 +35,7 @@ const getItemDetails = (type, t, subtype) => {
                 idFn: (resource) => resource.id,
                 labelFn: (resource) => resource.name,
                 secondaryText: (resource) => resource.system_id,
-                icon: <Apps />,
+                icon: <img src="/icon-apps-dark.png" alt={t("apps")} />,
             };
         }
         case TYPE.ANALYSES: {
@@ -41,7 +43,13 @@ const getItemDetails = (type, t, subtype) => {
                 idFn: (resource) => resource.id,
                 labelFn: (resource) => resource.name,
                 secondaryText: () => "",
-                icon: <AnalysisIcon />,
+                icon: (
+                    <img
+                        className={classes.analysesIcon}
+                        src="/icon-analyses-dark.png"
+                        alt={t("analyses")}
+                    />
+                ),
             };
         }
         case TYPE.TOOLS: {
@@ -59,11 +67,13 @@ const getItemDetails = (type, t, subtype) => {
 
 function SharedItem(props) {
     const { baseId, type, item } = props;
+    const classes = useStyles();
     const subtype = item.type;
     const { t } = useTranslation("common");
     const { idFn, labelFn, icon, secondaryText } = getItemDetails(
         type,
         t,
+        classes,
         subtype
     );
 

@@ -1,5 +1,5 @@
 /**
- * @author psarando
+ * @author psarando, sriram
  *
  * The App Launch Wizard header that displays the app name and description.
  */
@@ -147,11 +147,8 @@ const AppInfo = React.forwardRef((props, ref) => {
                         <>
                             {app?.name}
                             <Button
-                                style={{
-                                    marginLeft: theme.spacing(1),
-                                    marginRight: theme.spacing(1.5),
-                                    float: "right",
-                                }}
+                                id={buildDebugId(baseId, ids.BUTTONS.DETAILS)}
+                                className={classes.detailsButton}
                                 onClick={() => setDetailsDrawerOpen(true)}
                                 variant="outlined"
                                 size="small"
@@ -162,11 +159,11 @@ const AppInfo = React.forwardRef((props, ref) => {
                                 <Hidden xsDown>{i18nApps("details")}</Hidden>
                             </Button>
                             <Button
-                                style={{
-                                    marginLeft: theme.spacing(1),
-                                    marginRight: theme.spacing(1.5),
-                                    float: "right",
-                                }}
+                                id={buildDebugId(
+                                    baseId,
+                                    ids.BUTTONS.DOCUMENTATION
+                                )}
+                                className={classes.detailsButton}
                                 onClick={() => setDocDialogOpen(true)}
                                 variant="outlined"
                                 size="small"
@@ -186,9 +183,16 @@ const AppInfo = React.forwardRef((props, ref) => {
                                 systemId={app?.system_id}
                                 open={detailsDrawerOpen}
                                 onClose={() => setDetailsDrawerOpen(false)}
-                                baseId="launch"
+                                baseId={buildDebugId(
+                                    baseId,
+                                    ids.BUTTONS.DETAILS
+                                )}
                             />
                             <AppDoc
+                                baseId={buildDebugId(
+                                    baseId,
+                                    ids.BUTTONS.DOCUMENTATION
+                                )}
                                 open={docDialogOpen}
                                 appId={app?.id}
                                 systemId={app?.system_id}

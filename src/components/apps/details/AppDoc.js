@@ -9,6 +9,9 @@ import sanitizeHtml from "sanitize-html";
 import showdown from "showdown";
 import { useTranslation } from "i18n";
 
+import { build as buildDebugId } from "@cyverse-de/ui-lib";
+
+import ids from "../ids";
 import constants from "../../../constants";
 
 import { useUserProfile } from "contexts/userProfile";
@@ -69,6 +72,7 @@ function Documentation(props) {
         setMode,
         onDocChange,
         onSave,
+        baseId,
     } = props;
     const { t } = useTranslation("apps");
     const markDownToHtml = () => {
@@ -96,6 +100,7 @@ function Documentation(props) {
             <>
                 {mode === VIEW_MODE && (
                     <div
+                        id={buildDebugId(baseId, ids.DOC_MARKDOWN)}
                         dangerouslySetInnerHTML={{
                             __html: markDownToHtml(),
                         }}
@@ -109,6 +114,7 @@ function Documentation(props) {
                 )}
                 {mode === EDIT_MODE && (
                     <TextField
+                        id={buildDebugId(baseId, ids.DOC_TEXT)}
                         multiline={true}
                         rows={20}
                         value={documentation}
@@ -119,6 +125,7 @@ function Documentation(props) {
                 {editable && mode === VIEW_MODE && (
                     <Tooltip title={t("edit")} aria-label={t("edit")}>
                         <Fab
+                            id={buildDebugId(baseId, ids.EDIT_BTN)}
                             color="primary"
                             aria-label={t("edit")}
                             style={{ float: "right" }}
@@ -132,6 +139,7 @@ function Documentation(props) {
                 {editable && mode === EDIT_MODE && (
                     <Tooltip title={t("save")} aria-label={t("save")}>
                         <Fab
+                            id={buildDebugId(baseId, ids.SAVE_BTN)}
                             color="primary"
                             aria-label={t("save")}
                             style={{ float: "right" }}
@@ -150,7 +158,7 @@ function Documentation(props) {
 }
 
 function AppDoc(props) {
-    const { open, appId, systemId, onClose } = props;
+    const { open, appId, systemId, onClose, baseId } = props;
     const [userProfile] = useUserProfile();
     const [documentation, setDocumentation] = useState(null);
     const [references, setReferences] = useState(null);
@@ -165,6 +173,7 @@ function AppDoc(props) {
 
     const { t } = useTranslation("apps");
     const enabled = appId != null && systemId !== null;
+    const docBaseId = buildDebugId(baseId, ids.DOCUMENTATION);
 
     const handleClose = () => {
         if (dirty) {
@@ -233,7 +242,12 @@ function AppDoc(props) {
 
     return (
         <>
-            <Dialog open={open} onClose={handleClose} disableBackdropClick>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                disableBackdropClick
+                id={docBaseId}
+            >
                 <DialogTitle>
                     {t("documentation")}
                     <IconButton
@@ -275,6 +289,7 @@ function AppDoc(props) {
                         />
                     )}
                     <Documentation
+                        baseId={docBaseId}
                         loading={docStatus || detailsStatus}
                         documentation={documentation}
                         references={references}

@@ -62,4 +62,9 @@ export default (theme) => ({
             paddingRight: theme.spacing(0.1),
         },
     },
+    detailsButton: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1.5),
+        float: "right",
+    },
 });

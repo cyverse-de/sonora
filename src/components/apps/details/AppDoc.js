@@ -4,10 +4,12 @@
  **/
 
 import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import sanitizeHtml from "sanitize-html";
 import showdown from "showdown";
 import { useTranslation } from "i18n";
+
+import constants from "../../../constants";
 
 import { useUserProfile } from "contexts/userProfile";
 import {
@@ -15,10 +17,13 @@ import {
     APP_DETAILS_QUERY_KEY,
     getAppDoc,
     getAppDetails,
+    saveAppDoc,
 } from "serviceFacades/apps";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import GridLoading from "components/utils/GridLoading";
+import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import {
+    CircularProgress,
     Dialog,
     Divider,
     DialogTitle,
@@ -139,8 +144,9 @@ function Documentation(props) {
                 )}
             </>
         );
+    } else {
+        return <Typography>{t("noDoc")}</Typography>;
     }
-    return null;
 }
 
 function AppDoc(props) {
@@ -149,17 +155,20 @@ function AppDoc(props) {
     const [documentation, setDocumentation] = useState(null);
     const [references, setReferences] = useState(null);
     const [details, setDetails] = useState(null);
-    const [error, setError] = useState(false);
+    const [error, setError] = useState();
+    const [saveError, setSaveError] = useState();
+    const [detailsError, setDetailsError] = useState();
     const [allowEditing, setAllowEditing] = useState(false);
     const [mode, setMode] = useState(VIEW_MODE);
     const [dirty, setDirty] = useState(false);
+    const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
     const { t } = useTranslation("apps");
     const enabled = appId != null && systemId !== null;
 
     const handleClose = () => {
         if (dirty) {
-            console.log("unsaved changes!");
+            setOpenConfirmDialog(true);
         } else {
             onClose();
         }
@@ -179,6 +188,7 @@ function AppDoc(props) {
             onSuccess: (doc) => {
                 setDocumentation(doc.documentation);
                 setReferences(doc.references);
+                setError(false);
             },
             onError: (e) => {
                 setError(e);
@@ -199,14 +209,23 @@ function AppDoc(props) {
             enabled,
             onSuccess: setDetails,
             onError: (e) => {
-                setError(e);
+                setDetailsError(e);
             },
         },
     });
 
+    const [mutateDoc, { status: docMutationStatus }] = useMutation(saveAppDoc, {
+        onSuccess: () => {
+            setDirty(false);
+            setMode(VIEW_MODE);
+            setSaveError(null);
+        },
+        onError: (e) => {
+            setSaveError(e);
+        },
+    });
+
     useEffect(() => {
-        console.log("details => " + JSON.stringify(details));
-        console.log("email=>" + userProfile?.attributes?.email);
         if (userProfile?.attributes?.email === details?.integrator_email) {
             setAllowEditing(true);
         }
@@ -220,13 +239,41 @@ function AppDoc(props) {
                     <IconButton
                         aria-label={t("close")}
                         onClick={handleClose}
-                        style={{ float: "right" }}
+                        style={{
+                            position: "absolute",
+                            right: 8,
+                            top: 8,
+                            margin: 0,
+                        }}
                     >
                         <CloseIcon />
                     </IconButton>
                     <Divider />
                 </DialogTitle>
                 <DialogContent>
+                    {docMutationStatus === constants.LOADING && (
+                        <CircularProgress
+                            size={30}
+                            thickness={5}
+                            style={{
+                                position: "absolute",
+                                top: "50%",
+                                left: "50%",
+                            }}
+                        />
+                    )}
+                    {detailsError && (
+                        <ErrorTypographyWithDialog
+                            errorMessage={t("appDetailsError")}
+                            errorObject={detailsError}
+                        />
+                    )}
+                    {saveError && (
+                        <ErrorTypographyWithDialog
+                            errorMessage={t("docSaveError")}
+                            errorObject={saveError}
+                        />
+                    )}
                     <Documentation
                         loading={docStatus || detailsStatus}
                         documentation={documentation}
@@ -240,12 +287,29 @@ function AppDoc(props) {
                             setDirty(true);
                         }}
                         onSave={() => {
-                            setDirty(false);
-                            setMode(VIEW_MODE);
+                            mutateDoc({
+                                appId,
+                                systemId,
+                                documentation,
+                            });
                         }}
                     />
                 </DialogContent>
             </Dialog>
+            <ConfirmationDialog
+                open={openConfirmDialog}
+                onClose={() => setOpenConfirmDialog(false)}
+                title={t("documentation")}
+                contentText={t("docSavePrompt")}
+                onConfirm={() => {
+                    mutateDoc({
+                        appId,
+                        systemId,
+                        documentation,
+                    });
+                    setOpenConfirmDialog(false);
+                }}
+            />
         </>
     );
 }

@@ -147,6 +147,14 @@ function getAppDoc(key, { systemId, appId }) {
     });
 }
 
+function saveAppDoc({ systemId, appId, documentation }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}/documentation`,
+        method: "PATCH",
+        body: { documentation },
+    });
+}
+
 export {
     getApps,
     getAppById,
@@ -160,6 +168,7 @@ export {
     searchApps,
     searchAppsInfiniteQuery,
     getAppDoc,
+    saveAppDoc,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,

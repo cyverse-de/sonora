@@ -144,5 +144,20 @@ export default function appsRouter() {
         })
     );
 
+    logger.info(
+        "adding the PATCH /apps/:systemId/:appId/documentation handler"
+    );
+    api.patch(
+        "/apps/:systemId/:appId/documentation",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/apps/:systemId/:appId/documentation",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

@@ -25,7 +25,6 @@ import {
     Box,
     Button,
     Hidden,
-    IconButton,
     Link,
     makeStyles,
     Typography,
@@ -113,6 +112,7 @@ const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
 const AppInfo = React.forwardRef((props, ref) => {
     const { app, baseId, hasDeprecatedParams, loading, loadingError } = props;
     const { t } = useTranslation("common");
+    const { t: i18nApps } = useTranslation("apps");
     const router = useRouter();
     const classes = useStyles();
     const theme = useTheme();
@@ -146,14 +146,41 @@ const AppInfo = React.forwardRef((props, ref) => {
                     ) : (
                         <>
                             {app?.name}
-                            <IconButton
+                            <Button
+                                style={{
+                                    marginLeft: theme.spacing(1),
+                                    marginRight: theme.spacing(1.5),
+                                    float: "right",
+                                }}
                                 onClick={() => setDetailsDrawerOpen(true)}
+                                variant="outlined"
+                                size="small"
+                                startIcon={
+                                    <Info color="primary" fontSize="small" />
+                                }
                             >
-                                <Info color="primary" fontSize="small" />
-                            </IconButton>
-                            <IconButton onClick={() => setDocDialogOpen(true)}>
-                                <MenuBook color="primary" fontSize="small" />
-                            </IconButton>
+                                <Hidden xsDown>{i18nApps("details")}</Hidden>
+                            </Button>
+                            <Button
+                                style={{
+                                    marginLeft: theme.spacing(1),
+                                    marginRight: theme.spacing(1.5),
+                                    float: "right",
+                                }}
+                                onClick={() => setDocDialogOpen(true)}
+                                variant="outlined"
+                                size="small"
+                                startIcon={
+                                    <MenuBook
+                                        color="primary"
+                                        fontSize="small"
+                                    />
+                                }
+                            >
+                                <Hidden xsDown>
+                                    {i18nApps("documentation")}
+                                </Hidden>
+                            </Button>
                             <DetailsDrawer
                                 appId={app?.id}
                                 systemId={app?.system_id}

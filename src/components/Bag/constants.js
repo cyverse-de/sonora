@@ -10,4 +10,5 @@ export default {
     MENU: "menu",
     BADGE: "badge",
     TITLE: "title",
+    TAB: "tab",
 };

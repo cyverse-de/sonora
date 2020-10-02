@@ -149,6 +149,8 @@ export const BagUI = ({ items, isLoading, showErrorAnnouncer }) => {
         setTabValue(newValue);
     };
 
+    const baseID = buildID(constants.BASEID, constants.DIALOG, constants.TAB);
+
     return (
         <>
             {isLoading ? (
@@ -172,6 +174,7 @@ export const BagUI = ({ items, isLoading, showErrorAnnouncer }) => {
                         bagItems={downloadableItems}
                         translationKey="download"
                         showErrorAnnouncer={showErrorAnnouncer}
+                        id={buildID(baseID, constants.DOWNLOAD)}
                     />
 
                     <BagTab
@@ -180,6 +183,7 @@ export const BagUI = ({ items, isLoading, showErrorAnnouncer }) => {
                         bagItems={shareableItems}
                         translationKey="share"
                         showErrorAnnouncer={showErrorAnnouncer}
+                        baseID={buildID(baseID, constants.SHARE)}
                     />
                 </>
             )}

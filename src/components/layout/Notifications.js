@@ -28,8 +28,11 @@ import {
 import { useTheme } from "@material-ui/core/styles";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 
+const ANALYSIS_EMAIL_TEMPLATE = "analysis_status_change";
+
 function getDisplayMessage(notification) {
-    return notification.type === "data"
+    return notification.type === "data" &&
+        notification["email_template"] !== ANALYSIS_EMAIL_TEMPLATE
         ? notification.subject
         : notification.message.text;
 }
@@ -104,7 +107,8 @@ function Notifications(props) {
         (notification, category) => {
             let analysisStatus =
                 category.toLowerCase() ===
-                constants.NOTIFICATION_CATEGORY.ANALYSIS.toLowerCase()
+                    constants.NOTIFICATION_CATEGORY.ANALYSIS.toLowerCase() ||
+                notification["email_template"] === ANALYSIS_EMAIL_TEMPLATE
                     ? notification.payload.status
                     : "";
 

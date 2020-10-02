@@ -1,28 +1,27 @@
 import React, { useState } from "react";
-import { injectIntl } from "react-intl";
 import { useMutation } from "react-query";
 
-import intlData from "./messages";
+import { useTranslation } from "i18n";
+
 import ids from "./ids";
 
 import {
     ERROR_CODES,
     getErrorCode,
     getErrorData,
-} from "../utils/error/errorCode";
-import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
+} from "components/utils/error/errorCode";
 
 import constants from "../../constants";
-import { uploadByUrl } from "../../serviceFacades/fileio";
+import { uploadByUrl } from "serviceFacades/fileio";
 
-import {
-    build as buildID,
-    formatMessage as fmt,
-    withI18N,
-} from "@cyverse-de/ui-lib";
+import { build as buildID } from "@cyverse-de/ui-lib";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { Publish as PublishIcon, Close as CloseIcon } from "@material-ui/icons";
+import {
+    CheckCircle,
+    Publish as PublishIcon,
+    Close as CloseIcon,
+} from "@material-ui/icons";
 
 import {
     Button,
@@ -126,24 +125,29 @@ const urlFileName = (urlString) =>
 
 const URLImportTextField = (props) => {
     const classes = useStyles();
+    const { t } = useTranslation("urlImport");
     const [uploadURL, setUploadURL] = useState("");
     const [isValidURL, setIsValidURL] = useState(false);
     const [hasFirstFocused, setHasFirstFocused] = useState(false);
+    const [importError, setImportError] = useState();
 
-    const { path, showErrorAnnouncer, intl } = props;
+    const { path, successCallback } = props;
 
     const [importUrl, { status }] = useMutation(uploadByUrl, {
+        onSuccess: (resp) => {
+            successCallback(t("fileImportSubmitted"));
+        },
         onError: (error) => {
             const errorPath = getErrorData(error)?.path;
             const duplicateName = urlFileName(errorPath);
             const text =
                 getErrorCode(error) === ERROR_CODES.ERR_EXISTS
-                    ? fmt(intl, "fileExists", {
+                    ? t("fileExists", {
                           name: duplicateName,
                           path: path,
                       })
-                    : fmt(intl, "fileImportFail");
-            showErrorAnnouncer(text, error);
+                    : t("fileImportFail");
+            setImportError(text);
         },
     });
 
@@ -154,20 +158,21 @@ const URLImportTextField = (props) => {
         importUrl({ dest: path, address: uploadURL });
         setUploadURL("");
         setIsValidURL(false);
+        successCallback(null);
     };
 
     return (
         <div className={classes.container}>
             <TextField
                 fullWidth
-                id={buildID(ids.BASE_ID, ids.TEXTFIELD)}
-                placeholder={fmt(intl, "placeholder")}
+                id={buildID(ids.BASE_ID, ids.TEXT_FIELD)}
+                placeholder={t("placeholder")}
                 InputLabelProps={{
                     shrink: true,
                 }}
-                aria-label={fmt(intl, "textFieldAriaLabel")}
+                aria-label={t("textFieldAriaLabel")}
                 className={classes.urlField}
-                error={errored}
+                error={errored || importError}
                 value={uploadURL}
                 onFocus={(e) => {
                     setHasFirstFocused(true);
@@ -185,6 +190,7 @@ const URLImportTextField = (props) => {
                     // If it's empty, we don't care if it's already been focused on.
                     if (uploadURL === "") {
                         setHasFirstFocused(false);
+                        successCallback(null);
                     }
                 }}
                 onChange={(e) => {
@@ -210,7 +216,7 @@ const URLImportTextField = (props) => {
                 }}
             />
             <Button
-                aria-label={fmt(intl, "importButtonAriaLabel")}
+                aria-label={t("importButtonAriaLabel")}
                 onClick={(e) => {
                     if (isValidURL) {
                         setupEvent(e);
@@ -228,7 +234,7 @@ const URLImportTextField = (props) => {
                 startIcon={<PublishIcon />}
                 variant="contained"
             >
-                {fmt(intl, "importButtonText")}
+                {t("importButtonText")}
             </Button>
         </div>
     );
@@ -236,8 +242,9 @@ const URLImportTextField = (props) => {
 
 const URLImportDialog = (props) => {
     const classes = useStyles();
-    const { open, onClose, path, showErrorAnnouncer, intl } = props;
-
+    const { t } = useTranslation("urlImport");
+    const { open, onClose, path } = props;
+    const [submittedMsg, setSubmittedMsg] = useState();
     return (
         <Dialog
             fullWidth={true}
@@ -247,7 +254,7 @@ const URLImportDialog = (props) => {
             aria-labelledby={buildID(ids.BASE_ID, ids.TITLE)}
         >
             <DialogTitle id={buildID(ids.BASE_ID, ids.TITLE)}>
-                {fmt(intl, "title")}
+                {t("title")}
                 <IconButton
                     aria-label="close"
                     className={classes.closeDialog}
@@ -259,13 +266,19 @@ const URLImportDialog = (props) => {
 
             <DialogContent>
                 <Typography className={classes.instructions}>
-                    {fmt(intl, "instructions")}
+                    {t("instructions")}
                 </Typography>
+
                 <URLImportTextField
-                    intl={intl}
                     path={path}
-                    showErrorAnnouncer={showErrorAnnouncer}
+                    successCallback={(msg) => setSubmittedMsg(msg)}
                 />
+                {submittedMsg && (
+                    <>
+                        <CheckCircle size="small" color="primary" />
+                        <Typography component="span">{submittedMsg}</Typography>
+                    </>
+                )}
             </DialogContent>
 
             <DialogActions>
@@ -273,16 +286,13 @@ const URLImportDialog = (props) => {
                     onClick={onClose}
                     className={classes.close}
                     id={buildID(ids.BASE_ID, ids.CLOSE_DIALOG)}
-                    aria-label={fmt(intl, "doneButtonAriaLabel")}
+                    aria-label={t("doneButtonAriaLabel")}
                 >
-                    {fmt(intl, "doneButtonText")}
+                    {t("doneButtonText")}
                 </Button>
             </DialogActions>
         </Dialog>
     );
 };
 
-export default withI18N(
-    injectIntl(withErrorAnnouncer(URLImportDialog)),
-    intlData
-);
+export default URLImportDialog;

@@ -4,5 +4,9 @@
     "bagHelp": "Perform sharing or downloading operations on a set of items.",
     "download" : "Download",
     "share" : "Share",
-    "clearBag" : "Clear"
+    "clearBag" : "Clear",
+    "fetchBagError": "Error fetching bag contents",
+    "removeAllItemsError": "Error clearing bag contents",
+    "removeItemError": "Error remove item from bag",
+    "addItemError" : "Error adding item to bag"
 }

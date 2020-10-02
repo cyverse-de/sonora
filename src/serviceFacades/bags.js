@@ -29,38 +29,77 @@ export const useBag = () => {
     return useQuery(DEFAULT_BAG_QUERY_KEY, getDefaultBag);
 };
 
-export const useBagRemoveItems = () => {
+export const useBagRemoveItems = (
+    { handleError, handleSuccess, handleSettled } = {
+        handleError: (error) => {
+            console.log(error.message);
+        },
+        handleSuccess: null,
+        handleSettled: null,
+    }
+) => {
     const queryCache = useQueryCache();
+
+    const successFn = (data, variables) => {
+        if (handleSuccess) {
+            return handleSuccess(data, variables);
+        }
+
+        queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, {
+            items: [],
+        });
+    };
+
+    const settledFn = () => {
+        if (handleSettled) {
+            return handleSettled();
+        }
+
+        queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
+    };
+
     const [mutate] = useMutation(deleteDefaultBag, {
-        onSuccess: () => {
-            queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, {
-                items: [],
-            });
-        },
-        onError: (error) => {
-            console.log(`error from useBagRemoveItems: ${error}`);
-        },
-        onSettled: () => {
-            queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
-        },
+        onSuccess: successFn,
+        onError: handleError,
+        onSettled: settledFn,
     });
 
     return async () => await mutate();
 };
 
-export const useBagRemoveItem = (item) => {
+export const useBagRemoveItem = (
+    { handleError, handleSuccess, handleSettled } = {
+        handleError: (error) => {
+            console.log(error.message);
+        },
+        handleSuccess: null,
+        handleSettled: null,
+    }
+) => {
     const queryCache = useQueryCache();
+
+    const successFn = (data, variables) => {
+        if (handleSuccess) {
+            return handleSuccess(data, variables);
+        }
+
+        queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, data);
+    };
+
+    const settledFn = () => {
+        if (handleSettled) {
+            return handleSettled();
+        }
+
+        queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
+    };
+
     const [mutate] = useMutation(updateDefaultBag, {
-        onSuccess: (data, variables) => {
-            queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, data);
-        },
-        onError: (error) => {
-            console.log(`error from useBagRemoveItem: ${error}`);
-        },
-        onSettled: () => {
-            queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
-        },
+        onSuccess: successFn,
+        onError: handleError,
+        onSettled: settledFn,
     });
+
     return async (item) => {
         let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY);
         data.items = data.items.filter((i) => i.id !== item.id);
@@ -68,18 +107,37 @@ export const useBagRemoveItem = (item) => {
     };
 };
 
-export const useBagAddItem = (item) => {
+export const useBagAddItem = (
+    { handleError, handleSuccess, handleSettled } = {
+        handleError: (error) => {
+            console.log(error.message);
+        },
+        handleSuccess: null,
+        handleSettled: null,
+    }
+) => {
     const queryCache = useQueryCache();
+
+    const successFn = (data, variables) => {
+        if (handleSuccess) {
+            return handleSuccess(data, variables);
+        }
+
+        queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, data);
+    };
+
+    const settledFn = () => {
+        if (handleSettled) {
+            return handleSettled();
+        }
+
+        queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
+    };
+
     const [mutate] = useMutation(updateDefaultBag, {
-        onSuccess: (data, variables) => {
-            queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, data);
-        },
-        onError: (error) => {
-            console.log(`error from useBagAddItem: ${error}`);
-        },
-        onSettled: () => {
-            queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
-        },
+        onSuccess: successFn,
+        onError: handleError,
+        onSettled: settledFn,
     });
 
     return async (item) => {

@@ -30,6 +30,8 @@ import {
     ShoppingBasket as ShoppingBasketIcon,
 } from "@material-ui/icons";
 
+import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
+
 import SharingView from "../sharing";
 
 import * as facade from "../../serviceFacades/bags";
@@ -80,11 +82,16 @@ const BagSkeleton = () => (
     <Skeleton variant="rect" animation="wave" height={100} width="100%" />
 );
 
-const BagTab = ({ id, value, index, bagItems }) => {
+const BagTab = ({ id, value, index, bagItems, showErrorAnnouncer }) => {
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
     const [tabItems, setTabItems] = useState([]);
-    const removeItem = facade.useBagRemoveItem();
+
+    const removeItem = facade.useBagRemoveItem({
+        handleError: (error) => {
+            showErrorAnnouncer(t("removeItemError"), error);
+        },
+    });
 
     useEffect(() => {
         setTabItems(bagItems);
@@ -121,7 +128,7 @@ const BagTab = ({ id, value, index, bagItems }) => {
     );
 };
 
-export const BagUI = ({ items, isLoading }) => {
+export const BagUI = ({ items, isLoading, showErrorAnnouncer }) => {
     const { t } = useTranslation(["bags", "common"]);
     const [tabValue, setTabValue] = useState(0);
 
@@ -160,6 +167,7 @@ export const BagUI = ({ items, isLoading }) => {
                         index={0}
                         bagItems={downloadableItems}
                         translationKey="download"
+                        showErrorAnnouncer={showErrorAnnouncer}
                     />
 
                     <BagTab
@@ -167,6 +175,7 @@ export const BagUI = ({ items, isLoading }) => {
                         index={1}
                         bagItems={shareableItems}
                         translationKey="share"
+                        showErrorAnnouncer={showErrorAnnouncer}
                     />
                 </>
             )}
@@ -174,7 +183,7 @@ export const BagUI = ({ items, isLoading }) => {
     );
 };
 
-const Bag = ({ menuIconClass }) => {
+const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
     const theme = useTheme();
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
@@ -189,9 +198,11 @@ const Bag = ({ menuIconClass }) => {
     const [badgeCount, setBadgeCount] = useState(0);
     const [bagItems, setBagItems] = useState([]);
 
-    if (hasErrored) {
-        console.log(error.message);
-    }
+    useEffect(() => {
+        if (hasErrored) {
+            showErrorAnnouncer(t("fetchBagError"), error);
+        }
+    }, [hasErrored, error, showErrorAnnouncer, t]);
 
     useEffect(() => {
         setBagItems(data?.items || []);
@@ -258,7 +269,11 @@ const Bag = ({ menuIconClass }) => {
         setBagDlgOpen(false);
     };
 
-    const clearAll = facade.useBagRemoveItems();
+    const clearAll = facade.useBagRemoveItems({
+        handleError: (error) => {
+            showErrorAnnouncer(t("removeAllItemsError"), error);
+        },
+    });
 
     return (
         <>
@@ -299,7 +314,11 @@ const Bag = ({ menuIconClass }) => {
                 </DialogTitle>
 
                 <DialogContent dividers>
-                    <BagUI isLoading={isLoading} items={bagItems} />
+                    <BagUI
+                        isLoading={isLoading}
+                        items={bagItems}
+                        showErrorAnnouncer={showErrorAnnouncer}
+                    />
                 </DialogContent>
 
                 <DialogActions>
@@ -369,4 +388,4 @@ const Bag = ({ menuIconClass }) => {
 };
 
 export { FILE_TYPE, FOLDER_TYPE, ANALYSIS_TYPE, APP_TYPE };
-export default Bag;
+export default withErrorAnnouncer(Bag);

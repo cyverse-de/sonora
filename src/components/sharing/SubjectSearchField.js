@@ -17,7 +17,7 @@ import { useTranslation } from "i18n";
 import { isGroup } from "components/sharing/util";
 
 function SubjectSearchField(props) {
-    const { baseId, onUserSelected } = props;
+    const { baseId, onUserSelected, onSearchStart } = props;
     const { t } = useTranslation("sharing");
     const [searchTerm, setSearchTerm] = useState(null);
     const [options, setOptions] = useState([]);
@@ -43,6 +43,7 @@ function SubjectSearchField(props) {
         if (event) {
             const newSearchTerm = event.target.value;
             setSearchTerm(newSearchTerm);
+            newSearchTerm && onSearchStart();
         }
     };
 

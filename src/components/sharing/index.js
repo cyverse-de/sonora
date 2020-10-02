@@ -127,7 +127,8 @@ function Sharing(props) {
         }
     }, [resources]);
 
-    const addUser = (user) => {
+    const addUser = (user, onUserAdded) => {
+        onUserAdded();
         const id = user.id;
         const updatedUser = addMissingResourcesToUser(user, resources);
         setUserMap({
@@ -137,6 +138,7 @@ function Sharing(props) {
     };
 
     const onPermissionChange = (user, permission) => {
+        setErrorDetails(null);
         const userId = user.id;
 
         // Cannot update permissions for groups if data (which also means
@@ -163,24 +165,22 @@ function Sharing(props) {
         const userExist = userMap[user.id];
         const isSelf = user.id === userProfile.id;
         isSelf
-            ? announce({
-                  text: tSharing("cannotAddSelf"),
-                  variant: AnnouncerConstants.INFO,
+            ? setErrorDetails({
+                  message: tSharing("cannotAddSelf"),
               })
             : userExist
-            ? announce({
-                  text: tSharing("userAlreadyAdded"),
-                  variant: AnnouncerConstants.INFO,
+            ? setErrorDetails({
+                  message: tSharing("userAlreadyAdded"),
               })
             : isGroup(user) && hasData
-            ? announce({
-                  text: tSharing("dataGroupSharingDisabled"),
-                  variant: AnnouncerConstants.INFO,
+            ? setErrorDetails({
+                  message: tSharing("dataGroupSharingDisabled"),
               })
-            : addUser(user) && onUserAdded();
+            : addUser(user, onUserAdded);
     };
 
     const onRemoveUser = (user) => {
+        setErrorDetails(null);
         const updated = { ...userMap };
         delete updated[user.id];
 
@@ -268,13 +268,16 @@ function Sharing(props) {
                             <SubjectSearchField
                                 baseId={build(ids.DIALOG, ids.SEARCH_FIELD)}
                                 onUserSelected={onUserSelected}
+                                onSearchStart={() => setErrorDetails(null)}
                             />
                             {errorDetails && (
                                 <>
                                     <ErrorTypography
                                         errorMessage={errorDetails.message}
-                                        onDetailsClick={() =>
-                                            setErrorDialogOpen(true)
+                                        onDetailsClick={
+                                            errorDetails.error
+                                                ? () => setErrorDialogOpen(true)
+                                                : null
                                         }
                                     />
                                     <DEErrorDialog

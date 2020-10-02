@@ -158,7 +158,7 @@ function Documentation(props) {
 }
 
 function AppDoc(props) {
-    const { open, appId, systemId, onClose, baseId } = props;
+    const { open, appId, systemId, onClose, baseId, isMobile } = props;
     const [userProfile] = useUserProfile();
     const [documentation, setDocumentation] = useState(null);
     const [references, setReferences] = useState(null);
@@ -247,6 +247,7 @@ function AppDoc(props) {
                 onClose={handleClose}
                 disableBackdropClick
                 id={docBaseId}
+                fullScreen={isMobile}
             >
                 <DialogTitle>
                     {t("documentation")}

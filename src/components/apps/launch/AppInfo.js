@@ -194,6 +194,7 @@ const AppInfo = React.forwardRef((props, ref) => {
                                 systemId={app?.system_id}
                                 name={app?.name}
                                 onClose={() => setDocDialogOpen(false)}
+                                isMobile={isMobile}
                             />
                         </>
                     )}

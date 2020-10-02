@@ -16,6 +16,7 @@ import { useGotoOutputFolderLink } from "components/analyses/utils";
 import analysisStatus from "components/models/analysisStatus";
 import { useNotifications } from "contexts/pushNotifications";
 
+import NotificationsMenu from "../notifications/NotificationsMenu";
 import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
 
 import {
@@ -78,6 +79,7 @@ function Notifications(props) {
     const [currentNotification] = useNotifications();
     const theme = useTheme();
     const [unSeenCount, setUnSeenCount] = useState(0);
+    const [notificationMssg, setNotificationMssg] = useState(null);
 
     const displayAnalysisNotification = useCallback(
         (notification, status) => {
@@ -147,6 +149,7 @@ function Notifications(props) {
             if (message) {
                 const category = message.type;
                 displayNotification(message, category);
+                setNotificationMssg(message);
             }
         },
         [displayNotification]
@@ -157,6 +160,7 @@ function Notifications(props) {
     }, [currentNotification, handleMessage]);
 
     return (
+        <>
         <Tooltip title={t("newNotificationAriaLabel")} placement="bottom" arrow>
             <IconButton
                 id={build(ids.APP_BAR_BASE, ids.NOTIFICATION_BTN)}
@@ -168,7 +172,14 @@ function Notifications(props) {
                 </Badge>
             </IconButton>
         </Tooltip>
+
+        <NotificationsMenu
+            unSeenCount={unSeenCount}
+            notificationMssg={notificationMssg}
+        />
+        </>
     );
 }
 
 export default Notifications;
+

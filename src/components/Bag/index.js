@@ -30,6 +30,10 @@ import {
     ShoppingBasket as ShoppingBasketIcon,
 } from "@material-ui/icons";
 
+import { build as buildID } from "@cyverse-de/ui-lib";
+
+import constants from "./constants";
+
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 
 import SharingView from "../sharing";
@@ -275,13 +279,23 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         },
     });
 
+    const dialogID = buildID(constants.BASEID, constants.DIALOG);
     return (
         <>
-            <IconButton className={menuIconClass} onClick={handleMenuClick}>
+            <IconButton
+                className={menuIconClass}
+                onClick={handleMenuClick}
+                id={buildID(constants.BASEID, constants.MENU)}
+            >
                 <Badge
                     badgeContent={badgeCount}
                     invisible={badgeCount < 1}
                     color="error"
+                    id={buildID(
+                        constants.BASEID,
+                        constants.MENU,
+                        constants.BADGE
+                    )}
                 >
                     <ShoppingBasketIcon />
                 </Badge>
@@ -292,8 +306,9 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                 open={bagDlgOpen}
                 onClose={handleClose}
                 classes={{ paper: classes.paper }}
+                id={dialogID}
             >
-                <DialogTitle>
+                <DialogTitle id={buildID(dialogID, constants.TITLE)}>
                     {t("yourItemBag")}
 
                     <Typography
@@ -301,6 +316,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                         variant="body1"
                         color="textSecondary"
                         classes={{ root: classes.help }}
+                        id={buildID(dialogID, constants.TITLE, constants.HELP)}
                     >
                         {t("bagHelp")}
                     </Typography>
@@ -308,6 +324,12 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                     <IconButton
                         onClick={handleClose}
                         className={classes.closeButton}
+                        id={buildID(
+                            dialogID,
+                            constants.TITLE,
+                            constants.CLOSE,
+                            constants.button
+                        )}
                     >
                         <Close />
                     </IconButton>
@@ -323,7 +345,14 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
 
                 <DialogActions>
                     {fullScreen ? (
-                        <IconButton onClick={() => clearAll()}>
+                        <IconButton
+                            onClick={() => clearAll()}
+                            id={buildID(
+                                dialogID,
+                                constants.CLEARALL,
+                                constants.BUTTON
+                            )}
+                        >
                             <ClearAll />
                         </IconButton>
                     ) : (
@@ -334,13 +363,25 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                             startIcon={<Clear />}
                             size="small"
                             onClick={() => clearAll()}
+                            id={buildID(
+                                dialogID,
+                                constants.CLEARALL,
+                                constants.BUTTON
+                            )}
                         >
                             {t("clearBag")}
                         </Button>
                     )}
 
                     {fullScreen ? (
-                        <IconButton onClick={() => {}}>
+                        <IconButton
+                            onClick={() => {}}
+                            id={buildID(
+                                dialogID,
+                                constants.DOWNLOAD,
+                                constants.BUTTON
+                            )}
+                        >
                             <GetApp />
                         </IconButton>
                     ) : (
@@ -352,13 +393,25 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                             onClick={() => {}}
                             disabled={true}
                             size="small"
+                            id={buildID(
+                                dialogID,
+                                constants.DOWNLOAD,
+                                constants.BUTTON
+                            )}
                         >
                             {t("download")}
                         </Button>
                     )}
 
                     {fullScreen ? (
-                        <IconButton onClick={handleSharingClick}>
+                        <IconButton
+                            onClick={handleSharingClick}
+                            id={buildID(
+                                dialogID,
+                                constants.SHARE,
+                                constants.BUTTON
+                            )}
+                        >
                             <People />
                         </IconButton>
                     ) : (
@@ -369,6 +422,11 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                             startIcon={<People />}
                             onClick={handleSharingClick}
                             size="small"
+                            id={buildID(
+                                dialogID,
+                                constants.SHARE,
+                                constants.BUTTON
+                            )}
                         >
                             {t("share")}
                         </Button>

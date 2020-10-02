@@ -44,26 +44,22 @@ function getTimeStamp(time) {
 
 
 function NotificationLoading() {
-
-        return (
+    return (
+        <>
+            {arrayRows.map(() => (
             <>
-                {arrayRows.map(() => (
-                <>
-                    <Skeleton
-                        variant="rect"
-                        width={400}
-                        height={40}
-                    />
-                     <Divider/>
-                 </>
-                    ))}
-            </>
-        )
+                <Skeleton
+                    variant="rect"
+                    width={400}
+                    height={40}
+                />
+             </>
+                ))}
+        </>
+    )
 }
 
-function addNewNotification(notificationMssg) {
-    return;
-}
+
 
 function NotificationsMenu(props) {
     const { unSeenCount, notificationMssg} = props;
@@ -85,21 +81,18 @@ function NotificationsMenu(props) {
         queryKey: NOTIFICATIONS_KEY,
         queryFn: getNotifications,
         config: {
-            onSuccess: (results) => setNotifications(results),
+            onSuccess: (results) => setNotifications(results.messages),
             onError: (error) => ErrorComponent(),
         },
     });
 
+    function addNewNotification(notificationMssg) {
+        setNotifications([notificationMssg,...notifications])
+    }
+
     useEffect(() => {
         addNewNotification(notificationMssg);
     }, [notificationMssg, addNewNotification]);
-
-    const messages =
-        notifications &&
-        notifications.messages &&
-        notifications.messages.length > 0
-            ? notifications.messages
-            : [];
 
 
     if (isFetching) {
@@ -136,6 +129,7 @@ function NotificationsMenu(props) {
             </Menu>
         );
     }
+
     else {
         return (
             <Menu
@@ -154,7 +148,7 @@ function NotificationsMenu(props) {
                 </Typography>
                 <Divider/>
 
-                {messages.map((n) => (
+                {notifications.map((n) => (
                     <>
                     <MenuItem
                     id={build(baseDebugId, NotificationsMenu)}>
@@ -178,7 +172,7 @@ function NotificationsMenu(props) {
                     </>
 
                     ))}
-                <div>
+                    <div>
                     <Divider light/>
                     <Typography className={classes.footer}
                                 id={build(baseDebugId, ids.NOTIFICATION_TEXT, ids.NOTIFICATION_FOOTER)}

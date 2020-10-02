@@ -128,13 +128,39 @@ const AppInfo = React.forwardRef((props, ref) => {
                 <>
                     <Button
                         color="primary"
-                        variant="contained"
+                        variant={!isMobile ? "contained" : "text"}
                         size="small"
-                        style={{ marginRight: 8 }}
+                        style={{
+                            marginRight: !isMobile
+                                ? theme.spacing(0.5)
+                                : theme.spacing(0),
+                        }}
                         startIcon={<ArrowBack fontSize="small" />}
                         onClick={() => router.back()}
                     >
-                        {t("back")}
+                        <Hidden xsDown>{t("back")}</Hidden>
+                    </Button>
+                    <Button
+                        id={buildDebugId(baseId, ids.BUTTONS.DETAILS)}
+                        className={classes.detailsButton}
+                        onClick={() => setDetailsDrawerOpen(true)}
+                        variant={!isMobile ? "outlined" : "text"}
+                        size="small"
+                        startIcon={<Info color="primary" fontSize="small" />}
+                    >
+                        <Hidden xsDown>{i18nApps("details")}</Hidden>
+                    </Button>
+                    <Button
+                        id={buildDebugId(baseId, ids.BUTTONS.DOCUMENTATION)}
+                        className={classes.detailsButton}
+                        onClick={() => setDocDialogOpen(true)}
+                        variant={!isMobile ? "outlined" : "text"}
+                        size="small"
+                        startIcon={
+                            <MenuBook color="primary" fontSize="small" />
+                        }
+                    >
+                        <Hidden xsDown>{i18nApps("documentation")}</Hidden>
                     </Button>
                     {loadingError ? (
                         <LoadingErrorDisplay
@@ -145,39 +171,9 @@ const AppInfo = React.forwardRef((props, ref) => {
                         <Skeleton width={250} />
                     ) : (
                         <>
-                            {app?.name}
-                            <Button
-                                id={buildDebugId(baseId, ids.BUTTONS.DETAILS)}
-                                className={classes.detailsButton}
-                                onClick={() => setDetailsDrawerOpen(true)}
-                                variant="outlined"
-                                size="small"
-                                startIcon={
-                                    <Info color="primary" fontSize="small" />
-                                }
-                            >
-                                <Hidden xsDown>{i18nApps("details")}</Hidden>
-                            </Button>
-                            <Button
-                                id={buildDebugId(
-                                    baseId,
-                                    ids.BUTTONS.DOCUMENTATION
-                                )}
-                                className={classes.detailsButton}
-                                onClick={() => setDocDialogOpen(true)}
-                                variant="outlined"
-                                size="small"
-                                startIcon={
-                                    <MenuBook
-                                        color="primary"
-                                        fontSize="small"
-                                    />
-                                }
-                            >
-                                <Hidden xsDown>
-                                    {i18nApps("documentation")}
-                                </Hidden>
-                            </Button>
+                            <Typography variant={isMobile ? "subtitle2" : "h6"}>
+                                {app?.name}
+                            </Typography>
                             <DetailsDrawer
                                 appId={app?.id}
                                 systemId={app?.system_id}

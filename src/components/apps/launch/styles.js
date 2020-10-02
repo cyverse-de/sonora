@@ -65,6 +65,9 @@ export default (theme) => ({
     detailsButton: {
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1.5),
+        [theme.breakpoints.down("xs")]: {
+            margin: theme.spacing(0),
+        },
         float: "right",
     },
 });

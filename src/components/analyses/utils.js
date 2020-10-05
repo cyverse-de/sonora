@@ -176,6 +176,14 @@ const useGotoOutputFolderLink = (analysis) => {
     return [href, as];
 };
 
+const canShare = (selectedAnalyses) => {
+    return (
+        selectedAnalyses &&
+        selectedAnalyses.length > 0 &&
+        !selectedAnalyses.find((analysis) => !analysis.can_share)
+    );
+};
+
 export {
     getAnalysisUser,
     isInteractive,
@@ -185,6 +193,7 @@ export {
     allowAnalysesDelete,
     allowAnalysesRelaunch,
     allowAnalysisEdit,
+    canShare,
     getAnalysisRelaunchPage,
     getListingPath,
     openInteractiveUrl,

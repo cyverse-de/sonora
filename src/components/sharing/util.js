@@ -225,7 +225,8 @@ export const getUserMap = (responses, userInfos, resourceTotal) => {
 
             return permissions.reduce((userMap, permission) => {
                 const userId = getUserId(permission);
-                const currentUser = userMap[userId] || userInfos[userId];
+                const currentUser = userMap[userId] ||
+                    userInfos[userId] || { id: userId };
                 const permissionValue = permission.permission;
 
                 // Create an obj with the resource details and the user's
@@ -316,7 +317,8 @@ export const getResourceTotal = (resources) => {
  */
 export const getShareResponseValues = (resp) => {
     return (
-        resp[TYPE.DATA] ||
+        resp["sharing"] ||
+        resp["unshare"] ||
         resp[TYPE.APPS] ||
         resp[TYPE.ANALYSES] ||
         resp[TYPE.TOOLS]
@@ -406,4 +408,42 @@ export const getUnsharingUpdates = (originalUsers, userMap) => {
         }
         return acc;
     }, {});
+};
+
+export const formatSharedData = (selectedData) => {
+    const formattedData =
+        selectedData?.map(({ label, path, type }) => {
+            return {
+                label,
+                path,
+                type,
+            };
+        }) || [];
+
+    return { [TYPE.DATA]: formattedData };
+};
+
+export const formatSharedApps = (selectedApps) => {
+    const formattedApps =
+        selectedApps?.map(({ name, id, system_id }) => {
+            return {
+                name,
+                id,
+                system_id,
+            };
+        }) || [];
+
+    return { [TYPE.APPS]: formattedApps };
+};
+
+export const formatSharedAnalyses = (selectedAnalyses) => {
+    const formattedAnalyses =
+        selectedAnalyses?.map(({ name, id }) => {
+            return {
+                name,
+                id,
+            };
+        }) || [];
+
+    return { [TYPE.ANALYSES]: formattedAnalyses };
 };

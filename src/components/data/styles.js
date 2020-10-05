@@ -90,10 +90,10 @@ export default (theme) => ({
     },
 
     selectionDrawer: {
-        [theme.breakpoints.up("sm")]: {
-            width: "50%",
+        [theme.breakpoints.up("md")]: {
+            minWidth: "50%",
         },
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             width: "90%",
         },
         overflow: "hidden",

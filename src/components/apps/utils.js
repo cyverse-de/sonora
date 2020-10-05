@@ -4,6 +4,7 @@
  * Apps related utility functions.
  */
 import NavigationConstants from "../../common/NavigationConstants";
+import Permissions from "../models/Permissions";
 
 /**
  * Builds a path to the App Launch Wizard for the app with the given IDs.
@@ -44,4 +45,12 @@ export const useAppLaunchLink = (systemId, appId) => {
     const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch`;
     const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch`;
     return [href, as];
+};
+
+export const canShare = (apps) => {
+    return (
+        apps &&
+        apps.length > 0 &&
+        !apps.find((app) => app.permission !== Permissions.OWN)
+    );
 };

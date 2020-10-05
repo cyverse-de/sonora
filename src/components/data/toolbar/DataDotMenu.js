@@ -7,6 +7,7 @@
 import React, { useState } from "react";
 
 import ids from "../ids";
+import shareIds from "components/sharing/ids";
 import { isOwner, isWritable } from "../utils";
 import CreateFolderDialog from "../CreateFolderDialog";
 import UploadMenuItems from "./UploadMenuItems";
@@ -18,13 +19,11 @@ import {
     ListItemText,
     MenuItem,
 } from "@material-ui/core";
-import {
-    CreateNewFolder,
-    Delete as DeleteIcon,
-    Info,
-    ListAlt,
-} from "@material-ui/icons";
-import { useTranslation } from "react-i18next";
+import { CreateNewFolder, ListAlt } from "@material-ui/icons";
+import { useTranslation } from "i18n";
+import DetailsMenuItem from "../menuItems/DetailsMenuItem";
+import DeleteMenuItem from "../menuItems/DeleteMenuItem";
+import SharingMenuItem from "components/sharing/SharingMenuItem";
 
 function DataDotMenu(props) {
     const {
@@ -44,6 +43,8 @@ function DataDotMenu(props) {
         getSelectedResources,
         onCreateHTFileSelected,
         onCreateMultiInputFileSelected,
+        canShare,
+        setSharingDlgOpen,
     } = props;
     const { t } = useTranslation("data");
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
@@ -61,19 +62,12 @@ function DataDotMenu(props) {
                 ButtonProps={ButtonProps}
                 render={(onClose) => [
                     detailsEnabled && (
-                        <MenuItem
+                        <DetailsMenuItem
                             key={build(baseId, ids.DETAILS_MENU_ITEM)}
-                            id={build(baseId, ids.DETAILS_MENU_ITEM)}
-                            onClick={() => {
-                                onClose();
-                                onDetailsSelected();
-                            }}
-                        >
-                            <ListItemIcon>
-                                <Info fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText primary={t("details")} />
-                        </MenuItem>
+                            baseId={baseId}
+                            onClose={onClose}
+                            onDetailsSelected={onDetailsSelected}
+                        />
                     ),
                     detailsEnabled && (
                         <Divider
@@ -125,20 +119,21 @@ function DataDotMenu(props) {
                             />
                         </MenuItem>,
                     ],
+                    canShare && (
+                        <SharingMenuItem
+                            key={build(baseId, shareIds.SHARING_MENU_ITEM)}
+                            baseId={baseId}
+                            onClose={onClose}
+                            setSharingDlgOpen={setSharingDlgOpen}
+                        />
+                    ),
                     deleteMiEnabled && (
-                        <MenuItem
+                        <DeleteMenuItem
                             key={build(baseId, ids.DELETE_MENU_ITEM)}
-                            id={build(baseId, ids.DELETE_MENU_ITEM)}
-                            onClick={() => {
-                                onClose();
-                                onDeleteSelected();
-                            }}
-                        >
-                            <ListItemIcon>
-                                <DeleteIcon fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText primary={t("delete")} />
-                        </MenuItem>
+                            baseId={baseId}
+                            onClose={onClose}
+                            onDeleteSelected={onDeleteSelected}
+                        />
                     ),
                     <Divider
                         key={build(baseId, ids.UPLOAD_MENU_ITEM_DIVIDER)}

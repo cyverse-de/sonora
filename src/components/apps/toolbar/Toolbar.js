@@ -23,6 +23,9 @@ import {
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
 import { Info, FilterList as FilterListIcon } from "@material-ui/icons";
+import SharingButton from "components/sharing/SharingButton";
+import Sharing from "components/sharing";
+import { formatSharedApps } from "components/sharing/util";
 
 /**
  *
@@ -99,13 +102,17 @@ function AppsToolbar(props) {
         toggleDisplay,
         detailsEnabled,
         onDetailsSelected,
-        intl,
+        canShare,
+        selectedApps,
         baseId,
     } = props;
     const { t } = useTranslation("apps");
     const classes = useStyles();
     const appsToolbarId = build(baseId, ids.APPS_TOOLBAR);
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
+    const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
+
+    const sharingApps = formatSharedApps(selectedApps);
 
     return (
         <>
@@ -141,12 +148,12 @@ function AppsToolbar(props) {
                     <AppsTypeFilter
                         baseId={appsToolbarId}
                         classes={classes}
-                        intl={intl}
                         filter={filter}
                         handleFilterChange={handleFilterChange}
                         selectedCategory={selectedCategory}
                     />
-
+                </Hidden>
+                <Hidden smDown>
                     {detailsEnabled && (
                         <Button
                             id={build(appsToolbarId, ids.DETAILS_BTN)}
@@ -160,20 +167,29 @@ function AppsToolbar(props) {
                             {t("details")}
                         </Button>
                     )}
+                    {canShare && (
+                        <SharingButton
+                            baseId={baseId}
+                            setSharingDlgOpen={setSharingDlgOpen}
+                        />
+                    )}
                 </Hidden>
-                <AppsDotMenu
-                    baseId={appsToolbarId}
-                    detailsEnabled={detailsEnabled}
-                    onDetailsSelected={onDetailsSelected}
-                    onFilterSelected={() => setOpenFilterDialog(true)}
-                />
+                <Hidden mdUp>
+                    <AppsDotMenu
+                        baseId={appsToolbarId}
+                        detailsEnabled={detailsEnabled}
+                        onDetailsSelected={onDetailsSelected}
+                        onFilterSelected={() => setOpenFilterDialog(true)}
+                        canShare={canShare}
+                        setSharingDlgOpen={setSharingDlgOpen}
+                    />
+                </Hidden>
             </Toolbar>
             <Dialog open={openFilterDialog}>
                 <DialogContent>
                     <AppsTypeFilter
                         baseId={appsToolbarId}
                         classes={classes}
-                        intl={intl}
                         filter={filter}
                         handleFilterChange={handleFilterChange}
                         selectedCategory={selectedCategory}
@@ -185,6 +201,11 @@ function AppsToolbar(props) {
                     </Button>
                 </DialogActions>
             </Dialog>
+            <Sharing
+                open={sharingDlgOpen}
+                onClose={() => setSharingDlgOpen(false)}
+                resources={sharingApps}
+            />
         </>
     );
 }

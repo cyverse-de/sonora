@@ -10,6 +10,7 @@ import { useTranslation } from "i18n";
 import Link from "next/link";
 
 import ids from "../ids";
+import shareIds from "components/sharing/ids";
 
 import {
     isInteractive,
@@ -25,6 +26,7 @@ import {
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 import {
+    Hidden,
     ListItemIcon,
     ListItemText,
     MenuItem,
@@ -46,6 +48,7 @@ import {
     Save as SaveIcon,
     UnfoldMore as UnfoldMoreIcon,
 } from "@material-ui/icons";
+import SharingMenuItem from "../../sharing/SharingMenuItem";
 
 const RelaunchMenuItem = React.forwardRef((props, ref) => {
     const { baseId, onClick, href } = props;
@@ -106,6 +109,8 @@ function DotMenuItems(props) {
         allowEdit,
         onClose,
         selectedAnalyses,
+        canShare,
+        setSharingDlgOpen,
         isSingleSelection,
         onFilterSelected,
     } = props;
@@ -117,21 +122,31 @@ function DotMenuItems(props) {
         selectedAnalyses[0]
     );
     return [
-        isSingleSelection && (
-            <MenuItem
-                key={build(baseId, ids.MENUITEM_DETAILS)}
-                id={build(baseId, ids.MENUITEM_DETAILS)}
-                onClick={() => {
-                    onClose();
-                    onDetailsSelected();
-                }}
-            >
-                <ListItemIcon>
-                    <Info fontSize="small" />
-                </ListItemIcon>
-                <ListItemText primary={t("details")} />
-            </MenuItem>
-        ),
+        <Hidden mdUp>
+            {isSingleSelection && (
+                <MenuItem
+                    key={build(baseId, ids.MENUITEM_DETAILS)}
+                    id={build(baseId, ids.MENUITEM_DETAILS)}
+                    onClick={() => {
+                        onClose();
+                        onDetailsSelected();
+                    }}
+                >
+                    <ListItemIcon>
+                        <Info fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary={t("details")} />
+                </MenuItem>
+            )}
+            {canShare && (
+                <SharingMenuItem
+                    key={build(baseId, shareIds.SHARING_MENU_ITEM)}
+                    baseId={baseId}
+                    onClose={onClose}
+                    setSharingDlgOpen={setSharingDlgOpen}
+                />
+            )}
+        </Hidden>,
         isSingleSelection && (
             <Link href={outputFolderHref} as={outputFolderAs} passHref>
                 <OutputFolderMenuItem baseId={baseId} />
@@ -298,6 +313,8 @@ function AnalysesDotMenu({
     ButtonProps,
     username,
     getSelectedAnalyses,
+    canShare,
+    setSharingDlgOpen,
     ...props
 }) {
     // These props need to be spread down into DotMenuItems below.
@@ -344,6 +361,8 @@ function AnalysesDotMenu({
                     allowEdit={allowEdit}
                     onClose={onClose}
                     selectedAnalyses={selectedAnalyses}
+                    canShare={canShare}
+                    setSharingDlgOpen={setSharingDlgOpen}
                 />
             )}
         />

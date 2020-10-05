@@ -28,6 +28,8 @@ import UploadDropTarget from "components/uploads/UploadDropTarget";
 import { camelcaseit } from "common/functions";
 import { getLocalStorage } from "components/utils/localStorage";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import Sharing from "components/sharing";
+import { formatSharedData } from "components/sharing/util";
 
 import {
     useUploadTrackingState,
@@ -98,6 +100,7 @@ function Listing(props) {
 
     const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
     const [importDialogOpen, setImportDialogOpen] = useState(false);
+    const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
     const { t } = useTranslation("data");
 
     const onCloseImportDialog = () => setImportDialogOpen(false);
@@ -351,6 +354,8 @@ function Listing(props) {
         );
     };
 
+    const sharingData = formatSharedData(getSelectedResources());
+
     if (!infoTypes || infoTypes.length === 0) {
         const infoTypesCache = queryCache.getQueryData("dataFetchInfoTypes");
         if (infoTypesCache) {
@@ -395,21 +400,17 @@ function Listing(props) {
                     onCreateMultiInputFileSelected={() =>
                         onCreateMultiInputFileSelected(path)
                     }
+                    setSharingDlgOpen={setSharingDlgOpen}
                 />
                 {!isGridView && (
                     <TableView
                         loading={isLoading}
                         error={error || navError}
                         path={path}
-                        permission={data?.permission}
                         handlePathChange={handlePathChange}
                         listing={data?.listing}
                         baseId={baseId}
-                        detailsEnabled={detailsEnabled}
                         isInvalidSelection={isInvalidSelection}
-                        onDownloadSelected={onDownloadSelected}
-                        onEditSelected={onEditSelected}
-                        onMetadataSelected={onMetadataSelected}
                         onDeleteSelected={onDeleteSelected}
                         handleRequestSort={handleRequestSort}
                         handleSelectAllClick={handleSelectAllClick}
@@ -419,14 +420,7 @@ function Listing(props) {
                         order={order}
                         orderBy={orderBy}
                         selected={selected}
-                        setUploadDialogOpen={setUploadDialogOpen}
-                        setImportDialogOpen={setImportDialogOpen}
-                        localUploadId={localUploadId}
-                        uploadMenuId={build(
-                            baseId,
-                            ids.LISTING_TABLE,
-                            ids.UPLOAD_MENU
-                        )}
+                        setSharingDlgOpen={setSharingDlgOpen}
                     />
                 )}
                 {isGridView && <span>Coming Soon!</span>}
@@ -462,6 +456,11 @@ function Listing(props) {
                 path={path}
                 open={importDialogOpen}
                 onClose={onCloseImportDialog}
+            />
+            <Sharing
+                open={sharingDlgOpen}
+                onClose={() => setSharingDlgOpen(false)}
+                resources={sharingData}
             />
         </>
     );

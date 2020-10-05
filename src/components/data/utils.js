@@ -76,7 +76,7 @@ const isReadable = (permission) => {
 };
 
 const isOwner = (selectedResources) => {
-    if (!selectedResources) {
+    if (!selectedResources || selectedResources.length === 0) {
         return false;
     }
     const notOwners = selectedResources.filter(

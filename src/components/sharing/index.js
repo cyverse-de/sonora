@@ -83,6 +83,7 @@ function Sharing(props) {
         queryKey: [GET_PERMISSIONS_QUERY_KEY, { resources }],
         queryFn: getPermissions,
         config: {
+            enabled: open && resources !== null,
             onSuccess: (results) => {
                 setPermissions(results);
                 setUserIdList(getUserSet(results));
@@ -120,8 +121,17 @@ function Sharing(props) {
         }
     }, [resources]);
 
+    const getUserPrimaryText = (user) => {
+        const { email, id } = user;
+        return email || id;
+    };
+
     const getUserAvatar = (user) => {
-        return isGroup(user) ? <Group /> : user.email[0].toUpperCase();
+        return isGroup(user) ? (
+            <Group />
+        ) : (
+            getUserPrimaryText(user)[0].toUpperCase()
+        );
     };
 
     const addUser = (user) => {
@@ -190,7 +200,8 @@ function Sharing(props) {
             onSuccess: (results) => {
                 let failures = [];
                 results.forEach((type) => {
-                    const sharing = type.sharing || type.unsharing;
+                    const sharing =
+                        type.sharing || type.unshare || type.unsharing;
                     sharing.forEach((shares) => {
                         const updates = getShareResponseValues(shares);
                         const successFalse = updates.filter(
@@ -251,7 +262,7 @@ function Sharing(props) {
             <DialogContent>
                 {isLoading && (
                     <GridLoading
-                        rows={25}
+                        rows={5}
                         baseId={build(ids.DIALOG, ids.LOADING)}
                     />
                 )}
@@ -273,8 +284,9 @@ function Sharing(props) {
                                         const permissionSelector = () => (
                                             <FormControl
                                                 className={
-                                                    isMobile &&
-                                                    classes.mobilePermission
+                                                    isMobile
+                                                        ? classes.mobilePermission
+                                                        : null
                                                 }
                                             >
                                                 <SharingPermissionSelector
@@ -314,7 +326,9 @@ function Sharing(props) {
                                                     primaryText={
                                                         isGroup(user)
                                                             ? groupName(user)
-                                                            : user.email
+                                                            : getUserPrimaryText(
+                                                                  user
+                                                              )
                                                     }
                                                     secondaryText={
                                                         user.institution ||

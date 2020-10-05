@@ -18,7 +18,7 @@ import constants from "../../../constants";
 import DEPagination from "components/utils/DEPagination";
 import ResourceTypes from "components/models/ResourceTypes";
 import isQueryLoading from "components/utils/isQueryLoading";
-import URLImportDialog from "components/URLImportDialog";
+import URLImportDialog from "components/urlImport";
 import UploadDialog from "components/uploads/dialog";
 import {
     processSelectedFiles,

@@ -1,5 +1,5 @@
 import React from "react";
-import URLImportDialog from "../src/components/URLImportDialog";
+import URLImportDialog from "../src/components/urlImport";
 import { boolean, withKnobs } from "@storybook/addon-knobs";
 import { mockAxios } from "./axiosMock";
 

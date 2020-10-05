@@ -21,6 +21,7 @@ import {
     CheckCircle,
     Publish as PublishIcon,
     Close as CloseIcon,
+    Error,
 } from "@material-ui/icons";
 
 import {
@@ -31,6 +32,7 @@ import {
     DialogContent,
     DialogTitle,
     IconButton,
+    useTheme,
     TextField,
     Typography,
 } from "@material-ui/core";
@@ -95,11 +97,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const setupEvent = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-};
-
 const validURL = (possibleURL) => {
     let retval = true;
 
@@ -126,18 +123,20 @@ const urlFileName = (urlString) =>
 const URLImportTextField = (props) => {
     const classes = useStyles();
     const { t } = useTranslation("urlImport");
+
     const [uploadURL, setUploadURL] = useState("");
     const [isValidURL, setIsValidURL] = useState(false);
-    const [hasFirstFocused, setHasFirstFocused] = useState(false);
-    const [importError, setImportError] = useState();
 
-    const { path, successCallback } = props;
+    const { path, successCallback, errorCallback } = props;
 
     const [importUrl, { status }] = useMutation(uploadByUrl, {
         onSuccess: (resp) => {
             successCallback(t("fileImportSubmitted"));
+            errorCallback(null);
+            setUploadURL("");
         },
         onError: (error) => {
+            successCallback(null);
             const errorPath = getErrorData(error)?.path;
             const duplicateName = urlFileName(errorPath);
             const text =
@@ -147,18 +146,15 @@ const URLImportTextField = (props) => {
                           path: path,
                       })
                     : t("fileImportFail");
-            setImportError(text);
+            errorCallback(text);
         },
     });
 
-    const errored = !isValidURL && hasFirstFocused;
-
     const clickHandler = (event) => {
-        setupEvent(event);
         importUrl({ dest: path, address: uploadURL });
-        setUploadURL("");
         setIsValidURL(false);
-        successCallback(null);
+        successCallback(null); //clear previous success msgs
+        errorCallback(null); //clear previous error msgs
     };
 
     return (
@@ -172,11 +168,7 @@ const URLImportTextField = (props) => {
                 }}
                 aria-label={t("textFieldAriaLabel")}
                 className={classes.urlField}
-                error={errored || importError}
                 value={uploadURL}
-                onFocus={(e) => {
-                    setHasFirstFocused(true);
-                }}
                 InputProps={{
                     endAdornment: (
                         <>
@@ -187,31 +179,17 @@ const URLImportTextField = (props) => {
                     ),
                 }}
                 onBlur={(e) => {
-                    // If it's empty, we don't care if it's already been focused on.
-                    if (uploadURL === "") {
-                        setHasFirstFocused(false);
-                        successCallback(null);
-                    }
+                    successCallback(null);
+                    errorCallback(null);
                 }}
                 onChange={(e) => {
-                    setupEvent(e);
-
                     const possibleUploadURL = e.target.value.trim();
-
                     setIsValidURL(validURL(possibleUploadURL));
-
-                    // Could happen after submitting a URL with the 'Enter' key.
-                    if (!hasFirstFocused) {
-                        setHasFirstFocused(true);
-                    }
-
                     setUploadURL(possibleUploadURL);
                 }}
                 onKeyDown={(e) => {
                     if (e.key === "Enter" && isValidURL) {
-                        setupEvent(e);
                         clickHandler(e);
-                        setHasFirstFocused(false); // Prevents showing an error state after hitting Enter.
                     }
                 }}
             />
@@ -219,16 +197,14 @@ const URLImportTextField = (props) => {
                 aria-label={t("importButtonAriaLabel")}
                 onClick={(e) => {
                     if (isValidURL) {
-                        setupEvent(e);
                         clickHandler(e);
-                        setHasFirstFocused(false);
+                    } else {
+                        errorCallback(t("instructions"));
                     }
                 }}
                 color="primary"
                 classes={{
-                    root: !errored
-                        ? classes.importDefault
-                        : classes.importError,
+                    root: classes.importDefault,
                 }}
                 id={buildID(ids.BASE_ID, ids.IMPORT_BUTTON)}
                 startIcon={<PublishIcon />}
@@ -243,8 +219,12 @@ const URLImportTextField = (props) => {
 const URLImportDialog = (props) => {
     const classes = useStyles();
     const { t } = useTranslation("urlImport");
+    const theme = useTheme();
     const { open, onClose, path } = props;
+
     const [submittedMsg, setSubmittedMsg] = useState();
+    const [errorMsg, setErrorMsg] = useState();
+
     return (
         <Dialog
             fullWidth={true}
@@ -258,7 +238,11 @@ const URLImportDialog = (props) => {
                 <IconButton
                     aria-label="close"
                     className={classes.closeDialog}
-                    onClick={onClose}
+                    onClick={() => {
+                        setSubmittedMsg("");
+                        setErrorMsg("");
+                        onClose();
+                    }}
                 >
                     <CloseIcon />
                 </IconButton>
@@ -272,18 +256,38 @@ const URLImportDialog = (props) => {
                 <URLImportTextField
                     path={path}
                     successCallback={(msg) => setSubmittedMsg(msg)}
+                    errorCallback={(msg) => setErrorMsg(msg)}
                 />
                 {submittedMsg && (
                     <>
-                        <CheckCircle size="small" color="primary" />
-                        <Typography component="span">{submittedMsg}</Typography>
+                        <div style={{ float: "left" }}>
+                            <CheckCircle
+                                size="small"
+                                style={{ color: theme.palette.info.main }}
+                            />
+                        </div>
+                        <Typography variant="caption">
+                            {submittedMsg}
+                        </Typography>
+                    </>
+                )}
+                {errorMsg && (
+                    <>
+                        <div style={{ float: "left" }}>
+                            <Error size="small" color="error" />
+                        </div>
+                        <Typography variant="caption">{errorMsg}</Typography>
                     </>
                 )}
             </DialogContent>
 
             <DialogActions>
                 <Button
-                    onClick={onClose}
+                    onClick={() => {
+                        setSubmittedMsg("");
+                        setErrorMsg("");
+                        onClose();
+                    }}
                     className={classes.close}
                     id={buildID(ids.BASE_ID, ids.CLOSE_DIALOG)}
                     aria-label={t("doneButtonAriaLabel")}

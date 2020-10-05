@@ -68,7 +68,7 @@ export const dataShareResponse = {
     sharing: [
         {
             user: "joker",
-            paths: [
+            sharing: [
                 {
                     path: "/iplant/home/aramsey/CORE-9077-path.list",
                     permission: "read",
@@ -78,7 +78,7 @@ export const dataShareResponse = {
         },
         {
             user: "alfred",
-            paths: [
+            sharing: [
                 {
                     path: "/iplant/home/aramsey/CORE-9077-path.list",
                     permission: "own",
@@ -102,7 +102,7 @@ export const dataUnshareResponse = {
     unshare: [
         {
             user: "joker",
-            sharing: [
+            unshare: [
                 {
                     path: "/iplant/home/aramsey/CORE-9077-path.list",
                     success: true,

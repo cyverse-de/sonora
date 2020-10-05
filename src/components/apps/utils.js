@@ -48,9 +48,9 @@ export const useAppLaunchLink = (systemId, appId) => {
 };
 
 export const canShare = (apps) => {
-    return apps && apps.length > 0
-        ? apps.reduce((accumulator, app) => {
-              return accumulator && app.permission === Permissions.OWN;
-          }, true)
-        : false;
+    return (
+        apps &&
+        apps.length > 0 &&
+        !apps.find((app) => app.permission !== Permissions.OWN)
+    );
 };

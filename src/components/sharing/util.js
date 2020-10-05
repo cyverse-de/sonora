@@ -412,11 +412,11 @@ export const getUnsharingUpdates = (originalUsers, userMap) => {
 
 export const formatSharedData = (selectedData) => {
     const formattedData =
-        selectedData?.map((data) => {
+        selectedData?.map(({ label, path, type }) => {
             return {
-                label: data.label,
-                path: data.path,
-                type: data.type,
+                label,
+                path,
+                type,
             };
         }) || [];
 
@@ -425,11 +425,11 @@ export const formatSharedData = (selectedData) => {
 
 export const formatSharedApps = (selectedApps) => {
     const formattedApps =
-        selectedApps?.map((app) => {
+        selectedApps?.map(({ name, id, system_id }) => {
             return {
-                name: app.name,
-                id: app.id,
-                system_id: app.system_id,
+                name,
+                id,
+                system_id,
             };
         }) || [];
 
@@ -438,10 +438,10 @@ export const formatSharedApps = (selectedApps) => {
 
 export const formatSharedAnalyses = (selectedAnalyses) => {
     const formattedAnalyses =
-        selectedAnalyses?.map((analysis) => {
+        selectedAnalyses?.map(({ name, id }) => {
             return {
-                name: analysis.name,
-                id: analysis.id,
+                name,
+                id,
             };
         }) || [];
 

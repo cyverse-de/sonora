@@ -123,7 +123,7 @@ function Sharing(props) {
 
     const getUserPrimaryText = (user) => {
         const { email, id } = user;
-        return email ? email : id;
+        return email || id;
     };
 
     const getUserAvatar = (user) => {

@@ -177,11 +177,11 @@ const useGotoOutputFolderLink = (analysis) => {
 };
 
 const canShare = (selectedAnalyses) => {
-    return selectedAnalyses && selectedAnalyses.length > 0
-        ? selectedAnalyses.reduce((acc, analysis) => {
-              return acc && analysis.can_share;
-          }, true)
-        : false;
+    return (
+        selectedAnalyses &&
+        selectedAnalyses.length > 0 &&
+        !selectedAnalyses.find((analysis) => !analysis.can_share)
+    );
 };
 
 export {

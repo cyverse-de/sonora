@@ -19,12 +19,7 @@ import {
     ListItemText,
     MenuItem,
 } from "@material-ui/core";
-import {
-    CreateNewFolder,
-    Delete as DeleteIcon,
-    Info,
-    ListAlt,
-} from "@material-ui/icons";
+import { CreateNewFolder, ListAlt } from "@material-ui/icons";
 import { useTranslation } from "i18n";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DeleteMenuItem from "../menuItems/DeleteMenuItem";

@@ -30,5 +30,15 @@ export default function quickLaunchRouter() {
         })
     );
 
+    logger.info("adding the GET /quicklaunches/apps/:appId handler");
+    api.get(
+        "/quicklaunches",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/quicklaunches/apps/:appId",
+        })
+    );
+
     return api;
 }

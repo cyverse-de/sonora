@@ -8,4 +8,11 @@ function addQuickLaunch(quickLaunch) {
     });
 }
 
-export { addQuickLaunch };
+function listQuickLaunches(key, { appId }) {
+    return callApi({
+        endpoint: `/api/quicklaunches/apps/${appId}`,
+        method: "GET",
+    });
+}
+
+export { addQuickLaunch, listQuickLaunches };

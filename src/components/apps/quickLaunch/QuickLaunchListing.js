@@ -8,22 +8,24 @@
 
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
+import { useQuery, useMutation } from "react-query";
 
 import ids from "../ids";
 import constants from "../constants";
-import getHost from "components/utils/getHost";
+import { getHost } from "components/utils/getHost";
+import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
 import {
-    build,
-    CopyTextArea,
-    DEConfirmationDialog,
-    DEDialogHeader,
-    DEHyperlink,
-    LoadingMask,
-    QuickLaunch,
-} from "@cyverse-de/ui-lib";
+    QUICK_LAUNCH_LISTING,
+    listQuickLaunches,
+    deleteQuickLaunch,
+} from "serviceFacades/quickLaunches";
+import { useUserProfile } from "contexts/userProfile";
+
+import { build, CopyTextArea, QuickLaunch } from "@cyverse-de/ui-lib";
 
 import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
@@ -31,6 +33,7 @@ import Paper from "@material-ui/core/Paper";
 import Popover from "@material-ui/core/Popover";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
 
 import Code from "@material-ui/icons/Code";
 import Play from "@material-ui/icons/PlayArrow";
@@ -102,38 +105,45 @@ function ActionsPopper(props) {
 }
 
 function ListQuickLaunches(props) {
-    const {
-        quickLaunches,
-        systemId,
-        userName,
-        onDelete,
-        onQuickLaunch,
-        onCreate,
-        onSelection,
-        loading,
-        selected,
-        baseDebugId,
-    } = props;
+    const { appId, systemId, baseDebugId } = props;
     const { t } = useTranslation("apps");
+    const [userProfile] = useUserProfile();
     const [embedCode, setEmbedCode] = useState("");
     const [qLaunchUrl, setQLaunchUrl] = useState("");
     const [embedDialogOpen, setEmbedDialogOpen] = useState(false);
     const [shareDialogOpen, setShareDialogOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+    const [selected, setSelected] = useState();
+
+    const userName = userProfile?.id;
+
+    const { data: quickLaunches, error, isFetching } = useQuery({
+        queryKey: [QUICK_LAUNCH_LISTING, { appId }],
+        queryFn: listQuickLaunches,
+    });
 
     const quickLaunchClickHandler = (event, qLaunch) => {
-        onSelection(qLaunch);
+        setSelected(qLaunch);
         if (qLaunch.is_public) {
             setAnchorEl(event.currentTarget);
         } else {
-            onQuickLaunch(qLaunch);
+            //   onQuickLaunch(qLaunch);
         }
     };
 
     const useQuickLaunchClickHandler = () => {
-        onQuickLaunch(selected);
+        // onQuickLaunch(selected);
     };
+
+    const [deleteQuickLaunchMutation] = useMutation(deleteQuickLaunch, {
+        onSuccess: (resp, { onSuccess }) => {
+            console.log("quick launch deleted");
+        },
+        onError: (error) => {
+            console.log("unable to delete" + error);
+        },
+    });
 
     const embedCodeClickHandler = () => {
         const shareUrl = getShareUrl(selected.id);
@@ -164,7 +174,7 @@ function ListQuickLaunches(props) {
     };
 
     const deleteQuickLaunchHandler = (event, qLaunch) => {
-        onSelection(qLaunch);
+        setSelected(qLaunch);
         setDeleteConfirmOpen(true);
     };
 
@@ -175,10 +185,9 @@ function ListQuickLaunches(props) {
                     <Typography variant="subtitle2">
                         {t("noQuickLaunches")}
                     </Typography>
-                    <DEHyperlink
-                        text={t("createQuickLaunchLabel")}
-                        onClick={onCreate}
-                    />
+                    <Link component="button">
+                        {t("createQuickLaunchLabel")}
+                    </Link>
                 </React.Fragment>
             );
         } else {
@@ -192,46 +201,36 @@ function ListQuickLaunches(props) {
         return (
             <React.Fragment>
                 <Paper style={{ padding: 5 }} id={baseDebugId}>
-                    <LoadingMask loading={loading}>
-                        <Grid container spacing={1}>
-                            {quickLaunches.map((qLaunch, index) => {
-                                const id = build(baseDebugId, qLaunch.id);
-                                const is_public = qLaunch.is_public;
-                                const onDelete =
-                                    userName === qLaunch.creator
-                                        ? (event) =>
-                                              deleteQuickLaunchHandler(
-                                                  event,
-                                                  qLaunch
-                                              )
-                                        : undefined;
-                                return (
-                                    <Grid item key={index}>
-                                        <QuickLaunch
-                                            id={id}
-                                            label={qLaunch.name}
-                                            isPublic={is_public}
-                                            handleClick={(event) =>
-                                                quickLaunchClickHandler(
-                                                    event,
-                                                    qLaunch
-                                                )
-                                            }
-                                            handleDelete={
-                                                onDelete
-                                                    ? (event) =>
-                                                          onDelete(
-                                                              event,
-                                                              qLaunch
-                                                          )
-                                                    : undefined
-                                            }
-                                        />
-                                    </Grid>
-                                );
-                            })}
-                        </Grid>
-                    </LoadingMask>
+                    <Grid container spacing={1}>
+                        {quickLaunches.map((qLaunch, index) => {
+                            const id = build(baseDebugId, qLaunch.id);
+                            const is_public = qLaunch.is_public;
+                            const onDelete =
+                                userName === qLaunch.creator
+                                    ? (event) =>
+                                          deleteQuickLaunchHandler(
+                                              event,
+                                              qLaunch
+                                          )
+                                    : undefined;
+                            return (
+                                <Grid item key={index}>
+                                    <QuickLaunch
+                                        id={id}
+                                        label={qLaunch.name}
+                                        isPublic={is_public}
+                                        handleClick={(event) =>
+                                            quickLaunchClickHandler(
+                                                event,
+                                                qLaunch
+                                            )
+                                        }
+                                        handleDelete={onDelete}
+                                    />
+                                </Grid>
+                            );
+                        })}
+                    </Grid>
                 </Paper>
                 <ActionsPopper
                     anchorEl={anchorEl}
@@ -242,10 +241,7 @@ function ListQuickLaunches(props) {
                     onActionPopperClose={() => setAnchorEl(null)}
                 />
                 <Dialog open={embedDialogOpen} maxWidth="sm" fullWidth={true}>
-                    <DEDialogHeader
-                        heading={t("embedLbl")}
-                        onClose={() => setEmbedDialogOpen(false)}
-                    />
+                    <DialogTitle>{t("embedLbl")}</DialogTitle>
                     <DialogContent>
                         <CopyTextArea
                             debugIdPrefix={build(
@@ -258,10 +254,7 @@ function ListQuickLaunches(props) {
                     </DialogContent>
                 </Dialog>
                 <Dialog open={shareDialogOpen} maxWidth="sm" fullWidth={true}>
-                    <DEDialogHeader
-                        heading={t("shareLbl")}
-                        onClose={() => setShareDialogOpen(false)}
-                    />
+                    <DialogTitle>{t("shareLbl")}</DialogTitle>
                     <DialogContent>
                         <CopyTextArea
                             debugIdPrefix={build(
@@ -273,16 +266,16 @@ function ListQuickLaunches(props) {
                         />
                     </DialogContent>
                 </Dialog>
-                <DEConfirmationDialog
-                    debugId={baseDebugId}
-                    heading={t("deleteLbl")}
+                <ConfirmationDialog
+                    baseId={baseDebugId}
+                    title={t("deleteLbl")}
                     okLabel={t("deleteLbl")}
-                    message={t("quickLaunchDeleteConfirmation")}
-                    dialogOpen={deleteConfirmOpen}
-                    onCancelBtnClick={() => setDeleteConfirmOpen(false)}
-                    onOkBtnClick={() => {
+                    contentText={t("quickLaunchDeleteConfirmation")}
+                    open={deleteConfirmOpen}
+                    onClose={() => setDeleteConfirmOpen(false)}
+                    onConfirm={() => {
                         setDeleteConfirmOpen(false);
-                        onDelete(selected);
+                        deleteQuickLaunchMutation(selected?.id);
                     }}
                 />
             </React.Fragment>

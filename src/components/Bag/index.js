@@ -82,6 +82,9 @@ const useStyles = makeStyles((theme) => ({
         flexFlow: "row wrap",
         justifyContent: "flex-end",
     },
+    formControl: {
+        minWidth: theme.spacing(20),
+    },
 }));
 
 const BagSkeleton = () => (
@@ -90,6 +93,7 @@ const BagSkeleton = () => (
 
 export const BagUI = ({ items, isLoading, showErrorAnnouncer }) => {
     const { t } = useTranslation(["bags", "common"]);
+    const classes = useStyles();
     const [filterBy, setFilterBy] = useState(constants.FILTERBY.ALL);
     const [allItems, setAllItems] = useState([]);
     const [bagItems, setBagItems] = useState([]);
@@ -137,7 +141,7 @@ export const BagUI = ({ items, isLoading, showErrorAnnouncer }) => {
                 <BagSkeleton />
             ) : (
                 <>
-                    <FormControl>
+                    <FormControl className={classes.formControl}>
                         <InputLabel id={filterLabelID}>{t("show")}</InputLabel>
                         <Select
                             labelId={filterLabelID}
@@ -174,36 +178,25 @@ export const BagUI = ({ items, isLoading, showErrorAnnouncer }) => {
                         </Select>
                     </FormControl>
                     <List id={listID}>
-                        {bagItems.map((item) => {
+                        {bagItems.map((item, itemIndex) => {
+                            const itemID = buildID(listID, itemIndex);
                             return (
-                                <ListItem
-                                    key={item.id}
-                                    id={buildID(listID, item.id)}
-                                >
+                                <ListItem key={itemID} id={itemID}>
                                     <ListItemAvatar
-                                        id={buildID(
-                                            listID,
-                                            item.id,
-                                            constants.AVATAR
-                                        )}
+                                        id={buildID(itemID, constants.AVATAR)}
                                     >
                                         <Avatar>{item.icon(t)}</Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
                                         primary={item.label}
-                                        id={buildID(
-                                            listID,
-                                            item.id,
-                                            constants.LABEL
-                                        )}
+                                        id={buildID(itemID, constants.LABEL)}
                                     />
                                     <ListItemSecondaryAction>
                                         <IconButton
                                             edge="end"
                                             aria-label={t("delete")}
                                             id={buildID(
-                                                listID,
-                                                item.id,
+                                                itemID,
                                                 constants.DELETE
                                             )}
                                             onClick={(event) => {

@@ -10,5 +10,13 @@ export default {
     MENU: "menu",
     BADGE: "badge",
     TITLE: "title",
-    TAB: "tab",
+    LIST: "list",
+    FILTER: "filter",
+    SELECT: "select",
+    LABEL: "label",
+    FILTERBY: {
+        ALL: "all",
+        DOWNLOADABLE: "downloadable",
+        SHAREABLE: "shareable",
+    },
 };

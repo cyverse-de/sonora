@@ -14,11 +14,13 @@ import {
     ListItemText,
     ListItemSecondaryAction,
     makeStyles,
+    MenuItem,
     Button,
     useMediaQuery,
-    Tabs,
-    Tab,
+    Select,
     Typography,
+    FormControl,
+    InputLabel,
 } from "@material-ui/core";
 import {
     Delete,
@@ -86,10 +88,32 @@ const BagSkeleton = () => (
     <Skeleton variant="rect" animation="wave" height={100} width="100%" />
 );
 
-const BagTab = ({ id, value, index, bagItems, showErrorAnnouncer }) => {
-    const classes = useStyles();
+export const BagUI = ({ items, isLoading, showErrorAnnouncer }) => {
     const { t } = useTranslation(["bags", "common"]);
-    const [tabItems, setTabItems] = useState([]);
+    const [filterBy, setFilterBy] = useState(constants.FILTERBY.ALL);
+    const [allItems, setAllItems] = useState([]);
+    const [bagItems, setBagItems] = useState([]);
+
+    useEffect(() => {
+        setAllItems(items.map((item) => createNewBagItem(item)));
+    }, [items, setAllItems]);
+
+    useEffect(() => {
+        switch (filterBy) {
+            case constants.FILTERBY.SHAREABLE:
+                setBagItems(allItems.filter((item) => item.shareable));
+                break;
+
+            case constants.FILTERBY.DOWNLOADABLE:
+                setBagItems(allItems.filter((item) => item.downloadable));
+                break;
+
+            case constants.FILTERBY.ALL:
+            default:
+                setBagItems(allItems);
+                break;
+        }
+    }, [allItems, filterBy, setBagItems]);
 
     const removeItem = facade.useBagRemoveItem({
         handleError: (error) => {
@@ -97,59 +121,15 @@ const BagTab = ({ id, value, index, bagItems, showErrorAnnouncer }) => {
         },
     });
 
-    useEffect(() => {
-        setTabItems(bagItems);
-    }, [setTabItems, bagItems]);
-
-    return (
-        <div hidden={value !== index} id={id}>
-            <List classes={{ root: classes.list }}>
-                {tabItems.map((tabItem, tabIndex) => {
-                    return (
-                        <ListItem key={tabIndex}>
-                            <ListItemAvatar>
-                                <Avatar>{tabItem.icon(t)}</Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary={tabItem.label} />
-                            <ListItemSecondaryAction>
-                                <IconButton
-                                    edge="end"
-                                    aria-label={t("delete")}
-                                    onClick={(event) => {
-                                        event.stopPropagation();
-                                        event.preventDefault();
-                                        removeItem(tabItem);
-                                    }}
-                                >
-                                    <Delete />
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    );
-                })}
-            </List>
-        </div>
-    );
-};
-
-export const BagUI = ({ items, isLoading, showErrorAnnouncer }) => {
-    const { t } = useTranslation(["bags", "common"]);
-    const [tabValue, setTabValue] = useState(0);
-
-    const [shareableItems, setShareableItems] = useState([]);
-    const [downloadableItems, setDownloadableItems] = useState([]);
-
-    useEffect(() => {
-        const bagItems = items.map((item) => createNewBagItem(item));
-        setShareableItems(bagItems.filter((item) => item.shareable));
-        setDownloadableItems(bagItems.filter((item) => item.downloadable));
-    }, [items, isLoading]);
-
-    const handleTabChange = (event, newValue) => {
-        setTabValue(newValue);
+    const handleFilterChange = (event) => {
+        setFilterBy(event.target.value);
     };
 
-    const baseID = buildID(constants.BASEID, constants.DIALOG, constants.TAB);
+    const baseID = buildID(constants.BASEID, constants.DIALOG);
+    const filterID = buildID(baseID, constants.FILTER);
+    const filterLabelID = buildID(filterID, constants.LABEL);
+    const selectID = buildID(filterID, constants.SELECT);
+    const listID = buildID(baseID, constants.LIST);
 
     return (
         <>
@@ -157,34 +137,88 @@ export const BagUI = ({ items, isLoading, showErrorAnnouncer }) => {
                 <BagSkeleton />
             ) : (
                 <>
-                    <Tabs
-                        value={tabValue}
-                        onChange={handleTabChange}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        centered
-                    >
-                        <Tab label={t("download")} />
-                        <Tab label={t("share")}></Tab>
-                    </Tabs>
+                    <FormControl>
+                        <InputLabel id={filterLabelID}>{t("show")}</InputLabel>
+                        <Select
+                            labelId={filterLabelID}
+                            id={selectID}
+                            value={filterBy}
+                            onChange={handleFilterChange}
+                        >
+                            <MenuItem
+                                value={constants.FILTERBY.ALL}
+                                id={buildID(selectID, constants.FILTERBY.ALL)}
+                            >
+                                {t("all")}
+                            </MenuItem>
 
-                    <BagTab
-                        value={tabValue}
-                        index={0}
-                        bagItems={downloadableItems}
-                        translationKey="download"
-                        showErrorAnnouncer={showErrorAnnouncer}
-                        id={buildID(baseID, constants.DOWNLOAD)}
-                    />
+                            <MenuItem
+                                value={constants.FILTERBY.DOWNLOADABLE}
+                                id={buildID(
+                                    selectID,
+                                    constants.FILTERBY.DOWNLOADABLE
+                                )}
+                            >
+                                {t("downloadable")}
+                            </MenuItem>
 
-                    <BagTab
-                        value={tabValue}
-                        index={1}
-                        bagItems={shareableItems}
-                        translationKey="share"
-                        showErrorAnnouncer={showErrorAnnouncer}
-                        baseID={buildID(baseID, constants.SHARE)}
-                    />
+                            <MenuItem
+                                value={constants.FILTERBY.SHAREABLE}
+                                id={buildID(
+                                    selectID,
+                                    constants.FILTERBY.SHAREABLE
+                                )}
+                            >
+                                {t("shareable")}
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
+                    <List id={listID}>
+                        {bagItems.map((item) => {
+                            return (
+                                <ListItem
+                                    key={item.id}
+                                    id={buildID(listID, item.id)}
+                                >
+                                    <ListItemAvatar
+                                        id={buildID(
+                                            listID,
+                                            item.id,
+                                            constants.AVATAR
+                                        )}
+                                    >
+                                        <Avatar>{item.icon(t)}</Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary={item.label}
+                                        id={buildID(
+                                            listID,
+                                            item.id,
+                                            constants.LABEL
+                                        )}
+                                    />
+                                    <ListItemSecondaryAction>
+                                        <IconButton
+                                            edge="end"
+                                            aria-label={t("delete")}
+                                            id={buildID(
+                                                listID,
+                                                item.id,
+                                                constants.DELETE
+                                            )}
+                                            onClick={(event) => {
+                                                event.stopPropagation();
+                                                event.preventDefault();
+                                                removeItem(item);
+                                            }}
+                                        >
+                                            <Delete />
+                                        </IconButton>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            );
+                        })}
+                    </List>
                 </>
             )}
         </>

@@ -23,7 +23,7 @@ import {
     useMediaQuery,
     useTheme,
 } from "@material-ui/core";
-import { Close, Group } from "@material-ui/icons";
+import { Close } from "@material-ui/icons";
 import { useMutation, useQuery } from "react-query";
 
 import {
@@ -39,8 +39,8 @@ import {
 } from "./util";
 import { getUserInfo } from "serviceFacades/users";
 import { USER_INFO_QUERY_KEY } from "serviceFacades/filesystem";
-import isQueryLoading from "../utils/isQueryLoading";
-import GridLoading from "../utils/GridLoading";
+import isQueryLoading from "components/utils/isQueryLoading";
+import GridLoading from "components/utils/GridLoading";
 import ids from "./ids";
 import SharedItem from "./SharedItem";
 import SubjectSearchField from "./SubjectSearchField";
@@ -51,11 +51,11 @@ import {
     doSharingUpdates,
     GET_PERMISSIONS_QUERY_KEY,
     getPermissions,
-} from "../../serviceFacades/sharing";
+} from "serviceFacades/sharing";
 import styles from "./styles";
 import UserTable from "./UserTable";
-import ErrorTypography from "../utils/error/ErrorTypography";
-import DEErrorDialog from "../utils/error/DEErrorDialog";
+import ErrorTypography from "components/utils/error/ErrorTypography";
+import DEErrorDialog from "components/utils/error/DEErrorDialog";
 
 const useStyles = makeStyles(styles);
 

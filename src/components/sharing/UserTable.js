@@ -17,9 +17,8 @@ import {
     TableRow,
     TableSortLabel,
 } from "@material-ui/core";
-import { Group } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
-import { useTable, useSortBy } from "react-table";
+import { useSortBy, useTable } from "react-table";
 
 import { useTranslation } from "i18n";
 import { groupName, isGroup } from "./util";

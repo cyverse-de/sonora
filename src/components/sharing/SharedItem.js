@@ -9,7 +9,7 @@ import {
 } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 import ResourceTypes from "../models/ResourceTypes";
-import { useTranslation } from "../../i18n";
+import { useTranslation } from "i18n";
 import Identity from "../data/Identity";
 import styles from "./styles";
 

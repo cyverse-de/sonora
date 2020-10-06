@@ -79,7 +79,7 @@ function UserTable(props) {
                 },
             },
         ],
-        [baseId, t, onPermissionChange, onRemoveUser]
+        [baseId, t, onPermissionChange, onRemoveUser, classes.listItem]
     );
     const { getTableProps, headerGroups, rows, prepareRow } = useTable(
         {

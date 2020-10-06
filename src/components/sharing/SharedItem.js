@@ -24,9 +24,9 @@ const getItemDetails = (type, t, classes, subtype) => {
                 secondaryText: (resource) => resource.path,
                 icon:
                     subtype === ResourceTypes.FILE ? (
-                        <FileIcon />
+                        <FileIcon classes={{ root: classes.iconColor }} />
                     ) : (
-                        <FolderIcon />
+                        <FolderIcon classes={{ root: classes.iconColor }} />
                     ),
             };
         }
@@ -57,7 +57,7 @@ const getItemDetails = (type, t, classes, subtype) => {
                 idFn: (resource) => resource.id,
                 labelFn: (resource) => resource.name,
                 secondaryText: () => "",
-                icon: <ToolIcon />,
+                icon: <ToolIcon classes={{ root: classes.iconColor }} />,
             };
         }
         default:

@@ -17,6 +17,10 @@ export default (theme) => ({
         maxWidth: theme.spacing(2),
     },
 
+    iconColor: {
+        color: theme.palette.info.main,
+    },
+
     mobilePermission: {
         paddingLeft: theme.spacing(9),
         paddingBottom: theme.spacing(2),

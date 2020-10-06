@@ -20,7 +20,7 @@ import searchConstants from "./constants";
 import constants from "../../constants";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import NavigationConstants from "common/NavigationConstants";
-import { getParentPath } from "components/data/utils";
+import { useDataNavigationLink } from "components/data/utils";
 
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
@@ -173,6 +173,11 @@ function DataSearchOption(props) {
     const { baseId, filter, selectedOption, searchTerm } = props;
     const { t: i18NSearch } = useTranslation("search");
     const theme = useTheme();
+    const type = selectedOption._type;
+    const path = selectedOption._source?.path;
+    const resourceId = selectedOption._source?.id;
+    const name = selectedOption.name;
+    const [href, as] = useDataNavigationLink(path, resourceId, type);
 
     if (selectedOption?.id === searchConstants.VIEW_ALL_ID) {
         return (
@@ -186,26 +191,19 @@ function DataSearchOption(props) {
         );
     }
 
-    const type = selectedOption._type;
     let icon = <FolderIcon style={{ color: theme.palette.info.main }} />;
-    let path = selectedOption._source.path;
-
-    //SS route to parent folder for the file util we have file viewers ready in sonora.
     if (type === ResourceTypes.FILE) {
-        path = getParentPath(path);
         icon = <DescriptionIcon style={{ color: theme.palette.info.main }} />;
     }
 
-    const href = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}`;
-    const as = `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${path}`;
     return (
         <Link href={href} as={as} passHref>
             <SearchOption
-                primary={selectedOption.name}
-                secondary={selectedOption._source?.path}
+                primary={name}
+                secondary={path}
                 icon={icon}
                 searchTerm={searchTerm}
-                id={build(baseId, selectedOption._source.id)}
+                id={build(baseId, resourceId)}
             />
         </Link>
     );

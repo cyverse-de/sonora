@@ -32,7 +32,7 @@ export default function DataStore() {
     const router = useRouter();
     const query = router.query;
 
-    const isFile = query.file;
+    const isFile = query.type === ResourceTypes.FILE;
     const resourceId = query.resourceId;
     const createFile = query.createFile;
     const routerPathname = router.pathname;
@@ -68,8 +68,8 @@ export default function DataStore() {
                 path.concat(`/${viewerConstants.NEW_FILE_NAME}`)
             );
             router.push(
-                `${baseRoutingPath}${dynamicPathName}?file=true&createFile=${createFile}`,
-                `${baseRoutingPath}${encodedPath}?file=true&createFile=${createFile}`
+                `${baseRoutingPath}${dynamicPathName}?type=${ResourceTypes.FILE}&createFile=${createFile}`,
+                `${baseRoutingPath}${encodedPath}?type=${ResourceTypes.FILE}&createFile=${createFile}`
             );
         },
         [baseRoutingPath, router]
@@ -82,8 +82,8 @@ export default function DataStore() {
                 path.concat(`/${viewerConstants.NEW_FILE_NAME}`)
             );
             router.push(
-                `${baseRoutingPath}${dynamicPathName}?file=true&createFile=${createFile}`,
-                `${baseRoutingPath}${encodedPath}?file=true&createFile=${createFile}`
+                `${baseRoutingPath}${dynamicPathName}?type=${ResourceTypes.FILE}&createFile=${createFile}`,
+                `${baseRoutingPath}${encodedPath}?type=${ResourceTypes.FILE}&createFile=${createFile}`
             );
         },
         [baseRoutingPath, router]
@@ -93,8 +93,8 @@ export default function DataStore() {
         (path, resourceId) => {
             const encodedPath = getEncodedPath(path);
             router.push(
-                `${baseRoutingPath}${dynamicPathName}?file=true&resourceId=${resourceId}`,
-                `${baseRoutingPath}${encodedPath}?file=true&resourceId=${resourceId}`
+                `${baseRoutingPath}${dynamicPathName}?type=${ResourceTypes.FILE}&resourceId=${resourceId}`,
+                `${baseRoutingPath}${encodedPath}?type=${ResourceTypes.FILE}&resourceId=${resourceId}`
             );
         },
         [baseRoutingPath, router]

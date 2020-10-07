@@ -1,6 +1,7 @@
 export default {
     APP_NAME: "appName",
     DOT_MENU: "dotMenu",
+    DOCUMENTATION: "documentation",
     APP_INFO: "appInfo",
     FAVORITES: "favorites",
     APP_COMMENTS: "appComments",
@@ -50,4 +51,6 @@ export default {
         shareQuickLaunch: "shareQL",
         embedQuickLaunch: "embedQL",
     },
+    EDIT_BTN: "editButton",
+    SAVE_BTN: "saveButton",
 };

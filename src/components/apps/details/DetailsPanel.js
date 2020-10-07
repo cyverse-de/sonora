@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "i18n";
 
 import GridLabelValue from "components/utils/GridLabelValue";
+
 import ids from "../ids";
 
 import { build, formatDate, Rate } from "@cyverse-de/ui-lib";

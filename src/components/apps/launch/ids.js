@@ -32,6 +32,8 @@ export default {
         ADD: "addBtn",
         CONTACT_SUPPORT: "contactSupportBtn",
         DELETE: "deleteBtn",
+        DETAILS: "details",
+        DOCUMENTATION: "documentation",
         EXPAND: "expand",
         HELPER_TEXT: "helper-text",
         SAVE_AS_QUICK_LAUNCH: "saveQuickLaunch",

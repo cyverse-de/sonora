@@ -1,4 +1,5 @@
 import React from "react";
+import { mockAxios } from "../../axiosMock";
 
 import AppLaunchWizard from "../../../src/components/apps/launch/AppLaunchWizard";
 
@@ -10,9 +11,22 @@ import {
     submitAnalysis,
 } from "./constants";
 
+import { appDetails, listingById, appDocumentation } from "../AppMocks";
+
 export default (props) => {
     initMockAxiosFileFolderSelector();
+    const { app } = props;
+    mockAxios
+        .onGet(`/api/apps/${app?.system_id}/${app?.id}/details`)
+        .reply(200, appDetails);
 
+    mockAxios
+        .onGet(`/api/apps/${app?.system_id}/${app?.id}/listing`)
+        .reply(200, listingById);
+
+    mockAxios
+        .onGet(`/api/apps/${app?.system_id}/${app?.id}/documentation`)
+        .reply(200, appDocumentation);
     return (
         <AppLaunchWizard
             notify={false}

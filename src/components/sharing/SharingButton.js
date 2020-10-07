@@ -23,7 +23,7 @@ function SharingButton(props) {
 
     return (
         <Button
-            id={build(baseId, ids.SHARE_BTN)}
+            id={build(baseId, ids.BUTTONS.SHARE)}
             variant="outlined"
             disableElevation
             color="primary"

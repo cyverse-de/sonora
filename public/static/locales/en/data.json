@@ -47,7 +47,7 @@
     "fileSaveSuccess": "{{fileName}} saved successfully.",
     "gridView": "Grid View",
     "importCoge": "Import Genome from CoGe",
-    "importUrl": "Import by URL",
+    "importUrl": "Import from URL",
     "infoType": "Info Type",
     "infoTypeFetchError": "Unable to fetch info types",
     "invalidSelection": "Only {{context}}s permitted. Invalid selections: {{count}}",

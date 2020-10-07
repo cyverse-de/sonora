@@ -126,9 +126,7 @@ const AppInfo = React.forwardRef((props, ref) => {
                 variant={isMobile ? "text" : "contained"}
                 size="small"
                 style={{
-                    margin: !isMobile
-                        ? theme.spacing(0.5)
-                        : theme.spacing(0),
+                    margin: isMobile ? theme.spacing(0) : theme.spacing(0.5),
                 }}
                 startIcon={<ArrowBack fontSize="small" />}
                 onClick={() => router.back()}
@@ -139,7 +137,7 @@ const AppInfo = React.forwardRef((props, ref) => {
                 id={buildDebugId(baseId, ids.BUTTONS.DETAILS)}
                 className={classes.detailsButton}
                 onClick={() => setDetailsDrawerOpen(true)}
-                variant={!isMobile ? "outlined" : "text"}
+                variant={isMobile ? "text" : "outlined"}
                 size="small"
                 startIcon={<Info color="primary" fontSize="small" />}
             >
@@ -149,7 +147,7 @@ const AppInfo = React.forwardRef((props, ref) => {
                 id={buildDebugId(baseId, ids.BUTTONS.DOCUMENTATION)}
                 className={classes.detailsButton}
                 onClick={() => setDocDialogOpen(true)}
-                variant={!isMobile ? "outlined" : "text"}
+                variant={isMobile ? "text" : "outlined"}
                 size="small"
                 startIcon={<MenuBook color="primary" fontSize="small" />}
             >
@@ -172,22 +170,6 @@ const AppInfo = React.forwardRef((props, ref) => {
                             {app?.name}
                         </Typography>
                     )}
-                    <DetailsDrawer
-                        appId={app?.id}
-                        systemId={app?.system_id}
-                        open={detailsDrawerOpen}
-                        onClose={() => setDetailsDrawerOpen(false)}
-                        baseId={buildDebugId(baseId, ids.BUTTONS.DETAILS)}
-                    />
-                    <AppDoc
-                        baseId={buildDebugId(baseId, ids.BUTTONS.DOCUMENTATION)}
-                        open={docDialogOpen}
-                        appId={app?.id}
-                        systemId={app?.system_id}
-                        name={app?.name}
-                        onClose={() => setDocDialogOpen(false)}
-                        isMobile={isMobile}
-                    />
                 </>
             </Typography>
             <Hidden xsDown>
@@ -209,6 +191,22 @@ const AppInfo = React.forwardRef((props, ref) => {
                     />
                 )}
             </Box>
+            <DetailsDrawer
+                appId={app?.id}
+                systemId={app?.system_id}
+                open={detailsDrawerOpen}
+                onClose={() => setDetailsDrawerOpen(false)}
+                baseId={buildDebugId(baseId, ids.BUTTONS.DETAILS)}
+            />
+            <AppDoc
+                baseId={buildDebugId(baseId, ids.BUTTONS.DOCUMENTATION)}
+                open={docDialogOpen}
+                appId={app?.id}
+                systemId={app?.system_id}
+                name={app?.name}
+                onClose={() => setDocDialogOpen(false)}
+                isMobile={isMobile}
+            />
         </div>
     );
 });

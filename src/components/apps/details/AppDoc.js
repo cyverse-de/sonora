@@ -36,6 +36,7 @@ import {
     TextField,
     Tooltip,
     Typography,
+    useTheme,
 } from "@material-ui/core";
 
 import CloseIcon from "@material-ui/icons/Close";
@@ -84,7 +85,7 @@ function Documentation(props) {
     };
 
     if (loading) {
-        return <GridLoading rows={5} baseId="baseId" />;
+        return <GridLoading rows={5} baseId={baseId} />;
     }
 
     if (error) {
@@ -125,7 +126,7 @@ function Documentation(props) {
                         onChange={(event) => onDocChange(event.target.value)}
                     />
                 )}
-                {editable && isViewMode  && (
+                {editable && isViewMode && (
                     <Tooltip title={t("edit")}>
                         <Fab
                             id={buildDebugId(baseId, ids.EDIT_BTN)}
@@ -175,6 +176,8 @@ function AppDoc(props) {
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
     const { t } = useTranslation("apps");
+    const theme = useTheme();
+
     const enabled = appId != null && systemId !== null;
     const docBaseId = buildDebugId(baseId, ids.DOCUMENTATION);
 
@@ -253,8 +256,8 @@ function AppDoc(props) {
                         onClick={handleClose}
                         style={{
                             position: "absolute",
-                            right: 8,
-                            top: 8,
+                            right: theme.spacing(0.5),
+                            top: theme.spacing(0.5),
                             margin: 0,
                         }}
                     >

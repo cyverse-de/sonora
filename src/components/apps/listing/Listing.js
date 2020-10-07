@@ -17,6 +17,10 @@ import DEPagination from "components/utils/DEPagination";
 
 import constants from "../../../constants";
 
+import { useBagAddItems } from "serviceFacades/bags";
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import { useTranslation } from "i18n";
+
 import {
     getApps,
     getAppById,
@@ -41,7 +45,9 @@ function Listing({
     selectedOrderBy,
     selectedFilter,
     selectedCategory,
+    showErrorAnnouncer,
 }) {
+    const { t } = useTranslation(["apps", "common"]);
     const [isGridView, setGridView] = useState(false);
 
     const [order, setOrder] = useState(selectedOrder);
@@ -59,6 +65,7 @@ function Listing({
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [detailsApp, setDetailsApp] = useState(null);
+    const [addToBagEnabled, setAddToBagEnabled] = useState(false);
 
     const [categoryStatus, setCategoryStatus] = useState(false);
     const [navError, setNavError] = useState(null);
@@ -232,6 +239,10 @@ function Listing({
         setDetailsEnabled(enabled);
     }, [selected]);
 
+    useEffect(() => {
+        setAddToBagEnabled(selected && selected.length > 0);
+    }, [selected]);
+
     const toggleDisplay = () => {
         setGridView(!isGridView);
     };
@@ -331,6 +342,23 @@ function Listing({
         setDetailsOpen(true);
     };
 
+    const addItemsToBag = useBagAddItems({
+        handleError: (error) => {
+            showErrorAnnouncer(t("addToBagError"), error);
+        },
+        handleSettled: () => {
+            setSelected([]);
+        },
+    });
+
+    const onAddToBagClicked = async () => {
+        const items = getSelectedApps().map((item) => ({
+            ...item,
+            type: "app",
+        }));
+        addItemsToBag(items);
+    };
+
     const handleAppNavError = useCallback(
         (error) => {
             setNavError(error);
@@ -375,6 +403,8 @@ function Listing({
                 toggleDisplay={toggleDisplay}
                 detailsEnabled={detailsEnabled}
                 onDetailsSelected={onDetailsSelected}
+                addToBagEnabled={addToBagEnabled}
+                onAddToBagClicked={onAddToBagClicked}
                 canShare={shareEnabled}
                 selectedApps={getSelectedApps()}
             />
@@ -424,4 +454,4 @@ function Listing({
     );
 }
 
-export default Listing;
+export default withErrorAnnouncer(Listing);

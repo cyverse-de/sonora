@@ -32,7 +32,7 @@ export const useBag = () => {
 export const useBagRemoveItems = (
     { handleError, handleSuccess, handleSettled } = {
         handleError: (error) => {
-            console.log(error.message);
+            console.log(`error from useBagRemoveItems: ${error.message}`);
         },
         handleSuccess: null,
         handleSettled: null,
@@ -70,7 +70,7 @@ export const useBagRemoveItems = (
 export const useBagRemoveItem = (
     { handleError, handleSuccess, handleSettled } = {
         handleError: (error) => {
-            console.log(error.message);
+            console.log(`error from useBagRemoveItem: ${error.message}`);
         },
         handleSuccess: null,
         handleSettled: null,
@@ -101,7 +101,9 @@ export const useBagRemoveItem = (
     });
 
     return async (item) => {
-        let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY);
+        let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY) || {
+            items: [],
+        };
         data.items = data.items.filter((i) => i.id !== item.id);
         return await mutate(data);
     };
@@ -110,7 +112,7 @@ export const useBagRemoveItem = (
 export const useBagAddItem = (
     { handleError, handleSuccess, handleSettled } = {
         handleError: (error) => {
-            console.log(error.message);
+            console.log(`error from useBagAddItem: ${error.message}`);
         },
         handleSuccess: null,
         handleSettled: null,
@@ -141,8 +143,52 @@ export const useBagAddItem = (
     });
 
     return async (item) => {
-        let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY);
+        let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY) || {
+            items: [],
+        };
         data.items = [...data.items, item];
+        return await mutate(data);
+    };
+};
+
+export const useBagAddItems = (
+    { handleError, handleSuccess, handleSettled } = {
+        handleError: (error) => {
+            console.log(`error from useBagAddItems: ${error.message}`);
+        },
+        handleSuccess: null,
+        handleSettled: null,
+    }
+) => {
+    const queryCache = useQueryCache();
+
+    const successFn = (data, variables) => {
+        queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, data);
+
+        if (handleSuccess) {
+            handleSuccess(data, variables);
+        }
+    };
+
+    const settledFn = () => {
+        queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
+
+        if (handleSettled) {
+            handleSettled();
+        }
+    };
+
+    const [mutate] = useMutation(updateDefaultBag, {
+        onSuccess: successFn,
+        onError: handleError,
+        onSettled: settledFn,
+    });
+
+    return async (items) => {
+        let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY) || {
+            items: [],
+        };
+        data.items = [...data.items, ...items];
         return await mutate(data);
     };
 };

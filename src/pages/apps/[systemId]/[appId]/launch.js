@@ -35,8 +35,7 @@ export default function Launch() {
     const [launchError, setLaunchError] = React.useState(null);
 
     const router = useRouter();
-    const qId = router.qId;
-    const { systemId, appId } = router.query;
+    const { systemId, appId, qId } = router.query;
 
     React.useEffect(() => {
         const hasIds = !!(systemId && appId);
@@ -49,6 +48,7 @@ export default function Launch() {
             setAppKey([QUICK_LAUNCH_APP_INFO, { qId }]);
         } else if (hasIds) {
             setQuickLaunchAppDescriptionQueryEnabled(false);
+            setAppDescriptionQueryEnabled(true);
             setAppKey([
                 APP_DESCRIPTION_QUERY_KEY,
                 {

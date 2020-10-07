@@ -72,6 +72,7 @@
     "qLaunchShareToolTip": "Share Quick Launch URL",
     "qLaunchToolTip": "Use this Quick Launch",
     "quickLaunch": "Quick Launch",
+    "quickLaunchError": "Unable to get Quick Launch.",
     "quickLaunchDeleteConfirmation": "Do you wish to delete this Quick Launch? Note: Deleting a public Quick Launch will break embedded and shared links.",
     "quickLaunchLabel": "Quick Launch",
     "quickLaunchNameLabel": "Name",

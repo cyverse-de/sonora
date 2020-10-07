@@ -43,9 +43,9 @@ function deleteQuickLaunch(qid) {
  * @param {*} key
  * @param {*} param1
  */
-function getAppInfo(key, { qid }) {
+function getAppInfo(key, { qId }) {
     return callApi({
-        endpoint: `/api/quicklaunches/${qid}/app-info`,
+        endpoint: `/api/quicklaunches/${qId}/app-info`,
         method: "GET",
     });
 }

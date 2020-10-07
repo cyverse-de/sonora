@@ -52,7 +52,7 @@ export default function quickLaunchRouter() {
 
     logger.info("adding the GET /quicklaunches/:qId/app-info handler");
     api.get(
-        "/quicklaunches/:qId",
+        "/quicklaunches/:qId/app-info",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",

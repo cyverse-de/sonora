@@ -14,6 +14,8 @@ export default {
     FILTER: "filter",
     SELECT: "select",
     LABEL: "label",
+    AVATAR: "avatar",
+    DELETE: "delete",
     FILTERBY: {
         ALL: "all",
         DOWNLOADABLE: "downloadable",

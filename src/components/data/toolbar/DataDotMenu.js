@@ -45,6 +45,7 @@ function DataDotMenu(props) {
         onCreateMultiInputFileSelected,
         canShare,
         setSharingDlgOpen,
+        isMobile,
     } = props;
     const { t } = useTranslation("data");
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
@@ -61,99 +62,129 @@ function DataDotMenu(props) {
                 baseId={baseId}
                 ButtonProps={ButtonProps}
                 render={(onClose) => [
-                    detailsEnabled && (
-                        <DetailsMenuItem
-                            key={build(baseId, ids.DETAILS_MENU_ITEM)}
-                            baseId={baseId}
-                            onClose={onClose}
-                            onDetailsSelected={onDetailsSelected}
-                        />
-                    ),
-                    detailsEnabled && (
-                        <Divider
-                            key={build(baseId, ids.DETAILS_MENU_ITEM_DIVIDER)}
-                        />
-                    ),
-                    isWritable(permission) && [
-                        <MenuItem
-                            key={build(baseId, ids.CREATE_FOLDER_MI)}
-                            id={build(baseId, ids.CREATE_FOLDER_MI)}
-                            onClick={() => {
-                                onClose();
-                                onCreateFolderClicked();
-                            }}
-                        >
-                            <ListItemIcon>
-                                <CreateNewFolder fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText primary={t("folder")} />
-                        </MenuItem>,
-                        <MenuItem
-                            key={build(baseId, ids.CREATE_HT_FILE_MI)}
-                            id={build(baseId, ids.CREATE_HT_FILE_MI)}
-                            onClick={() => {
-                                onClose();
-                                onCreateHTFileSelected();
-                            }}
-                        >
-                            <ListItemIcon>
-                                <ListAlt fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText
-                                primary={t("newHTAnalysisPathListFile")}
-                            />
-                        </MenuItem>,
-                        <MenuItem
-                            key={build(baseId, ids.CREATE_MULTI_INPUT_MI)}
-                            id={build(baseId, ids.CREATE_MULTI_INPUT_MI)}
-                            onClick={() => {
-                                onClose();
-                                onCreateMultiInputFileSelected();
-                            }}
-                        >
-                            <ListItemIcon>
-                                <ListAlt fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText
-                                primary={t("newMultiInputPathListFile")}
-                            />
-                        </MenuItem>,
-                    ],
-                    canShare && (
-                        <SharingMenuItem
-                            key={build(baseId, shareIds.SHARING_MENU_ITEM)}
-                            baseId={baseId}
-                            onClose={onClose}
-                            setSharingDlgOpen={setSharingDlgOpen}
-                        />
-                    ),
-                    deleteMiEnabled && (
-                        <DeleteMenuItem
-                            key={build(baseId, ids.DELETE_MENU_ITEM)}
-                            baseId={baseId}
-                            onClose={onClose}
-                            onDeleteSelected={onDeleteSelected}
-                        />
-                    ),
-                    <Divider
-                        key={build(baseId, ids.UPLOAD_MENU_ITEM_DIVIDER)}
-                    />,
-                    isWritable(permission) && (
-                        <UploadMenuItems
-                            key={build(baseId, ids.UPLOAD_MENU_ITEM)}
-                            localUploadId={localUploadId}
-                            uploadMenuId={uploadMenuId}
-                            onBrowseLocal={onClose}
-                            onImportFromURL={() => {
-                                onClose();
-                                setImportDialogOpen(true);
-                            }}
-                            onUploadQueue={() => {
-                                onClose();
-                                setUploadDialogOpen(true);
-                            }}
-                        />
-                    ),
+                    isMobile
+                        ? [
+                              detailsEnabled && (
+                                  <DetailsMenuItem
+                                      key={build(baseId, ids.DETAILS_MENU_ITEM)}
+                                      baseId={baseId}
+                                      onClose={onClose}
+                                      onDetailsSelected={onDetailsSelected}
+                                  />
+                              ),
+                              detailsEnabled && (
+                                  <Divider
+                                      key={build(
+                                          baseId,
+                                          ids.DETAILS_MENU_ITEM_DIVIDER
+                                      )}
+                                  />
+                              ),
+                              isWritable(permission) && [
+                                  <MenuItem
+                                      key={build(baseId, ids.CREATE_FOLDER_MI)}
+                                      id={build(baseId, ids.CREATE_FOLDER_MI)}
+                                      onClick={() => {
+                                          onClose();
+                                          onCreateFolderClicked();
+                                      }}
+                                  >
+                                      <ListItemIcon>
+                                          <CreateNewFolder fontSize="small" />
+                                      </ListItemIcon>
+                                      <ListItemText primary={t("folder")} />
+                                  </MenuItem>,
+                                  <MenuItem
+                                      key={build(baseId, ids.CREATE_HT_FILE_MI)}
+                                      id={build(baseId, ids.CREATE_HT_FILE_MI)}
+                                      onClick={() => {
+                                          onClose();
+                                          onCreateHTFileSelected();
+                                      }}
+                                  >
+                                      <ListItemIcon>
+                                          <ListAlt fontSize="small" />
+                                      </ListItemIcon>
+                                      <ListItemText
+                                          primary={t(
+                                              "newHTAnalysisPathListFile"
+                                          )}
+                                      />
+                                  </MenuItem>,
+                                  <MenuItem
+                                      key={build(
+                                          baseId,
+                                          ids.CREATE_MULTI_INPUT_MI
+                                      )}
+                                      id={build(
+                                          baseId,
+                                          ids.CREATE_MULTI_INPUT_MI
+                                      )}
+                                      onClick={() => {
+                                          onClose();
+                                          onCreateMultiInputFileSelected();
+                                      }}
+                                  >
+                                      <ListItemIcon>
+                                          <ListAlt fontSize="small" />
+                                      </ListItemIcon>
+                                      <ListItemText
+                                          primary={t(
+                                              "newMultiInputPathListFile"
+                                          )}
+                                      />
+                                  </MenuItem>,
+                              ],
+                              canShare && (
+                                  <SharingMenuItem
+                                      key={build(
+                                          baseId,
+                                          shareIds.SHARING_MENU_ITEM
+                                      )}
+                                      baseId={baseId}
+                                      onClose={onClose}
+                                      setSharingDlgOpen={setSharingDlgOpen}
+                                  />
+                              ),
+                              deleteMiEnabled && (
+                                  <DeleteMenuItem
+                                      key={build(baseId, ids.DELETE_MENU_ITEM)}
+                                      baseId={baseId}
+                                      onClose={onClose}
+                                      onDeleteSelected={onDeleteSelected}
+                                  />
+                              ),
+                              <Divider
+                                  key={build(
+                                      baseId,
+                                      ids.UPLOAD_MENU_ITEM_DIVIDER
+                                  )}
+                              />,
+                              isWritable(permission) && (
+                                  <UploadMenuItems
+                                      key={build(baseId, ids.UPLOAD_MENU_ITEM)}
+                                      localUploadId={localUploadId}
+                                      uploadMenuId={uploadMenuId}
+                                      onBrowseLocal={onClose}
+                                      onImportFromURL={() => {
+                                          onClose();
+                                          setImportDialogOpen(true);
+                                      }}
+                                      onUploadQueue={() => {
+                                          onClose();
+                                          setUploadDialogOpen(true);
+                                      }}
+                                  />
+                              ),
+                          ]
+                        : deleteMiEnabled && (
+                              <DeleteMenuItem
+                                  key={build(baseId, ids.DELETE_MENU_ITEM)}
+                                  baseId={baseId}
+                                  onClose={onClose}
+                                  onDeleteSelected={onDeleteSelected}
+                              />
+                          ),
                 ]}
             />
             <CreateFolderDialog

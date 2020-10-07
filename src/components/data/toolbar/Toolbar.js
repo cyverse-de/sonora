@@ -24,7 +24,14 @@ import DisplayTypeSelector from "../../utils/DisplayTypeSelector";
 
 import { build } from "@cyverse-de/ui-lib";
 
-import { Button, Hidden, makeStyles, Toolbar } from "@material-ui/core";
+import {
+    Button,
+    Hidden,
+    makeStyles,
+    Toolbar,
+    useMediaQuery,
+    useTheme,
+} from "@material-ui/core";
 
 import { CreateNewFolder, Info } from "@material-ui/icons";
 
@@ -61,6 +68,10 @@ function DataToolbar(props) {
     const onCreateFolderClicked = () => setCreateFolderDlgOpen(true);
     const selectedResources = getSelectedResources();
     const canShare = isOwner(selectedResources);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const hasDotMenu =
+        isMobile || (selectedResources && selectedResources.length > 0);
 
     let toolbarId = build(baseId, ids.TOOLBAR);
     return (
@@ -120,7 +131,7 @@ function DataToolbar(props) {
                     />
                 )}
             </Hidden>
-            <Hidden mdUp>
+            {hasDotMenu && (
                 <DataDotMenu
                     baseId={toolbarId}
                     path={path}
@@ -142,8 +153,9 @@ function DataToolbar(props) {
                     }
                     canShare={canShare}
                     setSharingDlgOpen={setSharingDlgOpen}
+                    isMobile={isMobile}
                 />
-            </Hidden>
+            )}
             <CreateFolderDialog
                 path={path}
                 open={createFolderDlgOpen}

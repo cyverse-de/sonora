@@ -53,8 +53,8 @@ export default function DataStore() {
                 );
             } else {
                 router.push(
-                    `${baseRoutingPath}${dynamicPathName}?file=true&resourceId=${id}`,
-                    `${baseRoutingPath}${encodedPath}?file=true&resourceId=${id}`
+                    `${baseRoutingPath}${dynamicPathName}?type=${resourceType}&resourceId=${id}`,
+                    `${baseRoutingPath}${encodedPath}?type=${resourceType}&resourceId=${id}`
                 );
             }
         },

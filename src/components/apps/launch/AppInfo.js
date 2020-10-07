@@ -121,47 +121,45 @@ const AppInfo = React.forwardRef((props, ref) => {
     const [docDialogOpen, setDocDialogOpen] = React.useState(false);
     return (
         <div ref={ref}>
+            <Button
+                color="primary"
+                variant={isMobile ? "text" : "contained"}
+                size="small"
+                style={{
+                    margin: !isMobile
+                        ? theme.spacing(0.5)
+                        : theme.spacing(0),
+                }}
+                startIcon={<ArrowBack fontSize="small" />}
+                onClick={() => router.back()}
+            >
+                <Hidden xsDown>{t("back")}</Hidden>
+            </Button>
+            <Button
+                id={buildDebugId(baseId, ids.BUTTONS.DETAILS)}
+                className={classes.detailsButton}
+                onClick={() => setDetailsDrawerOpen(true)}
+                variant={!isMobile ? "outlined" : "text"}
+                size="small"
+                startIcon={<Info color="primary" fontSize="small" />}
+            >
+                <Hidden xsDown>{i18nApps("details")}</Hidden>
+            </Button>
+            <Button
+                id={buildDebugId(baseId, ids.BUTTONS.DOCUMENTATION)}
+                className={classes.detailsButton}
+                onClick={() => setDocDialogOpen(true)}
+                variant={!isMobile ? "outlined" : "text"}
+                size="small"
+                startIcon={<MenuBook color="primary" fontSize="small" />}
+            >
+                <Hidden xsDown>{i18nApps("documentation")}</Hidden>
+            </Button>
             <Typography
                 variant={isMobile ? "subtitle2" : "h6"}
                 className={classes.appInfoTypography}
             >
                 <>
-                    <Button
-                        color="primary"
-                        variant={!isMobile ? "contained" : "text"}
-                        size="small"
-                        style={{
-                            marginRight: !isMobile
-                                ? theme.spacing(0.5)
-                                : theme.spacing(0),
-                        }}
-                        startIcon={<ArrowBack fontSize="small" />}
-                        onClick={() => router.back()}
-                    >
-                        <Hidden xsDown>{t("back")}</Hidden>
-                    </Button>
-                    <Button
-                        id={buildDebugId(baseId, ids.BUTTONS.DETAILS)}
-                        className={classes.detailsButton}
-                        onClick={() => setDetailsDrawerOpen(true)}
-                        variant={!isMobile ? "outlined" : "text"}
-                        size="small"
-                        startIcon={<Info color="primary" fontSize="small" />}
-                    >
-                        <Hidden xsDown>{i18nApps("details")}</Hidden>
-                    </Button>
-                    <Button
-                        id={buildDebugId(baseId, ids.BUTTONS.DOCUMENTATION)}
-                        className={classes.detailsButton}
-                        onClick={() => setDocDialogOpen(true)}
-                        variant={!isMobile ? "outlined" : "text"}
-                        size="small"
-                        startIcon={
-                            <MenuBook color="primary" fontSize="small" />
-                        }
-                    >
-                        <Hidden xsDown>{i18nApps("documentation")}</Hidden>
-                    </Button>
                     {loadingError ? (
                         <LoadingErrorDisplay
                             baseId={baseId}
@@ -170,34 +168,26 @@ const AppInfo = React.forwardRef((props, ref) => {
                     ) : loading ? (
                         <Skeleton width={250} />
                     ) : (
-                        <>
-                            <Typography variant={isMobile ? "subtitle2" : "h6"}>
-                                {app?.name}
-                            </Typography>
-                            <DetailsDrawer
-                                appId={app?.id}
-                                systemId={app?.system_id}
-                                open={detailsDrawerOpen}
-                                onClose={() => setDetailsDrawerOpen(false)}
-                                baseId={buildDebugId(
-                                    baseId,
-                                    ids.BUTTONS.DETAILS
-                                )}
-                            />
-                            <AppDoc
-                                baseId={buildDebugId(
-                                    baseId,
-                                    ids.BUTTONS.DOCUMENTATION
-                                )}
-                                open={docDialogOpen}
-                                appId={app?.id}
-                                systemId={app?.system_id}
-                                name={app?.name}
-                                onClose={() => setDocDialogOpen(false)}
-                                isMobile={isMobile}
-                            />
-                        </>
+                        <Typography variant={isMobile ? "subtitle2" : "h6"}>
+                            {app?.name}
+                        </Typography>
                     )}
+                    <DetailsDrawer
+                        appId={app?.id}
+                        systemId={app?.system_id}
+                        open={detailsDrawerOpen}
+                        onClose={() => setDetailsDrawerOpen(false)}
+                        baseId={buildDebugId(baseId, ids.BUTTONS.DETAILS)}
+                    />
+                    <AppDoc
+                        baseId={buildDebugId(baseId, ids.BUTTONS.DOCUMENTATION)}
+                        open={docDialogOpen}
+                        appId={app?.id}
+                        systemId={app?.system_id}
+                        name={app?.name}
+                        onClose={() => setDocDialogOpen(false)}
+                        isMobile={isMobile}
+                    />
                 </>
             </Typography>
             <Hidden xsDown>

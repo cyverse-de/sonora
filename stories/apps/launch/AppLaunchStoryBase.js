@@ -17,15 +17,15 @@ export default (props) => {
     initMockAxiosFileFolderSelector();
     const { app } = props;
     mockAxios
-        .onGet(`/api/apps/${app.system_id}/${app.id}/details`)
+        .onGet(`/api/apps/${app?.system_id}/${app?.id}/details`)
         .reply(200, appDetails);
 
     mockAxios
-        .onGet(`/api/apps/${app.system_id}/${app.id}/listing`)
+        .onGet(`/api/apps/${app?.system_id}/${app?.id}/listing`)
         .reply(200, listingById);
 
     mockAxios
-        .onGet(`/api/apps/${app.system_id}/${app.id}/documentation`)
+        .onGet(`/api/apps/${app?.system_id}/${app?.id}/documentation`)
         .reply(200, appDocumentation);
     return (
         <AppLaunchWizard
@@ -34,7 +34,6 @@ export default (props) => {
             startingPath={STARTING_PATH}
             saveQuickLaunch={saveQuickLaunch}
             submitAnalysis={submitAnalysis}
-            app={app}
             {...props}
         />
     );

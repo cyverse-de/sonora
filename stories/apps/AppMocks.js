@@ -1021,7 +1021,10 @@ export const appDocumentation = {
     app_id: "67d15627-22c5-42bd-8daf-9af5deecceab",
     documentation:
         "### DE Word Count\n> #### Description and Quick Start\n>> To use Word Count, upload your data in plain text format.\n>> Resources: http://www.gnu.org/software/coreutils/manual/coreutils.html#wc-invocation\n> #### Test Data\n>> Community Data > iplantcollaborative > example_data > wordcount\n> #### Input File(s)\n>> Use SampleText.txt  as test data.\n> #### Parameters Used in App\n>> no parameters to selecgt\n> #### Output File(s)\n>> Look under the logs folder. Results are stored in condor-stdout-0.",
-    references: [],
+    references: [
+        "https://learning.cyverse.org/en/latest/",
+        "https://cyverse.org/",
+    ],
     created_on: "2019-02-19T17:02:42.000Z",
     modified_on: "2019-02-19T17:02:42.000Z",
     created_by: "rwalls@iplantcollaborative.org",

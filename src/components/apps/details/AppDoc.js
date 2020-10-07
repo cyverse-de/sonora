@@ -53,7 +53,7 @@ function References(props) {
             <React.Fragment>
                 <Typography variant="subtitle2">{t("references")}</Typography>
                 {references.map((ref) => {
-                    return <div key={ref}>{ref}</div>;
+                    return <Typography key={ref}>{ref}</Typography>;
                 })}
             </React.Fragment>
         );
@@ -74,19 +74,19 @@ function Documentation(props) {
         onSave,
         baseId,
     } = props;
+
     const { t } = useTranslation("apps");
+
     const markDownToHtml = () => {
         const converter = new showdown.Converter();
         converter.setFlavor("github");
-        if (documentation) {
-            return sanitizeHtml(converter.makeHtml(documentation));
-        } else {
-            return "";
-        }
+        return sanitizeHtml(converter.makeHtml(documentation));
     };
+
     if (loading) {
-        return <GridLoading rows={5} baseId="appDoc" />;
+        return <GridLoading rows={5} baseId="baseId" />;
     }
+
     if (error) {
         return (
             <ErrorTypographyWithDialog
@@ -95,10 +95,13 @@ function Documentation(props) {
             />
         );
     }
+
     if (documentation) {
+        const isViewMode = mode === VIEW_MODE;
+        const isEditMode = mode === EDIT_MODE;
         return (
             <>
-                {mode === VIEW_MODE && (
+                {isViewMode && (
                     <div
                         id={buildDebugId(baseId, ids.DOC_MARKDOWN)}
                         dangerouslySetInnerHTML={{
@@ -106,13 +109,13 @@ function Documentation(props) {
                         }}
                     />
                 )}
-                {VIEW_MODE && references && references.length > 0 && (
+                {isViewMode && references && references.length > 0 && (
                     <>
                         <Divider />
                         <References references={references} />
                     </>
                 )}
-                {mode === EDIT_MODE && (
+                {isEditMode && (
                     <TextField
                         id={buildDebugId(baseId, ids.DOC_TEXT)}
                         multiline={true}
@@ -122,8 +125,8 @@ function Documentation(props) {
                         onChange={(event) => onDocChange(event.target.value)}
                     />
                 )}
-                {editable && mode === VIEW_MODE && (
-                    <Tooltip title={t("edit")} aria-label={t("edit")}>
+                {editable && isViewMode  && (
+                    <Tooltip title={t("edit")}>
                         <Fab
                             id={buildDebugId(baseId, ids.EDIT_BTN)}
                             color="primary"
@@ -136,8 +139,8 @@ function Documentation(props) {
                         </Fab>
                     </Tooltip>
                 )}
-                {editable && mode === EDIT_MODE && (
-                    <Tooltip title={t("save")} aria-label={t("save")}>
+                {editable && isEditMode && (
+                    <Tooltip title={t("save")}>
                         <Fab
                             id={buildDebugId(baseId, ids.SAVE_BTN)}
                             color="primary"
@@ -199,9 +202,7 @@ function AppDoc(props) {
                 setReferences(doc.references);
                 setError(false);
             },
-            onError: (e) => {
-                setError(e);
-            },
+            onError: setError,
         },
     });
 
@@ -217,9 +218,7 @@ function AppDoc(props) {
         config: {
             enabled,
             onSuccess: setDetails,
-            onError: (e) => {
-                setDetailsError(e);
-            },
+            onError: setDetailsError,
         },
     });
 
@@ -229,9 +228,7 @@ function AppDoc(props) {
             setMode(VIEW_MODE);
             setSaveError(null);
         },
-        onError: (e) => {
-            setSaveError(e);
-        },
+        onError: setSaveError,
     });
 
     useEffect(() => {

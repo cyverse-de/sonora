@@ -1,12 +1,10 @@
-import { palette } from "@cyverse-de/ui-lib";
-
 export default (theme) => ({
     table: {
         overflow: "auto",
         height: "75%",
     },
     tableHead: {
-        backgroundColor: palette.blue,
+        backgroundColor: theme.palette.primary.main,
         position: "sticky",
         top: 0,
     },
@@ -21,9 +19,9 @@ export default (theme) => ({
         textTransform: "none",
     },
     toolbar: {
-        backgroundColor: palette.lightGray,
+        backgroundColor: theme.palette.lightSilver,
         borderBottom: "solid 2px",
-        borderColor: palette.gray,
+        borderColor: theme.palette.silver,
         height: 55,
     },
     notification: {
@@ -31,7 +29,7 @@ export default (theme) => ({
         cursor: "pointer",
     },
     unSeenNotificationBackground: {
-        backgroundColor: palette.lightBlue,
+        backgroundColor: theme.palette.secondary.main,
     },
     dropDown: {
         margin: 3,

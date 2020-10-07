@@ -1,25 +1,26 @@
 /**
  * A view to display a paginated list of notifications in DE notification window.
  *
- * @author Sriram
+ * @author Sriram, psarando
  *
  **/
 import React, { Component } from "react";
 
 import classnames from "classnames";
-import constants from "../../constants";
+
 import exStyles from "../style";
 import ids from "../ids";
 import intlData from "../messages";
-import notificationCategory from "../model/notificationCategory";
-import NotificationToolbar from "./NotificationToolbar";
+import NotificationToolbar from "../Toolbar";
+
+import notificationCategory from "components/models/notificationCategory";
+
+import TableLoading from "components/utils/TableLoading";
 
 import {
     DECheckbox,
-    DETableRow,
     EnhancedTableHead,
     formatDate,
-    LoadingMask,
     TablePaginationActions,
     withI18N,
 } from "@cyverse-de/ui-lib";
@@ -29,6 +30,8 @@ import {
     TableBody,
     TableCell,
     TablePagination,
+    TableRow,
+    Typography,
     withStyles,
 } from "@material-ui/core";
 
@@ -54,7 +57,7 @@ const columnData = [
 ];
 
 function Message(props) {
-    const { message, seen, presenter, classes } = props;
+    const { message, seen, onMessageClicked, classes } = props;
     let className = seen
         ? classes.notification
         : classnames(
@@ -63,10 +66,9 @@ function Message(props) {
           );
     return (
         <TableCell padding="none" className={className}>
-            <div onClick={(event) => presenter.onMessageClicked(message)}>
-                {" "}
+            <Typography onClick={(event) => onMessageClicked(message)}>
                 {message.text}
-            </div>
+            </Typography>
         </TableCell>
     );
 }
@@ -108,7 +110,7 @@ class NotificationView extends Component {
     fetchNotifications() {
         const { rowsPerPage, offset, filter, order } = this.state;
         this.setState({ loading: true });
-        this.props.presenter.getNotifications(
+        this.props.getNotifications(
             rowsPerPage,
             offset,
             filter,
@@ -134,7 +136,7 @@ class NotificationView extends Component {
 
     handleMarkSeenClick() {
         this.setState({ loading: true });
-        this.props.presenter.onNotificationToolbarMarkAsSeenClicked(
+        this.props.onNotificationToolbarMarkAsSeenClicked(
             this.state.selected,
             () => {
                 this.state.selected.map(
@@ -152,7 +154,7 @@ class NotificationView extends Component {
 
     handleDeleteClick() {
         this.setState({ loading: true });
-        this.props.presenter.deleteNotifications(
+        this.props.deleteNotifications(
             this.state.selected,
             () => {
                 this.setState({
@@ -216,7 +218,7 @@ class NotificationView extends Component {
     }
 
     findNotification(id) {
-        return this.state.data.find(function(n) {
+        return this.state.data.find(function (n) {
             return n.message.id === id;
         });
     }
@@ -247,7 +249,7 @@ class NotificationView extends Component {
     }
 
     render() {
-        const { classes, baseDebugId } = this.props;
+        const { classes, baseDebugId, onMessageClicked } = this.props;
         const {
             data,
             rowsPerPage,
@@ -260,31 +262,37 @@ class NotificationView extends Component {
             loading,
         } = this.state;
         const baseId = baseDebugId + ids.NOTIFICATION_VIEW;
+
         return (
             <div className={classes.container}>
-                <LoadingMask loading={loading}>
-                    <NotificationToolbar
-                        baseDebugId={baseDebugId}
-                        filter={this.state.filter}
-                        onFilterChange={this.handleFilterChange}
-                        onRefreshClicked={this.handleRefreshClicked}
-                        markSeenDisabled={
-                            this.state.selected.length === 0 ||
-                            markAsSeenDisabled
-                        }
-                        deleteDisabled={this.state.selected.length === 0}
-                        onMarkSeenClicked={this.handleMarkSeenClick}
-                        onDeleteClicked={this.handleDeleteClick}
-                    />
-                    <div className={classes.table}>
-                        <Table>
+                <NotificationToolbar
+                    baseDebugId={baseDebugId}
+                    filter={this.state.filter}
+                    onFilterChange={this.handleFilterChange}
+                    onRefreshClicked={this.handleRefreshClicked}
+                    markSeenDisabled={
+                        this.state.selected.length === 0 || markAsSeenDisabled
+                    }
+                    deleteDisabled={this.state.selected.length === 0}
+                    onMarkSeenClicked={this.handleMarkSeenClick}
+                    onDeleteClicked={this.handleDeleteClick}
+                />
+                <div className={classes.table}>
+                    <Table>
+                        {loading ? (
+                            <TableLoading
+                                baseId={baseDebugId}
+                                numColumns={4}
+                                numRows={25}
+                            />
+                        ) : (
                             <TableBody>
                                 {data.map((n) => {
                                     const isSelected = this.isSelected(
                                         n.message.id
                                     );
                                     return (
-                                        <DETableRow
+                                        <TableRow
                                             onClick={(event) =>
                                                 this.handleRowClick(
                                                     event,
@@ -315,44 +323,45 @@ class NotificationView extends Component {
                                             <Message
                                                 message={n.message}
                                                 seen={n.seen}
-                                                presenter={this.props.presenter}
+                                                onMessageClicked={
+                                                    onMessageClicked
+                                                }
                                                 classes={classes}
                                             />
                                             <TableCell>
                                                 {formatDate(
-                                                    n.message.timestamp,
-                                                    constants.DATE_FORMAT
+                                                    n.message.timestamp
                                                 )}
                                             </TableCell>
-                                        </DETableRow>
+                                        </TableRow>
                                     );
                                 })}
                             </TableBody>
-                            <EnhancedTableHead
-                                selectable={true}
-                                numSelected={selected.length}
-                                order={order}
-                                orderBy={orderBy}
-                                onSelectAllClick={this.handleSelectAllClick}
-                                onRequestSort={this.handleRequestSort}
-                                columnData={columnData}
-                                baseId={baseId}
-                                rowsInPage={data.length}
-                            />
-                        </Table>
-                    </div>
-                    <TablePagination
-                        colSpan={3}
-                        component="div"
-                        count={total}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onChangePage={this.handleChangePage}
-                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                        ActionsComponent={TablePaginationActions}
-                        rowsPerPageOptions={[5, 100, 500, 1000]}
-                    />
-                </LoadingMask>
+                        )}
+                        <EnhancedTableHead
+                            selectable={true}
+                            numSelected={selected.length}
+                            order={order}
+                            orderBy={orderBy}
+                            onSelectAllClick={this.handleSelectAllClick}
+                            onRequestSort={this.handleRequestSort}
+                            columnData={columnData}
+                            baseId={baseId}
+                            rowsInPage={data.length}
+                        />
+                    </Table>
+                </div>
+                <TablePagination
+                    colSpan={3}
+                    component="div"
+                    count={total}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={this.handleChangePage}
+                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                    ActionsComponent={TablePaginationActions}
+                    rowsPerPageOptions={[5, 100, 500, 1000]}
+                />
             </div>
         );
     }

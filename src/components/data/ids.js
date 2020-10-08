@@ -1,4 +1,5 @@
 export default {
+    ADD_TO_BAG_MI: "addToBagMenuItem",
     BREADCRUMBS: "breadcrumbs",
     CANCEL_BTN: "cancelBtn",
     checkbox: "checkbox",

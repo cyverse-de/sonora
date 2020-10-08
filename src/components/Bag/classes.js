@@ -73,7 +73,7 @@ class AppBagItem extends BagItem {
     }
 }
 
-export const FOLDER_TYPE = "dir";
+export const FOLDER_TYPE = "folder";
 export const FILE_TYPE = "file";
 export const ANALYSIS_TYPE = "analysis";
 export const APP_TYPE = "app";

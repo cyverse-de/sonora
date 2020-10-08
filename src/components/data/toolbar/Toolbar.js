@@ -33,7 +33,11 @@ import {
     useTheme,
 } from "@material-ui/core";
 
-import { CreateNewFolder, Info } from "@material-ui/icons";
+import {
+    CreateNewFolder,
+    Info,
+    Queue as AddToBagIcon,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
@@ -51,6 +55,7 @@ function DataToolbar(props) {
         onDeleteSelected,
         detailsEnabled,
         onDetailsSelected,
+        onAddToBagSelected,
         handlePathChange,
         handleDataNavError,
         setImportDialogOpen,
@@ -127,6 +132,18 @@ function DataToolbar(props) {
                         />
                     </>
                 )}
+                {selected && selected.length > 0 && (
+                    <Button
+                        id={build(toolbarId, ids.ADD_TO_BAG_BTN)}
+                        variant="outlined"
+                        disableElevation
+                        color="primary"
+                        onClick={onAddToBagSelected}
+                        startIcon={<AddToBagIcon />}
+                    >
+                        <Hidden xsDown>{t("addToBag")}</Hidden>
+                    </Button>
+                )}
                 {canShare && (
                     <SharingButton
                         size="small"
@@ -143,6 +160,7 @@ function DataToolbar(props) {
                     onDeleteSelected={onDeleteSelected}
                     onCreateFolderSelected={onCreateFolderClicked}
                     onDetailsSelected={onDetailsSelected}
+                    onAddToBagSelected={onAddToBagSelected}
                     permission={permission}
                     refreshListing={refreshListing}
                     detailsEnabled={detailsEnabled}

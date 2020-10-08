@@ -45,6 +45,7 @@ import {
 import { announce, build, AnnouncerConstants } from "@cyverse-de/ui-lib";
 
 import { useTranslation } from "i18n";
+import { useBagAddItems } from "serviceFacades/bags";
 
 import { queryCache, useMutation, useQuery } from "react-query";
 
@@ -379,6 +380,17 @@ function Listing(props) {
         setDetailsResource(resource);
     };
 
+    const addItemsToBag = useBagAddItems({
+        handleError: (error) => {
+            showErrorAnnouncer(t("addToBagError"), error);
+        },
+        handleSettled: () => {
+            setSelected([]);
+        },
+    });
+
+    const onAddToBagSelected = () => addItemsToBag(getSelectedResources());
+
     const getSelectedResources = (resources) => {
         const items = resources ? resources : selected;
         return items.map((id) =>
@@ -422,6 +434,7 @@ function Listing(props) {
                     onDeleteSelected={onDeleteSelected}
                     detailsEnabled={detailsEnabled}
                     onDetailsSelected={onDetailsSelected}
+                    onAddToBagSelected={onAddToBagSelected}
                     handleDataNavError={handleDataNavError}
                     baseId={baseId}
                     setUploadDialogOpen={setUploadDialogOpen}

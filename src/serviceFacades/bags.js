@@ -12,12 +12,16 @@ export const getDefaultBag = (key) =>
         method: "GET",
     });
 
-export const updateDefaultBag = (key, contents) =>
-    callAPI({
+export const updateDefaultBag = (contents) => {
+    const jsonBody = JSON.stringify(contents);
+    const body = JSON.parse(jsonBody);
+
+    return callAPI({
         endpoint: "/api/bags/default",
         method: "POST",
-        body: contents,
+        body,
     });
+};
 
 export const deleteDefaultBag = (key) =>
     callAPI({
@@ -41,21 +45,21 @@ export const useBagRemoveItems = (
     const queryCache = useQueryCache();
 
     const successFn = (data, variables) => {
-        if (handleSuccess) {
-            return handleSuccess(data, variables);
-        }
-
         queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, {
-            items: [],
+            contents: { items: [] },
         });
+
+        if (handleSuccess) {
+            handleSuccess(data, variables);
+        }
     };
 
     const settledFn = () => {
-        if (handleSettled) {
-            return handleSettled();
-        }
-
         queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
+
+        if (handleSettled) {
+            handleSettled();
+        }
     };
 
     const [mutate] = useMutation(deleteDefaultBag, {
@@ -79,19 +83,19 @@ export const useBagRemoveItem = (
     const queryCache = useQueryCache();
 
     const successFn = (data, variables) => {
-        if (handleSuccess) {
-            return handleSuccess(data, variables);
-        }
-
         queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, data);
+
+        if (handleSuccess) {
+            handleSuccess(data, variables);
+        }
     };
 
     const settledFn = () => {
-        if (handleSettled) {
-            return handleSettled();
-        }
-
         queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
+
+        if (handleSettled) {
+            handleSettled();
+        }
     };
 
     const [mutate] = useMutation(updateDefaultBag, {
@@ -102,10 +106,18 @@ export const useBagRemoveItem = (
 
     return async (item) => {
         let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY) || {
-            items: [],
+            contents: { items: [] },
         };
-        data.items = data.items.filter((i) => i.id !== item.id);
-        return await mutate(data);
+
+        if (!data.contents.items) {
+            data.contents.items = [];
+        }
+
+        data.contents.items = data.contents.items.filter(
+            (i) => i.id !== item.id
+        );
+
+        return await mutate(data.contents);
     };
 };
 
@@ -121,19 +133,19 @@ export const useBagAddItem = (
     const queryCache = useQueryCache();
 
     const successFn = (data, variables) => {
-        if (handleSuccess) {
-            return handleSuccess(data, variables);
-        }
-
         queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, data);
+
+        if (handleSuccess) {
+            handleSuccess(data, variables);
+        }
     };
 
     const settledFn = () => {
-        if (handleSettled) {
-            return handleSettled();
-        }
-
         queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
+
+        if (handleSettled) {
+            handleSettled();
+        }
     };
 
     const [mutate] = useMutation(updateDefaultBag, {
@@ -144,10 +156,16 @@ export const useBagAddItem = (
 
     return async (item) => {
         let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY) || {
-            items: [],
+            contents: { items: [] },
         };
-        data.items = [...data.items, item];
-        return await mutate(data);
+
+        if (!data.contents.items) {
+            data.contents.items = [];
+        }
+
+        data.contents.items = [...data.contents.items, item];
+
+        return await mutate(data.contents);
     };
 };
 
@@ -186,9 +204,15 @@ export const useBagAddItems = (
 
     return async (items) => {
         let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY) || {
-            items: [],
+            contents: { items: [] },
         };
-        data.items = [...data.items, ...items];
-        return await mutate(data);
+
+        if (!data.contents.items) {
+            data.contents.items = [];
+        }
+
+        data.contents.items = [...data.contents.items, ...items];
+
+        return await mutate(data.contents);
     };
 };

@@ -8,7 +8,7 @@
 
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
-import { useQuery, useMutation } from "react-query";
+import { queryCache, useQuery, useMutation } from "react-query";
 import Link from "next/link";
 
 import ids from "../ids";
@@ -17,6 +17,7 @@ import QuickLaunch from "./QuickLaunch";
 import { getHost } from "components/utils/getHost";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import GridLoading from "components/utils/GridLoading";
+import { getUserName } from "components/utils/getUserName";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import NavigationConstants from "common/NavigationConstants";
 
@@ -44,6 +45,7 @@ import { useTheme } from "@material-ui/core";
 import Code from "@material-ui/icons/Code";
 import Play from "@material-ui/icons/PlayArrow";
 import Share from "@material-ui/icons/Share";
+import CloseIcon from "@material-ui/icons/Close";
 
 function QuickLaunchChipLink(props) {
     const {
@@ -73,11 +75,17 @@ function QuickLaunchChipLink(props) {
 
 function QuickLaunchButtonLink(props) {
     const { id, onClick, systemId, appId, qid } = props;
+    const { t } = useTranslation("apps");
     const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch?qId=${qid}`;
     const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?qId=${qid}`;
     return (
         <Link href={href} as={as} passHref>
-            <IconButton id={id} fontSize="small" onClick={onClick}>
+            <IconButton
+                id={id}
+                fontSize="small"
+                onClick={onClick}
+                title={t("qLaunchToolTip")}
+            >
                 <Play color="primary" />
             </IconButton>
         </Link>
@@ -88,7 +96,6 @@ function ActionsPopper(props) {
     const {
         quickLaunch,
         anchorEl,
-        useQuickLaunchClickHandler,
         embedCodeClickHandler,
         shareClickHandler,
         onActionPopperClose,
@@ -115,20 +122,14 @@ function ActionsPopper(props) {
                 }}
             >
                 <Paper>
-                    <Tooltip title={t("qLaunchToolTip")}>
-                        <QuickLaunchButtonLink
-                            id={build(
-                                baseDebugId,
-                                ids.QUICK_LAUNCH.useQuickLaunch
-                            )}
-                            fontSize="small"
-                            onClick={useQuickLaunchClickHandler}
-                            qid={quickLaunch.id}
-                            appId={appId}
-                            systemId={systemId}
-                        />
-                    </Tooltip>
-                    <Tooltip title={t("qLaunchEmbedToolTip")}>
+                    <QuickLaunchButtonLink
+                        id={build(baseDebugId, ids.QUICK_LAUNCH.useQuickLaunch)}
+                        fontSize="small"
+                        qid={quickLaunch.id}
+                        appId={appId}
+                        systemId={systemId}
+                    />
+                    <Tooltip>
                         <IconButton
                             id={build(
                                 baseDebugId,
@@ -136,11 +137,12 @@ function ActionsPopper(props) {
                             )}
                             fontSize="small"
                             onClick={embedCodeClickHandler}
+                            title={t("qLaunchEmbedToolTip")}
                         >
                             <Code color="primary" />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title={t("qLaunchShareToolTip")}>
+                    <Tooltip>
                         <IconButton
                             id={build(
                                 baseDebugId,
@@ -148,6 +150,7 @@ function ActionsPopper(props) {
                             )}
                             fontSize="small"
                             onClick={shareClickHandler}
+                            title={t("qLaunchShareToolTip")}
                         >
                             <Share color="primary" />
                         </IconButton>
@@ -172,6 +175,7 @@ function ListQuickLaunches(props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
     const [selected, setSelected] = useState();
+    const [deleteError, setDeleteError] = useState();
 
     const userName = userProfile?.id;
 
@@ -187,16 +191,12 @@ function ListQuickLaunches(props) {
         }
     };
 
-    const useQuickLaunchClickHandler = () => {
-        // onQuickLaunch(selected);
-    };
-
     const [deleteQuickLaunchMutation] = useMutation(deleteQuickLaunch, {
         onSuccess: (resp, { onSuccess }) => {
-            console.log("quick launch deleted");
+            queryCache.invalidateQueries([QUICK_LAUNCH_LISTING, { appId }]);
         },
         onError: (error) => {
-            console.log("unable to delete" + error);
+            setDeleteError(error);
         },
     });
 
@@ -207,25 +207,23 @@ function ListQuickLaunches(props) {
 
         const embed = `<a href="${shareUrl}" target="_blank"><img src="${imgSrc}"></a>`;
 
+        setAnchorEl(null);
         setEmbedCode(embed);
         setEmbedDialogOpen(true);
     };
 
     const shareClickHandler = () => {
+        setAnchorEl(null);
         setQLaunchUrl(getShareUrl(selected.id));
         setShareDialogOpen(true);
     };
 
     const getShareUrl = () => {
         const host = getHost();
-
-        const url = new URL(host);
-
-        url.searchParams.set(constants.TYPE, constants.QUICK_LAUNCH);
-        url.searchParams.set(constants.QUICK_LAUNCH_ID, selected.id);
-        url.searchParams.set(constants.APP_ID, selected.app_id);
-
-        return url.toString();
+        const url =
+            host +
+            `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?qId=${selected?.id}`;
+        return url;
     };
 
     const deleteQuickLaunchHandler = (event, qLaunch) => {
@@ -275,7 +273,7 @@ function ListQuickLaunches(props) {
                             const id = build(baseDebugId, qLaunch.id);
                             const is_public = qLaunch.is_public;
                             const onDelete =
-                                userName === qLaunch.creator
+                                userName === getUserName(qLaunch.creator)
                                     ? (event) =>
                                           deleteQuickLaunchHandler(
                                               event,
@@ -322,11 +320,17 @@ function ListQuickLaunches(props) {
                             }
                         })}
                     </Grid>
+                    {deleteError && (
+                        <ErrorTypographyWithDialog
+                            baseId={baseDebugId}
+                            errorMessage={t("quickLaunchDeleteError")}
+                            errorObject={deleteError}
+                        />
+                    )}
                 </Paper>
                 <ActionsPopper
                     anchorEl={anchorEl}
                     baseDebugId={baseDebugId}
-                    useQuickLaunchClickHandler={useQuickLaunchClickHandler}
                     embedCodeClickHandler={embedCodeClickHandler}
                     shareClickHandler={shareClickHandler}
                     onActionPopperClose={() => setAnchorEl(null)}
@@ -335,7 +339,21 @@ function ListQuickLaunches(props) {
                     systemId={systemId}
                 />
                 <Dialog open={embedDialogOpen} maxWidth="sm" fullWidth={true}>
-                    <DialogTitle>{t("embedLbl")}</DialogTitle>
+                    <DialogTitle>
+                        {t("embedLbl")}{" "}
+                        <IconButton
+                            aria-label={t("close")}
+                            onClick={() => setEmbedDialogOpen(false)}
+                            style={{
+                                position: "absolute",
+                                right: theme.spacing(0.5),
+                                top: theme.spacing(0.5),
+                                margin: 0,
+                            }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                    </DialogTitle>
                     <DialogContent>
                         <CopyTextArea
                             debugIdPrefix={build(
@@ -348,7 +366,21 @@ function ListQuickLaunches(props) {
                     </DialogContent>
                 </Dialog>
                 <Dialog open={shareDialogOpen} maxWidth="sm" fullWidth={true}>
-                    <DialogTitle>{t("shareLbl")}</DialogTitle>
+                    <DialogTitle>
+                        {t("shareLbl")}{" "}
+                        <IconButton
+                            aria-label={t("close")}
+                            onClick={() => setShareDialogOpen(false)}
+                            style={{
+                                position: "absolute",
+                                right: theme.spacing(0.5),
+                                top: theme.spacing(0.5),
+                                margin: 0,
+                            }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                    </DialogTitle>
                     <DialogContent>
                         <CopyTextArea
                             debugIdPrefix={build(

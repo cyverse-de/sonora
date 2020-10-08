@@ -351,7 +351,7 @@ function Listing({
         },
     });
 
-    const onAddToBagClicked = async () => {
+    const onAddToBagClicked = () => {
         const items = getSelectedApps().map((item) => ({
             ...item,
             type: "app",

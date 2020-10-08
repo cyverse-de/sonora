@@ -11,7 +11,12 @@ import ErrorTypography from "components/utils/error/ErrorTypography";
 
 import ids from "../ids";
 
-import { build, FormCheckbox, FormTextField } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    build,
+    FormCheckbox,
+    FormTextField,
+} from "@cyverse-de/ui-lib";
 
 import {
     Button,
@@ -56,6 +61,9 @@ function CreateQuickLaunchDialog(props) {
             is_public,
             () => {
                 actions.setSubmitting(false);
+                announce({
+                    text: t("quickLaunchCreateSuccess", {name}),
+                });
                 onHide();
             },
             (saveError) => {

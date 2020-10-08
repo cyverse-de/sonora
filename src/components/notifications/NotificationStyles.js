@@ -1,6 +1,5 @@
-import { createStyles } from "@material-ui/core";
-const NotificationStyles = (theme) =>
-    createStyles({
+export default (theme) =>
+    ({
         timeStamp: {
             color: "grey",
             marginBottom: theme.spacing(1),
@@ -38,4 +37,3 @@ const NotificationStyles = (theme) =>
         },
     });
 
-export default NotificationStyles;

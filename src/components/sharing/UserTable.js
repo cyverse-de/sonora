@@ -21,21 +21,12 @@ import { makeStyles } from "@material-ui/styles";
 import { useSortBy, useTable } from "react-table";
 
 import { useTranslation } from "i18n";
-import { groupName, isGroup } from "./util";
+import { getUserPrimaryText, getUserSecondaryText } from "./util";
 import ids from "./ids";
 import SharingPermissionSelector from "./SharingPermissionSelector";
 import styles from "./styles";
 
 const useStyles = makeStyles(styles);
-
-const getUserPrimaryText = (user) => {
-    const { email, id } = user;
-    return isGroup(user) ? groupName(user) : email || id;
-};
-
-const getUserSecondaryText = (user) => {
-    return user.original.institution || user.original.description;
-};
 
 function UserTable(props) {
     const { userMap, baseId, onPermissionChange, onRemoveUser } = props;
@@ -52,7 +43,7 @@ function UserTable(props) {
                     <ListItem classes={{ root: classes.listItem }}>
                         <ListItemText
                             primary={value}
-                            secondary={getUserSecondaryText(row)}
+                            secondary={getUserSecondaryText(row.original)}
                         />
                     </ListItem>
                 ),

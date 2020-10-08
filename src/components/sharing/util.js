@@ -19,6 +19,25 @@ export const groupName = (subject) => {
 };
 
 /**
+ * Returns the primary text to display for a user
+ * @param {Subject} user
+ * @return {string|*}
+ */
+export const getUserPrimaryText = (user) => {
+    const { email, id } = user;
+    return isGroup(user) ? groupName(user) : email || id;
+};
+
+/**
+ * Returns the secondary text to display for a user
+ * @param {Subject} user
+ * @return {string|*}
+ */
+export const getUserSecondaryText = (user) => {
+    return user.institution || user.description;
+};
+
+/**
  * Takes a list and returns a new list with only unique, non-empty values
  * @param {any[]} list
  * @returns {any[]}

@@ -269,7 +269,9 @@ function AnalysesToolbar(props) {
                         baseId={analysesNavId}
                         username={username}
                         onDetailsSelected={onDetailsSelected}
+                        onAddToBagSelected={onAddToBagSelected}
                         isSingleSelection={isSingleSelection}
+                        hasSelection={hasSelection}
                         getSelectedAnalyses={getSelectedAnalyses}
                         handleComments={handleComments}
                         handleInteractiveUrlClick={handleInteractiveUrlClick}

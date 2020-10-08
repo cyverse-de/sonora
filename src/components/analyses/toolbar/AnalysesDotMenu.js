@@ -47,6 +47,7 @@ import {
     Delete as DeleteIcon,
     Save as SaveIcon,
     UnfoldMore as UnfoldMoreIcon,
+    Queue as AddToBagIcon,
 } from "@material-ui/icons";
 import SharingMenuItem from "../../sharing/SharingMenuItem";
 
@@ -92,6 +93,7 @@ function DotMenuItems(props) {
     const {
         baseId,
         onDetailsSelected,
+        onAddToBagSelected,
         handleComments,
         handleInteractiveUrlClick,
         handleCancel,
@@ -100,6 +102,7 @@ function DotMenuItems(props) {
         handleRename,
         handleSaveAndComplete,
         handleBatchIconClick,
+        hasSelection,
         isBatch,
         isVICE,
         allowTimeExtn,
@@ -304,6 +307,21 @@ function DotMenuItems(props) {
                     <FilterList fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary={t("filterLbl")} />
+            </MenuItem>
+        ),
+        hasSelection && (
+            <MenuItem
+                key={build(baseId, ids.MENUITEM_ADD_TO_BAG)}
+                id={build(baseId, ids.MENUITEM_ADD_TO_BAG)}
+                onClick={() => {
+                    onClose();
+                    onAddToBagSelected();
+                }}
+            >
+                <ListItemIcon>
+                    <AddToBagIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("addToBag")} />
             </MenuItem>
         ),
     ];

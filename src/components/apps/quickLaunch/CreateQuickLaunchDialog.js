@@ -62,7 +62,7 @@ function CreateQuickLaunchDialog(props) {
             () => {
                 actions.setSubmitting(false);
                 announce({
-                    text: t("quickLaunchCreateSuccess", {name}),
+                    text: t("quickLaunchCreateSuccess", { name }),
                 });
                 onHide();
             },

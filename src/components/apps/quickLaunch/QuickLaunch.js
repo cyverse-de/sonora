@@ -16,7 +16,7 @@ const styles1 = (theme) => ({
     },
 });
 
-const QuickLaunch= React.forwardRef((props, ref) => {
+const QuickLaunch = React.forwardRef((props, ref) => {
     const {
         id,
         handleClick,

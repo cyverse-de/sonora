@@ -43,7 +43,7 @@ import { getUserPrimaryText, getUserSecondaryText } from "../../sharing/util";
 const useStyles = makeStyles(styles);
 
 function getAvatarLetters(permission) {
-    const firstName = permission.first_name;
+    const firstName = permission.first_name || permission.id;
     const lastName = permission.last_name;
     let letters = [];
 
@@ -109,7 +109,7 @@ function PermissionsTabPanel(props) {
             // merge user info with permissions
             merged.push({
                 ...permission,
-                ...userInfo[permission.user],
+                ...(userInfo[permission.user] || { id: permission.user }),
             });
         });
 

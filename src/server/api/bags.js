@@ -43,6 +43,9 @@ export default function bagsRouter() {
         terrain({
             method: "PUT",
             pathname: "/bags",
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
     );
 
@@ -73,6 +76,9 @@ export default function bagsRouter() {
         terrain({
             method: "POST",
             pathname: "/bags/default",
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
     );
 

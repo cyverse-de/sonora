@@ -13,13 +13,10 @@ export const getDefaultBag = (key) =>
     });
 
 export const updateDefaultBag = (contents) => {
-    const jsonBody = JSON.stringify(contents);
-    const body = JSON.parse(jsonBody);
-
     return callAPI({
         endpoint: "/api/bags/default",
         method: "POST",
-        body,
+        body: contents,
     });
 };
 

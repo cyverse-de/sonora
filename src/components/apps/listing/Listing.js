@@ -226,15 +226,6 @@ function Listing({
     }, [data, setAgaveAuthDialogOpen]);
 
     useEffect(() => {
-        if (detailsOpen && data?.apps) {
-            const selectedId = selected[0];
-            setDetailsApp(data.apps.find((item) => item.id === selectedId));
-        } else {
-            setDetailsApp(null);
-        }
-    }, [data, detailsOpen, selected]);
-
-    useEffect(() => {
         const enabled = selected && selected.length === 1;
         setDetailsEnabled(enabled);
     }, [selected]);
@@ -340,6 +331,10 @@ function Listing({
 
     const onDetailsSelected = () => {
         setDetailsOpen(true);
+        const selectedId = selected[0];
+        const index = data?.apps.findIndex((item) => item.id === selectedId);
+        const app = data?.apps[index];
+        setDetailsApp(app);
     };
 
     const addItemsToBag = useBagAddItems({
@@ -430,8 +425,10 @@ function Listing({
                 handleClick={handleClick}
                 handleRequestSort={handleRequestSort}
                 onRouteToApp={onRouteToApp}
+                canShare={shareEnabled}
+                onDetailsSelected={onDetailsSelected}
             />
-            {detailsApp && (
+            {detailsOpen && (
                 <Drawer
                     appId={detailsApp?.id}
                     systemId={detailsApp?.system_id}

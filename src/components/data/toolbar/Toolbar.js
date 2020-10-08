@@ -93,6 +93,7 @@ function DataToolbar(props) {
                     <Button
                         id={build(toolbarId, ids.DETAILS_BTN)}
                         variant="outlined"
+                        size="small"
                         disableElevation
                         color="primary"
                         onClick={onDetailsSelected}
@@ -107,6 +108,7 @@ function DataToolbar(props) {
                         <Button
                             id={build(toolbarId, ids.CREATE_BTN)}
                             variant="outlined"
+                            size="small"
                             disableElevation
                             color="primary"
                             onClick={onCreateFolderClicked}
@@ -126,6 +128,7 @@ function DataToolbar(props) {
                 )}
                 {canShare && (
                     <SharingButton
+                        size="small"
                         baseId={toolbarId}
                         setSharingDlgOpen={setSharingDlgOpen}
                     />

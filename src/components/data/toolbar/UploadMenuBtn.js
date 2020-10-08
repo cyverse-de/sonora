@@ -68,6 +68,7 @@ function UploadMenuBtn(props) {
             <Button
                 id={build(uploadMenuId, ids.UPLOAD_BTN)}
                 variant="outlined"
+                size="small"
                 disableElevation
                 color="primary"
                 className={classes.button}

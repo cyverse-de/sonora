@@ -69,9 +69,9 @@ function DataToolbar(props) {
     const selectedResources = getSelectedResources();
     const canShare = isOwner(selectedResources);
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
     const hasDotMenu =
-        isMobile || (selectedResources && selectedResources.length > 0);
+        isSmall || (selectedResources && selectedResources.length > 0);
 
     let toolbarId = build(baseId, ids.TOOLBAR);
     return (
@@ -153,7 +153,7 @@ function DataToolbar(props) {
                     }
                     canShare={canShare}
                     setSharingDlgOpen={setSharingDlgOpen}
-                    isMobile={isMobile}
+                    isSmall={isSmall}
                 />
             )}
             <CreateFolderDialog

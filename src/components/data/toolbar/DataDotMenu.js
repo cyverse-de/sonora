@@ -45,7 +45,7 @@ function DataDotMenu(props) {
         onCreateMultiInputFileSelected,
         canShare,
         setSharingDlgOpen,
-        isMobile,
+        isSmall,
     } = props;
     const { t } = useTranslation("data");
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
@@ -62,7 +62,7 @@ function DataDotMenu(props) {
                 baseId={baseId}
                 ButtonProps={ButtonProps}
                 render={(onClose) => [
-                    isMobile
+                    isSmall
                         ? [
                               detailsEnabled && (
                                   <DetailsMenuItem

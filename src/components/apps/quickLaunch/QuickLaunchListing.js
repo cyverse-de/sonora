@@ -37,7 +37,6 @@ import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import Paper from "@material-ui/core/Paper";
 import Popover from "@material-ui/core/Popover";
-import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { Link as MuiLink } from "@material-ui/core";
 import { useTheme } from "@material-ui/core";
@@ -132,32 +131,28 @@ function ActionsPopper(props) {
                         appId={appId}
                         systemId={systemId}
                     />
-                    <Tooltip>
-                        <IconButton
-                            id={build(
-                                baseDebugId,
-                                ids.QUICK_LAUNCH.EMBED_QUICK_LAUNCH
-                            )}
-                            fontSize="small"
-                            onClick={embedCodeClickHandler}
-                            title={t("qLaunchEmbedToolTip")}
-                        >
-                            <Code color="primary" />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip>
-                        <IconButton
-                            id={build(
-                                baseDebugId,
-                                ids.QUICK_LAUNCH.SHARE_QUICK_LAUNCH
-                            )}
-                            fontSize="small"
-                            onClick={shareClickHandler}
-                            title={t("qLaunchShareToolTip")}
-                        >
-                            <Share color="primary" />
-                        </IconButton>
-                    </Tooltip>
+                    <IconButton
+                        id={build(
+                            baseDebugId,
+                            ids.QUICK_LAUNCH.EMBED_QUICK_LAUNCH
+                        )}
+                        fontSize="small"
+                        onClick={embedCodeClickHandler}
+                        title={t("qLaunchEmbedToolTip")}
+                    >
+                        <Code color="primary" />
+                    </IconButton>
+                    <IconButton
+                        id={build(
+                            baseDebugId,
+                            ids.QUICK_LAUNCH.SHARE_QUICK_LAUNCH
+                        )}
+                        fontSize="small"
+                        onClick={shareClickHandler}
+                        title={t("qLaunchShareToolTip")}
+                    >
+                        <Share color="primary" />
+                    </IconButton>
                 </Paper>
             </Popover>
         );
@@ -206,7 +201,7 @@ function ListQuickLaunches(props) {
     const embedCodeClickHandler = () => {
         const shareUrl = getShareUrl(selected.id);
         const host = getHost();
-        const imgSrc = `https://${host}/${constants.QUICK_LAUNCH_EMBED_ICON}`;
+        const imgSrc = `${host}/${constants.QUICK_LAUNCH_EMBED_ICON}`;
 
         const embed = `<a href="${shareUrl}" target="_blank"><img src="${imgSrc}"></a>`;
 
@@ -223,9 +218,7 @@ function ListQuickLaunches(props) {
 
     const getShareUrl = () => {
         const host = getHost();
-        const url =
-            host +
-            `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?qId=${selected?.id}`;
+        const url = `${host}/${NavigationConstants.APPS}/${systemId}/${appId}/launch?qId=${selected?.id}`;
         return url;
     };
 

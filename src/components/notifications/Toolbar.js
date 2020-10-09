@@ -23,7 +23,6 @@ import {
     withStyles,
 } from "@material-ui/core";
 
-import RefreshIcon from "@material-ui/icons/Refresh";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CheckIcon from "@material-ui/icons/Check";
 
@@ -33,7 +32,6 @@ const NotificationToolbar = (props) => {
         baseDebugId,
         filter,
         onFilterChange,
-        onRefreshClicked,
         markSeenDisabled,
         onMarkSeenClicked,
         deleteDisabled,
@@ -86,16 +84,6 @@ const NotificationToolbar = (props) => {
                 </FormControl>
             </form>
 
-            <Button
-                id={build(baseId, ids.REFRESH_BTN)}
-                variant="contained"
-                size="small"
-                className={classes.toolbarButton}
-                onClick={onRefreshClicked}
-            >
-                <RefreshIcon color="primary" />
-                {getMessage("refresh")}
-            </Button>
             <Button
                 id={build(baseId, ids.MARK_ALL_SEEN_BTN)}
                 variant="contained"

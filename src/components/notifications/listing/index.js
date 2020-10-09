@@ -126,10 +126,6 @@ const NotificationView = (props) => {
         fetchNotifications();
     }, [fetchNotifications, filter, offset, order, orderBy, page, rowsPerPage]);
 
-    const handleRefreshClicked = () => {
-        fetchNotifications();
-    };
-
     const handleMarkSeenClick = () => {
         setLoading(true);
         setMarkAsSeenDisabled(true);
@@ -225,7 +221,6 @@ const NotificationView = (props) => {
                 baseDebugId={baseDebugId}
                 filter={filter}
                 onFilterChange={handleFilterChange}
-                onRefreshClicked={handleRefreshClicked}
                 markSeenDisabled={selected.length === 0 || markAsSeenDisabled}
                 deleteDisabled={selected.length === 0}
                 onMarkSeenClicked={handleMarkSeenClick}

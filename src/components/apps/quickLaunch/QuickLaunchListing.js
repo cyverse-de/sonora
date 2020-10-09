@@ -123,7 +123,7 @@ function ActionsPopper(props) {
             >
                 <Paper>
                     <QuickLaunchButtonLink
-                        id={build(baseDebugId, ids.QUICK_LAUNCH.useQuickLaunch)}
+                        id={build(baseDebugId, ids.QUICK_LAUNCH.USE_QUICK_LAUNCH)}
                         fontSize="small"
                         qid={quickLaunch.id}
                         appId={appId}
@@ -133,7 +133,7 @@ function ActionsPopper(props) {
                         <IconButton
                             id={build(
                                 baseDebugId,
-                                ids.QUICK_LAUNCH.embedQuickLaunch
+                                ids.QUICK_LAUNCH.EMBED_QUICK_LAUNCH
                             )}
                             fontSize="small"
                             onClick={embedCodeClickHandler}
@@ -146,7 +146,7 @@ function ActionsPopper(props) {
                         <IconButton
                             id={build(
                                 baseDebugId,
-                                ids.QUICK_LAUNCH.shareQuickLaunch
+                                ids.QUICK_LAUNCH.SHARE_QUICK_LAUNCH
                             )}
                             fontSize="small"
                             onClick={shareClickHandler}
@@ -358,7 +358,7 @@ function ListQuickLaunches(props) {
                         <CopyTextArea
                             debugIdPrefix={build(
                                 baseDebugId,
-                                ids.QUICK_LAUNCH.embedQuickLaunch
+                                ids.QUICK_LAUNCH.EMBED_QUICK_LAUNCH
                             )}
                             text={embedCode}
                             multiline={true}
@@ -367,7 +367,7 @@ function ListQuickLaunches(props) {
                 </Dialog>
                 <Dialog open={shareDialogOpen} maxWidth="sm" fullWidth={true}>
                     <DialogTitle>
-                        {t("shareLbl")}{" "}
+                        {t("shareLbl")}
                         <IconButton
                             aria-label={t("close")}
                             onClick={() => setShareDialogOpen(false)}
@@ -385,7 +385,7 @@ function ListQuickLaunches(props) {
                         <CopyTextArea
                             debugIdPrefix={build(
                                 baseDebugId,
-                                ids.QUICK_LAUNCH.shareQuickLaunch
+                                ids.QUICK_LAUNCH.SHARE_QUICK_LAUNCH
                             )}
                             text={qLaunchUrl}
                             multiline={true}

@@ -105,12 +105,16 @@ function TableView(props) {
         baseId,
         handleRequestSort,
         handleSelectAllClick,
+        handleCheckboxClick,
         handleClick,
         order,
         orderBy,
         selected,
         canShare,
         onDetailsSelected,
+        setSharingDlgOpen,
+        onDocSelected,
+        onQLSelected,
     } = props;
     const { t } = useTranslation("apps");
     const apps = listing?.apps;
@@ -186,6 +190,13 @@ function TableView(props) {
                                                 checked={isSelected}
                                                 tabIndex={0}
                                                 id={build(rowId, ids.checkbox)}
+                                                onChange={(event) =>
+                                                    handleCheckboxClick(
+                                                        event,
+                                                        appId,
+                                                        index
+                                                    )
+                                                }
                                                 inputProps={{
                                                     "aria-label": t(
                                                         "ariaCheckbox",
@@ -256,6 +267,11 @@ function TableView(props) {
                                                 onDetailsSelected={
                                                     onDetailsSelected
                                                 }
+                                                setSharingDlgOpen={
+                                                    setSharingDlgOpen
+                                                }
+                                                onDocSelected={onDocSelected}
+                                                onQLSelected={onQLSelected}
                                             />
                                         </TableCell>
                                     </TableRow>

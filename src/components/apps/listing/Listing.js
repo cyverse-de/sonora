@@ -11,6 +11,9 @@ import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
 import Drawer from "../details/Drawer";
 import TableView from "./TableView";
 import AppsToolbar from "../toolbar/Toolbar";
+import ids from "../ids";
+
+import { build } from "@cyverse-de/ui-lib";
 
 import appType from "components/models/AppType";
 import DEPagination from "components/utils/DEPagination";
@@ -32,6 +35,12 @@ import {
 
 import { useQuery } from "react-query";
 import { canShare } from "../utils";
+import { useTheme, useMediaQuery } from "@material-ui/core";
+
+import Sharing from "components/sharing";
+import { formatSharedApps } from "components/sharing/util";
+import AppDoc from "components/apps/details/AppDoc";
+import QuickLaunchDialog from "../quickLaunch/QuickLaunchDialog";
 
 function Listing({
     baseId,
@@ -89,6 +98,15 @@ function Listing({
     };
 
     const shareEnabled = canShare(getSelectedApps());
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+
+    const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
+    const [docDlgOpen, setDocDlgOpen] = useState(false);
+    const [qlDlgOpen, setQLDlgOpen] = useState(false);
+
+    const sharingApps = formatSharedApps(getSelectedApps());
 
     const {
         isFetching: appInCategoryStatus,
@@ -251,6 +269,11 @@ function Listing({
         setSelected(newSelected);
     };
 
+    const handleCheckboxClick = (event, id, index) => {
+        toggleSelection(id);
+        setLastSelectIndex(index);
+    };
+
     const toggleSelection = (appId) => {
         if (selected.includes(appId)) {
             deselect([appId]);
@@ -280,7 +303,7 @@ function Listing({
                 ? rangeSelect(index, lastSelectIndex, id)
                 : rangeSelect(lastSelectIndex, index, id);
         } else {
-            toggleSelection(id);
+            setSelected([id]);
         }
 
         setLastSelectIndex(index);
@@ -402,6 +425,9 @@ function Listing({
                 onAddToBagClicked={onAddToBagClicked}
                 canShare={shareEnabled}
                 selectedApps={getSelectedApps()}
+                setSharingDlgOpen={setSharingDlgOpen}
+                onDocSelected={() => setDocDlgOpen(true)}
+                onQLSelected={() => setQLDlgOpen(true)}
             />
             <TableView
                 loading={
@@ -422,12 +448,17 @@ function Listing({
                 orderBy={orderBy}
                 selected={selected}
                 handleSelectAllClick={handleSelectAllClick}
+                handleCheckboxClick={handleCheckboxClick}
                 handleClick={handleClick}
                 handleRequestSort={handleRequestSort}
                 onRouteToApp={onRouteToApp}
                 canShare={shareEnabled}
                 onDetailsSelected={onDetailsSelected}
+                setSharingDlgOpen={setSharingDlgOpen}
+                onDocSelected={() => setDocDlgOpen(true)}
+                onQLSelected={() => setQLDlgOpen(true)}
             />
+
             {detailsOpen && (
                 <Drawer
                     appId={detailsApp?.id}
@@ -447,6 +478,28 @@ function Listing({
                     baseId={baseId}
                 />
             )}
+            <Sharing
+                open={sharingDlgOpen}
+                onClose={() => setSharingDlgOpen(false)}
+                resources={sharingApps}
+            />
+            <AppDoc
+                baseId={build(baseId, ids.DOCUMENTATION)}
+                open={docDlgOpen}
+                appId={detailsApp?.id}
+                systemId={detailsApp?.system_id}
+                name={detailsApp?.name}
+                onClose={() => setDocDlgOpen(false)}
+                isMobile={isMobile}
+            />
+            <QuickLaunchDialog
+                baseDebugId={build(baseId, ids.QUICK_LAUNCH)}
+                appName={detailsApp?.name}
+                appId={detailsApp?.id}
+                systemId={detailsApp?.system_id}
+                dialogOpen={qlDlgOpen}
+                onHide={() => setQLDlgOpen(false)}
+            />
         </>
     );
 }

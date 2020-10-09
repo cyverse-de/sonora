@@ -28,8 +28,6 @@ import {
     Queue as AddToBagIcon,
 } from "@material-ui/icons";
 import SharingButton from "components/sharing/SharingButton";
-import Sharing from "components/sharing";
-import { formatSharedApps } from "components/sharing/util";
 
 /**
  *
@@ -109,16 +107,15 @@ function AppsToolbar(props) {
         addToBagEnabled,
         onAddToBagClicked = () => {},
         canShare,
-        selectedApps,
+        setSharingDlgOpen,
+        onDocSelected,
+        onQLSelected,
         baseId,
     } = props;
     const { t } = useTranslation("apps");
     const classes = useStyles();
     const appsToolbarId = build(baseId, ids.APPS_TOOLBAR);
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
-    const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
-
-    const sharingApps = formatSharedApps(selectedApps);
 
     return (
         <>
@@ -205,6 +202,8 @@ function AppsToolbar(props) {
                         onFilterSelected={() => setOpenFilterDialog(true)}
                         canShare={canShare}
                         setSharingDlgOpen={setSharingDlgOpen}
+                        onDocSelected={onDocSelected}
+                        onQLSelected={onQLSelected}
                     />
                 </Hidden>
             </Toolbar>
@@ -224,11 +223,6 @@ function AppsToolbar(props) {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Sharing
-                open={sharingDlgOpen}
-                onClose={() => setSharingDlgOpen(false)}
-                resources={sharingApps}
-            />
         </>
     );
 }

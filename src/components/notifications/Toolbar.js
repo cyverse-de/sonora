@@ -7,11 +7,12 @@ import React from "react";
 
 import exStyles from "./style";
 import ids from "./ids";
-import intlData from "./messages";
 
 import notificationCategory from "components/models/notificationCategory";
 
-import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { useTranslation } from "i18n";
+
+import { build } from "@cyverse-de/ui-lib";
 
 import {
     Button,
@@ -38,6 +39,7 @@ const NotificationToolbar = (props) => {
         onDeleteClicked,
     } = props;
 
+    const { t } = useTranslation(["notifications", "common"]);
     const baseId = build(baseDebugId, ids.TOOLBAR);
 
     return (
@@ -45,7 +47,7 @@ const NotificationToolbar = (props) => {
             <form autoComplete="off">
                 <FormControl className={classes.dropDown}>
                     <InputLabel className={classes.dropDownLabel}>
-                        {getMessage("filter")}
+                        {t("common:filter")}
                     </InputLabel>
                     <Select
                         id={build(baseId, ids.NOTIFICATION_FILTER)}
@@ -93,7 +95,7 @@ const NotificationToolbar = (props) => {
                 onClick={onMarkSeenClicked}
             >
                 <CheckIcon color="primary" />
-                {getMessage("markSeen")}
+                {t("markSeen")}
             </Button>
             <Button
                 id={build(baseId, ids.DELETE_BTN)}
@@ -104,10 +106,10 @@ const NotificationToolbar = (props) => {
                 className={classes.toolbarButton}
             >
                 <DeleteIcon color="primary" />
-                {getMessage("delete")}
+                {t("common:delete")}
             </Button>
         </Toolbar>
     );
 };
 
-export default withStyles(exStyles)(withI18N(NotificationToolbar, intlData));
+export default withStyles(exStyles)(NotificationToolbar);

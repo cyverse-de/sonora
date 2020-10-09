@@ -10,8 +10,9 @@ import classnames from "classnames";
 
 import exStyles from "../style";
 import ids from "../ids";
-import intlData from "../messages";
 import NotificationToolbar from "../Toolbar";
+
+import { useTranslation } from "i18n";
 
 import notificationCategory from "components/models/notificationCategory";
 
@@ -22,7 +23,6 @@ import {
     EnhancedTableHead,
     formatDate,
     TablePaginationActions,
-    withI18N,
 } from "@cyverse-de/ui-lib";
 
 import {
@@ -35,22 +35,22 @@ import {
     withStyles,
 } from "@material-ui/core";
 
-const columnData = [
+const getColumns = (t) => [
     {
         id: ids.CATEGORY,
-        name: "Category",
+        name: t("category"),
         numeric: false,
         enableSorting: false,
     },
     {
         id: ids.MESSAGE,
-        name: "Message",
+        name: t("message"),
         numeric: false,
         enableSorting: false,
     },
     {
         id: ids.CREATED_DATE,
-        name: "Created Date",
+        name: t("created_date"),
         numeric: false,
         enableSorting: true,
     },
@@ -91,9 +91,12 @@ const NotificationView = (props) => {
     const [rowsPerPage, setRowsPerPage] = React.useState(100);
     const [selected, setSelected] = React.useState([]);
     const [order, setOrder] = React.useState("desc");
-    const [orderBy, setOrderBy] = React.useState("Date");
+    const [orderBy, setOrderBy] = React.useState(ids.CREATED_DATE);
     const [filter, setFilter] = React.useState(notificationCategory.all);
     const [markAsSeenDisabled, setMarkAsSeenDisabled] = React.useState(true);
+
+    const { t } = useTranslation("notifications");
+    const columnData = getColumns(t);
 
     const fetchNotifications = React.useCallback(() => {
         setLoading(true);
@@ -307,4 +310,4 @@ const NotificationView = (props) => {
     );
 };
 
-export default withStyles(exStyles)(withI18N(NotificationView, intlData));
+export default withStyles(exStyles)(NotificationView);

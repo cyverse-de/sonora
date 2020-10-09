@@ -67,12 +67,14 @@ function Listing({
     const [category, setCategory] = useState(selectedCategory);
 
     const [selected, setSelected] = useState([]);
+    const [selectedApp, setSelectedApp] = useState(null);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
 
     const [data, setData] = useState(null);
     const [agaveAuthDialogOpen, setAgaveAuthDialogOpen] = useState(false);
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
+
     const [detailsApp, setDetailsApp] = useState(null);
     const [addToBagEnabled, setAddToBagEnabled] = useState(false);
 
@@ -249,8 +251,18 @@ function Listing({
     }, [selected]);
 
     useEffect(() => {
+
         setAddToBagEnabled(selected && selected.length > 0);
     }, [selected]);
+
+    useEffect(() => {
+        if (data?.apps) {
+            const selectedId = selected[0];
+            setSelectedApp(data.apps.find((item) => item.id === selectedId));
+        } else {
+            setSelectedApp(null);
+        }
+    }, [data, selected]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);
@@ -354,10 +366,6 @@ function Listing({
 
     const onDetailsSelected = () => {
         setDetailsOpen(true);
-        const selectedId = selected[0];
-        const index = data?.apps.findIndex((item) => item.id === selectedId);
-        const app = data?.apps[index];
-        setDetailsApp(app);
     };
 
     const addItemsToBag = useBagAddItems({
@@ -461,8 +469,8 @@ function Listing({
 
             {detailsOpen && (
                 <Drawer
-                    appId={detailsApp?.id}
-                    systemId={detailsApp?.system_id}
+                    appId={selectedApp?.id}
+                    systemId={selectedApp?.system_id}
                     open={detailsOpen}
                     baseId={baseId}
                     onClose={() => setDetailsOpen(false)}
@@ -486,19 +494,19 @@ function Listing({
             <AppDoc
                 baseId={build(baseId, ids.DOCUMENTATION)}
                 open={docDlgOpen}
-                appId={detailsApp?.id}
-                systemId={detailsApp?.system_id}
-                name={detailsApp?.name}
+                appId={selectedApp?.id}
+                systemId={selectedApp?.system_id}
+                name={selectedApp?.name}
                 onClose={() => setDocDlgOpen(false)}
                 isMobile={isMobile}
             />
             <QuickLaunchDialog
                 baseDebugId={build(baseId, ids.QUICK_LAUNCH)}
-                appName={detailsApp?.name}
-                appId={detailsApp?.id}
-                systemId={detailsApp?.system_id}
-                dialogOpen={qlDlgOpen}
-                onHide={() => setQLDlgOpen(false)}
+                appName={selectedApp?.name}
+                appId={selectedApp?.id}
+                systemId={selectedApp?.system_id}
+                open={qlDlgOpen}
+                onClose={() => setQLDlgOpen(false)}
             />
         </>
     );

@@ -123,7 +123,10 @@ function ActionsPopper(props) {
             >
                 <Paper>
                     <QuickLaunchButtonLink
-                        id={build(baseDebugId, ids.QUICK_LAUNCH.USE_QUICK_LAUNCH)}
+                        id={build(
+                            baseDebugId,
+                            ids.QUICK_LAUNCH.USE_QUICK_LAUNCH
+                        )}
                         fontSize="small"
                         qid={quickLaunch.id}
                         appId={appId}

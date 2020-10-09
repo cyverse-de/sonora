@@ -23,19 +23,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function QuickLaunchDialog(props) {
-    const { baseDebugId, appName, appId, systemId, dialogOpen, onHide } = props;
+    const { baseDebugId, appName, appId, systemId, open, onClose } = props;
     const { t } = useTranslation("apps");
 
     const classes = useStyles();
 
     return (
-        <Dialog open={dialogOpen}>
+        <Dialog open={open}>
             <DialogTitle>
                 {appName}
                 <IconButton
                     className={classes.closeButton}
                     aria-label={t("cancelLabel")}
-                    onClick={onHide}
+                    onClick={onClose}
                     size="small"
                     edge="end"
                 >

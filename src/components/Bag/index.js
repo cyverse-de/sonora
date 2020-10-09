@@ -91,16 +91,32 @@ const BagSkeleton = () => (
     <Skeleton variant="rect" animation="wave" height={100} width="100%" />
 );
 
-export const BagUI = ({ items, isLoading, showErrorAnnouncer }) => {
+export const BagUI = ({ showErrorAnnouncer }) => {
     const { t } = useTranslation(["bags", "common"]);
+
+    // Should reuse the cached values if they're available.
+    const { isLoading, isError: hasErrored, data, error } = facade.useBag();
+
     const classes = useStyles();
     const [filterBy, setFilterBy] = useState(constants.FILTERBY.ALL);
     const [allItems, setAllItems] = useState([]);
     const [bagItems, setBagItems] = useState([]);
 
     useEffect(() => {
-        setAllItems(items.map((item) => createNewBagItem(item)));
-    }, [items, setAllItems]);
+        if (hasErrored) {
+            showErrorAnnouncer(t("fetchBagError"), error);
+        }
+    }, [hasErrored, error, showErrorAnnouncer, t]);
+
+    useEffect(() => {
+        if (data?.contents?.items) {
+            setAllItems(
+                data.contents.items.map((item) => createNewBagItem(item))
+            );
+        } else {
+            setAllItems([]);
+        }
+    }, [data, setAllItems]);
 
     useEffect(() => {
         switch (filterBy) {
@@ -228,7 +244,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         menuIconClass = classes.menuIcon;
     }
 
-    const { isLoading, isError: hasErrored, data, error } = facade.useBag();
+    const { isError: hasErrored, data, error } = facade.useBag();
 
     const [badgeCount, setBadgeCount] = useState(0);
     const [bagItems, setBagItems] = useState([]);
@@ -240,7 +256,11 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
     }, [hasErrored, error, showErrorAnnouncer, t]);
 
     useEffect(() => {
-        setBagItems(data?.items || []);
+        if (data?.contents?.items) {
+            setBagItems(data?.contents?.items);
+        } else {
+            setBagItems([]);
+        }
     }, [data, setBagItems]);
 
     useEffect(() => {
@@ -367,11 +387,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                 </DialogTitle>
 
                 <DialogContent dividers>
-                    <BagUI
-                        isLoading={isLoading}
-                        items={bagItems}
-                        showErrorAnnouncer={showErrorAnnouncer}
-                    />
+                    <BagUI showErrorAnnouncer={showErrorAnnouncer} />
                 </DialogContent>
 
                 <DialogActions>

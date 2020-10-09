@@ -35,8 +35,8 @@ export const Listing = () => {
                     2000
                 );
             }}
-            onNotificationToolbarMarkAsSeenClicked={(selected, onSuccess) => {
-                console.log("onNotificationToolbarMarkAsSeenClicked", selected);
+            onMarkAsSeenClicked={(selected, onSuccess) => {
+                console.log("onMarkAsSeenClicked", selected);
                 setTimeout(onSuccess, 2000);
             }}
             deleteNotifications={(selected, onSuccess) => {

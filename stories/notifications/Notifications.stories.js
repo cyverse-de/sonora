@@ -8,8 +8,6 @@ import NotificationsMenu from "../../src/components/notifications/NotificationsM
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import notificationsData from "./notificationsData";
 import {mockAxios} from "../axiosMock";
-import {Menu} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
 
 export default {
     title: "Notifications",

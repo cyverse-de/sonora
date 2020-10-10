@@ -12,12 +12,12 @@ export default (theme) =>
         },
 
         notificationText: {
+            fontFamily: 'Roboto',
+            fontWeight: 400,
             float: "left",
             display: "flex",
             width: "12r",
             textOverflow: "ellipsis",
-            overflow: "hidden",
-            noWrap: true,
         },
 
         notificationsRow: {
@@ -25,6 +25,8 @@ export default (theme) =>
         },
 
         header: {
+            fontFamily: 'Roboto',
+            fontWeight: 400,
             marginBottom: theme.spacing(1),
             marginTop: theme.spacing(1),
             marginLeft: theme.spacing(2),
@@ -32,8 +34,10 @@ export default (theme) =>
 
         footer: {
             color: theme.palette.primary.main,
-            marginTop: theme.spacing(1),
-            marginLeft: theme.spacing(2),
+            textAlign: "left",
+            float: "left",
+            display: "block",
+            width: "100%",
         },
     });
 

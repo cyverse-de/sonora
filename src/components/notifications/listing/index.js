@@ -8,8 +8,8 @@ import React from "react";
 
 import classnames from "classnames";
 
-import exStyles from "../style";
 import ids from "../ids";
+import styles from "../styles";
 import NotificationToolbar from "../Toolbar";
 
 import { useTranslation } from "i18n";
@@ -26,30 +26,35 @@ import {
 } from "@cyverse-de/ui-lib";
 
 import {
+    makeStyles,
     Table,
     TableBody,
     TableCell,
     TablePagination,
     TableRow,
     Typography,
-    withStyles,
 } from "@material-ui/core";
+
+const useStyles = makeStyles(styles);
 
 const getColumns = (t) => [
     {
         id: ids.CATEGORY,
+        key: ids.CATEGORY,
         name: t("category"),
         numeric: false,
         enableSorting: false,
     },
     {
         id: ids.MESSAGE,
+        key: ids.MESSAGE,
         name: t("message"),
         numeric: false,
         enableSorting: false,
     },
     {
         id: ids.CREATED_DATE,
+        key: ids.CREATED_DATE,
         name: t("created_date"),
         numeric: false,
         enableSorting: true,
@@ -57,15 +62,10 @@ const getColumns = (t) => [
 ];
 
 function Message(props) {
-    const { message, seen, onMessageClicked, classes } = props;
-    let className = seen
-        ? classes.notification
-        : classnames(
-              classes.notification,
-              classes.unSeenNotificationBackground
-          );
+    const { className, message, onMessageClicked } = props;
+
     return (
-        <TableCell padding="none" className={className}>
+        <TableCell className={className}>
             <Typography onClick={(event) => onMessageClicked(message)}>
                 {message.text}
             </Typography>
@@ -75,7 +75,6 @@ function Message(props) {
 
 const NotificationView = (props) => {
     const {
-        classes,
         baseDebugId,
         onMessageClicked,
         getNotifications,
@@ -93,7 +92,9 @@ const NotificationView = (props) => {
     const [order, setOrder] = React.useState("desc");
     const [orderBy, setOrderBy] = React.useState(ids.CREATED_DATE);
     const [filter, setFilter] = React.useState(notificationCategory.all);
-    const [markAsSeenDisabled, setMarkAsSeenDisabled] = React.useState(true);
+    const [markAsSeenEnabled, setMarkAsSeenEnabled] = React.useState(true);
+
+    const classes = useStyles();
 
     const { t } = useTranslation("notifications");
     const columnData = getColumns(t);
@@ -131,7 +132,7 @@ const NotificationView = (props) => {
 
     const handleMarkSeenClick = () => {
         setLoading(true);
-        setMarkAsSeenDisabled(true);
+
         onMarkAsSeenClicked(
             selected,
             () => {
@@ -142,10 +143,10 @@ const NotificationView = (props) => {
                             : n
                     )
                 );
+                setMarkAsSeenEnabled(false);
                 setLoading(false);
             },
             (errorCode, errorMessage) => {
-                setMarkAsSeenDisabled(false);
                 setLoading(false);
             }
         );
@@ -196,13 +197,15 @@ const NotificationView = (props) => {
         }
 
         setSelected(newSelected);
-        setMarkAsSeenDisabled(
-            !!data.find((n) => newSelected.includes(n.message.id) && n.seen)
+        setMarkAsSeenEnabled(
+            !data.find((n) => newSelected.includes(n.message.id) && n.seen)
         );
     };
 
     const handleSelectAllClick = (event, checked) => {
-        setSelected(checked ? data.map((n) => n.message.id) : []);
+        setSelected(
+            checked && !selected.length ? data.map((n) => n.message.id) : []
+        );
     };
 
     const handleRequestSort = (event, property) => {
@@ -218,83 +221,90 @@ const NotificationView = (props) => {
 
     const baseId = baseDebugId + ids.NOTIFICATION_VIEW;
 
+    const hasSelection = selected.length > 0;
+
     return (
-        <div className={classes.container}>
+        <>
             <NotificationToolbar
                 baseDebugId={baseDebugId}
                 filter={filter}
                 onFilterChange={handleFilterChange}
-                markSeenDisabled={selected.length === 0 || markAsSeenDisabled}
-                deleteDisabled={selected.length === 0}
+                markAsSeenEnabled={hasSelection && markAsSeenEnabled}
+                deleteEnabled={hasSelection}
                 onMarkSeenClicked={handleMarkSeenClick}
                 onDeleteClicked={handleDeleteClick}
             />
-            <div className={classes.table}>
-                <Table>
-                    {loading ? (
-                        <TableLoading
-                            baseId={baseDebugId}
-                            numColumns={4}
-                            numRows={25}
-                        />
-                    ) : (
-                        <TableBody>
-                            {data.map((n) => {
-                                const isSelected = selected.includes(
-                                    n.message.id
-                                );
-
-                                return (
-                                    <TableRow
-                                        onClick={(event) =>
-                                            handleRowClick(event, n.message.id)
-                                        }
-                                        role="checkbox"
-                                        aria-checked={isSelected}
-                                        tabIndex={-1}
-                                        selected={isSelected}
-                                        hover
-                                        key={n.message.id}
-                                    >
-                                        <TableCell padding="checkbox">
-                                            <DECheckbox checked={isSelected} />
-                                        </TableCell>
-                                        <TableCell>
-                                            {
-                                                notificationCategory[
-                                                    n.type
-                                                        .replace(/\s/g, "_")
-                                                        .toLowerCase()
-                                                ]
-                                            }
-                                        </TableCell>
-                                        <Message
-                                            message={n.message}
-                                            seen={n.seen}
-                                            onMessageClicked={onMessageClicked}
-                                            classes={classes}
-                                        />
-                                        <TableCell>
-                                            {formatDate(n.message.timestamp)}
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    )}
-                    <EnhancedTableHead
-                        selectable={true}
-                        numSelected={selected.length}
-                        order={order}
-                        orderBy={orderBy}
-                        onSelectAllClick={handleSelectAllClick}
-                        onRequestSort={handleRequestSort}
-                        columnData={columnData}
-                        baseId={baseId}
-                        rowsInPage={data.length}
+            <Table stickyHeader={true} size="small">
+                {loading ? (
+                    <TableLoading
+                        baseId={baseDebugId}
+                        numColumns={columnData.length + 1}
+                        numRows={25}
                     />
-                </Table>
-            </div>
+                ) : (
+                    <TableBody>
+                        {data.map((n) => {
+                            const isSelected = selected.includes(n.message.id);
+
+                            const className = n.seen
+                                ? null
+                                : classes.unSeenNotificationBackground;
+
+                            return (
+                                <TableRow
+                                    onClick={(event) =>
+                                        handleRowClick(event, n.message.id)
+                                    }
+                                    role="checkbox"
+                                    aria-checked={isSelected}
+                                    tabIndex={-1}
+                                    selected={isSelected}
+                                    hover
+                                    key={n.message.id}
+                                >
+                                    <TableCell
+                                        className={className}
+                                        padding="checkbox"
+                                    >
+                                        <DECheckbox checked={isSelected} />
+                                    </TableCell>
+                                    <TableCell className={className}>
+                                        {
+                                            notificationCategory[
+                                                n.type
+                                                    .replace(/\s/g, "_")
+                                                    .toLowerCase()
+                                            ]
+                                        }
+                                    </TableCell>
+                                    <Message
+                                        className={classnames(
+                                            classes.notification,
+                                            className
+                                        )}
+                                        message={n.message}
+                                        onMessageClicked={onMessageClicked}
+                                    />
+                                    <TableCell className={className}>
+                                        {formatDate(n.message.timestamp)}
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                )}
+                <EnhancedTableHead
+                    selectable={true}
+                    numSelected={selected.length}
+                    order={order}
+                    orderBy={orderBy}
+                    onSelectAllClick={handleSelectAllClick}
+                    onRequestSort={handleRequestSort}
+                    columnData={columnData}
+                    baseId={baseId}
+                    rowsInPage={data.length}
+                />
+            </Table>
             <TablePagination
                 colSpan={3}
                 component="div"
@@ -304,10 +314,10 @@ const NotificationView = (props) => {
                 onChangePage={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
                 ActionsComponent={TablePaginationActions}
-                rowsPerPageOptions={[5, 100, 500, 1000]}
+                rowsPerPageOptions={[25, 100, 500, 1000]}
             />
-        </div>
+        </>
     );
 };
 
-export default withStyles(exStyles)(NotificationView);
+export default NotificationView;

@@ -216,6 +216,25 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
     const { t } = useTranslation(["bags", "common"]);
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
+    const [badgeCount, setBadgeCount] = useState(0);
+    const [allItems, setAllItems] = useState([]);
+
+    const [bagDlgOpen, setBagDlgOpen] = useState(false);
+    const [sharingOpen, setSharingOpen] = useState(false);
+    const defaultSharingResources = React.useMemo(
+        () => ({
+            [SHARING_TYPE.TOOLS]: [],
+            [SHARING_TYPE.APPS]: [],
+            [SHARING_TYPE.DATA]: [],
+            [SHARING_TYPE.ANALYSES]: [],
+            unknown: [],
+        }),
+        []
+    );
+    const [sharingResources, setSharingResources] = useState(
+        defaultSharingResources
+    );
+
     if (!menuIconClass) {
         menuIconClass = classes.menuIcon;
     }
@@ -232,51 +251,8 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         setAllItems(converted);
     }, []);
 
-    const { isError: hasErrored, data, isLoading, error } = facade.useBag({
-        onSuccess: convertItems,
-    });
-
-    const removeItem = facade.useBagRemoveItem({
-        handleError: (error) => {
-            showErrorAnnouncer(t("removeItemError"), error);
-        },
-    });
-
-    const clearAll = facade.useBagRemoveItems({
-        handleError: (error) => {
-            showErrorAnnouncer(t("removeAllItemsError"), error);
-        },
-    });
-
-    const [badgeCount, setBadgeCount] = useState(0);
-    const [allItems, setAllItems] = useState([]);
-
-    useEffect(() => {
-        if (hasErrored) {
-            showErrorAnnouncer(t("fetchBagError"), error);
-        }
-    }, [hasErrored, error, showErrorAnnouncer, t]);
-
-    useEffect(() => {
-        convertItems(data);
-    }, [data, convertItems]);
-
-    useEffect(() => {
-        setBadgeCount(allItems.length);
-    }, [allItems, setBadgeCount]);
-
-    const [bagDlgOpen, setBagDlgOpen] = useState(false);
-    const [sharingOpen, setSharingOpen] = useState(false);
-    const [sharingResources, setSharingResources] = useState({
-        [SHARING_TYPE.TOOLS]: [],
-        [SHARING_TYPE.APPS]: [],
-        [SHARING_TYPE.DATA]: [],
-        [SHARING_TYPE.ANALYSES]: [],
-        unknown: [],
-    });
-
     // Convert the items into a map that the sharing dialog understands.
-    const sharingReducer = (acc, curr) => {
+    const sharingReducer = useCallback((acc, curr) => {
         const newObj = { ...curr.item };
 
         switch (newObj.type) {
@@ -295,13 +271,53 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                 break;
         }
         return acc;
-    };
+    }, []);
+
+    const { isError: hasErrored, data, isLoading, error } = facade.useBag({
+        onSuccess: convertItems,
+    });
+
+    const removeItem = facade.useBagRemoveItem({
+        handleError: (error) => {
+            showErrorAnnouncer(t("removeItemError"), error);
+        },
+    });
+
+    const clearAll = facade.useBagRemoveItems({
+        handleError: (error) => {
+            showErrorAnnouncer(t("removeAllItemsError"), error);
+        },
+    });
+
+    useEffect(() => {
+        if (hasErrored) {
+            showErrorAnnouncer(t("fetchBagError"), error);
+        }
+    }, [hasErrored, error, showErrorAnnouncer, t]);
+
+    useEffect(() => {
+        convertItems(data);
+    }, [data, convertItems]);
+
+    useEffect(() => {
+        setBadgeCount(allItems.length);
+    }, [allItems, setBadgeCount]);
+
+    useEffect(() => {
+        setSharingResources(
+            allItems.reduce(sharingReducer, defaultSharingResources)
+        );
+    }, [
+        allItems,
+        sharingReducer,
+        defaultSharingResources,
+        setSharingResources,
+    ]);
 
     const handleSharingClick = (event) => {
         event.preventDefault();
         event.stopPropagation();
 
-        setSharingResources(allItems.reduce(sharingReducer, sharingResources));
         setBagDlgOpen(false);
         setSharingOpen(true);
     };

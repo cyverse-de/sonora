@@ -3,15 +3,19 @@
  *
  */
 import React, { useCallback } from "react";
-
+import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
 
+import constants from "../../../constants";
+
+import { getLocalStorage } from "components/utils/localStorage";
 import viewerConstants from "components/data/viewers/constants";
 import Listing from "components/data/listing/Listing";
 import { getEncodedPath } from "components/data/utils";
 import FileViewer from "components/data/viewers/FileViewer";
 import infoTypes from "components/models/InfoTypes";
 import ResourceTypes from "components/models/ResourceTypes";
+import dataFields from "components/data/dataFields";
 
 /**
  * This variable value needs to match the name of this file for the routing to work
@@ -29,8 +33,17 @@ const dynamicPathName = "/[...pathItems]";
  *
  */
 export default function DataStore() {
+    const { t } = useTranslation("data");
     const router = useRouter();
     const query = router.query;
+    const dataRecordFields = dataFields(t);
+
+    const selectedPage = parseInt(query.selectedPage) || 0;
+    const selectedRowsPerPage =
+        parseInt(getLocalStorage(constants.LOCAL_STORAGE.DATA.PAGE_SIZE)) ||
+        100;
+    const selectedOrder = query.selectedOrder || constants.SORT_ASCENDING;
+    const selectedOrderBy = query.selectedOrderBy || dataRecordFields.NAME.key;
 
     const isFile = query.type === ResourceTypes.FILE;
     const resourceId = query.resourceId;
@@ -100,6 +113,17 @@ export default function DataStore() {
         [baseRoutingPath, router]
     );
 
+    const onRouteToListing = useCallback(
+        (path, order, orderBy, page, rowsPerPage) => {
+            const encodedPath = getEncodedPath(path);
+            router.push(
+                `${baseRoutingPath}${dynamicPathName}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}`,
+                `${baseRoutingPath}${encodedPath}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}`
+            );
+        },
+        [baseRoutingPath, router]
+    );
+
     if (!isFile) {
         return (
             <Listing
@@ -108,6 +132,11 @@ export default function DataStore() {
                 baseId="data"
                 onCreateHTFileSelected={onCreateHTFileSelected}
                 onCreateMultiInputFileSelected={onCreateMultiInputFileSelected}
+                selectedPage={selectedPage}
+                selectedRowsPerPage={selectedRowsPerPage}
+                selectedOrder={selectedOrder}
+                selectedOrderBy={selectedOrderBy}
+                onRouteToListing={onRouteToListing}
             />
         );
     } else {

@@ -396,7 +396,7 @@ function Listing(props) {
                         if (analysisStatus !== found.status) {
                             found.status = analysisStatus;
                             found.enddate = message.payload.enddate;
-                            setData({ analyses: [...data.analyses] });
+                            setData({ analyses: [...data.analyses], ...data });
                         }
                     } else {
                         //add a new analysis record and remove the last record from the page
@@ -408,13 +408,15 @@ function Listing(props) {
                             );
                             setData({
                                 analyses: [message.payload, ...newPage],
+                                ...data,
                             });
                         } else if (data.analyses?.length === 0) {
                             //if page is empty...
-                            setData({ analyses: [message.payload] });
+                            setData({ analyses: [message.payload], total: 1 });
                         } else {
                             setData({
                                 analyses: [message.payload, ...data.analyses],
+                                ...data,
                             });
                         }
                     }

@@ -28,6 +28,7 @@ export const deleteDefaultBag = (key) =>
 
 export const useBag = (opts = {}) => {
     return useQuery(DEFAULT_BAG_QUERY_KEY, getDefaultBag, {
+        initialStale: true,
         initialData: {
             contents: { items: [] },
         },

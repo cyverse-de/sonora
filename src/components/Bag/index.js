@@ -210,6 +210,14 @@ export const BagUI = ({ removeItem, allItems, isLoading }) => {
     );
 };
 
+const defaultSharingResources = () => ({
+    [SHARING_TYPE.TOOLS]: [],
+    [SHARING_TYPE.APPS]: [],
+    [SHARING_TYPE.DATA]: [],
+    [SHARING_TYPE.ANALYSES]: [],
+    unknown: [],
+});
+
 const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
     const theme = useTheme();
     const classes = useStyles();
@@ -221,35 +229,13 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
 
     const [bagDlgOpen, setBagDlgOpen] = useState(false);
     const [sharingOpen, setSharingOpen] = useState(false);
-    const defaultSharingResources = React.useMemo(
-        () => ({
-            [SHARING_TYPE.TOOLS]: [],
-            [SHARING_TYPE.APPS]: [],
-            [SHARING_TYPE.DATA]: [],
-            [SHARING_TYPE.ANALYSES]: [],
-            unknown: [],
-        }),
-        []
-    );
     const [sharingResources, setSharingResources] = useState(
-        defaultSharingResources
+        defaultSharingResources()
     );
 
     if (!menuIconClass) {
         menuIconClass = classes.menuIcon;
     }
-
-    const convertItems = useCallback((data) => {
-        let converted = [];
-
-        if (data?.contents?.items) {
-            converted = data.contents.items.map((item) =>
-                createNewBagItem(item)
-            );
-        }
-
-        setAllItems(converted);
-    }, []);
 
     // Convert the items into a map that the sharing dialog understands.
     const sharingReducer = useCallback((acc, curr) => {
@@ -272,6 +258,25 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         }
         return acc;
     }, []);
+
+    const convertItems = useCallback(
+        (data) => {
+            let converted = [];
+
+            if (data?.contents?.items) {
+                converted = data.contents.items.map((item) =>
+                    createNewBagItem(item)
+                );
+            }
+
+            setAllItems(converted);
+
+            setSharingResources(
+                converted.reduce(sharingReducer, defaultSharingResources())
+            );
+        },
+        [sharingReducer]
+    );
 
     const { isError: hasErrored, data, isLoading, error } = facade.useBag({
         onSuccess: convertItems,
@@ -302,17 +307,6 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
     useEffect(() => {
         setBadgeCount(allItems.length);
     }, [allItems, setBadgeCount]);
-
-    useEffect(() => {
-        setSharingResources(
-            allItems.reduce(sharingReducer, defaultSharingResources)
-        );
-    }, [
-        allItems,
-        sharingReducer,
-        defaultSharingResources,
-        setSharingResources,
-    ]);
 
     const handleSharingClick = (event) => {
         event.preventDefault();

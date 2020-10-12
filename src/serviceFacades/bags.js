@@ -26,8 +26,13 @@ export const deleteDefaultBag = (key) =>
         method: "DELETE",
     });
 
-export const useBag = () => {
-    return useQuery(DEFAULT_BAG_QUERY_KEY, getDefaultBag);
+export const useBag = (opts = {}) => {
+    return useQuery(DEFAULT_BAG_QUERY_KEY, getDefaultBag, {
+        initialData: {
+            contents: { items: [] },
+        },
+        ...opts,
+    });
 };
 
 export const useBagRemoveItems = (
@@ -102,11 +107,9 @@ export const useBagRemoveItem = (
     });
 
     return async (item) => {
-        let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY) || {
-            contents: { items: [] },
-        };
+        let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY);
 
-        if (!data.contents.items) {
+        if (!data?.contents?.items) {
             data.contents.items = [];
         }
 

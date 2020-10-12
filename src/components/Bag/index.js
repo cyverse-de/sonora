@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import {
     Badge,
@@ -91,32 +91,13 @@ const BagSkeleton = () => (
     <Skeleton variant="rect" animation="wave" height={100} width="100%" />
 );
 
-export const BagUI = ({ showErrorAnnouncer }) => {
+export const BagUI = ({ removeItem, allItems, isLoading }) => {
     const { t } = useTranslation(["bags", "common"]);
-
-    // Should reuse the cached values if they're available.
-    const { isLoading, isError: hasErrored, data, error } = facade.useBag();
 
     const classes = useStyles();
     const [filterBy, setFilterBy] = useState(constants.FILTERBY.ALL);
-    const [allItems, setAllItems] = useState([]);
+
     const [bagItems, setBagItems] = useState([]);
-
-    useEffect(() => {
-        if (hasErrored) {
-            showErrorAnnouncer(t("fetchBagError"), error);
-        }
-    }, [hasErrored, error, showErrorAnnouncer, t]);
-
-    useEffect(() => {
-        if (data?.contents?.items) {
-            setAllItems(
-                data.contents.items.map((item) => createNewBagItem(item))
-            );
-        } else {
-            setAllItems([]);
-        }
-    }, [data, setAllItems]);
 
     useEffect(() => {
         switch (filterBy) {
@@ -134,12 +115,6 @@ export const BagUI = ({ showErrorAnnouncer }) => {
                 break;
         }
     }, [allItems, filterBy, setBagItems]);
-
-    const removeItem = facade.useBagRemoveItem({
-        handleError: (error) => {
-            showErrorAnnouncer(t("removeItemError"), error);
-        },
-    });
 
     const handleFilterChange = (event) => {
         setFilterBy(event.target.value);
@@ -244,10 +219,36 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         menuIconClass = classes.menuIcon;
     }
 
-    const { isError: hasErrored, data, error } = facade.useBag();
+    const convertItems = useCallback((data) => {
+        let converted = [];
+
+        if (data?.contents?.items) {
+            converted = data.contents.items.map((item) =>
+                createNewBagItem(item)
+            );
+        }
+
+        setAllItems(converted);
+    }, []);
+
+    const { isError: hasErrored, data, isLoading, error } = facade.useBag({
+        onSuccess: convertItems,
+    });
+
+    const removeItem = facade.useBagRemoveItem({
+        handleError: (error) => {
+            showErrorAnnouncer(t("removeItemError"), error);
+        },
+    });
+
+    const clearAll = facade.useBagRemoveItems({
+        handleError: (error) => {
+            showErrorAnnouncer(t("removeAllItemsError"), error);
+        },
+    });
 
     const [badgeCount, setBadgeCount] = useState(0);
-    const [bagItems, setBagItems] = useState([]);
+    const [allItems, setAllItems] = useState([]);
 
     useEffect(() => {
         if (hasErrored) {
@@ -256,16 +257,12 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
     }, [hasErrored, error, showErrorAnnouncer, t]);
 
     useEffect(() => {
-        if (data?.contents?.items) {
-            setBagItems(data?.contents?.items);
-        } else {
-            setBagItems([]);
-        }
-    }, [data, setBagItems]);
+        convertItems(data);
+    }, [data, convertItems]);
 
     useEffect(() => {
-        setBadgeCount(bagItems.length);
-    }, [bagItems, setBadgeCount]);
+        setBadgeCount(allItems.length);
+    }, [allItems, setBadgeCount]);
 
     const [bagDlgOpen, setBagDlgOpen] = useState(false);
     const [sharingOpen, setSharingOpen] = useState(false);
@@ -305,7 +302,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         event.preventDefault();
         event.stopPropagation();
 
-        setSharingResources(bagItems.reduce(sharingReducer, sharingResources));
+        setSharingResources(allItems.reduce(sharingReducer, sharingResources));
         setBagDlgOpen(false);
         setSharingOpen(true);
     };
@@ -323,12 +320,6 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
 
         setBagDlgOpen(false);
     };
-
-    const clearAll = facade.useBagRemoveItems({
-        handleError: (error) => {
-            showErrorAnnouncer(t("removeAllItemsError"), error);
-        },
-    });
 
     const dialogID = buildID(constants.BASEID, constants.DIALOG);
     return (
@@ -387,7 +378,11 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                 </DialogTitle>
 
                 <DialogContent dividers>
-                    <BagUI showErrorAnnouncer={showErrorAnnouncer} />
+                    <BagUI
+                        allItems={allItems}
+                        isLoading={isLoading}
+                        removeItem={removeItem}
+                    />
                 </DialogContent>
 
                 <DialogActions>

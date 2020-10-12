@@ -27,6 +27,10 @@ class BagItem {
     get downloadable() {
         return false;
     }
+
+    get id() {
+        return this.item.id;
+    }
 }
 
 class FileBagItem extends BagItem {

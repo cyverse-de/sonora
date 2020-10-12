@@ -45,6 +45,10 @@ class FileBagItem extends BagItem {
     get downloadable() {
         return true;
     }
+
+    get name() {
+        return this.item.path.substring(this.item.path.lastIndexOf("/") + 1);
+    }
 }
 
 class FolderBagItem extends BagItem {
@@ -54,6 +58,10 @@ class FolderBagItem extends BagItem {
 
     get shareable() {
         return true;
+    }
+
+    get name() {
+        return this.item.path.substring(this.item.path.lastIndexOf("/") + 1);
     }
 }
 
@@ -83,15 +91,16 @@ export const ANALYSIS_TYPE = "analysis";
 export const APP_TYPE = "app";
 
 export const createNewBagItem = (item) => {
+    console.log(JSON.stringify(item));
     if (!item.id) {
         item.id = uuidv4();
     }
 
-    if (item?.name && item?.path && item?.type !== FOLDER_TYPE) {
+    if (item?.path && item?.path && item?.type !== FOLDER_TYPE) {
         return new FileBagItem(item);
     }
 
-    if (item?.name && item?.path && item?.type === FOLDER_TYPE) {
+    if (item?.path && item?.path && item?.type === FOLDER_TYPE) {
         return new FolderBagItem(item);
     }
 

@@ -42,6 +42,7 @@ import SharingView from "../sharing";
 
 import * as facade from "../../serviceFacades/bags";
 import { Skeleton } from "@material-ui/lab";
+import { TYPE as SHARING_TYPE } from "components/sharing/util";
 
 import {
     createNewBagItem,
@@ -267,32 +268,30 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
     const [bagDlgOpen, setBagDlgOpen] = useState(false);
     const [sharingOpen, setSharingOpen] = useState(false);
     const [sharingResources, setSharingResources] = useState({
-        tools: [],
-        apps: [],
-        paths: [],
-        analyses: [],
+        [SHARING_TYPE.TOOLS]: [],
+        [SHARING_TYPE.APPS]: [],
+        [SHARING_TYPE.DATA]: [],
+        [SHARING_TYPE.ANALYSES]: [],
         unknown: [],
     });
 
+    // Convert the items into a map that the sharing dialog understands.
     const sharingReducer = (acc, curr) => {
-        switch (curr.type) {
+        const newObj = { ...curr.item };
+
+        switch (newObj.type) {
             case FILE_TYPE:
             case FOLDER_TYPE:
-                if (!curr.label) {
-                    curr.label = curr.path.substr(
-                        curr.path.lastIndexOf("/") + 1
-                    );
-                }
-                acc.paths = [...acc.paths, curr];
+                acc[SHARING_TYPE.DATA] = [...acc.paths, newObj];
                 break;
             case APP_TYPE:
-                acc.apps = [...acc.apps, curr];
+                acc[SHARING_TYPE.APPS] = [...acc.apps, newObj];
                 break;
             case ANALYSIS_TYPE:
-                acc.analyses = [...acc.analyses, curr];
+                acc[SHARING_TYPE.ANALYSES] = [...acc.analyses, newObj];
                 break;
             default:
-                acc.unknown = [...acc.unknown, curr];
+                acc.unknown = [...acc.unknown, newObj];
                 break;
         }
         return acc;

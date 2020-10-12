@@ -49,6 +49,10 @@ class FileBagItem extends BagItem {
     get name() {
         return this.item.path.substring(this.item.path.lastIndexOf("/") + 1);
     }
+
+    get path() {
+        return this.item.path;
+    }
 }
 
 class FolderBagItem extends BagItem {
@@ -62,6 +66,9 @@ class FolderBagItem extends BagItem {
 
     get name() {
         return this.item.path.substring(this.item.path.lastIndexOf("/") + 1);
+    }
+    get path() {
+        return this.item.path;
     }
 }
 
@@ -91,7 +98,6 @@ export const ANALYSIS_TYPE = "analysis";
 export const APP_TYPE = "app";
 
 export const createNewBagItem = (item) => {
-    console.log(JSON.stringify(item));
     if (!item.id) {
         item.id = uuidv4();
     }

@@ -156,15 +156,15 @@ export const useBagAddItem = (
     });
 
     return async (item) => {
-        let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY) || {
-            contents: { items: [] },
-        };
+        let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY);
 
         if (!data.contents.items) {
             data.contents.items = [];
         }
 
-        data.contents.items = [...data.contents.items, item];
+        if (!data.contents.items.some((el) => el.id === item.id)) {
+            data.contents.items = [...data.contents.items, item];
+        }
 
         return await mutate(data.contents);
     };
@@ -212,7 +212,10 @@ export const useBagAddItems = (
             data.contents.items = [];
         }
 
-        data.contents.items = [...data.contents.items, ...items];
+        const filteredItems = items.filter(
+            (item) => !data.contents.items.some((el) => el.id === item.id)
+        );
+        data.contents.items = [...data.contents.items, ...filteredItems];
 
         return await mutate(data.contents);
     };

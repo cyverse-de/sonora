@@ -53,6 +53,7 @@ import {
 } from "./classes";
 import { useTranslation } from "i18n";
 import { useTheme } from "@material-ui/styles";
+import { useUserProfile } from "contexts/userProfile";
 
 const useStyles = makeStyles((theme) => ({
     help: {
@@ -233,6 +234,8 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         defaultSharingResources()
     );
 
+    const [userProfile] = useUserProfile();
+
     if (!menuIconClass) {
         menuIconClass = classes.menuIcon;
     }
@@ -279,6 +282,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
     );
 
     const { isError: hasErrored, data, isLoading, error } = facade.useBag({
+        enabled: userProfile,
         onSuccess: convertItems,
     });
 

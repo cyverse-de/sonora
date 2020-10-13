@@ -4,10 +4,12 @@
  *
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { appWithTranslation, useTranslation } from "i18n";
 import "./styles.css";
+
+import * as gtag from "../gtag";
 
 import CyverseAppBar from "components/layout/CyVerseAppBar";
 import NavigationConstants from "common/NavigationConstants";
@@ -89,6 +91,18 @@ function MyApp({ Component, pageProps }) {
     const queryConfig = {
         queries: { refetchOnWindowFocus: false, retry: false },
     };
+
+    console.log("env is =>" + process.env.NODE_ENV);
+
+    useEffect(() => {
+        const handleRouteChange = (url) => {
+            gtag.pageview(url);
+        };
+        router.events.on("routeChangeComplete", handleRouteChange);
+        return () => {
+            router.events.off("routeChangeComplete", handleRouteChange);
+        };
+    }, [router.events]);
 
     React.useEffect(() => {
         const intercom = {

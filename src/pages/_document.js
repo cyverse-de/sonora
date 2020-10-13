@@ -2,12 +2,35 @@ import React from "react";
 import Document, { Head, Main, NextScript } from "next/document";
 import { ServerStyleSheets } from "@material-ui/core/styles";
 import theme from "../components/theme/default";
+import { GA_TRACKING_ID } from "../gtag";
 
 export default class MyDocument extends Document {
     render() {
         return (
             <html lang="en">
                 <Head>
+                    {/* Global Site Tag (gtag.js) - Google Analytics */}
+                    {process.env.NODE_ENV.toLowerCase === "production" && (
+                        <>
+                            <script
+                                async
+                                src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+                            />
+                            <script
+                                dangerouslySetInnerHTML={{
+                                    __html: `
+                                    window.dataLayer = window.dataLayer || [];
+                                    function gtag(){dataLayer.push(arguments);}
+                                    gtag('js', new Date());
+
+                                    gtag('config', '${GA_TRACKING_ID}', {
+                                    page_path: window.location.pathname,
+                                    });
+                             `,
+                                }}
+                            />
+                        </>
+                    )}
                     <meta
                         name="theme-color"
                         content={theme.palette.primary.main}

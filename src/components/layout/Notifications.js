@@ -7,14 +7,14 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 
-import { useRouter } from "next/router";
-
 import { useTranslation } from "i18n";
-import constants from "../../constants";
-import analysisStatus from "../models/analysisStatus";
-import NavigationConstants from "../../common/NavigationConstants";
+import Link from "next/link";
+
 import ids from "./ids";
-import { useNotifications } from "../../contexts/pushNotifications";
+import constants from "../../constants";
+import { useGotoOutputFolderLink } from "components/analyses/utils";
+import analysisStatus from "components/models/analysisStatus";
+import { useNotifications } from "contexts/pushNotifications";
 
 import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
 
@@ -37,42 +37,47 @@ function getDisplayMessage(notification) {
         : notification.message.text;
 }
 
+const GotoOutputFolderButton = React.forwardRef((props, ref) => {
+    const { onClick, href } = props;
+    const { t } = useTranslation("analyses");
+    const theme = useTheme();
+    return (
+        <Button
+            size="small"
+            href={href}
+            onClick={onClick}
+            ref={ref}
+            color="primary"
+            title={t("goOutputFolder")}
+            variant="outlined"
+        >
+            <Typography
+                variant="button"
+                style={{ color: theme.palette.primary.contrastText }}
+            >
+                {t("goOutputFolder")}
+            </Typography>
+        </Button>
+    );
+});
+
+function AnalysisCustomAction(props) {
+    const { outputFolderPath } = props;
+    const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(
+        outputFolderPath
+    );
+    return (
+        <Link href={outputFolderHref} as={outputFolderAs} passHref>
+            <GotoOutputFolderButton />
+        </Link>
+    );
+}
+
 function Notifications(props) {
     const { t } = useTranslation("common");
     const [currentNotification] = useNotifications();
     const theme = useTheme();
-    const router = useRouter();
     const [unSeenCount, setUnSeenCount] = useState(0);
-    const goToOutputFolder = useCallback(
-        (outputFolder) => {
-            router.push(
-                `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}${constants.DATA_STORE_STORAGE_ID}${outputFolder}`
-            );
-        },
-        [router]
-    );
-
-    const analysisCustomAction = useCallback(
-        (outputFolderPath) => {
-            return (
-                <Button
-                    key={outputFolderPath}
-                    variant="outlined"
-                    onClick={() => {
-                        goToOutputFolder(outputFolderPath); //gotcha - I cannot do router.push from here
-                    }}
-                >
-                    <Typography
-                        variant="button"
-                        style={{ color: theme.palette.primary.contrastText }}
-                    >
-                        {t("viewOutput")}
-                    </Typography>
-                </Button>
-            );
-        },
-        [goToOutputFolder, t, theme.palette.primary.contrastText]
-    );
 
     const displayAnalysisNotification = useCallback(
         (notification, status) => {
@@ -91,7 +96,11 @@ function Notifications(props) {
 
             const CustomAction =
                 (completed || failed) && outputFolderPath
-                    ? () => analysisCustomAction(outputFolderPath)
+                    ? () => (
+                          <AnalysisCustomAction
+                              outputFolderPath={outputFolderPath}
+                          />
+                      )
                     : null;
 
             announce({
@@ -100,7 +109,7 @@ function Notifications(props) {
                 CustomAction,
             });
         },
-        [analysisCustomAction]
+        []
     );
 
     const displayNotification = useCallback(

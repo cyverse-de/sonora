@@ -87,7 +87,7 @@ export default function Actions(props) {
     const allowTimeExtn = allowAnalysisTimeExtn(analysis, username);
     const [relaunchHref, relaunchAs] = useRelaunchLink(analysis);
     const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(
-        analysis
+        analysis?.resultfolderid
     );
     return (
         <>

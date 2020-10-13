@@ -4,6 +4,7 @@ import { ConfigProvider } from "../src/contexts/config";
 import CyverseAppBar from "../src/components/layout/CyVerseAppBar";
 import { mockAxios } from "./axiosMock";
 import { NotificationsProvider } from "../src/contexts/pushNotifications";
+import notificationsData from "../stories/notifications/notificationsData";
 import testConfig from "./configMock";
 
 const mockUser = {
@@ -86,9 +87,13 @@ const bootStrap = {
         enableHPCPrompt: true,
     },
 };
+
 function AppBarTest() {
     mockAxios.onGet("/api/profile").reply(200, mockUser);
     mockAxios.onGet(/\/api\/bootstrap*/).reply(200, bootStrap);
+    mockAxios
+        .onGet("/api/notifications/last-ten-messages")
+        .reply(200, notificationsData);
     return (
         <UserProfileProvider>
             <NotificationsProvider>

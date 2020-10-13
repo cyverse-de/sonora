@@ -58,8 +58,6 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
-import { mockAxios } from "../../../stories/axiosMock";
-import notificationsData from "../../../stories/notifications/notificationsData";
 
 const ENTITLEMENT = "entitlement";
 const drawerWidth = 235;
@@ -244,9 +242,6 @@ function CyverseAppBar(props) {
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
     const [profileRefetchInterval, setProfileRefetchInterval] = useState(null);
     const setPreferences = usePreferences()[1];
-    mockAxios
-        .onGet("/api/notifications/last-ten-messages")
-        .reply(200, notificationsData);
 
     function updateUserProfile(profile) {
         if (

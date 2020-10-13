@@ -34,10 +34,12 @@ class AppItem extends ItemBase {
         const buildRef = (refType) =>
             `${NavigationConstants.APPS}/${app.system_id}/${app.id}/${refType}`;
 
+        console.log(props);
+
         return item
             .addActions([
                 <ItemAction
-                    arialLabel={t("favoriteAria")}
+                    ariaLabel={t("favoriteAria")}
                     key={buildKey("favorite")}
                     tooltipKey="favoriteAction"
                 >
@@ -55,7 +57,7 @@ class AppItem extends ItemBase {
                     </IconButton>
                 </ItemAction>,
                 <ItemAction
-                    arialLabel={t("shareAria")}
+                    ariaLabel={t("shareAria")}
                     key={buildKey("share")}
                     tooltipKey="shareAction"
                 >
@@ -69,7 +71,7 @@ class AppItem extends ItemBase {
                     key={`${constants.KIND_APPS}-${props.content.id}-details`}
                 >
                     <ItemAction
-                        arialLabel={t("openDetailsAria")}
+                        ariaLabel={t("openDetailsAria")}
                         key={`${constants.KIND_APPS}-${props.content.id}-details`}
                         tooltipKey="detailsAction"
                     >

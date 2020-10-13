@@ -216,7 +216,6 @@ const defaultSharingResources = () => ({
     [SHARING_TYPE.APPS]: [],
     [SHARING_TYPE.DATA]: [],
     [SHARING_TYPE.ANALYSES]: [],
-    unknown: [],
 });
 
 const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
@@ -256,7 +255,6 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                 acc[SHARING_TYPE.ANALYSES] = [...acc.analyses, newObj];
                 break;
             default:
-                acc.unknown = [...acc.unknown, newObj];
                 break;
         }
         return acc;

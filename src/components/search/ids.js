@@ -7,6 +7,12 @@ export default {
     DATA_SEARCH_OPTION: "dataSearchOption",
     GLOBAL_SEARCH_FIELD: "globalSearchField",
     SEARCH: "search",
+    SEARCH_FILTER_MI: {
+        ALL: "all",
+        ANALYSES: "analyses",
+        APPS: "apps",
+        DATA: "data",
+    },
     SEARCH_FILTER_MENU: "searchFilterMenu",
     SEARCH_INPUT_FILED: "searchInput",
     TABLE_VIEW: "tableView",

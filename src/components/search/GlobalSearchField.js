@@ -561,6 +561,8 @@ function GlobalSearchField(props) {
         />
     );
 
+    const searchFilterId = build(ids.SEARCH, ids.SEARCH_FILTER_MENU);
+
     return (
         <>
             <Autocomplete
@@ -597,7 +599,7 @@ function GlobalSearchField(props) {
                 clearOnBlur={false}
             />
             <TextField
-                id={build(ids.SEARCH, ids.SEARCH_FILTER_MENU)}
+                id={searchFilterId}
                 select
                 size="small"
                 value={filter}
@@ -608,10 +610,28 @@ function GlobalSearchField(props) {
                     disableUnderline: true,
                 }}
             >
-                <MenuItem value={searchConstants.ALL}>{t("all")}</MenuItem>
-                <MenuItem value={searchConstants.DATA}>{t("data")}</MenuItem>
-                <MenuItem value={searchConstants.APPS}>{t("apps")}</MenuItem>
-                <MenuItem value={searchConstants.ANALYSES}>
+                <MenuItem
+                    id={build(searchFilterId, ids.SEARCH_FILTER_MI.ALL)}
+                    value={searchConstants.ALL}
+                >
+                    {t("all")}
+                </MenuItem>
+                <MenuItem
+                    id={build(searchFilterId, ids.SEARCH_FILTER_MI.DATA)}
+                    value={searchConstants.DATA}
+                >
+                    {t("data")}
+                </MenuItem>
+                <MenuItem
+                    id={build(searchFilterId, ids.SEARCH_FILTER_MI.APPS)}
+                    value={searchConstants.APPS}
+                >
+                    {t("apps")}
+                </MenuItem>
+                <MenuItem
+                    id={build(searchFilterId, ids.SEARCH_FILTER_MI.ANALYSES)}
+                    value={searchConstants.ANALYSES}
+                >
                     {t("analyses")}
                 </MenuItem>
             </TextField>

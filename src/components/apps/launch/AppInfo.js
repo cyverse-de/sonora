@@ -196,7 +196,6 @@ const AppInfo = React.forwardRef((props, ref) => {
                 systemId={app?.system_id}
                 open={detailsDrawerOpen}
                 onClose={() => setDetailsDrawerOpen(false)}
-                baseId={buildDebugId(baseId, ids.BUTTONS.DETAILS)}
             />
             <AppDoc
                 open={docDialogOpen}

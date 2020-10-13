@@ -58,6 +58,8 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
+import { mockAxios } from "../../../stories/axiosMock";
+import notificationsData from "../../../stories/notifications/notificationsData";
 
 const ENTITLEMENT = "entitlement";
 const drawerWidth = 235;
@@ -250,6 +252,10 @@ function CyverseAppBar(props) {
             setUserProfile(profile);
         }
     }
+
+    mockAxios
+        .onGet("/api/notifications/last-ten-messages")
+        .reply(200, notificationsData);
 
     useQuery({
         queryKey: USER_PROFILE_QUERY_KEY,

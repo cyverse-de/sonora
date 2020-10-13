@@ -1,7 +1,9 @@
 export default {
     APP_NAME: "appName",
     DOT_MENU: "dotMenu",
-    DOCUMENTATION: "documentation",
+    DOCUMENTATION_DLG: "appDocDlg",
+    DOC_MARKDOWN: "docMarkdown",
+    DOC_TEXT: "docText",
     APP_INFO: "appInfo",
     FAVORITES: "favorites",
     APP_COMMENTS: "appComments",
@@ -53,4 +55,5 @@ export default {
     },
     EDIT_BTN: "editButton",
     SAVE_BTN: "saveButton",
+    CLOSE_BTN: "closeBtn",
 };

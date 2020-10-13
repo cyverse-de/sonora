@@ -199,7 +199,6 @@ const AppInfo = React.forwardRef((props, ref) => {
                 baseId={buildDebugId(baseId, ids.BUTTONS.DETAILS)}
             />
             <AppDoc
-                baseId={buildDebugId(baseId, ids.BUTTONS.DOCUMENTATION)}
                 open={docDialogOpen}
                 appId={app?.id}
                 systemId={app?.system_id}

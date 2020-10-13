@@ -162,7 +162,7 @@ function Documentation(props) {
 }
 
 function AppDoc(props) {
-    const { open, appId, systemId, onClose, baseId, isMobile } = props;
+    const { open, appId, systemId, onClose, isMobile } = props;
     const [userProfile] = useUserProfile();
     const [documentation, setDocumentation] = useState(null);
     const [references, setReferences] = useState(null);
@@ -179,7 +179,7 @@ function AppDoc(props) {
     const theme = useTheme();
 
     const enabled = appId != null && systemId !== null;
-    const docBaseId = buildDebugId(baseId, ids.DOCUMENTATION);
+    const docBaseId = ids.DOCUMENTATION_DLG;
 
     const handleClose = () => {
         if (dirty) {
@@ -252,6 +252,7 @@ function AppDoc(props) {
                 <DialogTitle>
                     {t("documentation")}
                     <IconButton
+                        id={buildDebugId(docBaseId, ids.CLOSE_BTN)}
                         aria-label={t("close")}
                         onClick={handleClose}
                         style={{

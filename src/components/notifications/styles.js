@@ -6,10 +6,6 @@ export default (theme) => ({
         marginLeft: theme.spacing(2),
     },
 
-    notificationsRow: {
-        marginLeft: theme.spacing(1.5),
-    },
-
     header: {
         marginBottom: theme.spacing(1),
         marginTop: theme.spacing(1),

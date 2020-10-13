@@ -159,27 +159,41 @@ function Notifications(props) {
         handleMessage(currentNotification);
     }, [currentNotification, handleMessage]);
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
     return (
         <>
-        <Tooltip title={t("newNotificationAriaLabel")} placement="bottom" arrow>
-            <IconButton
-                id={build(ids.APP_BAR_BASE, ids.NOTIFICATION_BTN)}
-                aria-label={t("newNotificationAriaLabel")}
-                style={{ color: theme.palette.primary.contrastText }}
+            <Tooltip
+                title={t("newNotificationAriaLabel")}
+                placement="bottom"
+                arrow
             >
-                <Badge badgeContent={unSeenCount} color="error">
-                    <NotificationsIcon />
-                </Badge>
-            </IconButton>
-        </Tooltip>
-
-        <NotificationsMenu
-            unSeenCount={unSeenCount}
-            notificationMssg={notificationMssg}
-        />
+                <IconButton
+                    id={build(ids.APP_BAR_BASE, ids.NOTIFICATION_BTN)}
+                    aria-label={t("newNotificationAriaLabel")}
+                    style={{ color: theme.palette.primary.contrastText }}
+                    onClick={handleClick}
+                >
+                    <Badge badgeContent={unSeenCount} color="error">
+                        <NotificationsIcon />
+                    </Badge>
+                </IconButton>
+            </Tooltip>
+            <>
+                <NotificationsMenu
+                    unSeenCount={unSeenCount}
+                    notificationMssg={notificationMssg}
+                    anchorEl={anchorEl}
+                    setAnchorEl={setAnchorEl}
+                    open={Boolean(anchorEl)}
+                />
+            </>
         </>
     );
 }
 
 export default Notifications;
-

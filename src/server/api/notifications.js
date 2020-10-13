@@ -7,14 +7,10 @@
 
 import express from "express";
 
-
 import * as auth from "../auth";
 import logger from "../logging";
 
 import { handler as terrainHandler } from "./terrain";
-
-const APP_CATEGORIES_QUERY_KEY = "fetchPrivateCategories";
-
 
 export default function notificationsRouter() {
     const api = express.Router();
@@ -28,7 +24,6 @@ export default function notificationsRouter() {
         terrainHandler({
             method: "GET",
             pathname: "/secured/notifications/last-ten-messages",
-
         })
     );
 

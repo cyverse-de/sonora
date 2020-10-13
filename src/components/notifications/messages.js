@@ -7,7 +7,8 @@ const intlData = {
         endDate: "End Date",
         applyFilter: "Apply Filter",
         userName: "User Name",
-        errorMsg: 'There was an error fetching the latest notifications. Please try again!',
+        errorMsg:
+            "There was an error fetching the latest notifications. Please try again!",
     },
 };
 

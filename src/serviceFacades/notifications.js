@@ -6,7 +6,6 @@ import callApi from "../common/callApi";
 
 const NOTIFICATIONS_KEY = "fetchNotificatons";
 
-
 function getNotifications() {
     return callApi({
         endpoint: "/api/notifications/last-ten-messages",
@@ -14,7 +13,4 @@ function getNotifications() {
     });
 }
 
-export {
-    getNotifications,
-    NOTIFICATIONS_KEY,
-};
+export { getNotifications, NOTIFICATIONS_KEY };

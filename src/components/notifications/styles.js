@@ -14,9 +14,7 @@ export default (theme) => ({
 
     footer: {
         color: theme.palette.primary.main,
-        float: "left",
         textAlign: "left",
         display: "block",
-        width: "100%",
     },
 });

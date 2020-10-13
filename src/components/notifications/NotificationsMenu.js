@@ -127,6 +127,7 @@ function NotificationsMenu(props) {
                     ids.NOTIFICATIONS_MENU,
                     ids.VIEW_ALL_NOTIFICATIONS
                 )}
+                fullWidth={true}
                 onClick={handleClose}
             >
                 {t("viewAllNotifications")}

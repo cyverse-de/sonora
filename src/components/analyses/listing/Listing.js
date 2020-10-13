@@ -394,9 +394,16 @@ function Listing(props) {
 
                     if (found) {
                         if (analysisStatus !== found.status) {
-                            found.status = analysisStatus;
-                            found.enddate = message.payload.enddate;
-                            setData({ analyses: [...data.analyses], ...data });
+                            const newAnalyses = data.analyses.map((analysis) =>
+                                analysis.id === message.payload.id
+                                    ? {
+                                          ...analysis,
+                                          status: analysisStatus,
+                                          enddate: message.payload.enddate,
+                                      }
+                                    : analysis
+                            );
+                            setData({ ...data, analyses: newAnalyses });
                         }
                     } else {
                         //add a new analysis record and remove the last record from the page
@@ -407,16 +414,16 @@ function Listing(props) {
                                 data.analyses.length - 1
                             );
                             setData({
-                                analyses: [message.payload, ...newPage],
                                 ...data,
+                                analyses: [message.payload, ...newPage],
                             });
                         } else if (data.analyses?.length === 0) {
                             //if page is empty...
                             setData({ analyses: [message.payload], total: 1 });
                         } else {
                             setData({
-                                analyses: [message.payload, ...data.analyses],
                                 ...data,
+                                analyses: [message.payload, ...data.analyses],
                             });
                         }
                     }

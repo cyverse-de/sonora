@@ -1,7 +1,10 @@
 export default {
     BASEID: "bag",
+    CANCEL: "cancel",
     DIALOG: "dialog",
     DOWNLOAD: "download",
+    DOWNLOAD_BASEID: "downloadDialog",
+    LINK: "link",
     SHARE: "share",
     CLEARALL: "clearall",
     CLOSE: "close",

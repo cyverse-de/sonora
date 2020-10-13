@@ -32,13 +32,14 @@ import {
     ShoppingBasket as ShoppingBasketIcon,
 } from "@material-ui/icons";
 
+import SharingView from "components/sharing";
+
 import { build as buildID } from "@cyverse-de/ui-lib";
 
 import constants from "./constants";
 
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
-
-import SharingView from "../sharing";
+import DownloadLinksDialog from "./downloads";
 
 import * as facade from "../../serviceFacades/bags";
 import { Skeleton } from "@material-ui/lab";
@@ -228,10 +229,12 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
     const [allItems, setAllItems] = useState([]);
 
     const [bagDlgOpen, setBagDlgOpen] = useState(false);
+    const [downloadDlgOpen, setDownloadDlgOpen] = useState(false);
     const [sharingOpen, setSharingOpen] = useState(false);
     const [sharingResources, setSharingResources] = useState(
         defaultSharingResources()
     );
+    const [downloadPaths, setDownloadPaths] = useState([]);
 
     const [userProfile] = useUserProfile();
 
@@ -274,6 +277,12 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
 
             setSharingResources(
                 converted.reduce(sharingReducer, defaultSharingResources())
+            );
+
+            setDownloadPaths(
+                converted
+                    .filter((item) => item.downloadable)
+                    .map((item) => item.path)
             );
         },
         [sharingReducer]
@@ -329,6 +338,14 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         event.preventDefault();
         event.stopPropagation();
 
+        setBagDlgOpen(false);
+    };
+
+    const handleDownloadClick = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        setDownloadDlgOpen(true);
         setBagDlgOpen(false);
     };
 
@@ -428,7 +445,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
 
                     {fullScreen ? (
                         <IconButton
-                            onClick={() => {}}
+                            onClick={handleDownloadClick}
                             id={buildID(
                                 dialogID,
                                 constants.DOWNLOAD,
@@ -443,8 +460,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                             color="primary"
                             className={classes.button}
                             startIcon={<GetApp />}
-                            onClick={() => {}}
-                            disabled={true}
+                            onClick={handleDownloadClick}
                             size="small"
                             id={buildID(
                                 dialogID,
@@ -494,6 +510,12 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                 }}
                 resources={sharingResources}
             />
+
+            <DownloadLinksDialog
+                open={downloadDlgOpen}
+                onClose={() => setDownloadDlgOpen(false)}
+                paths={downloadPaths}
+            ></DownloadLinksDialog>
         </>
     );
 };

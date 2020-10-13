@@ -244,6 +244,10 @@ function CyverseAppBar(props) {
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
     const [profileRefetchInterval, setProfileRefetchInterval] = useState(null);
     const setPreferences = usePreferences()[1];
+    mockAxios
+        .onGet("/api/notifications/last-ten-messages")
+        .reply(200, notificationsData);
+
     function updateUserProfile(profile) {
         if (
             (profile === null && userProfile !== null) ||
@@ -252,10 +256,6 @@ function CyverseAppBar(props) {
             setUserProfile(profile);
         }
     }
-
-    mockAxios
-        .onGet("/api/notifications/last-ten-messages")
-        .reply(200, notificationsData);
 
     useQuery({
         queryKey: USER_PROFILE_QUERY_KEY,

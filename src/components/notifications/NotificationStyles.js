@@ -10,10 +10,6 @@ export default (theme) => ({
         marginLeft: theme.spacing(1.5),
     },
 
-    menuItem: {
-        display: "in-line",
-    },
-
     header: {
         marginBottom: theme.spacing(1),
         marginTop: theme.spacing(1),

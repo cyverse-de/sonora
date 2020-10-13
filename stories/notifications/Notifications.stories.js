@@ -5,20 +5,22 @@
 
 import React from "react";
 import NotificationsMenu from "../../src/components/notifications/NotificationsMenu";
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsIcon from "@material-ui/icons/Notifications";
 import notificationsData from "./notificationsData";
-import {mockAxios} from "../axiosMock";
+import { mockAxios } from "../axiosMock";
 
 export default {
     title: "Notifications",
 };
 
 export const NotificationsPreviewTest = () => {
-    mockAxios.onGet("/api/notifications/last-ten-messages").reply(200, notificationsData);
+    mockAxios
+        .onGet("/api/notifications/last-ten-messages")
+        .reply(200, notificationsData);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const handleClick = event => {
+    const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -28,7 +30,11 @@ export const NotificationsPreviewTest = () => {
 
     return (
         <>
-            <NotificationsIcon aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}/>
+            <NotificationsIcon
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={handleClick}
+            />
 
             <NotificationsMenu
                 baseDebugId="notificationWindow"
@@ -37,8 +43,6 @@ export const NotificationsPreviewTest = () => {
                 onClick={handleClick}
                 setAnchorEl={setAnchorEl}
             />
-
         </>
-
     );
 };

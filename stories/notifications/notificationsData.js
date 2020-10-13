@@ -58,8 +58,7 @@ const notificationsData = {
         {
             type: "team",
             user: "sriram",
-            subject:
-                'Ipc Dev has requested to join team "sriram: testsriram "',
+            subject: 'Ipc Dev has requested to join team "sriram: testsriram "',
             email: true,
             email_template: "team_join_request",
             payload: {

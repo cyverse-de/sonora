@@ -1,14 +1,16 @@
-import React, {useEffect, useState} from "react";
-import {formatDistance, fromUnixTime} from "date-fns";
-import {NOTIFICATIONS_KEY, getNotifications} from "./../../serviceFacades/notifications";
-import {useQuery} from "react-query";
-import {Skeleton} from '@material-ui/lab';
+import React, { useEffect, useState } from "react";
+import { formatDistance, fromUnixTime } from "date-fns";
+import {
+    NOTIFICATIONS_KEY,
+    getNotifications,
+} from "./../../serviceFacades/notifications";
+import { useQuery } from "react-query";
+import { Skeleton } from "@material-ui/lab";
 import NotificationStyles from "./NotificationStyles";
 import Divider from "@material-ui/core/Divider";
-import ids from "./notificationsIDs"
-import {build} from "@cyverse-de/ui-lib";
+import ids from "./notificationsIDs";
+import { build } from "@cyverse-de/ui-lib";
 import Button from "@material-ui/core/Button";
-import notificationsMenu from "./../../../public/static/locales/en/notificationsMenu";
 import {
     ListItemText,
     makeStyles,
@@ -16,11 +18,9 @@ import {
     MenuItem,
     Typography,
 } from "@material-ui/core";
-import {useTranslation} from "../../i18n";
+import { useTranslation } from "../../i18n";
 
 const useStyles = makeStyles(NotificationStyles);
-const arrayRows = [...Array(10)];
-// const { t } = useTranslation([notificationsMenu]);
 
 function getDisplayMessage(notification) {
     if (notification) {
@@ -38,39 +38,24 @@ function getTimeStamp(time) {
     }
 }
 
-function NotificationLoading() {
-    return (
-        <>
-            {arrayRows.map(() => (
-                <>
-                    <Skeleton
-                        variant="rect"
-                        width={350}
-                        height={40}
-                    />
-                </>
-            ))}
-        </>
-    )
-}
-
 function NotificationsMenu(props) {
-    const {unSeenCount, notificationMssg, onClick, onClose, keepMounted, anchorEl, setAnchorEl} = props;
+    const { notificationMssg } = props;
     const [notifications, setNotifications] = useState([]);
     const classes = useStyles();
-    const baseDebugId = 'notifications';
+    const baseDebugId = "notifications";
+    const { t } = useTranslation(["common"]);
 
     const handleClose = () => {
         props.setAnchorEl();
     };
 
     useEffect(() => {
-        if (notificationMssg!= null) {
+        if (notificationMssg != null) {
             setNotifications([notificationMssg, ...notifications].reverse());
         }
-    }, [notificationMssg]);
+    }, [notifications, notificationMssg]);
 
-    const {isFetching} = useQuery({
+    const { isFetching } = useQuery({
         queryKey: NOTIFICATIONS_KEY,
         queryFn: getNotifications,
         config: {
@@ -79,68 +64,75 @@ function NotificationsMenu(props) {
     });
 
     return (
-        <>
-            <Menu
-                anchorEl={props.anchorEl}
-                id={build(baseDebugId, ids.NOTIFICATIONS_MENU)}
-                keepMounted
-                open={Boolean(props.anchorEl)}
-                onClose={handleClose}
-            >
-                <Typography
-                    className={classes.header}
-                    id={build(baseDebugId, ids.NOTIFICATIONS_MENU, ids.NOTIFICATIONS_HEADER)}
-                    variant="h6">
-                    Notifications
-                </Typography>
-                <Divider/>
-
-                {isFetching && (
-                    <NotificationLoading/>
+        <Menu
+            anchorEl={props.anchorEl}
+            id={build(baseDebugId, ids.NOTIFICATIONS_MENU)}
+            open={Boolean(props.anchorEl)}
+            onClose={handleClose}
+        >
+            <Typography
+                className={classes.header}
+                id={build(
+                    baseDebugId,
+                    ids.NOTIFICATIONS_MENU,
+                    ids.NOTIFICATIONS_HEADER
                 )}
-                {!isFetching && (
-                    <>
-                        {notifications.length > 0 && notifications.map((n) => (
-                            <>
-                                <MenuItem onClick={handleClose}
-                                          id={build(baseDebugId, 'NotificationsMenu')}>
-                                    <ListItemText>
-                                        <Typography
-                                            id={build(baseDebugId, ids.NOTIFICATIONS_MENU, n?.id)}
-                                            className={classes.notificationText}
-                                            variant="subtitle2">
-                                            {getDisplayMessage(n)}
-                                        </Typography>
-                                    </ListItemText>
+                variant="h6"
+            >
+                {t("notifications")}
+            </Typography>
+            <Divider />
 
-                                    <Typography
-                                        className={classes.timeStamp}
-                                        id={build(baseDebugId, ids.NOTIFICATIONS_MENU, ids.TIME_STAMP)}
-                                        variant="caption">
-                                        {getTimeStamp(n?.timestamp)}
-                                    </Typography>
-                                </MenuItem>
-                            </>
-                        ))}
-                    </>
-                )
-                }
-
-                <div>
-                    <Divider light/>
-                    <Button
-                        className={classes.footer}
-                        size='large'
-                        d={build(baseDebugId, ids.NOTIFICATION_TEXT, ids.NOTIFICATION_FOOTER)}
-                        unSeenCount={unSeenCount}
+            {isFetching && <Skeleton variant="rect" width={350} height={400} />}
+            {!isFetching &&
+                notifications.length > 0 &&
+                notifications.map((n, index) => (
+                    <MenuItem
                         onClick={handleClose}
+                        id={build(baseDebugId, "NotificationsMenu")}
+                        key={n.message.id}
                     >
-                        {/*{t("viewAllNotifications")}*/}
-                        VIEW ALL NOTIFICATIONS AND ACTIVITIES
-                    </Button>
-                </div>
-            </Menu>
-        </>
+                        <ListItemText>
+                            <Typography
+                                id={build(
+                                    baseDebugId,
+                                    ids.NOTIFICATIONS_MENU,
+                                    n?.id
+                                )}
+                                variant="subtitle2"
+                            >
+                                {getDisplayMessage(n)}
+                            </Typography>
+                        </ListItemText>
+
+                        <Typography
+                            className={classes.timeStamp}
+                            id={build(
+                                baseDebugId,
+                                ids.NOTIFICATIONS_MENU,
+                                ids.TIME_STAMP
+                            )}
+                            variant="caption"
+                        >
+                            {getTimeStamp(n.message?.timestamp)}
+                        </Typography>
+                    </MenuItem>
+                ))}
+
+            <Divider light />
+            <Button
+                className={classes.footer}
+                size="large"
+                id={build(
+                    baseDebugId,
+                    ids.NOTIFICATION_TEXT,
+                    ids.NOTIFICATION_FOOTER
+                )}
+                onClick={handleClose}
+            >
+                {t("viewAllNotifications")}
+            </Button>
+        </Menu>
     );
 }
 

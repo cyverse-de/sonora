@@ -16,10 +16,12 @@ import { useTranslation } from "i18n";
 import notificationCategory from "components/models/notificationCategory";
 
 import TableLoading from "components/utils/TableLoading";
+import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 
 import {
     DECheckbox,
     EnhancedTableHead,
+    EmptyTable,
     formatDate,
     TablePaginationActions,
 } from "@cyverse-de/ui-lib";
@@ -36,24 +38,25 @@ import {
 
 const useStyles = makeStyles(styles);
 
+// Currently the API only supports sorting by the `timestamp` field.
 const getColumns = (t) => [
     {
         id: ids.CATEGORY,
-        key: ids.CATEGORY,
+        key: "type",
         name: t("category"),
         numeric: false,
         enableSorting: false,
     },
     {
         id: ids.MESSAGE,
-        key: ids.MESSAGE,
+        key: "text",
         name: t("message"),
         numeric: false,
         enableSorting: false,
     },
     {
         id: ids.CREATED_DATE,
-        key: ids.CREATED_DATE,
+        key: "timestamp",
         name: t("created_date"),
         numeric: false,
         enableSorting: true,
@@ -76,6 +79,7 @@ const TableView = (props) => {
     const {
         baseId,
         data,
+        error,
         loading,
         order,
         orderBy,
@@ -115,9 +119,11 @@ const TableView = (props) => {
     };
 
     const handleSelectAllClick = (event, checked) => {
-        onSelectionChanged(
-            checked && !selected.length ? data.map((n) => n.message.id) : []
-        );
+        if (data) {
+            onSelectionChanged(
+                checked && !selected.length ? data.map((n) => n.message.id) : []
+            );
+        }
     };
 
     const handleRequestSort = (event, property) => {
@@ -131,6 +137,10 @@ const TableView = (props) => {
         setOrderBy(property);
     };
 
+    if (error) {
+        return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
+    }
+
     return (
         <>
             <Table stickyHeader={true} size="small">
@@ -142,54 +152,63 @@ const TableView = (props) => {
                     />
                 ) : (
                     <TableBody>
-                        {data.map((n) => {
-                            const isSelected = selected.includes(n.message.id);
+                        {(!data || data.length === 0) && (
+                            <EmptyTable
+                                message={t("noNotifications")}
+                                numColumns={columnData.length}
+                            />
+                        )}
+                        {data?.length > 0 &&
+                            data.map((n) => {
+                                const isSelected = selected.includes(
+                                    n.message.id
+                                );
 
-                            const className = n.seen
-                                ? null
-                                : classes.unSeenNotificationBackground;
+                                const className = n.seen
+                                    ? null
+                                    : classes.unSeenNotificationBackground;
 
-                            return (
-                                <TableRow
-                                    onClick={(event) =>
-                                        handleRowClick(event, n.message.id)
-                                    }
-                                    role="checkbox"
-                                    aria-checked={isSelected}
-                                    tabIndex={-1}
-                                    selected={isSelected}
-                                    hover
-                                    key={n.message.id}
-                                >
-                                    <TableCell
-                                        className={className}
-                                        padding="checkbox"
-                                    >
-                                        <DECheckbox checked={isSelected} />
-                                    </TableCell>
-                                    <TableCell className={className}>
-                                        {
-                                            notificationCategory[
-                                                n.type
-                                                    .replace(/\s/g, "_")
-                                                    .toLowerCase()
-                                            ]
+                                return (
+                                    <TableRow
+                                        onClick={(event) =>
+                                            handleRowClick(event, n.message.id)
                                         }
-                                    </TableCell>
-                                    <Message
-                                        className={classnames(
-                                            classes.notification,
-                                            className
-                                        )}
-                                        message={n.message}
-                                        onMessageClicked={onMessageClicked}
-                                    />
-                                    <TableCell className={className}>
-                                        {formatDate(n.message.timestamp)}
-                                    </TableCell>
-                                </TableRow>
-                            );
-                        })}
+                                        role="checkbox"
+                                        aria-checked={isSelected}
+                                        tabIndex={-1}
+                                        selected={isSelected}
+                                        hover
+                                        key={n.message.id}
+                                    >
+                                        <TableCell
+                                            className={className}
+                                            padding="checkbox"
+                                        >
+                                            <DECheckbox checked={isSelected} />
+                                        </TableCell>
+                                        <TableCell className={className}>
+                                            {
+                                                notificationCategory[
+                                                    n.type
+                                                        .replace(/\s/g, "_")
+                                                        .toLowerCase()
+                                                ]
+                                            }
+                                        </TableCell>
+                                        <Message
+                                            className={classnames(
+                                                classes.notification,
+                                                className
+                                            )}
+                                            message={n.message}
+                                            onMessageClicked={onMessageClicked}
+                                        />
+                                        <TableCell className={className}>
+                                            {formatDate(n.message.timestamp)}
+                                        </TableCell>
+                                    </TableRow>
+                                );
+                            })}
                     </TableBody>
                 )}
                 <EnhancedTableHead
@@ -201,13 +220,13 @@ const TableView = (props) => {
                     onRequestSort={handleRequestSort}
                     columnData={columnData}
                     baseId={baseId}
-                    rowsInPage={data.length}
+                    rowsInPage={data?.length || 0}
                 />
             </Table>
             <TablePagination
                 colSpan={3}
                 component="div"
-                count={total}
+                count={total || 0}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}

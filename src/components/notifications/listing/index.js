@@ -6,25 +6,30 @@
  **/
 import React from "react";
 
+import { queryCache, useMutation, useQuery } from "react-query";
+
 import ids from "../ids";
 import NotificationToolbar from "../Toolbar";
 
 import TableView from "./TableView";
 
+import { useTranslation } from "i18n";
+
 import notificationCategory from "components/models/notificationCategory";
 
-const NotificationView = (props) => {
-    const {
-        baseDebugId,
-        onMessageClicked,
-        getNotifications,
-        onMarkAsSeenClicked,
-        deleteNotifications,
-    } = props;
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
-    const [data, setData] = React.useState([]);
-    const [loading, setLoading] = React.useState(true);
-    const [total, setTotal] = React.useState(0);
+import {
+    NOTIFICATIONS_MESSAGES_QUERY_KEY,
+    deleteNotifications,
+    getNotifications,
+    markSeen,
+} from "serviceFacades/notifications";
+
+const NotificationView = (props) => {
+    const { baseDebugId, onMessageClicked, showErrorAnnouncer } = props;
+
+    const [notifications, setNotifications] = React.useState({});
     const [offset, setOffset] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(100);
     const [selected, setSelected] = React.useState([]);
@@ -33,71 +38,92 @@ const NotificationView = (props) => {
     const [filter, setFilter] = React.useState(notificationCategory.all);
     const [markAsSeenEnabled, setMarkAsSeenEnabled] = React.useState(true);
 
-    const fetchNotifications = React.useCallback(() => {
-        setLoading(true);
-        getNotifications(
-            rowsPerPage,
-            offset,
-            filter,
-            order,
-            (notifications, total) => {
-                setLoading(false);
-                setData(notifications.messages);
-                setTotal(total);
-            },
-            (errorCode, errorMessage) => {
-                setLoading(false);
-            }
-        );
-    }, [
-        filter,
-        getNotifications,
-        offset,
-        order,
-        rowsPerPage,
-        setData,
-        setLoading,
-        setTotal,
-    ]);
+    const [notificationsKey, setNotificationsKey] = React.useState(
+        NOTIFICATIONS_MESSAGES_QUERY_KEY
+    );
+    const [
+        notificationsMessagesQueryEnabled,
+        setNotificationsMessagesQueryEnabled,
+    ] = React.useState(false);
+
+    const { t } = useTranslation("notifications");
+
+    const { isFetching, error } = useQuery({
+        queryKey: notificationsKey,
+        queryFn: getNotifications,
+        config: {
+            enabled: notificationsMessagesQueryEnabled,
+            onSuccess: setNotifications,
+        },
+    });
 
     React.useEffect(() => {
-        fetchNotifications();
-    }, [fetchNotifications, filter, offset, order, orderBy, rowsPerPage]);
+        setNotificationsKey([
+            NOTIFICATIONS_MESSAGES_QUERY_KEY,
+            { filter, orderBy, order, limit: rowsPerPage, offset },
+        ]);
+        setNotificationsMessagesQueryEnabled(true);
+    }, [
+        filter,
+        offset,
+        order,
+        orderBy,
+        rowsPerPage,
+        setNotificationsKey,
+        setNotificationsMessagesQueryEnabled,
+    ]);
 
-    const handleMarkSeenClick = () => {
-        setLoading(true);
-
-        onMarkAsSeenClicked(
-            selected,
-            () => {
-                setData(
-                    data.map((n) =>
+    const [markSeenMutation, { isLoading: markSeenLoading }] = useMutation(
+        markSeen,
+        {
+            onSuccess: () => {
+                // TODO update unseen count somehow
+                const newPage = {
+                    ...notifications,
+                    messages: notifications.messages.map((n) =>
                         selected.includes(n.message.id)
                             ? { ...n, seen: true }
                             : n
-                    )
-                );
+                    ),
+                };
+
                 setMarkAsSeenEnabled(false);
-                setLoading(false);
+                setNotifications(newPage);
+                queryCache.setQueryData(notificationsKey, newPage);
             },
-            (errorCode, errorMessage) => {
-                setLoading(false);
-            }
-        );
+            onError: (error) => {
+                showErrorAnnouncer(
+                    t("errorMarkAsSeen", {
+                        count: selected.length,
+                    }),
+                    error
+                );
+            },
+        }
+    );
+
+    const [
+        deleteNotificationsMutation,
+        { isLoading: deleteLoading },
+    ] = useMutation(deleteNotifications, {
+        onSuccess: () =>
+            queryCache.invalidateQueries(NOTIFICATIONS_MESSAGES_QUERY_KEY),
+        onError: (error) => {
+            showErrorAnnouncer(
+                t("errorNotificationDelete", {
+                    count: selected.length,
+                }),
+                error
+            );
+        },
+    });
+
+    const handleMarkSeenClick = () => {
+        markSeenMutation(selected);
     };
 
     const handleDeleteClick = () => {
-        setLoading(true);
-        deleteNotifications(
-            selected,
-            () => {
-                setLoading(false);
-                fetchNotifications();
-            },
-            (errorCode, errorMessage) => {
-                setLoading(false);
-            }
-        );
+        deleteNotificationsMutation(selected);
     };
 
     const handleFilterChange = (event) => {
@@ -107,7 +133,9 @@ const NotificationView = (props) => {
     const onSelectionChanged = (newSelected) => {
         setSelected(newSelected);
         setMarkAsSeenEnabled(
-            !data.find((n) => newSelected.includes(n.message.id) && n.seen)
+            !notifications.messages.find(
+                (n) => newSelected.includes(n.message.id) && n.seen
+            )
         );
     };
 
@@ -128,13 +156,14 @@ const NotificationView = (props) => {
             />
             <TableView
                 baseId={baseId}
-                data={data}
-                loading={loading}
+                data={notifications?.messages}
+                error={error}
+                loading={isFetching || markSeenLoading || deleteLoading}
                 order={order}
                 orderBy={orderBy}
                 rowsPerPage={rowsPerPage}
                 selected={selected}
-                total={total}
+                total={parseInt(notifications?.total)}
                 onMessageClicked={onMessageClicked}
                 onSelectionChanged={onSelectionChanged}
                 setOffset={setOffset}
@@ -146,4 +175,4 @@ const NotificationView = (props) => {
     );
 };
 
-export default NotificationView;
+export default withErrorAnnouncer(NotificationView);

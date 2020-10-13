@@ -6,9 +6,9 @@ import {
 } from "./../../serviceFacades/notifications";
 import { useQuery } from "react-query";
 import { Skeleton } from "@material-ui/lab";
-import NotificationStyles from "./NotificationStyles";
+import NotificationStyles from "./styles";
 import Divider from "@material-ui/core/Divider";
-import ids from "./notificationsIDs";
+import ids from "./ids";
 import { build } from "@cyverse-de/ui-lib";
 import Button from "@material-ui/core/Button";
 import {
@@ -42,7 +42,6 @@ function NotificationsMenu(props) {
     const { notificationMssg } = props;
     const [notifications, setNotifications] = useState([]);
     const classes = useStyles();
-    const baseDebugId = "notifications";
     const { t } = useTranslation(["common"]);
 
     const handleClose = () => {
@@ -66,14 +65,14 @@ function NotificationsMenu(props) {
     return (
         <Menu
             anchorEl={props.anchorEl}
-            id={build(baseDebugId, ids.NOTIFICATIONS_MENU)}
+            id={build(ids.BASE_DEBUG_ID, ids.NOTIFICATIONS_MENU)}
             open={Boolean(props.anchorEl)}
             onClose={handleClose}
         >
             <Typography
                 className={classes.header}
                 id={build(
-                    baseDebugId,
+                    ids.BASE_DEBUG_ID,
                     ids.NOTIFICATIONS_MENU,
                     ids.NOTIFICATIONS_HEADER
                 )}
@@ -86,16 +85,16 @@ function NotificationsMenu(props) {
             {isFetching && <Skeleton variant="rect" width={350} height={400} />}
             {!isFetching &&
                 notifications.length > 0 &&
-                notifications.map((n, index) => (
+                notifications.slice(0, 10).map((n, index) => (
                     <MenuItem
                         onClick={handleClose}
-                        id={build(baseDebugId, "NotificationsMenu")}
+                        id={build(ids.BASE_DEBUG_ID, "NotificationsMenu")}
                         key={n.message.id}
                     >
                         <ListItemText>
                             <Typography
                                 id={build(
-                                    baseDebugId,
+                                    ids.BASE_DEBUG_ID,
                                     ids.NOTIFICATIONS_MENU,
                                     n?.id
                                 )}
@@ -108,7 +107,7 @@ function NotificationsMenu(props) {
                         <Typography
                             className={classes.timeStamp}
                             id={build(
-                                baseDebugId,
+                                ids.BASE_DEBUG_ID,
                                 ids.NOTIFICATIONS_MENU,
                                 ids.TIME_STAMP
                             )}
@@ -124,9 +123,9 @@ function NotificationsMenu(props) {
                 className={classes.footer}
                 size="large"
                 id={build(
-                    baseDebugId,
-                    ids.NOTIFICATION_TEXT,
-                    ids.NOTIFICATION_FOOTER
+                    ids.BASE_DEBUG_ID,
+                    ids.NOTIFICATIONS_MENU,
+                    ids.VIEW_ALL_NOTIFICATIONS
                 )}
                 onClick={handleClose}
             >

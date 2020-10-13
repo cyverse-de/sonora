@@ -45,7 +45,7 @@ function buildNavigationRouteRegexp() {
         .join("|");
 
     // Build and compile the full regular expression.
-    return new RegExp(`^/(${routeAlternation})`);
+    return new RegExp(`^/(${routeAlternation})(/|$)`);
 }
 
 // Configure the Keycloak client.

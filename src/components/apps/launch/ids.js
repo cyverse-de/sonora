@@ -30,6 +30,7 @@ export default {
     APP_LAUNCH_TEXT_SELECTION: "textSelection",
     BUTTONS: {
         ADD: "addBtn",
+        BROWSE: "browseBtn",
         CONTACT_SUPPORT: "contactSupportBtn",
         DELETE: "deleteBtn",
         DETAILS: "details",

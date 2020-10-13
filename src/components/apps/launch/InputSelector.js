@@ -50,6 +50,7 @@ const BrowseButton = (props) => {
     return (
         <>
             <Button
+                id={buildDebugId(baseId, ids.BUTTONS.BROWSE)}
                 color="primary"
                 size="small"
                 variant="outlined"

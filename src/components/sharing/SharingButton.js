@@ -17,7 +17,7 @@ import styles from "./styles";
 const useStyles = makeStyles(styles);
 
 function SharingButton(props) {
-    const { baseId, setSharingDlgOpen } = props;
+    const { baseId, setSharingDlgOpen, size = "medium" } = props;
     const classes = useStyles();
     const { t } = useTranslation("sharing");
 
@@ -27,6 +27,7 @@ function SharingButton(props) {
             variant="outlined"
             disableElevation
             color="primary"
+            size={size}
             onClick={() => setSharingDlgOpen(true)}
             className={classes.button}
             startIcon={<Share />}

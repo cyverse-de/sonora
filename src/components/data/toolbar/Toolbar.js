@@ -24,7 +24,14 @@ import DisplayTypeSelector from "../../utils/DisplayTypeSelector";
 
 import { build } from "@cyverse-de/ui-lib";
 
-import { Button, Hidden, makeStyles, Toolbar } from "@material-ui/core";
+import {
+    Button,
+    Hidden,
+    makeStyles,
+    Toolbar,
+    useMediaQuery,
+    useTheme,
+} from "@material-ui/core";
 
 import { CreateNewFolder, Info } from "@material-ui/icons";
 
@@ -61,6 +68,10 @@ function DataToolbar(props) {
     const onCreateFolderClicked = () => setCreateFolderDlgOpen(true);
     const selectedResources = getSelectedResources();
     const canShare = isOwner(selectedResources);
+    const theme = useTheme();
+    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+    const hasDotMenu =
+        isSmall || (selectedResources && selectedResources.length > 0);
 
     let toolbarId = build(baseId, ids.TOOLBAR);
     return (
@@ -82,6 +93,7 @@ function DataToolbar(props) {
                     <Button
                         id={build(toolbarId, ids.DETAILS_BTN)}
                         variant="outlined"
+                        size="small"
                         disableElevation
                         color="primary"
                         onClick={onDetailsSelected}
@@ -96,6 +108,7 @@ function DataToolbar(props) {
                         <Button
                             id={build(toolbarId, ids.CREATE_BTN)}
                             variant="outlined"
+                            size="small"
                             disableElevation
                             color="primary"
                             onClick={onCreateFolderClicked}
@@ -115,12 +128,13 @@ function DataToolbar(props) {
                 )}
                 {canShare && (
                     <SharingButton
+                        size="small"
                         baseId={toolbarId}
                         setSharingDlgOpen={setSharingDlgOpen}
                     />
                 )}
             </Hidden>
-            <Hidden mdUp>
+            {hasDotMenu && (
                 <DataDotMenu
                     baseId={toolbarId}
                     path={path}
@@ -142,8 +156,9 @@ function DataToolbar(props) {
                     }
                     canShare={canShare}
                     setSharingDlgOpen={setSharingDlgOpen}
+                    isSmall={isSmall}
                 />
-            </Hidden>
+            )}
             <CreateFolderDialog
                 path={path}
                 open={createFolderDlgOpen}

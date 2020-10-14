@@ -514,20 +514,24 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                 </DialogActions>
             </Dialog>
 
-            <SharingView
-                open={sharingOpen}
-                onClose={() => {
-                    setSharingOpen(false);
-                }}
-                resources={sharingResources}
-            />
+            {userProfile && (
+                <>
+                    <SharingView
+                        open={sharingOpen}
+                        onClose={() => {
+                            setSharingOpen(false);
+                        }}
+                        resources={sharingResources}
+                    />
 
-            <DownloadLinksDialog
-                open={downloadDlgOpen}
-                onClose={() => setDownloadDlgOpen(false)}
-                paths={downloadPaths}
-                fullScreen={fullScreen}
-            ></DownloadLinksDialog>
+                    <DownloadLinksDialog
+                        open={downloadDlgOpen}
+                        onClose={() => setDownloadDlgOpen(false)}
+                        paths={downloadPaths}
+                        fullScreen={fullScreen}
+                    />
+                </>
+            )}
         </>
     );
 };

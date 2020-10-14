@@ -49,6 +49,8 @@ import { useTranslation } from "i18n";
 import { queryCache, useMutation, useQuery } from "react-query";
 
 import { Button, Typography, useTheme } from "@material-ui/core";
+import constants from "constants.js";
+import dataFields from "../dataFields";
 
 function Listing(props) {
     const {
@@ -67,16 +69,22 @@ function Listing(props) {
         selectedOrderBy,
         onRouteToListing,
     } = props;
+    const { t } = useTranslation("data");
+    const dataRecordFields = dataFields(t);
 
     const uploadTracker = useUploadTrackingState();
     const theme = useTheme();
     const [isGridView, setGridView] = useState(false);
-    const [order, setOrder] = useState(selectedOrder);
-    const [orderBy, setOrderBy] = useState(selectedOrderBy);
+    const [order, setOrder] = useState(
+        selectedOrder || constants.SORT_ASCENDING
+    );
+    const [orderBy, setOrderBy] = useState(
+        selectedOrderBy || dataRecordFields.NAME.key
+    );
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
-    const [page, setPage] = useState(selectedPage);
-    const [rowsPerPage, setRowsPerPage] = useState(selectedRowsPerPage);
+    const [page, setPage] = useState(selectedPage || 0);
+    const [rowsPerPage, setRowsPerPage] = useState(selectedRowsPerPage || 100);
     const [data, setData] = useState({ total: 0, listing: [] });
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
@@ -103,7 +111,6 @@ function Listing(props) {
     const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
     const [importDialogOpen, setImportDialogOpen] = useState(false);
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
-    const { t } = useTranslation("data");
 
     const onCloseImportDialog = () => setImportDialogOpen(false);
 
@@ -240,7 +247,8 @@ function Listing(props) {
             selectedPage !== page ||
             selectedRowsPerPage !== rowsPerPage
         ) {
-            onRouteToListing(path, order, orderBy, page, rowsPerPage);
+            onRouteToListing &&
+                onRouteToListing(path, order, orderBy, page, rowsPerPage);
         }
     }, [
         onRouteToListing,

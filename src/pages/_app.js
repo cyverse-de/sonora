@@ -92,8 +92,6 @@ function MyApp({ Component, pageProps }) {
         queries: { refetchOnWindowFocus: false, retry: false },
     };
 
-    console.log("env is =>" + process.env.NODE_ENV);
-
     useEffect(() => {
         const handleRouteChange = (url) => {
             gtag.pageview(url);

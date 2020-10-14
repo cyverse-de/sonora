@@ -1,4 +1,5 @@
 import React from "react";
+import getConfig from "next/config";
 import Document, { Head, Main, NextScript } from "next/document";
 import { ServerStyleSheets } from "@material-ui/core/styles";
 import theme from "../components/theme/default";
@@ -6,11 +7,13 @@ import { GA_TRACKING_ID } from "../gtag";
 
 export default class MyDocument extends Document {
     render() {
+        const { publicRuntimeConfig = {} } = getConfig() || {};
+        const analyticsEnabled = publicRuntimeConfig.ANALYTICS;
         return (
             <html lang="en">
                 <Head>
                     {/* Global Site Tag (gtag.js) - Google Analytics */}
-                    {process.env.NODE_ENV.toLowerCase === "production" && (
+                    {analyticsEnabled && (
                         <>
                             <script
                                 async

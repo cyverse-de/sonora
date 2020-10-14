@@ -32,6 +32,9 @@ module.exports = withBundleAnalyzer({
             ? config.get("tools.private.max_disk_limit")
             : 512 * ONE_GiB,
         HT_PATH_LIST_IDENTIFIER: config.get("fileIdentifier.htPathList"),
-        MULTI_INPUT_PATH_LIST_IDENTIFIER: config.get("fileIdentifier.multiInputPathList")  
+        MULTI_INPUT_PATH_LIST_IDENTIFIER: config.get(
+            "fileIdentifier.multiInputPathList"
+        ),
+        ANALYTICS: config.get("analytics.enabled"),
     },
 });

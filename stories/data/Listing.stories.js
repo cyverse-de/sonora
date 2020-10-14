@@ -4,6 +4,7 @@ import Listing from "../../src/components/data/listing/Listing";
 import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
 import { fileTypesResp, dataRootsResp } from "./DataMocks";
 import { mockAxios } from "../axiosMock";
+import constants from "../../src/constants";
 
 export default {
     title: "Data",
@@ -20,6 +21,10 @@ function ListingTest(props) {
                 baseId="tableView"
                 path="/iplant/home/ipcdev"
                 handlePathChange={(path) => logger("Change to path " + path)}
+                selectedPage={0}
+                selectedRowsPerPage={100}
+                selectedOrder={constants.SORT_DESCENDING}
+                selectedOrderBy="name"
             />
         </UploadTrackingProvider>
     );

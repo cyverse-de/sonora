@@ -13,7 +13,6 @@ import ids from "../ids";
 import Drawer from "../details/Drawer";
 import FileBrowser from "../toolbar/FileBrowser";
 import DataToolbar from "../toolbar/Toolbar";
-import constants from "../../../constants";
 
 import DEPagination from "components/utils/DEPagination";
 import ResourceTypes from "components/models/ResourceTypes";
@@ -26,7 +25,6 @@ import {
 } from "components/uploads/UploadDrop";
 import UploadDropTarget from "components/uploads/UploadDropTarget";
 import { camelcaseit } from "common/functions";
-import { getLocalStorage } from "components/utils/localStorage";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import Sharing from "components/sharing";
 import { formatSharedData } from "components/sharing/util";
@@ -53,17 +51,32 @@ import { queryCache, useMutation, useQuery } from "react-query";
 import { Button, Typography, useTheme } from "@material-ui/core";
 
 function Listing(props) {
+    const {
+        baseId,
+        path,
+        handlePathChange,
+        multiSelect = true,
+        isInvalidSelection = () => false,
+        render,
+        showErrorAnnouncer,
+        onCreateHTFileSelected,
+        onCreateMultiInputFileSelected,
+        selectedPage,
+        selectedRowsPerPage,
+        selectedOrder,
+        selectedOrderBy,
+        onRouteToListing,
+    } = props;
+
     const uploadTracker = useUploadTrackingState();
     const theme = useTheme();
     const [isGridView, setGridView] = useState(false);
-    const [order, setOrder] = useState("asc");
-    const [orderBy, setOrderBy] = useState("name");
+    const [order, setOrder] = useState(selectedOrder);
+    const [orderBy, setOrderBy] = useState(selectedOrderBy);
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(
-        getLocalStorage(constants.LOCAL_STORAGE.DATA.PAGE_SIZE) || 100
-    );
+    const [page, setPage] = useState(selectedPage);
+    const [rowsPerPage, setRowsPerPage] = useState(selectedRowsPerPage);
     const [data, setData] = useState({ total: 0, listing: [] });
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
@@ -77,17 +90,6 @@ function Listing(props) {
         false
     );
     const [navError, setNavError] = useState(null);
-    const {
-        baseId,
-        path,
-        handlePathChange,
-        multiSelect = true,
-        isInvalidSelection = () => false,
-        render,
-        showErrorAnnouncer,
-        onCreateHTFileSelected,
-        onCreateMultiInputFileSelected,
-    } = props;
 
     // Used to force the data listing to refresh when uploads are completed.
     const uploadsCompleted = uploadTracker.uploads.filter((upload) => {
@@ -230,6 +232,28 @@ function Listing(props) {
     useEffect(() => {
         setDetailsEnabled(selected && selected.length === 1);
     }, [selected]);
+
+    useEffect(() => {
+        if (
+            selectedOrder !== order ||
+            selectedOrderBy !== orderBy ||
+            selectedPage !== page ||
+            selectedRowsPerPage !== rowsPerPage
+        ) {
+            onRouteToListing(path, order, orderBy, page, rowsPerPage);
+        }
+    }, [
+        onRouteToListing,
+        order,
+        orderBy,
+        page,
+        path,
+        rowsPerPage,
+        selectedOrder,
+        selectedOrderBy,
+        selectedPage,
+        selectedRowsPerPage,
+    ]);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";

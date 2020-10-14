@@ -18,6 +18,22 @@ export const HeaderTest = () => {
                 onDeleteSelected={() => logger("Delete")}
                 handleDataNavError={console.log}
                 handlePathChange={console.log}
+                getSelectedResources={() => {
+                    return [
+                        {
+                            infoType: null,
+                            path: "/iplant/home/aramsey/TestData_qa",
+                            "date-created": 1565225021000,
+                            permission: "own",
+                            "date-modified": 1568318834000,
+                            "file-size": 0,
+                            badName: false,
+                            isFavorite: false,
+                            label: "TestData_qa",
+                            id: "9183e702-b975-11e9-80ce-d8d385e427d4",
+                        },
+                    ];
+                }}
             />
         </UploadTrackingProvider>
     );

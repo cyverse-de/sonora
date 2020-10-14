@@ -218,6 +218,7 @@ function General(props) {
                     variant="body1"
                 >
                     <Button
+                        id={build(baseId, ids.RESET_HPC_BTN)}
                         color="primary"
                         variant="outlined"
                         disabled={requireAgaveAuth}

@@ -136,6 +136,7 @@ function DataToolbar(props) {
                     <Button
                         id={build(toolbarId, ids.ADD_TO_BAG_BTN)}
                         variant="outlined"
+                        size="small"
                         disableElevation
                         color="primary"
                         onClick={onAddToBagSelected}

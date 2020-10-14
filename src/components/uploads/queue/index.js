@@ -37,9 +37,10 @@ import {
 
 import { useTheme, makeStyles } from "@material-ui/core/styles";
 
-import { getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
 
 import messages from "./messages";
+import ids from "../dialog/ids";
 
 const useStyles = makeStyles((theme) => ({
     ellipsis: {
@@ -57,23 +58,33 @@ const useStyles = makeStyles((theme) => ({
  * @params {Object} props.upload - An upload from the upload tracker.
  * @returns {Object}
  */
-const UploadStatus = ({ upload }) => {
+const UploadStatus = ({ upload, baseId }) => {
     const theme = useTheme();
 
     let statusIcon = <div />;
 
     if (upload.isUploading) {
-        statusIcon = <CircularProgress size={20} />;
+        statusIcon = (
+            <CircularProgress
+                size={20}
+                id={build(baseId, ids.STATUS.UPLOADING)}
+            />
+        );
     }
 
     if (upload.hasUploaded) {
         statusIcon = (
-            <CheckCircleIcon style={{ color: theme.palette.success.main }} />
+            <CheckCircleIcon
+                style={{ color: theme.palette.success.main }}
+                id={build(baseId, ids.STATUS.SUCCESS)}
+            />
         );
     }
 
     if (upload.hasErrored) {
-        statusIcon = <ErrorIcon color="error" />;
+        statusIcon = (
+            <ErrorIcon color="error" id={build(baseId, ids.STATUS.FAILED)} />
+        );
     }
 
     return statusIcon;
@@ -93,12 +104,15 @@ const EllipsisField = ({ children }) => {
  * @params {Object} props.handleCancel - A callback called when the cancel button is clicked.
  * @returns {Object}
  */
-const UploadItem = ({ upload, handleCancel }) => {
+const UploadItem = ({ upload, handleCancel, baseId }) => {
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
+    const uploadPath = [upload.parentPath, upload.filename].join("/");
+    const itemId = build(baseId, uploadPath);
+
     return (
-        <ListItem>
+        <ListItem id={itemId}>
             <ListItemAvatar>
                 <Avatar>
                     {upload.kind === KindFile ? (
@@ -120,7 +134,7 @@ const UploadItem = ({ upload, handleCancel }) => {
                 />
             )}
 
-            <UploadStatus upload={upload} />
+            <UploadStatus upload={upload} baseId={itemId} />
 
             <ListItemSecondaryAction>
                 <IconButton
@@ -141,7 +155,8 @@ const UploadItem = ({ upload, handleCancel }) => {
  *
  * @returns {Object}
  */
-const UploadList = () => {
+const UploadList = (props) => {
+    const { id } = props;
     const tracker = useUploadTrackingState();
     const dispatch = useUploadTrackingDispatch();
 
@@ -161,9 +176,10 @@ const UploadList = () => {
     };
 
     return (
-        <List dense={true}>
+        <List dense={true} id={id}>
             {tracker.uploads.map((upload) => (
                 <UploadItem
+                    baseId={id}
                     key={upload.id}
                     upload={upload}
                     handleCancel={handleCancel}

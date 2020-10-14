@@ -4,4 +4,9 @@ export default {
     LIST: "list",
     CLOSE: "closeButton",
     CLOSE_X: "closeXButton",
+    STATUS: {
+        UPLOADING: "uploading",
+        SUCCESS: "success",
+        FAILED: "failed",
+    },
 };

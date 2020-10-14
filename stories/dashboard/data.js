@@ -10,6 +10,7 @@ export default {
                 integration_date: null,
                 username: "ipctest@iplantcollaborative.org",
                 edited_date: "2020-02-03T22:30:53.789Z",
+                is_favorite: false,
             },
             {
                 id: "a25da189-ffe6-4f61-9a91-704711f36bd7",
@@ -20,6 +21,7 @@ export default {
                 integration_date: null,
                 username: "ipctest@iplantcollaborative.org",
                 edited_date: "2014-12-08T06:01:37.242Z",
+                is_favorite: false,
             },
             {
                 id: "9ed50f34-fa8f-11e9-9bfc-008cfa5ae621",
@@ -30,6 +32,7 @@ export default {
                 integration_date: null,
                 username: "ipctest@iplantcollaborative.org",
                 edited_date: "2019-10-29T21:04:26.403Z",
+                is_favorite: false,
             },
             {
                 id: "39896e30-3b5c-11e7-90ce-008cfa5ae621",
@@ -40,6 +43,7 @@ export default {
                 integration_date: null,
                 username: "ipctest@iplantcollaborative.org",
                 edited_date: "2017-05-17T23:54:54.624Z",
+                is_favorite: false,
             },
             {
                 id: "b390f5f0-4f13-11e9-8949-008cfa5ae621",
@@ -51,6 +55,7 @@ export default {
                 integration_date: null,
                 username: "ipctest@iplantcollaborative.org",
                 edited_date: "2019-03-25T15:36:04.700Z",
+                is_favorite: false,
             },
             {
                 id: "8bc52f58-4ff6-11e9-adb1-008cfa5ae621",
@@ -61,6 +66,7 @@ export default {
                 integration_date: null,
                 username: "ipctest@iplantcollaborative.org",
                 edited_date: "2019-03-26T18:39:53.693Z",
+                is_favorite: false,
             },
             {
                 id: "d3ec0a42-6142-11e9-b580-008cfa5ae621",
@@ -71,6 +77,7 @@ export default {
                 integration_date: null,
                 username: "ipctest@iplantcollaborative.org",
                 edited_date: "2019-04-17T18:58:46.260Z",
+                is_favorite: false,
             },
             {
                 id: "a74b9840-7b23-11e9-86f2-008cfa5ae621",
@@ -82,6 +89,7 @@ export default {
                 integration_date: null,
                 username: "ipctest@iplantcollaborative.org",
                 edited_date: "2019-05-20T17:21:07.223Z",
+                is_favorite: false,
             },
         ],
         public: [
@@ -94,6 +102,7 @@ export default {
                 integration_date: "2020-03-16T07:14:46.656Z",
                 username: "ipctest@iplantcollaborative.org",
                 edited_date: "2020-03-16T07:14:56.813Z",
+                is_favorite: true,
             },
             {
                 id: "c81731dc-6755-11ea-908b-c2a97b34bb42",
@@ -104,6 +113,7 @@ export default {
                 integration_date: "2020-03-16T07:14:35.636Z",
                 username: "ipctest@iplantcollaborative.org",
                 edited_date: "2020-03-16T07:14:35.636Z",
+                is_favorite: true,
             },
             {
                 id: "9e989f50-6109-11ea-ab9d-008cfa5ae621",
@@ -115,6 +125,7 @@ export default {
                 integration_date: "2020-03-10T21:48:05.803Z",
                 username: "ipctest@iplantcollaborative.org",
                 edited_date: "2020-03-10T21:48:05.803Z",
+                is_favorite: false,
             },
             {
                 id: "b91ffda4-4df0-11ea-bd40-008cfa5ae621",
@@ -126,6 +137,7 @@ export default {
                 integration_date: "2020-03-09T21:13:54.884Z",
                 username: "ipctest@iplantcollaborative.org",
                 edited_date: "2020-03-09T21:13:54.884Z",
+                is_favorite: false,
             },
             {
                 id: "aee316c6-15d5-11ea-933d-008cfa5ae621",
@@ -137,6 +149,7 @@ export default {
                 integration_date: "2020-03-04T18:40:22.199Z",
                 username: "ipctest@iplantcollaborative.org",
                 edited_date: "2020-03-04T18:40:22.199Z",
+                is_favorite: false,
             },
             {
                 id: "58f783bc-5c95-11ea-b10d-008cfa5ae621",
@@ -147,6 +160,7 @@ export default {
                 integration_date: "2020-03-02T15:36:48.063Z",
                 username: "ipctest@iplantcollaborative.org",
                 edited_date: "2020-03-02T15:36:48.063Z",
+                is_favorite: false,
             },
             {
                 id: "6ff82cda-5c98-11ea-aad3-008cfa5ae621",
@@ -158,6 +172,7 @@ export default {
                 integration_date: "2020-03-02T15:33:49.287Z",
                 username: "ipctest@iplantcollaborative.org",
                 edited_date: "2020-03-02T15:33:49.287Z",
+                is_favorite: false,
             },
             {
                 id: "a847402e-ff2a-11e9-815d-008cfa5ae621",
@@ -169,6 +184,7 @@ export default {
                 integration_date: "2020-02-17T22:20:28.291Z",
                 username: "ipctest@iplantcollaborative.org",
                 edited_date: "2020-02-17T22:20:28.291Z",
+                is_favorite: false,
             },
         ],
     },

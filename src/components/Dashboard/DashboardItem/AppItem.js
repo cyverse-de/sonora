@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Launch, Info, Favorite, People, Apps } from "@material-ui/icons";
+import { useMutation } from "react-query";
+
+import { Launch, Info, People, Apps } from "@material-ui/icons";
 import { IconButton, MenuItem } from "@material-ui/core";
+
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import UnFavoriteIcon from "@material-ui/icons/FavoriteBorderOutlined";
 
 import { formatDate } from "@cyverse-de/ui-lib";
 
 import NavigationConstants from "common/NavigationConstants";
 
-import * as constants from "../constants";
+import { appFavorite } from "serviceFacades/apps";
 
+import * as constants from "../constants";
 import ItemBase, { ItemAction } from "./ItemBase";
 import { useTranslation } from "i18n";
 
@@ -25,26 +31,56 @@ class AppItem extends ItemBase {
 
     static create(props) {
         const item = new AppItem(props);
-        const { t } = useTranslation("dashboard");
+        const { t } = useTranslation(["dashboard", "apps"]);
+
+        // Extract app details. Note: dashboard-aggregator only queries the DE database.
+        const app = props.content;
+
+        // State variables.
+        const [isFavorite, setIsFavorite] = useState(app.is_favorite);
 
         // Functions to build keys and links.
-        const app = props.content;
-        const buildKey = (keyType) =>
-            `${constants.KIND_APPS}-${app.system_id}-${app.id}-${keyType}`;
+        const baseId = `${constants.KIND_APPS}-${app.system_id}-${app.id}`;
+        const buildKey = (keyType) => `${baseId}-${keyType}`;
         const buildRef = (refType) =>
             `${NavigationConstants.APPS}/${app.system_id}/${app.id}/${refType}`;
+        const getFavoriteActionKey = () =>
+            isFavorite ? "apps:removeFromFavorites" : "apps:addToFavorites";
 
-        console.log(props);
+        const [favorite] = useMutation(appFavorite, {
+            onSuccess: () => {
+                setIsFavorite(!isFavorite);
+            },
+            onError: (e) => {
+                console.log(e);
+            },
+        });
+
+        const onFavoriteClick = () => {
+            favorite({
+                isFav: !app.is_favorite,
+                appId: app.id,
+                systemId: app.system_id,
+            });
+        };
 
         return item
             .addActions([
                 <ItemAction
                     ariaLabel={t("favoriteAria")}
                     key={buildKey("favorite")}
-                    tooltipKey="favoriteAction"
+                    tooltipKey={getFavoriteActionKey()}
                 >
-                    <IconButton href={buildRef("favorite")}>
-                        <Favorite />
+                    <IconButton
+                        id={buildKey("favorite-toggleFavorite")}
+                        onClick={onFavoriteClick}
+                        size="small"
+                    >
+                        {isFavorite ? (
+                            <FavoriteIcon color="primary" />
+                        ) : (
+                            <UnFavoriteIcon color="primary" />
+                        )}
                     </IconButton>
                 </ItemAction>,
                 <ItemAction

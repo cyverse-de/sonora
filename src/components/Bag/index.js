@@ -88,13 +88,17 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
         minWidth: theme.spacing(20),
     },
+    itemText: {
+        textOverflow: "ellipsis",
+        overflow: "hidden",
+    },
 }));
 
 const BagSkeleton = () => (
     <Skeleton variant="rect" animation="wave" height={100} width="100%" />
 );
 
-export const BagUI = ({ removeItem, allItems, isLoading }) => {
+export const BagUI = ({ removeItem, allItems, isLoading, fullScreen }) => {
     const { t } = useTranslation(["bags", "common"]);
 
     const classes = useStyles();
@@ -176,14 +180,20 @@ export const BagUI = ({ removeItem, allItems, isLoading }) => {
                             const itemID = buildID(listID, itemIndex);
                             return (
                                 <ListItem key={itemID} id={itemID}>
-                                    <ListItemAvatar
-                                        id={buildID(itemID, constants.AVATAR)}
-                                    >
-                                        <Avatar>{item.icon(t)}</Avatar>
-                                    </ListItemAvatar>
+                                    {!fullScreen && (
+                                        <ListItemAvatar
+                                            id={buildID(
+                                                itemID,
+                                                constants.AVATAR
+                                            )}
+                                        >
+                                            <Avatar>{item.icon(t)}</Avatar>
+                                        </ListItemAvatar>
+                                    )}
                                     <ListItemText
                                         primary={item.label}
                                         id={buildID(itemID, constants.LABEL)}
+                                        classes={{ root: classes.itemText }}
                                     />
                                     <ListItemSecondaryAction>
                                         <IconButton
@@ -410,6 +420,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                         allItems={allItems}
                         isLoading={isLoading}
                         removeItem={removeItem}
+                        fullScreen={fullScreen}
                     />
                 </DialogContent>
 
@@ -515,6 +526,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                 open={downloadDlgOpen}
                 onClose={() => setDownloadDlgOpen(false)}
                 paths={downloadPaths}
+                fullScreen={fullScreen}
             ></DownloadLinksDialog>
         </>
     );

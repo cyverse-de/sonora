@@ -119,7 +119,7 @@ function DotMenuItems(props) {
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const [href, as] = useRelaunchLink(selectedAnalyses[0]);
     const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(
-        selectedAnalyses[0]
+        selectedAnalyses[0]?.resultfolderid
     );
     return [
         <Hidden mdUp>

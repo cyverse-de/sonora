@@ -1,11 +1,12 @@
 export default (theme) => ({
+    analysesIcon: {
+        width: "28px",
+    },
+
     button: {
         [theme.breakpoints.up("sm")]: {
             margin: theme.spacing(1),
         },
-    },
-    chip: {
-        marginBottom: theme.spacing(1),
     },
 
     closeButton: {
@@ -14,6 +15,10 @@ export default (theme) => ({
 
     dividerGrid: {
         maxWidth: theme.spacing(2),
+    },
+
+    iconColor: {
+        color: theme.palette.info.main,
     },
 
     mobilePermission: {

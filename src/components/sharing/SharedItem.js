@@ -1,30 +1,32 @@
 import React from "react";
 import { build } from "@cyverse-de/ui-lib";
-import { Chip, makeStyles } from "@material-ui/core";
 
 import { TYPE } from "./util";
-import styles from "./styles";
 import {
-    Apps,
-    Assessment as AnalysisIcon,
     Build as ToolIcon,
     Folder as FolderIcon,
     InsertDriveFileOutlined as FileIcon,
 } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/styles";
 import ResourceTypes from "../models/ResourceTypes";
+import { useTranslation } from "i18n";
+import Identity from "../data/Identity";
+import styles from "./styles";
+
 const useStyles = makeStyles(styles);
 
-const getItemDetails = (type, subtype) => {
+const getItemDetails = (type, t, classes, subtype) => {
     switch (type) {
         case TYPE.DATA: {
             return {
                 idFn: (resource) => resource.path,
                 labelFn: (resource) => resource.label,
+                secondaryText: (resource) => resource.path,
                 icon:
                     subtype === ResourceTypes.FILE ? (
-                        <FileIcon />
+                        <FileIcon classes={{ root: classes.iconColor }} />
                     ) : (
-                        <FolderIcon />
+                        <FolderIcon classes={{ root: classes.iconColor }} />
                     ),
             };
         }
@@ -32,21 +34,30 @@ const getItemDetails = (type, subtype) => {
             return {
                 idFn: (resource) => resource.id,
                 labelFn: (resource) => resource.name,
-                icon: <Apps />,
+                secondaryText: (resource) => resource.system_id,
+                icon: <img src="/icon-apps-dark.png" alt={t("apps")} />,
             };
         }
         case TYPE.ANALYSES: {
             return {
                 idFn: (resource) => resource.id,
                 labelFn: (resource) => resource.name,
-                icon: <AnalysisIcon />,
+                secondaryText: () => "",
+                icon: (
+                    <img
+                        className={classes.analysesIcon}
+                        src="/icon-analyses-dark.png"
+                        alt={t("analyses")}
+                    />
+                ),
             };
         }
         case TYPE.TOOLS: {
             return {
                 idFn: (resource) => resource.id,
                 labelFn: (resource) => resource.name,
-                icon: <ToolIcon />,
+                secondaryText: () => "",
+                icon: <ToolIcon classes={{ root: classes.iconColor }} />,
             };
         }
         default:
@@ -56,18 +67,22 @@ const getItemDetails = (type, subtype) => {
 
 function SharedItem(props) {
     const { baseId, type, item } = props;
-    const subtype = item.type;
-    const { idFn, labelFn, icon } = getItemDetails(type, subtype);
     const classes = useStyles();
+    const subtype = item.type;
+    const { t } = useTranslation("common");
+    const { idFn, labelFn, icon, secondaryText } = getItemDetails(
+        type,
+        t,
+        classes,
+        subtype
+    );
 
     return (
-        <Chip
+        <Identity
             id={build(baseId, idFn(item))}
-            classes={{ root: classes.chip }}
-            label={labelFn(item)}
-            icon={icon}
-            color="primary"
-            variant="outlined"
+            avatar={icon}
+            primaryText={labelFn(item)}
+            secondaryText={secondaryText(item)}
         />
     );
 }

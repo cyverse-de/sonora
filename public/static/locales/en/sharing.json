@@ -5,6 +5,7 @@
     "fetchUserInfoError": "Failed to fetch user information",
     "noUsersFound": "No users found",
     "own": "Own",
+    "permission": "Permission",
     "read": "Read",
     "remove": "Remove",
     "resources": "Resources",
@@ -15,6 +16,7 @@
     "sharingAccess": "Who Has Access",
     "sharingError": "Sharing could not be completed",
     "sharingUnsuccessful": "Sharing failed. Please try again",
+    "user": "User",
     "userAlreadyAdded": "User has already been added",
     "varies": "Varies",
     "write": "Write"

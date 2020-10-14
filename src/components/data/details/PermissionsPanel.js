@@ -38,11 +38,12 @@ import isQueryLoading from "components/utils/isQueryLoading";
 import { getUserInfo } from "serviceFacades/users";
 import ErrorTypography from "components/utils/error/ErrorTypography";
 import DEErrorDialog from "components/utils/error/DEErrorDialog";
+import { getUserPrimaryText, getUserSecondaryText } from "../../sharing/util";
 
 const useStyles = makeStyles(styles);
 
 function getAvatarLetters(permission) {
-    const firstName = permission.first_name;
+    const firstName = permission.first_name || permission.id;
     const lastName = permission.last_name;
     let letters = [];
 
@@ -108,7 +109,7 @@ function PermissionsTabPanel(props) {
             // merge user info with permissions
             merged.push({
                 ...permission,
-                ...userInfo[permission.user],
+                ...(userInfo[permission.user] || { id: permission.user }),
             });
         });
 
@@ -291,12 +292,12 @@ function PermissionsTabPanel(props) {
                                                 permission.user
                                             )}
                                             key={index}
-                                            primaryText={permission.name}
-                                            secondaryText={
-                                                permission.institution
-                                                    ? permission.institution
-                                                    : permission.description
-                                            }
+                                            primaryText={getUserPrimaryText(
+                                                permission
+                                            )}
+                                            secondaryText={getUserSecondaryText(
+                                                permission
+                                            )}
                                             secondaryAction={
                                                 <>
                                                     {permissionLoadingIds.includes(

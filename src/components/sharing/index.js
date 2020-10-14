@@ -5,26 +5,25 @@
  * to modify with whom those resources are shared
  */
 
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
 import {
-    Avatar,
     Button,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
     Divider,
-    FormControl,
     Grid,
     IconButton,
+    List,
     makeStyles,
     Typography,
     useMediaQuery,
     useTheme,
 } from "@material-ui/core";
-import { Close, Group } from "@material-ui/icons";
+import { Close } from "@material-ui/icons";
 import { useMutation, useQuery } from "react-query";
 
 import {
@@ -35,34 +34,33 @@ import {
     getUnsharingUpdates,
     getUserMap,
     getUserSet,
-    groupName,
     isGroup,
     TYPE,
 } from "./util";
 import { getUserInfo } from "serviceFacades/users";
 import { USER_INFO_QUERY_KEY } from "serviceFacades/filesystem";
-import isQueryLoading from "../utils/isQueryLoading";
-import GridLoading from "../utils/GridLoading";
+import isQueryLoading from "components/utils/isQueryLoading";
+import GridLoading from "components/utils/GridLoading";
 import ids from "./ids";
 import SharedItem from "./SharedItem";
-import Identity from "../data/Identity";
 import SubjectSearchField from "./SubjectSearchField";
 import { useUserProfile } from "contexts/userProfile";
 import { useTranslation } from "i18n";
-import SharingPermissionSelector from "components/sharing/SharingPermissionSelector";
 import Permissions from "components/models/Permissions";
 import {
     doSharingUpdates,
     GET_PERMISSIONS_QUERY_KEY,
     getPermissions,
-} from "../../serviceFacades/sharing";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+} from "serviceFacades/sharing";
 import styles from "./styles";
+import UserTable from "./UserTable";
+import ErrorTypography from "components/utils/error/ErrorTypography";
+import DEErrorDialog from "components/utils/error/DEErrorDialog";
 
 const useStyles = makeStyles(styles);
 
 function Sharing(props) {
-    const { open, onClose, resources, showErrorAnnouncer } = props;
+    const { open, onClose, resources } = props;
 
     const [permissions, setPermissions] = useState([]);
     const [originalUsers, setOriginalUsers] = useState({});
@@ -70,6 +68,8 @@ function Sharing(props) {
     const [hasData, setHasData] = useState(false);
     const [userMap, setUserMap] = useState({});
     const [resourceTotal, setResourceTotal] = useState(0);
+    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+    const [errorDetails, setErrorDetails] = useState(null);
     const [userProfile] = useUserProfile();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -89,7 +89,10 @@ function Sharing(props) {
                 setUserIdList(getUserSet(results));
             },
             onError: (error) => {
-                showErrorAnnouncer(tSharing("fetchPermissionsError"), error);
+                setErrorDetails({
+                    message: tSharing("fetchPermissionsError"),
+                    error,
+                });
             },
         },
     });
@@ -105,7 +108,10 @@ function Sharing(props) {
                 setOriginalUsers(userMap);
             },
             onError: (error) => {
-                showErrorAnnouncer(tSharing("fetchUserInfoError"), error);
+                setErrorDetails({
+                    message: tSharing("fetchUserInfoError"),
+                    error,
+                });
             },
         },
     });
@@ -121,20 +127,8 @@ function Sharing(props) {
         }
     }, [resources]);
 
-    const getUserPrimaryText = (user) => {
-        const { email, id } = user;
-        return email || id;
-    };
-
-    const getUserAvatar = (user) => {
-        return isGroup(user) ? (
-            <Group />
-        ) : (
-            getUserPrimaryText(user)[0].toUpperCase()
-        );
-    };
-
-    const addUser = (user) => {
+    const addUser = (user, onUserAdded) => {
+        onUserAdded();
         const id = user.id;
         const updatedUser = addMissingResourcesToUser(user, resources);
         setUserMap({
@@ -144,6 +138,7 @@ function Sharing(props) {
     };
 
     const onPermissionChange = (user, permission) => {
+        setErrorDetails(null);
         const userId = user.id;
 
         // Cannot update permissions for groups if data (which also means
@@ -170,24 +165,22 @@ function Sharing(props) {
         const userExist = userMap[user.id];
         const isSelf = user.id === userProfile.id;
         isSelf
-            ? announce({
-                  text: tSharing("cannotAddSelf"),
-                  variant: AnnouncerConstants.INFO,
+            ? setErrorDetails({
+                  message: tSharing("cannotAddSelf"),
               })
             : userExist
-            ? announce({
-                  text: tSharing("userAlreadyAdded"),
-                  variant: AnnouncerConstants.INFO,
+            ? setErrorDetails({
+                  message: tSharing("userAlreadyAdded"),
               })
             : isGroup(user) && hasData
-            ? announce({
-                  text: tSharing("dataGroupSharingDisabled"),
-                  variant: AnnouncerConstants.INFO,
+            ? setErrorDetails({
+                  message: tSharing("dataGroupSharingDisabled"),
               })
-            : addUser(user) && onUserAdded();
+            : addUser(user, onUserAdded);
     };
 
     const onRemoveUser = (user) => {
+        setErrorDetails(null);
         const updated = { ...userMap };
         delete updated[user.id];
 
@@ -213,16 +206,19 @@ function Sharing(props) {
                     });
                 });
                 if (failures.length > 0) {
-                    announce({
-                        text: tSharing("sharingUnsuccessful"),
-                        variant: AnnouncerConstants.ERROR,
+                    setErrorDetails({
+                        message: tSharing("sharingUnsuccessful"),
+                        error: failures,
                     });
                 } else {
                     onClose();
                 }
             },
             onError: (error) => {
-                showErrorAnnouncer(tSharing("sharingError"), error);
+                setErrorDetails({
+                    message: tSharing("sharingError"),
+                    error,
+                });
             },
         }
     );
@@ -272,79 +268,42 @@ function Sharing(props) {
                             <SubjectSearchField
                                 baseId={build(ids.DIALOG, ids.SEARCH_FIELD)}
                                 onUserSelected={onUserSelected}
+                                onSearchStart={() => setErrorDetails(null)}
                             />
+                            {errorDetails && (
+                                <>
+                                    <ErrorTypography
+                                        errorMessage={errorDetails.message}
+                                        onDetailsClick={
+                                            errorDetails.error
+                                                ? () => setErrorDialogOpen(true)
+                                                : null
+                                        }
+                                    />
+                                    <DEErrorDialog
+                                        open={errorDialogOpen}
+                                        baseId={baseId}
+                                        errorObject={errorDetails.error}
+                                        handleClose={() => {
+                                            setErrorDialogOpen(false);
+                                        }}
+                                    />
+                                </>
+                            )}
                         </Grid>
                         <Grid item sm={12} md={6} zeroMinWidth>
                             <>
                                 <Typography>
                                     {tSharing("sharingAccess")}
                                 </Typography>
-                                {userMap &&
-                                    Object.values(userMap).map((user) => {
-                                        const permissionSelector = () => (
-                                            <FormControl
-                                                className={
-                                                    isMobile
-                                                        ? classes.mobilePermission
-                                                        : null
-                                                }
-                                            >
-                                                <SharingPermissionSelector
-                                                    baseId={build(
-                                                        baseId,
-                                                        user.id,
-                                                        ids.PERMISSION_SELECTOR
-                                                    )}
-                                                    currentPermission={
-                                                        user.displayPermission
-                                                    }
-                                                    onPermissionChange={(
-                                                        updatedPermission
-                                                    ) =>
-                                                        onPermissionChange(
-                                                            user,
-                                                            updatedPermission
-                                                        )
-                                                    }
-                                                    onRemoveSelected={() =>
-                                                        onRemoveUser(user)
-                                                    }
-                                                />
-                                            </FormControl>
-                                        );
-                                        return (
-                                            <Fragment key={user.id}>
-                                                <Identity
-                                                    ContainerComponent="div"
-                                                    avatar={
-                                                        <Avatar>
-                                                            {getUserAvatar(
-                                                                user
-                                                            )}
-                                                        </Avatar>
-                                                    }
-                                                    primaryText={
-                                                        isGroup(user)
-                                                            ? groupName(user)
-                                                            : getUserPrimaryText(
-                                                                  user
-                                                              )
-                                                    }
-                                                    secondaryText={
-                                                        user.institution ||
-                                                        user.description
-                                                    }
-                                                    secondaryAction={
-                                                        !isMobile
-                                                            ? permissionSelector()
-                                                            : null
-                                                    }
-                                                />
-                                                {isMobile &&
-                                                    permissionSelector()}
-                                            </Fragment>
-                                        );
-                                    })}
+                                {userMap && (
+                                    <UserTable
+                                        baseId={baseId}
+                                        userMap={userMap}
+                                        onPermissionChange={onPermissionChange}
+                                        onRemoveUser={onRemoveUser}
+                                    />
+                                )}
                             </>
                         </Grid>
                         <Grid
@@ -360,23 +319,23 @@ function Sharing(props) {
                             />
                         </Grid>
                         <Grid item sm={12} md={5} zeroMinWidth>
-                            <Typography className={classes.typographyPadding}>
-                                {tSharing("resources")}
-                            </Typography>
-                            {resources &&
-                                Object.keys(resources).map((type) => {
-                                    return resources[type].map(
-                                        (resource, index) => (
-                                            <Grid item key={index}>
-                                                <SharedItem
-                                                    baseId={baseId}
-                                                    type={type}
-                                                    item={resource}
-                                                />
-                                            </Grid>
-                                        )
-                                    );
-                                })}
+                            <Typography>{tSharing("resources")}</Typography>
+                            <List>
+                                {resources &&
+                                    Object.keys(resources).map((type) => {
+                                        return resources[type].map(
+                                            (resource, index) => (
+                                                <Grid item key={index}>
+                                                    <SharedItem
+                                                        baseId={baseId}
+                                                        type={type}
+                                                        item={resource}
+                                                    />
+                                                </Grid>
+                                            )
+                                        );
+                                    })}
+                            </List>
                         </Grid>
                     </Grid>
                 )}
@@ -384,7 +343,10 @@ function Sharing(props) {
             <DialogActions>
                 <Button
                     id={build(baseId, ids.BUTTONS.CANCEL)}
-                    onClick={onClose}
+                    onClick={() => {
+                        setErrorDetails(null);
+                        onClose();
+                    }}
                 >
                     {tCommon("cancel")}
                 </Button>
@@ -392,7 +354,10 @@ function Sharing(props) {
                     id={build(baseId, ids.BUTTONS.SAVE)}
                     color="primary"
                     type="submit"
-                    onClick={onSave}
+                    onClick={() => {
+                        setErrorDetails(null);
+                        onSave();
+                    }}
                 >
                     {tCommon("done")}
                 </Button>
@@ -401,4 +366,4 @@ function Sharing(props) {
     );
 }
 
-export default withErrorAnnouncer(Sharing);
+export default Sharing;

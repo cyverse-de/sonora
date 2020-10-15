@@ -2,6 +2,7 @@
     "delete": "Delete Item From Bag",
     "yourItemBag": "Your Item Bag",
     "bagHelp": "Perform sharing or downloading operations on a set of items.",
+    "bagEmpty" : "There is nothing in your bag.",
     "close" : "Close",
     "download": "Download",
     "downloadLinks" : "Download Links",

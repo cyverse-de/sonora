@@ -4,6 +4,7 @@ export default {
     DIALOG: "dialog",
     DOWNLOAD: "download",
     DOWNLOAD_BASEID: "downloadDialog",
+    EMPTY: "empty",
     LINK: "link",
     SHARE: "share",
     CLEARALL: "clearall",

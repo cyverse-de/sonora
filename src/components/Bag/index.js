@@ -61,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(1),
     },
+    empty: {
+        marginTop: theme.spacing(20),
+    },
     paper: {
         width: theme.spacing(60),
         height: theme.spacing(70),
@@ -423,12 +426,25 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                 </DialogTitle>
 
                 <DialogContent dividers>
-                    <BagUI
-                        allItems={allItems}
-                        isLoading={isLoading}
-                        removeItem={removeItem}
-                        fullScreen={fullScreen}
-                    />
+                    {allItems.length > 0 ? (
+                        <BagUI
+                            allItems={allItems}
+                            isLoading={isLoading}
+                            removeItem={removeItem}
+                            fullScreen={fullScreen}
+                        />
+                    ) : (
+                        <Typography
+                            component="p"
+                            variant="body1"
+                            color="textSecondary"
+                            classes={{ root: classes.empty }}
+                            id={buildID(dialogID, constants.EMPTY)}
+                            align="center"
+                        >
+                            {t("bagEmpty")}
+                        </Typography>
+                    )}
                 </DialogContent>
 
                 {allItems.length > 0 && (

@@ -17,6 +17,7 @@ export default {
     OK_BUTTON: "okButton",
     PREFERENCES: "preferences",
     REMEMBER_LAST_PATH_SWITCH: "rememberLastPastSwitch",
+    RESET_HPC_BTN: "resetHpcBtn",
     RESTORE_DEFAULT_BUTTON: "restoreDefaultButton",
     SAVE_PREFERENCES_BUTTON: "savePreferencesButton",
     URL_IMPORT_EMAIL_NOTIFICATION_SWITCH: "urlImportEmailNotificationSwitch",

@@ -52,7 +52,12 @@ const UploadDialog = ({ open, handleClose = () => {} }) => {
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
     return (
-        <Dialog fullScreen={fullScreen} open={open} onClose={handleClose}>
+        <Dialog
+            fullScreen={fullScreen}
+            open={open}
+            onClose={handleClose}
+            id={ids.BASE}
+        >
             <DialogTitle id={buildID(ids.BASE, ids.TITLE)}>
                 {getMessage("title")}
             </DialogTitle>

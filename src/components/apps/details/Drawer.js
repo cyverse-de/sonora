@@ -181,7 +181,7 @@ function DetailsSubHeader({
 
 function DetailsDrawer(props) {
     const classes = useStyles();
-    const { appId, systemId, open, onClose, baseId } = props;
+    const { appId, systemId, open, onClose } = props;
 
     const { t } = useTranslation("apps");
 
@@ -209,7 +209,7 @@ function DetailsDrawer(props) {
         user: userRating,
     } = selectedApp?.rating || { average: 0, total: 0, user: 0 };
 
-    const drawerId = build(baseId, ids.DETAILS_DRAWER);
+    const drawerId = ids.DETAILS_DRAWER;
     const detailsTabId = build(drawerId, ids.DETAILS_TAB);
     const toolInfoTabId = build(drawerId, ids.TOOLS_INFO_TAB);
 
@@ -316,7 +316,7 @@ function DetailsDrawer(props) {
                     isFavorite={isFavorite}
                     onFavoriteClick={onFavoriteClick}
                     classes={classes}
-                    baseId={baseId}
+                    baseId={drawerId}
                 />
             </div>
             <div className={classes.drawerSubHeader}>
@@ -362,7 +362,7 @@ function DetailsDrawer(props) {
                     ratingMutationStatus={
                         ratingMutationStatus === constants.LOADING
                     }
-                    baseId={baseId}
+                    baseId={drawerId}
                     onRatingChange={onRatingChange}
                     onDeleteRatingClick={onDeleteRating}
                     onFavoriteClick={onFavoriteClick}
@@ -378,7 +378,7 @@ function DetailsDrawer(props) {
             >
                 <ToolsUsedPanel
                     details={details}
-                    baseId={baseId}
+                    baseId={drawerId}
                     loading={detailsStatus || appByIdStatus}
                     error={detailsError || appByIdError}
                 />

@@ -4,14 +4,15 @@ import {
     NOTIFICATIONS_LAST_TEN_KEY,
     getLastTenNotifications,
 } from "./../../serviceFacades/notifications";
+import { getDisplayMessage } from "./../layout/Notifications";
 import { useQuery } from "react-query";
 import { Skeleton } from "@material-ui/lab";
 import NotificationStyles from "./styles";
-import Divider from "@material-ui/core/Divider";
 import ids from "./ids";
 import { build } from "@cyverse-de/ui-lib";
-import Button from "@material-ui/core/Button";
 import {
+    Divider,
+    Button,
     ListItemText,
     makeStyles,
     Menu,
@@ -21,14 +22,6 @@ import {
 import { useTranslation } from "../../i18n";
 
 const useStyles = makeStyles(NotificationStyles);
-
-function getDisplayMessage(notification) {
-    if (notification) {
-        return notification.type === "data"
-            ? notification.subject
-            : notification.message.text;
-    }
-}
 
 function getTimeStamp(time) {
     if (time) {

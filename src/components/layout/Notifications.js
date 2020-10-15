@@ -31,7 +31,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 
 const ANALYSIS_EMAIL_TEMPLATE = "analysis_status_change";
 
-function getDisplayMessage(notification) {
+export function getDisplayMessage(notification) {
     return notification.type === "data" &&
         notification["email_template"] !== ANALYSIS_EMAIL_TEMPLATE
         ? notification.subject
@@ -81,38 +81,34 @@ function Notifications(props) {
     const [unSeenCount, setUnSeenCount] = useState(0);
     const [notificationMssg, setNotificationMssg] = useState(null);
 
-    const displayAnalysisNotification = useCallback(
-        (notification, status) => {
-            const text = notification?.message?.text;
-            const outputFolderPath =
-                notification?.payload?.analysisresultsfolder;
+    const displayAnalysisNotification = useCallback((notification, status) => {
+        const text = notification?.message?.text;
+        const outputFolderPath = notification?.payload?.analysisresultsfolder;
 
-            const completed = status === analysisStatus.COMPLETED;
-            const failed = status === analysisStatus.FAILED;
+        const completed = status === analysisStatus.COMPLETED;
+        const failed = status === analysisStatus.FAILED;
 
-            const variant = completed
-                ? AnnouncerConstants.SUCCESS
-                : failed
-                ? AnnouncerConstants.ERROR
-                : AnnouncerConstants.INFO;
+        const variant = completed
+            ? AnnouncerConstants.SUCCESS
+            : failed
+            ? AnnouncerConstants.ERROR
+            : AnnouncerConstants.INFO;
 
-            const CustomAction =
-                (completed || failed) && outputFolderPath
-                    ? () => (
-                          <AnalysisCustomAction
-                              outputFolderPath={outputFolderPath}
-                          />
-                      )
-                    : null;
+        const CustomAction =
+            (completed || failed) && outputFolderPath
+                ? () => (
+                      <AnalysisCustomAction
+                          outputFolderPath={outputFolderPath}
+                      />
+                  )
+                : null;
 
-            announce({
-                text,
-                variant,
-                CustomAction,
-            });
-        },
-        []
-    );
+        announce({
+            text,
+            variant,
+            CustomAction,
+        });
+    }, []);
 
     const displayNotification = useCallback(
         (notification, category) => {

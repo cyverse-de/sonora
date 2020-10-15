@@ -186,6 +186,7 @@ function Notifications(props) {
             <>
                 <NotificationsMenu
                     unSeenCount={unSeenCount}
+                    setUnSeenCount={setUnSeenCount}
                     notificationMssg={notificationMssg}
                     anchorEl={anchorEl}
                     setAnchorEl={setAnchorEl}

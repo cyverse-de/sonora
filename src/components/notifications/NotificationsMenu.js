@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { formatDistance, fromUnixTime } from "date-fns";
 import {
-    NOTIFICATIONS_KEY,
-    getNotifications,
+    NOTIFICATIONS_LAST_TEN_KEY,
+    getLastTenNotifications,
 } from "./../../serviceFacades/notifications";
 import { useQuery } from "react-query";
 import { Skeleton } from "@material-ui/lab";
@@ -39,7 +39,7 @@ function getTimeStamp(time) {
 }
 
 function NotificationsMenu(props) {
-    const { notificationMssg, setAnchorEl, anchorEl } = props;
+    const { setUnSeenCount, notificationMssg, setAnchorEl, anchorEl } = props;
     const [notifications, setNotifications] = useState([]);
     const classes = useStyles();
     const { t } = useTranslation(["common"]);
@@ -58,10 +58,13 @@ function NotificationsMenu(props) {
     }, [notifications, notificationMssg]);
 
     const { isFetching } = useQuery({
-        queryKey: NOTIFICATIONS_KEY,
-        queryFn: getNotifications,
+        queryKey: NOTIFICATIONS_LAST_TEN_KEY,
+        queryFn: getLastTenNotifications,
         config: {
-            onSuccess: (results) => setNotifications(results?.messages),
+            onSuccess: (results) => {
+                setNotifications(results?.messages.reverse());
+                setUnSeenCount(results?.unseen_total);
+            },
         },
     });
 
@@ -122,20 +125,32 @@ function NotificationsMenu(props) {
                 ))}
 
             <Divider light />
-            <Button
-                className={classes.footer}
-                size="large"
-                id={build(
-                    ids.BASE_DEBUG_ID,
-                    ids.NOTIFICATIONS_MENU,
-                    ids.VIEW_ALL_NOTIFICATIONS
-                )}
-                fullWidth={true}
-                color="primary"
-                onClick={handleClose}
-            >
-                {t("viewAllNotifications")}
-            </Button>
+            <>
+                <Button
+                    size="large"
+                    id={build(
+                        ids.BASE_DEBUG_ID,
+                        ids.NOTIFICATIONS_MENU,
+                        ids.VIEW_ALL_NOTIFICATIONS
+                    )}
+                    color="primary"
+                    onClick={handleClose}
+                >
+                    {t("viewAllNotifications")}
+                </Button>
+                <Button
+                    size="large"
+                    id={build(
+                        ids.BASE_DEBUG_ID,
+                        ids.NOTIFICATIONS_MENU,
+                        ids.MARK_ALL_READ
+                    )}
+                    color="primary"
+                    onClick={setUnSeenCount(0)}
+                >
+                    {t("markAsRead")}
+                </Button>
+            </>
         </Menu>
     );
 }

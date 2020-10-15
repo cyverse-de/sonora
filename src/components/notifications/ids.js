@@ -4,4 +4,5 @@ export default {
     TIME_STAMP: "time-stamp",
     VIEW_ALL_NOTIFICATIONS: "view-all-notificaitons",
     NOTIFICATIONS_HEADER: "header",
+    MARK_ALL_READ: "mark-all-read",
 };

@@ -18,6 +18,7 @@
     "searching": "Searching...",
     "login": "Login",
     "logout": "Logout, {{name}}",
+    "markAsRead": "Mark All as Read",
     "more": "More",
     "newNotificationAriaLabel": "Show New Notifications",
     "notifications": "Notifications",
@@ -32,7 +33,7 @@
     "searchError": "Unable to search.",
     "settings": "Settings",
     "userMenuAriaLabel": "user menu",
-    "viewAllNotifications": "VIEW ALL NOTIFICATIONS & ACTIVITIES",
+    "viewAllNotifications": "View All Notifications & Activities",
     "vice": "VICE",
     "viewOutput": "View output"
 }

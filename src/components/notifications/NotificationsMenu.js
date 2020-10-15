@@ -49,8 +49,11 @@ function NotificationsMenu(props) {
     };
 
     useEffect(() => {
-        if (notificationMssg != null) {
-            setNotifications([notificationMssg, ...notifications].reverse());
+        const found = notifications?.find(
+            (msg) => msg.message.id === notificationMssg?.message.id
+        );
+        if ((found === null || found === undefined) && notificationMssg) {
+            setNotifications([notificationMssg, ...notifications].slice(0, 10));
         }
     }, [notifications, notificationMssg]);
 
@@ -85,7 +88,7 @@ function NotificationsMenu(props) {
             {isFetching && <Skeleton variant="rect" width={350} height={400} />}
             {!isFetching &&
                 notifications.length > 0 &&
-                notifications.slice(0, 10).map((n, index) => (
+                notifications.map((n, index) => (
                     <MenuItem
                         onClick={handleClose}
                         id={build(ids.BASE_DEBUG_ID, "ids.NOTIFICATION_MENU")}

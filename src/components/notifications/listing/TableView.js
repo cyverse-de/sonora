@@ -88,7 +88,6 @@ const TableView = (props) => {
         selected,
         total,
         onMessageClicked,
-        onSelectionChanged,
         setOffset,
         setOrder,
         setOrderBy,
@@ -119,7 +118,7 @@ const TableView = (props) => {
     };
 
     const handleRowClick = (event, id) => {
-        onSelectionChanged(
+        setSelected(
             selected.includes(id)
                 ? selected.filter((selection) => id !== selection)
                 : [...selected, id]
@@ -128,7 +127,7 @@ const TableView = (props) => {
 
     const handleSelectAllClick = (event, checked) => {
         if (data) {
-            onSelectionChanged(
+            setSelected(
                 checked && !selected.length ? data.map((n) => n.message.id) : []
             );
         }

@@ -73,41 +73,39 @@ const NotificationView = (props) => {
         setNotificationsMessagesQueryEnabled,
     ]);
 
-    const [markSeenMutation, { isLoading: markSeenLoading }] = useMutation(
-        markSeen,
-        {
-            onSuccess: () => {
-                // TODO update unseen count somehow
-                const newPage = {
-                    ...notifications,
-                    messages: notifications.messages.map((n) =>
-                        selected.includes(n.message.id)
-                            ? { ...n, seen: true }
-                            : n
-                    ),
-                };
+    React.useEffect(() => {
+        setMarkAsSeenEnabled(
+            notifications?.messages &&
+                !notifications.messages.find(
+                    (n) => selected.includes(n.message.id) && n.seen
+                )
+        );
+    }, [notifications, selected, setMarkAsSeenEnabled]);
 
-                setMarkAsSeenEnabled(false);
-                setNotifications(newPage);
-                queryCache.setQueryData(notificationsKey, newPage);
-            },
-            onError: (error) => {
-                showErrorAnnouncer(
-                    t("errorMarkAsSeen", {
-                        count: selected.length,
-                    }),
-                    error
-                );
-            },
-        }
-    );
+    const [markSeenMutation] = useMutation(markSeen, {
+        onSuccess: () => {
+            // TODO update unseen count somehow
+        },
+        onError: (error) => {
+            showErrorAnnouncer(
+                t("errorMarkAsSeen", {
+                    count: selected.length,
+                }),
+                error
+            );
+
+            queryCache.invalidateQueries(notificationsKey);
+        },
+    });
 
     const [
         deleteNotificationsMutation,
         { isLoading: deleteLoading },
     ] = useMutation(deleteNotifications, {
-        onSuccess: () =>
-            queryCache.invalidateQueries(NOTIFICATIONS_MESSAGES_QUERY_KEY),
+        onSuccess: () => {
+            queryCache.invalidateQueries(NOTIFICATIONS_MESSAGES_QUERY_KEY);
+            setSelected([]);
+        },
         onError: (error) => {
             showErrorAnnouncer(
                 t("errorNotificationDelete", {
@@ -120,6 +118,17 @@ const NotificationView = (props) => {
 
     const handleMarkSeenClick = () => {
         markSeenMutation(selected);
+
+        const newPage = {
+            ...notifications,
+            messages: notifications.messages.map((n) =>
+                selected.includes(n.message.id) ? { ...n, seen: true } : n
+            ),
+        };
+
+        setMarkAsSeenEnabled(false);
+        setNotifications(newPage);
+        queryCache.setQueryData(notificationsKey, newPage);
     };
 
     const handleDeleteClick = () => {
@@ -128,15 +137,6 @@ const NotificationView = (props) => {
 
     const handleFilterChange = (event) => {
         setFilter(event.target.value);
-    };
-
-    const onSelectionChanged = (newSelected) => {
-        setSelected(newSelected);
-        setMarkAsSeenEnabled(
-            !notifications.messages.find(
-                (n) => newSelected.includes(n.message.id) && n.seen
-            )
-        );
     };
 
     const baseId = baseDebugId + ids.NOTIFICATION_VIEW;
@@ -158,14 +158,13 @@ const NotificationView = (props) => {
                 baseId={baseId}
                 data={notifications?.messages}
                 error={error}
-                loading={isFetching || markSeenLoading || deleteLoading}
+                loading={isFetching || deleteLoading}
                 order={order}
                 orderBy={orderBy}
                 rowsPerPage={rowsPerPage}
                 selected={selected}
                 total={parseInt(notifications?.total)}
                 onMessageClicked={onMessageClicked}
-                onSelectionChanged={onSelectionChanged}
                 setOffset={setOffset}
                 setOrder={setOrder}
                 setOrderBy={setOrderBy}

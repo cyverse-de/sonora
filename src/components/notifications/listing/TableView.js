@@ -8,6 +8,8 @@ import React from "react";
 
 import classnames from "classnames";
 
+import constants from "../../../constants";
+
 import ids from "../ids";
 import styles from "../styles";
 
@@ -133,10 +135,10 @@ const TableView = (props) => {
     };
 
     const handleRequestSort = (event, property) => {
-        let newOrder = "desc";
+        let newOrder = constants.SORT_DESCENDING;
 
-        if (orderBy === property && order === "desc") {
-            newOrder = "asc";
+        if (orderBy === property && order === constants.SORT_DESCENDING) {
+            newOrder = constants.SORT_ASCENDING;
         }
 
         setOrder(newOrder);

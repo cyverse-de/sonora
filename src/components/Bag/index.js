@@ -431,97 +431,99 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                     />
                 </DialogContent>
 
-                <DialogActions>
-                    {fullScreen ? (
-                        <IconButton
-                            onClick={() => clearAll()}
-                            id={buildID(
-                                dialogID,
-                                constants.CLEARALL,
-                                constants.BUTTON
-                            )}
-                        >
-                            <ClearAll />
-                        </IconButton>
-                    ) : (
-                        <Button
-                            variant="contained"
-                            color="default"
-                            className={classes.button}
-                            startIcon={<Clear />}
-                            size="small"
-                            onClick={() => clearAll()}
-                            id={buildID(
-                                dialogID,
-                                constants.CLEARALL,
-                                constants.BUTTON
-                            )}
-                        >
-                            {t("clearBag")}
-                        </Button>
-                    )}
-
-                    {downloadPaths.length > 0 ? (
-                        fullScreen ? (
+                {allItems.length > 0 && (
+                    <DialogActions>
+                        {fullScreen ? (
                             <IconButton
-                                onClick={handleDownloadClick}
+                                onClick={() => clearAll()}
                                 id={buildID(
                                     dialogID,
-                                    constants.DOWNLOAD,
+                                    constants.CLEARALL,
                                     constants.BUTTON
                                 )}
                             >
-                                <GetApp />
+                                <ClearAll />
                             </IconButton>
                         ) : (
                             <Button
                                 variant="contained"
-                                color="primary"
+                                color="default"
                                 className={classes.button}
-                                startIcon={<GetApp />}
-                                onClick={handleDownloadClick}
+                                startIcon={<Clear />}
                                 size="small"
+                                onClick={() => clearAll()}
                                 id={buildID(
                                     dialogID,
-                                    constants.DOWNLOAD,
+                                    constants.CLEARALL,
                                     constants.BUTTON
                                 )}
                             >
-                                {t("download")}
+                                {t("clearBag")}
                             </Button>
-                        )
-                    ) : null}
+                        )}
 
-                    {hasSharingResources() &&
-                        (fullScreen ? (
-                            <IconButton
-                                onClick={handleSharingClick}
-                                id={buildID(
-                                    dialogID,
-                                    constants.SHARE,
-                                    constants.BUTTON
-                                )}
-                            >
-                                <People />
-                            </IconButton>
-                        ) : (
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                className={classes.button}
-                                startIcon={<People />}
-                                onClick={handleSharingClick}
-                                size="small"
-                                id={buildID(
-                                    dialogID,
-                                    constants.SHARE,
-                                    constants.BUTTON
-                                )}
-                            >
-                                {t("share")}
-                            </Button>
-                        ))}
-                </DialogActions>
+                        {downloadPaths.length > 0 ? (
+                            fullScreen ? (
+                                <IconButton
+                                    onClick={handleDownloadClick}
+                                    id={buildID(
+                                        dialogID,
+                                        constants.DOWNLOAD,
+                                        constants.BUTTON
+                                    )}
+                                >
+                                    <GetApp />
+                                </IconButton>
+                            ) : (
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.button}
+                                    startIcon={<GetApp />}
+                                    onClick={handleDownloadClick}
+                                    size="small"
+                                    id={buildID(
+                                        dialogID,
+                                        constants.DOWNLOAD,
+                                        constants.BUTTON
+                                    )}
+                                >
+                                    {t("download")}
+                                </Button>
+                            )
+                        ) : null}
+
+                        {hasSharingResources() &&
+                            (fullScreen ? (
+                                <IconButton
+                                    onClick={handleSharingClick}
+                                    id={buildID(
+                                        dialogID,
+                                        constants.SHARE,
+                                        constants.BUTTON
+                                    )}
+                                >
+                                    <People />
+                                </IconButton>
+                            ) : (
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.button}
+                                    startIcon={<People />}
+                                    onClick={handleSharingClick}
+                                    size="small"
+                                    id={buildID(
+                                        dialogID,
+                                        constants.SHARE,
+                                        constants.BUTTON
+                                    )}
+                                >
+                                    {t("share")}
+                                </Button>
+                            ))}
+                    </DialogActions>
+                )}
             </Dialog>
 
             {userProfile && (

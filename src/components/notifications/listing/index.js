@@ -170,6 +170,7 @@ const NotificationView = (props) => {
                 setOrder={setOrder}
                 setOrderBy={setOrderBy}
                 setRowsPerPage={setRowsPerPage}
+                setSelected={setSelected}
             />
         </>
     );

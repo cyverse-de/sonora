@@ -15,6 +15,7 @@ import { useTranslation } from "i18n";
 
 import notificationCategory from "components/models/notificationCategory";
 
+import DEPagination from "components/utils/DEPagination";
 import TableLoading from "components/utils/TableLoading";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 
@@ -23,7 +24,6 @@ import {
     EnhancedTableHead,
     EmptyTable,
     formatDate,
-    TablePaginationActions,
 } from "@cyverse-de/ui-lib";
 
 import {
@@ -31,7 +31,6 @@ import {
     Table,
     TableBody,
     TableCell,
-    TablePagination,
     TableRow,
     Typography,
 } from "@material-ui/core";
@@ -92,6 +91,7 @@ const TableView = (props) => {
         setOrder,
         setOrderBy,
         setRowsPerPage,
+        setSelected,
     } = props;
 
     const [page, setPage] = React.useState(0);
@@ -101,13 +101,19 @@ const TableView = (props) => {
     const { t } = useTranslation("notifications");
     const columnData = getColumns(t);
 
-    const handleChangePage = (event, page) => {
+    const handleChangePage = (event, newPage) => {
+        const page = newPage - 1;
+
         setPage(page);
         setOffset(rowsPerPage * page);
+        setSelected([]);
     };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(event.target.value);
+    const handleChangeRowsPerPage = (pageSize) => {
+        setRowsPerPage(pageSize);
+        setPage(0);
+        setOffset(0);
+        setSelected([]);
     };
 
     const handleRowClick = (event, id) => {
@@ -223,16 +229,13 @@ const TableView = (props) => {
                     rowsInPage={data?.length || 0}
                 />
             </Table>
-            <TablePagination
-                colSpan={3}
-                component="div"
-                count={total || 0}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-                rowsPerPageOptions={[25, 100, 500, 1000]}
+            <DEPagination
+                baseId={baseId}
+                totalPages={Math.ceil(total / rowsPerPage)}
+                pageSize={rowsPerPage}
+                page={page + 1}
+                onChange={handleChangePage}
+                onPageSizeChange={handleChangeRowsPerPage}
             />
         </>
     );

@@ -43,11 +43,12 @@ const NotificationToolbar = (props) => {
 
     const { t } = useTranslation(["notifications", "common"]);
     const baseId = build(baseDebugId, ids.TOOLBAR);
+    const filterId = build(baseId, ids.NOTIFICATION_FILTER);
 
     return (
         <Toolbar variant="dense">
             <TextField
-                id={build(baseId, ids.NOTIFICATION_FILTER)}
+                id={filterId}
                 label={t("common:filter")}
                 className={classes.filter}
                 variant="outlined"
@@ -56,17 +57,21 @@ const NotificationToolbar = (props) => {
                 onChange={onFilterChange}
             >
                 {[
-                    notificationCategory.new,
-                    notificationCategory.all,
-                    notificationCategory.analysis,
-                    notificationCategory.data,
-                    notificationCategory.tool_request,
-                    notificationCategory.apps,
-                    notificationCategory.permanent_id_request,
-                    notificationCategory.team,
-                ].map((category) => (
-                    <MenuItem key={category} value={category}>
-                        {category}
+                    "new",
+                    "all",
+                    "analysis",
+                    "data",
+                    "tool_request",
+                    "apps",
+                    "permanent_id_request",
+                    "team",
+                ].map((key) => (
+                    <MenuItem
+                        key={key}
+                        id={build(filterId, key)}
+                        value={notificationCategory[key]}
+                    >
+                        {notificationCategory[key]}
                     </MenuItem>
                 ))}
             </TextField>

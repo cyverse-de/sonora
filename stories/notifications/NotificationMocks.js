@@ -1,7 +1,86 @@
 export const mockNotificationsListing = {
-    total: "29",
+    total: "32",
     unseen_total: "3",
     messages: [
+        {
+            deleted: false,
+            email: true,
+            payload: {
+                email_address: "core-sw@iplantcollaborative.org",
+                contents: null,
+                uuid: "265abcc2-0f31-11eb-b254-62d47aced14b",
+            },
+            email_template: "blank",
+            type: "permanent id request",
+            seen: false,
+            user: "ipcdev",
+            subject: "DOI Request Submitted for doi-notification-test",
+            message: {
+                id: "AD8A7971-3D95-4812-BC3B-FF936EC6CF29",
+                timestamp: "1602798934273",
+                text: "DOI Request Submitted for doi-notification-test",
+            },
+        },
+        {
+            deleted: false,
+            email: true,
+            payload: {
+                description: "count words",
+                documentation_url:
+                    "https://cyverse.atlassian.net/browse/CORE-1140",
+                source_url: "https://cyverse.atlassian.net/browse/CORE-1140",
+                architecture: "Others",
+                name: "wc",
+                comments: "",
+                test_data_path:
+                    "https://cyverse.atlassian.net/browse/CORE-1140",
+                submitted_by: "ipcdev@iplantcollaborative.org",
+                history: [
+                    {
+                        status: "Submitted",
+                        status_date: 1602798823038,
+                        updated_by: "ipcdev@iplantcollaborative.org",
+                        comments: "",
+                    },
+                ],
+                toolname: "wc",
+                cmd_line: "https://cyverse.atlassian.net/browse/CORE-1140",
+                id: "13bde34a-0c71-405d-97d8-bd2d03685155",
+                attribution: "",
+                version: "X",
+                email_address: "core-sw@iplantcollaborative.org",
+            },
+            email_template: "tool_request_submitted",
+            type: "tool request",
+            seen: false,
+            user: "ipcdev",
+            subject: "Tool Request wc Submitted",
+            message: {
+                id: "894F6820-7588-45B3-960D-0696F2958A3E",
+                timestamp: "1602798823125",
+                text: "Tool Request wc Submitted",
+            },
+        },
+        {
+            deleted: false,
+            email: true,
+            payload: {
+                action: "added_to_community",
+                email_address: "core-sw@iplantcollaborative.org",
+                contents: null,
+                team_name: "Dev Test Community",
+            },
+            email_template: "blank",
+            type: "community",
+            seen: false,
+            user: "ipcdev",
+            subject: "Added as community admin to Dev Test Community",
+            message: {
+                id: "1F6E9355-1EE1-453A-A70E-9E806BC2B7E2",
+                timestamp: "1602798755511",
+                text: "Added as community admin to Dev Test Community",
+            },
+        },
         {
             deleted: false,
             email: true,
@@ -42,7 +121,7 @@ export const mockNotificationsListing = {
             },
             email_template: "analysis_status_change",
             type: "analysis",
-            seen: false,
+            seen: true,
             user: "ipcdev",
             subject: "DE_Word_Count_HT-analysis1 status changed.",
             message: {
@@ -87,7 +166,7 @@ export const mockNotificationsListing = {
             },
             email_template: "analysis_status_change",
             type: "analysis",
-            seen: false,
+            seen: true,
             user: "ipcdev",
             subject: "DE_Word_Count_analysis1 status changed.",
             message: {
@@ -132,7 +211,7 @@ export const mockNotificationsListing = {
             },
             email_template: "analysis_status_change",
             type: "analysis",
-            seen: false,
+            seen: true,
             user: "ipcdev",
             subject: "DE_Word_Count_analysis1 status changed.",
             message: {

@@ -3,7 +3,6 @@
  *
  */
 import React, { useCallback } from "react";
-import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
 
 import constants from "../../../constants";
@@ -15,7 +14,6 @@ import { getEncodedPath } from "components/data/utils";
 import FileViewer from "components/data/viewers/FileViewer";
 import infoTypes from "components/models/InfoTypes";
 import ResourceTypes from "components/models/ResourceTypes";
-import dataFields from "components/data/dataFields";
 
 /**
  * This variable value needs to match the name of this file for the routing to work
@@ -33,17 +31,15 @@ const dynamicPathName = "/[...pathItems]";
  *
  */
 export default function DataStore() {
-    const { t } = useTranslation("data");
     const router = useRouter();
     const query = router.query;
-    const dataRecordFields = dataFields(t);
 
-    const selectedPage = parseInt(query.selectedPage) || 0;
-    const selectedRowsPerPage =
-        parseInt(getLocalStorage(constants.LOCAL_STORAGE.DATA.PAGE_SIZE)) ||
-        100;
-    const selectedOrder = query.selectedOrder || constants.SORT_ASCENDING;
-    const selectedOrderBy = query.selectedOrderBy || dataRecordFields.NAME.key;
+    const selectedPage = parseInt(query.selectedPage);
+    const selectedRowsPerPage = parseInt(
+        getLocalStorage(constants.LOCAL_STORAGE.DATA.PAGE_SIZE)
+    );
+    const selectedOrder = query.selectedOrder;
+    const selectedOrderBy = query.selectedOrderBy;
 
     const isFile = query.type === ResourceTypes.FILE;
     const resourceId = query.resourceId;

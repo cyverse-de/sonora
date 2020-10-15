@@ -64,23 +64,7 @@ function DataDotMenu(props) {
                 render={(onClose) => [
                     isSmall
                         ? [
-                              detailsEnabled && (
-                                  <DetailsMenuItem
-                                      key={build(baseId, ids.DETAILS_MENU_ITEM)}
-                                      baseId={baseId}
-                                      onClose={onClose}
-                                      onDetailsSelected={onDetailsSelected}
-                                  />
-                              ),
-                              detailsEnabled && (
-                                  <Divider
-                                      key={build(
-                                          baseId,
-                                          ids.DETAILS_MENU_ITEM_DIVIDER
-                                      )}
-                                  />
-                              ),
-                              isWritable(permission) && [
+                              isWritable(permission) && (
                                   <MenuItem
                                       key={build(baseId, ids.CREATE_FOLDER_MI)}
                                       id={build(baseId, ids.CREATE_FOLDER_MI)}
@@ -93,48 +77,16 @@ function DataDotMenu(props) {
                                           <CreateNewFolder fontSize="small" />
                                       </ListItemIcon>
                                       <ListItemText primary={t("folder")} />
-                                  </MenuItem>,
-                                  <MenuItem
-                                      key={build(baseId, ids.CREATE_HT_FILE_MI)}
-                                      id={build(baseId, ids.CREATE_HT_FILE_MI)}
-                                      onClick={() => {
-                                          onClose();
-                                          onCreateHTFileSelected();
-                                      }}
-                                  >
-                                      <ListItemIcon>
-                                          <ListAlt fontSize="small" />
-                                      </ListItemIcon>
-                                      <ListItemText
-                                          primary={t(
-                                              "newHTAnalysisPathListFile"
-                                          )}
-                                      />
-                                  </MenuItem>,
-                                  <MenuItem
-                                      key={build(
-                                          baseId,
-                                          ids.CREATE_MULTI_INPUT_MI
-                                      )}
-                                      id={build(
-                                          baseId,
-                                          ids.CREATE_MULTI_INPUT_MI
-                                      )}
-                                      onClick={() => {
-                                          onClose();
-                                          onCreateMultiInputFileSelected();
-                                      }}
-                                  >
-                                      <ListItemIcon>
-                                          <ListAlt fontSize="small" />
-                                      </ListItemIcon>
-                                      <ListItemText
-                                          primary={t(
-                                              "newMultiInputPathListFile"
-                                          )}
-                                      />
-                                  </MenuItem>,
-                              ],
+                                  </MenuItem>
+                              ),
+                              detailsEnabled && (
+                                  <DetailsMenuItem
+                                      key={build(baseId, ids.DETAILS_MENU_ITEM)}
+                                      baseId={baseId}
+                                      onClose={onClose}
+                                      onDetailsSelected={onDetailsSelected}
+                                  />
+                              ),
                               canShare && (
                                   <SharingMenuItem
                                       key={build(
@@ -185,6 +137,38 @@ function DataDotMenu(props) {
                                   onDeleteSelected={onDeleteSelected}
                               />
                           ),
+                    isWritable(permission) && [
+                        <MenuItem
+                            key={build(baseId, ids.CREATE_HT_FILE_MI)}
+                            id={build(baseId, ids.CREATE_HT_FILE_MI)}
+                            onClick={() => {
+                                onClose();
+                                onCreateHTFileSelected();
+                            }}
+                        >
+                            <ListItemIcon>
+                                <ListAlt fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={t("newHTAnalysisPathListFile")}
+                            />
+                        </MenuItem>,
+                        <MenuItem
+                            key={build(baseId, ids.CREATE_MULTI_INPUT_MI)}
+                            id={build(baseId, ids.CREATE_MULTI_INPUT_MI)}
+                            onClick={() => {
+                                onClose();
+                                onCreateMultiInputFileSelected();
+                            }}
+                        >
+                            <ListItemIcon>
+                                <ListAlt fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={t("newMultiInputPathListFile")}
+                            />
+                        </MenuItem>,
+                    ],
                 ]}
             />
             <CreateFolderDialog

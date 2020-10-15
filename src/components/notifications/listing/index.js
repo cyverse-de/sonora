@@ -8,6 +8,8 @@ import React from "react";
 
 import { queryCache, useMutation, useQuery } from "react-query";
 
+import constants from "../../../constants";
+
 import ids from "../ids";
 import NotificationToolbar from "../Toolbar";
 
@@ -33,8 +35,8 @@ const NotificationView = (props) => {
     const [offset, setOffset] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(100);
     const [selected, setSelected] = React.useState([]);
-    const [order, setOrder] = React.useState("desc");
-    const [orderBy, setOrderBy] = React.useState(ids.CREATED_DATE);
+    const [order, setOrder] = React.useState(constants.SORT_DESCENDING);
+    const [orderBy, setOrderBy] = React.useState("timestamp");
     const [filter, setFilter] = React.useState(notificationCategory.all);
     const [markAsSeenEnabled, setMarkAsSeenEnabled] = React.useState(true);
 

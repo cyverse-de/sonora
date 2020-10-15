@@ -48,6 +48,11 @@ function NotificationsMenu(props) {
         setAnchorEl();
     };
 
+    const handleClick = () => {
+        // set unseen count to 0 (I'll finish this after Paul has merged his part)
+        setAnchorEl();
+    };
+
     useEffect(() => {
         const found = notifications?.find(
             (msg) => msg.message.id === notificationMssg?.message.id
@@ -146,7 +151,7 @@ function NotificationsMenu(props) {
                         ids.MARK_ALL_READ
                     )}
                     color="primary"
-                    onClick={setUnSeenCount(0)}
+                    onClick={handleClick}
                 >
                     {t("markAsRead")}
                 </Button>

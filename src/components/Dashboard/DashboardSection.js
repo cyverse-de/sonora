@@ -21,6 +21,7 @@ const DashboardSection = ({
     cardHeight,
     limit,
     numColumns,
+    showErrorAnnouncer,
 }) => {
     const classes = useStyles();
     const { t } = useTranslation("dashboard");
@@ -43,6 +44,7 @@ const DashboardSection = ({
             height: cardHeight,
             width: cardWidth,
             classes,
+            showErrorAnnouncer,
         }).component(index);
 
     const uncollapsed = items.slice(0, limit).map(itemComponent);
@@ -103,6 +105,7 @@ class SectionBase {
         showDivider,
         numColumns,
         limit,
+        showErrorAnnouncer,
     }) {
         const sorted = data[this.kind][this.name].sort((first, second) => {
             const firstParsed = Date.parse(first.date_added);
@@ -134,6 +137,7 @@ class SectionBase {
                 cardHeight={cardHeight}
                 numColumns={numColumns}
                 limit={limit}
+                showErrorAnnouncer={showErrorAnnouncer}
             />
         );
     }

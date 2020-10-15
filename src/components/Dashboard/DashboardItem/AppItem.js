@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-
 import { useMutation } from "react-query";
 
 import { Launch, Info, People, Apps } from "@material-ui/icons";
 import { IconButton, MenuItem } from "@material-ui/core";
-
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import UnFavoriteIcon from "@material-ui/icons/FavoriteBorderOutlined";
 
 import { formatDate } from "@cyverse-de/ui-lib";
 
@@ -17,6 +13,7 @@ import { appFavorite } from "serviceFacades/apps";
 import * as constants from "../constants";
 import ItemBase, { ItemAction } from "./ItemBase";
 import { useTranslation } from "i18n";
+import AppFavorite from "components/apps/AppFavorite";
 
 class AppItem extends ItemBase {
     constructor(props) {
@@ -31,6 +28,7 @@ class AppItem extends ItemBase {
 
     static create(props) {
         const item = new AppItem(props);
+        const { showErrorAnnouncer } = props;
         const { t } = useTranslation(["dashboard", "apps"]);
 
         // Extract app details. Note: dashboard-aggregator only queries the DE database.
@@ -52,7 +50,7 @@ class AppItem extends ItemBase {
                 setIsFavorite(!isFavorite);
             },
             onError: (e) => {
-                console.log(e);
+                showErrorAnnouncer(t("favoritesUpdateError", { error: e }), e);
             },
         });
 
@@ -71,17 +69,12 @@ class AppItem extends ItemBase {
                     key={buildKey("favorite")}
                     tooltipKey={getFavoriteActionKey()}
                 >
-                    <IconButton
-                        id={buildKey("favorite-toggleFavorite")}
-                        onClick={onFavoriteClick}
-                        size="small"
-                    >
-                        {isFavorite ? (
-                            <FavoriteIcon color="primary" />
-                        ) : (
-                            <UnFavoriteIcon color="primary" />
-                        )}
-                    </IconButton>
+                    <AppFavorite
+                        isFavorite={isFavorite}
+                        isExternal={false}
+                        onFavoriteClick={onFavoriteClick}
+                        baseId={buildKey("favorite")}
+                    />
                 </ItemAction>,
                 <ItemAction
                     ariaLabel={t("launchAria")}

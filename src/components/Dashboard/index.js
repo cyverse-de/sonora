@@ -34,6 +34,8 @@ import {
     DASHBOARD_QUERY_KEY,
 } from "../../serviceFacades/dashboard";
 
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+
 const DashboardSkeleton = () => {
     const classes = useStyles();
     const numSkellies = [0, 1, 2];
@@ -59,7 +61,8 @@ const DashboardSkeleton = () => {
     return <div id={fns.makeID(ids.LOADING)}>{skellies}</div>;
 };
 
-const Dashboard = () => {
+const Dashboard = (props) => {
+    const { showErrorAnnouncer } = props;
     const classes = useStyles();
     const { t } = useTranslation("dashboard");
 
@@ -105,6 +108,7 @@ const Dashboard = () => {
                       cardWidth,
                       cardHeight,
                       numColumns,
+                      showErrorAnnouncer,
                   })
               )
         : [];
@@ -131,4 +135,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default withErrorAnnouncer(Dashboard);

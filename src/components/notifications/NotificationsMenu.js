@@ -39,13 +39,13 @@ function getTimeStamp(time) {
 }
 
 function NotificationsMenu(props) {
-    const { notificationMssg } = props;
+    const { notificationMssg, setAnchorEl, anchorEl } = props;
     const [notifications, setNotifications] = useState([]);
     const classes = useStyles();
     const { t } = useTranslation(["common"]);
 
     const handleClose = () => {
-        props.setAnchorEl();
+        setAnchorEl();
     };
 
     useEffect(() => {
@@ -64,9 +64,9 @@ function NotificationsMenu(props) {
 
     return (
         <Menu
-            anchorEl={props.anchorEl}
+            anchorEl={anchorEl}
             id={build(ids.BASE_DEBUG_ID, ids.NOTIFICATIONS_MENU)}
-            open={Boolean(props.anchorEl)}
+            open={Boolean(anchorEl)}
             onClose={handleClose}
         >
             <Typography
@@ -88,7 +88,7 @@ function NotificationsMenu(props) {
                 notifications.slice(0, 10).map((n, index) => (
                     <MenuItem
                         onClick={handleClose}
-                        id={build(ids.BASE_DEBUG_ID, "NotificationsMenu")}
+                        id={build(ids.BASE_DEBUG_ID, "ids.NOTIFICATION_MENU")}
                         key={n.message.id}
                     >
                         <ListItemText>
@@ -128,6 +128,7 @@ function NotificationsMenu(props) {
                     ids.VIEW_ALL_NOTIFICATIONS
                 )}
                 fullWidth={true}
+                color="primary"
                 onClick={handleClose}
             >
                 {t("viewAllNotifications")}

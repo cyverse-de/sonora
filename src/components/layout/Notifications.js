@@ -189,7 +189,6 @@ function Notifications(props) {
                     notificationMssg={notificationMssg}
                     anchorEl={anchorEl}
                     setAnchorEl={setAnchorEl}
-                    open={Boolean(anchorEl)}
                 />
             </>
         </>

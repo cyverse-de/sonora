@@ -11,10 +11,4 @@ export default (theme) => ({
         marginTop: theme.spacing(1),
         marginLeft: theme.spacing(2),
     },
-
-    footer: {
-        color: theme.palette.primary.main,
-        textAlign: "left",
-        display: "block",
-    },
 });

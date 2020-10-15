@@ -71,7 +71,8 @@ function DataToolbar(props) {
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
     const hasDotMenu =
-        isSmall || (selectedResources && selectedResources.length > 0);
+        (isSmall && selectedResources && selectedResources.length > 0) ||
+        isWritable(permission);
 
     let toolbarId = build(baseId, ids.TOOLBAR);
     return (
@@ -134,6 +135,7 @@ function DataToolbar(props) {
                     />
                 )}
             </Hidden>
+
             {hasDotMenu && (
                 <DataDotMenu
                     baseId={toolbarId}
@@ -159,6 +161,7 @@ function DataToolbar(props) {
                     isSmall={isSmall}
                 />
             )}
+
             <CreateFolderDialog
                 path={path}
                 open={createFolderDlgOpen}

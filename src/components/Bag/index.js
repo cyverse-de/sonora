@@ -254,6 +254,8 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
 
     // Convert the items into a map that the sharing dialog understands.
     const sharingReducer = useCallback((acc, curr) => {
+        // Pull up the original, preserved object as the main object
+        // passed to the sharing dialog.
         const newObj = { ...curr.item };
 
         switch (newObj.type) {
@@ -454,34 +456,36 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                         </Button>
                     )}
 
-                    {fullScreen ? (
-                        <IconButton
-                            onClick={handleDownloadClick}
-                            id={buildID(
-                                dialogID,
-                                constants.DOWNLOAD,
-                                constants.BUTTON
-                            )}
-                        >
-                            <GetApp />
-                        </IconButton>
-                    ) : (
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className={classes.button}
-                            startIcon={<GetApp />}
-                            onClick={handleDownloadClick}
-                            size="small"
-                            id={buildID(
-                                dialogID,
-                                constants.DOWNLOAD,
-                                constants.BUTTON
-                            )}
-                        >
-                            {t("download")}
-                        </Button>
-                    )}
+                    {downloadPaths.length > 0 ? (
+                        fullScreen ? (
+                            <IconButton
+                                onClick={handleDownloadClick}
+                                id={buildID(
+                                    dialogID,
+                                    constants.DOWNLOAD,
+                                    constants.BUTTON
+                                )}
+                            >
+                                <GetApp />
+                            </IconButton>
+                        ) : (
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className={classes.button}
+                                startIcon={<GetApp />}
+                                onClick={handleDownloadClick}
+                                size="small"
+                                id={buildID(
+                                    dialogID,
+                                    constants.DOWNLOAD,
+                                    constants.BUTTON
+                                )}
+                            >
+                                {t("download")}
+                            </Button>
+                        )
+                    ) : null}
 
                     {fullScreen ? (
                         <IconButton

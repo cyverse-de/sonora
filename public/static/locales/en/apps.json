@@ -1,5 +1,7 @@
 {
     "addToFavorites": "Add To Favorites",
+    "addToBag": "Add To Bag",
+    "addToBagError": "Error adding app(s) to your bag",
     "agaveRedirectMessage": "Click `Authenticate` to be redirected to an external login page for access to CyVerse high performance computing (HPC) applications. After supplying your CyVerse user name and password, you will be returned to the Discovery Environment. You only need to do this once. HPC apps will not show up in search or browse until you authenticate.",
     "agaveRedirectTitle": "Agave - High Performance Computing Apps",
     "analysesCompleted": "Analyses Completed:",

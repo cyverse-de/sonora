@@ -1,5 +1,7 @@
 {
     "all": "All",
+    "addToBag": "Add To Bag",
+    "addToBagError": "Error adding analyses to your bag",
     "analyses": "Analyses",
     "analysis": "Analysis",
     "analysisCancelError": "Unable to stop execution of analysis. Please try again.",

@@ -22,7 +22,11 @@ import {
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
-import { Info, FilterList as FilterListIcon } from "@material-ui/icons";
+import {
+    Info,
+    FilterList as FilterListIcon,
+    Queue as AddToBagIcon,
+} from "@material-ui/icons";
 import SharingButton from "components/sharing/SharingButton";
 import Sharing from "components/sharing";
 import { formatSharedApps } from "components/sharing/util";
@@ -102,6 +106,8 @@ function AppsToolbar(props) {
         toggleDisplay,
         detailsEnabled,
         onDetailsSelected,
+        addToBagEnabled,
+        onAddToBagClicked = () => {},
         canShare,
         selectedApps,
         baseId,
@@ -154,6 +160,21 @@ function AppsToolbar(props) {
                     />
                 </Hidden>
                 <Hidden smDown>
+                    {addToBagEnabled && (
+                        <Button
+                            id={build(appsToolbarId, ids.ADD_TO_BAG_BTN)}
+                            className={classes.toolbarItems}
+                            variant="outlined"
+                            disableElevation
+                            color="primary"
+                            onClick={onAddToBagClicked}
+                            startIcon={<AddToBagIcon />}
+                        >
+                            {t("addToBag")}
+                        </Button>
+                    )}
+                </Hidden>
+                <Hidden smDown>
                     {detailsEnabled && (
                         <Button
                             id={build(appsToolbarId, ids.DETAILS_BTN)}
@@ -179,6 +200,8 @@ function AppsToolbar(props) {
                         baseId={appsToolbarId}
                         detailsEnabled={detailsEnabled}
                         onDetailsSelected={onDetailsSelected}
+                        addToBagEnabled={addToBagEnabled}
+                        onAddToBagClicked={onAddToBagClicked}
                         onFilterSelected={() => setOpenFilterDialog(true)}
                         canShare={canShare}
                         setSharingDlgOpen={setSharingDlgOpen}

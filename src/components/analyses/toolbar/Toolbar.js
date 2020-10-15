@@ -31,7 +31,11 @@ import {
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-import { Info, FilterList as FilterListIcon } from "@material-ui/icons";
+import {
+    Info,
+    FilterList as FilterListIcon,
+    Queue as AddToBagIcon,
+} from "@material-ui/icons";
 import SharingButton from "components/sharing/SharingButton";
 import Sharing from "components/sharing";
 import { formatSharedAnalyses } from "components/sharing/util";
@@ -169,6 +173,7 @@ function AnalysesToolbar(props) {
         toggleDisplay,
         isSingleSelection,
         onDetailsSelected,
+        onAddToBagSelected,
         handleComments,
         handleInteractiveUrlClick,
         handleCancel,
@@ -239,6 +244,19 @@ function AnalysesToolbar(props) {
                             {t("details")}
                         </Button>
                     )}
+                    {hasSelection && (
+                        <Button
+                            id={build(analysesNavId, ids.ADD_TO_BAG_BTN)}
+                            className={classes.toolbarItems}
+                            variant="outlined"
+                            disableElevation
+                            color="primary"
+                            onClick={onAddToBagSelected}
+                            startIcon={<AddToBagIcon />}
+                        >
+                            {t("addToBag")}
+                        </Button>
+                    )}
                     {canShare && (
                         <SharingButton
                             baseId={baseId}
@@ -251,7 +269,9 @@ function AnalysesToolbar(props) {
                         baseId={analysesNavId}
                         username={username}
                         onDetailsSelected={onDetailsSelected}
+                        onAddToBagSelected={onAddToBagSelected}
                         isSingleSelection={isSingleSelection}
+                        hasSelection={hasSelection}
                         getSelectedAnalyses={getSelectedAnalyses}
                         handleComments={handleComments}
                         handleInteractiveUrlClick={handleInteractiveUrlClick}

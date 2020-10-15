@@ -22,6 +22,8 @@ import {
     updateAnalysisComment,
 } from "serviceFacades/analyses";
 
+import { useBagAddItems } from "serviceFacades/bags";
+
 import { getAnalysisShareWithSupportRequest } from "serviceFacades/sharing";
 
 import {
@@ -263,6 +265,23 @@ function Listing(props) {
             },
         }
     );
+
+    const addItemsToBag = useBagAddItems({
+        handleError: (error) => {
+            showErrorAnnouncer(t("addToBagError"), error);
+        },
+        handleSettled: () => {
+            setSelected([]);
+        },
+    });
+
+    const onAddToBagSelected = () => {
+        const items = getSelectedAnalyses().map((item) => ({
+            ...item,
+            type: "analysis",
+        }));
+        addItemsToBag(items);
+    };
 
     useEffect(() => {
         const permFilterChanged = selectedPermFilter?.name !== permFilter?.name;
@@ -655,6 +674,7 @@ function Listing(props) {
                 toggleDisplay={toggleDisplay}
                 isSingleSelection={isSingleSelection}
                 onDetailsSelected={onDetailsSelected}
+                onAddToBagSelected={onAddToBagSelected}
                 handleComments={handleComments}
                 handleInteractiveUrlClick={openInteractiveUrl}
                 handleCancel={handleCancel}

@@ -19,7 +19,11 @@ import {
     ListItemText,
     MenuItem,
 } from "@material-ui/core";
-import { CreateNewFolder, ListAlt } from "@material-ui/icons";
+import {
+    CreateNewFolder,
+    ListAlt,
+    Queue as AddToBagIcon,
+} from "@material-ui/icons";
 import { useTranslation } from "i18n";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DeleteMenuItem from "../menuItems/DeleteMenuItem";
@@ -32,6 +36,7 @@ function DataDotMenu(props) {
         permission,
         onDetailsSelected,
         onDeleteSelected,
+        onAddToBagSelected,
         ButtonProps,
         refreshListing,
         detailsEnabled,
@@ -86,6 +91,21 @@ function DataDotMenu(props) {
                                       onClose={onClose}
                                       onDetailsSelected={onDetailsSelected}
                                   />
+                              ),
+                              selected && selected.length > 0 && (
+                                  <MenuItem
+                                      key={build(baseId, ids.ADD_TO_BAG_MI)}
+                                      id={build(baseId, ids.ADD_TO_BAG_MI)}
+                                      onClick={() => {
+                                          onClose();
+                                          onAddToBagSelected();
+                                      }}
+                                  >
+                                      <ListItemIcon>
+                                          <AddToBagIcon fontSize="small" />
+                                      </ListItemIcon>
+                                      <ListItemText primary={t("addToBag")} />
+                                  </MenuItem>
                               ),
                               canShare && (
                                   <SharingMenuItem

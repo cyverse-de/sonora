@@ -1,0 +1,20 @@
+{
+    "delete": "Delete Item From Bag",
+    "yourItemBag": "Your Item Bag",
+    "bagHelp": "Perform sharing or downloading operations on a set of items.",
+    "bagEmpty" : "There is nothing in your bag.",
+    "close" : "Close",
+    "download": "Download",
+    "downloadLinks" : "Download Links",
+    "downloadLinksDescription" : "Click on the links to download each file through your browser or through a download manager.",
+    "share": "Share",
+    "clearBag": "Clear",
+    "fetchBagError": "Error fetching bag contents",
+    "removeAllItemsError": "Error clearing bag contents",
+    "removeItemError": "Error remove item from bag",
+    "addItemError": "Error adding item to bag",
+    "show": "Show",
+    "downloadable": "Downloadable",
+    "shareable": "Shareable",
+    "all": "All"
+}

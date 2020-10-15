@@ -17,7 +17,7 @@ import {
     useMediaQuery,
     useTheme,
 } from "@material-ui/core";
-import { FilterList, Info } from "@material-ui/icons";
+import { FilterList, Info, Queue as AddToBagIcon } from "@material-ui/icons";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
 
 function AppsDotMenu(props) {
@@ -27,6 +27,8 @@ function AppsDotMenu(props) {
         detailsEnabled,
         onDetailsSelected,
         onFilterSelected,
+        addToBagEnabled,
+        onAddToBagClicked,
         canShare,
         setSharingDlgOpen,
     } = props;
@@ -51,6 +53,21 @@ function AppsDotMenu(props) {
                             <Info fontSize="small" />
                         </ListItemIcon>
                         <ListItemText primary={t("details")} />
+                    </MenuItem>
+                ),
+                addToBagEnabled && (
+                    <MenuItem
+                        key={build(baseId, ids.ADD_TO_BAG_MENU_ITEM)}
+                        id={build(baseId, ids.ADD_TO_BAG_MENU_ITEM)}
+                        onClick={() => {
+                            onClose();
+                            onAddToBagClicked();
+                        }}
+                    >
+                        <ListItemIcon>
+                            <AddToBagIcon fontSize="small" />
+                            <ListItemText primary={t("addToBag")} />
+                        </ListItemIcon>
                     </MenuItem>
                 ),
                 isMobile && (

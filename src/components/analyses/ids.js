@@ -45,6 +45,10 @@ export default {
     MENUITEM_GOTO_VICE: "gotoVICE",
     MENUITEM_EXTEND_TIME_LIMIT: "extendTimeLimit",
     MENUITEM_FILTER: "filters",
+    MENUITEM_ADD_TO_BAG: "addToBag",
+
+    DETAILS_BTN: "detailsBtn",
+    ADD_TO_BAG_BTN: "addToBagBtn",
 
     VIEW_PARAMS: ".viewParamsView",
 

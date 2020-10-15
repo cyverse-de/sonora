@@ -252,6 +252,11 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         menuIconClass = classes.menuIcon;
     }
 
+    const hasSharingResources = () =>
+        Object.entries(sharingResources)
+            .map(([_key, value]) => value.length)
+            .reduce((acc, curr) => acc + curr) > 0;
+
     // Convert the items into a map that the sharing dialog understands.
     const sharingReducer = useCallback((acc, curr) => {
         // Pull up the original, preserved object as the main object
@@ -487,34 +492,35 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                         )
                     ) : null}
 
-                    {fullScreen ? (
-                        <IconButton
-                            onClick={handleSharingClick}
-                            id={buildID(
-                                dialogID,
-                                constants.SHARE,
-                                constants.BUTTON
-                            )}
-                        >
-                            <People />
-                        </IconButton>
-                    ) : (
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className={classes.button}
-                            startIcon={<People />}
-                            onClick={handleSharingClick}
-                            size="small"
-                            id={buildID(
-                                dialogID,
-                                constants.SHARE,
-                                constants.BUTTON
-                            )}
-                        >
-                            {t("share")}
-                        </Button>
-                    )}
+                    {hasSharingResources() &&
+                        (fullScreen ? (
+                            <IconButton
+                                onClick={handleSharingClick}
+                                id={buildID(
+                                    dialogID,
+                                    constants.SHARE,
+                                    constants.BUTTON
+                                )}
+                            >
+                                <People />
+                            </IconButton>
+                        ) : (
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className={classes.button}
+                                startIcon={<People />}
+                                onClick={handleSharingClick}
+                                size="small"
+                                id={buildID(
+                                    dialogID,
+                                    constants.SHARE,
+                                    constants.BUTTON
+                                )}
+                            >
+                                {t("share")}
+                            </Button>
+                        ))}
                 </DialogActions>
             </Dialog>
 

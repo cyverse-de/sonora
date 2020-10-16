@@ -40,7 +40,7 @@ class AppItem extends ItemBase {
         // Functions to build keys and links.
         const baseId = `${constants.KIND_APPS}-${app.system_id}-${app.id}`;
         const buildKey = (keyType) => `${baseId}-${keyType}`;
-        const buildRef = (refType) =>
+        const buildHRef = (refType) =>
             `${NavigationConstants.APPS}/${app.system_id}/${app.id}/${refType}`;
 
         const [favorite] = useMutation(appFavorite, {
@@ -75,7 +75,7 @@ class AppItem extends ItemBase {
                     key={buildKey("launch")}
                     tooltipKey="launchAction"
                 >
-                    <IconButton href={buildRef("launch")}>
+                    <IconButton href={buildHRef("launch")}>
                         <Launch color="primary" />
                     </IconButton>
                 </ItemAction>,
@@ -84,7 +84,7 @@ class AppItem extends ItemBase {
                     key={buildKey("share")}
                     tooltipKey="shareAction"
                 >
-                    <IconButton href={buildRef("share")}>
+                    <IconButton href={buildHRef("share")}>
                         <People color="primary" />
                     </IconButton>
                 </ItemAction>,

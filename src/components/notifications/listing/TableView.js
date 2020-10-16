@@ -194,13 +194,15 @@ const TableView = (props) => {
                                             <DECheckbox checked={isSelected} />
                                         </TableCell>
                                         <TableCell className={className}>
-                                            {
-                                                notificationCategory[
-                                                    n.type
-                                                        .replace(/\s/g, "_")
-                                                        .toLowerCase()
-                                                ]
-                                            }
+                                            <Typography>
+                                                {
+                                                    notificationCategory[
+                                                        n.type
+                                                            .replace(/\s/g, "_")
+                                                            .toLowerCase()
+                                                    ]
+                                                }
+                                            </Typography>
                                         </TableCell>
                                         <Message
                                             className={classnames(
@@ -211,7 +213,11 @@ const TableView = (props) => {
                                             onMessageClicked={onMessageClicked}
                                         />
                                         <TableCell className={className}>
-                                            {formatDate(n.message.timestamp)}
+                                            <Typography>
+                                                {formatDate(
+                                                    n.message.timestamp
+                                                )}
+                                            </Typography>
                                         </TableCell>
                                     </TableRow>
                                 );

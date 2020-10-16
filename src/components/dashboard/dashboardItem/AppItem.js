@@ -29,7 +29,7 @@ class AppItem extends ItemBase {
     static create(props) {
         const item = new AppItem(props);
         const { showErrorAnnouncer, setDetailsApp } = props;
-        const { t } = useTranslation(["dashboard", "apps"]);
+        const { t } = useTranslation("dashboard");
 
         // Extract app details. Note: dashboard-aggregator only queries the DE database.
         const app = props.content;

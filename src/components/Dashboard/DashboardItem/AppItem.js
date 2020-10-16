@@ -82,7 +82,7 @@ class AppItem extends ItemBase {
                     tooltipKey="launchAction"
                 >
                     <IconButton href={buildRef("launch")}>
-                        <Launch />
+                        <Launch color="primary" />
                     </IconButton>
                 </ItemAction>,
                 <ItemAction
@@ -91,7 +91,7 @@ class AppItem extends ItemBase {
                     tooltipKey="shareAction"
                 >
                     <IconButton href={buildRef("share")}>
-                        <People />
+                        <People color="primary" />
                     </IconButton>
                 </ItemAction>,
             ])
@@ -104,7 +104,7 @@ class AppItem extends ItemBase {
                         key={`${constants.KIND_APPS}-${props.content.id}-details`}
                         tooltipKey="detailsAction"
                     >
-                        <Info />
+                        <Info color="primary" />
                     </ItemAction>
                 </MenuItem>,
             ]);

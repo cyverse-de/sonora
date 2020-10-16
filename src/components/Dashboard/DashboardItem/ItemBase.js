@@ -136,7 +136,7 @@ const DashboardItem = ({ item }) => {
                                 setMenuAnchorEl(event.currentTarget)
                             }
                         >
-                            <MoreVert />
+                            <MoreVert color="primary" />
                         </IconButton>
                         <Menu
                             id={menuID}

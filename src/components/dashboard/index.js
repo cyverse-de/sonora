@@ -138,7 +138,7 @@ const Dashboard = (props) => {
                 <AppDetailsDrawer
                     appId={detailsApp?.id}
                     systemId={detailsApp?.system_id}
-                    open="true"
+                    open={true}
                     baseId={baseId}
                     onClose={() => setDetailsApp(null)}
                 />

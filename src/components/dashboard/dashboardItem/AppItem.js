@@ -63,6 +63,7 @@ class AppItem extends ItemBase {
         return item
             .addActions([
                 <AppFavorite
+                    key={buildKey("favorite")}
                     isFavorite={isFavorite}
                     isExternal={false}
                     onFavoriteClick={onFavoriteClick}

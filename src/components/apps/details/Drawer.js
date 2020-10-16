@@ -104,7 +104,7 @@ function DetailsHeader({
     baseId,
 }) {
     const { t } = useTranslation("apps");
-    const [link, setLink] = useState(null);
+    const [link, setLink] = useState("");
     const [open, setOpen] = useState(false);
 
     useEffect(() => {

@@ -1,6 +1,7 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Label, InsertDriveFile, Folder } from "@material-ui/icons";
+import { FOLDER_TYPE } from "components/models/ResourceTypes";
 
 class BagItem {
     constructor(item) {
@@ -89,8 +90,6 @@ class AppBagItem extends BagItem {
     }
 }
 
-export const FOLDER_TYPE = "folder";
-export const FILE_TYPE = "file";
 export const ANALYSIS_TYPE = "analysis";
 export const APP_TYPE = "app";
 

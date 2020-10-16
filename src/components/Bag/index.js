@@ -45,13 +45,8 @@ import * as facade from "../../serviceFacades/bags";
 import { Skeleton } from "@material-ui/lab";
 import { TYPE as SHARING_TYPE } from "components/sharing/util";
 
-import {
-    createNewBagItem,
-    FILE_TYPE,
-    FOLDER_TYPE,
-    ANALYSIS_TYPE,
-    APP_TYPE,
-} from "./classes";
+import { createNewBagItem, ANALYSIS_TYPE, APP_TYPE } from "./classes";
+import { FILE_TYPE, FOLDER_TYPE } from "components/models/ResourceTypes";
 import { useTranslation } from "i18n";
 import { useTheme } from "@material-ui/styles";
 import { useUserProfile } from "contexts/userProfile";

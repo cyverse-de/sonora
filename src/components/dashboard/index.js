@@ -134,10 +134,10 @@ const Dashboard = (props) => {
     return (
         <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
             {isLoading ? <DashboardSkeleton /> : componentContent}
-            {detailsApp !== null && (
+            {detailsApp && (
                 <AppDetailsDrawer
-                    appId={detailsApp?.id}
-                    systemId={detailsApp?.system_id}
+                    appId={detailsApp.id}
+                    systemId={detailsApp.system_id}
                     open={true}
                     baseId={baseId}
                     onClose={() => setDetailsApp(null)}

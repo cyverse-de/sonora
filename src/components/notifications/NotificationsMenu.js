@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { formatDistance, fromUnixTime } from "date-fns";
-import {
-    NOTIFICATIONS_LAST_TEN_KEY,
-    getLastTenNotifications,
-} from "./../../serviceFacades/notifications";
-import { getDisplayMessage } from "./../layout/Notifications";
 import { useQuery } from "react-query";
-import { Skeleton } from "@material-ui/lab";
-import NotificationStyles from "./styles";
+import { formatDistance, fromUnixTime } from "date-fns";
+
+import {
+    getLastTenNotifications,
+    NOTIFICATIONS_LAST_TEN_KEY,
+} from "serviceFacades/notifications";
+import { useTranslation } from "../../i18n";
 import ids from "./ids";
+import NotificationStyles from "./styles";
+import { getDisplayMessage } from "components/layout/Notifications";
+
 import { build } from "@cyverse-de/ui-lib";
 import {
-    Divider,
     Button,
+    Divider,
+    IconButton,
     ListItemText,
     makeStyles,
     Menu,
     MenuItem,
     Typography,
+    useTheme,
+    useMediaQuery,
 } from "@material-ui/core";
-import { useTranslation } from "../../i18n";
+import { Skeleton } from "@material-ui/lab";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
+import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 
 const useStyles = makeStyles(NotificationStyles);
 
@@ -35,6 +42,8 @@ function NotificationsMenu(props) {
     const { setUnSeenCount, notificationMssg, setAnchorEl, anchorEl } = props;
     const [notifications, setNotifications] = useState([]);
     const classes = useStyles();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const { t } = useTranslation(["common"]);
 
     const handleClose = () => {
@@ -73,20 +82,36 @@ function NotificationsMenu(props) {
             open={Boolean(anchorEl)}
             onClose={handleClose}
         >
-            <Typography
-                className={classes.header}
-                id={build(
-                    ids.BASE_DEBUG_ID,
-                    ids.NOTIFICATIONS_MENU,
-                    ids.NOTIFICATIONS_HEADER
-                )}
-                variant="h6"
-            >
-                {t("notifications")}
-            </Typography>
-            <Divider />
-
-            {isFetching && <Skeleton variant="rect" width={350} height={400} />}
+            <div>
+                <Typography
+                    className={classes.header}
+                    component="span"
+                    id={build(
+                        ids.BASE_DEBUG_ID,
+                        ids.NOTIFICATIONS_MENU,
+                        ids.NOTIFICATIONS_HEADER
+                    )}
+                    variant="h6"
+                >
+                    {t("notifications")}
+                </Typography>
+                {isMobile && [
+                    <IconButton
+                        className={classes.viewAll}
+                        onClick={handleClose}
+                    >
+                        <OpenInNewIcon size="small" />
+                    </IconButton>,
+                    <IconButton
+                        className={classes.markSeen}
+                        onClick={handleClick}
+                    >
+                        <DoneAllIcon size="small" />
+                    </IconButton>,
+                ]}
+                <Divider />
+            </div>
+            {isFetching && <Skeleton variant="rect" height={400} />}
             {!isFetching &&
                 notifications.length > 0 &&
                 notifications.map((n, index) => (
@@ -94,38 +119,56 @@ function NotificationsMenu(props) {
                         onClick={handleClose}
                         id={build(ids.BASE_DEBUG_ID, "ids.NOTIFICATION_MENU")}
                         key={n.message.id}
+                        className={
+                            !n.seen
+                                ? classes.unSeenNotificationBackground
+                                : ""
+                        }
+                        dense
                     >
-                        <ListItemText>
-                            <Typography
-                                id={build(
-                                    ids.BASE_DEBUG_ID,
-                                    ids.NOTIFICATIONS_MENU,
-                                    n?.id
-                                )}
-                                variant="subtitle2"
-                            >
-                                {getDisplayMessage(n)}
-                            </Typography>
-                        </ListItemText>
-
-                        <Typography
-                            className={classes.timeStamp}
-                            id={build(
-                                ids.BASE_DEBUG_ID,
-                                ids.NOTIFICATIONS_MENU,
-                                ids.TIME_STAMP
-                            )}
-                            variant="caption"
-                        >
-                            {getTimeStamp(n.message?.timestamp)}
-                        </Typography>
+                        <ListItemText
+                           
+                            primary={
+                                <Typography
+                                    id={build(
+                                        ids.BASE_DEBUG_ID,
+                                        ids.NOTIFICATIONS_MENU,
+                                        n?.id
+                                    )}
+                                    variant="subtitle2"
+                                >
+                                    {getDisplayMessage(n)}
+                                </Typography>
+                            }
+                            secondary={
+                                <Typography
+                                    className={classes.timeStamp}
+                                    id={build(
+                                        ids.BASE_DEBUG_ID,
+                                        ids.NOTIFICATIONS_MENU,
+                                        ids.TIME_STAMP
+                                    )}
+                                    variant="caption"
+                                >
+                                    {t("timestamp", {
+                                        timestamp: getTimeStamp(
+                                            n.message?.timestamp
+                                        ),
+                                    })}
+                                </Typography>
+                            }
+                        />
                     </MenuItem>
                 ))}
 
-            <Divider light />
-            <>
+            {!isMobile && [
+                <Divider light key="divider" />,
                 <Button
-                    size="large"
+                    key={build(
+                        ids.BASE_DEBUG_ID,
+                        ids.NOTIFICATIONS_MENU,
+                        ids.VIEW_ALL_NOTIFICATIONS
+                    )}
                     id={build(
                         ids.BASE_DEBUG_ID,
                         ids.NOTIFICATIONS_MENU,
@@ -133,11 +176,16 @@ function NotificationsMenu(props) {
                     )}
                     color="primary"
                     onClick={handleClose}
+                    startIcon={<OpenInNewIcon size="small" />}
                 >
                     {t("viewAllNotifications")}
-                </Button>
+                </Button>,
                 <Button
-                    size="large"
+                    key={build(
+                        ids.BASE_DEBUG_ID,
+                        ids.NOTIFICATIONS_MENU,
+                        ids.MARK_ALL_READ
+                    )}
                     id={build(
                         ids.BASE_DEBUG_ID,
                         ids.NOTIFICATIONS_MENU,
@@ -145,10 +193,11 @@ function NotificationsMenu(props) {
                     )}
                     color="primary"
                     onClick={handleClick}
+                    startIcon={<DoneAllIcon size="small" />}
                 >
                     {t("markAsRead")}
-                </Button>
-            </>
+                </Button>,
+            ]}
         </Menu>
     );
 }

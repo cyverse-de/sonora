@@ -97,9 +97,6 @@ function NotificationsMenu(props) {
             },
             onError: setError,
             retry: 3,
-            //copied from react-query doc. Add exponential delay for retry.
-            retryDelay: (attempt) =>
-                Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000),
         },
     });
 
@@ -127,12 +124,22 @@ function NotificationsMenu(props) {
                     <IconButton
                         className={classes.viewAll}
                         onClick={handleClose}
+                        id={build(
+                            ids.BASE_DEBUG_ID,
+                            ids.NOTIFICATIONS_MENU,
+                            ids.VIEW_ALL_NOTIFICATIONS
+                        )}
                     >
                         <OpenInNewIcon size="small" />
                     </IconButton>,
                     <IconButton
                         className={classes.markSeen}
                         onClick={handleClick}
+                        id={build(
+                            ids.BASE_DEBUG_ID,
+                            ids.NOTIFICATIONS_MENU,
+                            ids.MARK_ALL_READ
+                        )}
                     >
                         <DoneAllIcon size="small" />
                     </IconButton>,
@@ -164,7 +171,7 @@ function NotificationsMenu(props) {
                 notifications.map((n, index) => (
                     <ListItem
                         onClick={handleClose}
-                        id={build(ids.BASE_DEBUG_ID, "ids.NOTIFICATION_MENU")}
+                        id={build(ids.BASE_DEBUG_ID, ids.NOTIFICATIONS_MENU)}
                         key={n.message.id}
                         className={
                             !n.seen

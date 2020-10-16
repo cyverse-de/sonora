@@ -7,7 +7,7 @@ function DashboardPage() {
 }
 
 DashboardPage.getInitialProps = async () => ({
-    namespacesRequired: ["dashboard"],
+    namespacesRequired: ["dashboard", "apps"],
 });
 
 export default DashboardPage;

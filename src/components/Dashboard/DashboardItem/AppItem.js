@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
+import { useMutation } from "react-query";
 
-import { Launch, Info, Favorite, People, Apps } from "@material-ui/icons";
+import { Launch, Info, People, Apps } from "@material-ui/icons";
 import { IconButton, MenuItem } from "@material-ui/core";
 
 import { formatDate } from "@cyverse-de/ui-lib";
 
-import * as constants from "../constants";
+import NavigationConstants from "common/NavigationConstants";
 
+import { appFavorite } from "serviceFacades/apps";
+
+import * as constants from "../constants";
 import ItemBase, { ItemAction } from "./ItemBase";
 import { useTranslation } from "i18n";
+import AppFavorite from "components/apps/AppFavorite";
 
 class AppItem extends ItemBase {
     constructor(props) {
@@ -23,33 +28,69 @@ class AppItem extends ItemBase {
 
     static create(props) {
         const item = new AppItem(props);
-        const { t } = useTranslation("dashboard");
+        const { showErrorAnnouncer } = props;
+        const { t } = useTranslation(["dashboard", "apps"]);
+
+        // Extract app details. Note: dashboard-aggregator only queries the DE database.
+        const app = props.content;
+
+        // State variables.
+        const [isFavorite, setIsFavorite] = useState(app.is_favorite);
+
+        // Functions to build keys and links.
+        const baseId = `${constants.KIND_APPS}-${app.system_id}-${app.id}`;
+        const buildKey = (keyType) => `${baseId}-${keyType}`;
+        const buildRef = (refType) =>
+            `${NavigationConstants.APPS}/${app.system_id}/${app.id}/${refType}`;
+        const getFavoriteActionKey = () =>
+            isFavorite ? "apps:removeFromFavorites" : "apps:addToFavorites";
+
+        const [favorite] = useMutation(appFavorite, {
+            onSuccess: () => {
+                setIsFavorite(!isFavorite);
+            },
+            onError: (e) => {
+                showErrorAnnouncer(t("favoritesUpdateError", { error: e }), e);
+            },
+        });
+
+        const onFavoriteClick = () => {
+            favorite({
+                isFav: !app.is_favorite,
+                appId: app.id,
+                systemId: app.system_id,
+            });
+        };
+
         return item
             .addActions([
                 <ItemAction
-                    arialLabel={t("favoriteAria")}
-                    key={`${constants.KIND_APPS}-${props.content.id}-favorite`}
-                    tooltipKey="favoriteAction"
+                    ariaLabel={t("favoriteAria")}
+                    key={buildKey("favorite")}
+                    tooltipKey={getFavoriteActionKey()}
                 >
-                    <IconButton>
-                        <Favorite />
-                    </IconButton>
+                    <AppFavorite
+                        isFavorite={isFavorite}
+                        isExternal={false}
+                        onFavoriteClick={onFavoriteClick}
+                        baseId={buildKey("favorite")}
+                    />
                 </ItemAction>,
                 <ItemAction
                     ariaLabel={t("launchAria")}
-                    key={`${constants.KIND_APPS}-${props.content.id}-launch`}
+                    key={buildKey("launch")}
                     tooltipKey="launchAction"
                 >
-                    <IconButton>
+                    <IconButton href={buildRef("launch")}>
                         <Launch />
                     </IconButton>
                 </ItemAction>,
                 <ItemAction
-                    arialLabel={t("shareAria")}
-                    key={`${constants.KIND_APPS}-${props.content.id}-share`}
+                    ariaLabel={t("shareAria")}
+                    key={buildKey("share")}
                     tooltipKey="shareAction"
                 >
-                    <IconButton>
+                    <IconButton href={buildRef("share")}>
                         <People />
                     </IconButton>
                 </ItemAction>,
@@ -59,7 +100,7 @@ class AppItem extends ItemBase {
                     key={`${constants.KIND_APPS}-${props.content.id}-details`}
                 >
                     <ItemAction
-                        arialLabel={t("openDetailsAria")}
+                        ariaLabel={t("openDetailsAria")}
                         key={`${constants.KIND_APPS}-${props.content.id}-details`}
                         tooltipKey="detailsAction"
                     >

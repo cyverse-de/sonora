@@ -35,5 +35,6 @@
     "facebookAria": "facebook",
     "openAria": "open",
     "showLinkAria": "show link",
-    "addToCalendarAria": "add to calendar"
+    "addToCalendarAria": "add to calendar",
+    "favoritesUpdateError": "Unable to update favorites: {{error}}"
 }

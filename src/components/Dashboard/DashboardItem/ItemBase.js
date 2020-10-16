@@ -66,7 +66,7 @@ const DashboardItem = ({ item }) => {
         color,
     });
 
-    const { t } = useTranslation("dashboard");
+    const { t } = useTranslation(["dashboard", "apps"]);
 
     const isMediumOrLarger = useMediaQuery(theme.breakpoints.up("md"));
 
@@ -156,7 +156,7 @@ const DashboardItem = ({ item }) => {
 
 export const DashboardFeedItem = ({ item }) => {
     const classes = useStyles({ width: item.width, height: item.height });
-    const { t } = useTranslation("dashboard");
+    const { t } = useTranslation(["dashboard", "apps"]);
 
     const [origination, date] = item.getOrigination(t);
     const description = fns.cleanDescription(item.content.description);
@@ -210,7 +210,7 @@ export const DashboardVideoItem = ({ item }) => {
 };
 
 export const ItemAction = ({ children, tooltipKey, ariaLabel }) => {
-    const { t } = useTranslation("dashboard");
+    const { t } = useTranslation(["dashboard", "apps"]);
 
     // The nested div prevents props from the Tooltip from getting propagated
     // down to components that may not support them, like Next.js's Link.
@@ -227,7 +227,7 @@ export const MenuAction = ({
     handleClick,
     tooltipKey,
 }) => {
-    const { t } = useTranslation("dashboard");
+    const { t } = useTranslation(["dashboard", "apps"]);
     return (
         <Tooltip title={t(tooltipKey)}>
             <MenuItem onClick={handleClick} aria-label={ariaLabel}>

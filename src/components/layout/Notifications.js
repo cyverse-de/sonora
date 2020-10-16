@@ -16,6 +16,7 @@ import { useGotoOutputFolderLink } from "components/analyses/utils";
 import analysisStatus from "components/models/analysisStatus";
 import { useNotifications } from "contexts/pushNotifications";
 
+import NotificationsMenu from "../notifications/NotificationsMenu";
 import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
 
 import {
@@ -30,7 +31,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 
 const ANALYSIS_EMAIL_TEMPLATE = "analysis_status_change";
 
-function getDisplayMessage(notification) {
+export function getDisplayMessage(notification) {
     return notification.type === "data" &&
         notification["email_template"] !== ANALYSIS_EMAIL_TEMPLATE
         ? notification.subject
@@ -78,39 +79,36 @@ function Notifications(props) {
     const [currentNotification] = useNotifications();
     const theme = useTheme();
     const [unSeenCount, setUnSeenCount] = useState(0);
+    const [notificationMssg, setNotificationMssg] = useState(null);
 
-    const displayAnalysisNotification = useCallback(
-        (notification, status) => {
-            const text = notification?.message?.text;
-            const outputFolderPath =
-                notification?.payload?.analysisresultsfolder;
+    const displayAnalysisNotification = useCallback((notification, status) => {
+        const text = notification?.message?.text;
+        const outputFolderPath = notification?.payload?.analysisresultsfolder;
 
-            const completed = status === analysisStatus.COMPLETED;
-            const failed = status === analysisStatus.FAILED;
+        const completed = status === analysisStatus.COMPLETED;
+        const failed = status === analysisStatus.FAILED;
 
-            const variant = completed
-                ? AnnouncerConstants.SUCCESS
-                : failed
-                ? AnnouncerConstants.ERROR
-                : AnnouncerConstants.INFO;
+        const variant = completed
+            ? AnnouncerConstants.SUCCESS
+            : failed
+            ? AnnouncerConstants.ERROR
+            : AnnouncerConstants.INFO;
 
-            const CustomAction =
-                (completed || failed) && outputFolderPath
-                    ? () => (
-                          <AnalysisCustomAction
-                              outputFolderPath={outputFolderPath}
-                          />
-                      )
-                    : null;
+        const CustomAction =
+            (completed || failed) && outputFolderPath
+                ? () => (
+                      <AnalysisCustomAction
+                          outputFolderPath={outputFolderPath}
+                      />
+                  )
+                : null;
 
-            announce({
-                text,
-                variant,
-                CustomAction,
-            });
-        },
-        []
-    );
+        announce({
+            text,
+            variant,
+            CustomAction,
+        });
+    }, []);
 
     const displayNotification = useCallback(
         (notification, category) => {
@@ -147,6 +145,7 @@ function Notifications(props) {
             if (message) {
                 const category = message.type;
                 displayNotification(message, category);
+                setNotificationMssg(message);
             }
         },
         [displayNotification]
@@ -156,18 +155,40 @@ function Notifications(props) {
         handleMessage(currentNotification);
     }, [currentNotification, handleMessage]);
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
     return (
-        <Tooltip title={t("newNotificationAriaLabel")} placement="bottom" arrow>
-            <IconButton
-                id={build(ids.APP_BAR_BASE, ids.NOTIFICATION_BTN)}
-                aria-label={t("newNotificationAriaLabel")}
-                style={{ color: theme.palette.primary.contrastText }}
+        <>
+            <Tooltip
+                title={t("newNotificationAriaLabel")}
+                placement="bottom"
+                arrow
             >
-                <Badge badgeContent={unSeenCount} color="error">
-                    <NotificationsIcon />
-                </Badge>
-            </IconButton>
-        </Tooltip>
+                <IconButton
+                    id={build(ids.APP_BAR_BASE, ids.NOTIFICATION_BTN)}
+                    aria-label={t("newNotificationAriaLabel")}
+                    style={{ color: theme.palette.primary.contrastText }}
+                    onClick={handleClick}
+                >
+                    <Badge badgeContent={unSeenCount} color="error">
+                        <NotificationsIcon />
+                    </Badge>
+                </IconButton>
+            </Tooltip>
+            <>
+                <NotificationsMenu
+                    unSeenCount={unSeenCount}
+                    setUnSeenCount={setUnSeenCount}
+                    notificationMssg={notificationMssg}
+                    anchorEl={anchorEl}
+                    setAnchorEl={setAnchorEl}
+                />
+            </>
+        </>
     );
 }
 

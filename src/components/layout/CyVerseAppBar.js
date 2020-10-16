@@ -242,6 +242,7 @@ function CyverseAppBar(props) {
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
     const [profileRefetchInterval, setProfileRefetchInterval] = useState(null);
     const setPreferences = usePreferences()[1];
+
     function updateUserProfile(profile) {
         if (
             (profile === null && userProfile !== null) ||

@@ -98,7 +98,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BagSkeleton = () => (
-    <Skeleton variant="rect" animation="wave" height={100} width="100%" />
+    <Skeleton
+        id={buildID(constants.BASEID, constants.DIALOG, constants.SKELETON)}
+        variant="rect"
+        animation="wave"
+        height={100}
+        width="100%"
+    />
 );
 
 export const BagUI = ({ removeItem, allItems, isLoading, fullScreen }) => {

@@ -20,6 +20,7 @@ export default {
     LABEL: "label",
     AVATAR: "avatar",
     DELETE: "delete",
+    SKELETON: "skeleton",
     FILTERBY: {
         ALL: "all",
         DOWNLOADABLE: "downloadable",

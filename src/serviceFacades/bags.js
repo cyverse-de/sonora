@@ -2,9 +2,7 @@ import { useMutation, useQuery, useQueryCache } from "react-query";
 
 import callAPI from "../common/callApi";
 
-export const DEFAULT_BAG_QUERY_KEY = "getDefaultBag";
-export const DEFAULT_BAG_MUTATION_KEY = "mutateDefaultBag";
-export const DEFAULT_BAG_DELETE_KEY = "deleteDefaultBag";
+const DEFAULT_BAG_QUERY_KEY = "getDefaultBag";
 
 export const getDefaultBag = (key) =>
     callAPI({

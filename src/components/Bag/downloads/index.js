@@ -83,7 +83,7 @@ const DownloadLinksDialog = ({
                         dialogID,
                         constants.TITLE,
                         constants.CLOSE,
-                        constants.button
+                        constants.BUTTON
                     )}
                 >
                     <Close />

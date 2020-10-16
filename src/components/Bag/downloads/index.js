@@ -61,6 +61,7 @@ const DownloadLinksDialog = ({
             open={open}
             onClose={handleClose}
             classes={{ paper: classes.paper }}
+            id={dialogID}
         >
             <DialogTitle>
                 {t("downloadLinks")}

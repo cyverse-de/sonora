@@ -158,8 +158,7 @@ function NotificationsMenu(props) {
                             {t("noNotifications")}
                         </Typography>
                     </ListItem>
-                )
-            }
+                )}
             {!isFetching &&
                 notifications.length > 0 &&
                 notifications.map((n, index) => (

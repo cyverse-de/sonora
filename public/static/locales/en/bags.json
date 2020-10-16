@@ -11,7 +11,7 @@
     "clearBag": "Clear",
     "fetchBagError": "Error fetching bag contents",
     "removeAllItemsError": "Error clearing bag contents",
-    "removeItemError": "Error remove item from bag",
+    "removeItemError": "Error removing item from bag",
     "addItemError": "Error adding item to bag",
     "show": "Show",
     "downloadable": "Downloadable",

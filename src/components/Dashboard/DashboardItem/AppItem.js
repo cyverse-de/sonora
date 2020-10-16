@@ -74,6 +74,7 @@ class AppItem extends ItemBase {
                         isExternal={false}
                         onFavoriteClick={onFavoriteClick}
                         baseId={buildKey("favorite")}
+                        size="medium"
                     />
                 </ItemAction>,
                 <ItemAction

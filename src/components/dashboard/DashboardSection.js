@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 import { Typography, Collapse, Button } from "@material-ui/core";
 
-import getItem from "./DashboardItem";
+import getItem from "./dashboardItem";
 
 import useStyles from "./styles";
 import * as fns from "./functions";

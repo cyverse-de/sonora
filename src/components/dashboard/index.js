@@ -5,7 +5,7 @@
  *
  * @module dashboard
  */
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import { useQuery } from "react-query";
 
@@ -29,6 +29,7 @@ import {
     VideosFeed,
 } from "./DashboardSection";
 
+import AppDetailsDrawer from "components/apps/details/Drawer";
 import {
     getDashboard,
     DASHBOARD_QUERY_KEY,
@@ -78,6 +79,9 @@ const Dashboard = (props) => {
     const isLoading = status === "loading";
     const hasErrored = status === "error";
 
+    // State variables.
+    const [detailsApp, setDetailsApp] = useState(null);
+
     // TODO: Unify error handling across components, somehow.
     if (hasErrored) {
         console.log(error.message);
@@ -109,6 +113,7 @@ const Dashboard = (props) => {
                       cardHeight,
                       numColumns,
                       showErrorAnnouncer,
+                      setDetailsApp,
                   })
               )
         : [];
@@ -123,13 +128,21 @@ const Dashboard = (props) => {
         );
     }
 
+    // The base ID for the dashboard.
+    const baseId = fns.makeID(ids.ROOT);
+
     return (
-        <div
-            ref={dashboardEl}
-            id={fns.makeID(ids.ROOT)}
-            className={classes.gridRoot}
-        >
+        <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
             {isLoading ? <DashboardSkeleton /> : componentContent}
+            {detailsApp !== null && (
+                <AppDetailsDrawer
+                    appId={detailsApp?.id}
+                    systemId={detailsApp?.system_id}
+                    open="true"
+                    baseId={baseId}
+                    onClose={() => setDetailsApp(null)}
+                />
+            )}
             <div className={classes.footer} />
         </div>
     );

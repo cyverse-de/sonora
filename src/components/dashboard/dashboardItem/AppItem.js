@@ -28,7 +28,7 @@ class AppItem extends ItemBase {
 
     static create(props) {
         const item = new AppItem(props);
-        const { showErrorAnnouncer } = props;
+        const { showErrorAnnouncer, setDetailsApp } = props;
         const { t } = useTranslation(["dashboard", "apps"]);
 
         // Extract app details. Note: dashboard-aggregator only queries the DE database.
@@ -97,7 +97,9 @@ class AppItem extends ItemBase {
                         key={`${constants.KIND_APPS}-${props.content.id}-details`}
                         tooltipKey="detailsAction"
                     >
-                        <Info color="primary" />
+                        <IconButton onClick={() => setDetailsApp(app)}>
+                            <Info color="primary" />
+                        </IconButton>
                     </ItemAction>
                 </MenuItem>,
             ]);

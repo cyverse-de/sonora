@@ -111,11 +111,13 @@ export default function DataStore() {
 
     const onRouteToListing = useCallback(
         (path, order, orderBy, page, rowsPerPage) => {
-            const encodedPath = getEncodedPath(path);
-            router.push(
-                `${baseRoutingPath}${dynamicPathName}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}`,
-                `${baseRoutingPath}${encodedPath}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}`
-            );
+            if (path) {
+                const encodedPath = getEncodedPath(path);
+                router.push(
+                    `${baseRoutingPath}${dynamicPathName}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}`,
+                    `${baseRoutingPath}${encodedPath}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}`
+                );
+            }
         },
         [baseRoutingPath, router]
     );

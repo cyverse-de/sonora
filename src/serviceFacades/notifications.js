@@ -3,7 +3,7 @@
  */
 import callApi from "../common/callApi";
 
-const NOTIFICATIONS_LAST_TEN_KEY = "fetchNotificatons";
+const NOTIFICATIONS_LAST_TEN_KEY = "fetchLastTenNotifications";
 const NOTIFICATIONS_MESSAGES_QUERY_KEY = "fetchNotificationsMessagesKey";
 
 function getLastTenNotifications() {

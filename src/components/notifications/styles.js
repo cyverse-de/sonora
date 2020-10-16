@@ -6,19 +6,10 @@ export default (theme) => ({
         width: 200,
     },
     header: {
-        marginBottom: theme.spacing(1),
-        marginTop: theme.spacing(1),
-        marginLeft: theme.spacing(2),
+        marginLeft: theme.spacing(1),
     },
     notification: {
-        textDecoration: "underline",
         cursor: "pointer",
-    },
-    timeStamp: {
-        color: theme.palette.text.secondary,
-        marginBottom: theme.spacing(1),
-        marginTop: theme.spacing(1),
-        marginLeft: theme.spacing(2),
     },
     toolbarButton: {
         [theme.breakpoints.down("xs")]: {
@@ -30,5 +21,11 @@ export default (theme) => ({
     },
     unSeenNotificationBackground: {
         backgroundColor: theme.palette.secondary.main,
+    },
+    markSeen: { position: "absolute", right: theme.spacing(0.5), top: 0 },
+    viewAll: {
+        position: "absolute",
+        right: theme.spacing(5),
+        top: 0,
     },
 });

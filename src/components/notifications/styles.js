@@ -9,12 +9,7 @@ export default (theme) => ({
         marginLeft: theme.spacing(1),
     },
     notification: {
-        textDecoration: "underline",
         cursor: "pointer",
-    },
-    timeStamp: {
-        color: theme.palette.text.secondary,
-        marginTop: theme.spacing(0.5),
     },
     toolbarButton: {
         [theme.breakpoints.down("xs")]: {

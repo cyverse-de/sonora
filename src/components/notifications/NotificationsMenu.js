@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { formatDistance, fromUnixTime } from "date-fns";
+import classnames from "classnames";
 
 import {
     getLastTenNotifications,
@@ -16,10 +17,11 @@ import {
     Button,
     Divider,
     IconButton,
+    ListItem,
     ListItemText,
+    Link,
     makeStyles,
     Menu,
-    MenuItem,
     Typography,
     useTheme,
     useMediaQuery,
@@ -27,6 +29,7 @@ import {
 import { Skeleton } from "@material-ui/lab";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
 const useStyles = makeStyles(NotificationStyles);
 
@@ -38,9 +41,26 @@ function getTimeStamp(time) {
     }
 }
 
+function InteractiveAnalysisUrl(props) {
+    const { t } = useTranslation(["common"]);
+    return (
+        <span>
+            {". "}
+            <Link
+                href={props.notification.payload.access_url}
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                {t("interactiveAnalysisUrl")}
+            </Link>
+        </span>
+    );
+}
+
 function NotificationsMenu(props) {
     const { setUnSeenCount, notificationMssg, setAnchorEl, anchorEl } = props;
     const [notifications, setNotifications] = useState([]);
+    const [error, setError] = useState();
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -70,8 +90,16 @@ function NotificationsMenu(props) {
         config: {
             onSuccess: (results) => {
                 setNotifications(results?.messages.reverse());
-                setUnSeenCount(results?.unseen_total);
+                if (results?.unseen_total > 0) {
+                    setUnSeenCount(results?.unseen_total);
+                }
+                setError(null);
             },
+            onError: setError,
+            retry: 3,
+            //copied from react-query doc. Add exponential delay for retry.
+            retryDelay: (attempt) =>
+                Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000),
         },
     });
 
@@ -111,23 +139,44 @@ function NotificationsMenu(props) {
                 ]}
                 <Divider />
             </div>
-            {isFetching && <Skeleton variant="rect" height={400} />}
+            {error && (
+                <ListItem>
+                    <ErrorTypographyWithDialog
+                        errorMessage={t("notificationError", error)}
+                    />
+                </ListItem>
+            )}
+            {!isFetching &&
+                error === null &&
+                (!!notifications || notifications.length === 0) && (
+                    <ListItem>
+                        <Typography variant="body2">
+                            {t("noNotifications")}
+                        </Typography>
+                    </ListItem>
+                )}
+            {isFetching && (
+                <Skeleton variant="rect" height={400} animation="wave" />
+            )}
             {!isFetching &&
                 notifications.length > 0 &&
                 notifications.map((n, index) => (
-                    <MenuItem
+                    <ListItem
                         onClick={handleClose}
                         id={build(ids.BASE_DEBUG_ID, "ids.NOTIFICATION_MENU")}
                         key={n.message.id}
                         className={
                             !n.seen
-                                ? classes.unSeenNotificationBackground
-                                : ""
+                                ? classnames(
+                                      classes.notification,
+                                      classes.unSeenNotificationBackground
+                                  )
+                                : classes.notification
                         }
-                        dense
+                        dense={true}
+                        divider={true}
                     >
                         <ListItemText
-                           
                             primary={
                                 <Typography
                                     id={build(
@@ -138,11 +187,15 @@ function NotificationsMenu(props) {
                                     variant="subtitle2"
                                 >
                                     {getDisplayMessage(n)}
+                                    {n.payload.access_url && (
+                                        <InteractiveAnalysisUrl
+                                            notification={n}
+                                        />
+                                    )}
                                 </Typography>
                             }
                             secondary={
                                 <Typography
-                                    className={classes.timeStamp}
                                     id={build(
                                         ids.BASE_DEBUG_ID,
                                         ids.NOTIFICATIONS_MENU,
@@ -158,9 +211,8 @@ function NotificationsMenu(props) {
                                 </Typography>
                             }
                         />
-                    </MenuItem>
+                    </ListItem>
                 ))}
-
             {!isMobile && [
                 <Divider light key="divider" />,
                 <Button

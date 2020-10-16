@@ -63,11 +63,7 @@ export default {
                     ],
                     label: "Single-line Text",
                     id:
-<<<<<<< HEAD
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_8a4cf0fa-5a83-11fa-9e38-008cfa5ag621",
-=======
                         "17794ff6-5a83-11ea-9e38-008cfa5ae621_8a4cf0fa-5a83-11ea-9e38-008cfa5ae622",
->>>>>>> CORE-1143: renamed some directories and fixed a few warnings
                     isVisible: true,
                     defaultValue: "No Numbers",
                     required: false,

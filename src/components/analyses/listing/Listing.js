@@ -276,10 +276,13 @@ function Listing(props) {
     });
 
     const onAddToBagSelected = () => {
-        const items = getSelectedAnalyses().map((item) => ({
-            ...item,
-            type: "analysis",
-        }));
+        const items = getSelectedAnalyses()
+            .filter((item) => item.can_share) //Only add items that can be shared.
+            .map((item) => ({
+                ...item,
+                type: "analysis",
+            }));
+
         addItemsToBag(items);
     };
 

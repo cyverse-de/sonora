@@ -13,10 +13,7 @@ class BagItem {
 
     get label() {
         return (
-            this.item?.label ||
-            this.item?.name ||
-            this.item?.description ||
-            "override label() please"
+            this.item?.label || this.item?.name || this.item?.description || ""
         );
     }
 

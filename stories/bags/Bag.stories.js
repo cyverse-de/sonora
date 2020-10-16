@@ -1,20 +1,17 @@
 import React from "react";
 
 import { withKnobs } from "@storybook/addon-knobs";
-
 import { mockAxios } from "../axiosMock";
-
-import Bag, {
-    FILE_TYPE,
-    FOLDER_TYPE,
-    ANALYSIS_TYPE,
-    APP_TYPE,
-} from "../../src/components/Bag";
+import Bag from "../../src/components/Bag";
+import ResourceTypes from "../../src/components/models/ResourceTypes";
 
 export default {
     title: "Bags/Bag",
     decorators: [withKnobs],
 };
+
+const APP_TYPE = "app";
+const ANALYSIS_TYPE = "analysis";
 
 const data = {
     contents: {
@@ -22,12 +19,12 @@ const data = {
             {
                 name: "test file 1",
                 path: "/test/path/file1",
-                type: FILE_TYPE,
+                type: ResourceTypes.FILE_TYPE,
             },
             {
                 name: "test folder 1",
                 path: "/test/folder/folder1",
-                type: FOLDER_TYPE,
+                type: ResourceTypes.FOLDER_TYPE,
             },
             {
                 name: "test analysis 1",

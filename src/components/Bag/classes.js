@@ -1,7 +1,7 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Label, InsertDriveFile, Folder } from "@material-ui/icons";
-import { FOLDER_TYPE } from "components/models/ResourceTypes";
+import ResourceTypes from "components/models/ResourceTypes";
 
 class BagItem {
     constructor(item) {
@@ -98,11 +98,11 @@ export const createNewBagItem = (item) => {
         item.id = uuidv4();
     }
 
-    if (item?.path && item?.path && item?.type !== FOLDER_TYPE) {
+    if (item?.path && item?.path && item?.type !== ResourceTypes.FOLDER_TYPE) {
         return new FileBagItem(item);
     }
 
-    if (item?.path && item?.path && item?.type === FOLDER_TYPE) {
+    if (item?.path && item?.path && item?.type === ResourceTypes.FOLDER_TYPE) {
         return new FolderBagItem(item);
     }
 

@@ -19,6 +19,7 @@ import constants from "../../../constants";
 
 import { useBagAddItems } from "serviceFacades/bags";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import Permissions from "components/models/Permissions";
 import { useTranslation } from "i18n";
 
 import {
@@ -352,10 +353,12 @@ function Listing({
     });
 
     const onAddToBagClicked = () => {
-        const items = getSelectedApps().map((item) => ({
-            ...item,
-            type: "app",
-        }));
+        const items = getSelectedApps()
+            .filter((item) => item.permission === Permissions.OWN)
+            .map((item) => ({
+                ...item,
+                type: "app",
+            }));
         addItemsToBag(items);
     };
 

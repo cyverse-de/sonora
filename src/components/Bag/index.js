@@ -46,7 +46,7 @@ import { Skeleton } from "@material-ui/lab";
 import { TYPE as SHARING_TYPE } from "components/sharing/util";
 
 import { createNewBagItem, ANALYSIS_TYPE, APP_TYPE } from "./classes";
-import { FILE_TYPE, FOLDER_TYPE } from "components/models/ResourceTypes";
+import ResourceTypes from "components/models/ResourceTypes";
 import { useTranslation } from "i18n";
 import { useTheme } from "@material-ui/styles";
 import { useUserProfile } from "contexts/userProfile";
@@ -268,8 +268,8 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         const newObj = { ...curr.item };
 
         switch (newObj.type) {
-            case FILE_TYPE:
-            case FOLDER_TYPE:
+            case ResourceTypes.FILE_TYPE:
+            case ResourceTypes.FOLDER_TYPE:
                 acc[SHARING_TYPE.DATA] = [...acc.paths, newObj];
                 break;
             case APP_TYPE:
@@ -565,5 +565,4 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
     );
 };
 
-export { FILE_TYPE, FOLDER_TYPE, ANALYSIS_TYPE, APP_TYPE };
 export default withErrorAnnouncer(Bag);

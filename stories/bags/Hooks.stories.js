@@ -4,12 +4,9 @@ import { withKnobs, button } from "@storybook/addon-knobs";
 
 import { mockAxios } from "../axiosMock";
 
-import Bag, {
-    FILE_TYPE,
-    FOLDER_TYPE,
-    ANALYSIS_TYPE,
-    APP_TYPE,
-} from "../../src/components/Bag";
+import Bag from "../../src/components/Bag";
+
+import ResourceTypes from "../../src/components/models/ResourceTypes";
 
 import * as facade from "../../src/serviceFacades/bags";
 
@@ -17,6 +14,9 @@ export default {
     title: "Bags/Hooks",
     decorators: [withKnobs],
 };
+
+const APP_TYPE = "app";
+const ANALYSIS_TYPE = "analysis";
 
 let counter = 0;
 
@@ -32,13 +32,13 @@ const originalData = {
                 id: getCount(),
                 name: "test file 1",
                 path: "/test/path/1",
-                type: FILE_TYPE,
+                type: ResourceTypes.FILE_TYPE,
             },
             {
                 id: getCount(),
                 name: "test folder 1",
                 path: "/test/folder/1",
-                type: FOLDER_TYPE,
+                type: ResourceTypes.FOLDER_TYPE,
             },
             {
                 id: getCount(),
@@ -84,7 +84,7 @@ export const TestAddAndDelete = () => {
         addItem({
             name: "test file 1",
             path: "/test/path/1",
-            type: FILE_TYPE,
+            type: ResourceTypes.FILE_TYPE,
         })
     );
 

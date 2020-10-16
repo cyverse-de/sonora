@@ -42,8 +42,6 @@ class AppItem extends ItemBase {
         const buildKey = (keyType) => `${baseId}-${keyType}`;
         const buildRef = (refType) =>
             `${NavigationConstants.APPS}/${app.system_id}/${app.id}/${refType}`;
-        const getFavoriteActionKey = () =>
-            isFavorite ? "apps:removeFromFavorites" : "apps:addToFavorites";
 
         const [favorite] = useMutation(appFavorite, {
             onSuccess: () => {
@@ -64,19 +62,13 @@ class AppItem extends ItemBase {
 
         return item
             .addActions([
-                <ItemAction
-                    ariaLabel={t("favoriteAria")}
-                    key={buildKey("favorite")}
-                    tooltipKey={getFavoriteActionKey()}
-                >
-                    <AppFavorite
-                        isFavorite={isFavorite}
-                        isExternal={false}
-                        onFavoriteClick={onFavoriteClick}
-                        baseId={buildKey("favorite")}
-                        size="medium"
-                    />
-                </ItemAction>,
+                <AppFavorite
+                    isFavorite={isFavorite}
+                    isExternal={false}
+                    onFavoriteClick={onFavoriteClick}
+                    baseId={buildKey("favorite")}
+                    size="medium"
+                />,
                 <ItemAction
                     ariaLabel={t("launchAria")}
                     key={buildKey("launch")}

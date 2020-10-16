@@ -89,7 +89,7 @@ function NotificationsMenu(props) {
         queryFn: getLastTenNotifications,
         config: {
             onSuccess: (results) => {
-                setNotifications(results?.messages.reverse());
+                setNotifications(results?.messages.reverse().slice(0, 10));
                 if (results?.unseen_total > 0) {
                     setUnSeenCount(results?.unseen_total);
                 }
@@ -139,25 +139,27 @@ function NotificationsMenu(props) {
                 ]}
                 <Divider />
             </div>
-            {error && (
+            {isFetching && (
+                <Skeleton variant="rect" height={400} animation="wave" />
+            )}
+            {!isFetching && error !== null && (
                 <ListItem>
                     <ErrorTypographyWithDialog
                         errorMessage={t("notificationError", error)}
                     />
                 </ListItem>
             )}
+
             {!isFetching &&
                 error === null &&
-                (!!notifications || notifications.length === 0) && (
+                (notifications === null || notifications.length === 0) && (
                     <ListItem>
                         <Typography variant="body2">
                             {t("noNotifications")}
                         </Typography>
                     </ListItem>
-                )}
-            {isFetching && (
-                <Skeleton variant="rect" height={400} animation="wave" />
-            )}
+                )
+            }
             {!isFetching &&
                 notifications.length > 0 &&
                 notifications.map((n, index) => (

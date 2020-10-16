@@ -42,6 +42,7 @@ export const NotificationsPreviewTest = () => {
                 onClose={handleClose}
                 onClick={handleClick}
                 setAnchorEl={setAnchorEl}
+                setUnSeenCount={(count)=>console.log(count)}
             />
         </>
     );

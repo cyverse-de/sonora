@@ -30,9 +30,11 @@ import {
 
 import {
     makeStyles,
+    Paper,
     Table,
     TableBody,
     TableCell,
+    TableContainer,
     TableRow,
     Typography,
 } from "@material-ui/core";
@@ -149,7 +151,7 @@ const TableView = (props) => {
     }
 
     return (
-        <>
+        <TableContainer component={Paper} style={{ overflow: "auto" }}>
             <Table stickyHeader={true} size="small">
                 {loading ? (
                     <TableLoading
@@ -213,7 +215,7 @@ const TableView = (props) => {
                                             onMessageClicked={onMessageClicked}
                                         />
                                         <TableCell className={className}>
-                                            <Typography>
+                                            <Typography variant="body2">
                                                 {formatDate(
                                                     n.message.timestamp
                                                 )}
@@ -244,7 +246,7 @@ const TableView = (props) => {
                 onChange={handleChangePage}
                 onPageSizeChange={handleChangeRowsPerPage}
             />
-        </>
+        </TableContainer>
     );
 };
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import Link from "next/link";
 import { formatDistance, fromUnixTime } from "date-fns";
 import classnames from "classnames";
 
@@ -10,7 +11,13 @@ import {
 import { useTranslation } from "../../i18n";
 import ids from "./ids";
 import NotificationStyles from "./styles";
+
+import NavigationConstants from "common/NavigationConstants";
+
 import { getDisplayMessage } from "components/layout/Notifications";
+
+import ExternalLink from "components/utils/ExternalLink";
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
 import { build } from "@cyverse-de/ui-lib";
 import {
@@ -19,7 +26,6 @@ import {
     IconButton,
     ListItem,
     ListItemText,
-    Link,
     makeStyles,
     Menu,
     Typography,
@@ -29,7 +35,6 @@ import {
 import { Skeleton } from "@material-ui/lab";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
 const useStyles = makeStyles(NotificationStyles);
 
@@ -41,18 +46,50 @@ function getTimeStamp(time) {
     }
 }
 
+const NotificationsListingButton = React.forwardRef((props, ref) => {
+    const { handleClose, href, onClick } = props;
+    const { t } = useTranslation("common");
+
+    return (
+        <Button
+            id={build(
+                ids.BASE_DEBUG_ID,
+                ids.NOTIFICATIONS_MENU,
+                ids.VIEW_ALL_NOTIFICATIONS
+            )}
+            color="primary"
+            href={href}
+            onClick={(event) => {
+                onClick(event);
+                handleClose();
+            }}
+            ref={ref}
+            startIcon={<OpenInNewIcon size="small" />}
+        >
+            {t("viewAllNotifications")}
+        </Button>
+    );
+});
+
+function NotificationsListingLink(props) {
+    const { handleClose } = props;
+    const href = `/${NavigationConstants.NOTIFICATIONS}`;
+
+    return (
+        <Link href={href} as={href} passHref>
+            <NotificationsListingButton handleClose={handleClose} />
+        </Link>
+    );
+}
+
 function InteractiveAnalysisUrl(props) {
     const { t } = useTranslation(["common"]);
     return (
         <span>
             {". "}
-            <Link
-                href={props.notification.payload.access_url}
-                target="_blank"
-                rel="noopener noreferrer"
-            >
+            <ExternalLink href={props.notification.payload.access_url}>
                 {t("interactiveAnalysisUrl")}
-            </Link>
+            </ExternalLink>
         </span>
     );
 }
@@ -64,7 +101,7 @@ function NotificationsMenu(props) {
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-    const { t } = useTranslation(["common"]);
+    const { t } = useTranslation("common");
 
     const handleClose = () => {
         setAnchorEl();
@@ -223,29 +260,12 @@ function NotificationsMenu(props) {
                 ))}
             {!isMobile && [
                 <Divider light key="divider" />,
+                <NotificationsListingLink
+                    key={ids.VIEW_ALL_NOTIFICATIONS}
+                    handleClose={handleClose}
+                />,
                 <Button
-                    key={build(
-                        ids.BASE_DEBUG_ID,
-                        ids.NOTIFICATIONS_MENU,
-                        ids.VIEW_ALL_NOTIFICATIONS
-                    )}
-                    id={build(
-                        ids.BASE_DEBUG_ID,
-                        ids.NOTIFICATIONS_MENU,
-                        ids.VIEW_ALL_NOTIFICATIONS
-                    )}
-                    color="primary"
-                    onClick={handleClose}
-                    startIcon={<OpenInNewIcon size="small" />}
-                >
-                    {t("viewAllNotifications")}
-                </Button>,
-                <Button
-                    key={build(
-                        ids.BASE_DEBUG_ID,
-                        ids.NOTIFICATIONS_MENU,
-                        ids.MARK_ALL_READ
-                    )}
+                    key={ids.MARK_ALL_READ}
                     id={build(
                         ids.BASE_DEBUG_ID,
                         ids.NOTIFICATIONS_MENU,

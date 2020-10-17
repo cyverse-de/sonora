@@ -62,7 +62,13 @@ const NotificationView = (props) => {
     React.useEffect(() => {
         setNotificationsKey([
             NOTIFICATIONS_MESSAGES_QUERY_KEY,
-            { filter, orderBy, order, limit: rowsPerPage, offset },
+            {
+                filter: filter === notificationCategory.all ? null : filter,
+                orderBy,
+                order,
+                limit: rowsPerPage,
+                offset,
+            },
         ]);
         setNotificationsMessagesQueryEnabled(true);
     }, [

@@ -141,6 +141,7 @@ const Dashboard = (props) => {
                     open={true}
                     baseId={baseId}
                     onClose={() => setDetailsApp(null)}
+                    onFavoriteUpdated={detailsApp.onFavoriteUpdated}
                 />
             )}
             <div className={classes.footer} />

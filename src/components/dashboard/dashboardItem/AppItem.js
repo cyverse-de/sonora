@@ -102,7 +102,15 @@ class AppItem extends ItemBase {
                         key={`${constants.KIND_APPS}-${props.content.id}-details`}
                         tooltipKey="detailsAction"
                     >
-                        <IconButton onClick={() => setDetailsApp(app)}>
+                        <IconButton
+                            onClick={() =>
+                                setDetailsApp({
+                                    ...app,
+                                    onFavoriteUpdated: (isFavoriteNow) =>
+                                        setIsFavorite(!isFavoriteNow),
+                                })
+                            }
+                        >
                             <Info color="primary" />
                         </IconButton>
                     </ItemAction>

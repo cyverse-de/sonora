@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
 
+import Link from "next/Link";
+
 import { Launch, Info, People, Apps } from "@material-ui/icons";
 import { IconButton, MenuItem } from "@material-ui/core";
 
@@ -14,6 +16,7 @@ import * as constants from "../constants";
 import ItemBase, { ItemAction } from "./ItemBase";
 import { useTranslation } from "i18n";
 import AppFavorite from "components/apps/AppFavorite";
+import { useAppLaunchLink } from "components/apps/utils";
 
 class AppItem extends ItemBase {
     constructor(props) {
@@ -60,6 +63,7 @@ class AppItem extends ItemBase {
             });
         };
 
+        const [launchHref, launchAs] = useAppLaunchLink(app.system_id, app.id);
         return item
             .addActions(
                 [
@@ -78,9 +82,9 @@ class AppItem extends ItemBase {
                         key={buildKey("launch")}
                         tooltipKey="launchAction"
                     >
-                        <IconButton href={buildHRef("launch")}>
+                        <Link href={launchHref} as={launchAs} passHref>
                             <Launch color="primary" />
-                        </IconButton>
+                        </Link>
                     </ItemAction>,
                     <ItemAction
                         ariaLabel={t("shareAria")}

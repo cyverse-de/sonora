@@ -72,20 +72,14 @@ const Dashboard = (props) => {
         dashboardEl,
     });
 
-    const { status, data, error } = useQuery(
+    const { status, data } = useQuery(
         [DASHBOARD_QUERY_KEY, { limit: constants.SECTION_ITEM_LIMIT }],
         getDashboard
     );
     const isLoading = status === "loading";
-    const hasErrored = status === "error";
 
     // State variables.
     const [detailsApp, setDetailsApp] = useState(null);
-
-    // TODO: Unify error handling across components, somehow.
-    if (hasErrored) {
-        console.log(error.message);
-    }
 
     const sections = [
         new NewsFeed(),

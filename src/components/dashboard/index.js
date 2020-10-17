@@ -72,11 +72,17 @@ const Dashboard = (props) => {
         dashboardEl,
     });
 
-    const { status, data } = useQuery(
+    const { status, data, error } = useQuery(
         [DASHBOARD_QUERY_KEY, { limit: constants.SECTION_ITEM_LIMIT }],
         getDashboard
     );
     const isLoading = status === "loading";
+    const hasErrored = status === "error";
+
+    // Display the error message if an error occurred.
+    if (hasErrored) {
+        showErrorAnnouncer(t("dashboardInitError", { error: error.message }));
+    }
 
     // State variables.
     const [detailsApp, setDetailsApp] = useState(null);

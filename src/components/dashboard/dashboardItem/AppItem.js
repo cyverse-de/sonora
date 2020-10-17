@@ -3,7 +3,7 @@ import { useMutation } from "react-query";
 
 import Link from "next/Link";
 
-import { Launch, Info, People, Apps } from "@material-ui/icons";
+import { PlayArrow, Info, Share, Apps } from "@material-ui/icons";
 import { IconButton, MenuItem } from "@material-ui/core";
 
 import { formatDate } from "@cyverse-de/ui-lib";
@@ -83,7 +83,7 @@ class AppItem extends ItemBase {
                         tooltipKey="launchAction"
                     >
                         <Link href={launchHref} as={launchAs} passHref>
-                            <Launch color="primary" />
+                            <PlayArrow color="primary" />
                         </Link>
                     </ItemAction>,
                     <ItemAction
@@ -92,7 +92,7 @@ class AppItem extends ItemBase {
                         tooltipKey="shareAction"
                     >
                         <IconButton href={buildHRef("share")}>
-                            <People color="primary" />
+                            <Share color="primary" />
                         </IconButton>
                     </ItemAction>,
                 ].filter((e) => e)

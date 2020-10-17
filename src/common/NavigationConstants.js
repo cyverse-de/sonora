@@ -10,6 +10,7 @@ export default {
     LOGIN: "login",
     LOGOUT: "logout",
     MORE: "more",
+    NOTIFICATIONS: "notifications",
     NOTIFICATION_WS: "/websocket/notifications",
     REF_GENOMES: "refgenomes",
     RELAUNCH: "relaunch",

@@ -53,6 +53,7 @@ const NotificationToolbar = (props) => {
                 className={classes.filter}
                 variant="outlined"
                 select
+                size="small"
                 value={filter}
                 onChange={onFilterChange}
             >

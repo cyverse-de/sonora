@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation } from "react-query";
+import { queryCache, useMutation } from "react-query";
 
 import Link from "next/link";
 
@@ -10,7 +10,7 @@ import { formatDate } from "@cyverse-de/ui-lib";
 
 import NavigationConstants from "common/NavigationConstants";
 
-import { appFavorite } from "serviceFacades/apps";
+import { appFavorite, APP_BY_ID_QUERY_KEY } from "serviceFacades/apps";
 
 import * as constants from "../constants";
 import ItemBase, { ItemAction } from "./ItemBase";
@@ -48,6 +48,10 @@ class AppItem extends ItemBase {
 
         const [favorite] = useMutation(appFavorite, {
             onSuccess: () => {
+                queryCache.invalidateQueries([
+                    APP_BY_ID_QUERY_KEY,
+                    { systemId: app.system_id, appId: app.id },
+                ]);
                 setIsFavorite(!isFavorite);
             },
             onError: (e) => {
@@ -57,7 +61,7 @@ class AppItem extends ItemBase {
 
         const onFavoriteClick = () => {
             favorite({
-                isFav: !app.is_favorite,
+                isFav: !isFavorite,
                 appId: app.id,
                 systemId: app.system_id,
             });

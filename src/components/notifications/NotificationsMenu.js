@@ -47,24 +47,38 @@ function getTimeStamp(time) {
 }
 
 const NotificationsListingButton = React.forwardRef((props, ref) => {
-    const { handleClose, href, onClick } = props;
+    const { isMobile, handleClose, href, onClick } = props;
     const { t } = useTranslation("common");
+    const buttonId = build(
+        ids.BASE_DEBUG_ID,
+        ids.NOTIFICATIONS_MENU,
+        ids.VIEW_ALL_NOTIFICATIONS
+    );
 
-    return (
-        <Button
-            id={build(
-                ids.BASE_DEBUG_ID,
-                ids.NOTIFICATIONS_MENU,
-                ids.VIEW_ALL_NOTIFICATIONS
-            )}
-            color="primary"
+    return isMobile ? (
+        <IconButton
+            className={useStyles().viewAll}
+            id={buttonId}
+            ref={ref}
             href={href}
             onClick={(event) => {
                 onClick(event);
                 handleClose();
             }}
-            ref={ref}
+        >
+            <OpenInNewIcon size="small" />
+        </IconButton>
+    ) : (
+        <Button
+            id={buttonId}
+            color="primary"
             startIcon={<OpenInNewIcon size="small" />}
+            ref={ref}
+            href={href}
+            onClick={(event) => {
+                onClick(event);
+                handleClose();
+            }}
         >
             {t("viewAllNotifications")}
         </Button>
@@ -72,12 +86,11 @@ const NotificationsListingButton = React.forwardRef((props, ref) => {
 });
 
 function NotificationsListingLink(props) {
-    const { handleClose } = props;
     const href = `/${NavigationConstants.NOTIFICATIONS}`;
 
     return (
         <Link href={href} as={href} passHref>
-            <NotificationsListingButton handleClose={handleClose} />
+            <NotificationsListingButton {...props} />
         </Link>
     );
 }
@@ -158,18 +171,13 @@ function NotificationsMenu(props) {
                     {t("notifications")}
                 </Typography>
                 {isMobile && [
+                    <NotificationsListingLink
+                        key={ids.VIEW_ALL_NOTIFICATIONS}
+                        handleClose={handleClose}
+                        isMobile={isMobile}
+                    />,
                     <IconButton
-                        className={classes.viewAll}
-                        onClick={handleClose}
-                        id={build(
-                            ids.BASE_DEBUG_ID,
-                            ids.NOTIFICATIONS_MENU,
-                            ids.VIEW_ALL_NOTIFICATIONS
-                        )}
-                    >
-                        <OpenInNewIcon size="small" />
-                    </IconButton>,
-                    <IconButton
+                        key={ids.MARK_ALL_READ}
                         className={classes.markSeen}
                         onClick={handleClick}
                         id={build(
@@ -263,6 +271,7 @@ function NotificationsMenu(props) {
                 <NotificationsListingLink
                     key={ids.VIEW_ALL_NOTIFICATIONS}
                     handleClose={handleClose}
+                    isMobile={isMobile}
                 />,
                 <Button
                     key={ids.MARK_ALL_READ}

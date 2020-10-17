@@ -61,34 +61,38 @@ class AppItem extends ItemBase {
         };
 
         return item
-            .addActions([
-                <AppFavorite
-                    key={buildKey("favorite")}
-                    isFavorite={isFavorite}
-                    isExternal={false}
-                    onFavoriteClick={onFavoriteClick}
-                    baseId={buildKey("favorite")}
-                    size="medium"
-                />,
-                <ItemAction
-                    ariaLabel={t("launchAria")}
-                    key={buildKey("launch")}
-                    tooltipKey="launchAction"
-                >
-                    <IconButton href={buildHRef("launch")}>
-                        <Launch color="primary" />
-                    </IconButton>
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel={t("shareAria")}
-                    key={buildKey("share")}
-                    tooltipKey="shareAction"
-                >
-                    <IconButton href={buildHRef("share")}>
-                        <People color="primary" />
-                    </IconButton>
-                </ItemAction>,
-            ])
+            .addActions(
+                [
+                    app.is_public && (
+                        <AppFavorite
+                            key={buildKey("favorite")}
+                            isFavorite={isFavorite}
+                            isExternal={false}
+                            onFavoriteClick={onFavoriteClick}
+                            baseId={buildKey("favorite")}
+                            size="medium"
+                        />
+                    ),
+                    <ItemAction
+                        ariaLabel={t("launchAria")}
+                        key={buildKey("launch")}
+                        tooltipKey="launchAction"
+                    >
+                        <IconButton href={buildHRef("launch")}>
+                            <Launch color="primary" />
+                        </IconButton>
+                    </ItemAction>,
+                    <ItemAction
+                        ariaLabel={t("shareAria")}
+                        key={buildKey("share")}
+                        tooltipKey="shareAction"
+                    >
+                        <IconButton href={buildHRef("share")}>
+                            <People color="primary" />
+                        </IconButton>
+                    </ItemAction>,
+                ].filter((e) => e)
+            )
             .addMenuActions([
                 <MenuItem
                     key={`${constants.KIND_APPS}-${props.content.id}-details`}

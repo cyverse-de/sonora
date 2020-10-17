@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
 
-import Link from "next/Link";
+import Link from "next/link";
 
 import { PlayArrow, Info, Share, Apps } from "@material-ui/icons";
-import { IconButton, MenuItem } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 
 import { formatDate } from "@cyverse-de/ui-lib";
 
@@ -98,27 +98,23 @@ class AppItem extends ItemBase {
                 ].filter((e) => e)
             )
             .addMenuActions([
-                <MenuItem
+                <ItemAction
+                    ariaLabel={t("openDetailsAria")}
                     key={`${constants.KIND_APPS}-${props.content.id}-details`}
+                    tooltipKey="detailsAction"
                 >
-                    <ItemAction
-                        ariaLabel={t("openDetailsAria")}
-                        key={`${constants.KIND_APPS}-${props.content.id}-details`}
-                        tooltipKey="detailsAction"
+                    <IconButton
+                        onClick={() =>
+                            setDetailsApp({
+                                ...app,
+                                onFavoriteUpdated: (isFavoriteNow) =>
+                                    setIsFavorite(!isFavoriteNow),
+                            })
+                        }
                     >
-                        <IconButton
-                            onClick={() =>
-                                setDetailsApp({
-                                    ...app,
-                                    onFavoriteUpdated: (isFavoriteNow) =>
-                                        setIsFavorite(!isFavoriteNow),
-                                })
-                            }
-                        >
-                            <Info color="primary" />
-                        </IconButton>
-                    </ItemAction>
-                </MenuItem>,
+                        <Info color="primary" />
+                    </IconButton>
+                </ItemAction>,
             ]);
     }
 

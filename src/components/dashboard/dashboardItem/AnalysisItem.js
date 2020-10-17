@@ -8,7 +8,7 @@ import {
     People,
     PermMedia,
 } from "@material-ui/icons";
-import { IconButton, MenuItem } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 
 import { formatDate } from "@cyverse-de/ui-lib";
 
@@ -76,30 +76,24 @@ class AnalysisItem extends ItemBase {
                 </ItemAction>,
             ])
             .addMenuActions([
-                <MenuItem
+                <ItemAction
+                    ariaLabel={t("stopAria")}
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-stop`}
+                    tooltipKey="stopAction"
                 >
-                    <ItemAction
-                        ariaLabel={t("stopAria")}
-                        tooltipKey="stopAction"
-                    >
-                        <IconButton>
-                            <Stop />
-                        </IconButton>
-                    </ItemAction>
-                </MenuItem>,
-                <MenuItem
+                    <IconButton>
+                        <Stop />
+                    </IconButton>
+                </ItemAction>,
+                <ItemAction
+                    ariaLabel={t("openDetailsAria")}
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-details`}
+                    tooltipKey="detailsAction"
                 >
-                    <ItemAction
-                        ariaLabel={t("openDetailsAria")}
-                        tooltipKey="detailsAction"
-                    >
-                        <IconButton>
-                            <Info />
-                        </IconButton>
-                    </ItemAction>
-                </MenuItem>,
+                    <IconButton>
+                        <Info />
+                    </IconButton>
+                </ItemAction>,
             ]);
     }
 

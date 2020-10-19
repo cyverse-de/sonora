@@ -104,7 +104,7 @@ function DetailsHeader({
     baseId,
 }) {
     const { t } = useTranslation("apps");
-    const [link, setLink] = useState(null);
+    const [link, setLink] = useState("");
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
@@ -181,7 +181,7 @@ function DetailsSubHeader({
 
 function DetailsDrawer(props) {
     const classes = useStyles();
-    const { appId, systemId, open, onClose } = props;
+    const { appId, systemId, open, onClose, onFavoriteUpdated } = props;
 
     const { t } = useTranslation("apps");
 
@@ -245,11 +245,13 @@ function DetailsDrawer(props) {
     });
 
     const [favorite, { status: favMutationStatus }] = useMutation(appFavorite, {
-        onSuccess: () =>
+        onSuccess: () => {
             queryCache.invalidateQueries([
                 APP_BY_ID_QUERY_KEY,
                 { systemId, appId },
-            ]),
+            ]);
+            onFavoriteUpdated && onFavoriteUpdated(selectedApp.is_favorite);
+        },
         onError: (e) => {
             setFavMutationError(e);
             setDetailsError(null);

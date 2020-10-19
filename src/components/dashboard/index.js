@@ -5,7 +5,7 @@
  *
  * @module dashboard
  */
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import { useQuery } from "react-query";
 
@@ -29,6 +29,7 @@ import {
     VideosFeed,
 } from "./DashboardSection";
 
+import AppDetailsDrawer from "components/apps/details/Drawer";
 import {
     getDashboard,
     DASHBOARD_QUERY_KEY,
@@ -78,10 +79,13 @@ const Dashboard = (props) => {
     const isLoading = status === "loading";
     const hasErrored = status === "error";
 
-    // TODO: Unify error handling across components, somehow.
+    // Display the error message if an error occurred.
     if (hasErrored) {
-        console.log(error.message);
+        showErrorAnnouncer(t("dashboardInitError", { error: error.message }));
     }
+
+    // State variables.
+    const [detailsApp, setDetailsApp] = useState(null);
 
     const sections = [
         new NewsFeed(),
@@ -109,6 +113,7 @@ const Dashboard = (props) => {
                       cardHeight,
                       numColumns,
                       showErrorAnnouncer,
+                      setDetailsApp,
                   })
               )
         : [];
@@ -123,13 +128,22 @@ const Dashboard = (props) => {
         );
     }
 
+    // The base ID for the dashboard.
+    const baseId = fns.makeID(ids.ROOT);
+
     return (
-        <div
-            ref={dashboardEl}
-            id={fns.makeID(ids.ROOT)}
-            className={classes.gridRoot}
-        >
+        <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
             {isLoading ? <DashboardSkeleton /> : componentContent}
+            {detailsApp && (
+                <AppDetailsDrawer
+                    appId={detailsApp.id}
+                    systemId={detailsApp.system_id}
+                    open={true}
+                    baseId={baseId}
+                    onClose={() => setDetailsApp(null)}
+                    onFavoriteUpdated={detailsApp.onFavoriteUpdated}
+                />
+            )}
             <div className={classes.footer} />
         </div>
     );

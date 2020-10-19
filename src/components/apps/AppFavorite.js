@@ -7,7 +7,13 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import UnFavoriteIcon from "@material-ui/icons/FavoriteBorderOutlined";
 
 export default function AppFavorite(props) {
-    const { isFavorite, isExternal, onFavoriteClick, baseId } = props;
+    const {
+        isFavorite,
+        isExternal,
+        onFavoriteClick,
+        baseId,
+        size = "small",
+    } = props;
     const { t } = useTranslation("apps");
     if (isFavorite) {
         return (
@@ -16,7 +22,7 @@ export default function AppFavorite(props) {
                     id={build(baseId, ids.APP_FAVORITE)}
                     onClick={() => onFavoriteClick(isExternal)}
                     disabled={isExternal}
-                    size="small"
+                    size={size}
                 >
                     <FavoriteIcon color="primary" />
                 </IconButton>
@@ -29,7 +35,7 @@ export default function AppFavorite(props) {
                     id={build(baseId, ids.APP_UNFAVORITE)}
                     onClick={() => onFavoriteClick(isExternal)}
                     disabled={isExternal}
-                    size="small"
+                    size={size}
                 >
                     <UnFavoriteIcon color="primary" />
                 </IconButton>

@@ -136,7 +136,7 @@ const DashboardItem = ({ item }) => {
                                 setMenuAnchorEl(event.currentTarget)
                             }
                         >
-                            <MoreVert />
+                            <MoreVert color="primary" />
                         </IconButton>
                         <Menu
                             id={menuID}
@@ -145,7 +145,16 @@ const DashboardItem = ({ item }) => {
                             open={Boolean(menuAnchorEl)}
                             onClose={() => setMenuAnchorEl(null)}
                         >
-                            {item.menuActions}
+                            {item.menuActions.map((menuAction) => {
+                                return (
+                                    <MenuItem
+                                        key={`${menuAction.key}-menuitem`}
+                                        onClick={() => setMenuAnchorEl(null)}
+                                    >
+                                        {menuAction}
+                                    </MenuItem>
+                                );
+                            })}
                         </Menu>
                     </>
                 )}

@@ -36,5 +36,6 @@
     "openAria": "open",
     "showLinkAria": "show link",
     "addToCalendarAria": "add to calendar",
-    "favoritesUpdateError": "Unable to update favorites: {{error}}"
+    "favoritesUpdateError": "Unable to update favorites: {{error}}",
+    "dashboardInitError": "Unable to initialize the dashboard: {{error}}"
 }

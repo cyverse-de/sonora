@@ -48,4 +48,5 @@ fileIdentifier:
   multiInputPathList: "# application/vnd.de.multi-input-path-list+csv; version=1"
 
 analytics:
-    enabled: false  
+    enabled: false
+    id: ga-id 

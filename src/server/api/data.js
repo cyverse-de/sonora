@@ -165,7 +165,7 @@ export default function dataRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
-            pathname: "/secured/filesystem/read-chunk",
+            pathname: "/filesystem/read-chunk",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -178,7 +178,7 @@ export default function dataRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
-            pathname: "/secured/filesystem/read-csv-chunk",
+            pathname: "/filesystem/read-csv-chunk",
             headers: {
                 "Content-Type": "application/json",
             },

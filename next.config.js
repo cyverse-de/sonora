@@ -35,6 +35,7 @@ module.exports = withBundleAnalyzer({
         MULTI_INPUT_PATH_LIST_IDENTIFIER: config.get(
             "fileIdentifier.multiInputPathList"
         ),
-        ANALYTICS: config.get("analytics.enabled"),
+        ANALYTICS_ENABLED: config.get("analytics.enabled"),
+        ANALYTICS_ID: config.get("analytics.id"),
     },
 });

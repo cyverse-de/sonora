@@ -3,12 +3,12 @@ import getConfig from "next/config";
 import Document, { Head, Main, NextScript } from "next/document";
 import { ServerStyleSheets } from "@material-ui/core/styles";
 import theme from "../components/theme/default";
-import { GA_TRACKING_ID } from "../gtag";
 
 export default class MyDocument extends Document {
     render() {
         const { publicRuntimeConfig = {} } = getConfig() || {};
-        const analyticsEnabled = publicRuntimeConfig.ANALYTICS;
+        const analyticsEnabled = publicRuntimeConfig.ANALYTICS_ENABLED;
+        const analyticsId = publicRuntimeConfig.ANALYTICS_ID;
         return (
             <html lang="en">
                 <Head>
@@ -17,7 +17,7 @@ export default class MyDocument extends Document {
                         <>
                             <script
                                 async
-                                src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+                                src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`}
                             />
                             <script
                                 dangerouslySetInnerHTML={{
@@ -26,7 +26,7 @@ export default class MyDocument extends Document {
                                     function gtag(){dataLayer.push(arguments);}
                                     gtag('js', new Date());
 
-                                    gtag('config', '${GA_TRACKING_ID}', {
+                                    gtag('config', '${analyticsId}', {
                                     page_path: window.location.pathname,
                                     });
                              `,

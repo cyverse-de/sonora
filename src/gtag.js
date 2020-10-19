@@ -1,10 +1,8 @@
-export const GA_TRACKING_ID = "G-YXTRXCKR7T";
-
 //https://github.com/vercel/next.js/blob/canary/examples
 //https://developers.google.com/analytics/devguides/collection/gtagjs/pages
-export const pageview = (url) => {
+export const pageview = (analytics_id, url) => {
     if (window.gtag) {
-        window.gtag("config", GA_TRACKING_ID, {
+        window.gtag("config", analytics_id, {
             page_path: url,
         });
     }

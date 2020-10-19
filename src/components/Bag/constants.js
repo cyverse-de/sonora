@@ -1,6 +1,7 @@
 export default {
     BASEID: "bag",
     CANCEL: "cancel",
+    COPY: "copy",
     DIALOG: "dialog",
     DOWNLOAD: "download",
     DOWNLOAD_BASEID: "downloadDialog",

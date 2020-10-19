@@ -13,14 +13,19 @@ import {
     Typography,
 } from "@material-ui/core";
 
-import { Cancel as CancelIcon, Close } from "@material-ui/icons";
+import { Cancel as CancelIcon, Close, FileCopy } from "@material-ui/icons";
 
-import { build as buildID } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    AnnouncerConstants,
+    build as buildID,
+} from "@cyverse-de/ui-lib";
 
 import { useTranslation } from "i18n";
 
 import { getHost } from "components/utils/getHost";
 import constants from "components/Bag/constants";
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
 const useStyles = makeStyles((theme) => ({
     closeButton: {
@@ -43,6 +48,7 @@ const DownloadLinksDialog = ({
     open = false,
     fullScreen = false,
     onClose = () => {},
+    showErrorAnnouncer,
 }) => {
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
@@ -53,6 +59,31 @@ const DownloadLinksDialog = ({
         event.stopPropagation();
 
         onClose();
+    };
+
+    const handleCopy = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const linksString = paths.reduce((acc, curr) => {
+            const fullLink = `${getHost()}/api/download?path=${curr}`;
+            if (acc !== "") {
+                acc = `${acc}\n${fullLink}`;
+            } else {
+                acc = fullLink;
+            }
+            return acc;
+        }, "");
+
+        navigator.clipboard
+            .writeText(linksString)
+            .then(() => {
+                announce({
+                    text: t("copyToClipboardSuccess"),
+                    variant: AnnouncerConstants.SUCCESS,
+                });
+            })
+            .catch((err) => showErrorAnnouncer(t("copyToClipboardError", err)));
     };
 
     return (
@@ -124,7 +155,7 @@ const DownloadLinksDialog = ({
                     </IconButton>
                 ) : (
                     <Button
-                        variant="contained"
+                        variant="outlined"
                         color="primary"
                         className={classes.button}
                         startIcon={<CancelIcon />}
@@ -139,9 +170,30 @@ const DownloadLinksDialog = ({
                         {t("close")}
                     </Button>
                 )}
+
+                {fullScreen ? (
+                    <IconButton
+                        onClick={handleCopy}
+                        id={buildID(dialogID, constants.COPY, constants.BUTTON)}
+                    >
+                        <FileCopy />
+                    </IconButton>
+                ) : (
+                    <Button
+                        onClick={handleCopy}
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        startIcon={<FileCopy />}
+                        size="small"
+                        id={buildID(dialogID, constants.COPY, constants.BUTTON)}
+                    >
+                        {t("copyToClipboard")}
+                    </Button>
+                )}
             </DialogActions>
         </Dialog>
     );
 };
 
-export default DownloadLinksDialog;
+export default withErrorAnnouncer(DownloadLinksDialog);

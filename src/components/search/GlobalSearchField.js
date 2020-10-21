@@ -21,6 +21,7 @@ import constants from "../../constants";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import NavigationConstants from "common/NavigationConstants";
 import { useDataNavigationLink } from "components/data/utils";
+import { useAppLaunchLink } from "components/apps/utils";
 
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
@@ -213,6 +214,10 @@ function AppsSearchOption(props) {
     const { t } = useTranslation("common");
     const { t: i18NSearch } = useTranslation("search");
     const { baseId, filter, selectedOption, searchTerm } = props;
+    const [href, as] = useAppLaunchLink(
+        selectedOption?.system_id,
+        selectedOption?.id
+    );
 
     if (selectedOption?.id === searchConstants.VIEW_ALL_ID) {
         return (
@@ -226,8 +231,6 @@ function AppsSearchOption(props) {
         );
     }
 
-    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]`;
-    const as = `/${NavigationConstants.APPS}/${selectedOption?.system_id}/${selectedOption?.id}`;
     return (
         <Link href={href} as={as} passHref>
             <SearchOption
@@ -276,7 +279,7 @@ function AnalysesSearchOption(props) {
 function GlobalSearchField(props) {
     const classes = useStyles();
     const router = useRouter();
-    const { search, showErrorAnnouncer } = props;
+    const { search, selectedFilter, showErrorAnnouncer } = props;
 
     const { t } = useTranslation("common");
     const { t: appsI18n } = useTranslation("apps");
@@ -284,7 +287,7 @@ function GlobalSearchField(props) {
     const appRecordFields = appFields(appsI18n);
 
     const [searchTerm, setSearchTerm] = useState(search);
-    const [filter, setFilter] = useState(searchConstants.ALL);
+    const [filter, setFilter] = useState(selectedFilter || searchConstants.ALL);
 
     const [options, setOptions] = useState([]);
     const [open, setOpen] = useState(false);
@@ -311,6 +314,10 @@ function GlobalSearchField(props) {
     if (userHomeDir) {
         userHomeDir = userHomeDir + "/";
     }
+
+    useEffect(() => {
+        setFilter(selectedFilter);
+    }, [selectedFilter]);
 
     const {
         isFetching: searchingAnalyses,

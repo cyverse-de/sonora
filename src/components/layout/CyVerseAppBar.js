@@ -224,7 +224,7 @@ function CyverseAppBar(props) {
     const { t } = useTranslation(["common"]);
 
     const searchTerm = router?.query?.searchTerm || "";
-    const filter = router?.query?.filter || searchConstants.ALL;
+    let filter = searchConstants.ALL;
 
     const {
         children,
@@ -241,7 +241,18 @@ function CyverseAppBar(props) {
     const [bootstrapError, setBootstrapError] = useState(null);
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
     const [profileRefetchInterval, setProfileRefetchInterval] = useState(null);
+
     const setPreferences = usePreferences()[1];
+
+    if (activeView === NavigationConstants.APPS) {
+        filter = searchConstants.APPS;
+    } else if (activeView === NavigationConstants.ANALYSES) {
+        filter = searchConstants.ANALYSES;
+    } else if (activeView === NavigationConstants.DATA) {
+        filter = searchConstants.DATA;
+    } else {
+        filter = searchConstants.ALL;
+    }
 
     function updateUserProfile(profile) {
         if (
@@ -288,6 +299,8 @@ function CyverseAppBar(props) {
             setBootstrapQueryEnabled(true);
         }
     }, [userProfile]);
+
+    useEffect(() => {}, [activeView]);
 
     useBootStrap(
         bootstrapQueryEnabled,
@@ -610,7 +623,7 @@ function CyverseAppBar(props) {
                     <Hidden xsDown>
                         <GlobalSearchField
                             search={searchTerm}
-                            filter={filter}
+                            selectedFilter={filter}
                         />
                     </Hidden>
                     <div className={classes.root} />

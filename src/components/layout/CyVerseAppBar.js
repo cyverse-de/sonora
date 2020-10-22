@@ -300,8 +300,6 @@ function CyverseAppBar(props) {
         }
     }, [userProfile]);
 
-    useEffect(() => {}, [activeView]);
-
     useBootStrap(
         bootstrapQueryEnabled,
         (respData) => {

@@ -71,9 +71,7 @@ function Message(props) {
 
     return (
         <TableCell className={className}>
-            <Typography onClick={(event) => onMessageClicked(message)}>
-                {message.text}
-            </Typography>
+            <Typography onClick={onMessageClicked}>{message.text}</Typography>
         </TableCell>
     );
 }
@@ -152,9 +150,29 @@ const TableView = (props) => {
         if (event.shiftKey && lastSelectedIndex > -1) {
             rangeSelect(lastSelectedIndex, index, id);
         } else {
-            toggleSelection(id);
+            setSelected([id]);
         }
         setLastSelectedIndex(index);
+    };
+
+    const handleCheckboxClick = (event, id, index) => {
+        event.stopPropagation();
+
+        if (event.shiftKey && lastSelectedIndex > -1) {
+            handleRowClick(event, id, index);
+        } else {
+            toggleSelection(id);
+            setLastSelectedIndex(index);
+        }
+    };
+
+    const handleMessageClick = (event, notification, index) => {
+        event.stopPropagation();
+
+        setSelected([notification.message.id]);
+        setLastSelectedIndex(index);
+
+        onMessageClicked(notification.message);
     };
 
     const handleSelectAllClick = (event, checked) => {
@@ -226,7 +244,16 @@ const TableView = (props) => {
                                                 className={className}
                                                 padding="checkbox"
                                             >
-                                                <DECheckbox checked={checked} />
+                                                <DECheckbox
+                                                    checked={checked}
+                                                    onClick={(event) =>
+                                                        handleCheckboxClick(
+                                                            event,
+                                                            n.message.id,
+                                                            index
+                                                        )
+                                                    }
+                                                />
                                             </TableCell>
                                             <TableCell className={className}>
                                                 <Typography>
@@ -248,8 +275,12 @@ const TableView = (props) => {
                                                     className
                                                 )}
                                                 message={n.message}
-                                                onMessageClicked={
-                                                    onMessageClicked
+                                                onMessageClicked={(event) =>
+                                                    handleMessageClick(
+                                                        event,
+                                                        n,
+                                                        index
+                                                    )
                                                 }
                                             />
                                             <TableCell className={className}>

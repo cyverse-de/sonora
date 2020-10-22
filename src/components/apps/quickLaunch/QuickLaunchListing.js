@@ -57,8 +57,8 @@ function QuickLaunchChipLink(props) {
         systemId,
         appId,
     } = props;
-    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch?qId=${qid}`;
-    const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?qId=${qid}`;
+    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch?quick-launch-id=${qid}`;
+    const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?quick-launch-id=${qid}`;
     return (
         <Link href={href} as={as} passHref>
             <QuickLaunch
@@ -75,8 +75,8 @@ function QuickLaunchChipLink(props) {
 function QuickLaunchButtonLink(props) {
     const { id, onClick, systemId, appId, qid } = props;
     const { t } = useTranslation("apps");
-    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch?qId=${qid}`;
-    const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?qId=${qid}`;
+    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch?quick-launch-id=${qid}`;
+    const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?quick-launch-id=${qid}`;
     return (
         <Link href={href} as={as} passHref>
             <IconButton
@@ -193,9 +193,7 @@ function ListQuickLaunches(props) {
         onSuccess: (resp, { onSuccess }) => {
             queryCache.invalidateQueries([QUICK_LAUNCH_LISTING, { appId }]);
         },
-        onError: (error) => {
-            setDeleteError(error);
-        },
+        onError: setDeleteError,
     });
 
     const embedCodeClickHandler = () => {
@@ -203,7 +201,7 @@ function ListQuickLaunches(props) {
         const host = getHost();
         const imgSrc = `${host}/${constants.QUICK_LAUNCH_EMBED_ICON}`;
 
-        const embed = `<a href="${shareUrl}" target="_blank"><img src="${imgSrc}"></a>`;
+        const embed = `<a href="${shareUrl}" target="_blank" rel="noopener noreferrer"><img src="${imgSrc}"></a>`;
 
         setAnchorEl(null);
         setEmbedCode(embed);

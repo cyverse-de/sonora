@@ -1,5 +1,5 @@
 import React from "react";
-import ListQuickLaunches from "../../../src/components/apps/quickLaunch/QuickLaunchListing";
+import ListQuickLaunches from "components/apps/quickLaunch/QuickLaunchListing";
 import { quickLaunches } from "../AppMocks";
 import { mockAxios } from "../../axiosMock";
 

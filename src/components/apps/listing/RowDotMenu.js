@@ -27,38 +27,36 @@ function RowDotMenu(props) {
         onQLSelected,
     } = props;
     return (
-        <>
-            <DotMenu
-                baseId={baseId}
-                ButtonProps={ButtonProps}
-                render={(onClose) => [
-                    <DetailsMenuItem
-                        key={build(baseId, ids.DETAILS_MENU_ITEM)}
+        <DotMenu
+            baseId={baseId}
+            ButtonProps={ButtonProps}
+            render={(onClose) => [
+                <DetailsMenuItem
+                    key={build(baseId, ids.DETAILS_MENU_ITEM)}
+                    baseId={baseId}
+                    onClose={onClose}
+                    onDetailsSelected={onDetailsSelected}
+                />,
+                canShare && (
+                    <SharingMenuItem
+                        key={build(baseId, shareIds.SHARING_MENU_ITEM)}
                         baseId={baseId}
                         onClose={onClose}
-                        onDetailsSelected={onDetailsSelected}
-                    />,
-                    canShare && (
-                        <SharingMenuItem
-                            key={build(baseId, shareIds.SHARING_MENU_ITEM)}
-                            baseId={baseId}
-                            onClose={onClose}
-                            setSharingDlgOpen={setSharingDlgOpen}
-                        />
-                    ),
-                    <DocMenuItem
-                        baseId={baseId}
-                        onClose={onClose}
-                        onDocSelected={onDocSelected}
-                    />,
-                    <QLMenuItem
-                        baseId={baseId}
-                        onClose={onClose}
-                        onQLSelected={onQLSelected}
-                    />,
-                ]}
-            />
-        </>
+                        setSharingDlgOpen={setSharingDlgOpen}
+                    />
+                ),
+                <DocMenuItem
+                    baseId={baseId}
+                    onClose={onClose}
+                    onDocSelected={onDocSelected}
+                />,
+                <QLMenuItem
+                    baseId={baseId}
+                    onClose={onClose}
+                    onQLSelected={onQLSelected}
+                />,
+            ]}
+        />
     );
 }
 

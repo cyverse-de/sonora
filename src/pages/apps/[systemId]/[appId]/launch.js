@@ -35,7 +35,7 @@ export default function Launch() {
     const [launchError, setLaunchError] = React.useState(null);
 
     const router = useRouter();
-    const { systemId, appId, qId } = router.query;
+    const { systemId, appId, "quick-launch-id": qId } = router.query;
 
     React.useEffect(() => {
         const hasIds = !!(systemId && appId);

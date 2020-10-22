@@ -71,9 +71,7 @@ function Message(props) {
 
     return (
         <TableCell className={className}>
-            <Typography onClick={(event) => onMessageClicked(message)}>
-                {message.text}
-            </Typography>
+            <Typography onClick={onMessageClicked}>{message.text}</Typography>
         </TableCell>
     );
 }
@@ -98,6 +96,7 @@ const TableView = (props) => {
     } = props;
 
     const [page, setPage] = React.useState(0);
+    const [lastSelectedIndex, setLastSelectedIndex] = React.useState(-1);
 
     const classes = useStyles();
 
@@ -119,12 +118,61 @@ const TableView = (props) => {
         setSelected([]);
     };
 
-    const handleRowClick = (event, id) => {
-        setSelected(
-            selected.includes(id)
-                ? selected.filter((selection) => id !== selection)
-                : [...selected, id]
-        );
+    const isSelected = (id) => selected.includes(id);
+
+    const select = (ids) => {
+        setSelected([...new Set([...selected, ...ids])]);
+    };
+
+    const deselect = (ids) => {
+        setSelected(selected.filter((id) => !ids.includes(id)));
+    };
+
+    const toggleSelection = (id) => {
+        isSelected(id) ? deselect([id]) : select([id]);
+    };
+
+    // Selects all ids in an index range.
+    const rangeSelect = (start, end, targetId) => {
+        // Ensure that the start index comes before the end index.
+        if (start > end) {
+            [start, end] = [end, start];
+        }
+
+        // Get the IDs for the range that the user selected.
+        const rangeIds = data.slice(start, end + 1).map((n) => n.message.id);
+
+        // Toggle the selection based on the last row clicked.
+        isSelected(targetId) ? deselect(rangeIds) : select(rangeIds);
+    };
+
+    const handleRowClick = (event, id, index) => {
+        if (event.shiftKey && lastSelectedIndex > -1) {
+            rangeSelect(lastSelectedIndex, index, id);
+        } else {
+            setSelected([id]);
+        }
+        setLastSelectedIndex(index);
+    };
+
+    const handleCheckboxClick = (event, id, index) => {
+        event.stopPropagation();
+
+        if (event.shiftKey && lastSelectedIndex > -1) {
+            handleRowClick(event, id, index);
+        } else {
+            toggleSelection(id);
+            setLastSelectedIndex(index);
+        }
+    };
+
+    const handleMessageClick = (event, notification, index) => {
+        event.stopPropagation();
+
+        setSelected([notification.message.id]);
+        setLastSelectedIndex(index);
+
+        onMessageClicked(notification.message);
     };
 
     const handleSelectAllClick = (event, checked) => {
@@ -169,10 +217,8 @@ const TableView = (props) => {
                                 />
                             )}
                             {data?.length > 0 &&
-                                data.map((n) => {
-                                    const isSelected = selected.includes(
-                                        n.message.id
-                                    );
+                                data.map((n, index) => {
+                                    const checked = isSelected(n.message.id);
 
                                     const className = n.seen
                                         ? null
@@ -183,13 +229,14 @@ const TableView = (props) => {
                                             onClick={(event) =>
                                                 handleRowClick(
                                                     event,
-                                                    n.message.id
+                                                    n.message.id,
+                                                    index
                                                 )
                                             }
                                             role="checkbox"
-                                            aria-checked={isSelected}
+                                            aria-checked={checked}
                                             tabIndex={-1}
-                                            selected={isSelected}
+                                            selected={checked}
                                             hover
                                             key={n.message.id}
                                         >
@@ -198,7 +245,14 @@ const TableView = (props) => {
                                                 padding="checkbox"
                                             >
                                                 <DECheckbox
-                                                    checked={isSelected}
+                                                    checked={checked}
+                                                    onClick={(event) =>
+                                                        handleCheckboxClick(
+                                                            event,
+                                                            n.message.id,
+                                                            index
+                                                        )
+                                                    }
                                                 />
                                             </TableCell>
                                             <TableCell className={className}>
@@ -221,8 +275,12 @@ const TableView = (props) => {
                                                     className
                                                 )}
                                                 message={n.message}
-                                                onMessageClicked={
-                                                    onMessageClicked
+                                                onMessageClicked={(event) =>
+                                                    handleMessageClick(
+                                                        event,
+                                                        n,
+                                                        index
+                                                    )
                                                 }
                                             />
                                             <TableCell className={className}>

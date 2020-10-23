@@ -11,10 +11,9 @@ import {
 import { useTranslation } from "../../i18n";
 import ids from "./ids";
 import NotificationStyles from "./styles";
+import { getDisplayMessage } from "./utils";
 
 import NavigationConstants from "common/NavigationConstants";
-
-import { getDisplayMessage } from "components/layout/Notifications";
 
 import ExternalLink from "components/utils/ExternalLink";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";

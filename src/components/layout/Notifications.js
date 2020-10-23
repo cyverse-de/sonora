@@ -19,6 +19,11 @@ import NotificationCategory from "components/models/NotificationCategory";
 import { useNotifications } from "contexts/pushNotifications";
 
 import NotificationsMenu from "../notifications/NotificationsMenu";
+import {
+    ANALYSIS_EMAIL_TEMPLATE,
+    getDisplayMessage,
+} from "../notifications/utils";
+
 import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
 
 import {
@@ -30,15 +35,6 @@ import {
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-
-const ANALYSIS_EMAIL_TEMPLATE = "analysis_status_change";
-
-export function getDisplayMessage(notification) {
-    return notification.type === "data" &&
-        notification["email_template"] !== ANALYSIS_EMAIL_TEMPLATE
-        ? notification.subject
-        : notification.message.text;
-}
 
 const GotoOutputFolderButton = React.forwardRef((props, ref) => {
     const { onClick, href } = props;

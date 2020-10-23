@@ -84,7 +84,16 @@ app.prepare()
 
         logger.info("adding the /login/* handler");
         server.get("/login/*", keycloakClient.protect(), (req, res) => {
-            res.redirect(req.url.replace(/^\/login/, ""));
+            // Remove login from the url
+            // Remove paths specific to the anonymous user, like the anonymous user's
+            // home folder, to prevent sign-in from redirecting the authenticated
+            // user back to anonymous's folders again
+            res.redirect(
+                req.url
+                    .replace(/^\/login/, "")
+                    .replace(`${config.iRodsHome}/anonymous`, "")
+                    .replace(`${config.iRodsTrash}/anonymous`, "")
+            );
         });
 
         //get notifications from amqp

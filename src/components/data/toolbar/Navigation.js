@@ -43,6 +43,7 @@ import {
     Tooltip,
     Typography,
 } from "@material-ui/core";
+import { useConfig } from "contexts/config";
 
 const useStyles = makeStyles(styles);
 
@@ -325,13 +326,18 @@ function Navigation(props) {
     const [communityDataPath, setCommunityDataPath] = useState("");
     const dataNavId = build(baseId, ids.DATA_NAVIGATION);
     const [userProfile] = useUserProfile();
+    const [config] = useConfig();
+    const irodsHomePath = config?.irods?.home_path;
 
     const preProcessData = (respData) => {
-        if (respData && userProfile) {
+        if (respData) {
             const respRoots = respData.roots;
-            const home = respRoots.find(
-                (root) => root.label === userProfile.id
-            );
+            const home = userProfile
+                ? respRoots.find((root) => root.label === userProfile.id)
+                : {
+                      label: t("home"),
+                      path: `${irodsHomePath}/${constants.ANONYMOUS_USER}`,
+                  };
             home.icon = <HomeIcon fontSize="small" />;
             const sharedWithMe = respRoots.find(
                 (root) => root.label === constants.SHARED_WITH_ME
@@ -351,7 +357,11 @@ function Navigation(props) {
             const basePaths = respData["base-paths"];
             setUserHomePath(basePaths["user_home_path"]);
             setUserTrashPath(basePaths["user_trash_path"]);
-            setDataRoots([home, sharedWithMe, communityData, trash]);
+            setDataRoots(
+                userProfile
+                    ? [home, sharedWithMe, communityData, trash]
+                    : [communityData, home, sharedWithMe, trash]
+            );
             handleDataNavError(null);
         }
     };

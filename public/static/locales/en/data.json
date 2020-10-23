@@ -48,6 +48,7 @@
     "fileSaveError": "Unable to save {{fileName}}",
     "fileSaveSuccess": "{{fileName}} saved successfully.",
     "gridView": "Grid View",
+    "home": "Home",
     "importCoge": "Import Genome from CoGe",
     "importUrl": "Import from URL",
     "infoType": "Info Type",

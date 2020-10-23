@@ -15,7 +15,7 @@ import styles from "../styles";
 
 import { useTranslation } from "i18n";
 
-import notificationCategory from "components/models/notificationCategory";
+import { notificationTypeToCategory } from "components/models/NotificationCategory";
 
 import DEPagination from "components/utils/DEPagination";
 import TableLoading from "components/utils/TableLoading";
@@ -257,16 +257,9 @@ const TableView = (props) => {
                                             </TableCell>
                                             <TableCell className={className}>
                                                 <Typography>
-                                                    {
-                                                        notificationCategory[
-                                                            n.type
-                                                                .replace(
-                                                                    /\s/g,
-                                                                    "_"
-                                                                )
-                                                                .toLowerCase()
-                                                        ]
-                                                    }
+                                                    {notificationTypeToCategory(
+                                                        n.type
+                                                    )}
                                                 </Typography>
                                             </TableCell>
                                             <Message

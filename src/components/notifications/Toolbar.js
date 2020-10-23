@@ -8,7 +8,7 @@ import React from "react";
 import ids from "./ids";
 import styles from "./styles";
 
-import notificationCategory from "components/models/notificationCategory";
+import NotificationCategory from "components/models/NotificationCategory";
 
 import { useTranslation } from "i18n";
 
@@ -58,21 +58,21 @@ const NotificationToolbar = (props) => {
                 onChange={onFilterChange}
             >
                 {[
-                    "new",
-                    "all",
-                    "analysis",
-                    "data",
-                    "tool_request",
-                    "apps",
-                    "permanent_id_request",
-                    "team",
+                    "NEW",
+                    "ALL",
+                    "ANALYSIS",
+                    "DATA",
+                    "TOOL_REQUEST",
+                    "APPS",
+                    "PERMANENT_ID_REQUEST",
+                    "TEAM",
                 ].map((key) => (
                     <MenuItem
                         key={key}
                         id={build(filterId, key)}
-                        value={notificationCategory[key]}
+                        value={NotificationCategory[key]}
                     >
-                        {notificationCategory[key]}
+                        {NotificationCategory[key]}
                     </MenuItem>
                 ))}
             </TextField>

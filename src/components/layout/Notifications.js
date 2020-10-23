@@ -11,9 +11,11 @@ import { useTranslation } from "i18n";
 import Link from "next/link";
 
 import ids from "./ids";
-import constants from "../../constants";
+
 import { useGotoOutputFolderLink } from "components/analyses/utils";
 import analysisStatus from "components/models/analysisStatus";
+import NotificationCategory from "components/models/NotificationCategory";
+
 import { useNotifications } from "contexts/pushNotifications";
 
 import NotificationsMenu from "../notifications/NotificationsMenu";
@@ -114,7 +116,7 @@ function Notifications(props) {
         (notification, category) => {
             let analysisStatus =
                 category.toLowerCase() ===
-                    constants.NOTIFICATION_CATEGORY.ANALYSIS.toLowerCase() ||
+                    NotificationCategory.ANALYSIS.toLowerCase() ||
                 notification["email_template"] === ANALYSIS_EMAIL_TEMPLATE
                     ? notification.payload.status
                     : "";

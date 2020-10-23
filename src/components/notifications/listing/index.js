@@ -17,7 +17,7 @@ import TableView from "./TableView";
 
 import { useTranslation } from "i18n";
 
-import notificationCategory from "components/models/notificationCategory";
+import NotificationCategory from "components/models/NotificationCategory";
 
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
@@ -37,7 +37,7 @@ const NotificationView = (props) => {
     const [selected, setSelected] = React.useState([]);
     const [order, setOrder] = React.useState(constants.SORT_DESCENDING);
     const [orderBy, setOrderBy] = React.useState("timestamp");
-    const [filter, setFilter] = React.useState(notificationCategory.all);
+    const [filter, setFilter] = React.useState(NotificationCategory.ALL);
     const [markAsSeenEnabled, setMarkAsSeenEnabled] = React.useState(true);
 
     const [notificationsKey, setNotificationsKey] = React.useState(
@@ -63,7 +63,7 @@ const NotificationView = (props) => {
         setNotificationsKey([
             NOTIFICATIONS_MESSAGES_QUERY_KEY,
             {
-                filter: filter === notificationCategory.all ? null : filter,
+                filter: filter === NotificationCategory.ALL ? null : filter,
                 orderBy,
                 order,
                 limit: rowsPerPage,

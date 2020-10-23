@@ -119,7 +119,7 @@ export default function dataRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
-            pathname: "/secured/filetypes/type-list",
+            pathname: "/filetypes/type-list",
         })
     );
 

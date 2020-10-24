@@ -38,7 +38,7 @@ const NameLink = React.forwardRef((props, ref) => {
                 }
             }}
         >
-            <Highlighter search={searchTerm}>{name}</Highlighter>
+            <Highlighter search={searchTerm || ""}>{name}</Highlighter>
         </Link>
     );
 });

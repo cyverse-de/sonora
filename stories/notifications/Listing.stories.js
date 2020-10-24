@@ -32,14 +32,7 @@ export const Listing = () => {
         return [200, {}];
     });
 
-    return (
-        <NotificationsListing
-            baseDebugId="notificationsListing"
-            onMessageClicked={(message) =>
-                console.log("onMessageClicked", message)
-            }
-        />
-    );
+    return <NotificationsListing baseDebugId="notificationsListing" />;
 };
 
 export default { title: "Notifications" };

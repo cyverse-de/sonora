@@ -28,8 +28,10 @@ import {
     markSeen,
 } from "serviceFacades/notifications";
 
+import { build as buildId } from "@cyverse-de/ui-lib";
+
 const NotificationView = (props) => {
-    const { baseDebugId, onMessageClicked, showErrorAnnouncer } = props;
+    const { baseDebugId, showErrorAnnouncer } = props;
 
     const [notifications, setNotifications] = React.useState({});
     const [offset, setOffset] = React.useState(0);
@@ -147,7 +149,7 @@ const NotificationView = (props) => {
         setFilter(event.target.value);
     };
 
-    const baseId = baseDebugId + ids.NOTIFICATION_VIEW;
+    const baseId = buildId(baseDebugId, ids.NOTIFICATION_VIEW);
 
     const hasSelection = selected.length > 0;
 
@@ -172,7 +174,6 @@ const NotificationView = (props) => {
                 rowsPerPage={rowsPerPage}
                 selected={selected}
                 total={parseInt(notifications?.total)}
-                onMessageClicked={onMessageClicked}
                 setOffset={setOffset}
                 setOrder={setOrder}
                 setOrderBy={setOrderBy}

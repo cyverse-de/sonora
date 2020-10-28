@@ -216,7 +216,7 @@ function ListQuickLaunches(props) {
 
     const getShareUrl = () => {
         const host = getHost();
-        const url = `${host}/${NavigationConstants.APPS}/${systemId}/${appId}/launch?qId=${selected?.id}`;
+        const url = `${host}/${NavigationConstants.APPS}/${systemId}/${appId}/launch?quick-launch-id=${selected?.id}`;
         return url;
     };
 

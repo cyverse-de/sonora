@@ -35,7 +35,6 @@ import {
 
 import { useQuery } from "react-query";
 import { canShare } from "../utils";
-import { useTheme, useMediaQuery } from "@material-ui/core";
 
 import Sharing from "components/sharing";
 import { formatSharedApps } from "components/sharing/util";
@@ -100,9 +99,6 @@ function Listing({
     };
 
     const shareEnabled = canShare(getSelectedApps());
-
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
     const [docDlgOpen, setDocDlgOpen] = useState(false);
@@ -498,7 +494,6 @@ function Listing({
                 systemId={selectedApp?.system_id}
                 name={selectedApp?.name}
                 onClose={() => setDocDlgOpen(false)}
-                isMobile={isMobile}
             />
             <QuickLaunchDialog
                 baseDebugId={build(baseId, ids.QUICK_LAUNCH)}

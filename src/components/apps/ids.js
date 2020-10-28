@@ -8,6 +8,8 @@ export default {
     FAVORITES: "favorites",
     APP_COMMENTS: "appComments",
     CARD: "card",
+    CLOSE_BTN: "closeButton",
+    DIALOG: "dialog",
     APP_QUICK_LAUNCH: "appQuickLaunch",
     LISTING_TABLE: "listingTable",
     HEADER: "header",

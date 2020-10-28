@@ -32,6 +32,7 @@ const QuickLaunch = React.forwardRef((props, ref) => {
     return (
         <Chip
             key={id}
+            id={id}
             icon={icon}
             href={href}
             ref={ref}

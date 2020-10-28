@@ -12,7 +12,7 @@ export default function QLMenuItem(props) {
     const { t } = useTranslation("apps");
     return (
         <MenuItem
-            key={build(baseId, ids.QUICK_LAUNCH)}
+            key={build(baseId, ids.QL_MENU_ITEM)}
             onClick={() => {
                 onClose();
                 onQLSelected();

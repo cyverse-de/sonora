@@ -496,7 +496,7 @@ function Listing({
                 onClose={() => setDocDlgOpen(false)}
             />
             <QuickLaunchDialog
-                baseDebugId={build(baseId, ids.QUICK_LAUNCH)}
+                baseDebugId={build(baseId, ids.APP_QUICK_LAUNCH)}
                 appName={selectedApp?.name}
                 appId={selectedApp?.id}
                 systemId={selectedApp?.system_id}

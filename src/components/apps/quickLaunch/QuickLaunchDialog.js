@@ -5,6 +5,9 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
+import { build } from "@cyverse-de/ui-lib";
+
+import ids from "../ids";
 
 import {
     Dialog,
@@ -31,18 +34,19 @@ export default function QuickLaunchDialog(props) {
     return (
         <Dialog open={open}>
             <DialogTitle>
-                {appName}
+                {t("quickLaunch")} - {appName}
                 <IconButton
                     className={classes.closeButton}
                     aria-label={t("cancelLabel")}
                     onClick={onClose}
                     size="small"
                     edge="end"
+                    id={build(baseDebugId, ids.CLOSE_BTN)}
                 >
                     <Close />
                 </IconButton>
             </DialogTitle>
-            <DialogContent>
+            <DialogContent id={build(baseDebugId, ids.DIALOG)}>
                 <ListQuickLaunches
                     appId={appId}
                     systemId={systemId}

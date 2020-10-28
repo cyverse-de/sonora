@@ -46,3 +46,7 @@ irods:
 fileIdentifier:
   htPathList: "# application/vnd.de.path-list+csv; version=1"
   multiInputPathList: "# application/vnd.de.multi-input-path-list+csv; version=1"
+
+analytics:
+    enabled: false
+    id: ga-id 

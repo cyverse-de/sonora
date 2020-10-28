@@ -4,10 +4,12 @@
  *
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { appWithTranslation, useTranslation } from "i18n";
 import "./styles.css";
+
+import * as gtag from "../gtag";
 
 import CyverseAppBar from "components/layout/CyVerseAppBar";
 import NavigationConstants from "common/NavigationConstants";
@@ -74,6 +76,32 @@ const setupIntercom = (intercomAppId) => {
     }
 };
 
+// will be automatically called by nextjs
+// https://nextjs.org/docs/advanced-features/measuring-performance
+export function reportWebVitals({ id, name, label, value }) {
+    const { publicRuntimeConfig = {} } = getConfig() || {};
+    const analyticsEnabled = publicRuntimeConfig.ANALYTICS_ENABLED;
+    if (analyticsEnabled && window.gtag) {
+        console.log(
+            "Logging event id=>" +
+                id +
+                " name=>" +
+                name +
+                " label" +
+                label +
+                " value=>" +
+                value
+        );
+        window.gtag("event", name, {
+            event_category:
+                label === "web-vital" ? "Web Vitals" : "Next.js custom metric",
+            value: Math.round(name === "CLS" ? value * 1000 : value), // values must be integers
+            event_label: id, // id unique to current page load
+            non_interaction: true, // avoids affecting bounce rate.
+        });
+    }
+}
+
 function MyApp({ Component, pageProps }) {
     const { t } = useTranslation("common");
     const { publicRuntimeConfig = {} } = getConfig() || {};
@@ -89,6 +117,17 @@ function MyApp({ Component, pageProps }) {
     const queryConfig = {
         queries: { refetchOnWindowFocus: false, retry: false },
     };
+
+    useEffect(() => {
+        const analytics_id = publicRuntimeConfig.ANALYTICS_ID;
+        const handleRouteChange = (url) => {
+            gtag.pageview(analytics_id, url);
+        };
+        router.events.on("routeChangeComplete", handleRouteChange);
+        return () => {
+            router.events.off("routeChangeComplete", handleRouteChange);
+        };
+    }, [publicRuntimeConfig.ANALYTICS_ID, router.events]);
 
     React.useEffect(() => {
         const intercom = {

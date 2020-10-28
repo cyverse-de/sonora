@@ -131,3 +131,4 @@ config/*-local*
 storybook-static
 public/locales*
 
+.VSCodeCounter

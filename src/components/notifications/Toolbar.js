@@ -57,16 +57,7 @@ const NotificationToolbar = (props) => {
                 value={filter}
                 onChange={onFilterChange}
             >
-                {[
-                    "NEW",
-                    "ALL",
-                    "ANALYSIS",
-                    "DATA",
-                    "TOOL_REQUEST",
-                    "APPS",
-                    "PERMANENT_ID_REQUEST",
-                    "TEAM",
-                ].map((key) => (
+                {Object.keys(NotificationCategory).map((key) => (
                     <MenuItem
                         key={key}
                         id={build(filterId, key)}

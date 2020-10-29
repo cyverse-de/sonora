@@ -17,8 +17,6 @@ import { build } from "@cyverse-de/ui-lib";
 import AppSearchResults from "./AppSearchResults";
 import DataSearchResults from "./DataSearchResults";
 import AnalysesSearchResults from "./AnalysesSearchResults";
-import searchConstants from "../constants";
-
 import DETabPanel from "components/utils/DETabPanel";
 
 import {
@@ -76,13 +74,7 @@ const SEARCH_RESULTS_TABS = {
 };
 
 function DetailedSearchResults(props) {
-    const {
-        baseId,
-        searchTerm,
-        filter,
-        selectedTab,
-        onTabSelectionChange,
-    } = props;
+    const { baseId, searchTerm, selectedTab, onTabSelectionChange } = props;
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -109,81 +101,7 @@ function DetailedSearchResults(props) {
             ? "/analyses_selected.png"
             : "/icon-analyses.png";
 
-    const dataTab = (
-        <Tab
-            value={SEARCH_RESULTS_TABS.data}
-            key={dataTabId}
-            id={dataTabId}
-            label={
-                isMobile
-                    ? dataCount
-                    : t("search:dataSearchTab", { count: dataCount })
-            }
-            classes={{ selected: classes.tabSelected }}
-            icon={
-                <img
-                    src={`${dataTabIcon}`}
-                    alt={t("data")}
-                    className={classes.tabIcon}
-                />
-            }
-        />
-    );
-
-    const appsTab = (
-        <Tab
-            value={SEARCH_RESULTS_TABS.apps}
-            key={appsTabId}
-            id={appsTabId}
-            label={
-                isMobile
-                    ? appsCount
-                    : t("search:appsSearchTab", { count: appsCount })
-            }
-            classes={{ selected: classes.tabSelected }}
-            icon={
-                <img
-                    src={`${appsTabIcon}`}
-                    alt={t("apps")}
-                    className={classes.tabIcon}
-                />
-            }
-        />
-    );
-
-    const analysesTab = (
-        <Tab
-            value={SEARCH_RESULTS_TABS.analyses}
-            key={analysesTabId}
-            id={analysesTabId}
-            label={
-                isMobile
-                    ? analysesCount
-                    : t("search:analysesSearchTab", { count: analysesCount })
-            }
-            classes={{ selected: classes.tabSelected }}
-            icon={
-                <img
-                    src={`${analysesTabIcon}`}
-                    alt={t("analyses")}
-                    className={classes.tabIcon}
-                />
-            }
-        />
-    );
-
-    let tabsToRender = [dataTab, appsTab, analysesTab];
-    let totalResults = dataCount + appsCount + analysesCount;
-    if (filter === searchConstants.DATA) {
-        tabsToRender = dataTab;
-        totalResults = dataCount;
-    } else if (filter === searchConstants.APPS) {
-        tabsToRender = appsTab;
-        totalResults = appsCount;
-    } else if (filter === searchConstants.ANALYSES) {
-        tabsToRender = analysesTab;
-        totalResults = analysesCount;
-    }
+    const totalResults = dataCount + appsCount + analysesCount;
 
     if (!searchTerm && !isMobile) {
         return (
@@ -223,7 +141,62 @@ function DetailedSearchResults(props) {
                 centered={!isMobile}
                 variant={isMobile ? "fullWidth" : "standard"}
             >
-                {tabsToRender}
+                <Tab
+                    value={SEARCH_RESULTS_TABS.data}
+                    key={dataTabId}
+                    id={dataTabId}
+                    label={
+                        isMobile
+                            ? dataCount
+                            : t("search:dataSearchTab", { count: dataCount })
+                    }
+                    classes={{ selected: classes.tabSelected }}
+                    icon={
+                        <img
+                            src={`${dataTabIcon}`}
+                            alt={t("data")}
+                            className={classes.tabIcon}
+                        />
+                    }
+                />
+                <Tab
+                    value={SEARCH_RESULTS_TABS.apps}
+                    key={appsTabId}
+                    id={appsTabId}
+                    label={
+                        isMobile
+                            ? appsCount
+                            : t("search:appsSearchTab", { count: appsCount })
+                    }
+                    classes={{ selected: classes.tabSelected }}
+                    icon={
+                        <img
+                            src={`${appsTabIcon}`}
+                            alt={t("apps")}
+                            className={classes.tabIcon}
+                        />
+                    }
+                />
+                <Tab
+                    value={SEARCH_RESULTS_TABS.analyses}
+                    key={analysesTabId}
+                    id={analysesTabId}
+                    label={
+                        isMobile
+                            ? analysesCount
+                            : t("search:analysesSearchTab", {
+                                  count: analysesCount,
+                              })
+                    }
+                    classes={{ selected: classes.tabSelected }}
+                    icon={
+                        <img
+                            src={`${analysesTabIcon}`}
+                            alt={t("analyses")}
+                            className={classes.tabIcon}
+                        />
+                    }
+                />
             </Tabs>
 
             <DETabPanel

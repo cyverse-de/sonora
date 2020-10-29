@@ -116,6 +116,21 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const getViewAllPrompt = (id, searchTerm, i18NSearch) => {
+    let prompt = i18NSearch("viewAllDataResults", { searchTerm });
+    let selectedTab = SEARCH_RESULTS_TABS.data;
+
+    if (id === searchConstants.VIEW_ALL_ANALYSES_ID) {
+        prompt = i18NSearch("viewAllDataResults", { searchTerm });
+        selectedTab = SEARCH_RESULTS_TABS.analyses;
+    } else if (id === searchConstants.VIEW_ALL_APPS_ID) {
+        prompt = i18NSearch("viewAllAppsResults", { searchTerm });
+        selectedTab = SEARCH_RESULTS_TABS.apps;
+    }
+
+    return [prompt, selectedTab];
+};
+
 const SearchOption = React.forwardRef((props, ref) => {
     const { id, primary, secondary, icon, searchTerm, onClick, href } = props;
     const classes = useStyles();
@@ -155,8 +170,8 @@ const SearchOption = React.forwardRef((props, ref) => {
 
 function ViewAllOption(props) {
     const { id, searchTerm, filter, prompt, selectedTab } = props;
-    const href = `${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selectedTab}`;
-    const as = `${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selectedTab}`;
+    const href = `/${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selectedTab}`;
+    const as = `/${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selectedTab}`;
     return (
         <Link href={href} as={as} passHref>
             <SearchOption
@@ -180,13 +195,24 @@ function DataSearchOption(props) {
     const name = selectedOption.name;
     const [href, as] = useDataNavigationLink(path, resourceId, type);
 
-    if (selectedOption?.id === searchConstants.VIEW_ALL_ID) {
+    const id = selectedOption?.id;
+
+    if (
+        id === searchConstants.VIEW_ALL_ANALYSES_ID ||
+        id === searchConstants.VIEW_ALL_APPS_ID ||
+        id === searchConstants.VIEW_ALL_DATA_ID
+    ) {
+        const [prompt, selectedTab] = getViewAllPrompt(
+            id,
+            searchTerm,
+            i18NSearch
+        );
         return (
             <ViewAllOption
                 searchTerm={searchTerm}
                 filter={filter}
-                prompt={i18NSearch("viewAllDataResults", { searchTerm })}
-                selectedTab={SEARCH_RESULTS_TABS.data}
+                prompt={prompt}
+                selectedTab={selectedTab}
                 id={build(baseId, ids.VIEW_ALL)}
             />
         );
@@ -219,13 +245,24 @@ function AppsSearchOption(props) {
         selectedOption?.id
     );
 
-    if (selectedOption?.id === searchConstants.VIEW_ALL_ID) {
+    const id = selectedOption?.id;
+
+    if (
+        id === searchConstants.VIEW_ALL_ANALYSES_ID ||
+        id === searchConstants.VIEW_ALL_APPS_ID ||
+        id === searchConstants.VIEW_ALL_DATA_ID
+    ) {
+        const [prompt, selectedTab] = getViewAllPrompt(
+            id,
+            searchTerm,
+            i18NSearch
+        );
         return (
             <ViewAllOption
                 searchTerm={searchTerm}
                 filter={filter}
-                prompt={i18NSearch("viewAllAppsResults", { searchTerm })}
-                selectedTab={SEARCH_RESULTS_TABS.apps}
+                prompt={prompt}
+                selectedTab={selectedTab}
                 id={build(baseId, ids.VIEW_ALL)}
             />
         );
@@ -249,13 +286,24 @@ function AnalysesSearchOption(props) {
     const { t: i18NSearch } = useTranslation("search");
     const { baseId, filter, selectedOption, searchTerm } = props;
 
-    if (selectedOption?.id === searchConstants.VIEW_ALL_ID) {
+    const id = selectedOption?.id;
+
+    if (
+        id === searchConstants.VIEW_ALL_ANALYSES_ID ||
+        id === searchConstants.VIEW_ALL_APPS_ID ||
+        id === searchConstants.VIEW_ALL_DATA_ID
+    ) {
+        const [prompt, selectedTab] = getViewAllPrompt(
+            id,
+            searchTerm,
+            i18NSearch
+        );
         return (
             <ViewAllOption
                 searchTerm={searchTerm}
                 filter={filter}
-                prompt={i18NSearch("viewAllAnalysesResults", { searchTerm })}
-                selectedTab={SEARCH_RESULTS_TABS.analyses}
+                prompt={prompt}
+                selectedTab={selectedTab}
                 id={build(baseId, ids.VIEW_ALL)}
             />
         );
@@ -315,6 +363,27 @@ function GlobalSearchField(props) {
         userHomeDir = userHomeDir + "/";
     }
 
+    const viewAllAnalysesOptions = {
+        id: searchConstants.VIEW_ALL_ANALYSES_ID,
+        name: searchTerm,
+        resultType: {
+            type: t("analyses"),
+            id: searchConstants.ANALYSES,
+        },
+    };
+
+    const viewAllDataOptions = {
+        id: searchConstants.VIEW_ALL_DATA_ID,
+        name: searchTerm,
+        resultType: { type: t("data"), id: searchConstants.DATA },
+    };
+
+    const viewAllAppOptions = {
+        id: searchConstants.VIEW_ALL_APPS_ID,
+        name: searchTerm,
+        resultType: { type: t("apps"), id: searchConstants.APPS },
+    };
+
     useEffect(() => {
         setFilter(selectedFilter);
     }, [selectedFilter]);
@@ -334,15 +403,22 @@ function GlobalSearchField(props) {
                         id: searchConstants.ANALYSES,
                     };
                 });
-                const viewAll = {
-                    id: searchConstants.VIEW_ALL_ID,
-                    name: searchTerm,
-                    resultType: {
-                        type: t("analyses"),
-                        id: searchConstants.ANALYSES,
-                    },
-                };
-                setOptions([...options, ...analyses, viewAll]);
+
+                if (filter === searchConstants.ANALYSES) {
+                    setOptions([
+                        ...options,
+                        ...analyses,
+                        viewAllAnalysesOptions,
+                        viewAllAppOptions,
+                        viewAllDataOptions,
+                    ]);
+                } else {
+                    setOptions([
+                        ...options,
+                        ...analyses,
+                        viewAllAnalysesOptions,
+                    ]);
+                }
             }
         }
     );
@@ -359,12 +435,17 @@ function GlobalSearchField(props) {
                         id: searchConstants.APPS,
                     };
                 });
-                const viewAll = {
-                    id: searchConstants.VIEW_ALL_ID,
-                    name: searchTerm,
-                    resultType: { type: t("apps"), id: searchConstants.APPS },
-                };
-                setOptions([...options, ...apps, viewAll]);
+                if (filter === searchConstants.APPS) {
+                    setOptions([
+                        ...options,
+                        ...apps,
+                        viewAllAppOptions,
+                        viewAllAnalysesOptions,
+                        viewAllDataOptions,
+                    ]);
+                } else {
+                    setOptions([...options, ...apps, viewAllAppOptions]);
+                }
             }
         }
     );
@@ -382,12 +463,17 @@ function GlobalSearchField(props) {
                         id: searchConstants.DATA,
                     };
                 });
-                const viewAll = {
-                    id: searchConstants.VIEW_ALL_ID,
-                    name: searchTerm,
-                    resultType: { type: t("data"), id: searchConstants.DATA },
-                };
-                setOptions([...options, ...data, viewAll]);
+                if (filter === searchConstants.DATA) {
+                    setOptions([
+                        ...options,
+                        ...data,
+                        viewAllDataOptions,
+                        viewAllAppOptions,
+                        viewAllDataOptions,
+                    ]);
+                } else {
+                    setOptions([...options, ...data, viewAllDataOptions]);
+                }
             }
         }
     );

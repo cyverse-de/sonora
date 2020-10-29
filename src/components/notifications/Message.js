@@ -14,7 +14,7 @@ import NotificationCategory from "components/models/NotificationCategory";
 import SystemId from "components/models/systemId";
 
 import { getAnalysisDetailsLinkRefs } from "components/analyses/utils";
-import { getListingPath } from "components/apps/utils";
+import { getAppListingLinkRefs } from "components/apps/utils";
 import { getFolderPage, getParentPath } from "components/data/utils";
 import NameLink from "components/utils/NameLink";
 
@@ -63,19 +63,12 @@ function AppLink(props) {
     if (action === "share" && notification.payload?.apps?.length > 0) {
         const app = notification.payload.apps[0];
 
-        const href = getListingPath(
-            null,
-            null,
-            null,
-            null,
-            null,
-            JSON.stringify({
-                system_id: app.system_id || SystemId.de,
-                id: app.category_id,
-            })
+        const [href, as] = getAppListingLinkRefs(
+            app.system_id || SystemId.de,
+            app.app_id
         );
 
-        return <MessageLink message={message} href={href} />;
+        return <MessageLink message={message} href={href} as={as} />;
     }
 
     return message;

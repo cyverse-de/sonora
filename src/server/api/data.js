@@ -44,7 +44,7 @@ export default function dataRouter() {
     api.get(
         "/filesystem/root",
         auth.authnTokenMiddleware,
-        terrainHandler({ method: "GET", pathname: "/secured/filesystem/root" })
+        terrainHandler({ method: "GET", pathname: "/filesystem/root" })
     );
 
     logger.info(
@@ -119,7 +119,7 @@ export default function dataRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
-            pathname: "/secured/filetypes/type-list",
+            pathname: "/filetypes/type-list",
         })
     );
 
@@ -142,7 +142,7 @@ export default function dataRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
-            pathname: "/secured/filesystem/search",
+            pathname: "/filesystem/search",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -165,7 +165,7 @@ export default function dataRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
-            pathname: "/secured/filesystem/read-chunk",
+            pathname: "/filesystem/read-chunk",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -178,7 +178,7 @@ export default function dataRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
-            pathname: "/secured/filesystem/read-csv-chunk",
+            pathname: "/filesystem/read-csv-chunk",
             headers: {
                 "Content-Type": "application/json",
             },

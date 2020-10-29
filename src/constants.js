@@ -61,4 +61,5 @@ export default {
         SPECIAL_CHARS:
             "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027163/Troubleshooting+an+Analysis#TroubleshootinganAnalysis-3.Checktheinputfilesandparameter",
     },
+    ANONYMOUS_USER: "anonymous",
 };

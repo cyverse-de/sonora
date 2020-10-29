@@ -99,6 +99,7 @@ const validate = () => {
 
     //irods settings
     validateConfigSetting("irods.home_path");
+    validateConfigSetting("irods.trash_path");
 };
 
 validate();
@@ -245,3 +246,15 @@ export const amqpUri = config.get("amqp.amqp_uri");
  *
  */
 export const amqpExchangeName = config.get("amqp.exchange_name");
+
+/**
+ * iRods home path
+ * @type {string}
+ */
+export const iRodsHome = config.get("irods.home_path");
+
+/**
+ * iRods trash path
+ * @type {string}
+ */
+export const iRodsTrash = config.get("irods.trash_path");

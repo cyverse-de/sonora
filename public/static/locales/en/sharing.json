@@ -1,5 +1,6 @@
 {
     "cannotAddSelf": "Cannot add yourself for sharing",
+    "cyverseId": "CyVerse ID: {{id}}",
     "dataGroupSharingDisabled": "Data and/or analyses resources cannot be shared with groups at this time",
     "fetchPermissionsError": "Failed to fetch resource permissions",
     "fetchUserInfoError": "Failed to fetch user information",

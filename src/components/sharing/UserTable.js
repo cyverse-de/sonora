@@ -16,12 +16,13 @@ import {
     TableHead,
     TableRow,
     TableSortLabel,
+    Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useSortBy, useTable } from "react-table";
 
 import { useTranslation } from "i18n";
-import { getUserPrimaryText, getUserSecondaryText } from "./util";
+import { getUserPrimaryText, getUserSecondaryText, isGroup } from "./util";
 import ids from "./ids";
 import SharingPermissionSelector from "./SharingPermissionSelector";
 import styles from "./styles";
@@ -39,14 +40,32 @@ function UserTable(props) {
             {
                 Header: t("user"),
                 accessor: getUserPrimaryText,
-                Cell: ({ row, value }) => (
-                    <ListItem classes={{ root: classes.listItem }}>
-                        <ListItemText
-                            primary={value}
-                            secondary={getUserSecondaryText(row.original)}
-                        />
-                    </ListItem>
-                ),
+                Cell: ({ row, value }) => {
+                    const user = row.original;
+                    return (
+                        <ListItem classes={{ root: classes.listItem }}>
+                            <ListItemText
+                                primary={value}
+                                secondary={
+                                    <Typography
+                                        variant="body2"
+                                        color="textSecondary"
+                                    >
+                                        {!isGroup(user) && (
+                                            <>
+                                                {t("cyverseId", {
+                                                    id: user.id,
+                                                })}
+                                                <br />
+                                            </>
+                                        )}
+                                        {getUserSecondaryText(user)}
+                                    </Typography>
+                                }
+                            />
+                        </ListItem>
+                    );
+                },
             },
             {
                 Header: t("permission"),

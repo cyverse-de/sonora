@@ -188,6 +188,16 @@ function Sharing(props) {
         setUserMap(updated);
     };
 
+    const handleClose = () => {
+        setPermissions([]);
+        setUserMap({});
+        setOriginalUsers({});
+        setUserIdList([]);
+        setErrorDetails(null);
+
+        onClose();
+    };
+
     const [sendSharingUpdates, { isLoading: isSaving }] = useMutation(
         doSharingUpdates,
         {
@@ -212,7 +222,7 @@ function Sharing(props) {
                         error: failures,
                     });
                 } else {
-                    onClose();
+                    handleClose();
                 }
             },
             onError: (error) => {
@@ -239,7 +249,7 @@ function Sharing(props) {
     return (
         <Dialog
             open={open}
-            onClose={onClose}
+            onClose={handleClose}
             maxWidth="lg"
             fullWidth
             id={baseId}
@@ -248,7 +258,7 @@ function Sharing(props) {
                 {tSharing("sharing")}
                 <IconButton
                     aria-label={tCommon("cancel")}
-                    onClick={onClose}
+                    onClick={handleClose}
                     size="small"
                     classes={{ root: classes.closeButton }}
                     id={build(baseId, ids.TITLE_BAR, ids.BUTTONS.CANCEL)}
@@ -344,10 +354,7 @@ function Sharing(props) {
             <DialogActions>
                 <Button
                     id={build(baseId, ids.BUTTONS.CANCEL)}
-                    onClick={() => {
-                        setErrorDetails(null);
-                        onClose();
-                    }}
+                    onClick={handleClose}
                 >
                     {tCommon("cancel")}
                 </Button>
@@ -355,10 +362,7 @@ function Sharing(props) {
                     id={build(baseId, ids.BUTTONS.SAVE)}
                     color="primary"
                     type="submit"
-                    onClick={() => {
-                        setErrorDetails(null);
-                        onSave();
-                    }}
+                    onClick={onSave}
                 >
                     {tCommon("done")}
                 </Button>

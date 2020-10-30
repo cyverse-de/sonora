@@ -1,38 +1,27 @@
 import React from "react";
 
-import { withKnobs, select } from "@storybook/addon-knobs";
-
 import { deWordCountAnalysis, agaveWordCountAnalysis } from "./AnalysesMocks";
 
 import ShareWithSupportDialog from "components/analyses/ShareWithSupportDialog";
 
-export const ShareAnalysisWithSupport = () => {
+const analysisSystem = ["de", "agave"];
+const status = ["Submitted", "Running", "Completed", "Failed"];
+
+export const ShareAnalysisWithSupport = ({ system, status }) => {
     const [loading, setLoading] = React.useState(false);
+    let analysis = {};
 
-    const analysisSystemSelect = select(
-        "Analysis System",
-        {
-            de: deWordCountAnalysis,
-            agave: agaveWordCountAnalysis,
-        },
-        deWordCountAnalysis
-    );
-
-    const analysisStatusSelect = select(
-        "Analysis Status",
-        {
-            Submitted: "Submitted",
-            Running: "Running",
-            Completed: "Completed",
-            Failed: "Failed",
-        },
-        "Submitted"
-    );
-
-    const analysis = {
-        ...analysisSystemSelect,
-        status: analysisStatusSelect,
-    };
+    if (system === "de") {
+        analysis = {
+            ...deWordCountAnalysis,
+            status,
+        };
+    } else {
+        analysis = {
+            ...agaveWordCountAnalysis,
+            status,
+        };
+    }
 
     return (
         <ShareWithSupportDialog
@@ -56,5 +45,19 @@ export const ShareAnalysisWithSupport = () => {
 
 export default {
     title: "Analyses",
-    decorators: [withKnobs],
+    component: ShareWithSupportDialog,
+    argTypes: {
+        system: {
+            control: {
+                type: "select",
+                options: analysisSystem,
+            },
+        },
+        status: {
+            control: {
+                type: "select",
+                options: status,
+            },
+        },
+    },
 };

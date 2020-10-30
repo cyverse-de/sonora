@@ -142,5 +142,5 @@ export const SelectionDrawer = () => {
 };
 
 export default {
-    title: "Data",
+    title: "Data / Selection",
 };

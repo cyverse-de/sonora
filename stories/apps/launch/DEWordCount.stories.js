@@ -7,8 +7,6 @@ import { saveQuickLaunch, submitAnalysis } from "./constants";
 import AppLaunchStoryBase from "./AppLaunchStoryBase";
 import WordCountApp from "./data/WordCountApp";
 
-import { withKnobs, boolean } from "@storybook/addon-knobs";
-
 const errorObject = {
     response: {
         status: 404,
@@ -19,14 +17,14 @@ const errorObject = {
     },
 };
 
-export const DEWordCount = () => {
+export const DEWordCount = ({
+    deleted,
+    disabled,
+    loading,
+    loadingError,
+    submissionError,
+}) => {
     const [appError, setAppError] = React.useState(null);
-
-    const deleted = boolean("App deleted", false);
-    const disabled = boolean("App disabled", false);
-    const loading = boolean("Loading mask", false);
-    const loadingError = boolean("Loading error", false);
-    const submissionError = boolean("Submission error", false);
 
     const submissionOnSuccess = (onSuccess, onError) => (resp) => {
         if (submissionError) {
@@ -75,4 +73,34 @@ export const DEWordCount = () => {
     );
 };
 
-export default { title: "Apps / Launch", decorators: [withKnobs] };
+export default {
+    title: "Apps / Launch",
+    component: AppLaunchStoryBase,
+    argTypes: {
+        deleted: {
+            control: {
+                type: "boolean",
+            },
+        },
+        disabled: {
+            control: {
+                type: "boolean",
+            },
+        },
+        loading: {
+            control: {
+                type: "boolean",
+            },
+        },
+        loadingError: {
+            control: {
+                type: "boolean",
+            },
+        },
+        submissionError: {
+            control: {
+                type: "boolean",
+            },
+        },
+    },
+};

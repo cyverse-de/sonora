@@ -1,7 +1,5 @@
 import React from "react";
 
-import { withKnobs, boolean } from "@storybook/addon-knobs";
-
 import AppLaunchStoryBase from "./AppLaunchStoryBase";
 
 const errorObject = {
@@ -14,9 +12,7 @@ const errorObject = {
     },
 };
 
-export const LoadingError = () => {
-    const customMessage = boolean("Longer Error Message", false);
-
+export const LoadingError = ({ customMessage }) => {
     return (
         <AppLaunchStoryBase
             appError={{
@@ -31,4 +27,14 @@ export const LoadingError = () => {
     );
 };
 
-export default { title: "Apps / Launch", decorators: [withKnobs] };
+export default {
+    title: "Apps / Launch",
+    component: AppLaunchStoryBase,
+    argTypes: {
+        customMessage: {
+            control: {
+                type: "boolean",
+            },
+        },
+    },
+};

@@ -1,6 +1,5 @@
 import React from "react";
 
-import { withKnobs, boolean, select } from "@storybook/addon-knobs";
 import DetailsDrawer from "../../src/components/data/details/Drawer";
 import {
     fileTypesResp,
@@ -14,7 +13,9 @@ import {
 } from "./DataMocks";
 import { mockAxios } from "../axiosMock";
 
-export const DetailsDrawerTest = () => {
+const resType = ["FILE", "FOLDER"];
+
+export const DetailsDrawerTest = ({ resourceType, open }) => {
     const logger = (message) => {
         console.log(message);
     };
@@ -58,14 +59,13 @@ export const DetailsDrawerTest = () => {
         ],
     };
 
-    const resourceTypeSelect = select(
-        "Resource Type",
-        {
-            dir: dirResource,
-            file: fileResource,
-        },
-        dirResource
-    );
+    let resourceTypeSelect;
+
+    if (resourceType === "FILE") {
+        resourceTypeSelect = fileResource;
+    } else {
+        resourceTypeSelect = dirResource;
+    }
 
     const permissionsResp = {
         paths: [
@@ -126,7 +126,7 @@ export const DetailsDrawerTest = () => {
 
     return (
         <DetailsDrawer
-            open={boolean("Open Drawer", true)}
+            open={open}
             onClose={() => logger("Close Drawer")}
             baseId="data"
             infoTypes={fileTypesResp.types}
@@ -136,6 +136,19 @@ export const DetailsDrawerTest = () => {
 };
 
 export default {
-    title: "Data",
-    decorators: [withKnobs],
+    title: "Data/Details",
+    component: DetailsDrawer,
+    argTypes: {
+        resourceType: {
+            control: {
+                type: "select",
+                options: resType,
+            },
+        },
+        open: {
+            control: {
+                type: "boolean",
+            },
+        },
+    },
 };

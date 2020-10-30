@@ -1,7 +1,5 @@
 import React from "react";
 
-import { withKnobs } from "@storybook/addon-knobs";
-
 import { mockAxios } from "../axiosMock";
 
 import Bag, {
@@ -13,7 +11,6 @@ import Bag, {
 
 export default {
     title: "Bags/Bag",
-    decorators: [withKnobs],
 };
 
 const data = {

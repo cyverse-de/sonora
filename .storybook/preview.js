@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import { withConsole } from "@storybook/addon-console";
-import { addDecorator, addParameters, configure } from "@storybook/react";
 import { CyVerseAnnouncer } from "@cyverse-de/ui-lib";
 import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "../src/components/theme/default";
@@ -36,25 +34,24 @@ function MockUserProfile() {
 const queryConfig = {
     queries: { refetchOnWindowFocus: false, retry: false },
 };
-addDecorator((storyFn) => (
-    <ThemeProvider theme={theme}>
-        <UserProfileProvider>
-            <ReactQueryConfigProvider config={queryConfig}>
-                <I18nProviderWrapper>
-                    <MockUserProfile />
-                    <PreferencesProvider>
-                        {storyFn()}
-                        <CyVerseAnnouncer />
-                    </PreferencesProvider>
-                </I18nProviderWrapper>
-            </ReactQueryConfigProvider>
-        </UserProfileProvider>
-    </ThemeProvider>
-));
 
-//redirect console error / logs / warns to action logger
-addDecorator((storyFn, context) => withConsole()(storyFn)(context));
-
-addParameters({ chromatic: { delay: AXIOS_DELAY + 500 } });
-
-configure(require.context("../stories", true, /\.stories\.js$/), module);
+export const decorators = [
+    (Story) => (
+        <ThemeProvider theme={theme}>
+            <UserProfileProvider>
+                <ReactQueryConfigProvider config={queryConfig}>
+                    <I18nProviderWrapper>
+                        <MockUserProfile />
+                        <PreferencesProvider>
+                            {Story()}
+                            <CyVerseAnnouncer />
+                        </PreferencesProvider>
+                    </I18nProviderWrapper>
+                </ReactQueryConfigProvider>
+            </UserProfileProvider>
+        </ThemeProvider>
+    ),
+];
+export const parameters = {
+    chromatic: { delay: AXIOS_DELAY + 500 },
+};

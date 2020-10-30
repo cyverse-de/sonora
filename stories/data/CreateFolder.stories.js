@@ -1,23 +1,19 @@
 import React from "react";
 
-import { boolean, withKnobs } from "@storybook/addon-knobs";
-
 import { createFolderFailResp, createFolderSuccessResp } from "./DataMocks";
 import { mockAxios } from "../axiosMock";
 import CreateResourceDialog from "../../src/components/data/CreateFolderDialog";
 
-export const CreateFolderTest = () => {
+export const CreateFolderTest = ({ success }) => {
     const logger = (message) => {
         console.log(message);
     };
 
-    const successResp = boolean("Success Response", true);
-
     mockAxios
         .onPost(/\/api\/filesystem\/directory\/create/)
         .reply(
-            successResp ? 200 : 500,
-            successResp ? createFolderSuccessResp : createFolderFailResp
+            success ? 200 : 500,
+            success ? createFolderSuccessResp : createFolderFailResp
         );
 
     return (
@@ -31,6 +27,13 @@ export const CreateFolderTest = () => {
 };
 
 export default {
-    title: "Data",
-    decorators: [withKnobs],
+    title: "Data/Create Folder",
+    component: CreateResourceDialog,
+    argTypes: {
+        success: {
+            control: {
+                type: "boolean",
+            },
+        },
+    },
 };

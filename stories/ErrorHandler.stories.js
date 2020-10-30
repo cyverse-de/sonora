@@ -1,5 +1,4 @@
 import React from "react";
-import { select, withKnobs } from "@storybook/addon-knobs";
 import ErrorHandler from "../src/components/utils/error/ErrorHandler";
 
 const errorResponse = {
@@ -109,15 +108,22 @@ const loginErrorObject = {
     },
     response: loginErrorResponse,
 };
+const errorCodes = ["empty", "401", "500"];
+export default {
+    title: "Error Handler",
+    component: ErrorHandler,
+    argTypes: {
+        errorCode: {
+            control: {
+                type: "select",
+                options: errorCodes,
+            },
+        },
+    },
+};
 
-export default { title: "Error Handler", decorators: [withKnobs] };
-
-export function ErrorHandlerTest() {
-    const label = "Type";
-    const options = ["empty", "401", "500"];
-    const defaultValue = "empty";
-    const groupId = "errors";
-    const value = select(label, options, defaultValue, groupId);
+export function ErrorHandlerTest({ errorCode }) {
+    const value = errorCodes.find((e) => e === errorCode);
     let errObj = null;
     if (value === "401") {
         errObj = loginErrorObject;

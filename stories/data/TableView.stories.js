@@ -75,4 +75,4 @@ export const DataTableViewTest = () => {
     );
 };
 
-export default { title: "Data" };
+export default { title: "Data / TableView" };

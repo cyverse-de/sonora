@@ -16,7 +16,7 @@ import SystemId from "components/models/systemId";
 import { getAnalysisDetailsLinkRefs } from "components/analyses/utils";
 import { getAppListingLinkRefs } from "components/apps/utils";
 import { getFolderPage, getParentPath } from "components/data/utils";
-import NameLink from "components/utils/NameLink";
+import DELink from "components/utils/DELink";
 
 import { Typography } from "@material-ui/core";
 
@@ -25,7 +25,7 @@ function MessageLink(props) {
 
     return (
         <Link href={href} as={as} passHref>
-            <NameLink name={message} />
+            <DELink text={message} />
         </Link>
     );
 }

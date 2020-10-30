@@ -8,7 +8,7 @@ import { useTranslation } from "i18n";
 import PropTypes from "prop-types";
 
 import Link from "next/link";
-import NameLink from "components/utils/NameLink";
+import DELink from "components/utils/DELink";
 import { Highlighter } from "@cyverse-de/ui-lib";
 import { useAppLaunchLink } from "./utils";
 
@@ -32,8 +32,8 @@ function AppName(props) {
     if (!isDisabled) {
         return (
             <Link href={href} as={as} passHref>
-                <NameLink
-                    name={name}
+                <DELink
+                    text={name}
                     id={baseDebugId}
                     title={title}
                     searchTerm={searchTerm}

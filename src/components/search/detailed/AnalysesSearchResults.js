@@ -23,7 +23,7 @@ import NavigationConstants from "common/NavigationConstants";
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
 import analysisFields from "components/analyses/analysisFields";
 
-import NameLink from "components/utils/NameLink";
+import DELink from "components/utils/DELink";
 import Drawer from "components/analyses/details/Drawer";
 import Actions from "components/analyses/listing/Actions";
 import { openInteractiveUrl } from "components/analyses/utils";
@@ -37,7 +37,7 @@ function Name(props) {
     const as = `/${NavigationConstants.ANALYSES}/${analysis?.id}`;
     return (
         <Link href={href} as={as} passHref>
-            <NameLink name={analysis.name} searchTerm={searchTerm} />
+            <DELink text={analysis.name} searchTerm={searchTerm} />
         </Link>
     );
 }

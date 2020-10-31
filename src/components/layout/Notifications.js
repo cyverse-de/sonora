@@ -11,12 +11,19 @@ import { useTranslation } from "i18n";
 import Link from "next/link";
 
 import ids from "./ids";
-import constants from "../../constants";
+
 import { useGotoOutputFolderLink } from "components/analyses/utils";
 import analysisStatus from "components/models/analysisStatus";
+import NotificationCategory from "components/models/NotificationCategory";
+
 import { useNotifications } from "contexts/pushNotifications";
 
 import NotificationsMenu from "../notifications/NotificationsMenu";
+import {
+    ANALYSIS_EMAIL_TEMPLATE,
+    getDisplayMessage,
+} from "../notifications/utils";
+
 import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
 
 import {
@@ -28,15 +35,6 @@ import {
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-
-const ANALYSIS_EMAIL_TEMPLATE = "analysis_status_change";
-
-export function getDisplayMessage(notification) {
-    return notification.type === "data" &&
-        notification["email_template"] !== ANALYSIS_EMAIL_TEMPLATE
-        ? notification.subject
-        : notification.message.text;
-}
 
 const GotoOutputFolderButton = React.forwardRef((props, ref) => {
     const { onClick, href } = props;
@@ -114,7 +112,7 @@ function Notifications(props) {
         (notification, category) => {
             let analysisStatus =
                 category.toLowerCase() ===
-                    constants.NOTIFICATION_CATEGORY.ANALYSIS.toLowerCase() ||
+                    NotificationCategory.ANALYSIS.toLowerCase() ||
                 notification["email_template"] === ANALYSIS_EMAIL_TEMPLATE
                     ? notification.payload.status
                     : "";

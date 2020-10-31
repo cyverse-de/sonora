@@ -8,9 +8,6 @@ export default (theme) => ({
     header: {
         marginLeft: theme.spacing(1),
     },
-    notification: {
-        cursor: "pointer",
-    },
     toolbarButton: {
         [theme.breakpoints.down("xs")]: {
             margin: theme.spacing(0.5),

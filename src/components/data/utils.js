@@ -29,7 +29,7 @@ function getEncodedPath(path) {
  * @param {string} folderPath The data store path to the folder.
  */
 const getFolderPage = (folderPath) =>
-    `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}ds${folderPath}`;
+    `${constants.PATH_SEPARATOR}${NavigationConstants.DATA}${constants.PATH_SEPARATOR}${constants.DATA_STORE_STORAGE_ID}${folderPath}`;
 
 const validateDiskResourceName = (name, i18nFn) => {
     if (name === "") {

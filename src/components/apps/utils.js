@@ -36,6 +36,21 @@ export const getListingPath = (
     `/${NavigationConstants.APPS}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedFilter=${filter}&selectedCategory=${category}`;
 
 /**
+ * Builds `href` and `as` paths for use in an app listing next/link
+ *
+ * @param {string} systemId The app's system ID
+ * @param {string} appId The app's ID
+ *
+ * @return {array} [href, as] to be used in a next/link
+ */
+export const getAppListingLinkRefs = (systemId, appId) => {
+    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]`;
+    const as = `/${NavigationConstants.APPS}/${systemId}/${appId}`;
+
+    return [href, as];
+};
+
+/**
  * Builds a path to the App Launch Wizard for the app with the given IDs.
  *
  * @param {string} systemId The app's system ID.

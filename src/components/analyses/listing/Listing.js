@@ -33,7 +33,6 @@ import {
 
 import { canShare, openInteractiveUrl } from "../utils";
 
-import constants from "../../../constants";
 import ConfirmationDialog from "../../utils/ConfirmationDialog";
 import DEPagination from "../../utils/DEPagination";
 import withErrorAnnouncer from "../../utils/error/withErrorAnnouncer";
@@ -50,6 +49,7 @@ import AnalysesToolbar from "../toolbar/Toolbar";
 
 import analysisStatus from "components/models/analysisStatus";
 import appType from "components/models/AppType";
+import NotificationCategory from "components/models/NotificationCategory";
 
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
@@ -403,7 +403,7 @@ function Listing(props) {
                 const category = message.type;
                 if (
                     category?.toLowerCase() ===
-                        constants.NOTIFICATION_CATEGORY.ANALYSIS.toLowerCase() &&
+                        NotificationCategory.ANALYSIS.toLowerCase() &&
                     data
                 ) {
                     const analysisStatus = message.payload.status;

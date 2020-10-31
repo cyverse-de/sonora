@@ -11,7 +11,7 @@ import { useQuery, queryCache } from "react-query";
 import Link from "next/link";
 import { useTranslation } from "i18n";
 
-import NameLink from "components/utils/NameLink";
+import DELink from "components/utils/DELink";
 
 import constants from "../../../constants";
 import SearchResultsTable from "./SearchResultsTable";
@@ -45,7 +45,7 @@ function Name(props) {
     const [href, as] = useDataNavigationLink(path, resource?._id, type);
     return (
         <Link href={href} as={as} passHref>
-            <NameLink name={resource._source?.label} searchTerm={searchTerm} />
+            <DELink text={resource._source?.label} searchTerm={searchTerm} />
         </Link>
     );
 }

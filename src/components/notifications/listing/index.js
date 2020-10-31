@@ -17,7 +17,7 @@ import TableView from "./TableView";
 
 import { useTranslation } from "i18n";
 
-import notificationCategory from "components/models/notificationCategory";
+import NotificationCategory from "components/models/NotificationCategory";
 
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
@@ -28,8 +28,10 @@ import {
     markSeen,
 } from "serviceFacades/notifications";
 
+import { build as buildId } from "@cyverse-de/ui-lib";
+
 const NotificationView = (props) => {
-    const { baseDebugId, onMessageClicked, showErrorAnnouncer } = props;
+    const { baseDebugId, showErrorAnnouncer } = props;
 
     const [notifications, setNotifications] = React.useState({});
     const [offset, setOffset] = React.useState(0);
@@ -37,7 +39,7 @@ const NotificationView = (props) => {
     const [selected, setSelected] = React.useState([]);
     const [order, setOrder] = React.useState(constants.SORT_DESCENDING);
     const [orderBy, setOrderBy] = React.useState("timestamp");
-    const [filter, setFilter] = React.useState(notificationCategory.all);
+    const [filter, setFilter] = React.useState(NotificationCategory.ALL);
     const [markAsSeenEnabled, setMarkAsSeenEnabled] = React.useState(true);
 
     const [notificationsKey, setNotificationsKey] = React.useState(
@@ -63,7 +65,7 @@ const NotificationView = (props) => {
         setNotificationsKey([
             NOTIFICATIONS_MESSAGES_QUERY_KEY,
             {
-                filter: filter === notificationCategory.all ? null : filter,
+                filter: filter === NotificationCategory.ALL ? null : filter,
                 orderBy,
                 order,
                 limit: rowsPerPage,
@@ -147,7 +149,7 @@ const NotificationView = (props) => {
         setFilter(event.target.value);
     };
 
-    const baseId = baseDebugId + ids.NOTIFICATION_VIEW;
+    const baseId = buildId(baseDebugId, ids.NOTIFICATION_VIEW);
 
     const hasSelection = selected.length > 0;
 
@@ -172,7 +174,6 @@ const NotificationView = (props) => {
                 rowsPerPage={rowsPerPage}
                 selected={selected}
                 total={parseInt(notifications?.total)}
-                onMessageClicked={onMessageClicked}
                 setOffset={setOffset}
                 setOrder={setOrder}
                 setOrderBy={setOrderBy}

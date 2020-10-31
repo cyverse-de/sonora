@@ -22,9 +22,6 @@ export default {
     WS_PROTOCOL: "ws://",
     WSS_PROTOCOL: "wss://",
     USER_PORTAL: "https://user.cyverse.org/register",
-    NOTIFICATION_CATEGORY: {
-        ANALYSIS: "Analysis",
-    },
     IPLANT: "iplantcollaborative",
     WEBSOCKET_MAX_CONNECTION_ATTEMPTS: 10,
     LOCAL_STORAGE: {

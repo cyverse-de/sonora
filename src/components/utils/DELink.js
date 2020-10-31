@@ -1,9 +1,12 @@
 /**
- * A component that display a Name field using material-ui/Link.
- * This component needs to wrapped by next/Link to avoid whole app refresh issue.
+ * A component that displays highlight-able text in a material-ui Link.
+ * This component is intended for links to other in-app DE pages
+ * and should be wrapped by a next/link to avoid whole-app page refreshes.
  *
  * @example
- *  <Link href={href} as={as} passHref><NameLink name="test" /></Link>
+ *  <Link href={href} as={as} passHref>
+ *      <DELink text="testing" searchTerm="test" />
+ *  </Link>
  *
  *
  * @author sriram
@@ -21,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
-const NameLink = React.forwardRef((props, ref) => {
-    const { id, name, title, searchTerm, onClick, href } = props;
+const DELink = React.forwardRef((props, ref) => {
+    const { id, text, title, searchTerm, onClick, href } = props;
     const classes = useStyles();
     return (
         <Link
@@ -38,9 +41,9 @@ const NameLink = React.forwardRef((props, ref) => {
                 }
             }}
         >
-            <Highlighter search={searchTerm}>{name}</Highlighter>
+            <Highlighter search={searchTerm || ""}>{text}</Highlighter>
         </Link>
     );
 });
 
-export default NameLink;
+export default DELink;

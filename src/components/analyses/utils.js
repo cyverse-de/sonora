@@ -122,6 +122,20 @@ const allowAnalysisEdit = (analysis, currentUser) =>
     currentUser === getAnalysisUser(analysis);
 
 /**
+ * Builds `href` and `as` paths for use in an analysis details next/link
+ *
+ * @param {string} analysisId - analysis ID
+ *
+ * @return {array} [href, as] to be used in next/link
+ */
+const getAnalysisDetailsLinkRefs = (analysisId) => {
+    const href = `/${NavigationConstants.ANALYSES}/[analysisId]`;
+    const as = `/${NavigationConstants.ANALYSES}/${analysisId}`;
+
+    return [href, as];
+};
+
+/**
  * Builds a path to the Analysis Relaunch page for the given analysis ID.
  *
  * @param {string} analysisId The analysis ID.
@@ -194,6 +208,7 @@ export {
     allowAnalysesRelaunch,
     allowAnalysisEdit,
     canShare,
+    getAnalysisDetailsLinkRefs,
     getAnalysisRelaunchPage,
     getListingPath,
     openInteractiveUrl,

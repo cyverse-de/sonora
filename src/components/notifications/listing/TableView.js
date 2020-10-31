@@ -6,22 +6,22 @@
  **/
 import React from "react";
 
-import classnames from "classnames";
-
 import constants from "../../../constants";
 
 import ids from "../ids";
 import styles from "../styles";
+import Message from "../Message";
 
 import { useTranslation } from "i18n";
 
-import notificationCategory from "components/models/notificationCategory";
+import { notificationTypeToCategory } from "components/models/NotificationCategory";
 
 import DEPagination from "components/utils/DEPagination";
 import TableLoading from "components/utils/TableLoading";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 
 import {
+    build as buildId,
     DECheckbox,
     EnhancedTableHead,
     EmptyTable,
@@ -66,16 +66,6 @@ const getColumns = (t) => [
     },
 ];
 
-function Message(props) {
-    const { className, message, onMessageClicked } = props;
-
-    return (
-        <TableCell className={className}>
-            <Typography onClick={onMessageClicked}>{message.text}</Typography>
-        </TableCell>
-    );
-}
-
 const TableView = (props) => {
     const {
         baseId,
@@ -87,7 +77,6 @@ const TableView = (props) => {
         rowsPerPage,
         selected,
         total,
-        onMessageClicked,
         setOffset,
         setOrder,
         setOrderBy,
@@ -164,15 +153,6 @@ const TableView = (props) => {
             toggleSelection(id);
             setLastSelectedIndex(index);
         }
-    };
-
-    const handleMessageClick = (event, notification, index) => {
-        event.stopPropagation();
-
-        setSelected([notification.message.id]);
-        setLastSelectedIndex(index);
-
-        onMessageClicked(notification.message);
     };
 
     const handleSelectAllClick = (event, checked) => {
@@ -257,32 +237,21 @@ const TableView = (props) => {
                                             </TableCell>
                                             <TableCell className={className}>
                                                 <Typography>
-                                                    {
-                                                        notificationCategory[
-                                                            n.type
-                                                                .replace(
-                                                                    /\s/g,
-                                                                    "_"
-                                                                )
-                                                                .toLowerCase()
-                                                        ]
-                                                    }
+                                                    {notificationTypeToCategory(
+                                                        n.type
+                                                    )}
                                                 </Typography>
                                             </TableCell>
-                                            <Message
-                                                className={classnames(
-                                                    classes.notification,
-                                                    className
-                                                )}
-                                                message={n.message}
-                                                onMessageClicked={(event) =>
-                                                    handleMessageClick(
-                                                        event,
-                                                        n,
-                                                        index
-                                                    )
-                                                }
-                                            />
+                                            <TableCell className={className}>
+                                                <Message
+                                                    baseId={buildId(
+                                                        baseId,
+                                                        ids.MESSAGE,
+                                                        n.id
+                                                    )}
+                                                    notification={n}
+                                                />
+                                            </TableCell>
                                             <TableCell className={className}>
                                                 <Typography variant="body2">
                                                     {formatDate(

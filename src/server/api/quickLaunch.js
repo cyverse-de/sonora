@@ -60,6 +60,71 @@ export default function quickLaunchRouter() {
         })
     );
 
+    logger.info("adding the GET /quicklaunches handler");
+    api.get(
+        "/quicklaunches",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/quicklaunches",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the GET /quicklaunches/:id handler");
+    api.get(
+        "/quicklaunches/:id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/quicklaunches/:id",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the PATCH /quicklaunches/:id handler");
+    api.patch(
+        "/quicklaunches/:id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/quicklaunches/:id",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the DELETE /quicklaunches/:id handler");
+    api.delete(
+        "/quicklaunches/:id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/quicklaunches/:id",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the GET /quicklaunches/:id/app-info handler");
+    api.get(
+        "/quicklaunches/:id/app-info",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "get",
+            pathname: "/quicklaunches/:id/app-info",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the GET /quicklaunches/defaults/global handler");
     api.get(
         "/quicklaunches/defaults/global",

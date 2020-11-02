@@ -60,5 +60,17 @@ export default function quickLaunchRouter() {
         })
     );
 
+    api.get(
+        "/quicklaunches/defaults/global",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/quicklaunches/default/global",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

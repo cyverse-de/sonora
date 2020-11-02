@@ -60,12 +60,65 @@ export default function quickLaunchRouter() {
         })
     );
 
+    logger.info("adding the GET /quicklaunches/defaults/global handler");
     api.get(
         "/quicklaunches/defaults/global",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
             pathname: "/quicklaunches/default/global",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the POST /quicklaunches/defaults/global handler");
+    api.post(
+        "/quicklaunches/default/global",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/quicklaunches/default/global",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the DELETE /quicklaunches/defaults/global/:id handler");
+    api.delete(
+        "/quicklaunches/default/global/:id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/quicklaunches/default/global/:id",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the GET /quicklaunches/defaults/global/:id handler");
+    api.get(
+        "/quicklaunches/default/global/:id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/quicklaunches/default/global/:id",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the PATCH /quicklaunches/defaults/global/:id handler");
+    api.patch(
+        "/quicklaunches/default/global/:id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/quicklaunches/default/global/:id",
             headers: {
                 "Content-Type": "application/json",
             },

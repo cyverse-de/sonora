@@ -1,26 +1,26 @@
 /**
  * @author psarando
  */
-import React, { Component } from "react";
+import React from "react";
 
 import { getIn } from "formik";
 import PropTypes from "prop-types";
-import { injectIntl } from "react-intl";
+
+import { useTranslation } from "i18n";
+
+import constants from "../../../constants";
 
 import ids from "../ids";
-import intlData from "./messages";
 import styles from "../styles";
+
+import TableLoading from "components/utils/TableLoading";
 
 import {
     build,
     DECheckbox,
-    DETableRow,
     EnhancedTableHead,
-    formatMessage,
-    getMessage,
     getSorting,
     stableSort,
-    withI18N,
 } from "@cyverse-de/ui-lib";
 
 import {
@@ -30,9 +30,10 @@ import {
     Table,
     TableBody,
     TableCell,
+    TableRow,
     Toolbar,
     Typography,
-    withStyles,
+    makeStyles,
 } from "@material-ui/core";
 
 import {
@@ -42,66 +43,65 @@ import {
     List as ContentView,
 } from "@material-ui/icons";
 
-class MetadataGridToolbar extends Component {
-    static propTypes = {
-        onAddAVU: PropTypes.func.isRequired,
-    };
+const useStyles = makeStyles(styles);
 
-    render() {
-        const { parentID, editable, classes, intl, onAddAVU } = this.props;
+const MetadataGridToolbar = (props) => {
+    const { parentID, editable, onAddAVU } = props;
 
-        return (
-            <Toolbar className={classes.root}>
-                {editable && (
-                    <div className={classes.actions}>
-                        <Fab
-                            id={build(parentID, ids.BUTTONS.ADD)}
-                            size="small"
-                            color="primary"
-                            aria-label={formatMessage(intl, "addMetadata")}
-                            onClick={onAddAVU}
-                        >
-                            <ContentAdd />
-                        </Fab>
-                    </div>
-                )}
-                <div className={classes.title}>
-                    <Typography id={build(parentID, ids.TITLE)} variant="h6">
-                        {getMessage("avus")}
-                    </Typography>
+    const { t } = useTranslation("metadata");
+    const classes = useStyles();
+
+    return (
+        <Toolbar className={classes.root}>
+            {editable && (
+                <div className={classes.actions}>
+                    <Fab
+                        id={build(parentID, ids.BUTTONS.ADD)}
+                        size="small"
+                        color="primary"
+                        aria-label={t("addMetadata")}
+                        onClick={onAddAVU}
+                    >
+                        <ContentAdd />
+                    </Fab>
                 </div>
-            </Toolbar>
-        );
-    }
-}
+            )}
+            <div className={classes.title}>
+                <Typography id={build(parentID, ids.TITLE)} variant="h6">
+                    {t("avus")}
+                </Typography>
+            </div>
+        </Toolbar>
+    );
+};
 
-MetadataGridToolbar = withStyles(styles)(
-    withI18N(injectIntl(MetadataGridToolbar), intlData)
-);
+MetadataGridToolbar.propTypes = {
+    onAddAVU: PropTypes.func.isRequired,
+};
 
-const columnData = [
+const columnData = (t) => [
     {
         id: build(ids.COL_HEADER, ids.AVU_ATTR),
         key: "attr",
-        name: getMessage("attribute"),
+        name: t("attribute"),
         enableSorting: true,
     },
     {
         id: build(ids.COL_HEADER, ids.AVU_VALUE),
         key: "value",
-        name: getMessage("value"),
+        name: t("value"),
         enableSorting: true,
     },
     {
         id: build(ids.COL_HEADER, ids.AVU_UNIT),
         key: "unit",
-        name: getMessage("metadataUnitLabel"),
+        name: t("metadataUnitLabel"),
         enableSorting: true,
     },
     {
         id: build(ids.COL_HEADER, ids.AVU_AVUS),
         key: "avus",
-        name: getMessage("metadataChildrenLabel"),
+        name: t("metadataChildrenLabel"),
         enableSorting: true,
         numeric: true,
         padding: "none",
@@ -115,8 +115,6 @@ const columnData = [
 ];
 
 const AVURow = ({
-    classes,
-    intl,
     editable,
     selectable,
     rowID,
@@ -128,220 +126,218 @@ const AVURow = ({
     onRowSelect,
     onRowEdit,
     onRowDelete,
-}) => (
-    <DETableRow hover tabIndex={-1} selected={selected}>
-        {selectable && (
-            <TableCell padding="checkbox">
-                <DECheckbox checked={selected} onChange={onRowSelect} />
+}) => {
+    const { t } = useTranslation("metadata");
+    const classes = useStyles();
+
+    return (
+        <TableRow hover tabIndex={-1} selected={selected}>
+            {selectable && (
+                <TableCell padding="checkbox">
+                    <DECheckbox checked={selected} onChange={onRowSelect} />
+                </TableCell>
+            )}
+            <TableCell component="th" scope="row">
+                {attr}
             </TableCell>
-        )}
-        <TableCell component="th" scope="row">
-            {attr}
-        </TableCell>
-        <TableCell>{value}</TableCell>
-        <TableCell>{unit}</TableCell>
-        <TableCell padding="none" align="right">
-            {avuChildCount}
-        </TableCell>
-        <TableCell padding="none">
-            <Grid
-                container
-                spacing={0}
-                wrap="nowrap"
-                direction="row"
-                justify="center"
-                alignItems="center"
-            >
-                <Grid item>
-                    <IconButton
-                        id={build(rowID, ids.BUTTONS.EDIT)}
-                        aria-label={formatMessage(intl, "edit")}
-                        className={classes.button}
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            onRowEdit();
-                        }}
-                    >
-                        {editable ? <ContentEdit /> : <ContentView />}
-                    </IconButton>
-                </Grid>
-                {editable && (
+            <TableCell>{value}</TableCell>
+            <TableCell>{unit}</TableCell>
+            <TableCell padding="none" align="right">
+                {avuChildCount}
+            </TableCell>
+            <TableCell padding="none">
+                <Grid
+                    container
+                    spacing={0}
+                    wrap="nowrap"
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
                     <Grid item>
                         <IconButton
-                            id={build(rowID, ids.BUTTONS.DELETE)}
-                            aria-label={formatMessage(intl, "delete")}
-                            classes={{ root: classes.deleteIcon }}
+                            id={build(rowID, ids.BUTTONS.EDIT)}
+                            aria-label={t("edit")}
+                            className={classes.button}
                             onClick={(event) => {
                                 event.stopPropagation();
-                                onRowDelete();
+                                onRowEdit();
                             }}
                         >
-                            <ContentRemove />
+                            {editable ? <ContentEdit /> : <ContentView />}
                         </IconButton>
                     </Grid>
-                )}
-            </Grid>
-        </TableCell>
-    </DETableRow>
-);
+                    {editable && (
+                        <Grid item>
+                            <IconButton
+                                id={build(rowID, ids.BUTTONS.DELETE)}
+                                aria-label={t("delete")}
+                                classes={{ root: classes.deleteIcon }}
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    onRowDelete();
+                                }}
+                            >
+                                <ContentRemove />
+                            </IconButton>
+                        </Grid>
+                    )}
+                </Grid>
+            </TableCell>
+        </TableRow>
+    );
+};
 
-class MetadataList extends Component {
-    constructor(props) {
-        super(props);
+const MetadataList = (props) => {
+    const {
+        parentID,
+        editable,
+        loading,
+        selectable,
+        onEditAVU,
+        onSelectAVU,
+        onSelectAllClick,
+        avusSelected,
+        rowsInPage,
+        name,
+        form: { values },
+        remove,
+        unshift,
+    } = props;
 
-        this.newAttrCount = 1;
+    const [newAttrCount, setNewAttrCount] = React.useState(1);
+    const [orderBy, setOrderBy] = React.useState(props.orderBy);
+    const [order, setOrder] = React.useState(props.order || "asc");
 
-        this.state = {
-            orderBy: props.orderBy,
-            order: props.order || "asc",
-        };
+    const { t } = useTranslation("metadata");
+    const classes = useStyles();
 
-        ["onAddAVU", "handleRequestSort"].forEach(
-            (methodName) => (this[methodName] = this[methodName].bind(this))
-        );
-    }
+    const onAddAVU = () => {
+        const avus = getIn(values, name) || [];
 
-    newAttrName() {
-        return formatMessage(this.props.intl, "newAttrName", {
-            count: this.newAttrCount++,
-        });
-    }
-
-    onAddAVU() {
-        const { form, name, unshift } = this.props;
-        const avus = getIn(form.values, name) || [];
-
-        let newName = this.newAttrName();
+        let newName,
+            count = newAttrCount;
 
         const namesMatch = (avu) => avu.attr === newName;
-        while (avus.findIndex(namesMatch) > -1) {
-            newName = this.newAttrName();
-        }
+        do {
+            newName = t("newAttrName", {
+                count,
+            });
+            count++;
+        } while (avus.find(namesMatch));
+
+        setNewAttrCount(count);
 
         unshift({
             attr: newName,
             value: "",
             unit: "",
         });
-    }
+    };
 
-    handleRequestSort(event, property) {
-        const orderBy = property;
-        let order = "asc";
+    const handleRequestSort = (event, property) => {
+        let newOrder = constants.SORT_ASCENDING;
 
-        if (this.state.orderBy === property && this.state.order === order) {
-            order = "desc";
+        if (orderBy === property && order === newOrder) {
+            newOrder = constants.SORT_DESCENDING;
         }
 
-        this.setState({ order, orderBy });
-    }
+        setOrder(newOrder);
+        setOrderBy(property);
+    };
 
-    render() {
-        const {
-            parentID,
-            editable,
-            selectable,
-            onEditAVU,
-            onSelectAVU,
-            onSelectAllClick,
-            avusSelected,
-            rowsInPage,
-            classes,
-            intl,
-            name,
-            form: { values },
-            remove,
-        } = this.props;
+    const avus = getIn(values, name);
+    const tableID = build(parentID, ids.AVU_GRID);
 
-        const { order, orderBy } = this.state;
+    // A copy of the list of AVUs, but including only each AVU's sortable fields,
+    // along with a TableRow component for rendering within the returned Table below.
+    // This will allow the TableRows to be sorted without altering the original AVU list,
+    // which also allows each AVU's original index in the metadata model to be preserved
+    // and used in the form editing functions.
+    const unsortedAVURows =
+        avus &&
+        avus.map((avu, index) => {
+            const { attr, value, unit, avus } = avu;
 
-        const avus = getIn(values, name);
-        const tableID = build(parentID, ids.AVU_GRID);
+            const field = `${name}[${index}]`;
 
-        // A copy of the list of AVUs, but including only each AVU's sortable fields,
-        // along with a TableRow component for rendering within the returned Table below.
-        // This will allow the TableRows to be sorted without altering the original AVU list,
-        // which also allows each AVU's original index in the metadata model to be preserved
-        // and used in the form editing functions.
-        const unsortedAVURows =
-            avus &&
-            avus.map((avu, index) => {
-                const { attr, value, unit, avus } = avu;
+            const rowID = build(ids.EDIT_METADATA_FORM, field);
 
-                const field = `${name}[${index}]`;
+            const selected = avusSelected && avusSelected.includes(avu);
+            const avuChildCount = avus ? avus.length : 0;
 
-                const rowID = build(ids.EDIT_METADATA_FORM, field);
+            // This returned object should include each sortable field defined by columnData above,
+            // in addition to the TableRow component.
+            return {
+                attr,
+                value,
+                unit,
+                // This field only requires the length of the original AVU's children, for TableRow sorting purposes.
+                avus: avuChildCount,
+                // Include the TableRow component that will be rendered within the final Table component.
+                tableRow: (
+                    <AVURow
+                        key={field}
+                        editable={editable}
+                        selectable={selectable}
+                        rowID={rowID}
+                        selected={selected}
+                        attr={attr}
+                        value={value}
+                        unit={unit}
+                        avuChildCount={avuChildCount}
+                        onRowSelect={(event, checked) =>
+                            onSelectAVU(avu, checked)
+                        }
+                        onRowEdit={() => onEditAVU(index)}
+                        onRowDelete={() => remove(index)}
+                    />
+                ),
+            };
+        });
 
-                const selected = avusSelected && avusSelected.includes(avu);
-                const avuChildCount = avus ? avus.length : 0;
+    // Only sort the TableRows if sorting has been requested.
+    const sortedAVURows = orderBy
+        ? stableSort(unsortedAVURows, getSorting(order, orderBy))
+        : unsortedAVURows;
 
-                // This returned object should include each sortable field defined by columnData above,
-                // in addition to the TableRow component.
-                return {
-                    attr,
-                    value,
-                    unit,
-                    // This field only requires the length of the original AVU's children, for TableRow sorting purposes.
-                    avus: avuChildCount,
-                    // Include the TableRow component that will be rendered within the final Table component.
-                    tableRow: (
-                        <AVURow
-                            key={field}
-                            classes={classes}
-                            intl={intl}
-                            editable={editable}
-                            selectable={selectable}
-                            rowID={rowID}
-                            selected={selected}
-                            attr={attr}
-                            value={value}
-                            unit={unit}
-                            avuChildCount={avuChildCount}
-                            onRowSelect={(event, checked) =>
-                                onSelectAVU(avu, checked)
-                            }
-                            onRowEdit={() => onEditAVU(index)}
-                            onRowDelete={() => remove(index)}
+    return (
+        <div className={classes.metadataTemplateContainer}>
+            <MetadataGridToolbar
+                parentID={tableID}
+                editable={editable}
+                onAddAVU={onAddAVU}
+            />
+
+            <div className={classes.tableWrapper}>
+                <Table aria-labelledby={build(tableID, ids.TITLE)}>
+                    {loading ? (
+                        <TableLoading
+                            baseId={ids.EDIT_METADATA_FORM}
+                            numColumns={5}
+                            numRows={5}
                         />
-                    ),
-                };
-            });
-
-        // Only sort the TableRows if sorting has been requested.
-        const sortedAVURows = orderBy
-            ? stableSort(unsortedAVURows, getSorting(order, orderBy))
-            : unsortedAVURows;
-
-        return (
-            <div className={classes.metadataTemplateContainer}>
-                <MetadataGridToolbar
-                    parentID={tableID}
-                    editable={editable}
-                    onAddAVU={this.onAddAVU}
-                />
-
-                <div className={classes.tableWrapper}>
-                    <Table aria-labelledby={build(tableID, ids.TITLE)}>
+                    ) : (
                         <TableBody>
                             {sortedAVURows &&
                                 sortedAVURows.map((row) => row.tableRow)}
                         </TableBody>
-                        <EnhancedTableHead
-                            baseId={tableID}
-                            columnData={columnData}
-                            order={order}
-                            orderBy={orderBy}
-                            onRequestSort={this.handleRequestSort}
-                            selectable={selectable}
-                            onSelectAllClick={onSelectAllClick}
-                            numSelected={avusSelected ? avusSelected.length : 0}
-                            rowsInPage={rowsInPage}
-                        />
-                    </Table>
-                </div>
+                    )}
+                    <EnhancedTableHead
+                        baseId={tableID}
+                        columnData={columnData(t)}
+                        order={order}
+                        orderBy={orderBy}
+                        onRequestSort={handleRequestSort}
+                        selectable={selectable}
+                        onSelectAllClick={onSelectAllClick}
+                        numSelected={avusSelected ? avusSelected.length : 0}
+                        rowsInPage={rowsInPage}
+                    />
+                </Table>
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
 
-export default withStyles(styles)(withI18N(injectIntl(MetadataList), intlData));
+export default MetadataList;

@@ -1,5 +1,3 @@
-import { palette } from "@cyverse-de/ui-lib";
-
 const styles = (theme) => ({
     attributeTableContainer: {
         width: "100%",
@@ -16,7 +14,7 @@ const styles = (theme) => ({
         flex: 1,
     },
     tableHead: {
-        backgroundColor: palette.lightGray,
+        backgroundColor: theme.palette.lightGray,
         position: "sticky",
         top: 0,
     },

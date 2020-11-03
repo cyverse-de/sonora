@@ -1,7 +1,9 @@
+import { DEFAULT_PAGE_SETTINGS } from "./utils";
+
 const dataFields = (dataI18n) => ({
     NAME: {
         fieldName: dataI18n("name"),
-        key: "name",
+        key: DEFAULT_PAGE_SETTINGS.orderBy,
     },
     LAST_MODIFIED: {
         fieldName: dataI18n("modified"),

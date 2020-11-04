@@ -12,12 +12,6 @@ export default function Search() {
     const { searchTerm, filter, selectedTab } = router?.query;
     let tab = selectedTab || SEARCH_RESULTS_TABS.data;
 
-    if (filter === searchConstants.APPS) {
-        tab = SEARCH_RESULTS_TABS.apps;
-    } else if (filter === searchConstants.ANALYSES) {
-        tab = SEARCH_RESULTS_TABS.analyses;
-    }
-
     return (
         <>
             <Hidden only={["sm", "md", "lg", "xl"]}>

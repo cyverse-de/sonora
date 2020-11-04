@@ -10,10 +10,12 @@ import constants from "../../../constants";
 import { getLocalStorage } from "components/utils/localStorage";
 import viewerConstants from "components/data/viewers/constants";
 import Listing from "components/data/listing/Listing";
-import { getEncodedPath } from "components/data/utils";
+import { getEncodedPath, getPageQueryParams } from "components/data/utils";
 import FileViewer from "components/data/viewers/FileViewer";
 import infoTypes from "components/models/InfoTypes";
 import ResourceTypes from "components/models/ResourceTypes";
+import { useUserProfile } from "contexts/userProfile";
+import { useConfig } from "contexts/config";
 
 /**
  * This variable value needs to match the name of this file for the routing to work
@@ -33,6 +35,8 @@ const dynamicPathName = "/[...pathItems]";
 export default function DataStore() {
     const router = useRouter();
     const query = router.query;
+    const [userProfile] = useUserProfile();
+    const [config] = useConfig();
 
     const selectedPage = parseInt(query.selectedPage);
     const selectedRowsPerPage = parseInt(
@@ -53,12 +57,12 @@ export default function DataStore() {
     const path = fullPath.replace(baseRoutingPath, "").split("?")[0];
 
     const handlePathChange = useCallback(
-        (path, resourceType, id) => {
+        (path, params, resourceType, id) => {
             const encodedPath = getEncodedPath(path);
             if (!resourceType || resourceType === ResourceTypes.FOLDER) {
                 router.push(
-                    `${baseRoutingPath}${dynamicPathName}`,
-                    `${baseRoutingPath}${encodedPath}`
+                    `${baseRoutingPath}${dynamicPathName}?${params}`,
+                    `${baseRoutingPath}${encodedPath}?${params}`
                 );
             } else {
                 router.push(
@@ -69,6 +73,22 @@ export default function DataStore() {
         },
         [baseRoutingPath, router]
     );
+
+    // Set a default path to prevent re-renders and redirects
+    // This should only run if the user goes to /data or /data/ds
+    if (!path) {
+        const username = userProfile?.id;
+        const irodsHomePath = config?.irods?.home_path;
+        if (irodsHomePath) {
+            const defaultParams = getPageQueryParams();
+            const defaultPath = getEncodedPath(
+                username
+                    ? `${irodsHomePath}/${username}`
+                    : `${irodsHomePath}/shared`
+            );
+            handlePathChange(defaultPath, defaultParams);
+        }
+    }
 
     const onCreateHTFileSelected = useCallback(
         (path) => {

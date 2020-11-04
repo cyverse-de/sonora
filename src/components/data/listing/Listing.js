@@ -415,6 +415,16 @@ function Listing(props) {
         [setNavError]
     );
 
+    const onPathChange = (path, resourceType, id) => {
+        const queryParams = getPageQueryParams(
+            order,
+            orderBy,
+            page,
+            rowsPerPage
+        );
+        handlePathChange(path, queryParams, resourceType, id);
+    };
+
     const isLoading = isQueryLoading([isFetching, removeResourceStatus]);
     const localUploadId = build(baseId, ids.UPLOAD_MI, ids.UPLOAD_INPUT);
     return (
@@ -425,7 +435,7 @@ function Listing(props) {
                     path={path}
                     selected={selected}
                     getSelectedResources={getSelectedResources}
-                    handlePathChange={handlePathChange}
+                    handlePathChange={onPathChange}
                     permission={data?.permission}
                     refreshListing={refreshListing}
                     isGridView={isGridView}
@@ -454,7 +464,7 @@ function Listing(props) {
                         loading={isLoading}
                         error={error || navError}
                         path={path}
-                        handlePathChange={handlePathChange}
+                        handlePathChange={onPathChange}
                         listing={data?.listing}
                         baseId={baseId}
                         isInvalidSelection={isInvalidSelection}

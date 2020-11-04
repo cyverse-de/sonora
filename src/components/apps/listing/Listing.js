@@ -11,6 +11,9 @@ import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
 import Drawer from "../details/Drawer";
 import TableView from "./TableView";
 import AppsToolbar from "../toolbar/Toolbar";
+import ids from "../ids";
+
+import { build } from "@cyverse-de/ui-lib";
 
 import appType from "components/models/AppType";
 import DEPagination from "components/utils/DEPagination";
@@ -32,6 +35,11 @@ import {
 
 import { useQuery } from "react-query";
 import { canShare } from "../utils";
+
+import Sharing from "components/sharing";
+import { formatSharedApps } from "components/sharing/util";
+import AppDoc from "components/apps/details/AppDoc";
+import QuickLaunchDialog from "../quickLaunch/QuickLaunchDialog";
 
 function Listing({
     baseId,
@@ -58,13 +66,14 @@ function Listing({
     const [category, setCategory] = useState(selectedCategory);
 
     const [selected, setSelected] = useState([]);
+    const [selectedApp, setSelectedApp] = useState(null);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
 
     const [data, setData] = useState(null);
     const [agaveAuthDialogOpen, setAgaveAuthDialogOpen] = useState(false);
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
-    const [detailsApp, setDetailsApp] = useState(null);
+
     const [addToBagEnabled, setAddToBagEnabled] = useState(false);
 
     const [categoryStatus, setCategoryStatus] = useState(false);
@@ -89,6 +98,12 @@ function Listing({
     };
 
     const shareEnabled = canShare(getSelectedApps());
+
+    const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
+    const [docDlgOpen, setDocDlgOpen] = useState(false);
+    const [qlDlgOpen, setQLDlgOpen] = useState(false);
+
+    const sharingApps = formatSharedApps(getSelectedApps());
 
     const {
         isFetching: appInCategoryStatus,
@@ -226,22 +241,23 @@ function Listing({
     }, [data, setAgaveAuthDialogOpen]);
 
     useEffect(() => {
-        if (detailsOpen && data?.apps) {
-            const selectedId = selected[0];
-            setDetailsApp(data.apps.find((item) => item.id === selectedId));
-        } else {
-            setDetailsApp(null);
-        }
-    }, [data, detailsOpen, selected]);
-
-    useEffect(() => {
         const enabled = selected && selected.length === 1;
         setDetailsEnabled(enabled);
     }, [selected]);
 
     useEffect(() => {
+
         setAddToBagEnabled(selected && selected.length > 0);
     }, [selected]);
+
+    useEffect(() => {
+        if (data?.apps) {
+            const selectedId = selected[0];
+            setSelectedApp(data.apps.find((item) => item.id === selectedId));
+        } else {
+            setSelectedApp(null);
+        }
+    }, [data, selected]);
 
     const toggleDisplay = () => {
         setGridView(!isGridView);
@@ -258,6 +274,11 @@ function Listing({
         );
 
         setSelected(newSelected);
+    };
+
+    const handleCheckboxClick = (event, id, index) => {
+        toggleSelection(id);
+        setLastSelectIndex(index);
     };
 
     const toggleSelection = (appId) => {
@@ -289,7 +310,7 @@ function Listing({
                 ? rangeSelect(index, lastSelectIndex, id)
                 : rangeSelect(lastSelectIndex, index, id);
         } else {
-            toggleSelection(id);
+            setSelected([id]);
         }
 
         setLastSelectIndex(index);
@@ -407,6 +428,9 @@ function Listing({
                 onAddToBagClicked={onAddToBagClicked}
                 canShare={shareEnabled}
                 selectedApps={getSelectedApps()}
+                setSharingDlgOpen={setSharingDlgOpen}
+                onDocSelected={() => setDocDlgOpen(true)}
+                onQLSelected={() => setQLDlgOpen(true)}
             />
             <TableView
                 loading={
@@ -427,14 +451,21 @@ function Listing({
                 orderBy={orderBy}
                 selected={selected}
                 handleSelectAllClick={handleSelectAllClick}
+                handleCheckboxClick={handleCheckboxClick}
                 handleClick={handleClick}
                 handleRequestSort={handleRequestSort}
                 onRouteToApp={onRouteToApp}
+                canShare={shareEnabled}
+                onDetailsSelected={onDetailsSelected}
+                setSharingDlgOpen={setSharingDlgOpen}
+                onDocSelected={() => setDocDlgOpen(true)}
+                onQLSelected={() => setQLDlgOpen(true)}
             />
-            {detailsApp && (
+
+            {detailsOpen && (
                 <Drawer
-                    appId={detailsApp?.id}
-                    systemId={detailsApp?.system_id}
+                    appId={selectedApp?.id}
+                    systemId={selectedApp?.system_id}
                     open={detailsOpen}
                     baseId={baseId}
                     onClose={() => setDetailsOpen(false)}
@@ -450,6 +481,27 @@ function Listing({
                     baseId={baseId}
                 />
             )}
+            <Sharing
+                open={sharingDlgOpen}
+                onClose={() => setSharingDlgOpen(false)}
+                resources={sharingApps}
+            />
+            <AppDoc
+                baseId={build(baseId, ids.DOCUMENTATION)}
+                open={docDlgOpen}
+                appId={selectedApp?.id}
+                systemId={selectedApp?.system_id}
+                name={selectedApp?.name}
+                onClose={() => setDocDlgOpen(false)}
+            />
+            <QuickLaunchDialog
+                baseDebugId={build(baseId, ids.APP_QUICK_LAUNCH)}
+                appName={selectedApp?.name}
+                appId={selectedApp?.id}
+                systemId={selectedApp?.system_id}
+                open={qlDlgOpen}
+                onClose={() => setQLDlgOpen(false)}
+            />
         </>
     );
 }

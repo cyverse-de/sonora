@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
 
+import GridLoading from "components/utils/GridLoading";
+import ErrorTypography from "components/utils/error/ErrorTypography";
+import DEErrorDialog from "components/utils/error/DEErrorDialog";
+import ListQuickLaunches from "components/apps/quickLaunch/QuickLaunchListing";
+
 import GridLabelValue from "components/utils/GridLabelValue";
 
 import ids from "../ids";
@@ -8,9 +13,6 @@ import ids from "../ids";
 import { build, formatDate, Rate } from "@cyverse-de/ui-lib";
 
 import { CircularProgress, Grid } from "@material-ui/core";
-import GridLoading from "components/utils/GridLoading";
-import ErrorTypography from "components/utils/error/ErrorTypography";
-import DEErrorDialog from "components/utils/error/DEErrorDialog";
 
 /**
  * @author sriram
@@ -117,7 +119,15 @@ function DetailsPanel(props) {
                         <GridLabelValue label={t("detailsLastCompleted")}>
                             {formatDate(details.job_stats?.job_last_completed)}
                         </GridLabelValue>
+                        <GridLabelValue
+                            label={t("quickLaunch")}
+                        ></GridLabelValue>
                     </Grid>
+                    <ListQuickLaunches
+                        appId={details.id}
+                        systemId={details["system_id"]}
+                        baseDebugId={baseId}
+                    />
                 </>
             )}
         </>

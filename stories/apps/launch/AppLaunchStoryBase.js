@@ -11,7 +11,12 @@ import {
     submitAnalysis,
 } from "./constants";
 
-import { appDetails, listingById, appDocumentation } from "../AppMocks";
+import {
+    appDetails,
+    listingById,
+    appDocumentation,
+    quickLaunches,
+} from "../AppMocks";
 
 export default (props) => {
     initMockAxiosFileFolderSelector();
@@ -27,6 +32,10 @@ export default (props) => {
     mockAxios
         .onGet(`/api/apps/${app?.system_id}/${app?.id}/documentation`)
         .reply(200, appDocumentation);
+
+    mockAxios
+        .onGet(`/api/quicklaunches/apps/${app?.system_id}`)
+        .reply(200, quickLaunches);
     return (
         <AppLaunchWizard
             notify={false}

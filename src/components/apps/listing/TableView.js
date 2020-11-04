@@ -24,6 +24,7 @@ import {
 } from "@material-ui/core";
 
 import ids from "../ids";
+import RowDotMenu from "./RowDotMenu";
 
 import AppStatusIcon from "../AppStatusIcon";
 import AppName from "../AppName";
@@ -67,6 +68,13 @@ function getTableColumns(deletable, enableMenu, t) {
             id: fields.SYSTEM.key,
             align: "right",
         },
+        {
+            name: "",
+            enableSorting: false,
+            key: fields.DOT_MENU.key,
+            id: fields.DOT_MENU.key,
+            align: "right",
+        },
     ];
 
     if (deletable) {
@@ -97,10 +105,16 @@ function TableView(props) {
         baseId,
         handleRequestSort,
         handleSelectAllClick,
+        handleCheckboxClick,
         handleClick,
         order,
         orderBy,
         selected,
+        canShare,
+        onDetailsSelected,
+        setSharingDlgOpen,
+        onDocSelected,
+        onQLSelected,
     } = props;
     const { t } = useTranslation("apps");
     const apps = listing?.apps;
@@ -176,6 +190,13 @@ function TableView(props) {
                                                 checked={isSelected}
                                                 tabIndex={0}
                                                 id={build(rowId, ids.checkbox)}
+                                                onChange={(event) =>
+                                                    handleCheckboxClick(
+                                                        event,
+                                                        appId,
+                                                        index
+                                                    )
+                                                }
                                                 inputProps={{
                                                     "aria-label": t(
                                                         "ariaCheckbox",
@@ -237,6 +258,21 @@ function TableView(props) {
                                             id={build(rowId, ids.SYSTEM_ID)}
                                         >
                                             {app.system_id}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            <RowDotMenu
+                                                baseId={build(tableId, appName)}
+                                                app={app}
+                                                canShare={canShare}
+                                                onDetailsSelected={
+                                                    onDetailsSelected
+                                                }
+                                                setSharingDlgOpen={
+                                                    setSharingDlgOpen
+                                                }
+                                                onDocSelected={onDocSelected}
+                                                onQLSelected={onQLSelected}
+                                            />
                                         </TableCell>
                                     </TableRow>
                                 );

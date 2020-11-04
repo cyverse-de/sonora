@@ -37,6 +37,7 @@ import {
     Tooltip,
     Typography,
     useTheme,
+    useMediaQuery,
 } from "@material-ui/core";
 
 import CloseIcon from "@material-ui/icons/Close";
@@ -162,7 +163,7 @@ function Documentation(props) {
 }
 
 function AppDoc(props) {
-    const { open, appId, systemId, onClose, isMobile } = props;
+    const { open, appId, systemId, onClose } = props;
     const [userProfile] = useUserProfile();
     const [documentation, setDocumentation] = useState(null);
     const [references, setReferences] = useState(null);
@@ -177,6 +178,7 @@ function AppDoc(props) {
 
     const { t } = useTranslation("apps");
     const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
     const enabled = appId != null && systemId !== null;
     const docBaseId = ids.DOCUMENTATION_DLG;

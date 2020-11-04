@@ -6,6 +6,7 @@ import { AppsTableViewTest } from "../../stories/apps/TableView.stories";
 import { mockAxios } from "../../stories/axiosMock";
 import { AppsListingTest } from "../../stories/apps/Listing.stories";
 import { I18nProviderWrapper } from "../i18n";
+import { UserProfileProvider } from "contexts/userProfile";
 
 beforeEach(() => {
     mockAxios.reset();
@@ -27,7 +28,9 @@ test("App Tile renders", () => {
 test("App Table view renders", () => {
     const component = TestRenderer.create(
         <I18nProviderWrapper>
-            <AppsTableViewTest />
+            <UserProfileProvider>
+                <AppsTableViewTest />
+            </UserProfileProvider>
         </I18nProviderWrapper>
     );
     component.unmount();

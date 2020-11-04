@@ -11,7 +11,12 @@ import ErrorTypography from "components/utils/error/ErrorTypography";
 
 import ids from "../ids";
 
-import { build, FormCheckbox, FormTextField } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    build,
+    FormCheckbox,
+    FormTextField,
+} from "@cyverse-de/ui-lib";
 
 import {
     Button,
@@ -56,6 +61,9 @@ function CreateQuickLaunchDialog(props) {
             is_public,
             () => {
                 actions.setSubmitting(false);
+                announce({
+                    text: t("quickLaunchCreateSuccess", { name }),
+                });
                 onHide();
             },
             (saveError) => {
@@ -87,7 +95,7 @@ function CreateQuickLaunchDialog(props) {
                     <Form>
                         <DialogContent>
                             <Field
-                                id={build(baseDebugId, ids.QUICK_LAUNCH.name)}
+                                id={build(baseDebugId, ids.QUICK_LAUNCH.NAME)}
                                 name="name"
                                 label={t("quickLaunchNameLabel")}
                                 required={true}
@@ -99,7 +107,7 @@ function CreateQuickLaunchDialog(props) {
                                     <Field
                                         id={build(
                                             baseDebugId,
-                                            ids.QUICK_LAUNCH.public
+                                            ids.QUICK_LAUNCH.PUBLIC
                                         )}
                                         name="is_public"
                                         label={t("publicLabel")}
@@ -119,7 +127,7 @@ function CreateQuickLaunchDialog(props) {
 
                         <DialogActions>
                             <Button
-                                id={build(baseDebugId, ids.QUICK_LAUNCH.cancel)}
+                                id={build(baseDebugId, ids.QUICK_LAUNCH.CANCEL)}
                                 color="primary"
                                 disabled={isSubmitting}
                                 onClick={onHide}
@@ -127,7 +135,7 @@ function CreateQuickLaunchDialog(props) {
                                 {t("cancelLabel")}
                             </Button>
                             <Button
-                                id={build(baseDebugId, ids.QUICK_LAUNCH.create)}
+                                id={build(baseDebugId, ids.QUICK_LAUNCH.CREATE)}
                                 variant="contained"
                                 color="primary"
                                 type="submit"

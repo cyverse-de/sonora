@@ -950,13 +950,26 @@ export const appDetails = {
     wiki_url:
         "http://pods.iplantcollaborative.org/wiki/display/DEapps/Annotate+transcripts",
 };
+export const appDocumentation = {
+    app_id: "67d15627-22c5-42bd-8daf-9af5deecceab",
+    documentation:
+        "### DE Word Count\n> #### Description and Quick Start\n>> To use Word Count, upload your data in plain text format.\n>> Resources: http://www.gnu.org/software/coreutils/manual/coreutils.html#wc-invocation\n> #### Test Data\n>> Community Data > iplantcollaborative > example_data > wordcount\n> #### Input File(s)\n>> Use SampleText.txt  as test data.\n> #### Parameters Used in App\n>> no parameters to selecgt\n> #### Output File(s)\n>> Look under the logs folder. Results are stored in condor-stdout-0.",
+    references: [
+        "https://learning.cyverse.org/en/latest/",
+        "https://cyverse.org/",
+    ],
+    created_on: "2019-02-19T17:02:42.000Z",
+    modified_on: "2019-02-19T17:02:42.000Z",
+    created_by: "rwalls@iplantcollaborative.org",
+    modified_by: "rwalls@iplantcollaborative.org",
+};
 export const quickLaunches = [
     {
         id: "1",
         name: "Qlaunch1",
         description: "This is my first quick launch",
         creator: "sriram@iplantcollaborative.org",
-        app_id: "123",
+        app_id: "456",
         is_public: false,
         submission: {
             description: "string",
@@ -1015,18 +1028,68 @@ export const quickLaunches = [
             job_id: "string",
         },
     },
+    {
+        id: "3",
+        name: "Qlaunch3",
+        description: "This is my third quick launch",
+        creator: "sriram@iplantcollaborative.org",
+        app_id: "456",
+        is_public: true,
+        submission: {
+            description: "string",
+            config: {},
+            "file-metadata": [
+                {
+                    attr: "string",
+                    value: "string",
+                    unit: "string",
+                },
+            ],
+            starting_step: 0,
+            name: "string",
+            app_id: "string",
+            system_id: "string",
+            debug: true,
+            create_output_subdir: true,
+            archive_logs: true,
+            output_dir: "string",
+            uuid: "string",
+            notify: true,
+            "skip-parent-meta": true,
+            callback: "string",
+            job_id: "string",
+        },
+    },
+    {
+        id: "4",
+        name: "Qlaunch4",
+        description: "This is my fourth quick launch",
+        creator: "ipcdev@iplantcollaborative.org",
+        app_id: "456",
+        is_public: false,
+        submission: {
+            description: "string",
+            config: {},
+            "file-metadata": [
+                {
+                    attr: "string",
+                    value: "string",
+                    unit: "string",
+                },
+            ],
+            starting_step: 0,
+            name: "string",
+            app_id: "string",
+            system_id: "string",
+            debug: true,
+            create_output_subdir: true,
+            archive_logs: true,
+            output_dir: "string",
+            uuid: "string",
+            notify: true,
+            "skip-parent-meta": true,
+            callback: "string",
+            job_id: "string",
+        },
+    },
 ];
-
-export const appDocumentation = {
-    app_id: "67d15627-22c5-42bd-8daf-9af5deecceab",
-    documentation:
-        "### DE Word Count\n> #### Description and Quick Start\n>> To use Word Count, upload your data in plain text format.\n>> Resources: http://www.gnu.org/software/coreutils/manual/coreutils.html#wc-invocation\n> #### Test Data\n>> Community Data > iplantcollaborative > example_data > wordcount\n> #### Input File(s)\n>> Use SampleText.txt  as test data.\n> #### Parameters Used in App\n>> no parameters to selecgt\n> #### Output File(s)\n>> Look under the logs folder. Results are stored in condor-stdout-0.",
-    references: [
-        "https://learning.cyverse.org/en/latest/",
-        "https://cyverse.org/",
-    ],
-    created_on: "2019-02-19T17:02:42.000Z",
-    modified_on: "2019-02-19T17:02:42.000Z",
-    created_by: "rwalls@iplantcollaborative.org",
-    modified_by: "rwalls@iplantcollaborative.org",
-};

@@ -1,6 +1,7 @@
 import analysisStatus from "../models/analysisStatus";
 import constants from "../../constants";
 import NavigationConstants from "common/NavigationConstants";
+import { getUserName } from "components/utils/getUserName";
 
 /**
  * Get the user who ran this analysis
@@ -11,9 +12,7 @@ const getAnalysisUser = (analysis) => {
     if (!analysis) {
         return null;
     }
-    return analysis.username && analysis.username.includes(constants.IPLANT)
-        ? analysis.username.split("@")[0]
-        : analysis.username;
+    return getUserName(analysis.username);
 };
 
 /**

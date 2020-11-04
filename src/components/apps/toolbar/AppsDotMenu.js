@@ -6,7 +6,10 @@
 
 import React from "react";
 import { useTranslation } from "i18n";
+
 import ids from "../ids";
+import QLMenuItem from "../menuItems/QLMenuItem";
+import DocMenuItem from "../menuItems/DocMenuItem";
 import shareIds from "components/sharing/ids";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
@@ -31,10 +34,15 @@ function AppsDotMenu(props) {
         onAddToBagClicked,
         canShare,
         setSharingDlgOpen,
+        onDocSelected,
+        onQLSelected,
     } = props;
     const { t } = useTranslation("apps");
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    if (!detailsEnabled && !canShare && !isMobile) {
+        return null;
+    }
     return (
         <DotMenu
             baseId={baseId}
@@ -91,6 +99,22 @@ function AppsDotMenu(props) {
                         baseId={baseId}
                         onClose={onClose}
                         setSharingDlgOpen={setSharingDlgOpen}
+                    />
+                ),
+                detailsEnabled && (
+                    <DocMenuItem
+                        key={build(baseId, ids.DOC_MENU_ITEM)}
+                        baseId={baseId}
+                        onClose={onClose}
+                        onDocSelected={onDocSelected}
+                    />
+                ),
+                detailsEnabled && (
+                    <QLMenuItem
+                        key={build(baseId, ids.QL_MENU_ITEM)}
+                        baseId={baseId}
+                        onClose={onClose}
+                        onQLSelected={onQLSelected}
                     />
                 ),
             ]}

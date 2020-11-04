@@ -6,6 +6,12 @@ import React, { Fragment, useEffect } from "react";
 import { useRouter } from "next/router";
 
 import constants from "../../constants";
+import {
+    getEncodedPath,
+    getPageQueryParams,
+} from "../../components/data/utils";
+import { useUserProfile } from "../../contexts/userProfile";
+import { useConfig } from "../../contexts/config";
 
 /**
  *
@@ -15,12 +21,25 @@ import constants from "../../constants";
  */
 export default function Data() {
     const router = useRouter();
+    const [userProfile] = useUserProfile();
+    const [config] = useConfig();
 
     useEffect(() => {
-        router.push(
-            `${router.pathname}${constants.PATH_SEPARATOR}${constants.DATA_STORE_STORAGE_ID}`
-        );
-    }, [router]);
+        const username = userProfile?.id;
+        const irodsHomePath = config?.irods?.home_path;
+
+        if (irodsHomePath) {
+            const defaultParams = getPageQueryParams();
+            const defaultPath = getEncodedPath(
+                username
+                    ? `${irodsHomePath}/${username}`
+                    : `${irodsHomePath}/shared`
+            );
+            router.push(
+                `${router.pathname}${constants.PATH_SEPARATOR}${constants.DATA_STORE_STORAGE_ID}${defaultPath}?${defaultParams}`
+            );
+        }
+    }, [router, config, userProfile]);
 
     return <Fragment />;
 }

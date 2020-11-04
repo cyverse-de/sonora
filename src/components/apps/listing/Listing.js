@@ -74,7 +74,6 @@ function Listing({
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
 
-    const [detailsApp, setDetailsApp] = useState(null);
     const [addToBagEnabled, setAddToBagEnabled] = useState(false);
 
     const [categoryStatus, setCategoryStatus] = useState(false);

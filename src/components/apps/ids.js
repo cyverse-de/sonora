@@ -61,5 +61,4 @@ export default {
     },
     EDIT_BTN: "editButton",
     SAVE_BTN: "saveButton",
-    CLOSE_BTN: "closeBtn",
 };

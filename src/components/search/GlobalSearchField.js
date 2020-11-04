@@ -121,7 +121,7 @@ const getViewAllPrompt = (id, searchTerm, i18NSearch) => {
     let selectedTab = SEARCH_RESULTS_TABS.data;
 
     if (id === searchConstants.VIEW_ALL_ANALYSES_ID) {
-        prompt = i18NSearch("viewAllDataResults", { searchTerm });
+        prompt = i18NSearch("viewAllAnalysesResults", { searchTerm });
         selectedTab = SEARCH_RESULTS_TABS.analyses;
     } else if (id === searchConstants.VIEW_ALL_APPS_ID) {
         prompt = i18NSearch("viewAllAppsResults", { searchTerm });
@@ -468,8 +468,8 @@ function GlobalSearchField(props) {
                         ...options,
                         ...data,
                         viewAllDataOptions,
+                        viewAllAnalysesOptions,
                         viewAllAppOptions,
-                        viewAllDataOptions,
                     ]);
                 } else {
                     setOptions([...options, ...data, viewAllDataOptions]);

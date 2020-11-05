@@ -4,7 +4,6 @@ import { Hidden } from "@material-ui/core";
 import GlobalSearchField from "components/search/GlobalSearchField";
 import DetailedSearchResults from "components/search/detailed/DetailedSearchResults";
 import { SEARCH_RESULTS_TABS } from "components/search/detailed/DetailedSearchResults";
-import searchConstants from "components/search//constants";
 import NavigationConstants from "common/NavigationConstants";
 
 export default function Search() {

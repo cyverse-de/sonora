@@ -53,7 +53,7 @@ function UserTable(props) {
                                     >
                                         {!isGroup(user) && (
                                             <>
-                                                {t("cyverseId", {
+                                                {t("username", {
                                                     id: user.id,
                                                 })}
                                                 <br />

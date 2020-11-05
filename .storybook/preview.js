@@ -9,7 +9,8 @@ import {
 } from "../src/contexts/userProfile";
 import { PreferencesProvider } from "../src/contexts/userPreferences";
 import { ReactQueryConfigProvider } from "react-query";
-import { I18nProviderWrapper } from "../src/i18n";
+import { i18n } from "../src/i18n";
+import { I18nextProvider } from "react-i18next";
 
 function MockUserProfile() {
     const [userProfile, setUserProfile] = useUserProfile();
@@ -40,13 +41,15 @@ export const decorators = [
         <ThemeProvider theme={theme}>
             <UserProfileProvider>
                 <ReactQueryConfigProvider config={queryConfig}>
-                    <I18nProviderWrapper>
-                        <MockUserProfile />
-                        <PreferencesProvider>
-                            {Story()}
-                            <CyVerseAnnouncer />
-                        </PreferencesProvider>
-                    </I18nProviderWrapper>
+                    <MockUserProfile />
+                    <PreferencesProvider>
+                        <React.Suspense fallback={"Loading i18n..."}>
+                            <I18nextProvider i18n={i18n}>
+                                {Story()}
+                            </I18nextProvider>
+                        </React.Suspense>
+                        <CyVerseAnnouncer />
+                    </PreferencesProvider>
                 </ReactQueryConfigProvider>
             </UserProfileProvider>
         </ThemeProvider>

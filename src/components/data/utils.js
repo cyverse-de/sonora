@@ -110,9 +110,27 @@ const useDataNavigationLink = (path, resourceId, type) => {
     return [href, as];
 };
 
+const DEFAULT_PAGE_SETTINGS = {
+    order: constants.SORT_ASCENDING,
+    orderBy: "name",
+    page: 0,
+    rowsPerPage: 100,
+};
+
+const getPageQueryParams = (order, orderBy, page, rowsPerPage) => {
+    const selectedOrder = order || DEFAULT_PAGE_SETTINGS.order;
+    const selectedOrderBy = orderBy || DEFAULT_PAGE_SETTINGS.orderBy;
+    const selectedPage = page || DEFAULT_PAGE_SETTINGS.page;
+    const selectedRowsPerPage =
+        rowsPerPage || DEFAULT_PAGE_SETTINGS.rowsPerPage;
+    return `selectedOrder=${selectedOrder}&selectedOrderBy=${selectedOrderBy}&selectedPage=${selectedPage}&selectedRowsPerPage=${selectedRowsPerPage}`;
+};
+
 export {
+    DEFAULT_PAGE_SETTINGS,
     getEncodedPath,
     getFolderPage,
+    getPageQueryParams,
     validateDiskResourceName,
     hasOwn,
     isOwner,

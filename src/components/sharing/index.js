@@ -101,6 +101,7 @@ function Sharing(props) {
         queryKey: [USER_INFO_QUERY_KEY, { userIds: userIdList }],
         queryFn: getUserInfo,
         config: {
+            enabled: userIdList && userIdList.length > 0,
             onSuccess: (results) => {
                 const userMap = getUserMap(permissions, results, resourceTotal);
 

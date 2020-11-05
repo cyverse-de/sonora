@@ -53,12 +53,12 @@ export default function DataStore() {
     const path = fullPath.replace(baseRoutingPath, "").split("?")[0];
 
     const handlePathChange = useCallback(
-        (path, resourceType, id) => {
+        (path, params, resourceType, id) => {
             const encodedPath = getEncodedPath(path);
             if (!resourceType || resourceType === ResourceTypes.FOLDER) {
                 router.push(
-                    `${baseRoutingPath}${dynamicPathName}`,
-                    `${baseRoutingPath}${encodedPath}`
+                    `${baseRoutingPath}${dynamicPathName}?${params}`,
+                    `${baseRoutingPath}${encodedPath}?${params}`
                 );
             } else {
                 router.push(

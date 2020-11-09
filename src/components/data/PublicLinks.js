@@ -52,7 +52,7 @@ export default function PublicLinks(props) {
         );
     } else {
         return (
-            <Paper style={{padding: 8}}>
+            <Paper style={{ padding: 8 }}>
                 <TextField
                     multiline
                     rows={paths?.length || 3}

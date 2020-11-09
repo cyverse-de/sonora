@@ -51,6 +51,8 @@ import { useBagAddItems } from "serviceFacades/bags";
 import { queryCache, useMutation, useQuery } from "react-query";
 
 import { Button, Typography, useTheme } from "@material-ui/core";
+import DEDialog from "components/utils/DEDialog";
+import PublicLinks from "../PublicLinks";
 
 function Listing(props) {
     const {
@@ -114,6 +116,7 @@ function Listing(props) {
     const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
     const [importDialogOpen, setImportDialogOpen] = useState(false);
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
+    const [publicLinksDlgOpen, setPublicLinksDlgOpen] = useState(false);
 
     const onCloseImportDialog = () => setImportDialogOpen(false);
 
@@ -400,6 +403,11 @@ function Listing(props) {
         );
     };
 
+    const getSelectedPaths = (resources) => {
+        const selectedResources = getSelectedResources(resources);
+        return selectedResources.map((res) => res.path);
+    };
+
     const sharingData = formatSharedData(getSelectedResources());
 
     if (!infoTypes || infoTypes.length === 0) {
@@ -458,6 +466,7 @@ function Listing(props) {
                         onCreateMultiInputFileSelected(path)
                     }
                     setSharingDlgOpen={setSharingDlgOpen}
+                    onPublicLinksSelected={() => setPublicLinksDlgOpen(true)}
                 />
                 {!isGridView && (
                     <TableView
@@ -518,6 +527,13 @@ function Listing(props) {
                 open={sharingDlgOpen}
                 onClose={() => setSharingDlgOpen(false)}
                 resources={sharingData}
+            />
+            <DEDialog
+                open={publicLinksDlgOpen}
+                onClose={() => setPublicLinksDlgOpen(false)}
+                content={<PublicLinks paths={getSelectedPaths()} />}
+                title={"Public Link(s)"}
+                baseId={"menu"}
             />
         </>
     );

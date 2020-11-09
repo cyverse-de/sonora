@@ -73,6 +73,7 @@
     "own": "Own",
     "path": "Path",
     "permissions": "Permissions",
+    "publicLinks": "Public Link(s)",
     "read": "Read",
     "searchTags": "Search tags...",
     "selectedDataRootMenuAriaLabel": "Selected data root",

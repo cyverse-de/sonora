@@ -51,6 +51,7 @@ export default {
     PERMISSION_MENU: "permissionMenu",
     PERMISSION_MENU_BTN: "permissionMenuBtn",
     PERMISSIONS_TAB: "permissionsTab",
+    PUBLIC_LINKS_MENU_ITEM: "publicLinksMenuItem",
     READ: "read",
     selectAll: "selectAll",
     SELECTED_PATH_ITEM: "selectedPathItem",

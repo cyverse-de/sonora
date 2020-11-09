@@ -218,7 +218,7 @@ export const readFileChunk = (
     }
 };
 
-export const getPublicLinks = (key, {paths}) => {
+export const getPublicLinks = (key, paths) => {
     return callApi({
         endpoint: "/api/filesystem/anon-files",
         method: "POST",

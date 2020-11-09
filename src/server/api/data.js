@@ -185,5 +185,18 @@ export default function dataRouter() {
         })
     );
 
+    logger.info("adding the post filesystem/anon-files");
+    api.post(
+        "filesystem/anon-files",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/filesystem/anon-files",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

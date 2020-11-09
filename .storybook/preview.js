@@ -12,6 +12,9 @@ import { ReactQueryConfigProvider } from "react-query";
 import { i18n } from "../src/i18n";
 import { I18nextProvider } from "react-i18next";
 
+import { addDecorator } from "@storybook/react";
+import { withConsole } from "@storybook/addon-console";
+
 function MockUserProfile() {
     const [userProfile, setUserProfile] = useUserProfile();
     useEffect(() => {
@@ -35,6 +38,8 @@ function MockUserProfile() {
 const queryConfig = {
     queries: { refetchOnWindowFocus: false, retry: false },
 };
+
+addDecorator((storyFn, context) => withConsole()(storyFn)(context));
 
 export const decorators = [
     (Story) => (

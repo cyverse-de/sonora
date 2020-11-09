@@ -44,7 +44,7 @@ export const ShareAnalysisWithSupport = ({ system, status }) => {
 };
 
 export default {
-    title: "Analyses",
+    title: "Analyses / Share with support",
     component: ShareWithSupportDialog,
     argTypes: {
         system: {

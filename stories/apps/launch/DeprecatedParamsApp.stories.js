@@ -10,7 +10,7 @@ export const DeprecatedParams = ({ deleted, disabled }) => {
 };
 
 export default {
-    title: "Apps / Launch",
+    title: "Apps / Launch / Deprecated",
     component: AppLaunchStoryBase,
     argTypes: {
         deleted: {

@@ -334,6 +334,6 @@ class AppTileTest extends Component {
     }
 }
 
-export default { title: "Apps" };
+export default { title: "Apps / Tiles" };
 
 export const AppTiles = () => <AppTileTest />;

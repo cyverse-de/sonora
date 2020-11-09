@@ -5,7 +5,7 @@ import FileViewer from "components/data/viewers/FileViewer";
 import { mockAxios } from "../../axiosMock";
 import { fileTypesResp, csvMainfestResp, csvChunkResp } from "../DataMocks";
 export default {
-    title: "Data / Viewers",
+    title: "Data / Viewers / CSV",
 };
 
 function CSVViewerTest(props) {

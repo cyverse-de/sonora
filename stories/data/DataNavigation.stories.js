@@ -18,4 +18,4 @@ export const DataNavigationTest = () => {
     );
 };
 
-export default { title: "Data/ Navigation" };
+export default { title: "Data / Navigation" };

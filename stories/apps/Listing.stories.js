@@ -13,7 +13,7 @@ import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
 import { UserProfileProvider } from "../../src/contexts/userProfile";
 
 export default {
-    title: "Apps",
+    title: "Apps / Listing",
 };
 
 function ListingTest(props) {

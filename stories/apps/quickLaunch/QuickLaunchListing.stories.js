@@ -41,4 +41,4 @@ export const QuickLaunchListingTest = () => {
     );
 };
 
-export default { title: "Apps / Quick Launch" };
+export default { title: "Apps / Quick Launch / Listing" };

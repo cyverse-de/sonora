@@ -35,4 +35,4 @@ export const Listing = () => {
     return <NotificationsListing baseDebugId="notificationsListing" />;
 };
 
-export default { title: "Notifications" };
+export default { title: "Notifications / Listing" };

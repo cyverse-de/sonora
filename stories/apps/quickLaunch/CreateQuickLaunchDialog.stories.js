@@ -30,4 +30,4 @@ export const CreateDialog = () => {
     );
 };
 
-export default { title: "Apps / Quick Launch" };
+export default { title: "Apps / Quick Launch / Create" };

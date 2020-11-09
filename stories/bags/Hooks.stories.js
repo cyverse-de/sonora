@@ -14,7 +14,7 @@ import * as facade from "../../src/serviceFacades/bags";
 import { Button, Paper } from "@material-ui/core";
 
 export default {
-    title: "Bags/Hooks",
+    title: "Bags / Hooks",
 };
 
 let counter = 0;

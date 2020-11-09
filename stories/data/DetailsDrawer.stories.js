@@ -136,7 +136,7 @@ export const DetailsDrawerTest = ({ resourceType, open }) => {
 };
 
 export default {
-    title: "Data/Details",
+    title: "Data / Details",
     component: DetailsDrawer,
     argTypes: {
         resourceType: {

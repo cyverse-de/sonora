@@ -22,6 +22,6 @@ function GlobalSearchFieldTest() {
     return <GlobalSearchField />;
 }
 
-export default { title: "Search" };
+export default { title: "Search / Global" };
 
 export const SearchField = () => <GlobalSearchFieldTest />;

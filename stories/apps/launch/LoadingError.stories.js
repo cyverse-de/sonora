@@ -28,7 +28,7 @@ export const LoadingError = ({ customMessage }) => {
 };
 
 export default {
-    title: "Apps / Launch",
+    title: "Apps / Launch / Loading Error",
     component: AppLaunchStoryBase,
     argTypes: {
         customMessage: {

@@ -62,4 +62,4 @@ export const InputParamsRelaunch = () => {
     return <AppLaunchStoryBase app={app} />;
 };
 
-export default { title: "Apps / Launch / Relaunch" };
+export default { title: "Apps / Launch / Relaunch-Input Params" };

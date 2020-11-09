@@ -27,7 +27,7 @@ export const CreateFolderTest = ({ success }) => {
 };
 
 export default {
-    title: "Data/Create Folder",
+    title: "Data / Create Folder",
     component: CreateResourceDialog,
     argTypes: {
         success: {

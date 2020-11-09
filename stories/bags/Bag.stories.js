@@ -10,7 +10,7 @@ import Bag, {
 } from "../../src/components/Bag";
 
 export default {
-    title: "Bags/Bag",
+    title: "Bags / Bag",
 };
 
 const data = {

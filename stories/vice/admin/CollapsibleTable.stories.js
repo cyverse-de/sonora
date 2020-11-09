@@ -10,7 +10,7 @@ import {
 } from "../../../src/components/vice/admin/constants";
 
 export default {
-    title: "VICE/admin/CollapsibleTable",
+    title: "VICE / admin / CollapsibleTable",
 };
 
 const testData = {

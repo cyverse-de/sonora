@@ -32,5 +32,5 @@ export const AnalysesTableViewTest = () => {
 };
 
 export default {
-    title: "Analyses",
+    title: "Analyses / Table view",
 };

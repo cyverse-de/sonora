@@ -74,7 +74,7 @@ export const DEWordCount = ({
 };
 
 export default {
-    title: "Apps / Launch",
+    title: "Apps / Launch / DE",
     component: AppLaunchStoryBase,
     argTypes: {
         deleted: {

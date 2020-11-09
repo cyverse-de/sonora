@@ -42,4 +42,4 @@ export const HeaderTest = () => {
     );
 };
 
-export default { title: "Data/Header" };
+export default { title: "Data / Header" };

@@ -24,6 +24,7 @@ function RowDotMenu(props) {
         onDetailsSelected,
         resource,
         setSharingDlgOpen,
+        onPublicLinksSelected,
     } = props;
 
     const isOwner = hasOwn(resource.permission);
@@ -60,9 +61,7 @@ function RowDotMenu(props) {
                         key={build(baseId, ids.PUBLIC_LINKS_MENU_ITEM)}
                         baseId={baseId}
                         onClose={onClose}
-                        onPublicLinksSelected={() =>
-                            console.log("Public links selected")
-                        }
+                        onPublicLinksSelected={onPublicLinksSelected}
                     />
                 ),
             ]}

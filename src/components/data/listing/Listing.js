@@ -487,6 +487,9 @@ function Listing(props) {
                         orderBy={orderBy}
                         selected={selected}
                         setSharingDlgOpen={setSharingDlgOpen}
+                        onPublicLinksSelected={() =>
+                            setPublicLinksDlgOpen(true)
+                        }
                     />
                 )}
                 {isGridView && <span>Coming Soon!</span>}
@@ -533,7 +536,7 @@ function Listing(props) {
                 onClose={() => setPublicLinksDlgOpen(false)}
                 content={<PublicLinks paths={getSelectedPaths()} />}
                 title={"Public Link(s)"}
-                baseId={"menu"}
+                baseId={ids.PUBLIC_LINKS}
             />
         </>
     );

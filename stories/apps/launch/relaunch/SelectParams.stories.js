@@ -56,5 +56,3 @@ export const SelectParamsRelaunch = () => {
 
     return <AppLaunchStoryBase app={app} />;
 };
-
-export default { title: "Apps / Launch / Relaunch-Select Params" };

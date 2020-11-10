@@ -21,8 +21,8 @@ export const DEWordCount = ({
     deleted,
     disabled,
     loading,
-    loadingError,
-    submissionError,
+    "Loading Error": loadingError,
+    "Submission Error": submissionError,
 }) => {
     const [appError, setAppError] = React.useState(null);
 
@@ -73,34 +73,30 @@ export const DEWordCount = ({
     );
 };
 
-export default {
-    title: "Apps / Launch / DE",
-    component: AppLaunchStoryBase,
-    argTypes: {
-        deleted: {
-            control: {
-                type: "boolean",
-            },
+DEWordCount.argTypes = {
+    deleted: {
+        control: {
+            type: "boolean",
         },
-        disabled: {
-            control: {
-                type: "boolean",
-            },
+    },
+    disabled: {
+        control: {
+            type: "boolean",
         },
-        loading: {
-            control: {
-                type: "boolean",
-            },
+    },
+    loading: {
+        control: {
+            type: "boolean",
         },
-        loadingError: {
-            control: {
-                type: "boolean",
-            },
+    },
+    "Loading Error": {
+        control: {
+            type: "boolean",
         },
-        submissionError: {
-            control: {
-                type: "boolean",
-            },
+    },
+    "Submission Error": {
+        control: {
+            type: "boolean",
         },
     },
 };

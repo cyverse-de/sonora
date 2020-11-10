@@ -9,19 +9,15 @@ export const DeprecatedParams = ({ deleted, disabled }) => {
     return <AppLaunchStoryBase app={app} />;
 };
 
-export default {
-    title: "Apps / Launch / Deprecated",
-    component: AppLaunchStoryBase,
-    argTypes: {
-        deleted: {
-            control: {
-                type: "boolean",
-            },
+DeprecatedParams.argTypes = {
+    deleted: {
+        control: {
+            type: "boolean",
         },
-        disabled: {
-            control: {
-                type: "boolean",
-            },
+    },
+    disabled: {
+        control: {
+            type: "boolean",
         },
     },
 };

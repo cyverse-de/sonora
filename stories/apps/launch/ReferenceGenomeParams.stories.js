@@ -13,5 +13,3 @@ export const ReferenceGenomeParams = () => {
 
     return <AppLaunchStoryBase app={ReferenceGenomeApp} />;
 };
-
-export default { title: "Apps / Launch / Reference Genomes" };

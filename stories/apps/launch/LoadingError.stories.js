@@ -12,7 +12,7 @@ const errorObject = {
     },
 };
 
-export const LoadingError = ({ customMessage }) => {
+export const LoadingError = ({ "Longer Error Message": customMessage }) => {
     return (
         <AppLaunchStoryBase
             appError={{
@@ -27,14 +27,10 @@ export const LoadingError = ({ customMessage }) => {
     );
 };
 
-export default {
-    title: "Apps / Launch / Loading Error",
-    component: AppLaunchStoryBase,
-    argTypes: {
-        customMessage: {
-            control: {
-                type: "boolean",
-            },
+LoadingError.argTypes = {
+    "Longer Error Message": {
+        control: {
+            type: "boolean",
         },
     },
 };

@@ -4,5 +4,3 @@ import AppLaunchStoryBase from "./AppLaunchStoryBase";
 import PipelineApp from "./data/PipelineApp";
 
 export const Pipeline = () => <AppLaunchStoryBase app={PipelineApp} />;
-
-export default { title: "Apps / Launch / Pipelines" };

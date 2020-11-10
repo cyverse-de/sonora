@@ -53,5 +53,3 @@ export const DEWordCountRelaunch = () => {
         />
     );
 };
-
-export default { title: "Apps / Launch / Relaunch" };

@@ -5,7 +5,7 @@ import { listingById, appDetails, quickLaunches } from "./AppMocks";
 import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
 
 export default {
-    title: "Apps",
+    title: "Apps / Details",
 };
 
 export function DetailsDrawerTest(props) {

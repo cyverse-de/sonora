@@ -10,7 +10,7 @@ import {
     pathListfileStatResp,
 } from "../DataMocks";
 export default {
-    title: "Data / Viewers",
+    title: "Data / Viewers / PathList",
 };
 
 function PathListViewerTest(props) {

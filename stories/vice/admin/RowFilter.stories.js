@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import RowFilter from "../../../src/components/vice/admin/filter";
 
 export default {
-    title: "VICE/admin/RowFilter",
+    title: "VICE / admin / RowFilter",
 };
 
 export const RowFilterTest = () => {

@@ -5,9 +5,10 @@ import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
 import { fileTypesResp, dataRootsResp } from "./DataMocks";
 import { mockAxios } from "../axiosMock";
 import constants from "../../src/constants";
+import { ConfigProvider } from "contexts/config";
 
 export default {
-    title: "Data",
+    title: "Data / Listing",
 };
 
 function ListingTest(props) {
@@ -165,5 +166,9 @@ export const DataListingTest = () => {
     mockAxios.onGet(/\/api\/filesystem\/root.*/).reply(200, dataRootsResp);
     mockAxios.onGet(/\/api\/filetypes\/type-list/).reply(200, fileTypesResp);
     mockAxios.onPost(/\/api\/filesystem\/delete/).reply(200, {});
-    return <ListingTest />;
+    return (
+        <ConfigProvider>
+            <ListingTest />
+        </ConfigProvider>
+    );
 };

@@ -5,4 +5,4 @@ import SelectParamsApp from "./data/SelectParamsApp";
 
 export const SelectParams = () => <AppLaunchStoryBase app={SelectParamsApp} />;
 
-export default { title: "Apps / Launch" };
+export default { title: "Apps / Launch / Select Params" };

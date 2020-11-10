@@ -7,5 +7,5 @@ export const LoadingMask = () => {
 };
 
 export default {
-    title: "Apps / Launch",
+    title: "Apps / Launch / LoadingMask",
 };

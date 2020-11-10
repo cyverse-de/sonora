@@ -16,7 +16,7 @@ import { ConfigProvider, useConfig } from "contexts/config";
 import { NotificationsProvider } from "contexts/pushNotifications";
 
 export default {
-    title: "Analyses",
+    title: "Analyses / Listing",
 };
 
 function ListingTest(props) {

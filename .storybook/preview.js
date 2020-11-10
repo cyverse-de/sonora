@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import { withConsole } from "@storybook/addon-console";
-import { addDecorator, addParameters, configure } from "@storybook/react";
 import { CyVerseAnnouncer } from "@cyverse-de/ui-lib";
 import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "../src/components/theme/default";
@@ -11,7 +9,11 @@ import {
 } from "../src/contexts/userProfile";
 import { PreferencesProvider } from "../src/contexts/userPreferences";
 import { ReactQueryConfigProvider } from "react-query";
-import { I18nProviderWrapper } from "../src/i18n";
+import { i18n } from "../src/i18n";
+import { I18nextProvider } from "react-i18next";
+
+import { addDecorator } from "@storybook/react";
+import { withConsole } from "@storybook/addon-console";
 
 function MockUserProfile() {
     const [userProfile, setUserProfile] = useUserProfile();
@@ -36,25 +38,28 @@ function MockUserProfile() {
 const queryConfig = {
     queries: { refetchOnWindowFocus: false, retry: false },
 };
-addDecorator((storyFn) => (
-    <ThemeProvider theme={theme}>
-        <UserProfileProvider>
-            <ReactQueryConfigProvider config={queryConfig}>
-                <I18nProviderWrapper>
-                    <MockUserProfile />
-                    <PreferencesProvider>
-                        {storyFn()}
-                        <CyVerseAnnouncer />
-                    </PreferencesProvider>
-                </I18nProviderWrapper>
-            </ReactQueryConfigProvider>
-        </UserProfileProvider>
-    </ThemeProvider>
-));
 
-//redirect console error / logs / warns to action logger
 addDecorator((storyFn, context) => withConsole()(storyFn)(context));
 
-addParameters({ chromatic: { delay: AXIOS_DELAY + 500 } });
-
-configure(require.context("../stories", true, /\.stories\.js$/), module);
+export const decorators = [
+    (Story) => (
+        <ThemeProvider theme={theme}>
+            <UserProfileProvider>
+                <ReactQueryConfigProvider config={queryConfig}>
+                    <MockUserProfile />
+                    <PreferencesProvider>
+                        <React.Suspense fallback={"Loading i18n..."}>
+                            <I18nextProvider i18n={i18n}>
+                                {Story()}
+                            </I18nextProvider>
+                        </React.Suspense>
+                        <CyVerseAnnouncer />
+                    </PreferencesProvider>
+                </ReactQueryConfigProvider>
+            </UserProfileProvider>
+        </ThemeProvider>
+    ),
+];
+export const parameters = {
+    chromatic: { delay: AXIOS_DELAY + 500 },
+};

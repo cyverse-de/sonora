@@ -1,14 +1,11 @@
 import React from "react";
 import URLImportDialog from "../src/components/urlImport";
-import { boolean, withKnobs } from "@storybook/addon-knobs";
 import { mockAxios } from "./axiosMock";
 
-export const URLImportDialogTest = () => {
-    const successResp = boolean("Success Response", true);
-
+export const URLImportDialogTest = ({ success }) => {
     mockAxios.onPost(/\/api\/fileio\/urlupload/).reply(
-        successResp ? 200 : 500,
-        successResp
+        success ? 200 : 500,
+        success
             ? {}
             : {
                   path: "/iplant/home/ipcdev/urlImport",
@@ -29,5 +26,12 @@ export const URLImportDialogTest = () => {
 
 export default {
     title: "Uploads and Imports",
-    decorators: [withKnobs],
+    component: URLImportDialog,
+    argTypes: {
+        success: {
+            control: {
+                type: "boolean",
+            },
+        },
+    },
 };

@@ -1,7 +1,5 @@
 import React from "react";
 
-import { withKnobs, button } from "@storybook/addon-knobs";
-
 import { mockAxios } from "../axiosMock";
 
 import Bag, {
@@ -13,9 +11,10 @@ import Bag, {
 
 import * as facade from "../../src/serviceFacades/bags";
 
+import { Button, Paper } from "@material-ui/core";
+
 export default {
-    title: "Bags/Hooks",
-    decorators: [withKnobs],
+    title: "Bags / Hooks",
 };
 
 let counter = 0;
@@ -80,21 +79,35 @@ export const TestAddAndDelete = () => {
         return [200, data];
     };
 
-    button("Add Item", () =>
-        addItem({
-            name: "test file 1",
-            path: "/test/path/1",
-            type: FILE_TYPE,
-        })
-    );
-
-    button("Delete All Items", () => deleteAllItems());
-
     mockAxios.onGet("/api/bags/default").reply(200, data);
     mockAxios.onPost("/api/bags/default").reply(addItemHandler);
     mockAxios.onDelete("/api/bags/default").reply(deleteAllHandler);
 
-    return <Bag />;
+    return (
+        <Paper>
+            <Button
+                variant="outlined"
+                onClick={() =>
+                    addItem({
+                        name: "test file 1",
+                        path: "/test/path/1",
+                        type: FILE_TYPE,
+                    })
+                }
+                style={{ margin: 1 }}
+            >
+                Add Item
+            </Button>
+            <Button
+                variant="outlined"
+                onClick={deleteAllItems}
+                style={{ margin: 1 }}
+            >
+                Delete All Items
+            </Button>
+            <Bag />
+        </Paper>
+    );
 };
 
 const deleteData = { ...originalData };
@@ -112,10 +125,19 @@ export const TestDelete = () => {
         return [200, deleteData];
     };
 
-    button("Delete Item", () => deleteItem({ id: counter - 1 }));
-
     mockAxios.onGet("/api/bags/default").reply(200, data);
     mockAxios.onPost("/api/bags/default").reply(deleteItemHandler);
 
-    return <Bag />;
+    return (
+        <Paper>
+            <Button
+                variant="outlined"
+                onClick={() => deleteItem({ id: counter - 1 })}
+                style={{ margin: 1 }}
+            >
+                Delete Items
+            </Button>
+            <Bag />
+        </Paper>
+    );
 };

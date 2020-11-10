@@ -246,7 +246,6 @@ function Listing({
     }, [selected]);
 
     useEffect(() => {
-
         setAddToBagEnabled(selected && selected.length > 0);
     }, [selected]);
 

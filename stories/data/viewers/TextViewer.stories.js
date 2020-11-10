@@ -5,7 +5,7 @@ import FileViewer from "components/data/viewers/FileViewer";
 import { mockAxios } from "../../axiosMock";
 import { fileTypesResp, plainManifestResp, plainChunk } from "../DataMocks";
 export default {
-    title: "Data / Viewers",
+    title: "Data / Viewers / Text",
 };
 
 function PlainTextViewerTest(props) {

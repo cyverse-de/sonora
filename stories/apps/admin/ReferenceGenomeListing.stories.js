@@ -7,7 +7,7 @@ import testConfig from "../../configMock";
 import ReferenceGenomes from "../../../src/components/apps/admin/referenceGenomes/ReferenceGenomes";
 
 export default {
-    title: "Apps",
+    title: "Apps / Ref Genome",
 };
 
 export function RefGenomeListingTest(props) {

@@ -8,7 +8,7 @@ import {
 } from "../src/contexts/uploadTracking";
 
 export default {
-    title: "Contexts/UploadTracking",
+    title: "Contexts / UploadTracking",
 };
 
 export const TryUploadTrackingProvider = () => {

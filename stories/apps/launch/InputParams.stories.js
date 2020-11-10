@@ -5,4 +5,4 @@ import InputParamsApp from "./data/InputParamsApp";
 
 export const InputParams = () => <AppLaunchStoryBase app={InputParamsApp} />;
 
-export default { title: "Apps / Launch" };
+export default { title: "Apps / Launch / Input Params" };

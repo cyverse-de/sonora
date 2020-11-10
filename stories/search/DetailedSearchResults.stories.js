@@ -39,6 +39,6 @@ function DetailedSearchResultsTest() {
     );
 }
 
-export default { title: "Search" };
+export default { title: "Search / Detailed" };
 
 export const DetailedSearch = () => <DetailedSearchResultsTest />;

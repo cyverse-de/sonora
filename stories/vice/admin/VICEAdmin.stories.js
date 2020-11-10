@@ -5,7 +5,7 @@ import VICEAdmin from "../../../src/components/vice/admin";
 import { mockAxios } from "../../axiosMock";
 
 export default {
-    title: "VICE/admin/VICEAdmin",
+    title: "VICE / admin / VICEAdmin",
 };
 
 const testData = {

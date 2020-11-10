@@ -25,5 +25,5 @@ export const AppsTableViewTest = () => {
 };
 
 export default {
-    title: "Apps",
+    title: "Apps / TableView",
 };

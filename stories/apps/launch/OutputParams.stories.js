@@ -5,4 +5,4 @@ import OutputParamsApp from "./data/OutputParamsApp";
 
 export const OutputParams = () => <AppLaunchStoryBase app={OutputParamsApp} />;
 
-export default { title: "Apps / Launch" };
+export default { title: "Apps / Launch / Output Params" };

@@ -90,4 +90,4 @@ export const ReferenceGenomeParamsRelaunch = () => {
     return <AppLaunchStoryBase app={app} />;
 };
 
-export default { title: "Apps / Launch / Relaunch" };
+export default { title: "Apps / Launch / Relaunch-Reference Genomes" };

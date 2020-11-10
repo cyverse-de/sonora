@@ -10,7 +10,7 @@ import notificationsData from "./notificationsData";
 import { mockAxios } from "../axiosMock";
 
 export default {
-    title: "Notifications",
+    title: "Notifications / Top 10",
 };
 
 export const NotificationsPreviewTest = () => {

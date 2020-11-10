@@ -4,7 +4,7 @@ import { info } from "./AnalysesMocks";
 import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
 
 export default {
-    title: "Analyses",
+    title: "Analyses / Info",
 };
 
 export function AnalysisInfoTest(props) {

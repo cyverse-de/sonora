@@ -17,5 +17,5 @@ export default {
     SEARCH: "search",
     SETTINGS: "settings",
     VICE: "vice",
-    YOUTUBE_EMBED_BASE: "https://www.youtube-nocookie.com/embed",
+    YOUTUBE_EMBED_BASE: "https://youtu.be",
 };

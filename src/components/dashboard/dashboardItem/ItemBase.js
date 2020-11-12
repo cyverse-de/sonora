@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import clsx from "clsx";
 import { useTranslation } from "i18n";
+import ReactPlayer from "react-player/youtube";
 
 import {
     Avatar,
@@ -203,18 +204,22 @@ export const DashboardVideoItem = ({ item }) => {
     const classes = useStyles(item);
 
     return (
-        <iframe
+        <div
             className={classes.dashboardVideo}
             aria-label={item.content.name}
             title={item.content.name}
             width="100%"
             height="100%"
-            src={item.getLinkTarget()}
-            frameBorder="0"
-            controls="1"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-            allowFullScreen
-        ></iframe>
+        >
+            <ReactPlayer
+                url={item.getLinkTarget()}
+                light={true}
+                width="100%"
+                height="100%"
+                playing={true}
+                controls={true}
+            />
+        </div>
     );
 };
 

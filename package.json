@@ -131,6 +131,7 @@
         "fetch-mock": "^9.5.0",
         "husky": "^4.0.10",
         "jest": "^24.9.0",
+        "jest-next-dynamic": "^1.0.1",
         "jsdoc": "^3.6.3",
         "lint-staged": "^10.2.2",
         "nodemon": "^2.0.2",

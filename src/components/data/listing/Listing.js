@@ -535,7 +535,7 @@ function Listing(props) {
                 open={publicLinksDlgOpen}
                 onClose={() => setPublicLinksDlgOpen(false)}
                 content={<PublicLinks paths={getSelectedPaths()} />}
-                title={"Public Link(s)"}
+                title={t("publicLinks")}
                 baseId={ids.PUBLIC_LINKS}
             />
         </>

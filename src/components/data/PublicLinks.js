@@ -21,9 +21,8 @@ import { getParentPath } from "./utils";
 import constants from "../../constants";
 import ids from "./ids";
 
-import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import GridLoading from "components/utils/GridLoading";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
@@ -34,12 +33,19 @@ import {
     TextField,
     Toolbar,
     Typography,
+    useTheme,
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Skeleton } from "@material-ui/lab";
 
-import { CloudDownload, Save, FileCopy } from "@material-ui/icons";
+import {
+    CheckCircle,
+    CloudDownload,
+    Error,
+    Save,
+    FileCopy,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     toolbarButtons: {
@@ -53,12 +59,17 @@ const useStyles = makeStyles((theme) => ({
 
 function PublicLinks(props) {
     const classes = useStyles();
-    const { baseId, paths, showErrorAnnouncer } = props;
+    const { baseId, paths } = props;
+    const theme = useTheme();
     const [links, setLinks] = useState();
     const [download, setDownload] = useState(false);
     const [saveAsDialogOpen, setSaveAsDialogOpen] = useState(false);
     const [saveNewFileError, setSaveNewFileError] = useState(null);
+    const [fileSavePath, setFileSavePath] = useState();
+    const [successMsg, setSuccessMsg] = useState();
+    const [errorMsg, setErrorMsg] = useState();
     const { t } = useTranslation("data");
+
     const { isFetching, error } = useQuery({
         queryKey: [PUBLIC_LINKS_QUERY_KEY, paths],
         queryFn: getPublicLinks,
@@ -81,19 +92,18 @@ function PublicLinks(props) {
         uploadTextAsFile,
         {
             onSuccess: (resp) => {
-                announce({
-                    text: t("fileSaveSuccess", {
+                setSuccessMsg(
+                    t("fileSaveSuccess", {
                         fileName: resp?.file.label,
-                    }),
-                    variant: AnnouncerConstants.SUCCESS,
-                });
+                    })
+                );
                 setSaveAsDialogOpen(false);
             },
             onError: (error) => {
                 const text =
                     getErrorCode(error) === ERROR_CODES.ERR_EXISTS
                         ? t("fileExists", {
-                              path: getParentPath(error?.path),
+                              path: getParentPath(fileSavePath),
                           })
                         : t("fileSaveError");
                 setSaveNewFileError(text);
@@ -117,12 +127,9 @@ function PublicLinks(props) {
         navigator.clipboard
             .writeText(links)
             .then(() => {
-                announce({
-                    text: "Links copied.",
-                    variant: AnnouncerConstants.SUCCESS,
-                });
+                setSuccessMsg(t("copyLinksSuccess"));
             })
-            .catch((err) => showErrorAnnouncer(t("copyError")));
+            .catch((err) => setErrorMsg(t("copyLinksError")));
     };
 
     if (error) {
@@ -153,8 +160,31 @@ function PublicLinks(props) {
                         value={links}
                         fullWidth
                         variant="outlined"
-                        id={build(baseId, ids.PUBLIC_LINKS)}
+                        id={build(baseId, ids.PUBLIC_LINKS_TEXT_FIELD)}
                     />
+                    {successMsg && (
+                        <>
+                            <div style={{ float: "left" }}>
+                                <CheckCircle
+                                    size="small"
+                                    style={{ color: theme.palette.info.main }}
+                                />
+                            </div>
+                            <Typography variant="caption">
+                                {successMsg}
+                            </Typography>
+                        </>
+                    )}
+                    {errorMsg && (
+                        <>
+                            <div style={{ float: "left" }}>
+                                <Error size="small" color="error" />
+                            </div>
+                            <Typography variant="caption">
+                                {errorMsg}
+                            </Typography>
+                        </>
+                    )}
                     <Toolbar>
                         <Button
                             variant="outlined"
@@ -200,6 +230,7 @@ function PublicLinks(props) {
                     onClose={() => setSaveAsDialogOpen(false)}
                     saveFileError={saveNewFileError}
                     onSaveAs={(newPath) => {
+                        setFileSavePath(newPath);
                         saveTextAsFile({
                             dest: newPath,
                             content: links,
@@ -213,4 +244,4 @@ function PublicLinks(props) {
         );
     }
 }
-export default withErrorAnnouncer(PublicLinks);
+export default PublicLinks;

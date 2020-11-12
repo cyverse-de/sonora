@@ -4,8 +4,6 @@ import {
     BarChart,
     Repeat,
     Info,
-    Stop,
-    People,
     PermMedia,
 } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
@@ -34,67 +32,48 @@ class AnalysisItem extends ItemBase {
 
     static create(props) {
         const item = new AnalysisItem(props);
+        const analysis = props.content;
+        const { setDetailsAnalysis } = props;
         const { t } = useTranslation("dashboard");
-        return item
-            .addActions([
-                <ItemAction
-                    ariaLabel={t("relaunchAria")}
-                    key={`${constants.KIND_ANALYSES}-${props.content.id}-relaunch`}
-                    tooltipKey="relaunchAction"
-                >
-                    <Link
-                        href={`/${NavConstants.ANALYSES}/[analysisId]/${NavConstants.RELAUNCH}`}
-                        as={`/${NavConstants.ANALYSES}/${item.content.id}/${NavConstants.RELAUNCH}`}
-                    >
-                        <IconButton>
-                            <Repeat />
-                        </IconButton>
-                    </Link>
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel={t("outputFilesAria")}
-                    key={`${constants.KIND_ANALYSES}-${props.content.id}-outputs`}
-                    tooltipKey="outputAction"
-                >
-                    <Link
-                        href={`/${NavConstants.DATA}/ds/[...pathItems]`}
-                        as={getFolderPage(item.content["result_folder_path"])}
-                    >
-                        <IconButton>
-                            <PermMedia />
-                        </IconButton>
-                    </Link>
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel={t("shareAria")}
-                    key={`${constants.KIND_ANALYSES}-${props.content.id}-share`}
-                    tooltipKey="shareAction"
+        return item.addActions([
+            <ItemAction
+                ariaLabel={t("relaunchAria")}
+                key={`${constants.KIND_ANALYSES}-${props.content.id}-relaunch`}
+                tooltipKey="relaunchAction"
+            >
+                <Link
+                    href={`/${NavConstants.ANALYSES}/[analysisId]/${NavConstants.RELAUNCH}`}
+                    as={`/${NavConstants.ANALYSES}/${item.content.id}/${NavConstants.RELAUNCH}`}
                 >
                     <IconButton>
-                        <People />
+                        <Repeat color="primary" />
                     </IconButton>
-                </ItemAction>,
-            ])
-            .addMenuActions([
-                <ItemAction
-                    ariaLabel={t("stopAria")}
-                    key={`${constants.KIND_ANALYSES}-${props.content.id}-stop`}
-                    tooltipKey="stopAction"
+                </Link>
+            </ItemAction>,
+            <ItemAction
+                ariaLabel={t("outputFilesAria")}
+                key={`${constants.KIND_ANALYSES}-${props.content.id}-outputs`}
+                tooltipKey="outputAction"
+            >
+                <Link
+                    href={`/${NavConstants.DATA}/ds/[...pathItems]`}
+                    as={getFolderPage(item.content["result_folder_path"])}
                 >
                     <IconButton>
-                        <Stop />
+                        <PermMedia color="primary" />
                     </IconButton>
-                </ItemAction>,
-                <ItemAction
-                    ariaLabel={t("openDetailsAria")}
-                    key={`${constants.KIND_ANALYSES}-${props.content.id}-details`}
-                    tooltipKey="detailsAction"
-                >
-                    <IconButton>
-                        <Info />
-                    </IconButton>
-                </ItemAction>,
-            ]);
+                </Link>
+            </ItemAction>,
+            <ItemAction
+                ariaLabel={t("shareAria")}
+                key={`${constants.KIND_ANALYSES}-${props.content.id}-details`}
+                tooltipKey="detailsAction"
+            >
+                <IconButton onClick={() => setDetailsAnalysis({ ...analysis })}>
+                    <Info color="primary" />
+                </IconButton>
+            </ItemAction>,
+        ]);
     }
 
     getOrigination(t) {

@@ -41,6 +41,7 @@ import {
     Lock as LockIcon,
     Storage as StorageIcon,
 } from "@material-ui/icons";
+import { useUserProfile } from "../../../contexts/userProfile";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
@@ -90,6 +91,11 @@ function AppNavigation(props) {
     const { t } = useTranslation("apps");
     const [categories, setCategories] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [userProfile] = useUserProfile();
+    const [categoryQueryKey, setCategoryQueryKey] = useState([
+        APP_CATEGORIES_QUERY_KEY,
+        userProfile?.id,
+    ]);
 
     const appNavId = build(baseId, ids.APPS_NAVIGATION);
 
@@ -129,7 +135,7 @@ function AppNavigation(props) {
     );
 
     const { isFetching } = useQuery({
-        queryKey: APP_CATEGORIES_QUERY_KEY,
+        queryKey: categoryQueryKey,
         queryFn: getPrivateCategories,
         config: {
             onSuccess: preProcessData,
@@ -146,13 +152,17 @@ function AppNavigation(props) {
     }, [isFetching, setCategoryStatus]);
 
     useEffect(() => {
+        setCategoryQueryKey([APP_CATEGORIES_QUERY_KEY, userProfile?.id]);
+    }, [userProfile]);
+
+    useEffect(() => {
         if (!categories || categories.length === 0) {
-            const cacheCat = queryCache.getQueryData(APP_CATEGORIES_QUERY_KEY);
+            const cacheCat = queryCache.getQueryData(categoryQueryKey);
             if (cacheCat) {
                 preProcessData(cacheCat);
             }
         }
-    }, [preProcessData, categories]);
+    }, [categoryQueryKey, preProcessData, categories]);
 
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);

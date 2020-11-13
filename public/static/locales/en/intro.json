@@ -1,0 +1,8 @@
+{
+    "analysesTitle": "Analyses: Using the Analyses View",
+    "appsTitle": "Apps: Using the Apps View and Submitting an Analysis",
+    "dataTitle": "Data: Managing Files and Folders",
+    "analyses": "<p>Use the Analyses View to find information about the analyses (jobs) you have launched.</p><p>In the Analyses View, you can:<ul><li>Check the status of analysis.</li><li>Access the results of your analyses.</li><li>View the parameters you set for each analysis.</li><li>Relaunch an analysis using all of the options (parameters) you previously selected.</li></ul></p>",
+    "apps": "<p>Use the Apps View to view and find apps to analyze your data.</p> <p>In the Apps View, you can: <ul><li>Browse for all available apps in CyVerse.</li><li>Customize an existing app.</li><li>Create or edit an automated workflow by chaining the output of one app as the input to another app.</li><li>Create a new app.</li><li>Request your own app(s) be made available in the DE for public use.</li><li>Request backend integration of a tool (executable binary or script) for use in DE apps.</li></ul></p>",
+    "data": "<p>Use the Data view to manage your data in our cloud-based, central repository called the CyVerse Data Store. You can transfer data in/out of CyVerse and access files you own, files shared with you, and public data from anywhere in CyVerse.</p><p>In the Data View, you can also:<ul><li>Browse accessible data based on name, date created, date modified, file size.</li><li>View output data from your completed analyses.</li><li>Share your own data with your collaborators within the DE.</li><li>Share your data with others outside of CyVerse via a URL.</li></ul></p>"
+}

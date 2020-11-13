@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 
+import dynamic from "next/dynamic";
+
 import {
     Badge,
     Dialog,
@@ -32,8 +34,6 @@ import {
     ShoppingBasket as ShoppingBasketIcon,
 } from "@material-ui/icons";
 
-import SharingView from "components/sharing";
-
 import { build as buildID } from "@cyverse-de/ui-lib";
 
 import constants from "./constants";
@@ -55,6 +55,8 @@ import {
 import { useTranslation } from "i18n";
 import { useTheme } from "@material-ui/styles";
 import { useUserProfile } from "contexts/userProfile";
+
+const SharingView = dynamic(() => import("components/sharing"));
 
 const useStyles = makeStyles((theme) => ({
     help: {

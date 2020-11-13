@@ -8,7 +8,7 @@
 import React from "react";
 import { mockAxios } from "../axiosMock";
 import DetailedSearchResults from "components/search/detailed/DetailedSearchResults";
-import { SEARCH_RESULTS_TABS } from "components/search/detailed/DetailedSearchResults";
+import SEARCH_RESULTS_TABS from "components/search/detailed/tabs";
 import {
     dataSearchResp,
     appsSearchResp,

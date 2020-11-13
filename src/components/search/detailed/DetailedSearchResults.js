@@ -19,6 +19,8 @@ import DataSearchResults from "./DataSearchResults";
 import AnalysesSearchResults from "./AnalysesSearchResults";
 import DETabPanel from "components/utils/DETabPanel";
 
+import SEARCH_RESULTS_TABS from "components/search/detailed/tabs";
+
 import {
     Divider,
     Paper,
@@ -66,12 +68,6 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(0.25),
     },
 }));
-
-const SEARCH_RESULTS_TABS = {
-    data: "DATA",
-    apps: "APPS",
-    analyses: "ANALYSES",
-};
 
 function DetailedSearchResults(props) {
     const { baseId, searchTerm, selectedTab, onTabSelectionChange } = props;
@@ -235,5 +231,4 @@ function DetailedSearchResults(props) {
         </Paper>
     );
 }
-export { SEARCH_RESULTS_TABS };
 export default DetailedSearchResults;

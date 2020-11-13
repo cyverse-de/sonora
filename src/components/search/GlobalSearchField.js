@@ -32,7 +32,7 @@ import appFields from "components/apps/appFields";
 import analysisFields from "components/analyses/analysisFields";
 
 import ids from "./ids";
-import { SEARCH_RESULTS_TABS } from "components/search/detailed/DetailedSearchResults";
+import SEARCH_RESULTS_TABS from "components/search/detailed/tabs";
 import { getDataSimpleSearchQuery } from "./dataSearchQueryBuilder";
 import { getAnalysesSearchQueryFilter } from "./analysesSearchQueryBuilder";
 

@@ -5,6 +5,7 @@ import React from "react";
 
 import { FieldArray, Formik } from "formik";
 import { Trans } from "react-i18next";
+import { useMutation, useQuery } from "react-query";
 import PropTypes from "prop-types";
 
 import { useTranslation } from "i18n";
@@ -20,6 +21,13 @@ import SlideUpTransition from "../SlideUpTransition";
 
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import ExternalLink from "components/utils/ExternalLink";
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+
+import {
+    FILESYSTEM_METADATA_QUERY_KEY,
+    getFilesystemMetadata,
+    setFilesystemMetadata,
+} from "serviceFacades/metadata";
 
 import { build } from "@cyverse-de/ui-lib";
 
@@ -52,6 +60,7 @@ const MetadataFormDialog = (props) => {
         open,
         editable,
         loading,
+        fetchError,
         metadata,
         targetResource,
         closeMetadataDialog,
@@ -69,7 +78,7 @@ const MetadataFormDialog = (props) => {
     } = props;
 
     const { avus, "irods-avus": irodsAVUs } = values;
-    const targetName = targetResource.label;
+    const targetName = targetResource?.label;
 
     const { t } = useTranslation("metadata");
     const classes = useStyles();
@@ -347,6 +356,7 @@ const MetadataFormDialog = (props) => {
                                     field="avus"
                                     loading={loading}
                                     editable={editable}
+                                    fetchError={fetchError}
                                     parentID={ids.EDIT_METADATA_FORM}
                                     onEditAVU={(index) =>
                                         setEditingAttrIndex(index)
@@ -468,10 +478,49 @@ const MetadataFormDialog = (props) => {
     );
 };
 
-const MetadataForm = (props) => {
-    const { metadata, setDiskResourceMetadata } = props;
+const MetadataForm = ({ loading, showErrorAnnouncer, ...props }) => {
+    // targetResource should be spread down into the dialog form below.
+    const { targetResource } = props;
 
     const { t } = useTranslation("metadata");
+
+    const [metadata, setMetadata] = React.useState({});
+
+    const [metadataListingKey, setMetadataListingKey] = React.useState(
+        FILESYSTEM_METADATA_QUERY_KEY
+    );
+    const [
+        fetchMetadataQueryEnabled,
+        setFetchMetadataQueryEnabled,
+    ] = React.useState(false);
+
+    const { isFetching, error: fetchError } = useQuery({
+        queryKey: metadataListingKey,
+        queryFn: getFilesystemMetadata,
+        config: {
+            enabled: fetchMetadataQueryEnabled,
+            onSuccess: setMetadata,
+        },
+    });
+
+    const [setDiskResourceMetadata] = useMutation(
+        ({ metadata }) =>
+            setFilesystemMetadata({ dataId: targetResource.id, metadata }),
+        {
+            onSuccess: (resp, { onSuccess }) => {
+                onSuccess(resp);
+            },
+            onError: (error, { onError }) => {
+                onError(error);
+            },
+        }
+    );
+
+    React.useEffect(() => {
+        const dataId = targetResource?.id;
+        setMetadataListingKey([FILESYSTEM_METADATA_QUERY_KEY, { dataId }]);
+        setFetchMetadataQueryEnabled(!!dataId);
+    }, [targetResource]);
 
     const validateAVUs = (avus) => {
         const avusArrayErrors = [];
@@ -516,18 +565,23 @@ const MetadataForm = (props) => {
         const { avus, "irods-avus": irodsAVUs } = values;
         const { setSubmitting, setStatus } = actions;
 
-        const resolve = (metadata) => {
+        const onSuccess = (metadata) => {
             setSubmitting(false);
             setStatus({ success: true, metadata });
         };
-        const errorCallback = (httpStatusCode, errorMessage) => {
+
+        const onError = (errorMessage) => {
+            showErrorAnnouncer(t("errSubmission"), errorMessage);
+
             setSubmitting(false);
             setStatus({ success: false, errorMessage });
         };
 
-        const metadataUpdate = { ...metadata, avus, "irods-avus": irodsAVUs };
-
-        setDiskResourceMetadata(metadataUpdate, resolve, errorCallback);
+        setDiskResourceMetadata({
+            metadata: { ...metadata, avus, "irods-avus": irodsAVUs },
+            onSuccess,
+            onError,
+        });
     };
 
     return (
@@ -538,18 +592,26 @@ const MetadataForm = (props) => {
             onSubmit={handleSubmit}
         >
             {(formikProps) => (
-                <MetadataFormDialog {...props} {...formikProps} />
+                <MetadataFormDialog
+                    loading={loading || isFetching}
+                    fetchError={fetchError}
+                    metadata={metadata}
+                    {...props}
+                    {...formikProps}
+                />
             )}
         </Formik>
     );
 };
 
 MetadataForm.propTypes = {
-    targetResource: PropTypes.shape({ label: PropTypes.string }),
-    setDiskResourceMetadata: PropTypes.func.isRequired,
+    targetResource: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        label: PropTypes.string,
+    }),
     closeMetadataDialog: PropTypes.func.isRequired,
     onSelectTemplateBtnSelected: PropTypes.func.isRequired,
     onSaveMetadataToFileBtnSelected: PropTypes.func.isRequired,
 };
 
-export default MetadataForm;
+export default withErrorAnnouncer(MetadataForm);

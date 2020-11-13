@@ -13,6 +13,7 @@ import constants from "../../../constants";
 import ids from "../ids";
 import styles from "../styles";
 
+import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import TableLoading from "components/utils/TableLoading";
 
 import {
@@ -193,6 +194,7 @@ const MetadataList = (props) => {
         parentID,
         editable,
         loading,
+        fetchError,
         selectable,
         onEditAVU,
         onSelectAVU,
@@ -300,6 +302,12 @@ const MetadataList = (props) => {
     const sortedAVURows = orderBy
         ? stableSort(unsortedAVURows, getSorting(order, orderBy))
         : unsortedAVURows;
+
+    if (fetchError) {
+        return (
+            <WrappedErrorHandler errorObject={fetchError} baseId={tableID} />
+        );
+    }
 
     return (
         <div className={classes.metadataTemplateContainer}>

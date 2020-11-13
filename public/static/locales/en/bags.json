@@ -16,5 +16,6 @@
     "show": "Show",
     "downloadable": "Downloadable",
     "shareable": "Shareable",
-    "all": "All"
+    "all": "All",
+    "toolTip": "Use Bag"
 }

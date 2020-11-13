@@ -7,6 +7,7 @@
  */
 
 import React, { useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 
 import { useConfig } from "contexts/config";
 import { useTranslation } from "i18n";
@@ -32,9 +33,7 @@ import ImageViewer from "./ImageViewer";
 import PathListViewer from "./PathListViewer";
 import { refreshViewer, useFileManifest, useReadChunk } from "./queries";
 import StructuredTextViewer from "./StructuredTextViewer";
-import TextViewer from "./TextViewer";
 import { flattenStructureData } from "./utils";
-import VideoViewer from "./VideoViewer";
 import { parseNameFromPath } from "../utils";
 
 import { build } from "@cyverse-de/ui-lib";
@@ -44,6 +43,10 @@ import {
     Toolbar,
     Typography,
 } from "@material-ui/core";
+
+// these are at the bottom so eslint doesn't complain
+const TextViewer = dynamic(() => import("./TextViewer"));
+const VideoViewer = dynamic(() => import("./VideoViewer"));
 
 const VIEWER_TYPE = {
     PLAIN: "plain",

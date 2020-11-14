@@ -1,14 +1,10 @@
 const styles = (theme) => ({
+    metadataTableContainer: {
+        overflow: "auto",
+    },
     attributeTableContainer: {
         width: "100%",
         height: "100%",
-    },
-    attributeTableWrapper: {
-        overflow: "auto",
-        height: "80%",
-    },
-    appBar: {
-        position: "relative",
     },
     flex: {
         flex: 1,
@@ -43,6 +39,7 @@ const styles = (theme) => ({
         color: theme.palette.error.dark,
     },
     childAVUsContainer: {
+        flexDirection: "column", // needed for AccordionDetails layout
         paddingLeft: theme.typography.pxToRem(4),
         paddingRight: theme.typography.pxToRem(4),
     },

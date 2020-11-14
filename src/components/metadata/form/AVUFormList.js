@@ -17,21 +17,20 @@ import SlideUpTransition from "../SlideUpTransition";
 import { build, FormTextField, getFormError } from "@cyverse-de/ui-lib";
 
 import {
-    AppBar,
+    Button,
     Dialog,
+    DialogActions,
     DialogContent,
+    DialogTitle,
     Divider,
     Accordion,
     AccordionSummary,
     AccordionDetails,
-    IconButton,
-    Toolbar,
     Tooltip,
     Typography,
     makeStyles,
 } from "@material-ui/core";
 
-import ArrowBack from "@material-ui/icons/ArrowBack";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles(styles);
@@ -79,33 +78,8 @@ const AVUFormDialog = (props) => {
             aria-labelledby={dialogTitleID}
             TransitionComponent={SlideUpTransition}
         >
-            <AppBar className={classes.appBar}>
-                <Tooltip
-                    title={error ? t("errAVUEditFormTooltip") : ""}
-                    placement="bottom-start"
-                    enterDelay={200}
-                >
-                    <Toolbar>
-                        <IconButton
-                            id={build(formID, ids.BUTTONS.CLOSE)}
-                            color="inherit"
-                            aria-label={t("close")}
-                            disabled={!!error}
-                            onClick={closeAttrDialog}
-                        >
-                            <ArrowBack />
-                        </IconButton>
-                        <Typography
-                            id={dialogTitleID}
-                            variant="h6"
-                            color="inherit"
-                            className={classes.flex}
-                        >
-                            {title}
-                        </Typography>
-                    </Toolbar>
-                </Tooltip>
-            </AppBar>
+            <DialogTitle id={dialogTitleID}>{title}</DialogTitle>
+
             <DialogContent>
                 <FastField
                     name={`${field}.attr`}
@@ -186,6 +160,26 @@ const AVUFormDialog = (props) => {
                     </>
                 )}
             </DialogContent>
+
+            <DialogActions>
+                <Tooltip
+                    title={error ? t("errAVUEditFormTooltip") : ""}
+                    placement="left-start"
+                    enterDelay={200}
+                >
+                    <span>
+                        <Button
+                            id={build(formID, ids.BUTTONS.DONE)}
+                            color="primary"
+                            variant="contained"
+                            disabled={!!error}
+                            onClick={closeAttrDialog}
+                        >
+                            {t("done")}
+                        </Button>
+                    </span>
+                </Tooltip>
+            </DialogActions>
         </Dialog>
     );
 };

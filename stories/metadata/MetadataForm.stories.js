@@ -40,7 +40,6 @@ mockAxios.onPost(/\/api\/filesystem\/.*\/metadata/).reply((config) => {
     return [200, { path: "/fake/data/path", user: "ipcdev" }];
 });
 
-const closeMetadataDialog = () => console.log("dialog closed.");
 const onSelectTemplateBtnSelected = (metadata) => {
     console.log("view in templates", metadata);
 };
@@ -56,7 +55,6 @@ export const MetadataView = () => {
 
     return (
         <MetadataForm
-            open
             editable
             loading={loading}
             targetResource={
@@ -67,7 +65,6 @@ export const MetadataView = () => {
                           label: "Test Resource",
                       }
             }
-            closeMetadataDialog={closeMetadataDialog}
             onSelectTemplateBtnSelected={onSelectTemplateBtnSelected}
             onSaveMetadataToFileBtnSelected={onSaveMetadataToFileBtnSelected}
         />
@@ -77,14 +74,12 @@ export const MetadataView = () => {
 export const ReadOnlyMetadata = () => {
     return (
         <MetadataForm
-            open
             editable={false}
             targetResource={{
                 id: "disk-resource-id",
                 label: "Read-Only Resource",
             }}
             loading={false}
-            closeMetadataDialog={closeMetadataDialog}
             onSelectTemplateBtnSelected={onSelectTemplateBtnSelected}
             onSaveMetadataToFileBtnSelected={onSaveMetadataToFileBtnSelected}
         />
@@ -94,14 +89,12 @@ export const ReadOnlyMetadata = () => {
 export const DataCiteMetadataView = () => {
     return (
         <MetadataForm
-            open
             editable
             targetResource={{
                 id: "data-cite-resource",
                 label: "DataCite Resource",
             }}
             loading={false}
-            closeMetadataDialog={closeMetadataDialog}
             onSelectTemplateBtnSelected={onSelectTemplateBtnSelected}
             onSaveMetadataToFileBtnSelected={onSaveMetadataToFileBtnSelected}
         />
@@ -111,11 +104,9 @@ export const DataCiteMetadataView = () => {
 export const EmptyMetadata = () => {
     return (
         <MetadataForm
-            open
             editable
             targetResource={{ id: "no-metadata", label: "Empty Metadata" }}
             loading={false}
-            closeMetadataDialog={closeMetadataDialog}
             onSelectTemplateBtnSelected={onSelectTemplateBtnSelected}
             onSaveMetadataToFileBtnSelected={onSaveMetadataToFileBtnSelected}
         />

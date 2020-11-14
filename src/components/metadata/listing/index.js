@@ -25,12 +25,13 @@ import {
 } from "@cyverse-de/ui-lib";
 
 import {
-    Fab,
     Grid,
     IconButton,
+    Paper,
     Table,
     TableBody,
     TableCell,
+    TableContainer,
     TableRow,
     Toolbar,
     Typography,
@@ -53,19 +54,16 @@ const MetadataGridToolbar = (props) => {
     const classes = useStyles();
 
     return (
-        <Toolbar className={classes.root}>
+        <Toolbar>
             {editable && (
-                <div className={classes.actions}>
-                    <Fab
-                        id={build(parentID, ids.BUTTONS.ADD)}
-                        size="small"
-                        color="primary"
-                        aria-label={t("addMetadata")}
-                        onClick={onAddAVU}
-                    >
-                        <ContentAdd />
-                    </Fab>
-                </div>
+                <IconButton
+                    id={build(parentID, ids.BUTTONS.ADD)}
+                    color="primary"
+                    aria-label={t("addMetadata")}
+                    onClick={onAddAVU}
+                >
+                    <ContentAdd />
+                </IconButton>
             )}
             <div className={classes.title}>
                 <Typography id={build(parentID, ids.TITLE)} variant="h6">
@@ -310,14 +308,17 @@ const MetadataList = (props) => {
     }
 
     return (
-        <div className={classes.metadataTemplateContainer}>
+        <>
             <MetadataGridToolbar
                 parentID={tableID}
                 editable={editable}
                 onAddAVU={onAddAVU}
             />
 
-            <div className={classes.tableWrapper}>
+            <TableContainer
+                component={Paper}
+                className={classes.metadataTableContainer}
+            >
                 <Table aria-labelledby={build(tableID, ids.TITLE)}>
                     {loading ? (
                         <TableLoading
@@ -343,8 +344,8 @@ const MetadataList = (props) => {
                         rowsInPage={rowsInPage}
                     />
                 </Table>
-            </div>
-        </div>
+            </TableContainer>
+        </>
     );
 };
 

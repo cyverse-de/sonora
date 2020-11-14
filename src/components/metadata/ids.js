@@ -9,9 +9,8 @@ export default {
     AVU_AVUS: "avus",
     BUTTONS: {
         ADD: "addBtn",
-        CLOSE: "closeBtn",
-        CLOSE_ICON: "closeIconBtn",
         DELETE: "deleteBtn",
+        DONE: "doneBtn",
         EDIT: "editBtn",
         EXPAND: "expand",
         HELP: "help",

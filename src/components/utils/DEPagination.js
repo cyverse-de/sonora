@@ -9,7 +9,6 @@ import { setLocalStorage } from "components/utils/localStorage";
 import constants from "../../constants";
 import NavigationConstants from "common/NavigationConstants";
 
-import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Pagination from "@material-ui/lab/Pagination";
 import {
     Button,
@@ -22,6 +21,8 @@ import {
     Popper,
     Tooltip,
     useMediaQuery,
+    useTheme,
+    makeStyles,
 } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 

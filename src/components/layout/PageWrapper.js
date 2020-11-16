@@ -6,7 +6,7 @@
  */
 
 import React from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     wrapper: {

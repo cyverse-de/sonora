@@ -206,12 +206,7 @@ const useStyles = makeStyles((theme) => ({
 const BagMenu = () => {
     const classes = useStyles();
 
-    // Removing the <Hidden> causes the unit tests to fail for some strange reason.
-    return (
-        <Hidden only={[]}>
-            <Bag menuIconClass={classes.menuIcon} />
-        </Hidden>
-    );
+    return <Bag menuIconClass={classes.menuIcon} />;
 };
 
 function CyverseAppBar(props) {
@@ -615,7 +610,12 @@ function CyverseAppBar(props) {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <img src="/de_white.png" alt={t("cyverse")}></img>
+                            <img
+                                width={190}
+                                height={39}
+                                src="/de_white.png"
+                                alt={t("cyverse")}
+                            ></img>
                         </a>
                     </Hidden>
                     <Hidden xsDown>

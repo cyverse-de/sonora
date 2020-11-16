@@ -32,8 +32,8 @@ import {
     IconButton,
     Tooltip,
     Typography,
+    useTheme,
 } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 
 const GotoOutputFolderButton = React.forwardRef((props, ref) => {

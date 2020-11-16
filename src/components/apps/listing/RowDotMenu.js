@@ -46,11 +46,13 @@ function RowDotMenu(props) {
                     />
                 ),
                 <DocMenuItem
+                    key={build(baseId, ids.DOC_MENU_ITEM)}
                     baseId={baseId}
                     onClose={onClose}
                     onDocSelected={onDocSelected}
                 />,
                 <QLMenuItem
+                    key={build(baseId, ids.QL_MENU_ITEM)}
                     baseId={baseId}
                     onClose={onClose}
                     onQLSelected={onQLSelected}

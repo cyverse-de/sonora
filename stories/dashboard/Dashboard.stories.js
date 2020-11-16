@@ -228,6 +228,7 @@ export const DashboardTest = () => {
             },
         }
     );
+    /* commented out because the thumbnail URL is in the data JSON, so this shouldn't use noembed.com
     fetchMock.get(
         {
             url: "https://noembed.com/embed?url=https://youtu.be/8Zlx6FvtHUk",
@@ -255,7 +256,7 @@ export const DashboardTest = () => {
                 version: "1.0",
             },
         }
-    );
+    ); */
 
     return <Dashboard />;
 };

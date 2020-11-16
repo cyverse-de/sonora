@@ -792,8 +792,8 @@ function CyverseAppBar(props) {
                             setNewUser(false);
                             setRunTour(true);
                         }}
-                        title="Take a tour "
-                        contentText="Welcome to CyVerse. Do you like to take a tour of the Discovery Environment?"
+                        title={i18nTour("tourPromptTitle")}
+                        contentText={i18nTour("tourPrompt")}
                     />
                 )}
             </div>

@@ -16,5 +16,7 @@
     "bag": "<p>Use a bag to perform bulk operations. <ul><li>Share Analyses, Apps, and Data from the bag.</li><li>Download multiple data sets from the bag.</li></ul></p>",
     "dashboard": "<p>Use Dashboard to find information about: <ul><li>Recently launched analyses.</li><li>Recently used Apps.</li><li>New Apps published in the DE.</li><li>CyVerse New and Events.</li></ul></p>",
     "search": "<p>Use Global Search to: <ul><li>Type 3 or more letters to quickly search and find Analyses, Apps and Data.</li><li>Use the dropdown to filter search results by type.</li><li>View detailed results page by hitting the `Enter` key followed by the search term or selecting the `View All` from the results.</li></ul></p>",
-    "support": "<p>Use this in-app chat to <ul><li>Contact CyVerse support when you encounter issue(s) with the DE or any Cyverse products.</li><li>Ask a question about the DE or any Cyverse products.</li><li>Get notified about Cyverse planned maintenance and unplanned downtimes and events such as webinar.</li></ul>"
+    "support": "<p>Use this in-app chat to <ul><li>Contact CyVerse support when you encounter issue(s) with the DE or any Cyverse products.</li><li>Ask a question about the DE or any Cyverse products.</li><li>Get notified about Cyverse planned maintenance and unplanned downtimes and events such as webinar.</li></ul></p>",
+    "tourPrompt": "Welcome to CyVerse. Do you like to take a tour of the Discovery Environment?",
+    "tourPromptTitle": "Take a tour"
 }

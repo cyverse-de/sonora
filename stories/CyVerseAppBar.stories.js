@@ -6,6 +6,12 @@ import { mockAxios } from "./axiosMock";
 import { NotificationsProvider } from "../src/contexts/pushNotifications";
 import notificationsData from "../stories/notifications/notificationsData";
 import testConfig from "./configMock";
+import {
+    FILE_TYPE,
+    FOLDER_TYPE,
+    ANALYSIS_TYPE,
+    APP_TYPE,
+} from "../src/components/Bag";
 
 const mockUser = {
     id: "mockUser",
@@ -55,7 +61,7 @@ const bootStrap = {
             user_id: "debb26d6-f70f-11e7-ad0d-008cfa5ae621",
             root_category_id: "dee274ac-f70f-11e7-ad0d-008cfa5ae621",
             is_public: false,
-            new_workspace: false,
+            new_workspace: true,
         },
     },
     data_info: {
@@ -88,12 +94,45 @@ const bootStrap = {
     },
 };
 
-function AppBarTest() {
+const bag_data = {
+    contents: {
+        items: [
+            {
+                name: "test file 1",
+                path: "/test/path/file1",
+                type: FILE_TYPE,
+            },
+            {
+                name: "test folder 1",
+                path: "/test/folder/folder1",
+                type: FOLDER_TYPE,
+            },
+            {
+                name: "test analysis 1",
+                type: ANALYSIS_TYPE,
+            },
+            { name: "test app 1", type: APP_TYPE },
+            { name: "test app 2", type: APP_TYPE },
+            { name: "test app 3", type: APP_TYPE },
+            { name: "test app 4", type: APP_TYPE },
+            { name: "test app 5", type: APP_TYPE },
+            { name: "test app 6", type: APP_TYPE },
+            { name: "test app 7", type: APP_TYPE },
+            { name: "test app 8", type: APP_TYPE },
+            { name: "test app 9", type: APP_TYPE },
+            { name: "test app 10", type: APP_TYPE },
+            { name: "test app 11", type: APP_TYPE },
+        ],
+    },
+};
+
+export function AppBarTest() {
     mockAxios.onGet("/api/profile").reply(200, mockUser);
     mockAxios.onGet(/\/api\/bootstrap*/).reply(200, bootStrap);
     mockAxios
         .onGet("/api/notifications/last-ten-messages")
         .reply(200, notificationsData);
+    mockAxios.onGet("/api/bags/default").reply(200, bag_data);
     return (
         <UserProfileProvider>
             <NotificationsProvider>
@@ -108,8 +147,7 @@ function AppBarTest() {
     );
 }
 
-export default { title: "App Bar" };
-
-export const AppBar = () => {
-    return <AppBarTest />;
+export default {
+    title: "AppBar",
+    component: CyverseAppBar,
 };

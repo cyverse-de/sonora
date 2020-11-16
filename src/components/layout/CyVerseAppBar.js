@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";

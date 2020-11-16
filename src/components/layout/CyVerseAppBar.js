@@ -610,7 +610,12 @@ function CyverseAppBar(props) {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <img src="/de_white.png" alt={t("cyverse")}></img>
+                            <img
+                                width={190}
+                                height={39}
+                                src="/de_white.png"
+                                alt={t("cyverse")}
+                            ></img>
                         </a>
                     </Hidden>
                     <Hidden xsDown>

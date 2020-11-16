@@ -373,6 +373,10 @@ function Navigation(props) {
         }
     }, [dataRoots, handlePathChange, path]);
 
+    useEffect(() => {
+        queryCache.invalidateQueries(DATA_ROOTS_QUERY_KEY);
+    }, [userProfile]);
+
     const { error } = useQuery({
         queryKey: DATA_ROOTS_QUERY_KEY,
         queryFn: getFilesystemRoots,

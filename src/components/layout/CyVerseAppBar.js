@@ -25,7 +25,7 @@ import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import searchConstants from "components/search/constants";
 import { usePreferences } from "contexts/userPreferences";
-import { getSteps } from "components/intro/steps";
+import { getSteps } from "components/layout/steps";
 import Bag from "components/Bag";
 import {
     getUserProfile,
@@ -308,9 +308,8 @@ function CyverseAppBar(props) {
         bootstrapQueryEnabled,
         (respData) => {
             setPreferences(respData.preferences);
-            /*  const workspace = respData["apps_info"].workspace;
-            setNewUser(workspace["new_workspace"] || false); */
-            setNewUser(true);
+            const workspace = respData["apps_info"].workspace;
+            setNewUser(workspace["new_workspace"] || false);
         },
         setBootstrapError
     );
@@ -378,14 +377,6 @@ function CyverseAppBar(props) {
         setOpen(open);
     };
 
-    const tourCallback = useCallback((data) => {
-        const { action, index, status, type } = data;
-        console.log("status => " + status);
-        if (status === "finished") {
-            setRunTour(false);
-        }
-    }, []);
-
     const accountAvatar = (
         <Avatar
             className={userProfile ? classes.userIcon : classes.accountIcon}
@@ -429,7 +420,7 @@ function CyverseAppBar(props) {
                     }
                 >
                     <img
-                        className={classes.drawerIcon}
+                        className={clsx("dashboard-intro", classes.drawerIcon)}
                         src="/dashboard_selected.png"
                         alt={t("dashboard")}
                     />
@@ -512,7 +503,7 @@ function CyverseAppBar(props) {
                     >
                         <ListItemIcon>
                             <SearchIcon
-                                className={classes.icon}
+                                className={clsx("search-intro", classes.icon)}
                                 fontSize="large"
                             />
                         </ListItemIcon>
@@ -536,7 +527,10 @@ function CyverseAppBar(props) {
                     >
                         <ListItemIcon>
                             <SettingsIcon
-                                className={classes.icon}
+                                className={clsx(
+                                    "preferences-intro",
+                                    classes.icon
+                                )}
                                 fontSize="large"
                             />
                         </ListItemIcon>
@@ -810,13 +804,12 @@ function CyverseAppBar(props) {
                     showProgress={true}
                     continuous={true}
                     disableOverlayClose={true}
-                    callback={tourCallback}
                     styles={{
                         options: {
-                            arrowColor: theme.palette.primary.main,
-                            backgroundColor: theme.palette.primary.contrastText,
+                            arrowColor: theme.palette.error.main,
+                            backgroundColor: theme.palette.error.contrastText,
                             overlayColor: "#a5a4a4",
-                            primaryColor: theme.palette.primary.main,
+                            primaryColor: theme.palette.error.main,
                             textColor: theme.palette.info.main,
                             zIndex: 10000000,
                         },

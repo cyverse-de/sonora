@@ -391,7 +391,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                             constants.BADGE
                         )}
                     >
-                        <ShoppingBasketIcon />
+                        <ShoppingBasketIcon className={"bag-intro"} />
                     </Badge>
                 </IconButton>
             </Tooltip>

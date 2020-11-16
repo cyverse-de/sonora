@@ -16,11 +16,10 @@ import {
     IconButton,
     Tooltip,
     MenuItem,
+    useTheme,
 } from "@material-ui/core";
 
 import { MoreVert } from "@material-ui/icons";
-
-import { useTheme } from "@material-ui/styles";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
 

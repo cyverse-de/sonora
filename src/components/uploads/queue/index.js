@@ -18,6 +18,8 @@ import {
     ListItemSecondaryAction,
     ListItemText,
     useMediaQuery,
+    useTheme,
+    makeStyles,
 } from "@material-ui/core";
 
 import {
@@ -34,8 +36,6 @@ import {
     useUploadTrackingState,
     useUploadTrackingDispatch,
 } from "../../../contexts/uploadTracking";
-
-import { useTheme, makeStyles } from "@material-ui/core/styles";
 
 import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
 

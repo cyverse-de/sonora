@@ -16,11 +16,11 @@ import {
     DialogTitle,
     IconButton,
     useMediaQuery,
+    useTheme,
+    makeStyles,
 } from "@material-ui/core";
 
 import { Close as CloseIcon } from "@material-ui/icons";
-
-import { useTheme, makeStyles } from "@material-ui/styles";
 
 import { getMessage, withI18N, build as buildID } from "@cyverse-de/ui-lib";
 

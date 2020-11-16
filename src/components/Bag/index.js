@@ -23,6 +23,7 @@ import {
     Typography,
     FormControl,
     InputLabel,
+    useTheme,
 } from "@material-ui/core";
 import {
     Delete,
@@ -53,7 +54,6 @@ import {
     APP_TYPE,
 } from "./classes";
 import { useTranslation } from "i18n";
-import { useTheme } from "@material-ui/styles";
 import { useUserProfile } from "contexts/userProfile";
 
 const SharingView = dynamic(() => import("components/sharing"));

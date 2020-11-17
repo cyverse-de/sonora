@@ -534,10 +534,11 @@ function Listing(props) {
             <DEDialog
                 open={publicLinksDlgOpen}
                 onClose={() => setPublicLinksDlgOpen(false)}
-                content={<PublicLinks paths={getSelectedPaths()} />}
                 title={t("publicLinks")}
                 baseId={ids.PUBLIC_LINKS}
-            />
+            >
+                <PublicLinks paths={getSelectedPaths()} />
+            </DEDialog>
         </>
     );
 }

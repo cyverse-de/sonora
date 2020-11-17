@@ -29,10 +29,10 @@ function DEDialog(props) {
         open,
         title,
         onClose,
-        content,
         actions,
         maxWidth = "sm",
         fullWidth = true,
+        children,
     } = props;
     const { t } = useTranslation("common");
     const theme = useTheme();
@@ -62,7 +62,7 @@ function DEDialog(props) {
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
-            <DialogContent>{content}</DialogContent>
+            <DialogContent>{children}</DialogContent>
             {actions && <DialogActions>{actions}</DialogActions>}
         </Dialog>
     );

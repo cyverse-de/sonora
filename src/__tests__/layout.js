@@ -1,7 +1,7 @@
 import React from "react";
 import preloadAll from "jest-next-dynamic";
 import renderer from "react-test-renderer";
-import { AppBar } from "../../stories/CyVerseAppBar.stories";
+import { AppBarTest } from "../../stories/CyVerseAppBar.stories";
 import { I18nProviderWrapper } from "../i18n";
 import { PreferencesProvider } from "contexts/userPreferences";
 
@@ -13,7 +13,7 @@ test("App Bar renders", () => {
     const component = renderer.create(
         <I18nProviderWrapper>
             <PreferencesProvider>
-                <AppBar />
+                <AppBarTest />
             </PreferencesProvider>
         </I18nProviderWrapper>
     );

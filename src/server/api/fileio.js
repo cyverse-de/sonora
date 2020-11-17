@@ -67,7 +67,9 @@ export default function fileIORouter() {
     logger.info("adding the GET /api/downloadText handler");
     api.get("/downloadText", function (req, res) {
         res.set({
-            "Content-Disposition": 'attachment; filename="de-untitled.txt"',
+            "Content-Disposition": `attachment; filename=${
+                req.fileName || "de-download.txt"
+            }`,
         });
         res.send(req.query.text);
     });

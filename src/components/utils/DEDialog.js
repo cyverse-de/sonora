@@ -24,7 +24,16 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 
 function DEDialog(props) {
-    const { baseId, open, title, onClose, content, actions } = props;
+    const {
+        baseId,
+        open,
+        title,
+        onClose,
+        content,
+        actions,
+        maxWidth = "sm",
+        fullWidth = true,
+    } = props;
     const { t } = useTranslation("common");
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -33,12 +42,12 @@ function DEDialog(props) {
         <Dialog
             open={open}
             onClose={onClose}
-            maxWidth="sm"
-            fullWidth
+            maxWidth={maxWidth}
+            fullWidth={fullWidth}
             fullScreen={fullScreen}
             aria-labelledby={dialogTitleId}
         >
-            <DialogTitle>
+            <DialogTitle id={dialogTitleId}>
                 {title}
                 <IconButton
                     aria-label={t("close")}

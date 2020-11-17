@@ -32,6 +32,7 @@ import {
     Paper,
     TextField,
     Toolbar,
+    Tooltip,
     Typography,
     useTheme,
 } from "@material-ui/core";
@@ -57,6 +58,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const DEFAULT_FILE_NAME = "de-links.txt";
+
 function PublicLinks(props) {
     const classes = useStyles();
     const { baseId, paths } = props;
@@ -78,11 +81,12 @@ function PublicLinks(props) {
             onSuccess: (resp) => {
                 const pathsWithLink = resp?.paths;
                 let parsedLinks = "";
-                paths.forEach((path) => {
-                    parsedLinks = parsedLinks.concat(
-                        `${pathsWithLink[path]}\n`
-                    );
-                });
+                pathsWithLink &&
+                    paths.forEach((path) => {
+                        parsedLinks = parsedLinks.concat(
+                            `${pathsWithLink[path]}\n`
+                        );
+                    });
                 setLinks(parsedLinks);
             },
         },
@@ -116,7 +120,7 @@ function PublicLinks(props) {
             window.open(
                 `${getHost()}/api/downloadText?text=${encodeURIComponent(
                     links
-                )}`,
+                )}&fileName=${DEFAULT_FILE_NAME}`,
                 "_blank"
             );
             setDownload(false);
@@ -150,42 +154,40 @@ function PublicLinks(props) {
                 </Toolbar>
             </Paper>
         );
-    } else {
-        return (
-            <>
-                <Paper className={classes.paper} elevation={0}>
-                    <TextField
-                        multiline
-                        rows={paths?.length || 3}
-                        value={links}
-                        fullWidth
-                        variant="outlined"
-                        id={build(baseId, ids.PUBLIC_LINKS_TEXT_FIELD)}
-                    />
-                    {successMsg && (
-                        <>
-                            <div style={{ float: "left" }}>
-                                <CheckCircle
-                                    size="small"
-                                    style={{ color: theme.palette.info.main }}
-                                />
-                            </div>
-                            <Typography variant="caption">
-                                {successMsg}
-                            </Typography>
-                        </>
-                    )}
-                    {errorMsg && (
-                        <>
-                            <div style={{ float: "left" }}>
-                                <Error size="small" color="error" />
-                            </div>
-                            <Typography variant="caption">
-                                {errorMsg}
-                            </Typography>
-                        </>
-                    )}
-                    <Toolbar>
+    }
+
+    return (
+        <>
+            <Paper className={classes.paper} elevation={0}>
+                <TextField
+                    multiline
+                    rows={paths?.length || 3}
+                    value={links}
+                    fullWidth
+                    variant="outlined"
+                    id={build(baseId, ids.PUBLIC_LINKS_TEXT_FIELD)}
+                />
+                {successMsg && (
+                    <>
+                        <div style={{ float: "left" }}>
+                            <CheckCircle
+                                size="small"
+                                style={{ color: theme.palette.info.main }}
+                            />
+                        </div>
+                        <Typography variant="caption">{successMsg}</Typography>
+                    </>
+                )}
+                {errorMsg && (
+                    <>
+                        <div style={{ float: "left" }}>
+                            <Error size="small" color="error" />
+                        </div>
+                        <Typography variant="caption">{errorMsg}</Typography>
+                    </>
+                )}
+                <Toolbar>
+                    <Tooltip title={t("copyLinks")}>
                         <Button
                             variant="outlined"
                             color="primary"
@@ -197,6 +199,8 @@ function PublicLinks(props) {
                         >
                             <Hidden xsDown>{t("copyLinks")}</Hidden>
                         </Button>
+                    </Tooltip>
+                    <Tooltip title={t("saveToFile")}>
                         <Button
                             variant="outlined"
                             color="primary"
@@ -208,6 +212,8 @@ function PublicLinks(props) {
                         >
                             <Hidden xsDown>{t("saveToFile")}</Hidden>
                         </Button>
+                    </Tooltip>
+                    <Tooltip title={t("download")}>
                         <Button
                             variant="outlined"
                             color="primary"
@@ -219,29 +225,29 @@ function PublicLinks(props) {
                         >
                             <Hidden xsDown>{t("download")}</Hidden>
                         </Button>
-                    </Toolbar>
-                    <Typography variant="caption">
-                        {t("publicLinkWarning")}
-                    </Typography>
-                </Paper>
-                <SaveAsDialog
-                    path={getParentPath(paths[0])}
-                    open={saveAsDialogOpen}
-                    onClose={() => setSaveAsDialogOpen(false)}
-                    saveFileError={saveNewFileError}
-                    onSaveAs={(newPath) => {
-                        setFileSavePath(newPath);
-                        saveTextAsFile({
-                            dest: newPath,
-                            content: links,
-                            newFile: true,
-                        });
-                    }}
-                    loading={fileSaveStatus === constants.LOADING}
-                    setSaveNewFileError={setSaveNewFileError}
-                />
-            </>
-        );
-    }
+                    </Tooltip>
+                </Toolbar>
+                <Typography variant="caption">
+                    {t("publicLinkWarning")}
+                </Typography>
+            </Paper>
+            <SaveAsDialog
+                path={getParentPath(paths[0])}
+                open={saveAsDialogOpen}
+                onClose={() => setSaveAsDialogOpen(false)}
+                saveFileError={saveNewFileError}
+                onSaveAs={(newPath) => {
+                    setFileSavePath(newPath);
+                    saveTextAsFile({
+                        dest: newPath,
+                        content: links,
+                        newFile: true,
+                    });
+                }}
+                loading={fileSaveStatus === constants.LOADING}
+                setSaveNewFileError={setSaveNewFileError}
+            />
+        </>
+    );
 }
 export default PublicLinks;

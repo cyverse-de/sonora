@@ -1,13 +1,9 @@
 name: Chromatic CI
 
-on:
-  push
-  pull_request:
-    types: [synchronize]
+on: [push]
 
 jobs:
   build:
-    if: github.repository == 'cyverse-de/sonora'
 
     runs-on: ubuntu-latest
 

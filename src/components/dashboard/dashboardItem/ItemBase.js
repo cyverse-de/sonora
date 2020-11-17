@@ -212,7 +212,7 @@ export const DashboardVideoItem = ({ item }) => {
         >
             <ReactPlayer
                 url={item.getLinkTarget()}
-                light={true}
+                light={item.content.thumbnailUrl || true}
                 width="100%"
                 height="100%"
                 playing={true}

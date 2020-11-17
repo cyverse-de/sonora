@@ -328,6 +328,7 @@ function Navigation(props) {
     const [userProfile] = useUserProfile();
     const [config] = useConfig();
     const irodsHomePath = config?.irods?.home_path;
+    const rootsQueryKeyArray = [DATA_ROOTS_QUERY_KEY, userProfile?.id];
 
     const preProcessData = (respData) => {
         if (respData) {
@@ -373,12 +374,8 @@ function Navigation(props) {
         }
     }, [dataRoots, handlePathChange, path]);
 
-    useEffect(() => {
-        queryCache.invalidateQueries(DATA_ROOTS_QUERY_KEY);
-    }, [userProfile]);
-
     const { error } = useQuery({
-        queryKey: DATA_ROOTS_QUERY_KEY,
+        queryKey: rootsQueryKeyArray,
         queryFn: getFilesystemRoots,
         config: {
             enabled: true,
@@ -444,7 +441,7 @@ function Navigation(props) {
     };
 
     if (dataRoots.length === 0) {
-        const cacheRoots = queryCache.getQueryData(DATA_ROOTS_QUERY_KEY);
+        const cacheRoots = queryCache.getQueryData(rootsQueryKeyArray);
         if (cacheRoots) {
             preProcessData(cacheRoots);
         }

@@ -64,5 +64,15 @@ export default function fileIORouter() {
     logger.info("adding the GET /api/download handler");
     api.get("/download", auth.authnTokenMiddleware, downloadHandler);
 
+    logger.info("adding the GET /api/downloadText handler");
+    api.get("/downloadText", function (req, res) {
+        res.set({
+            "Content-Disposition": `attachment; filename=${
+                req.fileName || "de-download.txt"
+            }`,
+        });
+        res.send(req.query.text);
+    });
+
     return api;
 }

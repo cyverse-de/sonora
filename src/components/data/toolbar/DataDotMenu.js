@@ -8,7 +8,7 @@ import React, { useState } from "react";
 
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
-import { isOwner, isWritable } from "../utils";
+import { isOwner, isWritable, containsFolders } from "../utils";
 import CreateFolderDialog from "../CreateFolderDialog";
 import UploadMenuItems from "./UploadMenuItems";
 
@@ -28,6 +28,7 @@ import { useTranslation } from "i18n";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DeleteMenuItem from "../menuItems/DeleteMenuItem";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
+import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";
 
 function DataDotMenu(props) {
     const {
@@ -51,6 +52,7 @@ function DataDotMenu(props) {
         canShare,
         setSharingDlgOpen,
         isSmall,
+        onPublicLinksSelected,
     } = props;
     const { t } = useTranslation("data");
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
@@ -189,6 +191,15 @@ function DataDotMenu(props) {
                             />
                         </MenuItem>,
                     ],
+                    isOwner(selectedResources) &&
+                        !containsFolders(selectedResources) && (
+                            <PublicLinksMenuItem
+                                key={build(baseId, ids.PUBLIC_LINKS_MENU_ITEM)}
+                                onPublicLinksSelected={onPublicLinksSelected}
+                                baseId={baseId}
+                                onClose={onClose}
+                            />
+                        ),
                 ]}
             />
             <CreateFolderDialog

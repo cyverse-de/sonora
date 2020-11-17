@@ -65,6 +65,7 @@ function DataToolbar(props) {
         onCreateHTFileSelected,
         onCreateMultiInputFileSelected,
         setSharingDlgOpen,
+        onPublicLinksSelected,
     } = props;
 
     const { t } = useTranslation("data");
@@ -178,6 +179,7 @@ function DataToolbar(props) {
                     canShare={canShare}
                     setSharingDlgOpen={setSharingDlgOpen}
                     isSmall={isSmall}
+                    onPublicLinksSelected={onPublicLinksSelected}
                 />
             )}
 

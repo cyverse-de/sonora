@@ -82,6 +82,7 @@ function PathListViewer(props) {
     const [dirty, setDirty] = useState(false);
     const [permission, setPermission] = useState(null);
     const [saveNewFileError, setSaveNewFileError] = useState(null);
+    const [fileSavePath, setFileSavePath] = useState();
     const [editorData, setEditorData] = useState([]);
 
     const columns = useMemo(() => getColumns(data, false, t("path")), [
@@ -135,7 +136,7 @@ function PathListViewer(props) {
                     const text =
                         getErrorCode(error) === ERROR_CODES.ERR_EXISTS
                             ? t("fileExists", {
-                                  path: getParentPath(error?.path),
+                                  path: getParentPath(fileSavePath),
                               })
                             : t("fileSaveError");
                     setSaveNewFileError(text);
@@ -344,6 +345,7 @@ function PathListViewer(props) {
                 onClose={() => setSaveAsDialogOpen(false)}
                 saveFileError={saveNewFileError}
                 onSaveAs={(newPath) => {
+                    setFileSavePath(newPath);
                     saveTextAsFile({
                         dest: newPath,
                         content: getContent(),

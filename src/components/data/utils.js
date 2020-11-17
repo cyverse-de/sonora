@@ -8,6 +8,7 @@ import NavigationConstants from "../../common/NavigationConstants";
 
 import DataConstants from "./constants";
 import Permissions, { permissionHierarchy } from "../models/Permissions";
+import ResourceTypes from "components/models/ResourceTypes";
 
 /**
  * Encode given path
@@ -126,6 +127,16 @@ const getPageQueryParams = (order, orderBy, page, rowsPerPage) => {
     return `selectedOrder=${selectedOrder}&selectedOrderBy=${selectedOrderBy}&selectedPage=${selectedPage}&selectedRowsPerPage=${selectedRowsPerPage}`;
 };
 
+const containsFolders = (resources) => {
+    if (resources) {
+        const folders = resources.filter(
+            (resource) => resource.type === ResourceTypes.FOLDER
+        );
+        return folders.length > 0;
+    }
+    return false;
+};
+
 export {
     DEFAULT_PAGE_SETTINGS,
     getEncodedPath,
@@ -139,4 +150,5 @@ export {
     parseNameFromPath,
     getParentPath,
     useDataNavigationLink,
+    containsFolders,
 };

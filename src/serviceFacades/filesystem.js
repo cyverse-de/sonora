@@ -10,6 +10,7 @@ export const DATA_SEARCH_QUERY_KEY = "searchData";
 export const INFO_TYPES_QUERY_KEY = "fetchInfoTypes";
 export const FETCH_FILE_MANIFEST_QUERY_KEY = "fetchFileManifest";
 export const READ_CHUNK_QUERY_KEY = "readChunk";
+export const PUBLIC_LINKS_QUERY_KEY = "fetchPublicLinks";
 
 /**
  * Get details on data resources
@@ -215,4 +216,14 @@ export const readFileChunk = (
             body,
         });
     }
+};
+
+export const getPublicLinks = (key, paths) => {
+    return callApi({
+        endpoint: "/api/filesystem/anon-files",
+        method: "POST",
+        body: {
+            paths,
+        },
+    });
 };

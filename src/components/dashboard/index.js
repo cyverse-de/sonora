@@ -22,7 +22,7 @@ import * as fns from "./functions";
 import {
     NewsFeed,
     EventsFeed,
-    RecentlyAddedApps,
+    RecentlyUsedApps,
     PublicApps,
     RecentAnalyses,
     RunningAnalyses,
@@ -30,12 +30,14 @@ import {
 } from "./DashboardSection";
 
 import AppDetailsDrawer from "components/apps/details/Drawer";
+import Drawer from "components/analyses/details/Drawer";
 import {
     getDashboard,
     DASHBOARD_QUERY_KEY,
 } from "../../serviceFacades/dashboard";
 
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import { useUserProfile } from "contexts/userProfile";
 
 const DashboardSkeleton = () => {
     const classes = useStyles();
@@ -66,6 +68,7 @@ const Dashboard = (props) => {
     const { showErrorAnnouncer } = props;
     const classes = useStyles();
     const { t } = useTranslation("dashboard");
+    const [userProfile] = useUserProfile();
 
     const dashboardEl = useRef();
     const [cardWidth, cardHeight, numColumns] = fns.useDashboardSettings({
@@ -86,16 +89,26 @@ const Dashboard = (props) => {
 
     // State variables.
     const [detailsApp, setDetailsApp] = useState(null);
+    const [detailsAnalysis, setDetailsAnalysis] = useState(null);
 
-    const sections = [
+    let sections = [
         new NewsFeed(),
         new EventsFeed(),
         new VideosFeed(),
-        new RecentAnalyses(),
-        new RunningAnalyses(),
-        new RecentlyAddedApps(),
         new PublicApps(),
     ];
+
+    if (userProfile?.id) {
+        sections = [
+            new RecentAnalyses(),
+            new RunningAnalyses(),
+            new RecentlyUsedApps(),
+            new PublicApps(),
+            new NewsFeed(),
+            new EventsFeed(),
+            new VideosFeed(),
+        ];
+    }
 
     const filteredSections = data
         ? sections
@@ -114,6 +127,7 @@ const Dashboard = (props) => {
                       numColumns,
                       showErrorAnnouncer,
                       setDetailsApp,
+                      setDetailsAnalysis,
                   })
               )
         : [];
@@ -142,6 +156,14 @@ const Dashboard = (props) => {
                     baseId={baseId}
                     onClose={() => setDetailsApp(null)}
                     onFavoriteUpdated={detailsApp.onFavoriteUpdated}
+                />
+            )}
+            {detailsAnalysis && (
+                <Drawer
+                    selectedAnalysis={detailsAnalysis}
+                    baseId={baseId}
+                    open={detailsAnalysis !== null}
+                    onClose={() => setDetailsAnalysis(null)}
                 />
             )}
             <div className={classes.footer} />

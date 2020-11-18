@@ -3,12 +3,10 @@ import { queryCache, useMutation } from "react-query";
 
 import Link from "next/link";
 
-import { PlayArrow, Info, Share, Apps } from "@material-ui/icons";
+import { PlayArrow, Info, Apps } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
 
 import { formatDate } from "@cyverse-de/ui-lib";
-
-import NavigationConstants from "common/NavigationConstants";
 
 import { appFavorite, APP_BY_ID_QUERY_KEY } from "serviceFacades/apps";
 
@@ -43,9 +41,6 @@ class AppItem extends ItemBase {
         // Functions to build keys and links.
         const baseId = `${constants.KIND_APPS}-${app.system_id}-${app.id}`;
         const buildKey = (keyType) => `${baseId}-${keyType}`;
-        const buildHRef = (refType) =>
-            `${NavigationConstants.APPS}/${app.system_id}/${app.id}/${refType}`;
-
         const [favorite] = useMutation(appFavorite, {
             onSuccess: () => {
                 queryCache.invalidateQueries([
@@ -68,40 +63,29 @@ class AppItem extends ItemBase {
         };
 
         const [launchHref, launchAs] = useAppLaunchLink(app.system_id, app.id);
-        return item
-            .addActions(
-                [
-                    app.is_public && (
-                        <AppFavorite
-                            key={buildKey("favorite")}
-                            isFavorite={isFavorite}
-                            isExternal={false}
-                            onFavoriteClick={onFavoriteClick}
-                            baseId={buildKey("favorite")}
-                            size="medium"
-                        />
-                    ),
-                    <ItemAction
-                        ariaLabel={t("launchAria")}
-                        key={buildKey("launch")}
-                        tooltipKey="launchAction"
-                    >
-                        <Link href={launchHref} as={launchAs} passHref>
+        return item.addActions(
+            [
+                app.is_public && (
+                    <AppFavorite
+                        key={buildKey("favorite")}
+                        isFavorite={isFavorite}
+                        isExternal={false}
+                        onFavoriteClick={onFavoriteClick}
+                        baseId={buildKey("favorite")}
+                        size="medium"
+                    />
+                ),
+                <ItemAction
+                    ariaLabel={t("launchAria")}
+                    key={buildKey("launch")}
+                    tooltipKey="launchAction"
+                >
+                    <Link href={launchHref} as={launchAs} passHref>
+                        <IconButton>
                             <PlayArrow color="primary" />
-                        </Link>
-                    </ItemAction>,
-                    <ItemAction
-                        ariaLabel={t("shareAria")}
-                        key={buildKey("share")}
-                        tooltipKey="shareAction"
-                    >
-                        <IconButton href={buildHRef("share")}>
-                            <Share color="primary" />
                         </IconButton>
-                    </ItemAction>,
-                ].filter((e) => e)
-            )
-            .addMenuActions([
+                    </Link>
+                </ItemAction>,
                 <ItemAction
                     ariaLabel={t("openDetailsAria")}
                     key={`${constants.KIND_APPS}-${props.content.id}-details`}
@@ -119,7 +103,8 @@ class AppItem extends ItemBase {
                         <Info color="primary" />
                     </IconButton>
                 </ItemAction>,
-            ]);
+            ].filter((e) => e)
+        );
     }
 
     getOrigination(t) {

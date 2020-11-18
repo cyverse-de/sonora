@@ -23,6 +23,7 @@ const DashboardSection = ({
     numColumns,
     showErrorAnnouncer,
     setDetailsApp,
+    setDetailsAnalysis,
 }) => {
     const classes = useStyles();
     const { t } = useTranslation("dashboard");
@@ -47,6 +48,7 @@ const DashboardSection = ({
             classes,
             showErrorAnnouncer,
             setDetailsApp,
+            setDetailsAnalysis,
         }).component(index);
 
     const uncollapsed = items.slice(0, limit).map(itemComponent);
@@ -109,6 +111,7 @@ class SectionBase {
         limit,
         showErrorAnnouncer,
         setDetailsApp,
+        setDetailsAnalysis,
     }) {
         const sorted = data[this.kind][this.name].sort((first, second) => {
             const firstParsed = Date.parse(first.date_added);
@@ -142,6 +145,7 @@ class SectionBase {
                 limit={limit}
                 showErrorAnnouncer={showErrorAnnouncer}
                 setDetailsApp={setDetailsApp}
+                setDetailsAnalysis={setDetailsAnalysis}
             />
         );
     }
@@ -176,6 +180,17 @@ export class RecentlyAddedApps extends SectionBase {
             constants.SECTION_RECENTLY_ADDED,
             "recentlyAddedApps",
             ids.SECTION_RECENTLY_ADDED_APPS
+        );
+    }
+}
+
+export class RecentlyUsedApps extends SectionBase {
+    constructor() {
+        super(
+            constants.KIND_APPS,
+            constants.SECTION_RECENTLY_USED,
+            "recentlyUsedApps",
+            ids.SECTION_RECENTLY_USED_APPS
         );
     }
 }

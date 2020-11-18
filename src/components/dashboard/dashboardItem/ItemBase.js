@@ -97,7 +97,11 @@ const DashboardItem = ({ item }) => {
                     root: classes.cardHeaderDefault,
                     content: classes.cardHeaderContent,
                 }}
-                title={item.content.name}
+                title={
+                    item.kind === constants.KIND_ANALYSES
+                        ? `${item.content.name} - ${item.content.status}`
+                        : item.content.name
+                }
                 titleTypographyProps={{
                     noWrap: true,
                     variant: "subtitle2",
@@ -124,7 +128,7 @@ const DashboardItem = ({ item }) => {
                 </Typography>
             </CardContent>
 
-            <CardActions disableSpacing>
+            <CardActions>
                 {item.actions}
                 {item.menuActions.length > 0 && (
                     <>

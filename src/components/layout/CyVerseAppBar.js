@@ -11,7 +11,11 @@ import clsx from "clsx";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
-import Joyride from "react-joyride";
+import Joyride, {
+    ACTIONS,
+    EVENTS,
+    STATUS,
+} from "react-joyride";
 
 import ids from "./ids";
 import constants from "../../constants";
@@ -245,6 +249,7 @@ function CyverseAppBar(props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [newUser, setNewUser] = useState(false);
     const [runTour, setRunTour] = useState(false);
+    const [tourStepIndex, setTourStepIndex] = useState(0);
 
     const setPreferences = usePreferences()[1];
 
@@ -375,6 +380,36 @@ function CyverseAppBar(props) {
 
     const toggleDrawer = (open) => (event) => {
         setOpen(open);
+    };
+
+    useEffect(() => {
+        if (open) {
+            if (runTour && tourStepIndex === 0) {
+                setRunTour(false);
+                setTourStepIndex(1);
+            }
+            if (!runTour && tourStepIndex === 1) {
+                setRunTour(true);
+            }
+        }
+    }, [runTour, tourStepIndex, setRunTour, setTourStepIndex, open]);
+
+    const handleJoyrideCallback = (callbackData) => {
+        const { action, index, type, status } = callbackData;
+        if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+            setRunTour(false);
+            setTourStepIndex(0);
+        } else if (
+            [EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)
+        ) {
+            const stepIndex = index + (action === ACTIONS.PREV ? -1 : 1);
+            setTourStepIndex(stepIndex);
+        }
+        console.groupCollapsed(
+            type === EVENTS.TOUR_STATUS ? `${type}:${status}` : type
+        );
+        console.log(callbackData);
+        console.groupEnd();
     };
 
     const accountAvatar = (
@@ -623,7 +658,7 @@ function CyverseAppBar(props) {
                                 edge="start"
                                 className={classes.menuIcon}
                             >
-                                <MenuIcon />
+                                <MenuIcon className={"menu-intro"} />
                             </IconButton>
                             <Typography>{t("deTitle")}</Typography>
                         </Hidden>
@@ -686,7 +721,10 @@ function CyverseAppBar(props) {
                                         [classes.hide]: open,
                                     })}
                                 >
-                                    <MenuIcon fontSize="large" />
+                                    <MenuIcon
+                                        fontSize="large"
+                                        className="menu-intro"
+                                    />
                                 </IconButton>
                             )}
                             {open && (
@@ -804,6 +842,8 @@ function CyverseAppBar(props) {
                     showProgress={true}
                     continuous={true}
                     disableOverlayClose={true}
+                    callback={handleJoyrideCallback}
+                    stepIndex={tourStepIndex}
                     styles={{
                         options: {
                             arrowColor: theme.palette.error.main,

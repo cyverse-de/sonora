@@ -6,6 +6,23 @@ export function getSteps(t) {
             content: (
                 <Trans
                     t={t}
+                    i18nKey="menu"
+                    components={{ ul: <ul />, li: <li /> }}
+                />
+            ),
+            target: ".menu-intro",
+            placement: "auto",
+            disableBeacon: true,
+            disableOverlayClose: true,
+            hideCloseButton: true,
+            hideFooter: true,
+            spotlightClicks: true,
+            title: t("menuTitle"),
+        },
+        {
+            content: (
+                <Trans
+                    t={t}
                     i18nKey="dashboard"
                     components={{ ul: <ul />, li: <li /> }}
                 />
@@ -72,12 +89,25 @@ export function getSteps(t) {
             content: (
                 <Trans
                     t={t}
+                    i18nKey="search"
+                    components={{ ul: <ul />, li: <li /> }}
+                />
+            ),
+            target: ".search-intro",
+            placement: "right",
+            disableBeacon: true,
+            title: t("searchTitle"),
+        },
+        {
+            content: (
+                <Trans
+                    t={t}
                     i18nKey="notifications"
                     components={{ ul: <ul />, li: <li /> }}
                 />
             ),
             target: ".notifications-intro",
-            placement: "right",
+            placement: "bottom",
             disableBeacon: true,
             title: t("notificationTitle"),
         },
@@ -90,7 +120,7 @@ export function getSteps(t) {
                 />
             ),
             target: ".bag-intro",
-            placement: "right",
+            placement: "bottom",
             disableBeacon: true,
             title: t("bagTitle"),
         },
@@ -103,22 +133,9 @@ export function getSteps(t) {
                 />
             ),
             target: ".support-intro",
-            placement: "right",
+            placement: "bottom",
             disableBeacon: true,
             title: t("supportTitle"),
-        },
-        {
-            content: (
-                <Trans
-                    t={t}
-                    i18nKey="search"
-                    components={{ ul: <ul />, li: <li /> }}
-                />
-            ),
-            target: ".search-intro",
-            placement: "right",
-            disableBeacon: true,
-            title: t("searchTitle"),
         },
     ];
 }

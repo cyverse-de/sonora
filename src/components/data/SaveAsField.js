@@ -7,8 +7,6 @@
 
 import React from "react";
 
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
-
 import { useTranslation } from "i18n";
 import ids from "./ids";
 import styles from "./styles";
@@ -20,14 +18,13 @@ import ClearIcon from "@material-ui/icons/Clear";
 
 const useStyles = makeStyles(styles);
 
-const SaveAsField = ({ startingPath, showErrorAnnouncer, ...props }) => {
+const SaveAsField = ({ loading, ...props }) => {
     // These props need to be spread down into the FormTextField
     const {
         id,
         field: { name, value },
         form: { setFieldValue },
         required,
-        loading,
     } = props;
 
     const classes = useStyles();
@@ -71,10 +68,10 @@ const SaveAsField = ({ startingPath, showErrorAnnouncer, ...props }) => {
             size="small"
             className={classes.inputSelectorTextFiled}
             InputProps={inputProps}
-            dense
+            margin="dense"
             {...props}
         />
     );
 };
 
-export default withErrorAnnouncer(SaveAsField);
+export default SaveAsField;

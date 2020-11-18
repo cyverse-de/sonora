@@ -570,7 +570,6 @@ const AppLaunchForm = (props) => {
         defaultMaxDiskSpace,
         defaultOutputDir,
         saveQuickLaunch,
-        startingPath,
         submitAnalysis,
         appInfoHeight,
         app: { id: app_id, name: appName, app_type, groups, requirements },
@@ -753,7 +752,6 @@ const AppLaunchForm = (props) => {
                                 <AnalysisInfoForm
                                     formId={formId}
                                     appType={app_type}
-                                    startingPath={startingPath}
                                 />
                             </StepContent>
                             <StepContent
@@ -777,7 +775,6 @@ const AppLaunchForm = (props) => {
                                         )}
                                         fieldName={`groups.${index}`}
                                         group={group}
-                                        startingPath={startingPath}
                                         referenceGenomes={referenceGenomes}
                                         referenceGenomesLoading={
                                             referenceGenomesLoading

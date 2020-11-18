@@ -16,7 +16,8 @@ import { ReferenceGenomeParams } from "../../../stories/apps/launch/ReferenceGen
 import { SelectParams } from "../../../stories/apps/launch/SelectParams.stories";
 import { TextParams } from "../../../stories/apps/launch/TextParams.stories";
 import { I18nProviderWrapper } from "../../i18n";
-import { PreferencesProvider } from "contexts/userPreferences";
+import { BootstrapInfoProvider } from "contexts/bootstrap";
+import { ConfigProvider } from "contexts/config";
 import { UserProfileProvider } from "contexts/userProfile";
 beforeEach(() => {
     mockAxios.reset();
@@ -26,158 +27,120 @@ afterEach(() => {
     mockAxios.reset();
 });
 
+const TestProviderWrapper = ({ children }) => (
+    <I18nProviderWrapper>
+        <ConfigProvider>
+            <UserProfileProvider>
+                <BootstrapInfoProvider>{children}</BootstrapInfoProvider>
+            </UserProfileProvider>
+        </ConfigProvider>
+    </I18nProviderWrapper>
+);
+
 test("App Launch DEWordCount renders", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <UserProfileProvider>
-                <PreferencesProvider>
-                    <DEWordCount />
-                </PreferencesProvider>
-            </UserProfileProvider>
-        </I18nProviderWrapper>
+        <TestProviderWrapper>
+            <DEWordCount />
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("App Launch AgaveWordCount renders", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <UserProfileProvider>
-                <PreferencesProvider>
-                    <AgaveWordCount />
-                </PreferencesProvider>
-            </UserProfileProvider>
-        </I18nProviderWrapper>
+        <TestProviderWrapper>
+            <AgaveWordCount />
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("App Launch DeprecatedParams renders", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <UserProfileProvider>
-                <PreferencesProvider>
-                    <DeprecatedParams />
-                </PreferencesProvider>
-            </UserProfileProvider>
-        </I18nProviderWrapper>
+        <TestProviderWrapper>
+            <DeprecatedParams />
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("App Launch FlagParams renders", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <UserProfileProvider>
-                <PreferencesProvider>
-                    <FlagParams />
-                </PreferencesProvider>
-            </UserProfileProvider>
-        </I18nProviderWrapper>
+        <TestProviderWrapper>
+            <FlagParams />
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("App Launch InputParams renders", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <UserProfileProvider>
-                <PreferencesProvider>
-                    <InputParams />
-                </PreferencesProvider>
-            </UserProfileProvider>
-        </I18nProviderWrapper>
+        <TestProviderWrapper>
+            <InputParams />
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("App Launch JupyterLabNoParams renders", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <UserProfileProvider>
-                <PreferencesProvider>
-                    <JupyterLabNoParams />
-                </PreferencesProvider>
-            </UserProfileProvider>
-        </I18nProviderWrapper>
+        <TestProviderWrapper>
+            <JupyterLabNoParams />
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("App Launch NumberParams renders", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <UserProfileProvider>
-                <PreferencesProvider>
-                    <NumberParams />
-                </PreferencesProvider>
-            </UserProfileProvider>
-        </I18nProviderWrapper>
+        <TestProviderWrapper>
+            <NumberParams />
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("App Launch OutputParams renders", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <UserProfileProvider>
-                <PreferencesProvider>
-                    <OutputParams />
-                </PreferencesProvider>
-            </UserProfileProvider>
-        </I18nProviderWrapper>
+        <TestProviderWrapper>
+            <OutputParams />
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("App Launch Pipeline renders", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <UserProfileProvider>
-                <PreferencesProvider>
-                    <Pipeline />
-                </PreferencesProvider>
-            </UserProfileProvider>
-        </I18nProviderWrapper>
+        <TestProviderWrapper>
+            <Pipeline />
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("App Launch ReferenceGenomeParams renders", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <UserProfileProvider>
-                <PreferencesProvider>
-                    <ReferenceGenomeParams />
-                </PreferencesProvider>
-            </UserProfileProvider>
-        </I18nProviderWrapper>
+        <TestProviderWrapper>
+            <ReferenceGenomeParams />
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("App Launch SelectParams renders", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <UserProfileProvider>
-                <PreferencesProvider>
-                    <SelectParams />
-                </PreferencesProvider>
-            </UserProfileProvider>
-        </I18nProviderWrapper>
+        <TestProviderWrapper>
+            <SelectParams />
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("App Launch TextParams renders", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <UserProfileProvider>
-                <PreferencesProvider>
-                    <TextParams />
-                </PreferencesProvider>
-            </UserProfileProvider>
-        </I18nProviderWrapper>
+        <TestProviderWrapper>
+            <TextParams />
+        </TestProviderWrapper>
     );
     component.unmount();
 });

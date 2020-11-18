@@ -39,5 +39,20 @@ export default function notificationsRouter() {
         })
     );
 
+    logger.info(
+        "adding the POST /api/filesystem/:dataId/metadata/save handler"
+    );
+    api.post(
+        "/filesystem/:dataId/metadata/save",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/filesystem/:dataId/metadata/save",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

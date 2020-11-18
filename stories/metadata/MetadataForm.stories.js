@@ -3,13 +3,17 @@ import React from "react";
 import MetadataForm from "components/metadata/form";
 
 import { mockAxios } from "../axiosMock";
+import { initMockAxiosFileFolderSelector } from "../data/DataMocks";
 
 import { MockMetadata, DataCiteMetadata } from "./MetadataMocks";
 
+const testResourcePath = "/iplant/home/ipcdev/test/metadataResource";
 const errorResponse = {
     error_code: "ERR_FALSE_ALARM",
     reason: "Nothing to see here... Please try again!",
 };
+
+initMockAxiosFileFolderSelector();
 
 mockAxios
     .onGet("/api/filesystem/data-cite-resource/metadata")
@@ -31,20 +35,29 @@ mockAxios.onGet(/\/api\/filesystem\/.*\/metadata/).reply((config) => {
     return [200, MockMetadata];
 });
 
+mockAxios.onPost(/\/api\/filesystem\/.*\/metadata\/save/).replyOnce(400, {
+    error_code: "ERR_EXISTS",
+    reason: "That file already exists!",
+});
+mockAxios.onPost(/\/api\/filesystem\/.*\/metadata\/save/).reply((config) => {
+    console.log("Save Metadata", config.url, config.data);
+    const req = JSON.parse(config.data);
+
+    return [200, { id: "fake-id", path: req?.dest || testResourcePath }];
+});
+
 mockAxios
     .onPost(/\/api\/filesystem\/.*\/metadata/)
     .replyOnce(500, errorResponse);
 mockAxios.onPost(/\/api\/filesystem\/.*\/metadata/).reply((config) => {
     console.log("Set Metadata", config.url, config.data);
 
-    return [200, { path: "/fake/data/path", user: "ipcdev" }];
+    return [200, { path: testResourcePath, user: "ipcdev" }];
 });
 
 const onSelectTemplateBtnSelected = (metadata) => {
     console.log("view in templates", metadata);
 };
-const onSaveMetadataToFileBtnSelected = () =>
-    console.log("save to file selected.");
 
 export const MetadataView = () => {
     const [loading, setLoading] = React.useState(true);
@@ -62,11 +75,11 @@ export const MetadataView = () => {
                     ? null
                     : {
                           id: "disk-resource-id",
+                          path: testResourcePath,
                           label: "Test Resource",
                       }
             }
             onSelectTemplateBtnSelected={onSelectTemplateBtnSelected}
-            onSaveMetadataToFileBtnSelected={onSaveMetadataToFileBtnSelected}
         />
     );
 };
@@ -77,11 +90,11 @@ export const ReadOnlyMetadata = () => {
             editable={false}
             targetResource={{
                 id: "disk-resource-id",
+                path: testResourcePath,
                 label: "Read-Only Resource",
             }}
             loading={false}
             onSelectTemplateBtnSelected={onSelectTemplateBtnSelected}
-            onSaveMetadataToFileBtnSelected={onSaveMetadataToFileBtnSelected}
         />
     );
 };
@@ -92,11 +105,11 @@ export const DataCiteMetadataView = () => {
             editable
             targetResource={{
                 id: "data-cite-resource",
+                path: testResourcePath,
                 label: "DataCite Resource",
             }}
             loading={false}
             onSelectTemplateBtnSelected={onSelectTemplateBtnSelected}
-            onSaveMetadataToFileBtnSelected={onSaveMetadataToFileBtnSelected}
         />
     );
 };
@@ -105,10 +118,13 @@ export const EmptyMetadata = () => {
     return (
         <MetadataForm
             editable
-            targetResource={{ id: "no-metadata", label: "Empty Metadata" }}
+            targetResource={{
+                id: "no-metadata",
+                path: testResourcePath,
+                label: "Empty Metadata",
+            }}
             loading={false}
             onSelectTemplateBtnSelected={onSelectTemplateBtnSelected}
-            onSaveMetadataToFileBtnSelected={onSaveMetadataToFileBtnSelected}
         />
     );
 };

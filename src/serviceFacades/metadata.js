@@ -20,8 +20,17 @@ function setFilesystemMetadata({ dataId, metadata }) {
     });
 }
 
+function saveFilesystemMetadata({ dataId, dest, recursive }) {
+    return callApi({
+        endpoint: `/api/filesystem/${dataId}/metadata/save`,
+        method: "POST",
+        body: { dest, recursive },
+    });
+}
+
 export {
     FILESYSTEM_METADATA_QUERY_KEY,
     getFilesystemMetadata,
+    saveFilesystemMetadata,
     setFilesystemMetadata,
 };

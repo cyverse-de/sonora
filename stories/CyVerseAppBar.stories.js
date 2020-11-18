@@ -1,6 +1,5 @@
 import React from "react";
 import { UserProfileProvider } from "../src/contexts/userProfile";
-import { ConfigProvider } from "../src/contexts/config";
 import CyverseAppBar from "../src/components/layout/CyVerseAppBar";
 import { mockAxios } from "./axiosMock";
 import { NotificationsProvider } from "../src/contexts/pushNotifications";
@@ -136,12 +135,10 @@ export function AppBarTest() {
     return (
         <UserProfileProvider>
             <NotificationsProvider>
-                <ConfigProvider>
-                    <CyverseAppBar
-                        setAppBarRef={() => {}}
-                        clientConfig={testConfig}
-                    />
-                </ConfigProvider>
+                <CyverseAppBar
+                    setAppBarRef={() => {}}
+                    clientConfig={testConfig}
+                />
             </NotificationsProvider>
         </UserProfileProvider>
     );

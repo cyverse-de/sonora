@@ -18,13 +18,21 @@ import styles from "../styles";
 import AVUFormList from "./AVUFormList";
 import MetadataList from "../listing";
 
+import SaveAsDialog from "components/data/SaveAsDialog";
+import { getParentPath } from "components/data/utils";
+
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import ExternalLink from "components/utils/ExternalLink";
+
+import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+
+import { useBootstrapInfo } from "contexts/bootstrap";
 
 import {
     FILESYSTEM_METADATA_QUERY_KEY,
     getFilesystemMetadata,
+    saveFilesystemMetadata,
     setFilesystemMetadata,
 } from "serviceFacades/metadata";
 
@@ -402,9 +410,14 @@ const MetadataForm = ({ loading, showErrorAnnouncer, ...props }) => {
     // targetResource should be spread down into the dialog form below.
     const { targetResource } = props;
 
-    const { t } = useTranslation("metadata");
+    const [bootstrapInfo] = useBootstrapInfo();
+
+    const { t } = useTranslation(["metadata", "data"]);
 
     const [metadata, setMetadata] = React.useState({});
+
+    const [saveAsDialogOpen, setSaveAsDialogOpen] = React.useState(false);
+    const [saveFileError, setSaveFileError] = React.useState(null);
 
     const [metadataListingKey, setMetadataListingKey] = React.useState(
         FILESYSTEM_METADATA_QUERY_KEY
@@ -432,6 +445,34 @@ const MetadataForm = ({ loading, showErrorAnnouncer, ...props }) => {
             },
             onError: (error, { onError }) => {
                 onError(error);
+            },
+        }
+    );
+
+    const [saveMetadataToFile, { isLoading: fileSaveLoading }] = useMutation(
+        ({ dest, recursive }) =>
+            saveFilesystemMetadata({
+                dataId: targetResource.id,
+                dest,
+                recursive,
+            }),
+        {
+            onSuccess: () => {
+                setSaveAsDialogOpen(false);
+                announce({
+                    text: t("metadataSaved"),
+                    variant: AnnouncerConstants.SUCCESS,
+                });
+            },
+            onError: (error, { dest }) => {
+                const errMsg =
+                    getErrorCode(error) === ERROR_CODES.ERR_EXISTS
+                        ? t("data:fileExists", {
+                              path: getParentPath(dest),
+                          })
+                        : t("data:fileSaveError");
+
+                setSaveFileError(errMsg);
             },
         }
     );
@@ -512,33 +553,58 @@ const MetadataForm = ({ loading, showErrorAnnouncer, ...props }) => {
         });
     };
 
+    const preferences = bootstrapInfo?.preferences;
+    const saveMetadataDestFolder =
+        (preferences?.rememberLastPath && preferences?.lastFolder) ||
+        getParentPath(targetResource?.path);
+
     return (
-        <Formik
-            enableReinitialize
-            initialValues={{ ...metadata }}
-            validate={validate}
-            onSubmit={handleSubmit}
-        >
-            {(formikProps) => (
-                <MetadataFormListing
-                    loading={loading || isFetching}
-                    fetchError={fetchError}
-                    metadata={metadata}
-                    {...props}
-                    {...formikProps}
-                />
-            )}
-        </Formik>
+        <>
+            <Formik
+                enableReinitialize
+                initialValues={{ ...metadata }}
+                validate={validate}
+                onSubmit={handleSubmit}
+            >
+                {(formikProps) => (
+                    <MetadataFormListing
+                        loading={loading || isFetching}
+                        fetchError={fetchError}
+                        metadata={metadata}
+                        onSaveMetadataToFileBtnSelected={() => {
+                            setSaveAsDialogOpen(true);
+                        }}
+                        {...props}
+                        {...formikProps}
+                    />
+                )}
+            </Formik>
+
+            <SaveAsDialog
+                path={saveMetadataDestFolder}
+                open={saveAsDialogOpen}
+                onClose={() => setSaveAsDialogOpen(false)}
+                loading={fileSaveLoading}
+                saveFileError={saveFileError}
+                onSaveAs={(dest) => {
+                    setSaveFileError(null);
+                    saveMetadataToFile({
+                        dest,
+                        recursive: true,
+                    });
+                }}
+            />
+        </>
     );
 };
 
 MetadataForm.propTypes = {
     targetResource: PropTypes.shape({
         id: PropTypes.string.isRequired,
+        path: PropTypes.string.isRequired,
         label: PropTypes.string,
     }),
     onSelectTemplateBtnSelected: PropTypes.func.isRequired,
-    onSaveMetadataToFileBtnSelected: PropTypes.func.isRequired,
 };
 
 export default withErrorAnnouncer(MetadataForm);

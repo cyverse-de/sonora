@@ -346,6 +346,7 @@ function PathListViewer(props) {
                 saveFileError={saveNewFileError}
                 onSaveAs={(newPath) => {
                     setFileSavePath(newPath);
+                    setSaveNewFileError(null);
                     saveTextAsFile({
                         dest: newPath,
                         content: getContent(),
@@ -353,7 +354,6 @@ function PathListViewer(props) {
                     });
                 }}
                 loading={fileSaveStatus === constants.LOADING}
-                setSaveNewFileError={setSaveNewFileError}
             />
         </PageWrapper>
     );

@@ -7,12 +7,15 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 
-import { getParentPath } from "components/data/utils";
+import {
+    getParentPath,
+    useSelectorDefaultFolderPath,
+} from "components/data/utils";
 import DataSelectionDrawer from "components/data/SelectionDrawer";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
 import { UploadTrackingProvider } from "contexts/uploadTracking";
-import { usePreferences } from "contexts/userPreferences";
+import { useBootstrapInfo } from "contexts/bootstrap";
 
 import { useSavePreferences } from "serviceFacades/users";
 
@@ -43,8 +46,10 @@ const BrowseButton = (props) => {
         multiSelect,
         onConfirm,
     } = props;
+
     const { t } = useTranslation("launch");
     const [open, setOpen] = React.useState(false);
+    const defaultStartingPath = useSelectorDefaultFolderPath();
 
     return (
         <>
@@ -61,7 +66,7 @@ const BrowseButton = (props) => {
                 <DataSelectionDrawer
                     open={open}
                     onClose={() => setOpen(false)}
-                    startingPath={startingPath}
+                    startingPath={startingPath || defaultStartingPath}
                     acceptedType={acceptedType}
                     onConfirm={(selections) => {
                         setOpen(false);
@@ -90,12 +95,12 @@ const InputSelector = ({
     const { t } = useTranslation("launch");
     const { t: prefI18n } = useTranslation("preferences");
     const { setFieldValue } = form;
-    const [preferences, setPreferences] = usePreferences();
+    const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
 
     //update last folder used.
     const [mutatePreferences] = useSavePreferences(
-        (updatedPref) => {
-            setPreferences(updatedPref.preferences);
+        ({ preferences }) => {
+            setBootstrapInfo({ ...bootstrapInfo, preferences });
         },
         (e) => {
             showErrorAnnouncer(prefI18n("savePrefError"), e);
@@ -115,7 +120,7 @@ const InputSelector = ({
                     onConfirm={(selection) => {
                         setFieldValue(field.name, selection);
                         const updatedPref = {
-                            ...preferences,
+                            ...bootstrapInfo.preferences,
                             lastFolder: getParentPath(selection),
                         };
                         mutatePreferences(updatedPref);

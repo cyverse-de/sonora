@@ -130,7 +130,6 @@ function ParamGroupForm(props) {
         group,
         referenceGenomes,
         referenceGenomesLoading,
-        startingPath,
         index,
         noOfGroups,
     } = props;
@@ -248,25 +247,21 @@ function ParamGroupForm(props) {
 
                         case constants.PARAM_TYPE.FILE_INPUT:
                             fieldProps.component = InputSelector;
-                            fieldProps.startingPath = startingPath;
                             fieldProps.acceptedType = ResourceTypes.FILE;
                             break;
 
                         case constants.PARAM_TYPE.FOLDER_INPUT:
                             fieldProps.component = InputSelector;
-                            fieldProps.startingPath = startingPath;
                             fieldProps.acceptedType = ResourceTypes.FOLDER;
                             break;
 
                         case constants.PARAM_TYPE.FILE_FOLDER_INPUT:
                             fieldProps.component = InputSelector;
-                            fieldProps.startingPath = startingPath;
                             fieldProps.acceptedType = ResourceTypes.ANY;
                             break;
 
                         case constants.PARAM_TYPE.MULTIFILE_SELECTOR:
                             fieldProps.component = MultiInputSelector;
-                            fieldProps.startingPath = startingPath;
                             fieldProps.acceptedType = ResourceTypes.FILE;
                             break;
 

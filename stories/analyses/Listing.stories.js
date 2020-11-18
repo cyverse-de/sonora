@@ -5,14 +5,12 @@ import { useTranslation } from "i18n";
 import constants from "../../src/constants";
 
 import { mockAxios } from "../axiosMock";
-import testConfig from "../configMock";
 
 import { listing } from "./AnalysesMocks";
 
 import Listing from "components/analyses/listing/Listing";
 import analysisFields from "components/analyses/analysisFields";
 
-import { ConfigProvider, useConfig } from "contexts/config";
 import { NotificationsProvider } from "contexts/pushNotifications";
 
 export default {
@@ -28,11 +26,6 @@ function ListingTest(props) {
     const selectedOrderBy = analysesRecordFields.START_DATE.key;
     const selectedPermFilter = null;
     const selectedTypeFilter = null;
-
-    const setConfig = useConfig()[1];
-    React.useEffect(() => {
-        setConfig(testConfig);
-    }, [setConfig]);
 
     return (
         <NotificationsProvider>
@@ -152,9 +145,5 @@ export const AnalysesListingTest = () => {
         return [200];
     });
 
-    return (
-        <ConfigProvider>
-            <ListingTest />
-        </ConfigProvider>
-    );
+    return <ListingTest />;
 };

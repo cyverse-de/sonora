@@ -5,34 +5,41 @@ import { DataTableViewTest } from "../../stories/data/TableView.stories";
 import { PathListFileViewerTest } from "../../stories/data/viewers/PathListViewer.stories";
 import { PlainTextFileViewerTest } from "../../stories/data/viewers/TextViewer.stories";
 import { I18nProviderWrapper } from "../i18n";
+import { ConfigProvider } from "../contexts/config";
 
 beforeAll(async () => {
     await preloadAll();
 });
 
+const TestProviderWrapper = ({ children }) => (
+    <I18nProviderWrapper>
+        <ConfigProvider>{children}</ConfigProvider>
+    </I18nProviderWrapper>
+);
+
 test("Data Table View renders", () => {
     const component = renderer.create(
-        <I18nProviderWrapper>
+        <TestProviderWrapper>
             <DataTableViewTest />
-        </I18nProviderWrapper>
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("Path List File Viewer renders", () => {
     const component = renderer.create(
-        <I18nProviderWrapper>
+        <TestProviderWrapper>
             <PathListFileViewerTest />
-        </I18nProviderWrapper>
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("Plain text File Viewer renders", () => {
     const component = renderer.create(
-        <I18nProviderWrapper>
+        <TestProviderWrapper>
             <PlainTextFileViewerTest />
-        </I18nProviderWrapper>
+        </TestProviderWrapper>
     );
     component.unmount();
 });

@@ -21,7 +21,7 @@ import { ConfigProvider } from "contexts/config";
 import { UploadTrackingProvider } from "contexts/uploadTracking";
 import { UserProfileProvider } from "contexts/userProfile";
 import { NotificationsProvider } from "contexts/pushNotifications";
-import { PreferencesProvider } from "contexts/userPreferences";
+import { BootstrapInfoProvider } from "contexts/bootstrap";
 
 import PageWrapper from "components/layout/PageWrapper";
 import useComponentHeight from "components/utils/useComponentHeight";
@@ -213,7 +213,7 @@ function MyApp({ Component, pageProps }) {
                         <CssBaseline />
                         <NotificationsProvider>
                             <ConfigProvider>
-                                <PreferencesProvider>
+                                <BootstrapInfoProvider>
                                     <CyverseAppBar
                                         setAppBarRef={setAppBarRef}
                                         activeView={pathname}
@@ -233,7 +233,7 @@ function MyApp({ Component, pageProps }) {
                                         </PageWrapper>
                                         <UploadManager />
                                     </CyverseAppBar>
-                                </PreferencesProvider>
+                                </BootstrapInfoProvider>
                             </ConfigProvider>
                         </NotificationsProvider>
                     </ReactQueryConfigProvider>

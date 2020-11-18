@@ -2,8 +2,6 @@ import React from "react";
 import { mockAxios } from "../../axiosMock";
 import { UploadTrackingProvider } from "../../../src/contexts/uploadTracking";
 
-import { ConfigProvider } from "../../../src/contexts/config";
-import testConfig from "../../configMock";
 import ReferenceGenomes from "../../../src/components/apps/admin/referenceGenomes/ReferenceGenomes";
 
 export default {
@@ -504,9 +502,7 @@ export function RefGenomeListingTest(props) {
         .reply(200, genomesListing);
     return (
         <UploadTrackingProvider>
-            <ConfigProvider config={testConfig}>
-                <ReferenceGenomes baseId="refGenomes" />
-            </ConfigProvider>
+            <ReferenceGenomes baseId="refGenomes" />
         </UploadTrackingProvider>
     );
 }

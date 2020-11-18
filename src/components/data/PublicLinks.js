@@ -238,6 +238,8 @@ function PublicLinks(props) {
                 saveFileError={saveNewFileError}
                 onSaveAs={(newPath) => {
                     setFileSavePath(newPath);
+                    setSaveNewFileError(null);
+
                     saveTextAsFile({
                         dest: newPath,
                         content: links,

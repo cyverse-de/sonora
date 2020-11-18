@@ -13,4 +13,8 @@ export default {
         group_attribute_name: "entitlement",
     },
     analysis: { supportUser: { user: "support_user", source_id: "ldap" } },
+    irods: {
+        home_path: "/iplant/home",
+        trash_path: "/iplant/trash/home/de-irods",
+    },
 };

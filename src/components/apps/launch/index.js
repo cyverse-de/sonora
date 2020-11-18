@@ -7,14 +7,14 @@
 import React from "react";
 
 import { useRouter } from "next/router";
-import { useMutation, queryCache } from "react-query";
-import { BOOTSTRAP_KEY } from "serviceFacades/users";
+import { useMutation } from "react-query";
 
 import NavigationConstants from "common/NavigationConstants";
 
+import { useHomePath } from "components/data/utils";
+
 import { useConfig } from "contexts/config";
-import { useUserProfile } from "contexts/userProfile";
-import { usePreferences } from "contexts/userPreferences";
+import { useBootstrapInfo } from "contexts/bootstrap";
 
 import { submitAnalysis } from "serviceFacades/analyses";
 import { addQuickLaunch } from "serviceFacades/quickLaunches";
@@ -23,9 +23,9 @@ import AppLaunchWizard from "./AppLaunchWizard";
 
 export default ({ app, launchError, loading }) => {
     const [submissionError, setSubmissionError] = React.useState(null);
-    const [preferences] = usePreferences();
+    const [bootstrapInfo] = useBootstrapInfo();
     const [config] = useConfig();
-    const [userProfile] = useUserProfile();
+    const homePath = useHomePath();
 
     const router = useRouter();
 
@@ -57,16 +57,8 @@ export default ({ app, launchError, loading }) => {
         }
     );
 
-    const bootstrapCache = queryCache.getQueryData(BOOTSTRAP_KEY);
-    const userHomeFromBootStrap = bootstrapCache?.data_info?.user_home_path;
-    const irodsHomePath = config?.irods?.home_path;
-    const username = userProfile?.id;
-    const homePath =
-        userHomeFromBootStrap || (irodsHomePath && username)
-            ? `${irodsHomePath}/${username}`
-            : "";
+    const preferences = bootstrapInfo?.preferences;
 
-    const startingPath = preferences?.lastFolder || homePath || "";
     const defaultOutputDir =
         preferences?.default_output_folder?.path ||
         preferences?.system_default_output_dir?.path ||
@@ -84,7 +76,6 @@ export default ({ app, launchError, loading }) => {
             baseId="apps"
             notify={notify}
             defaultOutputDir={defaultOutputDir}
-            startingPath={startingPath}
             defaultMaxCPUCores={defaultMaxCPUCores}
             defaultMaxMemory={defaultMaxMemory}
             defaultMaxDiskSpace={defaultMaxDiskSpace}

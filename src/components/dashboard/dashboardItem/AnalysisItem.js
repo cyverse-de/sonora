@@ -1,11 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import {
-    BarChart,
-    Repeat,
-    Info,
-    PermMedia,
-} from "@material-ui/icons";
+import { BarChart, Repeat, Info, PermMedia } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
 
 import { formatDate } from "@cyverse-de/ui-lib";

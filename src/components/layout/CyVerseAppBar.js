@@ -349,8 +349,6 @@ function CyverseAppBar(props) {
         router.push(`/${NavigationConstants.LOGOUT}`);
     };
 
-    const onManageAccountClick = () => {};
-
     const onUserMenuClose = () => {
         setAnchorEl(null);
     };
@@ -645,7 +643,7 @@ function CyverseAppBar(props) {
                         <Notifications />
                     </div>
                     <Hidden only={["xs"]}>
-                        <div id={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}>
+                        <div id={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}>
                             {accountAvatar}
                         </div>
                     </Hidden>
@@ -720,7 +718,17 @@ function CyverseAppBar(props) {
                         id={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
                         style={{ margin: 8 }}
                     >
-                        {accountAvatar}
+                        <UserMenu
+                            baseId={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
+                            profile={userProfile}
+                            onLogoutClick={onLogoutClick}
+                            onManageAccountClick={() =>
+                                window.open(
+                                    "https://user.cyverse.org",
+                                    "_blank"
+                                )
+                            }
+                        />
                     </div>
                     <Divider />
                     {drawerItems}
@@ -747,6 +755,7 @@ function CyverseAppBar(props) {
                 }}
             >
                 <UserMenu
+                    baseId={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}
                     profile={userProfile}
                     onLogoutClick={onLogoutClick}
                     onManageAccountClick={() =>

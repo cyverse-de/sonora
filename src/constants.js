@@ -3,6 +3,8 @@
 export default {
     // The CyVerse page for DE. Not the DE base URL.
     CYVERSE_URL: "https://cyverse.org/discovery-environment",
+    CYVERSE_POLICY_URL: "https://cyverse.org/policies",
+    CYVERSE_ABOUT_URL: "https://cyverse.org/about",
     SHARED_WITH_ME: "Shared With Me",
     APPS_SHARED_WITH_ME: "Shared with me",
     COMMUNITY_DATA: "Community Data",

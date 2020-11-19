@@ -39,6 +39,7 @@ import {
     Drawer,
     Hidden,
     IconButton,
+    Popover,
     List,
     ListItem,
     ListItemIcon,
@@ -58,6 +59,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
+import UserMenu from "./UserMenu";
 
 const ENTITLEMENT = "entitlement";
 const drawerWidth = 235;
@@ -236,7 +238,7 @@ function CyverseAppBar(props) {
     const [bootstrapError, setBootstrapError] = useState(null);
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
     const [profileRefetchInterval, setProfileRefetchInterval] = useState(null);
-
+    const [anchorEl, setAnchorEl] = useState(null);
     const setPreferences = usePreferences()[1];
 
     if (activeView === NavigationConstants.APPS) {
@@ -339,8 +341,18 @@ function CyverseAppBar(props) {
         if (!userProfile) {
             router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
         } else {
-            router.push(`/${NavigationConstants.LOGOUT}`);
+            setAnchorEl(event.currentTarget);
         }
+    };
+
+    const onLogoutClick = () => {
+        router.push(`/${NavigationConstants.LOGOUT}`);
+    };
+
+    const onManageAccountClick = () => {};
+
+    const onUserMenuClose = () => {
+        setAnchorEl(null);
     };
     const handleSearchClick = (event) => {
         router.push("/" + NavigationConstants.SEARCH);
@@ -721,6 +733,27 @@ function CyverseAppBar(props) {
                 </Drawer>
             </Hidden>
             <CyVerseAnnouncer />
+            <Popover
+                open={Boolean(anchorEl)}
+                anchorEl={anchorEl}
+                onClose={onUserMenuClose}
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                }}
+                transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                }}
+            >
+                <UserMenu
+                    profile={userProfile}
+                    onLogoutClick={onLogoutClick}
+                    onManageAccountClick={() =>
+                        window.open("https://user.cyverse.org", "_blank")
+                    }
+                />
+            </Popover>
             <main
                 className={clsx(classes.content, {
                     [classes.contentShift]: open,

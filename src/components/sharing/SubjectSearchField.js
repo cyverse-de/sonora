@@ -6,6 +6,7 @@ import {
     TextField,
     useMediaQuery,
     useTheme,
+    Typography,
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { useQuery } from "react-query";
@@ -14,7 +15,9 @@ import ids from "./ids";
 import { searchSubjects } from "serviceFacades/sharing";
 import isQueryLoading from "../utils/isQueryLoading";
 import { useTranslation } from "i18n";
-import { isGroup } from "components/sharing/util";
+import { isGroup, groupName } from "components/sharing/util";
+import PeopleIcon from "@material-ui/icons/People";
+import PersonIcon from "@material-ui/icons/Person";
 
 function SubjectSearchField(props) {
     const { baseId, onUserSelected, onSearchStart } = props;
@@ -44,11 +47,53 @@ function SubjectSearchField(props) {
             const newSearchTerm = event.target.value;
             setSearchTerm(newSearchTerm);
             newSearchTerm && onSearchStart();
+            //clear existing results on new search
+            setOptions([]);
         }
     };
 
-    const getGroupName = (group) => {
-        return group.name.split(":").pop();
+    const renderCustomOption = (option) => {
+        let optionLabel = null;
+        let icon = null;
+        if (isGroup(option)) {
+            optionLabel = groupName(option);
+            icon = (
+                <PeopleIcon
+                    fontSize="small"
+                    style={{ color: theme.palette.info.main }}
+                />
+            );
+        } else {
+            if (searchTerm === option.email) {
+                optionLabel = option.email;
+            } else if (searchTerm === option.id) {
+                optionLabel = option.id;
+            }
+            icon = (
+                <PersonIcon
+                    fontSize="small"
+                    style={{ color: theme.palette.info.main }}
+                />
+            );
+        }
+        return (
+            <>
+                <span style={{ marginRight: theme.spacing(0.5) }}>{icon}</span>
+                <div
+                    style={{
+                        flexGrow: 1,
+                        margin: theme.spacing(1),
+                    }}
+                >
+                    <Typography
+                        variant={"subtitle2"}
+                        color={theme.palette.info.primary}
+                    >
+                        {optionLabel}
+                    </Typography>
+                </div>
+            </>
+        );
     };
 
     const loading = isQueryLoading(subjectSearchStatus);
@@ -56,7 +101,6 @@ function SubjectSearchField(props) {
     return (
         <Autocomplete
             id={baseId}
-            freeSolo
             value={searchTerm}
             onChange={(event, user) =>
                 user && onUserSelected(user, onUserAdded)
@@ -67,15 +111,9 @@ function SubjectSearchField(props) {
                 if (typeof option === "string") {
                     return option;
                 }
-                // Show only exact matches - either exact match
-                // by email or user ID - or groups
-                return searchTerm === option.email
-                    ? option.email
-                    : searchTerm === option.id
-                    ? option.id
-                    : isGroup(option)
-                    ? getGroupName(option)
-                    : "";
+                return isGroup(option)
+                    ? groupName(option)
+                    : option["display_name"];
             }}
             filterOptions={(options, params) => {
                 return options.filter(
@@ -88,6 +126,9 @@ function SubjectSearchField(props) {
             loading={loading}
             options={options}
             noOptionsText={t("noUsersFound")}
+            popupIcon={null}
+            clearOnBlur={true}
+            renderOption={(option, state) => renderCustomOption(option)}
             renderInput={(params) => (
                 <TextField
                     {...params}
@@ -105,7 +146,6 @@ function SubjectSearchField(props) {
                                         size={20}
                                     />
                                 ) : null}
-                                {params.InputProps.endAdornment}
                             </>
                         ),
                     }}

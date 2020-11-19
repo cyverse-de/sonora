@@ -328,7 +328,13 @@ function Navigation(props) {
     const [userProfile] = useUserProfile();
     const [config] = useConfig();
     const irodsHomePath = config?.irods?.home_path;
-    const rootsQueryKeyArray = [DATA_ROOTS_QUERY_KEY, userProfile?.id];
+    const irodsTrashPath = config?.irods?.trash_path;
+    const [rootsQueryKeyArray, setRootsQueryKeyArray] = useState([
+        DATA_ROOTS_QUERY_KEY,
+        userProfile?.id,
+        irodsHomePath,
+        irodsTrashPath,
+    ]);
 
     const preProcessData = (respData) => {
         if (respData) {
@@ -373,6 +379,15 @@ function Navigation(props) {
             handlePathChange(dataRoots[0].path);
         }
     }, [dataRoots, handlePathChange, path]);
+
+    useEffect(() => {
+        setRootsQueryKeyArray([
+            DATA_ROOTS_QUERY_KEY,
+            userProfile?.id,
+            irodsHomePath,
+            irodsTrashPath,
+        ]);
+    }, [userProfile, irodsHomePath, irodsTrashPath]);
 
     const { error } = useQuery({
         queryKey: rootsQueryKeyArray,

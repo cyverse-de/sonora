@@ -1,6 +1,7 @@
 import callApi from "../common/callApi";
 import { getDataSimpleSearchQuery } from "components/search/dataSearchQueryBuilder";
 import viewerConstants from "components/data/viewers/constants";
+import constants from "constants.js";
 export const DATA_LISTING_QUERY_KEY = "fetchDataListing";
 export const USER_INFO_QUERY_KEY = "fetchUserInfo";
 export const RESOURCE_PERMISSIONS_KEY = "fetchResourcePermissions";
@@ -88,10 +89,36 @@ export const getPagedListing = (
  * Get the list of directory roots available to a user
  * @returns {Promise<any>}
  */
-export const getFilesystemRoots = () => {
-    return callApi({
-        endpoint: `/api/filesystem/root`,
-    });
+export const getFilesystemRoots = (key, userId, homePath, trashPath) => {
+    return userId
+        ? callApi({
+              endpoint: `/api/filesystem/root`,
+          })
+        : Promise.resolve({
+              roots: [
+                  {
+                      path: `${homePath}/${constants.ANONYMOUS_USER}`,
+                      label: constants.ANONYMOUS_USER,
+                  },
+                  {
+                      path: `${homePath}/shared`,
+                      label: constants.COMMUNITY_DATA,
+                  },
+                  {
+                      path: homePath,
+                      label: constants.SHARED_WITH_ME,
+                  },
+                  {
+                      path: `${trashPath}/${constants.ANONYMOUS_USER}`,
+                      label: constants.TRASH,
+                  },
+              ],
+              "base-paths": {
+                  user_home_path: `${homePath}/${constants.ANONYMOUS_USER}`,
+                  user_trash_path: `${trashPath}/${constants.ANONYMOUS_USER}`,
+                  base_trash_path: trashPath,
+              },
+          });
 };
 
 /**

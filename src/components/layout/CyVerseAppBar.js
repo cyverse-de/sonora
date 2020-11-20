@@ -11,11 +11,7 @@ import clsx from "clsx";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
-import Joyride, {
-    ACTIONS,
-    EVENTS,
-    STATUS,
-} from "react-joyride";
+import Joyride, { ACTIONS, EVENTS, STATUS } from "react-joyride";
 
 import ids from "./ids";
 import constants from "../../constants";
@@ -714,7 +710,7 @@ function CyverseAppBar(props) {
                         <div className={classes.toolbar}>
                             {!open && (
                                 <IconButton
-                                    aria-label="open drawer"
+                                    aria-label={t("openMenu")}
                                     onClick={handleDrawerOpen}
                                     edge="start"
                                     className={clsx(classes.menuIcon, {
@@ -823,7 +819,7 @@ function CyverseAppBar(props) {
                 </main>
                 {newUser && (
                     <ConfirmationDialog
-                        baseId={"de"}
+                        baseId={ids.USER_TOUR_DLG}
                         open={newUser}
                         onClose={() => setNewUser(false)}
                         onConfirm={() => {

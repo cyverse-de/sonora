@@ -162,12 +162,12 @@ export default function UserMenu(props) {
                             variant="caption"
                             className={classes.typography}
                         >
-                            {t("polices")}
+                            {t("policies")}
                         </Typography>
                     </ExternalLink>
                 </Grid>
                 <Grid item>
-                    <Typography variant="caption">.</Typography>
+                    <Typography variant="caption">•</Typography>
                 </Grid>
                 <Grid item>
                     <ExternalLink

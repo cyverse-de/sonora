@@ -5,6 +5,7 @@ export default {
     CYVERSE_URL: "https://cyverse.org/discovery-environment",
     CYVERSE_POLICY_URL: "https://cyverse.org/policies",
     CYVERSE_ABOUT_URL: "https://cyverse.org/about",
+    CYVERSE_USER_PORTAL: "https://user.cyverse.org",
     SHARED_WITH_ME: "Shared With Me",
     APPS_SHARED_WITH_ME: "Shared with me",
     COMMUNITY_DATA: "Community Data",

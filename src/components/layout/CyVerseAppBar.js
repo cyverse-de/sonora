@@ -759,7 +759,7 @@ function CyverseAppBar(props) {
                     profile={userProfile}
                     onLogoutClick={onLogoutClick}
                     onManageAccountClick={() =>
-                        window.open("https://user.cyverse.org", "_blank")
+                        window.open(constants.CYVERSE_USER_PORTAL, "_blank")
                     }
                 />
             </Popover>

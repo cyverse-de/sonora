@@ -44,7 +44,7 @@ export default function dataRouter() {
     api.get(
         "/filesystem/root",
         auth.authnTokenMiddleware,
-        terrainHandler({ method: "GET", pathname: "/filesystem/root" })
+        terrainHandler({ method: "GET", pathname: "/secured/filesystem/root" })
     );
 
     logger.info(

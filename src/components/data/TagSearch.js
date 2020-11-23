@@ -60,7 +60,12 @@ function TagSearch(props) {
             onSuccess: (resp) => setSelectedTags(resp.tags),
             onError: (e) => {
                 setErrorObject(e);
-                setErrorMessage(t("fetchTagSuggestionsError"));
+                const status = e?.response?.status;
+                setErrorMessage(
+                    status === 401
+                        ? t("tagsSignInError")
+                        : t("fetchTagSuggestionsError")
+                );
             },
         },
     });

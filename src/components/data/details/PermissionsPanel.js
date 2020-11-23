@@ -267,7 +267,7 @@ function PermissionsTabPanel(props) {
             <Typography id={build(baseId, ids.SELF_PERMISSION)}>
                 {t("selfPermission", { permission: selfPermission })}
             </Typography>
-            {fetchResourcePermissionsKey && (
+            {selfPermission === Permissions.OWN && (
                 <List
                     className={classes.permissionsList}
                     id={build(baseId, ids.PERMISSION_LIST)}

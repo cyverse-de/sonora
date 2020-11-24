@@ -127,8 +127,7 @@ const DashboardItem = ({ item }) => {
                 <Typography
                     color="textSecondary"
                     variant="body2"
-                    component="p"
-                    style={{ overflow: "ellipsis", height: "4.2em" }}
+                    style={{ overflow: "ellipsis", height: "4.0em" }}
                 >
                     {description || t("noDescriptionProvided")}
                 </Typography>

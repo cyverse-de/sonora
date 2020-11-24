@@ -8,6 +8,8 @@ import React, { useEffect, useState } from "react";
 import { queryCache, useQuery } from "react-query";
 import { Field, Form, Formik, FastField } from "formik";
 
+import { FormTextField } from "@cyverse-de/ui-lib";
+
 import { getInfoTypes, INFO_TYPES_QUERY_KEY } from "serviceFacades/filesystem";
 import ResourceTypes from "components/models/ResourceTypes";
 import InputSelector from "components/apps/launch/InputSelector";
@@ -19,7 +21,6 @@ import {
     Paper,
     FormControlLabel,
     Switch,
-    TextField,
     List,
     Typography,
     ListItem,
@@ -107,15 +108,18 @@ export default function PathListAutomation(props) {
                                     />
                                 </Grid>
                                 <Grid item xs>
-                                    <Typography>
-                                        Include only file / folder path(s) when
-                                        file / folder name matches this:
-                                    </Typography>
-                                    <TextField
+                                    <Field
+                                        id={"pattern"}
+                                        name="name"
+                                        label={
+                                            " Include only file / folder path(s) when file / folder name matches this:"
+                                        }
+                                        component={FormTextField}
                                         placeholder="e.g: \.csv$"
                                         variant="outlined"
                                         fullWidth
                                         dense
+                                        helperText={""}
                                     />
                                 </Grid>
                                 <Grid item xs>
@@ -178,15 +182,19 @@ export default function PathListAutomation(props) {
                                     />
                                 </Grid>
                                 <Grid item xs>
-                                    <Typography>
-                                        Enter a file name to use to save this
-                                        file:
-                                    </Typography>
-                                    <TextField
-                                        placeholder="file name"
+                                    <Field
+                                        id={"fileName"}
+                                        name="name"
+                                        required={true}
+                                        label={
+                                            "Enter a file name to use to save this file:"
+                                        }
+                                        component={FormTextField}
+                                        placeholder="e.g: \.csv$"
                                         variant="outlined"
                                         fullWidth
                                         dense
+                                        helperText={""}
                                     />
                                 </Grid>
                             </Grid>

@@ -16,16 +16,6 @@ export default function notificationsRouter() {
 
     logger.info("************ Adding Notifications handlers **********");
 
-    logger.info("adding the GET /api/notifications/last-ten-messages");
-    api.get(
-        "/notifications/last-ten-messages",
-        auth.authnTokenMiddleware,
-        terrainHandler({
-            method: "GET",
-            pathname: "/secured/notifications/last-ten-messages",
-        })
-    );
-
     logger.info("adding the GET /notifications/messages handler");
     api.get(
         "/notifications/messages",

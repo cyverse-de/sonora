@@ -5,8 +5,8 @@ import { formatDistance, fromUnixTime } from "date-fns";
 import classnames from "classnames";
 
 import {
-    getLastTenNotifications,
-    NOTIFICATIONS_LAST_TEN_KEY,
+    getNotifications,
+    NOTIFICATIONS_MESSAGES_QUERY_KEY,
 } from "serviceFacades/notifications";
 import { useTranslation } from "../../i18n";
 import ids from "./ids";
@@ -36,6 +36,12 @@ import DoneAllIcon from "@material-ui/icons/DoneAll";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 
 const useStyles = makeStyles(NotificationStyles);
+
+// Listing constants for the notification menu.
+const NOTIFICATION_MENU_SORT_FIELD = "timestamp";
+const NOTIFICATION_MENU_SORT_ORDER = "desc";
+const NOTIFICATION_MENU_LIMIT = 10;
+const NOTIFICATION_MENU_OFFSET = 0;
 
 function getTimeStamp(time) {
     if (time) {
@@ -134,11 +140,19 @@ function NotificationsMenu(props) {
     }, [notifications, notificationMssg]);
 
     const { isFetching } = useQuery({
-        queryKey: NOTIFICATIONS_LAST_TEN_KEY,
-        queryFn: getLastTenNotifications,
+        queryKey: [
+            NOTIFICATIONS_MESSAGES_QUERY_KEY,
+            {
+                orderBy: NOTIFICATION_MENU_SORT_FIELD,
+                order: NOTIFICATION_MENU_SORT_ORDER,
+                limit: NOTIFICATION_MENU_LIMIT,
+                offset: NOTIFICATION_MENU_OFFSET,
+            },
+        ],
+        queryFn: getNotifications,
         config: {
             onSuccess: (results) => {
-                setNotifications(results?.messages.reverse().slice(0, 10));
+                setNotifications(results?.messages);
                 if (results?.unseen_total > 0) {
                     setUnSeenCount(results?.unseen_total);
                 }

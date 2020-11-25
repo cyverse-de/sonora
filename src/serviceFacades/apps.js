@@ -84,14 +84,29 @@ function getPrivateCategories(key, userId) {
 
 function getAppsInCategory(
     key,
-    { systemId, categoryId, rowsPerPage, orderBy, order, page, appTypeFilter }
+    {
+        systemId,
+        categoryId,
+        rowsPerPage,
+        orderBy,
+        order,
+        page,
+        appTypeFilter,
+        userId,
+    }
 ) {
-    return callApi({
-        endpoint: `/api/apps/categories/${systemId}/${categoryId}?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
-            rowsPerPage * page
-        }${getAppTypeFilter(appTypeFilter)}`,
-        method: "GET",
-    });
+    return userId
+        ? callApi({
+              endpoint: `/api/apps/categories/${systemId}/${categoryId}?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
+                  rowsPerPage * page
+              }${getAppTypeFilter(appTypeFilter)}`,
+              method: "GET",
+          })
+        : Promise.reject({
+              response: {
+                  status: 401,
+              },
+          });
 }
 
 function getAppDescription(_, { systemId, appId }) {

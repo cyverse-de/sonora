@@ -40,6 +40,7 @@ import Sharing from "components/sharing";
 import { formatSharedApps } from "components/sharing/util";
 import AppDoc from "components/apps/details/AppDoc";
 import QuickLaunchDialog from "../quickLaunch/QuickLaunchDialog";
+import { useUserProfile } from "contexts/userProfile";
 
 function Listing({
     baseId,
@@ -57,6 +58,7 @@ function Listing({
 }) {
     const { t } = useTranslation(["apps", "common"]);
     const [isGridView, setGridView] = useState(false);
+    const [userProfile] = useUserProfile();
 
     const [order, setOrder] = useState(selectedOrder);
     const [orderBy, setOrderBy] = useState(selectedOrderBy);
@@ -217,6 +219,7 @@ function Listing({
                     appTypeFilter,
                     page,
                     categoryId,
+                    userId: userProfile?.id,
                 },
             ]);
             setAppsInCategoryQueryEnabled(true);
@@ -232,6 +235,7 @@ function Listing({
         filter,
         selectedSystemId,
         selectedAppId,
+        userProfile,
     ]);
 
     useEffect(() => {

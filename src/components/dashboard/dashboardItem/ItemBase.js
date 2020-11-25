@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import clsx from "clsx";
 import { useTranslation } from "i18n";
+import { Trans } from "react-i18next";
 import ReactPlayer from "react-player/youtube";
 
 import {
@@ -10,16 +11,12 @@ import {
     CardContent,
     CardHeader,
     Link,
-    Menu,
     Typography,
     useMediaQuery,
-    IconButton,
     Tooltip,
     MenuItem,
     useTheme,
 } from "@material-ui/core";
-
-import { MoreVert } from "@material-ui/icons";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
 
@@ -76,9 +73,6 @@ const DashboardItem = ({ item }) => {
     const description = fns.cleanDescription(item.content.description);
     const [origination, date] = item.getOrigination(t);
 
-    const [menuAnchorEl, setMenuAnchorEl] = useState(null);
-    const menuID = fns.makeID(cardID, "menu");
-
     return (
         <Card
             classes={{ root: classes.dashboardCard }}
@@ -97,21 +91,28 @@ const DashboardItem = ({ item }) => {
                     root: classes.cardHeaderDefault,
                     content: classes.cardHeaderContent,
                 }}
-                title={
-                    item.kind === constants.KIND_ANALYSES
-                        ? `${item.content.name} - ${item.content.status}`
-                        : item.content.name
-                }
+                title={item.content.name}
                 titleTypographyProps={{
                     noWrap: true,
                     variant: "subtitle2",
                     classes: { colorPrimary: classes.cardHeaderText },
                 }}
-                subheader={t("origination", {
-                    origination,
-                    user,
-                    date,
-                })}
+                subheader={
+                    item.kind === constants.KIND_ANALYSES ? (
+                        <Trans
+                            t={t}
+                            i18nKey={"analysisOrigination"}
+                            values={{ status: item.content.status, date: date }}
+                            components={{ bold: <strong /> }}
+                        />
+                    ) : (
+                        t("origination", {
+                            origination,
+                            user,
+                            date,
+                        })
+                    )
+                }
                 subheaderTypographyProps={{
                     noWrap: true,
                     variant: "caption",
@@ -123,46 +124,16 @@ const DashboardItem = ({ item }) => {
                     root: classes.root,
                 }}
             >
-                <Typography color="textSecondary" variant="body2" component="p">
+                <Typography
+                    color="textSecondary"
+                    variant="body2"
+                    style={{ overflow: "ellipsis", height: "4.0em" }}
+                >
                     {description || t("noDescriptionProvided")}
                 </Typography>
             </CardContent>
 
-            <CardActions>
-                {item.actions}
-                {item.menuActions.length > 0 && (
-                    <>
-                        <IconButton
-                            className={classes.tripleDotMenu}
-                            aria-controls={menuID}
-                            aria-haspopup="true"
-                            onClick={(event) =>
-                                setMenuAnchorEl(event.currentTarget)
-                            }
-                        >
-                            <MoreVert color="primary" />
-                        </IconButton>
-                        <Menu
-                            id={menuID}
-                            anchorEl={menuAnchorEl}
-                            keepMounted
-                            open={Boolean(menuAnchorEl)}
-                            onClose={() => setMenuAnchorEl(null)}
-                        >
-                            {item.menuActions.map((menuAction) => {
-                                return (
-                                    <MenuItem
-                                        key={`${menuAction.key}-menuitem`}
-                                        onClick={() => setMenuAnchorEl(null)}
-                                    >
-                                        {menuAction}
-                                    </MenuItem>
-                                );
-                            })}
-                        </Menu>
-                    </>
-                )}
-            </CardActions>
+            <CardActions>{item.actions}</CardActions>
         </Card>
     );
 };

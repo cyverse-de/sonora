@@ -1,5 +1,6 @@
 {
     "addToCalendarAria": "add to calendar",
+    "analysisOrigination": "<bold>{{status}}</bold> - {{date}}",
     "by": "By",
     "changeSettings": "Change Settings",
     "dashboardInitError": "Unable to initialize the dashboard: {{error}}",

@@ -39,6 +39,7 @@ import {
     Drawer,
     Hidden,
     IconButton,
+    Popover,
     List,
     ListItem,
     ListItemIcon,
@@ -58,6 +59,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
+import UserMenu from "./UserMenu";
 
 const ENTITLEMENT = "entitlement";
 const drawerWidth = 235;
@@ -236,7 +238,7 @@ function CyverseAppBar(props) {
     const [bootstrapError, setBootstrapError] = useState(null);
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
     const [profileRefetchInterval, setProfileRefetchInterval] = useState(null);
-
+    const [anchorEl, setAnchorEl] = useState(null);
     const setPreferences = usePreferences()[1];
 
     if (activeView === NavigationConstants.APPS) {
@@ -339,8 +341,16 @@ function CyverseAppBar(props) {
         if (!userProfile) {
             router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
         } else {
-            router.push(`/${NavigationConstants.LOGOUT}`);
+            setAnchorEl(event.currentTarget);
         }
+    };
+
+    const onLogoutClick = () => {
+        router.push(`/${NavigationConstants.LOGOUT}`);
+    };
+
+    const onUserMenuClose = () => {
+        setAnchorEl(null);
     };
     const handleSearchClick = (event) => {
         router.push("/" + NavigationConstants.SEARCH);
@@ -633,7 +643,7 @@ function CyverseAppBar(props) {
                         <Notifications />
                     </div>
                     <Hidden only={["xs"]}>
-                        <div id={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}>
+                        <div id={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}>
                             {accountAvatar}
                         </div>
                     </Hidden>
@@ -708,7 +718,17 @@ function CyverseAppBar(props) {
                         id={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
                         style={{ margin: 8 }}
                     >
-                        {accountAvatar}
+                        <UserMenu
+                            baseId={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
+                            profile={userProfile}
+                            onLogoutClick={onLogoutClick}
+                            onManageAccountClick={() =>
+                                window.open(
+                                    "https://user.cyverse.org",
+                                    "_blank"
+                                )
+                            }
+                        />
                     </div>
                     <Divider />
                     {drawerItems}
@@ -721,6 +741,28 @@ function CyverseAppBar(props) {
                 </Drawer>
             </Hidden>
             <CyVerseAnnouncer />
+            <Popover
+                open={Boolean(anchorEl)}
+                anchorEl={anchorEl}
+                onClose={onUserMenuClose}
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                }}
+                transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                }}
+            >
+                <UserMenu
+                    baseId={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}
+                    profile={userProfile}
+                    onLogoutClick={onLogoutClick}
+                    onManageAccountClick={() =>
+                        window.open(constants.CYVERSE_USER_PORTAL, "_blank")
+                    }
+                />
+            </Popover>
             <main
                 className={clsx(classes.content, {
                     [classes.contentShift]: open,

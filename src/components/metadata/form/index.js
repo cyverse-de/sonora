@@ -82,6 +82,7 @@ const MetadataFormListing = (props) => {
     const { avus, "irods-avus": irodsAVUs } = values;
     const targetName = targetResource?.label;
 
+    const [userProfile] = useUserProfile();
     const { t } = useTranslation("metadata");
     const classes = useStyles();
 
@@ -226,28 +227,34 @@ const MetadataFormListing = (props) => {
                     </Tooltip>
                 )}
 
-                <Tooltip
-                    title={t("saveToFile")}
-                    placement="bottom-start"
-                    enterDelay={200}
-                >
-                    <span>
-                        <IconButton
-                            id={build(
-                                ids.EDIT_METADATA_FORM,
-                                ids.BUTTONS.SAVE_METADATA_TO_FILE
-                            )}
-                            aria-label={t("saveToFile")}
-                            disabled={
-                                loading || (dirty && editable) || isSubmitting
-                            }
-                            onClick={() => onSaveMetadataToFileBtnSelected()}
-                            color="inherit"
-                        >
-                            <SaveIcon />
-                        </IconButton>
-                    </span>
-                </Tooltip>
+                {userProfile && (
+                    <Tooltip
+                        title={t("saveToFile")}
+                        placement="bottom-start"
+                        enterDelay={200}
+                    >
+                        <span>
+                            <IconButton
+                                id={build(
+                                    ids.EDIT_METADATA_FORM,
+                                    ids.BUTTONS.SAVE_METADATA_TO_FILE
+                                )}
+                                aria-label={t("saveToFile")}
+                                disabled={
+                                    loading ||
+                                    (dirty && editable) ||
+                                    isSubmitting
+                                }
+                                onClick={() =>
+                                    onSaveMetadataToFileBtnSelected()
+                                }
+                                color="inherit"
+                            >
+                                <SaveIcon />
+                            </IconButton>
+                        </span>
+                    </Tooltip>
+                )}
 
                 <IconButton
                     id={build(ids.EDIT_METADATA_FORM, ids.BUTTONS.HELP)}

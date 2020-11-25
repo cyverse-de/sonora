@@ -68,7 +68,6 @@ export const MetadataView = () => {
 
     return (
         <MetadataForm
-            editable
             loading={loading}
             targetResource={
                 loading
@@ -77,6 +76,7 @@ export const MetadataView = () => {
                           id: "disk-resource-id",
                           path: testResourcePath,
                           label: "Test Resource",
+                          permission: "own",
                       }
             }
             onSelectTemplateBtnSelected={onSelectTemplateBtnSelected}
@@ -87,11 +87,11 @@ export const MetadataView = () => {
 export const ReadOnlyMetadata = () => {
     return (
         <MetadataForm
-            editable={false}
             targetResource={{
                 id: "disk-resource-id",
                 path: testResourcePath,
                 label: "Read-Only Resource",
+                permission: "read",
             }}
             loading={false}
             onSelectTemplateBtnSelected={onSelectTemplateBtnSelected}
@@ -102,11 +102,11 @@ export const ReadOnlyMetadata = () => {
 export const DataCiteMetadataView = () => {
     return (
         <MetadataForm
-            editable
             targetResource={{
                 id: "data-cite-resource",
                 path: testResourcePath,
                 label: "DataCite Resource",
+                permission: "write",
             }}
             loading={false}
             onSelectTemplateBtnSelected={onSelectTemplateBtnSelected}
@@ -117,11 +117,11 @@ export const DataCiteMetadataView = () => {
 export const EmptyMetadata = () => {
     return (
         <MetadataForm
-            editable
             targetResource={{
                 id: "no-metadata",
                 path: testResourcePath,
                 label: "Empty Metadata",
+                permission: "own",
             }}
             loading={false}
             onSelectTemplateBtnSelected={onSelectTemplateBtnSelected}

@@ -19,7 +19,7 @@ import AVUFormList from "./AVUFormList";
 import MetadataList from "../listing";
 
 import SaveAsDialog from "components/data/SaveAsDialog";
-import { getParentPath } from "components/data/utils";
+import { getParentPath, isWritable } from "components/data/utils";
 
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import ExternalLink from "components/utils/ExternalLink";
@@ -28,6 +28,7 @@ import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
 import { useBootstrapInfo } from "contexts/bootstrap";
+import { useUserProfile } from "contexts/userProfile";
 
 import {
     FILESYSTEM_METADATA_QUERY_KEY,
@@ -410,6 +411,7 @@ const MetadataForm = ({ loading, showErrorAnnouncer, ...props }) => {
     // targetResource should be spread down into the dialog form below.
     const { targetResource } = props;
 
+    const [userProfile] = useUserProfile();
     const [bootstrapInfo] = useBootstrapInfo();
 
     const { t } = useTranslation(["metadata", "data"]);
@@ -571,6 +573,10 @@ const MetadataForm = ({ loading, showErrorAnnouncer, ...props }) => {
                         loading={loading || isFetching}
                         fetchError={fetchError}
                         metadata={metadata}
+                        editable={
+                            userProfile &&
+                            isWritable(targetResource?.permission)
+                        }
                         onSaveMetadataToFileBtnSelected={() => {
                             setSaveAsDialogOpen(true);
                         }}
@@ -602,7 +608,8 @@ MetadataForm.propTypes = {
     targetResource: PropTypes.shape({
         id: PropTypes.string.isRequired,
         path: PropTypes.string.isRequired,
-        label: PropTypes.string,
+        label: PropTypes.string.isRequired,
+        permission: PropTypes.string.isRequired,
     }),
     onSelectTemplateBtnSelected: PropTypes.func.isRequired,
 };

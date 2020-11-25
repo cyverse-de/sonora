@@ -1,21 +1,24 @@
 /**
  * @author sriram
  *
- * A view that helps users to automatically create a pathlist file using regex pattern and/or infotypes as filter
+ * A view that helps users to automatically create a path list file using regex pattern and/or infotypes as filter
  *
  */
 import React, { useEffect, useState } from "react";
 import { queryCache, useQuery } from "react-query";
 import { Field, Form, Formik, FastField } from "formik";
+import { useTranslation } from "i18n";
 
 import { FormTextField } from "@cyverse-de/ui-lib";
 
+import { validateDiskResourceName } from "./utils";
 import { getInfoTypes, INFO_TYPES_QUERY_KEY } from "serviceFacades/filesystem";
 import ResourceTypes from "components/models/ResourceTypes";
 import InputSelector from "components/apps/launch/InputSelector";
 import MultiInputSelector from "components/apps/launch/MultiInputSelector";
 
 import {
+    Button,
     Checkbox,
     Grid,
     Paper,
@@ -33,6 +36,9 @@ export default function PathListAutomation(props) {
     const [infoTypes, setInfoTypes] = useState([]);
     const [selectedInfoTypes, setSelectedInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
+
+    const { t } = useTranslation("data");
+    const { t: i18nCommon } = useTranslation("common");
 
     let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
 
@@ -73,8 +79,26 @@ export default function PathListAutomation(props) {
         setSelectedInfoTypes(newChecked);
     };
 
+    const validate = ({ fileName }) => {
+        const validationError = validateDiskResourceName(fileName, t);
+        return validationError ? { fileName: validationError } : {};
+    };
+
+    const handlePathListCreation = ({
+        multiInputSelector,
+        pattern,
+        path,
+        fileName,
+    }) => {
+        console.log(path + " " + fileName);
+    };
+
     return (
-        <Formik>
+        <Formik
+            enableReinitialize
+            validate={validate}
+            onSubmit={handlePathListCreation}
+        >
             {({ handleSubmit, validateForm }) => {
                 return (
                     <Form>
@@ -83,7 +107,7 @@ export default function PathListAutomation(props) {
                                 <Grid item xs>
                                     <Field
                                         id={"multi-input-selector"}
-                                        name="name"
+                                        name="multiInputSelector"
                                         required={true}
                                         label={"Select file(s) / folder(S)"}
                                         component={MultiInputSelector}
@@ -110,7 +134,7 @@ export default function PathListAutomation(props) {
                                 <Grid item xs>
                                     <Field
                                         id={"pattern"}
-                                        name="name"
+                                        name="pattern"
                                         label={
                                             " Include only file / folder path(s) when file / folder name matches this:"
                                         }
@@ -176,7 +200,7 @@ export default function PathListAutomation(props) {
                                             "Select a destination where the path list file will be saved"
                                         }
                                         required={true}
-                                        name="output_dir"
+                                        name="path"
                                         component={InputSelector}
                                         acceptedType={ResourceTypes.FOLDER}
                                     />
@@ -184,18 +208,38 @@ export default function PathListAutomation(props) {
                                 <Grid item xs>
                                     <Field
                                         id={"fileName"}
-                                        name="name"
+                                        name="fileName"
                                         required={true}
-                                        label={
-                                            "Enter a file name to use to save this file:"
-                                        }
+                                        label={"Enter a name to save this file"}
                                         component={FormTextField}
-                                        placeholder="e.g: \.csv$"
                                         variant="outlined"
                                         fullWidth
                                         dense
                                         helperText={""}
                                     />
+                                </Grid>
+                            </Grid>
+                            <Grid
+                                container
+                                direction="row"
+                                justify="flex-end"
+                                alignItems="flex-end"
+                            >
+                                <Grid item>
+                                    <Button
+                                        onClick={() => console.log("cancelled")}
+                                    >
+                                        {i18nCommon("cancel")}
+                                    </Button>
+                                </Grid>
+                                <Grid item>
+                                    <Button
+                                        color="primary"
+                                        type="submit"
+                                        onClick={handleSubmit}
+                                    >
+                                        {i18nCommon("save")}
+                                    </Button>
                                 </Grid>
                             </Grid>
                         </Paper>

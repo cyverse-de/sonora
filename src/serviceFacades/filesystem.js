@@ -254,3 +254,29 @@ export const getPublicLinks = (key, paths) => {
         },
     });
 };
+
+export const pathListCreator = ({
+    paths,
+    dest,
+    pattern,
+    foldersOnly,
+    recursive,
+    pathListInfoType,
+    infoTypes,
+}) => {
+    let endpoint = "";
+    if (infoTypes && infoTypes.length > 0) {
+        let types = "";
+        infoTypes.forEach((type) => {
+            types = types.concat("&info-type=" + type);
+        });
+        endpoint = `/api/filesystem/path-list-creator?dest=${dest}&name-pattern=${pattern}&folders-only=${foldersOnly}&recursive=${recursive}&path-list-info-type=${pathListInfoType}${types}`;
+    }
+    return callApi({
+        endpoint,
+        method: "POST",
+        body: {
+            paths,
+        },
+    });
+};

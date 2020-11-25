@@ -3,7 +3,7 @@
     "dataGroupSharingDisabled": "Data and/or analyses resources cannot be shared with groups at this time",
     "fetchPermissionsError": "Failed to fetch resource permissions",
     "fetchUserInfoError": "Failed to fetch user information",
-    "noUsersFound": "No users found",
+    "noUsersFound": "No user(s) found. Enter the full CyVerse username or email of the user you wish to share.",
     "own": "Own",
     "permission": "Permission",
     "read": "Read",

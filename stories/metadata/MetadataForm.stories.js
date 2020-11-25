@@ -55,10 +55,6 @@ mockAxios.onPost(/\/api\/filesystem\/.*\/metadata/).reply((config) => {
     return [200, { path: testResourcePath, user: "ipcdev" }];
 });
 
-const onSelectTemplateBtnSelected = (metadata) => {
-    console.log("view in templates", metadata);
-};
-
 export const MetadataView = () => {
     const [loading, setLoading] = React.useState(true);
 
@@ -79,7 +75,6 @@ export const MetadataView = () => {
                           permission: "own",
                       }
             }
-            onSelectTemplateBtnSelected={onSelectTemplateBtnSelected}
         />
     );
 };
@@ -94,7 +89,6 @@ export const ReadOnlyMetadata = () => {
                 permission: "read",
             }}
             loading={false}
-            onSelectTemplateBtnSelected={onSelectTemplateBtnSelected}
         />
     );
 };
@@ -109,7 +103,6 @@ export const DataCiteMetadataView = () => {
                 permission: "write",
             }}
             loading={false}
-            onSelectTemplateBtnSelected={onSelectTemplateBtnSelected}
         />
     );
 };
@@ -124,7 +117,6 @@ export const EmptyMetadata = () => {
                 permission: "own",
             }}
             loading={false}
-            onSelectTemplateBtnSelected={onSelectTemplateBtnSelected}
         />
     );
 };

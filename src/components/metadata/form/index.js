@@ -414,7 +414,7 @@ const MetadataForm = ({ loading, showErrorAnnouncer, ...props }) => {
     const [userProfile] = useUserProfile();
     const [bootstrapInfo] = useBootstrapInfo();
 
-    const { t } = useTranslation(["metadata", "data"]);
+    const { t } = useTranslation(["metadata", "common", "data"]);
 
     const [metadata, setMetadata] = React.useState({});
 
@@ -580,6 +580,13 @@ const MetadataForm = ({ loading, showErrorAnnouncer, ...props }) => {
                         onSaveMetadataToFileBtnSelected={() => {
                             setSaveAsDialogOpen(true);
                         }}
+                        onSelectTemplateBtnSelected={(metadata) => {
+                            console.log("view in templates", metadata);
+
+                            announce({
+                                text: t("common:comingSoon"),
+                            });
+                        }}
                         {...props}
                         {...formikProps}
                     />
@@ -611,7 +618,6 @@ MetadataForm.propTypes = {
         label: PropTypes.string.isRequired,
         permission: PropTypes.string.isRequired,
     }),
-    onSelectTemplateBtnSelected: PropTypes.func.isRequired,
 };
 
 export default withErrorAnnouncer(MetadataForm);

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import Link from "next/link";
 import { formatDistance, fromUnixTime } from "date-fns";
 import classnames from "classnames";
 
 import {
     getNotifications,
+    markAllSeen,
+    NOTIFICATIONS_MARK_ALL_SEEN_KEY,
     NOTIFICATIONS_MESSAGES_QUERY_KEY,
 } from "serviceFacades/notifications";
 import { useTranslation } from "../../i18n";
@@ -43,10 +45,14 @@ const NOTIFICATION_MENU_SORT_ORDER = "desc";
 const NOTIFICATION_MENU_LIMIT = 10;
 const NOTIFICATION_MENU_OFFSET = 0;
 
-function getTimeStamp(time) {
-    if (time) {
+/*
+ * Takes in a notification object and returns the time
+ * stamp of the notification in 'pretty format'
+ */
+function getTimeStamp(timestamp) {
+    if (timestamp) {
         // slicing because time has extra zeroes in the unix string
-        const d = fromUnixTime(time.slice(0, -3));
+        const d = fromUnixTime(timestamp.slice(0, -3));
         return formatDistance(d, new Date());
     }
 }
@@ -125,9 +131,10 @@ function NotificationsMenu(props) {
         setAnchorEl();
     };
 
-    const handleClick = () => {
-        // set unseen count to 0 (I'll finish this after Paul has merged his part)
-        setAnchorEl();
+    const handleMarkAllAsSeenClick = () => {
+        markAllSeenMutation();
+        setAllNotificationsSeen();
+        handleClose();
     };
 
     useEffect(() => {
@@ -163,6 +170,37 @@ function NotificationsMenu(props) {
         },
     });
 
+    const [markAllSeenMutation] = useMutation({
+        queryKey: NOTIFICATIONS_MARK_ALL_SEEN_KEY,
+        queryFn: markAllSeen,
+        config: {
+            onSuccess: () => {
+                setAllNotificationsSeen();
+            },
+            onError: (error) => {
+                console.log("Error marking all notifications as Seen");
+                // *** Will add this after understanding HOC better. ***
+                // showErrorAnnouncer(
+                //     t("errorMarkAsSeen", {
+                //         count: notifications.length,
+                //     }),
+                //     error
+                // );
+            },
+        },
+    });
+
+    const setAllNotificationsSeen = () => {
+        setNotifications(
+            notifications?.map((item) => {
+                const tempItem = { ...item };
+                tempItem.seen = true;
+                return tempItem;
+            })
+        );
+        setUnSeenCount(0);
+    };
+
     return (
         <Menu
             anchorEl={anchorEl}
@@ -192,7 +230,7 @@ function NotificationsMenu(props) {
                     <IconButton
                         key={ids.MARK_ALL_READ}
                         className={classes.markSeen}
-                        onClick={handleClick}
+                        onClick={handleMarkAllAsSeenClick}
                         id={build(
                             ids.BASE_DEBUG_ID,
                             ids.NOTIFICATIONS_MENU,
@@ -294,7 +332,7 @@ function NotificationsMenu(props) {
                         ids.MARK_ALL_READ
                     )}
                     color="primary"
-                    onClick={handleClick}
+                    onClick={handleMarkAllAsSeenClick}
                     startIcon={<DoneAllIcon size="small" />}
                 >
                     {t("markAsRead")}

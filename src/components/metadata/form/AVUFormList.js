@@ -8,6 +8,8 @@ import PropTypes from "prop-types";
 
 import { useTranslation } from "i18n";
 
+import DEDialog from "components/utils/DEDialog";
+
 import ids from "../ids";
 import styles from "../styles";
 
@@ -18,10 +20,6 @@ import { build, FormTextField, getFormError } from "@cyverse-de/ui-lib";
 
 import {
     Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
     Divider,
     Accordion,
     AccordionSummary,
@@ -58,7 +56,6 @@ const AVUFormDialog = (props) => {
     const error = avuErrors && avuErrors.error;
 
     const formID = build(ids.EDIT_METADATA_FORM, field, ids.DIALOG);
-    const dialogTitleID = build(formID, ids.TITLE);
 
     const title = t(
         editable ? "dialogTitleEditMetadataFor" : "dialogTitleViewMetadataFor",
@@ -68,100 +65,15 @@ const AVUFormDialog = (props) => {
     const hasChildren = avus && avus.length > 0;
 
     return (
-        <Dialog
+        <DEDialog
+            baseId={formID}
             open={open}
-            onClose={closeAttrDialog}
-            fullWidth={true}
-            maxWidth="md"
+            title={title}
+            onClose={() => !error && closeAttrDialog()}
             disableBackdropClick
             disableEscapeKeyDown
-            aria-labelledby={dialogTitleID}
             TransitionComponent={SlideUpTransition}
-        >
-            <DialogTitle id={dialogTitleID}>{title}</DialogTitle>
-
-            <DialogContent>
-                <FastField
-                    name={`${field}.attr`}
-                    label={t("attribute")}
-                    id={build(formID, ids.AVU_ATTR)}
-                    required={editable}
-                    InputProps={{ readOnly: !editable }}
-                    component={FormTextField}
-                />
-                <FastField
-                    name={`${field}.value`}
-                    label={t("value")}
-                    id={build(formID, ids.AVU_VALUE)}
-                    InputProps={{ readOnly: !editable }}
-                    component={FormTextField}
-                />
-                <FastField
-                    name={`${field}.unit`}
-                    label={t("metadataUnitLabel")}
-                    id={build(formID, ids.AVU_UNIT)}
-                    InputProps={{ readOnly: !editable }}
-                    component={FormTextField}
-                />
-
-                {(editable || hasChildren) && (
-                    <>
-                        <Divider />
-
-                        <Accordion defaultExpanded={hasChildren}>
-                            <AccordionSummary
-                                expandIcon={
-                                    <ExpandMoreIcon
-                                        id={build(
-                                            formID,
-                                            ids.BUTTONS.EXPAND,
-                                            ids.AVU_GRID
-                                        )}
-                                    />
-                                }
-                            >
-                                <Typography variant="subtitle1">
-                                    {t("metadataChildrenLabel")}
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails
-                                className={classes.childAVUsContainer}
-                            >
-                                <FieldArray
-                                    name={`${field}.avus`}
-                                    render={(arrayHelpers) => (
-                                        <MetadataList
-                                            {...arrayHelpers}
-                                            editable={editable}
-                                            parentID={formID}
-                                            onEditAVU={(index) =>
-                                                setEditingAttrIndex(index)
-                                            }
-                                        />
-                                    )}
-                                />
-                            </AccordionDetails>
-                        </Accordion>
-
-                        <FieldArray
-                            name={`${field}.avus`}
-                            render={(arrayHelpers) => (
-                                <AVUFormList
-                                    {...arrayHelpers}
-                                    editingAttrIndex={editingAttrIndex}
-                                    editable={editable}
-                                    targetName={attr}
-                                    closeAttrDialog={() =>
-                                        setEditingAttrIndex(-1)
-                                    }
-                                />
-                            )}
-                        />
-                    </>
-                )}
-            </DialogContent>
-
-            <DialogActions>
+            actions={
                 <Tooltip
                     title={error ? t("errAVUEditFormTooltip") : ""}
                     placement="left-start"
@@ -179,8 +91,85 @@ const AVUFormDialog = (props) => {
                         </Button>
                     </span>
                 </Tooltip>
-            </DialogActions>
-        </Dialog>
+            }
+        >
+            <FastField
+                name={`${field}.attr`}
+                label={t("attribute")}
+                id={build(formID, ids.AVU_ATTR)}
+                required={editable}
+                InputProps={{ readOnly: !editable }}
+                component={FormTextField}
+            />
+            <FastField
+                name={`${field}.value`}
+                label={t("value")}
+                id={build(formID, ids.AVU_VALUE)}
+                InputProps={{ readOnly: !editable }}
+                component={FormTextField}
+            />
+            <FastField
+                name={`${field}.unit`}
+                label={t("metadataUnitLabel")}
+                id={build(formID, ids.AVU_UNIT)}
+                InputProps={{ readOnly: !editable }}
+                component={FormTextField}
+            />
+
+            {(editable || hasChildren) && (
+                <>
+                    <Divider />
+
+                    <Accordion defaultExpanded={hasChildren}>
+                        <AccordionSummary
+                            expandIcon={
+                                <ExpandMoreIcon
+                                    id={build(
+                                        formID,
+                                        ids.BUTTONS.EXPAND,
+                                        ids.AVU_GRID
+                                    )}
+                                />
+                            }
+                        >
+                            <Typography variant="subtitle1">
+                                {t("metadataChildrenLabel")}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails
+                            className={classes.childAVUsContainer}
+                        >
+                            <FieldArray
+                                name={`${field}.avus`}
+                                render={(arrayHelpers) => (
+                                    <MetadataList
+                                        {...arrayHelpers}
+                                        editable={editable}
+                                        parentID={formID}
+                                        onEditAVU={(index) =>
+                                            setEditingAttrIndex(index)
+                                        }
+                                    />
+                                )}
+                            />
+                        </AccordionDetails>
+                    </Accordion>
+
+                    <FieldArray
+                        name={`${field}.avus`}
+                        render={(arrayHelpers) => (
+                            <AVUFormList
+                                {...arrayHelpers}
+                                editingAttrIndex={editingAttrIndex}
+                                editable={editable}
+                                targetName={attr}
+                                closeAttrDialog={() => setEditingAttrIndex(-1)}
+                            />
+                        )}
+                    />
+                </>
+            )}
+        </DEDialog>
     );
 };
 

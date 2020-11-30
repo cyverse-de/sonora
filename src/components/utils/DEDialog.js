@@ -33,6 +33,7 @@ function DEDialog(props) {
         maxWidth = "sm",
         fullWidth = true,
         children,
+        ...dialogProps
     } = props;
     const { t } = useTranslation("common");
     const theme = useTheme();
@@ -46,6 +47,7 @@ function DEDialog(props) {
             fullWidth={fullWidth}
             fullScreen={fullScreen}
             aria-labelledby={dialogTitleId}
+            {...dialogProps}
         >
             <DialogTitle id={dialogTitleId}>
                 {title}

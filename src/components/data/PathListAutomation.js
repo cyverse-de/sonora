@@ -8,11 +8,16 @@ import React, { useEffect, useState } from "react";
 import { queryCache, useQuery } from "react-query";
 import { Field, Form, Formik, FastField } from "formik";
 import { useTranslation } from "i18n";
+import { useMutation } from "react-query";
 
 import { FormTextField } from "@cyverse-de/ui-lib";
 
 import { validateDiskResourceName } from "./utils";
-import { getInfoTypes, INFO_TYPES_QUERY_KEY } from "serviceFacades/filesystem";
+import {
+    getInfoTypes,
+    pathListCreator,
+    INFO_TYPES_QUERY_KEY,
+} from "serviceFacades/filesystem";
 import ResourceTypes from "components/models/ResourceTypes";
 import InputSelector from "components/apps/launch/InputSelector";
 import MultiInputSelector from "components/apps/launch/MultiInputSelector";
@@ -56,6 +61,15 @@ export default function PathListAutomation(props) {
         },
     });
 
+    const [createPathListFile] = useMutation(pathListCreator, {
+        onSuccess: (data, { resetForm }) => {
+            console.log("created pathlist");
+        },
+        onError: (error) => {
+            console.log("error creating file");
+        },
+    });
+
     useEffect(() => {
         if (!infoTypesCache || infoTypesCache.length === 0) {
             setInfoTypesQueryEnabled(true);
@@ -90,7 +104,20 @@ export default function PathListAutomation(props) {
         path,
         fileName,
     }) => {
-        console.log(path + " " + fileName);
+        console.log(
+            multiInputSelector +
+                "" +
+                path +
+                " " +
+                fileName +
+                " " +
+                pattern +
+                " " +
+                foldersOnly +
+                " " +
+                selectedInfoTypes
+        );
+        //createPathListFile({});
     };
 
     return (
@@ -102,58 +129,58 @@ export default function PathListAutomation(props) {
             {({ handleSubmit, validateForm }) => {
                 return (
                     <Form>
-                        <Paper style={{ padding: 8 }}>
-                            <Grid container spacing={1} direction="column">
-                                <Grid item xs>
-                                    <Field
-                                        id={"multi-input-selector"}
-                                        name="multiInputSelector"
-                                        required={true}
-                                        label={"Select file(s) / folder(S)"}
-                                        component={MultiInputSelector}
-                                        helperText={""}
-                                    />
-                                </Grid>
-                                <Grid item xs>
-                                    <FormControlLabel
-                                        control={
-                                            <Switch
-                                                checked={foldersOnly}
-                                                onChange={(event) => {
-                                                    setFoldersOnly(
-                                                        event.target.checked
-                                                    );
-                                                }}
-                                                name="foldersOnly"
-                                                color="primary"
-                                            />
-                                        }
-                                        label="Include only folder path(s) in my analysis path list file"
-                                    />
-                                </Grid>
-                                <Grid item xs>
-                                    <Field
-                                        id={"pattern"}
-                                        name="pattern"
-                                        label={
-                                            " Include only file / folder path(s) when file / folder name matches this:"
-                                        }
-                                        component={FormTextField}
-                                        placeholder="e.g: \.csv$"
-                                        variant="outlined"
-                                        fullWidth
-                                        dense
-                                        helperText={""}
-                                    />
-                                </Grid>
-                                <Grid item xs>
-                                    <Typography>
-                                        Include only file path(s) whose
-                                        infoType(s) match:
-                                    </Typography>
+                        <Grid container spacing={1} direction="column">
+                            <Grid item xs>
+                                <Field
+                                    id={"multi-input-selector"}
+                                    name="multiInputSelector"
+                                    required={true}
+                                    label={"Select file(s) / folder(s)"}
+                                    component={MultiInputSelector}
+                                    helperText={""}
+                                />
+                            </Grid>
+                            <Grid item xs>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            checked={foldersOnly}
+                                            onChange={(event) => {
+                                                setFoldersOnly(
+                                                    event.target.checked
+                                                );
+                                            }}
+                                            name="foldersOnly"
+                                            color="primary"
+                                        />
+                                    }
+                                    label="Include only folder path(s) in my analysis path list file"
+                                />
+                            </Grid>
+                            <Grid item xs>
+                                <Field
+                                    id={"pattern"}
+                                    name="pattern"
+                                    label={
+                                        " Include only paths when file / folder name matches this pattern"
+                                    }
+                                    component={FormTextField}
+                                    placeholder="e.g: \.csv$"
+                                    variant="outlined"
+                                    fullWidth
+                                    dense
+                                    helperText={""}
+                                />
+                            </Grid>
+                            <Grid item xs>
+                                <Typography>
+                                    Include only file path(s) whose infoType(s)
+                                    match:
+                                </Typography>
+                                <Paper>
                                     <List
                                         style={{
-                                            maxHeight: 300,
+                                            maxHeight: 150,
                                             overflow: "auto",
                                         }}
                                     >
@@ -193,56 +220,48 @@ export default function PathListAutomation(props) {
                                                 );
                                             })}
                                     </List>
-                                </Grid>
-                                <Grid item xs>
-                                    <FastField
-                                        label={
-                                            "Select a destination where the path list file will be saved"
-                                        }
-                                        required={true}
-                                        name="path"
-                                        component={InputSelector}
-                                        acceptedType={ResourceTypes.FOLDER}
-                                    />
-                                </Grid>
-                                <Grid item xs>
-                                    <Field
-                                        id={"fileName"}
-                                        name="fileName"
-                                        required={true}
-                                        label={"Enter a name to save this file"}
-                                        component={FormTextField}
-                                        variant="outlined"
-                                        fullWidth
-                                        dense
-                                        helperText={""}
-                                    />
-                                </Grid>
+                                </Paper>
                             </Grid>
-                            <Grid
-                                container
-                                direction="row"
-                                justify="flex-end"
-                                alignItems="flex-end"
-                            >
-                                <Grid item>
-                                    <Button
-                                        onClick={() => console.log("cancelled")}
-                                    >
-                                        {i18nCommon("cancel")}
-                                    </Button>
-                                </Grid>
-                                <Grid item>
-                                    <Button
-                                        color="primary"
-                                        type="submit"
-                                        onClick={handleSubmit}
-                                    >
-                                        {i18nCommon("save")}
-                                    </Button>
-                                </Grid>
+                        </Grid>
+                        <Grid container direction="row" spacing={2}>
+                            <Grid item xs>
+                                <FastField
+                                    label={
+                                        "where should the path list file will be saved?"
+                                    }
+                                    required={true}
+                                    name="path"
+                                    component={FormTextField}
+                                />
                             </Grid>
-                        </Paper>
+                            <Grid item xs>
+                                <Button variant="outlined">Save As</Button>
+                            </Grid>
+                        </Grid>
+
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-end"
+                            alignItems="flex-end"
+                        >
+                            <Grid item>
+                                <Button
+                                    onClick={() => console.log("cancelled")}
+                                >
+                                    {i18nCommon("cancel")}
+                                </Button>
+                            </Grid>
+                            <Grid item>
+                                <Button
+                                    color="primary"
+                                    type="submit"
+                                    onClick={handleSubmit}
+                                >
+                                    {i18nCommon("save")}
+                                </Button>
+                            </Grid>
+                        </Grid>
                     </Form>
                 );
             }}

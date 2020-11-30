@@ -6,6 +6,8 @@
     "ariaCustomCols": "Customize table columns",
     "ariaTableListing": "{{path}} Data Table",
     "asyncDataDeletePending": "Deletion in progress. You will be notified when completed.",
+    "automateCreateHtPathList": "Automate HT analysis path list file creation...",
+    "automateCreateMultiInput": "Automate multi-input path list file creation...",
     "browse": "Browse",
     "browseLocal": "Browse Local",
     "cancel": "Cancel",

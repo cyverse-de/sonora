@@ -1,5 +1,7 @@
 export default {
     ADD_TO_BAG_MI: "addToBagMenuItem",
+    AUTO_CREATE_HT_FILE_MI: "autoCreateHTFileMenuItem",
+    AUTO_CREATE_MULTI_INPUT_MI: "autoCreateMultiInputMenuItem",
     BREADCRUMBS: "breadcrumbs",
     CANCEL_BTN: "cancelBtn",
     checkbox: "checkbox",
@@ -47,6 +49,7 @@ export default {
     PATH_ITEMS: "pathItems",
     PATH_ITEMS_MENU: "pathItemsMenu",
     PATH_ITEMS_MENU_ITEM: "pathItemsMenuItem",
+    PATH_LIST_AUTO_DIALOG: "pathListAutoDialog",
     PERMISSION_LIST: "permissionList",
     PERMISSION_MENU: "permissionMenu",
     PERMISSION_MENU_BTN: "permissionMenuBtn",

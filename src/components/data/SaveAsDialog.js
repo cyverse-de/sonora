@@ -9,7 +9,8 @@ import { Field, Form, Formik } from "formik";
 import { useTranslation } from "react-i18next";
 
 import { build, FormTextField } from "@cyverse-de/ui-lib";
-
+import { useUserProfile } from "contexts/userProfile";
+import { useConfig } from "contexts/config";
 import ResourceTypes from "components/models/ResourceTypes";
 import ids from "./ids";
 import { validateDiskResourceName } from "./utils";
@@ -46,7 +47,13 @@ function SaveAsDialog(props) {
         loading,
         setSaveNewFileError,
     } = props;
-    const [dest, setDest] = useState(path);
+
+    const [userProfile] = useUserProfile();
+    const [config] = useConfig();
+    const username = userProfile?.id;
+    const irodsHomePath = config?.irods?.home_path;
+
+    const [dest, setDest] = useState(path || `${irodsHomePath}/${username}`);
     const [selectionDrawerOpen, setSelectionDrawerOpen] = useState(false);
     const classes = useStyles();
     const baseId = ids.CREATE_DLG;
@@ -196,6 +203,7 @@ function SaveAsDialog(props) {
                     onClose={() => setSelectionDrawerOpen(false)}
                     onConfirm={(selection) => {
                         setDest(selection);
+                        setSelectionDrawerOpen(false);
                     }}
                     baseId={build(baseId, "dataSelection")}
                     multiSelect={false}

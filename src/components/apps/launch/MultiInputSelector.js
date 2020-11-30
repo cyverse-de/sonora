@@ -129,12 +129,16 @@ const MultiInputSelector = (props) => {
                                 onConfirm={(selections) => {
                                     setFieldValue(
                                         name,
-                                        getSortedPaths(order, [
-                                            ...new Set([
-                                                ...selections,
-                                                ...paths,
-                                            ]),
-                                        ])
+                                        paths
+                                            ? getSortedPaths(order, [
+                                                  ...new Set([
+                                                      ...selections,
+                                                      ...paths,
+                                                  ]),
+                                              ])
+                                            : getSortedPaths(order, [
+                                                  ...new Set([...selections]),
+                                              ])
                                     );
                                 }}
                             />

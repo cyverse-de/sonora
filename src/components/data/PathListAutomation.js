@@ -6,20 +6,20 @@
  */
 import React, { useEffect, useState } from "react";
 import { queryCache, useQuery } from "react-query";
-import { Field, Form, Formik, FastField } from "formik";
+import { Field, Form, Formik } from "formik";
 import { useTranslation } from "i18n";
 import { useMutation } from "react-query";
 
 import { FormTextField } from "@cyverse-de/ui-lib";
 
+import SaveAsField from "./SaveAsField";
 import { validateDiskResourceName } from "./utils";
 import {
     getInfoTypes,
     pathListCreator,
     INFO_TYPES_QUERY_KEY,
 } from "serviceFacades/filesystem";
-import ResourceTypes from "components/models/ResourceTypes";
-import InputSelector from "components/apps/launch/InputSelector";
+
 import MultiInputSelector from "components/apps/launch/MultiInputSelector";
 
 import {
@@ -222,23 +222,15 @@ export default function PathListAutomation(props) {
                                     </List>
                                 </Paper>
                             </Grid>
-                        </Grid>
-                        <Grid container direction="row" spacing={2}>
                             <Grid item xs>
-                                <FastField
-                                    label={
-                                        "where should the path list file will be saved?"
-                                    }
+                                <Field
+                                    id={"save-as"}
+                                    name="save-as"
                                     required={true}
-                                    name="path"
-                                    component={FormTextField}
+                                    component={SaveAsField}
                                 />
                             </Grid>
-                            <Grid item xs>
-                                <Button variant="outlined">Save As</Button>
-                            </Grid>
                         </Grid>
-
                         <Grid
                             container
                             direction="row"

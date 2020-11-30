@@ -82,6 +82,7 @@
     "publicLinkWarning": "Note: Anyone with access to a file's URL can access that file.",
     "publicLinkError": "Unable to get public link(s)",
     "read": "Read",
+    "saveas": "Save as",
     "saveToFile": "Save to file",
     "searchTags": "Search tags...",
     "selectedDataRootMenuAriaLabel": "Selected data root",

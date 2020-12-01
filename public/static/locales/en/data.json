@@ -18,6 +18,7 @@
     "create": "Create",
     "created": "Date Created",
     "createFolder": "Create Folder",
+    "createPathList": "Create Path List",
     "createTag": "Create tag: {{label}}",
     "customizeColumns": "Customize Columns",
     "dataNavigationBreadcrumbsControl": "Data navigation breadcrumbs",

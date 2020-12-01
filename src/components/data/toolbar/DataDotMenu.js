@@ -12,6 +12,8 @@ import { isOwner, isWritable, containsFolders } from "../utils";
 import CreateFolderDialog from "../CreateFolderDialog";
 import UploadMenuItems from "./UploadMenuItems";
 
+import { useConfig } from "contexts/config";
+
 import { useTranslation } from "i18n";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DeleteMenuItem from "../menuItems/DeleteMenuItem";
@@ -57,11 +59,17 @@ function DataDotMenu(props) {
         isSmall,
         onPublicLinksSelected,
     } = props;
+
     const { t } = useTranslation("data");
+    const [config] = useConfig();
+
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
     const [pathListDlgOpen, setPathListDlgOpen] = useState(false);
+    const [requestedInfoType, setRequestedInfoType] = useState();
+
     const onCreateFolderDlgClose = () => setCreateFolderDlgOpen(false);
     const onCreateFolderClicked = () => setCreateFolderDlgOpen(true);
+
     const isSelectionEmpty = selected?.length === 0;
     const selectedResources = getSelectedResources
         ? getSelectedResources()
@@ -198,6 +206,9 @@ function DataDotMenu(props) {
                             key={build(baseId, ids.AUTO_CREATE_HT_FILE_MI)}
                             id={build(baseId, ids.AUTO_CREATE_HT_FILE_MI)}
                             onClick={() => {
+                                setRequestedInfoType(
+                                    config.fileIdentifiers.htPathList
+                                );
                                 onClose();
                                 console.log("menu clicked");
                                 setPathListDlgOpen(true);
@@ -214,6 +225,9 @@ function DataDotMenu(props) {
                             key={build(baseId, ids.AUTO_CREATE_MULTI_INPUT_MI)}
                             id={build(baseId, ids.AUTO_CREATE_MULTI_INPUT_MI)}
                             onClick={() => {
+                                setRequestedInfoType(
+                                    config.fileIdentifiers.multiInputPathList
+                                );
                                 onClose();
                                 console.log("menu clicked");
                                 setPathListDlgOpen(true);
@@ -251,9 +265,9 @@ function DataDotMenu(props) {
                 baseId={build(baseId, ids.PATH_LIST_AUTO_DIALOG)}
                 open={pathListDlgOpen}
                 onClose={() => setPathListDlgOpen(false)}
-                title={t("automateCreateHtPathList")}
+                title={t("createPathList")}
             >
-                <PathListAutomation />
+                <PathListAutomation requestedInfoType={requestedInfoType} />
             </DEDialog>
         </>
     );

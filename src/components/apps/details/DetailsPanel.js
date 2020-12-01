@@ -10,7 +10,7 @@ import GridLabelValue from "components/utils/GridLabelValue";
 
 import ids from "../ids";
 
-import { build, formatDate, Rate } from "@cyverse-de/ui-lib";
+import { build, formatDateObject, Rate } from "@cyverse-de/ui-lib";
 
 import { CircularProgress, Grid } from "@material-ui/core";
 
@@ -105,7 +105,12 @@ function DetailsPanel(props) {
                             </GridLabelValue>
                         )}
                         <GridLabelValue label={t("publishedOn")}>
-                            {formatDate(details.integration_date)}
+                            {formatDateObject(
+                                details.job_stats?.job_last_completed &&
+                                    new Date(
+                                        details.job_stats.job_last_completed
+                                    )
+                            )}
                         </GridLabelValue>
                         <GridLabelValue label={t("integratorName")}>
                             {details.integrator_name}
@@ -117,7 +122,13 @@ function DetailsPanel(props) {
                             {details.job_stats?.job_count_completed || 0}
                         </GridLabelValue>
                         <GridLabelValue label={t("detailsLastCompleted")}>
-                            {formatDate(details.job_stats?.job_last_completed)}
+                            {details.job_stats?.job_last_completed
+                                ? formatDateObject(
+                                      new Date(
+                                          details.job_stats.job_last_completed
+                                      )
+                                  )
+                                : "-"}
                         </GridLabelValue>
                         <GridLabelValue
                             label={t("quickLaunch")}

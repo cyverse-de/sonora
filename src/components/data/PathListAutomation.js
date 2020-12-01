@@ -12,6 +12,7 @@ import { useMutation } from "react-query";
 
 import { FormTextField } from "@cyverse-de/ui-lib";
 
+import { useConfig } from "contexts/config";
 import SaveAsField from "./SaveAsField";
 import { validateDiskResourceName } from "./utils";
 import {
@@ -41,7 +42,7 @@ export default function PathListAutomation(props) {
     const [infoTypes, setInfoTypes] = useState([]);
     const [selectedInfoTypes, setSelectedInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
-
+    const [config] = useConfig();
     const { t } = useTranslation("data");
     const { t: i18nCommon } = useTranslation("common");
 
@@ -117,7 +118,15 @@ export default function PathListAutomation(props) {
                 " " +
                 selectedInfoTypes
         );
-        //createPathListFile({});
+        createPathListFile({
+            paths: multiInputSelector,
+            dest: path,
+            pattern,
+            foldersOnly,
+            recursive: true,
+            pathListInfoType: config.fileIdentifiers.htPathList,
+            infoTypes: selectedInfoTypes,
+        });
     };
 
     return (
@@ -138,6 +147,7 @@ export default function PathListAutomation(props) {
                                     label={"Select file(s) / folder(s)"}
                                     component={MultiInputSelector}
                                     helperText={""}
+                                    height="30vh"
                                 />
                             </Grid>
                             <Grid item xs>
@@ -225,7 +235,7 @@ export default function PathListAutomation(props) {
                             <Grid item xs>
                                 <Field
                                     id={"save-as"}
-                                    name="save-as"
+                                    name="path"
                                     required={true}
                                     component={SaveAsField}
                                 />

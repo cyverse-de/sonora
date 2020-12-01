@@ -105,11 +105,12 @@ function DetailsPanel(props) {
                             </GridLabelValue>
                         )}
                         <GridLabelValue label={t("publishedOn")}>
-                            {details.integration_date
-                                ? formatDateObject(
-                                      new Date(details.integration_date)
-                                  )
-                                : "-"}
+                            {formatDateObject(
+                                details.job_stats?.job_last_completed &&
+                                    new Date(
+                                        details.job_stats.job_last_completed
+                                    )
+                            )}
                         </GridLabelValue>
                         <GridLabelValue label={t("integratorName")}>
                             {details.integrator_name}

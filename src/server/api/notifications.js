@@ -39,6 +39,19 @@ export default function notificationsRouter() {
         })
     );
 
+    logger.info("adding the POST /notifications/mark-all-seen handler");
+    api.post(
+        "/notifications/mark-all-seen",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/notifications/mark-all-seen",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the POST /notifications/delete handler");
     api.post(
         "/notifications/delete",

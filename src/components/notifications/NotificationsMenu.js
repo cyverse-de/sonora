@@ -7,9 +7,8 @@ import classnames from "classnames";
 import {
     getNotifications,
     markAllSeen,
-    NOTIFICATIONS_MARK_ALL_SEEN_KEY,
     NOTIFICATIONS_MESSAGES_QUERY_KEY,
-} from "serviceFacades/notifications";
+} from "../../serviceFacades/notifications";
 import { useTranslation } from "../../i18n";
 import ids from "./ids";
 import NotificationStyles from "./styles";
@@ -133,7 +132,6 @@ function NotificationsMenu(props) {
 
     const handleMarkAllAsSeenClick = () => {
         markAllSeenMutation();
-        setAllNotificationsSeen();
         handleClose();
     };
 
@@ -170,23 +168,19 @@ function NotificationsMenu(props) {
         },
     });
 
-    const [markAllSeenMutation] = useMutation({
-        queryKey: NOTIFICATIONS_MARK_ALL_SEEN_KEY,
-        queryFn: markAllSeen,
-        config: {
-            onSuccess: () => {
-                setAllNotificationsSeen();
-            },
-            onError: (error) => {
-                console.log("Error marking all notifications as Seen");
-                // *** Will add this after understanding HOC better. ***
-                // showErrorAnnouncer(
-                //     t("errorMarkAsSeen", {
-                //         count: notifications.length,
-                //     }),
-                //     error
-                // );
-            },
+    const [markAllSeenMutation] = useMutation(markAllSeen, {
+        onSuccess: () => {
+            setAllNotificationsSeen();
+        },
+        onError: (error) => {
+            console.log("Error marking all notifications as Seen");
+            // *** Will add this after understanding HOC better. ***
+            // showErrorAnnouncer(
+            //     t("errorMarkAsSeen", {
+            //         count: notifications.length,
+            //     }),
+            //     error
+            // );
         },
     });
 

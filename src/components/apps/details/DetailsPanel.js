@@ -106,10 +106,8 @@ function DetailsPanel(props) {
                         )}
                         <GridLabelValue label={t("publishedOn")}>
                             {formatDateObject(
-                                details.job_stats?.job_last_completed &&
-                                    new Date(
-                                        details.job_stats.job_last_completed
-                                    )
+                                details.integration_date &&
+                                    new Date(details.integration_date)
                             )}
                         </GridLabelValue>
                         <GridLabelValue label={t("integratorName")}>
@@ -122,13 +120,12 @@ function DetailsPanel(props) {
                             {details.job_stats?.job_count_completed || 0}
                         </GridLabelValue>
                         <GridLabelValue label={t("detailsLastCompleted")}>
-                            {details.job_stats?.job_last_completed
-                                ? formatDateObject(
-                                      new Date(
-                                          details.job_stats.job_last_completed
-                                      )
-                                  )
-                                : "-"}
+                            {formatDateObject(
+                                details.job_stats?.job_last_completed &&
+                                    new Date(
+                                        details.job_stats.job_last_completed
+                                    )
+                            )}
                         </GridLabelValue>
                         <GridLabelValue
                             label={t("quickLaunch")}

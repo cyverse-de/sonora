@@ -79,6 +79,7 @@ const MultiInputSelector = (props) => {
         required,
         acceptedType,
         startingPath,
+        height = "55vh",
         field: { name },
         form: { values, touched, errors, setFieldValue },
     } = props;
@@ -146,7 +147,7 @@ const MultiInputSelector = (props) => {
                         <TableContainer
                             component={Paper}
                             style={{
-                                height: "55vh",
+                                height,
                             }}
                         >
                             <Table

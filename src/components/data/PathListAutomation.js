@@ -157,7 +157,7 @@ export default function PathListAutomation(props) {
         }
 
         if (!dest) {
-           errors.dest= "Required";
+            errors.dest = "Required";
         }
         return errors;
     };
@@ -166,6 +166,7 @@ export default function PathListAutomation(props) {
         <Formik
             onSubmit={handlePathListCreation}
             validate={validate}
+            initialValues={{ selectedPaths: [], dest: "" }}
         >
             {({ handleSubmit }) => {
                 return (
@@ -190,13 +191,18 @@ export default function PathListAutomation(props) {
                             spacing={3}
                         >
                             <Grid item xs>
+                                <Typography>
+                                    Select folder(s) whose contents will be
+                                    processed into the path list file contents.
+                                    Individual file(s) may also be selected.
+                                </Typography>
                                 <Field
                                     id={"multi-input-selector"}
                                     name="selectedPaths"
                                     required={true}
-                                    label={"Select file(s) / folder(s)"}
                                     component={MultiInputSelector}
                                     height="30vh"
+                                    label={"Select file(s) / folder(s)"}
                                 />
                             </Grid>
                             <Grid item xs>
@@ -285,6 +291,7 @@ export default function PathListAutomation(props) {
                                     name="dest"
                                     required={true}
                                     component={SaveAsField}
+                                    label={"Select 'Save as' button to pick file destination"}
                                 />
                             </Grid>
                         </Grid>
@@ -305,9 +312,7 @@ export default function PathListAutomation(props) {
                                 <Button
                                     color="primary"
                                     type="submit"
-                                    onClick={() => {
-                                        handleSubmit();
-                                    }}
+                                    onClick={handleSubmit}
                                 >
                                     {i18nCommon("save")}
                                 </Button>

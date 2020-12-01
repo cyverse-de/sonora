@@ -11,7 +11,11 @@ import ids from "./ids";
 import styles from "./styles";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
-import { build as buildDebugId, FormTextField } from "@cyverse-de/ui-lib";
+import {
+    build as buildDebugId,
+    FormTextField,
+    getFormError,
+} from "@cyverse-de/ui-lib";
 
 import {
     Button,
@@ -57,10 +61,15 @@ const SaveAsButton = (props) => {
 
 const SaveAsField = ({ startingPath, showErrorAnnouncer, ...props }) => {
     // These props need to be spread down into the FormTextField
-    const { id, field, form, required } = props;
+    const {
+        id,
+        field: { name, value },
+        form: { touched, errors, setFieldValue },
+        required,
+    } = props;
     const classes = useStyles();
     const { t } = useTranslation("data");
-    const { setFieldValue } = form;
+    const errorMsg = getFormError(name, touched, errors);
 
     const inputProps = {
         readOnly: true,
@@ -70,22 +79,22 @@ const SaveAsField = ({ startingPath, showErrorAnnouncer, ...props }) => {
                     baseId={id}
                     startingPath={startingPath}
                     multiSelect={false}
-                    name={field.name}
+                    name={name}
                     onConfirm={(path) => {
-                        setFieldValue(field.name, path);
+                        setFieldValue(name, path);
                     }}
                 />
             </InputAdornment>
         ),
     };
 
-    if (field.value && !required) {
+    if (value && !required) {
         inputProps.endAdornment = (
             <IconButton
-                id={buildDebugId(field.name, ids.DELETE_BTN)}
+                id={buildDebugId(name, ids.DELETE_BTN)}
                 aria-label={t("clearInput")}
                 size="small"
-                onClick={() => setFieldValue(field.name, "")}
+                onClick={() => setFieldValue(name, "")}
             >
                 <ClearIcon />
             </IconButton>
@@ -104,6 +113,7 @@ const SaveAsField = ({ startingPath, showErrorAnnouncer, ...props }) => {
                     InputProps={inputProps}
                     size="small"
                     className={classes.inputSelectorTextFiled}
+                    error={errorMsg !== null}
                     {...props}
                 />
             </Grid>

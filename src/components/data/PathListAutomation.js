@@ -1,7 +1,7 @@
 /**
  * @author sriram
  *
- * A view that helps users to automatically create a path list file using regex pattern and/or infotypes as filter
+ * A view that helps users to automatically create a path list file using regex pattern and/or info-types as filter
  *
  */
 import React, { useEffect, useState } from "react";
@@ -12,9 +12,9 @@ import { useMutation } from "react-query";
 
 import { FormTextField } from "@cyverse-de/ui-lib";
 
-import { useConfig } from "contexts/config";
 import SaveAsField from "./SaveAsField";
-import { validateDiskResourceName } from "./utils";
+
+import { validateDiskResourceName, parseNameFromPath } from "./utils";
 import {
     getInfoTypes,
     pathListCreator,
@@ -22,27 +22,41 @@ import {
 } from "serviceFacades/filesystem";
 
 import MultiInputSelector from "components/apps/launch/MultiInputSelector";
-
+import constants from "../../constants";
 import {
     Button,
     Checkbox,
+    CircularProgress,
     Grid,
     Paper,
-    FormControlLabel,
     Switch,
     List,
-    Typography,
     ListItem,
     ListItemIcon,
     ListItemText,
+    Typography,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+const styles = (theme) => ({
+    grid: {
+        margin: theme.spacing(1),
+        [theme.breakpoints.down("sm")]: {
+            margin: theme.spacing(0.1),
+        },
+    },
+});
+
+const useStyles = makeStyles(styles);
 
 export default function PathListAutomation(props) {
-    const [foldersOnly, setFoldersOnly] = useState(false);
+    const { requestedInfoType } = props;
+    const classes = useStyles();
+
     const [infoTypes, setInfoTypes] = useState([]);
     const [selectedInfoTypes, setSelectedInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
-    const [config] = useConfig();
+
     const { t } = useTranslation("data");
     const { t: i18nCommon } = useTranslation("common");
 
@@ -62,7 +76,7 @@ export default function PathListAutomation(props) {
         },
     });
 
-    const [createPathListFile] = useMutation(pathListCreator, {
+    const [createPathListFile, { status }] = useMutation(pathListCreator, {
         onSuccess: (data, { resetForm }) => {
             console.log("created pathlist");
         },
@@ -94,23 +108,13 @@ export default function PathListAutomation(props) {
         setSelectedInfoTypes(newChecked);
     };
 
-    const validate = ({ fileName }) => {
-        const validationError = validateDiskResourceName(fileName, t);
-        return validationError ? { fileName: validationError } : {};
-    };
-
-    const handlePathListCreation = ({
-        multiInputSelector,
-        pattern,
-        path,
-        fileName,
-    }) => {
+    const handlePathListCreation = (values, actions) => {
+        const { selectedPaths, pattern, dest, foldersOnly } = values;
+        actions.setSubmitting(true);
         console.log(
-            multiInputSelector +
+            selectedPaths +
                 "" +
-                path +
-                " " +
-                fileName +
+                dest +
                 " " +
                 pattern +
                 " " +
@@ -119,67 +123,106 @@ export default function PathListAutomation(props) {
                 selectedInfoTypes
         );
         createPathListFile({
-            paths: multiInputSelector,
-            dest: path,
+            paths: selectedPaths,
+            dest,
             pattern,
             foldersOnly,
             recursive: true,
-            pathListInfoType: config.fileIdentifiers.htPathList,
-            infoTypes: selectedInfoTypes,
+            requestedInfoType,
+            selectedInfoTypes,
         });
+    };
+
+    const onSwitchChange = (setFieldValue, fieldName) => (event, checked) => {
+        setFieldValue(fieldName, checked);
+    };
+
+    const FormSwitch = ({
+        field: { value, onChange, ...field },
+        form: { setFieldValue },
+        ...custom
+    }) => (
+        <Switch
+            checked={!!value}
+            onChange={onSwitchChange(setFieldValue, field.name)}
+            {...custom}
+        />
+    );
+
+    const validate = (values) => {
+        const { selectedPaths, dest } = values;
+        const errors = {};
+        if (!selectedPaths || selectedPaths.length === 0) {
+            errors.selectedPaths = "Required";
+        }
+
+        if (!dest) {
+           errors.dest= "Required";
+        }
+        return errors;
     };
 
     return (
         <Formik
-            enableReinitialize
-            validate={validate}
             onSubmit={handlePathListCreation}
+            validate={validate}
         >
-            {({ handleSubmit, validateForm }) => {
+            {({ handleSubmit }) => {
                 return (
                     <Form>
-                        <Grid container spacing={1} direction="column">
+                        {status === constants.LOADING && (
+                            <CircularProgress
+                                size={30}
+                                thickness={5}
+                                style={{
+                                    position: "absolute",
+                                    top: "50%",
+                                    left: "50%",
+                                }}
+                            />
+                        )}
+
+                        <Grid
+                            container
+                            direction="column"
+                            justify="center"
+                            alignItems="stretch"
+                            spacing={3}
+                        >
                             <Grid item xs>
                                 <Field
                                     id={"multi-input-selector"}
-                                    name="multiInputSelector"
+                                    name="selectedPaths"
                                     required={true}
                                     label={"Select file(s) / folder(s)"}
                                     component={MultiInputSelector}
-                                    helperText={""}
                                     height="30vh"
                                 />
                             </Grid>
                             <Grid item xs>
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            checked={foldersOnly}
-                                            onChange={(event) => {
-                                                setFoldersOnly(
-                                                    event.target.checked
-                                                );
-                                            }}
-                                            name="foldersOnly"
-                                            color="primary"
-                                        />
-                                    }
-                                    label="Include only folder path(s) in my analysis path list file"
+                                <Typography>
+                                    Include only folder path(s) in my analysis
+                                    path list file:
+                                </Typography>
+                                <Field
+                                    component={FormSwitch}
+                                    name="foldersOnly"
+                                    color="primary"
                                 />
                             </Grid>
                             <Grid item xs>
+                                <Typography>
+                                    Include only paths when file / folder name
+                                    matches this pattern:
+                                </Typography>
+
                                 <Field
                                     id={"pattern"}
                                     name="pattern"
-                                    label={
-                                        " Include only paths when file / folder name matches this pattern"
-                                    }
                                     component={FormTextField}
                                     placeholder="e.g: \.csv$"
                                     variant="outlined"
-                                    fullWidth
                                     dense
-                                    helperText={""}
                                 />
                             </Grid>
                             <Grid item xs>
@@ -233,9 +276,13 @@ export default function PathListAutomation(props) {
                                 </Paper>
                             </Grid>
                             <Grid item xs>
+                                <Typography>
+                                    Select a destination where the path list
+                                    file will be saved:
+                                </Typography>
                                 <Field
                                     id={"save-as"}
-                                    name="path"
+                                    name="dest"
                                     required={true}
                                     component={SaveAsField}
                                 />
@@ -258,7 +305,9 @@ export default function PathListAutomation(props) {
                                 <Button
                                     color="primary"
                                     type="submit"
-                                    onClick={handleSubmit}
+                                    onClick={() => {
+                                        handleSubmit();
+                                    }}
                                 >
                                     {i18nCommon("save")}
                                 </Button>

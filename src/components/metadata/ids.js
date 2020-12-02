@@ -18,6 +18,8 @@ export default {
         SAVE: "saveBtn",
         SAVE_METADATA_TO_FILE: "saveMetadataToFile",
         VIEW_TEMPLATES: "templates",
+        VIEW_USER_METADATA: "viewUserMetadata",
+        VIEW_IRODS_METADATA: "viewIRODSMetadata",
     },
     COL_ACTIONS: "actions",
     COL_HEADER: "colHeader",

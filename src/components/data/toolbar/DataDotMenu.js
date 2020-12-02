@@ -6,13 +6,13 @@
 
 import React, { useState } from "react";
 
+import { useRouter } from "next/router";
+
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
 import { isOwner, isWritable, containsFolders } from "../utils";
 import CreateFolderDialog from "../CreateFolderDialog";
 import UploadMenuItems from "./UploadMenuItems";
-
-import { useConfig } from "contexts/config";
 
 import { useTranslation } from "i18n";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
@@ -21,6 +21,14 @@ import SharingMenuItem from "components/sharing/SharingMenuItem";
 import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";
 import PathListAutomation from "../PathListAutomation";
 import DEDialog from "components/utils/DEDialog";
+import ResourceTypes from "components/models/ResourceTypes";
+
+import constants from "../../../constants";
+
+import {
+    MULTI_INPUT_PATH_LIST,
+    HT_ANALYSIS_PATH_LIST,
+} from "serviceFacades/filesystem";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 import {
@@ -34,6 +42,7 @@ import {
     ListAlt,
     Queue as AddToBagIcon,
 } from "@material-ui/icons";
+import NavigationConstants from "common/NavigationConstants";
 
 function DataDotMenu(props) {
     const {
@@ -61,7 +70,6 @@ function DataDotMenu(props) {
     } = props;
 
     const { t } = useTranslation("data");
-    const [config] = useConfig();
 
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
     const [pathListDlgOpen, setPathListDlgOpen] = useState(false);
@@ -75,6 +83,13 @@ function DataDotMenu(props) {
         ? getSelectedResources()
         : null;
     const deleteMiEnabled = !isSelectionEmpty && isOwner(selectedResources);
+    const router = useRouter();
+    const routeToFile = (id, path) => {
+        router.push(
+            `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${path}?type=${ResourceTypes.FILE}&resourceId=${id}`
+        );
+    };
+
     return (
         <>
             <DotMenu
@@ -206,9 +221,7 @@ function DataDotMenu(props) {
                             key={build(baseId, ids.AUTO_CREATE_HT_FILE_MI)}
                             id={build(baseId, ids.AUTO_CREATE_HT_FILE_MI)}
                             onClick={() => {
-                                setRequestedInfoType(
-                                    config.fileIdentifiers.htPathList
-                                );
+                                setRequestedInfoType(HT_ANALYSIS_PATH_LIST);
                                 onClose();
                                 console.log("menu clicked");
                                 setPathListDlgOpen(true);
@@ -225,9 +238,7 @@ function DataDotMenu(props) {
                             key={build(baseId, ids.AUTO_CREATE_MULTI_INPUT_MI)}
                             id={build(baseId, ids.AUTO_CREATE_MULTI_INPUT_MI)}
                             onClick={() => {
-                                setRequestedInfoType(
-                                    config.fileIdentifiers.multiInputPathList
-                                );
+                                setRequestedInfoType(MULTI_INPUT_PATH_LIST);
                                 onClose();
                                 console.log("menu clicked");
                                 setPathListDlgOpen(true);
@@ -267,7 +278,16 @@ function DataDotMenu(props) {
                 onClose={() => setPathListDlgOpen(false)}
                 title={t("createPathList")}
             >
-                <PathListAutomation requestedInfoType={requestedInfoType} />
+                <PathListAutomation
+                    requestedInfoType={requestedInfoType}
+                    baseId={build(baseId, ids.PATH_LIST_AUTO_DIALOG)}
+                    onCreatePathList={(id, path) => {
+                        setPathListDlgOpen(false);
+                        routeToFile(id, path);
+                    }}
+                    onCancel={() => setPathListDlgOpen(false)}
+                    startingPath={path}
+                />
             </DEDialog>
         </>
     );

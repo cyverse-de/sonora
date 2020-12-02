@@ -1,7 +1,8 @@
 /**
  * @author sriram
  *
- * A view that helps users to automatically create a path list file using regex pattern and/or info-types as filter
+ * A view that helps users to automatically create a path list file using regex
+ * pattern and/or info-types as filter
  *
  */
 import React, { useEffect, useState } from "react";
@@ -119,17 +120,7 @@ export default function PathListAutomation(props) {
     const handlePathListCreation = (values, actions) => {
         const { selectedPaths, pattern, dest, foldersOnly } = values;
         actions.setSubmitting(true);
-        console.log(
-            selectedPaths +
-                "" +
-                dest +
-                " " +
-                pattern +
-                " " +
-                foldersOnly +
-                " " +
-                selectedInfoTypes
-        );
+
         const submission = {
             paths: selectedPaths,
             dest,

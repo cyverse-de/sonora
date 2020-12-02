@@ -7,6 +7,8 @@
  */
 import React, { useEffect, useState } from "react";
 
+import { useRouter } from "next/router";
+
 import { queryCache, useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
@@ -31,10 +33,13 @@ import {
     ListItemIcon,
     ListItemText,
     MenuItem,
+    useTheme,
+    useMediaQuery,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
     Add,
+    ArrowBack,
     CloudDownload,
     Delete,
     Info,
@@ -82,6 +87,10 @@ function ViewerToolbar(props) {
 
     const { t } = useTranslation("data");
     const { t: i18nCommon } = useTranslation("common");
+    const router = useRouter();
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
@@ -125,6 +134,20 @@ function ViewerToolbar(props) {
     return (
         <>
             <Toolbar variant="dense" id={baseId}>
+                <Button
+                    color="primary"
+                    variant={isMobile ? "text" : "contained"}
+                    size="small"
+                    startIcon={<ArrowBack fontSize="small" />}
+                    onClick={() => router.back()}
+                >
+                    <Hidden xsDown>{t("back")}</Hidden>
+                </Button>
+                <Divider
+                    orientation="vertical"
+                    flexItem
+                    className={classes.separator}
+                />
                 <Typography variant="body2" color="primary">
                     {fileName}
                 </Typography>

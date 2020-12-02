@@ -12,6 +12,8 @@ export const INFO_TYPES_QUERY_KEY = "fetchInfoTypes";
 export const FETCH_FILE_MANIFEST_QUERY_KEY = "fetchFileManifest";
 export const READ_CHUNK_QUERY_KEY = "readChunk";
 export const PUBLIC_LINKS_QUERY_KEY = "fetchPublicLinks";
+export const MULTI_INPUT_PATH_LIST = "multi-input-path-list";
+export const HT_ANALYSIS_PATH_LIST = "ht-analysis-path-list";
 
 /**
  * Get details on data resources
@@ -264,7 +266,14 @@ export const pathListCreator = ({
     requestedInfoType,
     selectedInfoTypes,
 }) => {
-    let endpoint = `/api/filesystem/path-list-creator?dest=${dest}&name-pattern=${pattern}&folders-only=${foldersOnly}&recursive=${recursive}&path-list-info-type=${requestedInfoType}`;
+    let endpoint = `/api/filesystem/path-list-creator?dest=${encodeURIComponent(
+        dest
+    )}&folders-only=${foldersOnly}&recursive=${recursive}&path-list-info-type=${encodeURIComponent(
+        requestedInfoType
+    )}`;
+    if (pattern) {
+        endpoint = `${endpoint}&name-pattern=${pattern}`;
+    }
     if (selectedInfoTypes && selectedInfoTypes.length > 0) {
         let types = "";
         selectedInfoTypes.forEach((type) => {

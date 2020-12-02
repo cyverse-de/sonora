@@ -5,24 +5,28 @@
  *
  */
 import React, { useEffect, useState } from "react";
+
 import { queryCache, useQuery } from "react-query";
 import { Field, Form, Formik } from "formik";
 import { useTranslation } from "i18n";
+import { Trans } from "react-i18next";
 import { useMutation } from "react-query";
 
-import { FormTextField } from "@cyverse-de/ui-lib";
+import { build as buildId, FormTextField } from "@cyverse-de/ui-lib";
 
 import SaveAsField from "./SaveAsField";
+import ids from "./ids";
 
-import { validateDiskResourceName, parseNameFromPath } from "./utils";
 import {
     getInfoTypes,
     pathListCreator,
     INFO_TYPES_QUERY_KEY,
 } from "serviceFacades/filesystem";
-
 import MultiInputSelector from "components/apps/launch/MultiInputSelector";
+import ExternalLink from "components/utils/ExternalLink";
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import constants from "../../constants";
+
 import {
     Button,
     Checkbox,
@@ -36,26 +40,21 @@ import {
     ListItemText,
     Typography,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-
-const styles = (theme) => ({
-    grid: {
-        margin: theme.spacing(1),
-        [theme.breakpoints.down("sm")]: {
-            margin: theme.spacing(0.1),
-        },
-    },
-});
-
-const useStyles = makeStyles(styles);
 
 export default function PathListAutomation(props) {
-    const { requestedInfoType } = props;
-    const classes = useStyles();
+    const {
+        baseId,
+        requestedInfoType,
+        onCreatePathList,
+        onCancel,
+        startingPath,
+    } = props;
 
     const [infoTypes, setInfoTypes] = useState([]);
     const [selectedInfoTypes, setSelectedInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
+    const [createPathListError, setCreatePathListError] = useState();
+    const [infoTypeError, setInfoTypeError] = useState();
 
     const { t } = useTranslation("data");
     const { t: i18nCommon } = useTranslation("common");
@@ -67,23 +66,32 @@ export default function PathListAutomation(props) {
         queryFn: getInfoTypes,
         config: {
             enabled: infoTypesQueryEnabled,
-            onSuccess: (resp) => setInfoTypes(resp.types),
+            onSuccess: (resp) => {
+                setInfoTypeError(null);
+                setInfoTypes(resp.types);
+            },
             staleTime: Infinity,
             cacheTime: Infinity,
             onError: (e) => {
-                console.log("unable to get info type=>" + e);
+                setInfoTypeError(e);
             },
         },
     });
 
-    const [createPathListFile, { status }] = useMutation(pathListCreator, {
-        onSuccess: (data, { resetForm }) => {
-            console.log("created pathlist");
-        },
-        onError: (error) => {
-            console.log("error creating file");
-        },
-    });
+    const [createPathListFile, { status }] = useMutation(
+        ({ submission }) => pathListCreator(submission),
+        {
+            onSuccess: (data, { onSuccess }) => {
+                onSuccess();
+                setCreatePathListError(null);
+                onCreatePathList(data.file.id, data.file.path);
+            },
+            onError: (error, { onError }) => {
+                onError();
+                setCreatePathListError(error);
+            },
+        }
+    );
 
     useEffect(() => {
         if (!infoTypesCache || infoTypesCache.length === 0) {
@@ -122,14 +130,25 @@ export default function PathListAutomation(props) {
                 " " +
                 selectedInfoTypes
         );
-        createPathListFile({
+        const submission = {
             paths: selectedPaths,
             dest,
             pattern,
-            foldersOnly,
+            foldersOnly: foldersOnly || false,
             recursive: true,
             requestedInfoType,
             selectedInfoTypes,
+        };
+        const onSuccess = () => {
+            actions.setSubmitting(false);
+        };
+        const onError = () => {
+            actions.setSubmitting(false);
+        };
+        createPathListFile({
+            submission,
+            onSuccess,
+            onError,
         });
     };
 
@@ -190,27 +209,45 @@ export default function PathListAutomation(props) {
                             alignItems="stretch"
                             spacing={3}
                         >
+                            {createPathListError && (
+                                <Grid item xs>
+                                    <ErrorTypographyWithDialog
+                                        baseId={baseId}
+                                        errorMessage={t("pathListCreateError")}
+                                        errorObject={createPathListError}
+                                    />
+                                </Grid>
+                            )}
                             <Grid item xs>
-                                <Typography>
-                                    Select folder(s) whose contents will be
-                                    processed into the path list file contents.
-                                    Individual file(s) may also be selected.
-                                </Typography>
+                                <Typography>{t("pathListInputLbl")}</Typography>
+                                {infoTypeError && (
+                                    <ErrorTypographyWithDialog
+                                        baseId={baseId}
+                                        errorMessage={t("infoTypeFetchError")}
+                                        errorObject={infoTypeError}
+                                    />
+                                )}
                                 <Field
-                                    id={"multi-input-selector"}
+                                    id={buildId(
+                                        baseId,
+                                        ids.PATH_LIST_AUTO_INPUTS
+                                    )}
                                     name="selectedPaths"
                                     required={true}
                                     component={MultiInputSelector}
                                     height="30vh"
-                                    label={"Select file(s) / folder(s)"}
+                                    label={t("suggestionSelection_any_plural")}
                                 />
                             </Grid>
                             <Grid item xs>
                                 <Typography>
-                                    Include only folder path(s) in my analysis
-                                    path list file:
+                                    {t("pathListFoldersOnlyLbl")}
                                 </Typography>
                                 <Field
+                                    id={buildId(
+                                        baseId,
+                                        ids.PATH_LIST_AUTO_FOLDERS_ONLY_SWITCH
+                                    )}
                                     component={FormSwitch}
                                     name="foldersOnly"
                                     color="primary"
@@ -218,12 +255,26 @@ export default function PathListAutomation(props) {
                             </Grid>
                             <Grid item xs>
                                 <Typography>
-                                    Include only paths when file / folder name
-                                    matches this pattern:
+                                    <Trans
+                                        t={t}
+                                        i18nKey="pathListPatternMatchLbl"
+                                        components={{
+                                            pattern: (
+                                                <ExternalLink
+                                                    href={
+                                                        constants.JAVA_PATTERN_DOC
+                                                    }
+                                                />
+                                            ),
+                                        }}
+                                    />
                                 </Typography>
 
                                 <Field
-                                    id={"pattern"}
+                                    id={buildId(
+                                        baseId,
+                                        ids.PATH_LIST_AUTO_MATCH_PATTERN
+                                    )}
                                     name="pattern"
                                     component={FormTextField}
                                     placeholder="e.g: \.csv$"
@@ -233,8 +284,7 @@ export default function PathListAutomation(props) {
                             </Grid>
                             <Grid item xs>
                                 <Typography>
-                                    Include only file path(s) whose infoType(s)
-                                    match:
+                                    {t("pathListInfoTypeLbl")}
                                 </Typography>
                                 <Paper>
                                     <List
@@ -242,6 +292,10 @@ export default function PathListAutomation(props) {
                                             maxHeight: 150,
                                             overflow: "auto",
                                         }}
+                                        id={buildId(
+                                            baseId,
+                                            ids.PATH_LIST_AUTO_MATCH_INFO_TYPES
+                                        )}
                                     >
                                         {infoTypes &&
                                             infoTypes.length > 0 &&
@@ -282,16 +336,17 @@ export default function PathListAutomation(props) {
                                 </Paper>
                             </Grid>
                             <Grid item xs>
-                                <Typography>
-                                    Select a destination where the path list
-                                    file will be saved:
-                                </Typography>
+                                <Typography>{t("pathListDestLbl")}</Typography>
                                 <Field
-                                    id={"save-as"}
+                                    id={buildId(
+                                        baseId,
+                                        ids.PATH_LIST_AUTO_DEST_FIELD
+                                    )}
                                     name="dest"
                                     required={true}
                                     component={SaveAsField}
-                                    label={"Select 'Save as' button to pick file destination"}
+                                    label={t("pathListSaveLbl")}
+                                    startingPath={startingPath}
                                 />
                             </Grid>
                         </Grid>
@@ -303,18 +358,26 @@ export default function PathListAutomation(props) {
                         >
                             <Grid item>
                                 <Button
-                                    onClick={() => console.log("cancelled")}
+                                    id={buildId(
+                                        baseId,
+                                        ids.PATH_LIST_AUTO_CANCEL_BTN
+                                    )}
+                                    onClick={onCancel}
                                 >
                                     {i18nCommon("cancel")}
                                 </Button>
                             </Grid>
                             <Grid item>
                                 <Button
+                                    id={buildId(
+                                        baseId,
+                                        ids.PATH_LIST_AUTO_DONE_BTN
+                                    )}
                                     color="primary"
                                     type="submit"
                                     onClick={handleSubmit}
                                 >
-                                    {i18nCommon("save")}
+                                    {i18nCommon("done")}
                                 </Button>
                             </Grid>
                         </Grid>

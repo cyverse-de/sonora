@@ -62,4 +62,6 @@ export default {
             "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027163/Troubleshooting+an+Analysis#TroubleshootinganAnalysis-3.Checktheinputfilesandparameter",
     },
     ANONYMOUS_USER: "anonymous",
+    JAVA_PATTERN_DOC:
+        "https://docs.oracle.com/javase/9/docs/api/java/util/regex/Pattern.html",
 };

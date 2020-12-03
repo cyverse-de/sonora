@@ -13,6 +13,7 @@ import ids from "../ids";
 import analysisStatus from "components/models/analysisStatus";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import TableLoading from "components/utils/TableLoading";
+import { DERow } from "components/utils/DERow";
 
 import analysisFields from "../analysisFields";
 
@@ -237,7 +238,7 @@ function TableView(props) {
                                 const isSelected = selected.indexOf(id) !== -1;
                                 const rowId = build(baseId, tableId, id);
                                 return (
-                                    <TableRow
+                                    <DERow
                                         onClick={(event) =>
                                             handleClick(event, id, index)
                                         }
@@ -338,7 +339,7 @@ function TableView(props) {
                                                 />
                                             </TableCell>
                                         )}
-                                    </TableRow>
+                                    </DERow>
                                 );
                             })}
                     </TableBody>

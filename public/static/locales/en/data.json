@@ -80,6 +80,8 @@
     "own": "Own",
     "path": "Path",
     "pathListCreateError": "Unable to create path list file.",
+    "pathListExistError": "Destination file already exists. Please enter a unique file name.",
+    "pathListNoMatchError": "No paths found matching your request.",
     "pathListInfoTypeLbl": "Include only file path(s) whose infoType(s) match",
     "pathListInputLbl": "Select folder(s) whose contents will be processed into the path list file contents. Individual file(s) may also be selected",
     "pathListFoldersOnlyLbl": "Include only folder path(s) in my analysis path list file",

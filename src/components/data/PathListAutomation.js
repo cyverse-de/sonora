@@ -27,6 +27,7 @@ import MultiInputSelector from "components/apps/launch/MultiInputSelector";
 import ExternalLink from "components/utils/ExternalLink";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import constants from "../../constants";
+import { ERROR_CODES, getErrorCode } from "../utils/error/errorCode";
 
 import {
     Button,
@@ -55,6 +56,7 @@ export default function PathListAutomation(props) {
     const [selectedInfoTypes, setSelectedInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
     const [createPathListError, setCreatePathListError] = useState();
+    const [errorMsg, setErrorMsg] = useState();
     const [infoTypeError, setInfoTypeError] = useState();
 
     const { t } = useTranslation("data");
@@ -88,8 +90,25 @@ export default function PathListAutomation(props) {
                 onCreatePathList(data.file.id, data.file.path);
             },
             onError: (error, { onError }) => {
-                onError();
+                let errMsg = null;
+                const err_code = getErrorCode(error);
+                switch (err_code) {
+                    case ERROR_CODES.ERR_EXISTS:
+                        errMsg = t("pathListExistError");
+                        onError(err_code);
+                        break;
+
+                    case ERROR_CODES.ERR_NOT_FOUND:
+                        errMsg = t("pathListNoMatchError");
+                        onError();
+                        break;
+
+                    default:
+                        errMsg = t("infoTypeFetchError");
+                        onError();
+                }
                 setCreatePathListError(error);
+                setErrorMsg(errMsg);
             },
         }
     );
@@ -133,7 +152,10 @@ export default function PathListAutomation(props) {
         const onSuccess = () => {
             actions.setSubmitting(false);
         };
-        const onError = () => {
+        const onError = (err_code) => {
+            if (err_code === ERROR_CODES.ERR_EXISTS) {
+                actions.setFieldError("dest", t("pathListExistError"));
+            }
             actions.setSubmitting(false);
         };
         createPathListFile({
@@ -198,19 +220,21 @@ export default function PathListAutomation(props) {
                             direction="column"
                             justify="center"
                             alignItems="stretch"
-                            spacing={3}
+                            spacing={1}
                         >
                             {createPathListError && (
                                 <Grid item xs>
                                     <ErrorTypographyWithDialog
                                         baseId={baseId}
-                                        errorMessage={t("pathListCreateError")}
+                                        errorMessage={errorMsg}
                                         errorObject={createPathListError}
                                     />
                                 </Grid>
                             )}
                             <Grid item xs>
-                                <Typography>{t("pathListInputLbl")}</Typography>
+                                <Typography variant="body2">
+                                    {t("pathListInputLbl")}
+                                </Typography>
                                 {infoTypeError && (
                                     <ErrorTypographyWithDialog
                                         baseId={baseId}
@@ -226,12 +250,12 @@ export default function PathListAutomation(props) {
                                     name="selectedPaths"
                                     required={true}
                                     component={MultiInputSelector}
-                                    height="30vh"
+                                    height="20vh"
                                     label={t("suggestionSelection_any_plural")}
                                 />
                             </Grid>
                             <Grid item xs>
-                                <Typography>
+                                <Typography component="span" variant="body2">
                                     {t("pathListFoldersOnlyLbl")}
                                 </Typography>
                                 <Field
@@ -245,7 +269,7 @@ export default function PathListAutomation(props) {
                                 />
                             </Grid>
                             <Grid item xs>
-                                <Typography>
+                                <Typography variant="body2">
                                     <Trans
                                         t={t}
                                         i18nKey="pathListPatternMatchLbl"
@@ -274,7 +298,7 @@ export default function PathListAutomation(props) {
                                 />
                             </Grid>
                             <Grid item xs>
-                                <Typography>
+                                <Typography variant="body2">
                                     {t("pathListInfoTypeLbl")}
                                 </Typography>
                                 <Paper>
@@ -309,7 +333,6 @@ export default function PathListAutomation(props) {
                                                                         type
                                                                     ) !== -1
                                                                 }
-                                                                tabIndex={-1}
                                                                 disableRipple
                                                                 inputProps={{
                                                                     "aria-labelledby": labelId,
@@ -327,7 +350,9 @@ export default function PathListAutomation(props) {
                                 </Paper>
                             </Grid>
                             <Grid item xs>
-                                <Typography>{t("pathListDestLbl")}</Typography>
+                                <Typography variant="body2">
+                                    {t("pathListDestLbl")}
+                                </Typography>
                                 <Field
                                     id={buildId(
                                         baseId,

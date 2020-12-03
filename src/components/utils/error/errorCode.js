@@ -8,4 +8,5 @@ export function getErrorCode(error) {
 
 export const ERROR_CODES = {
     ERR_EXISTS: "ERR_EXISTS",
+    ERR_NOT_FOUND: "ERR_NOT_FOUND",
 };

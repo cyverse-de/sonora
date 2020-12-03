@@ -46,7 +46,6 @@ function DEDialog(props) {
             fullWidth={fullWidth}
             fullScreen={fullScreen}
             aria-labelledby={dialogTitleId}
-            style={{ maxHeight: "75vh" }}
         >
             <DialogTitle id={dialogTitleId}>
                 {title}

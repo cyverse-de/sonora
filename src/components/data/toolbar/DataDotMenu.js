@@ -223,7 +223,6 @@ function DataDotMenu(props) {
                             onClick={() => {
                                 setRequestedInfoType(HT_ANALYSIS_PATH_LIST);
                                 onClose();
-                                console.log("menu clicked");
                                 setPathListDlgOpen(true);
                             }}
                         >
@@ -240,7 +239,6 @@ function DataDotMenu(props) {
                             onClick={() => {
                                 setRequestedInfoType(MULTI_INPUT_PATH_LIST);
                                 onClose();
-                                console.log("menu clicked");
                                 setPathListDlgOpen(true);
                             }}
                         >

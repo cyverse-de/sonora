@@ -1,10 +1,10 @@
 /**
  * @author sriram
- *  
+ *
  * A custom Table row with banding
  * copied from https://material-ui.com/components/tables/#customized-tables
- * 
- * 
+ *
+ *
  **/
 import { withStyles } from "@material-ui/core/styles";
 import TableRow from "@material-ui/core/TableRow";

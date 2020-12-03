@@ -35,7 +35,6 @@ import {
     TableBody,
     TableCell,
     TableContainer,
-    TableRow,
     Tooltip,
     Typography,
     useMediaQuery,

@@ -1,13 +1,15 @@
 import React, { useState } from "react";
+import Link from "next/link";
+import { useTranslation } from "i18n";
 
 import ids from "../ids";
-
-import { useTranslation } from "i18n";
 
 import appType from "../../models/AppType";
 import AppsDotMenu from "./AppsDotMenu";
 import DisplayTypeSelector from "../../utils/DisplayTypeSelector";
 import AppNavigation, { getAppTypeFilters } from "./AppNavigation";
+
+import NavigationConstants from "common/NavigationConstants";
 
 import { build } from "@cyverse-de/ui-lib";
 import {
@@ -24,6 +26,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
 import {
     Info,
+    Build,
     FilterList as FilterListIcon,
     Queue as AddToBagIcon,
 } from "@material-ui/icons";
@@ -191,6 +194,20 @@ function AppsToolbar(props) {
                             setSharingDlgOpen={setSharingDlgOpen}
                         />
                     )}
+                </Hidden>
+                <Hidden smDown>
+                    <Link href={`${NavigationConstants.TOOLS}`}>
+                        <Button
+                            id={build(appsToolbarId, ids.TOOLS_BTN)}
+                            className={classes.toolbarItems}
+                            variant="outlined"
+                            disableElevation
+                            color="primary"
+                            startIcon={<Build />}
+                        >
+                            {t("manageTools")}
+                        </Button>
+                    </Link>
                 </Hidden>
                 <Hidden mdUp>
                     <AppsDotMenu

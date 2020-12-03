@@ -17,5 +17,6 @@ export default {
     SEARCH: "search",
     SETTINGS: "settings",
     VICE: "vice",
+    TOOLS: "tools",
     YOUTUBE_EMBED_BASE: "https://youtu.be",
 };

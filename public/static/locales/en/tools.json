@@ -1,5 +1,5 @@
 {
-    "editTool":"Edit {name}",
+    "editTool":"Edit {{name}}",
     "addTool":"Add Tool",
     "toolName":"Tool Name",
     "toolDesc":"Description",
@@ -117,7 +117,7 @@
     "minMemoryLimitLbl":"Minimum Memory",
     "minDiskSpaceLbl":"Minimum Disk Space (bytes)",
     "enabled":"Enabled",
-    "ariaCheckbox":"{label} checkbox",
+    "ariaCheckbox":"{{label}} checkbox",
     "ariaTableListing":"Tool table listing",
     "status":"Status"
  }

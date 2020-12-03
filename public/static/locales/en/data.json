@@ -99,6 +99,7 @@
     "suggestionSelection_any_plural": "Select resources",
     "tableView": "Table View",
     "tags": "Tags",
+    "tagsSignInError": "Tags available after signing in",
     "type": "Type",
     "updateInfoTypeError": "Unable to update info type. Please try again.",
     "uploadQueue": "View Upload Queue",

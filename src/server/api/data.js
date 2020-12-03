@@ -33,7 +33,7 @@ export default function dataRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
-            pathname: "/secured/filesystem/stat",
+            pathname: "/filesystem/stat",
             headers: {
                 "Content-Type": "application/json",
             },

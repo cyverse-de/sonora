@@ -33,6 +33,7 @@ import styles from "./styles";
 import isQueryLoading from "../utils/isQueryLoading";
 import DEErrorDialog from "../utils/error/DEErrorDialog";
 import ErrorTypography from "../utils/error/ErrorTypography";
+import { useUserProfile } from "contexts/userProfile";
 
 const useStyles = makeStyles(styles);
 
@@ -50,6 +51,7 @@ function TagSearch(props) {
     const [errorMessage, setErrorMessage] = useState(null);
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
     const [errorObject, setErrorObject] = useState(null);
+    const [userProfile] = useUserProfile();
 
     const { isFetching: isFetchingTags } = useQuery({
         queryKey: fetchTagsQueryKey,
@@ -58,7 +60,12 @@ function TagSearch(props) {
             onSuccess: (resp) => setSelectedTags(resp.tags),
             onError: (e) => {
                 setErrorObject(e);
-                setErrorMessage(t("fetchTagSuggestionsError"));
+                const status = e?.response?.status;
+                setErrorMessage(
+                    status === 401
+                        ? t("tagsSignInError")
+                        : t("fetchTagSuggestionsError")
+                );
             },
         },
     });
@@ -67,6 +74,7 @@ function TagSearch(props) {
         queryKey: { searchTerm },
         queryFn: getTagSuggestions,
         config: {
+            enabled: userProfile?.id,
             onSuccess: (resp) => {
                 setOptions(resp.tags);
             },

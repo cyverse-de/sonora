@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import TableView from "./TableView";
 import { getTools, TOOLS_QUERY_KEY } from "../../../serviceFacades/tools";
-import { injectIntl } from "react-intl";
-import { withI18N } from "@cyverse-de/ui-lib";
-import messages from "../Messages";
 import DEPagination from "../../utils/DEPagination";
 
 /**
@@ -152,4 +149,4 @@ function Listing(props) {
     );
 }
 
-export default withI18N(injectIntl(Listing), messages);
+export default Listing;

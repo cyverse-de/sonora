@@ -112,7 +112,16 @@ function Listing({
         ],
         queryFn: getAppsInCategory,
         config: {
-            enabled: category?.system_id && category?.id,
+            enabled:
+                // Disable the query if the category ID is fake and the user is
+                // logged in.  The Navigation component should update the ID to
+                // the real ID.
+                category?.system_id &&
+                category?.id &&
+                (!userProfile?.id ||
+                    ![constants.APPS_UNDER_DEV, constants.FAV_APPS].includes(
+                        category?.id
+                    )),
             onSuccess: setData,
         },
     });

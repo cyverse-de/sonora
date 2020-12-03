@@ -130,8 +130,28 @@ function AppNavigation(props) {
             categoryList = categoryList.concat(allAppsCategory());
             setCategories(categoryList);
             handleAppNavError(null);
+            // If a user has just logged in, they may still have one of the fake
+            // categories given to the anonymous user selected with a fake
+            // UUID
+            if (
+                [constants.FAV_APPS, constants.APPS_UNDER_DEV].includes(
+                    selectedCategory?.id
+                )
+            ) {
+                handleCategoryChange(
+                    categoryList.find(
+                        (category) => category.name === selectedCategory.name
+                    )
+                );
+            }
         },
-        [allAppsCategory, handleAppNavError, setCategories]
+        [
+            allAppsCategory,
+            handleAppNavError,
+            setCategories,
+            handleCategoryChange,
+            selectedCategory,
+        ]
     );
 
     const { isFetching } = useQuery({

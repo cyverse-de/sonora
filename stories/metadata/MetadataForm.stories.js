@@ -1,8 +1,10 @@
 import React from "react";
 
 import MetadataForm from "components/metadata/form";
+import { UserProfileProvider, useUserProfile } from "contexts/userProfile";
 
 import { mockAxios } from "../axiosMock";
+import userProfileMock from "../userProfileMock";
 import { initMockAxiosFileFolderSelector } from "../data/DataMocks";
 
 import { MockMetadata, DataCiteMetadata } from "./MetadataMocks";
@@ -55,12 +57,12 @@ mockAxios.onPost(/\/api\/filesystem\/.*\/metadata/).reply((config) => {
     return [200, { path: testResourcePath, user: "ipcdev" }];
 });
 
-export const MetadataView = () => {
-    const [loading, setLoading] = React.useState(true);
+const MetadataViewStory = ({ loading, loggedOut }) => {
+    const [userProfile, setUserProfile] = useUserProfile();
 
     React.useEffect(() => {
-        setTimeout(() => setLoading(false), 1500);
-    }, [setLoading]);
+        setUserProfile(loggedOut ? null : userProfileMock);
+    }, [loggedOut, setUserProfile, userProfile]);
 
     return (
         <MetadataForm
@@ -77,6 +79,27 @@ export const MetadataView = () => {
             }
         />
     );
+};
+
+export const MetadataView = ({ loading, "Logged-Out View": loggedOut }) => {
+    return (
+        <UserProfileProvider>
+            <MetadataViewStory loading={loading} loggedOut={loggedOut} />
+        </UserProfileProvider>
+    );
+};
+
+MetadataView.argTypes = {
+    loading: {
+        control: {
+            type: "boolean",
+        },
+    },
+    "Logged-Out View": {
+        control: {
+            type: "boolean",
+        },
+    },
 };
 
 export const ReadOnlyMetadata = () => {

@@ -22,6 +22,7 @@ import SaveAsDialog from "components/data/SaveAsDialog";
 import { getParentPath, isWritable } from "components/data/utils";
 
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
+import SignInDialog from "components/utils/SignInDialog";
 import ExternalLink from "components/utils/ExternalLink";
 
 import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
@@ -65,7 +66,6 @@ const MetadataFormListing = (props) => {
     const { avus, "irods-avus": irodsAVUs } = values;
     const targetName = targetResource?.label;
 
-    const [userProfile] = useUserProfile();
     const { t } = useTranslation("metadata");
 
     const [
@@ -135,8 +135,7 @@ const MetadataFormListing = (props) => {
 
     const applyDisabled = loadingOrSubmitting || !dirty || errors.error;
 
-    const showSaveToFile =
-        userProfile && !loadingOrSubmitting && !(dirty && editable);
+    const showSaveToFile = !loadingOrSubmitting && !(dirty && editable);
 
     const showViewInTemplate =
         tabIndex === 0 && !loadingOrSubmitting && !(errors.error && editable);
@@ -298,6 +297,7 @@ const MetadataForm = ({ loading, showErrorAnnouncer, ...props }) => {
     const [metadata, setMetadata] = React.useState({});
 
     const [saveAsDialogOpen, setSaveAsDialogOpen] = React.useState(false);
+    const [signInDialogOpen, setSignInDialogOpen] = React.useState(false);
     const [saveFileError, setSaveFileError] = React.useState(null);
 
     const [metadataListingKey, setMetadataListingKey] = React.useState(
@@ -460,7 +460,11 @@ const MetadataForm = ({ loading, showErrorAnnouncer, ...props }) => {
                             isWritable(targetResource?.permission)
                         }
                         onSaveMetadataToFileBtnSelected={() => {
-                            setSaveAsDialogOpen(true);
+                            if (userProfile) {
+                                setSaveAsDialogOpen(true);
+                            } else {
+                                setSignInDialogOpen(true);
+                            }
                         }}
                         onSelectTemplateBtnSelected={(metadata) => {
                             console.log("view in templates", metadata);
@@ -488,6 +492,11 @@ const MetadataForm = ({ loading, showErrorAnnouncer, ...props }) => {
                         recursive: true,
                     });
                 }}
+            />
+            <SignInDialog
+                baseId={baseId}
+                open={signInDialogOpen}
+                handleClose={() => setSignInDialogOpen(false)}
             />
         </>
     );

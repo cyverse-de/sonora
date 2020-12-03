@@ -7,6 +7,7 @@ import theme from "../src/components/theme/default";
 
 import { AXIOS_DELAY } from "../stories/axiosMock";
 import testConfig from "../stories/configMock";
+import userProfileMock from "../stories/userProfileMock";
 import MockBootstrap from "../stories/preferences/MockBootstrap";
 
 import { ConfigProvider, useConfig } from "../src/contexts/config";
@@ -30,16 +31,7 @@ function MockUserProfile() {
     const [userProfile, setUserProfile] = useUserProfile();
     useEffect(() => {
         if (!userProfile) {
-            setUserProfile({
-                id: "ipcdev",
-                attributes: {
-                    email: "ipcdev@cyverse.org",
-                    entitlement: ["some-entitlement"],
-                    firstName: "Iplant",
-                    lastName: "Dev",
-                    name: "Iplant Dev",
-                },
-            });
+            setUserProfile(userProfileMock);
         }
     }, [setUserProfile, userProfile]);
 

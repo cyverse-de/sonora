@@ -11,6 +11,7 @@ import clsx from "clsx";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
+import Joyride, { ACTIONS, EVENTS, STATUS } from "react-joyride";
 
 import ids from "./ids";
 import constants from "../../constants";
@@ -21,8 +22,10 @@ import Notifications from "./Notifications";
 import CustomIntercom from "./CustomIntercom";
 import { useUserProfile } from "contexts/userProfile";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
+import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import searchConstants from "components/search/constants";
 import { usePreferences } from "contexts/userPreferences";
+import { getSteps } from "components/layout/steps";
 import Bag from "components/Bag";
 import {
     getUserProfile,
@@ -219,6 +222,7 @@ function CyverseAppBar(props) {
     const ref = useRef();
     const [config, setConfig] = useConfig();
     const { t } = useTranslation(["common"]);
+    const { t: i18nTour } = useTranslation("intro");
 
     const searchTerm = router?.query?.searchTerm || "";
     let filter = searchConstants.ALL;
@@ -239,6 +243,10 @@ function CyverseAppBar(props) {
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
     const [profileRefetchInterval, setProfileRefetchInterval] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [newUser, setNewUser] = useState(false);
+    const [runTour, setRunTour] = useState(false);
+    const [tourStepIndex, setTourStepIndex] = useState(0);
+
     const setPreferences = usePreferences()[1];
 
     if (activeView === NavigationConstants.APPS) {
@@ -301,6 +309,8 @@ function CyverseAppBar(props) {
         bootstrapQueryEnabled,
         (respData) => {
             setPreferences(respData.preferences);
+            const workspace = respData["apps_info"].workspace;
+            setNewUser(workspace["new_workspace"] || false);
         },
         setBootstrapError
     );
@@ -368,6 +378,31 @@ function CyverseAppBar(props) {
         setOpen(open);
     };
 
+    useEffect(() => {
+        if (open) {
+            if (runTour && tourStepIndex === 0) {
+                setRunTour(false);
+                setTourStepIndex(1);
+            }
+            if (!runTour && tourStepIndex === 1) {
+                setRunTour(true);
+            }
+        }
+    }, [runTour, tourStepIndex, setRunTour, setTourStepIndex, open]);
+
+    const handleJoyrideCallback = (callbackData) => {
+        const { action, index, type, status } = callbackData;
+        if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+            setRunTour(false);
+            setTourStepIndex(0);
+        } else if (
+            [EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)
+        ) {
+            const stepIndex = index + (action === ACTIONS.PREV ? -1 : 1);
+            setTourStepIndex(stepIndex);
+        }
+    };
+
     const accountAvatar = (
         <Avatar
             className={userProfile ? classes.userIcon : classes.accountIcon}
@@ -396,7 +431,7 @@ function CyverseAppBar(props) {
     );
 
     const drawerItems = (
-        <List>
+        <List component="div">
             <Tooltip title={t("dashboard")} placement="right" arrow>
                 <ListItem
                     id={build(ids.DRAWER_MENU, ids.DASHBOARD_MI)}
@@ -411,11 +446,11 @@ function CyverseAppBar(props) {
                     }
                 >
                     <img
-                        className={classes.drawerIcon}
+                        className={clsx("dashboard-intro", classes.drawerIcon)}
                         src="/dashboard_selected.png"
                         alt={t("dashboard")}
                     />
-                    <ListItemText>{t("dashboard")}</ListItemText>
+                    {open && <ListItemText>{t("dashboard")}</ListItemText>}
                 </ListItem>
             </Tooltip>
             <Tooltip title={t("data")} placement="right" arrow>
@@ -432,11 +467,11 @@ function CyverseAppBar(props) {
                     }
                 >
                     <img
-                        className={classes.drawerIcon}
+                        className={clsx("data-intro", classes.drawerIcon)}
                         src="/data_selected.png"
                         alt={t("data")}
                     />
-                    <ListItemText>{t("data")}</ListItemText>
+                    {open && <ListItemText>{t("data")}</ListItemText>}
                 </ListItem>
             </Tooltip>
             <Tooltip title={t("apps")} placement="right" arrow>
@@ -453,11 +488,11 @@ function CyverseAppBar(props) {
                     }
                 >
                     <img
-                        className={classes.drawerIcon}
+                        className={clsx("apps-intro", classes.drawerIcon)}
                         src="/apps_selected.png"
                         alt={t("apps")}
                     />
-                    <ListItemText>{t("apps")}</ListItemText>
+                    {open && <ListItemText>{t("apps")}</ListItemText>}
                 </ListItem>
             </Tooltip>
             <Tooltip title={t("analyses")} placement="right" arrow>
@@ -474,11 +509,11 @@ function CyverseAppBar(props) {
                     }
                 >
                     <img
-                        className={classes.drawerIcon}
+                        className={clsx("analyses-intro", classes.drawerIcon)}
                         src="/analyses_selected.png"
                         alt={t("analyses")}
                     />
-                    <ListItemText>{t("analyses")}</ListItemText>
+                    {open && <ListItemText>{t("analyses")}</ListItemText>}
                 </ListItem>
             </Tooltip>
             <Hidden only={["sm", "md", "lg", "xl"]}>
@@ -494,11 +529,11 @@ function CyverseAppBar(props) {
                     >
                         <ListItemIcon>
                             <SearchIcon
-                                className={classes.icon}
+                                className={clsx("search-intro", classes.icon)}
                                 fontSize="large"
                             />
                         </ListItemIcon>
-                        <ListItemText>{t("search")}</ListItemText>
+                        {open && <ListItemText>{t("search")}</ListItemText>}
                     </ListItem>
                 </Tooltip>
             </Hidden>
@@ -518,11 +553,14 @@ function CyverseAppBar(props) {
                     >
                         <ListItemIcon>
                             <SettingsIcon
-                                className={classes.icon}
+                                className={clsx(
+                                    "preferences-intro",
+                                    classes.icon
+                                )}
                                 fontSize="large"
                             />
                         </ListItemIcon>
-                        <ListItemText>{t("settings")}</ListItemText>
+                        {open && <ListItemText>{t("settings")}</ListItemText>}
                     </ListItem>
                 </Tooltip>
             )}
@@ -530,7 +568,7 @@ function CyverseAppBar(props) {
     );
 
     const adminDrawerItems = (
-        <List>
+        <List component="div">
             <ListItem
                 id={build(ids.DRAWER_MENU, ids.ADMIN_MI)}
                 className={
@@ -545,7 +583,7 @@ function CyverseAppBar(props) {
                         fontSize="large"
                     />
                 </ListItemIcon>
-                <ListItemText>{t("admin")}</ListItemText>
+                {open && <ListItemText>{t("admin")}</ListItemText>}
             </ListItem>
             <List component="div" disablePadding>
                 <Tooltip title={t("vice")} placement="right" arrow>
@@ -565,7 +603,7 @@ function CyverseAppBar(props) {
                         <ListItemIcon>
                             <LabelImportantIcon className={classes.icon} />
                         </ListItemIcon>
-                        <ListItemText>{t("vice")}</ListItemText>
+                        {open && <ListItemText>{t("vice")}</ListItemText>}
                     </ListItem>
                 </Tooltip>
                 <Tooltip title={t("refGenomes")} placement="right" arrow>
@@ -585,192 +623,234 @@ function CyverseAppBar(props) {
                         <ListItemIcon>
                             <LabelImportantIcon className={classes.icon} />
                         </ListItemIcon>
-                        <ListItemText>{t("refGenomes")}</ListItemText>
+                        {open && <ListItemText>{t("refGenomes")}</ListItemText>}
                     </ListItem>
                 </Tooltip>
             </List>
         </List>
     );
     return (
-        <div className={classes.root}>
-            <AppBar
-                id={ids.APP_BAR_BASE}
-                position="static"
-                variant="outlined"
-                ref={ref}
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open,
-                })}
-            >
-                <Toolbar>
-                    <Hidden only={["sm", "md", "lg", "xl"]}>
-                        <IconButton
-                            aria-label={t("openDrawer")}
-                            onClick={handleDrawerOpen}
-                            edge="start"
-                            className={classes.menuIcon}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography>{t("deTitle")}</Typography>
-                    </Hidden>
-                    <Hidden xsDown>
-                        <a
-                            href={constants.CYVERSE_URL}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <img
-                                width={190}
-                                height={39}
-                                src="/de_white.png"
-                                alt={t("cyverse")}
-                            ></img>
-                        </a>
-                    </Hidden>
-                    <Hidden xsDown>
-                        <GlobalSearchField
-                            search={searchTerm}
-                            selectedFilter={filter}
-                        />
-                    </Hidden>
-                    <div className={classes.root} />
-                    <div style={{ display: "flex" }}>
-                        <CustomIntercom
-                            intercomUnreadCount={intercomUnreadCount}
-                        />
-                        <BagMenu />
-                        <Notifications />
-                    </div>
-                    <Hidden only={["xs"]}>
-                        <div id={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}>
-                            {accountAvatar}
-                        </div>
-                    </Hidden>
-                </Toolbar>
-            </AppBar>
-            <Hidden xsDown>
-                <Drawer
-                    variant="permanent"
-                    className={clsx(classes.drawer, {
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
+        <>
+            <div className={classes.root}>
+                <AppBar
+                    id={ids.APP_BAR_BASE}
+                    position="static"
+                    variant="outlined"
+                    ref={ref}
+                    className={clsx(classes.appBar, {
+                        [classes.appBarShift]: open,
                     })}
-                    classes={{
-                        paper: clsx({
-                            [classes.drawerOpen]: open,
-                            [classes.drawerClose]: !open,
-                        }),
-                    }}
                 >
-                    <div className={classes.toolbar}>
-                        {!open && (
+                    <Toolbar>
+                        <Hidden only={["sm", "md", "lg", "xl"]}>
                             <IconButton
-                                aria-label="open drawer"
+                                aria-label={t("openDrawer")}
                                 onClick={handleDrawerOpen}
                                 edge="start"
-                                className={clsx(classes.menuIcon, {
-                                    [classes.hide]: open,
-                                })}
-                            >
-                                <MenuIcon fontSize="large" />
-                            </IconButton>
-                        )}
-                        {open && (
-                            <IconButton
-                                onClick={handleDrawerClose}
                                 className={classes.menuIcon}
                             >
-                                {theme.direction === "rtl" ? (
-                                    <ChevronRightIcon fontSize="large" />
-                                ) : (
-                                    <ChevronLeftIcon fontSize="large" />
-                                )}
+                                <MenuIcon className={"menu-intro"} />
                             </IconButton>
-                        )}
-                    </div>
-                    <Divider />
-                    {drawerItems}
-                    {open && adminUser && (
-                        <>
-                            <Divider />
-                            {adminDrawerItems}
-                        </>
-                    )}
-                </Drawer>
-            </Hidden>
-            <Hidden only={["sm", "md", "lg", "xl"]}>
-                <Drawer
-                    className={clsx(classes.drawer, {
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
-                    })}
-                    classes={{
-                        paper: clsx({
+                            <Typography>{t("deTitle")}</Typography>
+                        </Hidden>
+                        <Hidden xsDown>
+                            <a
+                                href={constants.CYVERSE_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <img
+                                    width={190}
+                                    height={39}
+                                    src="/de_white.png"
+                                    alt={t("cyverse")}
+                                ></img>
+                            </a>
+                        </Hidden>
+                        <Hidden xsDown>
+                            <GlobalSearchField
+                                search={searchTerm}
+                                selectedFilter={filter}
+                            />
+                        </Hidden>
+                        <div className={classes.root} />
+                        <div style={{ display: "flex" }}>
+                            <CustomIntercom
+                                intercomUnreadCount={intercomUnreadCount}
+                            />
+                            <BagMenu />
+                            <Notifications />
+                        </div>
+                        <Hidden only={["xs"]}>
+                            <div id={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}>
+                                {accountAvatar}
+                            </div>
+                        </Hidden>
+                    </Toolbar>
+                </AppBar>
+                <Hidden xsDown>
+                    <Drawer
+                        variant="permanent"
+                        className={clsx(classes.drawer, {
                             [classes.drawerOpen]: open,
                             [classes.drawerClose]: !open,
-                        }),
-                    }}
-                    open={open}
-                    onClose={toggleDrawer(false)}
-                >
-                    <div
-                        id={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
-                        style={{ margin: 8 }}
+                        })}
+                        classes={{
+                            paper: clsx({
+                                [classes.drawerOpen]: open,
+                                [classes.drawerClose]: !open,
+                            }),
+                        }}
                     >
-                        <UserMenu
-                            baseId={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
-                            profile={userProfile}
-                            onLogoutClick={onLogoutClick}
-                            onManageAccountClick={() =>
-                                window.open(
-                                    "https://user.cyverse.org",
-                                    "_blank"
-                                )
-                            }
-                        />
-                    </div>
-                    <Divider />
-                    {drawerItems}
-                    {adminUser && (
-                        <>
-                            <Divider />
-                            {adminDrawerItems}
-                        </>
-                    )}
-                </Drawer>
-            </Hidden>
-            <CyVerseAnnouncer />
-            <Popover
-                open={Boolean(anchorEl)}
-                anchorEl={anchorEl}
-                onClose={onUserMenuClose}
-                anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center",
-                }}
-                transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                }}
-            >
-                <UserMenu
-                    baseId={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}
-                    profile={userProfile}
-                    onLogoutClick={onLogoutClick}
-                    onManageAccountClick={() =>
-                        window.open(constants.CYVERSE_USER_PORTAL, "_blank")
-                    }
+                        <div className={classes.toolbar}>
+                            {!open && (
+                                <IconButton
+                                    aria-label={t("openMenu")}
+                                    onClick={handleDrawerOpen}
+                                    edge="start"
+                                    className={clsx(classes.menuIcon, {
+                                        [classes.hide]: open,
+                                    })}
+                                >
+                                    <MenuIcon
+                                        fontSize="large"
+                                        className="menu-intro"
+                                    />
+                                </IconButton>
+                            )}
+                            {open && (
+                                <IconButton
+                                    onClick={handleDrawerClose}
+                                    className={classes.menuIcon}
+                                >
+                                    {theme.direction === "rtl" ? (
+                                        <ChevronRightIcon fontSize="large" />
+                                    ) : (
+                                        <ChevronLeftIcon fontSize="large" />
+                                    )}
+                                </IconButton>
+                            )}
+                        </div>
+                        <Divider />
+                        {drawerItems}
+                        {open && adminUser && (
+                            <>
+                                <Divider />
+                                {adminDrawerItems}
+                            </>
+                        )}
+                    </Drawer>
+                </Hidden>
+                <Hidden only={["sm", "md", "lg", "xl"]}>
+                    <Drawer
+                        className={clsx(classes.drawer, {
+                            [classes.drawerOpen]: open,
+                            [classes.drawerClose]: !open,
+                        })}
+                        classes={{
+                            paper: clsx({
+                                [classes.drawerOpen]: open,
+                                [classes.drawerClose]: !open,
+                            }),
+                        }}
+                        open={open}
+                        onClose={toggleDrawer(false)}
+                    >
+                        <div
+                            id={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
+                            style={{ margin: 8 }}
+                        >
+                            <UserMenu
+                                baseId={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
+                                profile={userProfile}
+                                onLogoutClick={onLogoutClick}
+                                onManageAccountClick={() =>
+                                    window.open(
+                                        "https://user.cyverse.org",
+                                        "_blank"
+                                    )
+                                }
+                            />
+                        </div>
+                        <Divider />
+                        {drawerItems}
+                        {adminUser && (
+                            <>
+                                <Divider />
+                                {adminDrawerItems}
+                            </>
+                        )}
+                    </Drawer>
+                </Hidden>
+                <CyVerseAnnouncer />
+                <Popover
+                    open={Boolean(anchorEl)}
+                    anchorEl={anchorEl}
+                    onClose={onUserMenuClose}
+                    anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "center",
+                    }}
+                    transformOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                    }}
+                >
+                    <UserMenu
+                        baseId={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}
+                        profile={userProfile}
+                        onLogoutClick={onLogoutClick}
+                        onManageAccountClick={() =>
+                            window.open(constants.CYVERSE_USER_PORTAL, "_blank")
+                        }
+                    />
+                </Popover>
+                <main
+                    className={clsx(classes.content, {
+                        [classes.contentShift]: open,
+                    })}
+                >
+                    {children}
+                </main>
+                {newUser && (
+                    <ConfirmationDialog
+                        baseId={ids.USER_TOUR_DLG}
+                        open={newUser}
+                        onClose={() => setNewUser(false)}
+                        onConfirm={() => {
+                            setNewUser(false);
+                            setRunTour(true);
+                        }}
+                        title={i18nTour("tourPromptTitle")}
+                        contentText={i18nTour("tourPrompt")}
+                    />
+                )}
+            </div>
+            {runTour && (
+                <Joyride
+                    steps={getSteps(i18nTour)}
+                    run={runTour}
+                    showProgress={true}
+                    continuous={true}
+                    disableOverlayClose={true}
+                    callback={handleJoyrideCallback}
+                    stepIndex={tourStepIndex}
+                    styles={{
+                        options: {
+                            arrowColor: theme.palette.error.main,
+                            backgroundColor: theme.palette.error.contrastText,
+                            overlayColor: theme.palette.silver,
+                            primaryColor: theme.palette.error.main,
+                            textColor: theme.palette.info.main,
+                            zIndex: 10000000,
+                        },
+                        tooltipContainer: {
+                            textAlign: "left",
+                        },
+                    }}
                 />
-            </Popover>
-            <main
-                className={clsx(classes.content, {
-                    [classes.contentShift]: open,
-                })}
-            >
-                {children}
-            </main>
-        </div>
+            )}
+        </>
     );
 }
 export default withErrorAnnouncer(CyverseAppBar);

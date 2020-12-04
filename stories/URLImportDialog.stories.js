@@ -25,7 +25,7 @@ export const URLImportDialogTest = ({ success }) => {
 };
 
 export default {
-    title: "Uploads and Imports",
+    title: "URL Import",
     component: URLImportDialog,
     argTypes: {
         success: {

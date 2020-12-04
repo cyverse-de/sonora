@@ -664,6 +664,7 @@ function GlobalSearchField(props) {
                     paper: classes.paper,
                     option: classes.option,
                 }}
+                className={"search-intro"}
                 open={open}
                 debug={false}
                 onOpen={() => {

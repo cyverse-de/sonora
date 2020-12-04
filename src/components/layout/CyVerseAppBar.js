@@ -750,7 +750,7 @@ function CyverseAppBar(props) {
                     </Hidden>
                     <Divider />
                     {drawerItems}
-                    {(!isXsDown || open) && adminUser && (
+                    {(isXsDown || open) && adminUser && (
                         <>
                             <Divider />
                             {adminDrawerItems}

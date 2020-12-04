@@ -6,7 +6,6 @@ import ids from "../ids";
 
 import appType from "../../models/AppType";
 import AppsDotMenu from "./AppsDotMenu";
-import DisplayTypeSelector from "../../utils/DisplayTypeSelector";
 import AppNavigation, { getAppTypeFilters } from "./AppNavigation";
 
 import NavigationConstants from "common/NavigationConstants";
@@ -103,8 +102,6 @@ function AppsToolbar(props) {
         viewAllApps,
         filter,
         selectedCategory,
-        isGridView,
-        toggleDisplay,
         detailsEnabled,
         onDetailsSelected,
         addToBagEnabled,
@@ -123,13 +120,6 @@ function AppsToolbar(props) {
     return (
         <>
             <Toolbar variant="dense">
-                <Hidden smDown>
-                    <DisplayTypeSelector
-                        baseId={appsToolbarId}
-                        toggleDisplay={toggleDisplay}
-                        isGridView={isGridView}
-                    />
-                </Hidden>
                 <AppNavigation
                     baseId={appsToolbarId}
                     handleCategoryChange={handleCategoryChange}

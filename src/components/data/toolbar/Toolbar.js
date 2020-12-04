@@ -20,8 +20,6 @@ import CreateFolderDialog from "../CreateFolderDialog";
 import { isOwner, isWritable } from "../utils";
 import SharingButton from "components/sharing/SharingButton";
 
-import DisplayTypeSelector from "../../utils/DisplayTypeSelector";
-
 import { build } from "@cyverse-de/ui-lib";
 
 import {
@@ -50,8 +48,6 @@ function DataToolbar(props) {
         getSelectedResources,
         permission,
         refreshListing,
-        isGridView,
-        toggleDisplay,
         onDeleteSelected,
         detailsEnabled,
         onDetailsSelected,
@@ -83,11 +79,6 @@ function DataToolbar(props) {
     let toolbarId = build(baseId, ids.TOOLBAR);
     return (
         <Toolbar variant="dense">
-            <DisplayTypeSelector
-                baseId={toolbarId}
-                toggleDisplay={toggleDisplay}
-                isGridView={isGridView}
-            />
             <Navigation
                 path={path}
                 handleDataNavError={handleDataNavError}

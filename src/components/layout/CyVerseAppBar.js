@@ -13,7 +13,6 @@ import clsx from "clsx";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
-import Joyride, { ACTIONS, EVENTS, STATUS } from "react-joyride";
 
 import ids from "./ids";
 import constants from "../../constants";
@@ -68,6 +67,9 @@ import UserMenu from "./UserMenu";
 
 // hidden in xsDown
 const GlobalSearchField = dynamic(() => import("../search/GlobalSearchField"));
+
+// only new users
+const Joyride = dynamic(() => import("react-joyride"));
 
 const ENTITLEMENT = "entitlement";
 const drawerWidth = 235;
@@ -453,16 +455,21 @@ function CyverseAppBar(props) {
     }, [runTour, tourStepIndex, setRunTour, setTourStepIndex, open]);
 
     const handleJoyrideCallback = (callbackData) => {
-        const { action, index, type, status } = callbackData;
-        if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-            setRunTour(false);
-            setTourStepIndex(0);
-        } else if (
-            [EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)
-        ) {
-            const stepIndex = index + (action === ACTIONS.PREV ? -1 : 1);
-            setTourStepIndex(stepIndex);
-        }
+        const realCallback = async (callbackData) => {
+            const { action, index, type, status } = callbackData;
+            const { ACTIONS, EVENTS, STATUS } = await import("react-joyride");
+
+            if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+                setRunTour(false);
+                setTourStepIndex(0);
+            } else if (
+                [EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)
+            ) {
+                const stepIndex = index + (action === ACTIONS.PREV ? -1 : 1);
+                setTourStepIndex(stepIndex);
+            }
+        };
+        realCallback(callbackData);
     };
 
     const accountAvatar = (

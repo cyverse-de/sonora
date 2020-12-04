@@ -9,23 +9,51 @@ import DEPagination from "../../utils/DEPagination";
  * @param {Object} props - the component properties
  */
 function Listing(props) {
-    const { baseId } = props;
+    const {
+        baseId,
+        onRouteToListing,
+        selectedPage,
+        selectedRowsPerPage,
+        selectedOrder,
+        selectedOrderBy,
+    } = props;
 
     // Data and data retrieval state variables.
     const [data, setData] = useState(null);
     const [toolsKey, setToolsKey] = useState(TOOLS_QUERY_KEY);
 
     // Result ordering state variables.
-    const [order, setOrder] = useState("asc");
-    const [orderBy, setOrderBy] = useState("name");
+    const [order, setOrder] = useState(selectedOrder);
+    const [orderBy, setOrderBy] = useState(selectedOrderBy);
 
     // Pagination state variables.
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [page, setPage] = useState(selectedPage);
+    const [rowsPerPage, setRowsPerPage] = useState(selectedRowsPerPage);
 
     // Selection state variables.
     const [selected, setSelected] = useState([]);
     const [lastSelectedIndex, setLastSelectedIndex] = useState(-1);
+
+    useEffect(() => {
+        if (
+            selectedOrder !== order ||
+            selectedOrderBy !== orderBy ||
+            selectedPage !== page ||
+            selectedRowsPerPage !== rowsPerPage
+        ) {
+            onRouteToListing(order, orderBy, page, rowsPerPage);
+        }
+    }, [
+        onRouteToListing,
+        order,
+        orderBy,
+        page,
+        rowsPerPage,
+        selectedOrder,
+        selectedOrderBy,
+        selectedPage,
+        selectedRowsPerPage,
+    ]);
 
     useEffect(() => {
         setToolsKey([TOOLS_QUERY_KEY, { order, orderBy, page, rowsPerPage }]);

@@ -1,4 +1,5 @@
 import { SharingPermissions } from "../models/Permissions";
+import { TYPE } from "./constants";
 
 /**
  * Returns a boolean indicating if the given user is a group
@@ -59,17 +60,6 @@ const getDisplayPermission = (permissionList, resourceTotal) => {
     }
     const values = getUniqueList(permissionList);
     return values.length === 1 ? values[0] : SharingPermissions.VARIES;
-};
-
-/**
- * These are the keys to each permission-lister response object and correspond
- * to each type of resource that can be shared in Sonora
- */
-export const TYPE = {
-    DATA: "paths",
-    APPS: "apps",
-    ANALYSES: "analyses",
-    TOOLS: "tools",
 };
 
 const allResourceTypes = [TYPE.DATA, TYPE.APPS, TYPE.ANALYSES, TYPE.TOOLS];

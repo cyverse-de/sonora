@@ -35,8 +35,8 @@ import {
     getUserMap,
     getUserSet,
     isGroup,
-    TYPE,
 } from "./util";
+import { TYPE } from "./constants";
 import { getUserInfo } from "serviceFacades/users";
 import { USER_INFO_QUERY_KEY } from "serviceFacades/filesystem";
 import isQueryLoading from "components/utils/isQueryLoading";

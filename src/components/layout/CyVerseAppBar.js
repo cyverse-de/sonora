@@ -401,11 +401,6 @@ function CyverseAppBar(props) {
             const stepIndex = index + (action === ACTIONS.PREV ? -1 : 1);
             setTourStepIndex(stepIndex);
         }
-        console.groupCollapsed(
-            type === EVENTS.TOUR_STATUS ? `${type}:${status}` : type
-        );
-        console.log(callbackData);
-        console.groupEnd();
     };
 
     const accountAvatar = (
@@ -844,7 +839,7 @@ function CyverseAppBar(props) {
                         options: {
                             arrowColor: theme.palette.error.main,
                             backgroundColor: theme.palette.error.contrastText,
-                            overlayColor: "#a5a4a4",
+                            overlayColor: theme.palette.silver,
                             primaryColor: theme.palette.error.main,
                             textColor: theme.palette.info.main,
                             zIndex: 10000000,

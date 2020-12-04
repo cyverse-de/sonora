@@ -637,30 +637,24 @@ function CyverseAppBar(props) {
             >
                 <Hidden xsDown>
                     <div className={classes.toolbar}>
-                        {!open && (
-                            <IconButton
-                                aria-label="open drawer"
-                                onClick={handleDrawerOpen}
-                                edge="start"
-                                className={clsx(classes.menuIcon, {
-                                    [classes.hide]: open,
-                                })}
-                            >
-                                <MenuIcon fontSize="large" />
-                            </IconButton>
-                        )}
-                        {open && (
-                            <IconButton
-                                onClick={handleDrawerClose}
-                                className={classes.menuIcon}
-                            >
-                                {theme.direction === "rtl" ? (
+                        <IconButton
+                            className={classes.menuIcon}
+                            onClick={
+                                open ? handleDrawerClose : handleDrawerOpen
+                            }
+                            aria-label={open ? "close drawer" : "open drawer"}
+                            edge={open ? false : "start"}
+                        >
+                            {open ? (
+                                theme.direction === "rtl" ? (
                                     <ChevronRightIcon fontSize="large" />
                                 ) : (
                                     <ChevronLeftIcon fontSize="large" />
-                                )}
-                            </IconButton>
-                        )}
+                                )
+                            ) : (
+                                <MenuIcon fontSize="large" />
+                            )}
+                        </IconButton>
                     </div>
                 </Hidden>
                 <Hidden smUp>

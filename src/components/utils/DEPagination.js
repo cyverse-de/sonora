@@ -52,6 +52,8 @@ function savePageSizeToLocalStorage(type, selectedPageSize) {
         pageSizeKey = constants.LOCAL_STORAGE.APPS.PAGE_SIZE;
     } else if (type === NavigationConstants.ANALYSES) {
         pageSizeKey = constants.LOCAL_STORAGE.ANALYSES.PAGE_SIZE;
+    }else if (type === NavigationConstants.TOOLS) {
+        pageSizeKey = constants.LOCAL_STORAGE.TOOLS.PAGE_SIZE;
     }
     if (pageSizeKey) {
         setLocalStorage(pageSizeKey, selectedPageSize);

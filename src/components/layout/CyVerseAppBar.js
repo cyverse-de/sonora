@@ -7,6 +7,8 @@
  */
 
 import React, { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
+
 import clsx from "clsx";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
@@ -15,7 +17,6 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 import constants from "../../constants";
 import { useConfig } from "contexts/config";
-import GlobalSearchField from "../search/GlobalSearchField";
 import NavigationConstants from "common/NavigationConstants";
 import Notifications from "./Notifications";
 import CustomIntercom from "./CustomIntercom";
@@ -48,6 +49,7 @@ import {
     Tooltip,
     Typography,
     useTheme,
+    useMediaQuery,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
@@ -60,6 +62,9 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 import UserMenu from "./UserMenu";
+
+// hidden in xsDown
+const GlobalSearchField = dynamic(() => import("../search/GlobalSearchField"));
 
 const ENTITLEMENT = "entitlement";
 const drawerWidth = 235;
@@ -232,6 +237,7 @@ function CyverseAppBar(props) {
         showErrorAnnouncer,
     } = props;
     const [userProfile, setUserProfile] = useUserProfile();
+    const isXsDown = useMediaQuery(theme.breakpoints.down("xs"));
     const [avatarLetter, setAvatarLetter] = useState("");
     const [open, setOpen] = useState(false);
     const [adminUser, setAdminUser] = useState(false);
@@ -481,7 +487,7 @@ function CyverseAppBar(props) {
                     <ListItemText>{t("analyses")}</ListItemText>
                 </ListItem>
             </Tooltip>
-            <Hidden only={["sm", "md", "lg", "xl"]}>
+            <Hidden smUp>
                 <Tooltip title={t("search")} placement="right" arrow>
                     <ListItem
                         id={build(ids.DRAWER_MENU, ids.SEARCH_MI)}
@@ -603,7 +609,7 @@ function CyverseAppBar(props) {
                 })}
             >
                 <Toolbar>
-                    <Hidden only={["sm", "md", "lg", "xl"]}>
+                    <Hidden smUp>
                         <IconButton
                             aria-label={t("openDrawer")}
                             onClick={handleDrawerOpen}
@@ -642,27 +648,29 @@ function CyverseAppBar(props) {
                         <BagMenu />
                         <Notifications />
                     </div>
-                    <Hidden only={["xs"]}>
+                    <Hidden xsDown>
                         <div id={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}>
                             {accountAvatar}
                         </div>
                     </Hidden>
                 </Toolbar>
             </AppBar>
-            <Hidden xsDown>
-                <Drawer
-                    variant="permanent"
-                    className={clsx(classes.drawer, {
+            <Drawer
+                variant={isXsDown ? "temporary" : "permanent"}
+                className={clsx(classes.drawer, {
+                    [classes.drawerOpen]: open,
+                    [classes.drawerClose]: !open,
+                })}
+                classes={{
+                    paper: clsx({
                         [classes.drawerOpen]: open,
                         [classes.drawerClose]: !open,
-                    })}
-                    classes={{
-                        paper: clsx({
-                            [classes.drawerOpen]: open,
-                            [classes.drawerClose]: !open,
-                        }),
-                    }}
-                >
+                    }),
+                }}
+                open={isXsDown ? open : false}
+                onClose={isXsDown ? toggleDrawer(false) : undefined}
+            >
+                <Hidden xsDown>
                     <div className={classes.toolbar}>
                         {!open && (
                             <IconButton
@@ -689,31 +697,8 @@ function CyverseAppBar(props) {
                             </IconButton>
                         )}
                     </div>
-                    <Divider />
-                    {drawerItems}
-                    {open && adminUser && (
-                        <>
-                            <Divider />
-                            {adminDrawerItems}
-                        </>
-                    )}
-                </Drawer>
-            </Hidden>
-            <Hidden only={["sm", "md", "lg", "xl"]}>
-                <Drawer
-                    className={clsx(classes.drawer, {
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
-                    })}
-                    classes={{
-                        paper: clsx({
-                            [classes.drawerOpen]: open,
-                            [classes.drawerClose]: !open,
-                        }),
-                    }}
-                    open={open}
-                    onClose={toggleDrawer(false)}
-                >
+                </Hidden>
+                <Hidden smUp>
                     <div
                         id={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
                         style={{ margin: 8 }}
@@ -730,16 +715,16 @@ function CyverseAppBar(props) {
                             }
                         />
                     </div>
-                    <Divider />
-                    {drawerItems}
-                    {adminUser && (
-                        <>
-                            <Divider />
-                            {adminDrawerItems}
-                        </>
-                    )}
-                </Drawer>
-            </Hidden>
+                </Hidden>
+                <Divider />
+                {drawerItems}
+                {(!isXsDown || open) && adminUser && (
+                    <>
+                        <Divider />
+                        {adminDrawerItems}
+                    </>
+                )}
+            </Drawer>
             <CyVerseAnnouncer />
             <Popover
                 open={Boolean(anchorEl)}

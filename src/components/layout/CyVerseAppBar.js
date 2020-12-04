@@ -633,8 +633,6 @@ function CyverseAppBar(props) {
                                 alt={t("cyverse")}
                             ></img>
                         </a>
-                    </Hidden>
-                    <Hidden xsDown>
                         <GlobalSearchField
                             search={searchTerm}
                             selectedFilter={filter}

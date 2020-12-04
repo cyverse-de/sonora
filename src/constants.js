@@ -42,7 +42,7 @@ export default {
         },
         TOOLS: {
             PAGE_SIZE: "sonora.tools.pageSize",
-        }
+        },
     },
     CHROMATIC_IGNORE: "chromatic-ignore",
     AGAVE_SYSTEM_ID: "agave",

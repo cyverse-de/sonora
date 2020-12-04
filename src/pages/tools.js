@@ -28,7 +28,9 @@ export default function Tools() {
 
     const onRouteToListing = useCallback(
         (order, orderBy, page, rowsPerPage) => {
-            router.push(`/${NavigationConstants.TOOLS}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}`);
+            router.push(
+                `/${NavigationConstants.TOOLS}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}`
+            );
         },
         [router]
     );

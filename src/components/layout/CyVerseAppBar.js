@@ -216,6 +216,52 @@ const BagMenu = () => {
     return <Bag menuIconClass={classes.menuIcon} />;
 };
 
+const DrawerItem = (props) => {
+    const classes = useStyles();
+    const router = useRouter();
+
+    const {
+        title,
+        id,
+        image,
+        icon: Icon,
+        activeView,
+        thisView,
+        toggleDrawer,
+    } = props;
+
+    return (
+        <Tooltip title={title} placement="right" arrow>
+            <ListItem
+                id={build(ids.DRAWER_MENU, id)}
+                onClick={() => {
+                    toggleDrawer(false);
+                    router.push("/" + thisView);
+                }}
+                className={
+                    activeView === thisView
+                        ? classes.listItemActive
+                        : classes.listItem
+                }
+            >
+                {image && (
+                    <img
+                        className={classes.drawerIcon}
+                        src={image}
+                        alt={title}
+                    />
+                )}
+                {Icon && (
+                    <ListItemIcon>
+                        <Icon className={classes.icon} fontSize="large" />
+                    </ListItemIcon>
+                )}
+                <ListItemText>{title}</ListItemText>
+            </ListItem>
+        </Tooltip>
+    );
+};
+
 function CyverseAppBar(props) {
     const classes = useStyles();
     const theme = useTheme();
@@ -358,10 +404,7 @@ function CyverseAppBar(props) {
     const onUserMenuClose = () => {
         setAnchorEl(null);
     };
-    const handleSearchClick = (event) => {
-        router.push("/" + NavigationConstants.SEARCH);
-        toggleDrawer(false);
-    };
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -403,134 +446,58 @@ function CyverseAppBar(props) {
 
     const drawerItems = (
         <List>
-            <Tooltip title={t("dashboard")} placement="right" arrow>
-                <ListItem
-                    id={build(ids.DRAWER_MENU, ids.DASHBOARD_MI)}
-                    onClick={() => {
-                        toggleDrawer(false);
-                        router.push("/" + NavigationConstants.DASHBOARD);
-                    }}
-                    className={
-                        activeView === NavigationConstants.DASHBOARD
-                            ? classes.listItemActive
-                            : classes.listItem
-                    }
-                >
-                    <img
-                        className={classes.drawerIcon}
-                        src="/dashboard_selected.png"
-                        alt={t("dashboard")}
-                    />
-                    <ListItemText>{t("dashboard")}</ListItemText>
-                </ListItem>
-            </Tooltip>
-            <Tooltip title={t("data")} placement="right" arrow>
-                <ListItem
-                    id={build(ids.DRAWER_MENU, ids.DATA_MI)}
-                    onClick={() => {
-                        toggleDrawer(false);
-                        router.push("/" + NavigationConstants.DATA);
-                    }}
-                    className={
-                        activeView === NavigationConstants.DATA
-                            ? classes.listItemActive
-                            : classes.listItem
-                    }
-                >
-                    <img
-                        className={classes.drawerIcon}
-                        src="/data_selected.png"
-                        alt={t("data")}
-                    />
-                    <ListItemText>{t("data")}</ListItemText>
-                </ListItem>
-            </Tooltip>
-            <Tooltip title={t("apps")} placement="right" arrow>
-                <ListItem
-                    id={build(ids.DRAWER_MENU, ids.APPS_MI)}
-                    onClick={() => {
-                        toggleDrawer(false);
-                        router.push("/" + NavigationConstants.APPS);
-                    }}
-                    className={
-                        activeView === NavigationConstants.APPS
-                            ? classes.listItemActive
-                            : classes.listItem
-                    }
-                >
-                    <img
-                        className={classes.drawerIcon}
-                        src="/apps_selected.png"
-                        alt={t("apps")}
-                    />
-                    <ListItemText>{t("apps")}</ListItemText>
-                </ListItem>
-            </Tooltip>
-            <Tooltip title={t("analyses")} placement="right" arrow>
-                <ListItem
-                    id={build(ids.DRAWER_MENU, ids.ANALYSES_MI)}
-                    onClick={() => {
-                        toggleDrawer(false);
-                        router.push("/" + NavigationConstants.ANALYSES);
-                    }}
-                    className={
-                        activeView === NavigationConstants.ANALYSES
-                            ? classes.listItemActive
-                            : classes.listItem
-                    }
-                >
-                    <img
-                        className={classes.drawerIcon}
-                        src="/analyses_selected.png"
-                        alt={t("analyses")}
-                    />
-                    <ListItemText>{t("analyses")}</ListItemText>
-                </ListItem>
-            </Tooltip>
+            <DrawerItem
+                title={t("dashboard")}
+                id={ids.DASHBOARD_MI}
+                image={"/dashboard_selected.png"}
+                thisView={NavigationConstants.DASHBOARD}
+                activeView={activeView}
+                toggleDrawer={toggleDrawer}
+            />
+            <DrawerItem
+                title={t("data")}
+                id={ids.DATA_MI}
+                image={"/data_selected.png"}
+                thisView={NavigationConstants.DATA}
+                activeView={activeView}
+                toggleDrawer={toggleDrawer}
+            />
+            <DrawerItem
+                title={t("apps")}
+                id={ids.APPS_MI}
+                image={"/apps_selected.png"}
+                thisView={NavigationConstants.APPS}
+                activeView={activeView}
+                toggleDrawer={toggleDrawer}
+            />
+            <DrawerItem
+                title={t("analyses")}
+                id={ids.ANALYSES_MI}
+                image={"/analyses_selected.png"}
+                thisView={NavigationConstants.ANALYSES}
+                activeView={activeView}
+                toggleDrawer={toggleDrawer}
+            />
             <Hidden smUp>
-                <Tooltip title={t("search")} placement="right" arrow>
-                    <ListItem
-                        id={build(ids.DRAWER_MENU, ids.SEARCH_MI)}
-                        onClick={handleSearchClick}
-                        className={
-                            activeView === NavigationConstants.SEARCH
-                                ? classes.listItemActive
-                                : classes.listItem
-                        }
-                    >
-                        <ListItemIcon>
-                            <SearchIcon
-                                className={classes.icon}
-                                fontSize="large"
-                            />
-                        </ListItemIcon>
-                        <ListItemText>{t("search")}</ListItemText>
-                    </ListItem>
-                </Tooltip>
+                <DrawerItem
+                    title={t("search")}
+                    id={ids.SEARCH_MI}
+                    icon={SearchIcon}
+                    thisView={NavigationConstants.SEARCH}
+                    activeView={activeView}
+                    toggleDrawer={toggleDrawer}
+                />
             </Hidden>
             <Divider />
             {userProfile?.id && (
-                <Tooltip title={t("settings")} placement="right" arrow>
-                    <ListItem
-                        id={build(ids.DRAWER_MENU, ids.SETTINGS_MI)}
-                        onClick={() =>
-                            router.push("/" + NavigationConstants.SETTINGS)
-                        }
-                        className={
-                            activeView === NavigationConstants.SETTINGS
-                                ? classes.listItemActive
-                                : classes.listItem
-                        }
-                    >
-                        <ListItemIcon>
-                            <SettingsIcon
-                                className={classes.icon}
-                                fontSize="large"
-                            />
-                        </ListItemIcon>
-                        <ListItemText>{t("settings")}</ListItemText>
-                    </ListItem>
-                </Tooltip>
+                <DrawerItem
+                    title={t("settings")}
+                    id={ids.SETTINGS_MI}
+                    icon={SettingsIcon}
+                    thisView={NavigationConstants.SETTINGS}
+                    activeView={activeView}
+                    toggleDrawer={toggleDrawer}
+                />
             )}
         </List>
     );

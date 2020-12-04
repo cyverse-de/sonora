@@ -16,6 +16,7 @@ import {
     TableCell,
     TableContainer,
     TableRow,
+    Typography,
 } from "@material-ui/core";
 import TableLoading from "../../utils/TableLoading";
 
@@ -88,15 +89,12 @@ function LoadingError(props) {
 function NoTools(props) {
     const { columns, t } = props;
     return (
-        <EmptyTable
-            message={t("noTools")}
-            numColumns={columns.length + 1}
-        />
+        <EmptyTable message={t("noTools")} numColumns={columns.length + 1} />
     );
 }
 
 /**
- * Returns the table contents to display when the API call returns succesfully.
+ * Returns the table contents to display when the API call returns successfully.
  * @param {Object} props - the component properties
  */
 function ToolListing(props) {
@@ -129,11 +127,19 @@ function ToolListing(props) {
                         }}
                     />
                 </TableCell>
-                <TableCell>{tool.name}</TableCell>
-                <TableCell>{tool.container.image.name}</TableCell>
-                <TableCell>{tool.container.image.tag}</TableCell>
                 <TableCell>
-                    {tool.is_public ? t("public") : tool.permission}
+                    <Typography>{tool.name}</Typography>
+                </TableCell>
+                <TableCell>
+                    <Typography>{tool.container.image.name}</Typography>
+                </TableCell>
+                <TableCell>
+                    <Typography>{tool.container.image.tag}</Typography>
+                </TableCell>
+                <TableCell>
+                    <Typography>
+                        {tool.is_public ? t("public") : tool.permission}
+                    </Typography>
                 </TableCell>
             </TableRow>
         );
@@ -145,21 +151,13 @@ function ToolListing(props) {
  * @param {Object} props - the component properties
  */
 function ToolListingTableBody(props) {
-    const {
-        columns,
-        error,
-        handleClick,
-        t,
-        selected,
-        tableId,
-        tools,
-    } = props;
+    const { columns, error, handleClick, t, selected, tableId, tools } = props;
     return (
         <TableBody>
             {error ? (
                 <LoadingError columns={columns} error={error} />
             ) : !tools?.length ? (
-                <NoTools columns={columns} t={t}/>
+                <NoTools columns={columns} t={t} />
             ) : (
                 <ToolListing
                     handleClick={handleClick}
@@ -196,8 +194,6 @@ function TableView(props) {
     const columns = columnData(t);
 
     const tools = listing?.tools;
-
-   
 
     // Build and return the table.
     return (

@@ -701,17 +701,7 @@ function CyverseAppBar(props) {
                         id={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
                         style={{ margin: 8 }}
                     >
-                        <UserMenu
-                            baseId={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
-                            profile={userProfile}
-                            onLogoutClick={onLogoutClick}
-                            onManageAccountClick={() =>
-                                window.open(
-                                    "https://user.cyverse.org",
-                                    "_blank"
-                                )
-                            }
-                        />
+                        {accountAvatar}
                     </div>
                 </Hidden>
                 <Divider />

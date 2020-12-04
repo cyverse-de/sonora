@@ -110,6 +110,27 @@ function Listing(props) {
     ]);
 
     useEffect(() => {
+        if (
+            selectedOrder !== order ||
+            selectedOrderBy !== orderBy ||
+            selectedPage !== page ||
+            selectedRowsPerPage !== rowsPerPage
+        ) {
+            onRouteToListing(order, orderBy, page, rowsPerPage);
+        }
+    }, [
+        onRouteToListing,
+        order,
+        orderBy,
+        page,
+        rowsPerPage,
+        selectedOrder,
+        selectedOrderBy,
+        selectedPage,
+        selectedRowsPerPage,
+    ]);
+
+    useEffect(() => {
         setToolsKey([TOOLS_QUERY_KEY, { order, orderBy, page, rowsPerPage }]);
         setToolsListingQueryEnabled(true);
     }, [order, orderBy, page, rowsPerPage]);

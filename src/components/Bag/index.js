@@ -20,6 +20,7 @@ import {
     Button,
     useMediaQuery,
     Select,
+    Tooltip,
     Typography,
     FormControl,
     InputLabel,
@@ -374,25 +375,26 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
     const dialogID = buildID(constants.BASEID, constants.DIALOG);
     return (
         <>
-            <IconButton
-                className={menuIconClass}
-                onClick={handleMenuClick}
-                id={buildID(constants.BASEID, constants.MENU)}
-            >
-                <Badge
-                    badgeContent={badgeCount}
-                    invisible={badgeCount < 1}
-                    color="error"
-                    id={buildID(
-                        constants.BASEID,
-                        constants.MENU,
-                        constants.BADGE
-                    )}
+            <Tooltip title={t("toolTip")}>
+                <IconButton
+                    className={menuIconClass}
+                    onClick={handleMenuClick}
+                    id={buildID(constants.BASEID, constants.MENU)}
                 >
-                    <ShoppingBasketIcon />
-                </Badge>
-            </IconButton>
-
+                    <Badge
+                        badgeContent={badgeCount}
+                        invisible={badgeCount < 1}
+                        color="error"
+                        id={buildID(
+                            constants.BASEID,
+                            constants.MENU,
+                            constants.BADGE
+                        )}
+                    >
+                        <ShoppingBasketIcon className={"bag-intro"} />
+                    </Badge>
+                </IconButton>
+            </Tooltip>
             <Dialog
                 fullScreen={fullScreen}
                 open={bagDlgOpen}

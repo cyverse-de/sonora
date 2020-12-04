@@ -173,7 +173,7 @@ function Notifications(props) {
                     onClick={handleClick}
                 >
                     <Badge badgeContent={unSeenCount} color="error">
-                        <NotificationsIcon />
+                        <NotificationsIcon className={"notifications-intro"} />
                     </Badge>
                 </IconButton>
             </Tooltip>

@@ -6,7 +6,6 @@
 import React, { useEffect, useState } from "react";
 import { useQuery, useMutation } from "react-query";
 import sanitizeHtml from "sanitize-html";
-import showdown from "showdown";
 import { useTranslation } from "i18n";
 
 import { build as buildDebugId } from "@cyverse-de/ui-lib";
@@ -77,13 +76,22 @@ function Documentation(props) {
         baseId,
     } = props;
 
+    const [htmlDocumentation, setHtmlDocumentation] = useState("");
+
     const { t } = useTranslation("apps");
 
-    const markDownToHtml = () => {
-        const converter = new showdown.Converter();
-        converter.setFlavor("github");
-        return sanitizeHtml(converter.makeHtml(documentation));
-    };
+    useEffect(() => {
+        const regenerateMarkdown = async (documentation) => {
+            const showdown = (await import("showdown")).default;
+            const converter = new showdown.Converter();
+            converter.setFlavor("github");
+            setHtmlDocumentation(
+                sanitizeHtml(converter.makeHtml(documentation))
+            );
+        };
+
+        regenerateMarkdown(documentation);
+    }, [documentation]);
 
     if (loading) {
         return <GridLoading rows={5} baseId={baseId} />;
@@ -107,7 +115,7 @@ function Documentation(props) {
                     <div
                         id={buildDebugId(baseId, ids.DOC_MARKDOWN)}
                         dangerouslySetInnerHTML={{
-                            __html: markDownToHtml(),
+                            __html: htmlDocumentation,
                         }}
                     />
                 )}

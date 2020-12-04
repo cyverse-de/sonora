@@ -20,7 +20,6 @@ import {
     TableBody,
     TableCell,
     TableContainer,
-    TableRow,
 } from "@material-ui/core";
 
 import ids from "../ids";
@@ -30,6 +29,7 @@ import AppStatusIcon from "../AppStatusIcon";
 import AppName from "../AppName";
 import TableLoading from "components/utils/TableLoading";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
+import { DERow } from "components/utils/DERow";
 import appFields from "../appFields";
 
 function getTableColumns(deletable, enableMenu, t) {
@@ -173,7 +173,7 @@ function TableView(props) {
                                     selected.indexOf(appId) !== -1;
                                 const rowId = build(baseId, tableId, appId);
                                 return (
-                                    <TableRow
+                                    <DERow
                                         role="checkbox"
                                         tabIndex={-1}
                                         hover
@@ -243,6 +243,7 @@ function TableView(props) {
                                         </TableCell>
                                         <TableCell
                                             id={build(rowId, ids.RATING)}
+                                            padding="none"
                                         >
                                             <Rate
                                                 name={app.id}
@@ -274,7 +275,7 @@ function TableView(props) {
                                                 onQLSelected={onQLSelected}
                                             />
                                         </TableCell>
-                                    </TableRow>
+                                    </DERow>
                                 );
                             })}
                     </TableBody>

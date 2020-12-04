@@ -31,5 +31,6 @@ export default {
     SETTINGS_MI: "settingsMenuItem",
     USERNAME_LBL: "username",
     USER_MENU_BTN: "userMenuButton",
+    USER_TOUR_DLG: "userTourDialog",
     VICE_MI: "viceMenuItem",
 };

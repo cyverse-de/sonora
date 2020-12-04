@@ -51,7 +51,7 @@ function CustomIntercom(props) {
                     aria-label={t("intercomAriaLabel")}
                 >
                     <Badge badgeContent={intercomUnreadCount} color="error">
-                        <LiveHelpIcon />
+                        <LiveHelpIcon className={"support-intro"} />
                     </Badge>
                 </IconButton>
             </Tooltip>

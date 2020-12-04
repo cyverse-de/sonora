@@ -34,6 +34,8 @@
     "openDrawer": "Open Drawer",
     "ok": "OK",
     "policies": "Policies",
+    "openMenu": "Open Menu",
+    "closeMenu": "Close Menu",
     "refGenomes": "Reference Genomes",
     "refresh": "Refresh",
     "save": "Save",

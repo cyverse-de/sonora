@@ -18,6 +18,7 @@ import TableLoading from "../../utils/TableLoading";
 import constants from "../../../constants";
 import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
 import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
+import { DERow } from "components/utils/DERow";
 
 import {
     build,
@@ -35,7 +36,6 @@ import {
     TableBody,
     TableCell,
     TableContainer,
-    TableRow,
 } from "@material-ui/core";
 import RowDotMenu from "./RowDotMenu";
 
@@ -281,7 +281,7 @@ function TableView(props) {
                                 const isInvalid =
                                     isSelected && isInvalidSelection(resource);
                                 return (
-                                    <TableRow
+                                    <DERow
                                         classes={
                                             isInvalid ? invalidRowClass : null
                                         }
@@ -392,7 +392,7 @@ function TableView(props) {
                                                 }
                                             />
                                         </TableCell>
-                                    </TableRow>
+                                    </DERow>
                                 );
                             })}
                     </TableBody>

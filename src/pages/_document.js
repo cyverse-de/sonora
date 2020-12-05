@@ -1,6 +1,6 @@
 import React from "react";
 import getConfig from "next/config";
-import Document, { Head, Main, NextScript } from "next/document";
+import Document, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheets } from "@material-ui/core/styles";
 import theme from "../components/theme/default";
 
@@ -10,7 +10,7 @@ export default class MyDocument extends Document {
         const analyticsEnabled = publicRuntimeConfig.ANALYTICS_ENABLED;
         const analyticsId = publicRuntimeConfig.ANALYTICS_ID;
         return (
-            <html lang="en">
+            <Html lang="en">
                 <Head>
                     {/* Global Site Tag (gtag.js) - Google Analytics */}
                     {analyticsEnabled && (
@@ -52,7 +52,7 @@ export default class MyDocument extends Document {
                     <Main />
                     <NextScript />
                 </body>
-            </html>
+            </Html>
         );
     }
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import { build } from "@cyverse-de/ui-lib";
 
-import { TYPE } from "./util";
+import { TYPE } from "./constants";
 import {
     Build as ToolIcon,
     Folder as FolderIcon,

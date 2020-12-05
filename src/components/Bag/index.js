@@ -45,7 +45,7 @@ import DownloadLinksDialog from "./downloads";
 
 import * as facade from "../../serviceFacades/bags";
 import { Skeleton } from "@material-ui/lab";
-import { TYPE as SHARING_TYPE } from "components/sharing/util";
+import { TYPE as SHARING_TYPE } from "components/sharing/constants";
 
 import {
     createNewBagItem,

@@ -7,16 +7,16 @@
  */
 
 import React, { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
+
 import clsx from "clsx";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
-import Joyride, { ACTIONS, EVENTS, STATUS } from "react-joyride";
 
 import ids from "./ids";
 import constants from "../../constants";
 import { useConfig } from "contexts/config";
-import GlobalSearchField from "../search/GlobalSearchField";
 import NavigationConstants from "common/NavigationConstants";
 import Notifications from "./Notifications";
 import CustomIntercom from "./CustomIntercom";
@@ -51,6 +51,7 @@ import {
     Tooltip,
     Typography,
     useTheme,
+    useMediaQuery,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
@@ -63,6 +64,12 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 import UserMenu from "./UserMenu";
+
+// hidden in xsDown
+const GlobalSearchField = dynamic(() => import("../search/GlobalSearchField"));
+
+// only new users
+const Joyride = dynamic(() => import("react-joyride"));
 
 const ENTITLEMENT = "entitlement";
 const drawerWidth = 235;
@@ -214,6 +221,65 @@ const BagMenu = () => {
     return <Bag menuIconClass={classes.menuIcon} />;
 };
 
+const DrawerItem = (props) => {
+    const classes = useStyles();
+    const router = useRouter();
+
+    const {
+        title,
+        id,
+        image,
+        icon: Icon,
+        activeView,
+        thisView,
+        toggleDrawer,
+        clsxBase,
+        open,
+    } = props;
+
+    return (
+        <Tooltip title={title} placement="right" arrow>
+            <ListItem
+                id={build(ids.DRAWER_MENU, id)}
+                onClick={() => {
+                    toggleDrawer(false);
+                    router.push("/" + thisView);
+                }}
+                className={
+                    activeView === thisView
+                        ? classes.listItemActive
+                        : classes.listItem
+                }
+            >
+                {image && (
+                    <img
+                        className={
+                            clsxBase
+                                ? clsx(clsxBase, classes.drawerIcon)
+                                : classes.drawerIcon
+                        }
+                        src={image}
+                        alt={title}
+                    />
+                )}
+                {Icon && (
+                    <ListItemIcon>
+                        <Icon
+                            className={
+                                clsxBase
+                                    ? clsx(clsxBase, classes.icon)
+                                    : classes.icon
+                            }
+                            fontSize="large"
+                        />
+                    </ListItemIcon>
+                )}
+                {open && <ListItemText>{title}</ListItemText>}
+            </ListItem>
+        </Tooltip>
+    );
+};
+
 function CyverseAppBar(props) {
     const classes = useStyles();
     const theme = useTheme();
@@ -236,6 +302,7 @@ function CyverseAppBar(props) {
         showErrorAnnouncer,
     } = props;
     const [userProfile, setUserProfile] = useUserProfile();
+    const isXsDown = useMediaQuery(theme.breakpoints.down("xs"));
     const [avatarLetter, setAvatarLetter] = useState("");
     const [open, setOpen] = useState(false);
     const [adminUser, setAdminUser] = useState(false);
@@ -362,10 +429,7 @@ function CyverseAppBar(props) {
     const onUserMenuClose = () => {
         setAnchorEl(null);
     };
-    const handleSearchClick = (event) => {
-        router.push("/" + NavigationConstants.SEARCH);
-        toggleDrawer(false);
-    };
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -391,16 +455,21 @@ function CyverseAppBar(props) {
     }, [runTour, tourStepIndex, setRunTour, setTourStepIndex, open]);
 
     const handleJoyrideCallback = (callbackData) => {
-        const { action, index, type, status } = callbackData;
-        if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-            setRunTour(false);
-            setTourStepIndex(0);
-        } else if (
-            [EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)
-        ) {
-            const stepIndex = index + (action === ACTIONS.PREV ? -1 : 1);
-            setTourStepIndex(stepIndex);
-        }
+        const realCallback = async (callbackData) => {
+            const { action, index, type, status } = callbackData;
+            const { ACTIONS, EVENTS, STATUS } = await import("react-joyride");
+
+            if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+                setRunTour(false);
+                setTourStepIndex(0);
+            } else if (
+                [EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)
+            ) {
+                const stepIndex = index + (action === ACTIONS.PREV ? -1 : 1);
+                setTourStepIndex(stepIndex);
+            }
+        };
+        realCallback(callbackData);
     };
 
     const accountAvatar = (
@@ -432,137 +501,70 @@ function CyverseAppBar(props) {
 
     const drawerItems = (
         <List component="div">
-            <Tooltip title={t("dashboard")} placement="right" arrow>
-                <ListItem
-                    id={build(ids.DRAWER_MENU, ids.DASHBOARD_MI)}
-                    onClick={() => {
-                        toggleDrawer(false);
-                        router.push("/" + NavigationConstants.DASHBOARD);
-                    }}
-                    className={
-                        activeView === NavigationConstants.DASHBOARD
-                            ? classes.listItemActive
-                            : classes.listItem
-                    }
-                >
-                    <img
-                        className={clsx("dashboard-intro", classes.drawerIcon)}
-                        src="/dashboard_selected.png"
-                        alt={t("dashboard")}
-                    />
-                    {open && <ListItemText>{t("dashboard")}</ListItemText>}
-                </ListItem>
-            </Tooltip>
-            <Tooltip title={t("data")} placement="right" arrow>
-                <ListItem
-                    id={build(ids.DRAWER_MENU, ids.DATA_MI)}
-                    onClick={() => {
-                        toggleDrawer(false);
-                        router.push("/" + NavigationConstants.DATA);
-                    }}
-                    className={
-                        activeView === NavigationConstants.DATA
-                            ? classes.listItemActive
-                            : classes.listItem
-                    }
-                >
-                    <img
-                        className={clsx("data-intro", classes.drawerIcon)}
-                        src="/data_selected.png"
-                        alt={t("data")}
-                    />
-                    {open && <ListItemText>{t("data")}</ListItemText>}
-                </ListItem>
-            </Tooltip>
-            <Tooltip title={t("apps")} placement="right" arrow>
-                <ListItem
-                    id={build(ids.DRAWER_MENU, ids.APPS_MI)}
-                    onClick={() => {
-                        toggleDrawer(false);
-                        router.push("/" + NavigationConstants.APPS);
-                    }}
-                    className={
-                        activeView === NavigationConstants.APPS
-                            ? classes.listItemActive
-                            : classes.listItem
-                    }
-                >
-                    <img
-                        className={clsx("apps-intro", classes.drawerIcon)}
-                        src="/apps_selected.png"
-                        alt={t("apps")}
-                    />
-                    {open && <ListItemText>{t("apps")}</ListItemText>}
-                </ListItem>
-            </Tooltip>
-            <Tooltip title={t("analyses")} placement="right" arrow>
-                <ListItem
-                    id={build(ids.DRAWER_MENU, ids.ANALYSES_MI)}
-                    onClick={() => {
-                        toggleDrawer(false);
-                        router.push("/" + NavigationConstants.ANALYSES);
-                    }}
-                    className={
-                        activeView === NavigationConstants.ANALYSES
-                            ? classes.listItemActive
-                            : classes.listItem
-                    }
-                >
-                    <img
-                        className={clsx("analyses-intro", classes.drawerIcon)}
-                        src="/analyses_selected.png"
-                        alt={t("analyses")}
-                    />
-                    {open && <ListItemText>{t("analyses")}</ListItemText>}
-                </ListItem>
-            </Tooltip>
-            <Hidden only={["sm", "md", "lg", "xl"]}>
-                <Tooltip title={t("search")} placement="right" arrow>
-                    <ListItem
-                        id={build(ids.DRAWER_MENU, ids.SEARCH_MI)}
-                        onClick={handleSearchClick}
-                        className={
-                            activeView === NavigationConstants.SEARCH
-                                ? classes.listItemActive
-                                : classes.listItem
-                        }
-                    >
-                        <ListItemIcon>
-                            <SearchIcon
-                                className={clsx("search-intro", classes.icon)}
-                                fontSize="large"
-                            />
-                        </ListItemIcon>
-                        {open && <ListItemText>{t("search")}</ListItemText>}
-                    </ListItem>
-                </Tooltip>
+            <DrawerItem
+                title={t("dashboard")}
+                id={ids.DASHBOARD_MI}
+                image={"/dashboard_selected.png"}
+                thisView={NavigationConstants.DASHBOARD}
+                clsxBase={"dashboard-intro"}
+                activeView={activeView}
+                toggleDrawer={toggleDrawer}
+                open={open}
+            />
+            <DrawerItem
+                title={t("data")}
+                id={ids.DATA_MI}
+                image={"/data_selected.png"}
+                thisView={NavigationConstants.DATA}
+                clsxBase={"data-intro"}
+                activeView={activeView}
+                toggleDrawer={toggleDrawer}
+                open={open}
+            />
+            <DrawerItem
+                title={t("apps")}
+                id={ids.APPS_MI}
+                image={"/apps_selected.png"}
+                thisView={NavigationConstants.APPS}
+                clsxBase={"apps-intro"}
+                activeView={activeView}
+                toggleDrawer={toggleDrawer}
+                open={open}
+            />
+            <DrawerItem
+                title={t("analyses")}
+                id={ids.ANALYSES_MI}
+                image={"/analyses_selected.png"}
+                thisView={NavigationConstants.ANALYSES}
+                clsxBase={"analyses-intro"}
+                activeView={activeView}
+                toggleDrawer={toggleDrawer}
+                open={open}
+            />
+            <Hidden smUp>
+                <DrawerItem
+                    title={t("search")}
+                    id={ids.SEARCH_MI}
+                    icon={SearchIcon}
+                    thisView={NavigationConstants.SEARCH}
+                    clsxBase={"search-intro"}
+                    activeView={activeView}
+                    toggleDrawer={toggleDrawer}
+                    open={open}
+                />
             </Hidden>
             <Divider />
             {userProfile?.id && (
-                <Tooltip title={t("settings")} placement="right" arrow>
-                    <ListItem
-                        id={build(ids.DRAWER_MENU, ids.SETTINGS_MI)}
-                        onClick={() =>
-                            router.push("/" + NavigationConstants.SETTINGS)
-                        }
-                        className={
-                            activeView === NavigationConstants.SETTINGS
-                                ? classes.listItemActive
-                                : classes.listItem
-                        }
-                    >
-                        <ListItemIcon>
-                            <SettingsIcon
-                                className={clsx(
-                                    "preferences-intro",
-                                    classes.icon
-                                )}
-                                fontSize="large"
-                            />
-                        </ListItemIcon>
-                        {open && <ListItemText>{t("settings")}</ListItemText>}
-                    </ListItem>
-                </Tooltip>
+                <DrawerItem
+                    title={t("settings")}
+                    id={ids.SETTINGS_MI}
+                    icon={SettingsIcon}
+                    thisView={NavigationConstants.SETTINGS}
+                    clsxBase={"preferences-intro"}
+                    activeView={activeView}
+                    toggleDrawer={toggleDrawer}
+                    open={open}
+                />
             )}
         </List>
     );
@@ -642,7 +644,7 @@ function CyverseAppBar(props) {
                     })}
                 >
                     <Toolbar>
-                        <Hidden only={["sm", "md", "lg", "xl"]}>
+                        <Hidden smUp>
                             <IconButton
                                 aria-label={t("openDrawer")}
                                 onClick={handleDrawerOpen}
@@ -666,8 +668,6 @@ function CyverseAppBar(props) {
                                     alt={t("cyverse")}
                                 ></img>
                             </a>
-                        </Hidden>
-                        <Hidden xsDown>
                             <GlobalSearchField
                                 search={searchTerm}
                                 selectedFilter={filter}
@@ -681,107 +681,89 @@ function CyverseAppBar(props) {
                             <BagMenu />
                             <Notifications />
                         </div>
-                        <Hidden only={["xs"]}>
+                        <Hidden xsDown>
                             <div id={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}>
                                 {accountAvatar}
                             </div>
                         </Hidden>
                     </Toolbar>
                 </AppBar>
-                <Hidden xsDown>
-                    <Drawer
-                        variant="permanent"
-                        className={clsx(classes.drawer, {
+                <Drawer
+                    variant={isXsDown ? "temporary" : "permanent"}
+                    className={clsx(classes.drawer, {
+                        [classes.drawerOpen]: open,
+                        [classes.drawerClose]: !open,
+                    })}
+                    classes={{
+                        paper: clsx({
                             [classes.drawerOpen]: open,
                             [classes.drawerClose]: !open,
-                        })}
-                        classes={{
-                            paper: clsx({
-                                [classes.drawerOpen]: open,
-                                [classes.drawerClose]: !open,
-                            }),
-                        }}
-                    >
+                        }),
+                    }}
+                    open={isXsDown ? open : false}
+                    onClose={isXsDown ? toggleDrawer(false) : undefined}
+                >
+                    <Hidden xsDown>
                         <div className={classes.toolbar}>
-                            {!open && (
-                                <IconButton
-                                    aria-label={t("openMenu")}
-                                    onClick={handleDrawerOpen}
-                                    edge="start"
-                                    className={clsx(classes.menuIcon, {
-                                        [classes.hide]: open,
-                                    })}
-                                >
+                            <IconButton
+                                className={classes.menuIcon}
+                                onClick={
+                                    open ? handleDrawerClose : handleDrawerOpen
+                                }
+                                aria-label={
+                                    open ? t("closeMenu") : t("openMenu")
+                                }
+                                edge={open ? false : "start"}
+                            >
+                                {open ? (
+                                    theme.direction === "rtl" ? (
+                                        <ChevronRightIcon fontSize="large" />
+                                    ) : (
+                                        <ChevronLeftIcon fontSize="large" />
+                                    )
+                                ) : (
                                     <MenuIcon
                                         fontSize="large"
                                         className="menu-intro"
                                     />
-                                </IconButton>
-                            )}
-                            {open && (
-                                <IconButton
-                                    onClick={handleDrawerClose}
-                                    className={classes.menuIcon}
-                                >
-                                    {theme.direction === "rtl" ? (
-                                        <ChevronRightIcon fontSize="large" />
-                                    ) : (
-                                        <ChevronLeftIcon fontSize="large" />
-                                    )}
-                                </IconButton>
-                            )}
+                                )}
+                            </IconButton>
                         </div>
-                        <Divider />
-                        {drawerItems}
-                        {open && adminUser && (
-                            <>
-                                <Divider />
-                                {adminDrawerItems}
-                            </>
-                        )}
-                    </Drawer>
-                </Hidden>
-                <Hidden only={["sm", "md", "lg", "xl"]}>
-                    <Drawer
-                        className={clsx(classes.drawer, {
-                            [classes.drawerOpen]: open,
-                            [classes.drawerClose]: !open,
-                        })}
-                        classes={{
-                            paper: clsx({
-                                [classes.drawerOpen]: open,
-                                [classes.drawerClose]: !open,
-                            }),
-                        }}
-                        open={open}
-                        onClose={toggleDrawer(false)}
-                    >
+                    </Hidden>
+                    <Hidden smUp>
                         <div
                             id={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
                             style={{ margin: 8 }}
                         >
-                            <UserMenu
-                                baseId={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
-                                profile={userProfile}
-                                onLogoutClick={onLogoutClick}
-                                onManageAccountClick={() =>
-                                    window.open(
-                                        "https://user.cyverse.org",
-                                        "_blank"
-                                    )
-                                }
-                            />
+                            {userProfile ? (
+                                <UserMenu
+                                    baseId={build(
+                                        ids.DRAWER_MENU,
+                                        ids.ACCOUNT_MI
+                                    )}
+                                    profile={userProfile}
+                                    onLogoutClick={onLogoutClick}
+                                    onManageAccountClick={() =>
+                                        window.open(
+                                            constants.CYVERSE_USER_PORTAL,
+                                            "_blank"
+                                        )
+                                    }
+                                />
+                            ) : (
+                                accountAvatar
+                            )}
                         </div>
-                        <Divider />
-                        {drawerItems}
-                        {adminUser && (
-                            <>
-                                <Divider />
-                                {adminDrawerItems}
-                            </>
-                        )}
-                    </Drawer>
-                </Hidden>
+                    </Hidden>
+                    <Divider />
+                    {drawerItems}
+                    {(isXsDown || open) && adminUser && (
+                        <>
+                            <Divider />
+                            {adminDrawerItems}
+                        </>
+                    )}
+                </Drawer>
                 <CyVerseAnnouncer />
                 <Popover
                     open={Boolean(anchorEl)}

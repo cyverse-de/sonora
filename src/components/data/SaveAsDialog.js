@@ -12,6 +12,8 @@ import { useTranslation } from "react-i18next";
 import ids from "./ids";
 import SaveAsField from "./SaveAsField";
 import styles from "./styles";
+import ResourceTypes from "components/models/ResourceTypes";
+import InputSelector from "components/apps/launch/InputSelector";
 
 import { build } from "@cyverse-de/ui-lib";
 
@@ -48,8 +50,8 @@ function SaveAsDialog(props) {
     const { t } = useTranslation("data");
     const { t: i18nCommon } = useTranslation("common");
 
-    const handleSaveFile = ({ name }, { resetForm }) => {
-        onSaveAs(name);
+    const handleSaveFile = ({ dest, name }, { resetForm }) => {
+        onSaveAs(`${dest}/${name}`);
     };
 
     const validate = ({ name }) => {
@@ -64,7 +66,7 @@ function SaveAsDialog(props) {
 
     return (
         <Formik
-            initialValues={{ name: "" }}
+            initialValues={{ name: "", dest: path }}
             validate={validate}
             onSubmit={handleSaveFile}
         >
@@ -94,6 +96,15 @@ function SaveAsDialog(props) {
                                 </IconButton>
                             </DialogTitle>
                             <DialogContent>
+                                <Field
+                                    startingPath={path}
+                                    name="dest"
+                                    id={build(baseId, ids.PATH)}
+                                    acceptedType={ResourceTypes.FOLDER}
+                                    label="Select your file destination"
+                                    component={InputSelector}
+                                    required={true}
+                                />
                                 <Field
                                     id={build(baseId, ids.FILE_NAME)}
                                     name="name"

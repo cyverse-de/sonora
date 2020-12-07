@@ -18,6 +18,8 @@ import { build as buildId, FormTextField } from "@cyverse-de/ui-lib";
 import SaveAsField from "./SaveAsField";
 import ids from "./ids";
 import { parseNameFromPath, validateDiskResourceName } from "./utils";
+import ResourceTypes from "components/models/ResourceTypes";
+import InputSelector from "components/apps/launch/InputSelector";
 
 import {
     getInfoTypes,
@@ -42,6 +44,7 @@ import {
     ListItemIcon,
     ListItemText,
     Typography,
+    useTheme,
 } from "@material-ui/core";
 
 export default function PathListAutomation(props) {
@@ -52,6 +55,8 @@ export default function PathListAutomation(props) {
         onCancel,
         startingPath,
     } = props;
+
+    const theme = useTheme();
 
     const [infoTypes, setInfoTypes] = useState([]);
     const [selectedInfoTypes, setSelectedInfoTypes] = useState([]);
@@ -135,11 +140,11 @@ export default function PathListAutomation(props) {
     };
 
     const handlePathListCreation = (values, actions) => {
-        const { selectedPaths, pattern, dest, foldersOnly } = values;
+        const { selectedPaths, pattern, dest, fileName, foldersOnly } = values;
 
         const submission = {
             paths: selectedPaths,
-            dest,
+            dest: `${dest}/${fileName}`,
             pattern,
             foldersOnly: foldersOnly || false,
             recursive: true,
@@ -175,20 +180,26 @@ export default function PathListAutomation(props) {
     );
 
     const validate = (values) => {
-        const { selectedPaths, dest } = values;
+        const { selectedPaths, dest, fileName } = values;
         const errors = {};
         if (!selectedPaths || selectedPaths.length === 0) {
             errors.selectedPaths = i18nCommon("required");
         }
 
-        if (!dest) {
-            errors.dest = i18nCommon("required");
+        if (!fileName) {
+            errors.fileName = i18nCommon("required");
         } else {
             const invalidName = validateDiskResourceName(
-                parseNameFromPath(dest),
+                parseNameFromPath(fileName),
                 t
             );
-            errors.dest = invalidName;
+            if (invalidName) {
+                errors.fileName = invalidName;
+            }
+        }
+
+        if (!dest) {
+            errors.dest = i18nCommon("required");
         }
         return errors;
     };
@@ -197,7 +208,7 @@ export default function PathListAutomation(props) {
         <Formik
             onSubmit={handlePathListCreation}
             validate={validate}
-            initialValues={{ selectedPaths: [], dest: "" }}
+            initialValues={{ selectedPaths: [], dest: startingPath }}
         >
             {({ handleSubmit }) => {
                 return (
@@ -349,20 +360,31 @@ export default function PathListAutomation(props) {
                                 </Paper>
                             </Grid>
                             <Grid item xs>
-                                <Typography variant="body2">
-                                    {t("pathListDestLbl")}
-                                </Typography>
-                                <Field
-                                    id={buildId(
-                                        baseId,
-                                        ids.PATH_LIST_AUTO_DEST_FIELD
-                                    )}
-                                    name="dest"
-                                    required={true}
-                                    label={t("fileName")}
-                                    path={startingPath}
-                                    component={SaveAsField}
-                                />
+                                <Paper style={{ padding: theme.spacing(1) }}>
+                                    <Field
+                                        startingPath={startingPath}
+                                        name="dest"
+                                        id={buildId(
+                                            baseId,
+                                            ids.PATH_LIST_AUTO_DEST_FIELD
+                                        )}
+                                        acceptedType={ResourceTypes.FOLDER}
+                                        label="Select your file destination"
+                                        component={InputSelector}
+                                        required={true}
+                                    />
+                                    <Field
+                                        id={buildId(
+                                            baseId,
+
+                                            ids.PATH_LIST_AUTO_FILE_NAME_FIELD
+                                        )}
+                                        name="fileName"
+                                        required={true}
+                                        label={t("fileName")}
+                                        component={SaveAsField}
+                                    />
+                                </Paper>
                             </Grid>
                         </Grid>
                         <Grid
@@ -370,6 +392,7 @@ export default function PathListAutomation(props) {
                             direction="row"
                             justify="flex-end"
                             alignItems="flex-end"
+                            spacing={1}
                         >
                             <Grid item>
                                 <Button
@@ -390,7 +413,6 @@ export default function PathListAutomation(props) {
                                     )}
                                     color="primary"
                                     type="submit"
-                                    onClick={handleSubmit}
                                 >
                                     {i18nCommon("done")}
                                 </Button>

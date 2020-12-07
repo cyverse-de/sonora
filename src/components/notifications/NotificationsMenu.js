@@ -218,6 +218,11 @@ function NotificationsMenu(props) {
                 {isMobile && [
                     <NotificationsListingLink
                         key={ids.VIEW_ALL_NOTIFICATIONS}
+                        id={build(
+                            ids.BASE_DEBUG_ID,
+                            ids.NOTIFICATIONS_MENU,
+                            ids.VIEW_ALL_NOTIFICATIONS
+                        )}
                         handleClose={handleClose}
                         isMobile={isMobile}
                     />,
@@ -261,7 +266,11 @@ function NotificationsMenu(props) {
                 notifications.map((n, index) => (
                     <ListItem
                         onClick={handleClose}
-                        id={build(ids.BASE_DEBUG_ID, ids.NOTIFICATIONS_MENU)}
+                        id={build(
+                            ids.BASE_DEBUG_ID,
+                            ids.NOTIFICATIONS_MENU,
+                            index
+                        )}
                         key={n.message.id}
                         className={
                             !n.seen
@@ -280,7 +289,7 @@ function NotificationsMenu(props) {
                                     id={build(
                                         ids.BASE_DEBUG_ID,
                                         ids.NOTIFICATIONS_MENU,
-                                        n?.id
+                                        n?.message.id
                                     )}
                                     variant="subtitle2"
                                 >
@@ -315,6 +324,11 @@ function NotificationsMenu(props) {
                 <Divider light key="divider" />,
                 <NotificationsListingLink
                     key={ids.VIEW_ALL_NOTIFICATIONS}
+                    id={build(
+                        ids.BASE_DEBUG_ID,
+                        ids.NOTIFICATIONS_MENU,
+                        ids.VIEW_ALL_NOTIFICATIONS
+                    )}
                     handleClose={handleClose}
                     isMobile={isMobile}
                 />,

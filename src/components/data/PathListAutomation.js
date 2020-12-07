@@ -17,6 +17,7 @@ import { build as buildId, FormTextField } from "@cyverse-de/ui-lib";
 
 import SaveAsField from "./SaveAsField";
 import ids from "./ids";
+import { parseNameFromPath, validateDiskResourceName } from "./utils";
 
 import {
     getInfoTypes,
@@ -75,9 +76,7 @@ export default function PathListAutomation(props) {
             },
             staleTime: Infinity,
             cacheTime: Infinity,
-            onError: (e) => {
-                setInfoTypeError(e);
-            },
+            onError: setInfoTypeError,
         },
     });
 
@@ -85,7 +84,6 @@ export default function PathListAutomation(props) {
         ({ submission }) => pathListCreator(submission),
         {
             onSuccess: (data, { onSuccess }) => {
-                onSuccess();
                 setCreatePathListError(null);
                 onCreatePathList(data.file.id, data.file.path);
             },
@@ -138,7 +136,6 @@ export default function PathListAutomation(props) {
 
     const handlePathListCreation = (values, actions) => {
         const { selectedPaths, pattern, dest, foldersOnly } = values;
-        actions.setSubmitting(true);
 
         const submission = {
             paths: selectedPaths,
@@ -149,18 +146,14 @@ export default function PathListAutomation(props) {
             requestedInfoType,
             selectedInfoTypes,
         };
-        const onSuccess = () => {
-            actions.setSubmitting(false);
-        };
+
         const onError = (err_code) => {
             if (err_code === ERROR_CODES.ERR_EXISTS) {
                 actions.setFieldError("dest", t("pathListExistError"));
             }
-            actions.setSubmitting(false);
         };
         createPathListFile({
             submission,
-            onSuccess,
             onError,
         });
     };
@@ -185,11 +178,17 @@ export default function PathListAutomation(props) {
         const { selectedPaths, dest } = values;
         const errors = {};
         if (!selectedPaths || selectedPaths.length === 0) {
-            errors.selectedPaths = "Required";
+            errors.selectedPaths = i18nCommon("required");
         }
 
         if (!dest) {
-            errors.dest = "Required";
+            errors.dest = i18nCommon("required");
+        } else {
+            const invalidName = validateDiskResourceName(
+                parseNameFromPath(dest),
+                t
+            );
+            errors.dest = invalidName;
         }
         return errors;
     };
@@ -360,9 +359,9 @@ export default function PathListAutomation(props) {
                                     )}
                                     name="dest"
                                     required={true}
+                                    label={t("fileName")}
+                                    path={startingPath}
                                     component={SaveAsField}
-                                    label={t("pathListSaveLbl")}
-                                    startingPath={startingPath}
                                 />
                             </Grid>
                         </Grid>

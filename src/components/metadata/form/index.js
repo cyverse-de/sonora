@@ -78,7 +78,6 @@ const MetadataFormListing = (props) => {
 
     React.useEffect(() => {
         // The presenter wants to load metadata for a different target,
-        // usually after already closing this dialog,
         // so reset the view to default settings.
         setTabIndex(0);
         setIrodsAVUsSelected([]);

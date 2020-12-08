@@ -17,7 +17,7 @@ const styles = (theme) => ({
     deleteIcon: {
         margin: 5,
         "&:hover": {
-            backgroundColor: theme.palette.error.dark,
+            backgroundColor: theme.palette.error.main,
         },
     },
     toolbar: {

@@ -133,7 +133,11 @@ const AVURow = ({
         <TableRow hover tabIndex={-1} selected={selected}>
             {selectable && (
                 <TableCell padding="checkbox">
-                    <DECheckbox checked={selected} onChange={onRowSelect} />
+                    <DECheckbox
+                        id={build(rowID, ids.AVU_GRID_CHECKBOX)}
+                        checked={selected}
+                        onChange={onRowSelect}
+                    />
                 </TableCell>
             )}
             <TableCell component="th" scope="row">
@@ -215,21 +219,26 @@ const MetadataList = (props) => {
     const onAddAVU = () => {
         const avus = getIn(values, name) || [];
 
-        let newName,
+        let newAttrName,
             count = newAttrCount;
 
-        const namesMatch = (avu) => avu.attr === newName;
+        // Increment the new attribute name count
+        // until an attribute with that count in its name
+        // is not found in the current list of AVUs.
+        const namesMatch = (avu) => avu.attr === newAttrName;
         do {
-            newName = t("newAttrName", {
+            newAttrName = t("newAttrName", {
                 count,
             });
             count++;
         } while (avus.find(namesMatch));
 
+        // Cache the next new attribute name count.
         setNewAttrCount(count);
 
+        // Add the new AVU to the form's list.
         unshift({
-            attr: newName,
+            attr: newAttrName,
             value: "",
             unit: "",
         });

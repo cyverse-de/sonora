@@ -3,6 +3,7 @@ export default {
     METADATA_TEMPLATE_VIEW: "metadataTemplate",
 
     AVU_GRID: "avuGrid",
+    AVU_GRID_CHECKBOX: "avuGridCheckbox",
     AVU_ATTR: "attr",
     AVU_VALUE: "value",
     AVU_UNIT: "unit",

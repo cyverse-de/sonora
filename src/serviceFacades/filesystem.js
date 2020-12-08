@@ -266,26 +266,23 @@ export const pathListCreator = ({
     requestedInfoType,
     selectedInfoTypes,
 }) => {
-    let endpoint = `/api/filesystem/path-list-creator?dest=${encodeURIComponent(
-        dest
-    )}&folders-only=${foldersOnly}&recursive=${recursive}&path-list-info-type=${encodeURIComponent(
-        requestedInfoType
-    )}`;
+    const params = {};
+    params["recursive"] = recursive;
+    params["path-list-info-type"] = requestedInfoType;
+    params["dest"] = dest;
+    params["folders-only"] = foldersOnly;
     if (pattern) {
-        endpoint = `${endpoint}&name-pattern=${pattern}`;
+        params["name-pattern"] = pattern;
     }
     if (selectedInfoTypes && selectedInfoTypes.length > 0) {
-        let types = "";
-        selectedInfoTypes.forEach((type) => {
-            types = types.concat("&info-type=" + type);
-        });
-        endpoint = `${endpoint}${types}`;
+        params["info-type"] = selectedInfoTypes;
     }
     return callApi({
-        endpoint,
+        endpoint: "/api/filesystem/path-list-creator",
         method: "POST",
         body: {
             paths,
         },
+        params,
     });
 };

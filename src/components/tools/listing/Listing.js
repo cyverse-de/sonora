@@ -80,6 +80,7 @@ function Listing(props) {
     // Handles a request to change the page being displayed.
     const handleChangePage = (_, newPage) => {
         setPage(newPage - 1);
+        setSelected([]);
     };
 
     // Handles a request to chagne the number of rows per page.

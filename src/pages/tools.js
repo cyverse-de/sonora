@@ -18,13 +18,14 @@ import NavigationConstants from "common/NavigationConstants";
 
 export default function Tools() {
     const router = useRouter();
+    const query = router.query;
     const { t } = useTranslation("tools");
-    const selectedPage = 0;
+    const selectedPage = parseInt(query.selectedPage) || 0;
     const selectedRowsPerPage =
         parseInt(getLocalStorage(constants.LOCAL_STORAGE.ANALYSES.PAGE_SIZE)) ||
         100;
-    const selectedOrder = constants.SORT_ASCENDING;
-    const selectedOrderBy = "name";
+    const selectedOrder = query.selectedOrder || constants.SORT_ASCENDING;
+    const selectedOrderBy = query.selectedOrderBy || "name";
 
     const onRouteToListing = useCallback(
         (order, orderBy, page, rowsPerPage) => {

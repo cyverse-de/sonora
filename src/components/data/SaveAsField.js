@@ -1,7 +1,8 @@
 /**
  * @author sriram
  *
- * A field to collect path (with filename) from a user to save a newly created file.
+ * A field to collect file name from a user to save a newly created file.
+ * Must be used along with InputSelector to collect path to the new file.
  */
 
 import React from "react";
@@ -31,7 +32,6 @@ const SaveAsField = ({ startingPath, showErrorAnnouncer, ...props }) => {
 
     const classes = useStyles();
     const { t } = useTranslation("data");
-    const baseId = "saveAsFld";
 
     const inputProps = {
         readOnly: loading,
@@ -40,7 +40,7 @@ const SaveAsField = ({ startingPath, showErrorAnnouncer, ...props }) => {
                 {loading && (
                     <CircularProgress
                         id={buildDebugId(
-                            baseId,
+                            id,
                             ids.FOLDER_NAME,
                             ids.LOADING_SKELETON
                         )}
@@ -67,7 +67,7 @@ const SaveAsField = ({ startingPath, showErrorAnnouncer, ...props }) => {
 
     return (
         <FormTextField
-            id={buildDebugId(baseId, id)}
+            id={id}
             size="small"
             className={classes.inputSelectorTextFiled}
             InputProps={inputProps}

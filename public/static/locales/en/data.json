@@ -71,7 +71,7 @@
     "modifyTagsError": "Unable to update tags. Please try again.",
     "myData": "My Data",
     "name": "Name",
-    "newFileLocation": "New file will be saved in: {{- path}}",
+    "newFileLocation": "New file will be saved in:",
     "newFolderLocation": "New folder will be created in: {{- path}}",
     "newHTAnalysisPathListFile": "New HT analysis path list file...",
     "newMultiInputPathListFile": "New multi-Input path list file...",

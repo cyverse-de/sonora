@@ -20,7 +20,7 @@ import { build } from "@cyverse-de/ui-lib";
 import { makeStyles } from "@material-ui/core/styles";
 import { Close } from "@material-ui/icons";
 
-import { parseNameFromPath, validateDiskResourceName } from "./utils";
+import { validateDiskResourceName } from "./utils";
 
 import {
     Button,
@@ -34,15 +34,7 @@ import {
 const useStyles = makeStyles(styles);
 
 function SaveAsDialog(props) {
-    const {
-        path,
-        open,
-        onClose,
-        onSaveAs,
-        saveFileError,
-        loading,
-        setSaveNewFileError,
-    } = props;
+    const { path, open, onClose, onSaveAs, saveFileError, loading } = props;
 
     const classes = useStyles();
     const baseId = ids.CREATE_DLG;
@@ -55,26 +47,25 @@ function SaveAsDialog(props) {
     };
 
     const validate = ({ name }) => {
-        const validationError = validateDiskResourceName(
-            parseNameFromPath(name),
-            t
-        );
-        return validationError || saveFileError
-            ? { name: validationError || saveFileError }
-            : {};
+        const validationError = validateDiskResourceName(name, t);
+
+        return validationError ? { name: validationError } : {};
     };
+
+    const textFieldProps = {};
+    if (saveFileError) {
+        textFieldProps.error = true;
+        textFieldProps.helperText = saveFileError;
+    }
 
     return (
         <Formik
+            enableReinitialize
             initialValues={{ name: "", dest: path }}
             validate={validate}
             onSubmit={handleSaveFile}
         >
             {({ handleSubmit, validateForm }) => {
-                if (saveFileError) {
-                    validateForm();
-                    setSaveNewFileError();
-                }
                 return (
                     <Form>
                         <Dialog
@@ -101,7 +92,7 @@ function SaveAsDialog(props) {
                                     name="dest"
                                     id={build(baseId, ids.PATH)}
                                     acceptedType={ResourceTypes.FOLDER}
-                                    label="Select your file destination"
+                                    label={t("newFileLocation")}
                                     component={InputSelector}
                                     required={true}
                                 />
@@ -113,6 +104,7 @@ function SaveAsDialog(props) {
                                     loading={loading}
                                     path={path}
                                     component={SaveAsField}
+                                    {...textFieldProps}
                                 />
                             </DialogContent>
 

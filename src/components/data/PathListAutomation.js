@@ -17,7 +17,7 @@ import { build as buildId, FormTextField } from "@cyverse-de/ui-lib";
 
 import SaveAsField from "./SaveAsField";
 import ids from "./ids";
-import { parseNameFromPath, validateDiskResourceName } from "./utils";
+import { validateDiskResourceName } from "./utils";
 import ResourceTypes from "components/models/ResourceTypes";
 import InputSelector from "components/apps/launch/InputSelector";
 
@@ -107,7 +107,7 @@ export default function PathListAutomation(props) {
                         break;
 
                     default:
-                        errMsg = t("infoTypeFetchError");
+                        errMsg = t("pathListCreateError");
                         onError();
                 }
                 setCreatePathListError(error);
@@ -189,10 +189,7 @@ export default function PathListAutomation(props) {
         if (!fileName) {
             errors.fileName = i18nCommon("required");
         } else {
-            const invalidName = validateDiskResourceName(
-                parseNameFromPath(fileName),
-                t
-            );
+            const invalidName = validateDiskResourceName(fileName, t);
             if (invalidName) {
                 errors.fileName = invalidName;
             }
@@ -369,7 +366,7 @@ export default function PathListAutomation(props) {
                                             ids.PATH_LIST_AUTO_DEST_FIELD
                                         )}
                                         acceptedType={ResourceTypes.FOLDER}
-                                        label="Select your file destination"
+                                        label={t("pathListDestLbl")}
                                         component={InputSelector}
                                         required={true}
                                     />

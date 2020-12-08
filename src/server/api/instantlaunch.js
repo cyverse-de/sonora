@@ -14,18 +14,10 @@ export default () => {
 
     logger.info("************ Adding Instant Launch handlers **********");
 
-    // Lists all instant launch configurations.
-    logger.info("adding the GET /instantlaunch handler");
-    api.get("/instantlaunch", auth.authnTokenMiddleware, (req, res) => {});
-
-    // Adds an instant launch configuration.
-    logger.info("adding the POST /instantlaunch handler");
-    api.post("/instantlaunch", auth.authnTokenMiddleware, (req, res) => {});
-
-    // Deletes an instant launch configuration.
-    logger.info("adding the DELETE /instantlaunch/:id handler");
-    api.delete(
-        "/instantlaunch/:id",
+    // Get the default instant launch mapping.
+    logger.info("adding the GET /instantlaunch/mappings/default/latest");
+    api.get(
+        "/instantlaunch/mappings/default/latest",
         auth.authnTokenMiddleware,
         (req, res) => {}
     );

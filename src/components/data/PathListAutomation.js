@@ -13,7 +13,11 @@ import { useTranslation } from "i18n";
 import { Trans } from "react-i18next";
 import { useMutation } from "react-query";
 
-import { build as buildId, FormTextField } from "@cyverse-de/ui-lib";
+import {
+    build as buildId,
+    FormTextField,
+    FormSwitch,
+} from "@cyverse-de/ui-lib";
 
 import SaveAsField from "./SaveAsField";
 import ids from "./ids";
@@ -38,7 +42,6 @@ import {
     CircularProgress,
     Grid,
     Paper,
-    Switch,
     List,
     ListItem,
     ListItemIcon,
@@ -163,22 +166,6 @@ export default function PathListAutomation(props) {
         });
     };
 
-    const onSwitchChange = (setFieldValue, fieldName) => (event, checked) => {
-        setFieldValue(fieldName, checked);
-    };
-
-    const FormSwitch = ({
-        field: { value, onChange, ...field },
-        form: { setFieldValue },
-        ...custom
-    }) => (
-        <Switch
-            checked={!!value}
-            onChange={onSwitchChange(setFieldValue, field.name)}
-            {...custom}
-        />
-    );
-
     const validate = (values) => {
         const { selectedPaths, dest, fileName } = values;
         const errors = {};
@@ -262,9 +249,6 @@ export default function PathListAutomation(props) {
                                 />
                             </Grid>
                             <Grid item xs>
-                                <Typography component="span" variant="body2">
-                                    {t("pathListFoldersOnlyLbl")}
-                                </Typography>
                                 <Field
                                     id={buildId(
                                         baseId,
@@ -273,6 +257,11 @@ export default function PathListAutomation(props) {
                                     component={FormSwitch}
                                     name="foldersOnly"
                                     color="primary"
+                                    label={
+                                        <Typography variant="body2">
+                                            {t("pathListFoldersOnlyLbl")}
+                                        </Typography>
+                                    }
                                 />
                             </Grid>
                             <Grid item xs>

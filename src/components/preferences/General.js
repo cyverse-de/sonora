@@ -22,7 +22,7 @@ import GridLabelValue from "../utils/GridLabelValue";
 
 import constants from "../../constants";
 
-import { build, FormTextField } from "@cyverse-de/ui-lib";
+import { build, FormTextField, FormSwitch } from "@cyverse-de/ui-lib";
 
 import {
     Button,
@@ -30,7 +30,6 @@ import {
     Divider,
     Grid,
     InputAdornment,
-    Switch,
     Typography,
 } from "@material-ui/core";
 
@@ -52,64 +51,48 @@ function General(props) {
     const classes = useStyles();
     const [openFileBrowser, setOpenFileBrowser] = useState(false);
 
-    const onSwitchChange = (setFieldValue, fieldName) => (event, checked) => {
-        setFieldValue(fieldName, checked);
-    };
-
-    const FormSwitch = ({
-        field: { value, onChange, ...field },
-        form: { setFieldValue },
-        ...custom
-    }) => (
-        <Switch
-            checked={!!value}
-            onChange={onSwitchChange(setFieldValue, field.name)}
-            {...custom}
-        />
-    );
-
     return (
         <>
             <Typography variant="h6" className={classes.sectionHeader}>
                 {t("general")}
             </Typography>
             <Grid container spacing={2} className={classes.grid}>
-                <GridLabelValue
-                    label={t("rememberLastPathLbl")}
-                    variant="body1"
-                >
+                <Grid item>
                     <Field
                         id={build(baseId, ids.REMEMBER_LAST_PATH_SWITCH)}
                         component={FormSwitch}
                         name={prefConstants.keys.REMEMBER_LAST_PATH}
                         color="primary"
+                        label={t("rememberLastPathLbl")}
                         inputProps={{
                             "aria-label": t("rememberLastPathLbl"),
                         }}
                     />
-                </GridLabelValue>
-                <GridLabelValue label={t("hpcPrompt")} variant="body1">
+                </Grid>
+                <Grid item>
                     <Field
                         id={build(baseId, ids.HPC_LOGIN_PROMPT_SWITCH)}
                         component={FormSwitch}
                         name={prefConstants.keys.ENABLE_HPC_PROMPT}
                         color="primary"
+                        label={t("hpcPrompt")}
                         inputProps={{
                             "aria-label": t("hpcPrompt"),
                         }}
                     />
-                </GridLabelValue>
-                <GridLabelValue label={t("waitTimesWarning")} variant="body1">
+                </Grid>
+                <Grid item>
                     <Field
                         id={build(baseId, ids.HPC_WAIT_TIMES_SWITCH)}
                         component={FormSwitch}
                         name={prefConstants.keys.ENABLE_WAIT_TIME_MESSAGE}
                         color="primary"
+                        label={t("waitTimesWarning")}
                         inputProps={{
                             "aria-label": t("waitTimesWarning"),
                         }}
                     />
-                </GridLabelValue>
+                </Grid>
             </Grid>
             <Divider className={classes.dividers} />
             <Typography variant="h6" className={classes.sectionHeader}>
@@ -171,10 +154,7 @@ function General(props) {
                 {t("emailNotificationsHeaderLbl")}
             </Typography>
             <Grid container spacing={3} className={classes.grid}>
-                <GridLabelValue
-                    label={t("analysisStatusEmailLbl")}
-                    variant="body1"
-                >
+                <Grid item>
                     <Field
                         id={build(
                             baseId,
@@ -189,9 +169,10 @@ function General(props) {
                         inputProps={{
                             "aria-label": t("analysisStatusEmailLbl"),
                         }}
+                        label={t("analysisStatusEmailLbl")}
                     />
-                </GridLabelValue>
-                <GridLabelValue label={t("urlImportEmailLbl")} variant="body1">
+                </Grid>
+                <Grid item>
                     <Field
                         id={build(
                             baseId,
@@ -205,8 +186,9 @@ function General(props) {
                         inputProps={{
                             "aria-label": t("urlImportEmailLbl"),
                         }}
+                        label={t("urlImportEmailLbl")}
                     />
-                </GridLabelValue>
+                </Grid>
             </Grid>
             <Divider className={classes.dividers} />
             <Typography variant="h6" className={classes.sectionHeader}>

@@ -101,7 +101,7 @@ function parameterizedToolListing(config) {
  * Export the story title.
  */
 export default {
-    title: "Tools",
+    title: "Tools / Listing",
 };
 
 /**

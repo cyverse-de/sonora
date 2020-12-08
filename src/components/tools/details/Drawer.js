@@ -5,13 +5,24 @@
  *
  */
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
 import { build } from "@cyverse-de/ui-lib";
+
+import ids from "../ids";
 import DETabPanel from "../../utils/DETabPanel";
+import ToolDetails from "./ToolDetails";
+import TableView from "components/apps/listing/TableView";
+
+import {
+    getToolDetails,
+    getAppsUsed,
+    TOOL_DETAILS_QUERY_KEY,
+    APPS_USING_QUERY_KEY,
+} from "serviceFacades/tools";
 
 import { Drawer, Tab, Tabs, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -65,6 +76,8 @@ function DetailsDrawer(props) {
     const { t } = useTranslation("tools");
     const { selectedTool, open, onClose, baseId } = props;
     const [selectedTab, setSelectedTab] = useState(TABS.toolDetails);
+    const [details, setDetails] = useState();
+    const [apps, setApps] = useState();
 
     const onTabSelectionChange = (event, selectedTab) => {
         setSelectedTab(selectedTab);
@@ -78,7 +91,25 @@ function DetailsDrawer(props) {
 
     const drawerId = build(baseId, ids.DETAILS_DRAWER);
     const infoTabId = build(drawerId, ids.INFO_TAB);
-    const paramsTabId = build(drawerId, ids.PARAMS_TAB);
+    const paramsTabId = build(drawerId, ids.APPS_USING_TOOL);
+
+    const { isFetching: isInfoFetching, error: infoFetchError } = useQuery({
+        queryKey: [TOOL_DETAILS_QUERY_KEY, { id: selectedTool?.id }],
+        queryFn: getToolDetails,
+        config: {
+            enabled: selectedTool !== null && selectedTool !== undefined,
+            onSuccess: setDetails,
+        },
+    });
+
+    const { isFetching: isAppsFetching, error: appsFetchError } = useQuery({
+        queryKey: [APPS_USING_QUERY_KEY, { id: selectedTool?.id }],
+        queryFn: getAppsUsed,
+        config: {
+            enabled: selectedTool !== null && selectedTool !== undefined,
+            onSuccess: setApps,
+        },
+    });
 
     return (
         <Drawer
@@ -100,15 +131,15 @@ function DetailsDrawer(props) {
                 classes={{ indicator: classes.tabIndicator }}
             >
                 <Tab
-                    value={TABS.analysisInfo}
-                    label={t("info")}
+                    value={TABS.toolDetails}
+                    label={t("toolInformationLbl")}
                     id={infoTabId}
                     classes={{ selected: classes.tabSelected }}
                     aria-controls={build(infoTabId, ids.PANEL)}
                 />
                 <Tab
-                    value={TABS.analysisParams}
-                    label={t("analysisParams")}
+                    value={TABS.appsUsingTool}
+                    label={t("appsUsingToolLbl")}
                     id={paramsTabId}
                     classes={{ selected: classes.tabSelected }}
                     aria-controls={build(paramsTabId, ids.PANEL)}
@@ -116,14 +147,35 @@ function DetailsDrawer(props) {
             </Tabs>
             <DETabPanel
                 tabId={infoTabId}
-                value={TABS.analysisInfo}
+                value={TABS.toolDetails}
                 selectedTab={selectedTab}
-            ></DETabPanel>
+            >
+                <ToolDetails
+                    tool={details}
+                    baseDebugId="toolDetails"
+                    isInfoFetching={isInfoFetching}
+                    infoFetchError={infoFetchError}
+                />
+            </DETabPanel>
             <DETabPanel
                 tabId={paramsTabId}
-                value={TABS.analysisParams}
+                value={TABS.appsUsingTool}
                 selectedTab={selectedTab}
-            ></DETabPanel>
+            >
+                <TableView
+                    loading={isAppsFetching}
+                    baseId="toolDetails"
+                    enableMenu={false}
+                    enableSorting={false}
+                    enableSelection={false}
+                    enableDelete={false}
+                    listing={apps}
+                    error={appsFetchError}
+                    selected={[]}
+                    order="asc"
+                    orderBy="name"
+                />
+            </DETabPanel>
         </Drawer>
     );
 }

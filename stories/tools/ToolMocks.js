@@ -1344,3 +1344,73 @@ export const invalidSortField = {
     error_code: "ERR_INVALID_QUERY_PARAM",
     reason: "invalid sort field",
 };
+
+export const details = {
+    description: "16sblaster",
+    permission: "read",
+    interactive: false,
+    name: "16sblaster",
+    type: "executable",
+    restricted: false,
+    is_public: true,
+    id: "602b013c-bfa9-11e5-8bd0-3f681b5dbaee",
+    container: {
+        id: "6036e862-bfa9-11e5-8f5e-e7bd264f58a3",
+        image: {
+            name: "docker.cyverse.org/16sblaster",
+            id: "603296e0-bfa9-11e5-a6e2-0763ff44c651",
+            tag: "v0.0.1",
+            url: "https://gims.iplantcollaborative.org:5000/16sblaster",
+            deprecated: false,
+            osg_image_path: null,
+        },
+        skip_tmp_mount: false,
+    },
+    attribution: "Ken Youensclark",
+    version: "0.0.1",
+    location: "https://iplantcollaborative.org",
+    implementation: {
+        implementor: "Ken Youensclark",
+        implementor_email: "kyclark@email.arizona.edu",
+        test: {
+            input_files: [],
+            output_files: [],
+        },
+    },
+    time_limit_seconds: 0,
+};
+
+export const appsUsingTool = {
+    total: 1,
+    apps: [
+        {
+            integration_date: "2016-01-22T00:24:54.000Z",
+            description: "16sblaster",
+            deleted: false,
+            pipeline_eligibility: {
+                is_valid: true,
+                reason: "",
+            },
+            is_favorite: true,
+            integrator_name: "Ken Youensclark",
+            beta: false,
+            permission: "read",
+            can_favor: true,
+            disabled: false,
+            can_rate: true,
+            name: "16sblaster",
+            system_id: "de",
+            is_public: true,
+            id: "13ad5f48-bfb4-11e5-a5df-4b1d67d0fef0",
+            edited_date: "2017-02-07T20:15:30.000Z",
+            step_count: 1,
+            can_run: true,
+            integrator_email: "kyclark@email.arizona.edu",
+            app_type: "DE",
+            rating: {
+                average: 5.0,
+                total: 1,
+            },
+        },
+    ],
+};

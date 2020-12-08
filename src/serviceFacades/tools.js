@@ -1,5 +1,9 @@
 import callApi from "../common/callApi";
 
+const TOOLS_QUERY_KEY = "fetchTools";
+const TOOL_DETAILS_QUERY_KEY = "fetchToolDetails";
+const APPS_USING_QUERY_KEY = "fetchAppsUsed";
+
 /**
  * The parameters accepted by a tool listing request. Sorting will only be
  * attempted if both `order` and `orderBy` are specified. Similarly, paging
@@ -17,7 +21,6 @@ import callApi from "../common/callApi";
  * @param {string} _ - the string component of the query key
  * @param {ToolListingParams} queryParams - the listing parameters
  */
-const TOOLS_QUERY_KEY = "fetchTools";
 function getTools(_, { order, orderBy, page, rowsPerPage }) {
     // Determine if the request is supposed to be ordered.
     const isOrdered = order && orderBy;
@@ -53,4 +56,26 @@ function getToolPermissions({ tools }) {
     });
 }
 
-export { getTools, getToolPermissions, TOOLS_QUERY_KEY };
+function getToolDetails(_, { id }) {
+    return callApi({
+        endpoint: `/api/tools/${id}`,
+        method: "GET",
+    });
+}
+
+function getAppsUsed(_, { id }) {
+    return callApi({
+        endpoint: `/api/tools/${id}/apps`,
+        method: "GET",
+    });
+}
+
+export {
+    getTools,
+    getToolPermissions,
+    getToolDetails,
+    TOOLS_QUERY_KEY,
+    TOOL_DETAILS_QUERY_KEY,
+    APPS_USING_QUERY_KEY,
+    getAppsUsed,
+};

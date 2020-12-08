@@ -137,9 +137,7 @@ const MultiInputSelector = (props) => {
                                                       ...paths,
                                                   ]),
                                               ])
-                                            : getSortedPaths(order, [
-                                                  ...new Set([...selections]),
-                                              ])
+                                            : getSortedPaths(order, selections)
                                     );
                                 }}
                             />

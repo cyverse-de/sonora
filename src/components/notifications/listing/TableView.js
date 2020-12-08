@@ -247,7 +247,7 @@ const TableView = (props) => {
                                                     baseId={buildId(
                                                         baseId,
                                                         ids.MESSAGE,
-                                                        n.id
+                                                        n?.message.id
                                                     )}
                                                     notification={n}
                                                 />

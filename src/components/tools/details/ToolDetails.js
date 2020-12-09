@@ -7,7 +7,7 @@ import GridLoading from "components/utils/GridLoading";
 import ErrorTypography from "components/utils/error/ErrorTypography";
 import DEErrorDialog from "components/utils/error/DEErrorDialog";
 
-import { Grid, Paper } from "@material-ui/core";
+import { Grid, Paper, Typography } from "@material-ui/core";
 
 const NOT_APPLICABLE = "N/A";
 
@@ -62,7 +62,7 @@ export default function ToolDetails(props) {
                     {tool.container.image.url}
                 </GridLabelValue>
                 <GridLabelValue label={t("deprecatedLbl")}>
-                    {tool.container.image.deprecated ? "True" : "False"}
+                    {tool.container.image.deprecated ? "true" : "false"}
                 </GridLabelValue>
                 <GridLabelValue label={t("entryPointLbl")}>
                     {tool.container.entrypoint}
@@ -76,9 +76,11 @@ export default function ToolDetails(props) {
                 <GridLabelValue label={t("versionLbl")}>
                     {tool.version}
                 </GridLabelValue>
-                <GridLabelValue
-                    label={t("resourceRequirementsLbl")}
-                ></GridLabelValue>
+                <Grid item xs={12}>
+                    <Typography variant="subtitle2">
+                        {t("resourceRequirementsLbl")}
+                    </Typography>
+                </Grid>
                 <GridLabelValue label={t("minCPUCoresLbl")}>
                     {tool.container.min_cpu_cores}
                 </GridLabelValue>
@@ -91,7 +93,11 @@ export default function ToolDetails(props) {
                 <GridLabelValue label={t("minDiskSpaceLbl")}>
                     {tool.container.min_disk_space}
                 </GridLabelValue>
-                <GridLabelValue label={t("restrictionsLabel")}></GridLabelValue>
+                <Grid item xs={12}>
+                    <Typography variant="subtitle2">
+                        {t("restrictionsLabel")}
+                    </Typography>
+                </Grid>
                 <GridLabelValue label={t("memoryLimitLabel")}>
                     {tool.container.memory_limit
                         ? tool.container.memory_limit

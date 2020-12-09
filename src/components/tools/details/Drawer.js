@@ -13,6 +13,7 @@ import { useTranslation } from "i18n";
 import { build } from "@cyverse-de/ui-lib";
 
 import ids from "../ids";
+import constants from "../../../constants";
 import DETabPanel from "../../utils/DETabPanel";
 import ToolDetails from "./ToolDetails";
 import TableView from "components/apps/listing/TableView";
@@ -79,16 +80,6 @@ function DetailsDrawer(props) {
     const [details, setDetails] = useState();
     const [apps, setApps] = useState();
 
-    const onTabSelectionChange = (event, selectedTab) => {
-        setSelectedTab(selectedTab);
-    };
-
-    if (!selectedTool) {
-        return null;
-    }
-
-    const toolName = selectedTool.name;
-
     const drawerId = build(baseId, ids.DETAILS_DRAWER);
     const infoTabId = build(drawerId, ids.INFO_TAB);
     const paramsTabId = build(drawerId, ids.APPS_USING_TOOL);
@@ -110,6 +101,16 @@ function DetailsDrawer(props) {
             onSuccess: setApps,
         },
     });
+
+    const onTabSelectionChange = (event, selectedTab) => {
+        setSelectedTab(selectedTab);
+    };
+
+    if (!selectedTool) {
+        return null;
+    }
+
+    const toolName = selectedTool.name;
 
     return (
         <Drawer
@@ -172,7 +173,7 @@ function DetailsDrawer(props) {
                     listing={apps}
                     error={appsFetchError}
                     selected={[]}
-                    order="asc"
+                    order={constants.SORT_ASCENDING}
                     orderBy="name"
                 />
             </DETabPanel>

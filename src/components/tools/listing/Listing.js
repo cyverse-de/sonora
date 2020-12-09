@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+
 import TableView from "./TableView";
+import Drawer from "components/tools/details/Drawer";
+import constants from "../../../constants";
 import { getTools, TOOLS_QUERY_KEY } from "../../../serviceFacades/tools";
 import DEPagination from "../../utils/DEPagination";
+import ToolsToolbar from "../toolbar/Toolbar";
 
 /**
  * The tool listing component.
@@ -21,6 +25,9 @@ function Listing(props) {
     // Data and data retrieval state variables.
     const [data, setData] = useState(null);
     const [toolsKey, setToolsKey] = useState(TOOLS_QUERY_KEY);
+    const [toolsListingQueryEnabled, setToolsListingQueryEnabled] = useState(
+        false
+    );
 
     // Result ordering state variables.
     const [order, setOrder] = useState(selectedOrder);
@@ -33,6 +40,10 @@ function Listing(props) {
     // Selection state variables.
     const [selected, setSelected] = useState([]);
     const [lastSelectedIndex, setLastSelectedIndex] = useState(-1);
+
+    const [selectedTool, setSelectedTool] = useState();
+    const [detailsOpen, setDetailsOpen] = useState(false);
+    const [isSingleSelection, setSingleSelection] = useState(false);
 
     useEffect(() => {
         if (
@@ -57,21 +68,39 @@ function Listing(props) {
 
     useEffect(() => {
         setToolsKey([TOOLS_QUERY_KEY, { order, orderBy, page, rowsPerPage }]);
+        setToolsListingQueryEnabled(true);
     }, [order, orderBy, page, rowsPerPage]);
+
+    useEffect(() => {
+        if (data?.tools) {
+            const selectedId = selected[0];
+            setSelectedTool(data.tools.find((item) => item.id === selectedId));
+        } else {
+            setSelectedTool(null);
+        }
+    }, [data, selected]);
+
+    useEffect(() => {
+        setSingleSelection(selected && selected.length === 1);
+    }, [selected]);
 
     // Fetches tool listings from the API.
     const { isFetching, error } = useQuery({
         queryKey: toolsKey,
         queryFn: getTools,
         config: {
-            enabled: true,
+            enabled: toolsListingQueryEnabled,
             onSuccess: setData,
         },
     });
 
     // Handles a request to sort the tools.
     const handleRequestSort = (_, property) => {
-        setOrder(orderBy === property && order === "asc" ? "desc" : "asc");
+        setOrder(
+            orderBy === property && order === constants.SORT_ASCENDING
+                ? constants.SORT_DESCENDING
+                : constants.SORT_ASCENDING
+        );
         setOrderBy(property);
         setSelected([]);
         setPage(0);
@@ -83,11 +112,15 @@ function Listing(props) {
         setSelected([]);
     };
 
-    // Handles a request to chagne the number of rows per page.
+    // Handles a request to change the number of rows per page.
     const handleChangeRowsPerPage = (newPageSize) => {
         setRowsPerPage(parseInt(newPageSize, 10));
         setSelected([]);
         setPage(0);
+    };
+
+    const onDetailsSelected = () => {
+        setDetailsOpen(true);
     };
 
     // Determines whether or not a tool is already selected.
@@ -152,6 +185,11 @@ function Listing(props) {
 
     return (
         <>
+            <ToolsToolbar
+                baseId={baseId}
+                isSingleSelection={isSingleSelection}
+                onDetailsSelected={onDetailsSelected}
+            />
             <TableView
                 baseId={baseId}
                 error={error}
@@ -164,6 +202,14 @@ function Listing(props) {
                 orderBy={orderBy}
                 selected={selected}
             />
+            {detailsOpen && (
+                <Drawer
+                    selectedTool={selectedTool}
+                    open={detailsOpen}
+                    baseId={baseId}
+                    onClose={() => setDetailsOpen(false)}
+                />
+            )}
             {data && data.total > 0 && (
                 <DEPagination
                     baseId={baseId}

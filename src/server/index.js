@@ -9,6 +9,7 @@ import dashboardRouter from "./api/dashboard";
 import dataRouter from "./api/data";
 import debugRouter from "./api/debug";
 import fileIORouter from "./api/fileio";
+import groupsRouter from "./api/groups";
 import metadataRouter from "./api/metadata";
 import notificationsRouter from "./api/notifications";
 import quickLaunchRouter from "./api/quickLaunch";
@@ -118,6 +119,7 @@ app.prepare()
         server.use("/api", dataRouter());
         server.use("/api", debugRouter());
         server.use("/api", fileIORouter());
+        server.use("/api", groupsRouter());
         server.use("/api", metadataRouter());
         server.use("/api", notificationsRouter());
         server.use("/api", quickLaunchRouter());

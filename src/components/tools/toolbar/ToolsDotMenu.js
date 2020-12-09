@@ -73,7 +73,6 @@ function DotMenuItems(props) {
                 />
             )}
         </Hidden>,
-
         <MenuItem
             key={build(baseId, ids.MANAGE_TOOLS.ADD_TOOL_MI)}
             id={build(baseId, ids.MANAGE_TOOLS.ADD_TOOL_MI)}

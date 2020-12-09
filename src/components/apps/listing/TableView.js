@@ -140,7 +140,9 @@ function TableView(props) {
                     baseId={tableId}
                     columnData={columnData}
                     onRequestSort={enableSorting && handleRequestSort}
-                    onSelectAllClick={handleSelectAllClick}
+                    onSelectAllClick={
+                        handleSelectAllClick ? handleSelectAllClick : undefined
+                    }
                 />
                 {loading && (
                     <TableLoading
@@ -179,9 +181,15 @@ function TableView(props) {
                                         aria-checked={isSelected}
                                         key={app.id}
                                         id={rowId}
-                                        onClick={(event) =>
-                                            handleClick(event, appId, index)
-                                        }
+                                        onClick={(event) => {
+                                            if (handleClick) {
+                                                handleClick(
+                                                    event,
+                                                    appId,
+                                                    index
+                                                );
+                                            }
+                                        }}
                                     >
                                         {enableSelection && (
                                             <TableCell padding="checkbox">

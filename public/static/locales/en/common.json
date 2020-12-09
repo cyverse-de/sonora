@@ -17,6 +17,7 @@
     "discovery": "<b>D</b>iscovery",
     "done": "Done",
     "drawerMenuAriaLabel": "drawer menu",
+    "edit": "Edit",
     "email": "Email",
     "environment": "<b>E</b>nvironment",
     "filter": "Filter",
@@ -52,5 +53,6 @@
     "userMenuAriaLabel": "user menu",
     "viewAllNotifications": "View All Notifications & Activities",
     "vice": "VICE",
+    "view": "View",
     "viewOutput": "View output"
 }

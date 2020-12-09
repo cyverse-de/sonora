@@ -16,6 +16,7 @@ import styles from "../styles";
 import MetadataList from "../listing";
 import SlideUpTransition from "../SlideUpTransition";
 
+import { announce, AnnouncerConstants } from "@cyverse-de/ui-lib";
 import { build, FormTextField, getFormError } from "@cyverse-de/ui-lib";
 
 import {
@@ -64,18 +65,27 @@ const AVUFormDialog = (props) => {
 
     const hasChildren = avus && avus.length > 0;
 
+    const onClose = () => {
+        error
+            ? announce({
+                  text: t("errAVUEditFormAnnounce"),
+                  variant: AnnouncerConstants.ERROR,
+              })
+            : closeAttrDialog();
+    };
+
     return (
         <DEDialog
             baseId={formID}
             open={open}
             title={title}
-            onClose={() => !error && closeAttrDialog()}
+            onClose={onClose}
             disableBackdropClick
             disableEscapeKeyDown
             TransitionComponent={SlideUpTransition}
             actions={
                 <Tooltip
-                    title={error ? t("errAVUEditFormTooltip") : ""}
+                    title={error ? t("errAVUEditFormAnnounce") : ""}
                     placement="left-start"
                     enterDelay={200}
                 >
@@ -84,8 +94,7 @@ const AVUFormDialog = (props) => {
                             id={build(formID, ids.BUTTONS.DONE)}
                             color="primary"
                             variant="contained"
-                            disabled={!!error}
-                            onClick={closeAttrDialog}
+                            onClick={onClose}
                         >
                             {t("done")}
                         </Button>

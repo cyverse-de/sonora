@@ -126,7 +126,7 @@ const AVURow = ({
     onRowEdit,
     onRowDelete,
 }) => {
-    const { t } = useTranslation("metadata");
+    const { t } = useTranslation("common");
     const classes = useStyles();
 
     return (
@@ -160,7 +160,7 @@ const AVURow = ({
                     <Grid item>
                         <IconButton
                             id={build(rowID, ids.BUTTONS.EDIT)}
-                            aria-label={t("edit")}
+                            aria-label={editable ? t("edit") : t("view")}
                             className={classes.button}
                             onClick={(event) => {
                                 event.stopPropagation();
@@ -211,7 +211,9 @@ const MetadataList = (props) => {
 
     const [newAttrCount, setNewAttrCount] = React.useState(1);
     const [orderBy, setOrderBy] = React.useState(props.orderBy);
-    const [order, setOrder] = React.useState(props.order || "asc");
+    const [order, setOrder] = React.useState(
+        props.order || constants.SORT_ASCENDING
+    );
 
     const { t } = useTranslation("metadata");
     const classes = useStyles();

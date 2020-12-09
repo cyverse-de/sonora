@@ -23,7 +23,7 @@
     "enumValues": "Enum Values",
     "errAttrHasErrors": "Attribute (or a child attribute) has 1 or more errors.",
     "errAttrNameMustBeUnique": "Attribute name must be unique",
-    "errAVUEditFormTooltip": "Please fix all errors.",
+    "errAVUEditFormAnnounce": "Please fix all errors.",
     "errEnumOptionValueRequired": "Enum Option Value Required",
     "errEnumValueRequired": "Enum requires at least 1 value.",
     "errMetadataTemplateAlertHeading": "Please fix all errors.",

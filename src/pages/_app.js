@@ -195,11 +195,12 @@ function MyApp({ Component, pageProps }) {
         if (intercom.enabled) {
             setupIntercom(intercom.appId);
             if (window.Intercom) {
-                window.Intercom("onUnreadCountChange", function (
-                    newUnreadCount
-                ) {
-                    setUnReadCount(newUnreadCount);
-                });
+                window.Intercom(
+                    "onUnreadCountChange",
+                    function (newUnreadCount) {
+                        setUnReadCount(newUnreadCount);
+                    }
+                );
             }
         }
     }, [publicRuntimeConfig, setConfig, unReadCount]);

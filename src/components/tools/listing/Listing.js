@@ -7,6 +7,7 @@ import constants from "../../../constants";
 import { getTools, TOOLS_QUERY_KEY } from "../../../serviceFacades/tools";
 import DEPagination from "../../utils/DEPagination";
 import ToolsToolbar from "../toolbar/Toolbar";
+import { canShare } from "../utils";
 
 /**
  * The tool listing component.
@@ -204,12 +205,22 @@ function Listing(props) {
         );
     };
 
+    const getSelectedTools = (tools) => {
+        const items = tools ? tools : selected;
+        return items.map((id) => data?.tools.find((tool) => tool.id === id));
+    };
+
+    const sharingEnabled = canShare(getSelectedTools());
+
     return (
         <>
             <ToolsToolbar
                 baseId={baseId}
                 isSingleSelection={isSingleSelection}
                 onDetailsSelected={onDetailsSelected}
+                canShare={sharingEnabled}
+                selected={selected}
+                getSelectedTools={getSelectedTools}
             />
             <TableView
                 baseId={baseId}

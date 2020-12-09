@@ -13,6 +13,7 @@ import ToolsDotMenu from "./ToolsDotMenu";
 import SharingButton from "components/sharing/SharingButton";
 import Sharing from "components/sharing";
 import { formatSharedTools } from "components/sharing/util";
+import EditToolDialog from "components/tools/edit/EditTool";
 
 import { build } from "@cyverse-de/ui-lib";
 
@@ -62,9 +63,9 @@ export default function ToolsToolbar(props) {
         getSelectedTools,
     } = props;
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
     const classes = useStyles();
     const { t } = useTranslation("tools");
-    const hasSelection = getSelectedTools && getSelectedTools().length > 0;
     const sharingTools = formatSharedTools(getSelectedTools());
     return (
         <>
@@ -91,21 +92,24 @@ export default function ToolsToolbar(props) {
                         />
                     )}
                 </Hidden>
-
-                {hasSelection && (
-                    <ToolsDotMenu
-                        baseId={baseId}
-                        onDetailsSelected={onDetailsSelected}
-                        isSingleSelection={isSingleSelection}
-                        canShare={canShare}
-                        setSharingDlgOpen={setSharingDlgOpen}
-                    />
-                )}
+                <ToolsDotMenu
+                    baseId={baseId}
+                    onDetailsSelected={onDetailsSelected}
+                    isSingleSelection={isSingleSelection}
+                    canShare={canShare}
+                    setSharingDlgOpen={setSharingDlgOpen}
+                    getSelectedTools={getSelectedTools}
+                    onAddToolSelected={() => setEditDialogOpen(true)}
+                />
             </Toolbar>
             <Sharing
                 open={sharingDlgOpen}
                 onClose={() => setSharingDlgOpen(false)}
                 resources={sharingTools}
+            />
+            <EditToolDialog
+                open={editDialogOpen}
+                onClose={() => setEditDialogOpen(false)}
             />
         </>
     );

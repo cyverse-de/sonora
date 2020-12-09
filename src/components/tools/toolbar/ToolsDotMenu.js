@@ -21,7 +21,7 @@ import {
     MenuItem,
 } from "@material-ui/core";
 
-import { Info } from "@material-ui/icons";
+import { Add, Info } from "@material-ui/icons";
 
 function DotMenuItems(props) {
     const {
@@ -31,6 +31,7 @@ function DotMenuItems(props) {
         onClose,
         canShare,
         setSharingDlgOpen,
+        onAddToolSelected,
     } = props;
 
     const { t } = useTranslation("tools");
@@ -61,6 +62,19 @@ function DotMenuItems(props) {
                 />
             )}
         </Hidden>,
+        <MenuItem
+            key={build(baseId, ids.MANAGE_TOOLS.ADD_TOOL_MI)}
+            id={build(baseId, ids.MANAGE_TOOLS.ADD_TOOL_MI)}
+            onClick={() => {
+                onClose();
+                onAddToolSelected();
+            }}
+        >
+            <ListItemIcon>
+                <Add fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary={t("addTool")} />
+        </MenuItem>,
     ];
 }
 
@@ -70,7 +84,12 @@ export default function ToolsDotMenu({
     setSharingDlgOpen,
     ...props
 }) {
-    const { baseId, isSingleSelection, onDetailsSelected } = props;
+    const {
+        baseId,
+        isSingleSelection,
+        onDetailsSelected,
+        onAddToolSelected,
+    } = props;
     return (
         <DotMenu
             baseId={baseId}
@@ -82,6 +101,7 @@ export default function ToolsDotMenu({
                     onDetailsSelected={onDetailsSelected}
                     canShare={canShare}
                     setSharingDlgOpen={setSharingDlgOpen}
+                    onAddToolSelected={onAddToolSelected}
                 />
             )}
         />

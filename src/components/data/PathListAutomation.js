@@ -397,6 +397,15 @@ export default function PathListAutomation(props) {
                             alignItems="flex-end"
                             spacing={1}
                         >
+                            {createPathListError && (
+                                <Grid item xs>
+                                    <ErrorTypographyWithDialog
+                                        baseId={baseId}
+                                        errorMessage={errorMsg}
+                                        errorObject={createPathListError}
+                                    />
+                                </Grid>
+                            )}
                             <Grid item>
                                 <Button
                                     id={buildId(

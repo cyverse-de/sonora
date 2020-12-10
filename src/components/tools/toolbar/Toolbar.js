@@ -10,6 +10,7 @@ import { useTranslation } from "i18n";
 
 import ids from "../ids";
 import ToolsDotMenu from "./ToolsDotMenu";
+
 import SharingButton from "components/sharing/SharingButton";
 import Sharing from "components/sharing";
 import { formatSharedTools } from "components/sharing/util";
@@ -64,9 +65,14 @@ export default function ToolsToolbar(props) {
     } = props;
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [addDialogOpen, setAddDialogOpen] = useState(false);
     const classes = useStyles();
     const { t } = useTranslation("tools");
+    const hasSelection = getSelectedTools
+        ? getSelectedTools().length > 0
+        : false;
     const sharingTools = formatSharedTools(getSelectedTools());
+
     return (
         <>
             <Toolbar variant="dense">
@@ -99,7 +105,8 @@ export default function ToolsToolbar(props) {
                     canShare={canShare}
                     setSharingDlgOpen={setSharingDlgOpen}
                     getSelectedTools={getSelectedTools}
-                    onAddToolSelected={() => setEditDialogOpen(true)}
+                    onAddToolSelected={() => setAddDialogOpen(true)}
+                    onEditToolSelected={() => setEditDialogOpen(true)}
                 />
             </Toolbar>
             <Sharing
@@ -110,6 +117,17 @@ export default function ToolsToolbar(props) {
             <EditToolDialog
                 open={editDialogOpen}
                 onClose={() => setEditDialogOpen(false)}
+                isAdmin={false}
+                isAdminPublishing={false}
+                parentId={baseId}
+                tool={hasSelection ? getSelectedTools()[0] : null}
+            />
+            <EditToolDialog
+                open={addDialogOpen}
+                onClose={() => setAddDialogOpen(false)}
+                isAdmin={false}
+                isAdminPublishing={false}
+                parentId={baseId}
             />
         </>
     );

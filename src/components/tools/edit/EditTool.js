@@ -1,10 +1,12 @@
 /**
  * @author aramsey
  */
-import React from "react";
+import React, { useState } from "react";
 
 import { useTranslation } from "i18n";
+import { useQuery, useMutation } from "react-query";
 
+import { useConfig } from "contexts/config";
 import DEDialog from "components/utils/DEDialog";
 import ContainerDevices from "./ContainerDevices";
 import ContainerImage from "./ContainerImage";
@@ -17,7 +19,15 @@ import styles from "../styles";
 import ToolImplementation from "./ToolImplementation";
 import { nonEmptyField } from "./Validations";
 
-import PropTypes from "prop-types";
+import {
+    TOOL_TYPES_QUERY_KEY,
+    getToolTypes,
+    getToolDetails,
+    TOOL_DETAILS_QUERY_KEY,
+    addTool,
+    updateTool,
+} from "serviceFacades/tools";
+
 import {
     build,
     FormMultilineTextField,
@@ -25,35 +35,112 @@ import {
     FormSelectField,
     FormTextField,
 } from "@cyverse-de/ui-lib";
-import { Field, FieldArray, Form, getIn, withFormik } from "formik";
-import { Button, MenuItem, Paper, Typography } from "@material-ui/core";
+
+import { Field, FieldArray, Form, getIn, Formik } from "formik";
+import { Button, Grid, MenuItem, Paper, Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
+import { Skeleton } from "@material-ui/lab";
 
 function EditToolDialog(props) {
     const {
         open,
         parentId,
         tool,
-        loading,
         isAdmin,
         isAdminPublishing,
-        toolTypes,
-        maxCPUCore,
-        maxMemory,
-        maxDiskSpace,
-        handleSubmit,
         values,
-        presenter,
+        onClose,
     } = props;
 
     const { t } = useTranslation("tools");
+    const [toolTypes, setToolTypes] = useState([]);
+    const [selectedTool, setSelectedTool] = useState();
+
+    const [config] = useConfig();
+    const maxCPUCore = config?.tools?.private.max_cpu_limit;
+    const maxMemory = config?.tools?.private.max_memory_limit;
+    const maxDiskSpace = config?.tools?.private.max_disk_limit;
+
+    const { isFetching: isToolTypeFetching, error: toolTypeError } = useQuery({
+        queryKey: TOOL_TYPES_QUERY_KEY,
+        queryFn: getToolTypes,
+        config: {
+            enabled: true,
+            onSuccess: (data) => {
+                if (
+                    data &&
+                    data["tool_types"] &&
+                    data["tool_types"].length > 0
+                ) {
+                    setToolTypes(
+                        data["tool_types"]
+                            .filter(
+                                (type) =>
+                                    type.name !== "internal" &&
+                                    type.name !== "fAPI"
+                            )
+                            .map((type) => type.name)
+                    );
+                }
+            },
+        },
+    });
+    const { isFetching: isToolFetching, error: toolFetchError } = useQuery({
+        queryKey: [TOOL_DETAILS_QUERY_KEY, { id: tool?.id }],
+        queryFn: getToolDetails,
+        config: {
+            enabled: tool !== null && tool !== undefined,
+            onSuccess: setSelectedTool,
+        },
+    });
+
+    const [addNewTool, { status: newToolStatus }] = useMutation(
+        ({ submission }) => addTool(submission),
+        {
+            onSuccess: (data) => {
+                console.log("Tool added=>" + JSON.stringify(data));
+            },
+            onError: (error) => {
+                console.log("Error adding tool=>" + error);
+            },
+        }
+    );
+
+    const [updateCurrentTool, { status: updateToolStatus }] = useMutation(
+        ({ submission }) => updateTool(submission),
+        {
+            onSuccess: (data) => {
+                console.log("Tool updated=>" + JSON.stringify(data));
+            },
+            onError: (error) => {
+                console.log("Error updating tool=>" + error);
+            },
+        }
+    );
+
+    const handleSubmit = (values, { props }) => {
+        /*         if (tool) {
+            if (isAdmin && isAdminPublishing) {
+                presenter.onPublish(values);
+            } else {
+                presenter.updateTool(values);
+            }
+        } else {
+            presenter.addTool(values);
+        } */
+        const submission = { tool: { ...values } };
+        if (tool) {
+            updateCurrentTool({ submission });
+        } else {
+            addNewTool({ submission });
+        }
+    };
 
     return (
         <DEDialog
             open={open}
             fullWidth={true}
-            maxWidth="lg"
-            onClose={() => presenter.closeEditToolDlg()}
+            onClose={onClose}
             id={parentId}
             title={
                 tool
@@ -62,36 +149,66 @@ function EditToolDialog(props) {
                       })
                     : t("addTool")
             }
-            actions={
-                <>
-                    <Button
-                        variant="contained"
-                        id={build(parentId, ids.BUTTONS.CANCEL)}
-                        onClick={() => presenter.closeEditToolDlg()}
-                    >
-                        {t("cancel")}
-                    </Button>
-                    <Button
-                        variant="contained"
-                        id={build(parentId, ids.BUTTONS.SAVE)}
-                        type="submit"
-                        color="primary"
-                        onClick={handleSubmit}
-                    >
-                        {isAdminPublishing ? t("makePublic") : t("save")}
-                    </Button>
-                </>
-            }
         >
-            <StyledEditToolForm
-                values={values}
-                isAdmin={isAdmin}
-                parentId={parentId}
-                toolTypes={toolTypes}
-                maxCPUCore={maxCPUCore}
-                maxMemory={maxMemory}
-                maxDiskSpace={maxDiskSpace}
-            />
+            {(isToolTypeFetching || isToolFetching) && (
+                <Skeleton animation="wave" variant="rect" height={800} />
+            )}
+
+            {!isToolTypeFetching && !isToolFetching && (
+                <Formik
+                    initialValues={{ ...selectedTool }}
+                    onSubmit={handleSubmit}
+                >
+                    {() => {
+                        return (
+                            <Form>
+                                <StyledEditToolForm
+                                    values={values}
+                                    isAdmin={isAdmin}
+                                    parentId={parentId}
+                                    toolTypes={toolTypes}
+                                    maxCPUCore={maxCPUCore}
+                                    maxMemory={maxMemory}
+                                    maxDiskSpace={maxDiskSpace}
+                                />
+                                <Grid
+                                    container
+                                    direction="row"
+                                    justify="flex-end"
+                                    alignItems="flex-end"
+                                    spacing={2}
+                                >
+                                    <Grid item>
+                                        <Button
+                                            id={build(
+                                                parentId,
+                                                ids.BUTTONS.CANCEL
+                                            )}
+                                            onClick={onClose}
+                                        >
+                                            {t("cancel")}
+                                        </Button>
+                                    </Grid>
+                                    <Grid item>
+                                        <Button
+                                            id={build(
+                                                parentId,
+                                                ids.BUTTONS.SAVE
+                                            )}
+                                            type="submit"
+                                            color="primary"
+                                        >
+                                            {isAdminPublishing
+                                                ? t("makePublic")
+                                                : t("save")}
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </Form>
+                        );
+                    }}
+                </Formik>
+            )}
         </DEDialog>
     );
 }
@@ -117,7 +234,7 @@ function EditToolForm(props) {
     const isInteractiveTool = selectedToolType === "interactive";
 
     return (
-        <Form>
+        <>
             <Field
                 name="name"
                 label={t("toolName")}
@@ -310,7 +427,7 @@ function EditToolForm(props) {
                 maxMemory={maxMemory}
                 component={Restrictions}
             />
-        </Form>
+        </>
     );
 }
 
@@ -337,20 +454,7 @@ function resetOnTypeChange(currentType, form) {
     }
 }
 
-const handleSubmit = (values, { props }) => {
-    const { tool, presenter, isAdmin, isAdminPublishing } = props;
-    if (tool) {
-        if (isAdmin && isAdminPublishing) {
-            presenter.onPublish(values);
-        } else {
-            presenter.updateTool(values);
-        }
-    } else {
-        presenter.addTool(values);
-    }
-};
-
-const DEFAULT_TOOL = {
+/* const DEFAULT_TOOL = {
     name: "",
     version: "",
     container: {
@@ -388,40 +492,9 @@ EditToolDialog.propTypes = {
     open: PropTypes.bool.isRequired,
     isAdmin: PropTypes.bool.isRequired,
     isAdminPublishing: PropTypes.bool.isRequired,
-    presenter: function (props, propName, componentName) {
-        let presenterFuncs = props[propName];
-        if (!presenterFuncs["closeEditToolDlg"]) {
-            return new Error(
-                "`presenter` in `" +
-                    componentName +
-                    "` missing required prop `closeEditToolDlg`"
-            );
-        }
-        if (
-            !(
-                (presenterFuncs["addTool"] && presenterFuncs["updateTool"]) ||
-                presenterFuncs["onPublish"]
-            )
-        ) {
-            return new Error(
-                "`presenter` in `" +
-                    componentName +
-                    "` must have either `addTool` and " +
-                    "`updateTool`, or `onPublish`"
-            );
-        }
-    },
     loading: PropTypes.bool.isRequired,
     tool: PropTypes.object,
     parentId: PropTypes.string.isRequired,
-    toolTypes: PropTypes.array.isRequired,
-    maxCPUCore: PropTypes.number.isRequired,
-    maxMemory: PropTypes.number.isRequired,
-    maxDiskSpace: PropTypes.number.isRequired,
-};
+}; */
 
-export default withFormik({
-    enableReinitialize: true,
-    mapPropsToValues,
-    handleSubmit,
-})(EditToolDialog);
+export default EditToolDialog;

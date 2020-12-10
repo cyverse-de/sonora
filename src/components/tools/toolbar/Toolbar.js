@@ -68,6 +68,7 @@ export default function ToolsToolbar(props) {
     const [addDialogOpen, setAddDialogOpen] = useState(false);
     const classes = useStyles();
     const { t } = useTranslation("tools");
+
     const hasSelection = getSelectedTools
         ? getSelectedTools().length > 0
         : false;

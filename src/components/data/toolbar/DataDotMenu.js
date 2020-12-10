@@ -6,11 +6,29 @@
 
 import React, { useState } from "react";
 
+import { useRouter } from "next/router";
+
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
 import { isOwner, isWritable, containsFolders } from "../utils";
 import CreateFolderDialog from "../CreateFolderDialog";
 import UploadMenuItems from "./UploadMenuItems";
+
+import { useTranslation } from "i18n";
+import DetailsMenuItem from "../menuItems/DetailsMenuItem";
+import DeleteMenuItem from "../menuItems/DeleteMenuItem";
+import SharingMenuItem from "components/sharing/SharingMenuItem";
+import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";
+import PathListAutomation from "../PathListAutomation";
+import DEDialog from "components/utils/DEDialog";
+import ResourceTypes from "components/models/ResourceTypes";
+
+import constants from "../../../constants";
+
+import {
+    MULTI_INPUT_PATH_LIST,
+    HT_ANALYSIS_PATH_LIST,
+} from "serviceFacades/filesystem";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 import {
@@ -24,11 +42,7 @@ import {
     ListAlt,
     Queue as AddToBagIcon,
 } from "@material-ui/icons";
-import { useTranslation } from "i18n";
-import DetailsMenuItem from "../menuItems/DetailsMenuItem";
-import DeleteMenuItem from "../menuItems/DeleteMenuItem";
-import SharingMenuItem from "components/sharing/SharingMenuItem";
-import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";
+import NavigationConstants from "common/NavigationConstants";
 
 function DataDotMenu(props) {
     const {
@@ -54,15 +68,28 @@ function DataDotMenu(props) {
         isSmall,
         onPublicLinksSelected,
     } = props;
+
     const { t } = useTranslation("data");
+
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
+    const [pathListDlgOpen, setPathListDlgOpen] = useState(false);
+    const [requestedInfoType, setRequestedInfoType] = useState();
+
     const onCreateFolderDlgClose = () => setCreateFolderDlgOpen(false);
     const onCreateFolderClicked = () => setCreateFolderDlgOpen(true);
+
     const isSelectionEmpty = selected?.length === 0;
     const selectedResources = getSelectedResources
         ? getSelectedResources()
         : null;
     const deleteMiEnabled = !isSelectionEmpty && isOwner(selectedResources);
+    const router = useRouter();
+    const routeToFile = (id, path) => {
+        router.push(
+            `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${path}?type=${ResourceTypes.FILE}&resourceId=${id}`
+        );
+    };
+
     return (
         <>
             <DotMenu
@@ -190,6 +217,38 @@ function DataDotMenu(props) {
                                 primary={t("newMultiInputPathListFile")}
                             />
                         </MenuItem>,
+                        <MenuItem
+                            key={build(baseId, ids.AUTO_CREATE_HT_FILE_MI)}
+                            id={build(baseId, ids.AUTO_CREATE_HT_FILE_MI)}
+                            onClick={() => {
+                                setRequestedInfoType(HT_ANALYSIS_PATH_LIST);
+                                onClose();
+                                setPathListDlgOpen(true);
+                            }}
+                        >
+                            <ListItemIcon>
+                                <ListAlt fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={t("automateCreateHtPathList")}
+                            />
+                        </MenuItem>,
+                        <MenuItem
+                            key={build(baseId, ids.AUTO_CREATE_MULTI_INPUT_MI)}
+                            id={build(baseId, ids.AUTO_CREATE_MULTI_INPUT_MI)}
+                            onClick={() => {
+                                setRequestedInfoType(MULTI_INPUT_PATH_LIST);
+                                onClose();
+                                setPathListDlgOpen(true);
+                            }}
+                        >
+                            <ListItemIcon>
+                                <ListAlt fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={t("automateCreateMultiInput")}
+                            />
+                        </MenuItem>,
                     ],
                     isOwner(selectedResources) &&
                         !containsFolders(selectedResources) && (
@@ -211,6 +270,23 @@ function DataDotMenu(props) {
                     refreshListing();
                 }}
             />
+            <DEDialog
+                baseId={build(baseId, ids.PATH_LIST_AUTO_DIALOG)}
+                open={pathListDlgOpen}
+                onClose={() => setPathListDlgOpen(false)}
+                title={t("createPathList")}
+            >
+                <PathListAutomation
+                    requestedInfoType={requestedInfoType}
+                    baseId={build(baseId, ids.PATH_LIST_AUTO_DIALOG)}
+                    onCreatePathList={(id, path) => {
+                        setPathListDlgOpen(false);
+                        routeToFile(id, path);
+                    }}
+                    onCancel={() => setPathListDlgOpen(false)}
+                    startingPath={path}
+                />
+            </DEDialog>
         </>
     );
 }

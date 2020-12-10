@@ -14,9 +14,9 @@ import refGenomeConstants from "./constants";
 
 import GridLabelValue from "../../../utils/GridLabelValue";
 
-import { FormTextField, build } from "@cyverse-de/ui-lib";
+import { FormTextField, FormSwitch, build } from "@cyverse-de/ui-lib";
 
-import { Button, Grid, Switch, Typography } from "@material-ui/core";
+import { Button, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Field, Form, Formik } from "formik";
 
@@ -51,21 +51,6 @@ function Edit(props) {
     } = props;
     const classes = useStyles();
     const { t } = useTranslation("referenceGenomes");
-    const onSwitchChange = (setFieldValue, fieldName) => (event, checked) => {
-        setFieldValue(fieldName, checked);
-    };
-
-    const FormSwitch = ({
-        field: { value, onChange, ...field },
-        form: { setFieldValue },
-        ...custom
-    }) => (
-        <Switch
-            checked={!!value}
-            onChange={onSwitchChange(setFieldValue, field.name)}
-            {...custom}
-        />
-    );
 
     const handleSubmit = (values) => {
         if (referenceGenome?.id) {
@@ -155,15 +140,16 @@ function Edit(props) {
                                 }}
                             />
                         </GridLabelValue>
-                        <GridLabelValue label={t("deleted")} variant="body1">
+                        <Grid item>
                             <Field
                                 id={build(baseId, ids.DELETED_SWITCH)}
                                 component={FormSwitch}
                                 name={refGenomeConstants.keys.DELETED}
                                 color="primary"
                                 className={classes.textField}
+                                label={t("deleted")}
                             />
-                        </GridLabelValue>
+                        </Grid>
                     </Grid>
                     <Grid container justify="flex-end">
                         <Grid item>

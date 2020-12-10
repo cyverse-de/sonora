@@ -198,5 +198,17 @@ export default function dataRouter() {
         })
     );
 
+    logger.info("adding the POST /api/filesystem/path-list-creator");
+    api.post(
+        "/filesystem/path-list-creator",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/filesystem/path-list-creator",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
     return api;
 }

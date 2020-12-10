@@ -3,171 +3,65 @@
  *
  * A dialog that allows users to save a file at selected location
  */
-import React, { useState } from "react";
+
+import React from "react";
 
 import { Field, Form, Formik } from "formik";
+
 import { useTranslation } from "react-i18next";
 
-import { build, FormTextField } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 
-import ResourceTypes from "components/models/ResourceTypes";
 import ids from "./ids";
+import SaveAsField from "./SaveAsField";
+import ResourceTypes from "components/models/ResourceTypes";
+import InputSelector from "components/apps/launch/InputSelector";
+import DEDialog from "components/utils/DEDialog";
 import { validateDiskResourceName } from "./utils";
 
-import DataSelectionDrawer from "components/data/SelectionDrawer";
-import { UploadTrackingProvider } from "contexts/uploadTracking";
-
-import {
-    Button,
-    CircularProgress,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    Hidden,
-    IconButton,
-    InputAdornment,
-    Typography,
-    useTheme,
-} from "@material-ui/core";
-import { Close, Folder } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/core/styles";
-import styles from "./styles";
-
-const useStyles = makeStyles(styles);
+import { Button } from "@material-ui/core";
 
 function SaveAsDialog(props) {
-    const {
-        path,
-        open,
-        onClose,
-        onSaveAs,
-        saveFileError,
-        loading,
-        setSaveNewFileError,
-    } = props;
-    const [dest, setDest] = useState(path);
-    const [selectionDrawerOpen, setSelectionDrawerOpen] = useState(false);
-    const classes = useStyles();
+    const { path, open, onClose, onSaveAs, saveFileError, loading } = props;
+
     const baseId = ids.CREATE_DLG;
 
     const { t } = useTranslation("data");
     const { t: i18nCommon } = useTranslation("common");
 
-    const theme = useTheme();
-
-    const handleSaveFile = ({ name }, { resetForm }) => {
-        const newPath = `${dest}/${name}`;
-        onSaveAs(newPath);
+    const handleSaveFile = ({ dest, name }, { resetForm }) => {
+        onSaveAs(`${dest}/${name}`);
     };
 
     const validate = ({ name }) => {
         const validationError = validateDiskResourceName(name, t);
-        return validationError || saveFileError
-            ? { name: validationError || saveFileError }
-            : {};
+
+        return validationError ? { name: validationError } : {};
     };
 
-    return (
-        <>
-            <Formik
-                initialValues={{ name: "" }}
-                validate={validate}
-                onSubmit={handleSaveFile}
-            >
-                {({ handleSubmit, validateForm }) => {
-                    if (saveFileError) {
-                        validateForm();
-                        setSaveNewFileError();
-                    }
-                    return (
-                        <Form>
-                            <Dialog
-                                open={open}
-                                onClose={onClose}
-                                maxWidth="sm"
-                                fullWidth
-                            >
-                                <DialogTitle>
-                                    {i18nCommon("saveAs")}
-                                    <IconButton
-                                        aria-label={i18nCommon("cancel")}
-                                        onClick={onClose}
-                                        size="small"
-                                        edge="end"
-                                        classes={{ root: classes.closeButton }}
-                                    >
-                                        <Close />
-                                    </IconButton>
-                                </DialogTitle>
-                                <DialogContent>
-                                    <div>
-                                        <Typography
-                                            classes={{
-                                                root: classes.bottomPadding,
-                                            }}
-                                            component="span"
-                                        >
-                                            {t("newFileLocation", {
-                                                path: dest,
-                                            })}
-                                        </Typography>
-                                        <Button
-                                            id={build(baseId, ids.SAVE_BTN)}
-                                            size="small"
-                                            style={{
-                                                marginLeft: theme.spacing(1),
-                                            }}
-                                            variant="outlined"
-                                            disableElevation
-                                            color="primary"
-                                            onClick={() =>
-                                                setSelectionDrawerOpen(true)
-                                            }
-                                            startIcon={
-                                                <Folder fontSize="small" />
-                                            }
-                                        >
-                                            <Hidden xsDown>
-                                                {t("browse")}
-                                            </Hidden>
-                                        </Button>
-                                    </div>
-                                    <Field
-                                        id={build(baseId, ids.FILE_NAME)}
-                                        name="name"
-                                        required={true}
-                                        label={t("fileName")}
-                                        onKeyDown={(event) => {
-                                            if (event.key === "Enter") {
-                                                handleSubmit();
-                                            }
-                                        }}
-                                        InputProps={{
-                                            readOnly: loading,
-                                            endAdornment: (
-                                                <>
-                                                    {loading && (
-                                                        <InputAdornment position="start">
-                                                            <CircularProgress
-                                                                id={build(
-                                                                    baseId,
-                                                                    ids.FOLDER_NAME,
-                                                                    ids.LOADING_SKELETON
-                                                                )}
-                                                                color="inherit"
-                                                                size={20}
-                                                            />
-                                                        </InputAdornment>
-                                                    )}
-                                                </>
-                                            ),
-                                        }}
-                                        component={FormTextField}
-                                    />
-                                </DialogContent>
+    const textFieldProps = {};
+    if (saveFileError) {
+        textFieldProps.error = true;
+        textFieldProps.helperText = saveFileError;
+    }
 
-                                <DialogActions>
+    return (
+        <Formik
+            enableReinitialize
+            initialValues={{ name: "", dest: path }}
+            validate={validate}
+            onSubmit={handleSaveFile}
+        >
+            {({ handleSubmit, validateForm }) => {
+                return (
+                    <Form>
+                        <DEDialog
+                            open={open}
+                            onClose={onClose}
+                            baseId={baseId}
+                            title={i18nCommon("saveAs")}
+                            actions={
+                                <>
                                     <Button
                                         id={build(baseId, ids.CANCEL_BTN)}
                                         onClick={onClose}
@@ -182,26 +76,33 @@ function SaveAsDialog(props) {
                                     >
                                         {i18nCommon("save")}
                                     </Button>
-                                </DialogActions>
-                            </Dialog>
-                        </Form>
-                    );
-                }}
-            </Formik>
-            <UploadTrackingProvider>
-                <DataSelectionDrawer
-                    open={selectionDrawerOpen}
-                    startingPath={dest}
-                    acceptedType={ResourceTypes.Folder}
-                    onClose={() => setSelectionDrawerOpen(false)}
-                    onConfirm={(selection) => {
-                        setDest(selection);
-                    }}
-                    baseId={build(baseId, "dataSelection")}
-                    multiSelect={false}
-                />
-            </UploadTrackingProvider>
-        </>
+                                </>
+                            }
+                        >
+                            <Field
+                                startingPath={path}
+                                name="dest"
+                                id={build(baseId, ids.PATH)}
+                                acceptedType={ResourceTypes.FOLDER}
+                                label={t("newFileLocation")}
+                                component={InputSelector}
+                                required={true}
+                            />
+                            <Field
+                                id={build(baseId, ids.FILE_NAME)}
+                                name="name"
+                                required={true}
+                                label={t("fileName")}
+                                loading={loading}
+                                path={path}
+                                component={SaveAsField}
+                                {...textFieldProps}
+                            />
+                        </DEDialog>
+                    </Form>
+                );
+            }}
+        </Formik>
     );
 }
 

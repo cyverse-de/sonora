@@ -23,7 +23,6 @@ import { build as buildDebugId, FormTextField } from "@cyverse-de/ui-lib";
 
 import {
     Button,
-    Grid,
     IconButton,
     InputAdornment,
     makeStyles,
@@ -140,21 +139,12 @@ const InputSelector = ({
     }
 
     return (
-        <Grid
-            container
-            direction="row"
-            justify="flex-start"
-            alignItems="center"
-        >
-            <Grid item xs>
-                <FormTextField
-                    InputProps={inputProps}
-                    size="small"
-                    className={classes.inputSelectorTextFiled}
-                    {...props}
-                />
-            </Grid>
-        </Grid>
+        <FormTextField
+            InputProps={inputProps}
+            size="small"
+            className={classes.inputSelectorTextFiled}
+            {...props}
+        />
     );
 };
 

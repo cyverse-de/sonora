@@ -12,6 +12,8 @@ export const INFO_TYPES_QUERY_KEY = "fetchInfoTypes";
 export const FETCH_FILE_MANIFEST_QUERY_KEY = "fetchFileManifest";
 export const READ_CHUNK_QUERY_KEY = "readChunk";
 export const PUBLIC_LINKS_QUERY_KEY = "fetchPublicLinks";
+export const MULTI_INPUT_PATH_LIST = "multi-input-path-list";
+export const HT_ANALYSIS_PATH_LIST = "ht-analysis-path-list";
 
 /**
  * Get details on data resources
@@ -252,5 +254,35 @@ export const getPublicLinks = (key, paths) => {
         body: {
             paths,
         },
+    });
+};
+
+export const pathListCreator = ({
+    paths,
+    dest,
+    pattern,
+    foldersOnly,
+    recursive,
+    requestedInfoType,
+    selectedInfoTypes,
+}) => {
+    const params = {};
+    params["recursive"] = recursive;
+    params["path-list-info-type"] = requestedInfoType;
+    params["dest"] = dest;
+    params["folders-only"] = foldersOnly;
+    if (pattern) {
+        params["name-pattern"] = pattern;
+    }
+    if (selectedInfoTypes && selectedInfoTypes.length > 0) {
+        params["info-type"] = selectedInfoTypes;
+    }
+    return callApi({
+        endpoint: "/api/filesystem/path-list-creator",
+        method: "POST",
+        body: {
+            paths,
+        },
+        params,
     });
 };

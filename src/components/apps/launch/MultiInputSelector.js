@@ -177,9 +177,10 @@ const MultiInputSelector = (props) => {
                                         <EmptyTable
                                             message={
                                                 <Typography
+                                                    variant="body2"
                                                     style={{
                                                         padding: theme.spacing(
-                                                            0.2
+                                                            0.5
                                                         ),
                                                     }}
                                                 >
@@ -228,7 +229,10 @@ const MultiInputRow = ({ id, path, onRowDeleted }) => {
         <TableRow id={id} hover>
             <TableCell>
                 <Tooltip title={path}>
-                    <Typography style={{ padding: theme.spacing(0.2) }}>
+                    <Typography
+                        variant="body2"
+                        style={{ padding: theme.spacing(0.5) }}
+                    >
                         {getPathBaseName(path)}
                     </Typography>
                 </Tooltip>

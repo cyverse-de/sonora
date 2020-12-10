@@ -50,6 +50,8 @@ import {
     useTheme,
 } from "@material-ui/core";
 
+import Skeleton from "@material-ui/lab/Skeleton";
+
 export default function PathListAutomation(props) {
     const {
         baseId,
@@ -73,7 +75,7 @@ export default function PathListAutomation(props) {
 
     let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
 
-    useQuery({
+    const { isFetching } = useQuery({
         queryKey: INFO_TYPES_QUERY_KEY,
         queryFn: getInfoTypes,
         config: {
@@ -91,7 +93,7 @@ export default function PathListAutomation(props) {
     const [createPathListFile, { status }] = useMutation(
         ({ submission }) => pathListCreator(submission),
         {
-            onSuccess: (data, { onSuccess }) => {
+            onSuccess: (data) => {
                 setCreatePathListError(null);
                 onCreatePathList(data.file.id, data.file.path);
             },
@@ -160,10 +162,12 @@ export default function PathListAutomation(props) {
                 actions.setFieldError("dest", t("pathListExistError"));
             }
         };
-        createPathListFile({
-            submission,
-            onError,
-        });
+        if (status !== constants.LOADING) {
+            createPathListFile({
+                submission,
+                onError,
+            });
+        }
     };
 
     const validate = (values) => {
@@ -192,7 +196,13 @@ export default function PathListAutomation(props) {
         <Formik
             onSubmit={handlePathListCreation}
             validate={validate}
-            initialValues={{ selectedPaths: [], dest: startingPath }}
+            initialValues={{
+                selectedPaths: [],
+                dest: startingPath,
+                fileName: "",
+                pattern: "",
+                foldersOnly: false,
+            }}
         >
             {({ handleSubmit }) => {
                 return (
@@ -244,7 +254,7 @@ export default function PathListAutomation(props) {
                                     name="selectedPaths"
                                     required={true}
                                     component={MultiInputSelector}
-                                    height="20vh"
+                                    height="25vh"
                                     label={t("suggestionSelection_any_plural")}
                                 />
                             </Grid>
@@ -308,7 +318,14 @@ export default function PathListAutomation(props) {
                                             ids.PATH_LIST_AUTO_MATCH_INFO_TYPES
                                         )}
                                     >
-                                        {infoTypes &&
+                                        {isFetching && (
+                                            <Skeleton
+                                                variant="rect"
+                                                height={150}
+                                            />
+                                        )}
+                                        {!isFetching &&
+                                            infoTypes &&
                                             infoTypes.length > 0 &&
                                             infoTypes.map((type) => {
                                                 const labelId = `checkbox-list-label-${type}`;

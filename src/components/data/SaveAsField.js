@@ -52,7 +52,7 @@ const SaveAsField = ({ startingPath, showErrorAnnouncer, ...props }) => {
         ),
     };
 
-    if (value && !required) {
+    if (value && !required && !loading) {
         inputProps.endAdornment = (
             <IconButton
                 id={buildDebugId(name, ids.DELETE_BTN)}
@@ -71,6 +71,7 @@ const SaveAsField = ({ startingPath, showErrorAnnouncer, ...props }) => {
             size="small"
             className={classes.inputSelectorTextFiled}
             InputProps={inputProps}
+            dense
             {...props}
         />
     );

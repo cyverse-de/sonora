@@ -13,6 +13,8 @@ import ids from "./ids";
 
 import { BrowseButton } from "./InputSelector";
 
+import globalConstants from "../../../constants";
+
 import {
     build as buildDebugId,
     getFormError,
@@ -35,6 +37,7 @@ import {
     Toolbar,
     Tooltip,
     Typography,
+    useTheme,
 } from "@material-ui/core";
 
 import ClearIcon from "@material-ui/icons/Clear";
@@ -60,7 +63,7 @@ const comparePathNames = (a, b) =>
     getPathBaseName(a).localeCompare(getPathBaseName(b));
 
 const getSortedPaths = (order, paths) => {
-    if (order === "asc") {
+    if (order === globalConstants.SORT_ASCENDING) {
         return stableSort(paths, (a, b) => comparePathNames(a, b));
     }
 
@@ -87,7 +90,7 @@ const MultiInputSelector = (props) => {
     const columnData = multiInputColumnData(t);
     const nameColumn = columnData[0];
 
-    const [order, setOrder] = React.useState("asc");
+    const [order, setOrder] = React.useState(globalConstants.SORT_ASCENDING);
 
     const paths = getIn(values, name);
     const errorMsg = getFormError(name, touched, errors);
@@ -95,8 +98,13 @@ const MultiInputSelector = (props) => {
     const tableId = buildDebugId(id, "table");
     const tableLabelID = buildDebugId(tableId, "tableLabel");
 
+    const theme = useTheme();
+
     const onRequestSort = (event, property) => {
-        const newOrder = order === "desc" ? "asc" : "desc";
+        const newOrder =
+            order === globalConstants.SORT_DESCENDING
+                ? globalConstants.SORT_ASCENDING
+                : globalConstants.SORT_DESCENDING;
         setOrder(newOrder);
         setFieldValue(name, getSortedPaths(newOrder, paths));
     };
@@ -153,6 +161,7 @@ const MultiInputSelector = (props) => {
                                 stickyHeader={true}
                                 size="small"
                                 aria-labelledby={tableLabelID}
+                                padding="none"
                             >
                                 <EnhancedTableHead
                                     selectable={false}
@@ -166,7 +175,17 @@ const MultiInputSelector = (props) => {
                                 <TableBody>
                                     {!paths?.length ? (
                                         <EmptyTable
-                                            message={t("multiInputEmptyLabel")}
+                                            message={
+                                                <Typography
+                                                    style={{
+                                                        padding: theme.spacing(
+                                                            0.2
+                                                        ),
+                                                    }}
+                                                >
+                                                    {t("multiInputEmptyLabel")}
+                                                </Typography>
+                                            }
                                             numColumns={3}
                                         />
                                     ) : (
@@ -204,11 +223,14 @@ const MultiInputSelector = (props) => {
 
 const MultiInputRow = ({ id, path, onRowDeleted }) => {
     const { t } = useTranslation("launch");
+    const theme = useTheme();
     return (
         <TableRow id={id} hover>
             <TableCell>
                 <Tooltip title={path}>
-                    <Typography>{getPathBaseName(path)}</Typography>
+                    <Typography style={{ padding: theme.spacing(0.2) }}>
+                        {getPathBaseName(path)}
+                    </Typography>
                 </Tooltip>
             </TableCell>
             <TableCell align="right">
@@ -216,8 +238,9 @@ const MultiInputRow = ({ id, path, onRowDeleted }) => {
                     id={buildDebugId(id, ids.BUTTONS.DELETE)}
                     aria-label={t("delete")}
                     onClick={onRowDeleted}
+                    size="small"
                 >
-                    <ClearIcon />
+                    <ClearIcon fontSize="small" />
                 </IconButton>
             </TableCell>
         </TableRow>

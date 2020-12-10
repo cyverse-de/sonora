@@ -140,7 +140,7 @@ function Edit(props) {
                                 }}
                             />
                         </GridLabelValue>
-                        <GridLabelValue>
+                        <Grid item>
                             <Field
                                 id={build(baseId, ids.DELETED_SWITCH)}
                                 component={FormSwitch}
@@ -149,7 +149,7 @@ function Edit(props) {
                                 className={classes.textField}
                                 label={t("deleted")}
                             />
-                        </GridLabelValue>
+                        </Grid>
                     </Grid>
                     <Grid container justify="flex-end">
                         <Grid item>

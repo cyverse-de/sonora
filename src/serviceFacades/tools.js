@@ -78,6 +78,26 @@ function getToolTypes(_) {
     });
 }
 
+function addTool({ tool }) {
+    return callApi({
+        endpoint: `/api/tools`,
+        method: "POST",
+        body: {
+            tool,
+        },
+    });
+}
+
+function updateTool({ tool }) {
+    return callApi({
+        endpoint: `/api/tools/${tool.id}`,
+        method: "PATCH",
+        body: {
+            tool,
+        },
+    });
+}
+
 export {
     getTools,
     getToolPermissions,
@@ -87,5 +107,7 @@ export {
     APPS_USING_QUERY_KEY,
     TOOL_TYPES_QUERY_KEY,
     getAppsUsed,
-    getToolTypes
+    getToolTypes,
+    addTool,
+    updateTool,
 };

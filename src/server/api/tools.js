@@ -77,7 +77,33 @@ export default function toolsRouter() {
                 "Content-Type": "application/json",
             },
         })
-    )
+    );
+
+    logger.info("adding the POST /api/tools handler");
+    api.post(
+        "/tools",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/tools",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the PATCH /api/tools/:id handler");
+    api.patch(
+        "/tools/:id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/tools",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
 
     return api;
 }

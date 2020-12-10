@@ -3,6 +3,7 @@ import callApi from "../common/callApi";
 const TOOLS_QUERY_KEY = "fetchTools";
 const TOOL_DETAILS_QUERY_KEY = "fetchToolDetails";
 const APPS_USING_QUERY_KEY = "fetchAppsUsed";
+const TOOL_TYPES_QUERY_KEY = "fetchToolTypes";
 
 /**
  * The parameters accepted by a tool listing request. Sorting will only be
@@ -70,6 +71,13 @@ function getAppsUsed(_, { id }) {
     });
 }
 
+function getToolTypes(_) {
+    return callApi({
+        endpoint: "/api/apps/elements/tool-types",
+        method: "GET",
+    });
+}
+
 export {
     getTools,
     getToolPermissions,
@@ -77,5 +85,7 @@ export {
     TOOLS_QUERY_KEY,
     TOOL_DETAILS_QUERY_KEY,
     APPS_USING_QUERY_KEY,
+    TOOL_TYPES_QUERY_KEY,
     getAppsUsed,
+    getToolTypes
 };

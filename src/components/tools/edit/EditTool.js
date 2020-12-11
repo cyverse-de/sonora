@@ -128,7 +128,7 @@ function EditToolDialog(props) {
         } else {
             presenter.addTool(values);
         } */
-        const submission = { tool: { ...values } };
+        const submission = { ...values };
         if (tool) {
             updateCurrentTool({ submission });
         } else {

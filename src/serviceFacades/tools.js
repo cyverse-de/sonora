@@ -78,7 +78,7 @@ function getToolTypes(_) {
     });
 }
 
-function addTool({ tool }) {
+function addTool(tool) {
     return callApi({
         endpoint: `/api/tools`,
         method: "POST",
@@ -88,7 +88,7 @@ function addTool({ tool }) {
     });
 }
 
-function updateTool({ tool }) {
+function updateTool(tool) {
     return callApi({
         endpoint: `/api/tools/${tool.id}`,
         method: "PATCH",

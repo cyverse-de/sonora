@@ -98,7 +98,7 @@ export default function toolsRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "PATCH",
-            pathname: "/tools",
+            pathname: "/tools/:id",
             headers: {
                 "Content-Type": "application/json",
             },

@@ -4,15 +4,10 @@
 import React, { useState } from "react";
 
 import { useTranslation } from "i18n";
-<<<<<<< HEAD
 import { useQuery, useMutation, queryCache } from "react-query";
 
 import TOOL_TYPES from "components/models/ToolTypes";
 
-=======
-import { useQuery, useMutation } from "react-query";
-
->>>>>>> 7265d3e... Hook up service calls. Refactor code.
 import { useConfig } from "contexts/config";
 import DEDialog from "components/utils/DEDialog";
 import ContainerDevices from "./ContainerDevices";
@@ -39,18 +34,6 @@ import {
     TOOLS_QUERY_KEY,
 } from "serviceFacades/tools";
 
-<<<<<<< HEAD
-=======
-import {
-    TOOL_TYPES_QUERY_KEY,
-    getToolTypes,
-    getToolDetails,
-    TOOL_DETAILS_QUERY_KEY,
-    addTool,
-    updateTool,
-} from "serviceFacades/tools";
-
->>>>>>> 7265d3e... Hook up service calls. Refactor code.
 import {
     announce,
     build,
@@ -61,7 +44,6 @@ import {
 } from "@cyverse-de/ui-lib";
 
 import { Field, FieldArray, Form, getIn, Formik } from "formik";
-<<<<<<< HEAD
 import {
     Button,
     CircularProgress,
@@ -70,34 +52,16 @@ import {
     Paper,
     Typography,
 } from "@material-ui/core";
-=======
-import { Button, Grid, MenuItem, Paper, Typography } from "@material-ui/core";
->>>>>>> 7265d3e... Hook up service calls. Refactor code.
 import { withStyles } from "@material-ui/core/styles";
 import { Skeleton } from "@material-ui/lab";
 
 function EditToolDialog(props) {
-<<<<<<< HEAD
     const { open, parentId, tool, isAdmin, isAdminPublishing, onClose } = props;
 
     const { t } = useTranslation("tools");
     const [toolTypes, setToolTypes] = useState([]);
     const [addToolError, setAddToolError] = useState();
     const [updateToolError, setUpdateToolError] = useState();
-=======
-    const {
-        open,
-        parentId,
-        tool,
-        isAdmin,
-        isAdminPublishing,
-        values,
-        onClose,
-    } = props;
-
-    const { t } = useTranslation("tools");
-    const [toolTypes, setToolTypes] = useState([]);
->>>>>>> 7265d3e... Hook up service calls. Refactor code.
     const [selectedTool, setSelectedTool] = useState();
 
     const [config] = useConfig();
@@ -110,30 +74,16 @@ function EditToolDialog(props) {
         queryFn: getToolTypes,
         config: {
             enabled: true,
-<<<<<<< HEAD
             staleTime: Infinity,
             cacheTime: Infinity,
             onSuccess: (data) => {
                 if (data?.tool_types?.length > 0) {
-=======
-            onSuccess: (data) => {
-                if (
-                    data &&
-                    data["tool_types"] &&
-                    data["tool_types"].length > 0
-                ) {
->>>>>>> 7265d3e... Hook up service calls. Refactor code.
                     setToolTypes(
                         data["tool_types"]
                             .filter(
                                 (type) =>
-<<<<<<< HEAD
                                     type.name !== TOOL_TYPES.INTERNAL &&
                                     type.name !== TOOL_TYPES.FAPI
-=======
-                                    type.name !== "internal" &&
-                                    type.name !== "fAPI"
->>>>>>> 7265d3e... Hook up service calls. Refactor code.
                             )
                             .map((type) => type.name)
                     );
@@ -141,19 +91,11 @@ function EditToolDialog(props) {
             },
         },
     });
-<<<<<<< HEAD
-
-=======
->>>>>>> 7265d3e... Hook up service calls. Refactor code.
     const { isFetching: isToolFetching, error: toolFetchError } = useQuery({
         queryKey: [TOOL_DETAILS_QUERY_KEY, { id: tool?.id }],
         queryFn: getToolDetails,
         config: {
-<<<<<<< HEAD
             enabled: tool && open,
-=======
-            enabled: tool !== null && tool !== undefined,
->>>>>>> 7265d3e... Hook up service calls. Refactor code.
             onSuccess: setSelectedTool,
         },
     });
@@ -162,7 +104,6 @@ function EditToolDialog(props) {
         ({ submission }) => addTool(submission),
         {
             onSuccess: (data) => {
-<<<<<<< HEAD
                 announce({
                     text: t("toolAdded"),
                 });
@@ -171,13 +112,6 @@ function EditToolDialog(props) {
                 onClose();
             },
             onError: setAddToolError,
-=======
-                console.log("Tool added=>" + JSON.stringify(data));
-            },
-            onError: (error) => {
-                console.log("Error adding tool=>" + error);
-            },
->>>>>>> 7265d3e... Hook up service calls. Refactor code.
         }
     );
 
@@ -185,7 +119,6 @@ function EditToolDialog(props) {
         ({ submission }) => updateTool(submission),
         {
             onSuccess: (data) => {
-<<<<<<< HEAD
                 announce({
                     text: t("toolUpdated"),
                 });
@@ -194,18 +127,10 @@ function EditToolDialog(props) {
                 onClose();
             },
             onError: setUpdateToolError,
-=======
-                console.log("Tool updated=>" + JSON.stringify(data));
-            },
-            onError: (error) => {
-                console.log("Error updating tool=>" + error);
-            },
->>>>>>> 7265d3e... Hook up service calls. Refactor code.
         }
     );
 
     const handleSubmit = (values, { props }) => {
-<<<<<<< HEAD
         const submission = { ...values };
 
         //these keys needs to added to submission for interactive tools
@@ -230,22 +155,6 @@ function EditToolDialog(props) {
             } else {
                 addNewTool({ submission });
             }
-=======
-        /*         if (tool) {
-            if (isAdmin && isAdminPublishing) {
-                presenter.onPublish(values);
-            } else {
-                presenter.updateTool(values);
-            }
-        } else {
-            presenter.addTool(values);
-        } */
-        const submission = { tool: { ...values } };
-        if (tool) {
-            updateCurrentTool({ submission });
-        } else {
-            addNewTool({ submission });
->>>>>>> 7265d3e... Hook up service calls. Refactor code.
         }
     };
 
@@ -267,7 +176,6 @@ function EditToolDialog(props) {
                 <Skeleton animation="wave" variant="rect" height={800} />
             )}
 
-<<<<<<< HEAD
             {(newToolStatus === constants.LOADING ||
                 updateToolStatus === constants.LOADING) && (
                 <CircularProgress
@@ -319,35 +227,19 @@ function EditToolDialog(props) {
                         return (
                             <Form>
                                 <StyledEditToolForm
-=======
-            {!isToolTypeFetching && !isToolFetching && (
-                <Formik
-                    initialValues={{ ...selectedTool }}
-                    onSubmit={handleSubmit}
-                >
-                    {() => {
-                        return (
-                            <Form>
-                                <StyledEditToolForm
-                                    values={values}
->>>>>>> 7265d3e... Hook up service calls. Refactor code.
                                     isAdmin={isAdmin}
                                     parentId={parentId}
                                     toolTypes={toolTypes}
                                     maxCPUCore={maxCPUCore}
                                     maxMemory={maxMemory}
                                     maxDiskSpace={maxDiskSpace}
-<<<<<<< HEAD
                                     values={values}
-=======
->>>>>>> 7265d3e... Hook up service calls. Refactor code.
                                 />
                                 <Grid
                                     container
                                     direction="row"
                                     justify="flex-end"
                                     alignItems="flex-end"
-<<<<<<< HEAD
                                     spacing={1}
                                 >
                                     {toolTypeError && (
@@ -392,10 +284,6 @@ function EditToolDialog(props) {
                                         </Grid>
                                     )}
 
-=======
-                                    spacing={2}
-                                >
->>>>>>> 7265d3e... Hook up service calls. Refactor code.
                                     <Grid item>
                                         <Button
                                             id={build(
@@ -646,34 +534,7 @@ function EditToolForm(props) {
     );
 }
 
-<<<<<<< HEAD
 const DEFAULT_TOOL = {
-=======
-/**
- * Ensures that if the user previously filled out information for an OSG
- * or interactive/VICE tool, and then selects a different type,
- * that those fields get cleared out to prevent any validation errors and
- * also to prevent empty values being unintentionally sent to the service.
- *
- * Also auto-sets the container.network_mode based on tool type
- *
- * @param currentType
- * @param form
- */
-function resetOnTypeChange(currentType, form) {
-    if (currentType !== "osg") {
-        form.setFieldValue("container.image.osg_image_path", null);
-    }
-    if (currentType !== "interactive") {
-        form.setFieldValue("container.container_ports", null);
-        form.setFieldValue("container.network_mode", "none");
-    } else {
-        form.setFieldValue("container.network_mode", "bridge");
-    }
-}
-
-/* const DEFAULT_TOOL = {
->>>>>>> 7265d3e... Hook up service calls. Refactor code.
     name: "",
     version: "",
     container: {
@@ -715,7 +576,6 @@ function mapPropsToValues(tool, isAdmin) {
     }
 }
 
-<<<<<<< HEAD
 /**
  * Ensures that if the user previously filled out information for an OSG
  * or interactive/VICE tool, and then selects a different type,
@@ -738,15 +598,5 @@ function resetOnTypeChange(currentType, form) {
         form.setFieldValue("container.network_mode", "bridge");
     }
 }
-=======
-EditToolDialog.propTypes = {
-    open: PropTypes.bool.isRequired,
-    isAdmin: PropTypes.bool.isRequired,
-    isAdminPublishing: PropTypes.bool.isRequired,
-    loading: PropTypes.bool.isRequired,
-    tool: PropTypes.object,
-    parentId: PropTypes.string.isRequired,
-}; */
->>>>>>> 7265d3e... Hook up service calls. Refactor code.
 
 export default EditToolDialog;

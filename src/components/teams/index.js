@@ -22,11 +22,11 @@ import {
 
 const TEAM_FILTER = {
     MY_TEAMS: "MY_TEAMS",
-    ALL_TEAMS: "ALL",
+    ALL_TEAMS: "ALL_TEAMS",
 };
 
 function Teams(props) {
-    const [teamFilter, setTeamFilter] = useState(TEAM_FILTER.MY_TEAMS);
+    const [teamFilter, setTeamFilter] = useState(TEAM_FILTER.ALL_TEAMS);
     const [searchTerm, setSearchTerm] = useState("");
     const [data, setData] = useState([]);
     const [userProfile] = useUserProfile();

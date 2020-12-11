@@ -32,8 +32,11 @@ export const getListingPath = (
     rowsPerPage,
     filter,
     category
-) =>
-    `/${NavigationConstants.APPS}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedFilter=${filter}&selectedCategory=${category}`;
+) => {
+    const encodedFilter = encodeURIComponent(filter);
+    const encodedCategory = encodeURIComponent(category);
+    return `/${NavigationConstants.APPS}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedFilter=${encodedFilter}&selectedCategory=${encodedCategory}`;
+};
 
 /**
  * Builds `href` and `as` paths for use in an app listing next/link

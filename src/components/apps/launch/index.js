@@ -20,6 +20,7 @@ import { submitAnalysis } from "serviceFacades/analyses";
 import { addQuickLaunch } from "serviceFacades/quickLaunches";
 
 import AppLaunchWizard from "./AppLaunchWizard";
+import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 
 export default ({ app, launchError, loading }) => {
     const [submissionError, setSubmissionError] = React.useState(null);
@@ -71,16 +72,24 @@ export default ({ app, launchError, loading }) => {
     const defaultMaxMemory = config?.tools?.private.max_memory_limit;
     const defaultMaxDiskSpace = config?.tools?.private.max_disk_limit;
 
+    const baseId = "apps";
+
+    if (launchError) {
+        return (
+            <WrappedErrorHandler errorObject={launchError} baseId={baseId} />
+        );
+    }
+
     return (
         <AppLaunchWizard
-            baseId="apps"
+            baseId={baseId}
             notify={notify}
             defaultOutputDir={defaultOutputDir}
             defaultMaxCPUCores={defaultMaxCPUCores}
             defaultMaxMemory={defaultMaxMemory}
             defaultMaxDiskSpace={defaultMaxDiskSpace}
             app={app}
-            appError={launchError || submissionError}
+            appError={submissionError}
             loading={loading}
             submitAnalysis={(submission, onSuccess, onError) => {
                 setSubmissionError(null);

@@ -4,6 +4,7 @@
  */
 import callApi from "../common/callApi";
 import appType from "../components/models/AppType";
+import constants from "../constants";
 
 const ALL_APPS_QUERY_KEY = "fetchAllApps";
 const APP_DETAILS_QUERY_KEY = "fetchAppDetails";
@@ -38,23 +39,74 @@ function getAppById(key, { systemId, appId }) {
     });
 }
 
-function getPrivateCategories(key) {
-    return callApi({
-        endpoint: "/api/apps/categories?public=false",
-        method: "GET",
-    });
+function getPrivateCategories(key, userId) {
+    return userId
+        ? callApi({
+              endpoint: "/api/apps/categories?public=false",
+              method: "GET",
+          })
+        : Promise.resolve({
+              categories: [
+                  {
+                      system_id: "de",
+                      name: "Workspace",
+                      categories: [
+                          {
+                              system_id: "de",
+                              id: constants.APPS_UNDER_DEV, // fake ID for anon user
+                              name: constants.APPS_UNDER_DEV,
+                          },
+                          {
+                              system_id: "de",
+                              id: constants.FAV_APPS, // fake ID for anon user
+                              name: constants.FAV_APPS,
+                          },
+                          {
+                              system_id: "de",
+                              id: "00000000-0000-0000-0000-000000000000",
+                              name: constants.MY_PUBLIC_APPS,
+                          },
+                          {
+                              system_id: "de",
+                              id: "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee",
+                              name: constants.APPS_SHARED_WITH_ME,
+                          },
+                      ],
+                  },
+                  {
+                      system_id: constants.AGAVE_SYSTEM_ID,
+                      id: "00000000-0000-0000-0000-000000000001",
+                      name: constants.HPC,
+                  },
+              ],
+          });
 }
 
 function getAppsInCategory(
     key,
-    { systemId, categoryId, rowsPerPage, orderBy, order, page, appTypeFilter }
+    {
+        systemId,
+        categoryId,
+        rowsPerPage,
+        orderBy,
+        order,
+        page,
+        appTypeFilter,
+        userId,
+    }
 ) {
-    return callApi({
-        endpoint: `/api/apps/categories/${systemId}/${categoryId}?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
-            rowsPerPage * page
-        }${getAppTypeFilter(appTypeFilter)}`,
-        method: "GET",
-    });
+    return userId
+        ? callApi({
+              endpoint: `/api/apps/categories/${systemId}/${categoryId}?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
+                  rowsPerPage * page
+              }${getAppTypeFilter(appTypeFilter)}`,
+              method: "GET",
+          })
+        : Promise.reject({
+              response: {
+                  status: 401,
+              },
+          });
 }
 
 function getAppDescription(_, { systemId, appId }) {

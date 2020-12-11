@@ -55,6 +55,7 @@ import {
     Pageview as PageviewIcon,
     Folder as FolderIcon,
 } from "@material-ui/icons";
+import { useUserProfile } from "../../contexts/userProfile";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -327,6 +328,7 @@ function AnalysesSearchOption(props) {
 function GlobalSearchField(props) {
     const classes = useStyles();
     const router = useRouter();
+    const [userProfile] = useUserProfile();
     const { search, selectedFilter, showErrorAnnouncer } = props;
 
     const { t } = useTranslation("common");
@@ -548,13 +550,13 @@ function GlobalSearchField(props) {
             case searchConstants.ANALYSES:
                 setDataSearchQueryEnabled(false);
                 setAppsSearchQueryEnabled(false);
-                setAnalysesSearchQueryEnabled(true);
+                setAnalysesSearchQueryEnabled(userProfile?.id);
                 break;
 
             default:
                 setDataSearchQueryEnabled(true);
                 setAppsSearchQueryEnabled(true);
-                setAnalysesSearchQueryEnabled(true);
+                setAnalysesSearchQueryEnabled(userProfile?.id);
         }
     }, [
         analysesI18n,
@@ -563,6 +565,7 @@ function GlobalSearchField(props) {
         searchTerm,
         t,
         userHomeDir,
+        userProfile,
     ]);
 
     useEffect(() => {

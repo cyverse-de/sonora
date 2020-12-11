@@ -40,6 +40,7 @@ import Sharing from "components/sharing";
 import { formatSharedApps } from "components/sharing/util";
 import AppDoc from "components/apps/details/AppDoc";
 import QuickLaunchDialog from "../quickLaunch/QuickLaunchDialog";
+import { useUserProfile } from "contexts/userProfile";
 
 function Listing({
     baseId,
@@ -57,6 +58,7 @@ function Listing({
 }) {
     const { t } = useTranslation(["apps", "common"]);
     const [isGridView, setGridView] = useState(false);
+    const [userProfile] = useUserProfile();
 
     const [order, setOrder] = useState(selectedOrder);
     const [orderBy, setOrderBy] = useState(selectedOrderBy);
@@ -79,20 +81,6 @@ function Listing({
     const [categoryStatus, setCategoryStatus] = useState(false);
     const [navError, setNavError] = useState(null);
 
-    const [appsInCategoryKey, setAppsInCategoryKey] = useState(
-        APPS_IN_CATEGORY_QUERY_KEY
-    );
-    const [allAppsKey, setAllAppsKey] = useState(ALL_APPS_QUERY_KEY);
-
-    const [appByIdKey, setAppByIdKey] = useState(APP_BY_ID_QUERY_KEY);
-
-    const [
-        appsInCategoryQueryEnabled,
-        setAppsInCategoryQueryEnabled,
-    ] = useState(false);
-    const [allAppsQueryEnabled, setAllAppsQueryEnabled] = useState(false);
-    const [appByIdQueryEnabled, setAppByIdQueryEnabled] = useState(false);
-
     const getSelectedApps = () => {
         return selected.map((id) => data?.apps.find((app) => app.id === id));
     };
@@ -109,28 +97,61 @@ function Listing({
         isFetching: appInCategoryStatus,
         error: appsInCategoryError,
     } = useQuery({
-        queryKey: appsInCategoryKey,
+        queryKey: [
+            APPS_IN_CATEGORY_QUERY_KEY,
+            {
+                systemId: category?.system_id,
+                rowsPerPage,
+                orderBy,
+                order,
+                appTypeFilter: filter?.name,
+                page,
+                categoryId: category?.id,
+                userId: userProfile?.id,
+            },
+        ],
         queryFn: getAppsInCategory,
         config: {
-            enabled: appsInCategoryQueryEnabled,
+            enabled:
+                // Disable the query if the category ID is fake and the user is
+                // logged in.  The Navigation component should update the ID to
+                // the real ID.
+                category?.system_id &&
+                category?.id &&
+                (!userProfile?.id ||
+                    ![constants.APPS_UNDER_DEV, constants.FAV_APPS].includes(
+                        category?.id
+                    )),
             onSuccess: setData,
         },
     });
 
     const { isFetching: allAppsStatus, error: listingError } = useQuery({
-        queryKey: allAppsKey,
+        queryKey: [
+            ALL_APPS_QUERY_KEY,
+            {
+                rowsPerPage,
+                orderBy,
+                order,
+                page,
+                appTypeFilter: filter?.name,
+            },
+        ],
         queryFn: getApps,
         config: {
-            enabled: allAppsQueryEnabled,
+            enabled: category?.name === constants.BROWSE_ALL_APPS,
             onSuccess: setData,
         },
     });
 
     const { isFetching: appByIdStatus, error: appByIdError } = useQuery({
-        queryKey: appByIdKey,
+        queryKey: [
+            APP_BY_ID_QUERY_KEY,
+            { systemId: selectedSystemId, appId: selectedAppId },
+        ],
         queryFn: getAppById,
         config: {
-            enabled: appByIdQueryEnabled,
+            enabled: selectedSystemId && selectedAppId,
             onSuccess: setData,
         },
     });
@@ -177,61 +198,6 @@ function Listing({
         selectedPage,
         selectedRowsPerPage,
         selectedCategory,
-    ]);
-
-    useEffect(() => {
-        const systemId = category?.system_id;
-        const categoryId = category?.id;
-        const categoryName = category?.name;
-        const appTypeFilter = filter?.name;
-        if (selectedSystemId && selectedAppId) {
-            setAppByIdKey([
-                APP_BY_ID_QUERY_KEY,
-                { systemId: selectedSystemId, appId: selectedAppId },
-            ]);
-            setAppByIdQueryEnabled(true);
-            setAllAppsQueryEnabled(false);
-            setAppsInCategoryQueryEnabled(false);
-        } else if (categoryName === constants.BROWSE_ALL_APPS) {
-            setAllAppsKey([
-                ALL_APPS_QUERY_KEY,
-                {
-                    rowsPerPage,
-                    orderBy,
-                    order,
-                    page,
-                    appTypeFilter,
-                },
-            ]);
-            setAllAppsQueryEnabled(true);
-            setAppsInCategoryQueryEnabled(false);
-            setAppByIdQueryEnabled(false);
-        } else if (systemId && categoryId) {
-            setAppsInCategoryKey([
-                APPS_IN_CATEGORY_QUERY_KEY,
-                {
-                    systemId,
-                    rowsPerPage,
-                    orderBy,
-                    order,
-                    appTypeFilter,
-                    page,
-                    categoryId,
-                },
-            ]);
-            setAppsInCategoryQueryEnabled(true);
-            setAllAppsQueryEnabled(false);
-            setAppByIdQueryEnabled(false);
-        }
-    }, [
-        order,
-        orderBy,
-        page,
-        rowsPerPage,
-        category,
-        filter,
-        selectedSystemId,
-        selectedAppId,
     ]);
 
     useEffect(() => {

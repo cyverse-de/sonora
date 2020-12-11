@@ -53,12 +53,12 @@ function getPrivateCategories(key, userId) {
                       categories: [
                           {
                               system_id: "de",
-                              id: constants.APPS_UNDER_DEV,
+                              id: constants.APPS_UNDER_DEV, // fake ID for anon user
                               name: constants.APPS_UNDER_DEV,
                           },
                           {
                               system_id: "de",
-                              id: constants.FAV_APPS,
+                              id: constants.FAV_APPS, // fake ID for anon user
                               name: constants.FAV_APPS,
                           },
                           {

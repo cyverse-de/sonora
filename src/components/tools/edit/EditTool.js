@@ -1,10 +1,12 @@
 /**
- * @author aramsey
+ * @author aramsey, sriram
  */
 import React, { useState } from "react";
 
 import { useTranslation } from "i18n";
 import { useQuery, useMutation } from "react-query";
+
+import TOOL_TYPES from "components/models/ToolTypes";
 
 import { useConfig } from "contexts/config";
 import DEDialog from "components/utils/DEDialog";
@@ -76,8 +78,8 @@ function EditToolDialog(props) {
                         data["tool_types"]
                             .filter(
                                 (type) =>
-                                    type.name !== "internal" &&
-                                    type.name !== "fAPI"
+                                    type.name !== TOOL_TYPES.INTERNAL &&
+                                    type.name !== TOOL_TYPES.FAPI
                             )
                             .map((type) => type.name)
                     );
@@ -119,16 +121,45 @@ function EditToolDialog(props) {
     );
 
     const handleSubmit = (values, { props }) => {
-        /*         if (tool) {
-            if (isAdmin && isAdminPublishing) {
-                presenter.onPublish(values);
-            } else {
-                presenter.updateTool(values);
-            }
-        } else {
-            presenter.addTool(values);
-        } */
-        const submission = { ...values };
+        const submission = {};
+        if (tool) {
+            submission.id = values.id;
+        }
+        submission.name = values.name;
+        submission.description = values.description;
+        submission.version = values.version;
+        submission.type = values.type;
+        submission["time_limit_seconds"] = values["time_limit_seconds"];
+        submission.restricted = values.restricted;
+        submission.interactive = values.type === TOOL_TYPES.INTERACTIVE;
+
+        submission.container = {};
+        submission.container["skip_tmp_mount"] =
+            values.container["skip_tmp_mount"];
+        submission.container["pids_limit"] = values.container["pids_limit"];
+        submission.container["memory_limit"] = values.container["memory_limit"];
+        submission.container["network_mode"] = values.container["network_mode"];
+
+        submission.container.image = {};
+        submission.container.image.name = values.container.image.name;
+        submission.container.image.tag = values.container.image.tag;
+        submission.container.image.osg_image_path =
+            values.container.image.osg_image_path;
+
+        if (submission.interactive) {
+            submission.container["interactive_apps"] = {};
+            submission.container["interactive_apps"]["cas_url"] =
+                config.vice.defaultImage;
+            submission.container["interactive_apps"]["cas_validate"] =
+                config.vice.defaultName;
+            submission.container["interactive_apps"].image =
+                config.vice.defaultCasUrl;
+            submission["interactive_apps"].defaultCasValidate =
+                config.vice.defaultCasValidate;
+            submission.container["skip_tmp_mount"] = true;
+            submission.container["network_mode"] = "bridge";
+        }
+
         if (tool) {
             updateCurrentTool({ submission });
         } else {
@@ -230,8 +261,8 @@ function EditToolForm(props) {
     const { t } = useTranslation("tools");
 
     const selectedToolType = getIn(values, "type");
-    const isOSGTool = selectedToolType === "osg";
-    const isInteractiveTool = selectedToolType === "interactive";
+    const isOSGTool = selectedToolType === TOOL_TYPES.OSG;
+    const isInteractiveTool = selectedToolType === TOOL_TYPES.INTERACTIVE;
 
     return (
         <>
@@ -273,10 +304,8 @@ function EditToolForm(props) {
                     component={FormTextField}
                 />
             )}
-            <Field
-                name="type"
-                validate={nonEmptyField}
-                render={({ field: { onChange, ...field }, ...props }) => (
+            <Field name="type">
+                {({ field: { onChange, ...field }, ...props }) => (
                     <FormSelectField
                         {...props}
                         label={t("type")}
@@ -303,7 +332,7 @@ function EditToolForm(props) {
                         ))}
                     </FormSelectField>
                 )}
-            />
+            </Field>
             {isAdmin && (
                 <Field
                     name="implementation"
@@ -443,7 +472,7 @@ function EditToolForm(props) {
  * @param form
  */
 function resetOnTypeChange(currentType, form) {
-    if (currentType !== "osg") {
+    if (currentType !== TOOL_TYPES.OSG) {
         form.setFieldValue("container.image.osg_image_path", null);
     }
     if (currentType !== "interactive") {
@@ -453,48 +482,5 @@ function resetOnTypeChange(currentType, form) {
         form.setFieldValue("container.network_mode", "bridge");
     }
 }
-
-/* const DEFAULT_TOOL = {
-    name: "",
-    version: "",
-    container: {
-        image: {
-            name: "",
-            tag: "",
-            osg_image_path: "",
-        },
-    },
-    type: "",
-};
-
-const DEFAULT_ADMIN_TOOL = {
-    ...DEFAULT_TOOL,
-    implementation: {
-        implementor: "",
-        implementor_email: "",
-        test: {
-            input_files: [],
-            output_files: [],
-        },
-    },
-};
-
-function mapPropsToValues(props) {
-    const { tool, isAdmin } = props;
-    if (!tool) {
-        return isAdmin ? { ...DEFAULT_ADMIN_TOOL } : { ...DEFAULT_TOOL };
-    } else {
-        return { ...tool };
-    }
-}
-
-EditToolDialog.propTypes = {
-    open: PropTypes.bool.isRequired,
-    isAdmin: PropTypes.bool.isRequired,
-    isAdminPublishing: PropTypes.bool.isRequired,
-    loading: PropTypes.bool.isRequired,
-    tool: PropTypes.object,
-    parentId: PropTypes.string.isRequired,
-}; */
 
 export default EditToolDialog;

@@ -5,6 +5,7 @@ import { useTranslation } from "i18n";
 
 import TableLoading from "../../utils/TableLoading";
 import { DERow } from "components/utils/DERow";
+import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 
 import {
     build,
@@ -65,20 +66,6 @@ function LoadingMask(props) {
             numColumns={columns.length + 1}
             numRows={25}
             baseId={tableId}
-        />
-    );
-}
-
-/**
- * Returns the table contents to display when the API returns an error.
- * @param {Object} props - the component properties
- */
-function LoadingError(props) {
-    const { columns, error } = props;
-    return (
-        <EmptyTable
-            message={error.toString()}
-            numColumns={columns.length + 1}
         />
     );
 }
@@ -152,12 +139,10 @@ function ToolListing(props) {
  * @param {Object} props - the component properties
  */
 function ToolListingTableBody(props) {
-    const { columns, error, handleClick, t, selected, tableId, tools } = props;
+    const { columns, handleClick, t, selected, tableId, tools } = props;
     return (
         <TableBody>
-            {error ? (
-                <LoadingError columns={columns} error={error} />
-            ) : !tools?.length ? (
+            {!tools?.length ? (
                 <NoTools columns={columns} t={t} />
             ) : (
                 <ToolListing
@@ -196,6 +181,10 @@ function TableView(props) {
 
     const tools = listing?.tools;
 
+    if (error) {
+        return <WrappedErrorHandler errorObject={error} baseId={tableId} />;
+    }
+
     // Build and return the table.
     return (
         <TableContainer component={Paper} style={{ overflow: "auto" }}>
@@ -221,7 +210,6 @@ function TableView(props) {
                 ) : (
                     <ToolListingTableBody
                         columns={columns}
-                        error={error}
                         handleClick={handleClick}
                         t={t}
                         selected={selected}

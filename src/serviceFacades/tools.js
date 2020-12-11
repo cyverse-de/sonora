@@ -82,9 +82,7 @@ function addTool(tool) {
     return callApi({
         endpoint: `/api/tools`,
         method: "POST",
-        body: {
-            tool,
-        },
+        body: tool,
     });
 }
 
@@ -92,9 +90,7 @@ function updateTool(tool) {
     return callApi({
         endpoint: `/api/tools/${tool.id}`,
         method: "PATCH",
-        body: {
-            tool,
-        },
+        body: tool,
     });
 }
 

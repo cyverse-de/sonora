@@ -8,13 +8,14 @@ import {
     stableSort,
     getSorting,
 } from "@cyverse-de/ui-lib";
-import { Table, TableBody, TableCell, TableRow } from "@material-ui/core";
+import { Table, TableBody, TableCell } from "@material-ui/core";
 
 import ids from "./ids";
 import { useTranslation } from "i18n";
 import TableLoading from "../utils/TableLoading";
 import SpanLink from "../data/listing/SpanLink";
-import constants from "../../constants";
+import constants from "constants.js";
+import { DERow } from "../utils/DERow";
 
 const TABLE_COLUMNS = [
     {
@@ -138,7 +139,7 @@ function Listing(props) {
                         const teamId = team.id;
                         const rowId = build(tableId, team.id);
                         return (
-                            <TableRow
+                            <DERow
                                 role="checkbox"
                                 tabIndex={0}
                                 hover
@@ -179,7 +180,7 @@ function Listing(props) {
                                     {team.detail.created_by_detail.name}
                                 </TableCell>
                                 <TableCell>{team.description}</TableCell>
-                            </TableRow>
+                            </DERow>
                         );
                     }
                 )}

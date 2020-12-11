@@ -3,6 +3,7 @@ export default {
         ALL_TEAMS_MI: "allTeamsMI",
         BASE: "teams",
         CHECKBOX: "checkbox",
+        DOT_MENU: "dotMenu",
         MY_TEAMS_MI: "myTeamsMI",
         LINK: "link",
         TOOLBAR: "toolbar",
@@ -12,5 +13,6 @@ export default {
     },
     BUTTONS: {
         CREATE_BTN: "createBtn",
+        CREATE_MI: "createMI",
     },
 };

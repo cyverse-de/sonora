@@ -1,6 +1,8 @@
 {
   "allTeams": "All Teams",
-  "create": "Create",
+  "ariaTeamFilter": "Team Filter",
   "myTeams": "My Teams",
-  "searchTeams": "Search Teams"
+  "searchTeams": "Search Teams",
+  "team": "Team",
+  "view": "View"
 }

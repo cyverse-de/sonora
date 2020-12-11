@@ -89,7 +89,7 @@ export default ({ app, launchError, loading }) => {
             defaultMaxMemory={defaultMaxMemory}
             defaultMaxDiskSpace={defaultMaxDiskSpace}
             app={app}
-            appError={launchError || submissionError}
+            appError={submissionError}
             loading={loading}
             submitAnalysis={(submission, onSuccess, onError) => {
                 setSubmissionError(null);

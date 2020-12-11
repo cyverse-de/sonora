@@ -38,5 +38,9 @@ module.exports = withBundleAnalyzer({
         ),
         ANALYTICS_ENABLED: config.get("analytics.enabled"),
         ANALYTICS_ID: config.get("analytics.id"),
+        VICE_DEFAULT_IMAGE: config.get("vice.defaultImage"),
+        VICE_DEFAULT_NAME: config.get("vice.defaultName"),
+        VICE_DEFAULT_CAS_URL: config.get("vice.defaultCasUrl"),
+        VICE_DEFAULT_CAS_VALIDATE: config.get("vice.defaultCasValidate"),
     },
 });

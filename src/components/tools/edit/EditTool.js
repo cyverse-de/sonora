@@ -20,12 +20,13 @@ import Restrictions from "./ToolRestrictions";
 import styles from "../styles";
 import ToolImplementation from "./ToolImplementation";
 import { nonEmptyField } from "./Validations";
+import constants from "../../../constants";
+
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
 import {
     TOOL_TYPES_QUERY_KEY,
     getToolTypes,
-    getToolDetails,
-    TOOL_DETAILS_QUERY_KEY,
     addTool,
     updateTool,
 } from "serviceFacades/tools";
@@ -39,7 +40,14 @@ import {
 } from "@cyverse-de/ui-lib";
 
 import { Field, FieldArray, Form, getIn, Formik } from "formik";
-import { Button, Grid, MenuItem, Paper, Typography } from "@material-ui/core";
+import {
+    Button,
+    CircularProgress,
+    Grid,
+    MenuItem,
+    Paper,
+    Typography,
+} from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { Skeleton } from "@material-ui/lab";
 
@@ -56,7 +64,8 @@ function EditToolDialog(props) {
 
     const { t } = useTranslation("tools");
     const [toolTypes, setToolTypes] = useState([]);
-    const [selectedTool, setSelectedTool] = useState();
+    const [addToolError, setAddToolError] = useState();
+    const [updateToolError, setUpdateToolError] = useState();
 
     const [config] = useConfig();
     const maxCPUCore = config?.tools?.private.max_cpu_limit;
@@ -87,14 +96,6 @@ function EditToolDialog(props) {
             },
         },
     });
-    const { isFetching: isToolFetching, error: toolFetchError } = useQuery({
-        queryKey: [TOOL_DETAILS_QUERY_KEY, { id: tool?.id }],
-        queryFn: getToolDetails,
-        config: {
-            enabled: tool !== null && tool !== undefined,
-            onSuccess: setSelectedTool,
-        },
-    });
 
     const [addNewTool, { status: newToolStatus }] = useMutation(
         ({ submission }) => addTool(submission),
@@ -102,9 +103,7 @@ function EditToolDialog(props) {
             onSuccess: (data) => {
                 console.log("Tool added=>" + JSON.stringify(data));
             },
-            onError: (error) => {
-                console.log("Error adding tool=>" + error);
-            },
+            onError: setAddToolError,
         }
     );
 
@@ -114,52 +113,27 @@ function EditToolDialog(props) {
             onSuccess: (data) => {
                 console.log("Tool updated=>" + JSON.stringify(data));
             },
-            onError: (error) => {
-                console.log("Error updating tool=>" + error);
-            },
+            onError: setUpdateToolError,
         }
     );
 
     const handleSubmit = (values, { props }) => {
-        const submission = {};
-        if (tool) {
-            submission.id = values.id;
-        }
-        submission.name = values.name;
-        submission.description = values.description;
-        submission.version = values.version;
-        submission.type = values.type;
-        submission["time_limit_seconds"] = values["time_limit_seconds"];
-        submission.restricted = values.restricted;
-        submission.interactive = values.type === TOOL_TYPES.INTERACTIVE;
-
-        submission.container = {};
-        submission.container["skip_tmp_mount"] =
-            values.container["skip_tmp_mount"];
-        submission.container["pids_limit"] = values.container["pids_limit"];
-        submission.container["memory_limit"] = values.container["memory_limit"];
-        submission.container["network_mode"] = values.container["network_mode"];
-
-        submission.container.image = {};
-        submission.container.image.name = values.container.image.name;
-        submission.container.image.tag = values.container.image.tag;
-        submission.container.image.osg_image_path =
-            values.container.image.osg_image_path;
-
+        const submission = { ...values };
+        delete submission.implementation;
+        delete submission.permission;
+        delete submission.is_public;
         if (submission.interactive) {
-            submission.container["interactive_apps"] = {};
-            submission.container["interactive_apps"]["cas_url"] =
+            submission.container.interactive_apps = {};
+            submission.container.interactive_apps.cas_url =
                 config.vice.defaultImage;
-            submission.container["interactive_apps"]["cas_validate"] =
+            submission.container.interactive_apps.name =
                 config.vice.defaultName;
-            submission.container["interactive_apps"].image =
+            submission.container.interactive_apps.image =
                 config.vice.defaultCasUrl;
-            submission["interactive_apps"].defaultCasValidate =
+            submission.container.interactive_apps.cas_validate =
                 config.vice.defaultCasValidate;
-            submission.container["skip_tmp_mount"] = true;
-            submission.container["network_mode"] = "bridge";
+            submission.container.skip_tmp_mount = true;
         }
-
         if (tool) {
             updateCurrentTool({ submission });
         } else {
@@ -181,14 +155,49 @@ function EditToolDialog(props) {
                     : t("addTool")
             }
         >
-            {(isToolTypeFetching || isToolFetching) && (
+            {isToolTypeFetching && (
                 <Skeleton animation="wave" variant="rect" height={800} />
             )}
 
-            {!isToolTypeFetching && !isToolFetching && (
+            {(newToolStatus === constants.LOADING ||
+                updateToolStatus === constants.LOADING) && (
+                <CircularProgress
+                    size={30}
+                    thickness={5}
+                    style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                    }}
+                />
+            )}
+
+            {toolTypeError && (
+                <ErrorTypographyWithDialog
+                    errorObject={toolTypeError}
+                    errorMessage="Unable to fetch tool types."
+                    baseId={parentId}
+                />
+            )}
+
+            {addToolError && (
+                <ErrorTypographyWithDialog
+                    errorObject={addToolError}
+                    errorMessage="Unable to add tool."
+                />
+            )}
+            {updateToolError && (
+                <ErrorTypographyWithDialog
+                    errorObject={updateToolError}
+                    errorMessage="Unable to update tool."
+                />
+            )}
+
+            {!isToolTypeFetching && (
                 <Formik
-                    initialValues={{ ...selectedTool }}
+                    initialValues={mapPropsToValues(tool, isAdmin)}
                     onSubmit={handleSubmit}
+                    enableReinitialize={true}
                 >
                     {() => {
                         return (
@@ -458,6 +467,39 @@ function EditToolForm(props) {
             />
         </>
     );
+}
+
+const DEFAULT_TOOL = {
+    name: "",
+    version: "",
+    container: {
+        image: {
+            name: "",
+            tag: "",
+            osg_image_path: "",
+        },
+    },
+    type: "",
+};
+
+const DEFAULT_ADMIN_TOOL = {
+    ...DEFAULT_TOOL,
+    implementation: {
+        implementor: "",
+        implementor_email: "",
+        test: {
+            input_files: [],
+            output_files: [],
+        },
+    },
+};
+
+function mapPropsToValues(tool, isAdmin) {
+    if (!tool) {
+        return isAdmin ? { ...DEFAULT_ADMIN_TOOL } : { ...DEFAULT_TOOL };
+    } else {
+        return { ...tool };
+    }
 }
 
 /**

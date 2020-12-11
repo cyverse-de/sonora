@@ -20,7 +20,7 @@ import {
     FormTextField,
 } from "@cyverse-de/ui-lib";
 
-const AnalysisInfoForm = ({ formId, appType, startingPath }) => {
+const AnalysisInfoForm = ({ formId }) => {
     const { t } = useTranslation("launch");
     return (
         <>
@@ -58,7 +58,6 @@ const AnalysisInfoForm = ({ formId, appType, startingPath }) => {
                 required={true}
                 name="output_dir"
                 component={InputSelector}
-                startingPath={startingPath}
                 acceptedType={ResourceTypes.FOLDER}
             />
         </>

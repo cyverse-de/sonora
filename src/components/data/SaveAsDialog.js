@@ -3,7 +3,6 @@
  *
  * A dialog that allows users to save a file at selected location
  */
-
 import React from "react";
 
 import { Field, Form, Formik } from "formik";
@@ -29,7 +28,7 @@ function SaveAsDialog(props) {
     const { t } = useTranslation("data");
     const { t: i18nCommon } = useTranslation("common");
 
-    const handleSaveFile = ({ dest, name }, { resetForm }) => {
+    const handleSaveFile = ({ dest, name }) => {
         onSaveAs(`${dest}/${name}`);
     };
 
@@ -52,7 +51,7 @@ function SaveAsDialog(props) {
             validate={validate}
             onSubmit={handleSaveFile}
         >
-            {({ handleSubmit, validateForm }) => {
+            {({ handleSubmit }) => {
                 return (
                     <Form>
                         <DEDialog
@@ -94,7 +93,6 @@ function SaveAsDialog(props) {
                                 required={true}
                                 label={t("fileName")}
                                 loading={loading}
-                                path={path}
                                 component={SaveAsField}
                                 {...textFieldProps}
                             />

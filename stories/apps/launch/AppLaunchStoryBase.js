@@ -6,7 +6,6 @@ import AppLaunchWizard from "../../../src/components/apps/launch/AppLaunchWizard
 import {
     ANALYSIS_OUTPUT_DIR,
     STARTING_PATH,
-    initMockAxiosFileFolderSelector,
     saveQuickLaunch,
     submitAnalysis,
 } from "./constants";
@@ -17,6 +16,8 @@ import {
     appDocumentation,
     quickLaunches,
 } from "../AppMocks";
+
+import { initMockAxiosFileFolderSelector } from "../../data/DataMocks";
 
 export default (props) => {
     initMockAxiosFileFolderSelector();

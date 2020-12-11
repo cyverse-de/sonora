@@ -10,6 +10,10 @@ import DataConstants from "./constants";
 import Permissions, { permissionHierarchy } from "../models/Permissions";
 import ResourceTypes from "components/models/ResourceTypes";
 
+import { useConfig } from "contexts/config";
+import { useBootstrapInfo } from "contexts/bootstrap";
+import { useUserProfile } from "contexts/userProfile";
+
 /**
  * Encode given path
  *
@@ -137,6 +141,37 @@ const containsFolders = (resources) => {
     return false;
 };
 
+const useHomePath = () => {
+    const [config] = useConfig();
+    const [userProfile] = useUserProfile();
+    const [bootstrapInfo] = useBootstrapInfo();
+
+    const userHomeFromDataInfo = bootstrapInfo?.data_info?.user_home_path;
+    if (userHomeFromDataInfo) {
+        return userHomeFromDataInfo;
+    }
+
+    const irodsHomePath = config?.irods?.home_path;
+    const username = userProfile?.id;
+
+    if (irodsHomePath && username) {
+        return `${irodsHomePath}/${username}`;
+    }
+
+    return "";
+};
+
+const useSelectorDefaultFolderPath = () => {
+    const homePath = useHomePath();
+    const [bootstrapInfo] = useBootstrapInfo();
+
+    const preferences = bootstrapInfo?.preferences;
+
+    return (
+        (preferences?.rememberLastPath && preferences?.lastFolder) || homePath
+    );
+};
+
 export {
     DEFAULT_PAGE_SETTINGS,
     getEncodedPath,
@@ -150,5 +185,7 @@ export {
     parseNameFromPath,
     getParentPath,
     useDataNavigationLink,
+    useHomePath,
+    useSelectorDefaultFolderPath,
     containsFolders,
 };

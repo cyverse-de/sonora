@@ -22,7 +22,7 @@ import Shortcuts from "./Shortcuts";
 import styles from "./styles";
 import { isWritable } from "../data/utils";
 
-import { usePreferences } from "contexts/userPreferences";
+import { useBootstrapInfo } from "contexts/bootstrap";
 
 import NavigationConstants from "common/NavigationConstants";
 
@@ -64,7 +64,7 @@ function Preferences(props) {
     const { baseId, showErrorAnnouncer } = props;
 
     const { t } = useTranslation("preferences");
-    const [preferences, setPreferences] = usePreferences();
+    const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
 
     const router = useRouter();
 
@@ -110,7 +110,7 @@ function Preferences(props) {
                     pref?.system_default_output_dir?.path
             );
             setBootstrapQueryEnabled(false);
-            setPreferences(pref);
+            setBootstrapInfo({ ...bootstrapInfo, preferences: pref });
             const session = respData?.session;
             const agaveKey = session?.auth_redirect?.agave;
             if (agaveKey) {
@@ -119,7 +119,7 @@ function Preferences(props) {
                 setRequireAgaveAuth(false);
             }
         },
-        [setPreferences]
+        [bootstrapInfo, setBootstrapInfo]
     );
 
     useEffect(() => {
@@ -173,7 +173,10 @@ function Preferences(props) {
                 text: t("prefSaveSuccess"),
                 variant: AnnouncerConstants.SUCCESS,
             });
-            setPreferences(updatedPref.preferences);
+            setBootstrapInfo({
+                ...bootstrapInfo,
+                preferences: updatedPref.preferences,
+            });
         },
         (e) => {
             showErrorAnnouncer(t("savePrefError"), e);
@@ -282,7 +285,7 @@ function Preferences(props) {
         );
         setFieldValue(
             prefConstants.keys.DEFAULT_OUTPUT_FOLDER,
-            preferences.system_default_output_dir.path
+            bootstrapInfo.preferences.system_default_output_dir.path
         );
         setShowRestoreConfirmation(false);
     };
@@ -292,7 +295,7 @@ function Preferences(props) {
         setDefaultOutputFolder(newFolder);
     };
 
-    if (isFetching && !preferences) {
+    if (isFetching && !bootstrapInfo) {
         return (
             <>
                 <GridLoading rows={5} />
@@ -358,7 +361,7 @@ function Preferences(props) {
             <Container className={classes.root}>
                 <Paper>
                     <Formik
-                        initialValues={preferences}
+                        initialValues={bootstrapInfo?.preferences}
                         onSubmit={handleSubmit}
                         enableReinitialize
                         validate={validateShortCuts}

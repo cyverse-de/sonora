@@ -6,9 +6,8 @@ const intlData = {
         unexpectedError:
             "This wasn't supposed to happen. Please try again or contact support!",
         signInReqd: "Sign In Required",
-        signInPrompt: "You must sign in to view this page.",
+        signInPrompt: "You must sign in to perform this action.",
         signIn: "SIGN IN",
-        viewThisPage: "to view this page!",
         needAccount: "Need a free account? ",
         register: "REGISTER",
         error: "Error",

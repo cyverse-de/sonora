@@ -20,11 +20,11 @@ import { useConfig } from "contexts/config";
 import NavigationConstants from "common/NavigationConstants";
 import Notifications from "./Notifications";
 import CustomIntercom from "./CustomIntercom";
+import { useBootstrapInfo } from "contexts/bootstrap";
 import { useUserProfile } from "contexts/userProfile";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import searchConstants from "components/search/constants";
-import { usePreferences } from "contexts/userPreferences";
 import { getSteps } from "components/layout/steps";
 import Bag from "components/Bag";
 import {
@@ -314,7 +314,7 @@ function CyverseAppBar(props) {
     const [runTour, setRunTour] = useState(false);
     const [tourStepIndex, setTourStepIndex] = useState(0);
 
-    const setPreferences = usePreferences()[1];
+    const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
 
     if (activeView === NavigationConstants.APPS) {
         filter = searchConstants.APPS;
@@ -372,15 +372,12 @@ function CyverseAppBar(props) {
         }
     }, [userProfile]);
 
-    useBootStrap(
-        bootstrapQueryEnabled,
-        (respData) => {
-            setPreferences(respData.preferences);
-            const workspace = respData["apps_info"].workspace;
-            setNewUser(workspace["new_workspace"] || false);
-        },
-        setBootstrapError
-    );
+    useBootStrap(bootstrapQueryEnabled, setBootstrapInfo, setBootstrapError);
+
+    useEffect(() => {
+        const workspace = bootstrapInfo?.apps_info.workspace;
+        setNewUser(workspace?.new_workspace);
+    }, [bootstrapInfo]);
 
     React.useEffect(() => {
         if (userProfile?.id) {

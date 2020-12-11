@@ -1,5 +1,7 @@
 import React from "react";
 
+import { mockAxios } from "../axiosMock";
+
 import HomeIcon from "@material-ui/icons/Home";
 import FolderSharedIcon from "@material-ui/icons/FolderShared";
 import GroupIcon from "@material-ui/icons/Group";
@@ -633,4 +635,12 @@ export const pathListChunk = {
             1: "",
         },
     ],
+};
+
+export const initMockAxiosFileFolderSelector = () => {
+    mockAxios
+        .onGet(/\/api\/filesystem\/paged-directory.*/)
+        .reply(200, pagedDirectoryResp);
+    mockAxios.onGet(/\/api\/filesystem\/root.*/).reply(200, dataRootsResp);
+    mockAxios.onGet(/\/api\/filetypes\/type-list/).reply(200, fileTypesResp);
 };

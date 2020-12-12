@@ -125,6 +125,7 @@ function TableView(props) {
         orderBy,
         selected,
         setSharingDlgOpen,
+        onMetadataSelected,
         onPublicLinksSelected,
     } = props;
     const invalidRowClass = invalidRowStyles();
@@ -386,6 +387,9 @@ function TableView(props) {
                                                 resource={resource}
                                                 setSharingDlgOpen={
                                                     setSharingDlgOpen
+                                                }
+                                                onMetadataSelected={
+                                                    onMetadataSelected
                                                 }
                                                 onPublicLinksSelected={
                                                     onPublicLinksSelected

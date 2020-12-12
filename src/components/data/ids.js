@@ -41,7 +41,7 @@ export default {
     LISTING_TABLE: "listingTable",
     LOADING_SKELETON: "loadingSkeleton",
     MANUAL_UPLOAD_MI: "manualUploadMenuItem",
-    metadataMI: "metadata",
+    METADATA_MI: "metadata",
     navLink: "navigationLink",
     OK_BTN: "okBtn",
     OWN: "own",

@@ -17,6 +17,7 @@ import UploadMenuItems from "./UploadMenuItems";
 import { useTranslation } from "i18n";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DeleteMenuItem from "../menuItems/DeleteMenuItem";
+import MetadataMenuItem from "../menuItems/MetadataMenuItem";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
 import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";
 import PathListAutomation from "../PathListAutomation";
@@ -66,6 +67,7 @@ function DataDotMenu(props) {
         canShare,
         setSharingDlgOpen,
         isSmall,
+        onMetadataSelected,
         onPublicLinksSelected,
     } = props;
 
@@ -83,6 +85,8 @@ function DataDotMenu(props) {
         ? getSelectedResources()
         : null;
     const deleteMiEnabled = !isSelectionEmpty && isOwner(selectedResources);
+    const metadataMiEnabled = selected?.length === 1;
+
     const router = useRouter();
     const routeToFile = (id, path) => {
         router.push(
@@ -186,6 +190,15 @@ function DataDotMenu(props) {
                                   onDeleteSelected={onDeleteSelected}
                               />
                           ),
+                    metadataMiEnabled && (
+                        <MetadataMenuItem
+                            key={ids.METADATA_MI}
+                            baseId={baseId}
+                            resourceId={selected[0]}
+                            onClose={onClose}
+                            onMetadataSelected={onMetadataSelected}
+                        />
+                    ),
                     isWritable(permission) && [
                         <MenuItem
                             key={build(baseId, ids.CREATE_HT_FILE_MI)}

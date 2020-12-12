@@ -9,6 +9,7 @@ import React from "react";
 import { DotMenu } from "@cyverse-de/ui-lib";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DeleteMenuItem from "../menuItems/DeleteMenuItem";
+import MetadataMenuItem from "../menuItems/MetadataMenuItem";
 import SharingMenuItem from "../../sharing/SharingMenuItem";
 import { hasOwn, containsFolders } from "../utils";
 import ids from "../ids";
@@ -24,6 +25,7 @@ function RowDotMenu(props) {
         onDetailsSelected,
         resource,
         setSharingDlgOpen,
+        onMetadataSelected,
         onPublicLinksSelected,
     } = props;
 
@@ -39,6 +41,13 @@ function RowDotMenu(props) {
                     baseId={baseId}
                     onClose={onClose}
                     onDetailsSelected={onDetailsSelected}
+                />,
+                <MetadataMenuItem
+                    key={ids.METADATA_MI}
+                    baseId={baseId}
+                    resourceId={resource.id}
+                    onClose={onClose}
+                    onMetadataSelected={onMetadataSelected}
                 />,
                 isOwner && (
                     <DeleteMenuItem

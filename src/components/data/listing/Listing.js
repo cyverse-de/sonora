@@ -468,6 +468,7 @@ function Listing(props) {
                         orderBy={orderBy}
                         selected={selected}
                         setSharingDlgOpen={setSharingDlgOpen}
+                        onMetadataSelected={onMetadataSelected}
                         onPublicLinksSelected={() =>
                             setPublicLinksDlgOpen(true)
                         }

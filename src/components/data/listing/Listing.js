@@ -15,6 +15,9 @@ import Drawer from "../details/Drawer";
 import FileBrowser from "../toolbar/FileBrowser";
 import DataToolbar from "../toolbar/Toolbar";
 
+import { camelcaseit } from "common/functions";
+import { NavigationParams } from "common/NavigationConstants";
+
 import DEPagination from "components/utils/DEPagination";
 import ResourceTypes from "components/models/ResourceTypes";
 import isQueryLoading from "components/utils/isQueryLoading";
@@ -25,7 +28,6 @@ import {
     trackUpload,
 } from "components/uploads/UploadDrop";
 import UploadDropTarget from "components/uploads/UploadDropTarget";
-import { camelcaseit } from "common/functions";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import Sharing from "components/sharing";
 import { formatSharedData } from "components/sharing/util";
@@ -333,7 +335,16 @@ function Listing(props) {
     };
 
     const onMetadataSelected = (resourceId) => {
-        console.log("Metadata", resourceId);
+        const resources = getSelectedResources([resourceId]);
+        if (resources) {
+            const resource = resources[0];
+            onPathChange(
+                resource.path,
+                resource.type,
+                resourceId,
+                NavigationParams.VIEW.METADATA
+            );
+        }
     };
 
     const onDeleteSelected = (resourceId) => {
@@ -408,10 +419,10 @@ function Listing(props) {
         [setNavError]
     );
 
-    const onPathChange = (path, resourceType, id) => {
+    const onPathChange = (path, resourceType, id, view) => {
         //set page to 0 for the new path
         const queryParams = getPageQueryParams(order, orderBy, 0, rowsPerPage);
-        handlePathChange(path, queryParams, resourceType, id);
+        handlePathChange(path, queryParams, resourceType, id, view);
     };
 
     const isLoading = isQueryLoading([isFetching, removeResourceStatus]);

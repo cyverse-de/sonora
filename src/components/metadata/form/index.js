@@ -27,6 +27,7 @@ import ExternalLink from "components/utils/ExternalLink";
 
 import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 
 import { useBootstrapInfo } from "contexts/bootstrap";
 import { useUserProfile } from "contexts/userProfile";
@@ -284,7 +285,12 @@ const MetadataFormListing = (props) => {
     );
 };
 
-const MetadataForm = ({ loading, showErrorAnnouncer, ...props }) => {
+const MetadataForm = ({
+    loading,
+    loadingError,
+    showErrorAnnouncer,
+    ...props
+}) => {
     // targetResource should be spread down into the dialog form below.
     const { targetResource } = props;
 
@@ -406,7 +412,7 @@ const MetadataForm = ({ loading, showErrorAnnouncer, ...props }) => {
         const { avus, "irods-avus": irodsAVUs } = values;
         const { setSubmitting, setStatus } = actions;
 
-        const updatedMetadata = { ...metadata, avus, "irods-avus": irodsAVUs };
+        const updatedMetadata = { avus, "irods-avus": irodsAVUs };
 
         const onSuccess = () => {
             setSubmitting(false);
@@ -440,11 +446,19 @@ const MetadataForm = ({ loading, showErrorAnnouncer, ...props }) => {
 
     const baseId = ids.EDIT_METADATA_FORM;
 
+    if (loadingError) {
+        return (
+            <WrappedErrorHandler baseId={baseId} errorObject={loadingError} />
+        );
+    }
+
+    const { avus, "irods-avus": irodsAVUs } = metadata;
+
     return (
         <>
             <Formik
                 enableReinitialize
-                initialValues={{ ...metadata }}
+                initialValues={{ avus, "irods-avus": irodsAVUs }}
                 validate={validate}
                 onSubmit={handleSubmit}
             >

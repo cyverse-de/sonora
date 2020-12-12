@@ -1,4 +1,7 @@
-// constants that define navigation routes
+/**
+ * Constants that define navigation routes.
+ * Warning: server/index.js expects each value to be a string.
+ */
 export default {
     ADMIN: "admin",
     ANALYSES: "analyses",
@@ -16,7 +19,13 @@ export default {
     RELAUNCH: "relaunch",
     SEARCH: "search",
     SETTINGS: "settings",
-    VICE: "vice",
     TOOLS: "tools",
+    VICE: "vice",
     YOUTUBE_EMBED_BASE: "https://youtu.be",
+};
+
+export const NavigationParams = {
+    // This could be updated with more options in the future,
+    // such as CONTENTS, DETAILS, or LISTING.
+    VIEW: { METADATA: "metadata" },
 };

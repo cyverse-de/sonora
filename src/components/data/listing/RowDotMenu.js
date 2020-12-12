@@ -50,14 +50,6 @@ function RowDotMenu(props) {
                     onMetadataSelected={onMetadataSelected}
                 />,
                 isOwner && (
-                    <DeleteMenuItem
-                        key={build(baseId, ids.DELETE_MENU_ITEM)}
-                        baseId={baseId}
-                        onClose={onClose}
-                        onDeleteSelected={onDeleteSelected}
-                    />
-                ),
-                isOwner && (
                     <SharingMenuItem
                         key={build(baseId, shareIds.SHARING_MENU_ITEM)}
                         baseId={baseId}
@@ -71,6 +63,14 @@ function RowDotMenu(props) {
                         baseId={baseId}
                         onClose={onClose}
                         onPublicLinksSelected={onPublicLinksSelected}
+                    />
+                ),
+                isOwner && (
+                    <DeleteMenuItem
+                        key={build(baseId, ids.DELETE_MENU_ITEM)}
+                        baseId={baseId}
+                        onClose={onClose}
+                        onDeleteSelected={onDeleteSelected}
                     />
                 ),
             ]}

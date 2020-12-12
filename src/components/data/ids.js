@@ -24,6 +24,7 @@ export default {
     DELETE: "delete",
     DELETE_BTN: "deleteButton",
     DELETE_MENU_ITEM: "delete",
+    DELETE_MENU_ITEM_DIVIDER: "deleteMenuItemDivider",
     DETAILS_MENU_ITEM: "details",
     DETAILS_MENU_ITEM_DIVIDER: "detailsDivider",
     DETAILS_BTN: "detailsBtn",

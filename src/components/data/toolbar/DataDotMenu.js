@@ -151,20 +151,16 @@ function DataDotMenu(props) {
                                       setSharingDlgOpen={setSharingDlgOpen}
                                   />
                               ),
-                              deleteMiEnabled && (
-                                  <DeleteMenuItem
-                                      key={build(baseId, ids.DELETE_MENU_ITEM)}
+                              metadataMiEnabled && (
+                                  <MetadataMenuItem
+                                      key={ids.METADATA_MI}
                                       baseId={baseId}
+                                      resourceId={selected[0]}
                                       onClose={onClose}
-                                      onDeleteSelected={onDeleteSelected}
+                                      onMetadataSelected={onMetadataSelected}
                                   />
                               ),
-                              <Divider
-                                  key={build(
-                                      baseId,
-                                      ids.UPLOAD_MENU_ITEM_DIVIDER
-                                  )}
-                              />,
+                              <Divider key={ids.UPLOAD_MENU_ITEM_DIVIDER} />,
                               isWritable(permission) && (
                                   <UploadMenuItems
                                       key={build(baseId, ids.UPLOAD_MENU_ITEM)}
@@ -182,23 +178,15 @@ function DataDotMenu(props) {
                                   />
                               ),
                           ]
-                        : deleteMiEnabled && (
-                              <DeleteMenuItem
-                                  key={build(baseId, ids.DELETE_MENU_ITEM)}
+                        : metadataMiEnabled && (
+                              <MetadataMenuItem
+                                  key={ids.METADATA_MI}
                                   baseId={baseId}
+                                  resourceId={selected[0]}
                                   onClose={onClose}
-                                  onDeleteSelected={onDeleteSelected}
+                                  onMetadataSelected={onMetadataSelected}
                               />
                           ),
-                    metadataMiEnabled && (
-                        <MetadataMenuItem
-                            key={ids.METADATA_MI}
-                            baseId={baseId}
-                            resourceId={selected[0]}
-                            onClose={onClose}
-                            onMetadataSelected={onMetadataSelected}
-                        />
-                    ),
                     isWritable(permission) && [
                         <MenuItem
                             key={build(baseId, ids.CREATE_HT_FILE_MI)}
@@ -272,6 +260,15 @@ function DataDotMenu(props) {
                                 onClose={onClose}
                             />
                         ),
+                    <Divider key={ids.DELETE_MENU_ITEM_DIVIDER} />,
+                    deleteMiEnabled && (
+                        <DeleteMenuItem
+                            key={ids.DELETE_MENU_ITEM}
+                            baseId={baseId}
+                            onClose={onClose}
+                            onDeleteSelected={onDeleteSelected}
+                        />
+                    ),
                 ]}
             />
             <CreateFolderDialog

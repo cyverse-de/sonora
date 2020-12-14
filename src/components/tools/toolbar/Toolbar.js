@@ -114,14 +114,17 @@ export default function ToolsToolbar(props) {
                 onClose={() => setSharingDlgOpen(false)}
                 resources={sharingTools}
             />
-            <EditToolDialog
-                open={editDialogOpen}
-                onClose={() => setEditDialogOpen(false)}
-                isAdmin={false}
-                isAdminPublishing={false}
-                parentId={baseId}
-                tool={hasSelection ? getSelectedTools()[0] : null}
-            />
+            {isSingleSelection && (
+                <EditToolDialog
+                    open={editDialogOpen}
+                    onClose={() => setEditDialogOpen(false)}
+                    isAdmin={false}
+                    isAdminPublishing={false}
+                    parentId={baseId}
+                    tool={hasSelection ? getSelectedTools()[0] : null}
+                />
+            )}
+
             <EditToolDialog
                 open={addDialogOpen}
                 onClose={() => setAddDialogOpen(false)}

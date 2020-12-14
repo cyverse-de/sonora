@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 
 import { useTranslation } from "i18n";
-import { useQuery, useMutation } from "react-query";
+import { useQuery, useMutation, queryCache } from "react-query";
 
 import TOOL_TYPES from "components/models/ToolTypes";
 
@@ -25,10 +25,13 @@ import constants from "../../../constants";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
 import {
-    TOOL_TYPES_QUERY_KEY,
     getToolTypes,
     addTool,
     updateTool,
+    getToolDetails,
+    TOOL_TYPES_QUERY_KEY,
+    TOOL_DETAILS_QUERY_KEY,
+    TOOLS_QUERY_KEY,
 } from "serviceFacades/tools";
 
 import {
@@ -52,20 +55,13 @@ import { withStyles } from "@material-ui/core/styles";
 import { Skeleton } from "@material-ui/lab";
 
 function EditToolDialog(props) {
-    const {
-        open,
-        parentId,
-        tool,
-        isAdmin,
-        isAdminPublishing,
-        values,
-        onClose,
-    } = props;
+    const { open, parentId, tool, isAdmin, isAdminPublishing, onClose } = props;
 
     const { t } = useTranslation("tools");
     const [toolTypes, setToolTypes] = useState([]);
     const [addToolError, setAddToolError] = useState();
     const [updateToolError, setUpdateToolError] = useState();
+    const [selectedTool, setSelectedTool] = useState();
 
     const [config] = useConfig();
     const maxCPUCore = config?.tools?.private.max_cpu_limit;
@@ -77,6 +73,8 @@ function EditToolDialog(props) {
         queryFn: getToolTypes,
         config: {
             enabled: true,
+            staleTime: Infinity,
+            cacheTime: Infinity,
             onSuccess: (data) => {
                 if (
                     data &&
@@ -97,6 +95,17 @@ function EditToolDialog(props) {
         },
     });
 
+    const { isFetching: isToolFetching, error: toolFetchError } = useQuery({
+        queryKey: [TOOL_DETAILS_QUERY_KEY, { id: tool?.id }],
+        queryFn: getToolDetails,
+        config: {
+            enabled: tool !== null && tool !== undefined && open,
+            onSuccess: (details) => {
+                setSelectedTool(details);
+            },
+        },
+    });
+
     const [addNewTool, { status: newToolStatus }] = useMutation(
         ({ submission }) => addTool(submission),
         {
@@ -112,6 +121,9 @@ function EditToolDialog(props) {
         {
             onSuccess: (data) => {
                 console.log("Tool updated=>" + JSON.stringify(data));
+                queryCache.invalidateQueries(TOOLS_QUERY_KEY);
+                setUpdateToolError(null);
+                onClose();
             },
             onError: setUpdateToolError,
         }
@@ -122,6 +134,7 @@ function EditToolDialog(props) {
         delete submission.implementation;
         delete submission.permission;
         delete submission.is_public;
+        delete submission.container.image.id;
         if (submission.interactive) {
             submission.container.interactive_apps = {};
             submission.container.interactive_apps.cas_url =
@@ -155,7 +168,7 @@ function EditToolDialog(props) {
                     : t("addTool")
             }
         >
-            {isToolTypeFetching && (
+            {(isToolTypeFetching || isToolFetching) && (
                 <Skeleton animation="wave" variant="rect" height={800} />
             )}
 
@@ -179,6 +192,13 @@ function EditToolDialog(props) {
                     baseId={parentId}
                 />
             )}
+            {toolFetchError && (
+                <ErrorTypographyWithDialog
+                    errorObject={toolFetchError}
+                    errorMessage="Unable to fetch tool details."
+                    baseId={parentId}
+                />
+            )}
 
             {addToolError && (
                 <ErrorTypographyWithDialog
@@ -193,23 +213,23 @@ function EditToolDialog(props) {
                 />
             )}
 
-            {!isToolTypeFetching && (
+            {!isToolTypeFetching && !isToolFetching && selectedTool && (
                 <Formik
-                    initialValues={mapPropsToValues(tool, isAdmin)}
+                    initialValues={mapPropsToValues(selectedTool, isAdmin)}
                     onSubmit={handleSubmit}
                     enableReinitialize={true}
                 >
-                    {() => {
+                    {({ values }) => {
                         return (
                             <Form>
                                 <StyledEditToolForm
-                                    values={values}
                                     isAdmin={isAdmin}
                                     parentId={parentId}
                                     toolTypes={toolTypes}
                                     maxCPUCore={maxCPUCore}
                                     maxMemory={maxMemory}
                                     maxDiskSpace={maxDiskSpace}
+                                    values={values}
                                 />
                                 <Grid
                                     container
@@ -258,13 +278,13 @@ const StyledEditToolForm = withStyles(styles)(EditToolForm);
 function EditToolForm(props) {
     const {
         isAdmin,
-        values,
         parentId,
         toolTypes,
         maxCPUCore,
         maxMemory,
         maxDiskSpace,
         classes,
+        values,
     } = props;
 
     const { t } = useTranslation("tools");

@@ -38,8 +38,12 @@ function SimpleExpansionPanel(props) {
         >
             <AccordionSummary
                 expandIcon={
-                    <ExpandMore id={build(parentId, ids.BUTTONS.EXPAND)} />
+                    <ExpandMore
+                        id={build(parentId, ids.BUTTONS.EXPAND)}
+                        className={classes.paramsViewsExpandIcon}
+                    />
                 }
+                className={classes.paramsViewSummary}
             >
                 <Typography variant="body1">{header}</Typography>
             </AccordionSummary>

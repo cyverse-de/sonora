@@ -1,6 +1,6 @@
 const styles = (theme) => ({
     expansionDetails: {
-        display: "inherit",
+        flexDirection: "column",
     },
 
     paper: {
@@ -44,6 +44,13 @@ const styles = (theme) => ({
         "&:hover": {
             backgroundColor: theme.palette.error.main,
         },
+    },
+    paramsViewSummary: {
+        color: theme.palette.info.contrastText,
+        backgroundColor: theme.palette.info.main,
+    },
+    paramsViewsExpandIcon: {
+        color: theme.palette.info.contrastText,
     },
 });
 

@@ -110,7 +110,9 @@ function EditToolDialog(props) {
         ({ submission }) => addTool(submission),
         {
             onSuccess: (data) => {
-                console.log("Tool added=>" + JSON.stringify(data));
+                queryCache.invalidateQueries(TOOLS_QUERY_KEY);
+                setAddToolError(null);
+                onClose();
             },
             onError: setAddToolError,
         }
@@ -120,7 +122,6 @@ function EditToolDialog(props) {
         ({ submission }) => updateTool(submission),
         {
             onSuccess: (data) => {
-                console.log("Tool updated=>" + JSON.stringify(data));
                 queryCache.invalidateQueries(TOOLS_QUERY_KEY);
                 setUpdateToolError(null);
                 onClose();
@@ -147,10 +148,15 @@ function EditToolDialog(props) {
                 config.vice.defaultCasValidate;
             submission.container.skip_tmp_mount = true;
         }
-        if (tool) {
-            updateCurrentTool({ submission });
-        } else {
-            addNewTool({ submission });
+        if (
+            newToolStatus !== constants.LOADING &&
+            updateToolStatus !== constants.LOADING
+        ) {
+            if (tool) {
+                updateCurrentTool({ submission });
+            } else {
+                addNewTool({ submission });
+            }
         }
     };
 
@@ -213,7 +219,7 @@ function EditToolDialog(props) {
                 />
             )}
 
-            {!isToolTypeFetching && !isToolFetching && selectedTool && (
+            {!isToolTypeFetching && !isToolFetching && (
                 <Formik
                     initialValues={mapPropsToValues(selectedTool, isAdmin)}
                     onSubmit={handleSubmit}

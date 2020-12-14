@@ -95,6 +95,7 @@
     "toolDescLabel": "Briefly describe the tool",
     "toolDocumentationLabel": "Provide a link for your tool's documentation",
     "toolImplementation": "Tool Implementation",
+    "toolInfoError": "Unable to get tool information. Please try again later.",
     "toolInformationLbl": "Tool Information",
     "toolInstructionsLabel": "Enter any other instructions or relevant information",
     "toolName": "Tool Name",

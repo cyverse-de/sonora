@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { useTranslation } from "i18n";
 
 import GridLabelValue from "components/utils/GridLabelValue";
 import GridLoading from "components/utils/GridLoading";
-import ErrorTypography from "components/utils/error/ErrorTypography";
-import DEErrorDialog from "components/utils/error/DEErrorDialog";
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
 import { Grid, Paper, Typography } from "@material-ui/core";
 
@@ -14,33 +13,22 @@ const NOT_APPLICABLE = "N/A";
 export default function ToolDetails(props) {
     const { baseDebugId, tool, isInfoFetching, infoFetchError } = props;
     const { t } = useTranslation("tools");
-    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
 
     if (isInfoFetching) {
-        return <GridLoading rows={2} baseId={baseDebugId} />;
-    }
-
-    if (!tool && !isInfoFetching && !infoFetchError) {
-        return null;
+        return <GridLoading rows={10} baseId={baseDebugId} />;
     }
 
     if (infoFetchError) {
         return (
-            <>
-                <ErrorTypography
-                    errorMessage={t("analysisInfoFetchError")}
-                    onDetailsClick={() => setErrorDialogOpen(true)}
-                />
-                <DEErrorDialog
-                    open={errorDialogOpen}
-                    baseId={baseDebugId}
-                    errorObject={infoFetchError}
-                    handleClose={() => {
-                        setErrorDialogOpen(false);
-                    }}
-                />
-            </>
+            <ErrorTypographyWithDialog
+                errorObject={infoFetchError}
+                errorMessage={t("toolInfoError")}
+            />
         );
+    }
+
+    if (!tool && !isInfoFetching && !infoFetchError) {
+        return null;
     }
 
     return (

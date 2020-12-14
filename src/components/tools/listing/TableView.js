@@ -1,13 +1,13 @@
 import ids from "../ids";
 import React from "react";
+
+import { useTranslation } from "i18n";
+
 import {
     build,
     DECheckbox,
     EmptyTable,
     EnhancedTableHead,
-    formatMessage,
-    getMessage,
-    withI18N,
 } from "@cyverse-de/ui-lib";
 import {
     Paper,
@@ -16,39 +16,38 @@ import {
     TableCell,
     TableContainer,
     TableRow,
+    Typography,
 } from "@material-ui/core";
-import { injectIntl } from "react-intl";
-import messages from "../Messages";
 import TableLoading from "../../utils/TableLoading";
 
 const buildId = build;
 
 /**
  * Returns localized column header information for the tool listing table.
- * @param {Object} intl - the internationalization object
+ * @param {Object} t - the internationalization function
  */
-const columnData = (intl) => [
+const columnData = (t) => [
     {
         id: ids.NAME,
-        name: formatMessage(intl, "name"),
+        name: t("name"),
         enableSorting: true,
         key: "name",
     },
     {
         id: ids.IMAGE_NAME,
-        name: formatMessage(intl, "imageName"),
+        name: t("imageName"),
         enableSorting: false,
         key: "image-name",
     },
     {
         id: ids.TAG,
-        name: formatMessage(intl, "tag"),
+        name: t("tag"),
         enableSorting: false,
         key: "tag",
     },
     {
         id: ids.STATUS,
-        name: formatMessage(intl, "status"),
+        name: t("status"),
         enableSorting: false,
         key: "status",
     },
@@ -88,21 +87,18 @@ function LoadingError(props) {
  * @param {Object} props - the component properties
  */
 function NoTools(props) {
-    const { columns } = props;
+    const { columns, t } = props;
     return (
-        <EmptyTable
-            message={getMessage("noTools")}
-            numColumns={columns.length + 1}
-        />
+        <EmptyTable message={t("noTools")} numColumns={columns.length + 1} />
     );
 }
 
 /**
- * Returns the table contents to display when the API call returns succesfully.
+ * Returns the table contents to display when the API call returns successfully.
  * @param {Object} props - the component properties
  */
 function ToolListing(props) {
-    const { handleClick, intl, selected, tableId, tools } = props;
+    const { handleClick, t, selected, tableId, tools } = props;
     return tools.map((tool, index) => {
         const id = tool.id;
         const rowId = buildId(tableId, id);
@@ -125,17 +121,25 @@ function ToolListing(props) {
                         id={buildId(rowId, ids.CHECKBOX)}
                         tabIndex={0}
                         inputProps={{
-                            "aria-label": formatMessage(intl, "ariaCheckbox", {
+                            "aria-label": t("ariaCheckbox", {
                                 label: tool.name,
                             }),
                         }}
                     />
                 </TableCell>
-                <TableCell>{tool.name}</TableCell>
-                <TableCell>{tool.container.image.name}</TableCell>
-                <TableCell>{tool.container.image.tag}</TableCell>
                 <TableCell>
-                    {tool.is_public ? getMessage("public") : tool.permission}
+                    <Typography>{tool.name}</Typography>
+                </TableCell>
+                <TableCell>
+                    <Typography>{tool.container.image.name}</Typography>
+                </TableCell>
+                <TableCell>
+                    <Typography>{tool.container.image.tag}</Typography>
+                </TableCell>
+                <TableCell>
+                    <Typography>
+                        {tool.is_public ? t("public") : tool.permission}
+                    </Typography>
                 </TableCell>
             </TableRow>
         );
@@ -147,25 +151,17 @@ function ToolListing(props) {
  * @param {Object} props - the component properties
  */
 function ToolListingTableBody(props) {
-    const {
-        columns,
-        error,
-        handleClick,
-        intl,
-        selected,
-        tableId,
-        tools,
-    } = props;
+    const { columns, error, handleClick, t, selected, tableId, tools } = props;
     return (
         <TableBody>
             {error ? (
                 <LoadingError columns={columns} error={error} />
             ) : !tools?.length ? (
-                <NoTools columns={columns} />
+                <NoTools columns={columns} t={t} />
             ) : (
                 <ToolListing
                     handleClick={handleClick}
-                    intl={intl}
+                    t={t}
                     selected={selected}
                     tableId={tableId}
                     tools={tools}
@@ -186,7 +182,6 @@ function TableView(props) {
         handleClick,
         handleRequestSort,
         handleSelectAllClick,
-        intl,
         listing,
         loading,
         order,
@@ -194,8 +189,9 @@ function TableView(props) {
         selected,
     } = props;
     const tableId = buildId(baseId, ids.LISTING_TABLE);
+    const { t } = useTranslation("tools");
 
-    const columns = columnData(intl);
+    const columns = columnData(t);
 
     const tools = listing?.tools;
 
@@ -206,7 +202,7 @@ function TableView(props) {
                 id={tableId}
                 stickyHeader={true}
                 size="small"
-                aria-label={formatMessage(intl, "ariaTableListing")}
+                aria-label={t("ariaTableListing")}
             >
                 <EnhancedTableHead
                     baseId={baseId}
@@ -226,7 +222,7 @@ function TableView(props) {
                         columns={columns}
                         error={error}
                         handleClick={handleClick}
-                        intl={intl}
+                        t={t}
                         selected={selected}
                         tableId={tableId}
                         tools={tools}
@@ -237,4 +233,4 @@ function TableView(props) {
     );
 }
 
-export default withI18N(injectIntl(TableView), messages);
+export default TableView;

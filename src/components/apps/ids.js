@@ -39,6 +39,8 @@ export default {
     ADD_TO_BAG_BTN: "addToBagBtn",
     ADD_TO_BAG_MENU_ITEM: "addToBag",
     TOOLS_INFO_TAB: "toolsInfoTab",
+    TOOLS_BTN: "manageToolsButton",
+    TOOLS_MENU_ITEM: "manageToolsMenuItem",
     PANEL: "panel",
     APP_DETAILS: "appDetails",
     APP_FAVORITE: "appFavorite",

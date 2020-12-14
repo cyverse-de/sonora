@@ -6,11 +6,13 @@
 
 import React from "react";
 import { useTranslation } from "i18n";
+import Link from "next/link";
 
 import ids from "../ids";
 import QLMenuItem from "../menuItems/QLMenuItem";
 import DocMenuItem from "../menuItems/DocMenuItem";
 import shareIds from "components/sharing/ids";
+import NavigationConstants from "common/NavigationConstants";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 import {
@@ -20,7 +22,12 @@ import {
     useMediaQuery,
     useTheme,
 } from "@material-ui/core";
-import { FilterList, Info, Queue as AddToBagIcon } from "@material-ui/icons";
+import {
+    FilterList,
+    Build,
+    Info,
+    Queue as AddToBagIcon,
+} from "@material-ui/icons";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
 
 function AppsDotMenu(props) {
@@ -116,6 +123,19 @@ function AppsDotMenu(props) {
                         onClose={onClose}
                         onQLSelected={onQLSelected}
                     />
+                ),
+                isMobile && (
+                    <Link href={`${NavigationConstants.TOOLS}`}>
+                        <MenuItem
+                            key={build(baseId, ids.TOOLS_MENU_ITEM)}
+                            id={build(baseId, ids.TOOLS_MENU_ITEM)}
+                        >
+                            <ListItemIcon>
+                                <Build fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText primary={t("manageTools")} />
+                        </MenuItem>
+                    </Link>
                 ),
             ]}
         />

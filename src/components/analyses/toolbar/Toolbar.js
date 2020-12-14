@@ -12,7 +12,6 @@ import AnalysesDotMenu from "./AnalysesDotMenu";
 import ids from "../ids";
 
 import { getAppTypeFilters } from "components/apps/toolbar/AppNavigation";
-import DisplayTypeSelector from "components/utils/DisplayTypeSelector";
 
 import { build } from "@cyverse-de/ui-lib";
 
@@ -169,8 +168,6 @@ function AnalysesToolbar(props) {
         handleOwnershipFilterChange,
         viewFiltered,
         onClearFilter,
-        isGridView,
-        toggleDisplay,
         isSingleSelection,
         onDetailsSelected,
         onAddToBagSelected,
@@ -198,13 +195,6 @@ function AnalysesToolbar(props) {
     return (
         <>
             <Toolbar variant="dense" id={analysesNavId}>
-                <Hidden smDown>
-                    <DisplayTypeSelector
-                        baseId={analysesNavId}
-                        toggleDisplay={toggleDisplay}
-                        isGridView={isGridView}
-                    />
-                </Hidden>
                 <Hidden xsDown>
                     <>
                         <PermissionsFilter

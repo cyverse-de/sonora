@@ -15,6 +15,8 @@ const TOOL_TYPES_QUERY_KEY = "fetchToolTypes";
  * @property {String} orderBy - the field to sort results by (name)
  * @property {number} page - the page number to display
  * @property {number} rowsPerPage - the number of rows in a single page
+ * @property {boolean} displayAll - Filter to display all the tools or just users tools
+ * @property {string} searchTerm - Tool search term.
  */
 
 /**
@@ -22,7 +24,10 @@ const TOOL_TYPES_QUERY_KEY = "fetchToolTypes";
  * @param {string} _ - the string component of the query key
  * @param {ToolListingParams} queryParams - the listing parameters
  */
-function getTools(_, { order, orderBy, page, rowsPerPage }) {
+function getTools(
+    _,
+    { order, orderBy, page, rowsPerPage, displayAll, searchTerm }
+) {
     // Determine if the request is supposed to be ordered.
     const isOrdered = order && orderBy;
 
@@ -38,6 +43,17 @@ function getTools(_, { order, orderBy, page, rowsPerPage }) {
     if (isPaginated) {
         params["limit"] = rowsPerPage;
         params["offset"] = page * rowsPerPage;
+    }
+
+    //displayAll can be true, false or null / undefined
+    if (displayAll !== null && displayAll !== undefined) {
+        params["public"] = displayAll;
+    }
+
+    if (searchTerm) {
+        params["search"] = searchTerm;
+    } else {
+        params["search"] = "*";
     }
 
     return callApi({

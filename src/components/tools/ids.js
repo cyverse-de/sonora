@@ -83,6 +83,7 @@ export default {
         ADD_TOOL_MI: "addTools",
         REQUEST_TOOL_MI: "newToolRequest",
         EDIT_TOOL_MI: "editTool",
+        FILTER_TOOLS_MI: "filterTools",
         DELETE_TOOL_MI: "deleteTool",
         USE_IN_APP_MI: "useInApps",
         SHARE_MI: "shareCollabs",
@@ -90,6 +91,7 @@ export default {
         TOOL_INFO_BTN: "toolInfoCell",
         TOOL_INFO_MI: "toolInfo",
         TOOL_CHECKBOX: "checkBox",
+        VIEW_FILTER_FIELD: "filterField",
     },
     TOOL_REQUEST: {
         DIALOG: "toolRequestDlg",

@@ -25,11 +25,13 @@ export default function Tools() {
         100;
     const selectedOrder = query.selectedOrder || constants.SORT_ASCENDING;
     const selectedOrderBy = query.selectedOrderBy || "name";
+    const selectedPermFilter = query.selectedPermFilter;
+    const selectedSearchTerm = query.selectedSearchTerm;
 
     const onRouteToListing = useCallback(
-        (order, orderBy, page, rowsPerPage) => {
+        (order, orderBy, page, rowsPerPage, permFilter, searchTerm) => {
             router.push(
-                `/${NavigationConstants.TOOLS}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}`
+                `/${NavigationConstants.TOOLS}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedPermFilter=${permFilter}&selectedSearchTerm=${searchTerm}`
             );
         },
         [router]
@@ -42,7 +44,9 @@ export default function Tools() {
             selectedRowsPerPage={selectedRowsPerPage}
             selectedOrder={selectedOrder}
             selectedOrderBy={selectedOrderBy}
+            selectedPermFilter={selectedPermFilter}
             onRouteToListing={onRouteToListing}
+            selectedSearchTerm={selectedSearchTerm}
         />
     );
 }

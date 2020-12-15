@@ -20,9 +20,11 @@ import {
     ListItemIcon,
     ListItemText,
     MenuItem,
+    useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
 
-import { Add, Info, Edit } from "@material-ui/icons";
+import { Add, Info, Edit, FilterList } from "@material-ui/icons";
 
 function DotMenuItems(props) {
     const {
@@ -35,9 +37,12 @@ function DotMenuItems(props) {
         onAddToolSelected,
         onEditToolSelected,
         allowEditing,
+        onFilterSelected,
     } = props;
 
     const { t } = useTranslation("tools");
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
     return [
         <Hidden mdUp>
@@ -93,6 +98,21 @@ function DotMenuItems(props) {
                 <ListItemText primary={t("edit")} />
             </MenuItem>
         ),
+        isMobile && (
+            <MenuItem
+                key={build(baseId, ids.MANAGE_TOOLS.FILTER_TOOLS_MI)}
+                id={build(baseId, ids.MANAGE_TOOLS.FILTER_TOOLS_MI)}
+                onClick={() => {
+                    onClose();
+                    onFilterSelected();
+                }}
+            >
+                <ListItemIcon>
+                    <FilterList fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("filterLbl")} />
+            </MenuItem>
+        ),
     ];
 }
 
@@ -121,6 +141,7 @@ export default function ToolsDotMenu({
             ButtonProps={ButtonProps}
             render={(onClose) => (
                 <DotMenuItems
+                    {...props}
                     isSingleSelection={isSingleSelection}
                     onClose={onClose}
                     onDetailsSelected={onDetailsSelected}

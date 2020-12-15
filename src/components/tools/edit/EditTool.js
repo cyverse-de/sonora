@@ -132,6 +132,15 @@ function EditToolDialog(props) {
     const handleSubmit = (values, { props }) => {
         const submission = { ...values };
 
+<<<<<<< HEAD
+=======
+        //these keys needs to excluded from submission to avoid service errors
+        delete submission.implementation;
+        delete submission.permission;
+        delete submission.is_public;
+        delete submission.container.image.id;
+
+>>>>>>> 2695586... Externalize error messages.
         //these keys needs to added to submission for interactive tools
         if (submission.interactive) {
             const interactive_apps = {

@@ -8,8 +8,6 @@ import { useQuery, useMutation, queryCache } from "react-query";
 
 import TOOL_TYPES from "components/models/ToolTypes";
 
-import TOOL_TYPES from "components/models/ToolTypes";
-
 import { useConfig } from "contexts/config";
 import DEDialog from "components/utils/DEDialog";
 import ContainerDevices from "./ContainerDevices";

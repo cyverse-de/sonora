@@ -13,9 +13,9 @@ import constants from "../../../constants";
 import {
     getAnalysisRelaunchInfo,
     ANALYSIS_RELAUNCH_QUERY_KEY,
-} from "../../../serviceFacades/analyses";
+} from "serviceFacades/analyses";
 
-import AppLaunch from "../../../components/apps/launch";
+import AppLaunch from "components/apps/launch";
 
 export default () => {
     const [relaunchKey, setRelaunchKey] = React.useState(

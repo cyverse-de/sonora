@@ -35,6 +35,7 @@ import {
 } from "serviceFacades/tools";
 
 import {
+    announce,
     build,
     FormMultilineTextField,
     FormNumberField,
@@ -110,6 +111,9 @@ function EditToolDialog(props) {
         ({ submission }) => addTool(submission),
         {
             onSuccess: (data) => {
+                announce({
+                    text: t("toolAdded"),
+                });
                 queryCache.invalidateQueries(TOOLS_QUERY_KEY);
                 setAddToolError(null);
                 onClose();
@@ -122,6 +126,9 @@ function EditToolDialog(props) {
         ({ submission }) => updateTool(submission),
         {
             onSuccess: (data) => {
+                announce({
+                    text: t("toolUpdated"),
+                });
                 queryCache.invalidateQueries(TOOLS_QUERY_KEY);
                 setUpdateToolError(null);
                 onClose();
@@ -132,10 +139,14 @@ function EditToolDialog(props) {
 
     const handleSubmit = (values, { props }) => {
         const submission = { ...values };
+
+        //these keys needs to excluded from submission to avoid service errors
         delete submission.implementation;
         delete submission.permission;
         delete submission.is_public;
         delete submission.container.image.id;
+
+        //these keys needs to added to submission for interactive tools
         if (submission.interactive) {
             submission.container.interactive_apps = {};
             submission.container.interactive_apps.cas_url =
@@ -148,6 +159,8 @@ function EditToolDialog(props) {
                 config.vice.defaultCasValidate;
             submission.container.skip_tmp_mount = true;
         }
+
+        //avoid dupe submission
         if (
             newToolStatus !== constants.LOADING &&
             updateToolStatus !== constants.LOADING
@@ -194,14 +207,14 @@ function EditToolDialog(props) {
             {toolTypeError && (
                 <ErrorTypographyWithDialog
                     errorObject={toolTypeError}
-                    errorMessage="Unable to fetch tool types."
+                    errorMessage={t("toolTypesFetchError")}
                     baseId={parentId}
                 />
             )}
             {toolFetchError && (
                 <ErrorTypographyWithDialog
                     errorObject={toolFetchError}
-                    errorMessage="Unable to fetch tool details."
+                    errorMessage={t("toolInfoError")}
                     baseId={parentId}
                 />
             )}
@@ -209,13 +222,13 @@ function EditToolDialog(props) {
             {addToolError && (
                 <ErrorTypographyWithDialog
                     errorObject={addToolError}
-                    errorMessage="Unable to add tool."
+                    errorMessage={t("toolAddError")}
                 />
             )}
             {updateToolError && (
                 <ErrorTypographyWithDialog
                     errorObject={updateToolError}
-                    errorMessage="Unable to update tool."
+                    errorMessage={t("toolUpdateError")}
                 />
             )}
 
@@ -242,8 +255,50 @@ function EditToolDialog(props) {
                                     direction="row"
                                     justify="flex-end"
                                     alignItems="flex-end"
-                                    spacing={2}
+                                    spacing={1}
                                 >
+                                    {toolTypeError && (
+                                        <Grid item xs>
+                                            <ErrorTypographyWithDialog
+                                                errorObject={toolTypeError}
+                                                errorMessage={t(
+                                                    "toolTypesFetchError"
+                                                )}
+                                                baseId={parentId}
+                                            />
+                                        </Grid>
+                                    )}
+                                    {toolFetchError && (
+                                        <Grid item xs>
+                                            <ErrorTypographyWithDialog
+                                                errorObject={toolFetchError}
+                                                errorMessage={t(
+                                                    "toolInfoError"
+                                                )}
+                                                baseId={parentId}
+                                            />
+                                        </Grid>
+                                    )}
+
+                                    {addToolError && (
+                                        <Grid item xs>
+                                            <ErrorTypographyWithDialog
+                                                errorObject={addToolError}
+                                                errorMessage={t("toolAddError")}
+                                            />
+                                        </Grid>
+                                    )}
+                                    {updateToolError && (
+                                        <Grid item xs>
+                                            <ErrorTypographyWithDialog
+                                                errorObject={updateToolError}
+                                                errorMessage={t(
+                                                    "toolUpdateError"
+                                                )}
+                                            />
+                                        </Grid>
+                                    )}
+
                                     <Grid item>
                                         <Button
                                             id={build(
@@ -543,7 +598,7 @@ function resetOnTypeChange(currentType, form) {
     if (currentType !== TOOL_TYPES.OSG) {
         form.setFieldValue("container.image.osg_image_path", null);
     }
-    if (currentType !== "interactive") {
+    if (currentType !== TOOL_TYPES.INTERACTIVE) {
         form.setFieldValue("container.container_ports", null);
         form.setFieldValue("container.network_mode", "none");
     } else {

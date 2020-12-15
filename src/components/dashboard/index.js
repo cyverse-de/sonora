@@ -6,6 +6,8 @@
  * @module dashboard
  */
 import React, { useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import clsx from "clsx";
 
 import { useQuery } from "react-query";
 
@@ -29,8 +31,6 @@ import {
     VideosFeed,
 } from "./DashboardSection";
 
-import AppDetailsDrawer from "components/apps/details/Drawer";
-import Drawer from "components/analyses/details/Drawer";
 import {
     getDashboard,
     DASHBOARD_QUERY_KEY,
@@ -39,11 +39,32 @@ import {
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import { useUserProfile } from "contexts/userProfile";
 
+const AppDetailsDrawer = dynamic(() =>
+    import("components/apps/details/Drawer")
+);
+const AnalysesDetailsDrawer = dynamic(() =>
+    import("components/analyses/details/Drawer")
+);
+
 const DashboardSkeleton = () => {
     const classes = useStyles();
-    const numSkellies = [0, 1, 2];
-    const skellies = numSkellies.map((n) => (
-        <div className={classes.section} key={n}>
+    const [userProfile] = useUserProfile();
+
+    let skellyTypes = [classes.sectionNews, classes.sectionEvents, "", ""];
+    if (userProfile?.id) {
+        skellyTypes = [
+            "",
+            "",
+            "",
+            "",
+            classes.sectionNews,
+            classes.sectionEvents,
+            "",
+        ];
+    }
+
+    const skellies = skellyTypes.map((extraClass, index) => (
+        <div className={clsx(classes.section, extraClass)} key={index}>
             <Skeleton
                 variant="rect"
                 animation="wave"
@@ -61,7 +82,7 @@ const DashboardSkeleton = () => {
         </div>
     ));
 
-    return <div id={fns.makeID(ids.LOADING)}>{skellies}</div>;
+    return <>{skellies}</>;
 };
 
 const Dashboard = (props) => {
@@ -159,7 +180,7 @@ const Dashboard = (props) => {
                 />
             )}
             {detailsAnalysis && (
-                <Drawer
+                <AnalysesDetailsDrawer
                     selectedAnalysis={detailsAnalysis}
                     baseId={baseId}
                     open={detailsAnalysis !== null}

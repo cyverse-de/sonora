@@ -23,6 +23,8 @@ import viceRouter from "./api/vice";
 import * as authn from "./auth";
 import * as config from "./configuration";
 
+import compression from "compression";
+
 import logger, { errorLogger, requestLogger } from "./logging";
 
 import NavigationConstants from "../common/NavigationConstants";
@@ -108,6 +110,7 @@ app.prepare()
         logger.info(
             "$$$$$$$$ adding the api router to the express server $$$$$$$$$"
         );
+        server.use("/api", compression());
         server.use("/api", appsRouter());
         server.use("/api", analysesRouter());
         server.use("/api", bagsRouter());
@@ -132,6 +135,7 @@ app.prepare()
         );
 
         logger.info("mapping / to /dashboard in the app");
+        server.use("/", compression());
         server.get("/", (req, res) => {
             app.render(req, res, "/dashboard", undefined);
         });

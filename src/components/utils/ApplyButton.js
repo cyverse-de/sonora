@@ -4,7 +4,7 @@
 import React from "react";
 
 import { useTranslation } from "i18n";
-import ids from "../ids";
+import ids from "./ids";
 
 import { build } from "@cyverse-de/ui-lib";
 import {
@@ -17,13 +17,13 @@ import {
 import ApplyIcon from "@material-ui/icons/Done";
 
 const ApplyButton = (props) => {
-    const { baseId, applyDisabled, onApply } = props;
+    const { baseId, applyDisabled, onApply, ...custom } = props;
 
     const { t } = useTranslation("common");
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-    const buttonId = build(baseId, ids.BUTTONS.SAVE);
+    const buttonId = build(baseId, ids.SAVE_BTN);
 
     return isSmall ? (
         <Tooltip title={t("apply")} placement="bottom" enterDelay={200}>
@@ -34,6 +34,7 @@ const ApplyButton = (props) => {
                     disabled={applyDisabled}
                     onClick={onApply}
                     color="primary"
+                    {...custom}
                 >
                     <ApplyIcon />
                 </IconButton>
@@ -47,6 +48,7 @@ const ApplyButton = (props) => {
             color="primary"
             variant="contained"
             startIcon={<ApplyIcon />}
+            {...custom}
         >
             {t("apply")}
         </Button>

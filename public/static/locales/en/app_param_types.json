@@ -1,0 +1,21 @@
+{
+    "Double": "Decimal",
+    "DoubleSelection": "Decimal List",
+    "EnvironmentVariable": "Environment Variable",
+    "FileInput": "Input File",
+    "FileOutput": "Output File Name",
+    "Flag": "Checkbox",
+    "FolderInput": "Input Folder",
+    "FolderOutput": "Output Folder Name",
+    "Info": "Info Text",
+    "Integer": "Integer",
+    "IntegerSelection": "Integer List",
+    "MultiFileOutput": "Multi-File Output Name",
+    "MultiFileSelector": "Multiple Input Files",
+    "MultiLineText": "Multi-line Text",
+    "ReferenceAnnotation": "Reference Annotation",
+    "ReferenceGenome": "Reference Genome",
+    "ReferenceSequence": "Reference Sequence",
+    "Text": "Single-line Text",
+    "TextSelection": "List"
+}

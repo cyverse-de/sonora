@@ -20,6 +20,8 @@ export default {
     STATUS: "status",
     DATE_SUBMITTED: "dateSubmitted",
     COMMENTS: "comments",
+    SAVE_BTN: "saveBtn",
+
     DIALOG: {
         CANCEL: "cancel",
         CONFIRM: "confirm",

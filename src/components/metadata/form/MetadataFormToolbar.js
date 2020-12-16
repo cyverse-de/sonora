@@ -6,13 +6,13 @@ import React from "react";
 import { Trans } from "react-i18next";
 
 import { useTranslation } from "i18n";
+
+import ApplyButton from "components/utils/ApplyButton";
 import BackButton from "components/utils/BackButton";
 import DEDialog from "components/utils/DEDialog";
 
 import ids from "../ids";
 import styles from "../styles";
-
-import ApplyButton from "./ApplyButton";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 

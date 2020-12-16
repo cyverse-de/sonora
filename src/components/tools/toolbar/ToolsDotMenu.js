@@ -86,7 +86,6 @@ function DotMenuItems(props) {
             </ListItemIcon>
             <ListItemText primary={t("addTool")} />
         </MenuItem>,
-
         <MenuItem
             key={build(baseId, ids.MANAGE_TOOLS.REQUEST_TOOL_MI)}
             id={build(baseId, ids.MANAGE_TOOLS.REQUEST_TOOL_MI)}
@@ -100,7 +99,6 @@ function DotMenuItems(props) {
             </ListItemIcon>
             <ListItemText primary={t("requestToolMI")} />
         </MenuItem>,
-
         allowEditing && (
             <MenuItem
                 key={build(baseId, ids.MANAGE_TOOLS.EDIT_TOOL_MI)}

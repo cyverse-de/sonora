@@ -8,7 +8,6 @@
 
 import React, { useCallback } from "react";
 import { useRouter } from "next/router";
-import { useTranslation } from "i18n";
 
 import constants from "../constants";
 import { getLocalStorage } from "components/utils/localStorage";
@@ -19,7 +18,6 @@ import NavigationConstants from "common/NavigationConstants";
 export default function Tools() {
     const router = useRouter();
     const query = router.query;
-    const { t } = useTranslation("tools");
     const selectedPage = parseInt(query.selectedPage) || 0;
     const selectedRowsPerPage =
         parseInt(getLocalStorage(constants.LOCAL_STORAGE.ANALYSES.PAGE_SIZE)) ||

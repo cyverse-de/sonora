@@ -82,13 +82,13 @@ function DetailsDrawer(props) {
 
     const drawerId = build(baseId, ids.DETAILS_DRAWER);
     const infoTabId = build(drawerId, ids.INFO_TAB);
-    const paramsTabId = build(drawerId, ids.APPS_USING_TOOL);
+    const appsTabId = build(drawerId, ids.APPS_USING_TOOL);
 
     const { isFetching: isInfoFetching, error: infoFetchError } = useQuery({
         queryKey: [TOOL_DETAILS_QUERY_KEY, { id: selectedTool?.id }],
         queryFn: getToolDetails,
         config: {
-            enabled: selectedTool !== null && selectedTool !== undefined,
+            enabled: !!selectedTool,
             onSuccess: setDetails,
         },
     });
@@ -97,7 +97,7 @@ function DetailsDrawer(props) {
         queryKey: [APPS_USING_QUERY_KEY, { id: selectedTool?.id }],
         queryFn: getAppsUsed,
         config: {
-            enabled: selectedTool !== null && selectedTool !== undefined,
+            enabled: !!selectedTool,
             onSuccess: setApps,
         },
     });
@@ -141,9 +141,9 @@ function DetailsDrawer(props) {
                 <Tab
                     value={TABS.appsUsingTool}
                     label={t("appsUsingToolLbl")}
-                    id={paramsTabId}
+                    id={appsTabId}
                     classes={{ selected: classes.tabSelected }}
-                    aria-controls={build(paramsTabId, ids.PANEL)}
+                    aria-controls={build(appsTabId, ids.PANEL)}
                 />
             </Tabs>
             <DETabPanel
@@ -153,19 +153,19 @@ function DetailsDrawer(props) {
             >
                 <ToolDetails
                     tool={details}
-                    baseDebugId="toolDetails"
+                    baseDebugId={infoTabId}
                     isInfoFetching={isInfoFetching}
                     infoFetchError={infoFetchError}
                 />
             </DETabPanel>
             <DETabPanel
-                tabId={paramsTabId}
+                tabId={appsTabId}
                 value={TABS.appsUsingTool}
                 selectedTab={selectedTab}
             >
                 <TableView
                     loading={isAppsFetching}
-                    baseId="toolDetails"
+                    baseId={appsTabId}
                     enableMenu={false}
                     enableSorting={false}
                     enableSelection={false}

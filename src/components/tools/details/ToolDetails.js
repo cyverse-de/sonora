@@ -8,8 +8,6 @@ import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWit
 
 import { Grid, Paper, Typography } from "@material-ui/core";
 
-const NOT_APPLICABLE = "N/A";
-
 export default function ToolDetails(props) {
     const { baseDebugId, tool, isInfoFetching, infoFetchError } = props;
     const { t } = useTranslation("tools");
@@ -65,7 +63,7 @@ export default function ToolDetails(props) {
                     {tool.version}
                 </GridLabelValue>
                 <Grid item xs={12}>
-                    <Typography variant="subtitle2">
+                    <Typography variant="h6">
                         {t("resourceRequirementsLbl")}
                     </Typography>
                 </Grid>
@@ -82,19 +80,19 @@ export default function ToolDetails(props) {
                     {tool.container.min_disk_space}
                 </GridLabelValue>
                 <Grid item xs={12}>
-                    <Typography variant="subtitle2">
+                    <Typography variant="h6">
                         {t("restrictionsLabel")}
                     </Typography>
                 </Grid>
                 <GridLabelValue label={t("memoryLimitLabel")}>
                     {tool.container.memory_limit
                         ? tool.container.memory_limit
-                        : NOT_APPLICABLE}
+                        : t("notApplicable")}
                 </GridLabelValue>
                 <GridLabelValue label={t("pidsLimitLabel")}>
                     {tool.container.pids_limit
                         ? tool.container.pids_limit
-                        : NOT_APPLICABLE}
+                        : t("notApplicable")}
                 </GridLabelValue>
                 <GridLabelValue label={t("networkingLabel")}>
                     {tool.container.network_mode
@@ -104,7 +102,7 @@ export default function ToolDetails(props) {
                 <GridLabelValue label={t("secondsLimitLabel")}>
                     {tool.time_limit_seconds
                         ? tool.time_limit_seconds
-                        : NOT_APPLICABLE}
+                        : t("notApplicable")}
                 </GridLabelValue>
             </Grid>
         </Paper>

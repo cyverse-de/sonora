@@ -57,6 +57,7 @@
     "networkingLabel": "Networking",
     "networkMode": "Network Mode",
     "newToolRequestDialogHeading": "New Tool Request",
+    "notApplicable": "N/A",
     "noContainerDevices": "No Container Devices",
     "noContainerPorts": "No Container Ports",
     "noContainerVolumes": "No Container Volumes",

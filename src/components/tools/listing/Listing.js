@@ -89,7 +89,7 @@ function Listing(props) {
     useEffect(() => {
         let displayAll = null;
 
-        if (permFilter && permFilter !== TOOL_FILTER_VALUES.ALL) {
+        if (permFilter) {
             if (permFilter === TOOL_FILTER_VALUES.MY_TOOLS) {
                 displayAll = false;
             } else {

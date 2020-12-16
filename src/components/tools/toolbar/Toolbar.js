@@ -33,7 +33,6 @@ import { Info } from "@material-ui/icons";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 export const TOOL_FILTER_VALUES = {
-    ALL: "ALL",
     MY_TOOLS: "MY_TOOLS",
     PUBLIC: "PUBLIC",
 };
@@ -101,10 +100,6 @@ function PermissionsFilter(props) {
 
 function getOwnershipFilters(t) {
     return [
-        {
-            name: t("allTools"),
-            value: TOOL_FILTER_VALUES.ALL,
-        },
         {
             name: t("myTools"),
             value: TOOL_FILTER_VALUES.MY_TOOLS,

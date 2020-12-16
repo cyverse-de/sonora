@@ -32,7 +32,7 @@ import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import { DERow } from "components/utils/DERow";
 import appFields from "../appFields";
 
-function getTableColumns(deletable, enableMenu, t) {
+function getTableColumns(enableDelete, enableMenu, t) {
     const fields = appFields(t);
     let tableColumns = [
         {
@@ -68,16 +68,9 @@ function getTableColumns(deletable, enableMenu, t) {
             id: fields.SYSTEM.key,
             align: "right",
         },
-        {
-            name: "",
-            enableSorting: false,
-            key: fields.DOT_MENU.key,
-            id: fields.DOT_MENU.key,
-            align: "right",
-        },
     ];
 
-    if (deletable) {
+    if (enableDelete) {
         tableColumns.push({
             name: "",
             enableSorting: false,
@@ -89,7 +82,8 @@ function getTableColumns(deletable, enableMenu, t) {
         tableColumns.push({
             name: "",
             enableSorting: false,
-            key: "menu",
+            key: fields.DOT_MENU.key,
+            id: fields.DOT_MENU.key,
             align: "right",
         });
     }
@@ -115,10 +109,14 @@ function TableView(props) {
         setSharingDlgOpen,
         onDocSelected,
         onQLSelected,
+        enableMenu = true,
+        enableSorting = true,
+        enableSelection = true,
+        enableDelete = false,
     } = props;
     const { t } = useTranslation("apps");
     const apps = listing?.apps;
-    const columnData = getTableColumns(false, false, t);
+    const columnData = getTableColumns(enableDelete, enableMenu, t);
     const tableId = build(baseId, ids.LISTING_TABLE);
 
     if (error) {
@@ -134,15 +132,17 @@ function TableView(props) {
                 id={tableId}
             >
                 <EnhancedTableHead
-                    selectable={true}
+                    selectable={enableSelection}
                     numSelected={selected.length}
                     rowsInPage={listing?.apps ? listing.apps.length : 0}
                     order={order}
                     orderBy={orderBy}
                     baseId={tableId}
                     columnData={columnData}
-                    onRequestSort={handleRequestSort}
-                    onSelectAllClick={handleSelectAllClick}
+                    onRequestSort={enableSorting && handleRequestSort}
+                    onSelectAllClick={
+                        handleSelectAllClick ? handleSelectAllClick : undefined
+                    }
                 />
                 {loading && (
                     <TableLoading
@@ -181,32 +181,43 @@ function TableView(props) {
                                         aria-checked={isSelected}
                                         key={app.id}
                                         id={rowId}
-                                        onClick={(event) =>
-                                            handleClick(event, appId, index)
-                                        }
+                                        onClick={(event) => {
+                                            if (handleClick) {
+                                                handleClick(
+                                                    event,
+                                                    appId,
+                                                    index
+                                                );
+                                            }
+                                        }}
                                     >
-                                        <TableCell padding="checkbox">
-                                            <DECheckbox
-                                                checked={isSelected}
-                                                tabIndex={0}
-                                                id={build(rowId, ids.checkbox)}
-                                                onChange={(event) =>
-                                                    handleCheckboxClick(
-                                                        event,
-                                                        appId,
-                                                        index
-                                                    )
-                                                }
-                                                inputProps={{
-                                                    "aria-label": t(
-                                                        "ariaCheckbox",
-                                                        {
-                                                            label: appName,
-                                                        }
-                                                    ),
-                                                }}
-                                            />
-                                        </TableCell>
+                                        {enableSelection && (
+                                            <TableCell padding="checkbox">
+                                                <DECheckbox
+                                                    checked={isSelected}
+                                                    tabIndex={0}
+                                                    id={build(
+                                                        rowId,
+                                                        ids.checkbox
+                                                    )}
+                                                    onChange={(event) =>
+                                                        handleCheckboxClick(
+                                                            event,
+                                                            appId,
+                                                            index
+                                                        )
+                                                    }
+                                                    inputProps={{
+                                                        "aria-label": t(
+                                                            "ariaCheckbox",
+                                                            {
+                                                                label: appName,
+                                                            }
+                                                        ),
+                                                    }}
+                                                />
+                                            </TableCell>
+                                        )}
                                         <TableCell
                                             padding="none"
                                             id={build(
@@ -260,21 +271,28 @@ function TableView(props) {
                                         >
                                             {app.system_id}
                                         </TableCell>
-                                        <TableCell align="right">
-                                            <RowDotMenu
-                                                baseId={build(tableId, appName)}
-                                                app={app}
-                                                canShare={canShare}
-                                                onDetailsSelected={
-                                                    onDetailsSelected
-                                                }
-                                                setSharingDlgOpen={
-                                                    setSharingDlgOpen
-                                                }
-                                                onDocSelected={onDocSelected}
-                                                onQLSelected={onQLSelected}
-                                            />
-                                        </TableCell>
+                                        {enableMenu && (
+                                            <TableCell align="right">
+                                                <RowDotMenu
+                                                    baseId={build(
+                                                        tableId,
+                                                        appName
+                                                    )}
+                                                    app={app}
+                                                    canShare={canShare}
+                                                    onDetailsSelected={
+                                                        onDetailsSelected
+                                                    }
+                                                    setSharingDlgOpen={
+                                                        setSharingDlgOpen
+                                                    }
+                                                    onDocSelected={
+                                                        onDocSelected
+                                                    }
+                                                    onQLSelected={onQLSelected}
+                                                />
+                                            </TableCell>
+                                        )}
                                     </DERow>
                                 );
                             })}

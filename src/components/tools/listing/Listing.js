@@ -1,49 +1,106 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+
 import TableView from "./TableView";
+import Drawer from "components/tools/details/Drawer";
+import constants from "../../../constants";
 import { getTools, TOOLS_QUERY_KEY } from "../../../serviceFacades/tools";
 import DEPagination from "../../utils/DEPagination";
+import ToolsToolbar from "../toolbar/Toolbar";
 
 /**
  * The tool listing component.
  * @param {Object} props - the component properties
  */
 function Listing(props) {
-    const { baseId } = props;
+    const {
+        baseId,
+        onRouteToListing,
+        selectedPage,
+        selectedRowsPerPage,
+        selectedOrder,
+        selectedOrderBy,
+    } = props;
 
     // Data and data retrieval state variables.
     const [data, setData] = useState(null);
     const [toolsKey, setToolsKey] = useState(TOOLS_QUERY_KEY);
+    const [toolsListingQueryEnabled, setToolsListingQueryEnabled] = useState(
+        false
+    );
 
     // Result ordering state variables.
-    const [order, setOrder] = useState("asc");
-    const [orderBy, setOrderBy] = useState("name");
+    const [order, setOrder] = useState(selectedOrder);
+    const [orderBy, setOrderBy] = useState(selectedOrderBy);
 
     // Pagination state variables.
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [page, setPage] = useState(selectedPage);
+    const [rowsPerPage, setRowsPerPage] = useState(selectedRowsPerPage);
 
     // Selection state variables.
     const [selected, setSelected] = useState([]);
     const [lastSelectedIndex, setLastSelectedIndex] = useState(-1);
 
+    const [selectedTool, setSelectedTool] = useState();
+    const [detailsOpen, setDetailsOpen] = useState(false);
+    const [isSingleSelection, setSingleSelection] = useState(false);
+
+    useEffect(() => {
+        if (
+            selectedOrder !== order ||
+            selectedOrderBy !== orderBy ||
+            selectedPage !== page ||
+            selectedRowsPerPage !== rowsPerPage
+        ) {
+            onRouteToListing(order, orderBy, page, rowsPerPage);
+        }
+    }, [
+        onRouteToListing,
+        order,
+        orderBy,
+        page,
+        rowsPerPage,
+        selectedOrder,
+        selectedOrderBy,
+        selectedPage,
+        selectedRowsPerPage,
+    ]);
+
     useEffect(() => {
         setToolsKey([TOOLS_QUERY_KEY, { order, orderBy, page, rowsPerPage }]);
+        setToolsListingQueryEnabled(true);
     }, [order, orderBy, page, rowsPerPage]);
+
+    useEffect(() => {
+        if (data?.tools) {
+            const selectedId = selected[0];
+            setSelectedTool(data.tools.find((item) => item.id === selectedId));
+        } else {
+            setSelectedTool(null);
+        }
+    }, [data, selected]);
+
+    useEffect(() => {
+        setSingleSelection(selected && selected.length === 1);
+    }, [selected]);
 
     // Fetches tool listings from the API.
     const { isFetching, error } = useQuery({
         queryKey: toolsKey,
         queryFn: getTools,
         config: {
-            enabled: true,
+            enabled: toolsListingQueryEnabled,
             onSuccess: setData,
         },
     });
 
     // Handles a request to sort the tools.
     const handleRequestSort = (_, property) => {
-        setOrder(orderBy === property && order === "asc" ? "desc" : "asc");
+        setOrder(
+            orderBy === property && order === constants.SORT_ASCENDING
+                ? constants.SORT_DESCENDING
+                : constants.SORT_ASCENDING
+        );
         setOrderBy(property);
         setSelected([]);
         setPage(0);
@@ -52,13 +109,18 @@ function Listing(props) {
     // Handles a request to change the page being displayed.
     const handleChangePage = (_, newPage) => {
         setPage(newPage - 1);
+        setSelected([]);
     };
 
-    // Handles a request to chagne the number of rows per page.
+    // Handles a request to change the number of rows per page.
     const handleChangeRowsPerPage = (newPageSize) => {
         setRowsPerPage(parseInt(newPageSize, 10));
         setSelected([]);
         setPage(0);
+    };
+
+    const onDetailsSelected = () => {
+        setDetailsOpen(true);
     };
 
     // Determines whether or not a tool is already selected.
@@ -123,6 +185,11 @@ function Listing(props) {
 
     return (
         <>
+            <ToolsToolbar
+                baseId={baseId}
+                isSingleSelection={isSingleSelection}
+                onDetailsSelected={onDetailsSelected}
+            />
             <TableView
                 baseId={baseId}
                 error={error}
@@ -135,6 +202,14 @@ function Listing(props) {
                 orderBy={orderBy}
                 selected={selected}
             />
+            {detailsOpen && (
+                <Drawer
+                    selectedTool={selectedTool}
+                    open={detailsOpen}
+                    baseId={baseId}
+                    onClose={() => setDetailsOpen(false)}
+                />
+            )}
             {data && data.total > 0 && (
                 <DEPagination
                     baseId={baseId}

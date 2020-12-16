@@ -8,6 +8,8 @@ import {
     listing,
 } from "./ToolMocks";
 
+import constants from "../../src/constants";
+
 const toolListingUriRegexp = /\/api\/tools.*/;
 
 /**
@@ -15,7 +17,15 @@ const toolListingUriRegexp = /\/api\/tools.*/;
  * @param {Object} props - the component properties
  */
 function ListingTest(props) {
-    return <Listing baseId="tableView" />;
+    return (
+        <Listing
+            baseId="tableView"
+            selectedPage={0}
+            selectedRowsPerPage={25}
+            selectedOrder={constants.SORT_ASCENDING}
+            selectedOrderBy={"name"}
+        />
+    );
 }
 
 /**
@@ -91,7 +101,7 @@ function parameterizedToolListing(config) {
  * Export the story title.
  */
 export default {
-    title: "Tools",
+    title: "Tools / Listing",
 };
 
 /**

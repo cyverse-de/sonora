@@ -3,6 +3,9 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 
+import TableLoading from "../../utils/TableLoading";
+import { DERow } from "components/utils/DERow";
+
 import {
     build,
     DECheckbox,
@@ -15,10 +18,8 @@ import {
     TableBody,
     TableCell,
     TableContainer,
-    TableRow,
     Typography,
 } from "@material-ui/core";
-import TableLoading from "../../utils/TableLoading";
 
 const buildId = build;
 
@@ -105,7 +106,7 @@ function ToolListing(props) {
         const handleRowClick = (event) => handleClick(event, id, index);
         const isSelected = selected.includes(id);
         return (
-            <TableRow
+            <DERow
                 aria-checked={isSelected}
                 hover
                 id={rowId}
@@ -141,7 +142,7 @@ function ToolListing(props) {
                         {tool.is_public ? t("public") : tool.permission}
                     </Typography>
                 </TableCell>
-            </TableRow>
+            </DERow>
         );
     });
 }

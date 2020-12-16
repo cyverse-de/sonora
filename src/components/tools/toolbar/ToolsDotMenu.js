@@ -24,7 +24,7 @@ import {
     useTheme,
 } from "@material-ui/core";
 
-import { Add, Info, Edit,FilterList, Send } from "@material-ui/icons";
+import { Add, Info, Edit, FilterList, Send } from "@material-ui/icons";
 
 function DotMenuItems(props) {
     const {

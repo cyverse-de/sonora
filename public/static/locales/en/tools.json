@@ -110,6 +110,8 @@
     "toolName": "Tool Name",
     "toolNameLabel": "What is the name of the tool?",
     "tools": "Tools",
+    "toolRequestError": "Unable to submit your request. Please try again later.",
+    "toolRequestSuccess": "Request submitted successfully. You will receive notifications about the progress.",
     "toolSrcLinkLabel": "Provide a link for your tool's source (GitHub, BitBucket, DockerHub etc...)",
     "toolTypesFetchError": "Unable to fetch tool types. Please try again later.",
     "toolTestDataLabel": "Provide a link for your tool's test data",

@@ -24,11 +24,7 @@ import {
     useTheme,
 } from "@material-ui/core";
 
-<<<<<<< HEAD
 import { Add, Info, Edit, FilterList, Send } from "@material-ui/icons";
-=======
-import { Add, Info, Edit, FilterList } from "@material-ui/icons";
->>>>>>> 62bfba4... Add filtering and search options to toolbar.
 
 function DotMenuItems(props) {
     const {

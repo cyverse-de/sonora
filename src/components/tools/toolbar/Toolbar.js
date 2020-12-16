@@ -17,6 +17,7 @@ import { formatSharedTools } from "components/sharing/util";
 import EditToolDialog from "components/tools/edit/EditTool";
 
 import { build, SearchField } from "@cyverse-de/ui-lib";
+import NewToolRequestDialog from "../NewToolRequestDialog";
 
 import {
     Button,
@@ -36,6 +37,7 @@ export const TOOL_FILTER_VALUES = {
     MY_TOOLS: "MY_TOOLS",
     PUBLIC: "PUBLIC",
 };
+
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -128,6 +130,7 @@ export default function ToolsToolbar(props) {
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
+    const [requestDialogOpen, setRequestDialogOpen] = useState(false);
     const classes = useStyles();
     const { t } = useTranslation("tools");
     const { t: i18nCommon } = useTranslation("common");
@@ -186,6 +189,7 @@ export default function ToolsToolbar(props) {
                     onAddToolSelected={() => setAddDialogOpen(true)}
                     onEditToolSelected={() => setEditDialogOpen(true)}
                     onFilterSelected={() => setOpenFilterDialog(true)}
+                    onRequestToolSelected={() => setRequestDialogOpen(true)}
                 />
             </Toolbar>
             <Sharing
@@ -232,6 +236,11 @@ export default function ToolsToolbar(props) {
                     </Button>
                 </DialogActions>
             </Dialog>
+            <NewToolRequestDialog
+                open={requestDialogOpen}
+                onClose={() => setRequestDialogOpen(false)}
+                baseId={baseId}
+            />
         </>
     );
 }

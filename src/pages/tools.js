@@ -18,7 +18,6 @@ import NavigationConstants from "common/NavigationConstants";
 export default function Tools() {
     const router = useRouter();
     const query = router.query;
-
     const selectedPage = parseInt(query.selectedPage) || 0;
     const selectedRowsPerPage =
         parseInt(getLocalStorage(constants.LOCAL_STORAGE.TOOLS.PAGE_SIZE)) ||

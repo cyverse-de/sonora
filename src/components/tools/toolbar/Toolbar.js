@@ -82,7 +82,6 @@ function PermissionsFilter(props) {
             options={getOwnershipFilters(t)}
             size="small"
             onChange={(event, filter) => {
-                console.log("filter val=>" + filter?.value);
                 handleFilterChange(filter?.value);
             }}
             getOptionLabel={(option) => option.name}

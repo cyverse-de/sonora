@@ -559,11 +559,11 @@ const DEFAULT_ADMIN_TOOL = {
     },
 };
 
-function mapPropsToValues(tool, isAdmin) {
-    if (!tool) {
+function mapPropsToValues(selTool, isAdmin) {
+    if (!selTool) {
         return isAdmin ? { ...DEFAULT_ADMIN_TOOL } : { ...DEFAULT_TOOL };
     } else {
-        const values = { ...tool };
+        const values = { ...selTool };
         //these keys needs to excluded from submission to avoid service errors
         delete values.permission;
         delete values.is_public;

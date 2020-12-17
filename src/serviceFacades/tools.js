@@ -118,6 +118,25 @@ function toolRequest(request) {
     });
 }
 
+function deleteTool({ id }) {
+    return callApi({
+        endpoint: `/api/tools/${id}`,
+        method: "DELETE",
+    });
+}
+
+function deleteTools({ ids: toolIds }) {
+    return (
+        toolIds &&
+        toolIds.length > 0 &&
+        new Promise((resolve, reject) =>
+            Promise.all(toolIds.map((id) => deleteTool({ id })))
+                .then((values) => resolve(values))
+                .catch((error) => reject(error))
+        )
+    );
+}
+
 export {
     getTools,
     getToolPermissions,
@@ -131,4 +150,5 @@ export {
     addTool,
     updateTool,
     toolRequest,
+    deleteTools,
 };

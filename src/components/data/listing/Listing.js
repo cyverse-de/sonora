@@ -149,7 +149,18 @@ function Listing(props) {
     });
 
     const refreshListing = () =>
-        queryCache.invalidateQueries(pagedListingKey, { force: true });
+        queryCache.invalidateQueries(
+            [
+                DATA_LISTING_QUERY_KEY,
+                path,
+                rowsPerPage,
+                orderBy,
+                order,
+                page,
+                uploadsCompleted,
+            ],
+            { force: true }
+        );
 
     const [removeResources, { status: removeResourceStatus }] = useMutation(
         deleteResources,

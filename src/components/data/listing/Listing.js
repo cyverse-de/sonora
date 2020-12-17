@@ -86,12 +86,7 @@ function Listing(props) {
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
-    const [pagedListingKey, setPagedListingKey] = useState(
-        DATA_LISTING_QUERY_KEY
-    );
-    const [pagedListingQueryEnabled, setPagedListingQueryEnabled] = useState(
-        false
-    );
+
     const [navError, setNavError] = useState(null);
 
     // Used to force the data listing to refresh when uploads are completed.
@@ -122,10 +117,18 @@ function Listing(props) {
     };
 
     const { error, isFetching } = useQuery({
-        queryKey: pagedListingKey,
+        queryKey: [
+            DATA_LISTING_QUERY_KEY,
+            path,
+            rowsPerPage,
+            orderBy,
+            order,
+            page,
+            uploadsCompleted,
+        ],
         queryFn: getPagedListing,
         config: {
-            enabled: pagedListingQueryEnabled,
+            enabled: !!path,
             onSuccess: (respData) => {
                 setData({
                     total: respData?.total,
@@ -165,18 +168,6 @@ function Listing(props) {
 
     useEffect(() => {
         setSelected([]);
-        if (path) {
-            setPagedListingKey([
-                DATA_LISTING_QUERY_KEY,
-                path,
-                rowsPerPage,
-                orderBy,
-                order,
-                page,
-                uploadsCompleted,
-            ]);
-            setPagedListingQueryEnabled(true);
-        }
     }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
 
     const viewUploadQueue = useCallback(() => {

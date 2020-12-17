@@ -10,7 +10,7 @@ import constants from "../../../constants";
 import { getLocalStorage } from "components/utils/localStorage";
 import viewerConstants from "components/data/viewers/constants";
 import Listing from "components/data/listing/Listing";
-import { getEncodedPath } from "components/data/utils";
+import { getEncodedPath, DEFAULT_PAGE_SETTINGS } from "components/data/utils";
 import FileViewer from "components/data/viewers/FileViewer";
 import infoTypes from "components/models/InfoTypes";
 import ResourceTypes from "components/models/ResourceTypes";
@@ -34,12 +34,14 @@ export default function DataStore() {
     const router = useRouter();
     const query = router.query;
 
-    const selectedPage = parseInt(query.selectedPage);
-    const selectedRowsPerPage = parseInt(
-        getLocalStorage(constants.LOCAL_STORAGE.DATA.PAGE_SIZE)
-    );
-    const selectedOrder = query.selectedOrder;
-    const selectedOrderBy = query.selectedOrderBy;
+    const selectedPage =
+        parseInt(query.selectedPage) || DEFAULT_PAGE_SETTINGS.page;
+    const selectedRowsPerPage =
+        parseInt(getLocalStorage(constants.LOCAL_STORAGE.DATA.PAGE_SIZE)) ||
+        DEFAULT_PAGE_SETTINGS.rowsPerPage;
+    const selectedOrder = query.selectedOrder || DEFAULT_PAGE_SETTINGS.order;
+    const selectedOrderBy =
+        query.selectedOrderBy || DEFAULT_PAGE_SETTINGS.orderBy;
 
     const isFile = query.type === ResourceTypes.FILE;
     const resourceId = query.resourceId;
@@ -130,10 +132,10 @@ export default function DataStore() {
                 baseId="data"
                 onCreateHTFileSelected={onCreateHTFileSelected}
                 onCreateMultiInputFileSelected={onCreateMultiInputFileSelected}
-                selectedPage={selectedPage}
-                selectedRowsPerPage={selectedRowsPerPage}
-                selectedOrder={selectedOrder}
-                selectedOrderBy={selectedOrderBy}
+                page={selectedPage}
+                rowsPerPage={selectedRowsPerPage}
+                order={selectedOrder}
+                orderBy={selectedOrderBy}
                 onRouteToListing={onRouteToListing}
             />
         );

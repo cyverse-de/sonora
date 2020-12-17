@@ -21,10 +21,10 @@ function ListingTest(props) {
                 baseId="tableView"
                 path="/iplant/home/ipcdev"
                 handlePathChange={(path) => logger("Change to path " + path)}
-                selectedPage={0}
-                selectedRowsPerPage={100}
-                selectedOrder={constants.SORT_DESCENDING}
-                selectedOrderBy="name"
+                page={0}
+                rowsPerPage={100}
+                order={constants.SORT_DESCENDING}
+                orderBy="name"
             />
         </UploadTrackingProvider>
     );

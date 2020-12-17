@@ -168,6 +168,7 @@ export default function DataStore() {
                 path={resourcePath}
                 createFile={createFile}
                 baseId="data.viewer"
+                handlePathChange={handlePathChange}
                 onNewFileSaved={onNewFileSaved}
             />
         );

@@ -25,6 +25,7 @@ export default function TextViewer(props) {
         data,
         loading,
         mode,
+        handlePathChange,
         onRefresh,
         fileName,
     } = props;
@@ -42,6 +43,7 @@ export default function TextViewer(props) {
                 allowLineNumbers={true}
                 showLineNumbers={showLineNumbers}
                 onShowLineNumbers={(show) => setShowLineNumbers(show)}
+                handlePathChange={handlePathChange}
                 onRefresh={onRefresh}
                 fileName={fileName}
             />

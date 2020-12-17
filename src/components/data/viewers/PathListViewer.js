@@ -70,6 +70,7 @@ function PathListViewer(props) {
         loading,
         showErrorAnnouncer,
         createFile,
+        handlePathChange,
         onRefresh,
         onNewFileSaved,
         fileName,
@@ -263,6 +264,7 @@ function PathListViewer(props) {
                 }}
                 dirty={dirty}
                 selectionCount={Object.keys(selectedRowIds).length}
+                handlePathChange={handlePathChange}
                 onRefresh={onRefresh}
                 fileName={fileName}
                 createFile={createFile}

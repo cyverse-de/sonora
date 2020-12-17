@@ -6,7 +6,6 @@
 import React from "react";
 import { useTranslation } from "i18n";
 import { Trans } from "react-i18next";
-import { useRouter } from "next/router";
 
 import styles from "./styles";
 
@@ -14,6 +13,8 @@ import { intercomShow } from "common/intercom";
 
 import AppDoc from "components/apps/details/AppDoc";
 import DetailsDrawer from "components/apps/details/Drawer";
+
+import BackButton from "components/utils/BackButton";
 import DEErrorDialog from "components/utils/error/DEErrorDialog";
 import ErrorTypography from "components/utils/error/ErrorTypography";
 
@@ -32,7 +33,7 @@ import {
     useTheme,
 } from "@material-ui/core";
 
-import { ArrowBack, Info, MenuBook } from "@material-ui/icons";
+import { Info, MenuBook } from "@material-ui/icons";
 
 import { Skeleton } from "@material-ui/lab";
 
@@ -58,6 +59,7 @@ const LoadingErrorDisplay = ({ baseId, loadingError }) => {
         </>
     );
 };
+
 const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
     let message = "";
     const { t } = useTranslation("launch");
@@ -109,30 +111,23 @@ const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
         </Typography>
     );
 };
+
 const AppInfo = React.forwardRef((props, ref) => {
     const { app, baseId, hasDeprecatedParams, loading, loadingError } = props;
-    const { t } = useTranslation("common");
-    const { t: i18nApps } = useTranslation("apps");
-    const router = useRouter();
+    const { t } = useTranslation("apps");
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const [detailsDrawerOpen, setDetailsDrawerOpen] = React.useState(false);
     const [docDialogOpen, setDocDialogOpen] = React.useState(false);
+
     return (
         <div ref={ref}>
-            <Button
-                color="primary"
-                variant={isMobile ? "text" : "contained"}
-                size="small"
+            <BackButton
                 style={{
                     margin: isMobile ? theme.spacing(0) : theme.spacing(0.5),
                 }}
-                startIcon={<ArrowBack fontSize="small" />}
-                onClick={() => router.back()}
-            >
-                <Hidden xsDown>{t("back")}</Hidden>
-            </Button>
+            />
             <Button
                 id={buildDebugId(baseId, ids.BUTTONS.DETAILS)}
                 className={classes.detailsButton}
@@ -141,7 +136,7 @@ const AppInfo = React.forwardRef((props, ref) => {
                 size="small"
                 startIcon={<Info color="primary" fontSize="small" />}
             >
-                <Hidden xsDown>{i18nApps("details")}</Hidden>
+                <Hidden xsDown>{t("details")}</Hidden>
             </Button>
             <Button
                 id={buildDebugId(baseId, ids.BUTTONS.DOCUMENTATION)}
@@ -151,7 +146,7 @@ const AppInfo = React.forwardRef((props, ref) => {
                 size="small"
                 startIcon={<MenuBook color="primary" fontSize="small" />}
             >
-                <Hidden xsDown>{i18nApps("documentation")}</Hidden>
+                <Hidden xsDown>{t("documentation")}</Hidden>
             </Button>
             <Typography
                 variant={isMobile ? "subtitle2" : "h6"}

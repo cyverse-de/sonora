@@ -13,6 +13,8 @@ export default {
     LOAD_MORE_BTN: "loadMoreButton",
     LINE_NUMBERS_SWITCH: "lineNumberSwitch",
     LINE_NUMBER_MENU_ITEM: "lineNumberSwitchMenuItem",
+    METADATA_BTN: "metadataButton",
+    METADATA_MENU_ITEM: "metadataMenuItem",
     REFRESH_BTN: "refreshButton",
     REFRESH_MENU_ITEM: "refreshMenuItem",
     SAVE_BTN: "saveButton",

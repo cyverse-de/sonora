@@ -6,9 +6,11 @@ const styles = (theme) => ({
         width: "100%",
         height: "100%",
     },
-    flex: {
+    metadataFormTitle: {
+        paddingLeft: theme.spacing(1),
         flex: 1,
     },
+    metadataFormToolbar: { alignItems: "flex-start" },
     tableHead: {
         backgroundColor: theme.palette.lightGray,
         position: "sticky",

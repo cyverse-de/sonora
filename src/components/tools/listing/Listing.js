@@ -206,7 +206,7 @@ function Listing(props) {
     };
 
     const getSelectedTools = (tools) => {
-        const items = tools ? tools : selected;
+        const items = tools || selected;
         return items.map((id) => data?.tools.find((tool) => tool.id === id));
     };
 

@@ -66,7 +66,6 @@ function DotMenuItems(props) {
 
 export default function ToolsDotMenu({
     ButtonProps,
-    getSelectedTools,
     canShare,
     setSharingDlgOpen,
     ...props

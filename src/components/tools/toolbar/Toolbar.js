@@ -64,9 +64,7 @@ export default function ToolsToolbar(props) {
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
     const classes = useStyles();
     const { t } = useTranslation("tools");
-    const hasSelection = getSelectedTools
-        ? getSelectedTools().length > 0
-        : false;
+    const hasSelection = getSelectedTools && getSelectedTools().length > 0;
     const sharingTools = formatSharedTools(getSelectedTools());
     return (
         <>
@@ -101,7 +99,6 @@ export default function ToolsToolbar(props) {
                         isSingleSelection={isSingleSelection}
                         canShare={canShare}
                         setSharingDlgOpen={setSharingDlgOpen}
-                        getSelectedTools={getSelectedTools}
                     />
                 )}
             </Toolbar>

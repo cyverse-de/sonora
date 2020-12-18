@@ -11,6 +11,7 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
+import {permissionHierarchy} from "components/models/Permissions";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 
@@ -114,7 +115,7 @@ export default function ToolsDotMenu({
         isSingleSelection &&
         selectedTools &&
         selectedTools.length > 0 &&
-        selectedTools[0].permission === "own";
+        permissionHierarchy(selectedTools[0].permission) > 1;
     return (
         <DotMenu
             baseId={baseId}

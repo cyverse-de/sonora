@@ -123,12 +123,12 @@ function Preferences(props) {
     );
 
     useEffect(() => {
-        if (prefCache) {
+        if (prefCache && !defaultOutputFolder) {
             preProcessData(prefCache);
         } else {
             setBootstrapQueryEnabled(true);
         }
-    }, [preProcessData, prefCache]);
+    }, [defaultOutputFolder, preProcessData, prefCache]);
 
     useEffect(() => {
         if (defaultOutputFolder) {

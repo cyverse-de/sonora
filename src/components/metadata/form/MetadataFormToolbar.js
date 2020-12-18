@@ -6,6 +6,7 @@ import React from "react";
 import { Trans } from "react-i18next";
 
 import { useTranslation } from "i18n";
+import BackButton from "components/utils/BackButton";
 import DEDialog from "components/utils/DEDialog";
 
 import ids from "../ids";
@@ -54,12 +55,13 @@ const MetadataFormToolbar = (props) => {
     const classes = useStyles();
 
     return (
-        <Toolbar variant="dense">
+        <Toolbar variant="dense" className={classes.metadataFormToolbar}>
+            <BackButton />
             <Typography
                 id={build(baseId, ids.TITLE)}
                 variant="h6"
                 color="inherit"
-                className={classes.flex}
+                className={classes.metadataFormTitle}
             >
                 {title}
             </Typography>

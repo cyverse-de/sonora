@@ -1,19 +1,28 @@
 /**
- * @author sriram, aramsey
+ * @author sriram, aramsey, psarando
  *
  */
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
+
 import { useRouter } from "next/router";
+import { useQuery } from "react-query";
 
 import constants from "../../../constants";
+import { NavigationParams } from "common/NavigationConstants";
 
 import { getLocalStorage } from "components/utils/localStorage";
 import viewerConstants from "components/data/viewers/constants";
 import Listing from "components/data/listing/Listing";
 import { getEncodedPath, DEFAULT_PAGE_SETTINGS } from "components/data/utils";
 import FileViewer from "components/data/viewers/FileViewer";
+import MetadataForm from "components/metadata/form";
 import infoTypes from "components/models/InfoTypes";
 import ResourceTypes from "components/models/ResourceTypes";
+
+import {
+    getResourceDetails,
+    DATA_DETAILS_QUERY_KEY,
+} from "serviceFacades/filesystem";
 
 /**
  * This variable value needs to match the name of this file for the routing to work
@@ -47,56 +56,58 @@ export default function DataStore() {
     const isFile = query.type === ResourceTypes.FILE;
     const resourceId = query.resourceId;
     const createFile = query.createFile;
-    const routerPathname = router.pathname;
+    const viewMetadata = query.view === NavigationParams.VIEW.METADATA;
 
+    const routerPathname = router.pathname;
     const fullPath = router.asPath;
     // Remove the dynamic part of the path if it's there
     // (it won't be there if user navigates directly to /data/ds)
     const baseRoutingPath = routerPathname.replace(dynamicPathName, "");
     const path = fullPath.replace(baseRoutingPath, "").split("?")[0];
+    const resourcePath = decodeURIComponent(path);
 
     const handlePathChange = useCallback(
-        (path, params, resourceType, id) => {
-            const encodedPath = getEncodedPath(path);
-            if (!resourceType || resourceType === ResourceTypes.FOLDER) {
-                router.push(
-                    `${baseRoutingPath}${dynamicPathName}?${params}`,
-                    `${baseRoutingPath}${encodedPath}?${params}`
-                );
-            } else {
-                router.push(
-                    `${baseRoutingPath}${dynamicPathName}?type=${ResourceTypes.FILE}&resourceId=${id}`,
-                    `${baseRoutingPath}${encodedPath}?type=${ResourceTypes.FILE}&resourceId=${id}`
-                );
-            }
+        (path, query) => {
+            const pathname = `${baseRoutingPath}${getEncodedPath(path)}`;
+
+            router.push({
+                pathname,
+                query,
+            });
         },
         [baseRoutingPath, router]
     );
 
     const onCreateHTFileSelected = useCallback(
         (path) => {
-            const createFile = infoTypes.HT_ANALYSIS_PATH_LIST;
             const encodedPath = getEncodedPath(
                 path.concat(`/${viewerConstants.NEW_FILE_NAME}`)
             );
-            router.push(
-                `${baseRoutingPath}${dynamicPathName}?type=${ResourceTypes.FILE}&createFile=${createFile}`,
-                `${baseRoutingPath}${encodedPath}?type=${ResourceTypes.FILE}&createFile=${createFile}`
-            );
+
+            router.push({
+                pathname: `${baseRoutingPath}${encodedPath}`,
+                query: {
+                    type: ResourceTypes.FILE,
+                    createFile: infoTypes.HT_ANALYSIS_PATH_LIST,
+                },
+            });
         },
         [baseRoutingPath, router]
     );
 
     const onCreateMultiInputFileSelected = useCallback(
         (path) => {
-            const createFile = infoTypes.MULTI_INPUT_PATH_LIST;
             const encodedPath = getEncodedPath(
                 path.concat(`/${viewerConstants.NEW_FILE_NAME}`)
             );
-            router.push(
-                `${baseRoutingPath}${dynamicPathName}?type=${ResourceTypes.FILE}&createFile=${createFile}`,
-                `${baseRoutingPath}${encodedPath}?type=${ResourceTypes.FILE}&createFile=${createFile}`
-            );
+
+            router.push({
+                pathname: `${baseRoutingPath}${encodedPath}`,
+                query: {
+                    type: ResourceTypes.FILE,
+                    createFile: infoTypes.MULTI_INPUT_PATH_LIST,
+                },
+            });
         },
         [baseRoutingPath, router]
     );
@@ -104,10 +115,16 @@ export default function DataStore() {
     const onNewFileSaved = useCallback(
         (path, resourceId) => {
             const encodedPath = getEncodedPath(path);
-            router.push(
-                `${baseRoutingPath}${dynamicPathName}?type=${ResourceTypes.FILE}&resourceId=${resourceId}`,
-                `${baseRoutingPath}${encodedPath}?type=${ResourceTypes.FILE}&resourceId=${resourceId}`
-            );
+
+            // Using router.replace instead of push to prevent the user
+            // from navigating back to a create-file page.
+            router.replace({
+                pathname: `${baseRoutingPath}${encodedPath}`,
+                query: {
+                    type: ResourceTypes.FILE,
+                    resourceId,
+                },
+            });
         },
         [baseRoutingPath, router]
     );
@@ -116,41 +133,73 @@ export default function DataStore() {
         (path, order, orderBy, page, rowsPerPage) => {
             if (path) {
                 const encodedPath = getEncodedPath(path);
-                router.push(
-                    `${baseRoutingPath}${dynamicPathName}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}`,
-                    `${baseRoutingPath}${encodedPath}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}`
-                );
+
+                router.push({
+                    pathname: `${baseRoutingPath}${encodedPath}`,
+                    query: {
+                        selectedOrder: order,
+                        selectedOrderBy: orderBy,
+                        selectedPage: page,
+                        selectedRowsPerPage: rowsPerPage,
+                    },
+                });
             }
         },
         [baseRoutingPath, router]
     );
 
-    if (!isFile) {
+    const [details, setDetails] = useState(null);
+    const [errorObject, setErrorObject] = useState(null);
+
+    const { isFetching: detailsLoading } = useQuery({
+        queryKey: [DATA_DETAILS_QUERY_KEY, { paths: [resourcePath] }],
+        queryFn: getResourceDetails,
+        config: {
+            enabled: viewMetadata,
+            onSuccess: (resp) => {
+                setDetails(resp?.paths[resourcePath]);
+            },
+            onError: setErrorObject,
+        },
+    });
+
+    if (viewMetadata) {
         return (
-            <Listing
-                path={decodeURIComponent(path)}
-                handlePathChange={handlePathChange}
-                baseId="data"
-                onCreateHTFileSelected={onCreateHTFileSelected}
-                onCreateMultiInputFileSelected={onCreateMultiInputFileSelected}
-                page={selectedPage}
-                rowsPerPage={selectedRowsPerPage}
-                order={selectedOrder}
-                orderBy={selectedOrderBy}
-                onRouteToListing={onRouteToListing}
+            <MetadataForm
+                loading={detailsLoading}
+                loadingError={errorObject}
+                targetResource={details}
             />
         );
-    } else {
+    }
+
+    if (isFile) {
         return (
             <FileViewer
                 resourceId={resourceId}
-                path={decodeURIComponent(path)}
+                path={resourcePath}
                 createFile={createFile}
                 baseId="data.viewer"
+                handlePathChange={handlePathChange}
                 onNewFileSaved={onNewFileSaved}
             />
         );
     }
+
+    return (
+        <Listing
+            path={resourcePath}
+            handlePathChange={handlePathChange}
+            baseId="data"
+            onCreateHTFileSelected={onCreateHTFileSelected}
+            onCreateMultiInputFileSelected={onCreateMultiInputFileSelected}
+            page={selectedPage}
+            rowsPerPage={selectedRowsPerPage}
+            order={selectedOrder}
+            orderBy={selectedOrderBy}
+            onRouteToListing={onRouteToListing}
+        />
+    );
 }
 
 DataStore.getInitialProps = async () => ({

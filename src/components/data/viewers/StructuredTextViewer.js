@@ -33,6 +33,7 @@ export default function StructuredTextViewer(props) {
         resourceId,
         data,
         loading,
+        handlePathChange,
         onRefresh,
         fileName,
     } = props;
@@ -87,6 +88,7 @@ export default function StructuredTextViewer(props) {
                 }}
                 firstRowHeader={firstRowHeader}
                 onFirstRowHeader={(header) => setFirstRowHeader(header)}
+                handlePathChange={handlePathChange}
                 onRefresh={onRefresh}
                 fileName={fileName}
             />

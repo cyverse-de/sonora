@@ -7,17 +7,18 @@
  */
 import React, { useEffect, useState } from "react";
 
-import { useRouter } from "next/router";
-
 import { queryCache, useQuery } from "react-query";
 import { useTranslation } from "i18n";
+import { NavigationParams } from "common/NavigationConstants";
 
-import { getHost } from "../../utils/getHost";
 import ids from "./ids";
 
 import { getInfoTypes, INFO_TYPES_QUERY_KEY } from "serviceFacades/filesystem";
 import DetailsDrawer from "components/data/details/Drawer";
 import ResourceTypes from "components/models/ResourceTypes";
+
+import BackButton from "components/utils/BackButton";
+import { getHost } from "components/utils/getHost";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
@@ -33,16 +34,14 @@ import {
     ListItemIcon,
     ListItemText,
     MenuItem,
-    useTheme,
-    useMediaQuery,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
     Add,
-    ArrowBack,
     CloudDownload,
     Delete,
     Info,
+    List as MetadataIcon,
     Refresh,
     Save,
 } from "@material-ui/icons";
@@ -81,16 +80,13 @@ function ViewerToolbar(props) {
         selectionCount,
         dirty,
         onRefresh,
+        handlePathChange,
         fileName,
         createFile,
     } = props;
 
     const { t } = useTranslation("data");
     const { t: i18nCommon } = useTranslation("common");
-    const router = useRouter();
-
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
@@ -131,18 +127,21 @@ function ViewerToolbar(props) {
         },
     });
 
+    const onViewDetails = () =>
+        setDetailsResource({
+            id: resourceId,
+            path,
+            label: fileName,
+            type: ResourceTypes.FILE,
+        });
+
+    const onViewMetadata = () =>
+        handlePathChange(path, { view: NavigationParams.VIEW.METADATA });
+
     return (
         <>
             <Toolbar variant="dense" id={baseId}>
-                <Button
-                    color="primary"
-                    variant={isMobile ? "text" : "contained"}
-                    size="small"
-                    startIcon={<ArrowBack fontSize="small" />}
-                    onClick={() => router.back()}
-                >
-                    <Hidden xsDown>{t("back")}</Hidden>
-                </Button>
+                <BackButton />
                 <Divider
                     orientation="vertical"
                     flexItem
@@ -270,17 +269,22 @@ function ViewerToolbar(props) {
                                 variant="outlined"
                                 disableElevation
                                 color="primary"
-                                onClick={() =>
-                                    setDetailsResource({
-                                        id: resourceId,
-                                        path,
-                                        label: fileName,
-                                        type: ResourceTypes.FILE,
-                                    })
-                                }
+                                onClick={onViewDetails}
                                 startIcon={<Info />}
                             >
                                 <Hidden xsDown>{t("details")}</Hidden>
+                            </Button>
+                            <Button
+                                id={build(baseId, ids.METADATA_BTN)}
+                                size="small"
+                                className={classes.toolbarItems}
+                                variant="outlined"
+                                disableElevation
+                                color="primary"
+                                onClick={onViewMetadata}
+                                startIcon={<MetadataIcon />}
+                            >
+                                <Hidden xsDown>{t("metadata")}</Hidden>
                             </Button>
                             <Button
                                 id={build(baseId, ids.DOWNLOAD_BTN)}
@@ -294,20 +298,20 @@ function ViewerToolbar(props) {
                             >
                                 <Hidden xsDown>{t("download")}</Hidden>
                             </Button>
+                            <Button
+                                id={build(baseId, ids.REFRESH_BTN)}
+                                size="small"
+                                className={classes.toolbarItems}
+                                variant="outlined"
+                                disableElevation
+                                color="primary"
+                                onClick={onRefresh}
+                                startIcon={<Refresh fontSize="small" />}
+                            >
+                                <Hidden xsDown>{i18nCommon("refresh")}</Hidden>
+                            </Button>
                         </>
                     )}
-                    <Button
-                        id={build(baseId, ids.REFRESH_BTN)}
-                        size="small"
-                        className={classes.toolbarItems}
-                        variant="outlined"
-                        disableElevation
-                        color="primary"
-                        onClick={onRefresh}
-                        startIcon={<Refresh fontSize="small" />}
-                    >
-                        <Hidden xsDown>{i18nCommon("refresh")}</Hidden>
-                    </Button>
                 </Hidden>
                 <Hidden mdUp>
                     <>
@@ -440,49 +444,71 @@ function ViewerToolbar(props) {
                                         <ListItemText primary={t("delete")} />
                                     </MenuItem>,
                                 ],
-                                <MenuItem
-                                    key={build(baseId, ids.DETAILS_MENU_ITEM)}
-                                    id={build(baseId, ids.DETAILS_MENU_ITEM)}
-                                    onClick={() => {
-                                        onClose();
-                                        setDetailsResource({
-                                            id: resourceId,
-                                            path,
-                                            label: fileName,
-                                            type: ResourceTypes.FILE,
-                                        });
-                                    }}
-                                >
-                                    <ListItemIcon>
-                                        <Info fontSize="small" />
-                                    </ListItemIcon>
-                                    <ListItemText primary={t("details")} />
-                                </MenuItem>,
-                                <MenuItem
-                                    key={build(baseId, ids.DOWNLOAD_MENU_ITEM)}
-                                    id={build(baseId, ids.DOWNLOAD_MENU_ITEM)}
-                                    onClick={() => {
-                                        onClose();
-                                        setDownload(true);
-                                    }}
-                                >
-                                    <ListItemIcon>
-                                        <CloudDownload fontSize="small" />
-                                    </ListItemIcon>
-                                    <ListItemText primary={t("download")} />
-                                </MenuItem>,
-                                <MenuItem
-                                    key={build(baseId, ids.REFRESH_MENU_ITEM)}
-                                    id={build(baseId, ids.REFRESH_MENU_ITEM)}
-                                    onClick={onRefresh}
-                                >
-                                    <ListItemIcon>
-                                        <Refresh fontSize="small" />
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        primary={i18nCommon("refresh")}
-                                    />
-                                </MenuItem>,
+                                !createFile && [
+                                    <MenuItem
+                                        key={ids.DETAILS_MENU_ITEM}
+                                        id={build(
+                                            baseId,
+                                            ids.DETAILS_MENU_ITEM
+                                        )}
+                                        onClick={() => {
+                                            onClose();
+                                            onViewDetails();
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <Info fontSize="small" />
+                                        </ListItemIcon>
+                                        <ListItemText primary={t("details")} />
+                                    </MenuItem>,
+                                    <MenuItem
+                                        key={ids.METADATA_MENU_ITEM}
+                                        id={build(
+                                            baseId,
+                                            ids.METADATA_MENU_ITEM
+                                        )}
+                                        onClick={() => {
+                                            onClose();
+                                            onViewMetadata();
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <MetadataIcon fontSize="small" />
+                                        </ListItemIcon>
+                                        <ListItemText primary={t("metadata")} />
+                                    </MenuItem>,
+                                    <MenuItem
+                                        key={ids.DOWNLOAD_MENU_ITEM}
+                                        id={build(
+                                            baseId,
+                                            ids.DOWNLOAD_MENU_ITEM
+                                        )}
+                                        onClick={() => {
+                                            onClose();
+                                            setDownload(true);
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <CloudDownload fontSize="small" />
+                                        </ListItemIcon>
+                                        <ListItemText primary={t("download")} />
+                                    </MenuItem>,
+                                    <MenuItem
+                                        key={ids.REFRESH_MENU_ITEM}
+                                        id={build(
+                                            baseId,
+                                            ids.REFRESH_MENU_ITEM
+                                        )}
+                                        onClick={onRefresh}
+                                    >
+                                        <ListItemIcon>
+                                            <Refresh fontSize="small" />
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={i18nCommon("refresh")}
+                                        />
+                                    </MenuItem>,
+                                ],
                             ]}
                         />
                     </>

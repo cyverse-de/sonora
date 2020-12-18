@@ -58,7 +58,14 @@ const VIEWER_TYPE = {
 };
 
 export default function FileViewer(props) {
-    const { path, resourceId, createFile, onNewFileSaved, baseId } = props;
+    const {
+        path,
+        resourceId,
+        createFile,
+        handlePathChange,
+        onNewFileSaved,
+        baseId,
+    } = props;
 
     const { t } = useTranslation("data");
     const router = useRouter();
@@ -290,6 +297,7 @@ export default function FileViewer(props) {
                     data={flatData}
                     mode={mode}
                     loading={isFetchingMore}
+                    handlePathChange={handlePathChange}
                     onRefresh={() => refreshViewer(manifestKey)}
                 />
                 <LoadMoreButton />
@@ -305,6 +313,7 @@ export default function FileViewer(props) {
                     resourceId={resourceId}
                     data={flattenStructureData(memoizedData)}
                     loading={isFetchingMore}
+                    handlePathChange={handlePathChange}
                     onRefresh={() => refreshViewer(manifestKey)}
                 />
                 <LoadMoreButton />
@@ -316,6 +325,7 @@ export default function FileViewer(props) {
                 baseId={baseId}
                 path={path}
                 fileName={fileName}
+                handlePathChange={handlePathChange}
                 onRefresh={() => refreshViewer(manifestKey)}
             />
         );
@@ -325,6 +335,7 @@ export default function FileViewer(props) {
                 baseId={baseId}
                 path={path}
                 fileName={fileName}
+                handlePathChange={handlePathChange}
                 onRefresh={() => refreshViewer(manifestKey)}
             />
         );
@@ -334,6 +345,7 @@ export default function FileViewer(props) {
                 baseId={baseId}
                 path={path}
                 fileName={fileName}
+                handlePathChange={handlePathChange}
                 onRefresh={() => refreshViewer(manifestKey)}
             />
         );
@@ -359,6 +371,7 @@ export default function FileViewer(props) {
                     data={dataToView}
                     loading={isFetchingMore}
                     separator={separator}
+                    handlePathChange={handlePathChange}
                     onRefresh={() => refreshViewer(manifestKey)}
                     onNewFileSaved={onNewFileSaved}
                 />

@@ -57,7 +57,9 @@ mockAxios.onPost(/\/api\/filesystem\/.*\/metadata/).reply((config) => {
     return [200, { path: testResourcePath, user: "ipcdev" }];
 });
 
-const MetadataViewStory = ({ loading, loggedOut }) => {
+const MetadataViewStory = (props) => {
+    const { loading, loadingError, loggedOut } = props;
+
     const [userProfile, setUserProfile] = useUserProfile();
 
     React.useEffect(() => {
@@ -67,6 +69,11 @@ const MetadataViewStory = ({ loading, loggedOut }) => {
     return (
         <MetadataForm
             loading={loading}
+            loadingError={
+                loadingError && {
+                    response: { status: 500, data: errorResponse },
+                }
+            }
             targetResource={
                 loading
                     ? null
@@ -81,16 +88,31 @@ const MetadataViewStory = ({ loading, loggedOut }) => {
     );
 };
 
-export const MetadataView = ({ loading, "Logged-Out View": loggedOut }) => {
+export const MetadataView = (props) => {
+    const {
+        loading,
+        "Loading Error": loadingError,
+        "Logged-Out View": loggedOut,
+    } = props;
+
     return (
         <UserProfileProvider>
-            <MetadataViewStory loading={loading} loggedOut={loggedOut} />
+            <MetadataViewStory
+                loading={loading}
+                loadingError={loadingError}
+                loggedOut={loggedOut}
+            />
         </UserProfileProvider>
     );
 };
 
 MetadataView.argTypes = {
     loading: {
+        control: {
+            type: "boolean",
+        },
+    },
+    "Loading Error": {
         control: {
             type: "boolean",
         },

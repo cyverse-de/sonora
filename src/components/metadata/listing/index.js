@@ -25,7 +25,8 @@ import {
 } from "@cyverse-de/ui-lib";
 
 import {
-    Grid,
+    ButtonGroup,
+    Button,
     IconButton,
     Paper,
     Table,
@@ -36,6 +37,8 @@ import {
     Toolbar,
     Typography,
     makeStyles,
+    useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
 
 import {
@@ -52,24 +55,39 @@ const MetadataGridToolbar = (props) => {
 
     const { t } = useTranslation("metadata");
     const classes = useStyles();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
     return (
         <Toolbar>
-            {editable && (
-                <IconButton
-                    id={build(parentID, ids.BUTTONS.ADD)}
-                    color="primary"
-                    aria-label={t("addMetadata")}
-                    onClick={onAddAVU}
-                >
-                    <ContentAdd />
-                </IconButton>
-            )}
-            <div className={classes.title}>
-                <Typography id={build(parentID, ids.TITLE)} variant="h6">
-                    {t("avus")}
-                </Typography>
-            </div>
+            <Typography
+                id={build(parentID, ids.TITLE)}
+                variant="h6"
+                className={classes.avuListingTitle}
+            >
+                {t("avus")}
+            </Typography>
+            {editable &&
+                (isMobile ? (
+                    <IconButton
+                        id={build(parentID, ids.BUTTONS.ADD)}
+                        color="primary"
+                        aria-label={t("addMetadata")}
+                        onClick={onAddAVU}
+                    >
+                        <ContentAdd />
+                    </IconButton>
+                ) : (
+                    <Button
+                        id={build(parentID, ids.BUTTONS.ADD)}
+                        color="primary"
+                        variant="outlined"
+                        startIcon={<ContentAdd />}
+                        onClick={onAddAVU}
+                    >
+                        {t("addMetadata")}
+                    </Button>
+                ))}
         </Toolbar>
     );
 };
@@ -145,47 +163,34 @@ const AVURow = ({
             </TableCell>
             <TableCell>{value}</TableCell>
             <TableCell>{unit}</TableCell>
-            <TableCell padding="none" align="right">
-                {avuChildCount}
-            </TableCell>
-            <TableCell padding="none">
-                <Grid
-                    container
-                    spacing={0}
-                    wrap="nowrap"
-                    direction="row"
-                    justify="center"
-                    alignItems="center"
-                >
-                    <Grid item>
-                        <IconButton
-                            id={build(rowID, ids.BUTTONS.EDIT)}
-                            aria-label={editable ? t("edit") : t("view")}
-                            className={classes.button}
+            <TableCell align="right">{avuChildCount}</TableCell>
+            <TableCell>
+                <ButtonGroup variant="text">
+                    <Button
+                        id={build(rowID, ids.BUTTONS.EDIT)}
+                        aria-label={editable ? t("edit") : t("view")}
+                        className={classes.button}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            onRowEdit();
+                        }}
+                    >
+                        {editable ? <ContentEdit /> : <ContentView />}
+                    </Button>
+                    {editable && (
+                        <Button
+                            id={build(rowID, ids.BUTTONS.DELETE)}
+                            aria-label={t("delete")}
+                            className={classes.deleteIcon}
                             onClick={(event) => {
                                 event.stopPropagation();
-                                onRowEdit();
+                                onRowDelete();
                             }}
                         >
-                            {editable ? <ContentEdit /> : <ContentView />}
-                        </IconButton>
-                    </Grid>
-                    {editable && (
-                        <Grid item>
-                            <IconButton
-                                id={build(rowID, ids.BUTTONS.DELETE)}
-                                aria-label={t("delete")}
-                                classes={{ root: classes.deleteIcon }}
-                                onClick={(event) => {
-                                    event.stopPropagation();
-                                    onRowDelete();
-                                }}
-                            >
-                                <ContentRemove />
-                            </IconButton>
-                        </Grid>
+                            <ContentRemove />
+                        </Button>
                     )}
-                </Grid>
+                </ButtonGroup>
             </TableCell>
         </TableRow>
     );

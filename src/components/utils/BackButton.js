@@ -9,7 +9,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
 
-import { Button, Hidden, useMediaQuery, useTheme } from "@material-ui/core";
+import { Button, IconButton, useMediaQuery, useTheme } from "@material-ui/core";
 
 import { ArrowBack } from "@material-ui/icons";
 
@@ -19,16 +19,28 @@ export default function BackButton(props) {
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const { t } = useTranslation("common");
 
-    return (
-        <Button
+    const onClick = () => router && router.back();
+
+    return isMobile ? (
+        <IconButton
             color="primary"
-            variant={isMobile ? "text" : "contained"}
-            size="small"
-            startIcon={<ArrowBack fontSize="small" />}
-            onClick={() => router && router.back()}
+            edge="start"
+            aria-label={t("back")}
+            onClick={onClick}
             {...props}
         >
-            <Hidden xsDown>{t("back")}</Hidden>
+            <ArrowBack />
+        </IconButton>
+    ) : (
+        <Button
+            color="primary"
+            variant={"contained"}
+            size="small"
+            startIcon={<ArrowBack fontSize="small" />}
+            onClick={onClick}
+            {...props}
+        >
+            {t("back")}
         </Button>
     );
 }

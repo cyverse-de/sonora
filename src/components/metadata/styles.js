@@ -9,6 +9,7 @@ const styles = (theme) => ({
     metadataFormTitle: {
         paddingLeft: theme.spacing(1),
         flex: 1,
+        overflow: "auto",
     },
     metadataFormToolbar: { alignItems: "flex-start" },
     tableHead: {
@@ -17,10 +18,7 @@ const styles = (theme) => ({
         top: 0,
     },
     deleteIcon: {
-        margin: 5,
-        "&:hover": {
-            backgroundColor: theme.palette.error.main,
-        },
+        color: theme.palette.error.main,
     },
     toolbar: {
         paddingLeft: theme.spacing(1),
@@ -32,10 +30,8 @@ const styles = (theme) => ({
     actions: {
         color: theme.palette.text.secondary,
     },
-    title: {
-        paddingLeft: theme.spacing(1),
-        flex: "0 0 auto",
-        maxWidth: "25rem",
+    avuListingTitle: {
+        flex: 1,
     },
     errorSubTitle: {
         color: theme.palette.error.dark,

@@ -20,6 +20,7 @@ export default {
     RELAUNCH: "relaunch",
     SEARCH: "search",
     SETTINGS: "settings",
+    TEAMS: "teams",
     TOOLS: "tools",
     VICE: "vice",
     YOUTUBE_EMBED_BASE: "https://youtu.be",

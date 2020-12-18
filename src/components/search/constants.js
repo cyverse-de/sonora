@@ -3,6 +3,7 @@ export default {
     ANALYSES: "analyses",
     APPS: "apps",
     DATA: "data",
+    TEAMS: "teams",
     DETAILED_SEARCH_PAGE_SIZE: 100,
     GLOBAL_SEARCH_PAGE_SIZE: 10,
     GLOBAL_SEARCH_PAGE: 0,

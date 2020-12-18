@@ -30,6 +30,7 @@ export default {
     SEARCH_BTN: "searchButton",
     SEARCH_MI: "searchMenuItem",
     SETTINGS_MI: "settingsMenuItem",
+    TEAMS_MI: "teamsMenuItem",
     TOOLS_MI: "toolsMenuItem",
     TOOLS_ADMIN_MI: "toolsAdminMenuItem",
     USERNAME_LBL: "username",

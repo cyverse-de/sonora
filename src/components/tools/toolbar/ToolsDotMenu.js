@@ -100,6 +100,7 @@ export default function ToolsDotMenu({
     canShare,
     setSharingDlgOpen,
     onEditToolSelected,
+    getSelectedTools,
     ...props
 }) {
     const {

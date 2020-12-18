@@ -11,7 +11,6 @@ import {
 } from "../../stories/tools/Listing.stories";
 import { mockAxios } from "../../stories/axiosMock";
 
-
 beforeEach(() => {
     mockAxios.reset();
 });

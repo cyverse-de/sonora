@@ -30,7 +30,11 @@ export default function Data() {
                     ? `${irodsHomePath}/${username}`
                     : `${irodsHomePath}/shared`
             );
-            router.push(`${router.pathname}${defaultPath}?${defaultParams}`);
+
+            router.push({
+                pathname: `${router.pathname}${defaultPath}`,
+                query: defaultParams,
+            });
         }
     }, [router, config, userProfile]);
 

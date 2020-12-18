@@ -128,7 +128,13 @@ const getPageQueryParams = (order, orderBy, page, rowsPerPage) => {
     const selectedPage = page || DEFAULT_PAGE_SETTINGS.page;
     const selectedRowsPerPage =
         rowsPerPage || DEFAULT_PAGE_SETTINGS.rowsPerPage;
-    return `selectedOrder=${selectedOrder}&selectedOrderBy=${selectedOrderBy}&selectedPage=${selectedPage}&selectedRowsPerPage=${selectedRowsPerPage}`;
+
+    return {
+        selectedOrder,
+        selectedOrderBy,
+        selectedPage,
+        selectedRowsPerPage,
+    };
 };
 
 const containsFolders = (resources) => {

@@ -420,9 +420,23 @@ function Listing(props) {
     );
 
     const onPathChange = (path, resourceType, id, view) => {
-        //set page to 0 for the new path
-        const queryParams = getPageQueryParams(order, orderBy, 0, rowsPerPage);
-        handlePathChange(path, queryParams, resourceType, id, view);
+        if (view === NavigationParams.VIEW.METADATA) {
+            handlePathChange(path, { view });
+        } else if (!resourceType || resourceType === ResourceTypes.FOLDER) {
+            //set page to 0 for the new path
+            const queryParams = getPageQueryParams(
+                order,
+                orderBy,
+                0,
+                rowsPerPage
+            );
+            handlePathChange(path, queryParams);
+        } else {
+            handlePathChange(path, {
+                type: resourceType,
+                resourceId: id,
+            });
+        }
     };
 
     const isLoading = isQueryLoading([isFetching, removeResourceStatus]);

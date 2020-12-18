@@ -136,13 +136,7 @@ function ViewerToolbar(props) {
         });
 
     const onViewMetadata = () =>
-        handlePathChange(
-            path,
-            null,
-            ResourceTypes.FILE,
-            resourceId,
-            NavigationParams.VIEW.METADATA
-        );
+        handlePathChange(path, { view: NavigationParams.VIEW.METADATA });
 
     return (
         <>

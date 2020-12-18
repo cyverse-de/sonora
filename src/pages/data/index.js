@@ -35,9 +35,11 @@ export default function Data() {
                     ? `${irodsHomePath}/${username}`
                     : `${irodsHomePath}/shared`
             );
-            router.push(
-                `${router.pathname}${constants.PATH_SEPARATOR}${constants.DATA_STORE_STORAGE_ID}${defaultPath}?${defaultParams}`
-            );
+
+            router.push({
+                pathname: `${router.pathname}${constants.PATH_SEPARATOR}${constants.DATA_STORE_STORAGE_ID}${defaultPath}`,
+                query: defaultParams,
+            });
         }
     }, [router, config, userProfile]);
 

@@ -1,12 +1,13 @@
 /**
  * @author aramsey
+ *
+ * The starting point for the teams view
  */
 
 import React, { useState } from "react";
 
 import { useQuery } from "react-query";
 
-import ids from "./ids";
 import Listing from "./Listing";
 import Toolbar from "./Toolbar";
 import isQueryLoading from "../utils/isQueryLoading";
@@ -26,6 +27,7 @@ const TEAM_FILTER = {
 };
 
 function Teams(props) {
+    const { baseId } = props;
     const [teamFilter, setTeamFilter] = useState(TEAM_FILTER.ALL_TEAMS);
     const [searchTerm, setSearchTerm] = useState("");
     const [data, setData] = useState([]);
@@ -71,16 +73,16 @@ function Teams(props) {
     return (
         <>
             <Toolbar
-                parentId={ids.TEAMS.BASE}
+                parentId={baseId}
                 teamFilter={teamFilter}
                 setTeamFilter={setTeamFilter}
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
             />
             <Listing
-                parentId={ids.TEAMS.BASE}
                 loading={loading}
                 data={data}
+                parentId={baseId}
                 onTeamNameSelected={onTeamNameSelected}
             />
         </>

@@ -7,6 +7,7 @@ import constants from "../../../constants";
 import { getTools, TOOLS_QUERY_KEY } from "../../../serviceFacades/tools";
 import DEPagination from "../../utils/DEPagination";
 import ToolsToolbar from "../toolbar/Toolbar";
+import { canShare } from "../utils";
 
 /**
  * The tool listing component.
@@ -44,6 +45,27 @@ function Listing(props) {
     const [selectedTool, setSelectedTool] = useState();
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [isSingleSelection, setSingleSelection] = useState(false);
+
+    useEffect(() => {
+        if (
+            selectedOrder !== order ||
+            selectedOrderBy !== orderBy ||
+            selectedPage !== page ||
+            selectedRowsPerPage !== rowsPerPage
+        ) {
+            onRouteToListing(order, orderBy, page, rowsPerPage);
+        }
+    }, [
+        onRouteToListing,
+        order,
+        orderBy,
+        page,
+        rowsPerPage,
+        selectedOrder,
+        selectedOrderBy,
+        selectedPage,
+        selectedRowsPerPage,
+    ]);
 
     useEffect(() => {
         if (
@@ -183,12 +205,22 @@ function Listing(props) {
         );
     };
 
+    const getSelectedTools = (tools) => {
+        const items = tools || selected;
+        return items.map((id) => data?.tools.find((tool) => tool.id === id));
+    };
+
+    const sharingEnabled = canShare(getSelectedTools());
+
     return (
         <>
             <ToolsToolbar
                 baseId={baseId}
                 isSingleSelection={isSingleSelection}
                 onDetailsSelected={onDetailsSelected}
+                canShare={sharingEnabled}
+                selected={selected}
+                getSelectedTools={getSelectedTools}
             />
             <TableView
                 baseId={baseId}

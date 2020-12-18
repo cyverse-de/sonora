@@ -20,7 +20,7 @@ export default function Tools() {
     const query = router.query;
     const selectedPage = parseInt(query.selectedPage) || 0;
     const selectedRowsPerPage =
-        parseInt(getLocalStorage(constants.LOCAL_STORAGE.ANALYSES.PAGE_SIZE)) ||
+        parseInt(getLocalStorage(constants.LOCAL_STORAGE.TOOLS.PAGE_SIZE)) ||
         100;
     const selectedOrder = query.selectedOrder || constants.SORT_ASCENDING;
     const selectedOrderBy = query.selectedOrderBy || "name";

@@ -456,3 +456,15 @@ export const formatSharedAnalyses = (selectedAnalyses) => {
 
     return { [TYPE.ANALYSES]: formattedAnalyses };
 };
+
+export const formatSharedTools = (selectedTools) => {
+    const formattedTools =
+        selectedTools?.map(({ name, id }) => {
+            return {
+                name,
+                id,
+            };
+        }) || [];
+
+    return { [TYPE.TOOLS]: formattedTools };
+};

@@ -5,11 +5,14 @@
  *
  */
 
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "i18n";
 
 import ids from "../ids";
 import ToolsDotMenu from "./ToolsDotMenu";
+import SharingButton from "components/sharing/SharingButton";
+import Sharing from "components/sharing";
+import { formatSharedTools } from "components/sharing/util";
 
 import { build } from "@cyverse-de/ui-lib";
 
@@ -51,34 +54,59 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ToolsToolbar(props) {
-    const { baseId, onDetailsSelected, isSingleSelection } = props;
+    const {
+        baseId,
+        onDetailsSelected,
+        isSingleSelection,
+        canShare,
+        getSelectedTools,
+    } = props;
+    const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
     const classes = useStyles();
     const { t } = useTranslation("tools");
+    const hasSelection = getSelectedTools && getSelectedTools().length > 0;
+    const sharingTools = formatSharedTools(getSelectedTools());
     return (
-        <Toolbar variant="dense">
-            <div className={classes.divider} />
-            <Hidden smDown>
-                {isSingleSelection && (
-                    <Button
-                        id={build(baseId, ids.MANAGE_TOOLS.TOOL_INFO_BTN)}
-                        className={classes.toolbarItems}
-                        variant="outlined"
-                        disableElevation
-                        color="primary"
-                        onClick={onDetailsSelected}
-                        startIcon={<Info />}
-                    >
-                        {t("detailsLbl")}
-                    </Button>
+        <>
+            <Toolbar variant="dense">
+                <div className={classes.divider} />
+                <Hidden smDown>
+                    {isSingleSelection && (
+                        <Button
+                            id={build(baseId, ids.MANAGE_TOOLS.TOOL_INFO_BTN)}
+                            className={classes.toolbarItems}
+                            variant="outlined"
+                            disableElevation
+                            color="primary"
+                            onClick={onDetailsSelected}
+                            startIcon={<Info />}
+                        >
+                            {t("detailsLbl")}
+                        </Button>
+                    )}
+                    {canShare && (
+                        <SharingButton
+                            baseId={baseId}
+                            setSharingDlgOpen={setSharingDlgOpen}
+                        />
+                    )}
+                </Hidden>
+
+                {hasSelection && (
+                    <ToolsDotMenu
+                        baseId={baseId}
+                        onDetailsSelected={onDetailsSelected}
+                        isSingleSelection={isSingleSelection}
+                        canShare={canShare}
+                        setSharingDlgOpen={setSharingDlgOpen}
+                    />
                 )}
-            </Hidden>
-            {isSingleSelection && (
-                <ToolsDotMenu
-                    baseId={baseId}
-                    onDetailsSelected={onDetailsSelected}
-                    isSingleSelection={isSingleSelection}
-                />
-            )}
-        </Toolbar>
+            </Toolbar>
+            <Sharing
+                open={sharingDlgOpen}
+                onClose={() => setSharingDlgOpen(false)}
+                resources={sharingTools}
+            />
+        </>
     );
 }

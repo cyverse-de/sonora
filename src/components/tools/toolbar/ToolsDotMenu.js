@@ -9,6 +9,8 @@ import React from "react";
 import { useTranslation } from "i18n";
 
 import ids from "../ids";
+import shareIds from "components/sharing/ids";
+import SharingMenuItem from "../../sharing/SharingMenuItem";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 
@@ -22,7 +24,14 @@ import {
 import { Info } from "@material-ui/icons";
 
 function DotMenuItems(props) {
-    const { baseId, onDetailsSelected, isSingleSelection, onClose } = props;
+    const {
+        baseId,
+        onDetailsSelected,
+        isSingleSelection,
+        onClose,
+        canShare,
+        setSharingDlgOpen,
+    } = props;
 
     const { t } = useTranslation("tools");
 
@@ -43,11 +52,24 @@ function DotMenuItems(props) {
                     <ListItemText primary={t("detailsLbl")} />
                 </MenuItem>
             )}
+            {canShare && (
+                <SharingMenuItem
+                    key={build(baseId, shareIds.SHARING_MENU_ITEM)}
+                    baseId={baseId}
+                    onClose={onClose}
+                    setSharingDlgOpen={setSharingDlgOpen}
+                />
+            )}
         </Hidden>,
     ];
 }
 
-export default function ToolsDotMenu({ ButtonProps, ...props }) {
+export default function ToolsDotMenu({
+    ButtonProps,
+    canShare,
+    setSharingDlgOpen,
+    ...props
+}) {
     const { baseId, isSingleSelection, onDetailsSelected } = props;
     return (
         <DotMenu
@@ -58,6 +80,8 @@ export default function ToolsDotMenu({ ButtonProps, ...props }) {
                     isSingleSelection={isSingleSelection}
                     onClose={onClose}
                     onDetailsSelected={onDetailsSelected}
+                    canShare={canShare}
+                    setSharingDlgOpen={setSharingDlgOpen}
                 />
             )}
         />

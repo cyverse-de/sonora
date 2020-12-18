@@ -17,8 +17,6 @@ import {
     getAllTeams,
     getMyTeams,
     MY_TEAMS_QUERY,
-    SEARCH_TEAMS_QUERY,
-    searchTeams,
 } from "serviceFacades/groups";
 
 const TEAM_FILTER = {
@@ -29,7 +27,6 @@ const TEAM_FILTER = {
 function Teams(props) {
     const { baseId } = props;
     const [teamFilter, setTeamFilter] = useState(TEAM_FILTER.ALL_TEAMS);
-    const [searchTerm, setSearchTerm] = useState("");
     const [data, setData] = useState([]);
     const [userProfile] = useUserProfile();
 
@@ -51,15 +48,6 @@ function Teams(props) {
         },
     });
 
-    const { isFetching: fetchMatchingTeams } = useQuery({
-        queryKey: [SEARCH_TEAMS_QUERY, { searchTerm }],
-        queryFn: searchTeams,
-        config: {
-            enabled: searchTerm,
-            onSuccess: (results) => setData(results.groups),
-        },
-    });
-
     const onTeamNameSelected = () => {
         console.log("Team Name Selected!");
     };
@@ -67,7 +55,6 @@ function Teams(props) {
     const loading = isQueryLoading([
         fetchMyTeams,
         fetchAllTeams,
-        fetchMatchingTeams,
     ]);
 
     return (
@@ -76,8 +63,6 @@ function Teams(props) {
                 parentId={baseId}
                 teamFilter={teamFilter}
                 setTeamFilter={setTeamFilter}
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
             />
             <Listing
                 loading={loading}

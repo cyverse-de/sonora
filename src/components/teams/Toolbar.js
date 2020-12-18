@@ -1,6 +1,6 @@
 import React from "react";
 
-import { build, DotMenu, SearchField } from "@cyverse-de/ui-lib";
+import { build, DotMenu } from "@cyverse-de/ui-lib";
 import {
     Button,
     Hidden,
@@ -22,13 +22,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 const useStyles = makeStyles(styles);
 
 function TeamToolbar(props) {
-    const {
-        parentId,
-        teamFilter,
-        setTeamFilter,
-        searchTerm,
-        setSearchTerm,
-    } = props;
+    const { parentId, teamFilter, setTeamFilter } = props;
     const classes = useStyles();
     const { t } = useTranslation("teams");
 
@@ -38,7 +32,6 @@ function TeamToolbar(props) {
 
     const onTeamFilterChange = (newValue) => {
         setTeamFilter(newValue);
-        setSearchTerm("");
     };
 
     const toolbarId = build(parentId, ids.TEAMS.TOOLBAR);
@@ -71,15 +64,6 @@ function TeamToolbar(props) {
                     )}
                 />
             </Hidden>
-            <SearchField
-                handleSearch={(value) => {
-                    setSearchTerm(value);
-                    setTeamFilter("");
-                }}
-                value={searchTerm}
-                id={build(toolbarId, ids.TEAMS.SEARCH)}
-                placeholder={t("searchTeams")}
-            />
             <div className={classes.divider} />
             <Hidden xsDown>
                 <Button

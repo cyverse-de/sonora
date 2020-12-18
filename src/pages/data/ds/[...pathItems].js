@@ -37,6 +37,7 @@ export default function DataStore() {
     const selectedPage =
         parseInt(query.selectedPage) || DEFAULT_PAGE_SETTINGS.page;
     const selectedRowsPerPage =
+        parseInt(query.selectedRowsPerPage) ||
         parseInt(getLocalStorage(constants.LOCAL_STORAGE.DATA.PAGE_SIZE)) ||
         DEFAULT_PAGE_SETTINGS.rowsPerPage;
     const selectedOrder = query.selectedOrder || DEFAULT_PAGE_SETTINGS.order;

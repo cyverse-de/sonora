@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
     build,
     DECheckbox,
     EmptyTable,
     EnhancedTableHead,
-    stableSort,
     getSorting,
+    stableSort,
 } from "@cyverse-de/ui-lib";
 import { Table, TableBody, TableCell } from "@material-ui/core";
 
@@ -16,6 +16,16 @@ import TableLoading from "../utils/TableLoading";
 import SpanLink from "../data/listing/SpanLink";
 import constants from "constants.js";
 import { DERow } from "../utils/DERow";
+import { useQuery } from "react-query";
+import {
+    ALL_TEAMS_QUERY,
+    getAllTeams,
+    getMyTeams,
+    MY_TEAMS_QUERY,
+} from "serviceFacades/groups";
+import { TEAM_FILTER } from "./index";
+import { useUserProfile } from "contexts/userProfile";
+import isQueryLoading from "../utils/isQueryLoading";
 
 const TABLE_COLUMNS = [
     {
@@ -34,9 +44,17 @@ const TABLE_COLUMNS = [
 ];
 
 function Listing(props) {
-    const { parentId, loading, data, onTeamNameSelected, isSelectable } = props;
+    const {
+        parentId,
+        teamFilter,
+        onTeamNameSelected,
+        isSelectable = true,
+    } = props;
 
     const { t } = useTranslation("teams");
+    const [data, setData] = useState([]);
+    const [userProfile] = useUserProfile();
+
     const tableId = build(parentId, ids.TEAMS.TABLE);
 
     const [order, setOrder] = useState(constants.SORT_ASCENDING);
@@ -44,6 +62,28 @@ function Listing(props) {
 
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
+
+    const { isFetching: fetchMyTeams } = useQuery({
+        queryKey: [MY_TEAMS_QUERY, { userId: userProfile?.id }],
+        queryFn: getMyTeams,
+        config: {
+            enabled: TEAM_FILTER.MY_TEAMS === teamFilter,
+            onSuccess: (results) => setData(results.groups),
+        },
+    });
+
+    const { isFetching: fetchAllTeams } = useQuery({
+        queryKey: [ALL_TEAMS_QUERY, userProfile?.id],
+        queryFn: getAllTeams,
+        config: {
+            enabled: TEAM_FILTER.ALL_TEAMS === teamFilter,
+            onSuccess: (results) => setData(results.groups),
+        },
+    });
+
+    useEffect(() => {
+        setSelected([]);
+    }, [teamFilter]);
 
     const onRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -53,7 +93,7 @@ function Listing(props) {
 
     const onSelectAllClick = (event) => {
         if (event.target.checked && !selected.length) {
-            const newSelecteds = data?.map((resource) => resource.id) || [];
+            const newSelecteds = data?.map((team) => team.id) || [];
             setSelected(newSelecteds);
             return;
         }
@@ -110,22 +150,30 @@ function Listing(props) {
         setSelected(newSelected);
     };
 
+    const loading = isQueryLoading([fetchMyTeams, fetchAllTeams]);
+
     if (loading) {
         return (
-            <TableLoading
-                baseId={tableId}
-                numColumns={TABLE_COLUMNS.length}
-                numRows={5}
-            />
+            <Table>
+                <TableLoading
+                    baseId={tableId}
+                    numColumns={TABLE_COLUMNS.length}
+                    numRows={5}
+                />
+            </Table>
         );
     }
 
     if (!data || data.length === 0) {
         return (
-            <EmptyTable
-                message={t("noTeams")}
-                numColumns={TABLE_COLUMNS.length}
-            />
+            <Table>
+                <TableBody>
+                    <EmptyTable
+                        message={t("noTeams")}
+                        numColumns={TABLE_COLUMNS.length}
+                    />
+                </TableBody>
+            </Table>
         );
     }
 
@@ -134,10 +182,10 @@ function Listing(props) {
             <TableBody>
                 {stableSort(data, getSorting(order, orderBy)).map(
                     (team, index) => {
-                        const isSelected =
-                            isSelectable && selected.includes(team);
                         const teamId = team.id;
-                        const rowId = build(tableId, team.id);
+                        const isSelected =
+                            isSelectable && selected.includes(teamId);
+                        const rowId = build(tableId, teamId);
                         return (
                             <DERow
                                 role="checkbox"

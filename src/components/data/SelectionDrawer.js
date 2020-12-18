@@ -28,9 +28,12 @@ import Listing from "components/data/listing/Listing";
 import ResourceTypes from "../models/ResourceTypes";
 
 import styles from "./styles";
+import constants from "../../constants";
 
 import PageWrapper from "../../components/layout/PageWrapper";
 import useComponentHeight from "../utils/useComponentHeight";
+import { DEFAULT_PAGE_SETTINGS } from "components/data/utils";
+import { getLocalStorage } from "components/utils/localStorage";
 
 const useStyles = makeStyles(styles);
 
@@ -217,6 +220,16 @@ function SelectionDrawer(props) {
                     baseId={build(id, ids.DATA_VIEW)}
                     multiSelect={multiSelect}
                     isInvalidSelection={isInvalidSelection}
+                    page={DEFAULT_PAGE_SETTINGS.page}
+                    rowsPerPage={
+                        parseInt(
+                            getLocalStorage(
+                                constants.LOCAL_STORAGE.DATA.PAGE_SIZE
+                            )
+                        ) || DEFAULT_PAGE_SETTINGS.rowsPerPage
+                    }
+                    order={DEFAULT_PAGE_SETTINGS.order}
+                    orderBy={DEFAULT_PAGE_SETTINGS.orderBy}
                     render={(selectedTotal, getSelectedResources) => (
                         <SelectionToolbar
                             baseId={id}

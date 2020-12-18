@@ -10,6 +10,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import TableView from "./TableView";
 
 import ids from "../ids";
+import globalConstants from "../../../constants";
 import Drawer from "../details/Drawer";
 import FileBrowser from "../toolbar/FileBrowser";
 import DataToolbar from "../toolbar/Toolbar";
@@ -28,7 +29,7 @@ import { camelcaseit } from "common/functions";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import Sharing from "components/sharing";
 import { formatSharedData } from "components/sharing/util";
-import { DEFAULT_PAGE_SETTINGS, getPageQueryParams } from "../utils";
+import { getPageQueryParams } from "../utils";
 
 import {
     useUploadTrackingState,
@@ -65,10 +66,10 @@ function Listing(props) {
         showErrorAnnouncer,
         onCreateHTFileSelected,
         onCreateMultiInputFileSelected,
-        selectedPage,
-        selectedRowsPerPage,
-        selectedOrder,
-        selectedOrderBy,
+        page,
+        rowsPerPage,
+        order,
+        orderBy,
         onRouteToListing,
     } = props;
     const { t } = useTranslation("data");
@@ -76,32 +77,16 @@ function Listing(props) {
     const uploadTracker = useUploadTrackingState();
     const theme = useTheme();
     const [isGridView, setGridView] = useState(false);
-    const [order, setOrder] = useState(
-        selectedOrder || DEFAULT_PAGE_SETTINGS.order
-    );
-    const [orderBy, setOrderBy] = useState(
-        selectedOrderBy || DEFAULT_PAGE_SETTINGS.orderBy
-    );
+
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
-    const [page, setPage] = useState(
-        selectedPage || DEFAULT_PAGE_SETTINGS.page
-    );
-    const [rowsPerPage, setRowsPerPage] = useState(
-        selectedRowsPerPage || DEFAULT_PAGE_SETTINGS.rowsPerPage
-    );
     const [data, setData] = useState({ total: 0, listing: [] });
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
-    const [pagedListingKey, setPagedListingKey] = useState(
-        DATA_LISTING_QUERY_KEY
-    );
-    const [pagedListingQueryEnabled, setPagedListingQueryEnabled] = useState(
-        false
-    );
+
     const [navError, setNavError] = useState(null);
 
     // Used to force the data listing to refresh when uploads are completed.
@@ -132,10 +117,18 @@ function Listing(props) {
     };
 
     const { error, isFetching } = useQuery({
-        queryKey: pagedListingKey,
+        queryKey: [
+            DATA_LISTING_QUERY_KEY,
+            path,
+            rowsPerPage,
+            orderBy,
+            order,
+            page,
+            uploadsCompleted,
+        ],
         queryFn: getPagedListing,
         config: {
-            enabled: pagedListingQueryEnabled,
+            enabled: !!path,
             onSuccess: (respData) => {
                 setData({
                     total: respData?.total,
@@ -156,7 +149,18 @@ function Listing(props) {
     });
 
     const refreshListing = () =>
-        queryCache.invalidateQueries(pagedListingKey, { force: true });
+        queryCache.invalidateQueries(
+            [
+                DATA_LISTING_QUERY_KEY,
+                path,
+                rowsPerPage,
+                orderBy,
+                order,
+                page,
+                uploadsCompleted,
+            ],
+            { force: true }
+        );
 
     const [removeResources, { status: removeResourceStatus }] = useMutation(
         deleteResources,
@@ -175,18 +179,6 @@ function Listing(props) {
 
     useEffect(() => {
         setSelected([]);
-        if (path) {
-            setPagedListingKey([
-                DATA_LISTING_QUERY_KEY,
-                path,
-                rowsPerPage,
-                orderBy,
-                order,
-                page,
-                uploadsCompleted,
-            ]);
-            setPagedListingQueryEnabled(true);
-        }
     }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
 
     const viewUploadQueue = useCallback(() => {
@@ -246,33 +238,19 @@ function Listing(props) {
         setDetailsEnabled(selected && selected.length === 1);
     }, [selected]);
 
-    useEffect(() => {
-        if (
-            selectedOrder !== order ||
-            selectedOrderBy !== orderBy ||
-            selectedPage !== page ||
-            selectedRowsPerPage !== rowsPerPage
-        ) {
-            onRouteToListing &&
-                onRouteToListing(path, order, orderBy, page, rowsPerPage);
-        }
-    }, [
-        onRouteToListing,
-        order,
-        orderBy,
-        page,
-        path,
-        rowsPerPage,
-        selectedOrder,
-        selectedOrderBy,
-        selectedPage,
-        selectedRowsPerPage,
-    ]);
-
     const handleRequestSort = (event, property) => {
-        const isAsc = orderBy === property && order === "asc";
-        setOrder(isAsc ? "desc" : "asc");
-        setOrderBy(property);
+        const isAsc =
+            orderBy === property && order === globalConstants.SORT_ASCENDING;
+        onRouteToListing &&
+            onRouteToListing(
+                path,
+                isAsc
+                    ? globalConstants.SORT_DESCENDING
+                    : globalConstants.SORT_ASCENDING,
+                property,
+                page,
+                rowsPerPage
+            );
     };
 
     const handleSelectAllClick = (event) => {
@@ -367,12 +345,19 @@ function Listing(props) {
     };
 
     const handleChangePage = (event, newPage) => {
-        setPage(newPage - 1);
+        onRouteToListing &&
+            onRouteToListing(path, order, orderBy, newPage - 1, rowsPerPage);
     };
 
     const handleChangeRowsPerPage = (newPageSize) => {
-        setRowsPerPage(parseInt(newPageSize, 10));
-        setPage(0);
+        onRouteToListing &&
+            onRouteToListing(
+                path,
+                order,
+                orderBy,
+                0,
+                parseInt(newPageSize, 10)
+            );
     };
 
     const onDetailsSelected = () => {
@@ -424,12 +409,8 @@ function Listing(props) {
     );
 
     const onPathChange = (path, resourceType, id) => {
-        const queryParams = getPageQueryParams(
-            order,
-            orderBy,
-            page,
-            rowsPerPage
-        );
+        //set page to 0 for the new path
+        const queryParams = getPageQueryParams(order, orderBy, 0, rowsPerPage);
         handlePathChange(path, queryParams, resourceType, id);
     };
 

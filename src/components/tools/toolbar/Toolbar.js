@@ -125,6 +125,7 @@ export default function ToolsToolbar(props) {
         handleSearch,
         searchTerm,
         onDeleteToolSelected,
+        isAdmin,
     } = props;
 
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
@@ -192,6 +193,7 @@ export default function ToolsToolbar(props) {
                     onFilterSelected={() => setOpenFilterDialog(true)}
                     onRequestToolSelected={() => setRequestDialogOpen(true)}
                     onDeleteToolSelected={onDeleteToolSelected}
+                    isAdmin={isAdmin}
                 />
             </Toolbar>
             <Sharing
@@ -203,8 +205,8 @@ export default function ToolsToolbar(props) {
                 <EditToolDialog
                     open={editDialogOpen}
                     onClose={() => setEditDialogOpen(false)}
-                    isAdmin={false}
-                    isAdminPublishing={false}
+                    isAdmin={isAdmin}
+                    isAdminPublishing={isAdmin}
                     parentId={baseId}
                     tool={hasSelection ? getSelectedTools()[0] : null}
                 />
@@ -213,8 +215,8 @@ export default function ToolsToolbar(props) {
             <EditToolDialog
                 open={addDialogOpen}
                 onClose={() => setAddDialogOpen(false)}
-                isAdmin={false}
-                isAdminPublishing={false}
+                isAdmin={isAdmin}
+                isAdminPublishing={isAdmin}
                 parentId={baseId}
             />
             <Dialog open={openFilterDialog}>

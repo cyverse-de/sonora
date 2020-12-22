@@ -285,6 +285,7 @@ function Listing(props) {
                 handleSearch={handleSearch}
                 searchTerm={searchTerm}
                 onDeleteToolSelected={onDeleteToolSelected}
+                isAdmin={isAdmin}
             />
             <TableView
                 baseId={baseId}

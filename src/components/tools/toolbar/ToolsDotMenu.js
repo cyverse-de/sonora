@@ -160,6 +160,7 @@ export default function ToolsDotMenu({
     getSelectedTools,
     onRequestToolSelected,
     onDeleteToolSelected,
+    isAdmin,
     ...props
 }) {
     const {
@@ -170,12 +171,28 @@ export default function ToolsDotMenu({
     } = props;
     const selectedTools = getSelectedTools ? getSelectedTools() : null;
     const allowEditing =
+<<<<<<< HEAD
         isSingleSelection && isWritable(selectedTools[0]?.permission);
     const allowDeletes =
         selectedTools?.length > 0 &&
         selectedTools.filter((tool) => !isWritable(tool.permission)).length ===
             0;
 
+=======
+        isSingleSelection &&
+        selectedTools &&
+        selectedTools.length > 0 &&
+        (isAdmin ||
+            selectedTools[0].permission === "own" ||
+            selectedTools[0].permission === "write");
+
+    const allowDelete =
+        selectedTools &&
+        selectedTools.length > 0 &&
+        (selectedTools[0].permission === "own" ||
+            selectedTools[0].permission === "write" ||
+            isAdmin);
+>>>>>>> 95cad87... Add admin privilege for add, edit and delete tools from admin tools page.
     return (
         <DotMenu
             baseId={baseId}

@@ -30,6 +30,7 @@ function Listing(props) {
         selectedPermFilter,
         selectedSearchTerm,
         showErrorAnnouncer,
+        isAdmin,
     } = props;
 
     const { t } = useTranslation("tools");
@@ -123,10 +124,18 @@ function Listing(props) {
 
         setToolsKey([
             TOOLS_QUERY_KEY,
-            { order, orderBy, page, rowsPerPage, displayAll, searchTerm },
+            {
+                order,
+                orderBy,
+                page,
+                rowsPerPage,
+                displayAll,
+                searchTerm,
+                isAdmin,
+            },
         ]);
         setToolsListingQueryEnabled(true);
-    }, [order, orderBy, page, rowsPerPage, permFilter, searchTerm]);
+    }, [order, orderBy, page, rowsPerPage, permFilter, searchTerm, isAdmin]);
 
     useEffect(() => {
         if (data?.tools) {

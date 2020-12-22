@@ -17,6 +17,7 @@ const TOOL_TYPES_QUERY_KEY = "fetchToolTypes";
  * @property {number} rowsPerPage - the number of rows in a single page
  * @property {boolean} displayAll - Filter to display all the tools or just users tools
  * @property {string} searchTerm - Tool search term.
+ * @property {boolean} isAdmin - is this an admin request
  */
 
 /**
@@ -26,7 +27,15 @@ const TOOL_TYPES_QUERY_KEY = "fetchToolTypes";
  */
 function getTools(
     _,
-    { order, orderBy, page, rowsPerPage, displayAll, searchTerm }
+    {
+        order,
+        orderBy,
+        page,
+        rowsPerPage,
+        displayAll,
+        searchTerm,
+        isAdmin = false,
+    }
 ) {
     // Determine if the request is supposed to be ordered.
     const isOrdered = order && orderBy;
@@ -57,7 +66,7 @@ function getTools(
     }
 
     return callApi({
-        endpoint: `/api/tools`,
+        endpoint: isAdmin ? `/api/admin/tools` : `/api/tools`,
         method: "GET",
         params: params,
     });

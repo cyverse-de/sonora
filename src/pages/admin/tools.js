@@ -14,6 +14,8 @@ import { getLocalStorage } from "components/utils/localStorage";
 import Listing from "components/tools/listing/Listing";
 
 import NavigationConstants from "common/NavigationConstants";
+import { useUserProfile } from "contexts/userProfile";
+import NotAuthorized from "components/utils/NotAuthorized";
 
 export default function Tools() {
     const router = useRouter();
@@ -26,6 +28,9 @@ export default function Tools() {
     const selectedOrderBy = query.selectedOrderBy || "name";
     const selectedPermFilter = query.selectedPermFilter;
     const selectedSearchTerm = query.selectedSearchTerm || "";
+    const profile = useUserProfile()[0];
+
+    console.log("is it admin user=>" + profile?.admin);
 
     const onRouteToListing = useCallback(
         (order, orderBy, page, rowsPerPage, permFilter, searchTerm) => {
@@ -36,19 +41,23 @@ export default function Tools() {
         [router]
     );
 
-    return (
-        <Listing
-            baseId="tools"
-            selectedPage={selectedPage}
-            selectedRowsPerPage={selectedRowsPerPage}
-            selectedOrder={selectedOrder}
-            selectedOrderBy={selectedOrderBy}
-            selectedPermFilter={selectedPermFilter}
-            onRouteToListing={onRouteToListing}
-            selectedSearchTerm={selectedSearchTerm}
-            isAdmin={true}
-        />
-    );
+    if (!profile?.admin) {
+        return <NotAuthorized />;
+    } else {
+        return (
+            <Listing
+                baseId="tools"
+                selectedPage={selectedPage}
+                selectedRowsPerPage={selectedRowsPerPage}
+                selectedOrder={selectedOrder}
+                selectedOrderBy={selectedOrderBy}
+                selectedPermFilter={selectedPermFilter}
+                onRouteToListing={onRouteToListing}
+                selectedSearchTerm={selectedSearchTerm}
+                isAdmin={profile?.admin}
+            />
+        );
+    }
 }
 
 Tools.getInitialProps = async () => ({

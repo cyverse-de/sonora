@@ -27,7 +27,7 @@ import {
     makeStyles,
     Typography,
 } from "@material-ui/core";
-
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import ErrorIcon from "@material-ui/icons/Error";
 import constants from "../../../constants";
@@ -190,6 +190,20 @@ function ErrorHandler(props) {
                                 {getMessage("register")}
                             </Typography>
                         </Link>
+                    </Typography>
+                </>
+            );
+        } else if (errorResponse?.status === 403) {
+            avatar = <SupervisorAccountIcon color="primary" fontSize="large" />;
+            title = (
+                <Typography component="span" variant="h6">
+                    {getMessage("notAuthorized")}
+                </Typography>
+            );
+            contents = (
+                <>
+                    <Typography className={classes.signIn}>
+                        {getMessage("forbiddenMsg")}
                     </Typography>
                 </>
             );

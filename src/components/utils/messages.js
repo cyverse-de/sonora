@@ -26,6 +26,9 @@ const intlData = {
         gridView: "Grid View",
         tableView: "Table View",
         details: "Details",
+        notAuthorized: "Not Authorized",
+        forbiddenMsg: "You are not authorized to view this page."
+
     },
 };
 

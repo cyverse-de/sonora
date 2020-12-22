@@ -406,9 +406,18 @@ function CyverseAppBar(props) {
         setAdminUser,
         setAvatarLetter,
         config,
-
         showErrorAnnouncer,
     ]);
+
+    React.useEffect(() => {
+        if (adminUser && !userProfile.admin) {
+            const adminProfile = {
+                admin: true,
+                ...userProfile,
+            };
+            setUserProfile(adminProfile);
+        }
+    }, [adminUser, setUserProfile, userProfile]);
 
     const handleUserButtonClick = (event) => {
         toggleDrawer(false);

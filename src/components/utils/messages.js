@@ -27,8 +27,7 @@ const intlData = {
         tableView: "Table View",
         details: "Details",
         notAuthorized: "Not Authorized",
-        forbiddenMsg: "You are not authorized to view this page."
-
+        forbiddenMsg: "You are not authorized to view this page.",
     },
 };
 

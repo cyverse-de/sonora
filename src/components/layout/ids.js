@@ -29,6 +29,8 @@ export default {
     SEARCH_BTN: "searchButton",
     SEARCH_MI: "searchMenuItem",
     SETTINGS_MI: "settingsMenuItem",
+    TOOLS_MI: "toolsMenuItem",
+    TOOLS_ADMIN_MI: "toolsAdminMenuItem",
     USERNAME_LBL: "username",
     USER_MENU_BTN: "userMenuButton",
     USER_TOUR_DLG: "userTourDialog",

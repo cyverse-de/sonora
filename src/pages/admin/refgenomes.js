@@ -6,9 +6,7 @@ import NotAuthorized from "components/utils/NotAuthorized";
 export default function RefGenome() {
     const profile = useUserProfile()[0];
     if (!profile?.admin) {
-        return (
-           <NotAuthorized />
-        );
+        return <NotAuthorized />;
     } else {
         return <ReferenceGenomes baseId="adminReferenceGenomes" />;
     }

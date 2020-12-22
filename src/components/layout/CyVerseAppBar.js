@@ -537,6 +537,23 @@ function CyverseAppBar(props) {
                 toggleDrawer={toggleDrawer}
                 open={open}
             />
+            {open && (
+                <Tooltip title={t("tools")} placement="right" arrow>
+                    <ListItem
+                        button
+                        id={build(ids.DRAWER_MENU, ids.TOOLS_MI)}
+                        className={clsx(classes.nested, classes.listItem)}
+                        onClick={() =>
+                            router.push("/" + NavigationConstants.TOOLS)
+                        }
+                    >
+                        <ListItemIcon>
+                            <LabelImportantIcon className={classes.icon} />
+                        </ListItemIcon>
+                        {open && <ListItemText>{t("tools")}</ListItemText>}
+                    </ListItem>
+                </Tooltip>
+            )}
             <DrawerItem
                 title={t("analyses")}
                 id={ids.ANALYSES_MI}
@@ -632,6 +649,26 @@ function CyverseAppBar(props) {
                             <LabelImportantIcon className={classes.icon} />
                         </ListItemIcon>
                         {open && <ListItemText>{t("refGenomes")}</ListItemText>}
+                    </ListItem>
+                </Tooltip>
+                <Tooltip title={t("tools")} placement="right" arrow>
+                    <ListItem
+                        button
+                        id={build(ids.DRAWER_MENU, ids.TOOLS_ADMIN_MI)}
+                        className={clsx(classes.nested, classes.listItem)}
+                        onClick={() =>
+                            router.push(
+                                "/" +
+                                    NavigationConstants.ADMIN +
+                                    "/" +
+                                    NavigationConstants.TOOLS
+                            )
+                        }
+                    >
+                        <ListItemIcon>
+                            <LabelImportantIcon className={classes.icon} />
+                        </ListItemIcon>
+                        {open && <ListItemText>{t("tools")}</ListItemText>}
                     </ListItem>
                 </Tooltip>
             </List>

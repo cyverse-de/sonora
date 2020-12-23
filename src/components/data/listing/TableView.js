@@ -109,7 +109,7 @@ function getDefaultCols(rowDotMenuVisibility, dataRecordFields) {
 function getLocalStorageCols(rowDotMenuVisibility, dataRecordFields) {
     let localCols = getLocalStorage(constants.LOCAL_STORAGE.DATA.COLUMNS);
     if (!rowDotMenuVisibility && localCols) {
-        return localCols.filter((key) => key !== dataRecordFields.DOT_MENU.ke);
+        return localCols.filter((key) => key !== dataRecordFields.DOT_MENU.key);
     }
     return localCols;
 }

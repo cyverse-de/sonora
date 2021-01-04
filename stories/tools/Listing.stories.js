@@ -11,6 +11,7 @@ import {
 import constants from "../../src/constants";
 
 const toolListingUriRegexp = /\/api\/tools.*/;
+const adminToolListingUriRegexp = /\/api\/admin\/tools.*/;
 
 /**
  * This is the base wrapper for all of the listing tests.
@@ -26,6 +27,7 @@ function ListingTest(props) {
             selectedOrderBy={"name"}
             selectedPermFilter=""
             selectedSearchTerm=""
+            isAdmin={props.admin}
             onRouteToListing={(
                 order,
                 orderBy,
@@ -132,23 +134,53 @@ export default {
 /**
  * Covers the usual case for tool listing, where everything works correctly.
  */
-export const ToolListingTest = () => {
-    mockAxios.onGet(toolListingUriRegexp).reply(parameterizedToolListing);
-    return <ListingTest />;
+export const ToolListingTest = ({ admin }) => {
+    mockAxios
+        .onGet(admin ? adminToolListingUriRegexp : toolListingUriRegexp)
+        .reply(parameterizedToolListing);
+    return <ListingTest admin={admin} />;
 };
 
 /**
  * Covers the case where there are no tools to be displayed.
  */
-export const EmptyToolListingTest = () => {
-    mockAxios.onGet(toolListingUriRegexp).reply(200, emptyListing);
-    return <ListingTest />;
+export const EmptyToolListingTest = ({ admin }) => {
+    mockAxios
+        .onGet(admin ? adminToolListingUriRegexp : toolListingUriRegexp)
+        .reply(200, emptyListing);
+    return <ListingTest admin={admin} />;
 };
 
 /**
- * Coverse the case where the tool listing endpoint returns an error.
+ * Covers the case where the tool listing endpoint returns an error.
  */
-export const ErroredListingTest = () => {
-    mockAxios.onGet(toolListingUriRegexp).reply(400, erroredListing);
-    return <ListingTest />;
+export const ErroredListingTest = ({ admin }) => {
+    mockAxios
+        .onGet(admin ? adminToolListingUriRegexp : toolListingUriRegexp)
+        .reply(400, erroredListing);
+    return <ListingTest admin={admin} />;
+};
+
+ToolListingTest.argTypes = {
+    admin: {
+        control: {
+            type: "boolean",
+        },
+    },
+};
+
+EmptyToolListingTest.argTypes = {
+    admin: {
+        control: {
+            type: "boolean",
+        },
+    },
+};
+
+ErroredListingTest.argTypes = {
+    admin: {
+        control: {
+            type: "boolean",
+        },
+    },
 };

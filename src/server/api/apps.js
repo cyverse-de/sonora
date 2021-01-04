@@ -159,7 +159,6 @@ export default function appsRouter() {
         })
     );
 
-
     logger.info("************ Adding Admin Apps handlers **********");
     logger.info("adding the GET /admin/apps handler");
     api.get(
@@ -170,7 +169,6 @@ export default function appsRouter() {
             pathname: "/admin/apps",
         })
     );
-
 
     logger.info("adding the GET /admin/apps/:systemId/:appId/details handler");
     api.get(

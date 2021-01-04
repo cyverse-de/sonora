@@ -15,9 +15,8 @@ const APPS_SEARCH_QUERY_KEY = "searchApps";
 const APP_BY_ID_QUERY_KEY = "fetchAppById";
 const APP_DOC_QUERY_KEY = "fetchAppDoc";
 
-
 //ADMIN KEYS
-const ADMIN_APPS_QUERY_KEY ="fetchAllAppsForAdmin";
+const ADMIN_APPS_QUERY_KEY = "fetchAllAppsForAdmin";
 const ADMIN_APP_DETAILS_QUERY_KEY = "fetchAppDetailsForAdmin";
 
 const getAppTypeFilter = (appTypeFilter) => {
@@ -212,7 +211,6 @@ function saveAppDoc({ systemId, appId, documentation }) {
     });
 }
 
-
 // start of admin end-points
 function getAppsForAdmin(
     key,
@@ -258,5 +256,5 @@ export {
     APP_BY_ID_QUERY_KEY,
     APP_DOC_QUERY_KEY,
     ADMIN_APPS_QUERY_KEY,
-    ADMIN_APP_DETAILS_QUERY_KEY
+    ADMIN_APP_DETAILS_QUERY_KEY,
 };

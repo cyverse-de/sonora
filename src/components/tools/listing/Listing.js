@@ -298,6 +298,7 @@ function Listing(props) {
                 order={order}
                 orderBy={orderBy}
                 selected={selected}
+                isAdmin={isAdmin}
             />
             {detailsOpen && (
                 <Drawer

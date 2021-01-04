@@ -28,32 +28,70 @@ const buildId = build;
  * Returns localized column header information for the tool listing table.
  * @param {Object} t - the internationalization function
  */
-const columnData = (t) => [
-    {
-        id: ids.NAME,
-        name: t("name"),
-        enableSorting: true,
-        key: "name",
-    },
-    {
-        id: ids.IMAGE_NAME,
-        name: t("imageName"),
-        enableSorting: false,
-        key: "image-name",
-    },
-    {
-        id: ids.TAG,
-        name: t("tag"),
-        enableSorting: false,
-        key: "tag",
-    },
-    {
-        id: ids.STATUS,
-        name: t("status"),
-        enableSorting: false,
-        key: "status",
-    },
-];
+const columnData = (t, isAdmin) => {
+    const cols = [
+        {
+            id: ids.NAME,
+            name: t("name"),
+            enableSorting: true,
+            key: "name",
+        },
+        {
+            id: ids.IMAGE_NAME,
+            name: t("imageName"),
+            enableSorting: false,
+            key: "image-name",
+        },
+        {
+            id: ids.TAG,
+            name: t("tag"),
+            enableSorting: false,
+            key: "tag",
+        },
+    ];
+    if (isAdmin) {
+        cols.push(
+            {
+                id: ids.EDIT_TOOL_DLG.DESCRIPTION,
+                name: t("description"),
+                enableSorting: false,
+                key: "description",
+            },
+            {
+                id: ids.EDIT_TOOL_DLG.LOCATION,
+                name: t("location"),
+                enableSorting: true,
+                key: "location",
+            },
+            {
+                id: ids.EDIT_TOOL_DLG.TYPE,
+                name: t("type"),
+                enableSorting: false,
+                key: "type",
+            },
+            {
+                id: ids.EDIT_TOOL_DLG.ATTRIBUTION,
+                name: t("attribution"),
+                enableSorting: true,
+                key: "attribution",
+            },
+            {
+                id: ids.EDIT_TOOL_DLG.VERSION,
+                name: t("version"),
+                enableSorting: true,
+                key: "version",
+            }
+        );
+    } else {
+        cols.push({
+            id: ids.STATUS,
+            name: t("status"),
+            enableSorting: false,
+            key: "status",
+        });
+    }
+    return cols;
+};
 
 /**
  * Returns the loading mask to display when we're waiting for a response from the API.
@@ -86,7 +124,7 @@ function NoTools(props) {
  * @param {Object} props - the component properties
  */
 function ToolListing(props) {
-    const { handleClick, t, selected, tableId, tools } = props;
+    const { handleClick, t, selected, tableId, tools, isAdmin } = props;
     return tools.map((tool, index) => {
         const id = tool.id;
         const rowId = buildId(tableId, id);
@@ -124,11 +162,30 @@ function ToolListing(props) {
                 <TableCell>
                     <Typography>{tool.container.image.tag}</Typography>
                 </TableCell>
-                <TableCell>
-                    <Typography>
-                        {tool.is_public ? t("public") : tool.permission}
-                    </Typography>
-                </TableCell>
+                {!isAdmin && (
+                    <TableCell>
+                        <Typography>
+                            {tool.is_public ? t("public") : tool.permission}
+                        </Typography>
+                    </TableCell>
+                )}
+                {isAdmin && [
+                    <TableCell>
+                        <Typography>{tool.description}</Typography>
+                    </TableCell>,
+                    <TableCell>
+                        <Typography>{tool.location}</Typography>
+                    </TableCell>,
+                    <TableCell>
+                        <Typography>{tool.type}</Typography>
+                    </TableCell>,
+                    <TableCell>
+                        <Typography>{tool.attribution}</Typography>
+                    </TableCell>,
+                    <TableCell>
+                        <Typography>{tool.version}</Typography>
+                    </TableCell>,
+                ]}
             </DERow>
         );
     });
@@ -139,7 +196,15 @@ function ToolListing(props) {
  * @param {Object} props - the component properties
  */
 function ToolListingTableBody(props) {
-    const { columns, handleClick, t, selected, tableId, tools } = props;
+    const {
+        columns,
+        handleClick,
+        t,
+        selected,
+        tableId,
+        tools,
+        isAdmin,
+    } = props;
     return (
         <TableBody>
             {!tools?.length ? (
@@ -151,6 +216,7 @@ function ToolListingTableBody(props) {
                     selected={selected}
                     tableId={tableId}
                     tools={tools}
+                    isAdmin={isAdmin}
                 />
             )}
         </TableBody>
@@ -173,11 +239,12 @@ function TableView(props) {
         order,
         orderBy,
         selected,
+        isAdmin,
     } = props;
     const tableId = buildId(baseId, ids.LISTING_TABLE);
     const { t } = useTranslation("tools");
 
-    const columns = columnData(t);
+    const columns = columnData(t, isAdmin);
 
     const tools = listing?.tools;
 
@@ -215,6 +282,7 @@ function TableView(props) {
                         selected={selected}
                         tableId={tableId}
                         tools={tools}
+                        isAdmin={isAdmin}
                     />
                 )}
             </Table>

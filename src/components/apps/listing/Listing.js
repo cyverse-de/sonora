@@ -48,24 +48,17 @@ function Listing({
     onRouteToListing,
     selectedSystemId,
     selectedAppId,
-    selectedPage,
-    selectedRowsPerPage,
-    selectedOrder,
-    selectedOrderBy,
-    selectedFilter,
-    selectedCategory,
+    page,
+    rowsPerPage,
+    order,
+    orderBy,
+    filter,
+    category,
     showErrorAnnouncer,
 }) {
     const { t } = useTranslation(["apps", "common"]);
     const [isGridView, setGridView] = useState(false);
     const [userProfile] = useUserProfile();
-
-    const [order, setOrder] = useState(selectedOrder);
-    const [orderBy, setOrderBy] = useState(selectedOrderBy);
-    const [page, setPage] = useState(selectedPage);
-    const [rowsPerPage, setRowsPerPage] = useState(selectedRowsPerPage);
-    const [filter, setFilter] = useState(selectedFilter);
-    const [category, setCategory] = useState(selectedCategory);
 
     const [selected, setSelected] = useState([]);
     const [selectedApp, setSelectedApp] = useState(null);
@@ -155,50 +148,6 @@ function Listing({
             onSuccess: setData,
         },
     });
-
-    useEffect(() => {
-        //JSON objects needs to stringified for urls.
-        const stringFilter = JSON.stringify(filter);
-        const stringCategory = JSON.stringify(category);
-
-        const categoryChanged =
-            selectedCategory &&
-            category &&
-            selectedCategory?.name !== category?.name;
-        const filterChanged = selectedFilter?.name !== filter?.name;
-
-        if (
-            categoryChanged ||
-            filterChanged ||
-            selectedOrder !== order ||
-            selectedOrderBy !== orderBy ||
-            selectedPage !== page ||
-            selectedRowsPerPage !== rowsPerPage
-        ) {
-            onRouteToListing(
-                order,
-                orderBy,
-                page,
-                rowsPerPage,
-                stringFilter,
-                stringCategory
-            );
-        }
-    }, [
-        order,
-        orderBy,
-        page,
-        rowsPerPage,
-        filter,
-        category,
-        onRouteToListing,
-        selectedFilter,
-        selectedOrder,
-        selectedOrderBy,
-        selectedPage,
-        selectedRowsPerPage,
-        selectedCategory,
-    ]);
 
     useEffect(() => {
         if (data && data.Location && data.status === 302) {
@@ -291,37 +240,80 @@ function Listing({
     };
 
     const handleChangePage = (event, newPage) => {
-        setPage(newPage - 1);
+        onRouteToListing &&
+            onRouteToListing(
+                order,
+                orderBy,
+                newPage - 1,
+                rowsPerPage,
+                JSON.stringify(filter),
+                JSON.stringify(category)
+            );
     };
 
     const handleChangeRowsPerPage = (newPageSize) => {
-        setRowsPerPage(parseInt(newPageSize, 10));
         setSelected([]);
-        setPage(0);
+        onRouteToListing &&
+            onRouteToListing(
+                order,
+                orderBy,
+                0,
+                parseInt(newPageSize, 10),
+                JSON.stringify(filter),
+                JSON.stringify(category)
+            );
     };
 
     const handleRequestSort = (event, property) => {
         const isAsc =
             orderBy === property && order === constants.SORT_ASCENDING;
-        setOrder(isAsc ? constants.SORT_DESCENDING : constants.SORT_ASCENDING);
-        setOrderBy(property);
+
         setSelected([]);
-        setPage(0);
+        onRouteToListing &&
+            onRouteToListing(
+                isAsc ? constants.SORT_DESCENDING : constants.SORT_ASCENDING,
+                property,
+                page,
+                rowsPerPage,
+                JSON.stringify(filter),
+                JSON.stringify(category)
+            );
     };
 
-    const handleCategoryChange = useCallback((category) => {
-        if (category.system_id?.toLowerCase() === appType.agave.toLowerCase()) {
-            setFilter(null);
-        }
-        setCategory(category);
-        setSelected([]);
-        setPage(0);
-    }, []);
+    const handleCategoryChange = useCallback(
+        (category) => {
+            let toFilter = filter;
+            if (
+                category.system_id?.toLowerCase() ===
+                appType.agave.toLowerCase()
+            ) {
+                toFilter(null);
+            }
+            setSelected([]);
+            onRouteToListing &&
+                onRouteToListing(
+                    order,
+                    orderBy,
+                    0,
+                    rowsPerPage,
+                    toFilter ? JSON.stringify(filter) : null,
+                    JSON.stringify(category)
+                );
+        },
+        [filter, onRouteToListing, order, orderBy, rowsPerPage]
+    );
 
     const handleFilterChange = (filter) => {
-        setFilter(filter);
         setSelected([]);
-        setPage(0);
+        onRouteToListing &&
+            onRouteToListing(
+                order,
+                orderBy,
+                0,
+                rowsPerPage,
+                JSON.stringify(filter),
+                JSON.stringify(category)
+            );
     };
 
     const onDetailsSelected = () => {
@@ -382,7 +374,7 @@ function Listing({
                 }
                 baseId={baseId}
                 filter={filter}
-                selectedCategory={selectedCategory}
+                selectedCategory={category}
                 setCategoryStatus={setCategoryStatus}
                 handleAppNavError={handleAppNavError}
                 isGridView={isGridView}

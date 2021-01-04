@@ -26,6 +26,7 @@ export default function Apps() {
     const appRecordFields = appFields(t);
     const selectedPage = parseInt(query.selectedPage) || 0;
     const selectedRowsPerPage =
+        parseInt(query.selectedRowsPerPage) ||
         parseInt(getLocalStorage(constants.LOCAL_STORAGE.APPS.PAGE_SIZE)) ||
         100;
     const selectedOrder = query.selectedOrder || constants.SORT_ASCENDING;
@@ -64,12 +65,12 @@ export default function Apps() {
                 router.push(getAppLaunchPath(systemId, appId))
             }
             onRouteToListing={onRouteToListing}
-            selectedPage={selectedPage}
-            selectedRowsPerPage={selectedRowsPerPage}
-            selectedOrder={selectedOrder}
-            selectedOrderBy={selectedOrderBy}
-            selectedFilter={selectedFilter}
-            selectedCategory={selectedCategory}
+            page={selectedPage}
+            rowsPerPage={selectedRowsPerPage}
+            order={selectedOrder}
+            orderBy={selectedOrderBy}
+            filter={selectedFilter}
+            category={selectedCategory}
         />
     );
 }

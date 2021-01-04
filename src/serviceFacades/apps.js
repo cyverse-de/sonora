@@ -15,6 +15,11 @@ const APPS_SEARCH_QUERY_KEY = "searchApps";
 const APP_BY_ID_QUERY_KEY = "fetchAppById";
 const APP_DOC_QUERY_KEY = "fetchAppDoc";
 
+
+//ADMIN KEYS
+const ADMIN_APPS_QUERY_KEY ="fetchAllAppsForAdmin";
+const ADMIN_APP_DETAILS_QUERY_KEY = "fetchAppDetailsForAdmin";
+
 const getAppTypeFilter = (appTypeFilter) => {
     const typeFilter =
         appTypeFilter && appTypeFilter !== appType.all
@@ -207,8 +212,31 @@ function saveAppDoc({ systemId, appId, documentation }) {
     });
 }
 
+
+// start of admin end-points
+function getAppsForAdmin(
+    key,
+    { rowsPerPage, orderBy, order, page, appTypeFilter }
+) {
+    return callApi({
+        endpoint: `/api/admin/apps?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
+            rowsPerPage * page
+        }${getAppTypeFilter(appTypeFilter)}`,
+        method: "GET",
+    });
+}
+
+function getAppDetailsForAdmin(key, { systemId, appId }) {
+    return callApi({
+        endpoint: `/api/admin/apps/${systemId}/${appId}/details`,
+        method: "GET",
+    });
+}
+
 export {
     getApps,
+    getAppsForAdmin,
+    getAppDetailsForAdmin,
     getAppById,
     getPrivateCategories,
     getAppsInCategory,
@@ -229,4 +257,6 @@ export {
     APPS_SEARCH_QUERY_KEY,
     APP_BY_ID_QUERY_KEY,
     APP_DOC_QUERY_KEY,
+    ADMIN_APPS_QUERY_KEY,
+    ADMIN_APP_DETAILS_QUERY_KEY
 };

@@ -159,5 +159,28 @@ export default function appsRouter() {
         })
     );
 
+
+    logger.info("************ Adding Admin Apps handlers **********");
+    logger.info("adding the GET /admin/apps handler");
+    api.get(
+        "/admin/apps",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/apps",
+        })
+    );
+
+
+    logger.info("adding the GET /admin/apps/:systemId/:appId/details handler");
+    api.get(
+        "/admin/apps/:systemId/:appId/details",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/apps/:systemId/:appId/details",
+        })
+    );
+
     return api;
 }

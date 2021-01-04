@@ -147,12 +147,14 @@ export default function ToolsToolbar(props) {
             <Toolbar variant="dense">
                 <Hidden xsDown>
                     <div className={classes.divider} />
-                    <PermissionsFilter
-                        baseId={baseId}
-                        filter={ownershipFilter}
-                        classes={classes}
-                        handleFilterChange={handleOwnershipFilterChange}
-                    />
+                    {!isAdmin && (
+                        <PermissionsFilter
+                            baseId={baseId}
+                            filter={ownershipFilter}
+                            classes={classes}
+                            handleFilterChange={handleOwnershipFilterChange}
+                        />
+                    )}
                     <SearchField
                         handleSearch={handleSearch}
                         value={searchTerm}
@@ -206,7 +208,7 @@ export default function ToolsToolbar(props) {
                     open={editDialogOpen}
                     onClose={() => setEditDialogOpen(false)}
                     isAdmin={isAdmin}
-                    isAdminPublishing={isAdmin}
+                    isAdminPublishing={false}
                     parentId={baseId}
                     tool={hasSelection ? getSelectedTools()[0] : null}
                 />
@@ -216,17 +218,19 @@ export default function ToolsToolbar(props) {
                 open={addDialogOpen}
                 onClose={() => setAddDialogOpen(false)}
                 isAdmin={isAdmin}
-                isAdminPublishing={isAdmin}
+                isAdminPublishing={false}
                 parentId={baseId}
             />
             <Dialog open={openFilterDialog}>
                 <DialogContent>
-                    <PermissionsFilter
-                        baseId={baseId}
-                        filter={ownershipFilter}
-                        classes={classes}
-                        handleFilterChange={handleOwnershipFilterChange}
-                    />
+                    {!isAdmin && (
+                        <PermissionsFilter
+                            baseId={baseId}
+                            filter={ownershipFilter}
+                            classes={classes}
+                            handleFilterChange={handleOwnershipFilterChange}
+                        />
+                    )}
                     <SearchField
                         handleSearch={handleSearch}
                         value={searchTerm}

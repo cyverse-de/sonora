@@ -53,7 +53,7 @@ const columnData = (t, isAdmin) => {
         cols.push(
             {
                 id: ids.EDIT_TOOL_DLG.DESCRIPTION,
-                name: t("description"),
+                name: t("descriptionLabel"),
                 enableSorting: false,
                 key: "description",
             },
@@ -77,7 +77,7 @@ const columnData = (t, isAdmin) => {
             },
             {
                 id: ids.EDIT_TOOL_DLG.VERSION,
-                name: t("version"),
+                name: t("versionLbl"),
                 enableSorting: true,
                 key: "version",
             }

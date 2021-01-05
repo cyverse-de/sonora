@@ -63,4 +63,17 @@ export default {
     },
     EDIT_BTN: "editButton",
     SAVE_BTN: "saveButton",
+    CANCEL_BTN: "cancelButton",
+    ADMIN_DETAILS: {
+        NAME: "name",
+        DESCRIPTION: "description",
+        INTEGRATOR: "integrator",
+        INTEGRATOR_EMAIL: "integratorEmail",
+        DELETED: "deleted",
+        DISABLED: "disabled",
+        BETA: "beta",
+        WIKI_URL: "wikiURL",
+        DOCUMENTATION: "documentation",
+        HTCONDOR_EXTRA_REQS: "htcondorExtraReqs",
+    },
 };

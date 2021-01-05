@@ -26,11 +26,13 @@ import { useTranslation } from "i18n";
 
 import {
     getApps,
+    getAppsForAdmin,
     getAppById,
     getAppsInCategory,
     APP_BY_ID_QUERY_KEY,
     ALL_APPS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,
+    ADMIN_APPS_QUERY_KEY,
 } from "serviceFacades/apps";
 
 import { useQuery } from "react-query";
@@ -55,6 +57,7 @@ function Listing({
     filter,
     category,
     showErrorAnnouncer,
+    isAdmin,
 }) {
     const { t } = useTranslation(["apps", "common"]);
     const [isGridView, setGridView] = useState(false);
@@ -121,7 +124,7 @@ function Listing({
 
     const { isFetching: allAppsStatus, error: listingError } = useQuery({
         queryKey: [
-            ALL_APPS_QUERY_KEY,
+            isAdmin ? ADMIN_APPS_QUERY_KEY : ALL_APPS_QUERY_KEY,
             {
                 rowsPerPage,
                 orderBy,
@@ -130,9 +133,9 @@ function Listing({
                 appTypeFilter: filter?.name,
             },
         ],
-        queryFn: getApps,
+        queryFn: isAdmin ? getAppsForAdmin : getApps,
         config: {
-            enabled: category?.name === constants.BROWSE_ALL_APPS,
+            enabled: category?.name === constants.BROWSE_ALL_APPS || isAdmin,
             onSuccess: setData,
         },
     });
@@ -366,29 +369,33 @@ function Listing({
                 location={data?.Location}
                 handleClose={() => setAgaveAuthDialogOpen(false)}
             />
-            <AppsToolbar
-                handleCategoryChange={handleCategoryChange}
-                handleFilterChange={handleFilterChange}
-                viewAllApps={
-                    selectedSystemId && selectedAppId ? handleViewAllApps : null
-                }
-                baseId={baseId}
-                filter={filter}
-                selectedCategory={category}
-                setCategoryStatus={setCategoryStatus}
-                handleAppNavError={handleAppNavError}
-                isGridView={isGridView}
-                toggleDisplay={toggleDisplay}
-                detailsEnabled={detailsEnabled}
-                onDetailsSelected={onDetailsSelected}
-                addToBagEnabled={addToBagEnabled}
-                onAddToBagClicked={onAddToBagClicked}
-                canShare={shareEnabled}
-                selectedApps={getSelectedApps()}
-                setSharingDlgOpen={setSharingDlgOpen}
-                onDocSelected={() => setDocDlgOpen(true)}
-                onQLSelected={() => setQLDlgOpen(true)}
-            />
+            {!isAdmin && (
+                <AppsToolbar
+                    handleCategoryChange={handleCategoryChange}
+                    handleFilterChange={handleFilterChange}
+                    viewAllApps={
+                        selectedSystemId && selectedAppId
+                            ? handleViewAllApps
+                            : null
+                    }
+                    baseId={baseId}
+                    filter={filter}
+                    selectedCategory={category}
+                    setCategoryStatus={setCategoryStatus}
+                    handleAppNavError={handleAppNavError}
+                    isGridView={isGridView}
+                    toggleDisplay={toggleDisplay}
+                    detailsEnabled={detailsEnabled}
+                    onDetailsSelected={onDetailsSelected}
+                    addToBagEnabled={addToBagEnabled}
+                    onAddToBagClicked={onAddToBagClicked}
+                    canShare={shareEnabled}
+                    selectedApps={getSelectedApps()}
+                    setSharingDlgOpen={setSharingDlgOpen}
+                    onDocSelected={() => setDocDlgOpen(true)}
+                    onQLSelected={() => setQLDlgOpen(true)}
+                />
+            )}
             <TableView
                 loading={
                     appInCategoryStatus ||

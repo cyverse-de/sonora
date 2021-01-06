@@ -4,10 +4,11 @@
 
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
-
+import { Field, Form, Formik } from "formik";
 import { useQuery, useMutation } from "react-query";
 
 import ids from "../../ids";
+import constants from "../../../../constants";
 
 import {
     getAppDetailsForAdmin,
@@ -24,13 +25,15 @@ import {
     FormMultilineTextField,
     FormTextField,
 } from "@cyverse-de/ui-lib";
-import { Field, Form, Formik } from "formik";
+
 
 import DEDialog from "components/utils/DEDialog";
 import { getHost } from "components/utils/getHost";
-
-import { Button, Grid, Link, Paper } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+
+import { Button, CircularProgress, Grid, Link, Paper } from "@material-ui/core";
+
 
 export default function AdminAppDetailsDialog(props) {
     const {
@@ -43,7 +46,13 @@ export default function AdminAppDetailsDialog(props) {
         handleClose,
     } = props;
 
+    const { t } = useTranslation("apps");
+
     const [detailsError, setDetailsError] = useState(null);
+    const [updateAppError, setUpdateAppError] = useState(null);
+    const [addDocError, setAddDocError] = useState(null);
+    const [updateDocError, setUpdateDocError] = useState(null);
+
     const [details, setDetails] = useState(null);
 
     const { isFetching: detailsFetching } = useQuery({
@@ -58,41 +67,31 @@ export default function AdminAppDetailsDialog(props) {
         config: {
             enabled: !!app,
             onSuccess: setDetails,
-            onError: (e) => {
-                setDetailsError(e);
-                console.log("error=>" + e);
-            },
+            onError: setDetailsError,
         },
     });
 
     const [doAppUpdate, { status: updateAppStatus }] = useMutation(updateApp, {
         onSuccess: (data) => {
-            console.log("App updated successfully");
+            handleClose();
         },
-        onError: (e) => console.log("Update app failed" + e),
-    });
-
-    const [doDeleteApp, { status: deleteAppStatus }] = useMutation(deleteApp, {
-        onSuccess: (data) => {
-            console.log("App deleted");
-        },
-        onError: (e) => console.log("App delete failed" + e),
+        onError: setUpdateAppError,
     });
 
     const [addDoc, { status: addDocStatus }] = useMutation(adminAddAppDoc, {
         onSuccess: (data) => {
-            console.log("Added Doc");
+            handleClose();
         },
-        onError: (e) => console.log("Error adding doc" + e),
+        onError: setAddDocError,
     });
 
     const [updateDoc, { status: updateDocStatus }] = useMutation(
         adminUpdateAppDoc,
         {
             onSuccess: (data) => {
-                console.log("Doc updated");
+                handleClose();
             },
-            onError: (e) => console.log("Error updating doc" + e),
+            onError: setUpdateDocError,
         }
     );
 
@@ -152,6 +151,41 @@ export default function AdminAppDetailsDialog(props) {
         >
             {detailsFetching && (
                 <Skeleton animation="wave" variant="rect" height={800} />
+            )}
+            {detailsError && (
+                <ErrorTypographyWithDialog
+                    errorMessage={t("appDetailsError")}
+                    errorObject={detailsError}
+                />
+            )}
+            {(updateAppStatus === constants.LOADING || addDocStatus === constants.LOADING || updateDocStatus === constants.LOADING) && (
+                <CircularProgress
+                    size={30}
+                    thickness={5}
+                    style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                    }}
+                />
+            )}
+            {updateAppError && (
+                <ErrorTypographyWithDialog
+                    errorMessage={t("updateAppError")}
+                    errorObject={updateAppError}
+                />
+            )}
+            {addDocError && (
+                <ErrorTypographyWithDialog
+                    errorMessage={t("addDocError")}
+                    errorObject={addDocError}
+                />
+            )}
+            {updateDocError && (
+                <ErrorTypographyWithDialog
+                    errorMessage={t("updateDocError")}
+                    errorObject={updateDocError}
+                />
             )}
             {details && (
                 <Formik
@@ -268,7 +302,7 @@ function AdminAppDetailsForm(props) {
                 id={build(parentId, ids.ADMIN_DETAILS.DOCUMENTATION)}
                 t
                 multiline
-                rows={15}
+                rows={10}
                 component={FormTextField}
             />
             <Grid
@@ -280,7 +314,6 @@ function AdminAppDetailsForm(props) {
             >
                 <Grid item>
                     <Button
-                        variant="contained"
                         id={build(parentId, ids.CANCEL_BTN)}
                         onClick={handleClose}
                     >
@@ -289,7 +322,6 @@ function AdminAppDetailsForm(props) {
                 </Grid>
                 <Grid item>
                     <Button
-                        variant="contained"
                         id={build(parentId, ids.SAVE_BTN)}
                         type="submit"
                         color="primary"

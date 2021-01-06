@@ -1,4 +1,5 @@
 {
+    "addDocError": "Unable to add documentation to this App. Please try again.",
     "addToFavorites": "Add To Favorites",
     "addToBag": "Add To Bag",
     "addToBagError": "Error adding app(s) to your bag",
@@ -96,6 +97,8 @@
     "toolVersionLabel": "Version",
     "toolsUsedError": "Unable to get the list of tool(s) used by this app.",
     "toolsUsedByApp": "Tool(s) used by this App",
+    "updateAppError": "Unable to update this App. Please try again.",
+    "updateDocError": "Unable to update app documentation. Please try again.",
     "useAppTooltip": "Use this app.",
     "userManual": "User Manual",
     "viewAllApps": "View All Apps",

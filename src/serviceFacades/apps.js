@@ -250,7 +250,7 @@ function updateApp({
     return callApi({
         endpoint: `/api/admin/apps/${system_id}/${id}`,
         method: "PATCH",
-        body: { deleted, disabled, description, name, id },
+        body: { deleted, disabled, extra, description, name, id },
     });
 }
 

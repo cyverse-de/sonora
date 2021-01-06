@@ -18,6 +18,7 @@ import { build } from "@cyverse-de/ui-lib";
 import appType from "components/models/AppType";
 import DEPagination from "components/utils/DEPagination";
 
+import appsConstants from "../constants";
 import constants from "../../../constants";
 
 import { useBagAddItems } from "serviceFacades/bags";
@@ -43,6 +44,7 @@ import { formatSharedApps } from "components/sharing/util";
 import AppDoc from "components/apps/details/AppDoc";
 import QuickLaunchDialog from "../quickLaunch/QuickLaunchDialog";
 import { useUserProfile } from "contexts/userProfile";
+import AdminAppDetailsDialog from "../admin/details/AdminAppDetails";
 
 function Listing({
     baseId,
@@ -426,13 +428,28 @@ function Listing({
                 onQLSelected={() => setQLDlgOpen(true)}
             />
 
-            {detailsOpen && (
+            {detailsOpen && !isAdmin && (
                 <Drawer
                     appId={selectedApp?.id}
                     systemId={selectedApp?.system_id}
                     open={detailsOpen}
                     baseId={baseId}
                     onClose={() => setDetailsOpen(false)}
+                />
+            )}
+            {detailsOpen && isAdmin && (
+                <AdminAppDetailsDialog
+                    open={detailsOpen}
+                    parentId={baseId}
+                    app={selectedApp}
+                    handleClose={() => setDetailsOpen(false)}
+                    restrictedChars={appsConstants.APP_NAME_RESTRICTED_CHARS}
+                    restrictedStartingChars={
+                        appsConstants.APP_NAME_RESTRICTED_STARTING_CHARS
+                    }
+                    documentationTemplateUrl={
+                        appsConstants.DOCUMENTATION_TEMPLATE_URL
+                    }
                 />
             )}
             {data && data.total > 0 && (

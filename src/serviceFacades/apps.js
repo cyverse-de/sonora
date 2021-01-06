@@ -231,6 +231,45 @@ function getAppDetailsForAdmin(key, { systemId, appId }) {
     });
 }
 
+function deleteApp({ systemId, appId }) {
+    return callApi({
+        endpoint: `/api/admin/apps/${systemId}/${appId}`,
+        method: "DELETE",
+    });
+}
+
+function updateApp({
+    deleted,
+    disabled,
+    extra,
+    description,
+    name,
+    id,
+    system_id,
+}) {
+    return callApi({
+        endpoint: `/api/admin/apps/${system_id}/${id}`,
+        method: "PATCH",
+        body: { deleted, disabled, description, name, id },
+    });
+}
+
+function adminAddAppDoc({ systemId, appId, doc }) {
+    return callApi({
+        endpoint: `/api/admin/apps/${systemId}/${appId}/documentation`,
+        method: "POST",
+        body: { documentation: doc },
+    });
+}
+
+function adminUpdateAppDoc({ systemId, appId, doc }) {
+    return callApi({
+        endpoint: `/api/admin/apps/${systemId}/${appId}/documentation`,
+        method: "PATCH",
+        body: { documentation: doc },
+    });
+}
+
 export {
     getApps,
     getAppsForAdmin,
@@ -247,6 +286,10 @@ export {
     searchAppsInfiniteQuery,
     getAppDoc,
     saveAppDoc,
+    deleteApp,
+    updateApp,
+    adminAddAppDoc,
+    adminUpdateAppDoc,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,

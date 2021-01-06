@@ -5,12 +5,16 @@
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
 
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 
 import ids from "../../ids";
 
 import {
     getAppDetailsForAdmin,
+    deleteApp,
+    updateApp,
+    adminAddAppDoc,
+    adminUpdateAppDoc,
     ADMIN_APP_DETAILS_QUERY_KEY,
 } from "serviceFacades/apps";
 
@@ -23,6 +27,7 @@ import {
 import { Field, Form, Formik } from "formik";
 
 import DEDialog from "components/utils/DEDialog";
+import { getHost } from "components/utils/getHost";
 
 import { Button, Grid, Link, Paper } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
@@ -34,10 +39,7 @@ export default function AdminAppDetailsDialog(props) {
         parentId,
         restrictedChars,
         restrictedStartingChars,
-        createDocWikiUrl,
         documentationTemplateUrl,
-        handleSubmit,
-        handleReset,
         handleClose,
     } = props;
 
@@ -63,11 +65,87 @@ export default function AdminAppDetailsDialog(props) {
         },
     });
 
+    const [doAppUpdate, { status: updateAppStatus }] = useMutation(updateApp, {
+        onSuccess: (data) => {
+            console.log("App updated successfully");
+        },
+        onError: (e) => console.log("Update app failed" + e),
+    });
+
+    const [doDeleteApp, { status: deleteAppStatus }] = useMutation(deleteApp, {
+        onSuccess: (data) => {
+            console.log("App deleted");
+        },
+        onError: (e) => console.log("App delete failed" + e),
+    });
+
+    const [addDoc, { status: addDocStatus }] = useMutation(adminAddAppDoc, {
+        onSuccess: (data) => {
+            console.log("Added Doc");
+        },
+        onError: (e) => console.log("Error adding doc" + e),
+    });
+
+    const [updateDoc, { status: updateDocStatus }] = useMutation(
+        adminUpdateAppDoc,
+        {
+            onSuccess: (data) => {
+                console.log("Doc updated");
+            },
+            onError: (e) => console.log("Error updating doc" + e),
+        }
+    );
+
+    const handleSubmit = (values) => {
+        const documentation = details?.documentation;
+        if (app !== values) {
+            const {
+                deleted,
+                disabled,
+                description,
+                name,
+                id,
+                system_id,
+                extra,
+            } = values;
+            doAppUpdate({
+                deleted,
+                disabled,
+                extra,
+                description,
+                name,
+                id,
+                system_id,
+            });
+        }
+
+        if (
+            (!documentation || !documentation.documentation) &&
+            values.documentation &&
+            values.documentation.documentation
+        ) {
+            addDoc({
+                systemId: values.system_id,
+                appId: values.id,
+                doc: values.documentation.documentation,
+            });
+        } else if (
+            values.documentation &&
+            documentation.documentation !== values.documentation.documentation
+        ) {
+            updateDoc({
+                systemId: values.system_id,
+                appId: values.id,
+                doc: values.documentation.documentation,
+            });
+        }
+    };
+
     return (
         <DEDialog
             open={open}
             fullWidth={true}
-            maxWidth="lg"
+            maxWidth="sm"
             onClose={handleClose}
             baseId={parentId}
             title={app.name}
@@ -89,7 +167,6 @@ export default function AdminAppDetailsDialog(props) {
                                 restrictedStartingChars={
                                     restrictedStartingChars
                                 }
-                                createDocWikiUrl={createDocWikiUrl}
                                 documentationTemplateUrl={
                                     documentationTemplateUrl
                                 }
@@ -112,7 +189,6 @@ function AdminAppDetailsForm(props) {
         parentId,
         restrictedChars,
         restrictedStartingChars,
-        createDocWikiUrl,
         documentationTemplateUrl,
         handleClose,
     } = props;
@@ -176,20 +252,13 @@ function AdminAppDetailsForm(props) {
                 id={build(parentId, ids.ADMIN_DETAILS.BETA)}
                 component={FormCheckbox}
             />
-            <div>
-                <Link onClick={() => window.open(createDocWikiUrl)}>
-                    {t("wikiURLInstructions")}
-                </Link>
-            </div>
-            <Field
-                name={"wiki_url"}
-                label={t("wikiUrl")}
-                id={build(parentId, ids.ADMIN_DETAILS.WIKI_URL)}
-                component={FormTextField}
-            />
             <Paper elevation={1}>
                 {t("documentationInstructions")}
-                <Link onClick={() => window.open(documentationTemplateUrl)}>
+                <Link
+                    onClick={() =>
+                        window.open(getHost() + "/" + documentationTemplateUrl)
+                    }
+                >
                     {t("documentationTemplate")}
                 </Link>
             </Paper>
@@ -224,7 +293,6 @@ function AdminAppDetailsForm(props) {
                         id={build(parentId, ids.SAVE_BTN)}
                         type="submit"
                         color="primary"
-                        onClick={handleSubmit}
                     >
                         {i18nCommon("save")}
                     </Button>
@@ -268,64 +336,3 @@ function validateAppName(restrictedStartingChars, restrictedChars, value) {
         );
     }
 }
-
-const handleSubmit = (values, { props, setSubmitting }) => {
-    const {
-        presenter,
-        details: { documentation = {} },
-    } = props;
-    let promises = [];
-    if (props.app !== values) {
-        let saveApp = new Promise((resolve, reject) => {
-            presenter.onSaveAppSelected(values, resolve, reject);
-        });
-        promises.push(saveApp);
-    }
-
-    if (props.app.beta !== values.beta) {
-        let betaUpdate = new Promise((resolve, reject) => {
-            presenter.updateBetaStatus(values, resolve, reject);
-        });
-        promises.push(betaUpdate);
-    }
-
-    if (
-        (!documentation || !documentation.documentation) &&
-        values.documentation &&
-        values.documentation.documentation
-    ) {
-        let addAppDoc = new Promise((resolve, reject) => {
-            presenter.addAppDocumentation(
-                values.system_id,
-                values.id,
-                values.documentation.documentation,
-                resolve,
-                reject
-            );
-        });
-        promises.push(addAppDoc);
-    } else if (
-        values.documentation &&
-        documentation.documentation !== values.documentation.documentation
-    ) {
-        let updateAppDoc = new Promise((resolve, reject) => {
-            presenter.updateAppDocumentation(
-                values.system_id,
-                values.id,
-                values.documentation.documentation,
-                resolve,
-                reject
-            );
-        });
-        promises.push(updateAppDoc);
-    }
-
-    Promise.all(promises)
-        .then(() => {
-            setSubmitting(false);
-            props.presenter.closeAppDetailsDlg();
-        })
-        .catch(() => {
-            setSubmitting(false);
-        });
-};

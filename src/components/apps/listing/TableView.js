@@ -113,6 +113,7 @@ function TableView(props) {
         enableSorting = true,
         enableSelection = true,
         enableDelete = false,
+        isAdmin
     } = props;
     const { t } = useTranslation("apps");
     const apps = listing?.apps;
@@ -290,6 +291,7 @@ function TableView(props) {
                                                         onDocSelected
                                                     }
                                                     onQLSelected={onQLSelected}
+                                                    isAdmin={isAdmin}
                                                 />
                                             </TableCell>
                                         )}

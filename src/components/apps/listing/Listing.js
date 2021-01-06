@@ -426,6 +426,7 @@ function Listing({
                 setSharingDlgOpen={setSharingDlgOpen}
                 onDocSelected={() => setDocDlgOpen(true)}
                 onQLSelected={() => setQLDlgOpen(true)}
+                isAdmin={isAdmin}
             />
 
             {detailsOpen && !isAdmin && (

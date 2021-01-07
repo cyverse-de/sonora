@@ -5,6 +5,7 @@
 import callApi from "../common/callApi";
 import appType from "../components/models/AppType";
 import constants from "../constants";
+import { betaAVU, removeBetaAVU } from "components/apps/admin/betaAVU";
 
 const ALL_APPS_QUERY_KEY = "fetchAllApps";
 const APP_DETAILS_QUERY_KEY = "fetchAppDetails";
@@ -18,6 +19,7 @@ const APP_DOC_QUERY_KEY = "fetchAppDoc";
 //ADMIN KEYS
 const ADMIN_APPS_QUERY_KEY = "fetchAllAppsForAdmin";
 const ADMIN_APP_DETAILS_QUERY_KEY = "fetchAppDetailsForAdmin";
+const ADMIN_APP_AVU_QUERY_KEY = "fetchAppAVUs";
 
 const getAppTypeFilter = (appTypeFilter) => {
     const typeFilter =
@@ -231,13 +233,6 @@ function getAppDetailsForAdmin(key, { systemId, appId }) {
     });
 }
 
-function deleteApp({ systemId, appId }) {
-    return callApi({
-        endpoint: `/api/admin/apps/${systemId}/${appId}`,
-        method: "DELETE",
-    });
-}
-
 function updateApp({
     deleted,
     disabled,
@@ -270,6 +265,98 @@ function adminUpdateAppDoc({ systemId, appId, doc }) {
     });
 }
 
+function getAppAVUs(key, { appId }) {
+    return callApi({
+        endpoint: `/api/admin/apps/${appId}/metadata`,
+        method: "GET",
+    });
+}
+
+function addAVUToApp({ appId, avu }) {
+    return callApi({
+        endpoint: `/api/admin/apps/${appId}/metadata`,
+        method: "POST",
+        body: avu,
+    });
+}
+
+function setAppAVUs({ appId, avus }) {
+    return callApi({
+        endpoint: `/api/admin/apps/${appId}/metadata`,
+        method: "PUT",
+        body: { avus },
+    });
+}
+
+function adminUpdateApp({ app, details, avus, values }) {
+    const documentation = details?.documentation;
+    const promises = [];
+    if (app !== values) {
+        const {
+            deleted,
+            disabled,
+            description,
+            name,
+            id,
+            system_id,
+            extra,
+        } = values;
+        promises.push(
+            updateApp({
+                deleted,
+                disabled,
+                extra,
+                description,
+                name,
+                id,
+                system_id,
+            })
+        );
+    }
+
+    if (app.beta !== values.beta) {
+        if (values.beta) {
+            promises.push(addAVUToApp({ appId: app.id, avu: betaAVU }));
+        } else {
+            if (avus) {
+                const updatedAVUs = removeBetaAVU(avus);
+                promises.push(setAppAVUs({ avus: updatedAVUs, appId: app.id }));
+            }
+        }
+    }
+
+    if (
+        (!documentation || !documentation.documentation) &&
+        values.documentation &&
+        values.documentation.documentation
+    ) {
+        promises.push(
+            adminAddAppDoc({
+                systemId: values.system_id,
+                appId: values.id,
+                doc: values.documentation.documentation,
+            })
+        );
+    } else if (
+        values.documentation &&
+        documentation.documentation !== values.documentation.documentation
+    ) {
+        promises.push(
+            adminUpdateAppDoc({
+                systemId: values.system_id,
+                appId: values.id,
+                doc: values.documentation.documentation,
+            })
+        );
+    }
+
+    return new Promise((resolve, reject) =>
+        Promise.all(promises)
+            .then((values) => resolve(values))
+            .catch((error) => reject(error))
+    );
+}
+
 export {
     getApps,
     getAppsForAdmin,
@@ -286,10 +373,13 @@ export {
     searchAppsInfiniteQuery,
     getAppDoc,
     saveAppDoc,
-    deleteApp,
     updateApp,
     adminAddAppDoc,
     adminUpdateAppDoc,
+    getAppAVUs,
+    addAVUToApp,
+    setAppAVUs,
+    adminUpdateApp,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,
@@ -300,4 +390,5 @@ export {
     APP_DOC_QUERY_KEY,
     ADMIN_APPS_QUERY_KEY,
     ADMIN_APP_DETAILS_QUERY_KEY,
+    ADMIN_APP_AVU_QUERY_KEY,
 };

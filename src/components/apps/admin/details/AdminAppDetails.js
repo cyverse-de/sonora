@@ -5,18 +5,18 @@
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
 import { Field, Form, Formik } from "formik";
-import { useQuery, useMutation } from "react-query";
+import { useQuery, useMutation, queryCache } from "react-query";
 
 import ids from "../../ids";
 import constants from "../../../../constants";
 
 import {
     getAppDetailsForAdmin,
-    deleteApp,
-    updateApp,
-    adminAddAppDoc,
-    adminUpdateAppDoc,
+    getAppAVUs,
+    adminUpdateApp,
     ADMIN_APP_DETAILS_QUERY_KEY,
+    ADMIN_APP_AVU_QUERY_KEY,
+    ADMIN_APPS_QUERY_KEY,
 } from "serviceFacades/apps";
 
 import {
@@ -26,14 +26,12 @@ import {
     FormTextField,
 } from "@cyverse-de/ui-lib";
 
-
 import DEDialog from "components/utils/DEDialog";
 import { getHost } from "components/utils/getHost";
 import { Skeleton } from "@material-ui/lab";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
 import { Button, CircularProgress, Grid, Link, Paper } from "@material-ui/core";
-
 
 export default function AdminAppDetailsDialog(props) {
     const {
@@ -50,10 +48,9 @@ export default function AdminAppDetailsDialog(props) {
 
     const [detailsError, setDetailsError] = useState(null);
     const [updateAppError, setUpdateAppError] = useState(null);
-    const [addDocError, setAddDocError] = useState(null);
-    const [updateDocError, setUpdateDocError] = useState(null);
-
+    const [avusError, setAUVsError] = useState(null);
     const [details, setDetails] = useState(null);
+    const [avus, setAVUs] = useState(null);
 
     const { isFetching: detailsFetching } = useQuery({
         queryKey: [
@@ -71,73 +68,34 @@ export default function AdminAppDetailsDialog(props) {
         },
     });
 
-    const [doAppUpdate, { status: updateAppStatus }] = useMutation(updateApp, {
-        onSuccess: (data) => {
-            handleClose();
+    const { isFetching: avusFetching } = useQuery({
+        queryKey: [
+            ADMIN_APP_AVU_QUERY_KEY,
+            {
+                appId: app?.id,
+            },
+        ],
+        queryFn: getAppAVUs,
+        config: {
+            enabled: !!app,
+            onSuccess: (data) => setAVUs(data?.avus),
+            onError: setAUVsError,
         },
-        onError: setUpdateAppError,
     });
 
-    const [addDoc, { status: addDocStatus }] = useMutation(adminAddAppDoc, {
-        onSuccess: (data) => {
-            handleClose();
-        },
-        onError: setAddDocError,
-    });
-
-    const [updateDoc, { status: updateDocStatus }] = useMutation(
-        adminUpdateAppDoc,
+    const [adminMutateApp, { status: allUpdatesStatus }] = useMutation(
+        adminUpdateApp,
         {
             onSuccess: (data) => {
+                queryCache.invalidateQueries(ADMIN_APPS_QUERY_KEY);
                 handleClose();
             },
-            onError: setUpdateDocError,
+            onError: setUpdateAppError,
         }
     );
 
     const handleSubmit = (values) => {
-        const documentation = details?.documentation;
-        if (app !== values) {
-            const {
-                deleted,
-                disabled,
-                description,
-                name,
-                id,
-                system_id,
-                extra,
-            } = values;
-            doAppUpdate({
-                deleted,
-                disabled,
-                extra,
-                description,
-                name,
-                id,
-                system_id,
-            });
-        }
-
-        if (
-            (!documentation || !documentation.documentation) &&
-            values.documentation &&
-            values.documentation.documentation
-        ) {
-            addDoc({
-                systemId: values.system_id,
-                appId: values.id,
-                doc: values.documentation.documentation,
-            });
-        } else if (
-            values.documentation &&
-            documentation.documentation !== values.documentation.documentation
-        ) {
-            updateDoc({
-                systemId: values.system_id,
-                appId: values.id,
-                doc: values.documentation.documentation,
-            });
-        }
+        adminMutateApp({ app, details, avus, values });
     };
 
     return (
@@ -149,8 +107,8 @@ export default function AdminAppDetailsDialog(props) {
             baseId={parentId}
             title={app.name}
         >
-            {detailsFetching && (
-                <Skeleton animation="wave" variant="rect" height={800} />
+            {(detailsFetching || avusFetching) && (
+                <Skeleton animation="wave" variant="rect" height={600} />
             )}
             {detailsError && (
                 <ErrorTypographyWithDialog
@@ -158,7 +116,13 @@ export default function AdminAppDetailsDialog(props) {
                     errorObject={detailsError}
                 />
             )}
-            {(updateAppStatus === constants.LOADING || addDocStatus === constants.LOADING || updateDocStatus === constants.LOADING) && (
+            {avusError && (
+                <ErrorTypographyWithDialog
+                    errorMessage={t("avuFetchError")}
+                    errorObject={avusError}
+                />
+            )}
+            {allUpdatesStatus === constants.LOADING && (
                 <CircularProgress
                     size={30}
                     thickness={5}
@@ -173,18 +137,6 @@ export default function AdminAppDetailsDialog(props) {
                 <ErrorTypographyWithDialog
                     errorMessage={t("updateAppError")}
                     errorObject={updateAppError}
-                />
-            )}
-            {addDocError && (
-                <ErrorTypographyWithDialog
-                    errorMessage={t("addDocError")}
-                    errorObject={addDocError}
-                />
-            )}
-            {updateDocError && (
-                <ErrorTypographyWithDialog
-                    errorMessage={t("updateDocError")}
-                    errorObject={updateDocError}
                 />
             )}
             {details && (

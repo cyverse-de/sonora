@@ -1,5 +1,4 @@
 {
-    "addDocError": "Unable to add documentation to this App. Please try again.",
     "addToFavorites": "Add To Favorites",
     "addToBag": "Add To Bag",
     "addToBagError": "Error adding app(s) to your bag",
@@ -15,6 +14,7 @@
     "appType": "Type",
     "ariaCheckbox": "{{label}} checkbox",
     "ariaTableListing": "Apps table listing",
+    "avuFetchError": "Unable to get app metadata. Please try again.",
     "authenticateBtnText": "Authenticate",
     "beta": "Beta Tag Applied",
     "betaAppTooltip": "This app is in beta.",

@@ -58,12 +58,12 @@ function ListingTest(props) {
                             category
                         );
                     }}
-                    selectedPage={selectedPage}
-                    selectedRowsPerPage={selectedRowsPerPage}
-                    selectedOrder={selectedOrder}
-                    selectedOrderBy={selectedOrderBy}
-                    selectedFilter={selectedFilter}
-                    selectedCategory={selectedCategory}
+                    page={selectedPage}
+                    rowsPerPage={selectedRowsPerPage}
+                    order={selectedOrder}
+                    orderBy={selectedOrderBy}
+                    filter={selectedFilter}
+                    category={selectedCategory}
                 />
             </UserProfileProvider>
         </UploadTrackingProvider>

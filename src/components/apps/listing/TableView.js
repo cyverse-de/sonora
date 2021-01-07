@@ -113,7 +113,7 @@ function TableView(props) {
         enableSorting = true,
         enableSelection = true,
         enableDelete = false,
-        isAdmin
+        isAdmin,
     } = props;
     const { t } = useTranslation("apps");
     const apps = listing?.apps;

@@ -180,16 +180,6 @@ export default function appsRouter() {
         })
     );
 
-    logger.info("adding the DELETE /admin/apps/:systemId/:appId handler");
-    api.delete(
-        "/admin/apps/:systemId/:appId",
-        auth.authnTokenMiddleware,
-        terrainHandler({
-            method: "DELETE",
-            pathname: "/admin/apps/:systemId/:appId",
-        })
-    );
-
     logger.info("adding the PATCH /admin/apps/:systemId/:appId handler");
     api.patch(
         "/admin/apps/:systemId/:appId",
@@ -227,6 +217,45 @@ export default function appsRouter() {
         terrainHandler({
             method: "PATCH",
             pathname: "/admin/apps/:systemId/:appId/documentation",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the GET /admin/apps/:appId/metadata handler");
+    api.get(
+        "/admin/apps/:appId/metadata",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/apps/:appId/metadata",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the POST /admin/apps/:appId/metadata handler");
+    api.post(
+        "/admin/apps/:appId/metadata",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/apps/:appId/metadata",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the PUT /admin/apps/:appId/metadata handler");
+    api.put(
+        "/admin/apps/:appId/metadata",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PUT",
+            pathname: "/admin/apps/:appId/metadata",
             headers: {
                 "Content-Type": "application/json",
             },

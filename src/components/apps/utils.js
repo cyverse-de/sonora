@@ -23,6 +23,7 @@ export const getAppLaunchPath = (systemId, appId) =>
  * @param {string} rowsPerPage The apps listing page size.
  * @param {string} filter The apps listing filter option.
  * @param {string} category The apps category
+ * @param {boolean} isAdmin True if the user is admin.
  */
 
 export const getListingPath = (
@@ -31,11 +32,15 @@ export const getListingPath = (
     page,
     rowsPerPage,
     filter,
-    category
+    category,
+    isAdmin
 ) => {
     const encodedFilter = encodeURIComponent(filter);
     const encodedCategory = encodeURIComponent(category);
-    return `/${NavigationConstants.APPS}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedFilter=${encodedFilter}&selectedCategory=${encodedCategory}`;
+    const base = isAdmin
+        ? `/${NavigationConstants.ADMIN}/${NavigationConstants.APPS}`
+        : `/${NavigationConstants.APPS}`;
+    return `${base}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedFilter=${encodedFilter}&selectedCategory=${encodedCategory}`;
 };
 
 /**

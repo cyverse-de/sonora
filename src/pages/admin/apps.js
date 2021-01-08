@@ -25,6 +25,7 @@ export default function Apps() {
     const query = router.query;
     const { t } = useTranslation("apps");
     const profile = useUserProfile()[0];
+    const isAdmin = profile?.admin;
 
     const appRecordFields = appFields(t);
     const selectedPage = parseInt(query.selectedPage) || 0;
@@ -55,13 +56,14 @@ export default function Apps() {
                     page,
                     rowsPerPage,
                     filter,
-                    category
+                    category,
+                    isAdmin
                 )
             );
         },
-        [router]
+        [isAdmin, router]
     );
-    if (!profile?.admin) {
+    if (!isAdmin) {
         return <ErrorHandler />;
     } else {
         return (
@@ -77,7 +79,7 @@ export default function Apps() {
                 orderBy={selectedOrderBy}
                 filter={selectedFilter}
                 category={selectedCategory}
-                isAdmin={profile?.admin}
+                isAdmin={isAdmin}
             />
         );
     }

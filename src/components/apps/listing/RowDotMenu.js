@@ -38,30 +38,28 @@ function RowDotMenu(props) {
                     onClose={onClose}
                     onDetailsSelected={onDetailsSelected}
                 />,
-                !isAdmin && canShare && (
-                    <SharingMenuItem
-                        key={build(baseId, shareIds.SHARING_MENU_ITEM)}
-                        baseId={baseId}
-                        onClose={onClose}
-                        setSharingDlgOpen={setSharingDlgOpen}
-                    />
-                ),
-                !isAdmin && (
+                !isAdmin && [
+                    canShare && (
+                        <SharingMenuItem
+                            key={build(baseId, shareIds.SHARING_MENU_ITEM)}
+                            baseId={baseId}
+                            onClose={onClose}
+                            setSharingDlgOpen={setSharingDlgOpen}
+                        />
+                    ),
                     <DocMenuItem
                         key={build(baseId, ids.DOC_MENU_ITEM)}
                         baseId={baseId}
                         onClose={onClose}
                         onDocSelected={onDocSelected}
-                    />
-                ),
-                !isAdmin && (
+                    />,
                     <QLMenuItem
                         key={build(baseId, ids.QL_MENU_ITEM)}
                         baseId={baseId}
                         onClose={onClose}
                         onQLSelected={onQLSelected}
-                    />
-                ),
+                    />,
+                ],
             ]}
         />
     );

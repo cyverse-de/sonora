@@ -95,7 +95,9 @@ export default function AdminAppDetailsDialog(props) {
     );
 
     const handleSubmit = (values) => {
-        adminMutateApp({ app, details, avus, values });
+        if (allUpdatesStatus !== constants.LOADING) {
+            adminMutateApp({ app, details, avus, values });
+        }
     };
 
     return (

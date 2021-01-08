@@ -29,19 +29,23 @@ export default function Tools() {
     const selectedPermFilter = query.selectedPermFilter;
     const selectedSearchTerm = query.selectedSearchTerm || "";
     const profile = useUserProfile()[0];
+    const isAdmin = profile?.admin;
 
     console.log("is it admin user=>" + profile?.admin);
 
     const onRouteToListing = useCallback(
         (order, orderBy, page, rowsPerPage, permFilter, searchTerm) => {
+            const base = isAdmin
+                ? `/${NavigationConstants.ADMIN}/${NavigationConstants.TOOLS}`
+                : `/${NavigationConstants.TOOLS}`;
             router.push(
-                `/${NavigationConstants.TOOLS}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedPermFilter=${permFilter}&selectedSearchTerm=${searchTerm}`
+                `${base}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedPermFilter=${permFilter}&selectedSearchTerm=${searchTerm}`
             );
         },
-        [router]
+        [isAdmin, router]
     );
 
-    if (!profile?.admin) {
+    if (!isAdmin) {
         return <NotAuthorized />;
     } else {
         return (
@@ -54,7 +58,7 @@ export default function Tools() {
                 selectedPermFilter={selectedPermFilter}
                 onRouteToListing={onRouteToListing}
                 selectedSearchTerm={selectedSearchTerm}
-                isAdmin={profile?.admin}
+                isAdmin={isAdmin}
             />
         );
     }

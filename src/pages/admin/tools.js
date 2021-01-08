@@ -31,8 +31,6 @@ export default function Tools() {
     const profile = useUserProfile()[0];
     const isAdmin = profile?.admin;
 
-    console.log("is it admin user=>" + profile?.admin);
-
     const onRouteToListing = useCallback(
         (order, orderBy, page, rowsPerPage, permFilter, searchTerm) => {
             const base = isAdmin

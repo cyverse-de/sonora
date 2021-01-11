@@ -23,6 +23,7 @@
     "errorMarkAsSeen": "Unable to mark notifications as read.",
     "filter": "Filter",
     "help": "Help",
+    "helpCenter": "Help Center",
     "intercomAriaLabel": "Chat with CyVerse support",
     "interactiveAnalysisUrl": "Access your running analysis here.",
     "searching": "Searching...",

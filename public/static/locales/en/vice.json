@@ -1,5 +1,5 @@
 {
-    "accessRequestTitle": "Request access to VICE analyses (e.g: Jupyter, RStudio etc...)",
+   "accessRequestTitle": "Request access to VICE analyses (e.g: Jupyter, RStudio etc...)",
     "accessRequestPrompt": "Due to heavy demand for access to CyVerse compute clusters, please submit this one-time form so that we can ensure fair access among legitimate users. Requests will be processed within 24 hours unless you are requesting large cores, memory, or GPUs, or if we require more details on your science use-case.",
     "emptyValue": "Empty Value.",
     "minLengthUseCaseError": "Must be at least {{minLength}} characters.",

@@ -64,6 +64,7 @@ function DataToolbar(props) {
         onMetadataSelected,
         onPublicLinksSelected,
         toolbarVisibility,
+        onDownloadSelected,
     } = props;
 
     const { t } = useTranslation("data");
@@ -176,6 +177,7 @@ function DataToolbar(props) {
                             isSmall={isSmall}
                             onMetadataSelected={onMetadataSelected}
                             onPublicLinksSelected={onPublicLinksSelected}
+                            onDownloadSelected={onDownloadSelected}
                         />
                     )}
 

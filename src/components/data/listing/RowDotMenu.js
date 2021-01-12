@@ -10,12 +10,14 @@ import { DotMenu } from "@cyverse-de/ui-lib";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DeleteMenuItem from "../menuItems/DeleteMenuItem";
 import MetadataMenuItem from "../menuItems/MetadataMenuItem";
+import DownloadMenuItem from "../menuItems/DownloadMenuItem";
 import SharingMenuItem from "../../sharing/SharingMenuItem";
 import { hasOwn, containsFolders } from "../utils";
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
 import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";
 import { build } from "@cyverse-de/ui-lib";
+import ResourceTypes from "components/models/ResourceTypes";
 
 function RowDotMenu(props) {
     const {
@@ -27,9 +29,11 @@ function RowDotMenu(props) {
         setSharingDlgOpen,
         onMetadataSelected,
         onPublicLinksSelected,
+        onDownloadSelected,
     } = props;
 
     const isOwner = hasOwn(resource.permission);
+    const isFile = resource.type === ResourceTypes.FILE;
 
     return (
         <DotMenu
@@ -71,6 +75,14 @@ function RowDotMenu(props) {
                         baseId={baseId}
                         onClose={onClose}
                         onDeleteSelected={onDeleteSelected}
+                    />
+                ),
+                isFile && (
+                    <DownloadMenuItem
+                        key={build(baseId, ids.DOWNLOAD_MENU_ITEM)}
+                        onDownloadSelected={onDownloadSelected}
+                        baseId={baseId}
+                        onClose={onClose}
                     />
                 ),
             ]}

@@ -76,7 +76,7 @@ export default function AccessRequestDialog(props) {
                                 component={FormTextField}
                                 helperText={t("orcidHelp")}
                             />
-                            <Field name="type">
+                            <Field name="institution">
                                 {({
                                     field: { onChange, ...field },
                                     ...props
@@ -148,7 +148,7 @@ export default function AccessRequestDialog(props) {
                                 component={FormMultilineTextField}
                             />
                             <Field
-                                name="useCase"
+                                name="intended_use"
                                 label={t("useCase")}
                                 id={build(
                                     baseId,

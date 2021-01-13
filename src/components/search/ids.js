@@ -5,6 +5,7 @@ export default {
     APPS_SEARCH_OPTION: "appsSearchOption",
     DATA_SEARCH_RESULTS_TAB: "dataSearchResultsTab",
     DATA_SEARCH_OPTION: "dataSearchOption",
+    TEAM_SEARCH_OPTION: "teamSearchOption",
     GLOBAL_SEARCH_FIELD: "globalSearchField",
     SEARCH: "search",
     SEARCH_FILTER_MI: {
@@ -12,6 +13,7 @@ export default {
         ANALYSES: "analyses",
         APPS: "apps",
         DATA: "data",
+        TEAMS: "teams",
     },
     SEARCH_FILTER_MENU: "searchFilterMenu",
     SEARCH_INPUT_FILED: "searchInput",

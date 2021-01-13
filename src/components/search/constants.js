@@ -10,4 +10,5 @@ export default {
     VIEW_ALL_DATA_ID: "viewAllData",
     VIEW_ALL_APPS_ID: "viewAllApps",
     VIEW_ALL_ANALYSES_ID: "viewAllAnalyses",
+    VIEW_ALL_TEAMS_ID: "viewAllTeams",
 };

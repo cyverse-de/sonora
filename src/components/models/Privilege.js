@@ -7,7 +7,7 @@
  * The num is a value to establish a hierarchy where a greater number indicates more
  * power with that privilege.
  */
-export default {
+const Privileges = {
     ADMIN: {
         value: "admin",
         num: 6,
@@ -33,3 +33,8 @@ export default {
         num: 1,
     },
 };
+export default Privileges;
+
+export const MemberPrivileges = [Privileges.ADMIN, Privileges.READ];
+
+export const PublicPrivileges = [Privileges.VIEW];

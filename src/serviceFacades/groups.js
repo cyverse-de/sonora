@@ -6,6 +6,8 @@ import callApi from "../common/callApi";
 const MY_TEAMS_QUERY = "fetchMyTeams";
 const ALL_TEAMS_QUERY = "fetchAllTeams";
 const SEARCH_TEAMS_QUERY = "searchAllTeams";
+const TEAM_PRIVILEGES_QUERY = "fetchTeamPrivileges";
+const TEAM_MEMBERS_QUERY = "fetchTeamMembers";
 
 function getMyTeams(key, { userId }) {
     return callApi({
@@ -36,6 +38,20 @@ function searchTeams(key, { searchTerm }) {
             search: searchTerm,
             details: true,
         },
+    });
+}
+
+function getTeamPrivileges(key, { name }) {
+    return callApi({
+        endpoint: `/api/teams/${name}/privileges`,
+        method: "GET",
+    });
+}
+
+function getTeamMembers(key, { name }) {
+    return callApi({
+        endpoint: `/api/teams/${name}/members`,
+        method: "GET",
     });
 }
 

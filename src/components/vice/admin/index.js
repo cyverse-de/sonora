@@ -386,12 +386,12 @@ const VICEAdmin = () => {
 
     return (
         <div id={id(ids.ROOT)} className={classes.root}>
+            <JobLimits />
+
             {isLoading ? (
                 <VICEAdminSkeleton />
             ) : (
                 <>
-                    <JobLimits />
-
                     <RowFilter
                         filters={filters}
                         addToFilters={addToFilters}

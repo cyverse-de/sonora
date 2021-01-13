@@ -23,9 +23,12 @@ import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import AppLaunchWizard from "./AppLaunchWizard";
 import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
+import { getErrorCode, ERROR_CODES } from "components/utils/error/errorCode";
 
 const Launch = ({ app, launchError, loading }) => {
     const [submissionError, setSubmissionError] = React.useState(null);
+    const [viceAccessError, setViceAccessError] = React.useState(false);
+    const [viceAccessErrorMsg, setViceAccessErrorMsg] = React.useState(false);
     const [bootstrapInfo] = useBootstrapInfo();
     const [config] = useConfig();
     const homePath = useHomePath();
@@ -41,6 +44,15 @@ const Launch = ({ app, launchError, loading }) => {
                 trackIntercomEvent(IntercomEvents.LAUNCHED_JOB, resp);
             },
             onError: (error, { onError }) => {
+                const code = getErrorCode(error);
+                console.log("code is =>" + code);
+                if (
+                    code === ERROR_CODES.ERR_FORBIDDEN ||
+                    code === ERROR_CODES.ERR_LIMIT_REACHED ||
+                    code === ERROR_CODES.ERR_PERMISSION_NEEDED
+                ) {
+                    setViceAccessError(code);
+                }
                 onError(error);
                 setSubmissionError(error);
             },
@@ -84,25 +96,27 @@ const Launch = ({ app, launchError, loading }) => {
     }
 
     return (
-        <AppLaunchWizard
-            baseId={baseId}
-            notify={notify}
-            defaultOutputDir={defaultOutputDir}
-            defaultMaxCPUCores={defaultMaxCPUCores}
-            defaultMaxMemory={defaultMaxMemory}
-            defaultMaxDiskSpace={defaultMaxDiskSpace}
-            app={app}
-            appError={submissionError}
-            loading={loading}
-            submitAnalysis={(submission, onSuccess, onError) => {
-                setSubmissionError(null);
-                submitAnalysisMutation({ submission, onSuccess, onError });
-            }}
-            saveQuickLaunch={(quickLaunch, onSuccess, onError) => {
-                setSubmissionError(null);
-                addQuickLaunchMutation({ quickLaunch, onSuccess, onError });
-            }}
-        />
+        <>
+            <AppLaunchWizard
+                baseId={baseId}
+                notify={notify}
+                defaultOutputDir={defaultOutputDir}
+                defaultMaxCPUCores={defaultMaxCPUCores}
+                defaultMaxMemory={defaultMaxMemory}
+                defaultMaxDiskSpace={defaultMaxDiskSpace}
+                app={app}
+                appError={submissionError}
+                loading={loading}
+                submitAnalysis={(submission, onSuccess, onError) => {
+                    setSubmissionError(null);
+                    submitAnalysisMutation({ submission, onSuccess, onError });
+                }}
+                saveQuickLaunch={(quickLaunch, onSuccess, onError) => {
+                    setSubmissionError(null);
+                    addQuickLaunchMutation({ quickLaunch, onSuccess, onError });
+                }}
+            />
+        </>
     );
 };
 

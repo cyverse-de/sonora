@@ -118,7 +118,13 @@ function InteractiveAnalysisUrl(props) {
 }
 
 function NotificationsMenu(props) {
-    const { setUnSeenCount, notificationMssg, setAnchorEl, anchorEl } = props;
+    const {
+        setUnSeenCount,
+        notificationMssg,
+        setAnchorEl,
+        anchorEl,
+        showErrorAnnouncer,
+    } = props;
     const [notifications, setNotifications] = useState([]);
     const [error, setError] = useState();
     const classes = useStyles();
@@ -173,14 +179,7 @@ function NotificationsMenu(props) {
             setAllNotificationsSeen();
         },
         onError: (error) => {
-            console.log("Error marking all notifications as Seen");
-            // *** Will add this after understanding HOC better. ***
-            // showErrorAnnouncer(
-            //     t("errorMarkAsSeen", {
-            //         count: notifications.length,
-            //     }),
-            //     error
-            // );
+            showErrorAnnouncer(t("errorMarkAsSeen"), error);
         },
     });
 

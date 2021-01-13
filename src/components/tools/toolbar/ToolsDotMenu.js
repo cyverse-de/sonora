@@ -11,7 +11,7 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
-import { permissionHierarchy } from "components/models/Permissions";
+import { isWritable } from "../utils";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 
@@ -23,6 +23,7 @@ import {
 } from "@material-ui/core";
 
 import { Add, Info, Edit } from "@material-ui/icons";
+
 
 function DotMenuItems(props) {
     const {
@@ -115,7 +116,8 @@ export default function ToolsDotMenu({
         isSingleSelection &&
         selectedTools &&
         selectedTools.length > 0 &&
-        permissionHierarchy(selectedTools[0].permission) > 1;
+        isWritable(selectedTools[0].permission);
+
     return (
         <DotMenu
             baseId={baseId}

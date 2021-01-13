@@ -143,6 +143,7 @@ function EditToolDialog(props) {
                 cas_validate: config.vice.defaultCasValidate,
             };
             submission.container.interactive_apps = interactive_apps;
+            submission.container.skip_tmp_mount = true;
         }
 
         //avoid dupe submission

@@ -1,4 +1,7 @@
-import Permissions from "components/models/Permissions";
+import Permissions, {
+    permissionHierarchy,
+} from "components/models/Permissions";
+
 const canShare = (selectedTools) => {
     return (
         selectedTools &&
@@ -7,4 +10,11 @@ const canShare = (selectedTools) => {
     );
 };
 
-export { canShare };
+const isWritable = (permission) => {
+    return (
+        permissionHierarchy(permission) >=
+        permissionHierarchy(Permissions.WRITE)
+    );
+};
+
+export { isWritable, canShare };

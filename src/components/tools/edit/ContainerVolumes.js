@@ -82,7 +82,9 @@ function ContainerVolumes(props) {
                                         fullWidth={false}
                                         label={t("hostPath")}
                                         required
-                                        validate={nonEmptyField}
+                                        validate={(value) =>
+                                            nonEmptyField(value, t)
+                                        }
                                         component={FormTextField}
                                     />
                                 </TableCell>
@@ -97,7 +99,9 @@ function ContainerVolumes(props) {
                                         fullWidth={false}
                                         label={t("containerPath")}
                                         required
-                                        validate={nonEmptyField}
+                                        validate={(value) =>
+                                            nonEmptyField(value, t)
+                                        }
                                         component={FormTextField}
                                     />
                                 </TableCell>

@@ -24,9 +24,9 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 
-const TABLE_COLUMNS = [
-    { name: "Host Path", numeric: false, enableSorting: false },
-    { name: "Container Path", numeric: false, enableSorting: false },
+const getColumns = (t) => [
+    { name: t("hostPath"), numeric: false, enableSorting: false },
+    { name: t("containerPath"), numeric: false, enableSorting: false },
     { name: "", numeric: false, enableSorting: false, key: "remove" },
 ];
 
@@ -62,7 +62,7 @@ function ContainerDevices(props) {
                     {(!devices || devices.length === 0) && (
                         <EmptyTable
                             message={t("noContainerDevices")}
-                            numColumns={TABLE_COLUMNS.length}
+                            numColumns={getColumns(t).length}
                         />
                     )}
                     {devices &&
@@ -80,7 +80,9 @@ function ContainerDevices(props) {
                                         fullWidth={false}
                                         label={t("hostPath")}
                                         required
-                                        validate={nonEmptyField}
+                                        validate={(value) =>
+                                            nonEmptyField(value, t)
+                                        }
                                         component={FormTextField}
                                     />
                                 </TableCell>
@@ -95,7 +97,9 @@ function ContainerDevices(props) {
                                         fullWidth={false}
                                         label={t("containerPath")}
                                         required
-                                        validate={nonEmptyField}
+                                        validate={(value) =>
+                                            nonEmptyField(value, t)
+                                        }
                                         component={FormTextField}
                                     />
                                 </TableCell>

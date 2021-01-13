@@ -91,7 +91,9 @@ function ContainerVolumesFrom(props) {
                                         fullWidth={false}
                                         label={t("name")}
                                         required
-                                        validate={nonEmptyField}
+                                        validate={(value) =>
+                                            nonEmptyField(value, t)
+                                        }
                                         component={FormTextField}
                                     />
                                 </TableCell>
@@ -106,7 +108,9 @@ function ContainerVolumesFrom(props) {
                                         fullWidth={false}
                                         label={t("namePrefix")}
                                         required
-                                        validate={nonEmptyField}
+                                        validate={(value) =>
+                                            nonEmptyField(value, t)
+                                        }
                                         component={FormTextField}
                                     />
                                 </TableCell>

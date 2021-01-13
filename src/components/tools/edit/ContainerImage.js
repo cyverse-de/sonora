@@ -30,7 +30,7 @@ function ContainerImage(props) {
                 label={t("imageName")}
                 id={build(parentId, ids.EDIT_TOOL_DLG.IMAGE_NAME)}
                 required
-                validate={nonEmptyField}
+                validate={(value) => nonEmptyField(value, t)}
                 component={FormTextField}
                 helperText={t("imageNameHelp")}
             />
@@ -45,7 +45,7 @@ function ContainerImage(props) {
                 label={t("tag")}
                 id={build(parentId, ids.EDIT_TOOL_DLG.TAG)}
                 required
-                validate={nonEmptyField}
+                validate={(value) => nonEmptyField(value, t)}
                 component={FormTextField}
             />
             {isOSGTool && (
@@ -53,7 +53,7 @@ function ContainerImage(props) {
                     name={`${name}.osg_image_path`}
                     label={t("osgImagePath")}
                     required
-                    validate={(value) => isOSGTool && nonEmptyField(value)}
+                    validate={(value) => isOSGTool && nonEmptyField(value, t)}
                     id={build(parentId, ids.EDIT_TOOL_DLG.OSG_IMAGE_PATH)}
                     component={FormTextField}
                 />

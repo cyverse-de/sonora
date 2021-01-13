@@ -1,16 +1,16 @@
-const nonEmptyField = (value) =>
-    value && value.length > 0 ? undefined : "Empty Value";
-const minValue = (value) =>
-    value && value < 0 ? "Must be at least 0" : undefined;
-const nonEmptyMinValue = (value) => {
+const nonEmptyField = (value, t) =>
+    value && value.length > 0 ? undefined : t("emptyValue");
+const minValue = (value, t) =>
+    value && value < 0 ? t("mustBeZeroOrMore") : undefined;
+const nonEmptyMinValue = (value, t) => {
     if (isNaN(value)) {
-        return "Value must be a number";
+        return t("mustBeNumber");
     } else {
         if (value < 0) {
-            return "Must be at least 0";
+            return t("mustBeZeroOrMore");
         }
         if (value.length < 1) {
-            return "Empty Value";
+            return t("emptyValue");
         }
     }
 };

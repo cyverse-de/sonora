@@ -122,7 +122,7 @@ function ToolImplementation(props) {
                 label={t("implementor")}
                 id={build(parentId, ids.EDIT_TOOL_DLG.IMPLEMENTOR)}
                 required
-                validate={(value) => isAdmin && nonEmptyField(value)}
+                validate={(value) => isAdmin && nonEmptyField(value, t)}
                 component={FormTextField}
             />
             <Field
@@ -130,7 +130,7 @@ function ToolImplementation(props) {
                 label={t("implementorEmail")}
                 id={build(parentId, ids.EDIT_TOOL_DLG.IMPLEMENTOR_EMAIL)}
                 required
-                validate={(value) => isAdmin && nonEmptyField(value)}
+                validate={(value) => isAdmin && nonEmptyField(value, t)}
                 component={FormTextField}
             />
             <FieldArray

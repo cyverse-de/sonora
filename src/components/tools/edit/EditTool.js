@@ -346,7 +346,7 @@ function EditToolForm(props) {
                 label={t("toolName")}
                 id={build(parentId, ids.EDIT_TOOL_DLG.NAME)}
                 required
-                validate={nonEmptyField}
+                validate={(value) => nonEmptyField(value, t)}
                 component={FormTextField}
             />
             <Field
@@ -360,7 +360,7 @@ function EditToolForm(props) {
                 label={t("toolVersion")}
                 id={build(parentId, ids.EDIT_TOOL_DLG.VERSION)}
                 required
-                validate={nonEmptyField}
+                validate={(value) => nonEmptyField(value, t)}
                 component={FormTextField}
             />
             {isAdmin && (

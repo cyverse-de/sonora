@@ -105,7 +105,9 @@ function ContainerPorts(props) {
                                         )}
                                         label={t("portNumber")}
                                         required
-                                        validate={nonEmptyMinValue}
+                                        validate={(value) =>
+                                            nonEmptyMinValue(value, t)
+                                        }
                                         component={FormNumberField}
                                     />
                                 </TableCell>
@@ -120,7 +122,9 @@ function ContainerPorts(props) {
                                                     ids.EDIT_TOOL_DLG.HOST_PORT
                                                 )}
                                                 label={t("portNumber")}
-                                                validate={minValue}
+                                                validate={(value) =>
+                                                    minValue(value, t)
+                                                }
                                                 component={FormNumberField}
                                             />
                                         </TableCell>
@@ -135,7 +139,9 @@ function ContainerPorts(props) {
                                                 )}
                                                 label={t("bindToHost")}
                                                 required
-                                                validate={minValue}
+                                                validate={(value) =>
+                                                    minValue(value, t)
+                                                }
                                                 component={FormCheckbox}
                                             />
                                         </TableCell>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "i18n";
 
-import { StyledAddBtn, DeleteBtn } from "../Buttons";
+import { AddBtn, DeleteBtn } from "../Buttons";
 import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
 import { nonEmptyField } from "./Validations";
@@ -51,7 +51,7 @@ function ContainerDevices(props) {
             hasErrors={hasErrors}
         >
             <Toolbar>
-                <StyledAddBtn
+                <AddBtn
                     onClick={() => push({ host_path: "", container_path: "" })}
                     parentId={parentId}
                 />

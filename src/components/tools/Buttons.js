@@ -6,14 +6,13 @@ import styles from "./styles";
 import { build } from "@cyverse-de/ui-lib";
 import { Fab, IconButton, makeStyles } from "@material-ui/core";
 import { Add, Delete } from "@material-ui/icons";
-import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 
-const StyledAddBtn = withStyles(styles)(AddBtn);
+const useStyles = makeStyles(styles);
 
 function AddBtn(props) {
-    const { parentId, onClick, classes } = props;
-
+    const { parentId, onClick } = props;
+    const classes = useStyles();
     return (
         <Fab
             color="primary"
@@ -26,8 +25,6 @@ function AddBtn(props) {
         </Fab>
     );
 }
-
-const useStyles = makeStyles(styles);
 
 function DeleteBtn(props) {
     const { parentId, onClick } = props;
@@ -54,4 +51,4 @@ DeleteBtn.propTypes = {
     parentId: PropTypes.string.isRequired,
 };
 
-export { StyledAddBtn, DeleteBtn };
+export { AddBtn, DeleteBtn };

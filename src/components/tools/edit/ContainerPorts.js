@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 
 import { useTranslation } from "i18n";
 
-import { DeleteBtn, StyledAddBtn } from "../Buttons";
+import { DeleteBtn, AddBtn } from "../Buttons";
 import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
 import { minValue, nonEmptyMinValue } from "./Validations";
@@ -77,7 +77,7 @@ function ContainerPorts(props) {
             hasErrors={hasErrors}
         >
             <Toolbar>
-                <StyledAddBtn
+                <AddBtn
                     onClick={() => push({ container_port: "" })}
                     parentId={parentId}
                 />

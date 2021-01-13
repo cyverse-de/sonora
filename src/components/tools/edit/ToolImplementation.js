@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "i18n";
 
-import { DeleteBtn, StyledAddBtn } from "../Buttons";
+import { DeleteBtn, AddBtn } from "../Buttons";
 import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
 import { nonEmptyField } from "./Validations";
@@ -52,7 +52,7 @@ function TestFiles(props) {
             hasErrors={hasErrors}
         >
             <Toolbar>
-                <StyledAddBtn parentId={parentId} onClick={() => push("")} />
+                <AddBtn parentId={parentId} onClick={() => push("")} />
                 <Typography variant="subtitle1">{t("add")}</Typography>
             </Toolbar>
             <Table>

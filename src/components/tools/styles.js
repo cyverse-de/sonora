@@ -24,10 +24,6 @@ const styles = (theme) => ({
         },
     },
 
-    toolTypeSelector: {
-        width: theme.spacing(20),
-    },
-
     container: {
         height:
             "calc(100% - " +
@@ -41,9 +37,7 @@ const styles = (theme) => ({
     },
 
     deleteBtn: {
-        "&:hover": {
-            backgroundColor: theme.palette.error.main,
-        },
+        color: theme.palette.error.main,
     },
     paramsViewSummary: {
         color: theme.palette.info.contrastText,

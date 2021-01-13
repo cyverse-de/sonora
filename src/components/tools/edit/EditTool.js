@@ -77,11 +77,7 @@ function EditToolDialog(props) {
             staleTime: Infinity,
             cacheTime: Infinity,
             onSuccess: (data) => {
-                if (
-                    data &&
-                    data["tool_types"] &&
-                    data["tool_types"].length > 0
-                ) {
+                if (data?.tool_types?.length > 0) {
                     setToolTypes(
                         data["tool_types"]
                             .filter(
@@ -100,10 +96,8 @@ function EditToolDialog(props) {
         queryKey: [TOOL_DETAILS_QUERY_KEY, { id: tool?.id }],
         queryFn: getToolDetails,
         config: {
-            enabled: tool !== null && tool !== undefined && open,
-            onSuccess: (details) => {
-                setSelectedTool(details);
-            },
+            enabled: tool && open,
+            onSuccess: setSelectedTool,
         },
     });
 
@@ -140,24 +134,15 @@ function EditToolDialog(props) {
     const handleSubmit = (values, { props }) => {
         const submission = { ...values };
 
-        //these keys needs to excluded from submission to avoid service errors
-        delete submission.implementation;
-        delete submission.permission;
-        delete submission.is_public;
-        delete submission.container.image.id;
-
         //these keys needs to added to submission for interactive tools
         if (submission.interactive) {
-            submission.container.interactive_apps = {};
-            submission.container.interactive_apps.cas_url =
-                config.vice.defaultImage;
-            submission.container.interactive_apps.name =
-                config.vice.defaultName;
-            submission.container.interactive_apps.image =
-                config.vice.defaultCasUrl;
-            submission.container.interactive_apps.cas_validate =
-                config.vice.defaultCasValidate;
-            submission.container.skip_tmp_mount = true;
+            const interactive_apps = {
+                cas_url: config.vice.defaultCasUrl,
+                name: config.vice.defaultName,
+                image: config.vice.defaultImage,
+                cas_validate: config.vice.defaultCasValidate,
+            };
+            submission.container.interactive_apps = interactive_apps;
         }
 
         //avoid dupe submission
@@ -439,7 +424,6 @@ function EditToolForm(props) {
                 parentId={parentId}
                 isOSGTool={isOSGTool}
                 component={ContainerImage}
-                t={t}
             />
             {isAdmin && (
                 <Field
@@ -579,7 +563,16 @@ function mapPropsToValues(tool, isAdmin) {
     if (!tool) {
         return isAdmin ? { ...DEFAULT_ADMIN_TOOL } : { ...DEFAULT_TOOL };
     } else {
-        return { ...tool };
+        const values = { ...tool };
+        //these keys needs to excluded from submission to avoid service errors
+        delete values.permission;
+        delete values.is_public;
+        delete values.container.image.id;
+        if (!isAdmin) {
+            delete values.implementation;
+        }
+
+        return values;
     }
 }
 

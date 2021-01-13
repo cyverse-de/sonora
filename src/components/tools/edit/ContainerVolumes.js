@@ -2,7 +2,7 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 
-import { DeleteBtn, StyledAddBtn } from "../Buttons";
+import { DeleteBtn, AddBtn } from "../Buttons";
 import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
 import { nonEmptyField } from "./Validations";
@@ -53,7 +53,7 @@ function ContainerVolumes(props) {
             hasErrors={hasErrors}
         >
             <Toolbar>
-                <StyledAddBtn
+                <AddBtn
                     onClick={() => push({ host_path: "", container_path: "" })}
                     parentId={parentId}
                 />

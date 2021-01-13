@@ -10,32 +10,24 @@ import {
     AccordionDetails,
     AccordionSummary,
     Typography,
+    makeStyles,
 } from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
 import { ExpandMore } from "@material-ui/icons";
 import PropTypes from "prop-types";
 
+const useStyles = makeStyles(styles);
+
 function SimpleExpansionPanel(props) {
-    const {
-        header,
-        parentId,
-        defaultExpanded,
-        children,
-        classes,
-        hasErrors,
-    } = props;
+    const { header, parentId, defaultExpanded, children, hasErrors } = props;
     const [expanded, setExpanded] = useState(defaultExpanded);
+    const classes = useStyles();
 
     const handleChange = (event, isExpanded) => {
         setExpanded(!!(isExpanded || hasErrors));
     };
 
     return (
-        <Accordion
-            defaultExpanded={defaultExpanded}
-            expanded={expanded || hasErrors}
-            onChange={handleChange}
-        >
+        <Accordion onChange={handleChange} expanded={expanded}>
             <AccordionSummary
                 expandIcon={
                     <ExpandMore
@@ -48,7 +40,7 @@ function SimpleExpansionPanel(props) {
                 <Typography variant="body1">{header}</Typography>
             </AccordionSummary>
             <AccordionDetails classes={{ root: classes.expansionDetails }}>
-                <div>{children}</div>
+                {children}
             </AccordionDetails>
         </Accordion>
     );
@@ -66,4 +58,4 @@ SimpleExpansionPanel.propTypes = {
     children: PropTypes.any.isRequired,
 };
 
-export default withStyles(styles)(SimpleExpansionPanel);
+export default SimpleExpansionPanel;

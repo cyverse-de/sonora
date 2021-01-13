@@ -11,7 +11,7 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
-import {permissionHierarchy} from "components/models/Permissions";
+import { permissionHierarchy } from "components/models/Permissions";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 

@@ -55,5 +55,5 @@ analytics:
 vice:
   defaultImage: discoenv/cas-proxy
   defaultName: cas-proxy
-  defaultCasUrl: https://hana.iplantcollaborative.org/cas
+  defaultCasUrl: https://olson.cyverse.org/cas
   defaultCasValidate: validate    

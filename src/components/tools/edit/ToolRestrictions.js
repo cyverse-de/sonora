@@ -3,6 +3,7 @@ import { useTranslation } from "i18n";
 
 import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
+import globalConstants from "../../../constants";
 
 import {
     build,
@@ -17,8 +18,6 @@ import numeral from "numeral";
 import PropTypes from "prop-types";
 
 const NETWORK_MODES = ["bridge", "none"];
-
-const ONE_GB = 1024 * 1024 * 1024;
 
 const formatGBListItem = (size) => size && numeral(size).format("0 ib");
 const formatGBValue = (size) => size && numeral(size).format("0.0 ib");
@@ -49,8 +48,14 @@ function Restrictions(props) {
     const { t } = useTranslation("tools");
 
     const maxCPUCoreList = buildLimitList(1, maxCPUCore);
-    const memoryLimitList = buildLimitList(2 * ONE_GB, maxMemory);
-    const minDiskSpaceList = buildLimitList(ONE_GB, maxDiskSpace);
+    const memoryLimitList = buildLimitList(
+        2 * globalConstants.ONE_GiB,
+        maxMemory
+    );
+    const minDiskSpaceList = buildLimitList(
+        globalConstants.ONE_GiB,
+        maxDiskSpace
+    );
 
     const validateMinCPUs = (value) => {
         if (value && value < 0) {

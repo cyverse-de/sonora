@@ -45,7 +45,7 @@ function TeamToolbar(props) {
                     disableClearable
                     className={classes.filter}
                     value={teamFilter}
-                    options={Object.keys(TEAM_FILTER)}
+                    options={Object.values(TEAM_FILTER)}
                     size="small"
                     onChange={(event, newValue) => {
                         onTeamFilterChange(newValue);

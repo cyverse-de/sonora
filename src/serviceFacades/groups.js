@@ -8,6 +8,7 @@ const ALL_TEAMS_QUERY = "fetchAllTeams";
 const SEARCH_TEAMS_QUERY = "searchAllTeams";
 const TEAM_PRIVILEGES_QUERY = "fetchTeamPrivileges";
 const TEAM_MEMBERS_QUERY = "fetchTeamMembers";
+const TEAM_DETAILS_QUERY = "fetchTeamDetails";
 
 function getMyTeams(key, { userId }) {
     return callApi({
@@ -55,11 +56,20 @@ function getTeamMembers(key, { name }) {
     });
 }
 
+function getTeamDetails(key, { name }) {
+    return Promise.all([
+        getTeamPrivileges(TEAM_PRIVILEGES_QUERY, { name }),
+        getTeamMembers(TEAM_MEMBERS_QUERY, { name }),
+    ]);
+}
+
 export {
     MY_TEAMS_QUERY,
     ALL_TEAMS_QUERY,
     SEARCH_TEAMS_QUERY,
+    TEAM_DETAILS_QUERY,
     getMyTeams,
     getAllTeams,
     searchTeams,
+    getTeamDetails,
 };

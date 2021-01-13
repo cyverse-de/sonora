@@ -9,6 +9,7 @@ import { useQuery, useInfiniteQuery } from "react-query";
 import { searchData, searchDataInfinite } from "serviceFacades/filesystem";
 import { searchApps, searchAppsInfiniteQuery } from "serviceFacades/apps";
 import { getAnalyses, searchAnalysesInfinite } from "serviceFacades/analyses";
+import { searchTeams } from "../../serviceFacades/groups";
 
 /**
  *
@@ -71,6 +72,17 @@ function useAnalysesSearch(analysesSearchKey, enabled, onSuccess) {
     });
 }
 
+function useTeamsSearch(key, enabled, onSuccess) {
+    return useQuery({
+        queryKey: key,
+        queryFn: searchTeams,
+        config: {
+            enabled,
+            onSuccess,
+        },
+    });
+}
+
 /**
  * Analyses infinite load search query
  * @param {object} analysesSearchKey - The query key to be used.
@@ -119,6 +131,7 @@ export {
     useDataSearch,
     useAppsSearch,
     useAnalysesSearch,
+    useTeamsSearch,
     useAnalysesSearchInfinite,
     useDataSearchInfinite,
     useAppsSearchInfinite,

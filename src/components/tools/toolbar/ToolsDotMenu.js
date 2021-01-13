@@ -24,7 +24,6 @@ import {
 
 import { Add, Info, Edit } from "@material-ui/icons";
 
-
 function DotMenuItems(props) {
     const {
         baseId,

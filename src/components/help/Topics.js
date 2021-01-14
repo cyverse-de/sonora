@@ -13,6 +13,7 @@ import {
     Grid,
     Card,
     CardActions,
+    CardHeader,
     CardContent,
     Button,
     Typography,
@@ -24,7 +25,6 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
     root: {
         width: 350,
-        height: 175,
         [theme.breakpoints.down("xs")]: {
             marginLeft: theme.spacing(1),
             width: 275,
@@ -32,10 +32,14 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     body: {
-        marginTop: theme.spacing(2),
+        marginTop: theme.spacing(0.1),
     },
     action: {
         marginLeft: "auto",
+    },
+    title: {
+        backgroundColor: theme.palette.info.main,
+        color: theme.palette.info.contrastText,
     },
 }));
 
@@ -44,8 +48,11 @@ function TopicCard(props) {
     const classes = useStyles();
     return (
         <Card className={classes.root} variant="outlined">
+            <CardHeader
+                title={<Typography variant="subtitle2">{title}</Typography>}
+                className={classes.title}
+            />
             <CardContent>
-                <Typography variant="subtitle2">{title}</Typography>
                 <Typography
                     variant="body2"
                     component="p"

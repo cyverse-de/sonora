@@ -6,8 +6,11 @@
  */
 import React from "react";
 import { useMutation } from "react-query";
-
 import { Field, Form, Formik } from "formik";
+
+import { feedback } from "serviceFacades/users";
+import constants from "../../constants";
+
 import { useUserProfile } from "contexts/userProfile";
 import {
     build,
@@ -19,6 +22,7 @@ import DEDialog from "components/utils/DEDialog";
 import {
     Button,
     CircularProgress,
+    Grid,
     InputAdornment,
     Typography,
 } from "@material-ui/core";
@@ -27,31 +31,43 @@ export default function Feedback(props) {
     const { open, baseId, title, onClose } = props;
     const { isLoading } = false;
     const [userProfile] = useUserProfile();
+
+    const [sendFeedback, { status: feedbackStatus }] = useMutation(feedback, {
+        onSuccess: () => console.log("feedback submitted!"),
+        onError: () => console.log("Error submitting feedback"),
+    });
+
     const onSubmit = (values) => {
-        console.log("submit feedback now" + values);
+        console.log("submit feedback now" + JSON.stringify(values));
+        sendFeedback(values);
     };
 
-    const {} = useMutation();
-
     return (
-        <DEDialog
-            open={open}
-            title={title}
-            onClose={onClose}
-            actions={
-                <>
-                    <Button onClick={onClose}>Cancel</Button>
-                    <Button color="primary" type="submit" onClick={onSubmit}>
-                        Submit Feedback
-                    </Button>
-                </>
-            }
-        >
+        <DEDialog open={open} title={title} onClose={onClose}>
             <Typography>
                 All feedback welcome. Provide as much detail as you can so that
                 we can better assist you.
             </Typography>
-            <Formik enableReinitialize onSubmit={onSubmit}>
+            {feedbackStatus === constants.LOADING && (
+                <CircularProgress
+                    size={30}
+                    thickness={5}
+                    style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                    }}
+                />
+            )}
+            <Formik
+                enableReinitialize
+                onSubmit={onSubmit}
+                initialValues={{
+                    name: userProfile?.attributes.name,
+                    email: userProfile?.attributes.email,
+                    feedback: "",
+                }}
+            >
                 {({ handleSubmit }) => {
                     return (
                         <Form>
@@ -105,6 +121,16 @@ export default function Feedback(props) {
                                 }}
                                 component={FormMultilineTextField}
                             />
+                            <Grid container>
+                                <Grid item>
+                                    <Button onClick={onClose}>Cancel</Button>
+                                </Grid>
+                                <Grid item>
+                                    <Button type="submit" color="primary">
+                                        Submit Feedback
+                                    </Button>
+                                </Grid>
+                            </Grid>
                         </Form>
                     );
                 }}

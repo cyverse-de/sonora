@@ -90,11 +90,7 @@ function Listing(props) {
         let displayAll = null;
 
         if (permFilter) {
-            if (permFilter === TOOL_FILTER_VALUES.MY_TOOLS) {
-                displayAll = false;
-            } else {
-                displayAll = true;
-            }
+            displayAll = (permFilter !== TOOL_FILTER_VALUES.MY_TOOLS);
         }
 
         setToolsKey([

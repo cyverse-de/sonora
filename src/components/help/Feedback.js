@@ -10,7 +10,12 @@ import { Field, Form, Formik } from "formik";
 
 import { build, FormMultilineTextField } from "@cyverse-de/ui-lib";
 import DEDialog from "components/utils/DEDialog";
-import { Button, CircularProgress, InputAdornment } from "@material-ui/core";
+import {
+    Button,
+    CircularProgress,
+    InputAdornment,
+    Typography,
+} from "@material-ui/core";
 
 export default function Feedback(props) {
     const { open, baseId, title, onClose } = props;
@@ -32,6 +37,10 @@ export default function Feedback(props) {
                 </>
             }
         >
+            <Typography>
+                All feedback welcome. Provide as much detail as you can so that
+                we can better assist you.
+            </Typography>
             <Formik enableReinitialize onSubmit={onSubmit}>
                 {({ handleSubmit }) => {
                     return (

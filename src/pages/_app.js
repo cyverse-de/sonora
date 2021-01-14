@@ -168,6 +168,13 @@ function MyApp({ Component, pageProps }) {
                 publicRuntimeConfig.MULTI_INPUT_PATH_LIST_IDENTIFIER,
         };
 
+        const vice = {
+            defaultImage: publicRuntimeConfig.VICE_DEFAULT_IMAGE,
+            defaultName: publicRuntimeConfig.VICE_DEFAULT_NAME,
+            defaultCasUrl: publicRuntimeConfig.VICE_DEFAULT_CAS_URL,
+            defaultCasValidate: publicRuntimeConfig.VICE_DEFAULT_CAS_VALIDATE,
+        };
+
         if (
             intercom ||
             admin ||
@@ -175,7 +182,8 @@ function MyApp({ Component, pageProps }) {
             irods ||
             sessions ||
             tools ||
-            fileIdentifiers
+            fileIdentifiers ||
+            vice
         ) {
             setConfig({
                 intercom,
@@ -185,6 +193,7 @@ function MyApp({ Component, pageProps }) {
                 sessions,
                 tools,
                 fileIdentifiers,
+                vice,
             });
         }
 

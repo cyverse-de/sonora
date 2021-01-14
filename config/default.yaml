@@ -50,4 +50,10 @@ fileIdentifier:
 
 analytics:
     enabled: false
-    id: ga-id 
+    id: ga-id
+    
+vice:
+  defaultImage: discoenv/cas-proxy
+  defaultName: cas-proxy
+  defaultCasUrl: https://olson.cyverse.org/cas
+  defaultCasValidate: validate    

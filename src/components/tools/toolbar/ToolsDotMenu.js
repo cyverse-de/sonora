@@ -10,7 +10,8 @@ import { useTranslation } from "i18n";
 
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
-import SharingMenuItem from "../../sharing/SharingMenuItem";
+import SharingMenuItem from "components/sharing/SharingMenuItem";
+import { isWritable } from "../utils";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 
@@ -21,7 +22,7 @@ import {
     MenuItem,
 } from "@material-ui/core";
 
-import { Info } from "@material-ui/icons";
+import { Add, Info, Edit } from "@material-ui/icons";
 
 function DotMenuItems(props) {
     const {
@@ -31,6 +32,9 @@ function DotMenuItems(props) {
         onClose,
         canShare,
         setSharingDlgOpen,
+        onAddToolSelected,
+        onEditToolSelected,
+        allowEditing,
     } = props;
 
     const { t } = useTranslation("tools");
@@ -39,8 +43,8 @@ function DotMenuItems(props) {
         <Hidden mdUp>
             {isSingleSelection && (
                 <MenuItem
-                    key={build(baseId, ids.MENUITEM_DETAILS)}
-                    id={build(baseId, ids.MENUITEM_DETAILS)}
+                    key={build(baseId, ids.MANAGE_TOOLS.TOOL_INFO_MI)}
+                    id={build(baseId, ids.MANAGE_TOOLS.TOOL_INFO_MI)}
                     onClick={() => {
                         onClose();
                         onDetailsSelected();
@@ -61,6 +65,34 @@ function DotMenuItems(props) {
                 />
             )}
         </Hidden>,
+        <MenuItem
+            key={build(baseId, ids.MANAGE_TOOLS.ADD_TOOL_MI)}
+            id={build(baseId, ids.MANAGE_TOOLS.ADD_TOOL_MI)}
+            onClick={() => {
+                onClose();
+                onAddToolSelected();
+            }}
+        >
+            <ListItemIcon>
+                <Add fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary={t("addTool")} />
+        </MenuItem>,
+        allowEditing && (
+            <MenuItem
+                key={build(baseId, ids.MANAGE_TOOLS.EDIT_TOOL_MI)}
+                id={build(baseId, ids.MANAGE_TOOLS.EDIT_TOOL_MI)}
+                onClick={() => {
+                    onClose();
+                    onEditToolSelected();
+                }}
+            >
+                <ListItemIcon>
+                    <Edit fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("edit")} />
+            </MenuItem>
+        ),
     ];
 }
 
@@ -68,9 +100,21 @@ export default function ToolsDotMenu({
     ButtonProps,
     canShare,
     setSharingDlgOpen,
+    onEditToolSelected,
+    getSelectedTools,
     ...props
 }) {
-    const { baseId, isSingleSelection, onDetailsSelected } = props;
+    const {
+        baseId,
+        isSingleSelection,
+        onDetailsSelected,
+        onAddToolSelected,
+    } = props;
+    const selectedTools = getSelectedTools ? getSelectedTools() : null;
+    const allowEditing =
+        isSingleSelection &&
+        isWritable(selectedTools[0]?.permission);
+
     return (
         <DotMenu
             baseId={baseId}
@@ -82,6 +126,9 @@ export default function ToolsDotMenu({
                     onDetailsSelected={onDetailsSelected}
                     canShare={canShare}
                     setSharingDlgOpen={setSharingDlgOpen}
+                    onAddToolSelected={onAddToolSelected}
+                    onEditToolSelected={onEditToolSelected}
+                    allowEditing={allowEditing}
                 />
             )}
         />

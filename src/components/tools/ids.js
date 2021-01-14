@@ -88,6 +88,7 @@ export default {
         SHARE_MI: "shareCollabs",
         MAKE_PUBLIC_MI: "sharePublic",
         TOOL_INFO_BTN: "toolInfoCell",
+        TOOL_INFO_MI: "toolInfo",
         TOOL_CHECKBOX: "checkBox",
     },
     TOOL_REQUEST: {

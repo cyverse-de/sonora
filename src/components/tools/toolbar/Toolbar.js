@@ -10,9 +10,11 @@ import { useTranslation } from "i18n";
 
 import ids from "../ids";
 import ToolsDotMenu from "./ToolsDotMenu";
+
 import SharingButton from "components/sharing/SharingButton";
 import Sharing from "components/sharing";
 import { formatSharedTools } from "components/sharing/util";
+import EditToolDialog from "components/tools/edit/EditTool";
 
 import { build } from "@cyverse-de/ui-lib";
 
@@ -62,10 +64,15 @@ export default function ToolsToolbar(props) {
         getSelectedTools,
     } = props;
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [addDialogOpen, setAddDialogOpen] = useState(false);
     const classes = useStyles();
     const { t } = useTranslation("tools");
-    const hasSelection = getSelectedTools && getSelectedTools().length > 0;
+    const hasSelection = getSelectedTools
+        ? getSelectedTools().length > 0
+        : false;
     const sharingTools = formatSharedTools(getSelectedTools());
+
     return (
         <>
             <Toolbar variant="dense">
@@ -91,21 +98,39 @@ export default function ToolsToolbar(props) {
                         />
                     )}
                 </Hidden>
-
-                {hasSelection && (
-                    <ToolsDotMenu
-                        baseId={baseId}
-                        onDetailsSelected={onDetailsSelected}
-                        isSingleSelection={isSingleSelection}
-                        canShare={canShare}
-                        setSharingDlgOpen={setSharingDlgOpen}
-                    />
-                )}
+                <ToolsDotMenu
+                    baseId={baseId}
+                    onDetailsSelected={onDetailsSelected}
+                    isSingleSelection={isSingleSelection}
+                    canShare={canShare}
+                    setSharingDlgOpen={setSharingDlgOpen}
+                    getSelectedTools={getSelectedTools}
+                    onAddToolSelected={() => setAddDialogOpen(true)}
+                    onEditToolSelected={() => setEditDialogOpen(true)}
+                />
             </Toolbar>
             <Sharing
                 open={sharingDlgOpen}
                 onClose={() => setSharingDlgOpen(false)}
                 resources={sharingTools}
+            />
+            {isSingleSelection && (
+                <EditToolDialog
+                    open={editDialogOpen}
+                    onClose={() => setEditDialogOpen(false)}
+                    isAdmin={false}
+                    isAdminPublishing={false}
+                    parentId={baseId}
+                    tool={hasSelection ? getSelectedTools()[0] : null}
+                />
+            )}
+
+            <EditToolDialog
+                open={addDialogOpen}
+                onClose={() => setAddDialogOpen(false)}
+                isAdmin={false}
+                isAdminPublishing={false}
+                parentId={baseId}
             />
         </>
     );

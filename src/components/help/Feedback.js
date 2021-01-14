@@ -5,10 +5,16 @@
  *
  */
 import React from "react";
+import { useMutation } from "react-query";
 
 import { Field, Form, Formik } from "formik";
+import { useUserProfile } from "contexts/userProfile";
+import {
+    build,
+    FormTextField,
+    FormMultilineTextField,
+} from "@cyverse-de/ui-lib";
 
-import { build, FormMultilineTextField } from "@cyverse-de/ui-lib";
 import DEDialog from "components/utils/DEDialog";
 import {
     Button,
@@ -20,9 +26,13 @@ import {
 export default function Feedback(props) {
     const { open, baseId, title, onClose } = props;
     const { isLoading } = false;
+    const [userProfile] = useUserProfile();
     const onSubmit = (values) => {
         console.log("submit feedback now" + values);
     };
+
+    const {} = useMutation();
+
     return (
         <DEDialog
             open={open}
@@ -45,9 +55,29 @@ export default function Feedback(props) {
                 {({ handleSubmit }) => {
                     return (
                         <Form>
+                            {!userProfile?.id && (
+                                <>
+                                    <Field
+                                        id={build(baseId, "name")}
+                                        name="name"
+                                        required={true}
+                                        component={FormTextField}
+                                        label="Name"
+                                    />
+                                    <Field
+                                        id={build(baseId, "email")}
+                                        name="email"
+                                        required={false}
+                                        component={FormTextField}
+                                        label="E-mail"
+                                        helperText="CyVerse may contact you about this feedback when you provide an email address."
+                                    />
+                                </>
+                            )}
                             <Field
                                 id={build(baseId, "feedback")}
                                 name="feedback"
+                                label="Feedback"
                                 required={true}
                                 onKeyDown={(event) => {
                                     if (event.key === "Enter") {

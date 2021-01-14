@@ -78,7 +78,12 @@ export default function Topics(props) {
                                 size="small"
                                 color="primary"
                                 className={classes.action}
-                                href="http://cyverse.github.io/UserSupport/README.html"
+                                onClick={() =>
+                                    window.open(
+                                        `http://cyverse.github.io/UserSupport/README.html`,
+                                        "_blank"
+                                    )
+                                }
                                 startIcon={<LaunchIcon />}
                             >
                                 Go to FAQs
@@ -163,9 +168,14 @@ export default function Topics(props) {
                             <Button
                                 color="primary"
                                 className={classes.action}
-                                href="https://learning.cyverse.org/projects/discovery-environment-guide/en/latest/"
                                 startIcon={<LaunchIcon />}
                                 size="small"
+                                onClick={() =>
+                                    window.open(
+                                        `https://learning.cyverse.org/projects/discovery-environment-guide/en/latest/`,
+                                        "_blank"
+                                    )
+                                }
                             >
                                 Go to Guide
                             </Button>
@@ -180,9 +190,14 @@ export default function Topics(props) {
                             <Button
                                 color="primary"
                                 className={classes.action}
-                                href="https://learning.cyverse.org/en/latest/"
                                 startIcon={<LaunchIcon />}
                                 size="small"
+                                onClick={() =>
+                                    window.open(
+                                        `https://learning.cyverse.org/en/latest/`,
+                                        "_blank"
+                                    )
+                                }
                             >
                                 Go to Learning Center
                             </Button>

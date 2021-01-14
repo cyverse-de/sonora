@@ -380,18 +380,16 @@ const VICEAdmin = () => {
         data
     );
 
-    if (hasErrored) {
-        return <WrappedErrorHandler errorObject={error} baseId={BASE_ID} />;
-    }
-
     return (
         <div id={id(ids.ROOT)} className={classes.root}>
+            <JobLimits />
+
             {isLoading ? (
                 <VICEAdminSkeleton />
+            ) : hasErrored ? (
+                <WrappedErrorHandler errorObject={error} baseId={BASE_ID} />
             ) : (
                 <>
-                    <JobLimits />
-
                     <RowFilter
                         filters={filters}
                         addToFilters={addToFilters}

@@ -11,7 +11,7 @@ import { Field, Form, Formik } from "formik";
 import DEDialog from "components/utils/DEDialog";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import ids from "./ids";
-import constants from "./constants";
+import constants from "../../constants";
 import { toolRequest } from "serviceFacades/tools";
 
 import {
@@ -43,15 +43,15 @@ export default function NewToolRequestDialog(props) {
     );
 
     const handleSubmit = (values, { props }) => {
+        const submission = { ...values };
         //test_data_path and cmd_line are required by service. Most of the times those info. can be
         // found in the source repo. So copy the source url to those fields if not provided by user.
         if (!values.test_data_path) {
-            values.test_data_path = values.source_url;
+            submission.test_data_path = values.source_url;
         }
         if (!values.cmd_line) {
-            values.cmd_line = values.source_url;
+            submission.cmd_line = values.source_url;
         }
-        const submission = { ...values };
         if (submitRequestStatus !== constants.LOADING) {
             submitNewToolRequest({ submission });
         }

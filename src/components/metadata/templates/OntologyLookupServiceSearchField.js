@@ -9,14 +9,6 @@ import { getMessage, FormSearchField } from "@cyverse-de/ui-lib";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
 
-const customStyles = {
-    menu: (base) => ({
-        ...base,
-        position: "relative",
-        zIndex: 888888,
-    }),
-};
-
 const OLSOption = ({ innerRef, isFocused, innerProps, data }) => (
     <MenuItem buttonRef={innerRef} selected={isFocused} {...innerProps}>
         <ListItemText
@@ -68,7 +60,6 @@ class OntologyLookupServiceSearchField extends Component {
                 valueKey="label"
                 CustomOption={OLSOption}
                 formatCreateLabel={this.formatCreateLabel}
-                styles={customStyles}
                 {...props}
             />
         );

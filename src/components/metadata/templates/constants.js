@@ -13,6 +13,4 @@ export default {
         TIMESTAMP: "Timestamp",
         URL: "URL/URI",
     },
-    IMPORT_IRODS_METADATA_LINK:
-        "https://wiki.cyverse.org/wiki/x/pRS#UsingMetadataintheDE-irodsMetadataImport",
 };

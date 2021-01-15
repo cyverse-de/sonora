@@ -7,16 +7,17 @@ import { FastField, FieldArray, withFormik } from "formik";
 import PropTypes from "prop-types";
 import { injectIntl } from "react-intl";
 
-import deConstants from "../constants";
+import deConstants from "../../../constants";
+
 import constants from "./constants";
-import ids from "./ids";
-import intlData from "./messages";
-import styles from "./style";
+import ids from "../ids";
+import styles from "../styles";
+
+import ConfirmationDialog from "components/utils/ConfirmationDialog";
+import DEDialog from "components/utils/DEDialog";
 
 import {
     build,
-    DEAlertDialog,
-    DEConfirmationDialog,
     formatCurrentDate,
     formatMessage,
     FormCheckboxStringValue,
@@ -33,7 +34,7 @@ import {
 
 import AstroThesaurusSearchField from "./AstroThesaurusSearchField";
 import OntologyLookupServiceSearchField from "./OntologyLookupServiceSearchField";
-import SlideUpTransition from "./SlideUpTransition";
+import SlideUpTransition from "../SlideUpTransition";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -56,8 +57,10 @@ import CloseIcon from "@material-ui/icons/Close";
 import ContentRemove from "@material-ui/icons/Delete";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-const AlertDialog = withI18N(DEAlertDialog, intlData);
-const ConfirmationDialog = withI18N(DEConfirmationDialog, intlData);
+const intlData = {
+    locales: "en-US",
+    messages: {},
+};
 
 const newAVU = (attrTemplate) => {
     const attr = attrTemplate.name,
@@ -583,28 +586,25 @@ class MetadataTemplateView extends Component {
                     )}
                 </DialogActions>
 
-                <AlertDialog
-                    dialogOpen={showErrorsDialog}
-                    heading={formatMessage(
+                <DEDialog
+                    baseId={ids.METADATA_TEMPLATE_VIEW}
+                    open={showErrorsDialog}
+                    title={formatMessage(
                         intl,
                         "errMetadataTemplateAlertHeading"
                     )}
-                    alertMessage={formatMessage(
-                        intl,
-                        "errMetadataTemplateAlertMsg"
-                    )}
-                    handleClose={() =>
-                        this.setState({ showErrorsDialog: false })
-                    }
-                />
+                    onClose={() => this.setState({ showErrorsDialog: false })}
+                >
+                    {formatMessage(intl, "errMetadataTemplateAlertMsg")}
+                </DEDialog>
 
                 <ConfirmationDialog
-                    dialogOpen={showConfirmationDialog}
-                    debugId={ids.METADATA_TEMPLATE_VIEW}
-                    heading={getMessage("confirmDiscardChangesDialogHeader")}
-                    message={getMessage("confirmDiscardChangesDialogMsg")}
-                    onOkBtnClick={this.confirmCloseMetadataTemplateDialog}
-                    onCancelBtnClick={this.closeConfirmationDialog}
+                    open={showConfirmationDialog}
+                    baseId={ids.METADATA_TEMPLATE_VIEW}
+                    title={getMessage("confirmDiscardChangesDialogHeader")}
+                    contentText={getMessage("confirmDiscardChangesDialogMsg")}
+                    onConfirm={this.confirmCloseMetadataTemplateDialog}
+                    onClose={this.closeConfirmationDialog}
                 />
             </Dialog>
         );

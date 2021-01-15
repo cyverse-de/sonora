@@ -9,14 +9,6 @@ import { FormSearchField, getMessage } from "@cyverse-de/ui-lib";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
 
-const customStyles = {
-    menu: (base) => ({
-        ...base,
-        position: "relative",
-        zIndex: 888888,
-    }),
-};
-
 const AstroThesaurusOption = ({ innerRef, isFocused, innerProps, data }) => (
     <MenuItem buttonRef={innerRef} selected={isFocused} {...innerProps}>
         <ListItemText primary={data.label} secondary={data.iri} />
@@ -59,7 +51,6 @@ class AstroThesaurusSearchField extends Component {
                 valueKey="label"
                 CustomOption={AstroThesaurusOption}
                 formatCreateLabel={this.formatCreateLabel}
-                styles={customStyles}
                 {...props}
             />
         );

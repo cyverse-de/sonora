@@ -1,10 +1,6 @@
 const styles = (theme) => ({
     expansionDetails: {
-<<<<<<< HEAD
         flexDirection: "column",
-=======
-        display: "inherit",
->>>>>>> 3171764... Formik forms for Add / Edit tool.
     },
 
     paper: {
@@ -28,13 +24,6 @@ const styles = (theme) => ({
         },
     },
 
-<<<<<<< HEAD
-=======
-    toolTypeSelector: {
-        width: theme.spacing(20),
-    },
-
->>>>>>> 3171764... Formik forms for Add / Edit tool.
     container: {
         height:
             "calc(100% - " +
@@ -48,7 +37,6 @@ const styles = (theme) => ({
     },
 
     deleteBtn: {
-<<<<<<< HEAD
         color: theme.palette.error.main,
     },
     paramsViewSummary: {
@@ -57,11 +45,6 @@ const styles = (theme) => ({
     },
     paramsViewsExpandIcon: {
         color: theme.palette.info.contrastText,
-=======
-        "&:hover": {
-            backgroundColor: theme.palette.error.main,
-        },
->>>>>>> 3171764... Formik forms for Add / Edit tool.
     },
 });
 

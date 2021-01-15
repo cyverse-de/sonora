@@ -13,6 +13,7 @@ import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWit
 import ids from "./ids";
 import constants from "../../constants";
 import { toolRequest } from "serviceFacades/tools";
+import { nonEmptyField } from "./edit/Validations";
 
 import {
     build,
@@ -24,10 +25,11 @@ import {
 import Button from "@material-ui/core/Button";
 
 export default function NewToolRequestDialog(props) {
-    const { open, baseId, onClose } = props;
+    const { open, onClose } = props;
     const [requestError, setRequestError] = useState();
 
     const { t } = useTranslation("tools");
+    const baseId = ids.TOOL_REQUEST.DIALOG;
 
     const [submitNewToolRequest, { status: submitRequestStatus }] = useMutation(
         ({ submission }) => toolRequest(submission),
@@ -69,7 +71,7 @@ export default function NewToolRequestDialog(props) {
         <DEDialog
             open={open}
             onClose={onClose}
-            baseId={build(baseId, ids.TOOL_REQUEST.DIALOG)}
+            baseId={baseId}
             title={t("newToolRequestDialogHeading")}
         >
             {requestError && (
@@ -92,88 +94,78 @@ export default function NewToolRequestDialog(props) {
                 enableReinitialize={true}
                 onSubmit={handleSubmit}
             >
-                {() => {
-                    return (
-                        <Form>
-                            <Field
-                                name="name"
-                                label={t("toolNameLabel")}
-                                required={true}
-                                margin="dense"
-                                id={build(baseId, ids.TOOL_REQUEST.NAME)}
-                                component={FormTextField}
-                            />
-                            <Field
-                                name="description"
-                                label={t("toolDescLabel")}
-                                required={true}
-                                margin="dense"
-                                id={build(baseId, ids.TOOL_REQUEST.DESCRIPTION)}
-                                component={FormMultilineTextField}
-                            />
-                            <Field
-                                name="source_url"
-                                label={t("toolSrcLinkLabel")}
-                                required={true}
-                                margin="dense"
-                                validate={validateUrl}
-                                id={build(baseId, ids.TOOL_REQUEST.SRC_LINK)}
-                                component={FormTextField}
-                            />
-                            <Field
-                                name="version"
-                                label={t("toolVersionLabel")}
-                                required={true}
-                                margin="dense"
-                                id={build(baseId, ids.TOOL_REQUEST.VERSION)}
-                                component={FormTextField}
-                            />
-                            <Field
-                                name="documentation_url"
-                                label={t("toolDocumentationLabel")}
-                                required={true}
-                                margin="dense"
-                                id={build(
-                                    baseId,
-                                    ids.TOOL_REQUEST.DOCUMENTATION
-                                )}
-                                validate={validateUrl}
-                                component={FormTextField}
-                            />
-                            <Field
-                                name="cmd_line"
-                                label={t("toolInstructionsLabel")}
-                                required={false}
-                                margin="dense"
-                                id={build(
-                                    baseId,
-                                    ids.TOOL_REQUEST.INSTRUCTIONS
-                                )}
-                                component={FormMultilineTextField}
-                            />
-                            <Field
-                                name="test_data_path"
-                                label={t("toolTestDataLabel")}
-                                required={false}
-                                margin="dense"
-                                id={build(
-                                    baseId,
-                                    ids.TOOL_REQUEST.TEST_DATA_LINK
-                                )}
-                                component={FormTextField}
-                            />
-                            <Button
-                                style={{ float: "right" }}
-                                color="primary"
-                                type="submit"
-                                id={build(baseId, ids.BUTTONS.SUBMIT)}
-                                aria-label={t("submit")}
-                            >
-                                {t("submit")}
-                            </Button>
-                        </Form>
-                    );
-                }}
+                <Form>
+                    <Field
+                        name="name"
+                        label={t("toolNameLabel")}
+                        required={true}
+                        margin="dense"
+                        id={build(baseId, ids.TOOL_REQUEST.NAME)}
+                        component={FormTextField}
+                        validate={(value) => nonEmptyField(value, t)}
+                    />
+                    <Field
+                        name="description"
+                        label={t("toolDescLabel")}
+                        required={true}
+                        margin="dense"
+                        id={build(baseId, ids.TOOL_REQUEST.DESCRIPTION)}
+                        component={FormMultilineTextField}
+                        validate={(value) => nonEmptyField(value, t)}
+                    />
+                    <Field
+                        name="source_url"
+                        label={t("toolSrcLinkLabel")}
+                        required={true}
+                        margin="dense"
+                        validate={validateUrl}
+                        id={build(baseId, ids.TOOL_REQUEST.SRC_LINK)}
+                        component={FormTextField}
+                    />
+                    <Field
+                        name="version"
+                        label={t("toolVersionLabel")}
+                        required={true}
+                        margin="dense"
+                        id={build(baseId, ids.TOOL_REQUEST.VERSION)}
+                        component={FormTextField}
+                        validate={(value) => nonEmptyField(value, t)}
+                    />
+                    <Field
+                        name="documentation_url"
+                        label={t("toolDocumentationLabel")}
+                        required={true}
+                        margin="dense"
+                        id={build(baseId, ids.TOOL_REQUEST.DOCUMENTATION)}
+                        validate={validateUrl}
+                        component={FormTextField}
+                    />
+                    <Field
+                        name="cmd_line"
+                        label={t("toolInstructionsLabel")}
+                        required={false}
+                        margin="dense"
+                        id={build(baseId, ids.TOOL_REQUEST.INSTRUCTIONS)}
+                        component={FormMultilineTextField}
+                    />
+                    <Field
+                        name="test_data_path"
+                        label={t("toolTestDataLabel")}
+                        required={false}
+                        margin="dense"
+                        id={build(baseId, ids.TOOL_REQUEST.TEST_DATA_LINK)}
+                        component={FormTextField}
+                    />
+                    <Button
+                        style={{ float: "right" }}
+                        color="primary"
+                        type="submit"
+                        id={build(baseId, ids.BUTTONS.SUBMIT)}
+                        aria-label={t("submit")}
+                    >
+                        {t("submit")}
+                    </Button>
+                </Form>
             </Formik>
         </DEDialog>
     );

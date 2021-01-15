@@ -238,7 +238,6 @@ export default function ToolsToolbar(props) {
             <NewToolRequestDialog
                 open={requestDialogOpen}
                 onClose={() => setRequestDialogOpen(false)}
-                baseId={baseId}
             />
         </>
     );

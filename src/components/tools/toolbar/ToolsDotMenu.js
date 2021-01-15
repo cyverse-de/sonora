@@ -132,8 +132,7 @@ export default function ToolsDotMenu({
     } = props;
     const selectedTools = getSelectedTools ? getSelectedTools() : null;
     const allowEditing =
-        isSingleSelection &&
-        isWritable(selectedTools[0]?.permission);
+        isSingleSelection && isWritable(selectedTools[0]?.permission);
 
     return (
         <DotMenu

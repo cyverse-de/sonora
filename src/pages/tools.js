@@ -29,9 +29,17 @@ export default function Tools() {
 
     const onRouteToListing = useCallback(
         (order, orderBy, page, rowsPerPage, permFilter, searchTerm) => {
-            router.push(
-                `/${NavigationConstants.TOOLS}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedPermFilter=${permFilter}&selectedSearchTerm=${searchTerm}`
-            );
+            router.push({
+                pathname: `/${NavigationConstants.TOOLS}`,
+                query: {
+                    selectedOrder: order,
+                    selectedOrderBy: orderBy,
+                    selectedPage: page,
+                    selectedRowsPerPage: rowsPerPage,
+                    selectedPermFilter: permFilter,
+                    selectedSearchTerm: searchTerm,
+                },
+            });
         },
         [router]
     );

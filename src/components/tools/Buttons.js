@@ -26,7 +26,6 @@ function AddBtn(props) {
     );
 }
 
-
 function DeleteBtn(props) {
     const { parentId, onClick } = props;
     const classes = useStyles();

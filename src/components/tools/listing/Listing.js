@@ -6,7 +6,7 @@ import Drawer from "components/tools/details/Drawer";
 import constants from "../../../constants";
 import { getTools, TOOLS_QUERY_KEY } from "../../../serviceFacades/tools";
 import DEPagination from "../../utils/DEPagination";
-import ToolsToolbar from "../toolbar/Toolbar";
+import ToolsToolbar, { TOOL_FILTER_VALUES } from "../toolbar/Toolbar";
 import { canShare } from "../utils";
 
 /**
@@ -21,6 +21,8 @@ function Listing(props) {
         selectedRowsPerPage,
         selectedOrder,
         selectedOrderBy,
+        selectedPermFilter,
+        selectedSearchTerm,
     } = props;
 
     // Data and data retrieval state variables.
@@ -33,6 +35,10 @@ function Listing(props) {
     // Result ordering state variables.
     const [order, setOrder] = useState(selectedOrder);
     const [orderBy, setOrderBy] = useState(selectedOrderBy);
+
+    // Filtering options
+    const [permFilter, setPermFilter] = useState(selectedPermFilter);
+    const [searchTerm, setSearchTerm] = useState(selectedSearchTerm);
 
     // Pagination state variables.
     const [page, setPage] = useState(selectedPage);
@@ -51,9 +57,18 @@ function Listing(props) {
             selectedOrder !== order ||
             selectedOrderBy !== orderBy ||
             selectedPage !== page ||
-            selectedRowsPerPage !== rowsPerPage
+            selectedRowsPerPage !== rowsPerPage ||
+            (permFilter && selectedPermFilter !== permFilter) ||
+            (searchTerm && selectedSearchTerm !== searchTerm)
         ) {
-            onRouteToListing(order, orderBy, page, rowsPerPage);
+            onRouteToListing(
+                order,
+                orderBy,
+                page,
+                rowsPerPage,
+                permFilter,
+                searchTerm
+            );
         }
     }, [
         onRouteToListing,
@@ -61,58 +76,29 @@ function Listing(props) {
         orderBy,
         page,
         rowsPerPage,
+        permFilter,
+        searchTerm,
         selectedOrder,
         selectedOrderBy,
         selectedPage,
         selectedRowsPerPage,
+        selectedPermFilter,
+        selectedSearchTerm,
     ]);
 
     useEffect(() => {
-        if (
-            selectedOrder !== order ||
-            selectedOrderBy !== orderBy ||
-            selectedPage !== page ||
-            selectedRowsPerPage !== rowsPerPage
-        ) {
-            onRouteToListing(order, orderBy, page, rowsPerPage);
+        let displayAll = null;
+
+        if (permFilter) {
+            displayAll = permFilter !== TOOL_FILTER_VALUES.MY_TOOLS;
         }
-    }, [
-        onRouteToListing,
-        order,
-        orderBy,
-        page,
-        rowsPerPage,
-        selectedOrder,
-        selectedOrderBy,
-        selectedPage,
-        selectedRowsPerPage,
-    ]);
 
-    useEffect(() => {
-        if (
-            selectedOrder !== order ||
-            selectedOrderBy !== orderBy ||
-            selectedPage !== page ||
-            selectedRowsPerPage !== rowsPerPage
-        ) {
-            onRouteToListing(order, orderBy, page, rowsPerPage);
-        }
-    }, [
-        onRouteToListing,
-        order,
-        orderBy,
-        page,
-        rowsPerPage,
-        selectedOrder,
-        selectedOrderBy,
-        selectedPage,
-        selectedRowsPerPage,
-    ]);
-
-    useEffect(() => {
-        setToolsKey([TOOLS_QUERY_KEY, { order, orderBy, page, rowsPerPage }]);
+        setToolsKey([
+            TOOLS_QUERY_KEY,
+            { order, orderBy, page, rowsPerPage, displayAll, searchTerm },
+        ]);
         setToolsListingQueryEnabled(true);
-    }, [order, orderBy, page, rowsPerPage]);
+    }, [order, orderBy, page, rowsPerPage, permFilter, searchTerm]);
 
     useEffect(() => {
         if (data?.tools) {
@@ -231,6 +217,18 @@ function Listing(props) {
         return items.map((id) => data?.tools.find((tool) => tool.id === id));
     };
 
+    const handleOwnershipFilterChange = (viewFilter) => {
+        setPermFilter(viewFilter);
+        setSelected([]);
+        setPage(0);
+    };
+
+    const handleSearch = (searchTerm) => {
+        setSearchTerm(searchTerm);
+        setSelected([]);
+        setPage(0);
+    };
+
     const sharingEnabled = canShare(getSelectedTools());
 
     return (
@@ -242,6 +240,9 @@ function Listing(props) {
                 canShare={sharingEnabled}
                 selected={selected}
                 getSelectedTools={getSelectedTools}
+                handleOwnershipFilterChange={handleOwnershipFilterChange}
+                handleSearch={handleSearch}
+                searchTerm={searchTerm}
             />
             <TableView
                 baseId={baseId}

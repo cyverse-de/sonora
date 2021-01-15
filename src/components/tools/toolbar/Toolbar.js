@@ -16,11 +16,26 @@ import Sharing from "components/sharing";
 import { formatSharedTools } from "components/sharing/util";
 import EditToolDialog from "components/tools/edit/EditTool";
 
-import { build } from "@cyverse-de/ui-lib";
+import { build, SearchField } from "@cyverse-de/ui-lib";
 
-import { Button, Hidden, makeStyles, Toolbar } from "@material-ui/core";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    Hidden,
+    makeStyles,
+    TextField,
+    Toolbar,
+} from "@material-ui/core";
 
 import { Info } from "@material-ui/icons";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+
+export const TOOL_FILTER_VALUES = {
+    MY_TOOLS: "MY_TOOLS",
+    PUBLIC: "PUBLIC",
+};
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -55,6 +70,47 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function PermissionsFilter(props) {
+    const { baseId, filter, handleFilterChange, classes } = props;
+    const { t } = useTranslation("tools");
+    return (
+        <Autocomplete
+            id={build(baseId, ids.MANAGE_TOOLS.TOOL_FILTER)}
+            disabled={false}
+            value={filter}
+            options={getOwnershipFilters(t)}
+            size="small"
+            onChange={(event, filter) => {
+                handleFilterChange(filter?.value);
+            }}
+            getOptionLabel={(option) => option.name}
+            getOptionSelected={(option, value) => option.name === value.name}
+            className={classes.filter}
+            renderInput={(params) => (
+                <TextField
+                    {...params}
+                    id={build(baseId, ids.MANAGE_TOOLS.VIEW_FILTER_FIELD)}
+                    label={t("viewFilter")}
+                    variant="outlined"
+                />
+            )}
+        />
+    );
+}
+
+function getOwnershipFilters(t) {
+    return [
+        {
+            name: t("myTools"),
+            value: TOOL_FILTER_VALUES.MY_TOOLS,
+        },
+        {
+            name: t("publicTools"),
+            value: TOOL_FILTER_VALUES.PUBLIC,
+        },
+    ];
+}
+
 export default function ToolsToolbar(props) {
     const {
         baseId,
@@ -62,12 +118,20 @@ export default function ToolsToolbar(props) {
         isSingleSelection,
         canShare,
         getSelectedTools,
+        ownershipFilter,
+        handleOwnershipFilterChange,
+        handleSearch,
+        searchTerm,
     } = props;
+
+    const [openFilterDialog, setOpenFilterDialog] = useState(false);
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
     const classes = useStyles();
     const { t } = useTranslation("tools");
+    const { t: i18nCommon } = useTranslation("common");
+
     const hasSelection = getSelectedTools
         ? getSelectedTools().length > 0
         : false;
@@ -76,6 +140,20 @@ export default function ToolsToolbar(props) {
     return (
         <>
             <Toolbar variant="dense">
+                <Hidden xsDown>
+                    <PermissionsFilter
+                        baseId={baseId}
+                        filter={ownershipFilter}
+                        classes={classes}
+                        handleFilterChange={handleOwnershipFilterChange}
+                    />
+                    <SearchField
+                        handleSearch={handleSearch}
+                        value={searchTerm}
+                        id={build(baseId, ids.MANAGE_TOOLS.SEARCH)}
+                        placeholder={t("searchTools")}
+                    />
+                </Hidden>
                 <div className={classes.divider} />
                 <Hidden smDown>
                     {isSingleSelection && (
@@ -107,6 +185,7 @@ export default function ToolsToolbar(props) {
                     getSelectedTools={getSelectedTools}
                     onAddToolSelected={() => setAddDialogOpen(true)}
                     onEditToolSelected={() => setEditDialogOpen(true)}
+                    onFilterSelected={() => setOpenFilterDialog(true)}
                 />
             </Toolbar>
             <Sharing
@@ -132,6 +211,27 @@ export default function ToolsToolbar(props) {
                 isAdminPublishing={false}
                 parentId={baseId}
             />
+            <Dialog open={openFilterDialog}>
+                <DialogContent>
+                    <PermissionsFilter
+                        baseId={baseId}
+                        filter={ownershipFilter}
+                        classes={classes}
+                        handleFilterChange={handleOwnershipFilterChange}
+                    />
+                    <SearchField
+                        handleSearch={handleSearch}
+                        value={searchTerm}
+                        id={build(baseId, ids.MANAGE_TOOLS.SEARCH)}
+                        placeholder={t("searchTools")}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenFilterDialog(false)}>
+                        {i18nCommon("done")}
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 }

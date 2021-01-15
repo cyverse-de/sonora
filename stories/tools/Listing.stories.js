@@ -24,6 +24,31 @@ function ListingTest(props) {
             selectedRowsPerPage={25}
             selectedOrder={constants.SORT_ASCENDING}
             selectedOrderBy={"name"}
+            selectedPermFilter=""
+            selectedSearchTerm=""
+            onRouteToListing={(
+                order,
+                orderBy,
+                page,
+                rowsPerPage,
+                permFilter,
+                searchTerm
+            ) =>
+                console.log(
+                    "route to page with=>" +
+                        order +
+                        " " +
+                        orderBy +
+                        " " +
+                        page +
+                        " " +
+                        rowsPerPage +
+                        " " +
+                        permFilter +
+                        " " +
+                        searchTerm
+                )
+            }
         />
     );
 }

@@ -18,6 +18,7 @@ import NavigationConstants from "common/NavigationConstants";
 
 import ExternalLink from "components/utils/ExternalLink";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 
 import { build } from "@cyverse-de/ui-lib";
 import {
@@ -349,4 +350,4 @@ function NotificationsMenu(props) {
     );
 }
 
-export default NotificationsMenu;
+export default withErrorAnnouncer(NotificationsMenu);

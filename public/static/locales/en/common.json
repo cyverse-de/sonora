@@ -20,6 +20,7 @@
     "edit": "Edit",
     "email": "Email",
     "environment": "<b>E</b>nvironment",
+    "errorMarkAsSeen": "Unable to mark Notifications as seen.",
     "filter": "Filter",
     "help": "Help",
     "intercomAriaLabel": "Chat with CyVerse support",

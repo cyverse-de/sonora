@@ -1,13 +1,14 @@
 /**
  * @author psarando
  */
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
-import { getMessage, FormSearchField } from "@cyverse-de/ui-lib";
+import { useTranslation } from "i18n";
 
-import ListItemText from "@material-ui/core/ListItemText";
-import MenuItem from "@material-ui/core/MenuItem";
+import { FormSearchField } from "@cyverse-de/ui-lib";
+
+import { ListItemText, MenuItem } from "@material-ui/core";
 
 const OLSOption = ({ innerRef, isFocused, innerProps, data }) => (
     <MenuItem buttonRef={innerRef} selected={isFocused} {...innerProps}>
@@ -22,48 +23,36 @@ const OLSOption = ({ innerRef, isFocused, innerProps, data }) => (
     </MenuItem>
 );
 
-class OntologyLookupServiceSearchField extends Component {
-    constructor(props) {
-        super(props);
+const OntologyLookupServiceSearchField = (props) => {
+    const { attribute, searchOLSTerms, ...custom } = props;
 
-        this.loadOptions = this.loadOptions.bind(this);
-    }
+    const { t } = useTranslation("metadata");
 
-    static propTypes = {
-        presenter: PropTypes.shape({
-            searchOLSTerms: PropTypes.func.isRequired,
-        }),
+    const loadOptions = (inputValue, callback) => {
+        searchOLSTerms(inputValue, attribute?.settings, (results) =>
+            callback(results?.docs)
+        );
     };
 
-    loadOptions(inputValue, callback) {
-        const { attribute, presenter } = this.props;
+    const formatCreateLabel = (inputValue) => {
+        return t("formatMetadataTermFreeTextOption", { inputValue });
+    };
 
-        presenter.searchOLSTerms(inputValue, attribute.settings, (results) =>
-            callback(results && results.docs)
-        );
-    }
+    return (
+        <FormSearchField
+            loadOptions={loadOptions}
+            variant="asyncCreatable"
+            labelKey="label"
+            valueKey="label"
+            CustomOption={OLSOption}
+            formatCreateLabel={formatCreateLabel}
+            {...custom}
+        />
+    );
+};
 
-    formatCreateLabel(inputValue) {
-        return getMessage("formatMetadataTermFreeTextOption", {
-            values: { inputValue },
-        });
-    }
-
-    render() {
-        const { attrTemplate, presenter, ...props } = this.props;
-
-        return (
-            <FormSearchField
-                loadOptions={this.loadOptions}
-                variant="asyncCreatable"
-                labelKey="label"
-                valueKey="label"
-                CustomOption={OLSOption}
-                formatCreateLabel={this.formatCreateLabel}
-                {...props}
-            />
-        );
-    }
-}
+OntologyLookupServiceSearchField.propTypes = {
+    searchOLSTerms: PropTypes.func.isRequired,
+};
 
 export default OntologyLookupServiceSearchField;

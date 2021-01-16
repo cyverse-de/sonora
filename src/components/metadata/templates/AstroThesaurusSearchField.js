@@ -1,13 +1,14 @@
 /**
  * @author psarando
  */
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
-import { FormSearchField, getMessage } from "@cyverse-de/ui-lib";
+import { useTranslation } from "i18n";
 
-import ListItemText from "@material-ui/core/ListItemText";
-import MenuItem from "@material-ui/core/MenuItem";
+import { FormSearchField } from "@cyverse-de/ui-lib";
+
+import { ListItemText, MenuItem } from "@material-ui/core";
 
 const AstroThesaurusOption = ({ innerRef, isFocused, innerProps, data }) => (
     <MenuItem buttonRef={innerRef} selected={isFocused} {...innerProps}>
@@ -15,46 +16,36 @@ const AstroThesaurusOption = ({ innerRef, isFocused, innerProps, data }) => (
     </MenuItem>
 );
 
-class AstroThesaurusSearchField extends Component {
-    constructor(props) {
-        super(props);
+const AstroThesaurusSearchField = (props) => {
+    const { searchAstroThesaurusTerms, ...custom } = props;
 
-        this.loadOptions = this.loadOptions.bind(this);
-    }
+    const { t } = useTranslation("metadata");
 
-    static propTypes = {
-        presenter: PropTypes.shape({
-            searchAstroThesaurusTerms: PropTypes.func.isRequired,
-        }),
-    };
-
-    loadOptions(inputValue, callback) {
-        this.props.presenter.searchAstroThesaurusTerms(inputValue, (results) =>
+    const loadOptions = (inputValue, callback) => {
+        searchAstroThesaurusTerms(inputValue, (results) =>
             callback(results && results.items)
         );
-    }
+    };
 
-    formatCreateLabel(inputValue) {
-        return getMessage("formatMetadataTermFreeTextOption", {
-            values: { inputValue },
-        });
-    }
+    const formatCreateLabel = (inputValue) => {
+        return t("formatMetadataTermFreeTextOption", { inputValue });
+    };
 
-    render() {
-        const { presenter, ...props } = this.props;
+    return (
+        <FormSearchField
+            loadOptions={loadOptions}
+            variant="asyncCreatable"
+            labelKey="label"
+            valueKey="label"
+            CustomOption={AstroThesaurusOption}
+            formatCreateLabel={formatCreateLabel}
+            {...custom}
+        />
+    );
+};
 
-        return (
-            <FormSearchField
-                loadOptions={this.loadOptions}
-                variant="asyncCreatable"
-                labelKey="label"
-                valueKey="label"
-                CustomOption={AstroThesaurusOption}
-                formatCreateLabel={this.formatCreateLabel}
-                {...props}
-            />
-        );
-    }
-}
+AstroThesaurusSearchField.propTypes = {
+    searchAstroThesaurusTerms: PropTypes.func.isRequired,
+};
 
 export default AstroThesaurusSearchField;

@@ -40,7 +40,7 @@ function DotMenuItems(props) {
         allowEditing,
         onFilterSelected,
         onDeleteToolSelected,
-        allowDelete,
+        allowDeletes,
     } = props;
 
     const { t } = useTranslation("tools");
@@ -118,7 +118,7 @@ function DotMenuItems(props) {
             </MenuItem>
         ),
 
-        allowDelete && (
+        allowDeletes && (
             <MenuItem
                 key={build(baseId, ids.MANAGE_TOOLS.DELETE_TOOL_MI)}
                 id={build(baseId, ids.MANAGE_TOOLS.DELETE_TOOL_MI)}
@@ -171,6 +171,10 @@ export default function ToolsDotMenu({
     const selectedTools = getSelectedTools ? getSelectedTools() : null;
     const allowEditing =
         isSingleSelection && isWritable(selectedTools[0]?.permission);
+    const allowDeletes =
+        selectedTools?.length > 0 &&
+        selectedTools.filter((tool) => !isWritable(tool.permission)).length ===
+            0;
 
     return (
         <DotMenu
@@ -189,7 +193,7 @@ export default function ToolsDotMenu({
                     allowEditing={allowEditing}
                     onRequestToolSelected={onRequestToolSelected}
                     onDeleteToolSelected={onDeleteToolSelected}
-                    allowDelete={allowEditing}
+                    allowDeletes={allowDeletes}
                 />
             )}
         />

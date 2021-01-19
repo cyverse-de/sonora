@@ -8,7 +8,7 @@
     "attribution": "Attribution",
     "bindToHost": "Bind to Host",
     "cancel": "Cancel",
-    "confirmDelete": "Do you really want to delete this tool?",
+    "confirmDelete": "Delete the selected tool(s)?",
     "containerDevices": "Container Devices",
     "containerImage": "Container Image",
     "containerName": "Container Name",

@@ -22,7 +22,6 @@ import DEDialog from "components/utils/DEDialog";
 import {
     Button,
     CircularProgress,
-    Grid,
     InputAdornment,
     Typography,
 } from "@material-ui/core";
@@ -39,38 +38,61 @@ export default function Feedback(props) {
 
     const onSubmit = (values) => {
         console.log("submit feedback now" + JSON.stringify(values));
-        sendFeedback(values);
+        const submission = {
+            email: values.email || "no-reply@cyverse.org",
+            fields: {
+                feedback: values.feedback,
+            },
+            subject: `feedback from ${values.name}`,
+        };
+        sendFeedback(submission);
     };
 
     return (
-        <DEDialog open={open} title={title} onClose={onClose}>
-            <Typography>
-                All feedback welcome. Provide as much detail as you can so that
-                we can better assist you.
-            </Typography>
-            {feedbackStatus === constants.LOADING && (
-                <CircularProgress
-                    size={30}
-                    thickness={5}
-                    style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                    }}
-                />
-            )}
-            <Formik
-                enableReinitialize
-                onSubmit={onSubmit}
-                initialValues={{
-                    name: userProfile?.attributes.name,
-                    email: userProfile?.attributes.email,
-                    feedback: "",
-                }}
-            >
-                {({ handleSubmit }) => {
-                    return (
-                        <Form>
+        <Formik
+            enableReinitialize
+            onSubmit={onSubmit}
+            initialValues={{
+                name: userProfile?.attributes.name,
+                email: userProfile?.attributes.email,
+                feedback: "",
+            }}
+        >
+            {({ handleSubmit }) => {
+                return (
+                    <Form>
+                        <DEDialog
+                            open={open}
+                            title={title}
+                            onClose={onClose}
+                            actions={
+                                <>
+                                    <Button onClick={onClose}>Cancel</Button>
+                                    <Button
+                                        type="submit"
+                                        color="primary"
+                                        onClick={handleSubmit}
+                                    >
+                                        Submit Feedback
+                                    </Button>
+                                </>
+                            }
+                        >
+                            <Typography>
+                                All feedback welcome. Provide as much detail as
+                                you can so that we can better assist you.
+                            </Typography>
+                            {feedbackStatus === constants.LOADING && (
+                                <CircularProgress
+                                    size={30}
+                                    thickness={5}
+                                    style={{
+                                        position: "absolute",
+                                        top: "50%",
+                                        left: "50%",
+                                    }}
+                                />
+                            )}
                             {!userProfile?.id && (
                                 <>
                                     <Field
@@ -121,20 +143,10 @@ export default function Feedback(props) {
                                 }}
                                 component={FormMultilineTextField}
                             />
-                            <Grid container>
-                                <Grid item>
-                                    <Button onClick={onClose}>Cancel</Button>
-                                </Grid>
-                                <Grid item>
-                                    <Button type="submit" color="primary">
-                                        Submit Feedback
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </Form>
-                    );
-                }}
-            </Formik>
-        </DEDialog>
+                        </DEDialog>
+                    </Form>
+                );
+            }}
+        </Formik>
     );
 }

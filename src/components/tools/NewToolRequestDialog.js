@@ -13,7 +13,7 @@ import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWit
 import ids from "./ids";
 import constants from "../../constants";
 import { toolRequest } from "serviceFacades/tools";
-import { nonEmptyField } from "./edit/Validations";
+import { nonEmptyField } from "components/utils/validations";
 
 import {
     build,

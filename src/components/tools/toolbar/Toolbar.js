@@ -123,6 +123,7 @@ export default function ToolsToolbar(props) {
         handleOwnershipFilterChange,
         handleSearch,
         searchTerm,
+        onDeleteToolSelected,
     } = props;
 
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
@@ -143,6 +144,7 @@ export default function ToolsToolbar(props) {
         <>
             <Toolbar variant="dense">
                 <Hidden xsDown>
+                    <div className={classes.divider} />
                     <PermissionsFilter
                         baseId={baseId}
                         filter={ownershipFilter}
@@ -156,7 +158,6 @@ export default function ToolsToolbar(props) {
                         placeholder={t("searchTools")}
                     />
                 </Hidden>
-                <div className={classes.divider} />
                 <Hidden smDown>
                     {isSingleSelection && (
                         <Button
@@ -189,6 +190,7 @@ export default function ToolsToolbar(props) {
                     onEditToolSelected={() => setEditDialogOpen(true)}
                     onFilterSelected={() => setOpenFilterDialog(true)}
                     onRequestToolSelected={() => setRequestDialogOpen(true)}
+                    onDeleteToolSelected={onDeleteToolSelected}
                 />
             </Toolbar>
             <Sharing

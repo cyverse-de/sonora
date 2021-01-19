@@ -24,7 +24,7 @@ import {
     useTheme,
 } from "@material-ui/core";
 
-import { Add, Info, Edit, FilterList, Send } from "@material-ui/icons";
+import { Add, Delete, Info, Edit, FilterList, Send } from "@material-ui/icons";
 
 function DotMenuItems(props) {
     const {
@@ -39,6 +39,8 @@ function DotMenuItems(props) {
         onRequestToolSelected,
         allowEditing,
         onFilterSelected,
+        onDeleteToolSelected,
+        allowDeletes,
     } = props;
 
     const { t } = useTranslation("tools");
@@ -71,6 +73,7 @@ function DotMenuItems(props) {
                 />
             )}
         </Hidden>,
+
         <MenuItem
             key={build(baseId, ids.MANAGE_TOOLS.ADD_TOOL_MI)}
             id={build(baseId, ids.MANAGE_TOOLS.ADD_TOOL_MI)}
@@ -84,6 +87,7 @@ function DotMenuItems(props) {
             </ListItemIcon>
             <ListItemText primary={t("addTool")} />
         </MenuItem>,
+
         <MenuItem
             key={build(baseId, ids.MANAGE_TOOLS.REQUEST_TOOL_MI)}
             id={build(baseId, ids.MANAGE_TOOLS.REQUEST_TOOL_MI)}
@@ -97,6 +101,7 @@ function DotMenuItems(props) {
             </ListItemIcon>
             <ListItemText primary={t("requestToolMI")} />
         </MenuItem>,
+
         allowEditing && (
             <MenuItem
                 key={build(baseId, ids.MANAGE_TOOLS.EDIT_TOOL_MI)}
@@ -112,6 +117,23 @@ function DotMenuItems(props) {
                 <ListItemText primary={t("edit")} />
             </MenuItem>
         ),
+
+        allowDeletes && (
+            <MenuItem
+                key={build(baseId, ids.MANAGE_TOOLS.DELETE_TOOL_MI)}
+                id={build(baseId, ids.MANAGE_TOOLS.DELETE_TOOL_MI)}
+                onClick={() => {
+                    onClose();
+                    onDeleteToolSelected();
+                }}
+            >
+                <ListItemIcon>
+                    <Delete fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("delete")} />
+            </MenuItem>
+        ),
+
         isMobile && (
             <MenuItem
                 key={build(baseId, ids.MANAGE_TOOLS.FILTER_TOOLS_MI)}
@@ -137,6 +159,7 @@ export default function ToolsDotMenu({
     onEditToolSelected,
     getSelectedTools,
     onRequestToolSelected,
+    onDeleteToolSelected,
     ...props
 }) {
     const {
@@ -148,6 +171,10 @@ export default function ToolsDotMenu({
     const selectedTools = getSelectedTools ? getSelectedTools() : null;
     const allowEditing =
         isSingleSelection && isWritable(selectedTools[0]?.permission);
+    const allowDeletes =
+        selectedTools?.length > 0 &&
+        selectedTools.filter((tool) => !isWritable(tool.permission)).length ===
+            0;
 
     return (
         <DotMenu
@@ -165,6 +192,8 @@ export default function ToolsDotMenu({
                     onEditToolSelected={onEditToolSelected}
                     allowEditing={allowEditing}
                     onRequestToolSelected={onRequestToolSelected}
+                    onDeleteToolSelected={onDeleteToolSelected}
+                    allowDeletes={allowDeletes}
                 />
             )}
         />

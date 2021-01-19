@@ -25,7 +25,7 @@ export default function Tools() {
     const selectedOrder = query.selectedOrder || constants.SORT_ASCENDING;
     const selectedOrderBy = query.selectedOrderBy || "name";
     const selectedPermFilter = query.selectedPermFilter;
-    const selectedSearchTerm = query.selectedSearchTerm;
+    const selectedSearchTerm = query.selectedSearchTerm || "";
 
     const onRouteToListing = useCallback(
         (order, orderBy, page, rowsPerPage, permFilter, searchTerm) => {

@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useMutation, queryCache } from "react-query";
+import { useTranslation } from "i18n";
+
+import { announce } from "@cyverse-de/ui-lib";
 
 import TableView from "./TableView";
 import Drawer from "components/tools/details/Drawer";
+import { getTools, deleteTools, TOOLS_QUERY_KEY } from "serviceFacades/tools";
+import DEPagination from "components/utils/DEPagination";
+import ConfirmationDialog from "components/utils/ConfirmationDialog";
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+
 import constants from "../../../constants";
-import { getTools, TOOLS_QUERY_KEY } from "../../../serviceFacades/tools";
-import DEPagination from "../../utils/DEPagination";
 import ToolsToolbar, { TOOL_FILTER_VALUES } from "../toolbar/Toolbar";
 import { canShare } from "../utils";
 
@@ -23,7 +29,10 @@ function Listing(props) {
         selectedOrderBy,
         selectedPermFilter,
         selectedSearchTerm,
+        showErrorAnnouncer,
     } = props;
+
+    const { t } = useTranslation("tools");
 
     // Data and data retrieval state variables.
     const [data, setData] = useState(null);
@@ -51,6 +60,8 @@ function Listing(props) {
     const [selectedTool, setSelectedTool] = useState();
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [isSingleSelection, setSingleSelection] = useState(false);
+
+    const [deleteConfirm, setDeleteConfirm] = useState();
 
     useEffect(() => {
         if (
@@ -85,6 +96,23 @@ function Listing(props) {
         selectedPermFilter,
         selectedSearchTerm,
     ]);
+
+    const [removeTools, { status: deleteStatus }] = useMutation(deleteTools, {
+        onSuccess: () => {
+            announce({
+                text: t("toolDeleted"),
+            });
+            //reset selection to avoid stale selected state
+            setSelected([]);
+            queryCache.invalidateQueries(toolsKey);
+        },
+        onError: (e) => {
+            showErrorAnnouncer(t("toolDeleteError"), e);
+            //reset selection to avoid stale selected state
+            setSelected([]);
+            queryCache.invalidateQueries(toolsKey);
+        },
+    });
 
     useEffect(() => {
         let displayAll = null;
@@ -229,6 +257,10 @@ function Listing(props) {
         setPage(0);
     };
 
+    const onDeleteToolSelected = () => {
+        setDeleteConfirm(true);
+    };
+
     const sharingEnabled = canShare(getSelectedTools());
 
     return (
@@ -243,6 +275,7 @@ function Listing(props) {
                 handleOwnershipFilterChange={handleOwnershipFilterChange}
                 handleSearch={handleSearch}
                 searchTerm={searchTerm}
+                onDeleteToolSelected={onDeleteToolSelected}
             />
             <TableView
                 baseId={baseId}
@@ -251,7 +284,7 @@ function Listing(props) {
                 handleRequestSort={handleRequestSort}
                 handleSelectAllClick={handleSelectAllClick}
                 listing={data}
-                loading={isFetching}
+                loading={isFetching || deleteStatus === constants.LOADING}
                 order={order}
                 orderBy={orderBy}
                 selected={selected}
@@ -274,8 +307,19 @@ function Listing(props) {
                     totalPages={Math.ceil(data.total / rowsPerPage)}
                 />
             )}
+            <ConfirmationDialog
+                baseId={baseId}
+                open={deleteConfirm}
+                onConfirm={() => {
+                    setDeleteConfirm(false);
+                    removeTools({ ids: selected });
+                }}
+                onClose={() => setDeleteConfirm(false)}
+                title={t("delete")}
+                contentText={t("confirmDelete")}
+            />
         </>
     );
 }
 
-export default Listing;
+export default withErrorAnnouncer(Listing);

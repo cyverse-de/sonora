@@ -118,5 +118,18 @@ export default function toolsRouter() {
         })
     );
 
+    logger.info("adding the DELETE /api/tools/:id handler");
+    api.delete(
+        "/tools/:id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/tools/:id",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

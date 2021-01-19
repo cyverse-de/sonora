@@ -5,7 +5,9 @@
  *
  */
 import React, { useState } from "react";
+import { useTranslation } from "i18n";
 
+import constants from "../../constants";
 import ProductTour from "components/help/ProductTour";
 import Feedback from "components/help/Feedback";
 import { intercomShow } from "common/intercom";
@@ -70,30 +72,28 @@ export default function Topics(props) {
     const [runTour, setRunTour] = useState();
     const [feedbackOpen, setFeedbackOpen] = useState();
     const classes = useStyles();
+    const { t } = useTranslation("help");
     return (
         <div style={{ overflow: "auto" }}>
             <Typography variant="h6" color="primary">
-                Support
+                {t("support")}
             </Typography>
             <Grid container spacing={3}>
                 <Grid item>
                     <TopicCard
-                        title="FAQs"
-                        description="Find answers to some frequently asked questions here."
+                        title={t("faq_title")}
+                        description={t("faq_prompt")}
                         action={
                             <Button
                                 size="small"
                                 color="primary"
                                 className={classes.action}
                                 onClick={() =>
-                                    window.open(
-                                        `http://cyverse.github.io/UserSupport/README.html`,
-                                        "_blank"
-                                    )
+                                    window.open(constants.DE_FAQ, "_blank")
                                 }
                                 startIcon={<LaunchIcon />}
                             >
-                                Go to FAQs
+                                {t("faq_button_label")}
                             </Button>
                         }
                     />
@@ -110,7 +110,7 @@ export default function Topics(props) {
                                     startIcon={<LaunchIcon />}
                                     size="small"
                                 >
-                                    E-mail CyVerse
+                                    {t("email_button_label")}
                                 </Button>
                                 <Button
                                     className={classes.action}
@@ -123,7 +123,7 @@ export default function Topics(props) {
                                     }}
                                     size="small"
                                 >
-                                    Chat
+                                    {t("chat_button_label")}
                                 </Button>
                             </>
                         }
@@ -131,8 +131,8 @@ export default function Topics(props) {
                 </Grid>
                 <Grid item>
                     <TopicCard
-                        title="Feedback"
-                        description="Your thoughts are valuable in helping improve our products."
+                        title={t("feedback_title")}
+                        description={t("feedback_prompt")}
                         action={
                             <Button
                                 color="primary"
@@ -140,7 +140,7 @@ export default function Topics(props) {
                                 className={classes.action}
                                 size="small"
                             >
-                                Feedback
+                                {t("feedback_button_label")}
                             </Button>
                         }
                     />
@@ -148,13 +148,13 @@ export default function Topics(props) {
             </Grid>
 
             <Typography variant="h6" color="primary" style={{ marginTop: 16 }}>
-                Learn
+                {t("learn")}
             </Typography>
             <Grid container spacing={3}>
                 <Grid item>
                     <TopicCard
-                        title="Product Tour"
-                        description="Take a tour to get introduced to the various features of the Discovery Environment."
+                        title={t("product_tour_title")}
+                        description={t("product_tour_prompt")}
                         action={
                             <Button
                                 color="primary"
@@ -162,15 +162,15 @@ export default function Topics(props) {
                                 className={classes.action}
                                 size="small"
                             >
-                                Take a tour
+                                {t("product_tour_button_label")}
                             </Button>
                         }
                     />
                 </Grid>
                 <Grid item>
                     <TopicCard
-                        title="Guide"
-                        description="Learn more about the Discovery Environment using the platform guide"
+                        title={t("guide_title")}
+                        description={t("guide_prompt")}
                         action={
                             <Button
                                 color="primary"
@@ -178,21 +178,18 @@ export default function Topics(props) {
                                 startIcon={<LaunchIcon />}
                                 size="small"
                                 onClick={() =>
-                                    window.open(
-                                        `https://learning.cyverse.org/projects/discovery-environment-guide/en/latest/`,
-                                        "_blank"
-                                    )
+                                    window.open(constants.DE_GUIDE, "_blank")
                                 }
                             >
-                                Go to Guide
+                                {t("guide_button_label")}
                             </Button>
                         }
                     />
                 </Grid>
                 <Grid item>
                     <TopicCard
-                        title="Learning Center"
-                        description="The CyVerse Learning center is a release of our learning materials in the popular “Read the Docs” formatting."
+                        title={t("learning_center_title")}
+                        description={t("learning_center_prompt")}
                         action={
                             <Button
                                 color="primary"
@@ -200,13 +197,10 @@ export default function Topics(props) {
                                 startIcon={<LaunchIcon />}
                                 size="small"
                                 onClick={() =>
-                                    window.open(
-                                        `https://learning.cyverse.org/en/latest/`,
-                                        "_blank"
-                                    )
+                                    window.open(constants.CYVERSE_LC, "_blank")
                                 }
                             >
-                                Go to Learning Center
+                                {t("learning_center_button_label")}
                             </Button>
                         }
                     />
@@ -214,7 +208,7 @@ export default function Topics(props) {
             </Grid>
             <Feedback
                 open={feedbackOpen}
-                title="Feedback"
+                title={t("feedback_title")}
                 baseId="help"
                 onClose={() => setFeedbackOpen(false)}
             />

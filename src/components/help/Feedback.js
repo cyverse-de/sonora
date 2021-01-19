@@ -34,6 +34,7 @@ export default function Feedback(props) {
     const [userProfile] = useUserProfile();
 
     const { t } = useTranslation("util");
+    const { t: i18nHelp } = useTranslation("help");
 
     const [sendFeedback, { status: feedbackStatus }] = useMutation(feedback, {
         onSuccess: () => console.log("feedback submitted!"),
@@ -71,20 +72,21 @@ export default function Feedback(props) {
                             onClose={onClose}
                             actions={
                                 <>
-                                    <Button onClick={onClose}>Cancel</Button>
+                                    <Button onClick={onClose}>
+                                        {i18nHelp("cancel")}
+                                    </Button>
                                     <Button
                                         type="submit"
                                         color="primary"
                                         onClick={handleSubmit}
                                     >
-                                        Submit Feedback
+                                        {i18nHelp("submit_feedback")}
                                     </Button>
                                 </>
                             }
                         >
                             <Typography>
-                                All feedback welcome. Provide as much detail as
-                                you can so that we can better assist you.
+                                {i18nHelp("feedback_welcome")}
                             </Typography>
                             {feedbackStatus === constants.LOADING && (
                                 <CircularProgress
@@ -101,24 +103,24 @@ export default function Feedback(props) {
                                 <>
                                     <Field
                                         id={build(baseId, "name")}
-                                        name="name"
+                                        name={"name"}
                                         required={true}
                                         component={FormTextField}
                                         validate={(value) =>
                                             nonEmptyField(value, t)
                                         }
-                                        label="Name"
+                                        label={i18nHelp("name")}
                                     />
                                     <Field
                                         id={build(baseId, "email")}
                                         name="email"
                                         required={false}
                                         component={FormTextField}
-                                        label="E-mail"
+                                        label={i18nHelp("email")}
                                         validate={(value) =>
                                             nonEmptyField(value, t)
                                         }
-                                        helperText="CyVerse may contact you about this feedback when you provide an email address."
+                                        helperText={i18nHelp("feedback_helper")}
                                     />
                                 </>
                             )}

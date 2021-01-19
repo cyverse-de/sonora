@@ -5,10 +5,12 @@
  *
  */
 import React from "react";
+import { useTranslation } from "i18n";
 import { useMutation } from "react-query";
 import { Field, Form, Formik } from "formik";
 
 import { feedback } from "serviceFacades/users";
+import { nonEmptyField } from "components/utils/validations";
 import constants from "../../constants";
 
 import { useUserProfile } from "contexts/userProfile";
@@ -30,6 +32,8 @@ export default function Feedback(props) {
     const { open, baseId, title, onClose } = props;
     const { isLoading } = false;
     const [userProfile] = useUserProfile();
+
+    const { t } = useTranslation("util");
 
     const [sendFeedback, { status: feedbackStatus }] = useMutation(feedback, {
         onSuccess: () => console.log("feedback submitted!"),
@@ -100,6 +104,9 @@ export default function Feedback(props) {
                                         name="name"
                                         required={true}
                                         component={FormTextField}
+                                        validate={(value) =>
+                                            nonEmptyField(value, t)
+                                        }
                                         label="Name"
                                     />
                                     <Field
@@ -108,6 +115,9 @@ export default function Feedback(props) {
                                         required={false}
                                         component={FormTextField}
                                         label="E-mail"
+                                        validate={(value) =>
+                                            nonEmptyField(value, t)
+                                        }
                                         helperText="CyVerse may contact you about this feedback when you provide an email address."
                                     />
                                 </>
@@ -122,6 +132,7 @@ export default function Feedback(props) {
                                         handleSubmit();
                                     }
                                 }}
+                                validate={(value) => nonEmptyField(value, t)}
                                 InputProps={{
                                     readOnly: isLoading,
                                     endAdornment: (

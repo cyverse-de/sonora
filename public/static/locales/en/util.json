@@ -1,5 +1,8 @@
 {
     "details": "Details",
+    "emptyValue": "Empty Value",
+    "mustBeZeroOrMore": "Must be at least 0",
+    "mustBeNumber": "Value must be a number",
     "selectPageSize": "Select page size",
     "viewDetails": "View Details"
 }

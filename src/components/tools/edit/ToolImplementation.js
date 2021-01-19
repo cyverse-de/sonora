@@ -4,7 +4,7 @@ import { useTranslation } from "i18n";
 import { DeleteBtn, AddBtn } from "../Buttons";
 import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
-import { nonEmptyField } from "./Validations";
+import { nonEmptyField } from "components/utils/validations";
 import { DERow } from "components/utils/DERow";
 
 import {
@@ -40,6 +40,7 @@ function TestFiles(props) {
     } = props;
 
     const { t } = useTranslation("tools");
+    const { t: i18nUtil } = useTranslation("util");
 
     let files = getIn(values, name);
     let hasErrors = !!getFormError(name, touched, errors);
@@ -74,7 +75,9 @@ function TestFiles(props) {
                                         id={build(parentId, index)}
                                         label={t("fileName")}
                                         required
-                                        validate={nonEmptyField}
+                                        validate={(value) =>
+                                            nonEmptyField(values, i18nUtil)
+                                        }
                                         component={FormTextField}
                                     />
                                 </TableCell>
@@ -108,6 +111,7 @@ function ToolImplementation(props) {
     } = props;
 
     const { t } = useTranslation("tools");
+    const { t: i18nUtil } = useTranslation("util");
 
     let hasErrors = !!getFormError(name, touched, errors);
 
@@ -122,7 +126,7 @@ function ToolImplementation(props) {
                 label={t("implementor")}
                 id={build(parentId, ids.EDIT_TOOL_DLG.IMPLEMENTOR)}
                 required
-                validate={(value) => isAdmin && nonEmptyField(value, t)}
+                validate={(value) => isAdmin && nonEmptyField(value, i18nUtil)}
                 component={FormTextField}
             />
             <Field
@@ -130,7 +134,7 @@ function ToolImplementation(props) {
                 label={t("implementorEmail")}
                 id={build(parentId, ids.EDIT_TOOL_DLG.IMPLEMENTOR_EMAIL)}
                 required
-                validate={(value) => isAdmin && nonEmptyField(value, t)}
+                validate={(value) => isAdmin && nonEmptyField(value, i18nUtil)}
                 component={FormTextField}
             />
             <FieldArray

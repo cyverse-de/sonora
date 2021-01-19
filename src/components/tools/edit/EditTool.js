@@ -18,7 +18,7 @@ import ids from "../ids";
 import Restrictions from "./ToolRestrictions";
 import styles from "../styles";
 import ToolImplementation from "./ToolImplementation";
-import { nonEmptyField } from "./Validations";
+import { nonEmptyField } from "components/utils/validations";
 import constants from "../../../constants";
 
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
@@ -58,6 +58,7 @@ function EditToolDialog(props) {
     const { open, parentId, tool, isAdmin, isAdminPublishing, onClose } = props;
 
     const { t } = useTranslation("tools");
+
     const [toolTypes, setToolTypes] = useState([]);
     const [addToolError, setAddToolError] = useState();
     const [updateToolError, setUpdateToolError] = useState();
@@ -327,6 +328,7 @@ function EditToolForm(props) {
     } = props;
 
     const { t } = useTranslation("tools");
+    const { t: i18nUtil } = useTranslation("util");
 
     const selectedToolType = getIn(values, "type");
     const isOSGTool = selectedToolType === TOOL_TYPES.OSG;
@@ -339,7 +341,7 @@ function EditToolForm(props) {
                 label={t("toolName")}
                 id={build(parentId, ids.EDIT_TOOL_DLG.NAME)}
                 required
-                validate={(value) => nonEmptyField(value, t)}
+                validate={(value) => nonEmptyField(value, i18nUtil)}
                 component={FormTextField}
             />
             <Field
@@ -353,7 +355,7 @@ function EditToolForm(props) {
                 label={t("toolVersion")}
                 id={build(parentId, ids.EDIT_TOOL_DLG.VERSION)}
                 required
-                validate={(value) => nonEmptyField(value, t)}
+                validate={(value) => nonEmptyField(value, i18nUtil)}
                 component={FormTextField}
             />
             {isAdmin && (

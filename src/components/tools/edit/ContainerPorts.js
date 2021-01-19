@@ -5,7 +5,7 @@ import { useTranslation } from "i18n";
 import { DeleteBtn, AddBtn } from "../Buttons";
 import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
-import { minValue, nonEmptyMinValue } from "./Validations";
+import { minValue, nonEmptyMinValue } from "components/utils/validations";
 import { DERow } from "components/utils/DERow";
 
 import {
@@ -63,6 +63,7 @@ function ContainerPorts(props) {
     } = props;
 
     const { t } = useTranslation("tools");
+    const { t: i18nUtil } = useTranslation("util");
 
     let ports = getIn(values, name);
     let hasErrors = !!getIn(errors, name);
@@ -106,7 +107,7 @@ function ContainerPorts(props) {
                                         label={t("portNumber")}
                                         required
                                         validate={(value) =>
-                                            nonEmptyMinValue(value, t)
+                                            nonEmptyMinValue(value, i18nUtil)
                                         }
                                         component={FormNumberField}
                                     />
@@ -123,7 +124,7 @@ function ContainerPorts(props) {
                                                 )}
                                                 label={t("portNumber")}
                                                 validate={(value) =>
-                                                    minValue(value, t)
+                                                    minValue(value, i18nUtil)
                                                 }
                                                 component={FormNumberField}
                                             />
@@ -140,7 +141,7 @@ function ContainerPorts(props) {
                                                 label={t("bindToHost")}
                                                 required
                                                 validate={(value) =>
-                                                    minValue(value, t)
+                                                    minValue(value, i18nUtil)
                                                 }
                                                 component={FormCheckbox}
                                             />

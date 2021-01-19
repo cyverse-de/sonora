@@ -5,7 +5,7 @@ import { useTranslation } from "i18n";
 import { DeleteBtn, AddBtn } from "../Buttons";
 import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
-import { nonEmptyField } from "./Validations";
+import { nonEmptyField } from "components/utils/validations";
 import { DERow } from "components/utils/DERow";
 
 import {
@@ -41,6 +41,7 @@ function ContainerVolumes(props) {
     } = props;
 
     const { t } = useTranslation("tools");
+    const { t: i18nUtil } = useTranslation("util");
 
     let volumes = getIn(values, name);
     let hasErrors = !!getFormError(name, touched, errors);
@@ -83,7 +84,7 @@ function ContainerVolumes(props) {
                                         label={t("hostPath")}
                                         required
                                         validate={(value) =>
-                                            nonEmptyField(value, t)
+                                            nonEmptyField(value, i18nUtil)
                                         }
                                         component={FormTextField}
                                     />
@@ -100,7 +101,7 @@ function ContainerVolumes(props) {
                                         label={t("containerPath")}
                                         required
                                         validate={(value) =>
-                                            nonEmptyField(value, t)
+                                            nonEmptyField(value, i18nUtil)
                                         }
                                         component={FormTextField}
                                     />

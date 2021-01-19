@@ -10,9 +10,9 @@ import { useTheme } from "@material-ui/core";
 const Joyride = dynamic(() => import("react-joyride"));
 
 export default function ProductTour(props) {
+    const { onTourExit, runTour } = props;
     const theme = useTheme();
     const [tourStepIndex, setTourStepIndex] = useState(0);
-    const [runTour, setRunTour] = useState(true);
     const { t: i18nTour } = useTranslation("intro");
 
     const handleJoyrideCallback = (callbackData) => {
@@ -21,8 +21,8 @@ export default function ProductTour(props) {
             const { ACTIONS, EVENTS, STATUS } = await import("react-joyride");
 
             if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-                setRunTour(false);
                 setTourStepIndex(0);
+                onTourExit();
             } else if (
                 [EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)
             ) {
@@ -38,6 +38,7 @@ export default function ProductTour(props) {
             steps={getSteps(i18nTour)}
             run={runTour}
             showProgress={true}
+            showSkipButton={true}
             continuous={true}
             disableOverlayClose={true}
             callback={handleJoyrideCallback}
@@ -53,6 +54,9 @@ export default function ProductTour(props) {
                 },
                 tooltipContainer: {
                     textAlign: "left",
+                },
+                buttonSkip: {
+                    color: theme.palette.error.main,
                 },
             }}
         />

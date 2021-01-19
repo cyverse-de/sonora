@@ -224,7 +224,10 @@ export default function Topics(props) {
                 baseId="help"
                 onClose={() => setFeedbackOpen(false)}
             />
-            {runTour && <ProductTour />}
+            <ProductTour
+                onTourExit={() => setRunTour(false)}
+                runTour={runTour}
+            />
         </div>
     );
 }

@@ -875,7 +875,10 @@ function CyverseAppBar(props) {
                     />
                 )}
             </div>
-            {runTour && <ProductTour />}
+            <ProductTour
+                onTourExit={() => setRunTour(false)}
+                runTour={runTour}
+            />
         </>
     );
 }

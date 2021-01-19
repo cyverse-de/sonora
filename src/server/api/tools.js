@@ -105,5 +105,18 @@ export default function toolsRouter() {
         })
     );
 
+    logger.info("adding the POST /api/tool-requests handler");
+    api.post(
+        "/tool-requests",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/tool-requests",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

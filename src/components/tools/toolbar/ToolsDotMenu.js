@@ -24,7 +24,7 @@ import {
     useTheme,
 } from "@material-ui/core";
 
-import { Add, Info, Edit, FilterList } from "@material-ui/icons";
+import { Add, Info, Edit, FilterList, Send } from "@material-ui/icons";
 
 function DotMenuItems(props) {
     const {
@@ -36,6 +36,7 @@ function DotMenuItems(props) {
         setSharingDlgOpen,
         onAddToolSelected,
         onEditToolSelected,
+        onRequestToolSelected,
         allowEditing,
         onFilterSelected,
     } = props;
@@ -83,6 +84,19 @@ function DotMenuItems(props) {
             </ListItemIcon>
             <ListItemText primary={t("addTool")} />
         </MenuItem>,
+        <MenuItem
+            key={build(baseId, ids.MANAGE_TOOLS.REQUEST_TOOL_MI)}
+            id={build(baseId, ids.MANAGE_TOOLS.REQUEST_TOOL_MI)}
+            onClick={() => {
+                onClose();
+                onRequestToolSelected();
+            }}
+        >
+            <ListItemIcon>
+                <Send fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary={t("requestToolMI")} />
+        </MenuItem>,
         allowEditing && (
             <MenuItem
                 key={build(baseId, ids.MANAGE_TOOLS.EDIT_TOOL_MI)}
@@ -122,6 +136,7 @@ export default function ToolsDotMenu({
     setSharingDlgOpen,
     onEditToolSelected,
     getSelectedTools,
+    onRequestToolSelected,
     ...props
 }) {
     const {
@@ -149,6 +164,7 @@ export default function ToolsDotMenu({
                     onAddToolSelected={onAddToolSelected}
                     onEditToolSelected={onEditToolSelected}
                     allowEditing={allowEditing}
+                    onRequestToolSelected={onRequestToolSelected}
                 />
             )}
         />

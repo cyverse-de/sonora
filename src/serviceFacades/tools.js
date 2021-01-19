@@ -110,6 +110,14 @@ function updateTool(tool) {
     });
 }
 
+function toolRequest(request) {
+    return callApi({
+        endpoint: `/api/tool-requests`,
+        method: "POST",
+        body: request,
+    });
+}
+
 export {
     getTools,
     getToolPermissions,
@@ -122,4 +130,5 @@ export {
     getToolTypes,
     addTool,
     updateTool,
+    toolRequest,
 };

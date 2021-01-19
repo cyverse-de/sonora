@@ -20,7 +20,7 @@
     "guide_title": "Guide",
     "guide_button_label": "Go to Guide",
     "learn": "Learn",
-    "learning_center_button_title": "Go to Learning Center",
+    "learning_center_button_label": "Go to Learning Center",
     "learning_center_prompt": "The CyVerse Learning center is a release of our learning materials in the popular “Read the Docs” formatting.",
     "learning_center_title": "Learning Center",
     "name": "Name",

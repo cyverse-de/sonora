@@ -91,7 +91,6 @@ export default function NewToolRequestDialog(props) {
                             title={t("newToolRequestDialogHeading")}
                             actions={
                                 <Button
-                                    style={{ float: "right" }}
                                     color="primary"
                                     type="submit"
                                     id={build(baseId, ids.BUTTONS.SUBMIT)}

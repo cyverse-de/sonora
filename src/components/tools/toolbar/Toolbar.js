@@ -38,7 +38,6 @@ export const TOOL_FILTER_VALUES = {
     PUBLIC: "PUBLIC",
 };
 
-
 const useStyles = makeStyles((theme) => ({
     menuButton: {
         color: theme.palette.info.contrastText,

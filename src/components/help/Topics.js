@@ -7,10 +7,14 @@
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
 
+import ids from "./ids";
 import constants from "../../constants";
 import ProductTour from "components/help/ProductTour";
 import Feedback from "components/help/Feedback";
 import { intercomShow } from "common/intercom";
+
+import { build } from "@cyverse-de/ui-lib";
+
 import {
     Grid,
     Card,
@@ -69,6 +73,7 @@ function TopicCard(props) {
 }
 
 export default function Topics(props) {
+    const { baseId } = props;
     const [runTour, setRunTour] = useState();
     const [feedbackOpen, setFeedbackOpen] = useState();
     const classes = useStyles();
@@ -85,6 +90,7 @@ export default function Topics(props) {
                         description={t("faq_prompt")}
                         action={
                             <Button
+                                id={build(baseId, ids.FAQ_BTN)}
                                 size="small"
                                 color="primary"
                                 className={classes.action}
@@ -105,6 +111,7 @@ export default function Topics(props) {
                         action={
                             <>
                                 <Button
+                                    id={build(baseId, ids.EMAIL_BTN)}
                                     color="primary"
                                     href="mailto:support@ycyverse.org"
                                     startIcon={<LaunchIcon />}
@@ -113,6 +120,7 @@ export default function Topics(props) {
                                     {t("email_button_label")}
                                 </Button>
                                 <Button
+                                    id={build(baseId, ids.CHAT_BTN)}
                                     className={classes.action}
                                     color="primary"
                                     startIcon={<LiveHelpIcon />}
@@ -135,6 +143,7 @@ export default function Topics(props) {
                         description={t("feedback_prompt")}
                         action={
                             <Button
+                                id={build(baseId, ids.FEEDBACK_BTN)}
                                 color="primary"
                                 onClick={() => setFeedbackOpen(true)}
                                 className={classes.action}
@@ -157,6 +166,7 @@ export default function Topics(props) {
                         description={t("product_tour_prompt")}
                         action={
                             <Button
+                                id={build(baseId, ids.TOUR_BTN)}
                                 color="primary"
                                 onClick={() => setRunTour(true)}
                                 className={classes.action}
@@ -173,6 +183,7 @@ export default function Topics(props) {
                         description={t("guide_prompt")}
                         action={
                             <Button
+                                id={build(baseId, ids.GUIDE_BTN)}
                                 color="primary"
                                 className={classes.action}
                                 startIcon={<LaunchIcon />}
@@ -192,6 +203,7 @@ export default function Topics(props) {
                         description={t("learning_center_prompt")}
                         action={
                             <Button
+                                id={build(baseId, ids.LC_BTN)}
                                 color="primary"
                                 className={classes.action}
                                 startIcon={<LaunchIcon />}

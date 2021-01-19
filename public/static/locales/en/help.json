@@ -4,6 +4,7 @@
     "contact_prompt": "Contact CyVerse via e-mail or in-app chat.",
     "contact_title": "Contact",
     "email": "E-mail",
+    "email_subject": "Feedback from {{name}}",
     "email_button_label": "E-mail CyVerse",
     "faq_button_label": "Go to FAQs",
     "faq_prompt": "Find answers to some frequently asked questions here.",

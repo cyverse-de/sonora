@@ -74,4 +74,5 @@ export default {
     DE_GUIDE:
         "https://cyverse-sonora-guide.readthedocs-hosted.com/en/latest/index.html",
     CYVERSE_LC: "https://learning.cyverse.org/en/latest/",
+    DEFAULT_EMAIL: "no-reply@cyverse.org",
 };

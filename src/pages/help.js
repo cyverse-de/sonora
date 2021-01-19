@@ -11,5 +11,5 @@ import React from "react";
 import Topics from "components/help/Topics";
 
 export default function Help() {
-    return <Topics />;
+    return <Topics baseId="help"/>;
 }

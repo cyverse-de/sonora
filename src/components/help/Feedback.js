@@ -4,23 +4,28 @@
  * A dialog that allows users to submit feedback
  *
  */
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "i18n";
 import { useMutation } from "react-query";
 import { Field, Form, Formik } from "formik";
 
+import ids from "./ids";
 import { feedback } from "serviceFacades/users";
 import { nonEmptyField } from "components/utils/validations";
 import constants from "../../constants";
 
 import { useUserProfile } from "contexts/userProfile";
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import DEDialog from "components/utils/DEDialog";
+
 import {
     build,
+    AnnouncerConstants,
+    announce,
     FormTextField,
     FormMultilineTextField,
 } from "@cyverse-de/ui-lib";
 
-import DEDialog from "components/utils/DEDialog";
 import {
     Button,
     CircularProgress,
@@ -29,26 +34,33 @@ import {
 } from "@material-ui/core";
 
 export default function Feedback(props) {
-    const { open, baseId, title, onClose } = props;
+    const { open, title, onClose } = props;
     const { isLoading } = false;
     const [userProfile] = useUserProfile();
+    const [error, setError] = useState();
 
     const { t } = useTranslation("util");
     const { t: i18nHelp } = useTranslation("help");
 
+    const baseId = ids.FEEDBACK_DLG;
+
     const [sendFeedback, { status: feedbackStatus }] = useMutation(feedback, {
-        onSuccess: () => console.log("feedback submitted!"),
-        onError: () => console.log("Error submitting feedback"),
+        onSuccess: () => {
+            announce({
+                text: i18nHelp("feedback_success"),
+                variant: AnnouncerConstants.SUCCESS,
+            });
+        },
+        onError: setError,
     });
 
     const onSubmit = (values) => {
-        console.log("submit feedback now" + JSON.stringify(values));
         const submission = {
-            email: values.email || "no-reply@cyverse.org",
+            email: values.email || constants.DEFAULT_EMAIL,
             fields: {
                 feedback: values.feedback,
             },
-            subject: `feedback from ${values.name}`,
+            subject: i18nHelp("email_subject", { name: values.name }),
         };
         sendFeedback(submission);
     };
@@ -85,9 +97,16 @@ export default function Feedback(props) {
                                 </>
                             }
                         >
+                            {error && (
+                                <ErrorTypographyWithDialog
+                                    errorMessage={i18nHelp("feedback_error")}
+                                    errorObject={error}
+                                />
+                            )}
                             <Typography>
                                 {i18nHelp("feedback_welcome")}
                             </Typography>
+
                             {feedbackStatus === constants.LOADING && (
                                 <CircularProgress
                                     size={30}
@@ -102,7 +121,7 @@ export default function Feedback(props) {
                             {!userProfile?.id && (
                                 <>
                                     <Field
-                                        id={build(baseId, "name")}
+                                        id={build(baseId, ids.NAME)}
                                         name={"name"}
                                         required={true}
                                         component={FormTextField}
@@ -112,7 +131,7 @@ export default function Feedback(props) {
                                         label={i18nHelp("name")}
                                     />
                                     <Field
-                                        id={build(baseId, "email")}
+                                        id={build(baseId, ids.EMAIL)}
                                         name="email"
                                         required={false}
                                         component={FormTextField}
@@ -125,9 +144,9 @@ export default function Feedback(props) {
                                 </>
                             )}
                             <Field
-                                id={build(baseId, "feedback")}
+                                id={build(baseId, ids.FEEDBACK)}
                                 name="feedback"
-                                label="Feedback"
+                                label={t("feedback_title")}
                                 required={true}
                                 onKeyDown={(event) => {
                                     if (event.key === "Enter") {
@@ -142,10 +161,6 @@ export default function Feedback(props) {
                                             {isLoading && (
                                                 <InputAdornment position="start">
                                                     <CircularProgress
-                                                        id={build(
-                                                            baseId,
-                                                            "feedback_progress"
-                                                        )}
                                                         color="inherit"
                                                         size={20}
                                                     />

@@ -7,25 +7,15 @@
 import React, { useMemo } from "react";
 
 import { build } from "@cyverse-de/ui-lib";
-import {
-    ListItem,
-    ListItemText,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-    TableSortLabel,
-    Typography,
-} from "@material-ui/core";
+import { ListItem, ListItemText, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { useSortBy, useTable } from "react-table";
 
 import { useTranslation } from "i18n";
 import { getUserPrimaryText, getUserSecondaryText, isGroup } from "./util";
 import ids from "./ids";
 import SharingPermissionSelector from "./SharingPermissionSelector";
 import styles from "./styles";
+import BasicTable from "../utils/BasicTable";
 
 const useStyles = makeStyles(styles);
 
@@ -91,59 +81,8 @@ function UserTable(props) {
         ],
         [baseId, t, onPermissionChange, onRemoveUser, classes.listItem]
     );
-    const { getTableProps, headerGroups, rows, prepareRow } = useTable(
-        {
-            columns,
-            data,
-        },
-        useSortBy
-    );
 
-    return (
-        <Table size="small" stickyHeader {...getTableProps()}>
-            <TableHead>
-                {headerGroups.map((headerGroup) => (
-                    <TableRow {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map((column) => (
-                            <TableCell
-                                padding="none"
-                                {...column.getHeaderProps(
-                                    column.getSortByToggleProps()
-                                )}
-                            >
-                                {column.render("Header")}
-                                <TableSortLabel
-                                    active={column.isSorted}
-                                    direction={
-                                        column.isSortedDesc ? "desc" : "asc"
-                                    }
-                                />
-                            </TableCell>
-                        ))}
-                    </TableRow>
-                ))}
-            </TableHead>
-            <TableBody>
-                {rows.map((row) => {
-                    prepareRow(row);
-                    return (
-                        <TableRow {...row.getRowProps()}>
-                            {row.cells.map((cell) => {
-                                return (
-                                    <TableCell
-                                        padding="none"
-                                        {...cell.getCellProps()}
-                                    >
-                                        {cell.render("Cell")}
-                                    </TableCell>
-                                );
-                            })}
-                        </TableRow>
-                    );
-                })}
-            </TableBody>
-        </Table>
-    );
+    return <BasicTable columns={columns} data={data} sortable />;
 }
 
 export default UserTable;

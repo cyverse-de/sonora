@@ -188,7 +188,7 @@ function AnalysesToolbar(props) {
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
 
     const hasSelection = getSelectedAnalyses
-        ? getSelectedAnalyses().length > 0
+        ? getSelectedAnalyses()?.length > 0
         : false;
     const sharingAnalyses = formatSharedAnalyses(getSelectedAnalyses());
 

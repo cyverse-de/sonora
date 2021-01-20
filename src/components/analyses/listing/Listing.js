@@ -538,48 +538,51 @@ function Listing(props) {
     const handleAppTypeFilterChange = (appTypeFilter) => {
         setSelected([]);
         onRouteToListing &&
-        onRouteToListing(
-            order,
-            orderBy,
-            0,
-            rowsPerPage,
-            permFilter,
-            appTypeFilter,
-            idFilter
-        );
+            onRouteToListing(
+                order,
+                orderBy,
+                0,
+                rowsPerPage,
+                permFilter,
+                appTypeFilter,
+                idFilter
+            );
     };
 
     const handleOwnershipFilterChange = (viewFilter) => {
         setSelected([]);
         onRouteToListing &&
-        onRouteToListing(
-            order,
-            orderBy,
-            0,
-            rowsPerPage,
-            viewFilter,
-            typeFilter,
-            idFilter
-        );
+            onRouteToListing(
+                order,
+                orderBy,
+                0,
+                rowsPerPage,
+                viewFilter,
+                typeFilter,
+                idFilter
+            );
     };
 
     const handleBatchIconClick = (analysis) => {
         setParentAnalyses(analysis);
         setSelected([]);
         onRouteToListing &&
-        onRouteToListing(
-            order,
-            orderBy,
-            0,
-            rowsPerPage,
-            null,
-            null,
-            idFilter
-        );
+            onRouteToListing(
+                order,
+                orderBy,
+                0,
+                rowsPerPage,
+                null,
+                null,
+                idFilter
+            );
     };
 
     const handleClearFilter = () => {
-        onRouteToListing(order, orderBy, 0, rowsPerPage, null, null, idFilter);
+        setParentAnalyses(null);
+        setSelected([]);
+        onRouteToListing &&
+            onRouteToListing(order, orderBy, 0, rowsPerPage, null, null, "");
     };
 
     const handleRelaunch = (analyses) => {
@@ -649,9 +652,12 @@ function Listing(props) {
 
     const getSelectedAnalyses = (analyses) => {
         const items = analyses ? analyses : selected;
-        return items.map((id) =>
-            data?.analyses.find((analysis) => analysis.id === id)
-        );
+        if (items) {
+            return items.map((id) =>
+                data?.analyses.find((analysis) => analysis.id === id)
+            ).filter((item) => item !== null && item !== undefined);
+        }
+        return null;
     };
 
     const sharingEnabled = canShare(getSelectedAnalyses());

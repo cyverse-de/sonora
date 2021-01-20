@@ -73,6 +73,8 @@ function Listing(props) {
         order,
         orderBy,
         onRouteToListing,
+        toolbarVisibility = true,
+        rowDotMenuVisibility = true,
     } = props;
     const { t } = useTranslation("data");
 
@@ -473,6 +475,7 @@ function Listing(props) {
                     }
                     setSharingDlgOpen={setSharingDlgOpen}
                     onPublicLinksSelected={() => setPublicLinksDlgOpen(true)}
+                    toolbarVisibility={toolbarVisibility}
                 />
                 {!isGridView && (
                     <TableView
@@ -497,6 +500,7 @@ function Listing(props) {
                         onPublicLinksSelected={() =>
                             setPublicLinksDlgOpen(true)
                         }
+                        rowDotMenuVisibility={rowDotMenuVisibility}
                     />
                 )}
                 {isGridView && <span>Coming Soon!</span>}

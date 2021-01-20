@@ -63,6 +63,7 @@ function DataToolbar(props) {
         setSharingDlgOpen,
         onMetadataSelected,
         onPublicLinksSelected,
+        toolbarVisibility,
     } = props;
 
     const { t } = useTranslation("data");
@@ -87,104 +88,108 @@ function DataToolbar(props) {
                 baseId={toolbarId}
             />
             <div className={classes.divider} />
-            <Hidden smDown>
-                {detailsEnabled && (
-                    <Button
-                        id={build(toolbarId, ids.DETAILS_BTN)}
-                        variant="outlined"
-                        size="small"
-                        disableElevation
-                        color="primary"
-                        onClick={onDetailsSelected}
-                        className={classes.button}
-                        startIcon={<Info />}
-                    >
-                        <Hidden xsDown>{t("details")}</Hidden>
-                    </Button>
-                )}
-                {isWritable(permission) && (
-                    <>
-                        <Button
-                            id={build(toolbarId, ids.CREATE_BTN)}
-                            variant="outlined"
-                            size="small"
-                            disableElevation
-                            color="primary"
-                            onClick={onCreateFolderClicked}
-                            className={classes.button}
-                            startIcon={<CreateNewFolder />}
-                        >
-                            <Hidden xsDown>{t("folder")}</Hidden>
-                        </Button>
-                        <UploadMenuBtn
+            {toolbarVisibility && (
+                <>
+                    <Hidden smDown>
+                        {detailsEnabled && (
+                            <Button
+                                id={build(toolbarId, ids.DETAILS_BTN)}
+                                variant="outlined"
+                                size="small"
+                                disableElevation
+                                color="primary"
+                                onClick={onDetailsSelected}
+                                className={classes.button}
+                                startIcon={<Info />}
+                            >
+                                <Hidden xsDown>{t("details")}</Hidden>
+                            </Button>
+                        )}
+                        {isWritable(permission) && (
+                            <>
+                                <Button
+                                    id={build(toolbarId, ids.CREATE_BTN)}
+                                    variant="outlined"
+                                    size="small"
+                                    disableElevation
+                                    color="primary"
+                                    onClick={onCreateFolderClicked}
+                                    className={classes.button}
+                                    startIcon={<CreateNewFolder />}
+                                >
+                                    <Hidden xsDown>{t("folder")}</Hidden>
+                                </Button>
+                                <UploadMenuBtn
+                                    uploadMenuId={uploadMenuId}
+                                    localUploadId={localUploadId}
+                                    path={path}
+                                    setUploadDialogOpen={setUploadDialogOpen}
+                                    setImportDialogOpen={setImportDialogOpen}
+                                />
+                            </>
+                        )}
+                        {selected && selected.length > 0 && (
+                            <Button
+                                id={build(toolbarId, ids.ADD_TO_BAG_BTN)}
+                                variant="outlined"
+                                size="small"
+                                disableElevation
+                                color="primary"
+                                onClick={onAddToBagSelected}
+                                startIcon={<AddToBagIcon />}
+                            >
+                                <Hidden xsDown>{t("addToBag")}</Hidden>
+                            </Button>
+                        )}
+                        {canShare && (
+                            <SharingButton
+                                size="small"
+                                baseId={toolbarId}
+                                setSharingDlgOpen={setSharingDlgOpen}
+                            />
+                        )}
+                    </Hidden>
+
+                    {hasDotMenu && (
+                        <DataDotMenu
+                            baseId={toolbarId}
+                            path={path}
+                            onDeleteSelected={onDeleteSelected}
+                            onCreateFolderSelected={onCreateFolderClicked}
+                            onDetailsSelected={onDetailsSelected}
+                            onAddToBagSelected={onAddToBagSelected}
+                            permission={permission}
+                            refreshListing={refreshListing}
+                            detailsEnabled={detailsEnabled}
                             uploadMenuId={uploadMenuId}
                             localUploadId={localUploadId}
-                            path={path}
                             setUploadDialogOpen={setUploadDialogOpen}
                             setImportDialogOpen={setImportDialogOpen}
+                            getSelectedResources={getSelectedResources}
+                            selected={selected}
+                            onCreateHTFileSelected={onCreateHTFileSelected}
+                            onCreateMultiInputFileSelected={
+                                onCreateMultiInputFileSelected
+                            }
+                            canShare={canShare}
+                            setSharingDlgOpen={setSharingDlgOpen}
+                            isSmall={isSmall}
+                            onMetadataSelected={onMetadataSelected}
+                            onPublicLinksSelected={onPublicLinksSelected}
                         />
-                    </>
-                )}
-                {selected && selected.length > 0 && (
-                    <Button
-                        id={build(toolbarId, ids.ADD_TO_BAG_BTN)}
-                        variant="outlined"
-                        size="small"
-                        disableElevation
-                        color="primary"
-                        onClick={onAddToBagSelected}
-                        startIcon={<AddToBagIcon />}
-                    >
-                        <Hidden xsDown>{t("addToBag")}</Hidden>
-                    </Button>
-                )}
-                {canShare && (
-                    <SharingButton
-                        size="small"
-                        baseId={toolbarId}
-                        setSharingDlgOpen={setSharingDlgOpen}
+                    )}
+
+                    <CreateFolderDialog
+                        path={path}
+                        open={createFolderDlgOpen}
+                        onClose={onCreateFolderDlgClose}
+                        onFolderCreated={() => {
+                            onCreateFolderDlgClose();
+                            refreshListing();
+                        }}
                     />
-                )}
-            </Hidden>
-
-            {hasDotMenu && (
-                <DataDotMenu
-                    baseId={toolbarId}
-                    path={path}
-                    onDeleteSelected={onDeleteSelected}
-                    onCreateFolderSelected={onCreateFolderClicked}
-                    onDetailsSelected={onDetailsSelected}
-                    onAddToBagSelected={onAddToBagSelected}
-                    permission={permission}
-                    refreshListing={refreshListing}
-                    detailsEnabled={detailsEnabled}
-                    uploadMenuId={uploadMenuId}
-                    localUploadId={localUploadId}
-                    setUploadDialogOpen={setUploadDialogOpen}
-                    setImportDialogOpen={setImportDialogOpen}
-                    getSelectedResources={getSelectedResources}
-                    selected={selected}
-                    onCreateHTFileSelected={onCreateHTFileSelected}
-                    onCreateMultiInputFileSelected={
-                        onCreateMultiInputFileSelected
-                    }
-                    canShare={canShare}
-                    setSharingDlgOpen={setSharingDlgOpen}
-                    isSmall={isSmall}
-                    onMetadataSelected={onMetadataSelected}
-                    onPublicLinksSelected={onPublicLinksSelected}
-                />
+                </>
             )}
-
-            <CreateFolderDialog
-                path={path}
-                open={createFolderDlgOpen}
-                onClose={onCreateFolderDlgClose}
-                onFolderCreated={() => {
-                    onCreateFolderDlgClose();
-                    refreshListing();
-                }}
-            />
         </Toolbar>
     );
 }

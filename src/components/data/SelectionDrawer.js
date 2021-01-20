@@ -97,12 +97,12 @@ function SelectionToolbar(props) {
         <>
             <Toolbar id={build(baseId, ids.SELECTION_TOOLBAR)} ref={toolbarRef}>
                 {hasValidSelection ? (
-                    <Typography color="primary" variant="subtitle2">
+                    <Typography color="primary" variant="h6">
                         {t("selectedItems", { count: selectedTotal })}
                     </Typography>
                 ) : hasInvalidSelection ? (
                     <Typography
-                        variant="subtitle2"
+                        variant="h6"
                         style={{ color: theme.palette.error.main }}
                     >
                         {t("invalidSelection", {
@@ -111,7 +111,7 @@ function SelectionToolbar(props) {
                         })}
                     </Typography>
                 ) : (
-                    <Typography variant="subtitle2">
+                    <Typography variant="h6">
                         {t("selectionSuggestion", {
                             context: acceptedType,
                             count: multiSelect ? 0 : 1,
@@ -122,6 +122,8 @@ function SelectionToolbar(props) {
                 <Button
                     id={build(baseId, ids.SELECTION_TOOLBAR, ids.CANCEL_BTN)}
                     onClick={onClose}
+                    variant="outlined"
+                    style={{ margin: theme.spacing(1) }}
                 >
                     {t("cancel")}
                 </Button>
@@ -130,6 +132,8 @@ function SelectionToolbar(props) {
                         id={build(baseId, ids.SELECTION_TOOLBAR, ids.OK_BTN)}
                         color={"primary"}
                         onClick={handleConfirm}
+                        variant="contained"
+                        style={{ margin: theme.spacing(1) }}
                     >
                         {t("ok")}
                     </Button>
@@ -244,6 +248,8 @@ function SelectionDrawer(props) {
                             setToolbarRef={setToolbarRef}
                         />
                     )}
+                    toolbarVisibility={false}
+                    rowDotMenuVisibility={false}
                 />
             </PageWrapper>
         </Drawer>

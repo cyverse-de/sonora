@@ -98,8 +98,20 @@ const invalidRowStyles = makeStyles((theme) => ({
     hover: {},
 }));
 
-function getLocalStorageCols() {
-    return getLocalStorage(constants.LOCAL_STORAGE.DATA.COLUMNS);
+function getDefaultCols(rowDotMenuVisibility, dataRecordFields) {
+    const defCols = [dataRecordFields.CHECKBOX.key, dataRecordFields.NAME.key];
+    if (rowDotMenuVisibility) {
+        defCols.push(dataRecordFields.DOT_MENU.key);
+    }
+    return defCols;
+}
+
+function getLocalStorageCols(rowDotMenuVisibility, dataRecordFields) {
+    let localCols = getLocalStorage(constants.LOCAL_STORAGE.DATA.COLUMNS);
+    if (!rowDotMenuVisibility && localCols) {
+        return localCols.filter((key) => key !== dataRecordFields.DOT_MENU.key);
+    }
+    return localCols;
 }
 
 function setLocalStorageCols(columns) {
@@ -127,17 +139,15 @@ function TableView(props) {
         setSharingDlgOpen,
         onMetadataSelected,
         onPublicLinksSelected,
+        rowDotMenuVisibility,
     } = props;
     const invalidRowClass = invalidRowStyles();
     const { t } = useTranslation("data");
     const dataRecordFields = dataFields(t);
     const tableId = build(baseId, ids.LISTING_TABLE);
     const [displayColumns, setDisplayColumns] = useState(
-        getLocalStorageCols() || [
-            dataRecordFields.CHECKBOX.key,
-            dataRecordFields.NAME.key,
-            dataRecordFields.DOT_MENU.key,
-        ]
+        getLocalStorageCols(rowDotMenuVisibility, dataRecordFields) ||
+            getDefaultCols(rowDotMenuVisibility, dataRecordFields)
     );
 
     const onSetDisplayColumns = (columns) => {
@@ -193,7 +203,7 @@ function TableView(props) {
     };
 
     const getTableColumns = () => {
-        return [
+        const cols = [
             {
                 name: "",
                 align: "center",
@@ -209,7 +219,9 @@ function TableView(props) {
                 id: dataRecordFields.NAME.key,
             },
             ...optionalColumns(),
-            {
+        ];
+        if (rowDotMenuVisibility) {
+            cols.push({
                 name: (
                     <CustomizeColumns
                         baseId={tableId}
@@ -222,13 +234,14 @@ function TableView(props) {
                 enableSorting: false,
                 key: dataRecordFields.DOT_MENU.key,
                 id: dataRecordFields.DOT_MENU.key,
-            },
-        ];
+            });
+        }
+        return cols;
     };
 
     const getColumnDetails = (keys) => {
         return keys.map((key) =>
-            getTableColumns(dataRecordFields).find((col) => col.key === key)
+            getTableColumns().find((col) => col.key === key)
         );
     };
 
@@ -372,30 +385,34 @@ function TableView(props) {
                                                 </Fragment>
                                             )
                                         )}
-                                        <TableCell align="right">
-                                            <RowDotMenu
-                                                baseId={build(
-                                                    tableId,
-                                                    resourceName
-                                                )}
-                                                onDetailsSelected={
-                                                    onDetailsSelected
-                                                }
-                                                onDeleteSelected={() =>
-                                                    onDeleteSelected(resourceId)
-                                                }
-                                                resource={resource}
-                                                setSharingDlgOpen={
-                                                    setSharingDlgOpen
-                                                }
-                                                onMetadataSelected={
-                                                    onMetadataSelected
-                                                }
-                                                onPublicLinksSelected={
-                                                    onPublicLinksSelected
-                                                }
-                                            />
-                                        </TableCell>
+                                        {rowDotMenuVisibility && (
+                                            <TableCell align="right">
+                                                <RowDotMenu
+                                                    baseId={build(
+                                                        tableId,
+                                                        resourceName
+                                                    )}
+                                                    onDetailsSelected={
+                                                        onDetailsSelected
+                                                    }
+                                                    onDeleteSelected={() =>
+                                                        onDeleteSelected(
+                                                            resourceId
+                                                        )
+                                                    }
+                                                    resource={resource}
+                                                    setSharingDlgOpen={
+                                                        setSharingDlgOpen
+                                                    }
+                                                    onMetadataSelected={
+                                                        onMetadataSelected
+                                                    }
+                                                    onPublicLinksSelected={
+                                                        onPublicLinksSelected
+                                                    }
+                                                />
+                                            </TableCell>
+                                        )}
                                     </DERow>
                                 );
                             })}

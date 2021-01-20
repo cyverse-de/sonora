@@ -653,9 +653,11 @@ function Listing(props) {
     const getSelectedAnalyses = (analyses) => {
         const items = analyses ? analyses : selected;
         if (items) {
-            return items.map((id) =>
-                data?.analyses.find((analysis) => analysis.id === id)
-            ).filter((item) => item !== null && item !== undefined);
+            return items
+                .map((id) =>
+                    data?.analyses.find((analysis) => analysis.id === id)
+                )
+                .filter((item) => item !== null && item !== undefined);
         }
         return null;
     };

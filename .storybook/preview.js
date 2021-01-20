@@ -26,6 +26,7 @@ import { I18nextProvider } from "react-i18next";
 
 import { addDecorator } from "@storybook/react";
 import { withConsole } from "@storybook/addon-console";
+import { withNextRouter } from "storybook-addon-next-router";
 
 function MockUserProfile() {
     const [userProfile, setUserProfile] = useUserProfile();
@@ -61,6 +62,14 @@ const queryConfig = {
 };
 
 addDecorator((storyFn, context) => withConsole()(storyFn)(context));
+addDecorator(
+    withNextRouter({
+        path: "/", // defaults to `/`
+        asPath: "/", // defaults to `/`
+        query: {}, // defaults to `{}`
+        push() {}, // defaults to using addon actions integration, can override any method in the router
+    })
+);
 
 export const decorators = [
     (Story) => (

@@ -865,12 +865,6 @@ function GlobalSearchField(props) {
                 >
                     {t("analyses")}
                 </MenuItem>
-                <MenuItem
-                    id={build(searchFilterId, ids.SEARCH_FILTER_MI.TEAMS)}
-                    value={searchConstants.TEAMS}
-                >
-                    {t("teams")}
-                </MenuItem>
             </TextField>
         </>
     );

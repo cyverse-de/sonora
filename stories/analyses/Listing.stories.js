@@ -31,19 +31,20 @@ function ListingTest(props) {
         <NotificationsProvider>
             <Listing
                 baseId="tableView"
-                selectedPage={selectedPage}
-                selectedRowsPerPage={selectedRowsPerPage}
-                selectedOrder={selectedOrder}
-                selectedOrderBy={selectedOrderBy}
-                selectedPermFilter={selectedPermFilter}
-                selectedTypeFilter={selectedTypeFilter}
+                page={selectedPage}
+                rowsPerPage={selectedRowsPerPage}
+                order={selectedOrder}
+                orderBy={selectedOrderBy}
+                permFilter={selectedPermFilter}
+                typeFilter={selectedTypeFilter}
                 onRouteToListing={(
                     order,
                     orderBy,
                     page,
                     rowsPerPage,
                     permFilter,
-                    appTypeFilter
+                    appTypeFilter,
+                    idFilter
                 ) => {
                     console.log(
                         "onRouteToListing",
@@ -52,7 +53,8 @@ function ListingTest(props) {
                         page,
                         rowsPerPage,
                         permFilter,
-                        appTypeFilter
+                        appTypeFilter,
+                        idFilter
                     );
                 }}
                 handleGoToOutputFolder={(analysis) =>

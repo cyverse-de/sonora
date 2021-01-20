@@ -72,9 +72,9 @@ function TopicCard(props) {
     );
 }
 
-export default function Topics(props) {
+export default function HelpTopics(props) {
     const { baseId } = props;
-    const [runTour, setRunTour] = useState();
+    const [runTour, setRunTour] = useState(false);
     const [feedbackOpen, setFeedbackOpen] = useState();
     const classes = useStyles();
     const { t } = useTranslation("help");
@@ -221,7 +221,6 @@ export default function Topics(props) {
             <Feedback
                 open={feedbackOpen}
                 title={t("feedback_title")}
-                baseId="help"
                 onClose={() => setFeedbackOpen(false)}
             />
             <ProductTour

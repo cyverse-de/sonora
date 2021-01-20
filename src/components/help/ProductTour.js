@@ -4,7 +4,7 @@ import { useTranslation } from "i18n";
 
 import { getSteps } from "./steps";
 
-import { useTheme } from "@material-ui/core";
+import { useMediaQuery, useTheme } from "@material-ui/core";
 
 // only new users
 const Joyride = dynamic(() => import("react-joyride"));
@@ -14,6 +14,7 @@ export default function ProductTour(props) {
     const theme = useTheme();
     const [tourStepIndex, setTourStepIndex] = useState(0);
     const { t: i18nTour } = useTranslation("intro");
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
     const handleJoyrideCallback = (callbackData) => {
         const realCallback = async (callbackData) => {
@@ -35,7 +36,7 @@ export default function ProductTour(props) {
 
     return (
         <Joyride
-            steps={getSteps(i18nTour)}
+            steps={getSteps(i18nTour, isMobile)}
             run={runTour}
             showProgress={true}
             showSkipButton={true}

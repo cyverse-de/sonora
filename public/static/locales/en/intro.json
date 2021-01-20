@@ -9,7 +9,7 @@
     "searchTitle": "Search",
     "supportTitle": "Support",
     "menuTitle": "Menu",
-    "menu": "<p>Use this menu to access Analyses, Apps, and Data or to return to the Dashboard from anywhere within the DE. Click to open the menu.</p>",
+    "menu": "<p>Use this menu to access Analyses, Apps, and Data or to return to the Dashboard from anywhere within the DE.</p>",
     "analyses": "<p>From the Analyses view, you can:</p><p><ul><li>Check the status of a launched analysis</li><li>Access the results of your analysis</li><li>View the parameters you set for each analysis</li><li>Relaunch an analysis with the same parameters you previously selected</li></ul></p>",
     "apps": "<p>From the Apps view, you can:</p><p><ul><li>Browse all apps available in CyVerse to analyze your data</li><li>Customize an existing app</li><li>Create your own app</li></ul></p>",
     "data": "<p>From the Data view, you can:</p><p><ul><li>Transfer data in/out of CyVerse</li><li>Access data you own, data shared with you, and public data</li><li>Share your data with other CyVerse or external users</li></ul></p>",

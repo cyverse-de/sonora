@@ -8,8 +8,8 @@
 
 import React from "react";
 
-import Topics from "components/help/Topics";
+import HelpTopics from "components/help/HelpTopics";
 
 export default function Help() {
-    return <Topics baseId="help" />;
+    return <HelpTopics baseId="help" />;
 }

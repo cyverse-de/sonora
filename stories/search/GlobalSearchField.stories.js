@@ -13,11 +13,13 @@ import {
     appsSearchResp,
     analysesSearchResp,
 } from "./searchMocks";
+import { teamList } from "../teams/TeamMocks";
 
 function GlobalSearchFieldTest() {
     mockAxios.onPost(/\/api\/filesystem\/search.*/).reply(200, dataSearchResp);
     mockAxios.onGet(/\/api\/apps.*/).reply(200, appsSearchResp);
     mockAxios.onGet(/\/api\/analyses.*/).reply(200, analysesSearchResp);
+    mockAxios.onGet(/\/api\/teams*/).reply(200, teamList);
 
     return <GlobalSearchField />;
 }

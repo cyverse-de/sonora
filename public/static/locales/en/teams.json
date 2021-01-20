@@ -1,7 +1,10 @@
 {
   "allTeams": "All Teams",
   "ariaTeamFilter": "Team Filter",
+  "creator": "Creator Name",
+  "description": "Description",
   "myTeams": "My Teams",
+  "name": "Name",
   "searchTeams": "Search Teams",
   "team": "Team",
   "view": "View"

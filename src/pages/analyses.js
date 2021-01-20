@@ -23,6 +23,7 @@ export default function Analyses() {
     const analysisRecordFields = analysisFields(t);
     const selectedPage = parseInt(query.selectedPage) || 0;
     const selectedRowsPerPage =
+        parseInt(query.selectedRowsPerPage) ||
         parseInt(getLocalStorage(constants.LOCAL_STORAGE.ANALYSES.PAGE_SIZE)) ||
         100;
     const selectedOrder = query.selectedOrder || constants.SORT_DESCENDING;
@@ -36,16 +37,29 @@ export default function Analyses() {
         ? JSON.parse(query.selectedTypeFilter)
         : null;
 
+    const selectedIdFilter = query.selectedIdFilter
+        ? JSON.parse(query.selectedIdFilter)
+        : null;
+
     const onRouteToListing = useCallback(
-        (order, orderBy, page, rowsPerPage, permFilter, appTypeFilter) => {
+        (
+            order,
+            orderBy,
+            page,
+            rowsPerPage,
+            permFilter,
+            appTypeFilter,
+            idFilter
+        ) => {
             router.push(
                 getListingPath(
                     order,
                     orderBy,
                     page,
                     rowsPerPage,
-                    permFilter,
-                    appTypeFilter
+                    JSON.stringify(permFilter),
+                    JSON.stringify(appTypeFilter),
+                    JSON.stringify(idFilter)
                 )
             );
         },
@@ -56,13 +70,13 @@ export default function Analyses() {
         <Listing
             baseId="analyses"
             onRouteToListing={onRouteToListing}
-            selectedIdFilter=""
-            selectedPage={selectedPage}
-            selectedRowsPerPage={selectedRowsPerPage}
-            selectedOrder={selectedOrder}
-            selectedOrderBy={selectedOrderBy}
-            selectedPermFilter={selectedPermFilter}
-            selectedTypeFilter={selectedTypeFilter}
+            idFilter={selectedIdFilter}
+            page={selectedPage}
+            rowsPerPage={selectedRowsPerPage}
+            order={selectedOrder}
+            orderBy={selectedOrderBy}
+            permFilter={selectedPermFilter}
+            typeFilter={selectedTypeFilter}
         />
     );
 }

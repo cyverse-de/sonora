@@ -32,7 +32,7 @@ import {
 } from "serviceFacades/support";
 
 import { canShare, openInteractiveUrl } from "../utils";
-
+import globalConstants from "../../../constants";
 import ConfirmationDialog from "../../utils/ConfirmationDialog";
 import DEPagination from "../../utils/DEPagination";
 import withErrorAnnouncer from "../../utils/error/withErrorAnnouncer";
@@ -80,25 +80,17 @@ function Listing(props) {
         baseId,
         onRouteToListing,
         handleSingleRelaunch,
-        selectedIdFilter,
-        selectedPage,
-        selectedRowsPerPage,
-        selectedOrder,
-        selectedOrderBy,
-        selectedPermFilter,
-        selectedTypeFilter,
+        idFilter,
+        page,
+        rowsPerPage,
+        order,
+        orderBy,
+        permFilter,
+        typeFilter,
         showErrorAnnouncer,
     } = props;
     const { t } = useTranslation("analyses");
     const [isGridView, setGridView] = useState(false);
-
-    const [order, setOrder] = useState(selectedOrder);
-    const [orderBy, setOrderBy] = useState(selectedOrderBy);
-    const [page, setPage] = useState(selectedPage);
-    const [rowsPerPage, setRowsPerPage] = useState(selectedRowsPerPage);
-    const [permFilter, setPermFilter] = useState(selectedPermFilter);
-    const [appTypeFilter, setAppTypeFilter] = useState(selectedTypeFilter);
-    const [idFilter, setIdFilter] = useState(selectedIdFilter);
 
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
@@ -284,46 +276,6 @@ function Listing(props) {
     };
 
     useEffect(() => {
-        const permFilterChanged = selectedPermFilter?.name !== permFilter?.name;
-        const typeFilterChanged =
-            selectedTypeFilter?.name !== appTypeFilter?.name;
-        if (
-            permFilterChanged ||
-            typeFilterChanged ||
-            selectedOrder !== order ||
-            selectedOrderBy !== orderBy ||
-            selectedPage !== page ||
-            selectedRowsPerPage !== rowsPerPage
-        ) {
-            //JSON objects needs to stringified for urls.
-            const stringPermFilter = JSON.stringify(permFilter);
-            const stringTypeFilter = JSON.stringify(appTypeFilter);
-            onRouteToListing(
-                order,
-                orderBy,
-                page,
-                rowsPerPage,
-                stringPermFilter,
-                stringTypeFilter
-            );
-        }
-    }, [
-        appTypeFilter,
-        onRouteToListing,
-        order,
-        orderBy,
-        page,
-        permFilter,
-        rowsPerPage,
-        selectedOrder,
-        selectedOrderBy,
-        selectedPage,
-        selectedPermFilter,
-        selectedTypeFilter,
-        selectedRowsPerPage,
-    ]);
-
-    useEffect(() => {
         const filters = [];
 
         if (idFilter) {
@@ -337,11 +289,11 @@ function Listing(props) {
             idParentFilter.value = parentAnalysis?.id || "";
             filters.push(idParentFilter);
 
-            if (appTypeFilter && appTypeFilter.name !== appType.all) {
-                const typeFilter = Object.create(filter);
-                typeFilter.field = TYPE_FILTER;
-                typeFilter.value = appTypeFilter.name;
-                filters.push(typeFilter);
+            if (typeFilter && typeFilter.name !== appType.all) {
+                const appTypeFilter = Object.create(filter);
+                appTypeFilter.field = TYPE_FILTER;
+                appTypeFilter.value = typeFilter.name;
+                filters.push(appTypeFilter);
             }
 
             if (permFilter) {
@@ -384,9 +336,9 @@ function Listing(props) {
         rowsPerPage,
         parentAnalysis,
         permFilter,
-        appTypeFilter,
         t,
         idFilter,
+        typeFilter,
     ]);
 
     const updateAnalyses = useCallback(
@@ -542,45 +494,92 @@ function Listing(props) {
     };
 
     const handleChangePage = (event, newPage) => {
-        setPage(newPage - 1);
-        setSelected([]);
+        onRouteToListing &&
+            onRouteToListing(
+                order,
+                orderBy,
+                newPage - 1,
+                rowsPerPage,
+                permFilter,
+                typeFilter,
+                idFilter
+            );
     };
 
     const handleChangeRowsPerPage = (newPageSize) => {
-        setRowsPerPage(parseInt(newPageSize, 10));
-        setSelected([]);
-        setPage(0);
+        onRouteToListing &&
+            onRouteToListing(
+                order,
+                orderBy,
+                0,
+                parseInt(newPageSize, 10),
+                permFilter,
+                typeFilter,
+                idFilter
+            );
     };
     const handleRequestSort = (event, property) => {
-        const isAsc = orderBy === property && order === "asc";
-        setOrder(isAsc ? "desc" : "asc");
-        setOrderBy(property);
-        setSelected([]);
-        setPage(0);
+        const isAsc =
+            orderBy === property && order === globalConstants.SORT_ASCENDING;
+        onRouteToListing &&
+            onRouteToListing(
+                isAsc
+                    ? globalConstants.SORT_DESCENDING
+                    : globalConstants.SORT_ASCENDING,
+                property,
+                page,
+                rowsPerPage,
+                permFilter,
+                typeFilter,
+                idFilter
+            );
     };
 
     const handleAppTypeFilterChange = (appTypeFilter) => {
-        setAppTypeFilter(appTypeFilter);
         setSelected([]);
-        setPage(0);
+        onRouteToListing &&
+        onRouteToListing(
+            order,
+            orderBy,
+            0,
+            rowsPerPage,
+            permFilter,
+            appTypeFilter,
+            idFilter
+        );
     };
 
     const handleOwnershipFilterChange = (viewFilter) => {
-        setPermFilter(viewFilter);
         setSelected([]);
-        setPage(0);
+        onRouteToListing &&
+        onRouteToListing(
+            order,
+            orderBy,
+            0,
+            rowsPerPage,
+            viewFilter,
+            typeFilter,
+            idFilter
+        );
     };
 
     const handleBatchIconClick = (analysis) => {
         setParentAnalyses(analysis);
-        setPermFilter(null);
-        setAppTypeFilter(null);
-        setIdFilter(null);
         setSelected([]);
+        onRouteToListing &&
+        onRouteToListing(
+            order,
+            orderBy,
+            0,
+            rowsPerPage,
+            null,
+            null,
+            idFilter
+        );
     };
 
     const handleClearFilter = () => {
-        onRouteToListing(order, orderBy, 0, rowsPerPage, null, null);
+        onRouteToListing(order, orderBy, 0, rowsPerPage, null, null, idFilter);
     };
 
     const handleRelaunch = (analyses) => {
@@ -666,7 +665,7 @@ function Listing(props) {
                 getSelectedAnalyses={getSelectedAnalyses}
                 handleAppTypeFilterChange={handleAppTypeFilterChange}
                 handleOwnershipFilterChange={handleOwnershipFilterChange}
-                appTypeFilter={appTypeFilter}
+                appTypeFilter={typeFilter}
                 ownershipFilter={permFilter}
                 viewFiltered={parentAnalysis || idFilter}
                 onClearFilter={handleClearFilter}

@@ -158,9 +158,10 @@ const getListingPath = (
     page,
     rowsPerPage,
     permFilter,
-    appTypeFilter
+    appTypeFilter,
+    idFilter
 ) =>
-    `/${NavigationConstants.ANALYSES}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedPermFilter=${permFilter}&selectedTypeFilter=${appTypeFilter}`;
+    `/${NavigationConstants.ANALYSES}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedPermFilter=${permFilter}&selectedTypeFilter=${appTypeFilter}&selectedIdFilter=${idFilter}`;
 
 /**
  * Open a new tab / window with VICE access url is clicked
@@ -193,7 +194,7 @@ const canShare = (selectedAnalyses) => {
     return (
         selectedAnalyses &&
         selectedAnalyses.length > 0 &&
-        !selectedAnalyses.find((analysis) => !analysis.can_share)
+        !selectedAnalyses.find((analysis) => !analysis?.can_share)
     );
 };
 

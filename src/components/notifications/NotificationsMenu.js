@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import Link from "next/link";
 import { formatDistance, fromUnixTime } from "date-fns";
 import classnames from "classnames";
 
 import {
     getNotifications,
+    markAllSeen,
     NOTIFICATIONS_MESSAGES_QUERY_KEY,
-} from "serviceFacades/notifications";
+} from "../../serviceFacades/notifications";
 import { useTranslation } from "../../i18n";
 import ids from "./ids";
 import NotificationStyles from "./styles";
@@ -17,6 +18,7 @@ import NavigationConstants from "common/NavigationConstants";
 
 import ExternalLink from "components/utils/ExternalLink";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 
 import { build } from "@cyverse-de/ui-lib";
 import {
@@ -43,10 +45,14 @@ const NOTIFICATION_MENU_SORT_ORDER = "desc";
 const NOTIFICATION_MENU_LIMIT = 10;
 const NOTIFICATION_MENU_OFFSET = 0;
 
-function getTimeStamp(time) {
-    if (time) {
+/*
+ * Takes in a notification object and returns the time
+ * stamp of the notification in 'pretty format'
+ */
+function getTimeStamp(timestamp) {
+    if (timestamp) {
         // slicing because time has extra zeroes in the unix string
-        const d = fromUnixTime(time.slice(0, -3));
+        const d = fromUnixTime(timestamp.slice(0, -3));
         return formatDistance(d, new Date());
     }
 }
@@ -113,7 +119,13 @@ function InteractiveAnalysisUrl(props) {
 }
 
 function NotificationsMenu(props) {
-    const { setUnSeenCount, notificationMssg, setAnchorEl, anchorEl } = props;
+    const {
+        setUnSeenCount,
+        notificationMssg,
+        setAnchorEl,
+        anchorEl,
+        showErrorAnnouncer,
+    } = props;
     const [notifications, setNotifications] = useState([]);
     const [error, setError] = useState();
     const classes = useStyles();
@@ -125,9 +137,9 @@ function NotificationsMenu(props) {
         setAnchorEl();
     };
 
-    const handleClick = () => {
-        // set unseen count to 0 (I'll finish this after Paul has merged his part)
-        setAnchorEl();
+    const handleMarkAllAsSeenClick = () => {
+        markAllSeenMutation();
+        handleClose();
     };
 
     useEffect(() => {
@@ -163,6 +175,26 @@ function NotificationsMenu(props) {
         },
     });
 
+    const [markAllSeenMutation] = useMutation(markAllSeen, {
+        onSuccess: () => {
+            setAllNotificationsSeen();
+        },
+        onError: (error) => {
+            showErrorAnnouncer(t("errorMarkAsSeen"), error);
+        },
+    });
+
+    const setAllNotificationsSeen = () => {
+        setNotifications(
+            notifications?.map((item) => {
+                const tempItem = { ...item };
+                tempItem.seen = true;
+                return tempItem;
+            })
+        );
+        setUnSeenCount(0);
+    };
+
     return (
         <Menu
             anchorEl={anchorEl}
@@ -186,13 +218,18 @@ function NotificationsMenu(props) {
                 {isMobile && [
                     <NotificationsListingLink
                         key={ids.VIEW_ALL_NOTIFICATIONS}
+                        id={build(
+                            ids.BASE_DEBUG_ID,
+                            ids.NOTIFICATIONS_MENU,
+                            ids.VIEW_ALL_NOTIFICATIONS
+                        )}
                         handleClose={handleClose}
                         isMobile={isMobile}
                     />,
                     <IconButton
                         key={ids.MARK_ALL_READ}
                         className={classes.markSeen}
-                        onClick={handleClick}
+                        onClick={handleMarkAllAsSeenClick}
                         id={build(
                             ids.BASE_DEBUG_ID,
                             ids.NOTIFICATIONS_MENU,
@@ -229,7 +266,11 @@ function NotificationsMenu(props) {
                 notifications.map((n, index) => (
                     <ListItem
                         onClick={handleClose}
-                        id={build(ids.BASE_DEBUG_ID, ids.NOTIFICATIONS_MENU)}
+                        id={build(
+                            ids.BASE_DEBUG_ID,
+                            ids.NOTIFICATIONS_MENU,
+                            index
+                        )}
                         key={n.message.id}
                         className={
                             !n.seen
@@ -248,7 +289,7 @@ function NotificationsMenu(props) {
                                     id={build(
                                         ids.BASE_DEBUG_ID,
                                         ids.NOTIFICATIONS_MENU,
-                                        n?.id
+                                        n?.message.id
                                     )}
                                     variant="subtitle2"
                                 >
@@ -283,6 +324,11 @@ function NotificationsMenu(props) {
                 <Divider light key="divider" />,
                 <NotificationsListingLink
                     key={ids.VIEW_ALL_NOTIFICATIONS}
+                    id={build(
+                        ids.BASE_DEBUG_ID,
+                        ids.NOTIFICATIONS_MENU,
+                        ids.VIEW_ALL_NOTIFICATIONS
+                    )}
                     handleClose={handleClose}
                     isMobile={isMobile}
                 />,
@@ -294,7 +340,7 @@ function NotificationsMenu(props) {
                         ids.MARK_ALL_READ
                     )}
                     color="primary"
-                    onClick={handleClick}
+                    onClick={handleMarkAllAsSeenClick}
                     startIcon={<DoneAllIcon size="small" />}
                 >
                     {t("markAsRead")}
@@ -304,4 +350,4 @@ function NotificationsMenu(props) {
     );
 }
 
-export default NotificationsMenu;
+export default withErrorAnnouncer(NotificationsMenu);

@@ -4,6 +4,7 @@
 import callApi from "../common/callApi";
 
 const NOTIFICATIONS_MESSAGES_QUERY_KEY = "fetchNotificationsMessagesKey";
+const NOTIFICATIONS_MARK_ALL_SEEN_KEY = "markAllSeenKey";
 
 function getNotifications(key, { filter, orderBy, order, limit, offset }) {
     return callApi({
@@ -27,6 +28,13 @@ function markSeen(ids) {
     });
 }
 
+function markAllSeen() {
+    return callApi({
+        endpoint: "/api/notifications/mark-all-seen",
+        method: "POST",
+    });
+}
+
 function deleteNotifications(ids) {
     return callApi({
         endpoint: "/api/notifications/delete",
@@ -37,7 +45,9 @@ function deleteNotifications(ids) {
 
 export {
     NOTIFICATIONS_MESSAGES_QUERY_KEY,
+    NOTIFICATIONS_MARK_ALL_SEEN_KEY,
     deleteNotifications,
     getNotifications,
     markSeen,
+    markAllSeen,
 };

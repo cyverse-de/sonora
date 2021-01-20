@@ -106,14 +106,14 @@ export default function HelpTopics(props) {
                 </Grid>
                 <Grid item>
                     <TopicCard
-                        title="Contact"
-                        description="Contact CyVerse via e-mail or in-app chat."
+                        title={t("contact_title")}
+                        description={t("contact_prompt")}
                         action={
                             <>
                                 <Button
                                     id={build(baseId, ids.EMAIL_BTN)}
                                     color="primary"
-                                    href="mailto:support@ycyverse.org"
+                                    href={`mailto:${constants.SUPPORT_EMAIL}`}
                                     startIcon={<LaunchIcon />}
                                     size="small"
                                 >

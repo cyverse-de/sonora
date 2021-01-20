@@ -279,50 +279,6 @@ const DrawerItem = (props) => {
     );
 };
 
-const HelpDrawerItem = (props) => {
-    const classes = useStyles();
-    const router = useRouter();
-    const {
-        id,
-        title,
-        activeView,
-        thisView,
-        toggleDrawer,
-        clsxBase,
-        open,
-    } = props;
-    return (
-        <List component="div">
-            <Tooltip title={title} placement="right" arrow>
-                <ListItem
-                    id={build(ids.DRAWER_MENU, id)}
-                    onClick={() => {
-                        toggleDrawer(false);
-                        router.push("/" + thisView);
-                    }}
-                    className={
-                        activeView === thisView
-                            ? classes.listItemActive
-                            : classes.listItem
-                    }
-                >
-                    <ListItemIcon>
-                        <HelpIcon
-                            className={
-                                clsxBase
-                                    ? clsx(clsxBase, classes.icon)
-                                    : classes.icon
-                            }
-                            fontSize="large"
-                        />
-                    </ListItemIcon>
-                    {open && <ListItemText>{title}</ListItemText>}
-                </ListItem>
-            </Tooltip>
-        </List>
-    );
-};
-
 function CyverseAppBar(props) {
     const classes = useStyles();
     const theme = useTheme();
@@ -601,6 +557,16 @@ function CyverseAppBar(props) {
                     open={open}
                 />
             )}
+            <DrawerItem
+                clsxBase={"help-intro"}
+                activeView={activeView}
+                thisView={NavigationConstants.HELP}
+                toggleDrawer={toggleDrawer}
+                open={open}
+                id="help"
+                title={t("help")}
+                icon={HelpIcon}
+            />
         </List>
     );
 
@@ -818,16 +784,6 @@ function CyverseAppBar(props) {
                             {adminDrawerItems}
                         </>
                     )}
-                    <Divider />
-                    <HelpDrawerItem
-                        clsxBase={"help-intro"}
-                        activeView={activeView}
-                        thisView={NavigationConstants.HELP}
-                        toggleDrawer={toggleDrawer}
-                        open={open}
-                        id="help"
-                        title={t("help")}
-                    />
                 </Drawer>
                 <CyVerseAnnouncer />
                 <Popover

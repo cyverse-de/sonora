@@ -146,7 +146,7 @@ export default function Feedback(props) {
                             <Field
                                 id={build(baseId, ids.FEEDBACK)}
                                 name="feedback"
-                                label={t("feedback_title")}
+                                label={i18nHelp("feedback_title")}
                                 required={true}
                                 onKeyDown={(event) => {
                                     if (event.key === "Enter") {

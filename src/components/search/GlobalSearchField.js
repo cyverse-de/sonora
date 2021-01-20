@@ -649,19 +649,17 @@ function GlobalSearchField(props) {
             onKeyDown={(e) => {
                 if (e.key === "Enter") {
                     setOpen(false);
-                    if (filter !== searchConstants.ALL) {
-                        router.push({
-                            pathname: `/${NavigationConstants.SEARCH}`,
-                            query: {
-                                searchTerm,
-                                filter,
-                                selectedTab:
-                                    filter && filter !== searchConstants.ALL
-                                        ? filter.toUpperCase()
-                                        : SEARCH_RESULTS_TABS.DATA,
-                            },
-                        });
-                    }
+                    router.push({
+                        pathname: `/${NavigationConstants.SEARCH}`,
+                        query: {
+                            searchTerm,
+                            filter,
+                            selectedTab:
+                                filter && filter !== searchConstants.ALL
+                                    ? filter.toUpperCase()
+                                    : SEARCH_RESULTS_TABS.data,
+                        },
+                    });
                 }
             }}
         />

@@ -34,6 +34,8 @@ import {
 } from "@material-ui/core";
 import AppsIcon from "@material-ui/icons/Apps";
 import SearchIcon from "@material-ui/icons/Search";
+import TeamIcon from "@material-ui/icons/PeopleAltOutlined";
+import TeamSearchResults from "./TeamSearchResults";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -80,10 +82,12 @@ function DetailedSearchResults(props) {
     const [appsCount, setAppsCount] = useState(0);
     const [dataCount, setDataCount] = useState(0);
     const [analysesCount, setAnalysesCount] = useState(0);
+    const [teamCount, setTeamCount] = useState(0);
 
     const dataTabId = build(baseId, ids.DATA_SEARCH_RESULTS_TAB);
     const appsTabId = build(baseId, ids.APPS_SEARCH_RESULTS_TAB);
     const analysesTabId = build(baseId, ids.ANALYSES_SEARCH_RESULTS_TAB);
+    const teamTabId = build(baseId, ids.TEAM_SEARCH_RESULTS_TAB);
 
     const dataTabIcon =
         selectedTab === SEARCH_RESULTS_TABS.data
@@ -100,7 +104,7 @@ function DetailedSearchResults(props) {
             ? "/analyses-white-24.png"
             : "/analyses-grey-24.png";
 
-    const totalResults = dataCount + appsCount + analysesCount;
+    const totalResults = dataCount + appsCount + analysesCount + teamCount;
 
     if (!searchTerm && !isMobile) {
         return (
@@ -186,6 +190,18 @@ function DetailedSearchResults(props) {
                         <img src={`${analysesTabIcon}`} alt={t("analyses")} />
                     }
                 />
+                <Tab
+                    value={SEARCH_RESULTS_TABS.teams}
+                    key={teamTabId}
+                    id={teamTabId}
+                    label={
+                        isMobile
+                            ? teamCount
+                            : t("search:teamSearchTab", { count: teamCount })
+                    }
+                    classes={{ selected: classes.tabSelected }}
+                    icon={<TeamIcon />}
+                />
             </Tabs>
 
             <DETabPanel
@@ -219,6 +235,17 @@ function DetailedSearchResults(props) {
                     searchTerm={searchTerm}
                     updateResultCount={(count) => setAnalysesCount(count)}
                     baseId={analysesTabId}
+                />
+            </DETabPanel>
+            <DETabPanel
+                tabId={teamTabId}
+                value={SEARCH_RESULTS_TABS.teams}
+                selectedTab={selectedTab}
+            >
+                <TeamSearchResults
+                    searchTerm={searchTerm}
+                    updateResultCount={(count) => setTeamCount(count)}
+                    baseId={teamTabId}
                 />
             </DETabPanel>
         </Paper>

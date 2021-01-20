@@ -2,6 +2,7 @@
     "analysesSearchTab": "Analyses ({{count}})",
     "appsSearchTab": "Apps ({{count}})",
     "dataSearchTab": "Data ({{count}})",
+    "teamSearchTab": "Teams ({{count}})",
     "errorSearch": "Unable to search. Please try again.",
     "noResults": "No results to display.",
     "matchingResults": "matching results.",

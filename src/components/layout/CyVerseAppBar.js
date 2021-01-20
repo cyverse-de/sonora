@@ -826,7 +826,7 @@ function CyverseAppBar(props) {
                         toggleDrawer={toggleDrawer}
                         open={open}
                         id="help"
-                        title={t("helpCenter")}
+                        title={t("help")}
                     />
                 </Drawer>
                 <CyVerseAnnouncer />

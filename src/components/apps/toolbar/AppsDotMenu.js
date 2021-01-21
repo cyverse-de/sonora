@@ -81,8 +81,8 @@ function AppsDotMenu(props) {
                     >
                         <ListItemIcon>
                             <AddToBagIcon fontSize="small" />
-                            <ListItemText primary={t("addToBag")} />
                         </ListItemIcon>
+                        <ListItemText primary={t("addToBag")} />
                     </MenuItem>
                 ),
                 isMobile && (

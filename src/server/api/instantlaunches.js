@@ -15,16 +15,12 @@ export default () => {
     logger.info("************ Adding Instant Launch handlers **********");
 
     // Get the default instant launch mapping.
-    logger.info("adding the GET /instantlaunch/mappings/default/latest");
+    logger.info("adding the GET /instantlaunches/mappings/defaults/latest");
     api.get(
-        "/instantlaunch/mappings/default/latest",
+        "/instantlaunches/mappings/defaults/latest",
         auth.authnTokenMiddleware,
         (req, res) => {}
     );
-
-    // Instantly launch an application
-    logger.info("adding the POST /instantlaunch/go handler");
-    api.post("/instantlaunch/go", auth.authnTokenMiddleware, (req, res) => {});
 
     return api;
 };

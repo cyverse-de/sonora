@@ -158,73 +158,97 @@ function EditToolDialog(props) {
     };
 
     return (
-        <DEDialog
-            open={open}
-            fullWidth={true}
-            onClose={onClose}
-            id={parentId}
-            title={
-                tool
-                    ? t("editTool", {
-                          name: tool.name,
-                      })
-                    : t("addTool")
-            }
+        <Formik
+            initialValues={mapPropsToValues(selectedTool, isAdmin)}
+            onSubmit={handleSubmit}
+            enableReinitialize={true}
         >
-            {(isToolTypeFetching || isToolFetching) && (
-                <Skeleton animation="wave" variant="rect" height={800} />
-            )}
+            {({ handleSubmit, values }) => {
+                return (
+                    <Form>
+                        <DEDialog
+                            open={open}
+                            fullWidth={true}
+                            onClose={onClose}
+                            id={parentId}
+                            title={
+                                tool
+                                    ? t("editTool", {
+                                          name: tool.name,
+                                      })
+                                    : t("addTool")
+                            }
+                            actions={
+                                <>
+                                    <Button
+                                        id={build(parentId, ids.BUTTONS.CANCEL)}
+                                        onClick={onClose}
+                                    >
+                                        {t("cancel")}
+                                    </Button>
+                                    <Button
+                                        id={build(parentId, ids.BUTTONS.SAVE)}
+                                        type="submit"
+                                        color="primary"
+                                        onClick={handleSubmit}
+                                    >
+                                        {isAdminPublishing
+                                            ? t("makePublic")
+                                            : t("save")}
+                                    </Button>
+                                </>
+                            }
+                        >
+                            {(isToolTypeFetching || isToolFetching) && (
+                                <Skeleton
+                                    animation="wave"
+                                    variant="rect"
+                                    height={800}
+                                />
+                            )}
 
-            {(newToolStatus === constants.LOADING ||
-                updateToolStatus === constants.LOADING) && (
-                <CircularProgress
-                    size={30}
-                    thickness={5}
-                    style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                    }}
-                />
-            )}
+                            {(newToolStatus === constants.LOADING ||
+                                updateToolStatus === constants.LOADING) && (
+                                <CircularProgress
+                                    size={30}
+                                    thickness={5}
+                                    style={{
+                                        position: "absolute",
+                                        top: "50%",
+                                        left: "50%",
+                                    }}
+                                />
+                            )}
 
-            {toolTypeError && (
-                <ErrorTypographyWithDialog
-                    errorObject={toolTypeError}
-                    errorMessage={t("toolTypesFetchError")}
-                    baseId={parentId}
-                />
-            )}
-            {toolFetchError && (
-                <ErrorTypographyWithDialog
-                    errorObject={toolFetchError}
-                    errorMessage={t("toolInfoError")}
-                    baseId={parentId}
-                />
-            )}
+                            {toolTypeError && (
+                                <ErrorTypographyWithDialog
+                                    errorObject={toolTypeError}
+                                    errorMessage={t("toolTypesFetchError")}
+                                    baseId={parentId}
+                                />
+                            )}
+                            {toolFetchError && (
+                                <ErrorTypographyWithDialog
+                                    errorObject={toolFetchError}
+                                    errorMessage={t("toolInfoError")}
+                                    baseId={parentId}
+                                />
+                            )}
 
-            {addToolError && (
-                <ErrorTypographyWithDialog
-                    errorObject={addToolError}
-                    errorMessage={t("toolAddError")}
-                />
-            )}
-            {updateToolError && (
-                <ErrorTypographyWithDialog
-                    errorObject={updateToolError}
-                    errorMessage={t("toolUpdateError")}
-                />
-            )}
+                            {addToolError && (
+                                <ErrorTypographyWithDialog
+                                    errorObject={addToolError}
+                                    errorMessage={t("toolAddError")}
+                                />
+                            )}
+                            {updateToolError && (
+                                <ErrorTypographyWithDialog
+                                    errorObject={updateToolError}
+                                    errorMessage={t("toolUpdateError")}
+                                />
+                            )}
 
-            {!isToolTypeFetching && !isToolFetching && (
-                <Formik
-                    initialValues={mapPropsToValues(selectedTool, isAdmin)}
-                    onSubmit={handleSubmit}
-                    enableReinitialize={true}
-                >
-                    {({ values }) => {
-                        return (
-                            <Form>
+                            {!isToolTypeFetching && !isToolFetching && (
                                 <StyledEditToolForm
                                     isAdmin={isAdmin}
                                     parentId={parentId}
@@ -234,87 +258,57 @@ function EditToolDialog(props) {
                                     maxDiskSpace={maxDiskSpace}
                                     values={values}
                                 />
-                                <Grid
-                                    container
-                                    direction="row"
-                                    justify="flex-end"
-                                    alignItems="flex-end"
-                                    spacing={1}
-                                >
-                                    {toolTypeError && (
-                                        <Grid item xs>
-                                            <ErrorTypographyWithDialog
-                                                errorObject={toolTypeError}
-                                                errorMessage={t(
-                                                    "toolTypesFetchError"
-                                                )}
-                                                baseId={parentId}
-                                            />
-                                        </Grid>
-                                    )}
-                                    {toolFetchError && (
-                                        <Grid item xs>
-                                            <ErrorTypographyWithDialog
-                                                errorObject={toolFetchError}
-                                                errorMessage={t(
-                                                    "toolInfoError"
-                                                )}
-                                                baseId={parentId}
-                                            />
-                                        </Grid>
-                                    )}
-
-                                    {addToolError && (
-                                        <Grid item xs>
-                                            <ErrorTypographyWithDialog
-                                                errorObject={addToolError}
-                                                errorMessage={t("toolAddError")}
-                                            />
-                                        </Grid>
-                                    )}
-                                    {updateToolError && (
-                                        <Grid item xs>
-                                            <ErrorTypographyWithDialog
-                                                errorObject={updateToolError}
-                                                errorMessage={t(
-                                                    "toolUpdateError"
-                                                )}
-                                            />
-                                        </Grid>
-                                    )}
-
-                                    <Grid item>
-                                        <Button
-                                            id={build(
-                                                parentId,
-                                                ids.BUTTONS.CANCEL
+                            )}
+                            <Grid
+                                container
+                                direction="row"
+                                justify="flex-end"
+                                alignItems="flex-end"
+                                spacing={1}
+                            >
+                                {toolTypeError && (
+                                    <Grid item xs>
+                                        <ErrorTypographyWithDialog
+                                            errorObject={toolTypeError}
+                                            errorMessage={t(
+                                                "toolTypesFetchError"
                                             )}
-                                            onClick={onClose}
-                                        >
-                                            {t("cancel")}
-                                        </Button>
+                                            baseId={parentId}
+                                        />
                                     </Grid>
-                                    <Grid item>
-                                        <Button
-                                            id={build(
-                                                parentId,
-                                                ids.BUTTONS.SAVE
-                                            )}
-                                            type="submit"
-                                            color="primary"
-                                        >
-                                            {isAdminPublishing
-                                                ? t("makePublic")
-                                                : t("save")}
-                                        </Button>
+                                )}
+                                {toolFetchError && (
+                                    <Grid item xs>
+                                        <ErrorTypographyWithDialog
+                                            errorObject={toolFetchError}
+                                            errorMessage={t("toolInfoError")}
+                                            baseId={parentId}
+                                        />
                                     </Grid>
-                                </Grid>
-                            </Form>
-                        );
-                    }}
-                </Formik>
-            )}
-        </DEDialog>
+                                )}
+
+                                {addToolError && (
+                                    <Grid item xs>
+                                        <ErrorTypographyWithDialog
+                                            errorObject={addToolError}
+                                            errorMessage={t("toolAddError")}
+                                        />
+                                    </Grid>
+                                )}
+                                {updateToolError && (
+                                    <Grid item xs>
+                                        <ErrorTypographyWithDialog
+                                            errorObject={updateToolError}
+                                            errorMessage={t("toolUpdateError")}
+                                        />
+                                    </Grid>
+                                )}
+                            </Grid>
+                        </DEDialog>
+                    </Form>
+                );
+            }}
+        </Formik>
     );
 }
 

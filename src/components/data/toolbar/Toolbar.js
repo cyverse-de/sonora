@@ -14,10 +14,12 @@ import DataDotMenu from "./DataDotMenu";
 import UploadMenuBtn from "./UploadMenuBtn";
 import Navigation from "./Navigation";
 
+import { useConfig } from "contexts/config";
+
 import ids from "../ids";
 import styles from "../styles";
 import CreateFolderDialog from "../CreateFolderDialog";
-import { isOwner, isWritable } from "../utils";
+import { isOwner, isWritable, isPathInTrash } from "../utils";
 import SharingButton from "components/sharing/SharingButton";
 
 import { build } from "@cyverse-de/ui-lib";
@@ -36,6 +38,8 @@ import {
     Info,
     Queue as AddToBagIcon,
 } from "@material-ui/icons";
+import { TrashMenu } from "./TrashMenu";
+import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
 const useStyles = makeStyles(styles);
 
@@ -66,19 +70,26 @@ function DataToolbar(props) {
         toolbarVisibility,
         onDownloadSelected,
         onRequestDOISelected,
+        onRestoreSelected,
     } = props;
 
     const { t } = useTranslation("data");
+    const [config] = useConfig();
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
     const onCreateFolderDlgClose = () => setCreateFolderDlgOpen(false);
     const onCreateFolderClicked = () => setCreateFolderDlgOpen(true);
+    const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+    const [emptyTrashConfirmOpen, setEmptyTrashConfirmOpen] = useState(false);
     const selectedResources = getSelectedResources();
     const canShare = isOwner(selectedResources);
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
+    const inTrash = isPathInTrash(path, config?.irods?.trash_path);
     const hasDotMenu =
-        (selectedResources && selectedResources.length > 0) ||
-        isWritable(permission);
+        !inTrash &&
+        ((selectedResources && selectedResources.length > 0) ||
+            isWritable(permission));
 
     let toolbarId = build(baseId, ids.TOOLBAR);
     return (
@@ -107,7 +118,7 @@ function DataToolbar(props) {
                                 <Hidden xsDown>{t("details")}</Hidden>
                             </Button>
                         )}
-                        {isWritable(permission) && (
+                        {!inTrash && isWritable(permission) && (
                             <>
                                 <Button
                                     id={build(toolbarId, ids.CREATE_BTN)}
@@ -130,7 +141,7 @@ function DataToolbar(props) {
                                 />
                             </>
                         )}
-                        {selected && selected.length > 0 && (
+                        {!inTrash && selected && selected.length > 0 && (
                             <Button
                                 id={build(toolbarId, ids.ADD_TO_BAG_BTN)}
                                 variant="outlined"
@@ -143,7 +154,7 @@ function DataToolbar(props) {
                                 <Hidden xsDown>{t("addToBag")}</Hidden>
                             </Button>
                         )}
-                        {canShare && (
+                        {!inTrash && canShare && (
                             <SharingButton
                                 size="small"
                                 baseId={toolbarId}
@@ -151,6 +162,17 @@ function DataToolbar(props) {
                             />
                         )}
                     </Hidden>
+                    {inTrash && (
+                        <TrashMenu
+                            baseId={baseId}
+                            selected={selected}
+                            onEmptyTrashSelected={() =>
+                                setEmptyTrashConfirmOpen(true)
+                            }
+                            onDeleteSelected={() => setDeleteConfirmOpen(true)}
+                            onRestoreSelected={onRestoreSelected}
+                        />
+                    )}
 
                     {hasDotMenu && (
                         <DataDotMenu
@@ -180,6 +202,7 @@ function DataToolbar(props) {
                             onPublicLinksSelected={onPublicLinksSelected}
                             onDownloadSelected={onDownloadSelected}
                             onRequestDOISelected={onRequestDOISelected}
+                            inTrash={inTrash}
                         />
                     )}
 
@@ -191,6 +214,24 @@ function DataToolbar(props) {
                             onCreateFolderDlgClose();
                             refreshListing();
                         }}
+                    />
+                    <ConfirmationDialog
+                        baseId={baseId}
+                        open={deleteConfirmOpen}
+                        onClose={() => {
+                            setDeleteConfirmOpen(false);
+                        }}
+                        title={t("Delete")}
+                        contentText={t("deleteConfirmation")}
+                    />
+                    <ConfirmationDialog
+                        baseId={baseId}
+                        open={emptyTrashConfirmOpen}
+                        onClose={() => {
+                            setEmptyTrashConfirmOpen(false);
+                        }}
+                        title={t("emptyTrash")}
+                        contentText={t("emptyTrashConfirmation")}
                     />
                 </>
             )}

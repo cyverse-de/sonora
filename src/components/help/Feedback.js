@@ -65,6 +65,14 @@ export default function Feedback(props) {
         sendFeedback(submission);
     };
 
+    const validateEmail = (value) => {
+        let error;
+        if (value && !constants.EMAIL_REGEX.test(value)) {
+            error = i18nHelp("email_validation_error");
+        }
+        return error;
+    };
+
     return (
         <Formik
             enableReinitialize
@@ -136,9 +144,7 @@ export default function Feedback(props) {
                                         required={false}
                                         component={FormTextField}
                                         label={i18nHelp("email")}
-                                        validate={(value) =>
-                                            nonEmptyField(value, t)
-                                        }
+                                        validate={validateEmail}
                                         helperText={i18nHelp("feedback_helper")}
                                     />
                                 </>

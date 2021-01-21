@@ -762,7 +762,60 @@ export const listingSuccessResp = {
             label: "Discovery Environment-CyVerse-blue.svg",
             id: "f5469f94-9c21-11e9-80c7-d8d385e427d4",
         },
+        {
+            infoType: "unknown",
+            path: "/iplant/home/aramsey/example-0-python.py",
+            "date-created": 1562000528000,
+            permission: "own",
+            "date-modified": 1562000528000,
+            "file-size": 7526,
+            badName: false,
+            isFavorite: false,
+            label: "example-0-python.py",
+            id: "7437c9a0-aa2b-49a7-8dba-ea4ebdb37111",
+        },
+        {
+            infoType: "python",
+            path: "/iplant/home/aramsey/example-1-python.py",
+            "date-created": 1562000529000,
+            permission: "own",
+            "date-modified": 1562000529000,
+            "file-size": 7526,
+            badName: false,
+            isFavorite: false,
+            label: "example-1-python.py",
+            id: "08fba388-407b-4d40-a796-53ae1378ae97",
+        },
     ],
+};
+
+export const instantLaunchMapping = {
+    id: "1d9dc7e8-5b5b-11eb-a110-62d47aced14b",
+    version: "1",
+    mapping: {
+        PythonFilesGlob: {
+            pattern: "*.py",
+            kind: "glob",
+            default: {
+                id: "44ac42d4-5b5a-11eb-a110-62d47aced14b",
+                quick_launch_id: "e40d225d-d96f-4817-bc7e-9ab6af290851",
+                added_by: "6be9d7fe-854a-11e4-b1aa-bb594900dd6f",
+                added_on: "2021-01-20T13:01:22.22495Z",
+            },
+            compatible: [],
+        },
+        PythonFilesInfoType: {
+            pattern: "python",
+            kind: "infoType",
+            default: {
+                id: "44ac42d4-5b5a-11eb-a110-62d47aced14b",
+                quick_launch_id: "e40d225d-d96f-4817-bc7e-9ab6af290851",
+                added_by: "6be9d7fe-854a-11e4-b1aa-bb594900dd6f",
+                added_on: "2021-01-20T13:01:22.22495Z",
+            },
+            compatible: [],
+        },
+    },
 };
 
 export const initMockAxiosFileFolderSelector = () => {

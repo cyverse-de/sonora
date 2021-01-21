@@ -47,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.info.main,
         color: theme.palette.info.contrastText,
     },
+    topics: {
+        margin: theme.spacing(1),
+    },
 }));
 
 function TopicCard(props) {
@@ -80,7 +83,7 @@ export default function HelpTopics(props) {
     const { t } = useTranslation("help");
     return (
         <div style={{ overflow: "auto" }}>
-            <Typography variant="h6" color="primary">
+            <Typography variant="h6" color="primary" className={classes.topics}>
                 {t("support")}
             </Typography>
             <Grid container spacing={3}>
@@ -156,7 +159,7 @@ export default function HelpTopics(props) {
                 </Grid>
             </Grid>
 
-            <Typography variant="h6" color="primary" style={{ marginTop: 16 }}>
+            <Typography variant="h6" color="primary" className={classes.topics}>
                 {t("learn")}
             </Typography>
             <Grid container spacing={3}>

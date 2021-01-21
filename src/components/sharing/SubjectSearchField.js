@@ -16,8 +16,8 @@ import { searchSubjects } from "serviceFacades/sharing";
 import isQueryLoading from "../utils/isQueryLoading";
 import { useTranslation } from "i18n";
 import { isGroup, groupName } from "components/sharing/util";
-import PeopleIcon from "@material-ui/icons/People";
 import PersonIcon from "@material-ui/icons/Person";
+import { TeamIcon } from "../teams/Icons";
 
 function SubjectSearchField(props) {
     const { baseId, onUserSelected, onSearchStart } = props;
@@ -58,7 +58,7 @@ function SubjectSearchField(props) {
         if (isGroup(option)) {
             optionLabel = groupName(option);
             icon = (
-                <PeopleIcon
+                <TeamIcon
                     fontSize="small"
                     style={{ color: theme.palette.info.main }}
                 />

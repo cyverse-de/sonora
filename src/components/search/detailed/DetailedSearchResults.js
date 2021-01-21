@@ -34,7 +34,7 @@ import {
 } from "@material-ui/core";
 import AppsIcon from "@material-ui/icons/Apps";
 import SearchIcon from "@material-ui/icons/Search";
-import TeamIcon from "@material-ui/icons/PeopleAltOutlined";
+import { TeamIcon } from "components/teams/Icons";
 import TeamSearchResults from "./TeamSearchResults";
 
 const useStyles = makeStyles((theme) => ({

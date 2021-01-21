@@ -57,8 +57,8 @@ import {
     Pageview as PageviewIcon,
     Folder as FolderIcon,
     Apps as AppsIcon,
-    Group as TeamsIcon,
 } from "@material-ui/icons";
+import { TeamIcon } from "../teams/Icons";
 import { useUserProfile } from "../../contexts/userProfile";
 
 const useStyles = makeStyles((theme) => ({
@@ -371,7 +371,7 @@ function TeamSearchOption(props) {
             <SearchOption
                 primary={selectedOption.display_extension}
                 secondary={selectedOption.description}
-                icon={<TeamsIcon color={theme.palette.info.primary} />}
+                icon={<TeamIcon color={theme.palette.info.primary} />}
                 searchTerm={searchTerm}
                 id={build(baseId, selectedOption.id)}
             />

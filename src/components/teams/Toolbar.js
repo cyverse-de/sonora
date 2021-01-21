@@ -11,7 +11,7 @@ import {
     TextField,
     Toolbar,
 } from "@material-ui/core";
-import { Group, GroupAdd, PeopleOutline } from "@material-ui/icons";
+import { AddTeamIcon, TeamIcon } from "./Icons";
 
 import ids from "./ids";
 import styles from "./styles";
@@ -71,7 +71,7 @@ function TeamToolbar(props) {
                     id={build(toolbarId, ids.BUTTONS.CREATE_BTN)}
                     onClick={onCreateTeamSelected}
                 >
-                    <GroupAdd />
+                    <AddTeamIcon />
                     {t("team")}
                 </Button>
             </Hidden>
@@ -88,7 +88,7 @@ function TeamToolbar(props) {
                             }}
                         >
                             <ListItemIcon>
-                                <GroupAdd fontSize="small" />
+                                <AddTeamIcon fontSize="small" />
                             </ListItemIcon>
                             <ListItemText primary={t("team")} />
                         </MenuItem>,
@@ -102,7 +102,7 @@ function TeamToolbar(props) {
                                 }}
                             >
                                 <ListItemIcon>
-                                    <Group fontSize="small" />
+                                    <TeamIcon fontSize="small" />
                                 </ListItemIcon>
                                 <ListItemText primary={t("myTeams")} />
                             </MenuItem>
@@ -117,7 +117,7 @@ function TeamToolbar(props) {
                                 }}
                             >
                                 <ListItemIcon>
-                                    <PeopleOutline fontSize="small" />
+                                    <TeamIcon fontSize="small" />
                                 </ListItemIcon>
                                 <ListItemText primary={t("allTeams")} />
                             </MenuItem>

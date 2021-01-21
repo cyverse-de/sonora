@@ -65,7 +65,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import HelpIcon from "@material-ui/icons/Help";
 import AppsIcon from "@material-ui/icons/Apps";
-import Group from "@material-ui/icons/Group";
+import { TeamIcon } from "../teams/Icons";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 import HomeIcon from "@material-ui/icons/Home";
@@ -553,7 +553,7 @@ function CyverseAppBar(props) {
             <DrawerItem
                 title={t("teams")}
                 id={ids.TEAMS_MI}
-                icon={Group}
+                icon={TeamIcon}
                 thisView={NavigationConstants.TEAMS}
                 activeView={activeView}
                 toggleDrawer={toggleDrawer}

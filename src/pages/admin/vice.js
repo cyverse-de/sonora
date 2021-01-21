@@ -2,7 +2,7 @@ import React from "react";
 
 import VICEAdmin from "../../components/vice/admin";
 import { useUserProfile } from "contexts/userProfile";
-import NotAuthorized from "components/utils/NotAuthorized";
+import NotAuthorized from "components/utils/error/NotAuthorized";
 
 export default function VICEAdminPage() {
     const profile = useUserProfile()[0];

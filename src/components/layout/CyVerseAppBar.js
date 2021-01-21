@@ -550,7 +550,7 @@ function CyverseAppBar(props) {
                         <ListItemIcon>
                             <LabelImportantIcon className={classes.icon} />
                         </ListItemIcon>
-                        {open && <ListItemText>{t("tools")}</ListItemText>}
+                        <ListItemText>{t("tools")}</ListItemText>
                     </ListItem>
                 </Tooltip>
             )}

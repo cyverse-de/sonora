@@ -15,7 +15,7 @@ import Listing from "components/tools/listing/Listing";
 
 import NavigationConstants from "common/NavigationConstants";
 import { useUserProfile } from "contexts/userProfile";
-import NotAuthorized from "components/utils/NotAuthorized";
+import NotAuthorized from "components/utils/error/NotAuthorized";
 
 export default function Tools() {
     const router = useRouter();
@@ -33,14 +33,19 @@ export default function Tools() {
 
     const onRouteToListing = useCallback(
         (order, orderBy, page, rowsPerPage, permFilter, searchTerm) => {
-            const base = isAdmin
-                ? `/${NavigationConstants.ADMIN}/${NavigationConstants.TOOLS}`
-                : `/${NavigationConstants.TOOLS}`;
-            router.push(
-                `${base}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedPermFilter=${permFilter}&selectedSearchTerm=${searchTerm}`
-            );
+            router.push({
+                pathname: `/${NavigationConstants.ADMIN}/${NavigationConstants.TOOLS}`,
+                query: {
+                    selectedOrder: order,
+                    selectedOrderBy: orderBy,
+                    selectedPage: page,
+                    selectedRowsPerPage: rowsPerPage,
+                    selectedPermFilter: permFilter,
+                    selectedSearchTerm: searchTerm,
+                },
+            });
         },
-        [isAdmin, router]
+        [router]
     );
 
     if (!isAdmin) {

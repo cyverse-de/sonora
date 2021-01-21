@@ -13,3 +13,7 @@ import HelpTopics from "components/help/HelpTopics";
 export default function Help() {
     return <HelpTopics baseId="help" />;
 }
+
+Help.getInitialProps = async () => ({
+    namespacesRequired: ["help", "common", "util"],
+});

@@ -21,12 +21,12 @@ function ListingTest(props) {
     return (
         <Listing
             baseId="tableView"
-            selectedPage={0}
-            selectedRowsPerPage={25}
-            selectedOrder={constants.SORT_ASCENDING}
-            selectedOrderBy={"name"}
-            selectedPermFilter=""
-            selectedSearchTerm=""
+            page={0}
+            rRowsPerPage={25}
+            order={constants.SORT_ASCENDING}
+            orderBy={"name"}
+            permFilter=""
+            searchTerm=""
             isAdmin={props.admin}
             onRouteToListing={(
                 order,

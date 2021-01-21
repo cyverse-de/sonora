@@ -23,12 +23,12 @@ function Listing(props) {
     const {
         baseId,
         onRouteToListing,
-        selectedPage,
-        selectedRowsPerPage,
-        selectedOrder,
-        selectedOrderBy,
-        selectedPermFilter,
-        selectedSearchTerm,
+        page,
+        rowsPerPage,
+        order,
+        orderBy,
+        permFilter,
+        searchTerm,
         showErrorAnnouncer,
         isAdmin,
     } = props;
@@ -42,18 +42,6 @@ function Listing(props) {
         false
     );
 
-    // Result ordering state variables.
-    const [order, setOrder] = useState(selectedOrder);
-    const [orderBy, setOrderBy] = useState(selectedOrderBy);
-
-    // Filtering options
-    const [permFilter, setPermFilter] = useState(selectedPermFilter);
-    const [searchTerm, setSearchTerm] = useState(selectedSearchTerm);
-
-    // Pagination state variables.
-    const [page, setPage] = useState(selectedPage);
-    const [rowsPerPage, setRowsPerPage] = useState(selectedRowsPerPage);
-
     // Selection state variables.
     const [selected, setSelected] = useState([]);
     const [lastSelectedIndex, setLastSelectedIndex] = useState(-1);
@@ -63,40 +51,6 @@ function Listing(props) {
     const [isSingleSelection, setSingleSelection] = useState(false);
 
     const [deleteConfirm, setDeleteConfirm] = useState();
-
-    useEffect(() => {
-        if (
-            selectedOrder !== order ||
-            selectedOrderBy !== orderBy ||
-            selectedPage !== page ||
-            selectedRowsPerPage !== rowsPerPage ||
-            (permFilter && selectedPermFilter !== permFilter) ||
-            (searchTerm && selectedSearchTerm !== searchTerm)
-        ) {
-            onRouteToListing(
-                order,
-                orderBy,
-                page,
-                rowsPerPage,
-                permFilter,
-                searchTerm
-            );
-        }
-    }, [
-        onRouteToListing,
-        order,
-        orderBy,
-        page,
-        rowsPerPage,
-        permFilter,
-        searchTerm,
-        selectedOrder,
-        selectedOrderBy,
-        selectedPage,
-        selectedRowsPerPage,
-        selectedPermFilter,
-        selectedSearchTerm,
-    ]);
 
     const [removeTools, { status: deleteStatus }] = useMutation(deleteTools, {
         onSuccess: () => {
@@ -162,27 +116,45 @@ function Listing(props) {
 
     // Handles a request to sort the tools.
     const handleRequestSort = (_, property) => {
-        setOrder(
-            orderBy === property && order === constants.SORT_ASCENDING
-                ? constants.SORT_DESCENDING
-                : constants.SORT_ASCENDING
-        );
-        setOrderBy(property);
-        setSelected([]);
-        setPage(0);
+        const isAsc =
+            orderBy === property && order === constants.SORT_ASCENDING;
+        onRouteToListing &&
+            onRouteToListing(
+                isAsc ? constants.SORT_DESCENDING : constants.SORT_ASCENDING,
+                property,
+                page,
+                rowsPerPage,
+                permFilter,
+                searchTerm
+            );
     };
 
     // Handles a request to change the page being displayed.
     const handleChangePage = (_, newPage) => {
-        setPage(newPage - 1);
         setSelected([]);
+        onRouteToListing &&
+            onRouteToListing(
+                order,
+                orderBy,
+                newPage - 1,
+                rowsPerPage,
+                permFilter,
+                searchTerm
+            );
     };
 
     // Handles a request to change the number of rows per page.
     const handleChangeRowsPerPage = (newPageSize) => {
-        setRowsPerPage(parseInt(newPageSize, 10));
         setSelected([]);
-        setPage(0);
+        onRouteToListing &&
+            onRouteToListing(
+                order,
+                orderBy,
+                0,
+                parseInt(newPageSize, 10),
+                permFilter,
+                searchTerm
+            );
     };
 
     const onDetailsSelected = () => {
@@ -255,15 +227,22 @@ function Listing(props) {
     };
 
     const handleOwnershipFilterChange = (viewFilter) => {
-        setPermFilter(viewFilter);
         setSelected([]);
-        setPage(0);
+        onRouteToListing &&
+            onRouteToListing(
+                order,
+                orderBy,
+                0,
+                rowsPerPage,
+                viewFilter,
+                searchTerm
+            );
     };
 
-    const handleSearch = (searchTerm) => {
-        setSearchTerm(searchTerm);
+    const handleSearch = (term) => {
         setSelected([]);
-        setPage(0);
+        onRouteToListing &&
+            onRouteToListing(order, orderBy, 0, rowsPerPage, permFilter, term);
     };
 
     const onDeleteToolSelected = () => {

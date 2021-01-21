@@ -22,6 +22,7 @@ export default function Tools() {
     const query = router.query;
     const selectedPage = parseInt(query.selectedPage) || 0;
     const selectedRowsPerPage =
+        parseInt(query.selectedRowsPerPage) ||
         parseInt(getLocalStorage(constants.LOCAL_STORAGE.TOOLS.PAGE_SIZE)) ||
         100;
     const selectedOrder = query.selectedOrder || constants.SORT_ASCENDING;
@@ -54,13 +55,13 @@ export default function Tools() {
         return (
             <Listing
                 baseId="tools"
-                selectedPage={selectedPage}
-                selectedRowsPerPage={selectedRowsPerPage}
-                selectedOrder={selectedOrder}
-                selectedOrderBy={selectedOrderBy}
-                selectedPermFilter={selectedPermFilter}
+                page={selectedPage}
+                rowsPerPage={selectedRowsPerPage}
+                order={selectedOrder}
+                orderBy={selectedOrderBy}
+                permFilter={selectedPermFilter}
                 onRouteToListing={onRouteToListing}
-                selectedSearchTerm={selectedSearchTerm}
+                searchTerm={selectedSearchTerm}
                 isAdmin={isAdmin}
             />
         );

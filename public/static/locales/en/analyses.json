@@ -1,5 +1,4 @@
 {
-    "all": "All",
     "addToBag": "Add To Bag",
     "addToBagError": "Error adding analyses to your bag",
     "analyses": "Analyses",
@@ -53,7 +52,7 @@
     "jobLogsUnavailableMessage": "The logs will be available within the analysis output folder after the status of this analysis changes to Completed or Failed.",
     "jobLogsUnavailableHeading": "Logs not available",
     "message": "Message",
-    "mine": "Only my analyses",
+    "mine": "My Analyses",
     "name": "Name",
     "needHelp": "I still need help!",
     "noAnalyses": "No analyses to display",
@@ -98,7 +97,7 @@
     "statusHelpUnexpectedOutput": "Analysis completed but I got unexpected output.",
     "submit": "Submit",
     "tableView": "Table View",
-    "theirs": "Analyses shared with me",
+    "theirs": "Shared with me",
     "type": "App Type",
     "updateComments": "Update Comments...",
     "user": "User",

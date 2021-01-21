@@ -129,7 +129,7 @@ function PermissionsFilter(props) {
 }
 
 function getOwnershipFilters(t) {
-    return Object.values([t("all"), t("mine"), t("theirs")]).map((filter) => {
+    return Object.values([t("mine"), t("theirs")]).map((filter) => {
         return {
             name: filter,
         };

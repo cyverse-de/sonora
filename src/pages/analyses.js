@@ -15,6 +15,7 @@ import { getLocalStorage } from "components/utils/localStorage";
 import { getListingPath } from "components/analyses/utils";
 import analysisFields from "components/analyses/analysisFields";
 import Listing from "components/analyses/listing/Listing";
+import { getOwnershipFilters } from "components/analyses/toolbar/Toolbar";
 
 export default function Analyses() {
     const router = useRouter();
@@ -32,7 +33,7 @@ export default function Analyses() {
 
     const selectedPermFilter = query.selectedPermFilter
         ? JSON.parse(query.selectedPermFilter)
-        : null;
+        : getOwnershipFilters(t)[0];
     const selectedTypeFilter = query.selectedTypeFilter
         ? JSON.parse(query.selectedTypeFilter)
         : null;

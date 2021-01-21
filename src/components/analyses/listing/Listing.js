@@ -59,7 +59,6 @@ import { useNotifications } from "contexts/pushNotifications";
  * Filters
  *
  */
-const ALL = "all";
 
 const MINE = "mine";
 
@@ -299,9 +298,6 @@ function Listing(props) {
             if (permFilter) {
                 let val;
                 switch (permFilter.name) {
-                    case t("all"):
-                        val = ALL;
-                        break;
                     case t("mine"):
                         val = MINE;
                         break;
@@ -309,7 +305,7 @@ function Listing(props) {
                         val = THEIRS;
                         break;
                     default:
-                        val = ALL;
+                        val = MINE;
                 }
                 const viewFilterObj = Object.create(filter);
                 viewFilterObj.field = OWNERSHIP_FILTER;

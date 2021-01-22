@@ -6,6 +6,7 @@ import {
     fileTypesResp,
     dataRootsResp,
     listingSuccessResp as successResp,
+    instantLaunchMapping,
 } from "../DataMocks";
 import { mockAxios } from "../../axiosMock";
 import constants from "../../../src/constants";
@@ -41,6 +42,10 @@ export const DataListingTest = () => {
     mockAxios.onGet(/\/api\/filesystem\/root.*/).reply(200, dataRootsResp);
     mockAxios.onGet(/\/api\/filetypes\/type-list/).reply(200, fileTypesResp);
     mockAxios.onPost(/\/api\/filesystem\/delete/).reply(200, {});
+
+    mockAxios
+        .onGet(/\/api\/instantlaunches\/defaults\/mappings\/latest.*/)
+        .reply(200, instantLaunchMapping);
 
     return <ListingTest />;
 };

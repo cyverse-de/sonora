@@ -1,3 +1,11 @@
+/**
+ * @author aramsey
+ *
+ * The toolbar displayed when viewing teams
+ * In mobile view, the buttons to create a team or view details will be
+ * hidden within the dot menu
+ */
+
 import React from "react";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
@@ -11,7 +19,7 @@ import {
     TextField,
     Toolbar,
 } from "@material-ui/core";
-import { AddTeamIcon, TeamIcon } from "./Icons";
+import { AddTeamIcon } from "./Icons";
 
 import ids from "./ids";
 import styles from "./styles";
@@ -39,39 +47,38 @@ function TeamToolbar(props) {
 
     return (
         <Toolbar id={toolbarId} variant="dense">
-            <Hidden xsDown>
-                <Autocomplete
-                    id={build(toolbarId, ids.TEAMS.TEAM_FILTER)}
-                    disableClearable
-                    className={classes.filter}
-                    value={teamFilter}
-                    options={Object.values(TEAM_FILTER)}
-                    size="small"
-                    onChange={(event, newValue) => {
-                        onTeamFilterChange(newValue);
-                    }}
-                    getOptionLabel={(option) =>
-                        option === TEAM_FILTER.ALL_TEAMS
-                            ? t("allTeams")
-                            : t("myTeams")
-                    }
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            label={t("view")}
-                            variant="outlined"
-                        />
-                    )}
-                />
-            </Hidden>
+            <Autocomplete
+                id={build(toolbarId, ids.TEAMS.TEAM_FILTER)}
+                disableClearable
+                className={classes.filter}
+                value={teamFilter}
+                options={Object.values(TEAM_FILTER)}
+                size="small"
+                onChange={(event, newValue) => {
+                    onTeamFilterChange(newValue);
+                }}
+                getOptionLabel={(option) =>
+                    option === TEAM_FILTER.ALL_TEAMS
+                        ? t("allTeams")
+                        : t("myTeams")
+                }
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label={t("view")}
+                        variant="outlined"
+                    />
+                )}
+            />
             <div className={classes.divider} />
             <Hidden xsDown>
                 <Button
-                    variant="contained"
+                    color="primary"
+                    variant="outlined"
                     id={build(toolbarId, ids.BUTTONS.CREATE_BTN)}
                     onClick={onCreateTeamSelected}
+                    startIcon={<AddTeamIcon />}
                 >
-                    <AddTeamIcon />
                     {t("team")}
                 </Button>
             </Hidden>
@@ -92,36 +99,6 @@ function TeamToolbar(props) {
                             </ListItemIcon>
                             <ListItemText primary={t("team")} />
                         </MenuItem>,
-                        teamFilter !== TEAM_FILTER.MY_TEAMS && (
-                            <MenuItem
-                                key={build(dotMenuId, ids.BUTTONS.MY_TEAMS_MI)}
-                                id={build(dotMenuId, ids.BUTTONS.MY_TEAMS_MI)}
-                                onClick={() => {
-                                    onClose();
-                                    onTeamFilterChange(TEAM_FILTER.MY_TEAMS);
-                                }}
-                            >
-                                <ListItemIcon>
-                                    <TeamIcon fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText primary={t("myTeams")} />
-                            </MenuItem>
-                        ),
-                        teamFilter !== TEAM_FILTER.ALL_TEAMS && (
-                            <MenuItem
-                                key={build(dotMenuId, ids.BUTTONS.ALL_TEAMS_MI)}
-                                id={build(dotMenuId, ids.BUTTONS.ALL_TEAMS_MI)}
-                                onClick={() => {
-                                    onClose();
-                                    onTeamFilterChange(TEAM_FILTER.ALL_TEAMS);
-                                }}
-                            >
-                                <ListItemIcon>
-                                    <TeamIcon fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText primary={t("allTeams")} />
-                            </MenuItem>
-                        ),
                     ]}
                 />
             </Hidden>

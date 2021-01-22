@@ -291,7 +291,7 @@ function Listing(props) {
             if (typeFilter && typeFilter.name !== appType.all) {
                 const appTypeFilter = Object.create(filter);
                 appTypeFilter.field = TYPE_FILTER;
-                appTypeFilter.value = typeFilter.name;
+                appTypeFilter.value = typeFilter.value;
                 filters.push(appTypeFilter);
             }
 

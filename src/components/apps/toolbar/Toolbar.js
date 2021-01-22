@@ -71,7 +71,7 @@ function AppsTypeFilter(props) {
             id={build(baseId, ids.APPS_FILTER)}
             disabled={
                 selectedCategory?.system_id?.toLowerCase() ===
-                appType.agave.toLowerCase()
+                appType.agave.value.toLowerCase()
             }
             value={filter}
             options={getAppTypeFilters()}

@@ -74,7 +74,8 @@ const useStyles = makeStyles((theme) => ({
 function getAppTypeFilters() {
     return Object.values(appType).map((type) => {
         return {
-            name: type,
+            name: type.display,
+            value: type.value,
         };
     });
 }

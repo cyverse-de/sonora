@@ -1,6 +1,11 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Apps, Label, InsertDriveFile, Folder } from "@material-ui/icons";
+import {
+    Apps,
+    Label,
+    InsertDriveFile,
+    Folder,
+} from "@material-ui/icons";
 
 class BagItem {
     constructor(item) {
@@ -57,7 +62,7 @@ class FileBagItem extends BagItem {
 
 class FolderBagItem extends BagItem {
     icon(t) {
-        return <Folder />;
+        return <Folder style={{}} />;
     }
 
     get shareable() {
@@ -74,7 +79,7 @@ class FolderBagItem extends BagItem {
 
 class AnalysisBagItem extends BagItem {
     icon(t) {
-        return <img src="/analyses.png" alt={t("common:analyses")} />;
+        return <img src="/analyses-grey-24.png" alt={t("common:analyses")} />;
     }
 
     get shareable() {
@@ -84,7 +89,7 @@ class AnalysisBagItem extends BagItem {
 
 class AppBagItem extends BagItem {
     icon(t) {
-        return <Apps color="primary"/>;
+        return <Apps color="primary" />;
     }
 
     get shareable() {

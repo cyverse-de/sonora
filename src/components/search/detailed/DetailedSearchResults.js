@@ -57,11 +57,11 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.primary.main,
     },
     tabIcon: {
-        height: 24,
+        height: 20,
         width: 24,
         [theme.breakpoints.down("xs")]: {
             height: 18,
-            width: 18,
+            width: 20,
         },
     },
     searchInfo: {
@@ -88,17 +88,17 @@ function DetailedSearchResults(props) {
     const dataTabIcon =
         selectedTab === SEARCH_RESULTS_TABS.data
             ? "/data.png"
-            : "/data-blue.png";
+            : "/data-grey.png";
     const appsTabIcon =
         selectedTab === SEARCH_RESULTS_TABS.apps ? (
-            <AppsIcon color="primary" />
-        ) : (
             <AppsIcon />
+        ) : (
+            <AppsIcon style={{ color: theme.palette.info.main }} />
         );
     const analysesTabIcon =
         selectedTab === SEARCH_RESULTS_TABS.analyses
-            ? "/analyses.png"
-            : "/analyses-blue.png";
+            ? "/analyses-white-24.png"
+            : "/analyses-grey-24.png";
 
     const totalResults = dataCount + appsCount + analysesCount;
 
@@ -146,7 +146,7 @@ function DetailedSearchResults(props) {
                     id={dataTabId}
                     label={
                         isMobile
-                            ? dataCount
+                            ? `(${dataCount})`
                             : t("search:dataSearchTab", { count: dataCount })
                     }
                     classes={{ selected: classes.tabSelected }}
@@ -164,7 +164,7 @@ function DetailedSearchResults(props) {
                     id={appsTabId}
                     label={
                         isMobile
-                            ? appsCount
+                            ? `(${appsCount})`
                             : t("search:appsSearchTab", { count: appsCount })
                     }
                     classes={{ selected: classes.tabSelected }}
@@ -176,18 +176,14 @@ function DetailedSearchResults(props) {
                     id={analysesTabId}
                     label={
                         isMobile
-                            ? analysesCount
+                            ? `(${analysesCount})`
                             : t("search:analysesSearchTab", {
                                   count: analysesCount,
                               })
                     }
                     classes={{ selected: classes.tabSelected }}
                     icon={
-                        <img
-                            src={`${analysesTabIcon}`}
-                            alt={t("analyses")}
-                            className={classes.tabIcon}
-                        />
+                        <img src={`${analysesTabIcon}`} alt={t("analyses")} />
                     }
                 />
             </Tabs>

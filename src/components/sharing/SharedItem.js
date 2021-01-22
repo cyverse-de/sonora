@@ -6,6 +6,7 @@ import {
     Build as ToolIcon,
     Folder as FolderIcon,
     InsertDriveFileOutlined as FileIcon,
+    Apps as AppsIcon
 } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 import ResourceTypes from "../models/ResourceTypes";
@@ -35,7 +36,7 @@ const getItemDetails = (type, t, classes, subtype) => {
                 idFn: (resource) => resource.id,
                 labelFn: (resource) => resource.name,
                 secondaryText: (resource) => resource.system_id,
-                icon: <img src="/icon-apps-dark.png" alt={t("apps")} />,
+                icon: <AppsIcon classes={{ root: classes.iconColor }} />,
             };
         }
         case TYPE.ANALYSES: {
@@ -46,7 +47,7 @@ const getItemDetails = (type, t, classes, subtype) => {
                 icon: (
                     <img
                         className={classes.analysesIcon}
-                        src="/icon-analyses-dark.png"
+                        src="/analyses-grey-24.png"
                         alt={t("analyses")}
                     />
                 ),

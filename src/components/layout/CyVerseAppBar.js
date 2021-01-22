@@ -62,9 +62,10 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import HelpIcon from "@material-ui/icons/Help";
-
+import AppsIcon from '@material-ui/icons/Apps';
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
+import HomeIcon from '@material-ui/icons/Home';
 import UserMenu from "./UserMenu";
 
 // hidden in xsDown
@@ -476,9 +477,9 @@ function CyverseAppBar(props) {
     const drawerItems = (
         <List component="div">
             <DrawerItem
-                title={t("dashboard")}
+                title={t("home")}
                 id={ids.DASHBOARD_MI}
-                image={"/dashboard_selected.png"}
+                icon={HomeIcon}
                 thisView={NavigationConstants.DASHBOARD}
                 clsxBase={"dashboard-intro"}
                 activeView={activeView}
@@ -488,7 +489,7 @@ function CyverseAppBar(props) {
             <DrawerItem
                 title={t("data")}
                 id={ids.DATA_MI}
-                image={"/data_selected.png"}
+                image={"/data.png"}
                 thisView={NavigationConstants.DATA}
                 clsxBase={"data-intro"}
                 activeView={activeView}
@@ -498,12 +499,12 @@ function CyverseAppBar(props) {
             <DrawerItem
                 title={t("apps")}
                 id={ids.APPS_MI}
-                image={"/apps_selected.png"}
                 thisView={NavigationConstants.APPS}
                 clsxBase={"apps-intro"}
                 activeView={activeView}
                 toggleDrawer={toggleDrawer}
                 open={open}
+                icon={AppsIcon}
             />
             {open && (
                 <Tooltip title={t("tools")} placement="right" arrow>
@@ -525,7 +526,7 @@ function CyverseAppBar(props) {
             <DrawerItem
                 title={t("analyses")}
                 id={ids.ANALYSES_MI}
-                image={"/analyses_selected.png"}
+                image={"/analyses.png"}
                 thisView={NavigationConstants.ANALYSES}
                 clsxBase={"analyses-intro"}
                 activeView={activeView}

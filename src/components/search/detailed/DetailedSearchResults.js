@@ -32,6 +32,7 @@ import {
     Tabs,
     Typography,
 } from "@material-ui/core";
+import AppsIcon from "@material-ui/icons/Apps";
 import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles((theme) => ({
@@ -86,16 +87,18 @@ function DetailedSearchResults(props) {
 
     const dataTabIcon =
         selectedTab === SEARCH_RESULTS_TABS.data
-            ? "/data_selected.png"
-            : "/icon-data.png";
+            ? "/data.png"
+            : "/data-blue.png";
     const appsTabIcon =
-        selectedTab === SEARCH_RESULTS_TABS.apps
-            ? "/apps_selected.png"
-            : "/icon-apps.png";
+        selectedTab === SEARCH_RESULTS_TABS.apps ? (
+            <AppsIcon color="primary" />
+        ) : (
+            <AppsIcon />
+        );
     const analysesTabIcon =
         selectedTab === SEARCH_RESULTS_TABS.analyses
-            ? "/analyses_selected.png"
-            : "/icon-analyses.png";
+            ? "/analyses.png"
+            : "/analyses-blue.png";
 
     const totalResults = dataCount + appsCount + analysesCount;
 
@@ -165,13 +168,7 @@ function DetailedSearchResults(props) {
                             : t("search:appsSearchTab", { count: appsCount })
                     }
                     classes={{ selected: classes.tabSelected }}
-                    icon={
-                        <img
-                            src={`${appsTabIcon}`}
-                            alt={t("apps")}
-                            className={classes.tabIcon}
-                        />
-                    }
+                    icon={appsTabIcon}
                 />
                 <Tab
                     value={SEARCH_RESULTS_TABS.analyses}

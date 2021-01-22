@@ -24,16 +24,21 @@ import { isPathInTrash } from "../utils";
 import { useConfig } from "contexts/config";
 
 import { build, DECheckbox, EmptyTable, formatDate } from "@cyverse-de/ui-lib";
+import { defaultInstantLaunch } from "serviceFacades/instantlaunches";
 
 import {
     fade,
     makeStyles,
+    IconButton,
     Paper,
     Table,
     TableBody,
     TableCell,
     TableContainer,
 } from "@material-ui/core";
+
+import { Launch as LaunchIcon } from "@material-ui/icons";
+
 import RowDotMenu from "./RowDotMenu";
 
 function SizeCell({ resource }) {
@@ -139,7 +144,9 @@ function TableView(props) {
         rowDotMenuVisibility,
         onDownloadSelected,
         onRenameSelected,
+        instantLaunchDefaultsMapping,
     } = props;
+
     const invalidRowClass = invalidRowStyles();
     const { t } = useTranslation("data");
     const dataRecordFields = dataFields(t);
@@ -297,6 +304,13 @@ function TableView(props) {
                                     selected.indexOf(resourceId) !== -1;
                                 const isInvalid =
                                     isSelected && isInvalidSelection(resource);
+                                const [
+                                    instantLaunch,
+                                    instantLaunchName,
+                                ] = defaultInstantLaunch(
+                                    instantLaunchDefaultsMapping,
+                                    resource
+                                );
                                 return (
                                     <DERow
                                         classes={
@@ -391,6 +405,18 @@ function TableView(props) {
 
                                         {rowDotMenuVisibility && (
                                             <TableCell align="right">
+                                                {instantLaunch && (
+                                                    <IconButton
+                                                        variant="contained"
+                                                        onClick={() =>
+                                                            alert(
+                                                                instantLaunchName
+                                                            )
+                                                        }
+                                                    >
+                                                        <LaunchIcon />
+                                                    </IconButton>
+                                                )}
                                                 <RowDotMenu
                                                     baseId={build(
                                                         tableId,

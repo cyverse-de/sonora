@@ -41,6 +41,7 @@ function DotMenuItems(props) {
         onFilterSelected,
         onDeleteToolSelected,
         allowDeletes,
+        isAdmin,
     } = props;
 
     const { t } = useTranslation("tools");
@@ -64,7 +65,7 @@ function DotMenuItems(props) {
                     <ListItemText primary={t("detailsLbl")} />
                 </MenuItem>
             )}
-            {canShare && (
+            {!isAdmin && canShare && (
                 <SharingMenuItem
                     key={build(baseId, shareIds.SHARING_MENU_ITEM)}
                     baseId={baseId}
@@ -86,20 +87,6 @@ function DotMenuItems(props) {
                 <Add fontSize="small" />
             </ListItemIcon>
             <ListItemText primary={t("addTool")} />
-        </MenuItem>,
-
-        <MenuItem
-            key={build(baseId, ids.MANAGE_TOOLS.REQUEST_TOOL_MI)}
-            id={build(baseId, ids.MANAGE_TOOLS.REQUEST_TOOL_MI)}
-            onClick={() => {
-                onClose();
-                onRequestToolSelected();
-            }}
-        >
-            <ListItemIcon>
-                <Send fontSize="small" />
-            </ListItemIcon>
-            <ListItemText primary={t("requestToolMI")} />
         </MenuItem>,
 
         allowEditing && (
@@ -131,6 +118,22 @@ function DotMenuItems(props) {
                     <Delete fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary={t("delete")} />
+            </MenuItem>
+        ),
+
+        !isAdmin && (
+            <MenuItem
+                key={build(baseId, ids.MANAGE_TOOLS.REQUEST_TOOL_MI)}
+                id={build(baseId, ids.MANAGE_TOOLS.REQUEST_TOOL_MI)}
+                onClick={() => {
+                    onClose();
+                    onRequestToolSelected();
+                }}
+            >
+                <ListItemIcon>
+                    <Send fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("requestToolMI")} />
             </MenuItem>
         ),
 
@@ -171,11 +174,13 @@ export default function ToolsDotMenu({
     } = props;
     const selectedTools = getSelectedTools ? getSelectedTools() : null;
     const allowEditing =
-        isSingleSelection && isWritable(selectedTools[0]?.permission);
+        isSingleSelection &&
+        (isWritable(selectedTools[0]?.permission) || isAdmin);
     const allowDeletes =
         selectedTools?.length > 0 &&
-        selectedTools.filter((tool) => !isWritable(tool.permission)).length ===
-            0;
+        (selectedTools.filter((tool) => !isWritable(tool.permission)).length ===
+            0 ||
+            isAdmin);
 
     return (
         <DotMenu
@@ -195,6 +200,7 @@ export default function ToolsDotMenu({
                     onRequestToolSelected={onRequestToolSelected}
                     onDeleteToolSelected={onDeleteToolSelected}
                     allowDeletes={allowDeletes}
+                    isAdmin={isAdmin}
                 />
             )}
         />

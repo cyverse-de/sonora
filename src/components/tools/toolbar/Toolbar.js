@@ -145,7 +145,6 @@ export default function ToolsToolbar(props) {
         <>
             <Toolbar variant="dense">
                 <Hidden xsDown>
-                    <div className={classes.divider} />
                     {!isAdmin && (
                         <PermissionsFilter
                             baseId={baseId}
@@ -182,6 +181,7 @@ export default function ToolsToolbar(props) {
                         />
                     )}
                 </Hidden>
+                <div className={classes.divider} />
                 <ToolsDotMenu
                     baseId={baseId}
                     onDetailsSelected={onDetailsSelected}

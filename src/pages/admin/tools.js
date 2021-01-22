@@ -54,7 +54,7 @@ export default function Tools() {
     } else {
         return (
             <Listing
-                baseId="tools"
+                baseId="adminTools"
                 page={selectedPage}
                 rowsPerPage={selectedRowsPerPage}
                 order={selectedOrder}

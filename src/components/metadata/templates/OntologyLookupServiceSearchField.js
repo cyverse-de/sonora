@@ -29,9 +29,11 @@ const OntologyLookupServiceSearchField = (props) => {
     const { t } = useTranslation("metadata");
 
     const loadOptions = (inputValue, callback) => {
-        searchOLSTerms(inputValue, attribute?.settings, (results) =>
-            callback(results?.docs)
-        );
+        searchOLSTerms({
+            inputValue,
+            loaderSettings: attribute?.settings || {},
+            callback: (results) => callback(results?.docs),
+        });
     };
 
     const formatCreateLabel = (inputValue) => {

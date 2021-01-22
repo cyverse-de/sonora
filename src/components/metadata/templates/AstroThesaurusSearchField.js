@@ -22,9 +22,10 @@ const AstroThesaurusSearchField = (props) => {
     const { t } = useTranslation("metadata");
 
     const loadOptions = (inputValue, callback) => {
-        searchAstroThesaurusTerms(inputValue, (results) =>
-            callback(results && results.items)
-        );
+        searchAstroThesaurusTerms({
+            inputValue,
+            callback: (results) => callback(results && results.items),
+        });
     };
 
     const formatCreateLabel = (inputValue) => {

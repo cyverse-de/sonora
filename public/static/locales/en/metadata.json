@@ -45,6 +45,7 @@
     "newAttrName": "New attribute {{count}}",
     "newValue": "New value {{count}}",
     "olsQueryParams": "Ontology Lookup Service Query Params",
+    "olsSearchError": "Error searching the Ontology Lookup Service. Please try again.",
     "olsSettingAllChildrenOfHelpLabel": "Restrict searches to all children of a given term (subclassOf/is-a plus any hierarchical/transitive properties):",
     "olsSettingAllChildrenOfTitle": "All Children",
     "olsSettingChildrenOfHelpLabel": "Restrict searches to all children of a given term (subclassOf/is-a relation only):",
@@ -62,6 +63,7 @@
     "templateValidationErrMsgNumber": "Please enter a valid number.",
     "templateValidationErrMsgTimestamp": "Please enter a valid date/time.",
     "templateValidationErrMsgURL": "A valid URL must begin with either ftp or http or https.",
+    "uatSearchError": "Error searching the Unified Astronomy Thesaurus. Please try again.",
     "userMetadata": "User Metadata",
     "value": "Value",
     "viewInTemplate": "View in Template"

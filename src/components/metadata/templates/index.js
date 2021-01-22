@@ -5,16 +5,25 @@ import React, { Fragment } from "react";
 
 import { FastField, FieldArray, Formik } from "formik";
 import PropTypes from "prop-types";
+import { useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 import deConstants from "../../../constants";
 
-import AttributeTypes from "./AttributeTypes";
 import ids from "../ids";
 import styles from "../styles";
 
+import AttributeTypes from "components/models/metadata/TemplateAttributeTypes";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import DEDialog from "components/utils/DEDialog";
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+
+import {
+    SEARCH_OLS_QUERY_KEY,
+    SEARCH_UAT_QUERY_KEY,
+    searchOntologyLookupService,
+    searchUnifiedAstronomyThesaurus,
+} from "serviceFacades/metadata";
 
 import {
     build,
@@ -522,9 +531,51 @@ const MetadataTemplateForm = (props) => {
 };
 
 const MetadataTemplateView = (props) => {
-    const { template, updateMetadataFromTemplateView } = props;
+    const {
+        template,
+        showErrorAnnouncer,
+        updateMetadataFromTemplateView,
+    } = props;
+
+    const [olsSearch, searchOLSTerms] = React.useState(null);
+    const [uatSearch, searchAstroThesaurusTerms] = React.useState(null);
 
     const { t } = useTranslation("metadata");
+
+    useQuery({
+        queryKey: [
+            SEARCH_UAT_QUERY_KEY,
+            uatSearch && {
+                searchTerm: uatSearch.inputValue,
+            },
+        ],
+        queryFn: searchUnifiedAstronomyThesaurus,
+        config: {
+            enabled: !!uatSearch?.inputValue,
+            onSuccess: uatSearch?.callback,
+            onError: (error) => {
+                showErrorAnnouncer(t("uatSearchError"), error);
+            },
+        },
+    });
+
+    useQuery({
+        queryKey: [
+            SEARCH_OLS_QUERY_KEY,
+            olsSearch && {
+                ...olsSearch.loaderSettings,
+                searchTerm: olsSearch.inputValue,
+            },
+        ],
+        queryFn: searchOntologyLookupService,
+        config: {
+            enabled: !!olsSearch?.inputValue,
+            onSuccess: olsSearch?.callback,
+            onError: (error) => {
+                showErrorAnnouncer(t("olsSearchError"), error);
+            },
+        },
+    });
 
     const initValues = () => {
         const metadata = { ...props.metadata };
@@ -737,7 +788,14 @@ const MetadataTemplateView = (props) => {
             onSubmit={handleSubmit}
         >
             {(formikProps) => {
-                return <MetadataTemplateForm {...props} {...formikProps} />;
+                return (
+                    <MetadataTemplateForm
+                        {...props}
+                        {...formikProps}
+                        searchOLSTerms={searchOLSTerms}
+                        searchAstroThesaurusTerms={searchAstroThesaurusTerms}
+                    />
+                );
             }}
         </Formik>
     );
@@ -746,8 +804,6 @@ const MetadataTemplateView = (props) => {
 MetadataTemplateView.propTypes = {
     updateMetadataFromTemplateView: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
-    searchAstroThesaurusTerms: PropTypes.func.isRequired,
-    searchOLSTerms: PropTypes.func.isRequired,
 };
 
-export default MetadataTemplateView;
+export default withErrorAnnouncer(MetadataTemplateView);

@@ -2,6 +2,7 @@ import React from "react";
 
 import MetadataTemplateView from "components/metadata/templates";
 
+import { mockAxios } from "../axiosMock";
 import { DataCiteMetadata, MockMetadata } from "./MetadataMocks";
 import {
     DataciteMetadataTemplate,
@@ -13,9 +14,13 @@ const updateMetadataFromTemplateView = (metadata, resolve, errorCallback) => {
     console.log(metadata);
     resolve(metadata);
 };
-const searchOLSTerms = (inputValue, loaderSettings, callback) => {
-    setTimeout(() => {
-        callback({
+
+mockAxios.onGet("/api/ontology-lookup-service").reply((config) => {
+    console.log("searchOLSTerms", config.url, config.params);
+
+    return [
+        200,
+        {
             docs: [
                 {
                     iri: "http://edamontology.org/data_0006",
@@ -33,12 +38,16 @@ const searchOLSTerms = (inputValue, loaderSettings, callback) => {
                     ontology_prefix: "EDAM",
                 },
             ],
-        });
-    }, 1000);
-};
-const searchAstroThesaurusTerms = (inputValue, callback) => {
-    setTimeout(() => {
-        callback({
+        },
+    ];
+});
+
+mockAxios.onGet("/api/unified-astronomy-thesaurus").reply((config) => {
+    console.log("searchAstroThesaurusTerms", config.url);
+
+    return [
+        200,
+        {
             items: [
                 {
                     iri: "http://astrothesaurus.org/uat/1512",
@@ -53,9 +62,9 @@ const searchAstroThesaurusTerms = (inputValue, callback) => {
                     label: "Neutron stars",
                 },
             ],
-        });
-    }, 1000);
-};
+        },
+    ];
+});
 
 export const NestedTemplateView = () => {
     return (
@@ -64,8 +73,6 @@ export const NestedTemplateView = () => {
             writable
             updateMetadataFromTemplateView={updateMetadataFromTemplateView}
             onClose={onClose}
-            searchAstroThesaurusTerms={searchAstroThesaurusTerms}
-            searchOLSTerms={searchOLSTerms}
             template={NestedAttrMetadataTemplate}
             metadata={MockMetadata}
         />
@@ -94,8 +101,6 @@ export const NestedTemplateReadOnlyView = () => {
             open
             updateMetadataFromTemplateView={updateMetadataFromTemplateView}
             onClose={onClose}
-            searchAstroThesaurusTerms={searchAstroThesaurusTerms}
-            searchOLSTerms={searchOLSTerms}
             template={NestedAttrMetadataTemplate}
             metadata={{
                 ...MockMetadata,
@@ -112,8 +117,6 @@ export const DataCiteMetadataTemplate = () => {
             writable
             updateMetadataFromTemplateView={updateMetadataFromTemplateView}
             onClose={onClose}
-            searchAstroThesaurusTerms={searchAstroThesaurusTerms}
-            searchOLSTerms={searchOLSTerms}
             template={DataciteMetadataTemplate}
             metadata={DataCiteMetadata}
         />
@@ -127,8 +130,6 @@ export const DataCiteMetadataTemplateNoValues = () => {
             writable
             updateMetadataFromTemplateView={updateMetadataFromTemplateView}
             onClose={onClose}
-            searchAstroThesaurusTerms={searchAstroThesaurusTerms}
-            searchOLSTerms={searchOLSTerms}
             template={DataciteMetadataTemplate}
             metadata={{}}
         />

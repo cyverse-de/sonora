@@ -6,6 +6,7 @@
  * @module dashboard
  */
 import React, { useRef, useState } from "react";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import clsx from "clsx";
 
@@ -13,7 +14,7 @@ import { useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
-import { Typography } from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 
 import { Skeleton } from "@material-ui/lab";
 
@@ -167,28 +168,42 @@ const Dashboard = (props) => {
     const baseId = fns.makeID(ids.ROOT);
 
     return (
-        <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
-            {isLoading ? <DashboardSkeleton /> : componentContent}
-            {detailsApp && (
-                <AppDetailsDrawer
-                    appId={detailsApp.id}
-                    systemId={detailsApp.system_id}
-                    open={true}
-                    baseId={baseId}
-                    onClose={() => setDetailsApp(null)}
-                    onFavoriteUpdated={detailsApp.onFavoriteUpdated}
-                />
-            )}
-            {detailsAnalysis && (
-                <AnalysesDetailsDrawer
-                    selectedAnalysis={detailsAnalysis}
-                    baseId={baseId}
-                    open={detailsAnalysis !== null}
-                    onClose={() => setDetailsAnalysis(null)}
-                />
-            )}
-            <div className={classes.footer} />
-        </div>
+        <>
+            <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
+                {!userProfile?.id && (
+                    <Container maxWidth="xs">
+                        <Image
+                            src="/science-banner.png"
+                            alt="banner"
+                            height={400}
+                            width={800}
+                            layout="responsive"
+                        />
+                    </Container>
+                )}
+                {isLoading ? <DashboardSkeleton /> : componentContent}
+
+                {detailsApp && (
+                    <AppDetailsDrawer
+                        appId={detailsApp.id}
+                        systemId={detailsApp.system_id}
+                        open={true}
+                        baseId={baseId}
+                        onClose={() => setDetailsApp(null)}
+                        onFavoriteUpdated={detailsApp.onFavoriteUpdated}
+                    />
+                )}
+                {detailsAnalysis && (
+                    <AnalysesDetailsDrawer
+                        selectedAnalysis={detailsAnalysis}
+                        baseId={baseId}
+                        open={detailsAnalysis !== null}
+                        onClose={() => setDetailsAnalysis(null)}
+                    />
+                )}
+                <div className={classes.footer} />
+            </div>
+        </>
     );
 };
 

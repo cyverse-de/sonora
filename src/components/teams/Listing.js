@@ -1,3 +1,11 @@
+/**
+ * @author aramsey
+ *
+ * A component that displays either the list of all teams a user has permissions
+ * to view, only teams they are a member of, or the search results when
+ * searching for a team via the global search
+ */
+
 import React, { useMemo, useState } from "react";
 
 import { build, EmptyTable } from "@cyverse-de/ui-lib";
@@ -45,7 +53,7 @@ function Listing(props) {
         updateResultCount,
     } = props;
 
-    const { t } = useTranslation("teams");
+    const { t } = useTranslation(["teams", "search"]);
     const [data, setData] = useState([]);
     const [userProfile] = useUserProfile();
 
@@ -174,7 +182,7 @@ function Listing(props) {
             <WrappedErrorHandler errorObject={error} baseId={parentId} />
         ) : (
             <ErrorTypographyWithDialog
-                errorMessage={t("errorSearch")}
+                errorMessage={t("search:errorSearch")}
                 errorObject={error}
                 baseId={parentId}
             />

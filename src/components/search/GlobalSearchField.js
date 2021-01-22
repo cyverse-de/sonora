@@ -371,7 +371,7 @@ function TeamSearchOption(props) {
             <SearchOption
                 primary={selectedOption.display_extension}
                 secondary={selectedOption.description}
-                icon={<TeamIcon color={theme.palette.info.primary} />}
+                icon={<TeamIcon style={{ color: theme.palette.info.main }} />}
                 searchTerm={searchTerm}
                 id={build(baseId, selectedOption.id)}
             />

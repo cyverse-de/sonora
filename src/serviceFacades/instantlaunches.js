@@ -9,8 +9,8 @@ export const getDefaultsMapping = () =>
         method: "GET",
     });
 
-export const defaultInstantLaunch = (defaults, resource) => {
-    const mappings = defaults.entries();
+export const defaultInstantLaunch = (defaults = {}, resource) => {
+    const mappings = Object.entries(defaults);
 
     var instantLaunch;
     var patternName;

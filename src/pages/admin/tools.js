@@ -9,11 +9,13 @@
 import React, { useCallback } from "react";
 import { useRouter } from "next/router";
 
-import constants from "../constants";
+import constants from "../../constants";
 import { getLocalStorage } from "components/utils/localStorage";
 import Listing from "components/tools/listing/Listing";
 
 import NavigationConstants from "common/NavigationConstants";
+import { useUserProfile } from "contexts/userProfile";
+import NotAuthorized from "components/utils/error/NotAuthorized";
 
 export default function Tools() {
     const router = useRouter();
@@ -27,11 +29,13 @@ export default function Tools() {
     const selectedOrderBy = query.selectedOrderBy || "name";
     const selectedPermFilter = query.selectedPermFilter;
     const selectedSearchTerm = query.selectedSearchTerm || "";
+    const profile = useUserProfile()[0];
+    const isAdmin = profile?.admin;
 
     const onRouteToListing = useCallback(
         (order, orderBy, page, rowsPerPage, permFilter, searchTerm) => {
             router.push({
-                pathname: `/${NavigationConstants.TOOLS}`,
+                pathname: `/${NavigationConstants.ADMIN}/${NavigationConstants.TOOLS}`,
                 query: {
                     selectedOrder: order,
                     selectedOrderBy: orderBy,
@@ -45,18 +49,23 @@ export default function Tools() {
         [router]
     );
 
-    return (
-        <Listing
-            baseId="tools"
-            page={selectedPage}
-            rowsPerPage={selectedRowsPerPage}
-            order={selectedOrder}
-            orderBy={selectedOrderBy}
-            permFilter={selectedPermFilter}
-            onRouteToListing={onRouteToListing}
-            searchTerm={selectedSearchTerm}
-        />
-    );
+    if (!isAdmin) {
+        return <NotAuthorized />;
+    } else {
+        return (
+            <Listing
+                baseId="adminTools"
+                page={selectedPage}
+                rowsPerPage={selectedRowsPerPage}
+                order={selectedOrder}
+                orderBy={selectedOrderBy}
+                permFilter={selectedPermFilter}
+                onRouteToListing={onRouteToListing}
+                searchTerm={selectedSearchTerm}
+                isAdmin={isAdmin}
+            />
+        );
+    }
 }
 
 Tools.getInitialProps = async () => ({

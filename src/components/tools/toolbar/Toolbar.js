@@ -124,6 +124,7 @@ export default function ToolsToolbar(props) {
         handleSearch,
         searchTerm,
         onDeleteToolSelected,
+        isAdmin,
     } = props;
 
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
@@ -144,13 +145,14 @@ export default function ToolsToolbar(props) {
         <>
             <Toolbar variant="dense">
                 <Hidden xsDown>
-                    <div className={classes.divider} />
-                    <PermissionsFilter
-                        baseId={baseId}
-                        filter={ownershipFilter}
-                        classes={classes}
-                        handleFilterChange={handleOwnershipFilterChange}
-                    />
+                    {!isAdmin && (
+                        <PermissionsFilter
+                            baseId={baseId}
+                            filter={ownershipFilter}
+                            classes={classes}
+                            handleFilterChange={handleOwnershipFilterChange}
+                        />
+                    )}
                     <SearchField
                         handleSearch={handleSearch}
                         value={searchTerm}
@@ -179,6 +181,7 @@ export default function ToolsToolbar(props) {
                         />
                     )}
                 </Hidden>
+                <div className={classes.divider} />
                 <ToolsDotMenu
                     baseId={baseId}
                     onDetailsSelected={onDetailsSelected}
@@ -191,6 +194,7 @@ export default function ToolsToolbar(props) {
                     onFilterSelected={() => setOpenFilterDialog(true)}
                     onRequestToolSelected={() => setRequestDialogOpen(true)}
                     onDeleteToolSelected={onDeleteToolSelected}
+                    isAdmin={isAdmin}
                 />
             </Toolbar>
             <Sharing
@@ -202,7 +206,7 @@ export default function ToolsToolbar(props) {
                 <EditToolDialog
                     open={editDialogOpen}
                     onClose={() => setEditDialogOpen(false)}
-                    isAdmin={false}
+                    isAdmin={isAdmin}
                     isAdminPublishing={false}
                     parentId={baseId}
                     tool={hasSelection ? getSelectedTools()[0] : null}
@@ -212,18 +216,20 @@ export default function ToolsToolbar(props) {
             <EditToolDialog
                 open={addDialogOpen}
                 onClose={() => setAddDialogOpen(false)}
-                isAdmin={false}
+                isAdmin={isAdmin}
                 isAdminPublishing={false}
                 parentId={baseId}
             />
             <Dialog open={openFilterDialog}>
                 <DialogContent>
-                    <PermissionsFilter
-                        baseId={baseId}
-                        filter={ownershipFilter}
-                        classes={classes}
-                        handleFilterChange={handleOwnershipFilterChange}
-                    />
+                    {!isAdmin && (
+                        <PermissionsFilter
+                            baseId={baseId}
+                            filter={ownershipFilter}
+                            classes={classes}
+                            handleFilterChange={handleOwnershipFilterChange}
+                        />
+                    )}
                     <SearchField
                         handleSearch={handleSearch}
                         value={searchTerm}

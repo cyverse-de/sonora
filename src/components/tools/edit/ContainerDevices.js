@@ -117,7 +117,7 @@ function ContainerDevices(props) {
                     rowCount={devices ? devices.length : 0}
                     baseId={parentId}
                     ids={ids.PORTS_TABLE}
-                    columnData={getColumns()}
+                    columnData={getColumns(t)}
                 />
             </Table>
         </SimpleExpansionPanel>

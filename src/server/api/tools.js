@@ -131,5 +131,15 @@ export default function toolsRouter() {
         })
     );
 
+    logger.info("adding the GET /admin/tools handler");
+    api.get(
+        "/admin/tools",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/tools",
+        })
+    );
+
     return api;
 }

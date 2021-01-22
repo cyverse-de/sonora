@@ -19,11 +19,22 @@ import { TEAM_FILTER } from "./index";
 import { useUserProfile } from "contexts/userProfile";
 import isQueryLoading from "../utils/isQueryLoading";
 import BasicTable from "../utils/BasicTable";
-import teamColumns from "./teamColumns";
 import DELink from "../utils/DELink";
 import { useTeamsSearch } from "../search/searchQueries";
 import WrappedErrorHandler from "../utils/error/WrappedErrorHandler";
 import ErrorTypographyWithDialog from "../utils/error/ErrorTypographyWithDialog";
+
+function Columns(t) {
+    return {
+        NAME: { fieldName: t("name"), key: "display_extension" },
+        CREATOR: {
+            fieldName: t("creator"),
+            key: "detail.created_by_detail.name",
+        },
+        DESCRIPTION: { fieldName: t("description"), key: "description" },
+        DETAILS: { fieldName: "", key: "name" },
+    };
+}
 
 function Listing(props) {
     const {
@@ -39,7 +50,7 @@ function Listing(props) {
     const [userProfile] = useUserProfile();
 
     const tableId = build(parentId, ids.TEAMS.TABLE);
-    const TEAM_COLUMNS = teamColumns(t);
+    const TEAM_COLUMNS = Columns(t);
     const isSearchPage = !!searchTerm;
 
     const columns = useMemo(() => {

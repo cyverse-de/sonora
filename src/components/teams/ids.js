@@ -4,6 +4,7 @@ export default {
         BASE: "teams",
         CHECKBOX: "checkbox",
         DOT_MENU: "dotMenu",
+        HELP_DLG: "teamHelpDlg",
         MY_TEAMS_MI: "myTeamsMI",
         LINK: "link",
         TOOLBAR: "toolbar",
@@ -14,5 +15,7 @@ export default {
     BUTTONS: {
         CREATE_BTN: "createBtn",
         CREATE_MI: "createMI",
+        HELP_BTN: "helpBtn",
+        HELP_MI: "helpMI",
     },
 };

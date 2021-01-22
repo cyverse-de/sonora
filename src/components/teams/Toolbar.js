@@ -6,7 +6,7 @@
  * hidden within the dot menu
  */
 
-import React from "react";
+import React, { useState } from "react";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 import {
@@ -18,7 +18,9 @@ import {
     MenuItem,
     TextField,
     Toolbar,
+    Typography,
 } from "@material-ui/core";
+import { Help } from "@material-ui/icons";
 import { AddTeamIcon } from "./Icons";
 
 import ids from "./ids";
@@ -26,13 +28,17 @@ import styles from "./styles";
 import { TEAM_FILTER } from "./index";
 import { useTranslation } from "i18n";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { Trans } from "react-i18next";
+import DEDialog from "../utils/DEDialog";
 
 const useStyles = makeStyles(styles);
 
 function TeamToolbar(props) {
     const { parentId, teamFilter, setTeamFilter } = props;
     const classes = useStyles();
-    const { t } = useTranslation("teams");
+    const { t } = useTranslation(["teams", "common"]);
+
+    const [helpDlgOpen, setHelpDlgOpen] = useState(false);
 
     const onCreateTeamSelected = () => {
         console.log("Create a team!");
@@ -77,9 +83,20 @@ function TeamToolbar(props) {
                     variant="outlined"
                     id={build(toolbarId, ids.BUTTONS.CREATE_BTN)}
                     onClick={onCreateTeamSelected}
+                    className={classes.button}
                     startIcon={<AddTeamIcon />}
                 >
                     {t("team")}
+                </Button>
+                <Button
+                    color="primary"
+                    variant="outlined"
+                    id={build(toolbarId, ids.BUTTONS.HELP_BTN)}
+                    onClick={() => setHelpDlgOpen(true)}
+                    className={classes.button}
+                    startIcon={<Help />}
+                >
+                    {t("common:help")}
                 </Button>
             </Hidden>
             <Hidden smUp>
@@ -99,9 +116,40 @@ function TeamToolbar(props) {
                             </ListItemIcon>
                             <ListItemText primary={t("team")} />
                         </MenuItem>,
+                        <MenuItem
+                            key={build(dotMenuId, ids.BUTTONS.HELP_MI)}
+                            id={build(dotMenuId, ids.BUTTONS.HELP_MI)}
+                            onClick={() => {
+                                onClose();
+                                setHelpDlgOpen(true);
+                            }}
+                        >
+                            <ListItemIcon>
+                                <Help fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText primary={t("common:help")} />
+                        </MenuItem>,
                     ]}
                 />
             </Hidden>
+            <DEDialog
+                baseId={ids.TEAMS.HELP_DLG}
+                open={helpDlgOpen}
+                title={t("common:help")}
+                onClose={() => {
+                    setHelpDlgOpen(false);
+                }}
+            >
+                <Typography component="div">
+                    <Trans
+                        t={t}
+                        i18nKey="helpText"
+                        components={{
+                            p: <p />,
+                        }}
+                    />
+                </Typography>
+            </DEDialog>
         </Toolbar>
     );
 }

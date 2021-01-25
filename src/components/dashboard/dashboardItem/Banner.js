@@ -12,14 +12,15 @@ import { useRouter } from "next/router";
 import NavigationConstants from "common/NavigationConstants";
 
 import {
-    Button,
     Paper,
     Grid,
     Typography,
     useTheme,
     useMediaQuery,
+    Link,
 } from "@material-ui/core";
 import constants from "../../../constants";
+import ExternalLink from "components/utils/ExternalLink";
 
 export default function Banner(props) {
     const theme = useTheme();
@@ -31,20 +32,8 @@ export default function Banner(props) {
         router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
     };
 
-    const onSignUpClick = () => {
-        window.open(constants.CYVERSE_USER_PORTAL, "_blank");
-    };
-
-    const onLearnMoreClick = () => {
-        window.open(constants.CYVERSE_URL, "_blank");
-    };
-
-    const onGettingStartedClick = () => {
-        window.open(constants.GETTING_STARTED, "_blank");
-    };
-
     return (
-        <Paper style={{ padding: theme.spacing(1) }}>
+        <Paper>
             <Grid
                 container
                 direction={isMobile ? "column" : "row"}
@@ -84,47 +73,44 @@ export default function Banner(props) {
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <Button color="primary" size="small">
-                                <Typography
-                                    variant={isMobile ? "caption" : "subtitle2"}
-                                    onClick={onLearnMoreClick}
-                                >
-                                    {t("learnMore")}
-                                </Typography>
-                            </Button>
-                            <Button
+                            <ExternalLink
                                 color="primary"
-                                size="small"
-                                onClick={onGettingStartedClick}
+                                style={{
+                                    margin: theme.spacing(0.4),
+                                }}
+                                href={constants.CYVERSE_URL}
                             >
-                                <Typography
-                                    variant={isMobile ? "caption" : "subtitle2"}
-                                >
-                                    {t("gettingStarted")}
-                                </Typography>
-                            </Button>
-                            <Button
+                                {t("learnMore")} |
+                            </ExternalLink>
+                            <ExternalLink
                                 color="primary"
-                                size="small"
+                                style={{
+                                    margin: theme.spacing(0.4),
+                                }}
+                                href={constants.GETTING_STARTED}
+                            >
+                                {t("gettingStarted")} |
+                            </ExternalLink>
+
+                            <ExternalLink
+                                color="primary"
+                                style={{
+                                    margin: theme.spacing(0.4),
+                                }}
+                                href={constants.CYVERSE_USER_PORTAL}
+                            >
+                                {t("signUp")} |
+                            </ExternalLink>
+                            <Link
+                                component="button"
+                                color="primary"
                                 onClick={onLoginClick}
+                                style={{
+                                    margin: theme.spacing(0.4),
+                                }}
                             >
-                                <Typography
-                                    variant={isMobile ? "caption" : "subtitle2"}
-                                >
-                                    {t("login")}
-                                </Typography>
-                            </Button>
-                            <Button
-                                color="primary"
-                                size="small"
-                                onClick={onSignUpClick}
-                            >
-                                <Typography
-                                    variant={isMobile ? "caption" : "subtitle2"}
-                                >
-                                    {t("signUp")}
-                                </Typography>
-                            </Button>
+                                {t("login")}
+                            </Link>
                         </Grid>
                     </Grid>
                 </Grid>

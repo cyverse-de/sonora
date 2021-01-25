@@ -6,7 +6,6 @@
  * @module dashboard
  */
 import React, { useRef, useState } from "react";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import clsx from "clsx";
 
@@ -14,7 +13,7 @@ import { useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
-import { Container, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 import { Skeleton } from "@material-ui/lab";
 
@@ -39,6 +38,7 @@ import {
 
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import { useUserProfile } from "contexts/userProfile";
+import Banner from "./dashboardItem/Banner";
 
 const AppDetailsDrawer = dynamic(() =>
     import("components/apps/details/Drawer")
@@ -170,17 +170,7 @@ const Dashboard = (props) => {
     return (
         <>
             <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
-                {!userProfile?.id && (
-                    <Container maxWidth="xs">
-                        <Image
-                            src="/science-banner.png"
-                            alt="banner"
-                            height={400}
-                            width={800}
-                            layout="responsive"
-                        />
-                    </Container>
-                )}
+                {!userProfile?.id && <Banner />}
                 {isLoading ? <DashboardSkeleton /> : componentContent}
 
                 {detailsApp && (

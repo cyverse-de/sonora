@@ -1,6 +1,7 @@
 {
     "addToCalendarAria": "add to calendar",
     "analysisOrigination": "<bold>{{status}}</bold> - {{date}}",
+    "banner": "Banner",
     "by": "By",
     "changeSettings": "Change Settings",
     "dashboardInitError": "Unable to initialize the dashboard: {{error}}",
@@ -11,8 +12,12 @@
     "favoriteAction": "Favorite",
     "favoriteAria": "favorite",
     "favoritesUpdateError": "Unable to update favorites: {{error}}",
+    "gettingStarted": "Getting Started",
     "integratedBy": "Integrated by",
     "launchAction": "Launch",
+    "learnMore": "Learn More",
+    "login": "Login",
+    "loginSignUp": "Login or sign-up to access additional features.",
     "newsFeed": "News",
     "noContentFound": "No content found.",
     "noDescriptionProvided": "No description was provided.",
@@ -35,9 +40,11 @@
     "showFewer": "Show Fewer",
     "showLinkAria": "show link",
     "showMore": "Show More",
+    "signUp": "Sign up",
     "startedBy": "Started by",
     "stopAction": "Stop",
     "stopAria": "stop",
     "tweetAria": "tweet",
-    "videosFeed": "Videos"
+    "videosFeed": "Videos",
+    "welcome": "Welcome to Discovery Environment"
 }

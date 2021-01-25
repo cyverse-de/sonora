@@ -15,6 +15,7 @@ import ItemBase, { ItemAction } from "./ItemBase";
 import { useTranslation } from "i18n";
 import AppFavorite from "components/apps/AppFavorite";
 import { useAppLaunchLink } from "components/apps/utils";
+import { useTheme } from "@material-ui/core";
 
 class AppItem extends ItemBase {
     constructor(props) {
@@ -31,6 +32,7 @@ class AppItem extends ItemBase {
         const item = new AppItem(props);
         const { showErrorAnnouncer, setDetailsApp } = props;
         const { t } = useTranslation("dashboard");
+        const theme = useTheme();
 
         // Extract app details. Note: dashboard-aggregator only queries the DE database.
         const app = props.content;
@@ -72,7 +74,9 @@ class AppItem extends ItemBase {
                         isExternal={false}
                         onFavoriteClick={onFavoriteClick}
                         baseId={buildKey("favorite")}
-                        size="medium"
+                        buttonStyle={{
+                            margin: theme.spacing(1),
+                        }}
                     />
                 ),
                 <ItemAction
@@ -81,7 +85,12 @@ class AppItem extends ItemBase {
                     tooltipKey="launchAction"
                 >
                     <Link href={launchHref} as={launchAs} passHref>
-                        <IconButton>
+                        <IconButton
+                            style={{
+                                margin: theme.spacing(1),
+                            }}
+                            size="small"
+                        >
                             <PlayArrow color="primary" />
                         </IconButton>
                     </Link>
@@ -99,6 +108,10 @@ class AppItem extends ItemBase {
                                     setIsFavorite(!isFavoriteNow),
                             })
                         }
+                        style={{
+                            margin: theme.spacing(1),
+                        }}
+                        size="small"
                     >
                         <Info color="primary" />
                     </IconButton>

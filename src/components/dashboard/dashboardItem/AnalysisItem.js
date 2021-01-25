@@ -13,6 +13,7 @@ import { getFolderPage } from "../../data/utils";
 
 import NavConstants from "../../../common/NavigationConstants";
 import { useTranslation } from "i18n";
+import { useTheme } from "@material-ui/core";
 
 class AnalysisItem extends ItemBase {
     constructor({ section, content, height, width }) {
@@ -30,6 +31,7 @@ class AnalysisItem extends ItemBase {
         const analysis = props.content;
         const { setDetailsAnalysis } = props;
         const { t } = useTranslation("dashboard");
+        const theme = useTheme();
         return item.addActions([
             <ItemAction
                 ariaLabel={t("relaunchAria")}
@@ -40,7 +42,12 @@ class AnalysisItem extends ItemBase {
                     href={`/${NavConstants.ANALYSES}/[analysisId]/${NavConstants.RELAUNCH}`}
                     as={`/${NavConstants.ANALYSES}/${item.content.id}/${NavConstants.RELAUNCH}`}
                 >
-                    <IconButton>
+                    <IconButton
+                        style={{
+                            margin: theme.spacing(1),
+                        }}
+                        size="small"
+                    >
                         <Repeat color="primary" />
                     </IconButton>
                 </Link>
@@ -54,7 +61,12 @@ class AnalysisItem extends ItemBase {
                     href={`/${NavConstants.DATA}/ds/[...pathItems]`}
                     as={getFolderPage(item.content["result_folder_path"])}
                 >
-                    <IconButton>
+                    <IconButton
+                        style={{
+                            margin: theme.spacing(1),
+                        }}
+                        size="small"
+                    >
                         <PermMedia color="primary" />
                     </IconButton>
                 </Link>
@@ -64,7 +76,13 @@ class AnalysisItem extends ItemBase {
                 key={`${constants.KIND_ANALYSES}-${props.content.id}-details`}
                 tooltipKey="detailsAction"
             >
-                <IconButton onClick={() => setDetailsAnalysis({ ...analysis })}>
+                <IconButton
+                    onClick={() => setDetailsAnalysis({ ...analysis })}
+                    style={{
+                        margin: theme.spacing(1),
+                    }}
+                    size="small"
+                >
                     <Info color="primary" />
                 </IconButton>
             </ItemAction>,

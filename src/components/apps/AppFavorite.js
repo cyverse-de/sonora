@@ -13,6 +13,7 @@ export default function AppFavorite(props) {
         onFavoriteClick,
         baseId,
         size = "small",
+        buttonStyle,
     } = props;
     const { t } = useTranslation("apps");
     if (isFavorite) {
@@ -23,6 +24,7 @@ export default function AppFavorite(props) {
                     onClick={() => onFavoriteClick(isExternal)}
                     disabled={isExternal}
                     size={size}
+                    style={buttonStyle}
                 >
                     <FavoriteIcon color="primary" />
                 </IconButton>
@@ -36,6 +38,7 @@ export default function AppFavorite(props) {
                     onClick={() => onFavoriteClick(isExternal)}
                     disabled={isExternal}
                     size={size}
+                    style={buttonStyle}
                 >
                     <UnFavoriteIcon color="primary" />
                 </IconButton>

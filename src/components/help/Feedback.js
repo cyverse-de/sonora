@@ -154,11 +154,6 @@ export default function Feedback(props) {
                                 name="feedback"
                                 label={i18nHelp("feedback_title")}
                                 required={true}
-                                onKeyDown={(event) => {
-                                    if (event.key === "Enter") {
-                                        handleSubmit();
-                                    }
-                                }}
                                 validate={(value) => nonEmptyField(value, t)}
                                 InputProps={{
                                     readOnly: isLoading,

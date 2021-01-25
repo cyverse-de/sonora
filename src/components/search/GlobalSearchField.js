@@ -54,6 +54,7 @@ import {
     Description as DescriptionIcon,
     Pageview as PageviewIcon,
     Folder as FolderIcon,
+    Apps as AppsIcon,
 } from "@material-ui/icons";
 import { useUserProfile } from "../../contexts/userProfile";
 
@@ -238,9 +239,9 @@ function DataSearchOption(props) {
 }
 
 function AppsSearchOption(props) {
-    const { t } = useTranslation("common");
     const { t: i18NSearch } = useTranslation("search");
     const { baseId, filter, selectedOption, searchTerm } = props;
+    const theme = useTheme();
     const [href, as] = useAppLaunchLink(
         selectedOption?.system_id,
         selectedOption?.id
@@ -274,7 +275,7 @@ function AppsSearchOption(props) {
             <SearchOption
                 primary={selectedOption.name}
                 secondary={selectedOption.description}
-                icon={<img src="/icon-apps.png" alt={t("apps")} />}
+                icon={<AppsIcon style={{ color: theme.palette.info.main }} />}
                 searchTerm={searchTerm}
                 id={build(baseId, selectedOption.id)}
             />
@@ -317,7 +318,7 @@ function AnalysesSearchOption(props) {
             <SearchOption
                 primary={selectedOption.name}
                 secondary={selectedOption.status}
-                icon={<img src="/icon-analyses.png" alt={t("analyses")} />}
+                icon={<img src="/analyses-grey-24.png" alt={t("analyses")} />}
                 searchTerm={searchTerm}
                 id={build(baseId, selectedOption.id)}
             />

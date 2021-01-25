@@ -46,18 +46,13 @@ export default makeStyles((theme) => ({
     },
     gridRoot: {
         overflow: "auto", // Needed for vertical scrolling.
-        paddingTop: 0,
+        paddingTop: 1,
         paddingLeft: theme.spacing(3),
-        paddingBottom: 0,
+        paddingBottom: 1,
         paddingRight: theme.spacing(3),
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "flex-start",
 
         [theme.breakpoints.down("sm")]: {
-            paddingTop: 0,
             paddingLeft: theme.spacing(1),
-            paddingBottom: 0,
             paddingRight: theme.spacing(1),
         },
     },

@@ -7,7 +7,6 @@ import ReactPlayer from "react-player/youtube";
 import {
     Avatar,
     Card,
-    CardActions,
     CardContent,
     CardHeader,
     Link,
@@ -133,7 +132,14 @@ const DashboardItem = ({ item }) => {
                 </Typography>
             </CardContent>
 
-            <CardActions>{item.actions}</CardActions>
+            <div
+                style={{
+                    display: "flex",
+                    direction: "row",
+                }}
+            >
+                {item.actions}
+            </div>
         </Card>
     );
 };

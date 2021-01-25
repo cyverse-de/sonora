@@ -77,4 +77,5 @@ export default {
     CYVERSE_LC: "https://learning.cyverse.org/en/latest/",
     DEFAULT_EMAIL: "no-reply@cyverse.org",
     SUPPORT_EMAIL: "support@cyverse.org",
+    GETTING_STARTED: "https://learning.cyverse.org/en/latest/README.html",
 };

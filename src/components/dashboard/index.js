@@ -38,6 +38,7 @@ import {
 
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import { useUserProfile } from "contexts/userProfile";
+import Banner from "./dashboardItem/Banner";
 
 const AppDetailsDrawer = dynamic(() =>
     import("components/apps/details/Drawer")
@@ -168,7 +169,9 @@ const Dashboard = (props) => {
 
     return (
         <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
+            {!userProfile?.id && <Banner />}
             {isLoading ? <DashboardSkeleton /> : componentContent}
+
             {detailsApp && (
                 <AppDetailsDrawer
                     appId={detailsApp.id}

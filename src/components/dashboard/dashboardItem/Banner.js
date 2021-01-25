@@ -1,0 +1,120 @@
+/**
+ * @author sriram
+ *
+ * A banner to display for logged out users.
+ *
+ */
+import React from "react";
+import Image from "next/image";
+import { useTranslation } from "i18n";
+import { useRouter } from "next/router";
+
+import NavigationConstants from "common/NavigationConstants";
+
+import {
+    Paper,
+    Grid,
+    Typography,
+    useTheme,
+    useMediaQuery,
+    Link,
+} from "@material-ui/core";
+import constants from "../../../constants";
+import ExternalLink from "components/utils/ExternalLink";
+
+export default function Banner(props) {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const { t } = useTranslation("dashboard");
+    const router = useRouter();
+
+    const onLoginClick = (event) => {
+        router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
+    };
+
+    return (
+        <Paper>
+            <Grid
+                container
+                direction={isMobile ? "column" : "row"}
+                justify="space-between"
+                alignItems="center"
+                spacing={isMobile ? 1 : 3}
+            >
+                <Grid item xs={isMobile ? 12 : 6}>
+                    <Image
+                        src="/science-banner.png"
+                        alt={t("banner")}
+                        height={400}
+                        width={800}
+                    />
+                </Grid>
+                <Grid item xs={isMobile ? 12 : 6}>
+                    <Grid
+                        container
+                        direction="column"
+                        justify="space-between"
+                        alignItems="center"
+                        spacing={isMobile ? 1 : 3}
+                    >
+                        <Grid item xs={12}>
+                            <Typography
+                                variant={isMobile ? "subtitle2" : "h6"}
+                                color="primary"
+                            >
+                                {t("welcome")}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Typography
+                                variant={isMobile ? "caption" : "subtitle2"}
+                            >
+                                {t("loginSignUp")}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <ExternalLink
+                                color="primary"
+                                style={{
+                                    margin: theme.spacing(0.4),
+                                }}
+                                href={constants.CYVERSE_URL}
+                            >
+                                {t("learnMore")} |
+                            </ExternalLink>
+                            <ExternalLink
+                                color="primary"
+                                style={{
+                                    margin: theme.spacing(0.4),
+                                }}
+                                href={constants.GETTING_STARTED}
+                            >
+                                {t("gettingStarted")} |
+                            </ExternalLink>
+
+                            <ExternalLink
+                                color="primary"
+                                style={{
+                                    margin: theme.spacing(0.4),
+                                }}
+                                href={constants.CYVERSE_USER_PORTAL}
+                            >
+                                {t("signUp")} |
+                            </ExternalLink>
+                            <Link
+                                component="button"
+                                color="primary"
+                                onClick={onLoginClick}
+                                style={{
+                                    margin: theme.spacing(0.4),
+                                }}
+                            >
+                                {t("login")}
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Paper>
+    );
+}

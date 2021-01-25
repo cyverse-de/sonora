@@ -62,7 +62,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import HelpIcon from "@material-ui/icons/Help";
-import AppsIcon from '@material-ui/icons/Apps';
+import AppsIcon from "@material-ui/icons/Apps";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 import HomeIcon from "@material-ui/icons/Home";

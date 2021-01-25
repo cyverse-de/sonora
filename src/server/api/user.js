@@ -83,5 +83,18 @@ export default function userRouter() {
         })
     );
 
+    logger.info("adding the POST /support-email");
+    api.post(
+        "/support-email",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/support-email",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

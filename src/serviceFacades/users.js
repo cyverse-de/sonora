@@ -111,6 +111,14 @@ function useSavePreferences(onSuccessCallback, onError) {
     });
 }
 
+function feedback(userFeedback) {
+    return callApi({
+        endpoint: "/api/support-email",
+        method: "POST",
+        body: userFeedback,
+    });
+}
+
 export {
     BOOTSTRAP_KEY,
     USER_PROFILE_QUERY_KEY,
@@ -123,4 +131,5 @@ export {
     getRedirectURIs,
     useBootStrap,
     useSavePreferences,
+    feedback,
 };

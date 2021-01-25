@@ -25,8 +25,9 @@ import { useUserProfile } from "contexts/userProfile";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import searchConstants from "components/search/constants";
-import { getSteps } from "components/layout/steps";
+
 import Bag from "components/Bag";
+import ProductTour from "components/help/ProductTour";
 import {
     getUserProfile,
     useBootStrap,
@@ -60,6 +61,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import HelpIcon from "@material-ui/icons/Help";
 
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
@@ -67,9 +69,6 @@ import UserMenu from "./UserMenu";
 
 // hidden in xsDown
 const GlobalSearchField = dynamic(() => import("../search/GlobalSearchField"));
-
-// only new users
-const Joyride = dynamic(() => import("react-joyride"));
 
 const ENTITLEMENT = "entitlement";
 const drawerWidth = 235;
@@ -312,7 +311,6 @@ function CyverseAppBar(props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [newUser, setNewUser] = useState(false);
     const [runTour, setRunTour] = useState(false);
-    const [tourStepIndex, setTourStepIndex] = useState(0);
 
     const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
 
@@ -448,36 +446,6 @@ function CyverseAppBar(props) {
         setOpen(open);
     };
 
-    useEffect(() => {
-        if (open) {
-            if (runTour && tourStepIndex === 0) {
-                setRunTour(false);
-                setTourStepIndex(1);
-            }
-            if (!runTour && tourStepIndex === 1) {
-                setRunTour(true);
-            }
-        }
-    }, [runTour, tourStepIndex, setRunTour, setTourStepIndex, open]);
-
-    const handleJoyrideCallback = (callbackData) => {
-        const realCallback = async (callbackData) => {
-            const { action, index, type, status } = callbackData;
-            const { ACTIONS, EVENTS, STATUS } = await import("react-joyride");
-
-            if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-                setRunTour(false);
-                setTourStepIndex(0);
-            } else if (
-                [EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)
-            ) {
-                const stepIndex = index + (action === ACTIONS.PREV ? -1 : 1);
-                setTourStepIndex(stepIndex);
-            }
-        };
-        realCallback(callbackData);
-    };
-
     const accountAvatar = (
         <Avatar
             className={userProfile ? classes.userIcon : classes.accountIcon}
@@ -589,6 +557,16 @@ function CyverseAppBar(props) {
                     open={open}
                 />
             )}
+            <DrawerItem
+                clsxBase={"help-intro"}
+                activeView={activeView}
+                thisView={NavigationConstants.HELP}
+                toggleDrawer={toggleDrawer}
+                open={open}
+                id="help"
+                title={t("help")}
+                icon={HelpIcon}
+            />
         </List>
     );
 
@@ -837,7 +815,9 @@ function CyverseAppBar(props) {
                 >
                     {children}
                 </main>
-                {newUser && (
+                {/* SS: In mobile view, joy ride throws exception after refactoring it
+                to a separate component. Disable product tour for mobile. */}
+                {!isXsDown && newUser && (
                     <ConfirmationDialog
                         baseId={ids.USER_TOUR_DLG}
                         open={newUser}
@@ -851,30 +831,10 @@ function CyverseAppBar(props) {
                     />
                 )}
             </div>
-            {runTour && (
-                <Joyride
-                    steps={getSteps(i18nTour)}
-                    run={runTour}
-                    showProgress={true}
-                    continuous={true}
-                    disableOverlayClose={true}
-                    callback={handleJoyrideCallback}
-                    stepIndex={tourStepIndex}
-                    styles={{
-                        options: {
-                            arrowColor: theme.palette.error.main,
-                            backgroundColor: theme.palette.error.contrastText,
-                            overlayColor: theme.palette.silver,
-                            primaryColor: theme.palette.error.main,
-                            textColor: theme.palette.info.main,
-                            zIndex: 10000000,
-                        },
-                        tooltipContainer: {
-                            textAlign: "left",
-                        },
-                    }}
-                />
-            )}
+            <ProductTour
+                onTourExit={() => setRunTour(false)}
+                runTour={runTour}
+            />
         </>
     );
 }

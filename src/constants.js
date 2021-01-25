@@ -70,4 +70,11 @@ export default {
     JAVA_PATTERN_DOC:
         "https://docs.oracle.com/javase/9/docs/api/java/util/regex/Pattern.html",
     URL_REGEX: /^(?:ftp|FTP|HTTPS?|https?):\/\/[^/]+\.[^/]+.*/i,
+    EMAIL_REGEX: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    DE_FAQ: "https://cyverse.github.io/UserSupport/README.html",
+    DE_GUIDE:
+        "https://cyverse-sonora-guide.readthedocs-hosted.com/en/latest/index.html",
+    CYVERSE_LC: "https://learning.cyverse.org/en/latest/",
+    DEFAULT_EMAIL: "no-reply@cyverse.org",
+    SUPPORT_EMAIL: "support@cyverse.org",
 };

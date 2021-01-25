@@ -318,12 +318,7 @@ function AnalysesSearchOption(props) {
             <SearchOption
                 primary={selectedOption.name}
                 secondary={selectedOption.status}
-                icon={
-                    <img
-                        src="/analyses-grey-24.png"
-                        alt={t("analyses")}
-                    />
-                }
+                icon={<img src="/analyses-grey-24.png" alt={t("analyses")} />}
                 searchTerm={searchTerm}
                 id={build(baseId, selectedOption.id)}
             />

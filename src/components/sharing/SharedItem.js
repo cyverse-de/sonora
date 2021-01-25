@@ -6,7 +6,7 @@ import {
     Build as ToolIcon,
     Folder as FolderIcon,
     InsertDriveFileOutlined as FileIcon,
-    Apps as AppsIcon
+    Apps as AppsIcon,
 } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 import ResourceTypes from "../models/ResourceTypes";

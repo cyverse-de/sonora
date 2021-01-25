@@ -1,11 +1,6 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
-import {
-    Apps,
-    Label,
-    InsertDriveFile,
-    Folder,
-} from "@material-ui/icons";
+import { Apps, Label, InsertDriveFile, Folder } from "@material-ui/icons";
 
 class BagItem {
     constructor(item) {

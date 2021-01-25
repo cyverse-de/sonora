@@ -55,7 +55,7 @@ export default function Banner(props) {
                 <Grid item xs={isMobile ? 12 : 6}>
                     <Image
                         src="/science-banner.png"
-                        alt="banner"
+                        alt={t("banner")}
                         height={400}
                         width={800}
                     />

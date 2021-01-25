@@ -65,7 +65,7 @@ import HelpIcon from "@material-ui/icons/Help";
 import AppsIcon from '@material-ui/icons/Apps';
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
-import HomeIcon from '@material-ui/icons/Home';
+import HomeIcon from "@material-ui/icons/Home";
 import UserMenu from "./UserMenu";
 
 // hidden in xsDown

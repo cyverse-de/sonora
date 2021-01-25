@@ -57,7 +57,7 @@ class FileBagItem extends BagItem {
 
 class FolderBagItem extends BagItem {
     icon(t) {
-        return <Folder style={{}} />;
+        return <Folder />;
     }
 
     get shareable() {

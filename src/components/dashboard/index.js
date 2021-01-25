@@ -168,32 +168,30 @@ const Dashboard = (props) => {
     const baseId = fns.makeID(ids.ROOT);
 
     return (
-        <>
-            <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
-                {!userProfile?.id && <Banner />}
-                {isLoading ? <DashboardSkeleton /> : componentContent}
+        <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
+            {!userProfile?.id && <Banner />}
+            {isLoading ? <DashboardSkeleton /> : componentContent}
 
-                {detailsApp && (
-                    <AppDetailsDrawer
-                        appId={detailsApp.id}
-                        systemId={detailsApp.system_id}
-                        open={true}
-                        baseId={baseId}
-                        onClose={() => setDetailsApp(null)}
-                        onFavoriteUpdated={detailsApp.onFavoriteUpdated}
-                    />
-                )}
-                {detailsAnalysis && (
-                    <AnalysesDetailsDrawer
-                        selectedAnalysis={detailsAnalysis}
-                        baseId={baseId}
-                        open={detailsAnalysis !== null}
-                        onClose={() => setDetailsAnalysis(null)}
-                    />
-                )}
-                <div className={classes.footer} />
-            </div>
-        </>
+            {detailsApp && (
+                <AppDetailsDrawer
+                    appId={detailsApp.id}
+                    systemId={detailsApp.system_id}
+                    open={true}
+                    baseId={baseId}
+                    onClose={() => setDetailsApp(null)}
+                    onFavoriteUpdated={detailsApp.onFavoriteUpdated}
+                />
+            )}
+            {detailsAnalysis && (
+                <AnalysesDetailsDrawer
+                    selectedAnalysis={detailsAnalysis}
+                    baseId={baseId}
+                    open={detailsAnalysis !== null}
+                    onClose={() => setDetailsAnalysis(null)}
+                />
+            )}
+            <div className={classes.footer} />
+        </div>
     );
 };
 

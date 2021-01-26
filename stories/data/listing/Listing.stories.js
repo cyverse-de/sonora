@@ -7,6 +7,9 @@ import {
     dataRootsResp,
     listingSuccessResp as successResp,
     instantLaunchMapping,
+    instantLaunchAppInfo,
+    instantLaunchQuickLaunch,
+    instantLaunchGlobalQuickLaunches,
 } from "../DataMocks";
 import { mockAxios } from "../../axiosMock";
 import constants from "../../../src/constants";
@@ -46,6 +49,18 @@ export const DataListingTest = () => {
     mockAxios
         .onGet(/\/api\/instantlaunches\/defaults\/mappings\/latest.*/)
         .reply(200, instantLaunchMapping);
+
+    mockAxios
+        .onGet(/\/api\/quicklaunches\/.*\/app-info.*/)
+        .reply(200, instantLaunchAppInfo);
+
+    mockAxios
+        .onGet(/\/api\/quicklaunches\/defaults\/global.*/)
+        .reply(200, instantLaunchGlobalQuickLaunches);
+
+    mockAxios
+        .onGet(/\/api\/quicklaunches\/.*/)
+        .reply(200, instantLaunchQuickLaunch);
 
     return <ListingTest />;
 };

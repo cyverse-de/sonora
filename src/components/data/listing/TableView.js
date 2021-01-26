@@ -40,6 +40,7 @@ import {
 import { Launch as LaunchIcon } from "@material-ui/icons";
 
 import RowDotMenu from "./RowDotMenu";
+import { getAppInfo } from "serviceFacades/quickLaunches";
 
 function SizeCell({ resource }) {
     return <TableCell>{getFileSize(resource.fileSize)}</TableCell>;
@@ -119,6 +120,16 @@ function getLocalStorageCols(rowDotMenuVisibility, dataRecordFields) {
 function setLocalStorageCols(columns) {
     setLocalStorage(constants.LOCAL_STORAGE.DATA.COLUMNS, columns);
 }
+
+const instantlyLaunch = async (
+    instantLaunchName,
+    instantLaunch,
+    resourcePath
+) => {
+    const appInfo = await getAppInfo(instantLaunch["quick_launch_id"]);
+    console.log(`${instantLaunchName} ${resourcePath}`);
+    console.log(JSON.stringify(appInfo, null, 2));
+};
 
 function TableView(props) {
     const {
@@ -300,6 +311,7 @@ function TableView(props) {
                             listing.map((resource, index) => {
                                 const resourceName = resource.label;
                                 const resourceId = resource.id;
+                                const resourcePath = `${path}/${resource.label}`;
                                 const isSelected =
                                     selected.indexOf(resourceId) !== -1;
                                 const isInvalid =
@@ -382,7 +394,7 @@ function TableView(props) {
                                                 )}
                                                 onClick={() => {
                                                     handlePathChange(
-                                                        `${path}/${resource.label}`,
+                                                        resourcePath,
                                                         resource.type,
                                                         resource.id
                                                     );

@@ -233,7 +233,7 @@ function getAppDetailsForAdmin(key, { systemId, appId }) {
     });
 }
 
-function updateApp({
+function adminPatchApp({
     deleted,
     disabled,
     extra,
@@ -265,7 +265,7 @@ function adminUpdateAppDoc({ systemId, appId, doc }) {
     });
 }
 
-function getAppAVUs(key, { appId }) {
+function adminGetAppAVUs(key, { appId }) {
     return callApi({
         endpoint: `/api/admin/apps/${appId}/metadata`,
         method: "GET",
@@ -280,7 +280,7 @@ function addAVUToApp({ appId, avu }) {
     });
 }
 
-function setAppAVUs({ appId, avus }) {
+function adminSetAppAVUs({ appId, avus }) {
     return callApi({
         endpoint: `/api/admin/apps/${appId}/metadata`,
         method: "PUT",
@@ -302,7 +302,7 @@ function adminUpdateApp({ app, details, avus, values }) {
             extra,
         } = values;
         promises.push(
-            updateApp({
+            adminPatchApp({
                 deleted,
                 disabled,
                 extra,
@@ -320,16 +320,14 @@ function adminUpdateApp({ app, details, avus, values }) {
         } else {
             if (avus) {
                 const updatedAVUs = removeBetaAVU(avus);
-                promises.push(setAppAVUs({ avus: updatedAVUs, appId: app.id }));
+                promises.push(
+                    adminSetAppAVUs({ avus: updatedAVUs, appId: app.id })
+                );
             }
         }
     }
 
-    if (
-        (!documentation || !documentation.documentation) &&
-        values.documentation &&
-        values.documentation.documentation
-    ) {
+    if (!documentation?.documentation && values.documentation?.documentation) {
         promises.push(
             adminAddAppDoc({
                 systemId: values.system_id,
@@ -338,23 +336,18 @@ function adminUpdateApp({ app, details, avus, values }) {
             })
         );
     } else if (
-        values.documentation &&
-        documentation.documentation !== values.documentation.documentation
+        documentation?.documentation !== values.documentation?.documentation
     ) {
         promises.push(
             adminUpdateAppDoc({
                 systemId: values.system_id,
                 appId: values.id,
-                doc: values.documentation.documentation,
+                doc: values.documentation?.documentation,
             })
         );
     }
 
-    return new Promise((resolve, reject) =>
-        Promise.all(promises)
-            .then((values) => resolve(values))
-            .catch((error) => reject(error))
-    );
+    return Promise.all(promises);
 }
 
 export {
@@ -373,12 +366,12 @@ export {
     searchAppsInfiniteQuery,
     getAppDoc,
     saveAppDoc,
-    updateApp,
+    adminPatchApp,
     adminAddAppDoc,
     adminUpdateAppDoc,
-    getAppAVUs,
+    adminGetAppAVUs,
     addAVUToApp,
-    setAppAVUs,
+    adminSetAppAVUs,
     adminUpdateApp,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,

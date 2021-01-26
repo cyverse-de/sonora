@@ -590,7 +590,7 @@ function CyverseAppBar(props) {
                 {open && <ListItemText>{t("admin")}</ListItemText>}
             </ListItem>
             <List component="div" disablePadding>
-            <Tooltip title={t("apps")} placement="right" arrow>
+                <Tooltip title={t("apps")} placement="right" arrow>
                     <ListItem
                         button
                         id={build(ids.DRAWER_MENU, ids.APPS_ADMIN_MI)}

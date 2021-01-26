@@ -292,7 +292,7 @@ function Listing({
                 category.system_id?.toLowerCase() ===
                 appType.agave.toLowerCase()
             ) {
-                toFilter(null);
+                toFilter = null;
             }
             setSelected([]);
             onRouteToListing &&

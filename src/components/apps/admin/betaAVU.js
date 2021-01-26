@@ -3,10 +3,10 @@ export const betaAVU = {
     avus: [
         {
             attr: BETA_ATTR,
-            unit: "",
             value: "beta",
+            unit: "",
             avus: [
-                { attr: "rdfs:label", unit: "attr", value: "releaseStatus" },
+                { attr: "rdfs:label", value: "releaseStatus", unit: "attr" },
             ],
         },
     ],

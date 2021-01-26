@@ -35,12 +35,19 @@ export const getListingPath = (
     category,
     isAdmin
 ) => {
-    const encodedFilter = encodeURIComponent(filter);
-    const encodedCategory = encodeURIComponent(category);
-    const base = isAdmin
-        ? `/${NavigationConstants.ADMIN}/${NavigationConstants.APPS}`
-        : `/${NavigationConstants.APPS}`;
-    return `${base}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedFilter=${encodedFilter}&selectedCategory=${encodedCategory}`;
+    return {
+        pathname: isAdmin
+            ? `/${NavigationConstants.ADMIN}/${NavigationConstants.APPS}`
+            : `/${NavigationConstants.APPS}`,
+        query: {
+            selectedOrder: order,
+            selectedOrderBy: orderBy,
+            selectedPage: page,
+            selectedRowsPerPage: rowsPerPage,
+            selectedFilter: filter,
+            selectedCategory: category,
+        },
+    };
 };
 
 /**

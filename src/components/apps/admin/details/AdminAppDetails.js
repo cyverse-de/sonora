@@ -12,7 +12,7 @@ import constants from "../../../../constants";
 
 import {
     getAppDetailsForAdmin,
-    getAppAVUs,
+    adminGetAppAVUs,
     adminUpdateApp,
     ADMIN_APP_DETAILS_QUERY_KEY,
     ADMIN_APP_AVU_QUERY_KEY,
@@ -44,8 +44,6 @@ export default function AdminAppDetailsDialog(props) {
         handleClose,
     } = props;
 
-    const { t } = useTranslation("apps");
-
     const [detailsError, setDetailsError] = useState(null);
     const [updateAppError, setUpdateAppError] = useState(null);
     const [avusError, setAUVsError] = useState(null);
@@ -75,10 +73,10 @@ export default function AdminAppDetailsDialog(props) {
                 appId: app?.id,
             },
         ],
-        queryFn: getAppAVUs,
+        queryFn: adminGetAppAVUs,
         config: {
             enabled: !!app,
-            onSuccess: (data) => setAVUs(data?.avus),
+            onSuccess: (metadata) => setAVUs(metadata?.avus),
             onError: setAUVsError,
         },
     });
@@ -101,70 +99,32 @@ export default function AdminAppDetailsDialog(props) {
     };
 
     return (
-        <DEDialog
-            open={open}
-            fullWidth={true}
-            maxWidth="sm"
-            onClose={handleClose}
-            baseId={parentId}
-            title={app.name}
+        <Formik
+            initialValues={mapPropsToValues(app, details)}
+            onSubmit={handleSubmit}
+            enableReinitialize={true}
         >
-            {(detailsFetching || avusFetching) && (
-                <Skeleton animation="wave" variant="rect" height={600} />
-            )}
-            {detailsError && (
-                <ErrorTypographyWithDialog
-                    errorMessage={t("appDetailsError")}
-                    errorObject={detailsError}
-                />
-            )}
-            {avusError && (
-                <ErrorTypographyWithDialog
-                    errorMessage={t("avuFetchError")}
-                    errorObject={avusError}
-                />
-            )}
-            {allUpdatesStatus === constants.LOADING && (
-                <CircularProgress
-                    size={30}
-                    thickness={5}
-                    style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                    }}
-                />
-            )}
-            {updateAppError && (
-                <ErrorTypographyWithDialog
-                    errorMessage={t("updateAppError")}
-                    errorObject={updateAppError}
-                />
-            )}
-            {details && (
-                <Formik
-                    initialValues={mapPropsToValues(app, details)}
-                    onSubmit={handleSubmit}
-                    enableReinitialize={true}
-                >
-                    {({ values }) => {
-                        return (
-                            <AdminAppDetailsForm
-                                parentId={parentId}
-                                restrictedChars={restrictedChars}
-                                restrictedStartingChars={
-                                    restrictedStartingChars
-                                }
-                                documentationTemplateUrl={
-                                    documentationTemplateUrl
-                                }
-                                handleClose={handleClose}
-                            />
-                        );
-                    }}
-                </Formik>
-            )}
-        </DEDialog>
+            {({ handleSubmit, values }) => {
+                return (
+                    <AdminAppDetailsForm
+                        parentId={parentId}
+                        restrictedChars={restrictedChars}
+                        restrictedStartingChars={restrictedStartingChars}
+                        documentationTemplateUrl={documentationTemplateUrl}
+                        handleClose={handleClose}
+                        open={open}
+                        app={app}
+                        detailsFetching={detailsFetching}
+                        avusFetching={avusFetching}
+                        detailsError={detailsError}
+                        avusError={avusError}
+                        updateAppError={updateAppError}
+                        allUpdatesStatus={allUpdatesStatus}
+                        handleSubmit={handleSubmit}
+                    />
+                );
+            }}
+        </Formik>
     );
 }
 
@@ -179,111 +139,170 @@ function AdminAppDetailsForm(props) {
         restrictedStartingChars,
         documentationTemplateUrl,
         handleClose,
+        open,
+        app,
+        detailsFetching,
+        avusFetching,
+        detailsError,
+        avusError,
+        updateAppError,
+        allUpdatesStatus,
+        handleSubmit,
     } = props;
 
     const { t } = useTranslation("apps");
     const { t: i18nCommon } = useTranslation("common");
     return (
         <Form>
-            <Field
-                name={"name"}
-                label={t("name")}
-                id={build(parentId, ids.ADMIN_DETAILS.NAME)}
-                validate={(value) =>
-                    validateAppName(
-                        restrictedStartingChars,
-                        restrictedChars,
-                        value
-                    )
+            <DEDialog
+                open={open}
+                fullWidth={true}
+                maxWidth="sm"
+                onClose={handleClose}
+                baseId={parentId}
+                title={app.name}
+                actions={
+                    <>
+                        <Button
+                            id={build(parentId, ids.CANCEL_BTN)}
+                            onClick={handleClose}
+                        >
+                            {i18nCommon("cancel")}
+                        </Button>
+                        <Button
+                            id={build(parentId, ids.SAVE_BTN)}
+                            type="submit"
+                            color="primary"
+                            onClick={handleSubmit}
+                        >
+                            {i18nCommon("save")}
+                        </Button>
+                    </>
                 }
-                component={FormTextField}
-            />
-            <Field
-                name={"description"}
-                label={t("descriptionLabel")}
-                id={build(parentId, ids.ADMIN_DETAILS.DESCRIPTION)}
-                component={FormMultilineTextField}
-            />
-            <Field
-                name={"integrator_name"}
-                label={t("integratorName")}
-                id={build(parentId, ids.ADMIN_DETAILS.INTEGRATOR)}
-                component={FormTextField}
-            />
-            <Field
-                name={"integrator_email"}
-                label={t("integratorEmail")}
-                id={build(parentId, ids.ADMIN_DETAILS.INTEGRATOR_EMAIL)}
-                component={FormTextField}
-            />
-            <Field
-                name={"extra.htcondor.extra_requirements"}
-                label={t("htcondorExtraRequirements")}
-                id={build(parentId, ids.ADMIN_DETAILS.HTCONDOR_EXTRA_REQS)}
-                component={FormTextField}
-            />
-            <Field
-                name={"deleted"}
-                label={t("deleted")}
-                id={build(parentId, ids.ADMIN_DETAILS.DELETED)}
-                component={FormCheckbox}
-            />
-            <Field
-                name={"disabled"}
-                label={t("disabled")}
-                id={build(parentId, ids.ADMIN_DETAILS.DISABLED)}
-                component={FormCheckbox}
-            />
-            <Field
-                name={"beta"}
-                label={t("beta")}
-                id={build(parentId, ids.ADMIN_DETAILS.BETA)}
-                component={FormCheckbox}
-            />
-            <Paper elevation={1}>
-                {t("documentationInstructions")}
-                <Link
-                    onClick={() =>
-                        window.open(getHost() + "/" + documentationTemplateUrl)
-                    }
-                >
-                    {t("documentationTemplate")}
-                </Link>
-            </Paper>
-            <Field
-                name={"documentation.documentation"}
-                label={t("appDocumentation")}
-                id={build(parentId, ids.ADMIN_DETAILS.DOCUMENTATION)}
-                t
-                multiline
-                rows={10}
-                component={FormTextField}
-            />
-            <Grid
-                container
-                direction="row"
-                justify="flex-end"
-                alignItems="flex-end"
-                spacing={1}
             >
-                <Grid item>
-                    <Button
-                        id={build(parentId, ids.CANCEL_BTN)}
-                        onClick={handleClose}
-                    >
-                        {i18nCommon("cancel")}
-                    </Button>
-                </Grid>
-                <Grid item>
-                    <Button
-                        id={build(parentId, ids.SAVE_BTN)}
-                        type="submit"
-                        color="primary"
-                    >
-                        {i18nCommon("save")}
-                    </Button>
-                </Grid>
-            </Grid>
+                {(detailsFetching || avusFetching) && (
+                    <Skeleton animation="wave" variant="rect" height={600} />
+                )}
+                {detailsError && (
+                    <ErrorTypographyWithDialog
+                        errorMessage={t("appDetailsError")}
+                        errorObject={detailsError}
+                    />
+                )}
+                {avusError && (
+                    <ErrorTypographyWithDialog
+                        errorMessage={t("avuFetchError")}
+                        errorObject={avusError}
+                    />
+                )}
+                {allUpdatesStatus === constants.LOADING && (
+                    <CircularProgress
+                        size={30}
+                        thickness={5}
+                        style={{
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                        }}
+                    />
+                )}
+                {updateAppError && (
+                    <ErrorTypographyWithDialog
+                        errorMessage={t("updateAppError")}
+                        errorObject={updateAppError}
+                    />
+                )}
+                {!(detailsFetching || avusFetching) && (
+                    <>
+                        <Field
+                            name={"name"}
+                            label={t("name")}
+                            id={build(parentId, ids.ADMIN_DETAILS.NAME)}
+                            validate={(value) =>
+                                validateAppName(
+                                    restrictedStartingChars,
+                                    restrictedChars,
+                                    value
+                                )
+                            }
+                            component={FormTextField}
+                        />
+                        <Field
+                            name={"description"}
+                            label={t("descriptionLabel")}
+                            id={build(parentId, ids.ADMIN_DETAILS.DESCRIPTION)}
+                            component={FormMultilineTextField}
+                        />
+                        <Field
+                            name={"integrator_name"}
+                            label={t("integratorName")}
+                            id={build(parentId, ids.ADMIN_DETAILS.INTEGRATOR)}
+                            component={FormTextField}
+                        />
+                        <Field
+                            name={"integrator_email"}
+                            label={t("integratorEmail")}
+                            id={build(
+                                parentId,
+                                ids.ADMIN_DETAILS.INTEGRATOR_EMAIL
+                            )}
+                            component={FormTextField}
+                        />
+                        <Field
+                            name={"extra.htcondor.extra_requirements"}
+                            label={t("htcondorExtraRequirements")}
+                            id={build(
+                                parentId,
+                                ids.ADMIN_DETAILS.HTCONDOR_EXTRA_REQS
+                            )}
+                            component={FormTextField}
+                        />
+                        <Field
+                            name={"deleted"}
+                            label={t("deleted")}
+                            id={build(parentId, ids.ADMIN_DETAILS.DELETED)}
+                            component={FormCheckbox}
+                        />
+                        <Field
+                            name={"disabled"}
+                            label={t("disabled")}
+                            id={build(parentId, ids.ADMIN_DETAILS.DISABLED)}
+                            component={FormCheckbox}
+                        />
+                        <Field
+                            name={"beta"}
+                            label={t("beta")}
+                            id={build(parentId, ids.ADMIN_DETAILS.BETA)}
+                            component={FormCheckbox}
+                        />
+                        <Paper elevation={1}>
+                            {t("documentationInstructions")}
+                            <Link
+                                onClick={() =>
+                                    window.open(
+                                        getHost() +
+                                            "/" +
+                                            documentationTemplateUrl
+                                    )
+                                }
+                            >
+                                {t("documentationTemplate")}
+                            </Link>
+                        </Paper>
+                        <Field
+                            name={"documentation.documentation"}
+                            label={t("appDocumentation")}
+                            id={build(
+                                parentId,
+                                ids.ADMIN_DETAILS.DOCUMENTATION
+                            )}
+                            multiline
+                            rows={10}
+                            component={FormTextField}
+                        />
+                    </>
+                )}
+            </DEDialog>
         </Form>
     );
 }

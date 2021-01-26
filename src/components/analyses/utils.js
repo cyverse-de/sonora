@@ -149,7 +149,7 @@ const getAnalysisRelaunchPage = (analysisId) =>
  * @param {string} page The analyses listing page.
  * @param {string} rowsPerPage The analyses listing page size.
  * @param {string} permFilter The permission filter used to filter the analyses listing
- * @param {string} appTypeFilter The app typle filter used to filter the analyses listing
+ * @param {string} appTypeFilter The app type filter used to filter the analyses listing
  */
 
 const getListingPath = (
@@ -160,8 +160,20 @@ const getListingPath = (
     permFilter,
     appTypeFilter,
     idFilter
-) =>
-    `/${NavigationConstants.ANALYSES}?selectedOrder=${order}&selectedOrderBy=${orderBy}&selectedPage=${page}&selectedRowsPerPage=${rowsPerPage}&selectedPermFilter=${permFilter}&selectedTypeFilter=${appTypeFilter}&selectedIdFilter=${idFilter}`;
+) => {
+    return {
+        pathname: `/${NavigationConstants.ANALYSES}`,
+        query: {
+            selectedOrder: order,
+            selectedOrderBy: orderBy,
+            selectedPage: page,
+            selectedRowsPerPage: rowsPerPage,
+            selectedPermFilter: permFilter,
+            selectedTypeFilter: appTypeFilter,
+            selectedIdFilter: idFilter,
+        },
+    };
+};
 
 /**
  * Open a new tab / window with VICE access url is clicked

@@ -5,6 +5,7 @@
 import callApi from "../common/callApi";
 import appType from "../components/models/AppType";
 import constants from "../constants";
+import { betaAVU, removeBetaAVU } from "components/apps/admin/betaAVU";
 
 const ALL_APPS_QUERY_KEY = "fetchAllApps";
 const APP_DETAILS_QUERY_KEY = "fetchAppDetails";
@@ -14,6 +15,11 @@ const APP_CATEGORIES_QUERY_KEY = "fetchPrivateCategories";
 const APPS_SEARCH_QUERY_KEY = "searchApps";
 const APP_BY_ID_QUERY_KEY = "fetchAppById";
 const APP_DOC_QUERY_KEY = "fetchAppDoc";
+
+//ADMIN KEYS
+const ADMIN_APPS_QUERY_KEY = "fetchAllAppsForAdmin";
+const ADMIN_APP_DETAILS_QUERY_KEY = "fetchAppDetailsForAdmin";
+const ADMIN_APP_AVU_QUERY_KEY = "fetchAppAVUs";
 
 const getAppTypeFilter = (appTypeFilter) => {
     const typeFilter =
@@ -207,8 +213,147 @@ function saveAppDoc({ systemId, appId, documentation }) {
     });
 }
 
+// start of admin end-points
+function getAppsForAdmin(
+    key,
+    { rowsPerPage, orderBy, order, page, appTypeFilter }
+) {
+    return callApi({
+        endpoint: `/api/admin/apps?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
+            rowsPerPage * page
+        }${getAppTypeFilter(appTypeFilter)}`,
+        method: "GET",
+    });
+}
+
+function getAppDetailsForAdmin(key, { systemId, appId }) {
+    return callApi({
+        endpoint: `/api/admin/apps/${systemId}/${appId}/details`,
+        method: "GET",
+    });
+}
+
+function adminPatchApp({
+    deleted,
+    disabled,
+    extra,
+    description,
+    name,
+    id,
+    system_id,
+}) {
+    return callApi({
+        endpoint: `/api/admin/apps/${system_id}/${id}`,
+        method: "PATCH",
+        body: { deleted, disabled, extra, description, name, id },
+    });
+}
+
+function adminAddAppDoc({ systemId, appId, doc }) {
+    return callApi({
+        endpoint: `/api/admin/apps/${systemId}/${appId}/documentation`,
+        method: "POST",
+        body: { documentation: doc },
+    });
+}
+
+function adminUpdateAppDoc({ systemId, appId, doc }) {
+    return callApi({
+        endpoint: `/api/admin/apps/${systemId}/${appId}/documentation`,
+        method: "PATCH",
+        body: { documentation: doc },
+    });
+}
+
+function adminGetAppAVUs(key, { appId }) {
+    return callApi({
+        endpoint: `/api/admin/apps/${appId}/metadata`,
+        method: "GET",
+    });
+}
+
+function adminAddAVUToApp({ appId, avu }) {
+    return callApi({
+        endpoint: `/api/admin/apps/${appId}/metadata`,
+        method: "POST",
+        body: avu,
+    });
+}
+
+function adminSetAppAVUs({ appId, avus }) {
+    return callApi({
+        endpoint: `/api/admin/apps/${appId}/metadata`,
+        method: "PUT",
+        body: { avus },
+    });
+}
+
+function adminUpdateApp({ app, details, avus, values }) {
+    const documentation = details?.documentation;
+    const promises = [];
+    if (app !== values) {
+        const {
+            deleted,
+            disabled,
+            description,
+            name,
+            id,
+            system_id,
+            extra,
+        } = values;
+        promises.push(
+            adminPatchApp({
+                deleted,
+                disabled,
+                extra,
+                description,
+                name,
+                id,
+                system_id,
+            })
+        );
+    }
+
+    if (app.beta !== values.beta) {
+        if (values.beta) {
+            promises.push(adminAddAVUToApp({ appId: app.id, avu: betaAVU }));
+        } else {
+            if (avus) {
+                const updatedAVUs = removeBetaAVU(avus);
+                promises.push(
+                    adminSetAppAVUs({ avus: updatedAVUs, appId: app.id })
+                );
+            }
+        }
+    }
+
+    if (!documentation?.documentation && values.documentation?.documentation) {
+        promises.push(
+            adminAddAppDoc({
+                systemId: values.system_id,
+                appId: values.id,
+                doc: values.documentation.documentation,
+            })
+        );
+    } else if (
+        documentation?.documentation !== values.documentation?.documentation
+    ) {
+        promises.push(
+            adminUpdateAppDoc({
+                systemId: values.system_id,
+                appId: values.id,
+                doc: values.documentation?.documentation,
+            })
+        );
+    }
+
+    return Promise.all(promises);
+}
+
 export {
     getApps,
+    getAppsForAdmin,
+    getAppDetailsForAdmin,
     getAppById,
     getPrivateCategories,
     getAppsInCategory,
@@ -221,6 +366,8 @@ export {
     searchAppsInfiniteQuery,
     getAppDoc,
     saveAppDoc,
+    adminGetAppAVUs,
+    adminUpdateApp,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,
@@ -229,4 +376,7 @@ export {
     APPS_SEARCH_QUERY_KEY,
     APP_BY_ID_QUERY_KEY,
     APP_DOC_QUERY_KEY,
+    ADMIN_APPS_QUERY_KEY,
+    ADMIN_APP_DETAILS_QUERY_KEY,
+    ADMIN_APP_AVU_QUERY_KEY,
 };

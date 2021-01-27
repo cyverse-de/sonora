@@ -159,5 +159,108 @@ export default function appsRouter() {
         })
     );
 
+    logger.info("************ Adding Admin Apps handlers **********");
+    logger.info("adding the GET /admin/apps handler");
+    api.get(
+        "/admin/apps",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/apps",
+        })
+    );
+
+    logger.info("adding the GET /admin/apps/:systemId/:appId/details handler");
+    api.get(
+        "/admin/apps/:systemId/:appId/details",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/apps/:systemId/:appId/details",
+        })
+    );
+
+    logger.info("adding the PATCH /admin/apps/:systemId/:appId handler");
+    api.patch(
+        "/admin/apps/:systemId/:appId",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/admin/apps/:systemId/:appId",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info(
+        "adding the POST /admin/apps/:systemId/:appId/documentation handler"
+    );
+    api.post(
+        "/admin/apps/:systemId/:appId/documentation",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/apps/:systemId/:appId/documentation",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info(
+        "adding the PATCH /admin/apps/:systemId/:appId/documentation handler"
+    );
+    api.patch(
+        "/admin/apps/:systemId/:appId/documentation",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/admin/apps/:systemId/:appId/documentation",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the GET /admin/apps/:appId/metadata handler");
+    api.get(
+        "/admin/apps/:appId/metadata",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/apps/:appId/metadata",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the POST /admin/apps/:appId/metadata handler");
+    api.post(
+        "/admin/apps/:appId/metadata",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/apps/:appId/metadata",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the PUT /admin/apps/:appId/metadata handler");
+    api.put(
+        "/admin/apps/:appId/metadata",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PUT",
+            pathname: "/admin/apps/:appId/metadata",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

@@ -9,4 +9,7 @@ export default {
     QUICK_LAUNCH: "quick-launch",
     QUICK_LAUNCH_ID: "quick-launch-id",
     QUICK_LAUNCH_EMBED_ICON: "Powered-By-CyVerse-blue.svg",
+    APP_NAME_RESTRICTED_CHARS: ":@/\\|^#;[]{}<>",
+    APP_NAME_RESTRICTED_STARTING_CHARS: "~.$",
+    DOCUMENTATION_TEMPLATE_URL: "app-doc-template.txt",
 };

@@ -590,24 +590,24 @@ function CyverseAppBar(props) {
                 {open && <ListItemText>{t("admin")}</ListItemText>}
             </ListItem>
             <List component="div" disablePadding>
-                <Tooltip title={t("vice")} placement="right" arrow>
+                <Tooltip title={t("apps")} placement="right" arrow>
                     <ListItem
                         button
-                        id={build(ids.DRAWER_MENU, ids.VICE_MI)}
+                        id={build(ids.DRAWER_MENU, ids.APPS_ADMIN_MI)}
                         className={clsx(classes.nested, classes.listItem)}
                         onClick={() =>
                             router.push(
                                 "/" +
                                     NavigationConstants.ADMIN +
                                     "/" +
-                                    NavigationConstants.VICE
+                                    NavigationConstants.APPS
                             )
                         }
                     >
                         <ListItemIcon>
                             <LabelImportantIcon className={classes.icon} />
                         </ListItemIcon>
-                        {open && <ListItemText>{t("vice")}</ListItemText>}
+                        {open && <ListItemText>{t("apps")}</ListItemText>}
                     </ListItem>
                 </Tooltip>
                 <Tooltip title={t("refGenomes")} placement="right" arrow>
@@ -648,6 +648,26 @@ function CyverseAppBar(props) {
                             <LabelImportantIcon className={classes.icon} />
                         </ListItemIcon>
                         {open && <ListItemText>{t("tools")}</ListItemText>}
+                    </ListItem>
+                </Tooltip>
+                <Tooltip title={t("vice")} placement="right" arrow>
+                    <ListItem
+                        button
+                        id={build(ids.DRAWER_MENU, ids.VICE_MI)}
+                        className={clsx(classes.nested, classes.listItem)}
+                        onClick={() =>
+                            router.push(
+                                "/" +
+                                    NavigationConstants.ADMIN +
+                                    "/" +
+                                    NavigationConstants.VICE
+                            )
+                        }
+                    >
+                        <ListItemIcon>
+                            <LabelImportantIcon className={classes.icon} />
+                        </ListItemIcon>
+                        {open && <ListItemText>{t("vice")}</ListItemText>}
                     </ListItem>
                 </Tooltip>
             </List>

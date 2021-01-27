@@ -3,6 +3,7 @@ export default {
     ACCOUNT_BTN: "accountButton",
     ACCOUNT_MI: "accountMenuItem",
     ADMIN_MI: "adminMenuItem",
+    APPS_ADMIN_MI: "adminAppsMenuItem",
     ANALYSES_BTN: "analysesButton",
     ANALYSES_MI: "analysesMenuItem",
     APPS_BTN: "appsButton",

@@ -18,6 +18,7 @@ import { build } from "@cyverse-de/ui-lib";
 import appType from "components/models/AppType";
 import DEPagination from "components/utils/DEPagination";
 
+import appsConstants from "../constants";
 import constants from "../../../constants";
 
 import { useBagAddItems } from "serviceFacades/bags";
@@ -26,11 +27,13 @@ import { useTranslation } from "i18n";
 
 import {
     getApps,
+    getAppsForAdmin,
     getAppById,
     getAppsInCategory,
     APP_BY_ID_QUERY_KEY,
     ALL_APPS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,
+    ADMIN_APPS_QUERY_KEY,
 } from "serviceFacades/apps";
 
 import { useQuery } from "react-query";
@@ -41,6 +44,7 @@ import { formatSharedApps } from "components/sharing/util";
 import AppDoc from "components/apps/details/AppDoc";
 import QuickLaunchDialog from "../quickLaunch/QuickLaunchDialog";
 import { useUserProfile } from "contexts/userProfile";
+import AdminAppDetailsDialog from "../admin/details/AdminAppDetails";
 
 function Listing({
     baseId,
@@ -48,24 +52,18 @@ function Listing({
     onRouteToListing,
     selectedSystemId,
     selectedAppId,
-    selectedPage,
-    selectedRowsPerPage,
-    selectedOrder,
-    selectedOrderBy,
-    selectedFilter,
-    selectedCategory,
+    page,
+    rowsPerPage,
+    order,
+    orderBy,
+    filter,
+    category,
     showErrorAnnouncer,
+    isAdminView,
 }) {
     const { t } = useTranslation(["apps", "common"]);
     const [isGridView, setGridView] = useState(false);
     const [userProfile] = useUserProfile();
-
-    const [order, setOrder] = useState(selectedOrder);
-    const [orderBy, setOrderBy] = useState(selectedOrderBy);
-    const [page, setPage] = useState(selectedPage);
-    const [rowsPerPage, setRowsPerPage] = useState(selectedRowsPerPage);
-    const [filter, setFilter] = useState(selectedFilter);
-    const [category, setCategory] = useState(selectedCategory);
 
     const [selected, setSelected] = useState([]);
     const [selectedApp, setSelectedApp] = useState(null);
@@ -128,7 +126,7 @@ function Listing({
 
     const { isFetching: allAppsStatus, error: listingError } = useQuery({
         queryKey: [
-            ALL_APPS_QUERY_KEY,
+            isAdminView ? ADMIN_APPS_QUERY_KEY : ALL_APPS_QUERY_KEY,
             {
                 rowsPerPage,
                 orderBy,
@@ -137,9 +135,10 @@ function Listing({
                 appTypeFilter: filter?.name,
             },
         ],
-        queryFn: getApps,
+        queryFn: isAdminView ? getAppsForAdmin : getApps,
         config: {
-            enabled: category?.name === constants.BROWSE_ALL_APPS,
+            enabled:
+                category?.name === constants.BROWSE_ALL_APPS || isAdminView,
             onSuccess: setData,
         },
     });
@@ -155,50 +154,6 @@ function Listing({
             onSuccess: setData,
         },
     });
-
-    useEffect(() => {
-        //JSON objects needs to stringified for urls.
-        const stringFilter = JSON.stringify(filter);
-        const stringCategory = JSON.stringify(category);
-
-        const categoryChanged =
-            selectedCategory &&
-            category &&
-            selectedCategory?.name !== category?.name;
-        const filterChanged = selectedFilter?.name !== filter?.name;
-
-        if (
-            categoryChanged ||
-            filterChanged ||
-            selectedOrder !== order ||
-            selectedOrderBy !== orderBy ||
-            selectedPage !== page ||
-            selectedRowsPerPage !== rowsPerPage
-        ) {
-            onRouteToListing(
-                order,
-                orderBy,
-                page,
-                rowsPerPage,
-                stringFilter,
-                stringCategory
-            );
-        }
-    }, [
-        order,
-        orderBy,
-        page,
-        rowsPerPage,
-        filter,
-        category,
-        onRouteToListing,
-        selectedFilter,
-        selectedOrder,
-        selectedOrderBy,
-        selectedPage,
-        selectedRowsPerPage,
-        selectedCategory,
-    ]);
 
     useEffect(() => {
         if (data && data.Location && data.status === 302) {
@@ -291,37 +246,80 @@ function Listing({
     };
 
     const handleChangePage = (event, newPage) => {
-        setPage(newPage - 1);
+        onRouteToListing &&
+            onRouteToListing(
+                order,
+                orderBy,
+                newPage - 1,
+                rowsPerPage,
+                JSON.stringify(filter),
+                JSON.stringify(category)
+            );
     };
 
     const handleChangeRowsPerPage = (newPageSize) => {
-        setRowsPerPage(parseInt(newPageSize, 10));
         setSelected([]);
-        setPage(0);
+        onRouteToListing &&
+            onRouteToListing(
+                order,
+                orderBy,
+                0,
+                parseInt(newPageSize, 10),
+                JSON.stringify(filter),
+                JSON.stringify(category)
+            );
     };
 
     const handleRequestSort = (event, property) => {
         const isAsc =
             orderBy === property && order === constants.SORT_ASCENDING;
-        setOrder(isAsc ? constants.SORT_DESCENDING : constants.SORT_ASCENDING);
-        setOrderBy(property);
+
         setSelected([]);
-        setPage(0);
+        onRouteToListing &&
+            onRouteToListing(
+                isAsc ? constants.SORT_DESCENDING : constants.SORT_ASCENDING,
+                property,
+                page,
+                rowsPerPage,
+                JSON.stringify(filter),
+                JSON.stringify(category)
+            );
     };
 
-    const handleCategoryChange = useCallback((category) => {
-        if (category.system_id?.toLowerCase() === appType.agave.toLowerCase()) {
-            setFilter(null);
-        }
-        setCategory(category);
-        setSelected([]);
-        setPage(0);
-    }, []);
+    const handleCategoryChange = useCallback(
+        (category) => {
+            let toFilter = filter;
+            if (
+                category.system_id?.toLowerCase() ===
+                appType.agave.toLowerCase()
+            ) {
+                toFilter = null;
+            }
+            setSelected([]);
+            onRouteToListing &&
+                onRouteToListing(
+                    order,
+                    orderBy,
+                    0,
+                    rowsPerPage,
+                    toFilter ? JSON.stringify(filter) : null,
+                    JSON.stringify(category)
+                );
+        },
+        [filter, onRouteToListing, order, orderBy, rowsPerPage]
+    );
 
     const handleFilterChange = (filter) => {
-        setFilter(filter);
         setSelected([]);
-        setPage(0);
+        onRouteToListing &&
+            onRouteToListing(
+                order,
+                orderBy,
+                0,
+                rowsPerPage,
+                JSON.stringify(filter),
+                JSON.stringify(category)
+            );
     };
 
     const onDetailsSelected = () => {
@@ -374,29 +372,33 @@ function Listing({
                 location={data?.Location}
                 handleClose={() => setAgaveAuthDialogOpen(false)}
             />
-            <AppsToolbar
-                handleCategoryChange={handleCategoryChange}
-                handleFilterChange={handleFilterChange}
-                viewAllApps={
-                    selectedSystemId && selectedAppId ? handleViewAllApps : null
-                }
-                baseId={baseId}
-                filter={filter}
-                selectedCategory={selectedCategory}
-                setCategoryStatus={setCategoryStatus}
-                handleAppNavError={handleAppNavError}
-                isGridView={isGridView}
-                toggleDisplay={toggleDisplay}
-                detailsEnabled={detailsEnabled}
-                onDetailsSelected={onDetailsSelected}
-                addToBagEnabled={addToBagEnabled}
-                onAddToBagClicked={onAddToBagClicked}
-                canShare={shareEnabled}
-                selectedApps={getSelectedApps()}
-                setSharingDlgOpen={setSharingDlgOpen}
-                onDocSelected={() => setDocDlgOpen(true)}
-                onQLSelected={() => setQLDlgOpen(true)}
-            />
+            {!isAdminView && (
+                <AppsToolbar
+                    handleCategoryChange={handleCategoryChange}
+                    handleFilterChange={handleFilterChange}
+                    viewAllApps={
+                        selectedSystemId && selectedAppId
+                            ? handleViewAllApps
+                            : null
+                    }
+                    baseId={baseId}
+                    filter={filter}
+                    selectedCategory={category}
+                    setCategoryStatus={setCategoryStatus}
+                    handleAppNavError={handleAppNavError}
+                    isGridView={isGridView}
+                    toggleDisplay={toggleDisplay}
+                    detailsEnabled={detailsEnabled}
+                    onDetailsSelected={onDetailsSelected}
+                    addToBagEnabled={addToBagEnabled}
+                    onAddToBagClicked={onAddToBagClicked}
+                    canShare={shareEnabled}
+                    selectedApps={getSelectedApps()}
+                    setSharingDlgOpen={setSharingDlgOpen}
+                    onDocSelected={() => setDocDlgOpen(true)}
+                    onQLSelected={() => setQLDlgOpen(true)}
+                />
+            )}
             <TableView
                 loading={
                     appInCategoryStatus ||
@@ -425,15 +427,31 @@ function Listing({
                 setSharingDlgOpen={setSharingDlgOpen}
                 onDocSelected={() => setDocDlgOpen(true)}
                 onQLSelected={() => setQLDlgOpen(true)}
+                isAdminView={isAdminView}
             />
 
-            {detailsOpen && (
+            {detailsOpen && !isAdminView && (
                 <Drawer
                     appId={selectedApp?.id}
                     systemId={selectedApp?.system_id}
                     open={detailsOpen}
                     baseId={baseId}
                     onClose={() => setDetailsOpen(false)}
+                />
+            )}
+            {detailsOpen && isAdminView && (
+                <AdminAppDetailsDialog
+                    open={detailsOpen}
+                    parentId={baseId}
+                    app={selectedApp}
+                    handleClose={() => setDetailsOpen(false)}
+                    restrictedChars={appsConstants.APP_NAME_RESTRICTED_CHARS}
+                    restrictedStartingChars={
+                        appsConstants.APP_NAME_RESTRICTED_STARTING_CHARS
+                    }
+                    documentationTemplateUrl={
+                        appsConstants.DOCUMENTATION_TEMPLATE_URL
+                    }
                 />
             )}
             {data && data.total > 0 && (

@@ -2,7 +2,7 @@
  *
  * @author sriram
  *
- * A page to access the DE apps.
+ * A page to access the DE admin apps.
  *
  */
 
@@ -13,15 +13,19 @@ import { useTranslation } from "i18n";
 
 import { getLocalStorage } from "components/utils/localStorage";
 
-import constants from "../constants";
+import constants from "../../constants";
 import appFields from "components/apps/appFields";
 import { getAppLaunchPath, getListingPath } from "components/apps/utils";
 import Listing from "components/apps/listing/Listing";
+import { useUserProfile } from "contexts/userProfile";
+import NotAuthorized from "components/utils/error/NotAuthorized";
 
 export default function Apps() {
     const router = useRouter();
     const query = router.query;
     const { t } = useTranslation("apps");
+    const profile = useUserProfile()[0];
+    const isAdmin = profile?.admin;
 
     const appRecordFields = appFields(t);
     const selectedPage = parseInt(query.selectedPage) || 0;
@@ -52,27 +56,33 @@ export default function Apps() {
                     page,
                     rowsPerPage,
                     filter,
-                    category
+                    category,
+                    isAdmin
                 )
             );
         },
-        [router]
+        [isAdmin, router]
     );
-    return (
-        <Listing
-            baseId="apps"
-            onRouteToApp={(systemId, appId) =>
-                router.push(getAppLaunchPath(systemId, appId))
-            }
-            onRouteToListing={onRouteToListing}
-            page={selectedPage}
-            rowsPerPage={selectedRowsPerPage}
-            order={selectedOrder}
-            orderBy={selectedOrderBy}
-            filter={selectedFilter}
-            category={selectedCategory}
-        />
-    );
+    if (!isAdmin) {
+        return <NotAuthorized />;
+    } else {
+        return (
+            <Listing
+                baseId="apps"
+                onRouteToApp={(systemId, appId) =>
+                    router.push(getAppLaunchPath(systemId, appId))
+                }
+                onRouteToListing={onRouteToListing}
+                page={selectedPage}
+                rowsPerPage={selectedRowsPerPage}
+                order={selectedOrder}
+                orderBy={selectedOrderBy}
+                filter={selectedFilter}
+                category={selectedCategory}
+                isAdminView={isAdmin}
+            />
+        );
+    }
 }
 Apps.getInitialProps = async () => ({
     namespacesRequired: ["apps", "common", "util"],

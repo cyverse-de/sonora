@@ -93,7 +93,7 @@ function DataToolbar(props) {
     const sharingEnabled = !inTrash && canShare;
     const bagEnabled = !inTrash && selected && selected.length > 0;
     const hasDotMenu =
-        (selectedResources && selectedResources.length > 0) ||
+        (selectedResources && selectedResources.length > 0 && !inTrash) ||
         (isWritable(permission) && !inTrash) ||
         isSmall;
 
@@ -180,7 +180,7 @@ function DataToolbar(props) {
                             />
                         )}
                     </Hidden>
-                    {inTrash && (
+                    {inTrash && !isSmall && (
                         <TrashMenu
                             baseId={baseId}
                             selected={selected}
@@ -225,6 +225,11 @@ function DataToolbar(props) {
                             uploadEnabled={uploadEnabled}
                             sharingEnabled={sharingEnabled}
                             bagEnabled={bagEnabled}
+                            handleEmptyTrash={() =>
+                                setEmptyTrashConfirmOpen(true)
+                            }
+                            handleDelete={() => setDeleteConfirmOpen(true)}
+                            handleRestore={onRestoreSelected}
                         />
                     )}
 

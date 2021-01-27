@@ -47,6 +47,7 @@ import {
     Refresh,
 } from "@material-ui/icons";
 import NavigationConstants from "common/NavigationConstants";
+import TrashMenuItems from "./TrashMenuItems";
 
 function DataDotMenu(props) {
     const {
@@ -77,6 +78,9 @@ function DataDotMenu(props) {
         uploadEnabled,
         sharingEnabled,
         bagEnabled,
+        handleEmptyTrash,
+        handleDelete,
+        handleRestore,
     } = props;
 
     const { t } = useTranslation("data");
@@ -343,6 +347,15 @@ function DataDotMenu(props) {
                             baseId={baseId}
                             onClose={onClose}
                             onDeleteSelected={onDeleteSelected}
+                        />
+                    ),
+                    inTrash && (
+                        <TrashMenuItems
+                            baseId={baseId}
+                            selected={selected}
+                            handleEmptyTrash={handleEmptyTrash}
+                            handleDelete={handleDelete}
+                            handleRestore={handleRestore}
                         />
                     ),
                 ]}

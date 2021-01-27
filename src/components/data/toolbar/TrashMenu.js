@@ -28,6 +28,7 @@ import {
     RestoreFromTrash,
     DeleteSweep,
 } from "@material-ui/icons";
+import TrashMenuItems from "./TrashMenuItems";
 
 const useStyles = makeStyles(styles);
 
@@ -84,40 +85,13 @@ export function TrashMenu(props) {
                     horizontal: "center",
                 }}
             >
-                {selected?.length > 0 && (
-                    <MenuItem
-                        id={build(baseId, ids.DELETE_MENU_ITEM)}
-                        key={build(baseId, ids.DELETE_MENU_ITEM)}
-                        onClick={handleDelete}
-                    >
-                        <ListItemIcon>
-                            <DeleteForever fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText primary={t("delete")} />
-                    </MenuItem>
-                )}
-                {selected?.length > 0 && (
-                    <MenuItem
-                        id={build(baseId, ids.RESTORE_MENU_ITEM)}
-                        key={build(baseId, ids.RESTORE_MENU_ITEM)}
-                        onClick={() => handleRestore()}
-                    >
-                        <ListItemIcon>
-                            <RestoreFromTrash fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText primary={t("restore")} />
-                    </MenuItem>
-                )}
-                <MenuItem
-                    id={build(baseId, ids.EMPTY_TRASH_MENU_ITEM)}
-                    key={build(baseId, ids.EMPTY_TRASH_MENU_ITEM)}
-                    onClick={handleEmptyTrash}
-                >
-                    <ListItemIcon>
-                        <DeleteSweep fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText primary={t("emptyTrash")} />
-                </MenuItem>
+                <TrashMenuItems
+                    baseId={baseId}
+                    selected={selected}
+                    handleEmptyTrash={handleEmptyTrash}
+                    handleDelete={handleDelete}
+                    handleRestore={handleRestore}
+                />
             </Menu>
         </>
     );

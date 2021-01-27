@@ -272,7 +272,7 @@ function adminGetAppAVUs(key, { appId }) {
     });
 }
 
-function addAVUToApp({ appId, avu }) {
+function adminAddAVUToApp({ appId, avu }) {
     return callApi({
         endpoint: `/api/admin/apps/${appId}/metadata`,
         method: "POST",
@@ -316,7 +316,7 @@ function adminUpdateApp({ app, details, avus, values }) {
 
     if (app.beta !== values.beta) {
         if (values.beta) {
-            promises.push(addAVUToApp({ appId: app.id, avu: betaAVU }));
+            promises.push(adminAddAVUToApp({ appId: app.id, avu: betaAVU }));
         } else {
             if (avus) {
                 const updatedAVUs = removeBetaAVU(avus);
@@ -366,12 +366,7 @@ export {
     searchAppsInfiniteQuery,
     getAppDoc,
     saveAppDoc,
-    adminPatchApp,
-    adminAddAppDoc,
-    adminUpdateAppDoc,
     adminGetAppAVUs,
-    addAVUToApp,
-    adminSetAppAVUs,
     adminUpdateApp,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,

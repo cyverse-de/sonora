@@ -31,7 +31,7 @@ import { getHost } from "components/utils/getHost";
 import { Skeleton } from "@material-ui/lab";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
-import { Button, CircularProgress, Grid, Link, Paper } from "@material-ui/core";
+import { Button, CircularProgress, Link, Paper } from "@material-ui/core";
 
 export default function AdminAppDetailsDialog(props) {
     const {
@@ -222,7 +222,8 @@ function AdminAppDetailsForm(props) {
                                 validateAppName(
                                     restrictedStartingChars,
                                     restrictedChars,
-                                    value
+                                    value,
+                                    t
                                 )
                             }
                             component={FormTextField}
@@ -307,21 +308,18 @@ function AdminAppDetailsForm(props) {
     );
 }
 
-function validateAppName(restrictedStartingChars, restrictedChars, value) {
+function validateAppName(restrictedStartingChars, restrictedChars, value, t) {
     if (!value) {
-        return "Empty value";
+        return t("emptyValue");
     }
 
     let startingCharsRegex = new RegExp("^[" + restrictedStartingChars + "]");
     let invalid = value.match(startingCharsRegex);
     if (invalid) {
-        return (
-            "App name cannot begin with `" +
-            restrictedStartingChars +
-            "`. Invalid char: `" +
-            invalid +
-            "`"
-        );
+        return t("nameBeginsWithInvalidChars", {
+            restrictedStartingChars,
+            inValid: invalid.join(""),
+        });
     }
 
     // Escape each non-alphanumeric char since some are used as special chars in regex
@@ -332,12 +330,9 @@ function validateAppName(restrictedStartingChars, restrictedChars, value) {
     );
     invalid = value.match(restrictedCharsRegex);
     if (invalid) {
-        return (
-            "App name cannot contain `" +
-            restrictedChars +
-            "`. Invalid chars: `" +
-            invalid.join("") +
-            "`"
-        );
+        return t("nameContainsInvalidChars", {
+            restrictedChars,
+            inValid: invalid.join(""),
+        });
     }
 }

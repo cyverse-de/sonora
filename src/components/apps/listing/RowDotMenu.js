@@ -25,7 +25,7 @@ function RowDotMenu(props) {
         setSharingDlgOpen,
         onDocSelected,
         onQLSelected,
-        isAdmin,
+        isAdminView,
     } = props;
     return (
         <DotMenu
@@ -38,7 +38,7 @@ function RowDotMenu(props) {
                     onClose={onClose}
                     onDetailsSelected={onDetailsSelected}
                 />,
-                !isAdmin && [
+                !isAdminView && [
                     canShare && (
                         <SharingMenuItem
                             key={build(baseId, shareIds.SHARING_MENU_ITEM)}

@@ -18,7 +18,7 @@ import appFields from "components/apps/appFields";
 import { getAppLaunchPath, getListingPath } from "components/apps/utils";
 import Listing from "components/apps/listing/Listing";
 import { useUserProfile } from "contexts/userProfile";
-import ErrorHandler from "components/utils/error/ErrorHandler";
+import NotAuthorized from "components/utils/error/NotAuthorized";
 
 export default function Apps() {
     const router = useRouter();
@@ -64,7 +64,7 @@ export default function Apps() {
         [isAdmin, router]
     );
     if (!isAdmin) {
-        return <ErrorHandler />;
+        return <NotAuthorized />;
     } else {
         return (
             <Listing
@@ -79,7 +79,7 @@ export default function Apps() {
                 orderBy={selectedOrderBy}
                 filter={selectedFilter}
                 category={selectedCategory}
-                isAdmin={isAdmin}
+                isAdminView={isAdmin}
             />
         );
     }

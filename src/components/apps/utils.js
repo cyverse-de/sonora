@@ -23,7 +23,7 @@ export const getAppLaunchPath = (systemId, appId) =>
  * @param {string} rowsPerPage The apps listing page size.
  * @param {string} filter The apps listing filter option.
  * @param {string} category The apps category
- * @param {boolean} isAdmin True if the user is admin.
+ * @param {boolean} isAdminView True if the view is admin app view.
  */
 
 export const getListingPath = (
@@ -33,10 +33,10 @@ export const getListingPath = (
     rowsPerPage,
     filter,
     category,
-    isAdmin
+    isAdminView
 ) => {
     return {
-        pathname: isAdmin
+        pathname: isAdminView
             ? `/${NavigationConstants.ADMIN}/${NavigationConstants.APPS}`
             : `/${NavigationConstants.APPS}`,
         query: {

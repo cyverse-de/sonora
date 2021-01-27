@@ -59,7 +59,7 @@ function Listing({
     filter,
     category,
     showErrorAnnouncer,
-    isAdmin,
+    isAdminView,
 }) {
     const { t } = useTranslation(["apps", "common"]);
     const [isGridView, setGridView] = useState(false);
@@ -126,7 +126,7 @@ function Listing({
 
     const { isFetching: allAppsStatus, error: listingError } = useQuery({
         queryKey: [
-            isAdmin ? ADMIN_APPS_QUERY_KEY : ALL_APPS_QUERY_KEY,
+            isAdminView ? ADMIN_APPS_QUERY_KEY : ALL_APPS_QUERY_KEY,
             {
                 rowsPerPage,
                 orderBy,
@@ -135,9 +135,10 @@ function Listing({
                 appTypeFilter: filter?.name,
             },
         ],
-        queryFn: isAdmin ? getAppsForAdmin : getApps,
+        queryFn: isAdminView ? getAppsForAdmin : getApps,
         config: {
-            enabled: category?.name === constants.BROWSE_ALL_APPS || isAdmin,
+            enabled:
+                category?.name === constants.BROWSE_ALL_APPS || isAdminView,
             onSuccess: setData,
         },
     });
@@ -371,7 +372,7 @@ function Listing({
                 location={data?.Location}
                 handleClose={() => setAgaveAuthDialogOpen(false)}
             />
-            {!isAdmin && (
+            {!isAdminView && (
                 <AppsToolbar
                     handleCategoryChange={handleCategoryChange}
                     handleFilterChange={handleFilterChange}
@@ -426,10 +427,10 @@ function Listing({
                 setSharingDlgOpen={setSharingDlgOpen}
                 onDocSelected={() => setDocDlgOpen(true)}
                 onQLSelected={() => setQLDlgOpen(true)}
-                isAdmin={isAdmin}
+                isAdminView={isAdminView}
             />
 
-            {detailsOpen && !isAdmin && (
+            {detailsOpen && !isAdminView && (
                 <Drawer
                     appId={selectedApp?.id}
                     systemId={selectedApp?.system_id}
@@ -438,7 +439,7 @@ function Listing({
                     onClose={() => setDetailsOpen(false)}
                 />
             )}
-            {detailsOpen && isAdmin && (
+            {detailsOpen && isAdminView && (
                 <AdminAppDetailsDialog
                     open={detailsOpen}
                     parentId={baseId}

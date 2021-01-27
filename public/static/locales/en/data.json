@@ -7,7 +7,7 @@
     "ariaTableListing": "{{path}} Data Table",
     "asyncDataDeletePending": "Deletion in progress. You will be notified when completed.",
     "asyncDataEmptyTrashPending": "Emptying trash. You will be notified when completed.",
-    "asyncDataRestorePending": "Restoring requested resources. You will be notified when completed.",
+    "asyncDataRestorePending": "Restoring requested item(s). You will be notified when completed.",
     "automateCreateHtPathList": "Generate HT analysis path list",
     "automateCreateMultiInput": "Generate Multi-Input path list",
     "back": "Back",

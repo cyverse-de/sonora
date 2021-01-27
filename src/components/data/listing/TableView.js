@@ -28,6 +28,7 @@ import launchConstants from "components/apps/launch/constants";
 
 import { defaultInstantLaunch } from "serviceFacades/instantlaunches";
 import { getAppInfo, getQuickLaunch } from "serviceFacades/quickLaunches";
+import { submitAnalysis } from "serviceFacades/analyses";
 
 import {
     fade,
@@ -144,50 +145,71 @@ const instantlyLaunch = async (
         .then((app) => app)
         .catch((e) => console.error(e));
 
-    return await Promise.all([quickLaunch, appInfo]).then((values) => {
-        const [ql, app] = values;
-        const submission = ql.submission;
-        const appParams = app.groups.find((g) => g.label === "Parameters")
-            .parameters;
-        const appReqInputs = appParams.filter(
-            (param) => param.required && inputParamTypes.includes(param.type)
-        );
-
-        resources.forEach((resource) => {
-            const unsetInputParams = appReqInputs.filter(
-                (appParam) => !submission.config.hasOwnProperty(appParam.id)
+    return await Promise.all([quickLaunch, appInfo])
+        .then((values) => {
+            const [ql, app] = values;
+            const submission = ql.submission;
+            const appParams = app.groups.find((g) => g.label === "Parameters")
+                .parameters;
+            const appReqInputs = appParams.filter(
+                (param) =>
+                    param.required && inputParamTypes.includes(param.type)
             );
-            if (unsetInputParams.length > 0) {
-                const unsetParam = unsetInputParams[0];
 
-                if (
-                    // Handle multiple resources if they're passed in.
-                    Array.isArray(resource) &&
-                    unsetParam.type ===
-                        launchConstants.PARAM_TYPE.MULTIFILE_SELECTOR
-                ) {
-                    const fileResources = resource
-                        .filter((r) => r.type === "file")
-                        .map((r) => r.path);
-                    submission.config[unsetInputParams[0].id] = fileResources;
-                } else {
+            // Each of the passed in resources needs to be added to the submission
+            // for a required input field, if possible.
+            resources.forEach((resource) => {
+                // Get listing of the input parameters from the app info that
+                // aren't set in the QL submission
+                const unsetInputParams = appReqInputs.filter(
+                    (appParam) => !submission.config.hasOwnProperty(appParam.id)
+                );
+
+                // For each unset input parameter, match it up with an appropriate
+                // resource that was passed in to the function. File resources should
+                // go with FileInput params, folder resources should go with FolderInput
+                // params, and arrays of resources should be passed to MultiFileSelector
+                // params (but only if they contain files).
+                if (unsetInputParams.length > 0) {
+                    const unsetParam = unsetInputParams[0];
+
                     if (
-                        // Handle singular resources
-                        (resource.type === "file" &&
-                            unsetParam.type ===
-                                launchConstants.PARAM_TYPE.FILE_INPUT) ||
-                        (resource.type === "folder" &&
-                            unsetParam.type ===
-                                launchConstants.PARAM_TYPE.FOLDER_INPUT)
+                        // Handle multiple resources if they're passed in.
+                        Array.isArray(resource) &&
+                        unsetParam.type ===
+                            launchConstants.PARAM_TYPE.MULTIFILE_SELECTOR
                     ) {
-                        submission.config[unsetInputParams[0].id] =
-                            resource.path;
+                        const fileResources = resource
+                            .filter((r) => r.type === "file")
+                            .map((r) => r.path);
+
+                        if (fileResources.length > 0) {
+                            submission.config[
+                                unsetInputParams[0].id
+                            ] = fileResources;
+                        }
+                    } else {
+                        if (
+                            // Handle singular resources
+                            (resource.type === "file" &&
+                                unsetParam.type ===
+                                    launchConstants.PARAM_TYPE.FILE_INPUT) ||
+                            (resource.type === "folder" &&
+                                unsetParam.type ===
+                                    launchConstants.PARAM_TYPE.FOLDER_INPUT)
+                        ) {
+                            submission.config[unsetInputParams[0].id] =
+                                resource.path;
+                        }
                     }
                 }
-            }
-        });
-        return submission;
-    });
+            });
+
+            // At this point, all unset file/folder inputs should be matched.
+            return submission;
+        })
+        .then((submission) => submitAnalysis(submission)) // submit the analysis
+        .catch((e) => console.error(e));
 };
 
 function TableView(props) {

@@ -10,6 +10,7 @@ import {
     instantLaunchAppInfo,
     instantLaunchQuickLaunch,
     instantLaunchGlobalQuickLaunches,
+    instantLaunchSubmissionResponse,
 } from "../DataMocks";
 import { mockAxios } from "../../axiosMock";
 import constants from "../../../src/constants";
@@ -63,6 +64,10 @@ export const DataListingTest = () => {
     mockAxios
         .onGet(/\/api\/quicklaunches\/a4b1f851-80c0-415d-ba3c-6663432e4f7e.*/)
         .reply(200, instantLaunchQuickLaunch);
+
+    mockAxios
+        .onPost(/\/api\/analyses.*/)
+        .reply(200, instantLaunchSubmissionResponse);
 
     return <ListingTest />;
 };

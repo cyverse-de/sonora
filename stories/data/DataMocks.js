@@ -921,6 +921,13 @@ export const instantLaunchGlobalQuickLaunches = [
     },
 ];
 
+export const instantLaunchSubmissionResponse = {
+    id: "lol",
+    name: "more lol",
+    state: "Submitted",
+    "start-date": "now",
+};
+
 export const initMockAxiosFileFolderSelector = () => {
     mockAxios
         .onGet(/\/api\/filesystem\/paged-directory.*/)

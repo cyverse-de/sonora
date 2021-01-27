@@ -32,7 +32,13 @@ import {
 const useStyles = makeStyles(styles);
 
 export function TrashMenu(props) {
-    const { baseId, selected, onEmptyTrashSelected, onDeleteSelected } = props;
+    const {
+        baseId,
+        selected,
+        handleDelete,
+        handleRestore,
+        handleEmptyTrash,
+    } = props;
     const { t } = useTranslation("data");
     const classes = useStyles();
 
@@ -80,8 +86,21 @@ export function TrashMenu(props) {
             >
                 {selected?.length > 0 && (
                     <MenuItem
-                        id={build(baseId, "restore")}
-                        key={build(baseId, "restore")}
+                        id={build(baseId, ids.DELETE_MENU_ITEM)}
+                        key={build(baseId, ids.DELETE_MENU_ITEM)}
+                        onClick={handleDelete}
+                    >
+                        <ListItemIcon>
+                            <DeleteForever fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText primary={t("delete")} />
+                    </MenuItem>
+                )}
+                {selected?.length > 0 && (
+                    <MenuItem
+                        id={build(baseId, ids.RESTORE_MENU_ITEM)}
+                        key={build(baseId, ids.RESTORE_MENU_ITEM)}
+                        onClick={() => handleRestore()}
                     >
                         <ListItemIcon>
                             <RestoreFromTrash fontSize="small" />
@@ -90,27 +109,15 @@ export function TrashMenu(props) {
                     </MenuItem>
                 )}
                 <MenuItem
-                    id={build(baseId, "empty")}
-                    key={build(baseId, "empty")}
-                    onClick={onEmptyTrashSelected}
+                    id={build(baseId, ids.EMPTY_TRASH_MENU_ITEM)}
+                    key={build(baseId, ids.EMPTY_TRASH_MENU_ITEM)}
+                    onClick={handleEmptyTrash}
                 >
                     <ListItemIcon>
                         <DeleteSweep fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary={t("emptyTrash")} />
                 </MenuItem>
-                {selected?.length > 0 && (
-                    <MenuItem
-                        id={build(baseId, "delete")}
-                        key={build(baseId, "delete")}
-                        onClick={onDeleteSelected}
-                    >
-                        <ListItemIcon>
-                            <DeleteForever fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText primary={t("delete")} />
-                    </MenuItem>
-                )}
             </Menu>
         </>
     );

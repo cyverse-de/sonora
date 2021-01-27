@@ -159,7 +159,7 @@ const instantlyLaunch = async (
             // Each of the passed in resources needs to be added to the submission
             // for a required input field, if possible.
             resources.forEach((resource) => {
-                // Get listing of the input parameters from the app info that
+                // Get listing of the required input parameters from the app info that
                 // aren't set in the QL submission
                 const unsetInputParams = appReqInputs.filter(
                     (appParam) => !submission.config.hasOwnProperty(appParam.id)
@@ -205,7 +205,8 @@ const instantlyLaunch = async (
                 }
             });
 
-            // At this point, all unset file/folder inputs should be matched.
+            // At this point, all previously unmatched required file/folder inputs
+            // should be matched to a resource path or a list of paths.
             return submission;
         })
         .then((submission) => submitAnalysis(submission)) // submit the analysis

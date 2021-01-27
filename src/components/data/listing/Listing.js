@@ -43,6 +43,8 @@ import {
 
 import {
     deleteResources,
+    emptyTrash,
+    restore,
     getInfoTypes,
     getPagedListing,
     DATA_LISTING_QUERY_KEY,
@@ -201,7 +203,6 @@ function Listing(props) {
             },
         }
     );
-
     const [requestDOI, { status: requestDOIStatus }] = useMutation(
         createDOIRequest,
         {
@@ -210,6 +211,19 @@ function Listing(props) {
             },
             onError: (e) => {
                 showErrorAnnouncer(t("doiRequestFailed"), e);
+            }
+        });
+    const [doEmptyTrash, { status: emptyTrashStatus }] = useMutation(
+        emptyTrash,
+        {
+            onSuccess: () => {
+                announce({
+                    text: t("asyncDataEmptyTrashPending"),
+                    type: AnnouncerConstants.SUCCESS,
+                });
+            },
+            onError: (e) => {
+                showErrorAnnouncer(t("emptyTrashError"), e);
             },
         }
     );
@@ -394,6 +408,21 @@ function Listing(props) {
             (resource) => resource.path
         );
         removeResources({ paths });
+        setSelected([]);
+    };
+
+    const onRestoreSelected = (resourceId) => {
+        const items = resourceId ? [resourceId] : null;
+        const paths = getSelectedResources(items).map(
+            (resource) => resource.path
+        );
+        doRestore({ paths });
+        setSelected([]);
+    };
+
+    const onEmptyTrashSelected = () => {
+        doEmptyTrash();
+        setSelected([]);
     };
 
     const handleChangePage = (event, newPage) => {
@@ -420,6 +449,10 @@ function Listing(props) {
         );
         const resource = data.listing[resourceIndex];
         setDetailsResource(resource);
+    };
+
+    const onRefreshSelected = () => {
+        queryCache.invalidateQueries(DATA_LISTING_QUERY_KEY);
     };
 
     const addItemsToBag = useBagAddItems({
@@ -477,6 +510,8 @@ function Listing(props) {
         isFetching,
         removeResourceStatus,
         requestDOIStatus,
+        emptyTrashStatus,
+        restoreStatus,
     ]);
     const localUploadId = build(baseId, ids.UPLOAD_MI, ids.UPLOAD_INPUT);
     return (
@@ -494,6 +529,8 @@ function Listing(props) {
                     toggleDisplay={toggleDisplay}
                     onMetadataSelected={onMetadataSelected}
                     onDeleteSelected={onDeleteSelected}
+                    onRestoreSelected={onRestoreSelected}
+                    onEmptyTrashSelected={onEmptyTrashSelected}
                     detailsEnabled={detailsEnabled}
                     onDetailsSelected={onDetailsSelected}
                     onAddToBagSelected={onAddToBagSelected}
@@ -514,6 +551,7 @@ function Listing(props) {
                     onRequestDOISelected={() =>
                         setConfirmDOIRequestDialogOpen(true)
                     }
+                    onRefreshSelected={onRefreshSelected}
                 />
                 {!isGridView && (
                     <TableView

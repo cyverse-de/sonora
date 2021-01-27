@@ -846,19 +846,13 @@ export const instantLaunchAppInfo = {
                     description: "",
                     arguments: [],
                     name: "",
-                    value: {
-                        path: "/iplant/home/wregglej/logs",
-                    },
-                    type: "FolderInput",
+                    type: "FileInput",
                     validators: [],
-                    label: "Input Folder",
+                    label: "Input File",
                     id:
                         "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d625f64e-e921-11e9-8fe0-008cfa5ae621",
                     isVisible: true,
-                    defaultValue: {
-                        path: "/iplant/home/wregglej/logs",
-                    },
-                    required: false,
+                    required: true,
                 },
                 {
                     description: "Select the files to process.",
@@ -903,8 +897,6 @@ export const instantLaunchQuickLaunch = {
     is_public: false,
     submission: {
         config: {
-            "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d625f64e-e921-11e9-8fe0-008cfa5ae621":
-                "/iplant/home/wregglej/logs",
             "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621": [
                 "/iplant/home/wregglej/logs/script-output.log",
                 "/iplant/home/wregglej/logs/script-error.log",

@@ -24,7 +24,10 @@ import { isPathInTrash } from "../utils";
 import { useConfig } from "contexts/config";
 
 import { build, DECheckbox, EmptyTable, formatDate } from "@cyverse-de/ui-lib";
+import launchConstants from "components/apps/launch/constants";
+
 import { defaultInstantLaunch } from "serviceFacades/instantlaunches";
+import { getAppInfo, getQuickLaunch } from "serviceFacades/quickLaunches";
 
 import {
     fade,
@@ -40,7 +43,6 @@ import {
 import { Launch as LaunchIcon } from "@material-ui/icons";
 
 import RowDotMenu from "./RowDotMenu";
-import { getAppInfo } from "serviceFacades/quickLaunches";
 
 function SizeCell({ resource }) {
     return <TableCell>{getFileSize(resource.fileSize)}</TableCell>;
@@ -121,14 +123,71 @@ function setLocalStorageCols(columns) {
     setLocalStorage(constants.LOCAL_STORAGE.DATA.COLUMNS, columns);
 }
 
+const inputParamTypes = [
+    launchConstants.PARAM_TYPE.FILE_INPUT,
+    launchConstants.PARAM_TYPE.FOLDER_INPUT,
+];
+
 const instantlyLaunch = async (
     instantLaunchName,
     instantLaunch,
-    resourcePath
+    resources = []
 ) => {
-    const appInfo = await getAppInfo(instantLaunch["quick_launch_id"]);
-    console.log(`${instantLaunchName} ${resourcePath}`);
-    console.log(JSON.stringify(appInfo, null, 2));
+    const qID = instantLaunch.default["quick_launch_id"];
+    const quickLaunch = getQuickLaunch(qID)
+        .then((quickLaunch) => quickLaunch)
+        .catch((e) => console.error(e));
+
+    const appInfo = getAppInfo(null, {
+        qId: qID,
+    })
+        .then((app) => app)
+        .catch((e) => console.error(e));
+
+    return await Promise.all([quickLaunch, appInfo]).then((values) => {
+        const [ql, app] = values;
+        const submission = ql.submission;
+        const appParams = app.groups.find((g) => g.label === "Parameters")
+            .parameters;
+        const appReqInputs = appParams.filter(
+            (param) => param.required && inputParamTypes.includes(param.type)
+        );
+
+        resources.forEach((resource) => {
+            const unsetInputParams = appReqInputs.filter(
+                (appParam) => !submission.config.hasOwnProperty(appParam.id)
+            );
+            if (unsetInputParams.length > 0) {
+                const unsetParam = unsetInputParams[0];
+
+                if (
+                    // Handle multiple resources if they're passed in.
+                    Array.isArray(resource) &&
+                    unsetParam.type ===
+                        launchConstants.PARAM_TYPE.MULTIFILE_SELECTOR
+                ) {
+                    const fileResources = resource
+                        .filter((r) => r.type === "file")
+                        .map((r) => r.path);
+                    submission.config[unsetInputParams[0].id] = fileResources;
+                } else {
+                    if (
+                        // Handle singular resources
+                        (resource.type === "file" &&
+                            unsetParam.type ===
+                                launchConstants.PARAM_TYPE.FILE_INPUT) ||
+                        (resource.type === "folder" &&
+                            unsetParam.type ===
+                                launchConstants.PARAM_TYPE.FOLDER_INPUT)
+                    ) {
+                        submission.config[unsetInputParams[0].id] =
+                            resource.path;
+                    }
+                }
+            }
+        });
+        return submission;
+    });
 };
 
 function TableView(props) {
@@ -414,54 +473,59 @@ function TableView(props) {
                                                 </Fragment>
                                             )
                                         )}
-
-                                        {rowDotMenuVisibility && (
-                                            <TableCell align="right">
-                                                {instantLaunch && (
-                                                    <IconButton
-                                                        variant="contained"
-                                                        onClick={() =>
-                                                            alert(
-                                                                instantLaunchName
+                                        <TableCell align="right">
+                                            {instantLaunch && (
+                                                <IconButton
+                                                    variant="contained"
+                                                    onClick={async () => {
+                                                        const submission = await instantlyLaunch(
+                                                            instantLaunchName,
+                                                            instantLaunch,
+                                                            [resource]
+                                                        );
+                                                        console.log(
+                                                            JSON.stringify(
+                                                                submission,
+                                                                null,
+                                                                2
                                                             )
-                                                        }
-                                                    >
-                                                        <LaunchIcon />
-                                                    </IconButton>
+                                                        );
+                                                    }}
+                                                >
+                                                    <LaunchIcon />
+                                                </IconButton>
+                                            )}
+                                            <RowDotMenu
+                                                baseId={build(
+                                                    tableId,
+                                                    resourceName
                                                 )}
-                                                <RowDotMenu
-                                                    baseId={build(
-                                                        tableId,
-                                                        resourceName
-                                                    )}
-                                                    onDetailsSelected={
-                                                        onDetailsSelected
-                                                    }
-                                                    onDeleteSelected={() =>
-                                                        onDeleteSelected(
-                                                            resourceId
-                                                        )
-                                                    }
-                                                    resource={resource}
-                                                    setSharingDlgOpen={
-                                                        setSharingDlgOpen
-                                                    }
-                                                    onMetadataSelected={
-                                                        onMetadataSelected
-                                                    }
-                                                    onPublicLinksSelected={
-                                                        onPublicLinksSelected
-                                                    }
-                                                    onDownloadSelected={
-                                                        onDownloadSelected
-                                                    }
-                                                    inTrash={inTrash}
-                                                    onRenameSelected={
-                                                        onRenameSelected
-                                                    }
-                                                />
-                                            </TableCell>
-                                        )}
+                                                onDetailsSelected={
+                                                    onDetailsSelected
+                                                }
+                                                onDeleteSelected={() =>
+                                                    onDeleteSelected(resourceId)
+                                                }
+                                                resource={resource}
+                                                setSharingDlgOpen={
+                                                    setSharingDlgOpen
+                                                }
+                                                onMetadataSelected={
+                                                    onMetadataSelected
+                                                }
+                                                onPublicLinksSelected={
+                                                    onPublicLinksSelected
+                                                }
+                                                onDownloadSelected={
+                                                    onDownloadSelected
+                                                }
+                                                inTrash={inTrash}
+                                                onRenameSelected={
+                                                    onRenameSelected
+                                                }
+                                            />
+                                        </TableCell>
+                                        )
                                     </DERow>
                                 );
                             })}

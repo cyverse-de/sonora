@@ -51,7 +51,9 @@ export const DataListingTest = () => {
         .reply(200, instantLaunchMapping);
 
     mockAxios
-        .onGet(/\/api\/quicklaunches\/.*\/app-info.*/)
+        .onGet(
+            /\/api\/quicklaunches\/a4b1f851-80c0-415d-ba3c-6663432e4f7e\/app-info.*/
+        )
         .reply(200, instantLaunchAppInfo);
 
     mockAxios
@@ -59,7 +61,7 @@ export const DataListingTest = () => {
         .reply(200, instantLaunchGlobalQuickLaunches);
 
     mockAxios
-        .onGet(/\/api\/quicklaunches\/.*/)
+        .onGet(/\/api\/quicklaunches\/a4b1f851-80c0-415d-ba3c-6663432e4f7e.*/)
         .reply(200, instantLaunchQuickLaunch);
 
     return <ListingTest />;

@@ -12,9 +12,16 @@ export default {
         SEARCH: "searchField",
         TABLE: "table",
     },
+    EDIT_TEAM: {
+        ADMIN: "admin",
+        READ: "read",
+        VIEW: "view",
+        MEMBERS: "members",
+        PRIVILEGE: "privilege",
     BUTTONS: {
         CREATE_BTN: "createBtn",
         CREATE_MI: "createMI",
+        DELETE: "deleteBtn",
         HELP_BTN: "helpBtn",
         HELP_MI: "helpMI",
     },

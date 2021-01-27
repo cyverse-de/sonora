@@ -46,7 +46,7 @@ function SubjectSearchField(props) {
         if (event) {
             const newSearchTerm = event.target.value;
             setSearchTerm(newSearchTerm);
-            newSearchTerm && onSearchStart();
+            newSearchTerm && onSearchStart && onSearchStart();
             //clear existing results on new search
             setOptions([]);
         }

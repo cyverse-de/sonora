@@ -5,6 +5,10 @@ const styles = (theme) => ({
         },
     },
 
+    deleteBtn: {
+        color: theme.palette.error.main,
+    },
+
     divider: {
         flexGrow: 1,
     },

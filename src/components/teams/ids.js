@@ -18,6 +18,8 @@ export default {
         VIEW: "view",
         MEMBERS: "members",
         PRIVILEGE: "privilege",
+        HELP_POPOVER: "helpMessage",
+    },
     BUTTONS: {
         CREATE_BTN: "createBtn",
         CREATE_MI: "createMI",

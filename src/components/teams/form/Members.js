@@ -7,7 +7,12 @@
 import React, { useMemo } from "react";
 
 import { build, FormSelectField } from "@cyverse-de/ui-lib";
-import { Button, makeStyles, MenuItem, Typography } from "@material-ui/core";
+import {
+    Button,
+    FormControlLabel,
+    makeStyles,
+    MenuItem,
+} from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 import { Field, getIn } from "formik";
 
@@ -22,6 +27,7 @@ import { getUserPrimaryText } from "components/sharing/util";
 import BasicTable from "components/utils/BasicTable";
 import { DEFAULT_MEMBER_PRIVILEGE } from "../util";
 import { SubjectTableCell } from "../../sharing/UserTable";
+import HelpIconButton from "./HelpIconButton";
 
 const useStyles = makeStyles(styles);
 
@@ -178,11 +184,26 @@ function Members(props) {
 
     return (
         <SimpleExpansionPanel
-            header={t("members")}
+            header={
+                <FormControlLabel
+                    aria-label={t("members")}
+                    onClick={(event) => event.stopPropagation()}
+                    onFocus={(event) => event.stopPropagation()}
+                    labelPlacement="start"
+                    control={
+                        <HelpIconButton
+                            parentId={baseId}
+                            message={t("memberHelpMessage")}
+                            size="small"
+                            color="secondary"
+                        />
+                    }
+                    label={t("members")}
+                />
+            }
             defaultExpanded={true}
             parentId={baseId}
         >
-            <Typography variant="body2">{t("memberHelpMessage")}</Typography>
             {isAdmin && (
                 <SubjectSearchField
                     parentId={baseId}

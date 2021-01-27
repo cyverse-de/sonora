@@ -17,6 +17,10 @@ const styles = (theme) => ({
         width: 200,
         marginRight: theme.spacing(2),
     },
+
+    popover: {
+        padding: theme.spacing(2),
+    },
 });
 
 export default styles;

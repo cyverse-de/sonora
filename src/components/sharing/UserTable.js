@@ -19,9 +19,34 @@ import BasicTable from "../utils/BasicTable";
 
 const useStyles = makeStyles(styles);
 
+function SubjectTableCell({ subject }) {
+    const classes = useStyles();
+    const { t } = useTranslation("sharing");
+
+    return (
+        <ListItem classes={{ root: classes.listItem }}>
+            <ListItemText
+                primary={getUserPrimaryText(subject)}
+                secondary={
+                    <Typography variant="body2" color="textSecondary">
+                        {!isGroup(subject) && (
+                            <>
+                                {t("username", {
+                                    id: subject.id,
+                                })}
+                                <br />
+                            </>
+                        )}
+                        {getUserSecondaryText(subject)}
+                    </Typography>
+                }
+            />
+        </ListItem>
+    );
+}
+
 function UserTable(props) {
     const { userMap, baseId, onPermissionChange, onRemoveUser } = props;
-    const classes = useStyles();
     const { t } = useTranslation("sharing");
 
     const data = React.useMemo(() => Object.values(userMap), [userMap]);
@@ -32,29 +57,7 @@ function UserTable(props) {
                 accessor: getUserPrimaryText,
                 Cell: ({ row, value }) => {
                     const user = row.original;
-                    return (
-                        <ListItem classes={{ root: classes.listItem }}>
-                            <ListItemText
-                                primary={value}
-                                secondary={
-                                    <Typography
-                                        variant="body2"
-                                        color="textSecondary"
-                                    >
-                                        {!isGroup(user) && (
-                                            <>
-                                                {t("username", {
-                                                    id: user.id,
-                                                })}
-                                                <br />
-                                            </>
-                                        )}
-                                        {getUserSecondaryText(user)}
-                                    </Typography>
-                                }
-                            />
-                        </ListItem>
-                    );
+                    return <SubjectTableCell subject={user} />;
                 },
             },
             {
@@ -79,10 +82,11 @@ function UserTable(props) {
                 },
             },
         ],
-        [baseId, t, onPermissionChange, onRemoveUser, classes.listItem]
+        [baseId, t, onPermissionChange, onRemoveUser]
     );
 
     return <BasicTable columns={columns} data={data} sortable />;
 }
 
 export default UserTable;
+export { SubjectTableCell };

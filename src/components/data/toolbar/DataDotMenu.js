@@ -153,7 +153,7 @@ function DataDotMenu(props) {
                                       <ListItemText primary={t("folder")} />
                                   </MenuItem>
                               ),
-                              !inTrash && detailsEnabled && (
+                              detailsEnabled && (
                                   <DetailsMenuItem
                                       key={build(baseId, ids.DETAILS_MENU_ITEM)}
                                       baseId={baseId}

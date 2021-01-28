@@ -1,16 +1,7 @@
 {
     "accessRequestTitle": "Request access to VICE analyses (e.g: Juptyer, RStudio etc...)",
     "accessRequestPrompt": "Due to heavy demand for access to CyVerse compute clusters, please submit this one-time form so that we can ensure fair access among legitimate users. Requests will be processed within 24 hours unless you are requesting large cores, memory, or GPUs, or if we require more details on your science use-case.",
-    "name": "Name",
-    "email": "Registered E-mail",
-    "orcid": "Your ORCID id",
-    "orcidHelp": "If you don't have an ORCID ID, please visit https://orcid.org/ to create one.",
-    "affiliation": "Affiliation",
-    "univ": "University (Student / Professor / Researcher / PostDoc. Please enter specific details below)",
-    "nih": "NIH (Enter grant number in details below)",
-    "nsf": "NSF (Enter grant number in details below)",
-    "others": "Others (Please enter specific details below)",
-    "moreDetails": "More Details about you.",
-    "useCase": "Briefly describe your science use-case.",
-    "otherDetails": "Other Details (Memory, CPU, GPU requirements if any.)"
+    "emptyValue": "Empty Value.",
+    "minLengthUseCaseError": "Must be at least {{minLength}} characters.",
+    "useCase": "Briefly describe your science use-case."
 }

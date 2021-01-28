@@ -8,5 +8,5 @@
 import React from "react";
 
 export default function Doi() {
-    return <div>Admin DOI Page! </div>
+    return <div>Admin DOI Page! </div>;
 }

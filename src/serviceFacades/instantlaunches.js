@@ -5,7 +5,7 @@ export const DEFAULTS_MAPPING_QUERY_KEY = "fetchDefaultsMappings";
 
 export const getDefaultsMapping = () =>
     callApi({
-        endpoint: `/api/instantlaunches/defaults/mappings/latest`,
+        endpoint: `/api/instantlaunches/mappings/defaults/latest`,
         method: "GET",
     });
 

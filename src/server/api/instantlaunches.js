@@ -6,6 +6,7 @@
 
 import express from "express";
 
+import { handler as terrainHandler } from "./terrain";
 import * as auth from "../auth";
 import logger from "../logging";
 
@@ -19,7 +20,13 @@ export default () => {
     api.get(
         "/instantlaunches/mappings/defaults/latest",
         auth.authnTokenMiddleware,
-        (req, res) => {}
+        terrainHandler({
+            method: "GET",
+            pathname: "/instantlaunches/mappings/defaults/latest",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
     );
 
     return api;

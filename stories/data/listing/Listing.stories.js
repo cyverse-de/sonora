@@ -48,7 +48,7 @@ export const DataListingTest = () => {
     mockAxios.onPost(/\/api\/filesystem\/delete/).reply(200, {});
 
     mockAxios
-        .onGet(/\/api\/instantlaunches\/defaults\/mappings\/latest.*/)
+        .onGet(/\/api\/instantlaunches\/mappings\/defaults\/latest.*/)
         .reply(200, instantLaunchMapping);
 
     mockAxios

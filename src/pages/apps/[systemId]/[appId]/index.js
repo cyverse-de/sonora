@@ -24,13 +24,14 @@ import Listing from "components/apps/listing/Listing";
 
 export default function App() {
     const router = useRouter();
-
+    const query = router.query;
     const { systemId, appId } = router.query;
     const { t } = useTranslation("apps");
     const appRecordFields = appFields(t);
 
     const selectedPage = 0;
     const selectedRowsPerPage =
+        parseInt(query.selectedRowsPerPage) ||
         parseInt(getLocalStorage(constants.LOCAL_STORAGE.APPS.PAGE_SIZE)) ||
         100;
     const selectedOrder = constants.SORT_ASCENDING;
@@ -63,12 +64,12 @@ export default function App() {
                 router.push(getAppLaunchPath(systemId, appId))
             }
             onRouteToListing={onRouteToListing}
-            selectedPage={selectedPage}
-            selectedRowsPerPage={selectedRowsPerPage}
-            selectedOrder={selectedOrder}
-            selectedOrderBy={selectedOrderBy}
-            selectedFilter={selectedFilter}
-            selectedCategory={selectedCategory}
+            page={selectedPage}
+            rowsPerPage={selectedRowsPerPage}
+            order={selectedOrder}
+            orderBy={selectedOrderBy}
+            filter={selectedFilter}
+            category={selectedCategory}
         />
     );
 }

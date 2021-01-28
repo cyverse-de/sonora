@@ -2,6 +2,7 @@
  * @author aramsey
  */
 import callApi from "../common/callApi";
+import { PUBLIC_TEAM_PRIVILEGE } from "../components/teams/util";
 
 const MY_TEAMS_QUERY = "fetchMyTeams";
 const ALL_TEAMS_QUERY = "fetchAllTeams";
@@ -63,6 +64,66 @@ function getTeamDetails(key, { name }) {
     ]);
 }
 
+function createTeam({ name, description, isPublic }) {
+    return callApi({
+        endpoint: "/api/teams",
+        method: "POST",
+        body: {
+            name,
+            description,
+            public_privileges: isPublic ? [PUBLIC_TEAM_PRIVILEGE] : null,
+        },
+    });
+}
+
+function updateTeam({ originalName, name, description }) {
+    return callApi({
+        endpoint: `/api/teams/${originalName}`,
+        method: "PATCH",
+        body: {
+            name,
+            description,
+        },
+    });
+}
+
+function deleteTeam({ name }) {
+    return callApi({
+        endpoint: `/api/teams/${name}`,
+        method: "DELETE",
+    });
+}
+
+function addTeamMembers({ name, members }) {
+    return callApi({
+        endpoint: `/api/teams/${name}/members`,
+        method: "POST",
+        body: {
+            members,
+        },
+    });
+}
+
+function removeTeamMembers({ name, members }) {
+    return callApi({
+        endpoint: `/api/teams/${name}/members/deleter`,
+        method: "POST",
+        body: {
+            members,
+        },
+    });
+}
+
+function updateTeamPrivileges({ name, updates }) {
+    return callApi({
+        endpoint: `/api/teams/${name}/privileges`,
+        method: "POST",
+        body: {
+            updates,
+        },
+    });
+}
+
 export {
     MY_TEAMS_QUERY,
     ALL_TEAMS_QUERY,
@@ -72,4 +133,10 @@ export {
     getAllTeams,
     searchTeams,
     getTeamDetails,
+    createTeam,
+    updateTeam,
+    deleteTeam,
+    addTeamMembers,
+    removeTeamMembers,
+    updateTeamPrivileges,
 };

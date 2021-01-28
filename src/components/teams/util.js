@@ -3,6 +3,7 @@ import { groupBy } from "../../common/functions";
 import { getIn } from "formik";
 
 export const DEFAULT_MEMBER_PRIVILEGE = Privilege.READ.value;
+export const PUBLIC_TEAM_PRIVILEGE = Privilege.VIEW.value;
 
 export const privilegeHasRead = (privilege) => {
     return privilegeNum(privilege) >= Privilege.READ.num;

@@ -17,6 +17,29 @@ export default function notificationsRouter() {
 
     logger.info("************ Adding Metadata handlers **********");
 
+    logger.info("adding the GET /api/filesystem/metadata/templates handler");
+    api.get(
+        "/filesystem/metadata/templates",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/secured/filesystem/metadata/templates",
+        })
+    );
+
+    logger.info(
+        "adding the GET /api/filesystem/metadata/template/:templateId/zip-csv handler"
+    );
+    api.get(
+        "/filesystem/metadata/template/:templateId/zip-csv",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname:
+                "/secured/filesystem/metadata/template/:templateId/zip-csv",
+        })
+    );
+
     logger.info("adding the GET /api/filesystem/:dataId/metadata handler");
     api.get(
         "/filesystem/:dataId/metadata",

@@ -1,12 +1,14 @@
 import React from "react";
 
 import MetadataTemplateView from "components/metadata/templates";
+import MetadataTemplateListing from "components/metadata/templates/Listing";
 
 import { mockAxios } from "../axiosMock";
 import { DataCiteMetadata, MockMetadata } from "./MetadataMocks";
 import {
     DataciteMetadataTemplate,
     NestedAttrMetadataTemplate,
+    MockTemplateListing,
 } from "./TemplateMocks";
 
 const onClose = () => console.log("dialog closed.");
@@ -14,6 +16,10 @@ const updateMetadataFromTemplateView = (metadata, resolve, errorCallback) => {
     console.log(metadata);
     resolve(metadata);
 };
+
+mockAxios
+    .onGet("/api/filesystem/metadata/templates")
+    .reply(200, MockTemplateListing);
 
 mockAxios.onGet("/api/ontology-lookup-service").reply((config) => {
     console.log("searchOLSTerms", config.url, config.params);
@@ -65,6 +71,19 @@ mockAxios.onGet("/api/unified-astronomy-thesaurus").reply((config) => {
         },
     ];
 });
+
+export const TemplateListing = () => {
+    return (
+        <MetadataTemplateListing
+            open
+            baseId={"MockMetadata"}
+            onClose={onClose}
+            onSelectTemplate={(templateId) =>
+                console.log("Selected Template", templateId)
+            }
+        />
+    );
+};
 
 export const NestedTemplateView = () => {
     return (

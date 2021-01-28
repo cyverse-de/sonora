@@ -5,8 +5,17 @@ import callApi from "../common/callApi";
 import axiosInstance from "../common/getAxios";
 
 const FILESYSTEM_METADATA_QUERY_KEY = "fetchFilesystemMetadataKey";
+const FILESYSTEM_METADATA_TEMPLATES_QUERY_KEY =
+    "fetchFilesystemMetadataTemplatesKey";
 const SEARCH_OLS_QUERY_KEY = "searchOntologyLookupServiceKey";
 const SEARCH_UAT_QUERY_KEY = "searchUnifiedAstronomyThesaurusKey";
+
+function getFilesystemMetadataTemplates() {
+    return callApi({
+        endpoint: "/api/filesystem/metadata/templates",
+        method: "GET",
+    });
+}
 
 function getFilesystemMetadata(_, { dataId }) {
     return callApi({
@@ -115,9 +124,11 @@ function searchUnifiedAstronomyThesaurus(_, { searchTerm, orderBy, limit }) {
 
 export {
     FILESYSTEM_METADATA_QUERY_KEY,
+    FILESYSTEM_METADATA_TEMPLATES_QUERY_KEY,
     SEARCH_OLS_QUERY_KEY,
     SEARCH_UAT_QUERY_KEY,
     getFilesystemMetadata,
+    getFilesystemMetadataTemplates,
     saveFilesystemMetadata,
     setFilesystemMetadata,
     searchOntologyLookupService,

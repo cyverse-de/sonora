@@ -13,9 +13,12 @@ export default {
         TABLE: "table",
     },
     EDIT_TEAM: {
+        NAME: "name",
+        DESCRIPTION: "description",
         ADMIN: "admin",
         READ: "read",
         VIEW: "view",
+        PUBLIC_PRIVILEGES: "publicPrivileges",
         MEMBERS: "members",
         PRIVILEGE: "privilege",
         HELP_POPOVER: "helpMessage",

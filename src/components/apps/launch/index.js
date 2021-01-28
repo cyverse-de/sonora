@@ -24,11 +24,11 @@ import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 import AppLaunchWizard from "./AppLaunchWizard";
 import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 import { getErrorCode, ERROR_CODES } from "components/utils/error/errorCode";
+import AccessRequestDialog from "components/vice/AccessRequestDialog";
 
 const Launch = ({ app, launchError, loading }) => {
     const [submissionError, setSubmissionError] = React.useState(null);
     const [viceAccessError, setViceAccessError] = React.useState(false);
-    const [viceAccessErrorMsg, setViceAccessErrorMsg] = React.useState(false);
     const [bootstrapInfo] = useBootstrapInfo();
     const [config] = useConfig();
     const homePath = useHomePath();
@@ -115,6 +115,12 @@ const Launch = ({ app, launchError, loading }) => {
                     setSubmissionError(null);
                     addQuickLaunchMutation({ quickLaunch, onSuccess, onError });
                 }}
+            />
+
+            <AccessRequestDialog
+                open={viceAccessError === ERROR_CODES.ERR_PERMISSION_NEEDED}
+                baseId={baseId}
+                onClose={() => setViceAccessError(null)}
             />
         </>
     );

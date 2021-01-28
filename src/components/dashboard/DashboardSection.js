@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import clsx from "clsx";
 
-import { Typography, Collapse, Button } from "@material-ui/core";
+import {
+    Typography,
+    Paper,
+    Collapse,
+    Button,
+    useTheme,
+} from "@material-ui/core";
 
 import getItem from "./dashboardItem";
 
@@ -28,6 +34,7 @@ const DashboardSection = ({
     const classes = useStyles();
     const { t } = useTranslation("dashboard");
     const [expanded, setExpanded] = useState(false);
+    const theme = useTheme();
 
     const isNewsSection = section === constants.SECTION_NEWS;
     const isEventsSection = section === constants.SECTION_EVENTS;
@@ -66,29 +73,34 @@ const DashboardSection = ({
             <Typography
                 noWrap
                 gutterBottom
-                variant="h5"
-                component="h5"
-                color="primary"
+                variant="h6"
+                style={{
+                    backgroundColor: theme.palette.secondary.main,
+                    color: theme.palette.secondary.contrastText,
+                    padding: theme.spacing(1),
+                    marginBottom: 0,
+                }}
             >
                 {name}
             </Typography>
+            <Paper style={{ padding: theme.spacing(1) }}>
+                <div className={classes.sectionItems}>{uncollapsed}</div>
 
-            <div className={classes.sectionItems}>{uncollapsed}</div>
+                <Collapse in={expanded}>
+                    <div className={classes.sectionItems}>{collapsible}</div>
+                </Collapse>
 
-            <Collapse in={expanded}>
-                <div className={classes.sectionItems}>{collapsible}</div>
-            </Collapse>
-
-            {displayShowMore && (
-                <Button
-                    onClick={() => setExpanded(!expanded)}
-                    className={classes.showMoreBtn}
-                >
-                    <Typography variant="button" display="block">
-                        {expanded ? t("showFewer") : t("showMore")}
-                    </Typography>
-                </Button>
-            )}
+                {displayShowMore && (
+                    <Button
+                        onClick={() => setExpanded(!expanded)}
+                        className={classes.showMoreBtn}
+                    >
+                        <Typography variant="button" display="block">
+                            {expanded ? t("showFewer") : t("showMore")}
+                        </Typography>
+                    </Button>
+                )}
+            </Paper>
         </div>
     );
 };

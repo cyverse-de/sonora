@@ -354,14 +354,6 @@ function Listing(props) {
         setSelected(newSelected);
     };
 
-    const onDownloadSelected = (resourceId) => {
-        console.log("Download", resourceId);
-    };
-
-    const onEditSelected = (resourceId) => {
-        console.log("Edit", resourceId);
-    };
-
     const onMetadataSelected = (resourceId) => {
         const resources = getSelectedResources([resourceId]);
         if (resources) {
@@ -475,7 +467,6 @@ function Listing(props) {
                     refreshListing={refreshListing}
                     isGridView={isGridView}
                     toggleDisplay={toggleDisplay}
-                    onEditSelected={onEditSelected}
                     onMetadataSelected={onMetadataSelected}
                     onDeleteSelected={onDeleteSelected}
                     detailsEnabled={detailsEnabled}

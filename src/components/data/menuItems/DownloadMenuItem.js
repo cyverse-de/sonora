@@ -13,7 +13,6 @@ function DeleteMenuItem(props) {
 
     return (
         <MenuItem
-            key={build(baseId, ids.DOWNLOAD_MENU_ITEM)}
             id={build(baseId, ids.DOWNLOAD_MENU_ITEM)}
             onClick={() => {
                 onClose();

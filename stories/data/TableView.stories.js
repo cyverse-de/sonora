@@ -59,7 +59,6 @@ export const DataTableViewTest = () => {
                 isLarge={true}
                 baseId="tableView"
                 onDownloadSelected={(resourceId) => logger("Download")}
-                onEditSelected={(resourceId) => logger("Edit")}
                 onMetadataSelected={(resourceId) => logger("Metadata")}
                 onDeleteSelected={(resourceId) => logger("Delete")}
                 handleRequestSort={(event, property) => logger("Request Sort")}

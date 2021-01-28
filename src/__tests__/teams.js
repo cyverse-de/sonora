@@ -5,7 +5,10 @@ import { View, SearchResults } from "../../stories/teams/Teams.stories";
 import { mockAxios } from "../../stories/axiosMock";
 import { UserProfileProvider } from "contexts/userProfile";
 import { I18nProviderWrapper } from "../i18n";
-import { getAllPrivileges } from "../components/teams/util";
+import {
+    getAllPrivileges,
+    getPrivilegeUpdates,
+} from "../components/teams/util";
 import Privilege from "../components/models/Privilege";
 
 beforeEach(() => {
@@ -42,12 +45,13 @@ function createPrivilegeList(privileges, userId) {
     const a = [];
     const b = [];
     privileges.forEach(([before, after], index) => {
-        a.push({
-            name: before.value,
-            subject: {
-                id: userId || `${index}${before.value}`,
-            },
-        });
+        before &&
+            a.push({
+                name: before.value,
+                subject: {
+                    id: userId || `${index}${before.value}`,
+                },
+            });
         after &&
             b.push({
                 name: after.value,
@@ -114,4 +118,40 @@ it("tests that missing member gets default member privilege", () => {
 
     const result = Object.values(getAllPrivileges([], [member]));
     expect(result).toStrictEqual(after);
+});
+
+it("tests that getPrivilegeUpdates detects a deleted privilege", () => {
+    const [before, after] = createPrivilegeList(
+        [[Privilege.READ, null]],
+        "batman"
+    );
+
+    const { remove, add, update } = getPrivilegeUpdates(before, after);
+    expect(remove).toStrictEqual(["batman"]);
+    expect(add).toStrictEqual([]);
+    expect(update).toStrictEqual([]);
+});
+
+it("tests that getPrivilegeUpdates detects an added privilege", () => {
+    const [before, after] = createPrivilegeList(
+        [[null, Privilege.READ]],
+        "batman"
+    );
+
+    const { remove, add, update } = getPrivilegeUpdates(before, after);
+    expect(remove).toStrictEqual([]);
+    expect(add).toStrictEqual(after);
+    expect(update).toStrictEqual([]);
+});
+
+it("tests that getPrivilegeUpdates detects an updated privilege", () => {
+    const [before, after] = createPrivilegeList(
+        [[Privilege.ADMIN, Privilege.READ]],
+        "batman"
+    );
+
+    const { remove, add, update } = getPrivilegeUpdates(before, after);
+    expect(remove).toStrictEqual([]);
+    expect(add).toStrictEqual([]);
+    expect(update).toStrictEqual(after);
 });

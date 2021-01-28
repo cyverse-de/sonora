@@ -1,4 +1,6 @@
 import Privilege from "../models/Privilege";
+import { groupBy } from "../../common/functions";
+import { getIn } from "formik";
 
 export const DEFAULT_MEMBER_PRIVILEGE = Privilege.READ.value;
 
@@ -104,4 +106,40 @@ function addMembersToPrivileges(privilegeMap, members) {
 export function getAllPrivileges(privileges, members) {
     const privilegeMap = simplifyPrivileges(privileges);
     return addMembersToPrivileges(privilegeMap, members);
+}
+
+const getPrivilegeSubjectId = (privilege) => {
+    return privilege.subject.id;
+};
+
+export function getPrivilegeUpdates(original, updates) {
+    const originalMap = groupBy(original, getPrivilegeSubjectId);
+    const originalUsers = Object.keys(originalMap);
+
+    const updateMap = groupBy(updates, getPrivilegeSubjectId);
+    const updateUsers = Object.keys(updateMap);
+
+    const deletedUserIds = originalUsers.filter(
+        (userId) => !updateUsers.includes(userId)
+    );
+    const addedPrivileges = updateUsers.reduce((acc, userId) => {
+        return !originalUsers.includes(userId)
+            ? [...acc, ...updateMap[userId]]
+            : acc;
+    }, []);
+
+    const updatedPrivileges = originalUsers.reduce((acc, userId) => {
+        return !updateMap[userId]
+            ? acc
+            : getIn(originalMap, `${userId}.0.name`) ===
+              getIn(updateMap, `${userId}.0.name`)
+            ? acc
+            : [...acc, ...updateMap[userId]];
+    }, []);
+
+    return {
+        remove: deletedUserIds,
+        add: addedPrivileges,
+        update: updatedPrivileges,
+    };
 }

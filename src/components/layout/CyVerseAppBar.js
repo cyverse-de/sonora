@@ -20,6 +20,8 @@ import { useConfig } from "contexts/config";
 import NavigationConstants from "common/NavigationConstants";
 import Notifications from "./Notifications";
 import CustomIntercom from "./CustomIntercom";
+import AnalysesIcon from "components/icons/AnalysesIcon";
+import DataIcon from "components/icons/DataIcon";
 import { useBootstrapInfo } from "contexts/bootstrap";
 import { useUserProfile } from "contexts/userProfile";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
@@ -270,6 +272,7 @@ const DrawerItem = (props) => {
                                     ? clsx(clsxBase, classes.icon)
                                     : classes.icon
                             }
+                            style={{ fontSize: "2.1875rem" }}
                             fontSize="large"
                         />
                     </ListItemIcon>
@@ -489,7 +492,7 @@ function CyverseAppBar(props) {
             <DrawerItem
                 title={t("data")}
                 id={ids.DATA_MI}
-                image={"/data.png"}
+                icon={DataIcon}
                 thisView={NavigationConstants.DATA}
                 clsxBase={"data-intro"}
                 activeView={activeView}
@@ -526,7 +529,7 @@ function CyverseAppBar(props) {
             <DrawerItem
                 title={t("analyses")}
                 id={ids.ANALYSES_MI}
-                image={"/analyses.png"}
+                icon={AnalysesIcon}
                 thisView={NavigationConstants.ANALYSES}
                 clsxBase={"analyses-intro"}
                 activeView={activeView}

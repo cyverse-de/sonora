@@ -23,6 +23,7 @@ import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import NavigationConstants from "common/NavigationConstants";
 import { useDataNavigationLink } from "components/data/utils";
 import { useAppLaunchLink } from "components/apps/utils";
+import AnalysesIcon from "components/icons/AnalysesIcon";
 
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
@@ -114,6 +115,8 @@ const useStyles = makeStyles((theme) => ({
     },
     optionIcon: {
         marginRight: theme.spacing(0.5),
+        color: theme.palette.info.main,
+        fontSize: "1.5rem",
     },
     optionDiv: {
         flexGrow: 1,
@@ -196,7 +199,6 @@ function ViewAllOption(props) {
 function DataSearchOption(props) {
     const { baseId, filter, selectedOption, searchTerm } = props;
     const { t: i18NSearch } = useTranslation("search");
-    const theme = useTheme();
     const type = selectedOption._type;
     const path = selectedOption._source?.path;
     const resourceId = selectedOption._source?.id;
@@ -227,9 +229,9 @@ function DataSearchOption(props) {
         );
     }
 
-    let icon = <FolderIcon style={{ color: theme.palette.info.main }} />;
+    let icon = <FolderIcon />;
     if (type === ResourceTypes.FILE) {
-        icon = <DescriptionIcon style={{ color: theme.palette.info.main }} />;
+        icon = <DescriptionIcon />;
     }
 
     return (
@@ -248,7 +250,6 @@ function DataSearchOption(props) {
 function AppsSearchOption(props) {
     const { t: i18NSearch } = useTranslation("search");
     const { baseId, filter, selectedOption, searchTerm } = props;
-    const theme = useTheme();
     const [href, as] = useAppLaunchLink(
         selectedOption?.system_id,
         selectedOption?.id
@@ -283,7 +284,7 @@ function AppsSearchOption(props) {
             <SearchOption
                 primary={selectedOption.name}
                 secondary={selectedOption.description}
-                icon={<AppsIcon style={{ color: theme.palette.info.main }} />}
+                icon={<AppsIcon />}
                 searchTerm={searchTerm}
                 id={build(baseId, selectedOption.id)}
             />
@@ -292,10 +293,8 @@ function AppsSearchOption(props) {
 }
 
 function AnalysesSearchOption(props) {
-    const { t } = useTranslation("common");
     const { t: i18NSearch } = useTranslation("search");
     const { baseId, filter, selectedOption, searchTerm } = props;
-
     const id = selectedOption?.id;
 
     if (
@@ -327,7 +326,7 @@ function AnalysesSearchOption(props) {
             <SearchOption
                 primary={selectedOption.name}
                 secondary={selectedOption.status}
-                icon={<img src="/analyses-grey-24.png" alt={t("analyses")} />}
+                icon={<AnalysesIcon />}
                 searchTerm={searchTerm}
                 id={build(baseId, selectedOption.id)}
             />

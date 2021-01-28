@@ -1,6 +1,7 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Apps, Label, InsertDriveFile, Folder } from "@material-ui/icons";
+import AnalysesIcon from "components/icons/AnalysesIcon";
 
 class BagItem {
     constructor(item) {
@@ -74,7 +75,7 @@ class FolderBagItem extends BagItem {
 
 class AnalysisBagItem extends BagItem {
     icon(t) {
-        return <img src="/analyses-grey-24.png" alt={t("common:analyses")} />;
+        return <AnalysesIcon style={{ fontSize: "1.5rem" }} />;
     }
 
     get shareable() {

@@ -13,6 +13,7 @@ import ResourceTypes from "../models/ResourceTypes";
 import { useTranslation } from "i18n";
 import Identity from "../data/Identity";
 import styles from "./styles";
+import AnalysesIcon from "components/icons/AnalysesIcon";
 
 const useStyles = makeStyles(styles);
 
@@ -25,9 +26,9 @@ const getItemDetails = (type, t, classes, subtype) => {
                 secondaryText: (resource) => resource.path,
                 icon:
                     subtype === ResourceTypes.FILE ? (
-                        <FileIcon classes={{ root: classes.iconColor }} />
+                        <FileIcon className={classes.icon} />
                     ) : (
-                        <FolderIcon classes={{ root: classes.iconColor }} />
+                        <FolderIcon className={classes.icon} />
                     ),
             };
         }
@@ -36,7 +37,7 @@ const getItemDetails = (type, t, classes, subtype) => {
                 idFn: (resource) => resource.id,
                 labelFn: (resource) => resource.name,
                 secondaryText: (resource) => resource.system_id,
-                icon: <AppsIcon classes={{ root: classes.iconColor }} />,
+                icon: <AppsIcon className={classes.icon} />,
             };
         }
         case TYPE.ANALYSES: {
@@ -44,13 +45,7 @@ const getItemDetails = (type, t, classes, subtype) => {
                 idFn: (resource) => resource.id,
                 labelFn: (resource) => resource.name,
                 secondaryText: () => "",
-                icon: (
-                    <img
-                        className={classes.analysesIcon}
-                        src="/analyses-grey-24.png"
-                        alt={t("analyses")}
-                    />
-                ),
+                icon: <AnalysesIcon className={classes.icon} />,
             };
         }
         case TYPE.TOOLS: {
@@ -58,7 +53,7 @@ const getItemDetails = (type, t, classes, subtype) => {
                 idFn: (resource) => resource.id,
                 labelFn: (resource) => resource.name,
                 secondaryText: () => "",
-                icon: <ToolIcon classes={{ root: classes.iconColor }} />,
+                icon: <ToolIcon className={classes.icon} />,
             };
         }
         default:

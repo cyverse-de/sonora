@@ -29,6 +29,7 @@ import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 import AccessRequestDialog from "components/vice/AccessRequestDialog";
 import { Button, Typography } from "@material-ui/core";
 import { getErrorCode, ERROR_CODES } from "components/utils/error/errorCode";
+import AccessRequestDialog from "components/vice/AccessRequestDialog";
 
 const Launch = ({ app, launchError, loading }) => {
    const [submissionError, setSubmissionError] = React.useState(null);
@@ -36,6 +37,7 @@ const Launch = ({ app, launchError, loading }) => {
         accessRequestDialogOpen,
         setAccessRequestDialogOpen,
     ] = React.useState(false);
+    
     const [bootstrapInfo] = useBootstrapInfo();
     const [config] = useConfig();
     const homePath = useHomePath();
@@ -154,6 +156,12 @@ const Launch = ({ app, launchError, loading }) => {
                     setSubmissionError(null);
                     addQuickLaunchMutation({ quickLaunch, onSuccess, onError });
                 }}
+            />
+
+            <AccessRequestDialog
+                open={viceAccessError === ERROR_CODES.ERR_PERMISSION_NEEDED}
+                baseId={baseId}
+                onClose={() => setViceAccessError(null)}
             />
         </>
     );

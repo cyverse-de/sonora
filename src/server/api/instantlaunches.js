@@ -6,8 +6,8 @@
 
 import express from "express";
 
-import * as auth from "server/auth";
-import logger from "server/logging";
+import * as auth from "../auth";
+import logger from "../logging";
 
 export default () => {
     const api = express.Router();

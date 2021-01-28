@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
 
 import ids from "./ids";
+import DrawerItem from "./DrawerItem";
 import constants from "../../constants";
 import { useConfig } from "contexts/config";
 import NavigationConstants from "common/NavigationConstants";
@@ -70,218 +71,19 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 import HomeIcon from "@material-ui/icons/Home";
 import UserMenu from "./UserMenu";
+import styles from "./styles";
 
 // hidden in xsDown
 const GlobalSearchField = dynamic(() => import("../search/GlobalSearchField"));
 
 const ENTITLEMENT = "entitlement";
-const drawerWidth = 235;
-const miniDrawerWidth = 65;
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flex: 1,
-    },
-    appBar: {
-        backgroundColor: theme.palette.primary,
-        zIndex: theme.zIndex.drawer + 1,
-        width: "100%",
-        [theme.breakpoints.up("sm")]: {
-            marginLeft: miniDrawerWidth,
-            transition: theme.transitions.create(["width", "margin"], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen,
-            }),
-            width: `calc(100% - ${miniDrawerWidth + 1}px)`,
-        },
-    },
-    appBarShift: {
-        [theme.breakpoints.up("sm")]: {
-            marginLeft: drawerWidth,
-            width: `calc(100% - ${drawerWidth}px)`,
-            transition: theme.transitions.create(["width", "margin"], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-        },
-    },
-    drawerIcon: {
-        flexShrink: 0,
-        marginRight: theme.spacing(3.5),
-        width: 32,
-    },
-    userIcon: {
-        cursor: "pointer",
-        backgroundColor: theme.palette.success.main,
-        color: theme.palette.success.contrastText,
-        width: theme.spacing(5),
-        height: theme.spacing(5),
-        marginLeft: theme.spacing(1),
-        "&:hover": {
-            textDecoration: "underline",
-            textDecorationColor: theme.palette.success.contrastText,
-        },
-    },
-    accountIcon: {
-        cursor: "pointer",
-        color: theme.palette.primary.contrastText,
-        backgroundColor: theme.palette.primary.main,
-        width: theme.spacing(5),
-        height: theme.spacing(5),
-    },
-    icon: {
-        color: theme.palette.info.contrastText,
-    },
-    appBarIcon: {
-        [theme.breakpoints.up("sm")]: {
-            margin: theme.spacing(2),
-        },
-        [theme.breakpoints.down("xs")]: {
-            margin: theme.spacing(0.2),
-        },
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-        whiteSpace: "nowrap",
-    },
-    drawerOpen: {
-        backgroundColor: theme.palette.info.main,
-        color: theme.palette.info.contrastText,
-        width: drawerWidth,
-        [theme.breakpoints.up("sm")]: {
-            transition: theme.transitions.create("width", {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-        },
-    },
-    drawerClose: {
-        [theme.breakpoints.up("sm")]: {
-            backgroundColor: theme.palette.info.main,
-            color: theme.palette.info.contrastText,
-            transition: theme.transitions.create("width", {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen,
-            }),
-            overflowX: "hidden",
-            width: miniDrawerWidth,
-        },
-    },
-    content: {
-        width: "100%",
-        [theme.breakpoints.up("sm")]: {
-            width: `calc(100% - ${miniDrawerWidth + 1}px)`,
-            marginLeft: miniDrawerWidth,
-            padding: theme.spacing(1),
-        },
-    },
-    contentShift: {
-        [theme.breakpoints.up("sm")]: {
-            marginLeft: drawerWidth,
-            width: `calc(100% - ${drawerWidth}px)`,
-            transition: theme.transitions.create(["width", "margin"], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-        },
-    },
-    profile: {
-        cursor: "pointer",
-        "&:hover": {
-            textDecoration: "underline",
-            textDecorationColor: theme.palette.info.contrastText,
-        },
-    },
-    listItem: {
-        cursor: "pointer",
-        "&:hover": {
-            textDecoration: "underline",
-            backgroundColor: theme.palette.primary.main,
-        },
-        color: theme.palette.info.contrastText,
-    },
-    listItemActive: {
-        cursor: "pointer",
-        textDecoration: "underline",
-        color: theme.palette.primary.contrastText,
-        backgroundColor: theme.palette.primary.main,
-    },
-    menuIcon: {
-        color: theme.palette.primary.contrastText,
-        [theme.breakpoints.up("sm")]: {
-            margin: theme.spacing(0.5),
-            color: theme.palette.info.contrastText,
-        },
-    },
-    nested: {
-        paddingLeft: theme.spacing(4),
-    },
-}));
+
+const useStyles = makeStyles(styles);
 
 const BagMenu = () => {
     const classes = useStyles();
 
     return <Bag menuIconClass={classes.menuIcon} />;
-};
-
-const DrawerItem = (props) => {
-    const classes = useStyles();
-    const router = useRouter();
-
-    const {
-        title,
-        id,
-        image,
-        icon: Icon,
-        activeView,
-        thisView,
-        toggleDrawer,
-        clsxBase,
-        open,
-    } = props;
-
-    return (
-        <Tooltip title={title} placement="right" arrow>
-            <ListItem
-                id={build(ids.DRAWER_MENU, id)}
-                onClick={() => {
-                    toggleDrawer(false);
-                    router.push("/" + thisView);
-                }}
-                className={
-                    activeView === thisView
-                        ? classes.listItemActive
-                        : classes.listItem
-                }
-            >
-                {image && (
-                    <img
-                        className={
-                            clsxBase
-                                ? clsx(clsxBase, classes.drawerIcon)
-                                : classes.drawerIcon
-                        }
-                        src={image}
-                        alt={title}
-                    />
-                )}
-                {Icon && (
-                    <ListItemIcon>
-                        <Icon
-                            className={
-                                clsxBase
-                                    ? clsx(clsxBase, classes.icon)
-                                    : classes.icon
-                            }
-                            style={{ fontSize: "2.1875rem" }}
-                            fontSize="large"
-                        />
-                    </ListItemIcon>
-                )}
-                {open && <ListItemText>{title}</ListItemText>}
-            </ListItem>
-        </Tooltip>
-    );
 };
 
 function CyverseAppBar(props) {
@@ -621,6 +423,26 @@ function CyverseAppBar(props) {
                             <LabelImportantIcon className={classes.icon} />
                         </ListItemIcon>
                         {open && <ListItemText>{t("apps")}</ListItemText>}
+                    </ListItem>
+                </Tooltip>
+                <Tooltip title={t("doi")} placement="right" arrow>
+                    <ListItem
+                        button
+                        id={build(ids.DRAWER_MENU, ids.DOI_ADMIN_MI)}
+                        className={clsx(classes.nested, classes.listItem)}
+                        onClick={() =>
+                            router.push(
+                                "/" +
+                                    NavigationConstants.ADMIN +
+                                    "/" +
+                                    NavigationConstants.DOI
+                            )
+                        }
+                    >
+                        <ListItemIcon>
+                            <LabelImportantIcon className={classes.icon} />
+                        </ListItemIcon>
+                        {open && <ListItemText>{t("doi")}</ListItemText>}
                     </ListItem>
                 </Tooltip>
                 <Tooltip title={t("refGenomes")} placement="right" arrow>

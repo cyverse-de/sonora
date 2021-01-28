@@ -14,6 +14,7 @@ export default {
     DASHBOARD_MI: "dashboardMenuItem",
     DATA_BTN: "dataButton",
     DATA_MI: "dataMenuItem",
+    DOI_ADMIN_MI: "adminDoiMenuItem",
     DRAWER_MENU: "drawerMenu",
     DRAWER_MENU_BTN: "drawerMenuButton",
     EMAIL_LBL: "email",

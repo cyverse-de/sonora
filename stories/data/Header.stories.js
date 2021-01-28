@@ -13,7 +13,6 @@ export const HeaderTest = () => {
                 isGridView={false}
                 toggleDisplay={() => logger("Toggle data display")}
                 onDownloadSelected={() => logger("Download")}
-                onEditSelected={() => logger("Edit")}
                 onMetadataSelected={() => logger("Metadata")}
                 onDeleteSelected={() => logger("Delete")}
                 handleDataNavError={console.log}

@@ -140,6 +140,7 @@ function TableView(props) {
         onMetadataSelected,
         onPublicLinksSelected,
         rowDotMenuVisibility,
+        onDownloadSelected,
     } = props;
     const invalidRowClass = invalidRowStyles();
     const { t } = useTranslation("data");
@@ -385,6 +386,7 @@ function TableView(props) {
                                                 </Fragment>
                                             )
                                         )}
+
                                         {rowDotMenuVisibility && (
                                             <TableCell align="right">
                                                 <RowDotMenu
@@ -409,6 +411,9 @@ function TableView(props) {
                                                     }
                                                     onPublicLinksSelected={
                                                         onPublicLinksSelected
+                                                    }
+                                                    onDownloadSelected={
+                                                        onDownloadSelected
                                                     }
                                                 />
                                             </TableCell>

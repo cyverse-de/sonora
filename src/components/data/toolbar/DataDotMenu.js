@@ -20,6 +20,7 @@ import DeleteMenuItem from "../menuItems/DeleteMenuItem";
 import MetadataMenuItem from "../menuItems/MetadataMenuItem";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
 import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";
+import DownloadMenuItem from "../menuItems/DownloadMenuItem";
 import PathListAutomation from "../PathListAutomation";
 import DEDialog from "components/utils/DEDialog";
 import ResourceTypes from "components/models/ResourceTypes";
@@ -69,6 +70,7 @@ function DataDotMenu(props) {
         isSmall,
         onMetadataSelected,
         onPublicLinksSelected,
+        onDownloadSelected,
     } = props;
 
     const { t } = useTranslation("data");
@@ -178,15 +180,16 @@ function DataDotMenu(props) {
                                   />
                               ),
                           ]
-                        : metadataMiEnabled && (
+                        : metadataMiEnabled && [
                               <MetadataMenuItem
                                   key={ids.METADATA_MI}
                                   baseId={baseId}
                                   resourceId={selected[0]}
                                   onClose={onClose}
                                   onMetadataSelected={onMetadataSelected}
-                              />
-                          ),
+                              />,
+                              <Divider key={ids.METADATA_MENU_ITEM_DIVIDER} />,
+                          ],
                     isWritable(permission) && [
                         <MenuItem
                             key={build(baseId, ids.CREATE_HT_FILE_MI)}
@@ -260,15 +263,25 @@ function DataDotMenu(props) {
                                 onClose={onClose}
                             />
                         ),
-                    <Divider key={ids.DELETE_MENU_ITEM_DIVIDER} />,
-                    deleteMiEnabled && (
+                    !isSelectionEmpty &&
+                        !containsFolders(selectedResources) && (
+                            <DownloadMenuItem
+                                key={build(baseId, ids.DOWNLOAD_MENU_ITEM)}
+                                onDownloadSelected={onDownloadSelected}
+                                baseId={baseId}
+                                onClose={onClose}
+                            />
+                        ),
+
+                    deleteMiEnabled && [
+                        <Divider key={ids.DELETE_MENU_ITEM_DIVIDER} />,
                         <DeleteMenuItem
                             key={ids.DELETE_MENU_ITEM}
                             baseId={baseId}
                             onClose={onClose}
                             onDeleteSelected={onDeleteSelected}
-                        />
-                    ),
+                        />,
+                    ],
                 ]}
             />
             <CreateFolderDialog

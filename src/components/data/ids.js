@@ -30,6 +30,7 @@ export default {
     DETAILS_BTN: "detailsBtn",
     DETAILS_DRAWER: "detailsDrawer",
     DETAILS_TAB: "detailsTab",
+    DOWNLOAD_MENU_ITEM: "download",
     downloadMI: "download",
     editMI: "edit",
     FOLDER_NAME: "folderName",

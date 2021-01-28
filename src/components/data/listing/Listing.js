@@ -32,6 +32,7 @@ import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import Sharing from "components/sharing";
 import { formatSharedData } from "components/sharing/util";
 import { getPageQueryParams } from "../utils";
+import { getHost } from "components/utils/getHost";
 
 import {
     useUploadTrackingState,
@@ -106,6 +107,7 @@ function Listing(props) {
     const [importDialogOpen, setImportDialogOpen] = useState(false);
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
     const [publicLinksDlgOpen, setPublicLinksDlgOpen] = useState(false);
+    const [download, setDownload] = useState(false);
 
     const onCloseImportDialog = () => setImportDialogOpen(false);
 
@@ -119,6 +121,16 @@ function Listing(props) {
     const handleUploadFiles = (files) => {
         processSelectedFiles(files, trackAllUploads);
     };
+
+    const getSelectedResources = useCallback(
+        (resources) => {
+            const items = resources ? resources : selected;
+            return items.map((id) =>
+                data?.listing?.find((resource) => resource.id === id)
+            );
+        },
+        [data.listing, selected]
+    );
 
     const { error, isFetching } = useQuery({
         queryKey: [
@@ -242,6 +254,20 @@ function Listing(props) {
         setDetailsEnabled(selected && selected.length === 1);
     }, [selected]);
 
+    useEffect(() => {
+        if (download) {
+            const selRes = getSelectedResources();
+            selRes.forEach((res) => {
+                window.open(
+                    `${getHost()}/api/download?path=${res.path}`,
+                    "_blank"
+                );
+            });
+
+            setDownload(false);
+        }
+    }, [path, download, getSelectedResources]);
+
     const handleRequestSort = (event, property) => {
         const isAsc =
             orderBy === property && order === globalConstants.SORT_ASCENDING;
@@ -328,14 +354,6 @@ function Listing(props) {
         setSelected(newSelected);
     };
 
-    const onDownloadSelected = (resourceId) => {
-        console.log("Download", resourceId);
-    };
-
-    const onEditSelected = (resourceId) => {
-        console.log("Edit", resourceId);
-    };
-
     const onMetadataSelected = (resourceId) => {
         const resources = getSelectedResources([resourceId]);
         if (resources) {
@@ -394,13 +412,6 @@ function Listing(props) {
 
     const onAddToBagSelected = () => addItemsToBag(getSelectedResources());
 
-    const getSelectedResources = (resources) => {
-        const items = resources ? resources : selected;
-        return items.map((id) =>
-            data?.listing?.find((resource) => resource.id === id)
-        );
-    };
-
     const getSelectedPaths = (resources) => {
         const selectedResources = getSelectedResources(resources);
         return selectedResources.map((res) => res.path);
@@ -456,8 +467,6 @@ function Listing(props) {
                     refreshListing={refreshListing}
                     isGridView={isGridView}
                     toggleDisplay={toggleDisplay}
-                    onDownloadSelected={onDownloadSelected}
-                    onEditSelected={onEditSelected}
                     onMetadataSelected={onMetadataSelected}
                     onDeleteSelected={onDeleteSelected}
                     detailsEnabled={detailsEnabled}
@@ -476,6 +485,7 @@ function Listing(props) {
                     setSharingDlgOpen={setSharingDlgOpen}
                     onPublicLinksSelected={() => setPublicLinksDlgOpen(true)}
                     toolbarVisibility={toolbarVisibility}
+                    onDownloadSelected={() => setDownload(true)}
                 />
                 {!isGridView && (
                     <TableView
@@ -501,6 +511,7 @@ function Listing(props) {
                             setPublicLinksDlgOpen(true)
                         }
                         rowDotMenuVisibility={rowDotMenuVisibility}
+                        onDownloadSelected={() => setDownload(true)}
                     />
                 )}
                 {isGridView && <span>Coming Soon!</span>}

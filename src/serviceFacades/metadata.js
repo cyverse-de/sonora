@@ -5,14 +5,23 @@ import callApi from "../common/callApi";
 import axiosInstance from "../common/getAxios";
 
 const FILESYSTEM_METADATA_QUERY_KEY = "fetchFilesystemMetadataKey";
-const FILESYSTEM_METADATA_TEMPLATES_QUERY_KEY =
-    "fetchFilesystemMetadataTemplatesKey";
+const FILESYSTEM_METADATA_TEMPLATE_QUERY_KEY =
+    "fetchFilesystemMetadataTemplateKey";
+const FILESYSTEM_METADATA_TEMPLATE_LISTING_QUERY_KEY =
+    "fetchFilesystemMetadataTemplateListingKey";
 const SEARCH_OLS_QUERY_KEY = "searchOntologyLookupServiceKey";
 const SEARCH_UAT_QUERY_KEY = "searchUnifiedAstronomyThesaurusKey";
 
-function getFilesystemMetadataTemplates() {
+function getFilesystemMetadataTemplateListing() {
     return callApi({
         endpoint: "/api/filesystem/metadata/templates",
+        method: "GET",
+    });
+}
+
+function getFilesystemMetadataTemplate(_, templateId) {
+    return callApi({
+        endpoint: `/api/filesystem/metadata/template/${templateId}`,
         method: "GET",
     });
 }
@@ -124,11 +133,13 @@ function searchUnifiedAstronomyThesaurus(_, { searchTerm, orderBy, limit }) {
 
 export {
     FILESYSTEM_METADATA_QUERY_KEY,
-    FILESYSTEM_METADATA_TEMPLATES_QUERY_KEY,
+    FILESYSTEM_METADATA_TEMPLATE_QUERY_KEY,
+    FILESYSTEM_METADATA_TEMPLATE_LISTING_QUERY_KEY,
     SEARCH_OLS_QUERY_KEY,
     SEARCH_UAT_QUERY_KEY,
     getFilesystemMetadata,
-    getFilesystemMetadataTemplates,
+    getFilesystemMetadataTemplate,
+    getFilesystemMetadataTemplateListing,
     saveFilesystemMetadata,
     setFilesystemMetadata,
     searchOntologyLookupService,

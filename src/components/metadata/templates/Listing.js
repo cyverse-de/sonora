@@ -17,8 +17,8 @@ import TableLoading from "components/utils/TableLoading";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 
 import {
-    FILESYSTEM_METADATA_TEMPLATES_QUERY_KEY,
-    getFilesystemMetadataTemplates,
+    FILESYSTEM_METADATA_TEMPLATE_LISTING_QUERY_KEY,
+    getFilesystemMetadataTemplateListing,
 } from "serviceFacades/metadata";
 
 import {
@@ -150,8 +150,8 @@ const MetadataTemplateListing = (props) => {
     }, [downloadTemplateId]);
 
     const { isFetching, error: fetchError } = useQuery({
-        queryKey: FILESYSTEM_METADATA_TEMPLATES_QUERY_KEY,
-        queryFn: getFilesystemMetadataTemplates,
+        queryKey: FILESYSTEM_METADATA_TEMPLATE_LISTING_QUERY_KEY,
+        queryFn: getFilesystemMetadataTemplateListing,
         config: {
             enabled: true,
             onSuccess: ({ metadata_templates }) =>
@@ -207,7 +207,10 @@ const MetadataTemplateListing = (props) => {
                     id={build(dialogID, ids.BUTTONS.CONFIRM)}
                     color="primary"
                     variant="contained"
-                    onClick={() => onSelectTemplate(selectedTemplateId)}
+                    onClick={() =>
+                        selectedTemplateId &&
+                        onSelectTemplate(selectedTemplateId)
+                    }
                 >
                     {t("common:select")}
                 </Button>,

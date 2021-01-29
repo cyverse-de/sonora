@@ -8,6 +8,9 @@ import userProfileMock from "../userProfileMock";
 import { initMockAxiosFileFolderSelector } from "../data/DataMocks";
 
 import { MockMetadata, DataCiteMetadata } from "./MetadataMocks";
+import { initMockAxiosTemplateEndpoints } from "./TemplateMocks";
+
+initMockAxiosTemplateEndpoints();
 
 const testResourcePath = "/iplant/home/ipcdev/test/metadataResource";
 const errorResponse = {

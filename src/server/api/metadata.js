@@ -28,6 +28,18 @@ export default function notificationsRouter() {
     );
 
     logger.info(
+        "adding the GET /api/filesystem/metadata/template/:templateId handler"
+    );
+    api.get(
+        "/filesystem/metadata/template/:templateId",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/secured/filesystem/metadata/template/:templateId",
+        })
+    );
+
+    logger.info(
         "adding the GET /api/filesystem/metadata/template/:templateId/zip-csv handler"
     );
     api.get(

@@ -16,11 +16,14 @@ import styles from "../styles";
 import AttributeTypes from "components/models/metadata/TemplateAttributeTypes";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import DEDialog from "components/utils/DEDialog";
+import TableLoading from "components/utils/TableLoading";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
 import {
+    FILESYSTEM_METADATA_TEMPLATE_QUERY_KEY,
     SEARCH_OLS_QUERY_KEY,
     SEARCH_UAT_QUERY_KEY,
+    getFilesystemMetadataTemplate,
     searchOntologyLookupService,
     searchUnifiedAstronomyThesaurus,
 } from "serviceFacades/metadata";
@@ -50,6 +53,7 @@ import {
     Grid,
     IconButton,
     MenuItem,
+    Table,
     Typography,
     makeStyles,
 } from "@material-ui/core";
@@ -59,6 +63,8 @@ import {
     Delete as ContentRemove,
     ExpandMore as ExpandMoreIcon,
 } from "@material-ui/icons";
+
+import { Skeleton } from "@material-ui/lab";
 
 const useStyles = makeStyles(styles);
 
@@ -424,6 +430,7 @@ const MetadataTemplateAttributeForm = (props) => {
 const MetadataTemplateForm = (props) => {
     const {
         open,
+        loading,
         writable,
         onClose,
         searchAstroThesaurusTerms,
@@ -470,7 +477,13 @@ const MetadataTemplateForm = (props) => {
             baseId={ids.METADATA_TEMPLATE_VIEW}
             open={open}
             onClose={closeMetadataTemplateDialog}
-            title={values.template.name}
+            title={
+                loading ? (
+                    <Skeleton variant="text" width={240} />
+                ) : (
+                    values.template.name
+                )
+            }
             maxWidth="md"
             disableBackdropClick
             disableEscapeKeyDown
@@ -488,7 +501,7 @@ const MetadataTemplateForm = (props) => {
                     <Button
                         key={ids.BUTTONS.SAVE}
                         id={build(ids.METADATA_TEMPLATE_VIEW, ids.BUTTONS.SAVE)}
-                        disabled={isSubmitting}
+                        disabled={loading || isSubmitting}
                         onClick={handleSubmitWrapper}
                         color="primary"
                         variant="contained"
@@ -498,16 +511,26 @@ const MetadataTemplateForm = (props) => {
                 ),
             ]}
         >
-            <MetadataTemplateAttributeForm
-                field="metadata"
-                errors={errors}
-                touched={touched}
-                searchAstroThesaurusTerms={searchAstroThesaurusTerms}
-                searchOLSTerms={searchOLSTerms}
-                attributes={values.template.attributes}
-                avus={values.metadata.avus}
-                writable={writable}
-            />
+            {loading ? (
+                <Table>
+                    <TableLoading
+                        baseId={ids.METADATA_TEMPLATE_VIEW}
+                        numColumns={1}
+                        numRows={5}
+                    />
+                </Table>
+            ) : (
+                <MetadataTemplateAttributeForm
+                    field="metadata"
+                    errors={errors}
+                    touched={touched}
+                    searchAstroThesaurusTerms={searchAstroThesaurusTerms}
+                    searchOLSTerms={searchOLSTerms}
+                    attributes={values.template.attributes || []}
+                    avus={values.metadata.avus}
+                    writable={writable}
+                />
+            )}
 
             <DEDialog
                 baseId={ids.METADATA_TEMPLATE_VIEW}
@@ -532,15 +555,27 @@ const MetadataTemplateForm = (props) => {
 
 const MetadataTemplateView = (props) => {
     const {
-        template,
+        templateId,
         showErrorAnnouncer,
         updateMetadataFromTemplateView,
     } = props;
 
+    const [template, setTemplate] = React.useState({});
     const [olsSearch, searchOLSTerms] = React.useState(null);
     const [uatSearch, searchAstroThesaurusTerms] = React.useState(null);
 
     const { t } = useTranslation("metadata");
+
+    const { isFetching } = useQuery({
+        queryKey: [FILESYSTEM_METADATA_TEMPLATE_QUERY_KEY, templateId],
+        queryFn: getFilesystemMetadataTemplate,
+        config: {
+            enabled: !!templateId,
+            onSuccess: setTemplate,
+            onError: (error) =>
+                showErrorAnnouncer(t("errMetadataTemplateLoad"), error),
+        },
+    });
 
     useQuery({
         queryKey: [
@@ -582,11 +617,11 @@ const MetadataTemplateView = (props) => {
 
         const attributeMap = {};
         const mapAttributesToAttrMap = (attrMap, attributes) =>
-            attributes.forEach((attribute) => {
+            attributes?.forEach((attribute) => {
                 const attrCopy = { ...attribute };
                 attrMap[attribute.name] = attrCopy;
 
-                if (attrCopy.attributes && attrCopy.attributes.length > 0) {
+                if (attrCopy.attributes?.length > 0) {
                     const subAttrMap = {};
                     mapAttributesToAttrMap(subAttrMap, attrCopy.attributes);
                     attrCopy.attributes = subAttrMap;
@@ -598,32 +633,33 @@ const MetadataTemplateView = (props) => {
         const mapAttributesToAVUs = (attributes, propsAVUs) => {
             let avus = propsAVUs ? [...propsAVUs] : [];
 
-            attributes
-                .filter((attribute) => attribute.required)
-                .forEach((attribute) => {
-                    if (
-                        avus.filter((avu) => avu.attr === attribute.name)
-                            .length < 1
-                    ) {
-                        avus.push(newAVU(attribute));
-                    }
+            attributes &&
+                attributes
+                    .filter((attribute) => attribute.required)
+                    .forEach((attribute) => {
+                        if (
+                            avus.filter((avu) => avu.attr === attribute.name)
+                                .length < 1
+                        ) {
+                            avus.push(newAVU(attribute));
+                        }
 
-                    const { attributes } = attribute;
-                    if (attributes && attributes.length > 0) {
-                        avus = avus.map((propsAVU) => {
-                            const avu = { ...propsAVU };
+                        const { attributes } = attribute;
+                        if (attributes && attributes.length > 0) {
+                            avus = avus.map((propsAVU) => {
+                                const avu = { ...propsAVU };
 
-                            if (avu.attr === attribute.name) {
-                                avu.avus = mapAttributesToAVUs(
-                                    attributes,
-                                    avu.avus
-                                );
-                            }
+                                if (avu.attr === attribute.name) {
+                                    avu.avus = mapAttributesToAVUs(
+                                        attributes,
+                                        avu.avus
+                                    );
+                                }
 
-                            return avu;
-                        });
-                    }
-                });
+                                return avu;
+                            });
+                        }
+                    });
 
             return avus;
         };
@@ -792,6 +828,7 @@ const MetadataTemplateView = (props) => {
                     <MetadataTemplateForm
                         {...props}
                         {...formikProps}
+                        loading={isFetching}
                         searchOLSTerms={searchOLSTerms}
                         searchAstroThesaurusTerms={searchAstroThesaurusTerms}
                     />

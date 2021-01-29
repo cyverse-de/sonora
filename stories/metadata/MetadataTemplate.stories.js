@@ -3,74 +3,20 @@ import React from "react";
 import MetadataTemplateView from "components/metadata/templates";
 import MetadataTemplateListing from "components/metadata/templates/Listing";
 
-import { mockAxios } from "../axiosMock";
 import { DataCiteMetadata, MockMetadata } from "./MetadataMocks";
 import {
     DataciteMetadataTemplate,
     NestedAttrMetadataTemplate,
-    MockTemplateListing,
+    initMockAxiosTemplateEndpoints,
 } from "./TemplateMocks";
+
+initMockAxiosTemplateEndpoints();
 
 const onClose = () => console.log("dialog closed.");
 const updateMetadataFromTemplateView = (metadata, resolve, errorCallback) => {
     console.log(metadata);
     resolve(metadata);
 };
-
-mockAxios
-    .onGet("/api/filesystem/metadata/templates")
-    .reply(200, MockTemplateListing);
-
-mockAxios.onGet("/api/ontology-lookup-service").reply((config) => {
-    console.log("searchOLSTerms", config.url, config.params);
-
-    return [
-        200,
-        {
-            docs: [
-                {
-                    iri: "http://edamontology.org/data_0006",
-                    label: "Data",
-                    ontology_prefix: "EDAM",
-                },
-                {
-                    iri: "http://edamontology.org/operation_2422",
-                    label: "Data retrieval",
-                    ontology_prefix: "EDAM",
-                },
-                {
-                    iri: "http://edamontology.org/topic_3077",
-                    label: "Data acquisition",
-                    ontology_prefix: "EDAM",
-                },
-            ],
-        },
-    ];
-});
-
-mockAxios.onGet("/api/unified-astronomy-thesaurus").reply((config) => {
-    console.log("searchAstroThesaurusTerms", config.url);
-
-    return [
-        200,
-        {
-            items: [
-                {
-                    iri: "http://astrothesaurus.org/uat/1512",
-                    label: "Solar neutrons",
-                },
-                {
-                    iri: "http://astrothesaurus.org/uat/1107",
-                    label: "Neutron star cores",
-                },
-                {
-                    iri: "http://astrothesaurus.org/uat/1108",
-                    label: "Neutron stars",
-                },
-            ],
-        },
-    ];
-});
 
 export const TemplateListing = () => {
     return (
@@ -92,7 +38,7 @@ export const NestedTemplateView = () => {
             writable
             updateMetadataFromTemplateView={updateMetadataFromTemplateView}
             onClose={onClose}
-            template={NestedAttrMetadataTemplate}
+            templateId={NestedAttrMetadataTemplate.id}
             metadata={MockMetadata}
         />
     );
@@ -120,7 +66,7 @@ export const NestedTemplateReadOnlyView = () => {
             open
             updateMetadataFromTemplateView={updateMetadataFromTemplateView}
             onClose={onClose}
-            template={NestedAttrMetadataTemplate}
+            templateId={NestedAttrMetadataTemplate.id}
             metadata={{
                 ...MockMetadata,
                 avus,
@@ -136,7 +82,7 @@ export const DataCiteMetadataTemplate = () => {
             writable
             updateMetadataFromTemplateView={updateMetadataFromTemplateView}
             onClose={onClose}
-            template={DataciteMetadataTemplate}
+            templateId={DataciteMetadataTemplate.id}
             metadata={DataCiteMetadata}
         />
     );
@@ -149,7 +95,7 @@ export const DataCiteMetadataTemplateNoValues = () => {
             writable
             updateMetadataFromTemplateView={updateMetadataFromTemplateView}
             onClose={onClose}
-            template={DataciteMetadataTemplate}
+            templateId={DataciteMetadataTemplate.id}
             metadata={{}}
         />
     );

@@ -1,3 +1,7 @@
+import { mockAxios } from "../axiosMock";
+
+const DOI_DATACITE_TEMPLATE_ID = "ae75bc42-45ec-11e5-801c-43dab0dfe096";
+
 export const NestedAttrMetadataTemplate = {
     id: "91334572-5e13-11e8-acc0-f64e9b87c109",
     name: "Test Metadata Template",
@@ -146,7 +150,7 @@ export const NestedAttrMetadataTemplate = {
 // (assuming the metadata service is port-forwarded to 31331):
 // curl -X GET --header 'Accept: application/json' 'http://localhost:31331/templates/ae75bc42-45ec-11e5-801c-43dab0dfe096?user=ipctest' | jq 'def attrs: . | {id: .id, name: .name, description: .description, required: .required?, type: .type, values: .values?, attributes: [.attributes[]? | attrs]} | if .values then . else del(.values) end | if (.attributes | length) > 0 then . else del(.attributes) end; {id: .id, name: .name, description: .description, deleted: false, attributes: [.attributes[] | attrs]}'
 export const DataciteMetadataTemplate = {
-    id: "ae75bc42-45ec-11e5-801c-43dab0dfe096",
+    id: DOI_DATACITE_TEMPLATE_ID,
     name: "DOI Request - DataCite 4.1",
     description:
         "New copy of the DataCite metadata template for testing submissions to the DataCite API",
@@ -1221,7 +1225,7 @@ export const MockTemplateListing = {
             deleted: false,
             description:
                 "New copy of the DataCite metadata template for testing submissions to the DataCite API",
-            id: "ae75bc42-45ec-11e5-801c-43dab0dfe096",
+            id: DOI_DATACITE_TEMPLATE_ID,
             modified_by: "rwalls",
             modified_on: "2019-06-04T04:41:24Z",
             name: "DOI Request - DataCite 4.1",
@@ -1467,4 +1471,69 @@ export const MockTemplateListing = {
             name: "TEST - NCBI WGS Library",
         },
     ],
+};
+
+export const initMockAxiosTemplateEndpoints = () => {
+    mockAxios
+        .onGet("/api/filesystem/metadata/templates")
+        .reply(200, MockTemplateListing);
+
+    mockAxios
+        .onGet(`/api/filesystem/metadata/template/${DOI_DATACITE_TEMPLATE_ID}`)
+        .reply(200, DataciteMetadataTemplate);
+
+    mockAxios
+        .onGet(/\/api\/filesystem\/metadata\/template\/.*/)
+        .reply(200, NestedAttrMetadataTemplate);
+
+    mockAxios.onGet("/api/ontology-lookup-service").reply((config) => {
+        console.log("searchOLSTerms", config.url, config.params);
+
+        return [
+            200,
+            {
+                docs: [
+                    {
+                        iri: "http://edamontology.org/data_0006",
+                        label: "Data",
+                        ontology_prefix: "EDAM",
+                    },
+                    {
+                        iri: "http://edamontology.org/operation_2422",
+                        label: "Data retrieval",
+                        ontology_prefix: "EDAM",
+                    },
+                    {
+                        iri: "http://edamontology.org/topic_3077",
+                        label: "Data acquisition",
+                        ontology_prefix: "EDAM",
+                    },
+                ],
+            },
+        ];
+    });
+
+    mockAxios.onGet("/api/unified-astronomy-thesaurus").reply((config) => {
+        console.log("searchAstroThesaurusTerms", config.url, config.params);
+
+        return [
+            200,
+            {
+                items: [
+                    {
+                        iri: "http://astrothesaurus.org/uat/1512",
+                        label: "Solar neutrons",
+                    },
+                    {
+                        iri: "http://astrothesaurus.org/uat/1107",
+                        label: "Neutron star cores",
+                    },
+                    {
+                        iri: "http://astrothesaurus.org/uat/1108",
+                        label: "Neutron stars",
+                    },
+                ],
+            },
+        ];
+    });
 };

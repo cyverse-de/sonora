@@ -1,0 +1,8 @@
+{
+    "user": "User",
+    "path": "Path",
+    "dateSubmitted": "Date Submitted",
+    "dateUpdated": "Date Updated",
+    "type": "Type",
+    "status": "Status"
+}

@@ -159,6 +159,7 @@ function AppsToolbar(props) {
                             color="primary"
                             onClick={onAddToBagClicked}
                             startIcon={<AddToBagIcon />}
+                            size="small"
                         >
                             {t("addToBag")}
                         </Button>
@@ -174,6 +175,7 @@ function AppsToolbar(props) {
                             color="primary"
                             onClick={onDetailsSelected}
                             startIcon={<Info />}
+                            size="small"
                         >
                             {t("details")}
                         </Button>
@@ -182,10 +184,11 @@ function AppsToolbar(props) {
                         <SharingButton
                             baseId={baseId}
                             setSharingDlgOpen={setSharingDlgOpen}
+                            size="small"
                         />
                     )}
                 </Hidden>
-                <Hidden smDown>
+                <Hidden xsDown>
                     <Link href={`${NavigationConstants.TOOLS}`}>
                         <Button
                             id={build(appsToolbarId, ids.TOOLS_BTN)}
@@ -194,6 +197,7 @@ function AppsToolbar(props) {
                             disableElevation
                             color="primary"
                             startIcon={<Build />}
+                            size="small"
                         >
                             {t("manageTools")}
                         </Button>

@@ -40,6 +40,7 @@ export default {
     ADD_TO_BAG_MENU_ITEM: "addToBag",
     TOOLS_INFO_TAB: "toolsInfoTab",
     TOOLS_BTN: "manageToolsButton",
+    MANAGE_TOOLS_DIVIDER: "manageToolsDivider",
     TOOLS_MENU_ITEM: "manageToolsMenuItem",
     PANEL: "panel",
     APP_DETAILS: "appDetails",

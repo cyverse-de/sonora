@@ -16,6 +16,7 @@ import NavigationConstants from "common/NavigationConstants";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 import {
+    Divider,
     ListItemIcon,
     ListItemText,
     MenuItem,
@@ -124,19 +125,21 @@ function AppsDotMenu(props) {
                         onQLSelected={onQLSelected}
                     />
                 ),
-                isMobile && (
-                    <Link href={`${NavigationConstants.TOOLS}`}>
-                        <MenuItem
-                            key={build(baseId, ids.TOOLS_MENU_ITEM)}
-                            id={build(baseId, ids.TOOLS_MENU_ITEM)}
-                        >
-                            <ListItemIcon>
-                                <Build fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText primary={t("manageTools")} />
-                        </MenuItem>
-                    </Link>
-                ),
+                <Divider
+                    key={build(baseId, ids.MANAGE_TOOLS_DIVIDER)}
+                    id={build(baseId, ids.MANAGE_TOOLS_DIVIDER)}
+                />,
+                <Link href={`${NavigationConstants.TOOLS}`}>
+                    <MenuItem
+                        key={build(baseId, ids.TOOLS_MENU_ITEM)}
+                        id={build(baseId, ids.TOOLS_MENU_ITEM)}
+                    >
+                        <ListItemIcon>
+                            <Build fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText primary={t("manageTools")} />
+                    </MenuItem>
+                </Link>,
             ]}
         />
     );

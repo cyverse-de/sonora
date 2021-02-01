@@ -1,9 +1,9 @@
 import React from "react";
 import { UserProfileProvider } from "../src/contexts/userProfile";
-import CyverseAppBar from "../src/components/layout/CyVerseAppBar";
+import DEAppBar from "../src/components/layout/AppBar";
 import { mockAxios } from "./axiosMock";
 import { NotificationsProvider } from "../src/contexts/pushNotifications";
-import notificationsData from "../stories/notifications/notificationsData";
+import notificationsData from "./notifications/notificationsData";
 import testConfig from "./configMock";
 import {
     FILE_TYPE,
@@ -135,10 +135,7 @@ export function AppBarTest() {
     return (
         <UserProfileProvider>
             <NotificationsProvider>
-                <CyverseAppBar
-                    setAppBarRef={() => {}}
-                    clientConfig={testConfig}
-                />
+                <DEAppBar setAppBarRef={() => {}} clientConfig={testConfig} />
             </NotificationsProvider>
         </UserProfileProvider>
     );
@@ -146,5 +143,5 @@ export function AppBarTest() {
 
 export default {
     title: "AppBar",
-    component: CyverseAppBar,
+    component: DEAppBar,
 };

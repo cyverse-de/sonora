@@ -11,7 +11,7 @@ import "./styles.css";
 
 import * as gtag from "../gtag";
 
-import CyverseAppBar from "components/layout/CyVerseAppBar";
+import DEAppBar from "components/layout/AppBar";
 import NavigationConstants from "common/NavigationConstants";
 import UploadManager from "components/uploads/manager";
 import theme from "components/theme/default";
@@ -223,7 +223,7 @@ function MyApp({ Component, pageProps }) {
                         <NotificationsProvider>
                             <ConfigProvider>
                                 <BootstrapInfoProvider>
-                                    <CyverseAppBar
+                                    <DEAppBar
                                         setAppBarRef={setAppBarRef}
                                         activeView={pathname}
                                         intercomUnreadCount={unReadCount}
@@ -241,7 +241,7 @@ function MyApp({ Component, pageProps }) {
                                             <Component {...pageProps} />
                                         </PageWrapper>
                                         <UploadManager />
-                                    </CyverseAppBar>
+                                    </DEAppBar>
                                 </BootstrapInfoProvider>
                             </ConfigProvider>
                         </NotificationsProvider>

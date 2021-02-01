@@ -5,40 +5,38 @@
  * in small screens instead of Navigation bar
  *
  */
-
 import React, { useEffect, useRef, useState } from "react";
-import dynamic from "next/dynamic";
-
-import clsx from "clsx";
-import { useQuery } from "react-query";
-import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import { useQuery } from "react-query";
+import clsx from "clsx";
 
-import ids from "./ids";
-import DrawerItem from "./DrawerItem";
-import constants from "../../constants";
-import { useConfig } from "contexts/config";
 import NavigationConstants from "common/NavigationConstants";
-import Notifications from "./Notifications";
-import CustomIntercom from "./CustomIntercom";
-import AnalysesIcon from "components/icons/AnalysesIcon";
-import DataIcon from "components/icons/DataIcon";
-import { useBootstrapInfo } from "contexts/bootstrap";
-import { useUserProfile } from "contexts/userProfile";
-import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
-import ConfirmationDialog from "components/utils/ConfirmationDialog";
-import searchConstants from "components/search/constants";
-
 import Bag from "components/Bag";
 import ProductTour from "components/help/ProductTour";
+import searchConstants from "components/search/constants";
+import ConfirmationDialog from "components/utils/ConfirmationDialog";
+import { useBootstrapInfo } from "contexts/bootstrap";
+import { useConfig } from "contexts/config";
+import { useUserProfile } from "contexts/userProfile";
+
 import {
     getUserProfile,
     useBootStrap,
     USER_PROFILE_QUERY_KEY,
 } from "serviceFacades/users";
+import constants from "../../constants";
+import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
+import AdminDrawerItems from "./AdminDrawerItems";
+import CustomIntercom from "./CustomIntercom";
+import DrawerItems from "./DrawerItems";
+import ids from "./ids";
+import Notifications from "./Notifications";
+import styles from "./styles";
+import UserMenu from "./UserMenu";
 
 import { build, CyVerseAnnouncer } from "@cyverse-de/ui-lib";
-
 import {
     AppBar,
     Avatar,
@@ -47,31 +45,17 @@ import {
     Hidden,
     IconButton,
     Popover,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
     Toolbar,
     Tooltip,
     Typography,
-    useTheme,
     useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MenuIcon from "@material-ui/icons/Menu";
-import SettingsIcon from "@material-ui/icons/Settings";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import HelpIcon from "@material-ui/icons/Help";
-import AppsIcon from "@material-ui/icons/Apps";
-import { TeamIcon } from "../teams/Icons";
-import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
-import LabelImportantIcon from "@material-ui/icons/LabelImportant";
-import HomeIcon from "@material-ui/icons/Home";
-import UserMenu from "./UserMenu";
-import styles from "./styles";
+import MenuIcon from "@material-ui/icons/Menu";
 
 // hidden in xsDown
 const GlobalSearchField = dynamic(() => import("../search/GlobalSearchField"));
@@ -86,7 +70,7 @@ const BagMenu = () => {
     return <Bag menuIconClass={classes.menuIcon} />;
 };
 
-function CyverseAppBar(props) {
+function DEAppBar(props) {
     const classes = useStyles();
     const theme = useTheme();
     const router = useRouter();
@@ -280,234 +264,6 @@ function CyverseAppBar(props) {
         </Avatar>
     );
 
-    const drawerItems = (
-        <List component="div">
-            <DrawerItem
-                title={t("home")}
-                id={ids.DASHBOARD_MI}
-                icon={HomeIcon}
-                thisView={NavigationConstants.DASHBOARD}
-                clsxBase={"dashboard-intro"}
-                activeView={activeView}
-                toggleDrawer={toggleDrawer}
-                open={open}
-            />
-            <DrawerItem
-                title={t("data")}
-                id={ids.DATA_MI}
-                icon={DataIcon}
-                thisView={NavigationConstants.DATA}
-                clsxBase={"data-intro"}
-                activeView={activeView}
-                toggleDrawer={toggleDrawer}
-                open={open}
-            />
-            <DrawerItem
-                title={t("apps")}
-                id={ids.APPS_MI}
-                thisView={NavigationConstants.APPS}
-                clsxBase={"apps-intro"}
-                activeView={activeView}
-                toggleDrawer={toggleDrawer}
-                open={open}
-                icon={AppsIcon}
-            />
-            {open && (
-                <Tooltip title={t("tools")} placement="right" arrow>
-                    <ListItem
-                        button
-                        id={build(ids.DRAWER_MENU, ids.TOOLS_MI)}
-                        className={clsx(classes.nested, classes.listItem)}
-                        onClick={() =>
-                            router.push("/" + NavigationConstants.TOOLS)
-                        }
-                    >
-                        <ListItemIcon>
-                            <LabelImportantIcon className={classes.icon} />
-                        </ListItemIcon>
-                        <ListItemText>{t("tools")}</ListItemText>
-                    </ListItem>
-                </Tooltip>
-            )}
-            <DrawerItem
-                title={t("analyses")}
-                id={ids.ANALYSES_MI}
-                icon={AnalysesIcon}
-                thisView={NavigationConstants.ANALYSES}
-                clsxBase={"analyses-intro"}
-                activeView={activeView}
-                toggleDrawer={toggleDrawer}
-                open={open}
-            />
-            <Hidden smUp>
-                <DrawerItem
-                    title={t("search")}
-                    id={ids.SEARCH_MI}
-                    icon={SearchIcon}
-                    thisView={NavigationConstants.SEARCH}
-                    clsxBase={"search-intro"}
-                    activeView={activeView}
-                    toggleDrawer={toggleDrawer}
-                    open={open}
-                />
-            </Hidden>
-            <Divider />
-            <DrawerItem
-                title={t("teams")}
-                id={ids.TEAMS_MI}
-                icon={TeamIcon}
-                thisView={NavigationConstants.TEAMS}
-                activeView={activeView}
-                toggleDrawer={toggleDrawer}
-                open={open}
-            />
-            {userProfile?.id && (
-                <DrawerItem
-                    title={t("settings")}
-                    id={ids.SETTINGS_MI}
-                    icon={SettingsIcon}
-                    thisView={NavigationConstants.SETTINGS}
-                    clsxBase={"preferences-intro"}
-                    activeView={activeView}
-                    toggleDrawer={toggleDrawer}
-                    open={open}
-                />
-            )}
-            <DrawerItem
-                clsxBase={"help-intro"}
-                activeView={activeView}
-                thisView={NavigationConstants.HELP}
-                toggleDrawer={toggleDrawer}
-                open={open}
-                id="help"
-                title={t("help")}
-                icon={HelpIcon}
-            />
-        </List>
-    );
-
-    const adminDrawerItems = (
-        <List component="div">
-            <ListItem
-                id={build(ids.DRAWER_MENU, ids.ADMIN_MI)}
-                className={
-                    activeView === NavigationConstants.ADMIN
-                        ? classes.listItemActive
-                        : classes.listItem
-                }
-            >
-                <ListItemIcon>
-                    <SupervisorAccountIcon
-                        className={classes.icon}
-                        fontSize="large"
-                    />
-                </ListItemIcon>
-                {open && <ListItemText>{t("admin")}</ListItemText>}
-            </ListItem>
-            <List component="div" disablePadding>
-                <Tooltip title={t("apps")} placement="right" arrow>
-                    <ListItem
-                        button
-                        id={build(ids.DRAWER_MENU, ids.APPS_ADMIN_MI)}
-                        className={clsx(classes.nested, classes.listItem)}
-                        onClick={() =>
-                            router.push(
-                                "/" +
-                                    NavigationConstants.ADMIN +
-                                    "/" +
-                                    NavigationConstants.APPS
-                            )
-                        }
-                    >
-                        <ListItemIcon>
-                            <LabelImportantIcon className={classes.icon} />
-                        </ListItemIcon>
-                        {open && <ListItemText>{t("apps")}</ListItemText>}
-                    </ListItem>
-                </Tooltip>
-                <Tooltip title={t("doi")} placement="right" arrow>
-                    <ListItem
-                        button
-                        id={build(ids.DRAWER_MENU, ids.DOI_ADMIN_MI)}
-                        className={clsx(classes.nested, classes.listItem)}
-                        onClick={() =>
-                            router.push(
-                                "/" +
-                                    NavigationConstants.ADMIN +
-                                    "/" +
-                                    NavigationConstants.DOI
-                            )
-                        }
-                    >
-                        <ListItemIcon>
-                            <LabelImportantIcon className={classes.icon} />
-                        </ListItemIcon>
-                        {open && <ListItemText>{t("doi")}</ListItemText>}
-                    </ListItem>
-                </Tooltip>
-                <Tooltip title={t("refGenomes")} placement="right" arrow>
-                    <ListItem
-                        button
-                        id={build(ids.DRAWER_MENU, ids.REF_GENOME_MI)}
-                        className={clsx(classes.nested, classes.listItem)}
-                        onClick={() =>
-                            router.push(
-                                "/" +
-                                    NavigationConstants.ADMIN +
-                                    "/" +
-                                    NavigationConstants.REF_GENOMES
-                            )
-                        }
-                    >
-                        <ListItemIcon>
-                            <LabelImportantIcon className={classes.icon} />
-                        </ListItemIcon>
-                        {open && <ListItemText>{t("refGenomes")}</ListItemText>}
-                    </ListItem>
-                </Tooltip>
-                <Tooltip title={t("tools")} placement="right" arrow>
-                    <ListItem
-                        button
-                        id={build(ids.DRAWER_MENU, ids.TOOLS_ADMIN_MI)}
-                        className={clsx(classes.nested, classes.listItem)}
-                        onClick={() =>
-                            router.push(
-                                "/" +
-                                    NavigationConstants.ADMIN +
-                                    "/" +
-                                    NavigationConstants.TOOLS
-                            )
-                        }
-                    >
-                        <ListItemIcon>
-                            <LabelImportantIcon className={classes.icon} />
-                        </ListItemIcon>
-                        {open && <ListItemText>{t("tools")}</ListItemText>}
-                    </ListItem>
-                </Tooltip>
-                <Tooltip title={t("vice")} placement="right" arrow>
-                    <ListItem
-                        button
-                        id={build(ids.DRAWER_MENU, ids.VICE_MI)}
-                        className={clsx(classes.nested, classes.listItem)}
-                        onClick={() =>
-                            router.push(
-                                "/" +
-                                    NavigationConstants.ADMIN +
-                                    "/" +
-                                    NavigationConstants.VICE
-                            )
-                        }
-                    >
-                        <ListItemIcon>
-                            <LabelImportantIcon className={classes.icon} />
-                        </ListItemIcon>
-                        {open && <ListItemText>{t("vice")}</ListItemText>}
-                    </ListItem>
-                </Tooltip>
-            </List>
-        </List>
-    );
     return (
         <>
             <div className={classes.root}>
@@ -633,11 +389,18 @@ function CyverseAppBar(props) {
                         </div>
                     </Hidden>
                     <Divider />
-                    {drawerItems}
+                    <DrawerItems
+                        open={open}
+                        activeView={activeView}
+                        toggleDrawer={toggleDrawer}
+                    />
                     {(isXsDown || open) && adminUser && (
                         <>
                             <Divider />
-                            {adminDrawerItems}
+                            <AdminDrawerItems
+                                open={open}
+                                activeView={activeView}
+                            />
                         </>
                     )}
                 </Drawer>
@@ -694,4 +457,4 @@ function CyverseAppBar(props) {
         </>
     );
 }
-export default withErrorAnnouncer(CyverseAppBar);
+export default withErrorAnnouncer(DEAppBar);

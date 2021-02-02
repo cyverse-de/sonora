@@ -6,14 +6,11 @@
  *
  */
 import React from "react";
+import { useTranslation } from "i18n";
 
 import ids from "./ids";
-import intlData from "./messages";
-
-import { injectIntl } from "react-intl";
-
 import { Hidden, IconButton, Tooltip } from "@material-ui/core";
-import { build, formatMessage, getMessage, withI18N } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 
 import {
     GridOn as GridIcon,
@@ -21,14 +18,15 @@ import {
 } from "@material-ui/icons";
 
 function DisplayTypeSelector(props) {
-    const { isGridView, baseId, toggleDisplay, intl } = props;
+    const { isGridView, baseId, toggleDisplay } = props;
+    const { t } = useTranslation("util");
     return (
         <Hidden smDown>
             {isGridView && (
                 <Tooltip
                     id={build(baseId, ids.TABLE_VIEW_BTN, ids.TOOLTIP)}
-                    title={getMessage("tableView")}
-                    aria-label={formatMessage(intl, "tableView")}
+                    title={t("tableView")}
+                    aria-label={t("tableView")}
                 >
                     <IconButton
                         id={build(baseId, ids.TABLE_VIEW_BTN)}
@@ -43,8 +41,8 @@ function DisplayTypeSelector(props) {
             {!isGridView && (
                 <Tooltip
                     id={build(baseId, ids.GRID_VIEW_BTN, ids.TOOLTIP)}
-                    title={getMessage("gridView")}
-                    aria-label={formatMessage(intl, "gridView")}
+                    title={t("gridView")}
+                    aria-label={t("gridView")}
                 >
                     <IconButton
                         id={build(baseId, ids.GRID_VIEW_BTN)}
@@ -60,4 +58,4 @@ function DisplayTypeSelector(props) {
     );
 }
 
-export default withI18N(injectIntl(DisplayTypeSelector), intlData);
+export default DisplayTypeSelector;

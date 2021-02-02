@@ -85,7 +85,6 @@
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
         "react-i18next": "^11.7.3",
-        "react-intl": "^3.12.0",
         "react-joyride": "^2.3.0",
         "react-player": "^2.6.2",
         "react-query": "^2.5.13",

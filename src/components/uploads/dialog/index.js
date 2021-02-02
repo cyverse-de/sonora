@@ -6,7 +6,7 @@
  * @module uploads/dialog
  */
 import React from "react";
-
+import { useTranslation } from "i18n";
 import {
     Button,
     Dialog,
@@ -21,12 +21,8 @@ import {
 } from "@material-ui/core";
 
 import { Close as CloseIcon } from "@material-ui/icons";
-
-import { getMessage, withI18N, build as buildID } from "@cyverse-de/ui-lib";
-
+import { build as buildID } from "@cyverse-de/ui-lib";
 import UploadQueue from "../queue";
-
-import messages from "./messages";
 import ids from "./ids";
 
 const useStyles = makeStyles((theme) => ({
@@ -49,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 const UploadDialog = ({ open, handleClose = () => {} }) => {
     const classes = useStyles();
     const theme = useTheme();
+    const { t } = useTranslation("upload");
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
     return (
@@ -59,14 +56,14 @@ const UploadDialog = ({ open, handleClose = () => {} }) => {
             id={ids.BASE}
         >
             <DialogTitle id={buildID(ids.BASE, ids.TITLE)}>
-                {getMessage("title")}
+                {t("title")}
             </DialogTitle>
 
             <DialogContent>
                 <DialogContentText>
-                    {getMessage("help")}
+                    {t("help")}
                     <IconButton
-                        aria-label={getMessage("closeAria")}
+                        aria-label={t("closeAria")}
                         id={buildID(ids.BASE, ids.CLOSE_X)}
                         className={classes.closeDialog}
                         onClick={handleClose}
@@ -83,13 +80,13 @@ const UploadDialog = ({ open, handleClose = () => {} }) => {
                     id={buildID(ids.BASE, ids.CLOSE)}
                     onClick={handleClose}
                     color="primary"
-                    aria-label={getMessage("closeAria")}
+                    aria-label={t("closeAria")}
                 >
-                    {getMessage("close")}
+                    {t("close")}
                 </Button>
             </DialogActions>
         </Dialog>
     );
 };
 
-export default withI18N(UploadDialog, messages);
+export default UploadDialog;

@@ -16,6 +16,7 @@ const mimeTypes = {
     X_RSRC: "x-rsrc",
     X_PYTHON: "x-python",
     X_WEB_MARKDOWN: "x-web-markdown",
+    MATHEMATICA: "mathematica",
 };
 const getViewerMode = (mimeType) => {
     let mode = null;
@@ -34,6 +35,9 @@ const getViewerMode = (mimeType) => {
             break;
         case mimeTypes.X_WEB_MARKDOWN:
             mode = "markdown";
+            break;
+        case mimeTypes.MATHEMATICA:
+            mode = "mathematica";
             break;
         default:
             break;

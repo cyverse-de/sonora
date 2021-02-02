@@ -11,7 +11,7 @@ import { useTranslation } from "i18n";
 import AnalysesDotMenu from "./AnalysesDotMenu";
 import ids from "../ids";
 
-import { getAppTypeFilters } from "components/apps/toolbar/AppNavigation";
+import AppsTypeFilter from "components/apps/AppsTypeFilter";
 
 import { build } from "@cyverse-de/ui-lib";
 
@@ -71,34 +71,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
-
-function AppsTypeFilter(props) {
-    const { baseId, filter, handleFilterChange, classes } = props;
-    const { t } = useTranslation("analyses");
-    return (
-        <Autocomplete
-            id={build(baseId, ids.APP_TYPE_FILTER)}
-            disabled={false}
-            value={filter}
-            options={getAppTypeFilters()}
-            size="small"
-            onChange={(event, newValue) => {
-                handleFilterChange(newValue);
-            }}
-            getOptionLabel={(option) => option.name}
-            getOptionSelected={(option, value) => option.name === value.name}
-            className={classes.filter}
-            renderInput={(params) => (
-                <TextField
-                    {...params}
-                    id={build(baseId, ids.APP_TYPE_FILTER_FIELD)}
-                    label={t("appTypeFilter")}
-                    variant="outlined"
-                />
-            )}
-        />
-    );
-}
 
 function PermissionsFilter(props) {
     const { baseId, filter, handleFilterChange, classes } = props;
@@ -208,6 +180,7 @@ function AnalysesToolbar(props) {
                             filter={appTypeFilter}
                             classes={classes}
                             handleFilterChange={handleAppTypeFilterChange}
+                            disabled={false}
                         />
                     </>
                 </Hidden>
@@ -291,6 +264,7 @@ function AnalysesToolbar(props) {
                         filter={appTypeFilter}
                         classes={classes}
                         handleFilterChange={handleAppTypeFilterChange}
+                        disabled={false}
                     />
                 </DialogContent>
                 <DialogActions>

@@ -71,15 +71,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function getAppTypeFilters() {
-    return Object.values(appType).map((type) => {
-        return {
-            name: type.display,
-            value: type.value,
-        };
-    });
-}
-
 function AppNavigation(props) {
     const {
         handleCategoryChange,
@@ -273,4 +264,3 @@ function AppNavigation(props) {
     );
 }
 export default AppNavigation;
-export { getAppTypeFilters };

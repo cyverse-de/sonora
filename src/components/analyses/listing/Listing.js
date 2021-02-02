@@ -288,7 +288,7 @@ function Listing(props) {
             idParentFilter.value = parentAnalysis?.id || "";
             filters.push(idParentFilter);
 
-            if (typeFilter && typeFilter.name !== appType.all) {
+            if (typeFilter) {
                 const appTypeFilter = Object.create(filter);
                 appTypeFilter.field = TYPE_FILTER;
                 appTypeFilter.value = typeFilter.value;

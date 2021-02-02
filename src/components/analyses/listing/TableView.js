@@ -180,6 +180,7 @@ function TableView(props) {
 
     const theme = useTheme();
     const { t } = useTranslation("analyses");
+    const { t: i18nCommon } = useTranslation("common");
 
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
     let columns = columnData(t);
@@ -213,6 +214,8 @@ function TableView(props) {
                     columnData={columns}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
+                    selectAllLabel={i18nCommon("selectAllLabel")}
+                    sortLabel={i18nCommon("sortLabel")}
                 />
                 {loading && (
                     <TableLoading

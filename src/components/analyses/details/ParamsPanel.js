@@ -69,6 +69,7 @@ const columnData = (t) => [
 function AnalysisParams(props) {
     const { parameters, isParamsFetching, paramsFetchError, baseId } = props;
     const { t } = useTranslation("analyses");
+    const { t: i18nCommon } = useTranslation("common");
     const [order] = useState("desc");
     const [orderBy] = useState("Name");
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
@@ -125,6 +126,8 @@ function AnalysisParams(props) {
                     baseId={baseId}
                     order={order}
                     orderBy={orderBy}
+                    selectAllLabel={i18nCommon("selectAllLabel")}
+                    sortLabel={i18nCommon("sortLabel")}
                 />
             </Table>
         </TableContainer>

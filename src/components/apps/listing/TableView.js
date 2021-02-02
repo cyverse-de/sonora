@@ -116,6 +116,7 @@ function TableView(props) {
         isAdminView,
     } = props;
     const { t } = useTranslation("apps");
+    const { t: i18nCommon } = useTranslation("common");
     const apps = listing?.apps;
     const columnData = getTableColumns(enableDelete, enableMenu, t);
     const tableId = build(baseId, ids.LISTING_TABLE);
@@ -144,6 +145,8 @@ function TableView(props) {
                     onSelectAllClick={
                         handleSelectAllClick ? handleSelectAllClick : undefined
                     }
+                    selectAllLabel={i18nCommon("selectAllLabel")}
+                    sortLabel={i18nCommon("sortLabel")}
                 />
                 {loading && (
                     <TableLoading

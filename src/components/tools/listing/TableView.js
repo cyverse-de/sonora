@@ -243,6 +243,7 @@ function TableView(props) {
     } = props;
     const tableId = buildId(baseId, ids.LISTING_TABLE);
     const { t } = useTranslation("tools");
+    const { t: i18nCommon } = useTranslation("common");
 
     const columns = columnData(t, isAdmin);
 
@@ -271,6 +272,8 @@ function TableView(props) {
                     orderBy={orderBy}
                     rowsInPage={listing?.tools?.length || 0}
                     selectable={true}
+                    selectAllLabel={i18nCommon("selectAllLabel")}
+                    sortLabel={i18nCommon("sortLabel")}
                 />
                 {loading ? (
                     <LoadingMask columns={columns} tableId={tableId} />

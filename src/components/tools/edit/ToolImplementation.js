@@ -41,6 +41,7 @@ function TestFiles(props) {
 
     const { t } = useTranslation("tools");
     const { t: i18nUtil } = useTranslation("util");
+    const { t: i18nCommon } = useTranslation("common");
 
     let files = getIn(values, name);
     let hasErrors = !!getFormError(name, touched, errors);
@@ -96,6 +97,8 @@ function TestFiles(props) {
                     baseId={parentId}
                     ids={ids.PORTS_TABLE}
                     columnData={TABLE_COLUMNS}
+                    selectAllLabel={i18nCommon("selectAllLabel")}
+                    sortLabel={i18nCommon("sortLabel")}
                 />
             </Table>
         </SimpleExpansionPanel>

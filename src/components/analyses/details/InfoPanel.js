@@ -119,6 +119,7 @@ function UpdateDetails(props) {
 function Updates(props) {
     const { updates, baseId } = props;
     const { t } = useTranslation("analyses");
+    const { t: i18nCommon } = useTranslation("common");
     let columns = columnData(t);
 
     return (
@@ -142,6 +143,8 @@ function Updates(props) {
                 columnData={columns}
                 rowsInPage={updates.length}
                 baseId={baseId}
+                selectAllLabel={i18nCommon("selectAllLabel")}
+                sortLabel={i18nCommon("sortLabel")}
             />
         </Table>
     );

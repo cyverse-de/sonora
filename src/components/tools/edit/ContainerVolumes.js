@@ -42,6 +42,7 @@ function ContainerVolumes(props) {
 
     const { t } = useTranslation("tools");
     const { t: i18nUtil } = useTranslation("util");
+    const { t: i18nCommon } = useTranslation("common");
 
     let volumes = getIn(values, name);
     let hasErrors = !!getFormError(name, touched, errors);
@@ -121,6 +122,8 @@ function ContainerVolumes(props) {
                     baseId={parentId}
                     ids={ids.PORTS_TABLE}
                     columnData={TABLE_COLUMNS}
+                    selectAllLabel={i18nCommon("selectAllLabel")}
+                    sortLabel={i18nCommon("sortLabel")}
                 />
             </Table>
         </SimpleExpansionPanel>

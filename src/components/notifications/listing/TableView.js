@@ -90,6 +90,7 @@ const TableView = (props) => {
     const classes = useStyles();
 
     const { t } = useTranslation("notifications");
+    const { t: i18nCommon } = useTranslation("common");
     const columnData = getColumns(t);
 
     const handleChangePage = (event, newPage) => {
@@ -274,6 +275,8 @@ const TableView = (props) => {
                         columnData={columnData}
                         baseId={baseId}
                         rowsInPage={data?.length || 0}
+                        selectAllLabel={i18nCommon("selectAllLabel")}
+                        sortLabel={i18nCommon("sortLabel")}
                     />
                 </Table>
             </TableContainer>

@@ -221,6 +221,8 @@ const MetadataList = (props) => {
     );
 
     const { t } = useTranslation("metadata");
+    const { t: i18nCommon } = useTranslation("common");
+
     const classes = useStyles();
 
     const onAddAVU = () => {
@@ -358,6 +360,8 @@ const MetadataList = (props) => {
                         onSelectAllClick={onSelectAllClick}
                         numSelected={avusSelected ? avusSelected.length : 0}
                         rowsInPage={rowsInPage}
+                        selectAllLabel={i18nCommon("selectAllLabel")}
+                        sortLabel={i18nCommon("sortLabel")}
                     />
                 </Table>
             </TableContainer>

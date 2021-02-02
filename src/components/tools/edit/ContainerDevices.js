@@ -40,6 +40,7 @@ function ContainerDevices(props) {
     } = props;
     const { t } = useTranslation("tools");
     const { t: i18nUtil } = useTranslation("util");
+    const { t: i18nCommon } = useTranslation("common");
 
     let devices = getIn(values, name);
     let hasErrors = !!getFormError(name, touched, errors);
@@ -119,6 +120,8 @@ function ContainerDevices(props) {
                     baseId={parentId}
                     ids={ids.PORTS_TABLE}
                     columnData={getColumns(t)}
+                    selectAllLabel={i18nCommon("selectAllLabel")}
+                    sortLabel={i18nCommon("sortLabel")}
                 />
             </Table>
         </SimpleExpansionPanel>

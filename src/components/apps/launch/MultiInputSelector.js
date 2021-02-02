@@ -87,6 +87,7 @@ const MultiInputSelector = (props) => {
         form: { values, touched, errors, setFieldValue },
     } = props;
     const { t } = useTranslation("launch");
+    const { t: i18nCommon } = useTranslation("common");
     const columnData = multiInputColumnData(t);
     const nameColumn = columnData[0];
 
@@ -171,6 +172,10 @@ const MultiInputSelector = (props) => {
                                     baseId={tableId}
                                     columnData={columnData}
                                     onRequestSort={onRequestSort}
+                                    selectAllLabel={i18nCommon(
+                                        "selectAllLabel"
+                                    )}
+                                    sortLabel={i18nCommon("sortLabel")}
                                 />
                                 <TableBody>
                                     {!paths?.length ? (

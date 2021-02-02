@@ -64,6 +64,7 @@ function ContainerPorts(props) {
 
     const { t } = useTranslation("tools");
     const { t: i18nUtil } = useTranslation("util");
+    const { t: i18nCommon } = useTranslation("common");
 
     let ports = getIn(values, name);
     let hasErrors = !!getIn(errors, name);
@@ -163,6 +164,8 @@ function ContainerPorts(props) {
                     baseId={parentId}
                     ids={ids.PORTS_TABLE}
                     columnData={tableColumns}
+                    selectAllLabel={i18nCommon("selectAllLabel")}
+                    sortLabel={i18nCommon("sortLabel")}
                 />
             </Table>
         </SimpleExpansionPanel>

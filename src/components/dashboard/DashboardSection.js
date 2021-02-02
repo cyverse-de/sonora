@@ -7,6 +7,7 @@ import {
     Collapse,
     Button,
     useTheme,
+    Divider,
 } from "@material-ui/core";
 
 import getItem from "./dashboardItem";
@@ -71,36 +72,34 @@ const DashboardSection = ({
             id={id}
         >
             <Typography
-                noWrap
-                gutterBottom
                 variant="h6"
                 style={{
-                    backgroundColor: theme.palette.secondary.main,
-                    color: theme.palette.secondary.contrastText,
-                    padding: theme.spacing(1),
-                    marginBottom: 0,
+                    color: theme.palette.info.main,
                 }}
             >
                 {name}
             </Typography>
-            <Paper style={{ padding: theme.spacing(1) }}>
-                <div className={classes.sectionItems}>{uncollapsed}</div>
-
-                <Collapse in={expanded}>
-                    <div className={classes.sectionItems}>{collapsible}</div>
-                </Collapse>
-
-                {displayShowMore && (
-                    <Button
-                        onClick={() => setExpanded(!expanded)}
-                        className={classes.showMoreBtn}
-                    >
-                        <Typography variant="button" display="block">
-                            {expanded ? t("showFewer") : t("showMore")}
-                        </Typography>
-                    </Button>
-                )}
-            </Paper>
+            <Divider
+                style={{
+                    margin: 0,
+                    color: theme.palette.info.main,
+                }}
+            />
+            <div className={classes.sectionItems}>{uncollapsed}</div>
+            <Collapse in={expanded}>
+                <div className={classes.sectionItems}>{collapsible}</div>
+            </Collapse>
+            {displayShowMore && (
+                <Button
+                    onClick={() => setExpanded(!expanded)}
+                    className={classes.showMoreBtn}
+                    color="primary"
+                >
+                    <Typography variant="button" display="block">
+                        {expanded ? t("showFewer") : t("showMore")}
+                    </Typography>
+                </Button>
+            )}
         </div>
     );
 };

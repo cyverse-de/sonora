@@ -11,6 +11,7 @@ import logger from "../logging";
 import axiosInstance from "../../common/getAxios";
 
 import { handler as terrainHandler } from "./terrain";
+import { metadataTemplateCSVhandler } from "./downloads";
 
 export default function notificationsRouter() {
     const api = express.Router();
@@ -45,11 +46,7 @@ export default function notificationsRouter() {
     api.get(
         "/filesystem/metadata/template/:templateId/zip-csv",
         auth.authnTokenMiddleware,
-        terrainHandler({
-            method: "GET",
-            pathname:
-                "/secured/filesystem/metadata/template/:templateId/zip-csv",
-        })
+        metadataTemplateCSVhandler
     );
 
     logger.info("adding the GET /api/filesystem/:dataId/metadata handler");

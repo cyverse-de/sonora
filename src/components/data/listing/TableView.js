@@ -24,24 +24,19 @@ import { isPathInTrash } from "../utils";
 import { useConfig } from "contexts/config";
 
 import { build, DECheckbox, EmptyTable, formatDate } from "@cyverse-de/ui-lib";
-import launchConstants from "components/apps/launch/constants";
 
+import InstantLaunchButton from "components/instantlaunches";
 import { defaultInstantLaunch } from "serviceFacades/instantlaunches";
-import { getAppInfo, getQuickLaunch } from "serviceFacades/quickLaunches";
-import { submitAnalysis } from "serviceFacades/analyses";
 
 import {
     fade,
     makeStyles,
-    IconButton,
     Paper,
     Table,
     TableBody,
     TableCell,
     TableContainer,
 } from "@material-ui/core";
-
-import { Launch as LaunchIcon } from "@material-ui/icons";
 
 import RowDotMenu from "./RowDotMenu";
 
@@ -123,95 +118,6 @@ function getLocalStorageCols(rowDotMenuVisibility, dataRecordFields) {
 function setLocalStorageCols(columns) {
     setLocalStorage(constants.LOCAL_STORAGE.DATA.COLUMNS, columns);
 }
-
-const inputParamTypes = [
-    launchConstants.PARAM_TYPE.FILE_INPUT,
-    launchConstants.PARAM_TYPE.FOLDER_INPUT,
-];
-
-const instantlyLaunch = async (
-    instantLaunchName,
-    instantLaunch,
-    resources = []
-) => {
-    const qID = instantLaunch.default["quick_launch_id"];
-    const quickLaunch = getQuickLaunch(qID)
-        .then((quickLaunch) => quickLaunch)
-        .catch((e) => console.error(e));
-
-    const appInfo = getAppInfo(null, {
-        qId: qID,
-    })
-        .then((app) => app)
-        .catch((e) => console.error(e));
-
-    return await Promise.all([quickLaunch, appInfo])
-        .then((values) => {
-            const [ql, app] = values;
-            const submission = ql.submission;
-            const appParams = app.groups.find((g) => g.label === "Parameters")
-                .parameters;
-            const appReqInputs = appParams.filter(
-                (param) =>
-                    param.required && inputParamTypes.includes(param.type)
-            );
-
-            // Each of the passed in resources needs to be added to the submission
-            // for a required input field, if possible.
-            resources.forEach((resource) => {
-                // Get listing of the required input parameters from the app info that
-                // aren't set in the QL submission
-                const unsetInputParams = appReqInputs.filter(
-                    (appParam) => !submission.config.hasOwnProperty(appParam.id)
-                );
-
-                // For each unset input parameter, match it up with an appropriate
-                // resource that was passed in to the function. File resources should
-                // go with FileInput params, folder resources should go with FolderInput
-                // params, and arrays of resources should be passed to MultiFileSelector
-                // params (but only if they contain files).
-                if (unsetInputParams.length > 0) {
-                    const unsetParam = unsetInputParams[0];
-
-                    if (
-                        // Handle multiple resources if they're passed in.
-                        Array.isArray(resource) &&
-                        unsetParam.type ===
-                            launchConstants.PARAM_TYPE.MULTIFILE_SELECTOR
-                    ) {
-                        const fileResources = resource
-                            .filter((r) => r.type === "file")
-                            .map((r) => r.path);
-
-                        if (fileResources.length > 0) {
-                            submission.config[
-                                unsetInputParams[0].id
-                            ] = fileResources;
-                        }
-                    } else {
-                        if (
-                            // Handle singular resources
-                            (resource.type === "file" &&
-                                unsetParam.type ===
-                                    launchConstants.PARAM_TYPE.FILE_INPUT) ||
-                            (resource.type === "folder" &&
-                                unsetParam.type ===
-                                    launchConstants.PARAM_TYPE.FOLDER_INPUT)
-                        ) {
-                            submission.config[unsetInputParams[0].id] =
-                                resource.path;
-                        }
-                    }
-                }
-            });
-
-            // At this point, all previously unmatched required file/folder inputs
-            // should be matched to a resource path or a list of paths.
-            return submission;
-        })
-        .then((submission) => submitAnalysis(submission)) // submit the analysis
-        .catch((e) => console.error(e));
-};
 
 function TableView(props) {
     const {
@@ -398,10 +304,7 @@ function TableView(props) {
                                     selected.indexOf(resourceId) !== -1;
                                 const isInvalid =
                                     isSelected && isInvalidSelection(resource);
-                                const [
-                                    instantLaunch,
-                                    instantLaunchName,
-                                ] = defaultInstantLaunch(
+                                const [instantLaunch] = defaultInstantLaunch(
                                     instantLaunchDefaultsMapping,
                                     resource
                                 );
@@ -498,25 +401,12 @@ function TableView(props) {
                                         )}
                                         <TableCell align="right">
                                             {instantLaunch && (
-                                                <IconButton
-                                                    variant="contained"
-                                                    onClick={async () => {
-                                                        const submission = await instantlyLaunch(
-                                                            instantLaunchName,
-                                                            instantLaunch,
-                                                            [resource]
-                                                        );
-                                                        console.log(
-                                                            JSON.stringify(
-                                                                submission,
-                                                                null,
-                                                                2
-                                                            )
-                                                        );
-                                                    }}
-                                                >
-                                                    <LaunchIcon />
-                                                </IconButton>
+                                                <InstantLaunchButton
+                                                    instantLaunch={
+                                                        instantLaunch
+                                                    }
+                                                    resource={resource}
+                                                />
                                             )}
                                             <RowDotMenu
                                                 baseId={build(

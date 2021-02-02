@@ -198,7 +198,6 @@ function Listing(props) {
         config: {
             enabled: true,
             onSuccess: (respData) => {
-                console.log("calling getDefaultsMapping");
                 setInstantLaunchDefaultsMapping(respData?.mapping || {});
             },
         },

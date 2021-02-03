@@ -22,6 +22,7 @@ export default {
         MEMBERS: "members",
         PRIVILEGE: "privilege",
         HELP_POPOVER: "helpMessage",
+        TOOLBAR: "toolbar",
     },
     BUTTONS: {
         CREATE_BTN: "createBtn",
@@ -29,5 +30,6 @@ export default {
         DELETE: "deleteBtn",
         HELP_BTN: "helpBtn",
         HELP_MI: "helpMI",
+        SAVE_BTN: "saveBtn",
     },
 };

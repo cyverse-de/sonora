@@ -1,24 +1,18 @@
 import React, { useEffect, useState } from "react";
 
-import {
-    build,
-    FormCheckbox,
-    FormMultilineTextField,
-    FormTextField,
-} from "@cyverse-de/ui-lib";
-import { Table } from "@material-ui/core";
-import { Field, FieldArray, Form, Formik } from "formik";
-
-import {
-    getAllPrivileges,
-    groupShortName,
-    privilegeHasRead,
-    privilegeIsAdmin,
-    validateGroupName,
-} from "../util";
-import ids from "../ids";
-import { useTranslation } from "i18n";
+import { build } from "@cyverse-de/ui-lib";
+import { Button, Table, Toolbar } from "@material-ui/core";
+import { Save } from "@material-ui/icons";
+import { Skeleton } from "@material-ui/lab";
+import { Form, Formik } from "formik";
 import { useMutation, useQuery } from "react-query";
+
+import isQueryLoading from "components/utils/isQueryLoading";
+import Privilege from "components/models/Privilege";
+import TableLoading from "components/utils/TableLoading";
+import { useUserProfile } from "contexts/userProfile";
+import { useTranslation } from "i18n";
+import ids from "../ids";
 import {
     createTeam,
     getTeamDetails,
@@ -26,17 +20,17 @@ import {
     updateTeam,
     updateTeamMemberStats,
 } from "serviceFacades/groups";
-import { useUserProfile } from "contexts/userProfile";
-import Members from "./Members";
-import { Skeleton } from "@material-ui/lab";
-import TableLoading from "../../utils/TableLoading";
-import HelpIconButton from "./HelpIconButton";
-import Privilege from "../../models/Privilege";
-import isQueryLoading from "../../utils/isQueryLoading";
-import ErrorTypography from "../../utils/error/ErrorTypography";
+import FormFields from "./FormFields";
+import {
+    getAllPrivileges,
+    groupShortName,
+    privilegeHasRead,
+    privilegeIsAdmin,
+} from "../util";
 
 function TeamForm(props) {
     const { parentId, team } = props;
+    const { t } = useTranslation("common");
     const [userProfile] = useUserProfile();
 
     const [privileges, setPrivileges] = useState([]);
@@ -46,8 +40,6 @@ function TeamForm(props) {
     const [hasRead, setHasRead] = useState(false);
     const [teamSaveSuccess, setTeamSaveSuccess] = useState(false);
     const [submissionError, setSubmissionError] = useState(null);
-
-    const { t } = useTranslation("teams");
 
     useEffect(() => {
         setHasRead(privilegeHasRead(selfPrivilege) || !team);
@@ -125,18 +117,6 @@ function TeamForm(props) {
         createTeamStatus,
         updateTeamMemberStatsStatus,
     ]);
-
-    if (loading) {
-        return (
-            <>
-                <Skeleton variant="text" />
-                <Skeleton variant="rect" />
-                <Table>
-                    <TableLoading numColumns={2} numRows={3} />
-                </Table>
-            </>
-        );
-    }
 
     const handleSubmit = (values, { setFieldError }) => {
         const {
@@ -217,68 +197,38 @@ function TeamForm(props) {
             onSubmit={handleSubmit}
         >
             <Form>
-                <ErrorTypography
-                    errorMessage={submissionError?.message || submissionError}
-                />
-                <Field
-                    name="name"
-                    label={t("teamName")}
-                    id={build(parentId, ids.EDIT_TEAM.NAME)}
-                    InputProps={{
-                        readOnly: !isAdmin,
-                    }}
-                    validate={(value) => validateGroupName(value, t)}
-                    component={FormTextField}
-                />
-                <Field
-                    name="description"
-                    label={t("teamDesc")}
-                    id={build(parentId, ids.EDIT_TEAM.DESCRIPTION)}
-                    InputProps={{
-                        readOnly: !isAdmin,
-                    }}
-                    component={FormMultilineTextField}
-                />
-                {isAdmin && (
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                        }}
-                    >
-                        <Field
-                            name="isPublicTeam"
-                            label={t("publicTeam")}
-                            id={build(
-                                parentId,
-                                ids.EDIT_TEAM.PUBLIC_PRIVILEGES
-                            )}
-                            component={FormCheckbox}
-                        />
-                        <HelpIconButton
-                            parentId={build(
-                                parentId,
-                                ids.EDIT_TEAM.PUBLIC_PRIVILEGES
-                            )}
-                            message={t("publicTeamHelp")}
-                            color="secondary"
-                        />
-                    </div>
-                )}
-                {hasRead && (
-                    <FieldArray
-                        name="privileges"
-                        render={(props) => (
-                            <Members
-                                {...props}
-                                isAdmin={isAdmin}
-                                hasRead={hasRead}
-                                parentId={parentId}
-                            />
+                <Toolbar>
+                    <Button
+                        type="submit"
+                        color="primary"
+                        variant="outlined"
+                        id={build(
+                            parentId,
+                            ids.EDIT_TEAM.TOOLBAR,
+                            ids.BUTTONS.SAVE_BTN
                         )}
+                        startIcon={<Save />}
+                    >
+                        {t("common:save")}
+                    </Button>
+                </Toolbar>
+                {loading && (
+                    <>
+                        <Skeleton variant="text" height={40} />
+                        <Skeleton variant="rect" height={100} />
+                        <Table>
+                            <TableLoading numColumns={2} numRows={3} />
+                        </Table>
+                    </>
+                )}
+                {!loading && (
+                    <FormFields
+                        parentId={parentId}
+                        isAdmin={isAdmin}
+                        hasRead={hasRead}
+                        submissionError={submissionError}
                     />
                 )}
-                <button type="submit">Submit</button>
             </Form>
         </Formik>
     );

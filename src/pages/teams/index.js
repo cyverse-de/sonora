@@ -5,7 +5,7 @@
  */
 
 import React from "react";
-import TeamsView from "components/teams/index";
+import TeamsView from "components/teams";
 
 export default function Teams() {
     return <TeamsView baseId="teams" />;

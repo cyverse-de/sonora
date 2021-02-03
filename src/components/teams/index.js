@@ -14,12 +14,8 @@ const TEAM_FILTER = {
 };
 
 function Teams(props) {
-    const { baseId } = props;
+    const { baseId, onTeamNameSelected, onCreateTeamSelected } = props;
     const [teamFilter, setTeamFilter] = useState(TEAM_FILTER.ALL_TEAMS);
-
-    const onTeamNameSelected = () => {
-        console.log("Team Name Selected!");
-    };
 
     return (
         <>
@@ -27,6 +23,7 @@ function Teams(props) {
                 parentId={baseId}
                 teamFilter={teamFilter}
                 setTeamFilter={setTeamFilter}
+                onCreateTeamSelected={onCreateTeamSelected}
             />
             <Listing
                 parentId={baseId}

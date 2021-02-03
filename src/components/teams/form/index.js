@@ -31,7 +31,7 @@ import {
 const useStyles = makeStyles(styles);
 
 function TeamForm(props) {
-    const { parentId, team } = props;
+    const { parentId, team, onTeamSaved } = props;
     const { t } = useTranslation(["teams", "common"]);
     const classes = useStyles();
     const [userProfile] = useUserProfile();
@@ -125,7 +125,7 @@ function TeamForm(props) {
         updateTeamMemberStatsMutation,
         { status: updateTeamMemberStatsStatus },
     ] = useMutation(updateTeamMemberStats, {
-        onSuccess: () => console.log("details updated"),
+        onSuccess: onTeamSaved,
         onError: (error) => {
             setSubmissionError({
                 message: t("updateTeamMemberStatsFail"),

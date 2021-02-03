@@ -5,10 +5,30 @@
  */
 
 import React from "react";
+
+import { useRouter } from "next/router";
+
+import NavigationConstants from "common/NavigationConstants";
 import TeamsView from "components/teams";
 
 export default function Teams() {
-    return <TeamsView baseId="teams" />;
+    const router = useRouter();
+
+    const onTeamNameSelected = (teamName) => {
+        router.push(`/${NavigationConstants.TEAMS}/${teamName}`);
+    };
+
+    const onCreateTeamSelected = () => {
+        router.push(`/${NavigationConstants.TEAMS}/create`);
+    };
+
+    return (
+        <TeamsView
+            baseId="teams"
+            onTeamNameSelected={onTeamNameSelected}
+            onCreateTeamSelected={onCreateTeamSelected}
+        />
+    );
 }
 
 Teams.getInitialProps = async () => ({

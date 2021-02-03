@@ -2,7 +2,10 @@
  * @author aramsey
  */
 import callApi from "../common/callApi";
-import { PUBLIC_TEAM_PRIVILEGE } from "../components/teams/util";
+import {
+    getPrivilegeUpdates,
+    PUBLIC_TEAM_PRIVILEGE,
+} from "../components/teams/util";
 
 const MY_TEAMS_QUERY = "fetchMyTeams";
 const ALL_TEAMS_QUERY = "fetchAllTeams";
@@ -124,6 +127,71 @@ function updateTeamPrivileges({ name, updates }) {
     });
 }
 
+function createPrivilegeUpdates(privilegeList) {
+    return privilegeList.map((privilege) => {
+        return {
+            subject_id: privilege.subject.id,
+            privileges: [privilege.name],
+        };
+    });
+}
+
+function updateTeamMemberStats({
+    name,
+    oldPrivileges,
+    newPrivileges,
+    isPublicTeam,
+    wasPublicTeam,
+}) {
+    const { remove, add, update } = getPrivilegeUpdates(
+        oldPrivileges,
+        newPrivileges
+    );
+
+    const promises = [];
+
+    if (remove?.length > 0) {
+        promises.push(removeTeamMembers({ name, members: remove }));
+        const updates = remove.map((userId) => {
+            return {
+                subject_id: userId,
+                privileges: [],
+            };
+        });
+        promises.push(updateTeamPrivileges({ name, updates }));
+    }
+
+    if (add?.length > 0) {
+        const userIds = Object.values(add).map(
+            (privilege) => privilege.subject.id
+        );
+        promises.push(addTeamMembers({ name, members: userIds }));
+        const updates = createPrivilegeUpdates(Object.values(add));
+        promises.push(updateTeamPrivileges({ name, updates }));
+    }
+
+    if (update?.length > 0) {
+        const updates = createPrivilegeUpdates(Object.values(update));
+        promises.push(updateTeamPrivileges({ name, updates }));
+    }
+
+    if (isPublicTeam !== wasPublicTeam) {
+        promises.push(
+            updateTeamPrivileges({
+                name,
+                updates: [
+                    {
+                        subject_id: "GrouperAll",
+                        privileges: isPublicTeam ? [PUBLIC_TEAM_PRIVILEGE] : [],
+                    },
+                ],
+            })
+        );
+    }
+
+    return Promise.all(promises);
+}
+
 export {
     MY_TEAMS_QUERY,
     ALL_TEAMS_QUERY,
@@ -136,7 +204,5 @@ export {
     createTeam,
     updateTeam,
     deleteTeam,
-    addTeamMembers,
-    removeTeamMembers,
-    updateTeamPrivileges,
+    updateTeamMemberStats,
 };

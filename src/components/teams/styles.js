@@ -18,6 +18,10 @@ const styles = (theme) => ({
         marginRight: theme.spacing(2),
     },
 
+    paper: {
+        padding: theme.spacing(1),
+    },
+
     popover: {
         padding: theme.spacing(2),
     },

@@ -28,8 +28,11 @@ export default {
         CREATE_BTN: "createBtn",
         CREATE_MI: "createMI",
         DELETE: "deleteBtn",
+        DELETE_MI: "deleteMI",
         HELP_BTN: "helpBtn",
         HELP_MI: "helpMI",
+        LEAVE_BTN: "leaveBtn",
+        LEAVE_MI: "leaveMI",
         SAVE_BTN: "saveBtn",
     },
 };

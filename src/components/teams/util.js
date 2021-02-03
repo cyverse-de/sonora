@@ -17,6 +17,10 @@ export const privilegeIsAdmin = (privilege) => {
     return privilegeNum(privilege) === Privilege.ADMIN.num;
 };
 
+export const userIsMember = (userId, privileges) => {
+    return !!privileges.find((privilege) => privilege.subject.id === userId);
+};
+
 const restrictedGroupNameChars = ":_";
 
 export function validateGroupName(value, t) {

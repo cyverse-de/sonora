@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-
-import { build } from "@cyverse-de/ui-lib";
-import { Button, Table, Toolbar } from "@material-ui/core";
-import { Save } from "@material-ui/icons";
+import { makeStyles, Paper, Table } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { Form, Formik } from "formik";
 import { useMutation, useQuery } from "react-query";
@@ -14,7 +11,6 @@ import TableLoading from "components/utils/TableLoading";
 import { useUserProfile } from "contexts/userProfile";
 import FormFields from "./FormFields";
 import { useTranslation } from "i18n";
-import ids from "../ids";
 import {
     createTeam,
     getTeamDetails,
@@ -22,16 +18,22 @@ import {
     updateTeam,
     updateTeamMemberStats,
 } from "serviceFacades/groups";
+import styles from "../styles";
+import TeamToolbar from "./Toolbar";
 import {
     getAllPrivileges,
     groupShortName,
     privilegeHasRead,
     privilegeIsAdmin,
+    userIsMember,
 } from "../util";
+
+const useStyles = makeStyles(styles);
 
 function TeamForm(props) {
     const { parentId, team } = props;
     const { t } = useTranslation(["teams", "common"]);
+    const classes = useStyles();
     const [userProfile] = useUserProfile();
 
     const [privileges, setPrivileges] = useState([]);
@@ -39,13 +41,15 @@ function TeamForm(props) {
     const [selfPrivilege, setSelfPrivilege] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
     const [hasRead, setHasRead] = useState(false);
+    const [isMember, setIsMember] = useState(false);
     const [teamNameSaved, setTeamNameSaved] = useState(false);
     const [submissionError, setSubmissionError] = useState(null);
 
     useEffect(() => {
         setHasRead(privilegeHasRead(selfPrivilege) || !team);
         setIsAdmin(privilegeIsAdmin(selfPrivilege) || !team);
-    }, [selfPrivilege, team]);
+        setIsMember(userIsMember(userProfile?.id, privileges));
+    }, [privileges, selfPrivilege, team, userProfile]);
 
     const { isFetching: fetchingTeamDetails } = useQuery({
         queryKey: [TEAM_DETAILS_QUERY, { name: team?.name }],
@@ -218,50 +222,43 @@ function TeamForm(props) {
             onSubmit={handleSubmit}
         >
             <Form>
-                <Toolbar>
-                    <Button
-                        type="submit"
-                        color="primary"
-                        variant="outlined"
-                        id={build(
-                            parentId,
-                            ids.EDIT_TEAM.TOOLBAR,
-                            ids.BUTTONS.SAVE_BTN
-                        )}
-                        startIcon={<Save />}
-                    >
-                        {t("common:save")}
-                    </Button>
-                </Toolbar>
-                {loading && (
-                    <>
-                        <Skeleton variant="text" height={40} />
-                        <Skeleton variant="rect" height={100} />
-                        <Table>
-                            <TableLoading numColumns={2} numRows={3} />
-                        </Table>
-                    </>
-                )}
-                {submissionError && (
-                    <ErrorTypographyWithDialog
-                        errorMessage={submissionError?.message}
-                        errorObject={submissionError?.object}
-                    />
-                )}
-                {!loading && (
-                    <FormFields
-                        parentId={parentId}
-                        isAdmin={isAdmin}
-                        hasRead={hasRead}
-                        submissionError={submissionError}
-                    />
-                )}
-                {submissionError && (
-                    <ErrorTypographyWithDialog
-                        errorMessage={submissionError?.message}
-                        errorObject={submissionError?.object}
-                    />
-                )}
+                <TeamToolbar
+                    parentId={parentId}
+                    isAdmin={isAdmin}
+                    isMember={isMember}
+                />
+                <Paper classes={{ root: classes.paper }} elevation={1}>
+                    {loading && (
+                        <>
+                            <Skeleton variant="text" height={40} />
+                            <Skeleton variant="rect" height={100} />
+                            <Table>
+                                <TableLoading numColumns={2} numRows={3} />
+                            </Table>
+                        </>
+                    )}
+
+                    {submissionError && (
+                        <ErrorTypographyWithDialog
+                            errorMessage={submissionError?.message}
+                            errorObject={submissionError?.object}
+                        />
+                    )}
+                    {!loading && (
+                        <FormFields
+                            parentId={parentId}
+                            isAdmin={isAdmin}
+                            hasRead={hasRead}
+                            submissionError={submissionError}
+                        />
+                    )}
+                    {submissionError && (
+                        <ErrorTypographyWithDialog
+                            errorMessage={submissionError?.message}
+                            errorObject={submissionError?.object}
+                        />
+                    )}
+                </Paper>
             </Form>
         </Formik>
     );

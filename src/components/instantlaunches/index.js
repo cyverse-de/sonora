@@ -14,6 +14,7 @@ import { submitAnalysis } from "serviceFacades/analyses";
 const inputParamTypes = [
     launchConstants.PARAM_TYPE.FILE_INPUT,
     launchConstants.PARAM_TYPE.FOLDER_INPUT,
+    launchConstants.PARAM_TYPE.MULTIFILE_SELECTOR,
 ];
 
 /**
@@ -61,13 +62,12 @@ export const defaultInstantLaunch = (defaults = {}, resource) => {
  */
 const instantlyLaunch = async (instantLaunch, resource) => {
     const qID = instantLaunch.default["quick_launch_id"];
+
     const quickLaunch = getQuickLaunch(qID)
         .then((quickLaunch) => quickLaunch)
         .catch((e) => console.error(e));
 
-    const appInfo = getAppInfo(null, {
-        qId: qID,
-    })
+    const appInfo = getAppInfo(null, { qId: qID })
         .then((app) => app)
         .catch((e) => console.error(e));
 
@@ -83,35 +83,49 @@ const instantlyLaunch = async (instantLaunch, resource) => {
 
             // Get listing of the input parameters from the app info that
             // aren't set in the QL submission
-            const unsetInputParams = appInputs.filter(
-                (appParam) => !submission.config.hasOwnProperty(appParam.id)
-            );
+            const unsetInputParams = appInputs.filter((appParam) => {
+                return (
+                    !submission.config.hasOwnProperty(appParam.id) ||
+                    (Array.isArray(submission.config[appParam.id]) &&
+                        submission.config[appParam.id].length === 0)
+                );
+            });
 
             // For each unset input parameter, match it up with an appropriate
             // resource that was passed in to the function. File resources should
             // go with FileInput params or MultiFileSelectors, while folder resources
             // should go with FolderInput params.
             if (unsetInputParams.length > 0) {
-                const unsetParam = unsetInputParams[0];
+                for (const unsetParam of unsetInputParams) {
+                    if (resource.type === "file") {
+                        if (
+                            unsetParam.type ===
+                            launchConstants.PARAM_TYPE.FILE_INPUT
+                        ) {
+                            submission.config[unsetParam.id] = resource.path;
+                            break;
+                        }
 
-                if (
-                    (resource.type === "file" &&
-                        unsetParam.type ===
-                            launchConstants.PARAM_TYPE.FILE_INPUT) ||
-                    (resource.type === "folder" &&
-                        unsetParam.type ===
-                            launchConstants.PARAM_TYPE.FOLDER_INPUT)
-                ) {
-                    submission.config[unsetInputParams[0].id] = resource.path;
-                } else if (
-                    resource.type === "file" &&
-                    unsetParam.type ===
-                        launchConstants.PARAM_TYPE.MULTIFILE_SELECTOR
-                ) {
-                    submission.config[unsetInputParams[0].id] = [resource.path];
+                        if (
+                            unsetParam.type ===
+                            launchConstants.PARAM_TYPE.MULTIFILE_SELECTOR
+                        ) {
+                            submission.config[unsetParam.id] = [resource.path];
+                            break;
+                        }
+                    }
+
+                    if (resource.type === "folder") {
+                        if (
+                            unsetParam.type ===
+                            launchConstants.PARAM_TYPE.FOLDER_INPUT
+                        ) {
+                            submission.config[unsetParam.id] = resource.path;
+                            break;
+                        }
+                    }
                 }
             }
-
             return submission;
         })
         .then((submission) => submitAnalysis(submission)) // submit the analysis
@@ -119,6 +133,8 @@ const instantlyLaunch = async (instantLaunch, resource) => {
 };
 
 /**
+ * An IconButton with a handler that launches the app in the instant launch with
+ * the resource as an input.
  *
  * @param {Object} props
  * @param {Object} props.instantLaunch - The instant launch to use.
@@ -129,10 +145,7 @@ const InstantLaunchButton = ({ instantLaunch, resource }) => {
         <IconButton
             variant="contained"
             onClick={async () => {
-                const submission = await instantlyLaunch(instantLaunch, [
-                    resource,
-                ]);
-                console.log(JSON.stringify(submission, null, 2));
+                await instantlyLaunch(instantLaunch, resource);
             }}
         >
             <LaunchIcon />

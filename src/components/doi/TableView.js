@@ -106,7 +106,6 @@ export default function TableView(props) {
                 <EnhancedTableHead
                     baseId={baseId}
                     selectable={false}
-                    numSelected={selected.length}
                     rowsInPage={listing?.analyses?.length || 0}
                     order={order}
                     orderBy={orderBy}
@@ -132,7 +131,7 @@ export default function TableView(props) {
                             requests.length > 0 &&
                             requests.map((request, index) => {
                                 const id = request.id;
-                                const isSelected = selected.indexOf(id) !== -1;
+                                const isSelected = selected === id;
                                 const rowId = build(baseId, tableId, id);
                                 return (
                                     <DERow

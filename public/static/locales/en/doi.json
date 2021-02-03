@@ -1,8 +1,11 @@
 {
-    "user": "User",
-    "path": "Path",
+    "createDoi": "Create DOI",
     "dateSubmitted": "Date Submitted",
     "dateUpdated": "Date Updated",
+    "path": "Path",
+    "status": "Status",
     "type": "Type",
-    "status": "Status"
+    "updateRequest": "Update Request",
+    "user": "User",
+    "viewMetadata": "View Metadata"
 }

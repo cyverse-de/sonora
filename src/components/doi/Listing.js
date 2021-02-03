@@ -11,6 +11,7 @@ import DEPagination from "components/utils/DEPagination";
 import globalConstants from "../../constants";
 import { adminGetDOIRequests, DOI_LISTING_QUERY_KEY } from "serviceFacades/doi";
 import TableView from "./TableView";
+import DOIToolbar from "./Toolbar";
 
 export default function Listing(props) {
     const {
@@ -22,8 +23,7 @@ export default function Listing(props) {
         onRouteToListing,
     } = props;
     const [data, setData] = useState(null);
-    const [selected, setSelected] = useState([]);
-    const [lastSelectIndex, setLastSelectIndex] = useState(-1);
+    const [selected, setSelected] = useState();
     const { isFetching, error } = useQuery({
         queryKey: [
             DOI_LISTING_QUERY_KEY,
@@ -50,43 +50,8 @@ export default function Listing(props) {
             );
     };
 
-    const deselect = (analysisId) => {
-        const newSelected = selected.filter(
-            (selectedID) => !analysisId.includes(selectedID)
-        );
-
-        setSelected(newSelected);
-    };
-
-    const select = (analysesIds) => {
-        let newSelected = [...new Set([...selected, ...analysesIds])];
-        setSelected(newSelected);
-    };
-
-    const rangeSelect = (start, end, targetId) => {
-        // when a user first click on a row with shift key pressed,
-        // start is -1 (which is lastSelectIndex) and
-        // results in an error (data.analyses[-1].id)
-        if (start > -1) {
-            const rangeIds = [];
-            for (let i = start; i <= end; i++) {
-                rangeIds.push(data?.analyses[i].id);
-            }
-            let isTargetSelected = selected.includes(targetId);
-            isTargetSelected ? deselect(rangeIds) : select(rangeIds);
-        }
-    };
-
     const handleClick = (event, id, index) => {
-        if (event.shiftKey) {
-            lastSelectIndex > index
-                ? rangeSelect(index, lastSelectIndex, id)
-                : rangeSelect(lastSelectIndex, index, id);
-        } else {
-            setSelected([id]);
-        }
-
-        setLastSelectIndex(index);
+        setSelected(id);
     };
 
     const handleChangePage = (event, newPage) => {
@@ -99,8 +64,14 @@ export default function Listing(props) {
             onRouteToListing(order, orderBy, 0, parseInt(newPageSize, 10));
     };
 
+    const getSelectedRequest = (request) => {
+        const item = request ? request : selected;
+        return data?.requests?.find((req) => req.id === item);
+    };
+
     return (
         <>
+            <DOIToolbar baseId={baseId} selected={selected} />
             <TableView
                 baseId={baseId}
                 listing={data}

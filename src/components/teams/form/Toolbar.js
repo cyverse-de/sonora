@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 import {
@@ -16,13 +16,24 @@ import BackButton from "components/utils/BackButton";
 import { useTranslation } from "i18n";
 import ids from "../ids";
 import styles from "../styles";
+import ConfirmationDialog from "../../utils/ConfirmationDialog";
 
 const useStyles = makeStyles(styles);
 
 function EditTeamToolbar(props) {
-    const { parentId, isAdmin, isMember } = props;
+    const {
+        parentId,
+        isAdmin,
+        isMember,
+        onLeaveTeamSelected,
+        onDeleteTeamSelected,
+        teamName,
+    } = props;
     const { t } = useTranslation(["teams", "common"]);
     const classes = useStyles();
+
+    const [leaveTeamDlgOpen, setLeaveTeamDlgOpen] = useState(false);
+    const [deleteTeamDlgOpen, setDeleteTeamDlgOpen] = useState(false);
 
     const baseId = build(parentId, ids.EDIT_TEAM.TOOLBAR);
 
@@ -50,6 +61,9 @@ function EditTeamToolbar(props) {
                         id={build(baseId, ids.BUTTONS.LEAVE_BTN)}
                         className={classes.button}
                         startIcon={<ExitToApp />}
+                        onClick={() => {
+                            setLeaveTeamDlgOpen(true);
+                        }}
                     >
                         {t("leave")}
                     </Button>
@@ -61,6 +75,9 @@ function EditTeamToolbar(props) {
                         id={build(baseId, ids.BUTTONS.DELETE)}
                         className={classes.button}
                         startIcon={<Delete />}
+                        onClick={() => {
+                            setDeleteTeamDlgOpen(true);
+                        }}
                     >
                         {t("common:delete")}
                     </Button>
@@ -75,6 +92,7 @@ function EditTeamToolbar(props) {
                                 key={build(baseId, ids.BUTTONS.LEAVE_MI)}
                                 onClick={() => {
                                     onClose();
+                                    setLeaveTeamDlgOpen(true);
                                 }}
                             >
                                 <ListItemIcon>
@@ -88,6 +106,7 @@ function EditTeamToolbar(props) {
                                 key={build(baseId, ids.BUTTONS.DELETE_MI)}
                                 onClick={() => {
                                     onClose();
+                                    setDeleteTeamDlgOpen(true);
                                 }}
                             >
                                 <ListItemIcon>
@@ -99,6 +118,30 @@ function EditTeamToolbar(props) {
                     ]}
                 />
             </Hidden>
+            <ConfirmationDialog
+                baseId={ids.EDIT_TEAM.LEAVE_TEAM_DLG}
+                open={leaveTeamDlgOpen}
+                onClose={() => setLeaveTeamDlgOpen(false)}
+                onConfirm={() => {
+                    setLeaveTeamDlgOpen(false);
+                    onLeaveTeamSelected();
+                }}
+                title={t("leaveTeamTitle", { name: teamName })}
+                contentText={t("leaveTeamText")}
+                confirmButtonText={t("leave")}
+            />
+            <ConfirmationDialog
+                baseId={ids.EDIT_TEAM.DELETE_TEAM_DLG}
+                open={deleteTeamDlgOpen}
+                onClose={() => setDeleteTeamDlgOpen(false)}
+                onConfirm={() => {
+                    setDeleteTeamDlgOpen(false);
+                    onDeleteTeamSelected();
+                }}
+                title={t("deleteTeamTitle", { name: teamName })}
+                contentText={t("deleteTeamText")}
+                confirmButtonText={t("common:delete")}
+            />
         </Toolbar>
     );
 }

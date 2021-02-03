@@ -97,6 +97,13 @@ function deleteTeam({ name }) {
     });
 }
 
+function leaveTeam({ name }) {
+    return callApi({
+        endpoint: `/api/teams/${encodeURIComponent(name)}/leave`,
+        method: "POST",
+    });
+}
+
 function addTeamMembers({ name, members }) {
     return callApi({
         endpoint: `/api/teams/${encodeURIComponent(name)}/members`,
@@ -204,5 +211,6 @@ export {
     createTeam,
     updateTeam,
     deleteTeam,
+    leaveTeam,
     updateTeamMemberStats,
 };

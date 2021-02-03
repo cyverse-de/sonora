@@ -135,5 +135,18 @@ export default function groupsRouter() {
         })
     );
 
+    logger.info("adding the POST /api/teams/:name/leave handler");
+    api.post(
+        "/teams/:name/leave",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/teams/:name/leave",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

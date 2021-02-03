@@ -13,11 +13,11 @@ import TeamForm from "components/teams/form/";
 
 export default function CreateTeam() {
     const router = useRouter();
-    const onTeamSaved = () => {
+    const goBackToTeamView = () => {
         router.push(`/${NavigationConstants.TEAMS}`);
     };
 
-    return <TeamForm onTeamSaved={onTeamSaved} />;
+    return <TeamForm goBackToTeamView={goBackToTeamView} />;
 }
 
 CreateTeam.getInitialProps = async () => ({

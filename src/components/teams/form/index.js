@@ -13,7 +13,9 @@ import FormFields from "./FormFields";
 import { useTranslation } from "i18n";
 import {
     createTeam,
+    deleteTeam,
     getTeamDetails,
+    leaveTeam,
     TEAM_DETAILS_QUERY,
     updateTeam,
     updateTeamMemberStats,
@@ -31,7 +33,7 @@ import {
 const useStyles = makeStyles(styles);
 
 function TeamForm(props) {
-    const { parentId, team, onTeamSaved } = props;
+    const { parentId, team, goBackToTeamView } = props;
     const { t } = useTranslation(["teams", "common"]);
     const classes = useStyles();
     const [userProfile] = useUserProfile();
@@ -125,7 +127,7 @@ function TeamForm(props) {
         updateTeamMemberStatsMutation,
         { status: updateTeamMemberStatsStatus },
     ] = useMutation(updateTeamMemberStats, {
-        onSuccess: onTeamSaved,
+        onSuccess: goBackToTeamView,
         onError: (error) => {
             setSubmissionError({
                 message: t("updateTeamMemberStatsFail"),
@@ -134,11 +136,39 @@ function TeamForm(props) {
         },
     });
 
+    const [leaveTeamMutation, { status: leaveTeamStatus }] = useMutation(
+        leaveTeam,
+        {
+            onSuccess: goBackToTeamView,
+            onError: (error) => {
+                setSubmissionError({
+                    message: t("leaveTeamFail"),
+                    object: error,
+                });
+            },
+        }
+    );
+
+    const [deleteTeamMutation, { status: deleteTeamStatus }] = useMutation(
+        deleteTeam,
+        {
+            onSuccess: goBackToTeamView,
+            onError: (error) => {
+                setSubmissionError({
+                    message: t("deleteTeamFail"),
+                    object: error,
+                });
+            },
+        }
+    );
+
     const loading = isQueryLoading([
         fetchingTeamDetails,
         updateTeamStatus,
         createTeamStatus,
         updateTeamMemberStatsStatus,
+        leaveTeamStatus,
+        deleteTeamStatus,
     ]);
 
     const handleSubmit = (values, { setFieldError }) => {
@@ -226,6 +256,13 @@ function TeamForm(props) {
                     parentId={parentId}
                     isAdmin={isAdmin}
                     isMember={isMember}
+                    teamName={groupShortName(team?.name)}
+                    onLeaveTeamSelected={() =>
+                        leaveTeamMutation({ name: team?.name })
+                    }
+                    onDeleteTeamSelected={() =>
+                        deleteTeamMutation({ name: team?.name })
+                    }
                 />
                 <Paper classes={{ root: classes.paper }} elevation={1}>
                     {loading && (

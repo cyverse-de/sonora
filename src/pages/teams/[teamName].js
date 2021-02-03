@@ -15,11 +15,16 @@ export default function EditTeam() {
     const router = useRouter();
     const { teamName } = router.query;
 
-    const onTeamSaved = () => {
+    const goBackToTeamView = () => {
         router.push(`/${NavigationConstants.TEAMS}`);
     };
 
-    return <TeamForm team={{ name: teamName }} onTeamSaved={onTeamSaved} />;
+    return (
+        <TeamForm
+            team={{ name: teamName }}
+            goBackToTeamView={goBackToTeamView}
+        />
+    );
 }
 
 EditTeam.getInitialProps = async () => ({

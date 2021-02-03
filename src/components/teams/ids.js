@@ -23,6 +23,8 @@ export default {
         PRIVILEGE: "privilege",
         HELP_POPOVER: "helpMessage",
         TOOLBAR: "toolbar",
+        LEAVE_TEAM_DLG: "leaveTeamDlg",
+        DELETE_TEAM_DLG: "deleteTeamDlg",
     },
     BUTTONS: {
         CREATE_BTN: "createBtn",

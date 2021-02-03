@@ -45,14 +45,14 @@ function searchTeams(key, { searchTerm }) {
 
 function getTeamPrivileges(key, { name }) {
     return callApi({
-        endpoint: `/api/teams/${name}/privileges`,
+        endpoint: `/api/teams/${encodeURIComponent(name)}/privileges`,
         method: "GET",
     });
 }
 
 function getTeamMembers(key, { name }) {
     return callApi({
-        endpoint: `/api/teams/${name}/members`,
+        endpoint: `/api/teams/${encodeURIComponent(name)}/members`,
         method: "GET",
     });
 }
@@ -64,21 +64,21 @@ function getTeamDetails(key, { name }) {
     ]);
 }
 
-function createTeam({ name, description, isPublic }) {
+function createTeam({ name, description, isPublicTeam }) {
     return callApi({
         endpoint: "/api/teams",
         method: "POST",
         body: {
             name,
             description,
-            public_privileges: isPublic ? [PUBLIC_TEAM_PRIVILEGE] : null,
+            public_privileges: isPublicTeam ? [PUBLIC_TEAM_PRIVILEGE] : null,
         },
     });
 }
 
 function updateTeam({ originalName, name, description }) {
     return callApi({
-        endpoint: `/api/teams/${originalName}`,
+        endpoint: `/api/teams/${encodeURIComponent(originalName)}`,
         method: "PATCH",
         body: {
             name,
@@ -89,14 +89,14 @@ function updateTeam({ originalName, name, description }) {
 
 function deleteTeam({ name }) {
     return callApi({
-        endpoint: `/api/teams/${name}`,
+        endpoint: `/api/teams/${encodeURIComponent(name)}`,
         method: "DELETE",
     });
 }
 
 function addTeamMembers({ name, members }) {
     return callApi({
-        endpoint: `/api/teams/${name}/members`,
+        endpoint: `/api/teams/${encodeURIComponent(name)}/members`,
         method: "POST",
         body: {
             members,
@@ -106,7 +106,7 @@ function addTeamMembers({ name, members }) {
 
 function removeTeamMembers({ name, members }) {
     return callApi({
-        endpoint: `/api/teams/${name}/members/deleter`,
+        endpoint: `/api/teams/${encodeURIComponent(name)}/members/deleter`,
         method: "POST",
         body: {
             members,
@@ -116,7 +116,7 @@ function removeTeamMembers({ name, members }) {
 
 function updateTeamPrivileges({ name, updates }) {
     return callApi({
-        endpoint: `/api/teams/${name}/privileges`,
+        endpoint: `/api/teams/${encodeURIComponent(name)}/privileges`,
         method: "POST",
         body: {
             updates,

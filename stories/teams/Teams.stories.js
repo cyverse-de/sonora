@@ -11,17 +11,17 @@ import { userInfoResp } from "../data/DataMocks";
 const errorResp = { error_code: "ERR_NOT_TODAY", reason: "No teams today" };
 
 export const View = () => {
-    mockAxios.onGet(/\/api\/teams*/).reply(200, teamList);
+    mockAxios.onGet("/api/teams").reply(200, teamList);
     return <TeamView baseId="teams" />;
 };
 
 export const ViewWithError = () => {
-    mockAxios.onGet(/\/api\/teams*/).reply(400, errorResp);
+    mockAxios.onGet("/api/teams").reply(400, errorResp);
     return <TeamView baseId="teams" />;
 };
 
 export const SearchResults = () => {
-    mockAxios.onGet(/\/api\/teams*/).reply(200, teamList);
+    mockAxios.onGet("/api/teams").reply(200, teamList);
     return (
         <TeamListing
             searchTerm="test"
@@ -31,7 +31,7 @@ export const SearchResults = () => {
 };
 
 export const SearchResultsWithError = () => {
-    mockAxios.onGet(/\/api\/teams*/).reply(400, errorResp);
+    mockAxios.onGet("/api/teams").reply(400, errorResp);
     return (
         <TeamListing
             searchTerm="test"
@@ -60,6 +60,39 @@ export const EditFormAdmin = ({ newTeam }) => {
         .onGet(/\/api\/teams\/.*\/privileges/)
         .reply(200, privilegeList(false, Privilege.ADMIN.value));
     mockAxios.onGet(/\/api\/teams\/.*\/members/).reply(200, memberList);
+
+    mockAxios.onGet(/\/api\/teams\/.*\/members/).reply(200, memberList);
+
+    mockAxios
+        .onPost(/\/api\/teams\/*/)
+        .replyOnce(500, {
+            error_code: "ERR_NO_CREATION",
+            reason: "No team for you",
+        })
+        .onPost(/\/api\/teams\/*/)
+        .reply(200, { name: "ipcdev:MuhTeam" });
+
+    mockAxios
+        .onPatch(/\/api\/teams\/*/)
+        .replyOnce(500, {
+            error_code: "ERR_NO_TEAM_UPDATE",
+            reason: "Change is bad",
+        })
+        .onPatch(/\/api\/teams\/*/)
+        .reply(200, { name: "ipcdev:MuhUpdatedTeam" });
+
+    mockAxios
+        .onPost(/\/api\/teams\/*\/privileges/)
+        .replyOnce(500, {
+            error_code: "ERR_FAILED_PRIVILEGE",
+            reason: "Check your privilege",
+        })
+        .onPost(/\/api\/teams\/*\/privileges/)
+        .reply(200);
+
+    mockAxios.onPost(/\/api\/teams\/*\/members/).reply(200);
+
+    mockAxios.onPost(/\/api\/teams\/*\/members\/deleter/).reply(200);
 
     return <TeamForm parentId="form" team={newTeam ? null : teamMock} />;
 };

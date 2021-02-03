@@ -22,7 +22,7 @@ import { addQuickLaunch } from "serviceFacades/quickLaunches";
 import AppLaunchWizard from "./AppLaunchWizard";
 import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 
-export default ({ app, launchError, loading }) => {
+const Launch = ({ app, launchError, loading }) => {
     const [submissionError, setSubmissionError] = React.useState(null);
     const [bootstrapInfo] = useBootstrapInfo();
     const [config] = useConfig();
@@ -102,3 +102,5 @@ export default ({ app, launchError, loading }) => {
         />
     );
 };
+
+export default Launch;

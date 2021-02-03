@@ -17,7 +17,7 @@ import {
 
 import AppLaunch from "components/apps/launch";
 
-export default () => {
+const Relaunch = () => {
     const [relaunchKey, setRelaunchKey] = React.useState(
         ANALYSIS_RELAUNCH_QUERY_KEY
     );
@@ -60,3 +60,5 @@ export default () => {
         <AppLaunch app={app} launchError={relaunchError} loading={loading} />
     );
 };
+
+export default Relaunch;

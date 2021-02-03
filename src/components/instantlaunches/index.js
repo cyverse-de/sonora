@@ -9,7 +9,7 @@ import { Launch as LaunchIcon } from "@material-ui/icons";
 import launchConstants from "components/apps/launch/constants";
 
 import { getAppInfo, getQuickLaunch } from "serviceFacades/quickLaunches";
-import { submitAnalysis } from "serviceFacades/analyses";
+import { submitAnalysis, getAnalysis } from "serviceFacades/analyses";
 
 const inputParamTypes = [
     launchConstants.PARAM_TYPE.FILE_INPUT,
@@ -63,13 +63,11 @@ export const defaultInstantLaunch = (defaults = {}, resource) => {
 const instantlyLaunch = async (instantLaunch, resource) => {
     const qID = instantLaunch.default["quick_launch_id"];
 
-    const quickLaunch = getQuickLaunch(qID)
-        .then((quickLaunch) => quickLaunch)
-        .catch((e) => console.error(e));
+    const quickLaunch = getQuickLaunch(qID).catch((e) => console.error(e));
 
-    const appInfo = getAppInfo(null, { qId: qID })
-        .then((app) => app)
-        .catch((e) => console.error(e));
+    const appInfo = getAppInfo(null, { qId: qID }).catch((e) =>
+        console.error(e)
+    );
 
     return await Promise.all([quickLaunch, appInfo])
         .then((values) => {
@@ -129,6 +127,7 @@ const instantlyLaunch = async (instantLaunch, resource) => {
             return submission;
         })
         .then((submission) => submitAnalysis(submission)) // submit the analysis
+        .then((analysisResp) => getAnalysis(analysisResp.id))
         .catch((e) => console.error(e));
 };
 
@@ -145,7 +144,16 @@ const InstantLaunchButton = ({ instantLaunch, resource }) => {
         <IconButton
             variant="contained"
             onClick={async () => {
-                await instantlyLaunch(instantLaunch, resource);
+                await instantlyLaunch(instantLaunch, resource).then(
+                    (listing) => {
+                        if (listing.analyses.length > 0) {
+                            const analysis = listing.analyses[0];
+                            if (analysis.interactive_urls.length > 0) {
+                                window.open(analysis.interactive_urls[0]);
+                            }
+                        }
+                    }
+                );
             }}
         >
             <LaunchIcon />

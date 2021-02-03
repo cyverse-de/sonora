@@ -17,13 +17,22 @@ export default function doiRouter() {
     logger.info("************ Adding DOI handlers **********");
 
     logger.info("adding the GET /admin/permanent-id-requests handler");
-
     api.get(
         "/admin/permanent-id-requests",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
             pathname: "/admin/permanent-id-requests",
+        })
+    );
+
+    logger.info("adding the GET /admin/permanent-id-requests/:id handler");
+    api.get(
+        "/admin/permanent-id-requests/:id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/permanent-id-requests/:id",
         })
     );
 

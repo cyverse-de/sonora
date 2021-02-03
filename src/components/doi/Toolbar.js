@@ -111,6 +111,7 @@ export default function DOIToolbar(props) {
             <UpdateRequestDialog
                 open={updateDialogOpen}
                 onClose={() => setUpdateDialogOpen(false)}
+                request={selected}
             />
         </>
     );

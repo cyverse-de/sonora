@@ -100,6 +100,10 @@ const validate = () => {
     //irods settings
     validateConfigSetting("irods.home_path");
     validateConfigSetting("irods.trash_path");
+
+    // 3rd Party Service URL/Endpoint Settings
+    validateConfigSetting("services.ontology_lookup_service.base");
+    validateConfigSetting("services.unified_astronomy_thesaurus.base");
 };
 
 validate();
@@ -258,3 +262,19 @@ export const iRodsHome = config.get("irods.home_path");
  * @type {string}
  */
 export const iRodsTrash = config.get("irods.trash_path");
+
+/**
+ * The Ontology Lookup Service `select` endpoint.
+ * http://www.ebi.ac.uk/ols/docs/api#_select_terms
+ *
+ * @type {string}
+ */
+export const olsURL = config.get("services.ontology_lookup_service.base");
+
+/**
+ * The Unified Astronomy Thesaurus `concept` endpoint.
+ * https://documentation.ands.org.au/display/DOC/Linked+Data+API
+ *
+ * @type {string}
+ */
+export const uatURL = config.get("services.unified_astronomy_thesaurus.base");

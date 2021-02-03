@@ -24,7 +24,29 @@ const AstroThesaurusSearchField = (props) => {
     const loadOptions = (inputValue, callback) => {
         searchAstroThesaurusTerms({
             inputValue,
-            callback: (results) => callback(results && results.items),
+            callback: (response) => {
+                // The UAT service may return duplicates in the results.
+                // While we're at it, also parse out only the fields we need
+                // and rename them to `iri` and `label`.
+                const items = response?.result?.items;
+
+                const filteredMap = items?.reduce((filtered, item) => {
+                    const { _about: iri } = item;
+
+                    // not all items will be an object
+                    if (iri && !filtered[iri]) {
+                        const {
+                            prefLabel: { _value: label },
+                        } = item;
+
+                        filtered[iri] = { iri, label };
+                    }
+
+                    return filtered;
+                }, {});
+
+                callback(Object.values(filteredMap || {}));
+            },
         });
     };
 

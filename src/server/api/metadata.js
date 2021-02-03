@@ -7,9 +7,10 @@
 import express from "express";
 
 import * as auth from "../auth";
+import { olsURL, uatURL } from "../configuration";
 import logger from "../logging";
-import axiosInstance from "../../common/getAxios";
 
+import { handler as externalHandler } from "./external";
 import { handler as terrainHandler } from "./terrain";
 import { metadataTemplateCSVhandler } from "./downloads";
 
@@ -88,26 +89,22 @@ export default function notificationsRouter() {
     );
 
     logger.info("adding the GET /api/ontology-lookup-service handler");
-    api.get("/ontology-lookup-service", (req, res) => {
-        axiosInstance
-            .get("https://www.ebi.ac.uk/ols/api/select")
-            .then((apiResponse) => {
-                res.status(apiResponse.status);
-                res.send(apiResponse.data);
-            });
-    });
+    api.get(
+        "/ontology-lookup-service",
+        externalHandler({
+            method: "GET",
+            url: olsURL,
+        })
+    );
 
     logger.info("adding the GET /api/unified-astronomy-thesaurus handler");
-    api.get("/unified-astronomy-thesaurus", (req, res) => {
-        axiosInstance
-            .get(
-                "https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/current/concept.json"
-            )
-            .then((apiResponse) => {
-                res.status(apiResponse.status);
-                res.send(apiResponse.data);
-            });
-    });
+    api.get(
+        "/unified-astronomy-thesaurus",
+        externalHandler({
+            method: "GET",
+            url: uatURL,
+        })
+    );
 
     return api;
 }

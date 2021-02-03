@@ -1492,23 +1492,39 @@ export const initMockAxiosTemplateEndpoints = () => {
         return [
             200,
             {
-                docs: [
-                    {
-                        iri: "http://edamontology.org/data_0006",
-                        label: "Data",
-                        ontology_prefix: "EDAM",
+                responseHeader: {
+                    status: 0,
+                    QTime: 7,
+                    params: {
+                        hl: "true",
+                        fl: "id,iri,label,ontology_prefix",
+                        fq: "is_obsolete:false",
+                        start: "0",
+                        rows: "3",
                     },
-                    {
-                        iri: "http://edamontology.org/operation_2422",
-                        label: "Data retrieval",
-                        ontology_prefix: "EDAM",
-                    },
-                    {
-                        iri: "http://edamontology.org/topic_3077",
-                        label: "Data acquisition",
-                        ontology_prefix: "EDAM",
-                    },
-                ],
+                },
+                response: {
+                    numFound: 9566,
+                    start: 0,
+                    docs: [
+                        {
+                            iri: "http://edamontology.org/data_0006",
+                            label: "Data",
+                            ontology_prefix: "EDAM",
+                        },
+                        {
+                            iri: "http://edamontology.org/operation_2422",
+                            label: "Data retrieval",
+                            ontology_prefix: "EDAM",
+                        },
+                        {
+                            iri: "http://edamontology.org/topic_3077",
+                            label: "Data acquisition",
+                            ontology_prefix: "EDAM",
+                        },
+                    ],
+                },
+                highlighting: {},
             },
         ];
     });
@@ -1519,20 +1535,45 @@ export const initMockAxiosTemplateEndpoints = () => {
         return [
             200,
             {
-                items: [
-                    {
-                        iri: "http://astrothesaurus.org/uat/1512",
-                        label: "Solar neutrons",
-                    },
-                    {
-                        iri: "http://astrothesaurus.org/uat/1107",
-                        label: "Neutron star cores",
-                    },
-                    {
-                        iri: "http://astrothesaurus.org/uat/1108",
-                        label: "Neutron stars",
-                    },
-                ],
+                format: "linked-data-api",
+                version: "0.2",
+                result: {
+                    _about:
+                        "https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/4-0-0/concept.json",
+                    definition:
+                        "https://vocabs.ands.org.au/repository/api/lda/meta/aas/the-unified-astronomy-thesaurus/4-0-0/concept.json",
+                    extendedMetadataVersion:
+                        "https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/4-0-0/concept.json?_metadata=all",
+                    first:
+                        "https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/4-0-0/concept.json?_page=0",
+                    hasPart:
+                        "https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/4-0-0/concept.json",
+                    isPartOf:
+                        "https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/4-0-0/concept.json",
+                    items: [
+                        {
+                            iri: "http://astrothesaurus.org/uat/1512",
+                            label: "Solar neutrons",
+                        },
+                        {
+                            iri: "http://astrothesaurus.org/uat/1107",
+                            label: "Neutron star cores",
+                        },
+                        {
+                            iri: "http://astrothesaurus.org/uat/1108",
+                            label: "Neutron stars",
+                        },
+                    ],
+                    itemsPerPage: 10,
+                    next:
+                        "https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/4-0-0/concept.json?_page=1",
+                    page: 0,
+                    startIndex: 1,
+                    type: [
+                        "http://purl.org/linked-data/api/vocab#ListEndpoint",
+                        "http://purl.org/linked-data/api/vocab#Page",
+                    ],
+                },
             },
         ];
     });

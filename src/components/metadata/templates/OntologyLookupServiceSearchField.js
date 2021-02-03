@@ -32,7 +32,7 @@ const OntologyLookupServiceSearchField = (props) => {
         searchOLSTerms({
             inputValue,
             loaderSettings: attribute?.settings || {},
-            callback: (results) => callback(results?.docs),
+            callback: (results) => callback(results?.response?.docs),
         });
     };
 

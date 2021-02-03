@@ -2,8 +2,10 @@
     "admin": "Admin",
     "allTeams": "All Teams",
     "ariaTeamFilter": "Team Filter",
+    "createTeamFail": "Failed to create team name or description. Please try again.",
     "creator": "Creator Name",
     "description": "Description",
+    "getTeamFail": "Failed to get team details.  Please try again.",
     "helpText": "<p>Teams allow you to create, organize, and join public or private groups of collaborators.</p><p>You can share apps or tools with Teams, but not data.</p><p>Any teams you are a member of will show up under \"My Teams\". Find other public teams that you can join by selecting \"All Teams\".</p><p>You can create your own Team and define Team members and Team privileges by selecting \"Create Team\".</p>",
     "invalidTeamName": "Team name cannot contain `{{invalidCharList}}`. Invalid characters: `{{invalidChars}}`",
     "memberHelpMessage": "Being a member means anything shared with the team is also shared with you. Likewise, you can share items with the team and all the members will have access to those items. If a member decides to leave a team (which members can do at any time), items shared with the team will no longer be shared with that member.",
@@ -19,5 +21,7 @@
     "team": "Team",
     "teamDesc": "Team Description",
     "teamName": "Team Name",
+    "updateTeamFail": "Failed to update team name or description.  Please try again.",
+    "updateTeamMemberStatsFail": "Failed to update team members or privileges.  Please try again.",
     "view": "View"
 }

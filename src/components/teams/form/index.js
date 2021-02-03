@@ -7,10 +7,12 @@ import { Skeleton } from "@material-ui/lab";
 import { Form, Formik } from "formik";
 import { useMutation, useQuery } from "react-query";
 
-import isQueryLoading from "components/utils/isQueryLoading";
 import Privilege from "components/models/Privilege";
+import isQueryLoading from "components/utils/isQueryLoading";
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import TableLoading from "components/utils/TableLoading";
 import { useUserProfile } from "contexts/userProfile";
+import FormFields from "./FormFields";
 import { useTranslation } from "i18n";
 import ids from "../ids";
 import {
@@ -20,7 +22,6 @@ import {
     updateTeam,
     updateTeamMemberStats,
 } from "serviceFacades/groups";
-import FormFields from "./FormFields";
 import {
     getAllPrivileges,
     groupShortName,
@@ -30,7 +31,7 @@ import {
 
 function TeamForm(props) {
     const { parentId, team } = props;
-    const { t } = useTranslation("common");
+    const { t } = useTranslation(["teams", "common"]);
     const [userProfile] = useUserProfile();
 
     const [privileges, setPrivileges] = useState([]);
@@ -38,7 +39,7 @@ function TeamForm(props) {
     const [selfPrivilege, setSelfPrivilege] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
     const [hasRead, setHasRead] = useState(false);
-    const [teamSaveSuccess, setTeamSaveSuccess] = useState(false);
+    const [teamNameSaved, setTeamNameSaved] = useState(false);
     const [submissionError, setSubmissionError] = useState(null);
 
     useEffect(() => {
@@ -68,7 +69,12 @@ function TeamForm(props) {
                     );
                 }
             },
-            onError: console.log,
+            onError: (error) => {
+                setSubmissionError({
+                    message: t("getTeamFail"),
+                    object: error,
+                });
+            },
         },
     });
 
@@ -76,13 +82,18 @@ function TeamForm(props) {
         updateTeam,
         {
             onSuccess: (resp, variables) => {
-                setTeamSaveSuccess(true);
+                setTeamNameSaved(true);
                 updateTeamMemberStatsMutation({
                     name: resp?.name,
                     ...variables,
                 });
             },
-            onError: (e) => {},
+            onError: (error) => {
+                setSubmissionError({
+                    message: t("updateTeamFail"),
+                    object: error,
+                });
+            },
         }
     );
 
@@ -90,15 +101,18 @@ function TeamForm(props) {
         createTeam,
         {
             onSuccess: (resp, { newPrivileges }) => {
-                setTeamSaveSuccess(true);
+                setTeamNameSaved(true);
                 updateTeamMemberStatsMutation({
                     name: resp?.name,
                     oldPrivileges: [],
                     newPrivileges,
                 });
             },
-            onError: (e) => {
-                setSubmissionError("wrong!");
+            onError: (error) => {
+                setSubmissionError({
+                    message: t("createTeamFail"),
+                    object: error,
+                });
             },
         }
     );
@@ -108,7 +122,12 @@ function TeamForm(props) {
         { status: updateTeamMemberStatsStatus },
     ] = useMutation(updateTeamMemberStats, {
         onSuccess: () => console.log("details updated"),
-        onError: (e) => console.log(e),
+        onError: (error) => {
+            setSubmissionError({
+                message: t("updateTeamMemberStatsFail"),
+                object: error,
+            });
+        },
     });
 
     const loading = isQueryLoading([
@@ -126,11 +145,13 @@ function TeamForm(props) {
             privileges: newPrivileges,
         } = values;
 
+        setSubmissionError(null);
+
         // If the user tries to resubmit the form after updating/creating the
         // team name has already succeeded (but maybe updating members failed),
         // you must skip resubmitting the team name request as the team
         // endpoints use the team name in the query, not ID
-        if (!team && !teamSaveSuccess) {
+        if (!team && !teamNameSaved) {
             createTeamMutation({
                 name,
                 description,
@@ -144,7 +165,7 @@ function TeamForm(props) {
             } = team;
 
             if (
-                !teamSaveSuccess &&
+                !teamNameSaved &&
                 (groupShortName(originalName) !== name ||
                     originalDescription !== description)
             ) {
@@ -221,12 +242,24 @@ function TeamForm(props) {
                         </Table>
                     </>
                 )}
+                {submissionError && (
+                    <ErrorTypographyWithDialog
+                        errorMessage={submissionError?.message}
+                        errorObject={submissionError?.object}
+                    />
+                )}
                 {!loading && (
                     <FormFields
                         parentId={parentId}
                         isAdmin={isAdmin}
                         hasRead={hasRead}
                         submissionError={submissionError}
+                    />
+                )}
+                {submissionError && (
+                    <ErrorTypographyWithDialog
+                        errorMessage={submissionError?.message}
+                        errorObject={submissionError?.object}
                     />
                 )}
             </Form>

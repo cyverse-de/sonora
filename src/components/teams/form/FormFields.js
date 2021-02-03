@@ -13,16 +13,12 @@ import ids from "../ids";
 import { useTranslation } from "i18n";
 import Members from "./Members";
 import HelpIconButton from "./HelpIconButton";
-import ErrorTypography from "../../utils/error/ErrorTypography";
 
 function FormFields(props) {
-    const { parentId, submissionError, isAdmin, hasRead } = props;
+    const { parentId, isAdmin, hasRead } = props;
     const { t } = useTranslation("teams");
     return (
         <>
-            <ErrorTypography
-                errorMessage={submissionError?.message || submissionError}
-            />
             <Field
                 name="name"
                 label={t("teamName")}

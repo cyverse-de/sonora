@@ -34,7 +34,7 @@ const DELink = React.forwardRef((props, ref) => {
             href={href}
             onClick={onClick}
             ref={ref}
-            className={classes.dataLink}
+            className={classes.link}
             onKeyDown={(e) => {
                 if (e.key === "Enter") {
                     onClick(e);

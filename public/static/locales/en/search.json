@@ -2,6 +2,7 @@
     "analysesSearchTab": "Analyses ({{count}})",
     "appsSearchTab": "Apps ({{count}})",
     "dataSearchTab": "Data ({{count}})",
+    "teamSearchTab": "Teams ({{count}})",
     "errorSearch": "Unable to search. Please try again.",
     "noResults": "No results to display.",
     "matchingResults": "matching results.",
@@ -10,5 +11,6 @@
     "searchPagePrompt": "Begin searching by typing in the search field.",
     "viewAllAppsResults": "View all apps results for {{searchTerm}}",
     "viewAllAnalysesResults": "View all analyses results for {{searchTerm}}",
-    "viewAllDataResults": "View all data results for {{searchTerm}}"
+    "viewAllDataResults": "View all data results for {{searchTerm}}",
+    "viewAllTeamResults": "View all team results for {{searchTerm}}"
 }

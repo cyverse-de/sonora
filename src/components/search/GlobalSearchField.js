@@ -14,6 +14,7 @@ import {
     useDataSearch,
     useAppsSearch,
     useAnalysesSearch,
+    useTeamsSearch,
 } from "./searchQueries";
 import ResourceTypes from "../models/ResourceTypes";
 import searchConstants from "./constants";
@@ -27,6 +28,7 @@ import { BOOTSTRAP_KEY } from "serviceFacades/users";
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
 import { APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
 import { DATA_SEARCH_QUERY_KEY } from "serviceFacades/filesystem";
+import { SEARCH_TEAMS_QUERY } from "serviceFacades/groups";
 
 import appFields from "components/apps/appFields";
 import analysisFields from "components/analyses/analysisFields";
@@ -56,6 +58,7 @@ import {
     Folder as FolderIcon,
     Apps as AppsIcon,
 } from "@material-ui/icons";
+import { TeamIcon } from "../teams/Icons";
 import { useUserProfile } from "../../contexts/userProfile";
 
 const useStyles = makeStyles((theme) => ({
@@ -128,6 +131,9 @@ const getViewAllPrompt = (id, searchTerm, i18NSearch) => {
     } else if (id === searchConstants.VIEW_ALL_APPS_ID) {
         prompt = i18NSearch("viewAllAppsResults", { searchTerm });
         selectedTab = SEARCH_RESULTS_TABS.apps;
+    } else if (id === searchConstants.VIEW_ALL_TEAMS_ID) {
+        prompt = i18NSearch("viewAllTeamResults", { searchTerm });
+        selectedTab = SEARCH_RESULTS_TABS.teams;
     }
 
     return [prompt, selectedTab];
@@ -202,7 +208,8 @@ function DataSearchOption(props) {
     if (
         id === searchConstants.VIEW_ALL_ANALYSES_ID ||
         id === searchConstants.VIEW_ALL_APPS_ID ||
-        id === searchConstants.VIEW_ALL_DATA_ID
+        id === searchConstants.VIEW_ALL_DATA_ID ||
+        id === searchConstants.VIEW_ALL_TEAMS_ID
     ) {
         const [prompt, selectedTab] = getViewAllPrompt(
             id,
@@ -252,7 +259,8 @@ function AppsSearchOption(props) {
     if (
         id === searchConstants.VIEW_ALL_ANALYSES_ID ||
         id === searchConstants.VIEW_ALL_APPS_ID ||
-        id === searchConstants.VIEW_ALL_DATA_ID
+        id === searchConstants.VIEW_ALL_DATA_ID ||
+        id === searchConstants.VIEW_ALL_TEAMS_ID
     ) {
         const [prompt, selectedTab] = getViewAllPrompt(
             id,
@@ -293,7 +301,8 @@ function AnalysesSearchOption(props) {
     if (
         id === searchConstants.VIEW_ALL_ANALYSES_ID ||
         id === searchConstants.VIEW_ALL_APPS_ID ||
-        id === searchConstants.VIEW_ALL_DATA_ID
+        id === searchConstants.VIEW_ALL_DATA_ID ||
+        id === searchConstants.VIEW_ALL_TEAMS_ID
     ) {
         const [prompt, selectedTab] = getViewAllPrompt(
             id,
@@ -326,6 +335,50 @@ function AnalysesSearchOption(props) {
     );
 }
 
+function TeamSearchOption(props) {
+    const theme = useTheme();
+    const { t: i18NSearch } = useTranslation("search");
+    const { baseId, filter, selectedOption, searchTerm } = props;
+
+    const id = selectedOption?.id;
+
+    if (
+        id === searchConstants.VIEW_ALL_ANALYSES_ID ||
+        id === searchConstants.VIEW_ALL_APPS_ID ||
+        id === searchConstants.VIEW_ALL_DATA_ID ||
+        id === searchConstants.VIEW_ALL_TEAMS_ID
+    ) {
+        const [prompt, selectedTab] = getViewAllPrompt(
+            id,
+            searchTerm,
+            i18NSearch
+        );
+        return (
+            <ViewAllOption
+                searchTerm={searchTerm}
+                filter={filter}
+                prompt={prompt}
+                selectedTab={selectedTab}
+                id={build(baseId, ids.VIEW_ALL)}
+            />
+        );
+    }
+
+    const href = `/${NavigationConstants.TEAMS}`;
+    const as = `/${NavigationConstants.TEAMS}`;
+    return (
+        <Link href={href} as={as} passHref>
+            <SearchOption
+                primary={selectedOption.display_extension}
+                secondary={selectedOption.description}
+                icon={<TeamIcon style={{ color: theme.palette.info.main }} />}
+                searchTerm={searchTerm}
+                id={build(baseId, selectedOption.id)}
+            />
+        </Link>
+    );
+}
+
 function GlobalSearchField(props) {
     const classes = useStyles();
     const router = useRouter();
@@ -348,6 +401,7 @@ function GlobalSearchField(props) {
     );
     const [appsSearchKey, setAppsSearchKey] = useState(APPS_SEARCH_QUERY_KEY);
     const [dataSearchKey, setDataSearchKey] = useState(DATA_SEARCH_QUERY_KEY);
+    const [teamSearchKey, setTeamSearchKey] = useState([SEARCH_TEAMS_QUERY]);
 
     const [
         analysesSearchQueryEnabled,
@@ -355,6 +409,7 @@ function GlobalSearchField(props) {
     ] = useState(false);
     const [appsSearchQueryEnabled, setAppsSearchQueryEnabled] = useState(false);
     const [dataSearchQueryEnabled, setDataSearchQueryEnabled] = useState(false);
+    const [teamSearchQueryEnabled, setTeamSearchQueryEnabled] = useState(false);
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -387,6 +442,12 @@ function GlobalSearchField(props) {
         resultType: { type: t("apps"), id: searchConstants.APPS },
     };
 
+    const viewAllTeamOptions = {
+        id: searchConstants.VIEW_ALL_TEAMS_ID,
+        name: searchTerm,
+        resultType: { type: t("teams"), id: searchConstants.TEAMS },
+    };
+
     useEffect(() => {
         setFilter(selectedFilter);
     }, [selectedFilter]);
@@ -414,6 +475,7 @@ function GlobalSearchField(props) {
                         viewAllAnalysesOptions,
                         viewAllAppOptions,
                         viewAllDataOptions,
+                        viewAllTeamOptions,
                     ]);
                 } else {
                     setOptions([
@@ -445,6 +507,7 @@ function GlobalSearchField(props) {
                         viewAllAppOptions,
                         viewAllAnalysesOptions,
                         viewAllDataOptions,
+                        viewAllTeamOptions,
                     ]);
                 } else {
                     setOptions([...options, ...apps, viewAllAppOptions]);
@@ -473,6 +536,7 @@ function GlobalSearchField(props) {
                         viewAllDataOptions,
                         viewAllAnalysesOptions,
                         viewAllAppOptions,
+                        viewAllTeamOptions,
                     ]);
                 } else {
                     setOptions([...options, ...data, viewAllDataOptions]);
@@ -481,11 +545,39 @@ function GlobalSearchField(props) {
         }
     );
 
+    const {
+        isFetching: searchingTeams,
+        error: teamSearchError,
+    } = useTeamsSearch(teamSearchKey, teamSearchQueryEnabled, (results) => {
+        if (results && results.groups?.length > 0) {
+            const teams = results.groups;
+            teams.forEach((team) => {
+                team.resultType = {
+                    type: t("teams"),
+                    id: searchConstants.TEAMS,
+                };
+            });
+            if (filter === searchConstants.TEAMS) {
+                setOptions([
+                    ...options,
+                    ...teams,
+                    viewAllTeamOptions,
+                    viewAllDataOptions,
+                    viewAllAppOptions,
+                    viewAllAnalysesOptions,
+                ]);
+            } else {
+                setOptions([...options, ...teams, viewAllTeamOptions]);
+            }
+        }
+    });
+
     const handleChange = (event, value, reason) => {
         if (reason === "clear" || value === "") {
             setAnalysesSearchQueryEnabled(false);
             setAppsSearchQueryEnabled(false);
             setDataSearchQueryEnabled(false);
+            setTeamSearchQueryEnabled(false);
             setOptions([]);
         }
         setSearchTerm(value);
@@ -535,29 +627,43 @@ function GlobalSearchField(props) {
                 filter: getAnalysesSearchQueryFilter(searchTerm, t),
             },
         ]);
+
+        setTeamSearchKey([SEARCH_TEAMS_QUERY, { searchTerm }]);
+
         switch (filter) {
             case searchConstants.DATA:
                 setDataSearchQueryEnabled(true);
                 setAppsSearchQueryEnabled(false);
                 setAnalysesSearchQueryEnabled(false);
+                setTeamSearchQueryEnabled(false);
                 break;
 
             case searchConstants.APPS:
                 setDataSearchQueryEnabled(false);
                 setAppsSearchQueryEnabled(true);
                 setAnalysesSearchQueryEnabled(false);
+                setTeamSearchQueryEnabled(false);
                 break;
 
             case searchConstants.ANALYSES:
                 setDataSearchQueryEnabled(false);
                 setAppsSearchQueryEnabled(false);
                 setAnalysesSearchQueryEnabled(userProfile?.id);
+                setTeamSearchQueryEnabled(false);
+                break;
+
+            case searchConstants.TEAMS:
+                setDataSearchQueryEnabled(false);
+                setAppsSearchQueryEnabled(false);
+                setAnalysesSearchQueryEnabled(false);
+                setTeamSearchQueryEnabled(userProfile?.id);
                 break;
 
             default:
                 setDataSearchQueryEnabled(true);
                 setAppsSearchQueryEnabled(true);
                 setAnalysesSearchQueryEnabled(userProfile?.id);
+                setTeamSearchQueryEnabled(userProfile?.id);
         }
     }, [
         analysesI18n,
@@ -578,21 +684,31 @@ function GlobalSearchField(props) {
     }, [searchTerm, doSearch]);
 
     useEffect(() => {
-        if (analysesSearchError || appsSearchError || dataSearchError) {
+        if (
+            analysesSearchError ||
+            appsSearchError ||
+            dataSearchError ||
+            teamSearchError
+        ) {
             showErrorAnnouncer(
                 t("searchError"),
-                analysesSearchError || appsSearchError || dataSearchError
+                analysesSearchError ||
+                    appsSearchError ||
+                    dataSearchError ||
+                    teamSearchError
             );
         }
     }, [
         analysesSearchError,
         appsSearchError,
         dataSearchError,
+        teamSearchError,
         showErrorAnnouncer,
         t,
     ]);
 
-    const loading = searchingAnalyses || searchingApps || searchingData;
+    const loading =
+        searchingAnalyses || searchingApps || searchingData || searchingTeams;
 
     const renderCustomOption = (option) => {
         switch (option?.resultType?.id) {
@@ -621,6 +737,15 @@ function GlobalSearchField(props) {
                         searchTerm={searchTerm}
                         filter={filter}
                         baseId={build(ids.SEARCH, ids.ANALYSES_SEARCH_OPTION)}
+                    />
+                );
+            case searchConstants.TEAMS:
+                return (
+                    <TeamSearchOption
+                        selectedOption={option}
+                        searchTerm={searchTerm}
+                        filter={filter}
+                        baseId={build(ids.SEARCH, ids.TEAM_SEARCH_OPTION)}
                     />
                 );
             default:

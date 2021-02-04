@@ -65,6 +65,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import HelpIcon from "@material-ui/icons/Help";
 import AppsIcon from "@material-ui/icons/Apps";
+import { TeamIcon } from "../teams/Icons";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LabelImportantIcon from "@material-ui/icons/LabelImportant";
 import HomeIcon from "@material-ui/icons/Home";
@@ -549,6 +550,15 @@ function CyverseAppBar(props) {
                 />
             </Hidden>
             <Divider />
+            <DrawerItem
+                title={t("teams")}
+                id={ids.TEAMS_MI}
+                icon={TeamIcon}
+                thisView={NavigationConstants.TEAMS}
+                activeView={activeView}
+                toggleDrawer={toggleDrawer}
+                open={open}
+            />
             {userProfile?.id && (
                 <DrawerItem
                     title={t("settings")}

@@ -15,12 +15,14 @@ import {
     analysesSearchResp,
 } from "./searchMocks";
 import { fileTypesResp } from "../data/DataMocks";
+import { teamList } from "../teams/TeamMocks";
 
 function DetailedSearchResultsTest() {
     mockAxios.onGet(/\/api\/filetypes\/type-list.*/).reply(200, fileTypesResp);
     mockAxios.onPost(/\/api\/filesystem\/search.*/).reply(200, dataSearchResp);
     mockAxios.onGet(/\/api\/apps.*/).reply(200, appsSearchResp);
     mockAxios.onGet(/\/api\/analyses.*/).reply(200, analysesSearchResp);
+    mockAxios.onGet(/\/api\/teams*/).reply(200, teamList);
 
     const [currentTab, setCurrentTab] = React.useState(
         SEARCH_RESULTS_TABS.data

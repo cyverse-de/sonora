@@ -1,0 +1,12 @@
+{
+  "allTeams": "All Teams",
+  "ariaTeamFilter": "Team Filter",
+  "creator": "Creator Name",
+  "description": "Description",
+  "helpText": "<p>Teams allow you to create, organize, and join public or private groups of collaborators.</p><p>You can share apps or tools with Teams, but not data.</p><p>Any teams you are a member of will show up under \"My Teams\". Find other public teams that you can join by selecting \"All Teams\".</p><p>You can create your own Team and define Team members and Team privileges by selecting \"Create Team\".</p>",
+  "myTeams": "My Teams",
+  "name": "Name",
+  "noTeams": "No teams",
+  "team": "Team",
+  "view": "View"
+}

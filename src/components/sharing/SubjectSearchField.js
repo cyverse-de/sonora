@@ -113,7 +113,7 @@ function SubjectSearchField(props) {
                 }
                 return isGroup(option)
                     ? groupName(option)
-                    : option["display_name"];
+                    : option["display_name"] || "";
             }}
             filterOptions={(options, params) => {
                 return options.filter(

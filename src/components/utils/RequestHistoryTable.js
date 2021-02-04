@@ -7,12 +7,8 @@
 import React, { useState } from "react";
 
 import ids from "./ids";
-import {
-    formatDate,
-    stableSort,
-    getSorting,
-    EnhancedTableHead,
-} from "@cyverse-de/ui-lib";
+import DETableHead from "components/utils/DETableHead";
+import { formatDate, stableSort, getSorting } from "@cyverse-de/ui-lib";
 
 import {
     Table,
@@ -73,7 +69,7 @@ export default function RequestHistoryTable(props) {
                     );
                 })}
             </TableBody>
-            <EnhancedTableHead
+            <DETableHead
                 columnData={columnData}
                 selectable={false}
                 order={order}

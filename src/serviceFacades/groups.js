@@ -168,36 +168,36 @@ function updateTeamMemberStats({
     const promises = [];
 
     if (remove?.length > 0) {
-        promises.push(removeTeamMembers({ name, members: remove }));
+        promises.push(() => removeTeamMembers({ name, members: remove }));
         const updates = remove.map((userId) => {
             return {
                 subject_id: userId,
                 privileges: [],
             };
         });
-        promises.push(updateTeamPrivileges({ name, updates }));
+        promises.push(() => updateTeamPrivileges({ name, updates }));
     }
 
     if (add?.length > 0) {
         const userIds = Object.values(add).map(
             (privilege) => privilege.subject.id
         );
-        promises.push(addTeamMembers({ name, members: userIds }));
-        const updates = createPrivilegeUpdates(Object.values(add));
-        promises.push(updateTeamPrivileges({ name, updates }));
+        promises.push(() => addTeamMembers({ name, members: userIds }));
+
         const noSelfUpdates = add.filter(
             (privilege) => privilege.subject.id !== selfId
         );
         const updates = createPrivilegeUpdates(noSelfUpdates);
+        promises.push(() => updateTeamPrivileges({ name, updates }));
     }
 
     if (update?.length > 0) {
         const updates = createPrivilegeUpdates(Object.values(update));
-        promises.push(updateTeamPrivileges({ name, updates }));
+        promises.push(() => updateTeamPrivileges({ name, updates }));
     }
 
     if (isPublicTeam !== wasPublicTeam) {
-        promises.push(
+        promises.push(() =>
             updateTeamPrivileges({
                 name,
                 updates: [
@@ -210,7 +210,11 @@ function updateTeamMemberStats({
         );
     }
 
-    return Promise.all(promises);
+    return promises.reduce((currentPromise, promise) => {
+        return currentPromise.then(() => {
+            return promise();
+        });
+    }, Promise.resolve());
 }
 
 export {

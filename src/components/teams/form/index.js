@@ -6,7 +6,6 @@ import { useMutation, useQuery } from "react-query";
 
 import Privilege from "components/models/Privilege";
 import isQueryLoading from "components/utils/isQueryLoading";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import TableLoading from "components/utils/TableLoading";
 import { useUserProfile } from "contexts/userProfile";
 import FormFields from "./FormFields";
@@ -46,7 +45,7 @@ function TeamForm(props) {
     const [hasRead, setHasRead] = useState(false);
     const [isMember, setIsMember] = useState(false);
     const [teamNameSaved, setTeamNameSaved] = useState(false);
-    const [submissionError, setSubmissionError] = useState(null);
+    const [saveError, setSaveError] = useState(null);
 
     useEffect(() => {
         setHasRead(privilegeHasRead(selfPrivilege) || !teamName);
@@ -79,7 +78,7 @@ function TeamForm(props) {
                 }
             },
             onError: (error) => {
-                setSubmissionError({
+                setSaveError({
                     message: t("getTeamFail"),
                     object: error,
                 });
@@ -99,7 +98,7 @@ function TeamForm(props) {
                 });
             },
             onError: (error) => {
-                setSubmissionError({
+                setSaveError({
                     message: t("updateTeamFail"),
                     object: error,
                 });
@@ -120,7 +119,7 @@ function TeamForm(props) {
                 });
             },
             onError: (error) => {
-                setSubmissionError({
+                setSaveError({
                     message: t("createTeamFail"),
                     object: error,
                 });
@@ -134,7 +133,7 @@ function TeamForm(props) {
     ] = useMutation(updateTeamMemberStats, {
         onSuccess: goBackToTeamView,
         onError: (error) => {
-            setSubmissionError({
+            setSaveError({
                 message: t("updateTeamMemberStatsFail"),
                 object: error,
             });
@@ -146,7 +145,7 @@ function TeamForm(props) {
         {
             onSuccess: goBackToTeamView,
             onError: (error) => {
-                setSubmissionError({
+                setSaveError({
                     message: t("leaveTeamFail"),
                     object: error,
                 });
@@ -159,7 +158,7 @@ function TeamForm(props) {
         {
             onSuccess: goBackToTeamView,
             onError: (error) => {
-                setSubmissionError({
+                setSaveError({
                     message: t("deleteTeamFail"),
                     object: error,
                 });
@@ -184,7 +183,7 @@ function TeamForm(props) {
             privileges: newPrivileges,
         } = values;
 
-        setSubmissionError(null);
+        setSaveError(null);
 
         // If the user tries to resubmit the form after updating/creating the
         // team name has already succeeded (but maybe updating members failed),
@@ -279,24 +278,12 @@ function TeamForm(props) {
                         </>
                     )}
 
-                    {submissionError && (
-                        <ErrorTypographyWithDialog
-                            errorMessage={submissionError?.message}
-                            errorObject={submissionError?.object}
-                        />
-                    )}
                     {!loading && (
                         <FormFields
                             parentId={parentId}
                             isAdmin={isAdmin}
                             hasRead={hasRead}
-                            submissionError={submissionError}
-                        />
-                    )}
-                    {submissionError && (
-                        <ErrorTypographyWithDialog
-                            errorMessage={submissionError?.message}
-                            errorObject={submissionError?.object}
+                            saveError={saveError}
                         />
                     )}
                 </Paper>

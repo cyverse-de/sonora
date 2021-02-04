@@ -8,6 +8,7 @@ import {
 } from "@cyverse-de/ui-lib";
 import { Field, FieldArray } from "formik";
 
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import { validateGroupName } from "../util";
 import ids from "../ids";
 import { useTranslation } from "i18n";
@@ -15,10 +16,16 @@ import Members from "./Members";
 import HelpIconButton from "./HelpIconButton";
 
 function FormFields(props) {
-    const { parentId, isAdmin, hasRead } = props;
+    const { parentId, isAdmin, hasRead, saveError } = props;
     const { t } = useTranslation("teams");
     return (
         <>
+            {saveError && (
+                <ErrorTypographyWithDialog
+                    errorMessage={saveError?.message}
+                    errorObject={saveError?.object}
+                />
+            )}
             <Field
                 name="name"
                 label={t("teamName")}
@@ -72,6 +79,12 @@ function FormFields(props) {
                             parentId={parentId}
                         />
                     )}
+                />
+            )}
+            {saveError && (
+                <ErrorTypographyWithDialog
+                    errorMessage={saveError?.message}
+                    errorObject={saveError?.object}
                 />
             )}
         </>

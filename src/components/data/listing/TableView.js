@@ -25,8 +25,9 @@ import { useConfig } from "contexts/config";
 
 import { build, DECheckbox, EmptyTable, formatDate } from "@cyverse-de/ui-lib";
 
-import InstantLaunchButton from "components/instantlaunches";
-import { defaultInstantLaunch } from "serviceFacades/instantlaunches";
+import InstantLaunchButton, {
+    defaultInstantLaunch,
+} from "components/instantlaunches";
 
 import {
     fade,

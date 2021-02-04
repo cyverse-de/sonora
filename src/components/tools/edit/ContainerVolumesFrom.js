@@ -7,11 +7,11 @@ import SimpleExpansionPanel from "../SimpleExpansionPanel";
 import { nonEmptyField } from "components/utils/validations";
 
 import { DERow } from "components/utils/DERow";
+import DETableHead from "components/utils/DETableHead";
 
 import {
     build,
     EmptyTable,
-    EnhancedTableHead,
     FormCheckbox,
     FormTextField,
     getFormError,
@@ -162,7 +162,7 @@ function ContainerVolumesFrom(props) {
                             </DERow>
                         ))}
                 </TableBody>
-                <EnhancedTableHead
+                <DETableHead
                     selectable={false}
                     rowCount={volumesFrom ? volumesFrom.length : 0}
                     baseId={parentId}

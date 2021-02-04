@@ -167,7 +167,6 @@ function DEPagination(props) {
         onPageSizeChange,
         pageSize,
         baseId,
-        intl,
     } = props;
     const matches = useMediaQuery(theme.breakpoints.down("sm"));
     return (
@@ -190,7 +189,6 @@ function DEPagination(props) {
                         onPageSizeChange={onPageSizeChange}
                         selectedPageSize={pageSize}
                         baseId={baseId}
-                        intl={intl}
                     />
                 </Grid>
             </Grid>

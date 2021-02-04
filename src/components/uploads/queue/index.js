@@ -7,7 +7,7 @@
  */
 
 import React from "react";
-
+import { useTranslation } from "i18n";
 import {
     Avatar,
     CircularProgress,
@@ -37,9 +37,7 @@ import {
     useUploadTrackingDispatch,
 } from "../../../contexts/uploadTracking";
 
-import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
-
-import messages from "./messages";
+import { build } from "@cyverse-de/ui-lib";
 import ids from "../dialog/ids";
 
 const useStyles = makeStyles((theme) => ({
@@ -106,6 +104,7 @@ const EllipsisField = ({ children }) => {
  */
 const UploadItem = ({ upload, handleCancel, baseId }) => {
     const theme = useTheme();
+    const { t } = useTranslation("upload");
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
     const uploadPath = [upload.parentPath, upload.filename].join("/");
@@ -139,7 +138,7 @@ const UploadItem = ({ upload, handleCancel, baseId }) => {
             <ListItemSecondaryAction>
                 <IconButton
                     edge="end"
-                    aria-label={getMessage("cancelUploadAria")}
+                    aria-label={t("cancelUploadAria")}
                     onClick={(e) => handleCancel(e, upload)}
                 >
                     <CancelIcon />
@@ -189,4 +188,4 @@ const UploadList = (props) => {
     );
 };
 
-export default withI18N(UploadList, messages);
+export default UploadList;

@@ -15,14 +15,9 @@ import styles from "../styles";
 
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import TableLoading from "components/utils/TableLoading";
+import DETableHead from "components/utils/DETableHead";
 
-import {
-    build,
-    DECheckbox,
-    EnhancedTableHead,
-    getSorting,
-    stableSort,
-} from "@cyverse-de/ui-lib";
+import { build, DECheckbox, getSorting, stableSort } from "@cyverse-de/ui-lib";
 
 import {
     ButtonGroup,
@@ -221,6 +216,7 @@ const MetadataList = (props) => {
     );
 
     const { t } = useTranslation("metadata");
+
     const classes = useStyles();
 
     const onAddAVU = () => {
@@ -348,7 +344,7 @@ const MetadataList = (props) => {
                                 sortedAVURows.map((row) => row.tableRow)}
                         </TableBody>
                     )}
-                    <EnhancedTableHead
+                    <DETableHead
                         baseId={tableID}
                         columnData={columnData(t)}
                         order={order}

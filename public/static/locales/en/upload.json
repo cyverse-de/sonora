@@ -1,0 +1,7 @@
+{
+    "cancelUploadAria": "cancel-upload",
+    "close": "Close",
+    "closeAria": "close",
+    "help": "The list of uploads running in this browser tab or window.",
+    "title": "Upload Queue"
+}

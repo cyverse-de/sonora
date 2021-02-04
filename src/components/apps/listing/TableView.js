@@ -7,13 +7,7 @@
 
 import React from "react";
 import { useTranslation } from "i18n";
-import {
-    build,
-    DECheckbox,
-    EmptyTable,
-    EnhancedTableHead,
-    Rate,
-} from "@cyverse-de/ui-lib";
+import { build, DECheckbox, EmptyTable, Rate } from "@cyverse-de/ui-lib";
 import {
     Paper,
     Table,
@@ -27,6 +21,7 @@ import RowDotMenu from "./RowDotMenu";
 
 import AppStatusIcon from "../AppStatusIcon";
 import AppName from "../AppName";
+import DETableHead from "components/utils/DETableHead";
 import TableLoading from "components/utils/TableLoading";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import { DERow } from "components/utils/DERow";
@@ -132,7 +127,7 @@ function TableView(props) {
                 aria-label={t("ariaTableListing")}
                 id={tableId}
             >
-                <EnhancedTableHead
+                <DETableHead
                     selectable={enableSelection}
                     numSelected={selected.length}
                     rowsInPage={listing?.apps ? listing.apps.length : 0}

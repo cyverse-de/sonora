@@ -13,13 +13,9 @@ import ids from "../ids";
 import GridLoading from "../../utils/GridLoading";
 import ErrorTypography from "../../utils/error/ErrorTypography";
 import DEErrorDialog from "../../utils/error/DEErrorDialog";
+import DETableHead from "components/utils/DETableHead";
 
-import {
-    build,
-    CopyTextArea,
-    EnhancedTableHead,
-    formatDate,
-} from "@cyverse-de/ui-lib";
+import { build, CopyTextArea, formatDate } from "@cyverse-de/ui-lib";
 import {
     Collapse,
     Accordion,
@@ -137,7 +133,7 @@ function Updates(props) {
                     );
                 })}
             </TableBody>
-            <EnhancedTableHead
+            <DETableHead
                 selectable={false}
                 columnData={columns}
                 rowsInPage={updates.length}

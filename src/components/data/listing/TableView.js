@@ -19,14 +19,9 @@ import constants from "../../../constants";
 import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
 import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 import { DERow } from "components/utils/DERow";
+import DETableHead from "components/utils/DETableHead";
 
-import {
-    build,
-    DECheckbox,
-    EmptyTable,
-    EnhancedTableHead,
-    formatDate,
-} from "@cyverse-de/ui-lib";
+import { build, DECheckbox, EmptyTable, formatDate } from "@cyverse-de/ui-lib";
 
 import {
     fade,
@@ -260,7 +255,7 @@ function TableView(props) {
                     path: path,
                 })}
             >
-                <EnhancedTableHead
+                <DETableHead
                     selectable={true}
                     numSelected={selected.length}
                     onSelectAllClick={handleSelectAllClick}

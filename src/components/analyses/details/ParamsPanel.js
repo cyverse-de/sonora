@@ -16,7 +16,7 @@ import TableLoading from "../../utils/TableLoading";
 import ids from "../ids";
 import { isInputType, isReferenceGenomeType } from "./ArgumentTypeUtils";
 
-import { EnhancedTableHead } from "@cyverse-de/ui-lib";
+import DETableHead from "components/utils/DETableHead";
 
 import {
     Table,
@@ -120,7 +120,7 @@ function AnalysisParams(props) {
                         );
                     })}
                 </TableBody>
-                <EnhancedTableHead
+                <DETableHead
                     columnData={columns}
                     baseId={baseId}
                     order={order}

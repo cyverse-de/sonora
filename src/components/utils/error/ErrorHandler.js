@@ -6,14 +6,16 @@
 import React, { useEffect, useState } from "react";
 import Bowser from "bowser";
 import { useRouter } from "next/router";
-import { injectIntl } from "react-intl";
+import { useTranslation } from "i18n";
 
 import { intercomShow } from "../../../common/intercom";
 import NavigationConstants from "../../../common/NavigationConstants";
 import GridLabelValue from "../GridLabelValue";
 import { useUserProfile } from "../../../contexts/userProfile";
-import { build, getMessage, withI18N } from "@cyverse-de/ui-lib";
-import messages from "../messages";
+import constants from "../../../constants";
+import GridLoading from "../GridLoading";
+
+import { build } from "@cyverse-de/ui-lib";
 import ids from "../ids";
 import {
     Button,
@@ -30,8 +32,6 @@ import {
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import ErrorIcon from "@material-ui/icons/Error";
-import constants from "../../../constants";
-import GridLoading from "../GridLoading";
 
 const useStyles = makeStyles((theme) => ({
     cardContent: {
@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ClientInfo(props) {
     const [browser, setBrowser] = useState();
+    const { t } = useTranslation("util");
     useEffect(() => {
         setBrowser(Bowser.getParser(window.navigator.userAgent));
     }, []);
@@ -66,23 +67,23 @@ function ClientInfo(props) {
     }
     return (
         <>
-            <GridLabelValue label={getMessage("user")}>
+            <GridLabelValue label={t("user")}>
                 <Typography id={build(baseId, ids.USER)}>
                     {userProfile?.id}
                 </Typography>
             </GridLabelValue>
-            <GridLabelValue label={getMessage("browser")}>
+            <GridLabelValue label={t("browser")}>
                 <Typography id={build(baseId, ids.BROWSER)}>
                     {browser.getBrowser().name} - {browser.getBrowser().version}
                 </Typography>
             </GridLabelValue>
-            <GridLabelValue label={getMessage("os")}>
+            <GridLabelValue label={t("os")}>
                 <Typography id={build(baseId, ids.OS)}>
                     {browser.getOS().name} - {browser.getOS().versionName} -
                     {browser.getOS().version}
                 </Typography>
             </GridLabelValue>
-            <GridLabelValue label={getMessage("host")}>
+            <GridLabelValue label={t("host")}>
                 <Typography
                     id={build(baseId, ids.host)}
                     className={constants.CHROMATIC_IGNORE}
@@ -90,7 +91,7 @@ function ClientInfo(props) {
                     {window.location.origin}
                 </Typography>
             </GridLabelValue>
-            <GridLabelValue label={getMessage("timestamp")}>
+            <GridLabelValue label={t("timestamp")}>
                 <Typography
                     id={build(baseId, ids.host)}
                     className={constants.CHROMATIC_IGNORE}
@@ -104,6 +105,7 @@ function ClientInfo(props) {
 
 function ContactSupport(props) {
     const { baseId } = props;
+    const { t } = useTranslation("util");
     return (
         <Button
             id={build(baseId, ids.CONTACT_SUPPORT_BUTTON)}
@@ -112,13 +114,14 @@ function ContactSupport(props) {
             onClick={intercomShow}
             style={{ marginLeft: "auto" }}
         >
-            {getMessage("contactSupport")}
+            {t("contactSupport")}
         </Button>
     );
 }
 
 function ErrorHandler(props) {
     const { errorObject, baseId } = props;
+    const { t } = useTranslation("util");
     const router = useRouter();
     const classes = useStyles();
     const errBaseId = build(baseId, ids.ERROR_HANDLER);
@@ -128,13 +131,11 @@ function ErrorHandler(props) {
         avatar = <ErrorIcon fontSize="large" color="error" />;
         title = (
             <Typography color="error" variant="h6">
-                {getMessage("oops")}
+                {t("oops")}
             </Typography>
         );
         subHeader = (
-            <Typography color="error">
-                {getMessage("unexpectedError")}
-            </Typography>
+            <Typography color="error">{t("unexpectedError")}</Typography>
         );
 
         contents = (
@@ -148,13 +149,13 @@ function ErrorHandler(props) {
             avatar = <ErrorIcon color="primary" fontSize="large" />;
             title = (
                 <Typography component="span" variant="h6">
-                    {getMessage("signInReqd")}
+                    {t("signInReqd")}
                 </Typography>
             );
             contents = (
                 <>
                     <Typography className={classes.signIn}>
-                        {getMessage("signInPrompt")}
+                        {t("signInPrompt")}
                         <Link
                             component="button"
                             className={classes.link}
@@ -167,12 +168,12 @@ function ErrorHandler(props) {
                             }}
                         >
                             <Typography variant="h6" className={classes.signIn}>
-                                {getMessage("signIn")}
+                                {t("signIn")}
                             </Typography>
                         </Link>
                     </Typography>
                     <Typography className={classes.signIn}>
-                        {getMessage("needAccount")}
+                        {t("needAccount")}
 
                         <Link
                             className={classes.link}
@@ -187,7 +188,7 @@ function ErrorHandler(props) {
                                 variant="subtitle2"
                                 className={classes.signIn}
                             >
-                                {getMessage("register")}
+                                {t("register")}
                             </Typography>
                         </Link>
                     </Typography>
@@ -197,13 +198,13 @@ function ErrorHandler(props) {
             avatar = <SupervisorAccountIcon color="primary" fontSize="large" />;
             title = (
                 <Typography component="span" variant="h6">
-                    {getMessage("notAuthorized")}
+                    {t("notAuthorized")}
                 </Typography>
             );
             contents = (
                 <>
                     <Typography className={classes.signIn}>
-                        {getMessage("forbiddenMsg")}
+                        {t("forbiddenMsg")}
                     </Typography>
                 </>
             );
@@ -211,7 +212,7 @@ function ErrorHandler(props) {
             avatar = <ErrorIcon fontSize="large" color="error" />;
             title = (
                 <Typography color="error" variant="h6">
-                    {getMessage("error")}
+                    {t("error")}
                 </Typography>
             );
             subHeader = (
@@ -221,22 +222,22 @@ function ErrorHandler(props) {
             );
             contents = (
                 <Grid container spacing={2} className={classes.container}>
-                    <GridLabelValue label={getMessage("requestedURL")}>
+                    <GridLabelValue label={t("requestedURL")}>
                         <Typography id={build(errBaseId, ids.REQUESTED_URL)}>
                             {errorObject.config?.url}
                         </Typography>
                     </GridLabelValue>
-                    <GridLabelValue label={getMessage("statusCode")}>
+                    <GridLabelValue label={t("statusCode")}>
                         <Typography id={build(errBaseId, ids.STATUS_CODE)}>
                             {errorResponse?.status}
                         </Typography>
                     </GridLabelValue>
-                    <GridLabelValue label={getMessage("errorCode")}>
+                    <GridLabelValue label={t("errorCode")}>
                         <Typography id={build(errBaseId, ids.ERROR_CODE)}>
                             {errorResponse?.data?.error_code}
                         </Typography>
                     </GridLabelValue>
-                    <GridLabelValue label={getMessage("reason")}>
+                    <GridLabelValue label={t("reason")}>
                         <Typography id={build(errBaseId, ids.REASON)}>
                             {JSON.stringify(errorResponse?.data?.reason)}
                         </Typography>
@@ -261,4 +262,4 @@ function ErrorHandler(props) {
     );
 }
 
-export default withI18N(injectIntl(ErrorHandler), messages);
+export default ErrorHandler;

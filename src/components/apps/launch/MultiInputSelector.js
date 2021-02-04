@@ -14,13 +14,13 @@ import ids from "./ids";
 import { BrowseButton } from "./InputSelector";
 
 import globalConstants from "../../../constants";
+import DETableHead from "components/utils/DETableHead";
 
 import {
     build as buildDebugId,
     getFormError,
     stableSort,
     EmptyTable,
-    EnhancedTableHead,
 } from "@cyverse-de/ui-lib";
 
 import {
@@ -163,7 +163,7 @@ const MultiInputSelector = (props) => {
                                 aria-labelledby={tableLabelID}
                                 padding="none"
                             >
-                                <EnhancedTableHead
+                                <DETableHead
                                     selectable={false}
                                     rowsInPage={paths?.length || 0}
                                     order={order}

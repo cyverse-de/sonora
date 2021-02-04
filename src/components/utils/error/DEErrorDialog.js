@@ -5,8 +5,8 @@
  **/
 
 import React from "react";
-import { withI18N, formatMessage } from "@cyverse-de/ui-lib";
-import messages from "../messages";
+import { useTranslation } from "i18n";
+
 import {
     Dialog,
     DialogContent,
@@ -16,7 +16,6 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import ErrorHandler from "./ErrorHandler";
-import { injectIntl } from "react-intl";
 
 const useStyles = makeStyles((theme) => ({
     closeButton: {
@@ -29,13 +28,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DEErrorDialog(props) {
-    const { errorObject, open, baseId, handleClose, intl } = props;
+    const { errorObject, open, baseId, handleClose } = props;
+    const { t } = useTranslation("util");
     const classes = useStyles();
     return (
         <Dialog open={open} onClose={handleClose} scroll="body">
             <DialogTitle>
                 <IconButton
-                    aria-label={formatMessage(intl, "close")}
+                    aria-label={t("close")}
                     className={classes.closeButton}
                     onClick={handleClose}
                 >
@@ -49,4 +49,4 @@ function DEErrorDialog(props) {
     );
 }
 
-export default withI18N(injectIntl(DEErrorDialog), messages);
+export default DEErrorDialog;

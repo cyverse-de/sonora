@@ -6,13 +6,9 @@ import { useTranslation } from "i18n";
 import TableLoading from "../../utils/TableLoading";
 import { DERow } from "components/utils/DERow";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
+import DETableHead from "components/utils/DETableHead";
 
-import {
-    build,
-    DECheckbox,
-    EmptyTable,
-    EnhancedTableHead,
-} from "@cyverse-de/ui-lib";
+import { build, DECheckbox, EmptyTable } from "@cyverse-de/ui-lib";
 import {
     Paper,
     Table,
@@ -243,9 +239,7 @@ function TableView(props) {
     } = props;
     const tableId = buildId(baseId, ids.LISTING_TABLE);
     const { t } = useTranslation("tools");
-
     const columns = columnData(t, isAdmin);
-
     const tools = listing?.tools;
 
     if (error) {
@@ -261,7 +255,7 @@ function TableView(props) {
                 size="small"
                 aria-label={t("ariaTableListing")}
             >
-                <EnhancedTableHead
+                <DETableHead
                     baseId={baseId}
                     columnData={columns}
                     numSelected={selected.length}

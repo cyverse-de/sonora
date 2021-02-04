@@ -14,18 +14,13 @@ import analysisStatus from "components/models/analysisStatus";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import TableLoading from "components/utils/TableLoading";
 import { DERow } from "components/utils/DERow";
+import DETableHead from "components/utils/DETableHead";
 
 import analysisFields from "../analysisFields";
 
 import { getAnalysisUser } from "../utils";
 
-import {
-    build,
-    DECheckbox,
-    EmptyTable,
-    EnhancedTableHead,
-    formatDate,
-} from "@cyverse-de/ui-lib";
+import { build, DECheckbox, EmptyTable, formatDate } from "@cyverse-de/ui-lib";
 
 import {
     makeStyles,
@@ -203,7 +198,7 @@ function TableView(props) {
                 size="small"
                 aria-label={t("ariaTableListing")}
             >
-                <EnhancedTableHead
+                <DETableHead
                     baseId={baseId}
                     selectable={true}
                     numSelected={selected.length}

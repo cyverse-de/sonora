@@ -7,11 +7,11 @@ import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
 import { minValue, nonEmptyMinValue } from "components/utils/validations";
 import { DERow } from "components/utils/DERow";
+import DETableHead from "components/utils/DETableHead";
 
 import {
     build,
     EmptyTable,
-    EnhancedTableHead,
     FormCheckbox,
     FormNumberField,
 } from "@cyverse-de/ui-lib";
@@ -157,7 +157,7 @@ function ContainerPorts(props) {
                             </DERow>
                         ))}
                 </TableBody>
-                <EnhancedTableHead
+                <DETableHead
                     selectable={false}
                     rowCount={ports ? ports.length : 0}
                     baseId={parentId}

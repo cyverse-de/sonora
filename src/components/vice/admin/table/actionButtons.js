@@ -46,7 +46,6 @@ const ActionButtons = ({
     handleUploadOutputs = (_) => {},
     handleExit = (_) => {},
     handleSaveAndExit = (_) => {},
-    intl,
 }) => {
     const classes = useStyles();
     const { t } = useTranslation("vice-admin");

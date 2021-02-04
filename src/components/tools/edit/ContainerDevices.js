@@ -6,11 +6,11 @@ import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
 import { nonEmptyField } from "components/utils/validations";
 import { DERow } from "components/utils/DERow";
+import DETableHead from "components/utils/DETableHead";
 
 import {
     build,
     EmptyTable,
-    EnhancedTableHead,
     FormTextField,
     getFormError,
 } from "@cyverse-de/ui-lib";
@@ -113,7 +113,7 @@ function ContainerDevices(props) {
                             </DERow>
                         ))}
                 </TableBody>
-                <EnhancedTableHead
+                <DETableHead
                     selectable={false}
                     rowCount={devices ? devices.length : 0}
                     baseId={parentId}

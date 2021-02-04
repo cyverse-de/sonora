@@ -19,11 +19,11 @@ import { notificationTypeToCategory } from "components/models/NotificationCatego
 import DEPagination from "components/utils/DEPagination";
 import TableLoading from "components/utils/TableLoading";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
+import DETableHead from "components/utils/DETableHead";
 
 import {
     build as buildId,
     DECheckbox,
-    EnhancedTableHead,
     EmptyTable,
     formatDate,
 } from "@cyverse-de/ui-lib";
@@ -264,7 +264,7 @@ const TableView = (props) => {
                                 })}
                         </TableBody>
                     )}
-                    <EnhancedTableHead
+                    <DETableHead
                         selectable={true}
                         numSelected={selected.length}
                         order={order}

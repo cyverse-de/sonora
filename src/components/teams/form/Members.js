@@ -118,12 +118,11 @@ function Members(props) {
                 accessor: (row) => getUserPrimaryText(row.subject),
                 Cell: ({ row }) => {
                     return (
-                        <Field
-                            name={`${name}.${row.index}.subject`}
-                            render={({ field: { value } }) => {
+                        <Field name={`${name}.${row.index}.subject`}>
+                            {({ field: { value } }) => {
                                 return <SubjectTableCell subject={value} />;
                             }}
-                        />
+                        </Field>
                     );
                 },
             },
@@ -134,12 +133,8 @@ function Members(props) {
                     const privilege = row.original;
                     const rowId = getRowId(row);
                     return (
-                        <Field
-                            name={`${name}.${row.index}.name`}
-                            render={({
-                                field: { onChange, ...field },
-                                ...props
-                            }) => {
+                        <Field name={`${name}.${row.index}.name`}>
+                            {({ field: { onChange, ...field }, ...props }) => {
                                 if (!isAdmin || isSelf(privilege)) {
                                     return t(privilege.name);
                                 }
@@ -152,7 +147,7 @@ function Members(props) {
                                     />
                                 );
                             }}
-                        />
+                        </Field>
                     );
                 },
             },

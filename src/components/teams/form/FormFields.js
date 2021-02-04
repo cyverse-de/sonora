@@ -69,9 +69,8 @@ function FormFields(props) {
                 </div>
             )}
             {hasRead && (
-                <FieldArray
-                    name="privileges"
-                    render={(props) => (
+                <FieldArray name="privileges">
+                    {(props) => (
                         <Members
                             {...props}
                             isAdmin={isAdmin}
@@ -79,7 +78,7 @@ function FormFields(props) {
                             parentId={parentId}
                         />
                     )}
-                />
+                </FieldArray>
             )}
             {saveError && (
                 <ErrorTypographyWithDialog

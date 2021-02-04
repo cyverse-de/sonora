@@ -7,11 +7,11 @@ import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
 import { minValue, nonEmptyMinValue } from "components/utils/validations";
 import { DERow } from "components/utils/DERow";
+import DETableHead from "components/utils/DETableHead";
 
 import {
     build,
     EmptyTable,
-    EnhancedTableHead,
     FormCheckbox,
     FormNumberField,
 } from "@cyverse-de/ui-lib";
@@ -64,7 +64,6 @@ function ContainerPorts(props) {
 
     const { t } = useTranslation("tools");
     const { t: i18nUtil } = useTranslation("util");
-    const { t: i18nCommon } = useTranslation("common");
 
     let ports = getIn(values, name);
     let hasErrors = !!getIn(errors, name);
@@ -158,14 +157,12 @@ function ContainerPorts(props) {
                             </DERow>
                         ))}
                 </TableBody>
-                <EnhancedTableHead
+                <DETableHead
                     selectable={false}
                     rowCount={ports ? ports.length : 0}
                     baseId={parentId}
                     ids={ids.PORTS_TABLE}
                     columnData={tableColumns}
-                    selectAllLabel={i18nCommon("selectAllLabel")}
-                    sortLabel={i18nCommon("sortLabel")}
                 />
             </Table>
         </SimpleExpansionPanel>

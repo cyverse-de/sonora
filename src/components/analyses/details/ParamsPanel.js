@@ -16,7 +16,7 @@ import TableLoading from "../../utils/TableLoading";
 import ids from "../ids";
 import { isInputType, isReferenceGenomeType } from "./ArgumentTypeUtils";
 
-import { EnhancedTableHead } from "@cyverse-de/ui-lib";
+import DETableHead from "components/utils/DETableHead";
 
 import {
     Table,
@@ -69,7 +69,6 @@ const columnData = (t) => [
 function AnalysisParams(props) {
     const { parameters, isParamsFetching, paramsFetchError, baseId } = props;
     const { t } = useTranslation("analyses");
-    const { t: i18nCommon } = useTranslation("common");
     const [order] = useState("desc");
     const [orderBy] = useState("Name");
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
@@ -121,13 +120,11 @@ function AnalysisParams(props) {
                         );
                     })}
                 </TableBody>
-                <EnhancedTableHead
+                <DETableHead
                     columnData={columns}
                     baseId={baseId}
                     order={order}
                     orderBy={orderBy}
-                    selectAllLabel={i18nCommon("selectAllLabel")}
-                    sortLabel={i18nCommon("sortLabel")}
                 />
             </Table>
         </TableContainer>

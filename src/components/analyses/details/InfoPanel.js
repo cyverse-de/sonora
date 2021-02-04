@@ -13,13 +13,9 @@ import ids from "../ids";
 import GridLoading from "../../utils/GridLoading";
 import ErrorTypography from "../../utils/error/ErrorTypography";
 import DEErrorDialog from "../../utils/error/DEErrorDialog";
+import DETableHead from "components/utils/DETableHead";
 
-import {
-    build,
-    CopyTextArea,
-    EnhancedTableHead,
-    formatDate,
-} from "@cyverse-de/ui-lib";
+import { build, CopyTextArea, formatDate } from "@cyverse-de/ui-lib";
 import {
     Collapse,
     Accordion,
@@ -119,7 +115,6 @@ function UpdateDetails(props) {
 function Updates(props) {
     const { updates, baseId } = props;
     const { t } = useTranslation("analyses");
-    const { t: i18nCommon } = useTranslation("common");
     let columns = columnData(t);
 
     return (
@@ -138,13 +133,11 @@ function Updates(props) {
                     );
                 })}
             </TableBody>
-            <EnhancedTableHead
+            <DETableHead
                 selectable={false}
                 columnData={columns}
                 rowsInPage={updates.length}
                 baseId={baseId}
-                selectAllLabel={i18nCommon("selectAllLabel")}
-                sortLabel={i18nCommon("sortLabel")}
             />
         </Table>
     );

@@ -19,14 +19,9 @@ import constants from "../../../constants";
 import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
 import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 import { DERow } from "components/utils/DERow";
+import DETableHead from "components/utils/DETableHead";
 
-import {
-    build,
-    DECheckbox,
-    EmptyTable,
-    EnhancedTableHead,
-    formatDate,
-} from "@cyverse-de/ui-lib";
+import { build, DECheckbox, EmptyTable, formatDate } from "@cyverse-de/ui-lib";
 
 import {
     fade,
@@ -144,7 +139,6 @@ function TableView(props) {
     } = props;
     const invalidRowClass = invalidRowStyles();
     const { t } = useTranslation("data");
-    const { t: i18nCommon } = useTranslation("common");
     const dataRecordFields = dataFields(t);
     const tableId = build(baseId, ids.LISTING_TABLE);
     const [displayColumns, setDisplayColumns] = useState(
@@ -261,7 +255,7 @@ function TableView(props) {
                     path: path,
                 })}
             >
-                <EnhancedTableHead
+                <DETableHead
                     selectable={true}
                     numSelected={selected.length}
                     onSelectAllClick={handleSelectAllClick}
@@ -271,8 +265,6 @@ function TableView(props) {
                     baseId={tableId}
                     columnData={getColumnDetails(displayColumns)}
                     onRequestSort={handleRequestSort}
-                    selectAllLabel={i18nCommon("selectAllLabel")}
-                    sortLabel={i18nCommon("sortLabel")}
                 />
                 {loading && (
                     <TableLoading

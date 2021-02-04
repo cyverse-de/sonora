@@ -7,11 +7,11 @@ import SimpleExpansionPanel from "../SimpleExpansionPanel";
 import { nonEmptyField } from "components/utils/validations";
 
 import { DERow } from "components/utils/DERow";
+import DETableHead from "components/utils/DETableHead";
 
 import {
     build,
     EmptyTable,
-    EnhancedTableHead,
     FormCheckbox,
     FormTextField,
     getFormError,
@@ -46,7 +46,6 @@ function ContainerVolumesFrom(props) {
 
     const { t } = useTranslation("tools");
     const { t: i18nUtil } = useTranslation("util");
-    const { t: i18nCommon } = useTranslation("common");
 
     let volumesFrom = getIn(values, name);
     let hasErrors = !!getFormError(name, touched, errors);
@@ -163,14 +162,12 @@ function ContainerVolumesFrom(props) {
                             </DERow>
                         ))}
                 </TableBody>
-                <EnhancedTableHead
+                <DETableHead
                     selectable={false}
                     rowCount={volumesFrom ? volumesFrom.length : 0}
                     baseId={parentId}
                     ids={ids.PORTS_TABLE}
                     columnData={TABLE_COLUMNS}
-                    selectAllLabel={i18nCommon("selectAllLabel")}
-                    sortLabel={i18nCommon("sortLabel")}
                 />
             </Table>
         </SimpleExpansionPanel>

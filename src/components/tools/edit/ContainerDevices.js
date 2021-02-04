@@ -6,11 +6,11 @@ import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
 import { nonEmptyField } from "components/utils/validations";
 import { DERow } from "components/utils/DERow";
+import DETableHead from "components/utils/DETableHead";
 
 import {
     build,
     EmptyTable,
-    EnhancedTableHead,
     FormTextField,
     getFormError,
 } from "@cyverse-de/ui-lib";
@@ -40,7 +40,6 @@ function ContainerDevices(props) {
     } = props;
     const { t } = useTranslation("tools");
     const { t: i18nUtil } = useTranslation("util");
-    const { t: i18nCommon } = useTranslation("common");
 
     let devices = getIn(values, name);
     let hasErrors = !!getFormError(name, touched, errors);
@@ -114,14 +113,12 @@ function ContainerDevices(props) {
                             </DERow>
                         ))}
                 </TableBody>
-                <EnhancedTableHead
+                <DETableHead
                     selectable={false}
                     rowCount={devices ? devices.length : 0}
                     baseId={parentId}
                     ids={ids.PORTS_TABLE}
                     columnData={getColumns(t)}
-                    selectAllLabel={i18nCommon("selectAllLabel")}
-                    sortLabel={i18nCommon("sortLabel")}
                 />
             </Table>
         </SimpleExpansionPanel>

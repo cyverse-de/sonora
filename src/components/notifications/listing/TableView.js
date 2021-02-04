@@ -19,11 +19,11 @@ import { notificationTypeToCategory } from "components/models/NotificationCatego
 import DEPagination from "components/utils/DEPagination";
 import TableLoading from "components/utils/TableLoading";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
+import DETableHead from "components/utils/DETableHead";
 
 import {
     build as buildId,
     DECheckbox,
-    EnhancedTableHead,
     EmptyTable,
     formatDate,
 } from "@cyverse-de/ui-lib";
@@ -90,7 +90,6 @@ const TableView = (props) => {
     const classes = useStyles();
 
     const { t } = useTranslation("notifications");
-    const { t: i18nCommon } = useTranslation("common");
     const columnData = getColumns(t);
 
     const handleChangePage = (event, newPage) => {
@@ -265,7 +264,7 @@ const TableView = (props) => {
                                 })}
                         </TableBody>
                     )}
-                    <EnhancedTableHead
+                    <DETableHead
                         selectable={true}
                         numSelected={selected.length}
                         order={order}
@@ -275,8 +274,6 @@ const TableView = (props) => {
                         columnData={columnData}
                         baseId={baseId}
                         rowsInPage={data?.length || 0}
-                        selectAllLabel={i18nCommon("selectAllLabel")}
-                        sortLabel={i18nCommon("sortLabel")}
                     />
                 </Table>
             </TableContainer>

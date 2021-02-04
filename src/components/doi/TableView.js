@@ -87,7 +87,8 @@ export default function TableView(props) {
         selected,
         handleRequestSort,
         handleClick,
-        onUserNameClick,
+        handleUserNameClick,
+        handlePathClick,
     } = props;
     const { t } = useTranslation("doi");
     const requests = listing?.requests;
@@ -151,7 +152,7 @@ export default function TableView(props) {
                                         <TableCell>
                                             <Link
                                                 component="button"
-                                                onClick={onUserNameClick}
+                                                onClick={handleUserNameClick}
                                                 color="primary"
                                             >
                                                 <Typography variant="body2">
@@ -160,9 +161,17 @@ export default function TableView(props) {
                                             </Link>
                                         </TableCell>
                                         <TableCell>
-                                            <Typography variant="body2">
-                                                {request?.folder?.path}
-                                            </Typography>
+                                            <Link
+                                                component="button"
+                                                onClick={() =>
+                                                    handlePathClick(id)
+                                                }
+                                                color="primary"
+                                            >
+                                                <Typography variant="body2">
+                                                    {request?.folder?.path}
+                                                </Typography>
+                                            </Link>
                                         </TableCell>
                                         <TableCell>
                                             <Typography variant="body2">

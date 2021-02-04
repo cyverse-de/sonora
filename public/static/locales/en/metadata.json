@@ -11,7 +11,7 @@
     "avus": "AVUs",
     "back": "Back",
     "confirmDiscardChangesDialogHeader": "Discard Changes?",
-    "confirmDiscardChangesDialogMsg": "You have unsaved changes. Do you wish to continue without saving?",
+    "confirmDiscardChangesDialogMsg": "You have unsaved changes. Do you wish to continue and discard these changes?",
     "default": "Default",
     "delete": "Delete",
     "description": "Description",

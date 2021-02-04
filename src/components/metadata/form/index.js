@@ -80,7 +80,7 @@ const MetadataFormListing = (props) => {
     const [irodsAVUsSelected, setIrodsAVUsSelected] = React.useState([]);
 
     React.useEffect(() => {
-        // The presenter wants to load metadata for a different target,
+        // A different target will load new metadata,
         // so reset the view to default settings.
         setTabIndex(0);
         setIrodsAVUsSelected([]);
@@ -107,8 +107,8 @@ const MetadataFormListing = (props) => {
     });
 
     React.useEffect(() => {
-        // The presenter wants to load new metadata,
-        // possibly for the same target, and usually from a metadata template,
+        // New metadata was loaded, possibly for the same target,
+        // and usually from a metadata template,
         // so reset the view to default settings.
         setTabIndex(0);
         setIrodsAVUsSelected([]);

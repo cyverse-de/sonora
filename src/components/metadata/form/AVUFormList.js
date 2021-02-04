@@ -93,7 +93,6 @@ const AVUFormDialog = (props) => {
                         <Button
                             id={build(formID, ids.BUTTONS.DONE)}
                             color="primary"
-                            variant="contained"
                             onClick={onClose}
                         >
                             {t("done")}

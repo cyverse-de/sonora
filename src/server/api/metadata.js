@@ -14,7 +14,7 @@ import { handler as externalHandler } from "./external";
 import { handler as terrainHandler } from "./terrain";
 import { metadataTemplateCSVhandler } from "./downloads";
 
-export default function notificationsRouter() {
+export default function metadataRouter() {
     const api = express.Router();
 
     logger.info("************ Adding Metadata handlers **********");

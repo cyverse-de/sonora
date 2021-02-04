@@ -197,7 +197,6 @@ const MetadataTemplateListing = (props) => {
                 <Button
                     key={ids.BUTTONS.DONE}
                     id={build(dialogID, ids.BUTTONS.DONE)}
-                    variant="outlined"
                     onClick={onClose}
                 >
                     {t("common:cancel")}
@@ -206,7 +205,6 @@ const MetadataTemplateListing = (props) => {
                     key={ids.BUTTONS.CONFIRM}
                     id={build(dialogID, ids.BUTTONS.CONFIRM)}
                     color="primary"
-                    variant="contained"
                     onClick={() =>
                         selectedTemplateId &&
                         onSelectTemplate(selectedTemplateId)

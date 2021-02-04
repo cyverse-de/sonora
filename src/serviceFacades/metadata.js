@@ -4,6 +4,7 @@
 import callApi from "../common/callApi";
 import axiosInstance from "../common/getAxios";
 
+const EXTERNAL_API_DEFAULT_RESULT_LIMIT = 50;
 const FILESYSTEM_METADATA_QUERY_KEY = "fetchFilesystemMetadataKey";
 const FILESYSTEM_METADATA_TEMPLATE_QUERY_KEY =
     "fetchFilesystemMetadataTemplateKey";
@@ -67,7 +68,7 @@ function searchOntologyLookupService(
     const params = {
         fieldList: "id,iri,label,ontology_prefix",
         q: searchTerm,
-        rows: 50,
+        rows: EXTERNAL_API_DEFAULT_RESULT_LIMIT,
         start: 0,
     };
 
@@ -112,7 +113,7 @@ function searchOntologyLookupService(
 function searchUnifiedAstronomyThesaurus(key, { searchTerm, orderBy }) {
     const params = {
         labelcontains: searchTerm,
-        _pageSize: 50,
+        _pageSize: EXTERNAL_API_DEFAULT_RESULT_LIMIT,
     };
 
     if (orderBy) {

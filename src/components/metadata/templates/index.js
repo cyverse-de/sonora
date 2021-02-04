@@ -493,7 +493,6 @@ const MetadataTemplateForm = (props) => {
                     key={ids.BUTTONS.DONE}
                     id={build(ids.METADATA_TEMPLATE_VIEW, ids.BUTTONS.DONE)}
                     onClick={closeMetadataTemplateDialog}
-                    variant="outlined"
                 >
                     {t("common:cancel")}
                 </Button>,
@@ -504,7 +503,6 @@ const MetadataTemplateForm = (props) => {
                         disabled={loading || isSubmitting}
                         onClick={handleSubmitWrapper}
                         color="primary"
-                        variant="contained"
                     >
                         {t("save")}
                     </Button>
@@ -546,6 +544,7 @@ const MetadataTemplateForm = (props) => {
                 baseId={ids.METADATA_TEMPLATE_VIEW}
                 title={t("confirmDiscardChangesDialogHeader")}
                 contentText={t("confirmDiscardChangesDialogMsg")}
+                confirmButtonText={t("common:discard")}
                 onConfirm={confirmCloseMetadataTemplateDialog}
                 onClose={closeConfirmationDialog}
             />

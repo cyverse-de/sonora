@@ -19,6 +19,9 @@ afterEach(() => {
     mockAxios.reset();
 });
 
+const GrouperAllUsersId = "GrouperAll";
+const GrouperAdminId = "de_grouper";
+
 test("Team view renders", () => {
     const component = renderer.create(
         <UserProfileProvider>
@@ -66,9 +69,11 @@ function createPrivilegeList(privileges, userId) {
 it("tests that the grouper admin account is removed", () => {
     const [before, after] = createPrivilegeList(
         [[Privilege.ADMIN, null]],
-        "de_grouper"
+        GrouperAdminId
     );
-    const result = Object.values(getAllPrivileges(before));
+    const result = Object.values(
+        getAllPrivileges(before, [], GrouperAllUsersId, GrouperAdminId)
+    );
 
     expect(result).toStrictEqual(after);
 });
@@ -81,7 +86,9 @@ it("tests that members only have `read` or `admin` privileges", () => {
         [Privilege.READ, Privilege.READ],
         [Privilege.ADMIN, Privilege.ADMIN],
     ]);
-    const result = Object.values(getAllPrivileges(before));
+    const result = Object.values(
+        getAllPrivileges(before, [], GrouperAllUsersId, GrouperAdminId)
+    );
 
     expect(result).toStrictEqual(after);
 });
@@ -89,10 +96,12 @@ it("tests that members only have `read` or `admin` privileges", () => {
 it("tests that public privileges don't go above `view`", () => {
     const [before, after] = createPrivilegeList(
         [[Privilege.READ, Privilege.VIEW]],
-        "GrouperAll"
+        GrouperAllUsersId
     );
 
-    const result = Object.values(getAllPrivileges(before));
+    const result = Object.values(
+        getAllPrivileges(before, [], GrouperAllUsersId, GrouperAdminId)
+    );
     expect(result).toStrictEqual(after);
 });
 
@@ -105,7 +114,9 @@ it("tests that highest privilege wins", () => {
         "batman"
     );
 
-    const result = Object.values(getAllPrivileges(before));
+    const result = Object.values(
+        getAllPrivileges(before, [], GrouperAllUsersId, GrouperAdminId)
+    );
     expect(result).toStrictEqual(after);
 });
 
@@ -116,7 +127,9 @@ it("tests that missing member gets default member privilege", () => {
 
     const after = [{ name: "read", subject: { ...member } }];
 
-    const result = Object.values(getAllPrivileges([], [member]));
+    const result = Object.values(
+        getAllPrivileges([], [member], GrouperAllUsersId, GrouperAdminId)
+    );
     expect(result).toStrictEqual(after);
 });
 
@@ -126,7 +139,12 @@ it("tests that getPrivilegeUpdates detects a deleted privilege", () => {
         "batman"
     );
 
-    const { remove, add, update } = getPrivilegeUpdates(before, after);
+    const { remove, add, update } = getPrivilegeUpdates(
+        before,
+        after,
+        GrouperAllUsersId,
+        GrouperAdminId
+    );
     expect(remove).toStrictEqual(["batman"]);
     expect(add).toStrictEqual([]);
     expect(update).toStrictEqual([]);
@@ -138,7 +156,12 @@ it("tests that getPrivilegeUpdates detects an added privilege", () => {
         "batman"
     );
 
-    const { remove, add, update } = getPrivilegeUpdates(before, after);
+    const { remove, add, update } = getPrivilegeUpdates(
+        before,
+        after,
+        GrouperAllUsersId,
+        GrouperAdminId
+    );
     expect(remove).toStrictEqual([]);
     expect(add).toStrictEqual(after);
     expect(update).toStrictEqual([]);
@@ -150,7 +173,12 @@ it("tests that getPrivilegeUpdates detects an updated privilege", () => {
         "batman"
     );
 
-    const { remove, add, update } = getPrivilegeUpdates(before, after);
+    const { remove, add, update } = getPrivilegeUpdates(
+        before,
+        after,
+        GrouperAllUsersId,
+        GrouperAdminId
+    );
     expect(remove).toStrictEqual([]);
     expect(add).toStrictEqual([]);
     expect(update).toStrictEqual(after);

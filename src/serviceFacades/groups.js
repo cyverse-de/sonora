@@ -159,6 +159,7 @@ function updateTeamMemberStats({
     isPublicTeam,
     wasPublicTeam,
     selfId,
+    GrouperAllUsersId,
 }) {
     const { remove, add, update } = getPrivilegeUpdates(
         oldPrivileges,
@@ -202,7 +203,7 @@ function updateTeamMemberStats({
                 name,
                 updates: [
                     {
-                        subject_id: "GrouperAll",
+                        subject_id: GrouperAllUsersId,
                         privileges: isPublicTeam ? [PUBLIC_TEAM_PRIVILEGE] : [],
                     },
                 ],

@@ -7,6 +7,7 @@ import { useMutation, useQuery } from "react-query";
 import Privilege from "components/models/Privilege";
 import isQueryLoading from "components/utils/isQueryLoading";
 import TableLoading from "components/utils/TableLoading";
+import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import FormFields from "./FormFields";
 import { useTranslation } from "i18n";
@@ -36,6 +37,9 @@ function TeamForm(props) {
     const { t } = useTranslation(["teams", "common"]);
     const classes = useStyles();
     const [userProfile] = useUserProfile();
+    const [config] = useConfig();
+    const GROUPER_ADMIN_ID = config?.grouper?.admin;
+    const GROUPER_ALL_USERS_ID = config?.grouper?.allUsers;
 
     const [team, setTeam] = useState(null);
     const [privileges, setPrivileges] = useState([]);
@@ -64,15 +68,21 @@ function TeamForm(props) {
                     const privileges = results[1].privileges;
                     const members = results[2].members;
 
-                    const privilegeMap = getAllPrivileges(privileges, members);
+                    const privilegeMap = getAllPrivileges(
+                        privileges,
+                        members,
+                        GROUPER_ALL_USERS_ID,
+                        GROUPER_ADMIN_ID
+                    );
                     const memberPrivileges = Object.values(privilegeMap);
 
                     setTeam(team);
-                    setWasPublicTeam(!!privilegeMap["GrouperAll"]);
                     setSelfPrivilege(privilegeMap[userProfile?.id]);
+                    setWasPublicTeam(!!privilegeMap[GROUPER_ALL_USERS_ID]);
                     setPrivileges(
                         memberPrivileges.filter(
-                            (privilege) => privilege.subject.id !== "GrouperAll"
+                            (privilege) =>
+                                privilege.subject.id !== GROUPER_ALL_USERS_ID
                         )
                     );
                 }
@@ -94,7 +104,6 @@ function TeamForm(props) {
                 updateTeamMemberStatsMutation({
                     ...variables,
                     name: resp?.name,
-                    selfId: userProfile?.id,
                 });
             },
             onError: (error) => {
@@ -113,9 +122,7 @@ function TeamForm(props) {
                 setTeamNameSaved(true);
                 updateTeamMemberStatsMutation({
                     name: resp?.name,
-                    oldPrivileges: [],
                     newPrivileges,
-                    selfId: userProfile?.id,
                 });
             },
             onError: (error) => {
@@ -130,15 +137,24 @@ function TeamForm(props) {
     const [
         updateTeamMemberStatsMutation,
         { status: updateTeamMemberStatsStatus },
-    ] = useMutation(updateTeamMemberStats, {
-        onSuccess: goBackToTeamView,
-        onError: (error) => {
-            setSaveError({
-                message: t("updateTeamMemberStatsFail"),
-                object: error,
-            });
-        },
-    });
+    ] = useMutation(
+        (variables) =>
+            updateTeamMemberStats({
+                ...variables,
+                oldPrivileges: privileges,
+                selfId: userProfile?.id,
+                GrouperAllUsersId: GROUPER_ALL_USERS_ID,
+            }),
+        {
+            onSuccess: goBackToTeamView,
+            onError: (error) => {
+                setSaveError({
+                    message: t("updateTeamMemberStatsFail"),
+                    object: error,
+                });
+            },
+        }
+    );
 
     const [leaveTeamMutation, { status: leaveTeamStatus }] = useMutation(
         leaveTeam,
@@ -211,7 +227,6 @@ function TeamForm(props) {
                     originalName,
                     name,
                     description,
-                    oldPrivileges: privileges,
                     newPrivileges,
                     isPublicTeam,
                     wasPublicTeam,
@@ -219,11 +234,9 @@ function TeamForm(props) {
             } else {
                 updateTeamMemberStatsMutation({
                     name: originalName,
-                    oldPrivileges: privileges,
                     newPrivileges,
                     isPublicTeam,
                     wasPublicTeam,
-                    selfId: userProfile?.id,
                 });
             }
         }

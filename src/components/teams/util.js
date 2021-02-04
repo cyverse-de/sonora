@@ -63,10 +63,10 @@ function getDefaultPrivilege(privilege) {
  * value from {@link Privilege}, as well as a subject key with
  * a value containing a subject object
  */
-function simplifyPrivileges(privileges) {
+function simplifyPrivileges(privileges, GrouperAllUsersId, GrouperAdminId) {
     return privileges.reduce((acc, privilege) => {
         const subjectId = privilege.subject.id;
-        if (subjectId === "de_grouper") {
+        if (subjectId === GrouperAdminId) {
             return acc;
         }
 
@@ -75,7 +75,7 @@ function simplifyPrivileges(privileges) {
         return {
             ...acc,
             [subjectId]:
-                subjectId === "GrouperAll"
+                subjectId === GrouperAllUsersId
                     ? { ...privilege, name: Privilege.VIEW.value }
                     : privilegeNum(currentPriv) > privilegeNum(privilege)
                     ? currentPriv
@@ -112,8 +112,17 @@ function addMembersToPrivileges(privilegeMap, members) {
     return privilegeMap;
 }
 
-export function getAllPrivileges(privileges, members) {
-    const privilegeMap = simplifyPrivileges(privileges);
+export function getAllPrivileges(
+    privileges,
+    members,
+    GrouperAllUsersId,
+    GrouperAdminId
+) {
+    const privilegeMap = simplifyPrivileges(
+        privileges,
+        GrouperAllUsersId,
+        GrouperAdminId
+    );
     return addMembersToPrivileges(privilegeMap, members);
 }
 

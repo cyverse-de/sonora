@@ -37,6 +37,16 @@ export default function groupsRouter() {
         })
     );
 
+    logger.info("adding the GET /teams/:name handler");
+    api.get(
+        "/teams/:name",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/teams/:name",
+        })
+    );
+
     logger.info("adding the GET /teams/:name/privileges handler");
     api.get(
         "/teams/:name/privileges",

@@ -6,7 +6,7 @@ export const DEFAULT_MEMBER_PRIVILEGE = Privilege.READ.value;
 export const PUBLIC_TEAM_PRIVILEGE = Privilege.VIEW.value;
 
 export const groupShortName = (groupName) => {
-    return groupName.split(":").pop();
+    return groupName?.split(":").pop();
 };
 
 export const privilegeHasRead = (privilege) => {

@@ -33,11 +33,12 @@ import {
 const useStyles = makeStyles(styles);
 
 function TeamForm(props) {
-    const { parentId, team, goBackToTeamView } = props;
+    const { parentId, teamName, goBackToTeamView } = props;
     const { t } = useTranslation(["teams", "common"]);
     const classes = useStyles();
     const [userProfile] = useUserProfile();
 
+    const [team, setTeam] = useState(null);
     const [privileges, setPrivileges] = useState([]);
     const [wasPublicTeam, setWasPublicTeam] = useState(false);
     const [selfPrivilege, setSelfPrivilege] = useState(null);
@@ -48,24 +49,26 @@ function TeamForm(props) {
     const [submissionError, setSubmissionError] = useState(null);
 
     useEffect(() => {
-        setHasRead(privilegeHasRead(selfPrivilege) || !team);
-        setIsAdmin(privilegeIsAdmin(selfPrivilege) || !team);
+        setHasRead(privilegeHasRead(selfPrivilege) || !teamName);
+        setIsAdmin(privilegeIsAdmin(selfPrivilege) || !teamName);
         setIsMember(userIsMember(userProfile?.id, privileges));
-    }, [privileges, selfPrivilege, team, userProfile]);
+    }, [privileges, selfPrivilege, teamName, userProfile]);
 
     const { isFetching: fetchingTeamDetails } = useQuery({
-        queryKey: [TEAM_DETAILS_QUERY, { name: team?.name }],
+        queryKey: [TEAM_DETAILS_QUERY, { name: teamName }],
         queryFn: getTeamDetails,
         config: {
-            enabled: !!team,
+            enabled: !!teamName,
             onSuccess: (results) => {
                 if (results) {
-                    const privileges = results[0].privileges;
-                    const members = results[1].members;
+                    const team = results[0];
+                    const privileges = results[1].privileges;
+                    const members = results[2].members;
 
                     const privilegeMap = getAllPrivileges(privileges, members);
                     const memberPrivileges = Object.values(privilegeMap);
 
+                    setTeam(team);
                     setWasPublicTeam(!!privilegeMap["GrouperAll"]);
                     setSelfPrivilege(privilegeMap[userProfile?.id]);
                     setPrivileges(
@@ -90,8 +93,9 @@ function TeamForm(props) {
             onSuccess: (resp, variables) => {
                 setTeamNameSaved(true);
                 updateTeamMemberStatsMutation({
-                    name: resp?.name,
                     ...variables,
+                    name: resp?.name,
+                    selfId: userProfile?.id,
                 });
             },
             onError: (error) => {
@@ -112,6 +116,7 @@ function TeamForm(props) {
                     name: resp?.name,
                     oldPrivileges: [],
                     newPrivileges,
+                    selfId: userProfile?.id,
                 });
             },
             onError: (error) => {
@@ -171,7 +176,7 @@ function TeamForm(props) {
         deleteTeamStatus,
     ]);
 
-    const handleSubmit = (values, { setFieldError }) => {
+    const handleSubmit = (values) => {
         const {
             name,
             description,
@@ -211,7 +216,6 @@ function TeamForm(props) {
                     newPrivileges,
                     isPublicTeam,
                     wasPublicTeam,
-                    setFieldError,
                 });
             } else {
                 updateTeamMemberStatsMutation({
@@ -220,7 +224,7 @@ function TeamForm(props) {
                     newPrivileges,
                     isPublicTeam,
                     wasPublicTeam,
-                    setFieldError,
+                    selfId: userProfile?.id,
                 });
             }
         }
@@ -230,7 +234,7 @@ function TeamForm(props) {
         <Formik
             enableReinitialize
             initialValues={
-                team
+                teamName
                     ? {
                           name: groupShortName(team?.name),
                           description: team?.description,

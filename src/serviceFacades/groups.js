@@ -13,6 +13,7 @@ const SEARCH_TEAMS_QUERY = "searchAllTeams";
 const TEAM_PRIVILEGES_QUERY = "fetchTeamPrivileges";
 const TEAM_MEMBERS_QUERY = "fetchTeamMembers";
 const TEAM_DETAILS_QUERY = "fetchTeamDetails";
+const LIST_SINGLE_TEAM_QUERY = "fetchSingleTeam";
 
 function getMyTeams(key, { userId }) {
     return callApi({
@@ -46,6 +47,13 @@ function searchTeams(key, { searchTerm }) {
     });
 }
 
+function listSingleTeam(key, { name }) {
+    return callApi({
+        endpoint: `/api/teams/${encodeURIComponent(name)}`,
+        method: "GET",
+    });
+}
+
 function getTeamPrivileges(key, { name }) {
     return callApi({
         endpoint: `/api/teams/${encodeURIComponent(name)}/privileges`,
@@ -62,6 +70,7 @@ function getTeamMembers(key, { name }) {
 
 function getTeamDetails(key, { name }) {
     return Promise.all([
+        listSingleTeam(LIST_SINGLE_TEAM_QUERY, { name }),
         getTeamPrivileges(TEAM_PRIVILEGES_QUERY, { name }),
         getTeamMembers(TEAM_MEMBERS_QUERY, { name }),
     ]);
@@ -149,6 +158,7 @@ function updateTeamMemberStats({
     newPrivileges,
     isPublicTeam,
     wasPublicTeam,
+    selfId,
 }) {
     const { remove, add, update } = getPrivilegeUpdates(
         oldPrivileges,
@@ -175,6 +185,10 @@ function updateTeamMemberStats({
         promises.push(addTeamMembers({ name, members: userIds }));
         const updates = createPrivilegeUpdates(Object.values(add));
         promises.push(updateTeamPrivileges({ name, updates }));
+        const noSelfUpdates = add.filter(
+            (privilege) => privilege.subject.id !== selfId
+        );
+        const updates = createPrivilegeUpdates(noSelfUpdates);
     }
 
     if (update?.length > 0) {

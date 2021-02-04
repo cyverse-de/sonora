@@ -4,7 +4,7 @@
  * A toolbar with actions for admin DOI Request listing
  *
  */
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "i18n";
 
 import ids from "./ids";
@@ -20,7 +20,6 @@ import {
 import UpdateIcon from "@material-ui/icons/Update";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import UpdateRequestDialog from "./UpdateRequestDialog";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -32,13 +31,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DOIToolbar(props) {
-    const { baseId, selected } = props;
+    const { baseId, selected, onUpdateClick } = props;
     const { t } = useTranslation("doi");
     const classes = useStyles();
     const toolbarId = build(baseId, ids.toolbarId);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-    const [updateDialogOpen, setUpdateDialogOpen] = useState();
+
     return (
         <>
             <Toolbar variant="dense" id={toolbarId}>
@@ -52,7 +51,7 @@ export default function DOIToolbar(props) {
                             size="small"
                             variant="outlined"
                             className={classes.toolbarItems}
-                            onClick={() => setUpdateDialogOpen(true)}
+                            onClick={onUpdateClick}
                         >
                             {t("updateRequest")}
                         </Button>
@@ -85,7 +84,7 @@ export default function DOIToolbar(props) {
                             color="primary"
                             variant="outlined"
                             className={classes.toolbarItems}
-                            onClick={() => setUpdateDialogOpen(true)}
+                            onClick={onUpdateClick}
                         >
                             <UpdateIcon />
                         </IconButton>
@@ -108,11 +107,6 @@ export default function DOIToolbar(props) {
                     </>
                 )}
             </Toolbar>
-            <UpdateRequestDialog
-                open={updateDialogOpen}
-                onClose={() => setUpdateDialogOpen(false)}
-                request={selected}
-            />
         </>
     );
 }

@@ -12,6 +12,7 @@ import globalConstants from "../../constants";
 import { adminGetDOIRequests, DOI_LISTING_QUERY_KEY } from "serviceFacades/doi";
 import TableView from "./TableView";
 import DOIToolbar from "./Toolbar";
+import UpdateRequestDialog from "./UpdateRequestDialog";
 
 export default function Listing(props) {
     const {
@@ -22,8 +23,10 @@ export default function Listing(props) {
         rowsPerPage,
         onRouteToListing,
     } = props;
+
     const [data, setData] = useState(null);
     const [selected, setSelected] = useState();
+    const [updateDialogOpen, setUpdateDialogOpen] = useState();
     const { isFetching, error } = useQuery({
         queryKey: [
             DOI_LISTING_QUERY_KEY,
@@ -64,14 +67,13 @@ export default function Listing(props) {
             onRouteToListing(order, orderBy, 0, parseInt(newPageSize, 10));
     };
 
-    const getSelectedRequest = (request) => {
-        const item = request ? request : selected;
-        return data?.requests?.find((req) => req.id === item);
-    };
-
     return (
         <>
-            <DOIToolbar baseId={baseId} selected={selected} />
+            <DOIToolbar
+                baseId={baseId}
+                selected={selected}
+                onUpdateClick={() => setUpdateDialogOpen(true)}
+            />
             <TableView
                 baseId={baseId}
                 listing={data}
@@ -82,6 +84,7 @@ export default function Listing(props) {
                 handleRequestSort={handleRequestSort}
                 handleClick={handleClick}
                 selected={selected}
+                onUserNameClick={() => setUpdateDialogOpen(true)}
             />
             {data && data?.requests?.length > 0 && (
                 <DEPagination
@@ -93,6 +96,11 @@ export default function Listing(props) {
                     baseId={baseId}
                 />
             )}
+            <UpdateRequestDialog
+                open={updateDialogOpen}
+                onClose={() => setUpdateDialogOpen(false)}
+                requestId={selected}
+            />
         </>
     );
 }

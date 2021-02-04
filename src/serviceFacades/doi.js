@@ -17,10 +17,21 @@ function adminGetRequestDetails(key, { id }) {
         method: "GET",
     });
 }
+function adminUpdateRequestStatus({ id, status, comments }) {
+    return callApi({
+        endpoint: `/api/admin/permanent-id-requests/${id}/status`,
+        method: "POST",
+        body: {
+            status,
+            comments,
+        },
+    });
+}
 
 export {
     adminGetDOIRequests,
     adminGetRequestDetails,
+    adminUpdateRequestStatus,
     DOI_LISTING_QUERY_KEY,
     REQUEST_DETAILS_QUERY_KEY,
 };

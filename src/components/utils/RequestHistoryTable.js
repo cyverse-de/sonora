@@ -23,8 +23,7 @@ import {
 } from "@material-ui/core";
 
 export default function RequestHistoryTable(props) {
-    const { history } = props;
-    const baseId = ids.REQUEST_HISTORY_DLG;
+    const { history, t, baseId } = props;
     const [order, setOrder] = useState("desc");
     const [orderBy, setOrderBy] = useState("status_date");
     const handleRequestSort = (event, property) => {
@@ -35,20 +34,20 @@ export default function RequestHistoryTable(props) {
     const columnData = [
         {
             id: ids.STATUS,
-            name: "Status",
+            name: t("status"),
             numeric: false,
             enableSorting: false,
         },
         {
-            id: ids.CREATED_DATE,
-            name: "Date",
+            id: ids.DATE_SUBMITTED,
+            name: t("date"),
             numeric: false,
             enableSorting: true,
             key: "status_date",
         },
         {
-            id: ids.COMMENT,
-            name: "Comment",
+            id: ids.COMMENTS,
+            name: t("comments"),
             numeric: false,
             enableSorting: false,
         },

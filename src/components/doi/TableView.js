@@ -20,6 +20,7 @@ import {
 } from "@cyverse-de/ui-lib";
 
 import {
+    Link,
     Paper,
     Table,
     TableBody,
@@ -86,6 +87,7 @@ export default function TableView(props) {
         selected,
         handleRequestSort,
         handleClick,
+        onUserNameClick,
     } = props;
     const { t } = useTranslation("doi");
     const requests = listing?.requests;
@@ -147,9 +149,15 @@ export default function TableView(props) {
                                         id={rowId}
                                     >
                                         <TableCell>
-                                            <Typography variant="body2">
-                                                {request.requested_by}
-                                            </Typography>
+                                            <Link
+                                                component="button"
+                                                onClick={onUserNameClick}
+                                                color="primary"
+                                            >
+                                                <Typography variant="body2">
+                                                    {request.requested_by}
+                                                </Typography>
+                                            </Link>
                                         </TableCell>
                                         <TableCell>
                                             <Typography variant="body2">

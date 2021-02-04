@@ -5,49 +5,86 @@
  */
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
-import { useQuery } from "react-query";
+import { useQuery, useMutation, queryCache } from "react-query";
 import { Field, Form, Formik } from "formik";
+
+import constants from "../../constants";
+import ids from "./ids";
 import DEDialog from "components/utils/DEDialog";
 import RequestStatus from "components/models/RequestStatus";
 import RequestHistoryTable from "components/utils/RequestHistoryTable";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
-
+import { nonEmptyField } from "components/utils/validations";
 import {
     adminGetRequestDetails,
+    adminUpdateRequestStatus,
     REQUEST_DETAILS_QUERY_KEY,
+    DOI_LISTING_QUERY_KEY,
 } from "serviceFacades/doi";
-import ids from "./ids";
+
 import {
+    announce,
     build,
     FormSelectField,
     FormTextField,
     FormMultilineTextField,
 } from "@cyverse-de/ui-lib";
-import { MenuItem, Button, Typography, Divider } from "@material-ui/core";
+import {
+    CircularProgress,
+    MenuItem,
+    Button,
+    Typography,
+    Divider,
+    useTheme,
+} from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 
 export default function UpdateRequestDialog(props) {
-    const { open, onClose, request } = props;
+    const { open, onClose, requestId } = props;
     const [requestDetails, setRequestDetails] = useState();
+    const [updateRequestError, setUpdateRequestError] = useState();
+    const theme = useTheme();
     const { t } = useTranslation("doi");
+    const { t: i18nUtil } = useTranslation("util");
     const baseId = ids.UPDATE_REQUEST_DIALOG;
     const {
         isFetching: isRequestFetching,
         error: requestFetchError,
     } = useQuery({
-        queryKey: [REQUEST_DETAILS_QUERY_KEY, { id: request }],
+        queryKey: [REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
         queryFn: adminGetRequestDetails,
         config: {
-            enabled: request && open,
+            enabled: requestId && open,
             onSuccess: (data) => {
-                console.log(JSON.stringify(data));
                 setRequestDetails(data);
             },
         },
     });
+    const [updateRequest, { status: updateRequestStatus }] = useMutation(
+        adminUpdateRequestStatus,
+        {
+            onSuccess: (data) => {
+                announce({
+                    text: t("requestUpdateSuccess"),
+                });
+                queryCache.invalidateQueries(DOI_LISTING_QUERY_KEY);
+                setUpdateRequestError(null);
+                onClose();
+            },
+            onError: setUpdateRequestError,
+        }
+    );
     const handleSubmit = (values, { props }) => {
-        console.log(JSON.stringify(values));
+        const submission = {
+            id: requestId,
+            comments: values.comments,
+            status: values.status,
+        };
+        if (!isRequestFetching && updateRequestStatus !== constants.LOADING) {
+            updateRequest(submission);
+        }
     };
+
     return (
         <Formik
             initialValues={{
@@ -70,7 +107,7 @@ export default function UpdateRequestDialog(props) {
                                 <>
                                     <Button
                                         type="cancel"
-                                        id={build(baseId, ids.CANCEL)}
+                                        id={build(baseId, ids.CANCEL_BTN)}
                                         aria-label={t("cancel")}
                                         onClick={onClose}
                                     >
@@ -79,11 +116,11 @@ export default function UpdateRequestDialog(props) {
                                     <Button
                                         color="primary"
                                         type="submit"
-                                        id={build(baseId, ids.SUBMIT)}
-                                        aria-label={t("submit")}
+                                        id={build(baseId, ids.SUBMIT_BTN)}
+                                        aria-label={t("updateRequest")}
                                         onClick={handleSubmit}
                                     >
-                                        {t("submit")}
+                                        {t("updateRequest")}
                                     </Button>
                                 </>
                             }
@@ -95,6 +132,13 @@ export default function UpdateRequestDialog(props) {
                                     baseId={baseId}
                                 />
                             )}
+                            {updateRequestError && (
+                                <ErrorTypographyWithDialog
+                                    errorObject={updateRequestError}
+                                    errorMessage={t("requestUpdateFailure")}
+                                    baseId={baseId}
+                                />
+                            )}
                             {isRequestFetching && (
                                 <Skeleton
                                     animation="wave"
@@ -102,6 +146,18 @@ export default function UpdateRequestDialog(props) {
                                     height={500}
                                 />
                             )}
+                            {updateRequestStatus === constants.LOADING && (
+                                <CircularProgress
+                                    size={30}
+                                    thickness={5}
+                                    style={{
+                                        position: "absolute",
+                                        top: "50%",
+                                        left: "50%",
+                                    }}
+                                />
+                            )}
+
                             {!isRequestFetching && (
                                 <>
                                     <Field
@@ -113,7 +169,12 @@ export default function UpdateRequestDialog(props) {
                                         component={FormTextField}
                                     />
 
-                                    <Field name="status">
+                                    <Field
+                                        name="status"
+                                        validate={(value) =>
+                                            nonEmptyField(value, i18nUtil)
+                                        }
+                                    >
                                         {({
                                             field: { onChange, ...field },
                                             ...props
@@ -126,7 +187,7 @@ export default function UpdateRequestDialog(props) {
                                                 onChange={(event) => {
                                                     onChange(event);
                                                 }}
-                                                id="selectStatus"
+                                                id={build(baseId, ids.STATUS)}
                                                 size="small"
                                             >
                                                 {Object.values(
@@ -136,9 +197,6 @@ export default function UpdateRequestDialog(props) {
                                                         key={index}
                                                         value={status}
                                                         id={baseId}
-                                                        style={{
-                                                            marginLeft: 1,
-                                                        }}
                                                     >
                                                         {status}
                                                     </MenuItem>
@@ -156,8 +214,8 @@ export default function UpdateRequestDialog(props) {
                                     />
                                     <Divider
                                         style={{
-                                            marginTop: 16,
-                                            marginBottom: 16,
+                                            marginTop: theme.spacing(1),
+                                            marginBottom: theme.spacing(1),
                                         }}
                                     />
                                     <Typography variant="subtitle2">
@@ -165,6 +223,8 @@ export default function UpdateRequestDialog(props) {
                                     </Typography>
                                     <RequestHistoryTable
                                         history={requestDetails?.history}
+                                        baseId={baseId}
+                                        t={t}
                                     />
                                 </>
                             )}

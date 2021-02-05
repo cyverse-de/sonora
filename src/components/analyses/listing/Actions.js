@@ -97,7 +97,10 @@ export default function Actions(props) {
             {allowBatchDrillDown && isBatch && (
                 <IconButton
                     size="small"
-                    onClick={() => handleBatchIconClick(analysis)}
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        handleBatchIconClick(analysis);
+                    }}
                     id={build(baseId, ids.ICONS.BATCH, ids.BUTTON)}
                     color="primary"
                     title={t("htDetails")}

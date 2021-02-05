@@ -168,8 +168,12 @@ function updateTeamMemberStats({
 
     const promises = [];
 
+    if (update?.length > 0) {
+        const updates = createPrivilegeUpdates(update);
+        promises.push(() => updateTeamPrivileges({ name, updates }));
+    }
+
     if (remove?.length > 0) {
-        promises.push(() => removeTeamMembers({ name, members: remove }));
         const updates = remove.map((userId) => {
             return {
                 subject_id: userId,
@@ -177,24 +181,20 @@ function updateTeamMemberStats({
             };
         });
         promises.push(() => updateTeamPrivileges({ name, updates }));
+        promises.push(() => removeTeamMembers({ name, members: remove }));
     }
 
     if (add?.length > 0) {
-        const userIds = Object.values(add).map(
-            (privilege) => privilege.subject.id
-        );
-        promises.push(() => addTeamMembers({ name, members: userIds }));
-
+        // the create team form automatically adds the current user as an admin
+        // don't include this in the request
         const noSelfUpdates = add.filter(
             (privilege) => privilege.subject.id !== selfId
         );
         const updates = createPrivilegeUpdates(noSelfUpdates);
         promises.push(() => updateTeamPrivileges({ name, updates }));
-    }
 
-    if (update?.length > 0) {
-        const updates = createPrivilegeUpdates(Object.values(update));
-        promises.push(() => updateTeamPrivileges({ name, updates }));
+        const userIds = add.map((privilege) => privilege.subject.id);
+        promises.push(() => addTeamMembers({ name, members: userIds }));
     }
 
     if (isPublicTeam !== wasPublicTeam) {

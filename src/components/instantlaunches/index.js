@@ -6,10 +6,13 @@ import { IconButton } from "@material-ui/core";
 
 import { Launch as LaunchIcon } from "@material-ui/icons";
 
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import launchConstants from "components/apps/launch/constants";
 
 import { getAppInfo, getQuickLaunch } from "serviceFacades/quickLaunches";
 import { submitAnalysis, getAnalysis } from "serviceFacades/analyses";
+
+import { useTranslation } from "i18n";
 
 const inputParamTypes = [
     launchConstants.PARAM_TYPE.FILE_INPUT,
@@ -127,8 +130,7 @@ const instantlyLaunch = async (instantLaunch, resource) => {
             return submission;
         })
         .then((submission) => submitAnalysis(submission)) // submit the analysis
-        .then((analysisResp) => getAnalysis(analysisResp.id))
-        .catch((e) => console.error(e));
+        .then((analysisResp) => getAnalysis(analysisResp.id));
 };
 
 /**
@@ -139,21 +141,28 @@ const instantlyLaunch = async (instantLaunch, resource) => {
  * @param {Object} props.instantLaunch - The instant launch to use.
  * @param {Object} props.resource - The resource to use as an input to the instant launch.
  */
-const InstantLaunchButton = ({ instantLaunch, resource }) => {
+const InstantLaunchButton = ({
+    instantLaunch,
+    resource,
+    showErrorAnnouncer,
+}) => {
+    const { t } = useTranslation(["instantlaunches", "common"]);
     return (
         <IconButton
             variant="contained"
             onClick={async () => {
-                await instantlyLaunch(instantLaunch, resource).then(
-                    (listing) => {
+                await instantlyLaunch(instantLaunch, resource)
+                    .then((listing) => {
                         if (listing.analyses.length > 0) {
                             const analysis = listing.analyses[0];
                             if (analysis.interactive_urls.length > 0) {
                                 window.open(analysis.interactive_urls[0]);
                             }
                         }
-                    }
-                );
+                    })
+                    .catch((error) =>
+                        showErrorAnnouncer(t("instantLaunchError"), error)
+                    );
             }}
         >
             <LaunchIcon />
@@ -161,4 +170,4 @@ const InstantLaunchButton = ({ instantLaunch, resource }) => {
     );
 };
 
-export default InstantLaunchButton;
+export default withErrorAnnouncer(InstantLaunchButton);

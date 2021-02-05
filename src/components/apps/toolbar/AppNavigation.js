@@ -9,7 +9,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import ids from "../ids";
 
 import constants from "../../../constants";
-import appType from "components/models/AppType";
 import systemId from "components/models/systemId";
 import {
     getPrivateCategories,

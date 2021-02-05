@@ -48,7 +48,6 @@ import TableView from "./TableView";
 import AnalysesToolbar from "../toolbar/Toolbar";
 
 import analysisStatus from "components/models/analysisStatus";
-import appType from "components/models/AppType";
 import NotificationCategory from "components/models/NotificationCategory";
 
 import { useConfig } from "contexts/config";
@@ -523,7 +522,7 @@ function Listing(props) {
                     ? globalConstants.SORT_DESCENDING
                     : globalConstants.SORT_ASCENDING,
                 property,
-                page,
+                0,
                 rowsPerPage,
                 permFilter,
                 typeFilter,
@@ -570,7 +569,7 @@ function Listing(props) {
                 rowsPerPage,
                 null,
                 null,
-                idFilter
+                null
             );
     };
 

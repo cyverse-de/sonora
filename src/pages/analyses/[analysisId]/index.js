@@ -54,13 +54,13 @@ export default function Analysis() {
         <Listing
             baseId="analyses"
             onRouteToListing={onRouteToListing}
-            selectedIdFilter={router.query?.analysisId}
-            selectedPage={selectedPage}
-            selectedRowsPerPage={selectedRowsPerPage}
-            selectedOrder={selectedOrder}
-            selectedOrderBy={selectedOrderBy}
-            selectedPermFilter={selectedPermFilter}
-            selectedTypeFilter={selectedTypeFilter}
+            idFilter={router.query?.analysisId}
+            page={selectedPage}
+            rowsPerPage={selectedRowsPerPage}
+            order={selectedOrder}
+            orderBy={selectedOrderBy}
+            permFilter={selectedPermFilter}
+            typeFilter={selectedTypeFilter}
         />
     );
 }

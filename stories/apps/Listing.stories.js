@@ -5,7 +5,7 @@ import { appListing, categories } from "./AppMocks";
 
 import constants from "../../src/constants";
 import appFields from "../../src/components/apps/appFields";
-import { getAppTypeFilters } from "../../src/components/apps/toolbar/AppNavigation";
+import { getFilters } from "components/apps/AppsTypeFilter";
 import Listing from "../../src/components/apps/listing/Listing";
 import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
 import { UserProfileProvider } from "../../src/contexts/userProfile";
@@ -25,7 +25,7 @@ function ListingTest(props) {
     const selectedOrder = constants.SORT_ASCENDING;
     const selectedOrderBy = fields.NAME.key;
 
-    const selectedFilter = getAppTypeFilters()[0];
+    const selectedFilter = getFilters()[0];
 
     const selectedCategory = {
         name: constants.BROWSE_ALL_APPS,

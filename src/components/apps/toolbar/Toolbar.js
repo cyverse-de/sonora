@@ -4,9 +4,10 @@ import { useTranslation } from "i18n";
 
 import ids from "../ids";
 
-import appType from "../../models/AppType";
 import AppsDotMenu from "./AppsDotMenu";
-import AppNavigation, { getAppTypeFilters } from "./AppNavigation";
+import AppNavigation from "./AppNavigation";
+import appType from "components/models/AppType";
+import AppsTypeFilter from "components/apps/AppsTypeFilter";
 
 import NavigationConstants from "common/NavigationConstants";
 
@@ -14,14 +15,12 @@ import { build } from "@cyverse-de/ui-lib";
 import {
     Button,
     Hidden,
-    TextField,
     Toolbar,
     Dialog,
     DialogActions,
     DialogContent,
 } from "@material-ui/core";
 
-import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
 import {
     Info,
@@ -56,42 +55,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
-
-function AppsTypeFilter(props) {
-    const {
-        baseId,
-        selectedCategory,
-        filter,
-        handleFilterChange,
-        classes,
-    } = props;
-    const { t } = useTranslation("apps");
-    return (
-        <Autocomplete
-            id={build(baseId, ids.APPS_FILTER)}
-            disabled={
-                selectedCategory?.system_id?.toLowerCase() ===
-                appType.agave.toLowerCase()
-            }
-            value={filter}
-            options={getAppTypeFilters()}
-            size="small"
-            onChange={(event, newValue) => {
-                handleFilterChange(newValue);
-            }}
-            getOptionLabel={(option) => option.name}
-            getOptionSelected={(option, value) => option.name === value.name}
-            className={classes.filter}
-            renderInput={(params) => (
-                <TextField
-                    {...params}
-                    label={t("filterLbl")}
-                    variant="outlined"
-                />
-            )}
-        />
-    );
-}
 
 function AppsToolbar(props) {
     const {
@@ -146,7 +109,10 @@ function AppsToolbar(props) {
                         classes={classes}
                         filter={filter}
                         handleFilterChange={handleFilterChange}
-                        selectedCategory={selectedCategory}
+                        disabled={
+                            selectedCategory?.system_id?.toLowerCase() ===
+                            appType.agave.value.toLowerCase()
+                        }
                     />
                 </Hidden>
                 <Hidden smDown>
@@ -221,7 +187,10 @@ function AppsToolbar(props) {
                         classes={classes}
                         filter={filter}
                         handleFilterChange={handleFilterChange}
-                        selectedCategory={selectedCategory}
+                        disabled={
+                            selectedCategory?.system_id?.toLowerCase() ===
+                            appType.agave.value.toLowerCase()
+                        }
                     />
                 </DialogContent>
                 <DialogActions>

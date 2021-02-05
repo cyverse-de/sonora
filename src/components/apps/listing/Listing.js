@@ -102,7 +102,7 @@ function Listing({
                 rowsPerPage,
                 orderBy,
                 order,
-                appTypeFilter: filter?.name,
+                appTypeFilter: filter?.value,
                 page,
                 categoryId: category?.id,
                 userId: userProfile?.id,
@@ -132,7 +132,7 @@ function Listing({
                 orderBy,
                 order,
                 page,
-                appTypeFilter: filter?.name,
+                appTypeFilter: filter?.value,
             },
         ],
         queryFn: isAdminView ? getAppsForAdmin : getApps,
@@ -291,7 +291,7 @@ function Listing({
             let toFilter = filter;
             if (
                 category.system_id?.toLowerCase() ===
-                appType.agave.toLowerCase()
+                appType.agave.value.toLowerCase()
             ) {
                 toFilter = null;
             }

@@ -9,7 +9,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import ids from "../ids";
 
 import constants from "../../../constants";
-import appType from "components/models/AppType";
 import systemId from "components/models/systemId";
 import {
     getPrivateCategories,
@@ -70,14 +69,6 @@ const useStyles = makeStyles((theme) => ({
         width: 250,
     },
 }));
-
-function getAppTypeFilters() {
-    return Object.values(appType).map((type) => {
-        return {
-            name: type,
-        };
-    });
-}
 
 function AppNavigation(props) {
     const {
@@ -272,4 +263,3 @@ function AppNavigation(props) {
     );
 }
 export default AppNavigation;
-export { getAppTypeFilters };

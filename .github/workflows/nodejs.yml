@@ -28,6 +28,7 @@ jobs:
       run: |
         npx prettier --check ./src/**/*.js ./.storybook/**/*.js ./stories/**/*.js
     - name: Run ESLint
-      run: eslint --max-warnings=0 ./src/ ./stories/
+      run: |
+        npm run lint
 
      

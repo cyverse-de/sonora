@@ -2,6 +2,16 @@ import Privilege from "../models/Privilege";
 import { groupBy } from "common/functions";
 import { getIn } from "formik";
 
+/**
+ * @typedef {object} Privilege
+ * @property {string} name - the privilege value (i.e. read, view, admin, etc.)
+ * @property {Subject} subject - a user
+ */
+
+/**
+ * @typedef {{string, Privilege}} PrivilegeMap - privileges grouped by subject ID
+ */
+
 export const DEFAULT_MEMBER_PRIVILEGE = Privilege.READ.value;
 export const PUBLIC_TEAM_PRIVILEGE = Privilege.VIEW.value;
 const RESTRICTED_GROUP_NAME_CHARS = ":_";
@@ -18,8 +28,14 @@ export const privilegeIsAdmin = (privilege) => {
     return privilegeNum(privilege) === Privilege.ADMIN.num;
 };
 
+const getPrivilegeSubjectId = (privilege) => {
+    return privilege.subject.id;
+};
+
 export const userIsMember = (userId, privileges) => {
-    return !!privileges.find((privilege) => privilege.subject.id === userId);
+    return !!privileges.find(
+        (privilege) => getPrivilegeSubjectId(privilege) === userId
+    );
 };
 
 export function validateGroupName(value, t) {
@@ -56,15 +72,18 @@ function getDefaultPrivilege(privilege) {
  * For Sonora, we have simplified privileges to only ADMIN or READ for members,
  * VIEW for public privileges or nothing if the team is private.
  *
- * The grouper admin privilege is removed so users don't try to modify it.
+ * The grouper admin's privilege is removed so users don't try to modify it.
  *
- * @param privileges - an array of privilege objects expected to have a name key with a
- * value from {@link Privilege}, as well as a subject key with
- * a value containing a subject object
+ * @param {Privilege[]} privileges - privileges returned from the
+ * GET /team/:name/privileges endpoint
+ * @param {string} GrouperAllUsersId - Grouper ID for all users
+ * @param {string} GrouperAdminId - Grouper Admin ID
+ * @return {PrivilegeMap} - map where keys are subject IDs, values are the privilege
+ * for that subject
  */
 function simplifyPrivileges(privileges, GrouperAllUsersId, GrouperAdminId) {
     return privileges.reduce((acc, privilege) => {
-        const subjectId = privilege.subject.id;
+        const subjectId = getPrivilegeSubjectId(privilege);
         if (subjectId === GrouperAdminId) {
             return acc;
         }
@@ -92,9 +111,11 @@ function simplifyPrivileges(privileges, GrouperAllUsersId, GrouperAdminId) {
  *
  * For sonora, members will by default have READ unless they have ADMIN
  *
- * @param privilegeMap
- * @param members
- * @return
+ * @param {PrivilegeMap} privilegeMap - map where keys are subject IDs, values
+ * are the privilege for that subject
+ * @param {Subject[]} members - array of subjects who are members to a team
+ * @return {PrivilegeMap} - new privilege map where excluded members are now
+ * added to the map
  */
 function addMembersToPrivileges(privilegeMap, members) {
     members &&
@@ -111,6 +132,20 @@ function addMembersToPrivileges(privilegeMap, members) {
     return privilegeMap;
 }
 
+/**
+ * Takes the results from fetching a team's privileges and members and
+ * combines them into a map where each user only has one privilege.
+ *
+ * For Sonora, we have simplified privileges to only ADMIN or READ for members,
+ * VIEW for public privileges or nothing if the team is private.
+ *
+ * @param {Privilege[]} privileges - list of privileges from GET /teams/:name/privileges
+ * @param {Subject[]} members - list of members from GET /teams/:name/members
+ * @param {string} GrouperAllUsersId - Grouper ID for all users
+ * @param {string} GrouperAdminId - Grouper Admin ID
+ * @return {PrivilegeMap} - map where keys are subject IDs, values are the privilege
+ * for that subject
+ */
 export function getAllPrivileges(
     privileges,
     members,
@@ -125,27 +160,37 @@ export function getAllPrivileges(
     return addMembersToPrivileges(privilegeMap, members);
 }
 
-const getPrivilegeSubjectId = (privilege) => {
-    return privilege.subject.id;
-};
-
+/**
+ * Takes the privileges a team had before and after the form is filled out
+ * and returns a map containing what privileges (and therefore members)
+ * need to be added, what privileges need to be updated, and what privileges
+ * (and therefore members) need to be removed.
+ *
+ * @param {Privilege[]} original - privileges for a team before edits
+ * @param {Privilege[]} updates - privileges for a team after edits
+ * @return {{add: Privilege[], update: Privilege[], remove: string[]}}
+ */
 export function getPrivilegeUpdates(original, updates) {
     const originalMap = groupBy(original, getPrivilegeSubjectId);
-    const originalUsers = Object.keys(originalMap);
+    const originalUserIds = Object.keys(originalMap);
 
     const updateMap = groupBy(updates, getPrivilegeSubjectId);
-    const updateUsers = Object.keys(updateMap);
+    const updateUserIds = Object.keys(updateMap);
 
-    const deletedUserIds = originalUsers.filter(
-        (userId) => !updateUsers.includes(userId)
+    //delete - user IDs in original that are not in updates
+    const deletedUserIds = originalUserIds.filter(
+        (userId) => !updateUserIds.includes(userId)
     );
-    const addedPrivileges = updateUsers.reduce((acc, userId) => {
-        return !originalUsers.includes(userId)
+
+    //add - privileges not in original that are in updates
+    const addedPrivileges = updateUserIds.reduce((acc, userId) => {
+        return !originalUserIds.includes(userId)
             ? [...acc, ...updateMap[userId]]
             : acc;
     }, []);
 
-    const updatedPrivileges = originalUsers.reduce((acc, userId) => {
+    //update - privileges whose value has changed
+    const updatedPrivileges = originalUserIds.reduce((acc, userId) => {
         return !updateMap[userId]
             ? acc
             : getIn(originalMap, `${userId}.0.name`) ===

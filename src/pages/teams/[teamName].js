@@ -1,7 +1,7 @@
 /**
  * @author aramsey
  *
- * A page for the team listing view
+ * A page for modifying an existing team
  */
 
 import React from "react";

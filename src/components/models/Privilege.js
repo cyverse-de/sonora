@@ -1,7 +1,6 @@
 /**
- * These are all the privileges used by Teams.  These are also all the privileges
- * accepted by Grouper, save for READOPTIN, which is a fake privilege to represent
- * READ and OPTIN together.
+ * These are all the privileges accepted by Grouper. In Sonora, we've
+ * simplified privileges to only the below MemberPrivileges and PublicPrivileges
  *
  * The value is the value accepted by Grouper.
  * The num is a value to establish a hierarchy where a greater number indicates more
@@ -10,10 +9,6 @@
 const Privileges = {
     ADMIN: {
         value: "admin",
-        num: 6,
-    },
-    READOPTIN: {
-        value: "readOptin",
         num: 5,
     },
     READ: {

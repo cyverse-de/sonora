@@ -1,3 +1,10 @@
+/**
+ * @author aramsey
+ *
+ * The entire view the user sees when creating or editing a team at /teams/:name
+ * Basically a toolbar and a form to fill out.
+ */
+
 import React, { useEffect, useState } from "react";
 import { makeStyles, Paper, Table } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
@@ -50,18 +57,19 @@ function TeamForm(props) {
     const [isMember, setIsMember] = useState(false);
     const [teamNameSaved, setTeamNameSaved] = useState(false);
     const [saveError, setSaveError] = useState(null);
+    const isCreatingTeam = !teamName;
 
     useEffect(() => {
-        setHasRead(privilegeHasRead(selfPrivilege) || !teamName);
-        setIsAdmin(privilegeIsAdmin(selfPrivilege) || !teamName);
+        setHasRead(privilegeHasRead(selfPrivilege) || isCreatingTeam);
+        setIsAdmin(privilegeIsAdmin(selfPrivilege) || isCreatingTeam);
         setIsMember(userIsMember(userProfile?.id, privileges));
-    }, [privileges, selfPrivilege, teamName, userProfile]);
+    }, [isCreatingTeam, privileges, selfPrivilege, teamName, userProfile]);
 
     const { isFetching: fetchingTeamDetails } = useQuery({
         queryKey: [TEAM_DETAILS_QUERY, { name: teamName }],
         queryFn: getTeamDetails,
         config: {
-            enabled: !!teamName,
+            enabled: !isCreatingTeam,
             onSuccess: (results) => {
                 if (results) {
                     const team = results[0];
@@ -96,6 +104,7 @@ function TeamForm(props) {
         },
     });
 
+    // Updates only team name and description, then calls updateTeamMemberStatsMutation
     const [updateTeamMutation, { status: updateTeamStatus }] = useMutation(
         updateTeam,
         {
@@ -115,6 +124,8 @@ function TeamForm(props) {
         }
     );
 
+    // Creates the team name, description, and initial public privilege
+    // then calls updateTeamMemberStatsMutation
     const [createTeamMutation, { status: createTeamStatus }] = useMutation(
         createTeam,
         {
@@ -134,6 +145,7 @@ function TeamForm(props) {
         }
     );
 
+    // Updates privileges and memberships
     const [
         updateTeamMemberStatsMutation,
         { status: updateTeamMemberStatsStatus },
@@ -205,7 +217,7 @@ function TeamForm(props) {
         // team name has already succeeded (but maybe updating members failed),
         // you must skip resubmitting the team name request as the team
         // endpoints use the team name in the query, not ID
-        if (!team && !teamNameSaved) {
+        if (isCreatingTeam && !teamNameSaved) {
             createTeamMutation({
                 name,
                 description,
@@ -246,7 +258,7 @@ function TeamForm(props) {
         <Formik
             enableReinitialize
             initialValues={
-                teamName
+                !isCreatingTeam
                     ? {
                           name: groupShortName(team?.name),
                           description: team?.description,

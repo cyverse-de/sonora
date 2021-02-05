@@ -2,6 +2,10 @@
  * @author aramsey
  *
  * A component that allows a user to view/edit the members in a team
+ *
+ * Note that an admin can never modify their own privileges. This is to prevent
+ * any accidental issues where they remove themselves from their own team or
+ * can no longer update their team.
  */
 
 import React, { useMemo } from "react";
@@ -16,18 +20,18 @@ import {
 import { Delete } from "@material-ui/icons";
 import { Field, getIn } from "formik";
 
-import { useTranslation } from "i18n";
-import ids from "../ids";
-import styles from "../styles";
 import SubjectSearchField from "components/sharing/SubjectSearchField";
 import { useUserProfile } from "contexts/userProfile";
 import { MemberPrivileges } from "components/models/Privilege";
 import SimpleExpansionPanel from "components/tools/SimpleExpansionPanel";
+import { SubjectTableCell } from "components/sharing/UserTable";
 import { getUserPrimaryText } from "components/sharing/util";
 import BasicTable from "components/utils/BasicTable";
-import { DEFAULT_MEMBER_PRIVILEGE } from "../util";
-import { SubjectTableCell } from "../../sharing/UserTable";
 import HelpIconButton from "./HelpIconButton";
+import { useTranslation } from "i18n";
+import ids from "../ids";
+import styles from "../styles";
+import { DEFAULT_MEMBER_PRIVILEGE } from "../util";
 
 const useStyles = makeStyles(styles);
 

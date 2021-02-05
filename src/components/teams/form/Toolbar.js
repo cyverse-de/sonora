@@ -1,4 +1,11 @@
 import React, { useState } from "react";
+/**
+ * @author aramsey
+ *
+ * A toolbar that displays above the form for editing teams
+ *
+ * This toolbar contains buttons for saving, deleting, and leaving a team
+ */
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 import {

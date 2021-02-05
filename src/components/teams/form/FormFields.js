@@ -1,3 +1,10 @@
+/**
+ * @author aramsey
+ *
+ * These are all the form fields for the form used for editing or creating teams.
+ * This also has a submission error message that displays above and below
+ * the form when an error occurs.
+ */
 import React from "react";
 
 import {

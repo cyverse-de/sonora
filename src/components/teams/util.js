@@ -1,9 +1,10 @@
 import Privilege from "../models/Privilege";
-import { groupBy } from "../../common/functions";
+import { groupBy } from "common/functions";
 import { getIn } from "formik";
 
 export const DEFAULT_MEMBER_PRIVILEGE = Privilege.READ.value;
 export const PUBLIC_TEAM_PRIVILEGE = Privilege.VIEW.value;
+const RESTRICTED_GROUP_NAME_CHARS = ":_";
 
 export const groupShortName = (groupName) => {
     return groupName?.split(":").pop();
@@ -21,21 +22,19 @@ export const userIsMember = (userId, privileges) => {
     return !!privileges.find((privilege) => privilege.subject.id === userId);
 };
 
-const restrictedGroupNameChars = ":_";
-
 export function validateGroupName(value, t) {
     if (!value || value.length < 1) {
-        return "Empty value";
+        return t("emptyTeamName");
     }
 
     const restrictedRegex = new RegExp(
-        "[" + restrictedGroupNameChars + "]",
+        "[" + RESTRICTED_GROUP_NAME_CHARS + "]",
         "g"
     );
     const invalid = value.match(restrictedRegex);
     if (invalid) {
         return t("invalidTeamName", {
-            invalidCharList: restrictedGroupNameChars,
+            invalidCharList: RESTRICTED_GROUP_NAME_CHARS,
             invalidChars: invalid.join(""),
         });
     }

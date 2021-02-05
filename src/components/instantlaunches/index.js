@@ -150,7 +150,10 @@ const InstantLaunchButton = ({
     return (
         <IconButton
             variant="contained"
-            onClick={async () => {
+            onClick={async (event) => {
+                event.stopPropagation();
+                event.preventDefault();
+
                 await instantlyLaunch(instantLaunch, resource)
                     .then((listing) => {
                         if (listing.analyses.length > 0) {

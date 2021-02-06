@@ -481,6 +481,9 @@ const paramConfigsReducer = (configs, group) => {
                 case constants.PARAM_TYPE.TEXT_SELECTION:
                 case constants.PARAM_TYPE.INTEGER_SELECTION:
                 case constants.PARAM_TYPE.DOUBLE_SELECTION:
+                case constants.PARAM_TYPE.FILE_INPUT:
+                case constants.PARAM_TYPE.FOLDER_INPUT:
+                case constants.PARAM_TYPE.FILE_FOLDER_INPUT:
                 case constants.PARAM_TYPE.REFERENCE_GENOME:
                 case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
                 case constants.PARAM_TYPE.REFERENCE_ANNOTATION:

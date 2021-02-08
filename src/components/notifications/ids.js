@@ -25,5 +25,5 @@ export default {
     STATUS: "requestStatusColumn",
     TIME_STAMP: "time-stamp",
     TOOLBAR: "toolbar",
-    VIEW_ALL_NOTIFICATIONS: "view-all-notificaitons",
+    VIEW_ALL_NOTIFICATIONS: "view-all-notifications",
 };

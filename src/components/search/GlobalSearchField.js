@@ -580,7 +580,7 @@ function GlobalSearchField(props) {
             setTeamSearchQueryEnabled(false);
             setOptions([]);
         }
-        setSearchTerm(value.trim());
+        setSearchTerm(value?.trim());
     };
 
     const handleFilterChange = (event) => {

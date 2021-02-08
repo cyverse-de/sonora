@@ -12,5 +12,7 @@ export * from "./Pipeline.stories";
 export * from "./ReferenceGenomeParams.stories";
 export * from "./SelectParams.stories";
 export * from "./TextParams.stories";
+export * from "./KitchenSinkApp.stories";
+export * from "./TuxedoSuite.stories";
 
 export default { title: "Apps / Launch" };

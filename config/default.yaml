@@ -51,9 +51,15 @@ fileIdentifier:
 analytics:
     enabled: false
     id: ga-id
-    
+
 vice:
   defaultImage: discoenv/cas-proxy
   defaultName: cas-proxy
   defaultCasUrl: https://olson.cyverse.org/cas
-  defaultCasValidate: validate    
+  defaultCasValidate: validate
+
+services:
+    ontology_lookup_service:
+        base: https://www.ebi.ac.uk/ols/api/select
+    unified_astronomy_thesaurus:
+        base: https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/current/concept.json

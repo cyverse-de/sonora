@@ -50,16 +50,42 @@ export const MockMetadata = {
             avus: [
                 {
                     id: "4",
-                    attr: "attr4",
+                    attr: "String Sub-Attr",
                     value: "value4",
                     unit: "unit4",
+                    avus: [
+                        {
+                            id: "6",
+                            attr: "Sub-String Sub-Attr",
+                            value: "value6",
+                            unit: "unit6",
+                        },
+                    ],
                 },
             ],
         },
         {
-            id: "6",
+            id: "7",
             attr: "String Attr",
             value: "",
+            unit: "",
+        },
+        {
+            id: "8",
+            attr: "Timestamp Attr",
+            value: "2016-09-22 18:20",
+            unit: "",
+        },
+        {
+            id: "9",
+            attr: "UAT Ontology Term Attr",
+            value: "Neutron star",
+            unit: "",
+        },
+        {
+            id: "10",
+            attr: "OLS Ontology Term Attr",
+            value: "Computational biology",
             unit: "",
         },
     ],
@@ -96,17 +122,17 @@ export const DataCiteMetadata = {
                 },
                 {
                     attr: "nameIdentifier",
-                    value: "0000000134596520",
+                    value: "0000-0000-1234-5678",
                     unit: "",
                     avus: [
                         {
                             attr: "nameIdentifierScheme",
-                            value: "ISNI",
+                            value: "ORCID",
                             unit: "",
                         },
                         {
                             attr: "schemeURI",
-                            value: "http://isni.org/isni/",
+                            value: "https://orcid.org/",
                             unit: "",
                         },
                     ],
@@ -140,7 +166,7 @@ export const DataCiteMetadata = {
                         },
                         {
                             attr: "schemeURI",
-                            value: "http://orcid.org/",
+                            value: "https://orcid.org/",
                             unit: "",
                         },
                     ],
@@ -154,7 +180,7 @@ export const DataCiteMetadata = {
         },
         {
             attr: "publicationYear",
-            value: "2017",
+            value: "2019",
             unit: "",
         },
         {
@@ -317,6 +343,70 @@ export const DataCiteMetadata = {
                     ],
                 },
             ],
+        },
+        {
+            attr: "fundingReference",
+            value: "",
+            unit: "",
+            avus: [
+                {
+                    attr: "funderName",
+                    value: "NSF",
+                    unit: "",
+                },
+                {
+                    attr: "funderIdentifier",
+                    value: "#DBI-0735191",
+                    unit: "",
+                    avus: [
+                        {
+                            attr: "funderIdentifierType",
+                            value: "Other",
+                            unit: "",
+                        },
+                    ],
+                },
+            ],
+        },
+        {
+            attr: "version",
+            value: "1.0.0-beta",
+            unit: "",
+        },
+        {
+            attr: "language",
+            value: "en-us",
+            unit: "",
+        },
+        {
+            attr: "size",
+            value: "1.21GB",
+            unit: "",
+        },
+        {
+            attr: "format",
+            value: "application/json",
+            unit: "",
+        },
+        {
+            attr: "analysis_tool",
+            value: "https://qa.cyverse.org/de/",
+            unit: "",
+        },
+        {
+            attr: "reuse_or_citation_conditions",
+            value: "Open Source",
+            unit: "",
+        },
+        {
+            attr: "compressed_data",
+            value: "false",
+            unit: "",
+        },
+        {
+            attr: "is_deprecated",
+            value: "true",
+            unit: "",
         },
     ],
 };

@@ -21,14 +21,17 @@ import { build } from "@cyverse-de/ui-lib";
 
 import ids from "./ids";
 
-function ConfirmationDialog({
-    baseId,
-    open,
-    onClose,
-    onConfirm,
-    title,
-    contentText,
-}) {
+function ConfirmationDialog(props) {
+    const {
+        baseId,
+        open,
+        onClose,
+        onConfirm,
+        confirmButtonText,
+        title,
+        contentText,
+    } = props;
+
     const theme = useTheme();
     const { t } = useTranslation("common");
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -57,7 +60,7 @@ function ConfirmationDialog({
                     color="primary"
                     variant="contained"
                 >
-                    {t("ok")}
+                    {confirmButtonText || t("ok")}
                 </Button>
             </DialogActions>
         </Dialog>

@@ -18,6 +18,9 @@ import AVUFormList from "./AVUFormList";
 import MetadataFormToolbar from "./MetadataFormToolbar";
 import MetadataList from "../listing";
 
+import MetadataTemplateView from "../templates";
+import MetadataTemplateListing from "../templates/Listing";
+
 import SaveAsDialog from "components/data/SaveAsDialog";
 import { getParentPath, isWritable } from "components/data/utils";
 
@@ -48,7 +51,6 @@ const MetadataFormListing = (props) => {
         baseId,
         editable,
         loading,
-        fetchError,
         metadata,
         targetResource,
         onSelectTemplateBtnSelected,
@@ -78,7 +80,7 @@ const MetadataFormListing = (props) => {
     const [irodsAVUsSelected, setIrodsAVUsSelected] = React.useState([]);
 
     React.useEffect(() => {
-        // The presenter wants to load metadata for a different target,
+        // A different target will load new metadata,
         // so reset the view to default settings.
         setTabIndex(0);
         setIrodsAVUsSelected([]);
@@ -86,9 +88,27 @@ const MetadataFormListing = (props) => {
         resetForm();
     }, [resetForm, targetResource]);
 
+    const dataId = targetResource?.id;
+
+    const { isFetching, error: fetchError } = useQuery({
+        queryKey: [FILESYSTEM_METADATA_QUERY_KEY, { dataId }],
+        queryFn: getFilesystemMetadata,
+        config: {
+            enabled: !!dataId,
+            onSuccess: (metadata) => {
+                setTabIndex(0);
+                setIrodsAVUsSelected([]);
+
+                const { avus, "irods-avus": irodsAVUs } = metadata;
+
+                resetForm({ values: { avus, "irods-avus": irodsAVUs } });
+            },
+        },
+    });
+
     React.useEffect(() => {
-        // The presenter wants to load new metadata,
-        // possibly for the same target, and usually from a metadata template,
+        // New metadata was loaded, possibly for the same target,
+        // and usually from a metadata template,
         // so reset the view to default settings.
         setTabIndex(0);
         setIrodsAVUsSelected([]);
@@ -131,7 +151,7 @@ const MetadataFormListing = (props) => {
         setIrodsAVUsSelected([]);
     };
 
-    const loadingOrSubmitting = loading || isSubmitting;
+    const loadingOrSubmitting = loading || isFetching || isSubmitting;
 
     const applyDisabled = loadingOrSubmitting || !dirty || errors.error;
 
@@ -198,7 +218,7 @@ const MetadataFormListing = (props) => {
                             <MetadataList
                                 {...arrayHelpers}
                                 field="avus"
-                                loading={loading}
+                                loading={loading || isFetching}
                                 editable={editable}
                                 fetchError={fetchError}
                                 parentID={baseId}
@@ -232,7 +252,7 @@ const MetadataFormListing = (props) => {
                             <MetadataList
                                 {...arrayHelpers}
                                 field="irods-avus"
-                                loading={loading}
+                                loading={loading || isFetching}
                                 editable={false}
                                 parentID={baseId}
                                 onEditAVU={(index) =>
@@ -300,27 +320,17 @@ const MetadataForm = ({
     const { t } = useTranslation(["metadata", "common", "data"]);
 
     const [metadata, setMetadata] = React.useState({});
+    const [templateMetadata, setTemplateMetadata] = React.useState({});
+    const [templateId, setTemplateId] = React.useState(null);
 
+    const [
+        templateListingDialogOpen,
+        setTemplateListingDialogOpen,
+    ] = React.useState(false);
+    const [templateViewOpen, setTemplateViewOpen] = React.useState(false);
     const [saveAsDialogOpen, setSaveAsDialogOpen] = React.useState(false);
     const [signInDialogOpen, setSignInDialogOpen] = React.useState(false);
     const [saveFileError, setSaveFileError] = React.useState(null);
-
-    const [metadataListingKey, setMetadataListingKey] = React.useState(
-        FILESYSTEM_METADATA_QUERY_KEY
-    );
-    const [
-        fetchMetadataQueryEnabled,
-        setFetchMetadataQueryEnabled,
-    ] = React.useState(false);
-
-    const { isFetching, error: fetchError } = useQuery({
-        queryKey: metadataListingKey,
-        queryFn: getFilesystemMetadata,
-        config: {
-            enabled: fetchMetadataQueryEnabled,
-            onSuccess: setMetadata,
-        },
-    });
 
     const [setDiskResourceMetadata] = useMutation(
         ({ metadata }) =>
@@ -363,12 +373,6 @@ const MetadataForm = ({
         }
     );
 
-    React.useEffect(() => {
-        const dataId = targetResource?.id;
-        setMetadataListingKey([FILESYSTEM_METADATA_QUERY_KEY, { dataId }]);
-        setFetchMetadataQueryEnabled(!!dataId);
-    }, [targetResource]);
-
     const validateAVUs = (avus) => {
         const avusArrayErrors = [];
 
@@ -410,14 +414,14 @@ const MetadataForm = ({
 
     const handleSubmit = (values, actions) => {
         const { avus, "irods-avus": irodsAVUs } = values;
-        const { setSubmitting, setStatus } = actions;
+        const { resetForm, setSubmitting, setStatus } = actions;
 
         const updatedMetadata = { avus, "irods-avus": irodsAVUs };
 
         const onSuccess = () => {
             setSubmitting(false);
             setStatus({ success: true });
-            setMetadata(updatedMetadata);
+            resetForm({ values });
 
             announce({
                 text: t("metadataSaved"),
@@ -445,6 +449,7 @@ const MetadataForm = ({
         getParentPath(targetResource?.path);
 
     const baseId = ids.EDIT_METADATA_FORM;
+    const writable = isWritable(targetResource?.permission);
 
     if (loadingError) {
         return (
@@ -452,26 +457,22 @@ const MetadataForm = ({
         );
     }
 
-    const { avus, "irods-avus": irodsAVUs } = metadata;
-
+    // The enableReinitialize flag should be false so that prop updates from
+    // template dialogs do not reset the entire form.
     return (
         <>
             <Formik
-                enableReinitialize
-                initialValues={{ avus, "irods-avus": irodsAVUs }}
+                enableReinitialize={false}
+                initialValues={{}}
                 validate={validate}
                 onSubmit={handleSubmit}
             >
                 {(formikProps) => (
                     <MetadataFormListing
                         baseId={baseId}
-                        loading={loading || isFetching}
-                        fetchError={fetchError}
+                        loading={loading}
                         metadata={metadata}
-                        editable={
-                            userProfile &&
-                            isWritable(targetResource?.permission)
-                        }
+                        editable={userProfile && writable}
                         onSaveMetadataToFileBtnSelected={() => {
                             if (userProfile) {
                                 setSaveAsDialogOpen(true);
@@ -480,17 +481,37 @@ const MetadataForm = ({
                             }
                         }}
                         onSelectTemplateBtnSelected={(metadata) => {
-                            console.log("view in templates", metadata);
-
-                            announce({
-                                text: t("common:comingSoon"),
-                            });
+                            setTemplateMetadata(metadata);
+                            setTemplateListingDialogOpen(true);
                         }}
                         {...props}
                         {...formikProps}
                     />
                 )}
             </Formik>
+
+            <MetadataTemplateListing
+                baseId={baseId}
+                open={templateListingDialogOpen}
+                onClose={() => setTemplateListingDialogOpen(false)}
+                onSelectTemplate={(templateId) => {
+                    setTemplateId(templateId);
+                    setTemplateListingDialogOpen(false);
+                    setTemplateViewOpen(true);
+                }}
+            />
+
+            <MetadataTemplateView
+                open={templateViewOpen}
+                writable={writable}
+                updateMetadataFromTemplateView={(updatedMetadata) => {
+                    setMetadata(updatedMetadata);
+                    setTemplateViewOpen(false);
+                }}
+                onClose={() => setTemplateViewOpen(false)}
+                templateId={templateId}
+                metadata={templateMetadata}
+            />
 
             <SaveAsDialog
                 path={saveMetadataDestFolder}
@@ -506,6 +527,7 @@ const MetadataForm = ({
                     });
                 }}
             />
+
             <SignInDialog
                 baseId={baseId}
                 open={signInDialogOpen}

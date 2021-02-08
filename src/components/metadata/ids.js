@@ -1,5 +1,6 @@
 export default {
     EDIT_METADATA_FORM: "editMetadataDialog",
+    METADATA_TEMPLATE_LISTING: "metadataTemplateListing",
     METADATA_TEMPLATE_VIEW: "metadataTemplate",
 
     AVU_GRID: "avuGrid",
@@ -10,11 +11,14 @@ export default {
     AVU_AVUS: "avus",
     BUTTONS: {
         ADD: "addBtn",
+        CONFIRM: "confirmBtn",
         DELETE: "deleteBtn",
         DONE: "doneBtn",
+        DOWNLOAD: "downloadBtn",
         EDIT: "editBtn",
         EXPAND: "expand",
         HELP: "help",
+        INFO: "info",
         IMPORT_IRODS_METADATA: "importIRODSMetadata",
         SAVE: "saveBtn",
         SAVE_METADATA_TO_FILE: "saveMetadataToFile",

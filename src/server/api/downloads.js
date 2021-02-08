@@ -37,18 +37,6 @@ const handler = async (req, res) => {
     const attachment = req?.query?.attachment || 0;
     const url = req?.query?.url;
 
-    req.pipe(
-        doDownloadFromTerrain(userID, accessToken, filePath, attachment, url)
-    ).pipe(res);
-};
-
-const doDownloadFromTerrain = (
-    userID,
-    accessToken,
-    filePath,
-    attachment,
-    url
-) => {
     const apiURL = new URL(terrainURL);
     if (url) {
         apiURL.pathname = path.join(
@@ -63,6 +51,44 @@ const doDownloadFromTerrain = (
         );
         apiURL.search = "path=" + filePath;
     }
+
+    req.pipe(doDownloadFromTerrain(userID, accessToken, apiURL)).pipe(res);
+};
+
+/**
+ * Express handler for Metadata Template CSV download requests.
+ * The response from this will be the response from Terrain unless the
+ * request validation fails.
+ *
+ * @param {object} req - An Express request.
+ * @param {object} res - An Express response.
+ * @returns null
+ */
+const metadataTemplateCSVhandler = async (req, res) => {
+    const accessToken = req?.kauth?.grant?.access_token;
+    if (!accessToken) {
+        res.status(401).send("authorization required");
+        return;
+    }
+
+    const userID = accessToken?.content?.preferred_username;
+    if (!userID) {
+        res.status(401).send("authorization required");
+        return;
+    }
+
+    const apiURL = new URL(terrainURL);
+    apiURL.pathname = path.join(
+        apiURL.pathname,
+        "/secured/filesystem/metadata/template",
+        req?.params?.templateId,
+        "zip-csv"
+    );
+
+    req.pipe(doDownloadFromTerrain(userID, accessToken, apiURL)).pipe(res);
+};
+
+const doDownloadFromTerrain = (userID, accessToken, apiURL) => {
     logger.info(`TERRAIN ${userID} GET ${apiURL.href}`);
     const requestOptions = {
         method: "GET",
@@ -77,4 +103,5 @@ const doDownloadFromTerrain = (
     });
 };
 
+export { metadataTemplateCSVhandler };
 export default handler;

@@ -23,12 +23,9 @@ import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import AppLaunchWizard from "./AppLaunchWizard";
 import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
-import { getErrorCode, ERROR_CODES } from "components/utils/error/errorCode";
-import AccessRequestDialog from "components/vice/AccessRequestDialog";
 
 const Launch = ({ app, launchError, loading }) => {
     const [submissionError, setSubmissionError] = React.useState(null);
-    const [viceAccessError, setViceAccessError] = React.useState(false);
     const [bootstrapInfo] = useBootstrapInfo();
     const [config] = useConfig();
     const homePath = useHomePath();
@@ -44,15 +41,6 @@ const Launch = ({ app, launchError, loading }) => {
                 trackIntercomEvent(IntercomEvents.LAUNCHED_JOB, resp);
             },
             onError: (error, { onError }) => {
-                const code = getErrorCode(error);
-                console.log("code is =>" + code);
-                if (
-                    code === ERROR_CODES.ERR_FORBIDDEN ||
-                    code === ERROR_CODES.ERR_LIMIT_REACHED ||
-                    code === ERROR_CODES.ERR_PERMISSION_NEEDED
-                ) {
-                    setViceAccessError(code);
-                }
                 onError(error);
                 setSubmissionError(error);
             },
@@ -117,11 +105,7 @@ const Launch = ({ app, launchError, loading }) => {
                 }}
             />
 
-            <AccessRequestDialog
-                open={viceAccessError === ERROR_CODES.ERR_PERMISSION_NEEDED}
-                baseId={baseId}
-                onClose={() => setViceAccessError(null)}
-            />
+           {}
         </>
     );
 };

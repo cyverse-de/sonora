@@ -238,6 +238,7 @@ function TableView(props) {
                                                 systemId={app.system_id}
                                                 appId={app.id}
                                                 searchTerm=""
+                                                limitChecks={app?.limitChecks}
                                             />
                                         </TableCell>
                                         <TableCell

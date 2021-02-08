@@ -136,11 +136,11 @@ function Listing(props) {
                 handleUserNameClick={() => setUpdateDialogOpen(true)}
                 handlePathClick={handlePathClick}
             />
-            {data && data?.requests?.length > 0 && (
+            {data && data?.total > 0 && (
                 <DEPagination
                     page={page + 1}
                     onChange={handleChangePage}
-                    totalPages={Math.ceil(data?.requests?.length / rowsPerPage)}
+                    totalPages={Math.ceil(data?.total / rowsPerPage)}
                     onPageSizeChange={handleChangeRowsPerPage}
                     pageSize={rowsPerPage}
                     baseId={baseId}

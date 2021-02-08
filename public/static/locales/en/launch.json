@@ -1,4 +1,5 @@
 {
+    "accessDenied": "Access Denied",
     "advancedSettings": "Advanced Settings (optional)",
     "analysisInfo": "Analysis Info",
     "analysisName": "Analysis Name",
@@ -16,8 +17,11 @@
     "errorLoadingReferenceGenomes": "Error loading Reference Genomes",
     "helpMsgResourceRequirements": "Resource Requirements may be adjusted so that the analysis is submitted with requests for larger minimum resources. Note that this may cause the analysis to wait longer in the submission queue until a node that matches those minimum requirements becomes available. So generally it is advisable to leave the resource requests set to the defaults that the tool or app integrator has set.",
     "hpcAppWaitTimes": "<p>This application runs on XSEDE, the U.S. National Supercomputing Network. Analyses run on this system enter a queue that includes many non-CyVerse users. Wait times for your analyses (jobs) to submit and run may be up to several days for large-memory applications. Please do not resubmit your analysis. If the status of your analysis has not changed from Submitted to Running after several days, <support>contact support</support>. To learn more about HPC apps, see <hpcLink>Using HPC Apps in the DE</hpcLink>.</p><p>Apply for your own XSEDE allocation to gain access to additional resources at <xsede>XRAS - Submit Allocation Request</xsede>. Access to this powerful system is made available to CyVerse users at no cost through a grant from the National Science Foundation.</p>",
+    "jobLimitReached": "Job Limit Reached",
+    "jobLimitReachedPrompt": "Please <b>Save and Complete</b>, or <b>Cancel</b>, any currently running VICE jobs before launching a new VICE job. To request a permanent increase in your limit,  please <support>contact support</support>.",
     "launchAnalysis": "Launch Analysis",
     "launchOrSaveAsQL": "Launch or Save as Quick Launch",
+    "launchForbiddenPrompt": "This account is not permitted to launch VICE apps. If you believe you have encountered this message in error, please <support>contact support</support>.",
     "minDiskSpace": "Minimum Disk Space",
     "minCPUCores": "Minimum CPU Cores",
     "minMemory": "Minimum Memory",

@@ -7,6 +7,7 @@
     "dateUpdated": "Date Updated",
     "email": "E-mail",
     "history": "History",
+    "noRequests": "No requests to display.",
     "path": "Path",
     "requestFetchError": "Unable to fetch request details. Please try again.",
     "requestUpdateFailure": "Unable to update request. Please try again.",

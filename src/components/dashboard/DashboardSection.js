@@ -3,7 +3,6 @@ import clsx from "clsx";
 
 import {
     Typography,
-    Paper,
     Collapse,
     Button,
     useTheme,

@@ -19,7 +19,13 @@ export default function EditTeam() {
         router.push(`/${NavigationConstants.TEAMS}`);
     };
 
-    return <TeamForm teamName={teamName} goBackToTeamView={goBackToTeamView} />;
+    return (
+        <TeamForm
+            parentId="editTeam"
+            teamName={teamName}
+            goBackToTeamView={goBackToTeamView}
+        />
+    );
 }
 
 EditTeam.getInitialProps = async () => ({

@@ -205,7 +205,7 @@ function Members(props) {
         >
             {isAdmin && (
                 <SubjectSearchField
-                    parentId={baseId}
+                    baseId={build(baseId, ids.TEAMS.SEARCH)}
                     onUserSelected={addMember}
                 />
             )}

@@ -17,7 +17,9 @@ export default function CreateTeam() {
         router.push(`/${NavigationConstants.TEAMS}`);
     };
 
-    return <TeamForm goBackToTeamView={goBackToTeamView} />;
+    return (
+        <TeamForm parentId="createTeam" goBackToTeamView={goBackToTeamView} />
+    );
 }
 
 CreateTeam.getInitialProps = async () => ({

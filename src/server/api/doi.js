@@ -51,5 +51,20 @@ export default function doiRouter() {
         })
     );
 
+    logger.info(
+        "adding the POST /admin/permanent-id-requests/:id/ezid handler"
+    );
+    api.post(
+        "/admin/permanent-id-requests/:id/ezid",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/permanent-id-requests/:id/ezid",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

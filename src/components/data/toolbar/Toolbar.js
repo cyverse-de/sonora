@@ -243,7 +243,7 @@ function DataToolbar(props) {
                         }}
                     />
                     <ConfirmationDialog
-                        baseId={baseId}
+                        baseId={ids.DELETE_CONFIRM_DIALOG}
                         open={deleteConfirmOpen}
                         onClose={() => {
                             setDeleteConfirmOpen(false);
@@ -256,7 +256,7 @@ function DataToolbar(props) {
                         }}
                     />
                     <ConfirmationDialog
-                        baseId={baseId}
+                        baseId={ids.EMPTY_TRASH_CONFIRM_DIALOG}
                         open={emptyTrashConfirmOpen}
                         onClose={() => {
                             setEmptyTrashConfirmOpen(false);

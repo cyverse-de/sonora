@@ -108,7 +108,7 @@ function DataDotMenu(props) {
         isOwner(selectedResources) &&
         !containsFolders(selectedResources);
     const downloadEnabled =
-        !isSelectionEmpty && !containsFolders(selectedResources);
+        !inTrash && !isSelectionEmpty && !containsFolders(selectedResources);
 
     const router = useRouter();
     const routeToFile = (id, path) => {

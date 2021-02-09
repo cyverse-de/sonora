@@ -7,27 +7,13 @@
 
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
-
 import ids from "../ids";
 import styles from "../styles";
 
 import { build } from "@cyverse-de/ui-lib";
-import {
-    Button,
-    makeStyles,
-    Menu,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-} from "@material-ui/core";
+import { Button, makeStyles, Menu } from "@material-ui/core";
 
-import {
-    ArrowDropDown,
-    Delete,
-    DeleteForever,
-    RestoreFromTrash,
-    DeleteSweep,
-} from "@material-ui/icons";
+import { ArrowDropDown, Delete } from "@material-ui/icons";
 import TrashMenuItems from "./TrashMenuItems";
 
 const useStyles = makeStyles(styles);
@@ -56,7 +42,7 @@ export function TrashMenu(props) {
     return (
         <>
             <Button
-                id={build(baseId, "trashButton")}
+                id={build(baseId, ids.TRASH_BUTTON)}
                 variant="outlined"
                 size="small"
                 disableElevation
@@ -64,18 +50,17 @@ export function TrashMenu(props) {
                 className={classes.button}
                 onClick={onTrashMenuClick}
                 aria-haspopup={true}
-                aria-controls={baseId}
+                aria-controls={build(baseId, ids.TRASH_BUTTON_MENU)}
                 startIcon={<Delete />}
                 endIcon={<ArrowDropDown />}
             >
                 {t("trash")}
             </Button>
             <Menu
-                id={(baseId, "trashBtnMenu")}
+                id={build(baseId, ids.TRASH_BUTTON_MENU)}
                 anchorEl={trashAnchor}
                 open={Boolean(trashAnchor)}
                 onClose={onTrashClose}
-                getContentAnchorEl={null}
                 anchorOrigin={{
                     vertical: "bottom",
                     horizontal: "center",

@@ -291,7 +291,7 @@ export const restore = (paths) => {
     return callApi({
         endpoint: "/api/filesystem/restore",
         method: "POST",
-        body: [paths],
+        body: paths,
     });
 };
 

@@ -158,5 +158,18 @@ export default function groupsRouter() {
         })
     );
 
+    logger.info("adding the POST /api/teams/:name/join-request handler");
+    api.post(
+        "/teams/:name/join-request",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/teams/:name/join-request",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

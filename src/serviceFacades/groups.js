@@ -246,6 +246,16 @@ function updateTeamMemberStats({
     );
 }
 
+function requestJoinTeam({ name, message }) {
+    return callApi({
+        endpoint: `/api/teams/${encodeURIComponent(name)}/join-request`,
+        method: "POST",
+        body: {
+            message,
+        },
+    });
+}
+
 export {
     MY_TEAMS_QUERY,
     ALL_TEAMS_QUERY,
@@ -260,4 +270,5 @@ export {
     deleteTeam,
     leaveTeam,
     updateTeamMemberStats,
+    requestJoinTeam,
 };

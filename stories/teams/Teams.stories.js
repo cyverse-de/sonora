@@ -41,18 +41,36 @@ export const SearchResultsWithError = () => {
 };
 
 export const EditFormMember = () => {
-    mockAxios.onGet(/\/api\/teams\/.*/).reply(200, teamMock);
-    mockAxios
-        .onGet(/\/api\/teams\/.*\/privileges/)
-        .reply(200, privilegeList(false));
-    mockAxios.onGet(/\/api\/teams\/.*\/members/).reply(200, memberList);
-    mockAxios.onPost(/\/api\/teams\/.*\/leave/).reply(200);
+    const teamName = "ipcdev:team1";
 
-    return <TeamForm parentId="form" teamName="Test Team" />;
+    mockAxios
+        .onGet(`/api/teams/${encodeURIComponent(teamName)}/privileges`)
+        .reply(200, privilegeList(false));
+    mockAxios
+        .onGet(`/api/teams/${encodeURIComponent(teamName)}/members`)
+        .reply(200, memberList);
+    mockAxios
+        .onPost(`/api/teams/${encodeURIComponent(teamName)}/leave`)
+        .replyOnce(200, { results: [{ success: false }] })
+        .onPost(`/api/teams/${encodeURIComponent(teamName)}/leave`)
+        .reply(200, { results: [{ success: true }] });
+    mockAxios
+        .onGet(`/api/teams/${encodeURIComponent(teamName)}`)
+        .reply(200, teamMock(teamName));
+
+    return (
+        <TeamForm
+            parentId="form"
+            teamName={teamName}
+            goBackToTeamView={() => console.log("Redirect back to /teams")}
+        />
+    );
 };
 
 export const EditFormAdmin = ({ newTeam }) => {
-    mockAxios.onGet(/\/api\/teams\/.*/).reply(200, teamMock);
+    const teamName = "ipcdev:team2";
+    const updatedTeamName = "ipcdev:UpdatedTeam";
+
     mockAxios.onGet(/\/api\/subjects.*/).reply(200, {
         subjects: [
             ...Object.values(userInfoResp),
@@ -60,45 +78,58 @@ export const EditFormAdmin = ({ newTeam }) => {
         ],
     });
     mockAxios
-        .onGet(/\/api\/teams\/.*\/privileges/)
+        .onGet(`/api/teams/${encodeURIComponent(teamName)}/privileges`)
         .reply(200, privilegeList(false, Privilege.ADMIN.value));
-    mockAxios.onGet(/\/api\/teams\/.*\/members/).reply(200, memberList);
-
-    mockAxios.onGet(/\/api\/teams\/.*\/members/).reply(200, memberList);
+    mockAxios
+        .onGet(`/api/teams/${encodeURIComponent(teamName)}/members`)
+        .reply(200, memberList);
 
     mockAxios
-        .onPost(/\/api\/teams\/.*/)
+        .onGet(`/api/teams/${encodeURIComponent(teamName)}`)
+        .reply(200, teamMock(teamName));
+    mockAxios
+        .onPost(`/api/teams`)
         .replyOnce(500, {
             error_code: "ERR_NO_CREATION",
             reason: "No team for you",
         })
-        .onPost(/\/api\/teams\/.*/)
-        .reply(200, { name: "ipcdev:MuhTeam" });
+        .onPost(`/api/teams`)
+        .reply(200, { name: teamName });
 
     mockAxios
-        .onPatch(/\/api\/teams\/.*/)
+        .onPatch(`/api/teams/${encodeURIComponent(teamName)}`)
         .replyOnce(500, {
             error_code: "ERR_NO_TEAM_UPDATE",
             reason: "Change is bad",
         })
-        .onPatch(/\/api\/teams\/.*/)
-        .reply(200, { name: "ipcdev:MuhUpdatedTeam" });
+        .onPatch(`/api/teams/${encodeURIComponent(teamName)}`)
+        .reply(200, { name: updatedTeamName });
 
     mockAxios
-        .onPost(/\/api\/teams\/.*\/privileges/)
+        .onPost(`/api/teams/${encodeURIComponent(teamName)}/privileges`)
         .replyOnce(500, {
             error_code: "ERR_FAILED_PRIVILEGE",
             reason: "Check your privilege",
         })
-        .onPost(/\/api\/teams\/.*\/privileges/)
+        .onPost(`/api/teams/${encodeURIComponent(teamName)}/privileges`)
         .reply(200);
 
-    mockAxios.onPost(/\/api\/teams\/.*\/members/).reply(200);
-    mockAxios.onPost(/\/api\/teams\/.*\/members\/deleter/).reply(200);
+    mockAxios
+        .onPost(`/api/teams/${encodeURIComponent(teamName)}/members`)
+        .reply(200);
+    mockAxios
+        .onPost(`/api/teams/${encodeURIComponent(teamName)}/members/deleter`)
+        .reply(200);
 
-    mockAxios.onDelete(/\/api\/teams\/*/).reply(200);
+    mockAxios.onDelete(`/api/teams/${encodeURIComponent(teamName)}`).reply(200);
 
-    return <TeamForm parentId="form" teamName={newTeam ? null : "Test Team"} />;
+    return (
+        <TeamForm
+            parentId="form"
+            teamName={newTeam ? null : teamName}
+            goBackToTeamView={() => console.log("Redirect back to /teams")}
+        />
+    );
 };
 
 EditFormAdmin.argTypes = {

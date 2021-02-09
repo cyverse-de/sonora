@@ -15,7 +15,40 @@ import PageWrapper from "components/layout/PageWrapper";
 
 import { build } from "@cyverse-de/ui-lib";
 
-import { CircularProgress } from "@material-ui/core";
+import {
+    CircularProgress,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+} from "@material-ui/core";
+
+function ModeSelect(props) {
+    const { mode, handleModeSelect } = props;
+    const languages = SyntaxHighlighter.supportedLanguages;
+
+    return (
+        <FormControl>
+            <InputLabel id="languageSelectLabel">Mode</InputLabel>
+            <Select
+                labelId="languageSelectLabel"
+                id="languageSelect"
+                value={mode}
+                onChange={handleModeSelect}
+            >
+                {languages.map((language, index) => (
+                    <MenuItem
+                        value={language}
+                        key={index}
+                        id={"languageSelect" + language}
+                    >
+                        {language}
+                    </MenuItem>
+                ))}
+            </Select>
+        </FormControl>
+    );
+}
 
 export default function TextViewer(props) {
     const {
@@ -26,6 +59,7 @@ export default function TextViewer(props) {
         loading,
         mode,
         handlePathChange,
+        handleModeSelect,
         onRefresh,
         fileName,
     } = props;
@@ -58,6 +92,7 @@ export default function TextViewer(props) {
                     }}
                 />
             )}
+            <ModeSelect mode={mode} handleModeSelect={handleModeSelect} />
             <SyntaxHighlighter
                 customStyle={{
                     overflow: "auto",

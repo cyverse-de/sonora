@@ -70,6 +70,7 @@ export default function FileViewer(props) {
     const { t } = useTranslation("data");
     const router = useRouter();
     const [mode, setMode] = useState(null);
+    const [autoMode, setAutoMode] = useState(true);
     const [readChunkKey, setReadChunkKey] = useState(READ_CHUNK_QUERY_KEY);
     const [readChunkQueryEnabled, setReadChunkQueryEnabled] = useState(false);
     const [viewerType, setViewerType] = useState(null);
@@ -148,7 +149,9 @@ export default function FileViewer(props) {
             const infoType = manifest?.infoType;
             const separator = getColumnDelimiter(infoType);
 
-            setMode(getViewerMode(mimeType));
+            if (autoMode) {
+                setMode(getViewerMode(mimeType));
+            }
             setSeparator(separator);
 
             switch (mimeType) {
@@ -228,7 +231,7 @@ export default function FileViewer(props) {
                     }
             }
         }
-    }, [createFile, manifest, path, separator]);
+    }, [autoMode, createFile, manifest, path, separator]);
 
     const memoizedData = useMemo(() => data, [data]);
     const busy = isFetching || status === constants.LOADING;
@@ -287,6 +290,10 @@ export default function FileViewer(props) {
         memoizedData.forEach((page) => {
             flatData = flatData.concat(page.chunk);
         });
+        const handleModeSelect = (event) => {
+            setAutoMode(false);
+            setMode(event.target.value);
+        };
         return (
             <>
                 <TextViewer
@@ -298,6 +305,7 @@ export default function FileViewer(props) {
                     mode={mode}
                     loading={isFetchingMore}
                     handlePathChange={handlePathChange}
+                    handleModeSelect={handleModeSelect}
                     onRefresh={() => refreshViewer(manifestKey)}
                 />
                 <LoadMoreButton />

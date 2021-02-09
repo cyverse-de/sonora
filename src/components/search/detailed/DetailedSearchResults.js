@@ -20,6 +20,10 @@ import AnalysesSearchResults from "./AnalysesSearchResults";
 import DETabPanel from "components/utils/DETabPanel";
 
 import SEARCH_RESULTS_TABS from "components/search/detailed/tabs";
+import { TeamIcon } from "components/teams/Icons";
+import TeamSearchResults from "./TeamSearchResults";
+import AnalysesIcon from "components/icons/AnalysesIcon";
+import DataIcon from "components/icons/DataIcon";
 
 import {
     Divider,
@@ -34,8 +38,7 @@ import {
 } from "@material-ui/core";
 import AppsIcon from "@material-ui/icons/Apps";
 import SearchIcon from "@material-ui/icons/Search";
-import { TeamIcon } from "components/teams/Icons";
-import TeamSearchResults from "./TeamSearchResults";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,13 +61,12 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.primary.contrastText,
         backgroundColor: theme.palette.primary.main,
     },
+    selectedTabIcon: {
+        fontSize: "1.5rem",
+    },
     tabIcon: {
-        height: 20,
-        width: 24,
-        [theme.breakpoints.down("xs")]: {
-            height: 18,
-            width: 20,
-        },
+        color: theme.palette.info.main,
+        fontSize: "1.5rem",
     },
     searchInfo: {
         color: theme.palette.info.main,
@@ -90,19 +92,23 @@ function DetailedSearchResults(props) {
     const teamTabId = build(baseId, ids.TEAM_SEARCH_RESULTS_TAB);
 
     const dataTabIcon =
-        selectedTab === SEARCH_RESULTS_TABS.data
-            ? "/data.png"
-            : "/data-grey.png";
+        selectedTab === SEARCH_RESULTS_TABS.data ? (
+            <DataIcon className={classes.selectedTabIcon} />
+        ) : (
+            <DataIcon className={classes.tabIcon} />
+        );
     const appsTabIcon =
         selectedTab === SEARCH_RESULTS_TABS.apps ? (
-            <AppsIcon />
+            <AppsIcon className={classes.selectedTabIcon} />
         ) : (
-            <AppsIcon style={{ color: theme.palette.info.main }} />
+            <AppsIcon className={classes.tabIcon} />
         );
     const analysesTabIcon =
-        selectedTab === SEARCH_RESULTS_TABS.analyses
-            ? "/analyses-white-24.png"
-            : "/analyses-grey-24.png";
+        selectedTab === SEARCH_RESULTS_TABS.analyses ? (
+            <AnalysesIcon className={classes.selectedTabIcon} />
+        ) : (
+            <AnalysesIcon className={classes.tabIcon} />
+        );
 
     const totalResults = dataCount + appsCount + analysesCount + teamCount;
 
@@ -154,13 +160,7 @@ function DetailedSearchResults(props) {
                             : t("search:dataSearchTab", { count: dataCount })
                     }
                     classes={{ selected: classes.tabSelected }}
-                    icon={
-                        <img
-                            src={`${dataTabIcon}`}
-                            alt={t("data")}
-                            className={classes.tabIcon}
-                        />
-                    }
+                    icon={dataTabIcon}
                 />
                 <Tab
                     value={SEARCH_RESULTS_TABS.apps}
@@ -186,9 +186,7 @@ function DetailedSearchResults(props) {
                               })
                     }
                     classes={{ selected: classes.tabSelected }}
-                    icon={
-                        <img src={`${analysesTabIcon}`} alt={t("analyses")} />
-                    }
+                    icon={analysesTabIcon}
                 />
                 <Tab
                     value={SEARCH_RESULTS_TABS.teams}

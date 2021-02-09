@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import clsx from "clsx";
 
-import { Typography, Collapse, Button } from "@material-ui/core";
+import {
+    Typography,
+    Collapse,
+    Button,
+    useTheme,
+    Divider,
+} from "@material-ui/core";
 
 import getItem from "./dashboardItem";
 
@@ -28,6 +34,7 @@ const DashboardSection = ({
     const classes = useStyles();
     const { t } = useTranslation("dashboard");
     const [expanded, setExpanded] = useState(false);
+    const theme = useTheme();
 
     const isNewsSection = section === constants.SECTION_NEWS;
     const isEventsSection = section === constants.SECTION_EVENTS;
@@ -64,25 +71,28 @@ const DashboardSection = ({
             id={id}
         >
             <Typography
-                noWrap
-                gutterBottom
-                variant="h5"
-                component="h5"
-                color="primary"
+                variant="h6"
+                style={{
+                    color: theme.palette.info.main,
+                }}
             >
                 {name}
             </Typography>
-
+            <Divider
+                style={{
+                    margin: 0,
+                    color: theme.palette.info.main,
+                }}
+            />
             <div className={classes.sectionItems}>{uncollapsed}</div>
-
             <Collapse in={expanded}>
                 <div className={classes.sectionItems}>{collapsible}</div>
             </Collapse>
-
             {displayShowMore && (
                 <Button
                     onClick={() => setExpanded(!expanded)}
                     className={classes.showMoreBtn}
+                    color="primary"
                 >
                     <Typography variant="button" display="block">
                         {expanded ? t("showFewer") : t("showMore")}

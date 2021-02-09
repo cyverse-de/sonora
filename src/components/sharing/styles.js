@@ -17,8 +17,9 @@ export default (theme) => ({
         maxWidth: theme.spacing(2),
     },
 
-    iconColor: {
+    icon: {
         color: theme.palette.info.main,
+        fontSize: "1.5rem",
     },
 
     mobilePermission: {

@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DOIToolbar(props) {
-    const { baseId, selected, onUpdateClick } = props;
+    const { baseId, selected, onUpdateClick, onMetadataSelected } = props;
     const { t } = useTranslation("doi");
     const classes = useStyles();
     const toolbarId = build(baseId, ids.toolbarId);
@@ -62,6 +62,7 @@ export default function DOIToolbar(props) {
                             size="small"
                             variant="outlined"
                             className={classes.toolbarItems}
+                            onClick={() => onMetadataSelected(selected)}
                         >
                             {t("viewMetadata")}
                         </Button>

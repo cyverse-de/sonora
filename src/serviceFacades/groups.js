@@ -194,11 +194,12 @@ function updateTeamMemberStats({
         newPrivileges
     );
 
-    const promises = [];
+    const memberPromises = [];
+    const privilegeUpdates = [];
 
     if (update?.length > 0) {
         const updates = createPrivilegeUpdates(update);
-        promises.push(() => updateTeamPrivileges({ name, updates }));
+        privilegeUpdates.push(...updates);
     }
 
     if (remove?.length > 0) {
@@ -208,8 +209,8 @@ function updateTeamMemberStats({
                 privileges: [],
             };
         });
-        promises.push(() => updateTeamPrivileges({ name, updates }));
-        promises.push(() => removeTeamMembers({ name, members: remove }));
+        privilegeUpdates.push(...updates);
+        memberPromises.push(() => removeTeamMembers({ name, members: remove }));
     }
 
     if (add?.length > 0) {
@@ -219,31 +220,30 @@ function updateTeamMemberStats({
             (privilege) => privilege.subject.id !== selfId
         );
         const updates = createPrivilegeUpdates(noSelfUpdates);
-        promises.push(() => updateTeamPrivileges({ name, updates }));
+        privilegeUpdates.push(...updates);
 
         const userIds = add.map((privilege) => privilege.subject.id);
-        promises.push(() => addTeamMembers({ name, members: userIds }));
+        memberPromises.push(() => addTeamMembers({ name, members: userIds }));
     }
 
     if (isPublicTeam !== wasPublicTeam) {
-        promises.push(() =>
-            updateTeamPrivileges({
-                name,
-                updates: [
-                    {
-                        subject_id: GrouperAllUsersId,
-                        privileges: isPublicTeam ? [PUBLIC_TEAM_PRIVILEGE] : [],
-                    },
-                ],
-            })
-        );
+        privilegeUpdates.push({
+            subject_id: GrouperAllUsersId,
+            privileges: isPublicTeam ? [PUBLIC_TEAM_PRIVILEGE] : [],
+        });
     }
 
-    return promises.reduce((currentPromise, promise) => {
-        return currentPromise.then(() => {
-            return promise();
-        });
-    }, Promise.resolve());
+    // Run the privilege updates first, then all of the member updates
+    // Privilege updates cannot run in parallel with member updates
+    return updateTeamPrivileges({ name, updates: privilegeUpdates }).then(
+        (privilegeResult) => {
+            return Promise.all(memberPromises.map((promise) => promise())).then(
+                (memberResults) => {
+                    return [privilegeResult, memberResults];
+                }
+            );
+        }
+    );
 }
 
 export {

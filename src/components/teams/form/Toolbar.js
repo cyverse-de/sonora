@@ -81,7 +81,7 @@ function EditTeamToolbar(props) {
                 )}
                 {isAdmin && !isCreatingTeam && (
                     <Button
-                        color="primary"
+                        classes={{ root: classes.deleteBtn }}
                         variant="outlined"
                         id={build(baseId, ids.BUTTONS.DELETE)}
                         className={classes.button}

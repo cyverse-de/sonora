@@ -91,6 +91,10 @@ function Listing(props) {
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
+    const [
+        confirmDOIRequestDialogOpen,
+        setConfirmDOIRequestDialogOpen,
+    ] = useState(false);
 
     const [navError, setNavError] = useState(null);
 
@@ -486,6 +490,9 @@ function Listing(props) {
                     onPublicLinksSelected={() => setPublicLinksDlgOpen(true)}
                     toolbarVisibility={toolbarVisibility}
                     onDownloadSelected={() => setDownload(true)}
+                    onRequestDOISelected={() =>
+                        setConfirmDOIRequestDialogOpen(true)
+                    }
                 />
                 {!isGridView && (
                     <TableView
@@ -561,6 +568,11 @@ function Listing(props) {
             >
                 <PublicLinks paths={getSelectedPaths()} />
             </DEDialog>
+            <DEDialog
+                open={confirmDOIRequestDialogOpen}
+                onClose={() => setConfirmDOIRequestDialogOpen(false)}
+                baseId={ids.DOI_CONFIRM}
+            ></DEDialog>
         </>
     );
 }

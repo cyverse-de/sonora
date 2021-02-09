@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 /**
  * @author aramsey
  *
@@ -7,13 +6,15 @@ import React, { useState } from "react";
  * This toolbar contains buttons for saving, deleting, and leaving a team
  */
 
+import React, { useState } from "react";
+
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 import {
-    makeStyles,
     Button,
     Hidden,
     ListItemIcon,
     ListItemText,
+    makeStyles,
     MenuItem,
     Toolbar,
 } from "@material-ui/core";
@@ -35,6 +36,7 @@ function EditTeamToolbar(props) {
         onLeaveTeamSelected,
         onDeleteTeamSelected,
         teamName,
+        handleSubmit,
     } = props;
     const { t } = useTranslation(["teams", "common"]);
     const classes = useStyles();
@@ -55,6 +57,7 @@ function EditTeamToolbar(props) {
                     id={build(baseId, ids.BUTTONS.SAVE_BTN)}
                     className={classes.button}
                     startIcon={<Save />}
+                    onClick={handleSubmit}
                 >
                     {t("common:save")}
                 </Button>

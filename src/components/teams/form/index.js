@@ -8,7 +8,7 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles, Paper, Table } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import { useMutation, useQuery } from "react-query";
 
 import Privilege from "components/models/Privilege";
@@ -279,40 +279,47 @@ function TeamForm(props) {
             }
             onSubmit={handleSubmit}
         >
-            <Form>
-                <TeamToolbar
-                    parentId={parentId}
-                    isAdmin={isAdmin}
-                    isMember={isMember}
-                    teamName={groupShortName(team?.name)}
-                    onLeaveTeamSelected={() =>
-                        leaveTeamMutation({ name: team?.name })
-                    }
-                    onDeleteTeamSelected={() =>
-                        deleteTeamMutation({ name: team?.name })
-                    }
-                />
-                <Paper classes={{ root: classes.paper }} elevation={1}>
-                    {loading && (
-                        <>
-                            <Skeleton variant="text" height={40} />
-                            <Skeleton variant="rect" height={100} />
-                            <Table>
-                                <TableLoading numColumns={2} numRows={3} />
-                            </Table>
-                        </>
-                    )}
+            {({ handleSubmit }) => (
+                <>
+                    <TeamToolbar
+                        parentId={parentId}
+                        isAdmin={isAdmin}
+                        isMember={isMember}
+                        teamName={groupShortName(team?.name)}
+                        handleSubmit={handleSubmit}
+                        onLeaveTeamSelected={() =>
+                            leaveTeamMutation({ name: team?.name })
+                        }
+                        onDeleteTeamSelected={() =>
+                            deleteTeamMutation({ name: team?.name })
+                        }
+                    />
+                    <Paper
+                        classes={{ root: classes.paper }}
+                        elevation={1}
+                        style={{ overflow: "auto" }}
+                    >
+                        {loading && (
+                            <>
+                                <Skeleton variant="text" height={40} />
+                                <Skeleton variant="rect" height={100} />
+                                <Table>
+                                    <TableLoading numColumns={2} numRows={3} />
+                                </Table>
+                            </>
+                        )}
 
-                    {!loading && (
-                        <FormFields
-                            parentId={parentId}
-                            isAdmin={isAdmin}
-                            hasRead={hasRead}
-                            saveError={saveError}
-                        />
-                    )}
-                </Paper>
-            </Form>
+                        {!loading && (
+                            <FormFields
+                                parentId={parentId}
+                                isAdmin={isAdmin}
+                                hasRead={hasRead}
+                                saveError={saveError}
+                            />
+                        )}
+                    </Paper>
+                </>
+            )}
         </Formik>
     );
 }

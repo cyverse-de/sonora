@@ -11,6 +11,7 @@ import {
     Table,
     TableBody,
     TableCell,
+    TableContainer,
     TableHead,
     TableRow,
     TableSortLabel,
@@ -38,53 +39,61 @@ function BasicTable(props) {
     );
 
     return (
-        <Table size={tableSize} stickyHeader {...getTableProps()}>
-            <TableHead>
-                {headerGroups.map((headerGroup) => (
-                    <TableRow {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map((column) => (
-                            <TableCell
-                                variant="head"
-                                {...column.getHeaderProps(
-                                    sortable && column.getSortByToggleProps()
-                                )}
-                            >
-                                {column.render("Header")}
-                                {sortable && (
-                                    <TableSortLabel
-                                        active={column.isSorted}
-                                        direction={
-                                            column.isSortedDesc
-                                                ? constants.SORT_DESCENDING
-                                                : constants.SORT_ASCENDING
-                                        }
-                                    />
-                                )}
-                            </TableCell>
-                        ))}
-                    </TableRow>
-                ))}
-            </TableHead>
-            <TableBody>
-                {rows.map((row) => {
-                    prepareRow(row);
-                    return (
-                        <TableRow {...row.getRowProps()}>
-                            {row.cells.map((cell) => {
-                                return (
-                                    <TableCell
-                                        padding={bodyCellPadding}
-                                        {...cell.getCellProps()}
-                                    >
-                                        {cell.render("Cell")}
-                                    </TableCell>
-                                );
-                            })}
+        <TableContainer style={{ overflow: "auto" }}>
+            <Table
+                size={tableSize}
+                stickyHeader
+                {...getTableProps()}
+                style={{ overflow: "auto" }}
+            >
+                <TableHead>
+                    {headerGroups.map((headerGroup) => (
+                        <TableRow {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map((column) => (
+                                <TableCell
+                                    variant="head"
+                                    {...column.getHeaderProps(
+                                        sortable &&
+                                            column.getSortByToggleProps()
+                                    )}
+                                >
+                                    {column.render("Header")}
+                                    {sortable && (
+                                        <TableSortLabel
+                                            active={column.isSorted}
+                                            direction={
+                                                column.isSortedDesc
+                                                    ? constants.SORT_DESCENDING
+                                                    : constants.SORT_ASCENDING
+                                            }
+                                        />
+                                    )}
+                                </TableCell>
+                            ))}
                         </TableRow>
-                    );
-                })}
-            </TableBody>
-        </Table>
+                    ))}
+                </TableHead>
+                <TableBody>
+                    {rows.map((row) => {
+                        prepareRow(row);
+                        return (
+                            <TableRow {...row.getRowProps()}>
+                                {row.cells.map((cell) => {
+                                    return (
+                                        <TableCell
+                                            padding={bodyCellPadding}
+                                            {...cell.getCellProps()}
+                                        >
+                                            {cell.render("Cell")}
+                                        </TableCell>
+                                    );
+                                })}
+                            </TableRow>
+                        );
+                    })}
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 }
 

@@ -15,6 +15,13 @@ const TEAM_MEMBERS_QUERY = "fetchTeamMembers";
 const TEAM_DETAILS_QUERY = "fetchTeamDetails";
 const LIST_SINGLE_TEAM_QUERY = "fetchSingleTeam";
 
+// Checks if a grouper member update response returned 200, but with `success`
+// set to false on any of the updates
+function responseHasFailures(response) {
+    const hasFailures = response?.results?.filter((result) => !result.success);
+    return hasFailures?.length > 0;
+}
+
 function getMyTeams(key, { userId }) {
     return callApi({
         endpoint: "/api/teams",
@@ -110,6 +117,13 @@ function leaveTeam({ name }) {
     return callApi({
         endpoint: `/api/teams/${encodeURIComponent(name)}/leave`,
         method: "POST",
+    }).then((resp) => {
+        const hasFailures = responseHasFailures(resp);
+        if (hasFailures) {
+            throw new Error("Failed to leave team");
+        } else {
+            return resp;
+        }
     });
 }
 
@@ -120,6 +134,13 @@ function addTeamMembers({ name, members }) {
         body: {
             members,
         },
+    }).then((resp) => {
+        const hasFailures = responseHasFailures(resp);
+        if (hasFailures) {
+            throw new Error("Failed to add a team member");
+        } else {
+            return resp;
+        }
     });
 }
 
@@ -130,6 +151,13 @@ function removeTeamMembers({ name, members }) {
         body: {
             members,
         },
+    }).then((resp) => {
+        const hasFailures = responseHasFailures(resp);
+        if (hasFailures) {
+            throw new Error("Failed to remove a team member");
+        } else {
+            return resp;
+        }
     });
 }
 

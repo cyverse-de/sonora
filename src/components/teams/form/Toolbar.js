@@ -45,6 +45,7 @@ function EditTeamToolbar(props) {
     const [deleteTeamDlgOpen, setDeleteTeamDlgOpen] = useState(false);
 
     const baseId = build(parentId, ids.EDIT_TEAM.TOOLBAR);
+    const isCreatingTeam = !teamName;
 
     return (
         <Toolbar variant="dense">
@@ -78,7 +79,7 @@ function EditTeamToolbar(props) {
                         {t("leave")}
                     </Button>
                 )}
-                {isAdmin && (
+                {isAdmin && !isCreatingTeam && (
                     <Button
                         color="primary"
                         variant="outlined"
@@ -111,7 +112,7 @@ function EditTeamToolbar(props) {
                                 <ListItemText primary={t("leave")} />
                             </MenuItem>
                         ),
-                        isAdmin && (
+                        isAdmin && !isCreatingTeam && (
                             <MenuItem
                                 key={build(baseId, ids.BUTTONS.DELETE_MI)}
                                 onClick={() => {

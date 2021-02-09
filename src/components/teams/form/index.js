@@ -231,6 +231,7 @@ function TeamForm(props) {
             } = team;
 
             if (
+                !isCreatingTeam &&
                 !teamNameSaved &&
                 (groupShortName(originalName) !== name ||
                     originalDescription !== description)
@@ -244,8 +245,11 @@ function TeamForm(props) {
                     wasPublicTeam,
                 });
             } else {
+                const updateName = isCreatingTeam
+                    ? `${userProfile?.id}:${name}`
+                    : originalName;
                 updateTeamMemberStatsMutation({
-                    name: originalName,
+                    name: updateName,
                     newPrivileges,
                     isPublicTeam,
                     wasPublicTeam,
@@ -260,8 +264,8 @@ function TeamForm(props) {
             initialValues={
                 !isCreatingTeam
                     ? {
-                          name: groupShortName(team?.name),
-                          description: team?.description,
+                          name: groupShortName(teamName) || "",
+                          description: team?.description || "",
                           privileges: privileges,
                           isPublicTeam: wasPublicTeam,
                       }

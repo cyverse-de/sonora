@@ -32,10 +32,18 @@ function adminUpdateRequestStatus({ id, status, comments }) {
     });
 }
 
+function adminCreateDOI(id) {
+    return callApi({
+        endpoint: `/api/admin/permanent-id-requests/${id}/ezid`,
+        method: "POST",
+    });
+}
+
 export {
     adminGetDOIRequests,
     adminGetRequestDetails,
     adminUpdateRequestStatus,
+    adminCreateDOI,
     DOI_LISTING_QUERY_KEY,
     REQUEST_DETAILS_QUERY_KEY,
 };

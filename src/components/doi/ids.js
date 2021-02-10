@@ -15,4 +15,5 @@ export default {
     SUBMIT_BTN: "submitButton",
     EMAIL: "email",
     COMMENTS: "comments",
+    DOI_CONFIRM_DIALOG: "doiConfirmDialog",
 };

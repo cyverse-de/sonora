@@ -5,20 +5,28 @@
  *
  */
 import React, { useState, useEffect } from "react";
-import { useQuery, queryCache } from "react-query";
+import { useQuery, queryCache, useMutation } from "react-query";
 import { useTranslation } from "i18n";
 
+import { AnnouncerConstants, announce } from "@cyverse-de/ui-lib";
+
+import ids from "./ids";
 import TableView from "./TableView";
 import DOIToolbar from "./Toolbar";
 import globalConstants from "../../constants";
 import UpdateRequestDialog from "./UpdateRequestDialog";
 
 import DEPagination from "components/utils/DEPagination";
-import { adminGetDOIRequests, DOI_LISTING_QUERY_KEY } from "serviceFacades/doi";
+import {
+    adminGetDOIRequests,
+    adminCreateDOI,
+    DOI_LISTING_QUERY_KEY,
+} from "serviceFacades/doi";
 import { INFO_TYPES_QUERY_KEY, getInfoTypes } from "serviceFacades/filesystem";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import DetailsDrawer from "components/data/details/Drawer";
 import ResourceTypes from "components/models/ResourceTypes";
+import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
 function Listing(props) {
     const {
@@ -32,12 +40,14 @@ function Listing(props) {
         onRouteToMetadataView,
     } = props;
     const { t: dataI18n } = useTranslation("data");
+    const { t } = useTranslation("doi");
     const [data, setData] = useState(null);
     const [selected, setSelected] = useState();
     const [updateDialogOpen, setUpdateDialogOpen] = useState();
     const [selectedFolder, setSelectedFolder] = useState();
     const [infoTypes, setInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
+    const [confirmDOIOpen, setConfirmDOIOpen] = useState(false);
 
     const { isFetching, error } = useQuery({
         queryKey: [
@@ -91,6 +101,22 @@ function Listing(props) {
         },
     });
 
+    const [createDOI, { isLoading: createDOILoading }] = useMutation(
+        adminCreateDOI,
+        {
+            onSuccess: () => {
+                announce({
+                    text: t("createDoiSuccess"),
+                    variant: AnnouncerConstants.SUCCESS,
+                });
+                queryCache.invalidateQueries(DOI_LISTING_QUERY_KEY);
+            },
+            onError: (error) => {
+                showErrorAnnouncer(t("createDoiError"), error);
+            },
+        }
+    );
+
     const handleClick = (event, id, index) => {
         setSelected(id);
     };
@@ -129,13 +155,14 @@ function Listing(props) {
                 baseId={baseId}
                 selected={selected}
                 onUpdateClick={() => setUpdateDialogOpen(true)}
-                onMetadataSelected={onViewMetaData}
+                onMetadataClick={onViewMetaData}
+                onCreateDOIClick={() => setConfirmDOIOpen(true)}
             />
             <TableView
                 baseId={baseId}
                 listing={data}
                 error={error}
-                loading={isFetching}
+                loading={isFetching || createDOILoading}
                 order={order}
                 orderBy={orderBy}
                 handleRequestSort={handleRequestSort}
@@ -168,6 +195,18 @@ function Listing(props) {
                     infoTypes={infoTypes}
                 />
             )}
+            <ConfirmationDialog
+                open={confirmDOIOpen}
+                title={t("createDoi")}
+                contentText={t("createDoiPrompt")}
+                onClose={() => setConfirmDOIOpen(false)}
+                onConfirm={() => {
+                    setConfirmDOIOpen(false);
+                    createDOI(selected);
+                }}
+                confirmButtonText={t("createDoi")}
+                baseId={ids.DOI_CONFIRM_DIALOG}
+            />
         </>
     );
 }

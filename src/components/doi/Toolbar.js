@@ -31,7 +31,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DOIToolbar(props) {
-    const { baseId, selected, onUpdateClick, onMetadataSelected } = props;
+    const {
+        baseId,
+        selected,
+        onUpdateClick,
+        onMetadataClick,
+        onCreateDOIClick,
+    } = props;
     const { t } = useTranslation("doi");
     const classes = useStyles();
     const toolbarId = build(baseId, ids.toolbarId);
@@ -62,7 +68,7 @@ export default function DOIToolbar(props) {
                             size="small"
                             variant="outlined"
                             className={classes.toolbarItems}
-                            onClick={() => onMetadataSelected(selected)}
+                            onClick={() => onMetadataClick(selected)}
                         >
                             {t("viewMetadata")}
                         </Button>
@@ -73,6 +79,7 @@ export default function DOIToolbar(props) {
                             size="small"
                             variant="outlined"
                             className={classes.toolbarItems}
+                            onClick={() => onCreateDOIClick()}
                         >
                             {t("createDoi")}
                         </Button>
@@ -94,6 +101,7 @@ export default function DOIToolbar(props) {
                             color="primary"
                             variant="outlined"
                             className={classes.toolbarItems}
+                            onClick={() => onMetadataClick(selected)}
                         >
                             <ViewListIcon />
                         </IconButton>
@@ -102,6 +110,7 @@ export default function DOIToolbar(props) {
                             color="primary"
                             variant="outlined"
                             className={classes.toolbarItems}
+                            onClick={() => onCreateDOIClick()}
                         >
                             <AddCircleIcon />
                         </IconButton>

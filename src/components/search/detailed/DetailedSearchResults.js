@@ -39,7 +39,6 @@ import {
 import AppsIcon from "@material-ui/icons/Apps";
 import SearchIcon from "@material-ui/icons/Search";
 
-
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,

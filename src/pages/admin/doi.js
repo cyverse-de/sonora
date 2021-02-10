@@ -41,13 +41,11 @@ export default function Doi() {
         [router]
     );
 
-    const onRouteMetadataView = useCallback(
-        (path, type, resourceId) => {
+    const onRouteToMetadataView = useCallback(
+        (path) => {
             router.push({
                 pathname: `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${path}`,
                 query: {
-                    type,
-                    resourceId,
                     view: NavigationParams.VIEW.METADATA,
                 },
             });
@@ -67,7 +65,7 @@ export default function Doi() {
             order={selectedOrder}
             orderBy={selectedOrderBy}
             onRouteToListing={onRouteToListing}
-            onRouteMetadataView={onRouteMetadataView}
+            onRouteToMetadataView={onRouteToMetadataView}
         />
     );
 }

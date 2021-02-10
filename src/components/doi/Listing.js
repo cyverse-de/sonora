@@ -29,7 +29,7 @@ function Listing(props) {
         rowsPerPage,
         onRouteToListing,
         showErrorAnnouncer,
-        onRouteMetadataView,
+        onRouteToMetadataView,
     } = props;
     const { t: dataI18n } = useTranslation("data");
     const [data, setData] = useState(null);
@@ -120,11 +120,7 @@ function Listing(props) {
 
     const onViewMetaData = (id) => {
         const selFolder = getSelectedRequest(id)?.folder;
-        onRouteMetadataView(
-            selFolder?.path,
-            ResourceTypes.FOLDER,
-            selFolder?.id
-        );
+        onRouteToMetadataView(selFolder?.path);
     };
 
     return (

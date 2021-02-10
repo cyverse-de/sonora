@@ -154,6 +154,7 @@ export default function TableView(props) {
                                                 component="button"
                                                 onClick={handleUserNameClick}
                                                 color="primary"
+                                                id={build(rowId, ids.USER)}
                                             >
                                                 <Typography variant="body2">
                                                     {request.requested_by}
@@ -166,6 +167,7 @@ export default function TableView(props) {
                                                 onClick={() =>
                                                     handlePathClick(id)
                                                 }
+                                                id={build(rowId, ids.PATH)}
                                                 color="primary"
                                             >
                                                 <Typography variant="body2">
@@ -189,11 +191,11 @@ export default function TableView(props) {
                                         </TableCell>
                                         <TableCell>
                                             <Typography variant="body2">
-                                                {formatDate(request.type)}
+                                                {request.type}
                                             </Typography>
                                         </TableCell>
                                         <TableCell
-                                            id={build(rowId, ids.SUPPORT_CELL)}
+                                            id={build(rowId, ids.STATUS)}
                                         >
                                             <Typography variant="body2">
                                                 {request.status}

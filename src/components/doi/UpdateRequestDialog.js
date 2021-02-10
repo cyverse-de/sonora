@@ -25,7 +25,6 @@ import {
 import {
     announce,
     build,
-    FormSelectField,
     FormTextField,
     FormMultilineTextField,
 } from "@cyverse-de/ui-lib";
@@ -170,38 +169,28 @@ export default function UpdateRequestDialog(props) {
                                     />
 
                                     <Field
+                                        id={build(baseId, ids.STATUS)}
                                         name="status"
+                                        label={t("status")}
+                                        required
                                         validate={(value) =>
                                             nonEmptyField(value, i18nUtil)
                                         }
+                                        component={FormTextField}
+                                        select={true}
+                                        variant="outlined"
+                                        size="small"
                                     >
-                                        {({
-                                            field: { onChange, ...field },
-                                            ...props
-                                        }) => (
-                                            <FormSelectField
-                                                {...props}
-                                                label={t("status")}
-                                                required
-                                                field={field}
-                                                onChange={(event) => {
-                                                    onChange(event);
-                                                }}
-                                                id={build(baseId, ids.STATUS)}
-                                                size="small"
-                                            >
-                                                {Object.values(
-                                                    RequestStatus
-                                                ).map((status, index) => (
-                                                    <MenuItem
-                                                        key={index}
-                                                        value={status}
-                                                        id={baseId}
-                                                    >
-                                                        {status}
-                                                    </MenuItem>
-                                                ))}
-                                            </FormSelectField>
+                                        {Object.values(RequestStatus).map(
+                                            (status, index) => (
+                                                <MenuItem
+                                                    key={index}
+                                                    value={status}
+                                                    id={baseId}
+                                                >
+                                                    {status}
+                                                </MenuItem>
+                                            )
                                         )}
                                     </Field>
                                     <Field

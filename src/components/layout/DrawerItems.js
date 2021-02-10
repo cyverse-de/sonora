@@ -16,6 +16,7 @@ import ids from "./ids";
 import NavigationConstants from "common/NavigationConstants";
 import AnalysesIcon from "components/icons/AnalysesIcon";
 import DataIcon from "components/icons/DataIcon";
+import { TeamIcon } from "components/teams/Icons";
 import {
     Divider,
     Hidden,
@@ -98,6 +99,15 @@ export default function DrawerItems(props) {
                 icon={AnalysesIcon}
                 thisView={NavigationConstants.ANALYSES}
                 clsxBase={"analyses-intro"}
+                activeView={activeView}
+                toggleDrawer={toggleDrawer}
+                open={open}
+            />
+            <DrawerItem
+                title={t("teams")}
+                id={ids.TEAMS_MI}
+                icon={TeamIcon}
+                thisView={NavigationConstants.TEAMS}
                 activeView={activeView}
                 toggleDrawer={toggleDrawer}
                 open={open}

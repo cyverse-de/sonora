@@ -4,9 +4,13 @@ const REQUEST_DETAILS_QUERY_KEY = "fetchRequestDetails";
 
 function adminGetDOIRequests(key, { rowsPerPage, orderBy, order, page }) {
     return callApi({
-        endpoint: `/api/admin/permanent-id-requests?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
-            rowsPerPage * page
-        }`,
+        endpoint: "/api/admin/permanent-id-requests",
+        params: {
+            limit: rowsPerPage,
+            "sort-field": orderBy,
+            "sort-dir": order.toUpperCase(),
+            offset: rowsPerPage * page,
+        },
         method: "GET",
     });
 }

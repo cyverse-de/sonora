@@ -111,8 +111,7 @@ function Listing(props) {
         const selFolder = getSelectedRequest(id)?.folder;
         if (selFolder) {
             //add missing type information manually.
-            selFolder.type = ResourceTypes.FOLDER;
-            setSelectedFolder(selFolder);
+            setSelectedFolder({ ...selFolder, type: ResourceTypes.FOLDER });
         }
     };
 

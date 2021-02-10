@@ -6,7 +6,8 @@
  */
 import React, { useState } from "react";
 
-import SyntaxHighlighter from "react-syntax-highlighter";
+import { LightAsync as SyntaxHighlighter } from "react-syntax-highlighter";
+import highlightStyle from "react-syntax-highlighter/dist/cjs/styles/hljs/default-style";
 
 import ids from "./ids";
 import Toolbar from "./Toolbar";
@@ -99,6 +100,7 @@ export default function TextViewer(props) {
                     width: "auto",
                 }}
                 language={mode}
+                style={highlightStyle}
                 showLineNumbers={showLineNumbers}
                 showInlineLineNumbers={true}
                 wrapLines={true}

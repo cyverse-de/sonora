@@ -35,6 +35,7 @@ import { refreshViewer, useFileManifest, useReadChunk } from "./queries";
 import StructuredTextViewer from "./StructuredTextViewer";
 import { flattenStructureData } from "./utils";
 import { parseNameFromPath } from "../utils";
+import TextViewer from "./TextViewer";
 
 import { build } from "@cyverse-de/ui-lib";
 import {
@@ -44,8 +45,7 @@ import {
     Typography,
 } from "@material-ui/core";
 
-// these are at the bottom so eslint doesn't complain
-const TextViewer = dynamic(() => import("./TextViewer"));
+// at the bottom so eslint doesn't complain
 const VideoViewer = dynamic(() => import("./VideoViewer"));
 
 const VIEWER_TYPE = {

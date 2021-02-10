@@ -14,6 +14,7 @@ import Toolbar from "./Toolbar";
 
 import PageWrapper from "components/layout/PageWrapper";
 
+import { useTranslation } from "i18n";
 import { build } from "@cyverse-de/ui-lib";
 
 import {
@@ -27,10 +28,13 @@ import {
 function ModeSelect(props) {
     const { baseId, mode, handleModeSelect } = props;
     const languages = SyntaxHighlighter.supportedLanguages;
+    const { t } = useTranslation("data");
 
     return (
         <FormControl>
-            <InputLabel id={build(baseId, ids.LABEL)}>Mode</InputLabel>
+            <InputLabel id={build(baseId, ids.LABEL)}>
+                {t("syntaxHighlighterMode")}
+            </InputLabel>
             <Select
                 labelId={build(baseId, ids.LABEL)}
                 id={baseId}

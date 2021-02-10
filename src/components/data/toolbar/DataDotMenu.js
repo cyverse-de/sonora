@@ -90,7 +90,7 @@ function DataDotMenu(props) {
         : null;
     const deleteMiEnabled = !isSelectionEmpty && isOwner(selectedResources);
     const metadataMiEnabled = selected?.length === 1;
-
+    const requestDoiEnabled = isOwner(selectedResources);
     const router = useRouter();
     const routeToFile = (id, path) => {
         router.push(
@@ -155,15 +155,35 @@ function DataDotMenu(props) {
                                       setSharingDlgOpen={setSharingDlgOpen}
                                   />
                               ),
-                              metadataMiEnabled && (
+                              metadataMiEnabled && [
                                   <MetadataMenuItem
                                       key={ids.METADATA_MI}
                                       baseId={baseId}
                                       resourceId={selected[0]}
                                       onClose={onClose}
                                       onMetadataSelected={onMetadataSelected}
-                                  />
-                              ),
+                                  />,
+                                  requestDoiEnabled && (
+                                      <MenuItem
+                                          key={build(
+                                              baseId,
+                                              ids.REQUEST_DOI_MI
+                                          )}
+                                          id={build(baseId, ids.REQUEST_DOI_MI)}
+                                          onClick={() => {
+                                              onClose();
+                                              onRequestDOISelected();
+                                          }}
+                                      >
+                                          <ListItemIcon>
+                                              <RequestIcon fontSize="small" />
+                                          </ListItemIcon>
+                                          <ListItemText
+                                              primary={t("requestDOI")}
+                                          />
+                                      </MenuItem>
+                                  ),
+                              ],
                               <Divider key={ids.UPLOAD_MENU_ITEM_DIVIDER} />,
                               isWritable(permission) && (
                                   <UploadMenuItems
@@ -190,19 +210,21 @@ function DataDotMenu(props) {
                                   onClose={onClose}
                                   onMetadataSelected={onMetadataSelected}
                               />,
-                              <MenuItem
-                                  key={build(baseId, ids.REQUEST_DOI_MI)}
-                                  id={build(baseId, ids.REQUEST_DOI_MI)}
-                                  onClick={() => {
-                                      onClose();
-                                      onRequestDOISelected();
-                                  }}
-                              >
-                                  <ListItemIcon>
-                                      <RequestIcon fontSize="small" />
-                                  </ListItemIcon>
-                                  <ListItemText primary="Request DOI" />
-                              </MenuItem>,
+                              requestDoiEnabled && (
+                                  <MenuItem
+                                      key={build(baseId, ids.REQUEST_DOI_MI)}
+                                      id={build(baseId, ids.REQUEST_DOI_MI)}
+                                      onClick={() => {
+                                          onClose();
+                                          onRequestDOISelected();
+                                      }}
+                                  >
+                                      <ListItemIcon>
+                                          <RequestIcon fontSize="small" />
+                                      </ListItemIcon>
+                                      <ListItemText primary={t("requestDOI")} />
+                                  </MenuItem>
+                              ),
                               <Divider key={ids.METADATA_MENU_ITEM_DIVIDER} />,
                           ],
                     isWritable(permission) && [

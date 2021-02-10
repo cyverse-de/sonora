@@ -26,4 +26,14 @@ export default {
     TIME_STAMP: "time-stamp",
     TOOLBAR: "toolbar",
     VIEW_ALL_NOTIFICATIONS: "view-all-notifications",
+    ADMIN_JOIN_TEAM: {
+        ADMIN: "admin",
+        APPROVE: "radioApprove",
+        DENY: "radioDeny",
+        DENY_MSG: "denyMsg",
+        DIALOG: "adminJoinTeamDlg",
+        PRIVILEGE_SELECT: "privilegeSelect",
+        READ: "member",
+        SUBMIT_BTN: "submitBtn",
+    },
 };

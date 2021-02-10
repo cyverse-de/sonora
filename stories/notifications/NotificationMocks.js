@@ -4,6 +4,29 @@ export const mockNotificationsListing = {
     messages: [
         {
             deleted: false,
+            email: true,
+            email_template: "team_join_request",
+            message: {
+                id: "def1d02c-6bed-11eb-8ef5-62d47aced14b",
+                text: 'batman has requested to join team "ipcdev:test_team"',
+                timestamp: "1612995495645",
+            },
+            payload: {
+                action: "team_join_request",
+                email_address: "batman@cyverse.org",
+                requester_email: "batman@cyverse.org",
+                requester_id: "batman",
+                requester_message: "Let me in!",
+                requester_name: "Bruce Wayne",
+                team_name: "ipcdev:test_team",
+            },
+            seen: true,
+            subject: 'batman has requested to join team "ipcdev:test_team"',
+            type: "team",
+            user: "ipcdev",
+        },
+        {
+            deleted: false,
             email: false,
             payload: {
                 action: "empty_trash",

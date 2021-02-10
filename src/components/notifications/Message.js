@@ -4,11 +4,11 @@
  *
  * @author psarando
  */
-import React from "react";
+import React, { useState } from "react";
 
 import Link from "next/link";
 
-import { ADDED_TO_TEAM, getDisplayMessage } from "./utils";
+import { ADDED_TO_TEAM, getDisplayMessage, REQUEST_TO_JOIN } from "./utils";
 
 import NotificationCategory from "components/models/NotificationCategory";
 import SystemId from "components/models/systemId";
@@ -20,6 +20,7 @@ import DELink from "components/utils/DELink";
 
 import { Typography } from "@material-ui/core";
 import { getTeamLinkRefs } from "../teams/util";
+import AdminJoinTeamRequestDialog from "./dialogs/AdminJoinTeamRequestDialog";
 
 function MessageLink(props) {
     const { message, href, as } = props;
@@ -101,12 +102,35 @@ function TeamLink(props) {
     const { notification } = props;
 
     const message = getDisplayMessage(notification);
-    const action = notification.payload?.action;
     const teamName = notification.payload?.team_name;
+    const action = notification.payload?.action;
 
-    const [href] = action === ADDED_TO_TEAM ? getTeamLinkRefs(teamName) : null;
+    const [adminJoinRequestDlgOpen, setAdminJoinRequestDlgOpen] = useState(
+        false
+    );
 
-    return href ? <MessageLink href={href} message={message} /> : message;
+    if (action === ADDED_TO_TEAM) {
+        const [href] = getTeamLinkRefs(teamName);
+        return <MessageLink href={href} message={message} />;
+    }
+
+    if (action === REQUEST_TO_JOIN) {
+        return (
+            <>
+                <DELink
+                    onClick={() => setAdminJoinRequestDlgOpen(true)}
+                    text={message}
+                />
+                <AdminJoinTeamRequestDialog
+                    open={adminJoinRequestDlgOpen}
+                    onClose={() => setAdminJoinRequestDlgOpen(false)}
+                    request={notification.payload}
+                />
+            </>
+        );
+    }
+
+    return message;
 }
 
 export default function Message(props) {

@@ -96,7 +96,7 @@
     "publicLinkError": "Unable to get public link(s)",
     "read": "Read",
     "requestDOI": "Request DOI",
-    "requestDOIPrompt": "Please read <manual>DOI Manual</manual> and check if you meet the requirements from submitting a DOI request.",
+    "requestDOIPrompt": "Please read <manual>DOI Manual</manual> and check if you meet the requirements for submitting a DOI request.",
     "requestDOIAgreement": "By clicking <b>I need DOI</b>, I have read and agree to the terms of the <agreement> Data Commons </agreement>",
     "saveas": "Save as",
     "saveAsLbl": "Select \"Browse\" button to pick a destination.",

@@ -8,7 +8,7 @@ import React from "react";
 
 import Link from "next/link";
 
-import { getDisplayMessage } from "./utils";
+import { ADDED_TO_TEAM, getDisplayMessage } from "./utils";
 
 import NotificationCategory from "components/models/NotificationCategory";
 import SystemId from "components/models/systemId";
@@ -19,6 +19,7 @@ import { getFolderPage, getParentPath } from "components/data/utils";
 import DELink from "components/utils/DELink";
 
 import { Typography } from "@material-ui/core";
+import { getTeamLinkRefs } from "../teams/util";
 
 function MessageLink(props) {
     const { message, href, as } = props;
@@ -96,6 +97,18 @@ function DataLink(props) {
     return href ? <MessageLink href={href} message={message} /> : message;
 }
 
+function TeamLink(props) {
+    const { notification } = props;
+
+    const message = getDisplayMessage(notification);
+    const action = notification.payload?.action;
+    const teamName = notification.payload?.team_name;
+
+    const [href] = action === ADDED_TO_TEAM ? getTeamLinkRefs(teamName) : null;
+
+    return href ? <MessageLink href={href} message={message} /> : message;
+}
+
 export default function Message(props) {
     const { baseId, notification } = props;
 
@@ -114,6 +127,11 @@ export default function Message(props) {
 
         case NotificationCategory.DATA.toLowerCase():
             message = <DataLink notification={notification} />;
+
+            break;
+
+        case NotificationCategory.TEAM.toLowerCase():
+            message = <TeamLink notification={notification} />;
 
             break;
 

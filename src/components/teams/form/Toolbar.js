@@ -25,7 +25,7 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 import styles from "../styles";
 import ConfirmationDialog from "../../utils/ConfirmationDialog";
-import JoinTeamDialog from "./JoinTeamDialog";
+import JoinTeamDialog from "../dialogs/JoinTeamDialog";
 import { groupShortName } from "../util";
 
 const useStyles = makeStyles(styles);

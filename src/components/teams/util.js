@@ -1,5 +1,6 @@
 import Privilege from "../models/Privilege";
 import { groupBy } from "common/functions";
+import NavigationConstants from "common/NavigationConstants";
 import { getIn } from "formik";
 
 /**
@@ -15,6 +16,13 @@ import { getIn } from "formik";
 export const DEFAULT_MEMBER_PRIVILEGE = Privilege.READ.value;
 export const PUBLIC_TEAM_PRIVILEGE = Privilege.VIEW.value;
 const RESTRICTED_GROUP_NAME_CHARS = ":_";
+
+export const getTeamLinkRefs = (teamName) => {
+    return [
+        `${NavigationConstants.TEAMS}/${teamName}`,
+        `${NavigationConstants.TEAMS}/${teamName}`,
+    ];
+};
 
 export const groupShortName = (groupName) => {
     return groupName?.split(":").pop();

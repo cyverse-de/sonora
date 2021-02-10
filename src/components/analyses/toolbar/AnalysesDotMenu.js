@@ -209,8 +209,9 @@ function DotMenuItems(props) {
             <MenuItem
                 key={build(baseId, ids.MENUITEM_BATCH_FILTER)}
                 id={build(baseId, ids.MENUITEM_BATCH_FILTER)}
-                onClick={() => {
+                onClick={(event) => {
                     onClose();
+                    event.stopPropagation();
                     handleBatchIconClick(selectedAnalyses[0]);
                 }}
             >

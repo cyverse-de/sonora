@@ -26,6 +26,8 @@ import {
     Toolbar,
     Tooltip,
     Typography,
+    useTheme,
+    useMediaQuery,
 } from "@material-ui/core";
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -154,11 +156,12 @@ function AnalysesToolbar(props) {
         canShare,
     } = props;
     const classes = useStyles();
+    const theme = useTheme();
     const { t } = useTranslation("analyses");
     const analysesNavId = build(baseId, ids.ANALYSES_NAVIGATION);
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
-
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const hasSelection = getSelectedAnalyses
         ? getSelectedAnalyses()?.length > 0
         : false;
@@ -203,6 +206,7 @@ function AnalysesToolbar(props) {
                             color="primary"
                             onClick={onDetailsSelected}
                             startIcon={<Info />}
+                            size="small"
                         >
                             {t("details")}
                         </Button>
@@ -216,6 +220,7 @@ function AnalysesToolbar(props) {
                             color="primary"
                             onClick={onAddToBagSelected}
                             startIcon={<AddToBagIcon />}
+                            size="small"
                         >
                             {t("addToBag")}
                         </Button>
@@ -224,10 +229,11 @@ function AnalysesToolbar(props) {
                         <SharingButton
                             baseId={baseId}
                             setSharingDlgOpen={setSharingDlgOpen}
+                            size="small"
                         />
                     )}
                 </Hidden>
-                {hasSelection && (
+                {(hasSelection || isMobile) && (
                     <AnalysesDotMenu
                         baseId={analysesNavId}
                         username={username}

@@ -1,5 +1,4 @@
 import { userInfoResp } from "../data/DataMocks";
-import Privilege from "../../src/components/models/Privilege";
 import userProfileMock from "../userProfileMock";
 
 export const teamMock = (name) => {
@@ -140,11 +139,8 @@ const publicPrivilege = {
     },
 };
 
-export const privilegeList = (
-    isPublic,
-    selfPermissionValue = Privilege.READ.value
-) => {
-    const basePrivileges = {
+export const privilegeList = ({ isPublic, selfPermissionValue }) => {
+    let basePrivileges = {
         privileges: [
             {
                 type: "access",
@@ -176,13 +172,6 @@ export const privilegeList = (
             },
             {
                 type: "access",
-                name: selfPermissionValue,
-                allowed: true,
-                revokable: true,
-                subject: { id: userProfileMock.id },
-            },
-            {
-                type: "access",
                 name: "admin",
                 allowed: true,
                 revokable: true,
@@ -199,6 +188,21 @@ export const privilegeList = (
             },
         ],
     };
+
+    if (selfPermissionValue) {
+        basePrivileges = {
+            privileges: [
+                ...basePrivileges.privileges,
+                {
+                    type: "access",
+                    name: selfPermissionValue,
+                    allowed: true,
+                    revokable: true,
+                    subject: { id: userProfileMock.id },
+                },
+            ],
+        };
+    }
 
     // if a user's privilege matches the public privilege, it is NOT returned
     // by the service.  With a public privilege of `read`, robin's secondary

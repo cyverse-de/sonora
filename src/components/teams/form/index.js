@@ -289,7 +289,7 @@ function TeamForm(props) {
                         parentId={parentId}
                         isAdmin={isAdmin}
                         isMember={isMember}
-                        teamName={groupShortName(team?.name)}
+                        teamName={team?.name}
                         handleSubmit={handleSubmit}
                         onLeaveTeamSelected={() =>
                             leaveTeamMutation({ name: team?.name })

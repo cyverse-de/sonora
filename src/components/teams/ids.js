@@ -1,4 +1,5 @@
 export default {
+    LOADING_SKELETON: "loadingSkeleton",
     TEAMS: {
         ALL_TEAMS_MI: "allTeamsMI",
         BASE: "teams",
@@ -26,13 +27,21 @@ export default {
         LEAVE_TEAM_DLG: "leaveTeamDlg",
         DELETE_TEAM_DLG: "deleteTeamDlg",
     },
+    JOIN_TEAM: {
+        DIALOG: "joinTeamDlg",
+        JOIN_BTN: "joinBtn",
+        JOIN_MSG: "joinMsg",
+    },
     BUTTONS: {
+        CANCEL_BTN: "cancelBtn",
         CREATE_BTN: "createBtn",
         CREATE_MI: "createMI",
         DELETE: "deleteBtn",
         DELETE_MI: "deleteMI",
         HELP_BTN: "helpBtn",
         HELP_MI: "helpMI",
+        JOIN_BTN: "joinBtn",
+        JOIN_MI: "joinMI",
         LEAVE_BTN: "leaveBtn",
         LEAVE_MI: "leaveMI",
         SAVE_BTN: "saveBtn",

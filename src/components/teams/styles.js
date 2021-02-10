@@ -1,8 +1,16 @@
 const styles = (theme) => ({
+    bottomPadding: {
+        paddingBottom: theme.spacing(1),
+    },
+
     button: {
         [theme.breakpoints.up("sm")]: {
             margin: theme.spacing(1),
         },
+    },
+
+    closeButton: {
+        float: "right",
     },
 
     deleteBtn: {

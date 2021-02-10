@@ -90,7 +90,7 @@ function DataSearchResults(props) {
             staleTime: Infinity,
             cacheTime: Infinity,
             onError: (e) => {
-                showErrorAnnouncer(t("infoTypeFetchError"), e);
+                showErrorAnnouncer(dataI18n("infoTypeFetchError"), e);
             },
         },
     });

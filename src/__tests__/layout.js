@@ -1,7 +1,7 @@
 import React from "react";
 import preloadAll from "jest-next-dynamic";
 import renderer from "react-test-renderer";
-import { AppBarTest } from "../../stories/CyVerseAppBar.stories";
+import { AppBarTest } from "../../stories/AppBar.stories";
 import { I18nProviderWrapper } from "../i18n";
 import { ConfigProvider } from "../contexts/config";
 import { BootstrapInfoProvider } from "contexts/bootstrap";

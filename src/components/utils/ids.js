@@ -17,7 +17,9 @@ export default {
     GRID_VIEW_BTN: "gridViewBtn",
     TABLE_VIEW_BTN: "tableViewBtn",
     ERROR_DLG: "errorDialog",
-
+    STATUS: "status",
+    DATE_SUBMITTED: "dateSubmitted",
+    COMMENTS: "comments",
     DIALOG: {
         CANCEL: "cancel",
         CONFIRM: "confirm",

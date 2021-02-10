@@ -10,6 +10,7 @@ export default {
     DASHBOARD: "dashboard",
     DATA: "data",
     DETAILS: "details",
+    DOI: "doi",
     HELP: "help",
     LOGIN: "login",
     LOGOUT: "logout",

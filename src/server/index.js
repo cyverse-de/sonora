@@ -8,6 +8,7 @@ import bagsRouter from "./api/bags";
 import dashboardRouter from "./api/dashboard";
 import dataRouter from "./api/data";
 import debugRouter from "./api/debug";
+import doiRouter from "./api/doi";
 import fileIORouter from "./api/fileio";
 import groupsRouter from "./api/groups";
 import metadataRouter from "./api/metadata";
@@ -130,6 +131,7 @@ app.prepare()
         server.use("/api", toolsRouter());
         server.use("/api", userRouter());
         server.use("/api", viceRouter());
+        server.use("/api", doiRouter());
         logger.info("$$$$$$$$$$$$$$ finished adding handlers $$$$$$$$$$$$$");
 
         logger.info(

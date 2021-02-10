@@ -13,6 +13,7 @@ import NotAuthorized from "components/utils/error/NotAuthorized";
 import { useUserProfile } from "contexts/userProfile";
 import constants from "../../constants";
 import NavigationConstants from "common/NavigationConstants";
+import { NavigationParams } from "common/NavigationConstants";
 
 export default function Doi() {
     const router = useRouter();
@@ -40,6 +41,18 @@ export default function Doi() {
         [router]
     );
 
+    const onRouteToMetadataView = useCallback(
+        (path) => {
+            router.push({
+                pathname: `/${NavigationConstants.DATA}/${constants.DATA_STORE_STORAGE_ID}${path}`,
+                query: {
+                    view: NavigationParams.VIEW.METADATA,
+                },
+            });
+        },
+        [router]
+    );
+
     if (!profile?.admin) {
         return <NotAuthorized />;
     }
@@ -52,6 +65,7 @@ export default function Doi() {
             order={selectedOrder}
             orderBy={selectedOrderBy}
             onRouteToListing={onRouteToListing}
+            onRouteToMetadataView={onRouteToMetadataView}
         />
     );
 }

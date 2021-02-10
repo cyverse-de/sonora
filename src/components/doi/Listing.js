@@ -8,13 +8,14 @@ import React, { useState, useEffect } from "react";
 import { useQuery, queryCache } from "react-query";
 import { useTranslation } from "i18n";
 
-import DEPagination from "components/utils/DEPagination";
-import globalConstants from "../../constants";
-import { adminGetDOIRequests, DOI_LISTING_QUERY_KEY } from "serviceFacades/doi";
-import { INFO_TYPES_QUERY_KEY, getInfoTypes } from "serviceFacades/filesystem";
 import TableView from "./TableView";
 import DOIToolbar from "./Toolbar";
+import globalConstants from "../../constants";
 import UpdateRequestDialog from "./UpdateRequestDialog";
+
+import DEPagination from "components/utils/DEPagination";
+import { adminGetDOIRequests, DOI_LISTING_QUERY_KEY } from "serviceFacades/doi";
+import { INFO_TYPES_QUERY_KEY, getInfoTypes } from "serviceFacades/filesystem";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import DetailsDrawer from "components/data/details/Drawer";
 import ResourceTypes from "components/models/ResourceTypes";
@@ -28,6 +29,7 @@ function Listing(props) {
         rowsPerPage,
         onRouteToListing,
         showErrorAnnouncer,
+        onRouteToMetadataView,
     } = props;
     const { t: dataI18n } = useTranslation("data");
     const [data, setData] = useState(null);
@@ -36,6 +38,7 @@ function Listing(props) {
     const [selectedFolder, setSelectedFolder] = useState();
     const [infoTypes, setInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
+
     const { isFetching, error } = useQuery({
         queryKey: [
             DOI_LISTING_QUERY_KEY,
@@ -115,12 +118,18 @@ function Listing(props) {
         }
     };
 
+    const onViewMetaData = (id) => {
+        const selFolder = getSelectedRequest(id)?.folder;
+        onRouteToMetadataView(selFolder?.path);
+    };
+
     return (
         <>
             <DOIToolbar
                 baseId={baseId}
                 selected={selected}
                 onUpdateClick={() => setUpdateDialogOpen(true)}
+                onMetadataSelected={onViewMetaData}
             />
             <TableView
                 baseId={baseId}

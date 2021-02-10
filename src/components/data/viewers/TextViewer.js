@@ -25,15 +25,15 @@ import {
 } from "@material-ui/core";
 
 function ModeSelect(props) {
-    const { mode, handleModeSelect } = props;
+    const { baseId, mode, handleModeSelect } = props;
     const languages = SyntaxHighlighter.supportedLanguages;
 
     return (
         <FormControl>
-            <InputLabel id="languageSelectLabel">Mode</InputLabel>
+            <InputLabel id={build(baseId, ids.LABEL)}>Mode</InputLabel>
             <Select
-                labelId="languageSelectLabel"
-                id="languageSelect"
+                labelId={build(baseId, ids.LABEL)}
+                id={baseId}
                 value={mode}
                 onChange={handleModeSelect}
             >
@@ -41,7 +41,7 @@ function ModeSelect(props) {
                     <MenuItem
                         value={language}
                         key={index}
-                        id={"languageSelect" + language}
+                        id={build(baseId, language)}
                     >
                         {language}
                     </MenuItem>
@@ -93,7 +93,11 @@ export default function TextViewer(props) {
                     }}
                 />
             )}
-            <ModeSelect mode={mode} handleModeSelect={handleModeSelect} />
+            <ModeSelect
+                baseId={build(baseId, ids.VIEWER_PLAIN, ids.SELECT_MODE_INPUT)}
+                mode={mode}
+                handleModeSelect={handleModeSelect}
+            />
             <SyntaxHighlighter
                 customStyle={{
                     overflow: "auto",

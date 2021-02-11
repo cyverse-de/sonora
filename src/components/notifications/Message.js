@@ -8,7 +8,12 @@ import React, { useState } from "react";
 
 import Link from "next/link";
 
-import { ADDED_TO_TEAM, getDisplayMessage, REQUEST_TO_JOIN } from "./utils";
+import {
+    ADDED_TO_TEAM,
+    getDisplayMessage,
+    JOIN_TEAM_DENIED,
+    REQUEST_TO_JOIN,
+} from "./utils";
 
 import NotificationCategory from "components/models/NotificationCategory";
 import SystemId from "components/models/systemId";
@@ -21,6 +26,7 @@ import DELink from "components/utils/DELink";
 import { Typography } from "@material-ui/core";
 import { getTeamLinkRefs } from "../teams/util";
 import AdminJoinTeamRequestDialog from "./dialogs/AdminJoinTeamRequestDialog";
+import JoinTeamDeniedDialog from "./dialogs/JoinTeamDeniedDialog";
 
 function MessageLink(props) {
     const { message, href, as } = props;
@@ -108,6 +114,9 @@ function TeamLink(props) {
     const [adminJoinRequestDlgOpen, setAdminJoinRequestDlgOpen] = useState(
         false
     );
+    const [joinRequestDeniedDlgOpen, setJoinRequestDeniedDlgOpen] = useState(
+        false
+    );
 
     if (action === ADDED_TO_TEAM) {
         const [href] = getTeamLinkRefs(teamName);
@@ -125,6 +134,23 @@ function TeamLink(props) {
                     open={adminJoinRequestDlgOpen}
                     onClose={() => setAdminJoinRequestDlgOpen(false)}
                     request={notification.payload}
+                />
+            </>
+        );
+    }
+
+    if (action === JOIN_TEAM_DENIED) {
+        return (
+            <>
+                <DELink
+                    onClick={() => setJoinRequestDeniedDlgOpen(true)}
+                    text={message}
+                />
+                <JoinTeamDeniedDialog
+                    open={joinRequestDeniedDlgOpen}
+                    onClose={() => setJoinRequestDeniedDlgOpen(false)}
+                    adminMessage={notification?.payload?.admin_message}
+                    teamName={notification?.payload?.team_name}
                 />
             </>
         );

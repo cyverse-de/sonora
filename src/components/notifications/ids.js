@@ -1,4 +1,14 @@
 export default {
+    ADMIN_JOIN_TEAM: {
+        ADMIN: "admin",
+        APPROVE: "radioApprove",
+        DENY: "radioDeny",
+        DENY_MSG: "denyMsg",
+        DIALOG: "adminJoinTeamDlg",
+        PRIVILEGE_SELECT: "privilegeSelect",
+        READ: "member",
+        SUBMIT_BTN: "submitBtn",
+    },
     APPROVE_BTN: "approveBtn",
     BASE_DEBUG_ID: "notifications",
     CANCEL_BTN: "cancelBtn",
@@ -7,6 +17,7 @@ export default {
     CREATED_DATE: "dateColumn",
     DELETE_BTN: "deleteBtn",
     DENY_BTN: "denyBtn",
+    DENY_MSG: "denyMsg",
     DENY_REQUEST_DLG: "denyRequestDlg",
     FILTER: "categoryCbo",
     JOIN_REQUEST_DLG: "joinRequestDlg",
@@ -26,14 +37,4 @@ export default {
     TIME_STAMP: "time-stamp",
     TOOLBAR: "toolbar",
     VIEW_ALL_NOTIFICATIONS: "view-all-notifications",
-    ADMIN_JOIN_TEAM: {
-        ADMIN: "admin",
-        APPROVE: "radioApprove",
-        DENY: "radioDeny",
-        DENY_MSG: "denyMsg",
-        DIALOG: "adminJoinTeamDlg",
-        PRIVILEGE_SELECT: "privilegeSelect",
-        READ: "member",
-        SUBMIT_BTN: "submitBtn",
-    },
 };

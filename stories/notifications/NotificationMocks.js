@@ -5,6 +5,26 @@ export const mockNotificationsListing = {
         {
             deleted: false,
             email: true,
+            email_template: "team_join_denial",
+            message: {
+                id: "c2547d9a-6ca4-11eb-9f56-62d47aced14b",
+                text: "Team join request denied",
+                timestamp: "1613074045560",
+            },
+            payload: {
+                action: "team_join_denial",
+                admin_message: "Superheroes only!",
+                email_address: "ipcdev@cyverse.org",
+                team_name: "batman:heroes",
+            },
+            seen: true,
+            subject: "Team join request denied",
+            type: "team",
+            user: "ipcdev",
+        },
+        {
+            deleted: false,
+            email: true,
             email_template: "team_join_request",
             message: {
                 id: "def1d02c-6bed-11eb-8ef5-62d47aced14b",

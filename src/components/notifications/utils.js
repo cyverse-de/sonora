@@ -4,6 +4,7 @@ import { groupShortName } from "../teams/util";
 export const ANALYSIS_EMAIL_TEMPLATE = "analysis_status_change";
 export const ADDED_TO_TEAM = "added_to_team";
 export const REQUEST_TO_JOIN = "team_join_request";
+export const JOIN_TEAM_DENIED = "team_join_denial";
 
 export function getDisplayMessage(notification) {
     switch (notification.type.toLowerCase()) {

@@ -39,11 +39,20 @@ function adminCreateDOI(id) {
     });
 }
 
+function createDOIRequest(request) {
+    return callApi({
+        endpoint: `/api/permanent-id-requests`,
+        method: "POST",
+        body: request,
+    });
+}
+
 export {
     adminGetDOIRequests,
     adminGetRequestDetails,
     adminUpdateRequestStatus,
     adminCreateDOI,
+    createDOIRequest,
     DOI_LISTING_QUERY_KEY,
     REQUEST_DETAILS_QUERY_KEY,
 };

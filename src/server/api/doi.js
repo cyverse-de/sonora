@@ -66,5 +66,18 @@ export default function doiRouter() {
         })
     );
 
+    logger.info("adding the POST /permanent-id-requests handler");
+    api.post(
+        "/permanent-id-requests",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/permanent-id-requests",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

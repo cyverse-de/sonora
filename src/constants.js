@@ -78,4 +78,8 @@ export default {
     DEFAULT_EMAIL: "no-reply@cyverse.org",
     SUPPORT_EMAIL: "support@cyverse.org",
     GETTING_STARTED: "https://learning.cyverse.org/en/latest/README.html",
+    DOI_GUIDE:
+        "https://learning.cyverse.org/projects/cyverse-doi-request-quickstart/en/latest/",
+    DC_USER_AGREEMENT:
+        "https://cyverse.org/policies/data-commons-user-agreement",
 };

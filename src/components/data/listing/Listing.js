@@ -7,6 +7,8 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 
+import { Trans } from "react-i18next";
+
 import TableView from "./TableView";
 
 import ids from "../ids";
@@ -57,6 +59,9 @@ import { queryCache, useMutation, useQuery } from "react-query";
 import { Button, Typography, useTheme } from "@material-ui/core";
 import DEDialog from "components/utils/DEDialog";
 import PublicLinks from "../PublicLinks";
+import constants from "../../../constants";
+import ExternalLink from "components/utils/ExternalLink";
+import { createDOIRequest } from "serviceFacades/doi";
 
 function Listing(props) {
     const {
@@ -91,6 +96,10 @@ function Listing(props) {
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
+    const [
+        confirmDOIRequestDialogOpen,
+        setConfirmDOIRequestDialogOpen,
+    ] = useState(false);
 
     const [navError, setNavError] = useState(null);
 
@@ -189,6 +198,18 @@ function Listing(props) {
             },
             onError: (e) => {
                 showErrorAnnouncer(t("deleteResourceError"), e);
+            },
+        }
+    );
+
+    const [requestDOI, { status: requestDOIStatus }] = useMutation(
+        createDOIRequest,
+        {
+            onSuccess: () => {
+                //do nothing. Users will get notifications.
+            },
+            onError: (e) => {
+                showErrorAnnouncer(t("doiRequestFailed"), e);
             },
         }
     );
@@ -452,7 +473,11 @@ function Listing(props) {
         }
     };
 
-    const isLoading = isQueryLoading([isFetching, removeResourceStatus]);
+    const isLoading = isQueryLoading([
+        isFetching,
+        removeResourceStatus,
+        requestDOIStatus,
+    ]);
     const localUploadId = build(baseId, ids.UPLOAD_MI, ids.UPLOAD_INPUT);
     return (
         <>
@@ -486,6 +511,9 @@ function Listing(props) {
                     onPublicLinksSelected={() => setPublicLinksDlgOpen(true)}
                     toolbarVisibility={toolbarVisibility}
                     onDownloadSelected={() => setDownload(true)}
+                    onRequestDOISelected={() =>
+                        setConfirmDOIRequestDialogOpen(true)
+                    }
                 />
                 {!isGridView && (
                     <TableView
@@ -560,6 +588,54 @@ function Listing(props) {
                 baseId={ids.PUBLIC_LINKS}
             >
                 <PublicLinks paths={getSelectedPaths()} />
+            </DEDialog>
+            <DEDialog
+                open={confirmDOIRequestDialogOpen}
+                onClose={() => setConfirmDOIRequestDialogOpen(false)}
+                baseId={ids.DOI_CONFIRM}
+                title={t("requestDOI")}
+                actions={
+                    <>
+                        <Button
+                            onClick={() =>
+                                setConfirmDOIRequestDialogOpen(false)
+                            }
+                        >
+                            {t("cancel")}
+                        </Button>
+                        <Button
+                            color="primary"
+                            onClick={() => {
+                                setConfirmDOIRequestDialogOpen(false);
+                                requestDOI({
+                                    folder: selected[0],
+                                    type: "DOI",
+                                });
+                            }}
+                        >
+                            {t("needDoi")}
+                        </Button>
+                    </>
+                }
+            >
+                <Trans
+                    t={t}
+                    i18nKey="requestDOIPrompt"
+                    components={{
+                        manual: <ExternalLink href={constants.DOI_GUIDE} />,
+                    }}
+                />
+                <br />
+                <Trans
+                    t={t}
+                    i18nKey="requestDOIAgreement"
+                    components={{
+                        b: <b />,
+                        agreement: (
+                            <ExternalLink href={constants.DC_USER_AGREEMENT} />
+                        ),
+                    }}
+                />
             </DEDialog>
         </>
     );

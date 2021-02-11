@@ -32,7 +32,7 @@ import AccessRequestDialog from "components/vice/AccessRequestDialog";
 import { Button, Typography } from "@material-ui/core";
 
 const Launch = ({ app, launchError, loading }) => {
-     const [submissionError, setSubmissionError] = React.useState(null);
+    const [submissionError, setSubmissionError] = React.useState(null);
     const [
         accessRequestDialogOpen,
         setAccessRequestDialogOpen,

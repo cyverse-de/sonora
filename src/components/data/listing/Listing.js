@@ -211,8 +211,9 @@ function Listing(props) {
             },
             onError: (e) => {
                 showErrorAnnouncer(t("doiRequestFailed"), e);
-            }
-        });
+            },
+        }
+    );
     const [doEmptyTrash, { status: emptyTrashStatus }] = useMutation(
         emptyTrash,
         {
@@ -227,6 +228,18 @@ function Listing(props) {
             },
         }
     );
+
+    const [doRestore, { status: restoreStatus }] = useMutation(restore, {
+        onSuccess: () => {
+            announce({
+                text: t("asyncDataRestorePending"),
+                type: AnnouncerConstants.SUCCESS,
+            });
+        },
+        onError: (e) => {
+            showErrorAnnouncer(t("restoreError"), e);
+        },
+    });
 
     useEffect(() => {
         setSelected([]);

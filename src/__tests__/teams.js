@@ -4,12 +4,9 @@ import renderer from "react-test-renderer";
 import { View, SearchResults } from "../../stories/teams/Teams.stories";
 import { mockAxios } from "../../stories/axiosMock";
 import { UserProfileProvider } from "contexts/userProfile";
-import { I18nProviderWrapper } from "../i18n";
-import {
-    getAllPrivileges,
-    getPrivilegeUpdates,
-} from "../components/teams/util";
-import Privilege from "../components/models/Privilege";
+import { I18nProviderWrapper } from "i18n";
+import { getAllPrivileges, getPrivilegeUpdates } from "components/teams/util";
+import Privilege from "components/models/Privilege";
 
 beforeEach(() => {
     mockAxios.reset();

@@ -21,11 +21,11 @@ export const groupShortName = (groupName) => {
 };
 
 export const privilegeHasRead = (privilege) => {
-    return privilegeNum(privilege) >= Privilege.READ.num;
+    return privilegeLevel(privilege) >= Privilege.READ.level;
 };
 
 export const privilegeIsAdmin = (privilege) => {
-    return privilegeNum(privilege) === Privilege.ADMIN.num;
+    return privilegeLevel(privilege) === Privilege.ADMIN.level;
 };
 
 const getPrivilegeSubjectId = (privilege) => {
@@ -56,8 +56,8 @@ export function validateGroupName(value, t) {
     }
 }
 
-function privilegeNum(privilege) {
-    return privilege ? Privilege[privilege.name.toUpperCase()].num : 0;
+function privilegeLevel(privilege) {
+    return privilege ? Privilege[privilege.name.toUpperCase()].level : 0;
 }
 
 function getDefaultPrivilege(privilege) {
@@ -95,7 +95,7 @@ function simplifyPrivileges(privileges, GrouperAllUsersId, GrouperAdminId) {
             [subjectId]:
                 subjectId === GrouperAllUsersId
                     ? { ...privilege, name: Privilege.VIEW.value }
-                    : privilegeNum(currentPriv) > privilegeNum(privilege)
+                    : privilegeLevel(currentPriv) > privilegeLevel(privilege)
                     ? currentPriv
                     : privilege,
         };

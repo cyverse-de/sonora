@@ -3,29 +3,29 @@
  * simplified privileges to only the below MemberPrivileges and PublicPrivileges
  *
  * The value is the value accepted by Grouper.
- * The num is a value to establish a hierarchy where a greater number indicates more
- * power with that privilege.
+ * The level is a value to establish a hierarchy where a greater number indicates
+ * more power with that privilege.
  */
 const Privileges = {
     ADMIN: {
         value: "admin",
-        num: 5,
+        level: 5,
     },
     READ: {
         value: "read",
-        num: 4,
+        level: 4,
     },
     OPTIN: {
         value: "optin",
-        num: 3,
+        level: 3,
     },
     VIEW: {
         value: "view",
-        num: 2,
+        level: 2,
     },
     OPTOUT: {
         value: "optout",
-        num: 1,
+        level: 1,
     },
 };
 export default Privileges;

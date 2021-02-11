@@ -171,5 +171,20 @@ export default function groupsRouter() {
         })
     );
 
+    logger.info(
+        "adding the POST /api/teams/:name/join-request/:requester/deny handler"
+    );
+    api.post(
+        "/teams/:name/join-request/:requester/deny",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/teams/:name/join-request/:requester/deny",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

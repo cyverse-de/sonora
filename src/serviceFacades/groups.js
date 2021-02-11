@@ -256,6 +256,37 @@ function requestJoinTeam({ name, message }) {
     });
 }
 
+function denyRequestJoinTeam({ teamName, requesterId, message }) {
+    return callApi({
+        endpoint: `/api/teams/${encodeURIComponent(
+            teamName
+        )}/join-request/${requesterId}/deny`,
+        method: "POST",
+        body: {
+            message,
+        },
+    });
+}
+
+function approveRequestJoinTeam({ teamName, requesterId, privilege }) {
+    const privilegeUpdate = {
+        subject_id: requesterId,
+        privileges: [privilege],
+    };
+
+    return updateTeamPrivileges({
+        name: teamName,
+        updates: [privilegeUpdate],
+    }).then((privilegeResult) => {
+        return addTeamMembers({
+            name: teamName,
+            members: [requesterId],
+        }).then((memberResults) => {
+            return [privilegeResult, memberResults];
+        });
+    });
+}
+
 export {
     MY_TEAMS_QUERY,
     ALL_TEAMS_QUERY,
@@ -271,4 +302,6 @@ export {
     leaveTeam,
     updateTeamMemberStats,
     requestJoinTeam,
+    denyRequestJoinTeam,
+    approveRequestJoinTeam,
 };

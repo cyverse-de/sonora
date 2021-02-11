@@ -90,7 +90,8 @@ function DataDotMenu(props) {
         : null;
     const deleteMiEnabled = !isSelectionEmpty && isOwner(selectedResources);
     const metadataMiEnabled = selected?.length === 1;
-    const requestDoiEnabled = isOwner(selectedResources);
+    const requestDoiEnabled =
+        isOwner(selectedResources) && containsFolders(selectedResources);
     const router = useRouter();
     const routeToFile = (id, path) => {
         router.push(

@@ -624,7 +624,8 @@ function Listing(props) {
                     components={{
                         manual: <ExternalLink href={constants.DOI_GUIDE} />,
                     }}
-                />{" "}
+                />
+                <br />
                 <Trans
                     t={t}
                     i18nKey="requestDOIAgreement"

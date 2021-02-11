@@ -5,9 +5,7 @@
  */
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
-import { Trans } from "react-i18next";
 import PropTypes from "prop-types";
-import { intercomShow } from "common/intercom";
 
 import Link from "next/link";
 import DELink from "components/utils/DELink";
@@ -18,55 +16,17 @@ import { Highlighter } from "@cyverse-de/ui-lib";
 import { useAppLaunchLink } from "./utils";
 import { Button, Link as MuiLink, Typography } from "@material-ui/core";
 import DEDialog from "components/utils/DEDialog";
+import RunError from "./RunError";
 
 function RunErrorDialog(props) {
     const { baseId, code, open, onClose } = props;
     const { t } = useTranslation("launch");
     const { t: i18Common } = useTranslation("common");
-    let title, msg;
+    let title;
     if (code === ERROR_CODES.ERR_LIMIT_REACHED) {
         title = t("jobLimitReached");
-        msg = (
-            <Trans
-                t={t}
-                i18nKey="jobLimitReachedPrompt"
-                components={{
-                    b: <b />,
-                    support: (
-                        <MuiLink
-                            href="#"
-                            component="button"
-                            onClick={(event) => {
-                                // prevent form submission
-                                event.preventDefault();
-                                intercomShow();
-                            }}
-                        />
-                    ),
-                }}
-            />
-        );
     } else if (code === ERROR_CODES.ERR_FORBIDDEN) {
         title = t("accessDenied");
-        msg = (
-            <Trans
-                t={t}
-                i18nKey="launchForbiddenPrompt"
-                components={{
-                    support: (
-                        <MuiLink
-                            href="#"
-                            component="button"
-                            onClick={(event) => {
-                                // prevent form submission
-                                event.preventDefault();
-                                intercomShow();
-                            }}
-                        />
-                    ),
-                }}
-            />
-        );
     }
     return (
         <DEDialog
@@ -80,7 +40,9 @@ function RunErrorDialog(props) {
             }
             onClose={onClose}
         >
-            <Typography>{msg}</Typography>
+            <Typography>
+                <RunError code={code} />
+            </Typography>
         </DEDialog>
     );
 }

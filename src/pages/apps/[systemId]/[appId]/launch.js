@@ -64,12 +64,18 @@ export default function Launch() {
         queryFn: getAppDescription,
         config: {
             enabled: appDescriptionQueryEnabled,
-            onSuccess: setApp,
+            onSuccess: (resp) => {
+                if (resp?.limitChecks?.canRun) {
+                    setApp(resp);
+                } else {
+                    setLaunchError(resp?.limitChecks?.reasonCodes[0]);
+                }
+            },
             onError: setLaunchError,
         },
     });
 
-    const { status: qLuanchStatus } = useQuery({
+    const { status: qLaunchStatus } = useQuery({
         queryKey: appKey,
         queryFn: getAppInfo,
         config: {
@@ -80,7 +86,7 @@ export default function Launch() {
     });
 
     const loading =
-        appStatus === constants.LOADING || qLuanchStatus === constants.LOADING;
+        appStatus === constants.LOADING || qLaunchStatus === constants.LOADING;
 
     return <AppLaunch app={app} launchError={launchError} loading={loading} />;
 }

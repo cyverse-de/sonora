@@ -49,7 +49,13 @@ const Relaunch = () => {
         queryFn: getAnalysisRelaunchInfo,
         config: {
             enabled: relaunchQueryEnabled,
-            onSuccess: setApp,
+            onSuccess: (resp) => {
+                if (resp?.limitChecks?.canRun) {
+                    setApp(resp);
+                } else {
+                    setRelaunchError(resp?.limitChecks?.reasonCodes[0]);
+                }
+            },
             onError: setRelaunchError,
         },
     });

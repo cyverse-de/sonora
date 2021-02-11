@@ -27,6 +27,8 @@ import { Typography } from "@material-ui/core";
 import { getTeamLinkRefs } from "../teams/util";
 import AdminJoinTeamRequestDialog from "./dialogs/AdminJoinTeamRequestDialog";
 import JoinTeamDeniedDialog from "./dialogs/JoinTeamDeniedDialog";
+import ExternalLink from "../utils/ExternalLink";
+import { useTranslation } from "../../i18n";
 
 function MessageLink(props) {
     const { message, href, as } = props;
@@ -40,6 +42,7 @@ function MessageLink(props) {
 
 function AnalysisLink(props) {
     const { notification } = props;
+    const { t } = useTranslation("common");
 
     const message = getDisplayMessage(notification);
     const action = notification.payload?.action;
@@ -47,6 +50,14 @@ function AnalysisLink(props) {
     const isJobStatusChange = action === "job_status_change";
     const isShare = action === "share";
     if (isShare || isJobStatusChange) {
+        if (notification.payload.access_url) {
+            return (
+                <ExternalLink href={props.notification.payload.access_url}>
+                    {t("interactiveAnalysisUrl", { message })}
+                </ExternalLink>
+            );
+        }
+
         const analysisId =
             isShare && notification.payload?.analyses?.length > 0
                 ? notification.payload.analyses[0].analysis_id
@@ -127,7 +138,10 @@ function TeamLink(props) {
         return (
             <>
                 <DELink
-                    onClick={() => setAdminJoinRequestDlgOpen(true)}
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        setAdminJoinRequestDlgOpen(true);
+                    }}
                     text={message}
                 />
                 <AdminJoinTeamRequestDialog
@@ -143,7 +157,10 @@ function TeamLink(props) {
         return (
             <>
                 <DELink
-                    onClick={() => setJoinRequestDeniedDlgOpen(true)}
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        setJoinRequestDeniedDlgOpen(true);
+                    }}
                     text={message}
                 />
                 <JoinTeamDeniedDialog

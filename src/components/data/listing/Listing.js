@@ -195,7 +195,7 @@ function Listing(props) {
             onSuccess: () => {
                 announce({
                     text: t("asyncDataDeletePending"),
-                    type: AnnouncerConstants.SUCCESS,
+                    variant: AnnouncerConstants.INFO,
                 });
             },
             onError: (e) => {
@@ -220,7 +220,7 @@ function Listing(props) {
             onSuccess: () => {
                 announce({
                     text: t("asyncDataEmptyTrashPending"),
-                    type: AnnouncerConstants.SUCCESS,
+                    variant: AnnouncerConstants.INFO,
                 });
             },
             onError: (e) => {
@@ -233,7 +233,7 @@ function Listing(props) {
         onSuccess: () => {
             announce({
                 text: t("asyncDataRestorePending"),
-                type: AnnouncerConstants.SUCCESS,
+                variant: AnnouncerConstants.INFO,
             });
         },
         onError: (e) => {

@@ -45,6 +45,7 @@ function RenameDialog(props) {
 
     const [resourceRename, { status: renameStatus }] = useMutation(rename, {
         onSuccess: (data, { resetForm }) => {
+            setRenameError(null);
             announce({
                 text: t("asyncRenamePending"),
                 variant: AnnouncerConstants.INFO,

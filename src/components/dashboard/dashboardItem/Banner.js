@@ -47,6 +47,7 @@ export default function Banner(props) {
                         alt={t("banner")}
                         height={400}
                         width={800}
+                        priority={true}
                     />
                 </Grid>
                 <Grid item xs={isMobile ? 12 : 6}>

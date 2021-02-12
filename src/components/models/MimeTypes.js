@@ -2,14 +2,17 @@ const mimeTypes = {
     PNG: "png",
     GIF: "gif",
     JPEG: "jpeg",
+
     MP4: "mp4",
     OGG: "ogg",
     WEBM: "webm",
+
     PDF: "pdf",
     PLAIN: "plain",
     HTML: "html",
     XHTML_XML: "xhtml+xml",
     PREVIEW: "preview",
+
     X_SH: "x-sh",
     VIZ: "viz",
     X_PERL: "x-perl",

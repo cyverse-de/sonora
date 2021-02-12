@@ -5,12 +5,12 @@
  */
 
 import React from "react";
-import { Group, GroupAdd } from "@material-ui/icons";
+import { GroupAddOutlined, PeopleAltOutlined } from "@material-ui/icons";
 
 export function TeamIcon(props) {
-    return <Group {...props} />;
+    return <PeopleAltOutlined {...props} />;
 }
 
 export function AddTeamIcon(props) {
-    return <GroupAdd {...props} />;
+    return <GroupAddOutlined {...props} />;
 }

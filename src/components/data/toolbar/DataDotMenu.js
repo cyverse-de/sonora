@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
-import { isOwner, containsFolders } from "../utils";
+import { isOwner, isWritable, containsFolders } from "../utils";
 import CreateFolderDialog from "../CreateFolderDialog";
 import UploadMenuItems from "./UploadMenuItems";
 
@@ -45,9 +45,11 @@ import {
     Queue as AddToBagIcon,
     Send as RequestIcon,
     Refresh,
+    Edit,
 } from "@material-ui/icons";
 import NavigationConstants from "common/NavigationConstants";
 import TrashMenuItems from "./TrashMenuItems";
+import RenameDialog from "../RenameDialog";
 
 function DataDotMenu(props) {
     const {
@@ -87,10 +89,13 @@ function DataDotMenu(props) {
 
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
     const [pathListDlgOpen, setPathListDlgOpen] = useState(false);
+    const [renameDlgOpen, setRenameDlgOpen] = useState(false);
     const [requestedInfoType, setRequestedInfoType] = useState();
 
     const onCreateFolderDlgClose = () => setCreateFolderDlgOpen(false);
     const onCreateFolderClicked = () => setCreateFolderDlgOpen(true);
+    const onRenameClicked = () => setRenameDlgOpen(true);
+    const onRenameDlgClose = () => setRenameDlgOpen(false);
 
     const isSelectionEmpty = selected?.length === 0;
     const selectedResources = getSelectedResources
@@ -109,6 +114,10 @@ function DataDotMenu(props) {
         !containsFolders(selectedResources);
     const downloadEnabled =
         !inTrash && !isSelectionEmpty && !containsFolders(selectedResources);
+    const renameEnabled =
+        !inTrash &&
+        selected?.length === 1 &&
+        isWritable(selectedResources[0]?.permission);
 
     const router = useRouter();
     const routeToFile = (id, path) => {
@@ -151,6 +160,21 @@ function DataDotMenu(props) {
                                           <CreateNewFolder fontSize="small" />
                                       </ListItemIcon>
                                       <ListItemText primary={t("folder")} />
+                                  </MenuItem>
+                              ),
+                              renameEnabled && (
+                                  <MenuItem
+                                      key={build(baseId, ids.RENAME_MI)}
+                                      id={build(baseId, ids.RENAME_MI)}
+                                      onClick={() => {
+                                          onClose();
+                                          onRenameClicked();
+                                      }}
+                                  >
+                                      <ListItemIcon>
+                                          <Edit fontSize="small" />
+                                      </ListItemIcon>
+                                      <ListItemText primary={t("rename")} />
                                   </MenuItem>
                               ),
                               detailsEnabled && (
@@ -324,6 +348,21 @@ function DataDotMenu(props) {
                             />
                         </MenuItem>,
                     ],
+                    renameEnabled && (
+                        <MenuItem
+                            key={build(baseId, ids.RENAME_MI)}
+                            id={build(baseId, ids.RENAME_MI)}
+                            onClick={() => {
+                                onClose();
+                                onRenameClicked();
+                            }}
+                        >
+                            <ListItemIcon>
+                                <Edit fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText primary={t("rename")} />
+                        </MenuItem>
+                    ),
                     linkSharingEnabled && (
                         <PublicLinksMenuItem
                             key={build(baseId, ids.PUBLIC_LINKS_MENU_ITEM)}
@@ -369,6 +408,17 @@ function DataDotMenu(props) {
                     refreshListing();
                 }}
             />
+
+            {selectedResources && (
+                <RenameDialog
+                    path={selectedResources[0]?.path}
+                    open={renameDlgOpen}
+                    onClose={onRenameDlgClose}
+                    onRenamed={() => {
+                        onRenameDlgClose();
+                    }}
+                />
+            )}
             <DEDialog
                 baseId={build(baseId, ids.PATH_LIST_AUTO_DIALOG)}
                 open={pathListDlgOpen}

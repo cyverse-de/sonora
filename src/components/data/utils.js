@@ -178,13 +178,8 @@ const useSelectorDefaultFolderPath = () => {
     );
 };
 
-const isPathInTrash = (path, trash_path) => {
-    if (!path || !trash_path) {
-        return false;
-    } else {
-        return path?.startsWith(trash_path);
-    }
-};
+const isPathInTrash = (path, trash_path) =>
+    path && trash_path && path.startsWith(trash_path);
 
 export {
     DEFAULT_PAGE_SETTINGS,

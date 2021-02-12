@@ -102,7 +102,7 @@ export default function Banner(props) {
                                 {t("signUp")} |
                             </ExternalLink>
                             <Link
-                                component="button"
+                                href="#"
                                 color="primary"
                                 onClick={onLoginClick}
                                 style={{

@@ -286,3 +286,18 @@ export const pathListCreator = ({
         params,
     });
 };
+
+export const restore = (paths) => {
+    return callApi({
+        endpoint: "/api/filesystem/restore",
+        method: "POST",
+        body: paths,
+    });
+};
+
+export const emptyTrash = () => {
+    return callApi({
+        endpoint: "/api/filesystem/trash",
+        method: "DELETE",
+    });
+};

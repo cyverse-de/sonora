@@ -210,5 +210,32 @@ export default function dataRouter() {
             },
         })
     );
+
+    logger.info("adding the POST /api/filesystem/restore");
+    api.post(
+        "/filesystem/restore",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/filesystem/restore",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the DELETE /api/filesystem/trash");
+    api.delete(
+        "/filesystem/trash",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/filesystem/trash",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

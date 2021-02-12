@@ -13,8 +13,8 @@ function DeleteMenuItem(props) {
 
     return (
         <MenuItem
-            key={build(baseId, ids.DELETE_MENU_ITEM)}
-            id={build(baseId, ids.DELETE_MENU_ITEM)}
+            key={build(baseId, ids.MOVE_TO_TRASH_MENU_ITEM)}
+            id={build(baseId, ids.MOVE_TO_TRASH_MENU_ITEM)}
             onClick={() => {
                 onClose();
                 onDeleteSelected();
@@ -23,7 +23,7 @@ function DeleteMenuItem(props) {
             <ListItemIcon>
                 <DeleteIcon fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary={t("delete")} />
+            <ListItemText primary={t("moveToTrash")} />
         </MenuItem>
     );
 }

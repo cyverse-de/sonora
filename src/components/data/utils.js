@@ -178,6 +178,9 @@ const useSelectorDefaultFolderPath = () => {
     );
 };
 
+const isPathInTrash = (path, trash_path) =>
+    path && trash_path && path.startsWith(trash_path);
+
 export {
     DEFAULT_PAGE_SETTINGS,
     getEncodedPath,
@@ -194,4 +197,5 @@ export {
     useHomePath,
     useSelectorDefaultFolderPath,
     containsFolders,
+    isPathInTrash,
 };

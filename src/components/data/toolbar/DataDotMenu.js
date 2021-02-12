@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
-import { isOwner, isWritable, containsFolders } from "../utils";
+import { isOwner, containsFolders } from "../utils";
 import CreateFolderDialog from "../CreateFolderDialog";
 import UploadMenuItems from "./UploadMenuItems";
 
@@ -44,14 +44,15 @@ import {
     ListAlt,
     Queue as AddToBagIcon,
     Send as RequestIcon,
+    Refresh,
 } from "@material-ui/icons";
 import NavigationConstants from "common/NavigationConstants";
+import TrashMenuItems from "./TrashMenuItems";
 
 function DataDotMenu(props) {
     const {
         baseId,
         path,
-        permission,
         onDetailsSelected,
         onDeleteSelected,
         onAddToBagSelected,
@@ -66,13 +67,20 @@ function DataDotMenu(props) {
         getSelectedResources,
         onCreateHTFileSelected,
         onCreateMultiInputFileSelected,
-        canShare,
         setSharingDlgOpen,
         isSmall,
         onMetadataSelected,
         onPublicLinksSelected,
         onDownloadSelected,
         onRequestDOISelected,
+        onRefreshSelected,
+        inTrash,
+        uploadEnabled,
+        sharingEnabled,
+        bagEnabled,
+        handleEmptyTrash,
+        handleDelete,
+        handleRestore,
     } = props;
 
     const { t } = useTranslation("data");
@@ -88,10 +96,20 @@ function DataDotMenu(props) {
     const selectedResources = getSelectedResources
         ? getSelectedResources()
         : null;
-    const deleteMiEnabled = !isSelectionEmpty && isOwner(selectedResources);
-    const metadataMiEnabled = selected?.length === 1;
+
+    const metadataMiEnabled = !inTrash && selected?.length === 1;
     const requestDoiEnabled =
         isOwner(selectedResources) && containsFolders(selectedResources);
+    const moveToTrashEnabled =
+        !inTrash && !isSelectionEmpty && isOwner(selectedResources);
+
+    const linkSharingEnabled =
+        !inTrash &&
+        isOwner(selectedResources) &&
+        !containsFolders(selectedResources);
+    const downloadEnabled =
+        !inTrash && !isSelectionEmpty && !containsFolders(selectedResources);
+
     const router = useRouter();
     const routeToFile = (id, path) => {
         router.push(
@@ -107,7 +125,20 @@ function DataDotMenu(props) {
                 render={(onClose) => [
                     isSmall
                         ? [
-                              isWritable(permission) && (
+                              <MenuItem
+                                  key={build(baseId, ids.REFRESH_MENU_ITEM)}
+                                  id={build(baseId, ids.REFRESH_MENU_ITEM)}
+                                  onClick={() => {
+                                      onClose();
+                                      onRefreshSelected();
+                                  }}
+                              >
+                                  <ListItemIcon>
+                                      <Refresh fontSize="small" />
+                                  </ListItemIcon>
+                                  <ListItemText primary={t("refresh")} />
+                              </MenuItem>,
+                              uploadEnabled && (
                                   <MenuItem
                                       key={build(baseId, ids.CREATE_FOLDER_MI)}
                                       id={build(baseId, ids.CREATE_FOLDER_MI)}
@@ -130,7 +161,7 @@ function DataDotMenu(props) {
                                       onDetailsSelected={onDetailsSelected}
                                   />
                               ),
-                              selected && selected.length > 0 && (
+                              bagEnabled && (
                                   <MenuItem
                                       key={build(baseId, ids.ADD_TO_BAG_MI)}
                                       id={build(baseId, ids.ADD_TO_BAG_MI)}
@@ -145,7 +176,7 @@ function DataDotMenu(props) {
                                       <ListItemText primary={t("addToBag")} />
                                   </MenuItem>
                               ),
-                              canShare && (
+                              sharingEnabled && (
                                   <SharingMenuItem
                                       key={build(
                                           baseId,
@@ -186,7 +217,7 @@ function DataDotMenu(props) {
                                   ),
                               ],
                               <Divider key={ids.UPLOAD_MENU_ITEM_DIVIDER} />,
-                              isWritable(permission) && (
+                              uploadEnabled && (
                                   <UploadMenuItems
                                       key={build(baseId, ids.UPLOAD_MENU_ITEM)}
                                       localUploadId={localUploadId}
@@ -228,7 +259,8 @@ function DataDotMenu(props) {
                               ),
                               <Divider key={ids.METADATA_MENU_ITEM_DIVIDER} />,
                           ],
-                    isWritable(permission) && [
+
+                    uploadEnabled && [
                         <MenuItem
                             key={build(baseId, ids.CREATE_HT_FILE_MI)}
                             id={build(baseId, ids.CREATE_HT_FILE_MI)}
@@ -292,34 +324,40 @@ function DataDotMenu(props) {
                             />
                         </MenuItem>,
                     ],
-                    isOwner(selectedResources) &&
-                        !containsFolders(selectedResources) && (
-                            <PublicLinksMenuItem
-                                key={build(baseId, ids.PUBLIC_LINKS_MENU_ITEM)}
-                                onPublicLinksSelected={onPublicLinksSelected}
-                                baseId={baseId}
-                                onClose={onClose}
-                            />
-                        ),
-                    !isSelectionEmpty &&
-                        !containsFolders(selectedResources) && (
-                            <DownloadMenuItem
-                                key={build(baseId, ids.DOWNLOAD_MENU_ITEM)}
-                                onDownloadSelected={onDownloadSelected}
-                                baseId={baseId}
-                                onClose={onClose}
-                            />
-                        ),
-
-                    deleteMiEnabled && [
-                        <Divider key={ids.DELETE_MENU_ITEM_DIVIDER} />,
+                    linkSharingEnabled && (
+                        <PublicLinksMenuItem
+                            key={build(baseId, ids.PUBLIC_LINKS_MENU_ITEM)}
+                            onPublicLinksSelected={onPublicLinksSelected}
+                            baseId={baseId}
+                            onClose={onClose}
+                        />
+                    ),
+                    downloadEnabled && (
+                        <DownloadMenuItem
+                            key={build(baseId, ids.DOWNLOAD_MENU_ITEM)}
+                            onDownloadSelected={onDownloadSelected}
+                            baseId={baseId}
+                            onClose={onClose}
+                        />
+                    ),
+                    <Divider key={ids.DELETE_MENU_ITEM_DIVIDER} />,
+                    moveToTrashEnabled && (
                         <DeleteMenuItem
-                            key={ids.DELETE_MENU_ITEM}
+                            key={ids.MOVE_TO_TRASH_MENU_ITEM}
                             baseId={baseId}
                             onClose={onClose}
                             onDeleteSelected={onDeleteSelected}
-                        />,
-                    ],
+                        />
+                    ),
+                    inTrash && (
+                        <TrashMenuItems
+                            baseId={baseId}
+                            selected={selected}
+                            handleEmptyTrash={handleEmptyTrash}
+                            handleDelete={handleDelete}
+                            handleRestore={handleRestore}
+                        />
+                    ),
                 ]}
             />
             <CreateFolderDialog

@@ -16,7 +16,7 @@ import styles from "../styles";
 import { processSelectedFiles, trackUpload } from "../../uploads/UploadDrop";
 import { useUploadTrackingDispatch } from "../../../contexts/uploadTracking";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import { build } from "@cyverse-de/ui-lib";
 import { Button, makeStyles, Menu } from "@material-ui/core";

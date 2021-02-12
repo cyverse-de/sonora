@@ -22,8 +22,8 @@ import * as constants from "./constants";
 import useStyles from "./styles";
 import * as fns from "./functions";
 import {
-    NewsFeed,
-    EventsFeed,
+    // NewsFeed,
+    // EventsFeed,
     RecentlyUsedApps,
     PublicApps,
     RecentAnalyses,
@@ -114,8 +114,8 @@ const Dashboard = (props) => {
     const [detailsAnalysis, setDetailsAnalysis] = useState(null);
 
     let sections = [
-        new NewsFeed(),
-        new EventsFeed(),
+        // new NewsFeed(),
+        // new EventsFeed(),
         new VideosFeed(),
         new PublicApps(),
     ];
@@ -126,8 +126,8 @@ const Dashboard = (props) => {
             new RunningAnalyses(),
             new RecentlyUsedApps(),
             new PublicApps(),
-            new NewsFeed(),
-            new EventsFeed(),
+            // new NewsFeed(),
+            // new EventsFeed(),
             new VideosFeed(),
         ];
     }

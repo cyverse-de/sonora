@@ -83,4 +83,6 @@ export default {
         "https://learning.cyverse.org/projects/cyverse-doi-request-quickstart/en/latest/",
     DC_USER_AGREEMENT:
         "https://cyverse.org/policies/data-commons-user-agreement",
+    CYVERSE_GLOSSARY:
+        "https://learning.cyverse.org/projects/glossary/en/latest/",
 };

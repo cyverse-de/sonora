@@ -12,4 +12,5 @@ export default {
     TOUR_BTN: "tourButton",
     GUIDE_BTN: "guideButton",
     LC_BTN: "lcButton",
+    GLOSSARY_BTN: "glossaryButton",
 };

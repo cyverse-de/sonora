@@ -74,7 +74,7 @@ export default {
     DE_FAQ:
         "https://learning.cyverse.org/projects/faq/en/latest/Discovery-environment-faq.html",
     DE_GUIDE:
-        "https://cyverse-sonora-guide.readthedocs-hosted.com/en/latest/index.html",
+        "https://learning.cyverse.org/projects/cyverse-de2-guide/en/latest/",
     CYVERSE_LC: "https://learning.cyverse.org/en/latest/",
     DEFAULT_EMAIL: "no-reply@cyverse.org",
     SUPPORT_EMAIL: "support@cyverse.org",

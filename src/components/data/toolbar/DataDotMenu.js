@@ -414,9 +414,7 @@ function DataDotMenu(props) {
                     path={selectedResources[0]?.path}
                     open={renameDlgOpen}
                     onClose={onRenameDlgClose}
-                    onRenamed={() => {
-                        onRenameDlgClose();
-                    }}
+                    onRenamed={onRenameDlgClose}
                 />
             )}
             <DEDialog

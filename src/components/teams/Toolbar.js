@@ -34,15 +34,11 @@ import DEDialog from "../utils/DEDialog";
 const useStyles = makeStyles(styles);
 
 function TeamToolbar(props) {
-    const { parentId, teamFilter, setTeamFilter } = props;
+    const { parentId, teamFilter, setTeamFilter, onCreateTeamSelected } = props;
     const classes = useStyles();
     const { t } = useTranslation(["teams", "common"]);
 
     const [helpDlgOpen, setHelpDlgOpen] = useState(false);
-
-    const onCreateTeamSelected = () => {
-        console.log("Create a team!");
-    };
 
     const onTeamFilterChange = (newValue) => {
         setTeamFilter(newValue);

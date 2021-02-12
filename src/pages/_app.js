@@ -175,6 +175,11 @@ function MyApp({ Component, pageProps }) {
             defaultCasValidate: publicRuntimeConfig.VICE_DEFAULT_CAS_VALIDATE,
         };
 
+        const grouper = {
+            allUsers: publicRuntimeConfig.GROUPER_ALL_USERS,
+            admin: publicRuntimeConfig.GROUPER_ADMIN,
+        };
+
         if (
             intercom ||
             admin ||
@@ -183,7 +188,8 @@ function MyApp({ Component, pageProps }) {
             sessions ||
             tools ||
             fileIdentifiers ||
-            vice
+            vice ||
+            grouper
         ) {
             setConfig({
                 intercom,
@@ -194,6 +200,7 @@ function MyApp({ Component, pageProps }) {
                 tools,
                 fileIdentifiers,
                 vice,
+                grouper,
             });
         }
 

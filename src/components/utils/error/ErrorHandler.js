@@ -224,6 +224,7 @@ function ErrorHandler(props) {
                 <Grid container spacing={2} className={classes.container}>
                     <GridLabelValue label={t("requestedURL")}>
                         <Typography id={build(errBaseId, ids.REQUESTED_URL)}>
+                            {errorObject.config?.method}{" "}
                             {errorObject.config?.url}
                         </Typography>
                     </GridLabelValue>
@@ -239,7 +240,11 @@ function ErrorHandler(props) {
                     </GridLabelValue>
                     <GridLabelValue label={t("reason")}>
                         <Typography id={build(errBaseId, ids.REASON)}>
-                            {JSON.stringify(errorResponse?.data?.reason)}
+                            {JSON.stringify(
+                                errorResponse?.data?.reason ||
+                                    errorResponse?.data?.message ||
+                                    errorResponse?.data?.grouper_result_message
+                            )}
                         </Typography>
                     </GridLabelValue>
                     <ClientInfo />

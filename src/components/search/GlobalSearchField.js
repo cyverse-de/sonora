@@ -363,8 +363,8 @@ function TeamSearchOption(props) {
         );
     }
 
-    const href = `/${NavigationConstants.TEAMS}`;
-    const as = `/${NavigationConstants.TEAMS}`;
+    const href = `/${NavigationConstants.TEAMS}/${selectedOption.name}`;
+    const as = `/${NavigationConstants.TEAMS}/${selectedOption.name}`;
     return (
         <Link href={href} as={as} passHref>
             <SearchOption

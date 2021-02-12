@@ -72,7 +72,7 @@ function Listing(props) {
                     return (
                         <DELink
                             id={build(rowId, ids.TEAMS.LINK)}
-                            onClick={() => onTeamNameSelected(team)}
+                            onClick={() => onTeamNameSelected(team.name)}
                             searchTerm={searchTerm}
                             text={value}
                         />

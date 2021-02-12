@@ -113,6 +113,19 @@ export default function dataRouter() {
         })
     );
 
+    logger.info("adding the POST /api/filesystem/rename handler");
+    api.post(
+        "/filesystem/rename",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/filesystem/rename",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the GET /filetypes/type-list handler");
     api.get(
         "/filetypes/type-list",

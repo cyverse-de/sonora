@@ -4,7 +4,6 @@
  * A component that displays formatted error message with options to contact support or login
  */
 import React, { useEffect, useState } from "react";
-import Bowser from "bowser";
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
 
@@ -58,7 +57,11 @@ function ClientInfo(props) {
     const [browser, setBrowser] = useState();
     const { t } = useTranslation("util");
     useEffect(() => {
-        setBrowser(Bowser.getParser(window.navigator.userAgent));
+        const doSetBrowser = async () => {
+            const Bowser = (await import("bowser")).default;
+            setBrowser(Bowser.getParser(window.navigator.userAgent));
+        };
+        doSetBrowser();
     }, []);
     const { baseId } = props;
     const [userProfile] = useUserProfile();

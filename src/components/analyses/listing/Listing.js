@@ -97,7 +97,7 @@ function Listing(props) {
 
     const [config] = useConfig();
     const [userProfile] = useUserProfile();
-    const [currentNotification] = useNotifications();
+    const { currentNotification } = useNotifications();
 
     const [selectedAnalysis, setSelectedAnalysis] = useState(null);
     const [isSingleSelection, setSingleSelection] = useState(false);

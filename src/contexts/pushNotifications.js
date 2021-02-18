@@ -5,19 +5,26 @@
  *
  */
 
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import constants from "../constants";
 import NavigationConstants from "../common/NavigationConstants";
 import Sockette from "sockette";
 import { useUserProfile } from "./userProfile";
+import AdminJoinTeamRequestDialog from "components/notifications/dialogs/AdminJoinTeamRequestDialog";
+import JoinTeamDeniedDialog from "components/notifications/dialogs/JoinTeamDeniedDialog";
+import {
+    JOIN_TEAM_DENIED,
+    REQUEST_TO_JOIN,
+} from "components/notifications/utils";
 
-const NotificationsContext = React.createContext();
+const NotificationsContext = React.createContext({});
 
 /**
  *  A hook that returns state for obtaining push notification messages
  *  and for saving and obtaining websocket connection info
  *
- *
+ *  Also returns a function for setting a selected notification.  Depending
+ *  on that notification's action, a couple different dialogs can open.
  */
 
 function useNotifications() {
@@ -39,12 +46,25 @@ function useNotifications() {
  * @constructor
  */
 function NotificationsProvider(props) {
+    const { children } = props;
     const [userProfile] = useUserProfile();
-    const [currentNotification, setCurrentNotification] = React.useState();
-    const value = React.useMemo(
-        () => [currentNotification, setCurrentNotification],
-        [currentNotification]
+    const [currentNotification, setCurrentNotification] = useState();
+    const [selectedNotification, setSelectedNotification] = useState(null);
+    const [adminJoinRequestDlgOpen, setAdminJoinRequestDlgOpen] = useState(
+        false
     );
+    const [joinRequestDeniedDlgOpen, setJoinRequestDeniedDlgOpen] = useState(
+        false
+    );
+
+    const value = React.useMemo(() => {
+        return {
+            currentNotification,
+            setCurrentNotification,
+            setSelectedNotification,
+        };
+    }, [currentNotification]);
+
     const onMessage = useCallback(
         (event) => {
             console.log(event.data);
@@ -69,11 +89,9 @@ function NotificationsProvider(props) {
                 host +
                 (port ? ":" + port : "") +
                 NavigationConstants.NOTIFICATION_WS;
-            console.log("Connecting websocket to " + notificationUrl);
             const ws = new Sockette(notificationUrl, {
                 maxAttempts: constants.WEBSOCKET_MAX_CONNECTION_ATTEMPTS,
                 onopen: (e) => {
-                    console.log("Websocket connected!");
                     wsConn.current = ws;
                 },
                 onmessage: onMessage,
@@ -94,7 +112,37 @@ function NotificationsProvider(props) {
         }
     }, [userProfile]);
 
-    return <NotificationsContext.Provider value={value} {...props} />;
+    useEffect(() => {
+        if (selectedNotification) {
+            const action = selectedNotification.payload?.action;
+            if (action === REQUEST_TO_JOIN) {
+                setAdminJoinRequestDlgOpen(true);
+            }
+            if (action === JOIN_TEAM_DENIED) {
+                setJoinRequestDeniedDlgOpen(true);
+            }
+        } else {
+            setAdminJoinRequestDlgOpen(false);
+            setJoinRequestDeniedDlgOpen(false);
+        }
+    }, [selectedNotification]);
+
+    return (
+        <NotificationsContext.Provider value={value}>
+            {children}
+            <AdminJoinTeamRequestDialog
+                open={adminJoinRequestDlgOpen}
+                onClose={() => setAdminJoinRequestDlgOpen(false)}
+                request={selectedNotification?.payload}
+            />
+            <JoinTeamDeniedDialog
+                open={joinRequestDeniedDlgOpen}
+                onClose={() => setJoinRequestDeniedDlgOpen(false)}
+                adminMessage={selectedNotification?.payload?.admin_message}
+                teamName={selectedNotification?.payload?.team_name}
+            />
+        </NotificationsContext.Provider>
+    );
 }
 
 export { NotificationsProvider, useNotifications };

@@ -4,7 +4,7 @@
  *
  * @author psarando
  */
-import React, { useState } from "react";
+import React from "react";
 
 import Link from "next/link";
 
@@ -25,10 +25,9 @@ import DELink from "components/utils/DELink";
 
 import { Typography } from "@material-ui/core";
 import { getTeamLinkRefs } from "../teams/util";
-import AdminJoinTeamRequestDialog from "./dialogs/AdminJoinTeamRequestDialog";
-import JoinTeamDeniedDialog from "./dialogs/JoinTeamDeniedDialog";
 import ExternalLink from "../utils/ExternalLink";
 import { useTranslation } from "../../i18n";
+import { useNotifications } from "contexts/pushNotifications";
 
 function MessageLink(props) {
     const { message, href, as } = props;
@@ -121,55 +120,19 @@ function TeamLink(props) {
     const message = getDisplayMessage(notification);
     const teamName = notification.payload?.team_name;
     const action = notification.payload?.action;
-
-    const [adminJoinRequestDlgOpen, setAdminJoinRequestDlgOpen] = useState(
-        false
-    );
-    const [joinRequestDeniedDlgOpen, setJoinRequestDeniedDlgOpen] = useState(
-        false
-    );
+    const { setSelectedNotification } = useNotifications();
 
     if (action === ADDED_TO_TEAM) {
         const [href] = getTeamLinkRefs(teamName);
         return <MessageLink href={href} message={message} />;
     }
 
-    if (action === REQUEST_TO_JOIN) {
+    if (action === REQUEST_TO_JOIN || action === JOIN_TEAM_DENIED) {
         return (
-            <>
-                <DELink
-                    onClick={(event) => {
-                        event.stopPropagation();
-                        setAdminJoinRequestDlgOpen(true);
-                    }}
-                    text={message}
-                />
-                <AdminJoinTeamRequestDialog
-                    open={adminJoinRequestDlgOpen}
-                    onClose={() => setAdminJoinRequestDlgOpen(false)}
-                    request={notification.payload}
-                />
-            </>
-        );
-    }
-
-    if (action === JOIN_TEAM_DENIED) {
-        return (
-            <>
-                <DELink
-                    onClick={(event) => {
-                        event.stopPropagation();
-                        setJoinRequestDeniedDlgOpen(true);
-                    }}
-                    text={message}
-                />
-                <JoinTeamDeniedDialog
-                    open={joinRequestDeniedDlgOpen}
-                    onClose={() => setJoinRequestDeniedDlgOpen(false)}
-                    adminMessage={notification?.payload?.admin_message}
-                    teamName={notification?.payload?.team_name}
-                />
-            </>
+            <DELink
+                text={message}
+                onClick={() => setSelectedNotification(notification)}
+            />
         );
     }
 

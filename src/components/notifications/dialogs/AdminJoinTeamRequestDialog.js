@@ -41,6 +41,7 @@ import {
     denyRequestJoinTeam,
 } from "serviceFacades/groups";
 import styles from "../styles";
+import { useNotifications } from "contexts/pushNotifications";
 
 const useStyles = makeStyles(styles);
 
@@ -145,7 +146,7 @@ function DialogContent(props) {
             team_name,
             requester_email,
             requester_message,
-        },
+        } = {},
     } = props;
     const { t } = useTranslation(["notifications", "common"]);
     const classes = useStyles();
@@ -251,7 +252,6 @@ function DialogContent(props) {
 
 function AdminJoinTeamRequestDialog(props) {
     const { open, onClose, request } = props;
-    const { team_name, requester_id } = request;
     const { t } = useTranslation(["notifications", "common"]);
     const baseId = ids.ADMIN_JOIN_TEAM.DIALOG;
 
@@ -259,6 +259,12 @@ function AdminJoinTeamRequestDialog(props) {
     const [privilege, setPrivilege] = useState(Privilege.READ.value);
     const [denyMessage, setDenyMessage] = useState(null);
     const [mutationError, setMutationError] = useState(null);
+    const { setSelectedNotification } = useNotifications();
+
+    const handleClose = () => {
+        setSelectedNotification(null);
+        onClose();
+    };
 
     const handleRequestChange = (event) => {
         setRequestChoice(event.target.value);
@@ -267,7 +273,7 @@ function AdminJoinTeamRequestDialog(props) {
     const [denyRequestMutation, { status: denyRequestStatus }] = useMutation(
         denyRequestJoinTeam,
         {
-            onSuccess: onClose,
+            onSuccess: handleClose,
             onError: (error) => {
                 setMutationError({
                     message: t("denyRequestFailed"),
@@ -281,7 +287,7 @@ function AdminJoinTeamRequestDialog(props) {
         approveRequestMutation,
         { status: approveRequestStatus },
     ] = useMutation(approveRequestJoinTeam, {
-        onSuccess: onClose,
+        onSuccess: handleClose,
         onError: (error) => {
             setMutationError({
                 message: t("approveRequestFailed"),
@@ -291,6 +297,7 @@ function AdminJoinTeamRequestDialog(props) {
     });
 
     const handleSubmit = () => {
+        const { team_name, requester_id } = request;
         setMutationError(null);
         if (requestChoice === REQUEST_CHOICES.APPROVE) {
             approveRequestMutation({
@@ -313,13 +320,13 @@ function AdminJoinTeamRequestDialog(props) {
         <DEDialog
             baseId={baseId}
             open={open}
-            onClose={onClose}
+            onClose={handleClose}
             title={t("joinTeamRequestHeader")}
             actions={
                 <>
                     <Button
                         id={build(baseId, ids.CANCEL_BTN)}
-                        onClick={onClose}
+                        onClick={handleClose}
                     >
                         {t("common:cancel")}
                     </Button>

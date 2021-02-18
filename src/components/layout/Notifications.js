@@ -74,7 +74,7 @@ function AnalysisCustomAction(props) {
 
 function Notifications(props) {
     const { t } = useTranslation("common");
-    const [currentNotification] = useNotifications();
+    const { currentNotification } = useNotifications();
     const theme = useTheme();
     const [unSeenCount, setUnSeenCount] = useState(0);
     const [notificationMssg, setNotificationMssg] = useState(null);

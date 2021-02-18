@@ -12,10 +12,17 @@ import ids from "../ids";
 import DEDialog from "../../utils/DEDialog";
 import { build } from "@cyverse-de/ui-lib";
 import { Button, TextField, Typography } from "@material-ui/core";
+import { useNotifications } from "contexts/pushNotifications";
 
 function JoinTeamDeniedDialog(props) {
     const { open, onClose, adminMessage, teamName } = props;
     const { t } = useTranslation(["notifications", "common"]);
+    const { setSelectedNotification } = useNotifications();
+
+    const handleClose = () => {
+        setSelectedNotification(null);
+        onClose();
+    };
 
     const baseId = ids.DENY_REQUEST_DLG;
 
@@ -23,14 +30,14 @@ function JoinTeamDeniedDialog(props) {
         <DEDialog
             baseId={ids.DENY_REQUEST_DLG}
             open={open}
-            onClose={onClose}
-            onConfirm={onClose}
+            onClose={handleClose}
+            onConfirm={handleClose}
             title={t("denyDetailsHeader")}
             actions={
                 <Button
                     color="primary"
                     id={build(baseId, ids.OK_BTN)}
-                    onClick={onClose}
+                    onClick={handleClose}
                 >
                     {t("common:ok")}
                 </Button>

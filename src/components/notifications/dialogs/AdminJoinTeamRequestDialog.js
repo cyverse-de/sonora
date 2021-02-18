@@ -53,13 +53,9 @@ const REQUEST_CHOICES = {
 // Selector for which privilege to give a user, `read` or `admin`, when
 // approving that user's request to join a team
 function ApproveAction(props) {
-    const { baseId, privilege, setPrivilege, loading } = props;
+    const { baseId, privilege, setPrivilege } = props;
     const { t } = useTranslation("notifications");
     const classes = useStyles();
-
-    if (loading) {
-        return <Skeleton variant="text" width={250} />;
-    }
 
     return (
         <FormControl className={classes.formControl}>
@@ -99,22 +95,12 @@ function ApproveAction(props) {
 // TextField to provide an optional message to send a user when denying their
 // request to join a team
 function DenyAction(props) {
-    const {
-        baseId,
-        denyMessage,
-        setDenyMessage,
-        userFullName,
-        loading,
-    } = props;
+    const { baseId, denyMessage, setDenyMessage, userFullName } = props;
     const { t } = useTranslation("notifications");
 
     const handleMsgChange = (event) => {
         setDenyMessage(event.target.value);
     };
-
-    if (loading) {
-        return <Skeleton variant="rect" height={100} />;
-    }
 
     return (
         <TextField
@@ -155,6 +141,7 @@ function DialogContent(props) {
         <>
             {mutationError && (
                 <ErrorTypographyWithDialog
+                    baseId={baseId}
                     errorMessage={mutationError?.message}
                     errorObject={mutationError?.object}
                 />
@@ -242,6 +229,7 @@ function DialogContent(props) {
 
             {mutationError && (
                 <ErrorTypographyWithDialog
+                    baseId={baseId}
                     errorMessage={mutationError?.message}
                     errorObject={mutationError?.object}
                 />
@@ -341,12 +329,12 @@ function AdminJoinTeamRequestDialog(props) {
             }
         >
             {loading && (
-                <>
+                <div id={build(baseId, ids.LOADING_SKELETON)}>
                     <Skeleton variant="text" height={40} />
                     <Skeleton variant="rect" height={100} />
                     <Skeleton variant="text" height={40} />
                     <Skeleton variant="rect" height={100} />
-                </>
+                </div>
             )}
             {!loading && (
                 <DialogContent

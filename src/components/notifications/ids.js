@@ -22,6 +22,7 @@ export default {
     FILTER: "categoryCbo",
     JOIN_REQUEST_DLG: "joinRequestDlg",
     JOIN_REQUEST_VIEW: "view",
+    LOADING_SKELETON: "loadingSkeleton",
     MARK_ALL_READ: "mark-all-read",
     MARK_ALL_SEEN_BTN: "markAllSeenBtn",
     MESSAGE: "messageColumn",

@@ -257,7 +257,7 @@ function AdminJoinTeamRequestDialog(props) {
 
     const [requestChoice, setRequestChoice] = useState(REQUEST_CHOICES.APPROVE);
     const [privilege, setPrivilege] = useState(Privilege.READ.value);
-    const [denyMessage, setDenyMessage] = useState(null);
+    const [denyMessage, setDenyMessage] = useState("");
     const [mutationError, setMutationError] = useState(null);
     const { setSelectedNotification } = useNotifications();
 

@@ -1,50 +1,54 @@
+export const JoinTeamDenialNotification = {
+    deleted: false,
+    email: true,
+    email_template: "team_join_denial",
+    message: {
+        id: "c2547d9a-6ca4-11eb-9f56-62d47aced14b",
+        text: "Team join request denied",
+        timestamp: "1613074045560",
+    },
+    payload: {
+        action: "team_join_denial",
+        admin_message: "Superheroes only!",
+        email_address: "ipcdev@cyverse.org",
+        team_name: "batman:heroes",
+    },
+    seen: true,
+    subject: "Team join request denied",
+    type: "team",
+    user: "ipcdev",
+};
+
+export const AdminTeamJoinRequestNotification = {
+    deleted: false,
+    email: true,
+    email_template: "team_join_request",
+    message: {
+        id: "def1d02c-6bed-11eb-8ef5-62d47aced14b",
+        text: 'batman has requested to join team "ipcdev:test_team"',
+        timestamp: "1612995495645",
+    },
+    payload: {
+        action: "team_join_request",
+        email_address: "batman@cyverse.org",
+        requester_email: "batman@cyverse.org",
+        requester_id: "batman",
+        requester_message: "Let me in!",
+        requester_name: "Bruce Wayne",
+        team_name: "ipcdev:test_team",
+    },
+    seen: true,
+    subject: 'batman has requested to join team "ipcdev:test_team"',
+    type: "team",
+    user: "ipcdev",
+};
+
 export const mockNotificationsListing = {
     total: "37",
     unseen_total: "5",
     messages: [
-        {
-            deleted: false,
-            email: true,
-            email_template: "team_join_denial",
-            message: {
-                id: "c2547d9a-6ca4-11eb-9f56-62d47aced14b",
-                text: "Team join request denied",
-                timestamp: "1613074045560",
-            },
-            payload: {
-                action: "team_join_denial",
-                admin_message: "Superheroes only!",
-                email_address: "ipcdev@cyverse.org",
-                team_name: "batman:heroes",
-            },
-            seen: true,
-            subject: "Team join request denied",
-            type: "team",
-            user: "ipcdev",
-        },
-        {
-            deleted: false,
-            email: true,
-            email_template: "team_join_request",
-            message: {
-                id: "def1d02c-6bed-11eb-8ef5-62d47aced14b",
-                text: 'batman has requested to join team "ipcdev:test_team"',
-                timestamp: "1612995495645",
-            },
-            payload: {
-                action: "team_join_request",
-                email_address: "batman@cyverse.org",
-                requester_email: "batman@cyverse.org",
-                requester_id: "batman",
-                requester_message: "Let me in!",
-                requester_name: "Bruce Wayne",
-                team_name: "ipcdev:test_team",
-            },
-            seen: true,
-            subject: 'batman has requested to join team "ipcdev:test_team"',
-            type: "team",
-            user: "ipcdev",
-        },
+        JoinTeamDenialNotification,
+        AdminTeamJoinRequestNotification,
         {
             deleted: false,
             email: false,

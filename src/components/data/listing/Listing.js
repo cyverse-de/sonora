@@ -35,7 +35,7 @@ import Sharing from "components/sharing";
 import { formatSharedData } from "components/sharing/util";
 import { getPageQueryParams } from "../utils";
 import { getHost } from "components/utils/getHost";
-
+import RenameDialog from "components/data/RenameDialog";
 import {
     useUploadTrackingState,
     useUploadTrackingDispatch,
@@ -119,7 +119,10 @@ function Listing(props) {
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
     const [publicLinksDlgOpen, setPublicLinksDlgOpen] = useState(false);
     const [download, setDownload] = useState(false);
+    const [renameDlgOpen, setRenameDlgOpen] = useState(false);
 
+    const onRenameClicked = () => setRenameDlgOpen(true);
+    const onRenameDlgClose = () => setRenameDlgOpen(false);
     const onCloseImportDialog = () => setImportDialogOpen(false);
 
     const uploadDispatch = useUploadTrackingDispatch();
@@ -565,6 +568,7 @@ function Listing(props) {
                         setConfirmDOIRequestDialogOpen(true)
                     }
                     onRefreshSelected={onRefreshSelected}
+                    onRenameSelected={onRenameClicked}
                 />
                 {!isGridView && (
                     <TableView
@@ -591,6 +595,7 @@ function Listing(props) {
                         }
                         rowDotMenuVisibility={rowDotMenuVisibility}
                         onDownloadSelected={() => setDownload(true)}
+                        onRenameSelected={onRenameClicked}
                     />
                 )}
                 {isGridView && <span>Coming Soon!</span>}
@@ -688,6 +693,12 @@ function Listing(props) {
                     }}
                 />
             </DEDialog>
+            <RenameDialog
+                path={getSelectedResources()[0]?.path}
+                open={renameDlgOpen}
+                onClose={onRenameDlgClose}
+                onRenamed={onRenameDlgClose}
+            />
         </>
     );
 }

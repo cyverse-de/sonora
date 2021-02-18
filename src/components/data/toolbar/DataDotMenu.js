@@ -21,6 +21,7 @@ import MetadataMenuItem from "../menuItems/MetadataMenuItem";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
 import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";
 import DownloadMenuItem from "../menuItems/DownloadMenuItem";
+import RenameMenuItem from "../menuItems/RenameMenuItem";
 import PathListAutomation from "../PathListAutomation";
 import DEDialog from "components/utils/DEDialog";
 import ResourceTypes from "components/models/ResourceTypes";
@@ -45,11 +46,9 @@ import {
     Queue as AddToBagIcon,
     Send as RequestIcon,
     Refresh,
-    Edit,
 } from "@material-ui/icons";
 import NavigationConstants from "common/NavigationConstants";
 import TrashMenuItems from "./TrashMenuItems";
-import RenameDialog from "../RenameDialog";
 
 function DataDotMenu(props) {
     const {
@@ -83,19 +82,18 @@ function DataDotMenu(props) {
         handleEmptyTrash,
         handleDelete,
         handleRestore,
+        onRenameSelected,
     } = props;
 
     const { t } = useTranslation("data");
 
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
     const [pathListDlgOpen, setPathListDlgOpen] = useState(false);
-    const [renameDlgOpen, setRenameDlgOpen] = useState(false);
+
     const [requestedInfoType, setRequestedInfoType] = useState();
 
     const onCreateFolderDlgClose = () => setCreateFolderDlgOpen(false);
     const onCreateFolderClicked = () => setCreateFolderDlgOpen(true);
-    const onRenameClicked = () => setRenameDlgOpen(true);
-    const onRenameDlgClose = () => setRenameDlgOpen(false);
 
     const isSelectionEmpty = selected?.length === 0;
     const selectedResources = getSelectedResources
@@ -163,19 +161,12 @@ function DataDotMenu(props) {
                                   </MenuItem>
                               ),
                               renameEnabled && (
-                                  <MenuItem
+                                  <RenameMenuItem
                                       key={build(baseId, ids.RENAME_MI)}
-                                      id={build(baseId, ids.RENAME_MI)}
-                                      onClick={() => {
-                                          onClose();
-                                          onRenameClicked();
-                                      }}
-                                  >
-                                      <ListItemIcon>
-                                          <Edit fontSize="small" />
-                                      </ListItemIcon>
-                                      <ListItemText primary={t("rename")} />
-                                  </MenuItem>
+                                      onRenameSelected={onRenameSelected}
+                                      baseId={baseId}
+                                      onClose={onClose}
+                                  />
                               ),
                               detailsEnabled && (
                                   <DetailsMenuItem
@@ -349,19 +340,12 @@ function DataDotMenu(props) {
                         </MenuItem>,
                     ],
                     renameEnabled && (
-                        <MenuItem
+                        <RenameMenuItem
                             key={build(baseId, ids.RENAME_MI)}
-                            id={build(baseId, ids.RENAME_MI)}
-                            onClick={() => {
-                                onClose();
-                                onRenameClicked();
-                            }}
-                        >
-                            <ListItemIcon>
-                                <Edit fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText primary={t("rename")} />
-                        </MenuItem>
+                            onRenameSelected={onRenameSelected}
+                            baseId={baseId}
+                            onClose={onClose}
+                        />
                     ),
                     linkSharingEnabled && (
                         <PublicLinksMenuItem
@@ -409,14 +393,6 @@ function DataDotMenu(props) {
                 }}
             />
 
-            {selectedResources && (
-                <RenameDialog
-                    path={selectedResources[0]?.path}
-                    open={renameDlgOpen}
-                    onClose={onRenameDlgClose}
-                    onRenamed={onRenameDlgClose}
-                />
-            )}
             <DEDialog
                 baseId={build(baseId, ids.PATH_LIST_AUTO_DIALOG)}
                 open={pathListDlgOpen}

@@ -20,6 +20,8 @@ import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
 import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 import { DERow } from "components/utils/DERow";
 import DETableHead from "components/utils/DETableHead";
+import { isPathInTrash } from "../utils";
+import { useConfig } from "contexts/config";
 
 import { build, DECheckbox, EmptyTable, formatDate } from "@cyverse-de/ui-lib";
 
@@ -136,11 +138,14 @@ function TableView(props) {
         onPublicLinksSelected,
         rowDotMenuVisibility,
         onDownloadSelected,
+        onRenameSelected,
     } = props;
     const invalidRowClass = invalidRowStyles();
     const { t } = useTranslation("data");
     const dataRecordFields = dataFields(t);
     const tableId = build(baseId, ids.LISTING_TABLE);
+    const [config] = useConfig();
+
     const [displayColumns, setDisplayColumns] = useState(
         getLocalStorageCols(rowDotMenuVisibility, dataRecordFields) ||
             getDefaultCols(rowDotMenuVisibility, dataRecordFields)
@@ -150,6 +155,8 @@ function TableView(props) {
         setLocalStorageCols(columns);
         setDisplayColumns(columns);
     };
+
+    const inTrash = isPathInTrash(path, config?.irods?.trash_path);
 
     const optionalColumns = () => {
         return [
@@ -409,6 +416,10 @@ function TableView(props) {
                                                     }
                                                     onDownloadSelected={
                                                         onDownloadSelected
+                                                    }
+                                                    inTrash={inTrash}
+                                                    onRenameSelected={
+                                                        onRenameSelected
                                                     }
                                                 />
                                             </TableCell>

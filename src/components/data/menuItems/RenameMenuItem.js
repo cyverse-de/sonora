@@ -1,31 +1,30 @@
 import React from "react";
 
 import { build } from "@cyverse-de/ui-lib";
-import { Info } from "@material-ui/icons";
+import { Edit } from "@material-ui/icons";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 import { useTranslation } from "i18n";
 
 import ids from "../ids";
 
-function DetailsMenuItem(props) {
-    const { baseId, onDetailsSelected, onClose } = props;
+function RenameMenuItem(props) {
+    const { baseId, onRenameSelected, onClose } = props;
     const { t } = useTranslation("data");
 
     return (
         <MenuItem
-            key={build(baseId, ids.DETAILS_MENU_ITEM)}
-            id={build(baseId, ids.DETAILS_MENU_ITEM)}
+            id={build(baseId, ids.RENAME_MI)}
             onClick={() => {
                 onClose();
-                onDetailsSelected();
+                onRenameSelected();
             }}
         >
             <ListItemIcon>
-                <Info fontSize="small" />
+                <Edit fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary={t("details")} />
+            <ListItemText primary={t("rename")} />
         </MenuItem>
     );
 }
 
-export default DetailsMenuItem;
+export default RenameMenuItem;

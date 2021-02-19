@@ -19,6 +19,8 @@ import { useBootstrapInfo } from "contexts/bootstrap";
 import { submitAnalysis } from "serviceFacades/analyses";
 import { addQuickLaunch } from "serviceFacades/quickLaunches";
 
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
+
 import AppLaunchWizard from "./AppLaunchWizard";
 import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 
@@ -36,6 +38,7 @@ const Launch = ({ app, launchError, loading }) => {
             onSuccess: (resp, { onSuccess }) => {
                 router.push(`/${NavigationConstants.ANALYSES}`);
                 onSuccess(resp);
+                trackIntercomEvent(IntercomEvents.LAUNCHED_JOB, resp);
             },
             onError: (error, { onError }) => {
                 onError(error);

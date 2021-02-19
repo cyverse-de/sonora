@@ -5,7 +5,7 @@
  */
 import React from "react";
 
-import { Field, FieldArray } from "formik";
+import { FastField, Field, FieldArray } from "formik";
 import sanitizeHtml from "sanitize-html";
 
 import { useTranslation } from "i18n";
@@ -46,7 +46,7 @@ const useStyles = makeStyles(styles);
 function ParamCardForm(props) {
     const {
         baseId,
-        fieldName,
+        field: { name: fieldName },
         param,
         onEdit,
         onDelete,
@@ -216,10 +216,11 @@ function Parameters(props) {
                         {parameters?.map((param, index) => {
                             const fieldName = `${parametersFieldName}.${index}`;
                             return (
-                                <ParamCardForm
+                                <FastField
                                     key={index}
+                                    name={fieldName}
+                                    component={ParamCardForm}
                                     baseId={baseId}
-                                    fieldName={fieldName}
                                     param={param}
                                     onEdit={() =>
                                         setEditingParamMap({

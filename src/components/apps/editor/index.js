@@ -15,7 +15,7 @@ import styles from "./styles";
 import ParamGroups from "./ParamGroups";
 import ParamPropertyForm from "./ParamPropertyForm";
 
-import constants from "components/apps/launch/constants";
+import AppParamTypes from "components/models/AppParamTypes";
 import ApplyButton from "components/utils/ApplyButton";
 import DEDialog from "components/utils/DEDialog";
 
@@ -56,8 +56,8 @@ const initValues = (appDescription) => {
             const { defaultValue, type: paramType } = param;
 
             if (
-                paramType === constants.PARAM_TYPE.TEXT ||
-                paramType === constants.PARAM_TYPE.MULTILINE_TEXT
+                paramType === AppParamTypes.TEXT ||
+                paramType === AppParamTypes.MULTILINE_TEXT
             ) {
                 return {
                     ...param,
@@ -90,8 +90,8 @@ const formatSubmission = (appDescription) => {
             const { defaultValue, type: paramType } = param;
 
             if (
-                paramType === constants.PARAM_TYPE.TEXT ||
-                paramType === constants.PARAM_TYPE.MULTILINE_TEXT
+                paramType === AppParamTypes.TEXT ||
+                paramType === AppParamTypes.MULTILINE_TEXT
             ) {
                 return {
                     ...param,

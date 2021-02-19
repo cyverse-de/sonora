@@ -15,8 +15,7 @@ import styles from "./styles";
 
 import ParamSelectionPalette from "./ParamSelectionPalette";
 
-import constants from "components/apps/launch/constants";
-
+import AppParamTypes, { ValidatorTypes } from "components/models/AppParamTypes";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
 import {
@@ -72,7 +71,7 @@ function ParamCardForm(props) {
     };
 
     switch (param.type) {
-        case constants.PARAM_TYPE.INFO:
+        case AppParamTypes.INFO:
             fieldProps = {
                 id: fieldProps.id,
                 name: fieldProps.name,
@@ -86,14 +85,13 @@ function ParamCardForm(props) {
 
             break;
 
-        case constants.PARAM_TYPE.TEXT:
+        case AppParamTypes.TEXT:
             fieldProps.component = FormTextField;
             fieldProps.size = "small";
             if (param.validators?.length > 0) {
                 const charLimitValidator = param.validators.find(
                     (validator) =>
-                        validator.type ===
-                        constants.VALIDATOR_TYPE.CHARACTER_LIMIT
+                        validator.type === ValidatorTypes.CHARACTER_LIMIT
                 );
                 if (charLimitValidator) {
                     fieldProps.inputProps = {
@@ -103,7 +101,7 @@ function ParamCardForm(props) {
             }
             break;
 
-        case constants.PARAM_TYPE.MULTILINE_TEXT:
+        case AppParamTypes.MULTILINE_TEXT:
             fieldProps.component = FormMultilineTextField;
             fieldProps.size = "small";
             break;

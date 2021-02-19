@@ -6,17 +6,16 @@
  */
 import React from "react";
 
-import constants from "./constants";
-
 import AppInfo from "./AppInfo";
 import AppLaunchForm from "./AppLaunchForm";
 import AppLaunchFormSkeleton from "./AppLaunchFormSkeleton";
 
-import useComponentHeight from "../../utils/useComponentHeight";
+import { DeprecatedParamTypes } from "components/models/AppParamTypes";
+import useComponentHeight from "components/utils/useComponentHeight";
 
 import { Divider, Paper } from "@material-ui/core";
 
-const deprecatedParamTypes = Object.values(constants.DEPRECATED_PARAM_TYPE);
+const deprecatedParamTypes = Object.values(DeprecatedParamTypes);
 
 function AppLaunchWizard(props) {
     const { baseId, app, appError, loading } = props;

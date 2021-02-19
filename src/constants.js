@@ -85,4 +85,5 @@ export default {
         "https://cyverse.org/policies/data-commons-user-agreement",
     CYVERSE_GLOSSARY:
         "https://learning.cyverse.org/projects/glossary/en/latest/",
+    XSEDE_ALLOC_LINK: "https://portal.xsede.org/allocation-request-steps",
 };

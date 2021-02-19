@@ -9,8 +9,7 @@ import { Trans } from "react-i18next";
 
 import { useTranslation } from "i18n";
 
-import constants from "components/apps/launch/constants";
-
+import AppParamTypes from "components/models/AppParamTypes";
 import DEDialog from "components/utils/DEDialog";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
@@ -76,9 +75,9 @@ function ParamSelectionPalette(props) {
                     baseId={baseId}
                     handleAddParam={handleAddParam}
                     paramTypes={[
-                        constants.PARAM_TYPE.MULTIFILE_SELECTOR,
-                        constants.PARAM_TYPE.FILE_INPUT,
-                        constants.PARAM_TYPE.FOLDER_INPUT,
+                        AppParamTypes.MULTIFILE_SELECTOR,
+                        AppParamTypes.FILE_INPUT,
+                        AppParamTypes.FOLDER_INPUT,
                     ]}
                 />
 
@@ -89,14 +88,14 @@ function ParamSelectionPalette(props) {
                     baseId={baseId}
                     handleAddParam={handleAddParam}
                     paramTypes={[
-                        constants.PARAM_TYPE.INFO,
-                        constants.PARAM_TYPE.TEXT,
-                        constants.PARAM_TYPE.MULTILINE_TEXT,
-                        constants.PARAM_TYPE.FLAG,
-                        constants.PARAM_TYPE.INTEGER,
-                        constants.PARAM_TYPE.DOUBLE,
-                        constants.PARAM_TYPE.TEXT_SELECTION,
-                        constants.PARAM_TYPE.ENV_VAR,
+                        AppParamTypes.INFO,
+                        AppParamTypes.TEXT,
+                        AppParamTypes.MULTILINE_TEXT,
+                        AppParamTypes.FLAG,
+                        AppParamTypes.INTEGER,
+                        AppParamTypes.DOUBLE,
+                        AppParamTypes.TEXT_SELECTION,
+                        AppParamTypes.ENV_VAR,
                     ]}
                 />
 
@@ -107,9 +106,9 @@ function ParamSelectionPalette(props) {
                     baseId={baseId}
                     handleAddParam={handleAddParam}
                     paramTypes={[
-                        constants.PARAM_TYPE.FILE_OUTPUT,
-                        constants.PARAM_TYPE.FOLDER_OUTPUT,
-                        constants.PARAM_TYPE.MULTIFILE_OUTPUT,
+                        AppParamTypes.FILE_OUTPUT,
+                        AppParamTypes.FOLDER_OUTPUT,
+                        AppParamTypes.MULTIFILE_OUTPUT,
                     ]}
                 />
 
@@ -120,9 +119,9 @@ function ParamSelectionPalette(props) {
                     baseId={baseId}
                     handleAddParam={handleAddParam}
                     paramTypes={[
-                        constants.PARAM_TYPE.REFERENCE_GENOME,
-                        constants.PARAM_TYPE.REFERENCE_SEQUENCE,
-                        constants.PARAM_TYPE.REFERENCE_ANNOTATION,
+                        AppParamTypes.REFERENCE_GENOME,
+                        AppParamTypes.REFERENCE_SEQUENCE,
+                        AppParamTypes.REFERENCE_ANNOTATION,
                     ]}
                 />
             </List>

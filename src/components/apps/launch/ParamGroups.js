@@ -12,10 +12,10 @@ import { FastField, Field, getIn } from "formik";
 import GlobalConstants from "../../../constants";
 import { intercomShow } from "common/intercom";
 
+import AppParamTypes, { ValidatorTypes } from "components/models/AppParamTypes";
 import ResourceTypes from "components/models/ResourceTypes";
 import ExternalLink from "components/utils/ExternalLink";
 
-import constants from "./constants";
 import ids from "./ids";
 import styles from "./styles";
 
@@ -72,48 +72,48 @@ const buildParamId = (baseId, paramIndex, type) => {
     const baseParamId = buildDebugId(baseId, paramIndex);
 
     switch (type) {
-        case constants.PARAM_TYPE.DOUBLE:
+        case AppParamTypes.DOUBLE:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_DOUBLE_SPINNER);
-        case constants.PARAM_TYPE.DOUBLE_SELECTION:
+        case AppParamTypes.DOUBLE_SELECTION:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_DOUBLE_SELECTION);
-        case constants.PARAM_TYPE.ENV_VAR:
+        case AppParamTypes.ENV_VAR:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_ENV_VAR);
-        case constants.PARAM_TYPE.FILE_INPUT:
+        case AppParamTypes.FILE_INPUT:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_FILE_SELECTOR);
-        case constants.PARAM_TYPE.FILE_OUTPUT:
+        case AppParamTypes.FILE_OUTPUT:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_OUTPUT_FILE);
-        case constants.PARAM_TYPE.FILE_FOLDER_INPUT:
+        case AppParamTypes.FILE_FOLDER_INPUT:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_FILE_FOLDER_INPUT);
-        case constants.PARAM_TYPE.FLAG:
+        case AppParamTypes.FLAG:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_FLAG);
-        case constants.PARAM_TYPE.FOLDER_INPUT:
+        case AppParamTypes.FOLDER_INPUT:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_INPUT_FOLDER);
-        case constants.PARAM_TYPE.FOLDER_OUTPUT:
+        case AppParamTypes.FOLDER_OUTPUT:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_OUTPUT_FOLDER);
-        case constants.PARAM_TYPE.INFO:
+        case AppParamTypes.INFO:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_INFO_LABEL);
-        case constants.PARAM_TYPE.INTEGER:
+        case AppParamTypes.INTEGER:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_INTEGER_SPINNER);
-        case constants.PARAM_TYPE.INTEGER_SELECTION:
+        case AppParamTypes.INTEGER_SELECTION:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_INTEGER_SELECTION);
-        case constants.PARAM_TYPE.MULTIFILE_OUTPUT:
+        case AppParamTypes.MULTIFILE_OUTPUT:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_MULTI_FILE_OUTPUT);
-        case constants.PARAM_TYPE.MULTIFILE_SELECTOR:
+        case AppParamTypes.MULTIFILE_SELECTOR:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_MULTI_FILE_INPUT);
-        case constants.PARAM_TYPE.MULTILINE_TEXT:
+        case AppParamTypes.MULTILINE_TEXT:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_MULTI_LINE_TEXT);
-        case constants.PARAM_TYPE.REFERENCE_ANNOTATION:
+        case AppParamTypes.REFERENCE_ANNOTATION:
             return buildDebugId(
                 baseParamId,
                 ids.APP_LAUNCH_REFERENCE_ANNOTATION
             );
-        case constants.PARAM_TYPE.REFERENCE_GENOME:
+        case AppParamTypes.REFERENCE_GENOME:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_REFERENCE_GENOME);
-        case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
+        case AppParamTypes.REFERENCE_SEQUENCE:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_REFERENCE_SEQUENCE);
-        case constants.PARAM_TYPE.TEXT:
+        case AppParamTypes.TEXT:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_TEXT_INPUT);
-        case constants.PARAM_TYPE.TEXT_SELECTION:
+        case AppParamTypes.TEXT_SELECTION:
             return buildDebugId(baseParamId, ids.APP_LAUNCH_TEXT_SELECTION);
         default:
             return baseParamId;
@@ -179,7 +179,7 @@ function ParamGroupForm(props) {
                     };
 
                     switch (param.type) {
-                        case constants.PARAM_TYPE.INFO:
+                        case AppParamTypes.INFO:
                             fieldProps = {
                                 id: paramFormId,
                                 name,
@@ -193,14 +193,14 @@ function ParamGroupForm(props) {
 
                             break;
 
-                        case constants.PARAM_TYPE.TEXT:
+                        case AppParamTypes.TEXT:
                             fieldProps.component = FormTextField;
                             fieldProps.size = "small";
                             if (param.validators?.length > 0) {
                                 const charLimitValidator = param.validators.find(
                                     (validator) =>
                                         validator.type ===
-                                        constants.VALIDATOR_TYPE.CHARACTER_LIMIT
+                                        ValidatorTypes.CHARACTER_LIMIT
                                 );
                                 if (charLimitValidator) {
                                     fieldProps.inputProps = {
@@ -210,28 +210,28 @@ function ParamGroupForm(props) {
                             }
                             break;
 
-                        case constants.PARAM_TYPE.INTEGER:
+                        case AppParamTypes.INTEGER:
                             fieldProps.component = FormIntegerField;
                             fieldProps.size = "small";
                             break;
 
-                        case constants.PARAM_TYPE.DOUBLE:
+                        case AppParamTypes.DOUBLE:
                             fieldProps.component = FormNumberField;
                             fieldProps.size = "small";
                             break;
 
-                        case constants.PARAM_TYPE.MULTILINE_TEXT:
+                        case AppParamTypes.MULTILINE_TEXT:
                             fieldProps.component = FormMultilineTextField;
                             fieldProps.size = "small";
                             break;
 
-                        case constants.PARAM_TYPE.FLAG:
+                        case AppParamTypes.FLAG:
                             fieldProps.component = FormCheckbox;
                             break;
 
-                        case constants.PARAM_TYPE.TEXT_SELECTION:
-                        case constants.PARAM_TYPE.INTEGER_SELECTION:
-                        case constants.PARAM_TYPE.DOUBLE_SELECTION:
+                        case AppParamTypes.TEXT_SELECTION:
+                        case AppParamTypes.INTEGER_SELECTION:
+                        case AppParamTypes.DOUBLE_SELECTION:
                             fieldProps.component = FormTextField;
                             fieldProps.select = true;
                             fieldProps.variant = "outlined";
@@ -245,29 +245,29 @@ function ParamGroupForm(props) {
                             );
                             break;
 
-                        case constants.PARAM_TYPE.FILE_INPUT:
+                        case AppParamTypes.FILE_INPUT:
                             fieldProps.component = InputSelector;
                             fieldProps.acceptedType = ResourceTypes.FILE;
                             break;
 
-                        case constants.PARAM_TYPE.FOLDER_INPUT:
+                        case AppParamTypes.FOLDER_INPUT:
                             fieldProps.component = InputSelector;
                             fieldProps.acceptedType = ResourceTypes.FOLDER;
                             break;
 
-                        case constants.PARAM_TYPE.FILE_FOLDER_INPUT:
+                        case AppParamTypes.FILE_FOLDER_INPUT:
                             fieldProps.component = InputSelector;
                             fieldProps.acceptedType = ResourceTypes.ANY;
                             break;
 
-                        case constants.PARAM_TYPE.MULTIFILE_SELECTOR:
+                        case AppParamTypes.MULTIFILE_SELECTOR:
                             fieldProps.component = MultiInputSelector;
                             fieldProps.acceptedType = ResourceTypes.FILE;
                             break;
 
-                        case constants.PARAM_TYPE.REFERENCE_GENOME:
-                        case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
-                        case constants.PARAM_TYPE.REFERENCE_ANNOTATION:
+                        case AppParamTypes.REFERENCE_GENOME:
+                        case AppParamTypes.REFERENCE_SEQUENCE:
+                        case AppParamTypes.REFERENCE_ANNOTATION:
                             fieldProps.component = ReferenceGenomeSelect;
 
                             // Can't be a FastField since it renders with custom props.
@@ -310,15 +310,15 @@ const ParamsReviewValue = ({ param }) => {
     const { value, type } = param;
     const classes = useStyles();
     switch (type) {
-        case constants.PARAM_TYPE.FLAG:
+        case AppParamTypes.FLAG:
             return (
                 <Typography className={classes.paramsReview}>
                     {value ? "✔︎" : ""}
                 </Typography>
             );
 
-        case constants.PARAM_TYPE.MULTILINE_TEXT:
-        case constants.PARAM_TYPE.MULTIFILE_SELECTOR:
+        case AppParamTypes.MULTILINE_TEXT:
+        case AppParamTypes.MULTIFILE_SELECTOR:
             return (
                 <TextField
                     className={classes.paramsReview}
@@ -334,9 +334,9 @@ const ParamsReviewValue = ({ param }) => {
                 />
             );
 
-        case constants.PARAM_TYPE.TEXT_SELECTION:
-        case constants.PARAM_TYPE.INTEGER_SELECTION:
-        case constants.PARAM_TYPE.DOUBLE_SELECTION:
+        case AppParamTypes.TEXT_SELECTION:
+        case AppParamTypes.INTEGER_SELECTION:
+        case AppParamTypes.DOUBLE_SELECTION:
             if (value?.display) {
                 return (
                     <Typography className={classes.paramsReview}>
@@ -346,9 +346,9 @@ const ParamsReviewValue = ({ param }) => {
             }
             break;
 
-        case constants.PARAM_TYPE.REFERENCE_GENOME:
-        case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
-        case constants.PARAM_TYPE.REFERENCE_ANNOTATION:
+        case AppParamTypes.REFERENCE_GENOME:
+        case AppParamTypes.REFERENCE_SEQUENCE:
+        case AppParamTypes.REFERENCE_ANNOTATION:
             if (value?.name) {
                 return (
                     <Typography className={classes.paramsReview}>
@@ -393,7 +393,7 @@ const HPCWaitTimesMessage = ({ baseId }) => {
                 xsede: (
                     <ExternalLink
                         key="xsede"
-                        href={constants.XSEDE_ALLOC_LINK}
+                        href={GlobalConstants.XSEDE_ALLOC_LINK}
                     />
                 ),
             }}
@@ -465,7 +465,7 @@ const ParamsReview = ({
 
                                 return (
                                     param.isVisible &&
-                                    param.type !== constants.PARAM_TYPE.INFO &&
+                                    param.type !== AppParamTypes.INFO &&
                                     (showAll || paramError || hasValue) && (
                                         <TableRow key={param.id}>
                                             <TableCell>

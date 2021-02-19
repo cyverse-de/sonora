@@ -11,6 +11,7 @@ import { Formik, Form } from "formik";
 import { useTranslation } from "i18n";
 import { useQuery } from "react-query";
 
+import AppParamTypes from "components/models/AppParamTypes";
 import PageWrapper from "components/layout/PageWrapper";
 import useComponentHeight from "components/utils/useComponentHeight";
 
@@ -18,7 +19,6 @@ import GlobalConstants from "../../../constants";
 
 import CreateQuickLaunchDialog from "../quickLaunch/CreateQuickLaunchDialog";
 
-import constants from "./constants";
 import ids from "./ids";
 import styles from "./styles";
 import validate from "./validate";
@@ -80,9 +80,9 @@ const NAVIGATION_BAR_HEIGHT = 105;
 const MOBILE_NAVIGATION_BAR_HEIGHT = 155;
 
 const ReferenceGenomeParamTypes = [
-    constants.PARAM_TYPE.REFERENCE_GENOME,
-    constants.PARAM_TYPE.REFERENCE_SEQUENCE,
-    constants.PARAM_TYPE.REFERENCE_ANNOTATION,
+    AppParamTypes.REFERENCE_GENOME,
+    AppParamTypes.REFERENCE_SEQUENCE,
+    AppParamTypes.REFERENCE_ANNOTATION,
 ];
 
 const StepContent = ({ id, hidden, step, label, children, offsetHeight }) => {
@@ -359,18 +359,18 @@ const initValues = (
             let value = defaultValue || "";
 
             if (
-                paramType === constants.PARAM_TYPE.FILE_FOLDER_INPUT ||
-                paramType === constants.PARAM_TYPE.FILE_INPUT ||
-                paramType === constants.PARAM_TYPE.FOLDER_INPUT
+                paramType === AppParamTypes.FILE_FOLDER_INPUT ||
+                paramType === AppParamTypes.FILE_INPUT ||
+                paramType === AppParamTypes.FOLDER_INPUT
             ) {
                 value = defaultValue?.path || "";
             }
 
-            if (paramType === constants.PARAM_TYPE.MULTIFILE_SELECTOR) {
+            if (paramType === AppParamTypes.MULTIFILE_SELECTOR) {
                 value = defaultValue?.path || [];
             }
 
-            if (paramType === constants.PARAM_TYPE.FLAG) {
+            if (paramType === AppParamTypes.FLAG) {
                 value = defaultValue && defaultValue !== "false";
             }
 
@@ -474,27 +474,27 @@ const paramConfigsReducer = (configs, group) => {
     group.parameters.forEach((param) => {
         const { id, type } = param;
 
-        if (type !== constants.PARAM_TYPE.INFO) {
+        if (type !== AppParamTypes.INFO) {
             let { value } = param;
 
             switch (type) {
-                case constants.PARAM_TYPE.TEXT_SELECTION:
-                case constants.PARAM_TYPE.INTEGER_SELECTION:
-                case constants.PARAM_TYPE.DOUBLE_SELECTION:
-                case constants.PARAM_TYPE.FILE_INPUT:
-                case constants.PARAM_TYPE.FOLDER_INPUT:
-                case constants.PARAM_TYPE.FILE_FOLDER_INPUT:
-                case constants.PARAM_TYPE.REFERENCE_GENOME:
-                case constants.PARAM_TYPE.REFERENCE_SEQUENCE:
-                case constants.PARAM_TYPE.REFERENCE_ANNOTATION:
+                case AppParamTypes.TEXT_SELECTION:
+                case AppParamTypes.INTEGER_SELECTION:
+                case AppParamTypes.DOUBLE_SELECTION:
+                case AppParamTypes.FILE_INPUT:
+                case AppParamTypes.FOLDER_INPUT:
+                case AppParamTypes.FILE_FOLDER_INPUT:
+                case AppParamTypes.REFERENCE_GENOME:
+                case AppParamTypes.REFERENCE_SEQUENCE:
+                case AppParamTypes.REFERENCE_ANNOTATION:
                     if (!value) {
                         return;
                     }
                     break;
 
-                case constants.PARAM_TYPE.FILE_OUTPUT:
-                case constants.PARAM_TYPE.FOLDER_OUTPUT:
-                case constants.PARAM_TYPE.MULTIFILE_OUTPUT:
+                case AppParamTypes.FILE_OUTPUT:
+                case AppParamTypes.FOLDER_OUTPUT:
+                case AppParamTypes.MULTIFILE_OUTPUT:
                     if (value) {
                         value = value.trim();
                     }

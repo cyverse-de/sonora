@@ -11,7 +11,7 @@ import { useTranslation } from "i18n";
 
 import ids from "./ids";
 
-import constants from "components/apps/launch/constants";
+import AppParamTypes from "components/models/AppParamTypes";
 import DEDialog from "components/utils/DEDialog";
 
 import {
@@ -28,7 +28,7 @@ function PropertyFormFields(props) {
 
     const { t } = useTranslation(["app_editor", "app_editor_help"]);
 
-    const isInfoParam = param?.type === constants.PARAM_TYPE.INFO;
+    const isInfoParam = param?.type === AppParamTypes.INFO;
 
     let labelFormComponent = FormTextField;
     let defaultValueFormComponent = FormTextField;
@@ -37,7 +37,7 @@ function PropertyFormFields(props) {
         labelFormComponent = FormMultilineTextField;
     }
 
-    if (param?.type === constants.PARAM_TYPE.MULTILINE_TEXT) {
+    if (param?.type === AppParamTypes.MULTILINE_TEXT) {
         defaultValueFormComponent = FormMultilineTextField;
     }
 

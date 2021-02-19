@@ -40,6 +40,7 @@ import {
     useUploadTrackingState,
     useUploadTrackingDispatch,
 } from "contexts/uploadTracking";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import {
     deleteResources,
@@ -160,6 +161,9 @@ function Listing(props) {
         config: {
             enabled: !!path,
             onSuccess: (respData) => {
+                trackIntercomEvent(IntercomEvents.VIEWED_FOLDER, {
+                    path
+                });
                 setData({
                     total: respData?.total,
                     permission: respData?.permission,

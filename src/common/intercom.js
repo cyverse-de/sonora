@@ -36,7 +36,33 @@ function intercomShow() {
 }
 
 function trackIntercomEvent(event, metadata) {
-    console.log("track event");
+    console.log("track event: " + event + " " + JSON.stringify(metadata));
+    if (window.Intercom) {
+        if (metadata) {
+            window.Intercom("trackEvent", event, metadata);
+        } else {
+            window.Intercom("trackEvent", event);
+        }
+    }
 }
 
-export { intercomLogin, intercomLogout, intercomShow, trackIntercomEvent };
+const IntercomEvents = {
+    VIEWED_FOLDER: "viewed folder",
+    VIEWED_FILE: "viewed file",
+    VIEWED_APPS: "viewed apps",
+    VIEWED_ANALYSES: "viewed analyses",
+    VIEWED_TOOLS: "viewed tools",
+    VIEWED_NOTIFICATIONS: "viewed notifications",
+    LAUNCHED_JOB: "launched job",
+    VIEWED_HELP: "viewed help",
+    URL_IMPORT_SUBMITTED: "url import submitted",
+    FILE_UPLOADED: "file uploaded",
+};
+
+export {
+    intercomLogin,
+    intercomLogout,
+    intercomShow,
+    trackIntercomEvent,
+    IntercomEvents,
+};

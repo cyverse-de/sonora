@@ -19,8 +19,8 @@ const RESTRICTED_GROUP_NAME_CHARS = ":_";
 
 export const getTeamLinkRefs = (teamName) => {
     return [
-        `${NavigationConstants.TEAMS}/${teamName}`,
-        `${NavigationConstants.TEAMS}/${teamName}`,
+        `${NavigationConstants.TEAMS}/${encodeURIComponent(teamName)}`,
+        `${NavigationConstants.TEAMS}/${encodeURIComponent(teamName)}`,
     ];
 };
 

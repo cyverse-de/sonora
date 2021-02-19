@@ -273,7 +273,7 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
         pageProps: {
             ...pageProps,
             namespacesRequired: [
-                ...pageProps?.namespacesRequired,
+                ...(pageProps?.namespacesRequired ?? []),
                 "common",
                 "bags",
             ],

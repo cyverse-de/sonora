@@ -205,11 +205,13 @@ function TeamForm(props) {
 
     const handleSubmit = (values) => {
         const {
-            name,
+            name: untrimmedName,
             description,
             isPublicTeam,
             privileges: newPrivileges,
         } = values;
+
+        const name = untrimmedName.trim();
 
         setSaveError(null);
 

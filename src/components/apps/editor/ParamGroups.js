@@ -15,6 +15,8 @@ import styles from "./styles";
 
 import Parameters from "./Parameters";
 
+import ConfirmationDialog from "components/utils/ConfirmationDialog";
+
 import { build as buildID } from "@cyverse-de/ui-lib";
 
 import {
@@ -111,7 +113,6 @@ function ParamGroupForm(props) {
                         onFocus={(event) => event.stopPropagation()}
                         onClick={(event) => {
                             event.stopPropagation();
-                            // FIXME: add confirmation dialog
                             onDelete();
                         }}
                     >
@@ -133,6 +134,9 @@ function ParamGroupForm(props) {
 
 function ParamGroups(props) {
     const { baseId, groups, setEditingParamMap, setEditingGroupIndex } = props;
+
+    const [confirmDeleteIndex, setConfirmDeleteIndex] = React.useState(-1);
+    const onCloseDeleteConfirm = () => setConfirmDeleteIndex(-1);
 
     const { t } = useTranslation(["app_editor", "app_editor_help"]);
 
@@ -181,7 +185,7 @@ function ParamGroups(props) {
                             group={group}
                             setEditingParamMap={setEditingParamMap}
                             onEdit={() => setEditingGroupIndex(index)}
-                            onDelete={() => arrayHelpers.remove(index)}
+                            onDelete={() => setConfirmDeleteIndex(index)}
                             onMoveUp={() => {
                                 if (index > 0) {
                                     arrayHelpers.move(index, index - 1);
@@ -194,6 +198,18 @@ function ParamGroups(props) {
                             }}
                         />
                     ))}
+                    <ConfirmationDialog
+                        baseId={baseId}
+                        open={confirmDeleteIndex >= 0}
+                        onClose={onCloseDeleteConfirm}
+                        onConfirm={() => {
+                            arrayHelpers.remove(confirmDeleteIndex);
+                            onCloseDeleteConfirm();
+                        }}
+                        confirmButtonText={t("common:delete")}
+                        title={t("confirmDeleteGroupTitle")}
+                        contentText={t("confirmDeleteGroupText")}
+                    />
                 </>
             )}
         />

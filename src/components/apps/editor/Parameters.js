@@ -17,6 +17,8 @@ import ParamSelectionPalette from "./ParamSelectionPalette";
 
 import constants from "components/apps/launch/constants";
 
+import ConfirmationDialog from "components/utils/ConfirmationDialog";
+
 import {
     build as buildID,
     FormTextField,
@@ -166,7 +168,10 @@ function Parameters(props) {
     const [paramSelectOpen, setParamSelectOpen] = React.useState(false);
     const handleAddParamMenuClose = () => setParamSelectOpen(false);
 
-    const { t } = useTranslation("app_editor");
+    const [confirmDeleteIndex, setConfirmDeleteIndex] = React.useState(-1);
+    const onCloseDeleteConfirm = () => setConfirmDeleteIndex(-1);
+
+    const { t } = useTranslation(["app_editor", "common"]);
 
     const parametersFieldName = `${groupFieldName}.parameters`;
 
@@ -228,8 +233,9 @@ function Parameters(props) {
                                             fieldName,
                                         })
                                     }
-                                    // FIXME: add confirmation dialog
-                                    onDelete={() => arrayHelpers.remove(index)}
+                                    onDelete={() =>
+                                        setConfirmDeleteIndex(index)
+                                    }
                                     onMoveUp={() => {
                                         if (index > 0) {
                                             arrayHelpers.move(index, index - 1);
@@ -243,6 +249,18 @@ function Parameters(props) {
                                 />
                             );
                         })}
+                        <ConfirmationDialog
+                            baseId={baseId}
+                            open={confirmDeleteIndex >= 0}
+                            onClose={onCloseDeleteConfirm}
+                            onConfirm={() => {
+                                arrayHelpers.remove(confirmDeleteIndex);
+                                onCloseDeleteConfirm();
+                            }}
+                            confirmButtonText={t("common:delete")}
+                            title={t("confirmDeleteParamTitle")}
+                            contentText={t("confirmDeleteParamText")}
+                        />
                     </>
                 );
             }}

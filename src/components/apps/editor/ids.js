@@ -22,11 +22,16 @@ export default {
     },
 
     PARAM_FIELDS: {
-        LABEL: "label",
-        NAME: "name",
+        ARGUMENT_OPTION: "argumentOption",
+        CHECKED_OPTION: "checkedOption",
+        CHECKED_VALUE: "checkedValue",
         DEFAULT_VALUE: "defaultValue",
         DESCRIPTION: "description",
+        LABEL: "label",
+        OMIT_IF_BLANK: "omitIfBlank",
         REQUIRED: "required",
+        UNCHECKED_OPTION: "unCheckedOption",
+        UNCHECKED_VALUE: "unCheckedValue",
         VISIBLE: "isVisible",
     },
 };

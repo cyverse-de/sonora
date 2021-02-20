@@ -38,8 +38,9 @@ const useStyles = makeStyles(styles);
 /**
  * Initializes the form values from the given App Description.
  *
- * Removes the optional `name` field from groups and
- * initializes each text parameter's `defaultValue` to an empty string.
+ * Removes the optional `name` field from groups,
+ * initializes each text parameter's `defaultValue` to an empty string,
+ * and each flag's `name` field to a custom object for this form.
  *
  * @param {Object} appDescription
  * @param {Object[]} appDescription.groups
@@ -53,7 +54,7 @@ const initValues = (appDescription) => {
     const initializedGroups = groups?.map(({ name, ...group }) => ({
         ...group,
         parameters: group.parameters?.map((param) => {
-            const { defaultValue, type: paramType } = param;
+            const { name, defaultValue, type: paramType } = param;
 
             switch (paramType) {
                 case AppParamTypes.TEXT:
@@ -81,6 +82,13 @@ const initValues = (appDescription) => {
                                 : "",
                     };
 
+                case AppParamTypes.FLAG:
+                    return {
+                        ...param,
+                        name: initFlagName(name),
+                        defaultValue: defaultValue && defaultValue !== "false",
+                    };
+
                 default:
                     return param;
             }
@@ -88,6 +96,43 @@ const initValues = (appDescription) => {
     }));
 
     return { ...appDescription, groups: initializedGroups };
+};
+
+/**
+ * @typedef {object} FlagNameModelOptVal
+ * @property {string} option
+ * @property {string} value
+ */
+
+/**
+ * @typedef {object} FlagNameModel
+ * @property {FlagNameModelOptVal} checked
+ * @property {FlagNameModelOptVal} unchecked
+ */
+
+/**
+ * Parses `Flag` param `name` strings into a custom object for this form.
+ *
+ * @param {string} name
+ *
+ * @returns {FlagNameModel} An object for use in the flag property editor form.
+ */
+const initFlagName = (name) => {
+    const [checked, unchecked] = name?.split(", ") || [];
+
+    const [checkedOpt, ...checkedVal] = checked?.split(" ") || [];
+    const [uncheckedOpt, ...uncheckedVal] = unchecked?.split(" ") || [];
+
+    return {
+        checked: {
+            option: checkedOpt || "",
+            value: checkedVal.join(" "),
+        },
+        unchecked: {
+            option: uncheckedOpt || "",
+            value: uncheckedVal.join(" "),
+        },
+    };
 };
 
 /**
@@ -105,7 +150,7 @@ const formatSubmission = (appDescription) => {
     const formattedGroups = groups?.map((group) => ({
         ...group,
         parameters: group.parameters?.map((param) => {
-            const { defaultValue, type: paramType } = param;
+            const { name, defaultValue, type: paramType } = param;
 
             switch (paramType) {
                 case AppParamTypes.TEXT:
@@ -125,6 +170,13 @@ const formatSubmission = (appDescription) => {
                                 : null,
                     };
 
+                case AppParamTypes.FLAG:
+                    return {
+                        ...param,
+                        name: formatFlagName(name),
+                        defaultValue: defaultValue && defaultValue !== "false",
+                    };
+
                 default:
                     return param;
             }
@@ -132,6 +184,27 @@ const formatSubmission = (appDescription) => {
     }));
 
     return { ...appDescription, groups: formattedGroups };
+};
+
+/**
+ * Formats this form's custom `Flag` param `name` model
+ * into a string expected by the service.
+ *
+ * @param {FlagNameModel} name
+ *
+ * @returns A string in the form
+ *          "checked.option checked.value, unchecked.option unchecked.value"
+ */
+const formatFlagName = (name) => {
+    const {
+        checked: { option: checkedOpt, value: checkedVal },
+        unchecked: { option: uncheckedOpt, value: uncheckedVal },
+    } = name;
+
+    return [
+        [checkedOpt, checkedVal].join(" ").trim(),
+        [uncheckedOpt, uncheckedVal].join(" ").trim(),
+    ].join(", ");
 };
 
 const AppEditor = (props) => {

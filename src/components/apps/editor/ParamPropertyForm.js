@@ -23,17 +23,115 @@ import {
     FormTextField,
 } from "@cyverse-de/ui-lib";
 
-import { Button, Container } from "@material-ui/core";
+import { Button, Container, Grid } from "@material-ui/core";
+
+function CheckboxPropertyFormFields(props) {
+    const { baseId, fieldName } = props;
+
+    const { t } = useTranslation("app_editor");
+
+    return (
+        <Grid container>
+            <Grid item xs={12}>
+                <FastField
+                    id={buildID(baseId, ids.PARAM_FIELDS.LABEL)}
+                    name={`${fieldName}.label`}
+                    label={t("parameterLabel")}
+                    component={FormTextField}
+                />
+            </Grid>
+            <Grid
+                item
+                xs={12}
+                container
+                direction="row"
+                justify="flex-start"
+                alignItems="flex-start"
+            >
+                <Grid item xs={6}>
+                    <FastField
+                        id={buildID(baseId, ids.PARAM_FIELDS.CHECKED_OPTION)}
+                        name={`${fieldName}.name.checked.option`}
+                        label={t("checkboxArgOptionCheckedLabel")}
+                        margin="normal"
+                        required
+                        component={FormTextField}
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <FastField
+                        id={buildID(baseId, ids.PARAM_FIELDS.CHECKED_VALUE)}
+                        name={`${fieldName}.name.checked.value`}
+                        label={t("checkboxArgValueCheckedLabel")}
+                        margin="normal"
+                        component={FormTextField}
+                    />
+                </Grid>
+            </Grid>
+            <Grid
+                item
+                xs={12}
+                container
+                direction="row"
+                justify="flex-start"
+                alignItems="flex-start"
+            >
+                <Grid item xs={6}>
+                    <FastField
+                        id={buildID(baseId, ids.PARAM_FIELDS.UNCHECKED_OPTION)}
+                        name={`${fieldName}.name.unchecked.option`}
+                        label={t("checkboxArgOptionUncheckedLabel")}
+                        required
+                        margin="normal"
+                        component={FormTextField}
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <FastField
+                        id={buildID(baseId, ids.PARAM_FIELDS.UNCHECKED_VALUE)}
+                        name={`${fieldName}.name.unchecked.value`}
+                        label={t("checkboxArgValueUncheckedLabel")}
+                        margin="normal"
+                        component={FormTextField}
+                    />
+                </Grid>
+            </Grid>
+            <Grid item xs={12}>
+                <FastField
+                    id={buildID(baseId, ids.PARAM_FIELDS.DEFAULT_VALUE)}
+                    name={`${fieldName}.defaultValue`}
+                    label={t("checkboxDefaultLabel")}
+                    component={FormCheckbox}
+                />
+                <FastField
+                    id={buildID(baseId, ids.PARAM_FIELDS.DESCRIPTION)}
+                    name={`${fieldName}.description`}
+                    label={t("helpText")}
+                    helperText={t("app_editor_help:HelpText")}
+                    component={FormTextField}
+                />
+                <FastField
+                    id={buildID(baseId, ids.PARAM_FIELDS.VISIBLE)}
+                    name={`${fieldName}.isVisible`}
+                    label={t("isVisible")}
+                    component={FormCheckbox}
+                />
+            </Grid>
+        </Grid>
+    );
+}
 
 function PropertyFormFields(props) {
     const { baseId, fieldName, param } = props;
 
-    const { t } = useTranslation(["app_editor", "app_editor_help"]);
+    const { t } = useTranslation([
+        "app_editor",
+        "app_editor_help",
+        "app_param_types",
+    ]);
 
-    const isInfoParam = param?.type === AppParamTypes.INFO;
     let showOmitIfBlank = true;
 
-    let LabelFormComponent = FormTextField;
     let DefaultValueFormComponent = FormTextField;
 
     let nameLabelKey = "argumentOption";
@@ -42,8 +140,14 @@ function PropertyFormFields(props) {
 
     switch (param?.type) {
         case AppParamTypes.INFO:
-            LabelFormComponent = FormMultilineTextField;
-            break;
+            return (
+                <FastField
+                    id={buildID(baseId, ids.PARAM_FIELDS.LABEL)}
+                    name={`${fieldName}.label`}
+                    label={t(`app_param_types:${param.type}`)}
+                    component={FormMultilineTextField}
+                />
+            );
 
         case AppParamTypes.MULTILINE_TEXT:
             DefaultValueFormComponent = FormMultilineTextField;
@@ -56,6 +160,14 @@ function PropertyFormFields(props) {
         case AppParamTypes.DOUBLE:
             DefaultValueFormComponent = FormNumberField;
             break;
+
+        case AppParamTypes.FLAG:
+            return (
+                <CheckboxPropertyFormFields
+                    baseId={baseId}
+                    fieldName={fieldName}
+                />
+            );
 
         case AppParamTypes.ENV_VAR:
             showOmitIfBlank = false;
@@ -75,58 +187,50 @@ function PropertyFormFields(props) {
                 id={buildID(baseId, ids.PARAM_FIELDS.LABEL)}
                 name={`${fieldName}.label`}
                 label={t("parameterLabel")}
-                component={LabelFormComponent}
+                component={FormTextField}
             />
-            {!isInfoParam && [
+            <FastField
+                id={buildID(baseId, ids.PARAM_FIELDS.ARGUMENT_OPTION)}
+                name={`${fieldName}.name`}
+                label={t(nameLabelKey)}
+                helperText={t(nameHelpTextKey)}
+                component={FormTextField}
+            />
+            <FastField
+                id={buildID(baseId, ids.PARAM_FIELDS.DEFAULT_VALUE)}
+                name={`${fieldName}.defaultValue`}
+                label={t("defaultValue")}
+                helperText={t(defaultValueHelpTextKey)}
+                component={DefaultValueFormComponent}
+            />
+            <FastField
+                id={buildID(baseId, ids.PARAM_FIELDS.DESCRIPTION)}
+                name={`${fieldName}.description`}
+                label={t("helpText")}
+                helperText={t("app_editor_help:HelpText")}
+                component={FormTextField}
+            />
+            <FastField
+                id={buildID(baseId, ids.PARAM_FIELDS.REQUIRED)}
+                name={`${fieldName}.required`}
+                label={t("isRequired")}
+                component={FormCheckbox}
+            />
+            <FastField
+                id={buildID(baseId, ids.PARAM_FIELDS.VISIBLE)}
+                name={`${fieldName}.isVisible`}
+                label={t("isVisible")}
+                component={FormCheckbox}
+            />
+            {showOmitIfBlank && (
                 <FastField
-                    id={buildID(baseId, ids.PARAM_FIELDS.NAME)}
-                    key={`${fieldName}.name`}
-                    name={`${fieldName}.name`}
-                    label={t(nameLabelKey)}
-                    helperText={t(nameHelpTextKey)}
-                    component={FormTextField}
-                />,
-                <FastField
-                    id={buildID(baseId, ids.PARAM_FIELDS.DEFAULT_VALUE)}
-                    key={`${fieldName}.defaultValue`}
-                    name={`${fieldName}.defaultValue`}
-                    label={t("defaultValue")}
-                    helperText={t(defaultValueHelpTextKey)}
-                    component={DefaultValueFormComponent}
-                />,
-                <FastField
-                    id={buildID(baseId, ids.PARAM_FIELDS.DESCRIPTION)}
-                    key={`${fieldName}.description`}
-                    name={`${fieldName}.description`}
-                    label={t("helpText")}
-                    helperText={t("app_editor_help:HelpText")}
-                    component={FormTextField}
-                />,
-                <FastField
-                    id={buildID(baseId, ids.PARAM_FIELDS.REQUIRED)}
-                    key={`${fieldName}.required`}
-                    name={`${fieldName}.required`}
-                    label={t("isRequired")}
+                    id={buildID(baseId, ids.PARAM_FIELDS.OMIT_IF_BLANK)}
+                    name={`${fieldName}.omit_if_blank`}
+                    label={t("excludeWhenEmpty")}
+                    helperText={t("app_editor_help:ExcludeArgument")}
                     component={FormCheckbox}
-                />,
-                <FastField
-                    id={buildID(baseId, ids.PARAM_FIELDS.VISIBLE)}
-                    key={`${fieldName}.isVisible`}
-                    name={`${fieldName}.isVisible`}
-                    label={t("isVisible")}
-                    component={FormCheckbox}
-                />,
-                showOmitIfBlank && (
-                    <FastField
-                        id={buildID(baseId, ids.PARAM_FIELDS.VISIBLE)}
-                        key={`${fieldName}.omit_if_blank`}
-                        name={`${fieldName}.omit_if_blank`}
-                        label={t("excludeWhenEmpty")}
-                        helperText={t("app_editor_help:ExcludeArgument")}
-                        component={FormCheckbox}
-                    />
-                ),
-            ]}
+                />
+            )}
         </Container>
     );
 }

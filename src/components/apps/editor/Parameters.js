@@ -20,6 +20,7 @@ import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
 import {
     build as buildID,
+    FormCheckbox,
     FormIntegerField,
     FormMultilineTextField,
     FormNumberField,
@@ -118,6 +119,10 @@ function ParamCardForm(props) {
             fieldProps.size = "small";
             break;
 
+        case AppParamTypes.FLAG:
+            fieldProps.component = FormCheckbox;
+            break;
+
         default:
             fieldProps.component = FormTextField;
             break;
@@ -190,12 +195,29 @@ function Parameters(props) {
             name={parametersFieldName}
             render={(arrayHelpers) => {
                 const handleAddParam = (paramType) => {
+                    let name = "";
+                    let defaultValue = "";
+
+                    if (paramType === AppParamTypes.FLAG) {
+                        defaultValue = false;
+                        name = {
+                            checked: {
+                                option: "",
+                                value: "",
+                            },
+                            unchecked: {
+                                option: "",
+                                value: "",
+                            },
+                        };
+                    }
+
                     const param = {
                         type: paramType,
                         label: "",
-                        name: "",
+                        name,
                         description: "",
-                        defaultValue: "",
+                        defaultValue,
                         required: false,
                         isVisible: true,
                         omit_if_blank: false,

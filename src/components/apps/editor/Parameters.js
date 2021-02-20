@@ -20,8 +20,10 @@ import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
 import {
     build as buildID,
-    FormTextField,
+    FormIntegerField,
     FormMultilineTextField,
+    FormNumberField,
+    FormTextField,
 } from "@cyverse-de/ui-lib";
 
 import {
@@ -103,6 +105,16 @@ function ParamCardForm(props) {
 
         case AppParamTypes.MULTILINE_TEXT:
             fieldProps.component = FormMultilineTextField;
+            fieldProps.size = "small";
+            break;
+
+        case AppParamTypes.INTEGER:
+            fieldProps.component = FormIntegerField;
+            fieldProps.size = "small";
+            break;
+
+        case AppParamTypes.DOUBLE:
+            fieldProps.component = FormNumberField;
             fieldProps.size = "small";
             break;
 

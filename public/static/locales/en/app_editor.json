@@ -13,6 +13,7 @@
     "editParameter": "Edit Parameter",
     "editParameterProperties": "Edit Parameter Properties",
     "editSectionProperties": "Edit Section Properties",
+    "envVarNameLabel": "Environment Variable name",
     "excludeWhenEmpty": "Exclude this item if nothing is entered.",
     "fileFolderCategoryTitle": "Files/Folders",
     "helpText": "Help Text",

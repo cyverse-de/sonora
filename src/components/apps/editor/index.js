@@ -55,17 +55,35 @@ const initValues = (appDescription) => {
         parameters: group.parameters?.map((param) => {
             const { defaultValue, type: paramType } = param;
 
-            if (
-                paramType === AppParamTypes.TEXT ||
-                paramType === AppParamTypes.MULTILINE_TEXT
-            ) {
-                return {
-                    ...param,
-                    defaultValue: defaultValue || "",
-                };
-            }
+            switch (paramType) {
+                case AppParamTypes.TEXT:
+                case AppParamTypes.MULTILINE_TEXT:
+                    return {
+                        ...param,
+                        defaultValue: defaultValue || "",
+                    };
 
-            return param;
+                case AppParamTypes.INTEGER:
+                    return {
+                        ...param,
+                        defaultValue:
+                            defaultValue || defaultValue === 0
+                                ? Number.parseInt(defaultValue)
+                                : "",
+                    };
+
+                case AppParamTypes.DOUBLE:
+                    return {
+                        ...param,
+                        defaultValue:
+                            defaultValue || defaultValue === 0
+                                ? Number.parseFloat(defaultValue)
+                                : "",
+                    };
+
+                default:
+                    return param;
+            }
         }),
     }));
 
@@ -89,17 +107,27 @@ const formatSubmission = (appDescription) => {
         parameters: group.parameters?.map((param) => {
             const { defaultValue, type: paramType } = param;
 
-            if (
-                paramType === AppParamTypes.TEXT ||
-                paramType === AppParamTypes.MULTILINE_TEXT
-            ) {
-                return {
-                    ...param,
-                    defaultValue: defaultValue || null,
-                };
-            }
+            switch (paramType) {
+                case AppParamTypes.TEXT:
+                case AppParamTypes.MULTILINE_TEXT:
+                    return {
+                        ...param,
+                        defaultValue: defaultValue || null,
+                    };
 
-            return param;
+                case AppParamTypes.INTEGER:
+                case AppParamTypes.DOUBLE:
+                    return {
+                        ...param,
+                        defaultValue:
+                            defaultValue || defaultValue === 0
+                                ? defaultValue
+                                : null,
+                    };
+
+                default:
+                    return param;
+            }
         }),
     }));
 
@@ -121,7 +149,6 @@ const AppEditor = (props) => {
     const classes = useStyles();
 
     return (
-        // TODO refactor with formik v2 hooks?
         <Formik
             enableReinitialize
             initialValues={initValues({ ...appDescription })}

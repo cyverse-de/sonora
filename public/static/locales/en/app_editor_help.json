@@ -4,6 +4,8 @@
     "Double": "Adds a field where the user can enter a decimal or large integer where you can set upper and lower limits, or a range of values that the app will accept.",
     "DoubleSelection": "Inserts a list of decimals you define from which the user can select one item.",
     "EnvironmentVariable": "Allows you to set a dynamic named value that affect the execution environment of the app.",
+    "EnvironmentVariableDefaultName": "The name you enter here will be the name of the Environment Variable set by the app before the command line tool is run.",
+    "EnvironmentVariableDefaultValue": "The text you enter here will be what the user sees in this field when they first open the app; the \"default\" value for the environment variable name you have entered.",
     "ExcludeArgument": "Selecting this option will \"skip\" this app item when the app is used (the argument will not be passed to the command line).",
     "FileInput": "Adds an input file field that allows users to browse their data and select <i>one</i> input file.",
     "FileOutput": "Allow the user to name the file containing the results the app generates. You may also set a default output name.",

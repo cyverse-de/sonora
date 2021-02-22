@@ -53,6 +53,7 @@ import NotificationCategory from "components/models/NotificationCategory";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import { useNotifications } from "contexts/pushNotifications";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 /**
  * Filters
@@ -123,7 +124,13 @@ function Listing(props) {
         queryFn: getAnalyses,
         config: {
             enabled: analysesListingQueryEnabled,
-            onSuccess: setData,
+            onSuccess: (resp) => {
+                trackIntercomEvent(
+                    IntercomEvents.VIEWED_ANALYSES,
+                    analysesKey[1]
+                );
+                setData(resp);
+            },
         },
     });
 

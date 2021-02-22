@@ -7,6 +7,7 @@
  */
 
 import { checkForError } from "../../common/callApi";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import {
     errorAction,
@@ -71,7 +72,10 @@ export const startUpload = (
                     isUploading: false,
                 })
             );
-
+            trackIntercomEvent(IntercomEvents.FILE_UPLOADED, {
+                destinationPath,
+                filename: uploadFile?.name,
+            });
             completedCB(upload.id);
         })
         .catch((e) => {

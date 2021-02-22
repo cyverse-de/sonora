@@ -45,6 +45,7 @@ import AppDoc from "components/apps/details/AppDoc";
 import QuickLaunchDialog from "../quickLaunch/QuickLaunchDialog";
 import { useUserProfile } from "contexts/userProfile";
 import AdminAppDetailsDialog from "../admin/details/AdminAppDetails";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 function Listing({
     baseId,
@@ -120,7 +121,19 @@ function Listing({
                     ![constants.APPS_UNDER_DEV, constants.FAV_APPS].includes(
                         category?.id
                     )),
-            onSuccess: setData,
+            onSuccess: (resp) => {
+                trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
+                    systemId: category?.system_id,
+                    rowsPerPage,
+                    orderBy,
+                    order,
+                    appTypeFilter: filter?.value,
+                    page,
+                    categoryId: category?.id,
+                    userId: userProfile?.id,
+                });
+                setData(resp);
+            },
         },
     });
 
@@ -139,7 +152,16 @@ function Listing({
         config: {
             enabled:
                 category?.name === constants.BROWSE_ALL_APPS || isAdminView,
-            onSuccess: setData,
+            onSuccess: (resp) => {
+                trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
+                    rowsPerPage,
+                    orderBy,
+                    order,
+                    page,
+                    appTypeFilter: filter?.value,
+                });
+                setData(resp);
+            },
         },
     });
 
@@ -151,7 +173,13 @@ function Listing({
         queryFn: getAppById,
         config: {
             enabled: selectedSystemId && selectedAppId,
-            onSuccess: setData,
+            onSuccess: (resp) => {
+                trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
+                    systemId: selectedSystemId,
+                    appId: selectedAppId,
+                });
+                setData(resp);
+            },
         },
     });
 

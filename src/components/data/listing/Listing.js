@@ -162,7 +162,7 @@ function Listing(props) {
             enabled: !!path,
             onSuccess: (respData) => {
                 trackIntercomEvent(IntercomEvents.VIEWED_FOLDER, {
-                    path
+                    path,
                 });
                 setData({
                     total: respData?.total,

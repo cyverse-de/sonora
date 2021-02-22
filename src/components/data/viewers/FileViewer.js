@@ -85,7 +85,7 @@ export default function FileViewer(props) {
         manifestKey,
         path !== null && path !== undefined && !createFile,
         (resp) => {
-            trackIntercomEvent(IntercomEvents.VIEWED_FILE, {...resp, path});
+            trackIntercomEvent(IntercomEvents.VIEWED_FILE, { ...resp, path });
             setManifest(resp);
         }
     );

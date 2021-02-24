@@ -31,7 +31,6 @@ import {
     Button,
     ButtonGroup,
     Card,
-    CardContent,
     CardHeader,
     Typography,
     makeStyles,
@@ -58,7 +57,7 @@ function ParamCardForm(props) {
         onMoveDown,
     } = props;
 
-    const { t } = useTranslation(["app_param_types", "app_editor"]);
+    const { t } = useTranslation("app_editor");
     const classes = useStyles();
 
     const paramBaseId = buildID(baseId, fieldName);
@@ -128,40 +127,36 @@ function ParamCardForm(props) {
             break;
     }
 
-    const cardTitle = fieldProps.label
-        ? `${t(param.type)}: ${fieldProps.label}`
-        : t(param.type);
-
     return (
         <Card className={classes.paramCard}>
             <CardHeader
-                title={cardTitle}
+                title={<Field {...fieldProps} />}
                 action={
                     <ButtonGroup color="primary" variant="text">
                         <Button
                             id={buildID(paramBaseId, ids.BUTTONS.MOVE_UP_BTN)}
-                            aria-label={t("app_editor:moveParameterUp")}
+                            aria-label={t("moveParameterUp")}
                             onClick={onMoveUp}
                         >
                             <ArrowUpward />
                         </Button>
                         <Button
                             id={buildID(paramBaseId, ids.BUTTONS.MOVE_DOWN_BTN)}
-                            aria-label={t("app_editor:moveParameterDown")}
+                            aria-label={t("moveParameterDown")}
                             onClick={onMoveDown}
                         >
                             <ArrowDownward />
                         </Button>
                         <Button
                             id={buildID(paramBaseId, ids.BUTTONS.EDIT_BTN)}
-                            aria-label={t("app_editor:editParameterProperties")}
+                            aria-label={t("editParameterProperties")}
                             onClick={onEdit}
                         >
                             <Edit />
                         </Button>
                         <Button
                             id={buildID(paramBaseId, ids.BUTTONS.DELETE_BTN)}
-                            aria-label={t("app_editor:removeParameter")}
+                            aria-label={t("removeParameter")}
                             className={classes.deleteIcon}
                             onClick={onDelete}
                         >
@@ -170,9 +165,6 @@ function ParamCardForm(props) {
                     </ButtonGroup>
                 }
             />
-            <CardContent>
-                <Field {...fieldProps} />
-            </CardContent>
         </Card>
     );
 }

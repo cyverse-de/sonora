@@ -2,9 +2,26 @@ export const urlReadyMock = {
     ready: false,
 };
 
-export const statusMock = (uploadComplete, podsComplete) => {
+export const POD_STATUS = {
+    DONE: "done",
+    RUNNING: "running",
+    TERMINATED: "error",
+    WAITING_ERROR: "waitingError",
+    WAITING_INIT: "waitingInit",
+};
+
+export const statusMock = (
+    deploymentComplete,
+    serviceComplete,
+    ingressComplete,
+    configMapsComplete,
+    uploadStatus,
+    viceProxyPodComplete,
+    inputFilesPodComplete,
+    analysisPodStatus
+) => {
     return {
-        deployments: [
+        deployments: deploymentComplete && [
             {
                 name: "a37abcf1-2cc9-4004-a9c5-7179d5d3ee57",
                 namespace: "vice-apps",
@@ -33,21 +50,53 @@ export const statusMock = (uploadComplete, podsComplete) => {
                 userID: "b7e7005e-7118-11e5-81e7-93573555eb71",
                 username: "ipcdev",
                 creationTimestamp: "2021-02-22 09:40:02 -0700 MST",
-                phase: podsComplete ? "Running" : "Pending",
+                phase:
+                    viceProxyPodComplete &&
+                    inputFilesPodComplete &&
+                    (analysisPodStatus === POD_STATUS.RUNNING ||
+                        analysisPodStatus === POD_STATUS.DONE)
+                        ? "Running"
+                        : "Pending",
                 message: "",
                 reason: "",
                 containerStatuses: [
                     {
                         name: "analysis",
-                        state: podsComplete
-                            ? {
-                                  running: {
-                                      startedAt: "2021-02-23T00:07:34Z",
+                        state:
+                            analysisPodStatus === POD_STATUS.WAITING_INIT
+                                ? {
+                                      waiting: {
+                                          reason: "PodInitializing",
+                                      },
+                                  }
+                                : analysisPodStatus === POD_STATUS.WAITING_ERROR
+                                ? {
+                                      waiting: {
+                                          reason: "CrashLoopBackOff",
+                                          message:
+                                              "back-off 10s restarting failed container=analysis pod=815b346d-fb00-48bb-96a7-c6d78416c9bb-bcf955fdf-87lks_vice-apps(8f565efd-6b78-43b1-8705-9f53745f1bf0)",
+                                      },
+                                  }
+                                : analysisPodStatus === POD_STATUS.TERMINATED
+                                ? {
+                                      terminated: {
+                                          exitCode: 127,
+                                          reason: "Error",
+                                          startedAt: "2021-03-01T22:48:41Z",
+                                          finishedAt: "2021-03-01T22:48:41Z",
+                                          containerID:
+                                              "docker://b6b06372c472fba06ad593d2a90237b1a5ba33f5a434f0508a5468e249e24296",
+                                      },
+                                  }
+                                : {
+                                      running: {
+                                          startedAt: "2021-02-22T17:02:01Z",
+                                      },
                                   },
-                              }
-                            : { waiting: { reason: "PodInitializing" } },
                         lastState: {},
-                        ready: podsComplete, // it's possible for this to be false while running
+                        ready:
+                            analysisPodStatus === POD_STATUS.RUNNING ||
+                            analysisPodStatus === POD_STATUS.DONE, // it's possible for this to be false while running
                         restartCount: 0,
                         image: "gims.cyverse.org:5000/fastqe-cyverse-vice:1.0",
                         imageID: "",
@@ -55,7 +104,7 @@ export const statusMock = (uploadComplete, podsComplete) => {
                     },
                     {
                         name: "input-files",
-                        state: podsComplete
+                        state: inputFilesPodComplete
                             ? {
                                   running: {
                                       startedAt: "2021-02-23T00:07:34Z",
@@ -63,7 +112,7 @@ export const statusMock = (uploadComplete, podsComplete) => {
                               }
                             : { waiting: { reason: "PodInitializing" } },
                         lastState: {},
-                        ready: podsComplete,
+                        ready: inputFilesPodComplete,
                         restartCount: 0,
                         image: "discoenv/vice-file-transfers:qa",
                         imageID: "",
@@ -71,7 +120,7 @@ export const statusMock = (uploadComplete, podsComplete) => {
                     },
                     {
                         name: "vice-proxy",
-                        state: podsComplete
+                        state: viceProxyPodComplete
                             ? {
                                   running: {
                                       startedAt: "2021-02-23T00:07:34Z",
@@ -79,7 +128,7 @@ export const statusMock = (uploadComplete, podsComplete) => {
                               }
                             : { waiting: { reason: "PodInitializing" } },
                         lastState: {},
-                        ready: podsComplete,
+                        ready: viceProxyPodComplete,
                         restartCount: 0,
                         image: "discoenv/vice-proxy:qa",
                         imageID: "",
@@ -89,25 +138,51 @@ export const statusMock = (uploadComplete, podsComplete) => {
                 initContainerStatuses: [
                     {
                         name: "input-files-init",
-                        state: uploadComplete
-                            ? {
-                                  terminated: {
-                                      exitCode: 0,
-                                      reason: "Completed",
-                                      startedAt: "2021-02-22T16:40:08Z",
-                                      finishedAt: "2021-02-22T16:40:17Z",
-                                      containerID:
-                                          "docker://0e4894febe2a431036b8b220c1dfef80b46510eeb6596f121e6451b3c59abe29",
+                        state:
+                            uploadStatus === POD_STATUS.WAITING_INIT
+                                ? {
+                                      waiting: {
+                                          reason: "PodInitializing",
+                                      },
+                                  }
+                                : uploadStatus === POD_STATUS.WAITING_ERROR
+                                ? {
+                                      waiting: {
+                                          reason: "CrashLoopBackOff",
+                                          message:
+                                              "back-off 10s restarting failed container=analysis pod=815b346d-fb00-48bb-96a7-c6d78416c9bb-bcf955fdf-87lks_vice-apps(8f565efd-6b78-43b1-8705-9f53745f1bf0)",
+                                      },
+                                  }
+                                : uploadStatus === POD_STATUS.TERMINATED
+                                ? {
+                                      terminated: {
+                                          exitCode: 127,
+                                          reason: "Error",
+                                          startedAt: "2021-03-01T22:48:41Z",
+                                          finishedAt: "2021-03-01T22:48:41Z",
+                                          containerID:
+                                              "docker://b6b06372c472fba06ad593d2a90237b1a5ba33f5a434f0508a5468e249e24296",
+                                      },
+                                  }
+                                : uploadStatus === POD_STATUS.RUNNING
+                                ? {
+                                      running: {
+                                          startedAt: "2021-02-22T17:02:01Z",
+                                      },
+                                  }
+                                : {
+                                      terminated: {
+                                          exitCode: 0,
+                                          reason: "Completed",
+                                          startedAt: "2021-02-22T16:40:08Z",
+                                          finishedAt: "2021-02-22T16:40:17Z",
+                                          containerID:
+                                              "docker://0e4894febe2a431036b8b220c1dfef80b46510eeb6596f121e6451b3c59abe29",
+                                      },
                                   },
-                              }
-                            : {
-                                  running: {
-                                      startedAt: "2021-02-22T17:02:01Z",
-                                  },
-                              },
 
                         lastState: {},
-                        ready: !!uploadComplete,
+                        ready: uploadStatus === POD_STATUS.DONE,
                         restartCount: 0,
                         image: "discoenv/vice-file-transfers:qa",
                         imageID:
@@ -118,7 +193,7 @@ export const statusMock = (uploadComplete, podsComplete) => {
                 ],
             },
         ],
-        configMaps: [
+        configMaps: configMapsComplete && [
             {
                 name: "excludes-file-a37abcf1-2cc9-4004-a9c5-7179d5d3ee57",
                 namespace: "vice-apps",
@@ -147,7 +222,7 @@ export const statusMock = (uploadComplete, podsComplete) => {
                 },
             },
         ],
-        services: [
+        services: serviceComplete && [
             {
                 name: "vice-a37abcf1-2cc9-4004-a9c5-7179d5d3ee57",
                 namespace: "vice-apps",
@@ -178,7 +253,7 @@ export const statusMock = (uploadComplete, podsComplete) => {
                 ],
             },
         ],
-        ingresses: [
+        ingresses: ingressComplete && [
             {
                 name: "a37abcf1-2cc9-4004-a9c5-7179d5d3ee57",
                 namespace: "vice-apps",

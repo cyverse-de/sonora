@@ -15,7 +15,7 @@
     "confirmDeleteParamTitle": "Delete Parameter?",
     "confirmDeleteParamText": "This action cannot be undone.",
     "defaultValue": "Default value",
-    "editParameter": "Edit Parameter",
+    "editParameter": "Configure {{type}}",
     "editParameterProperties": "Edit Parameter Properties",
     "editSectionProperties": "Edit Section Properties",
     "envVarNameLabel": "Environment Variable name",

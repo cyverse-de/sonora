@@ -1,12 +1,23 @@
 export default (theme) => ({
+    card: {
+        marginTop: theme.spacing(2),
+    },
     divider: {
         flexGrow: 1,
     },
     filter: {
         width: 200,
     },
+    formControl: {
+        marginLeft: theme.spacing(1),
+    },
     header: {
         marginLeft: theme.spacing(1),
+    },
+    paper: {
+        padding: theme.spacing(1),
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
     },
     toolbarButton: {
         [theme.breakpoints.down("xs")]: {

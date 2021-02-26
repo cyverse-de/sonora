@@ -12,6 +12,8 @@ const errorResponse = {
 };
 
 export const Listing = () => {
+    const teamName = "ipcdev:test_team";
+
     mockAxios.onGet(/\/api\/notifications\/messages*/).reply((config) => {
         console.log("getNotifications", config.url, config.params);
 
@@ -31,6 +33,29 @@ export const Listing = () => {
 
         return [200, {}];
     });
+
+    mockAxios
+        .onPost(
+            `/api/teams/${encodeURIComponent(
+                teamName
+            )}/join-request/batman/deny`
+        )
+        .replyOnce(500, errorResponse)
+        .onPost(
+            `/api/teams/${encodeURIComponent(
+                teamName
+            )}/join-request/batman/deny`
+        )
+        .reply(200);
+
+    mockAxios
+        .onPost(`/api/teams/${encodeURIComponent(teamName)}/privileges`)
+        .reply(200);
+    mockAxios
+        .onPost(`/api/teams/${encodeURIComponent(teamName)}/members`)
+        .replyOnce(500, errorResponse)
+        .onPost(`/api/teams/${encodeURIComponent(teamName)}/members`)
+        .reply(200);
 
     return <NotificationsListing baseDebugId="notificationsListing" />;
 };

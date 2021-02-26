@@ -205,11 +205,13 @@ function TeamForm(props) {
 
     const handleSubmit = (values) => {
         const {
-            name,
+            name: untrimmedName,
             description,
             isPublicTeam,
             privileges: newPrivileges,
         } = values;
+
+        const name = untrimmedName.trim();
 
         setSaveError(null);
 
@@ -289,7 +291,7 @@ function TeamForm(props) {
                         parentId={parentId}
                         isAdmin={isAdmin}
                         isMember={isMember}
-                        teamName={groupShortName(team?.name)}
+                        teamName={team?.name}
                         handleSubmit={handleSubmit}
                         onLeaveTeamSelected={() =>
                             leaveTeamMutation({ name: team?.name })

@@ -10,12 +10,14 @@ import { useRouter } from "next/router";
 
 import NavigationConstants from "common/NavigationConstants";
 import TeamsView from "components/teams";
+import { getTeamLinkRefs } from "components/teams/util";
 
 export default function Teams() {
     const router = useRouter();
 
     const onTeamNameSelected = (teamName) => {
-        router.push(`/${NavigationConstants.TEAMS}/${teamName}`);
+        const [href] = getTeamLinkRefs(teamName);
+        router.push(href);
     };
 
     const onCreateTeamSelected = () => {

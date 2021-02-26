@@ -41,6 +41,7 @@ function DEDialog(props) {
     const dialogTitleId = build(baseId, ids.DIALOG.TITLE);
     return (
         <Dialog
+            id={baseId}
             open={open}
             onClose={onClose}
             maxWidth={maxWidth}

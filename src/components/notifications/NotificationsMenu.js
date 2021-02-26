@@ -12,11 +12,8 @@ import {
 import { useTranslation } from "../../i18n";
 import ids from "./ids";
 import NotificationStyles from "./styles";
-import { getDisplayMessage } from "./utils";
 
 import NavigationConstants from "common/NavigationConstants";
-
-import ExternalLink from "components/utils/ExternalLink";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 
@@ -30,12 +27,13 @@ import {
     makeStyles,
     Menu,
     Typography,
-    useTheme,
     useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
+import Message from "./Message";
 
 const useStyles = makeStyles(NotificationStyles);
 
@@ -103,18 +101,6 @@ function NotificationsListingLink(props) {
         <Link href={href} as={href} passHref>
             <NotificationsListingButton {...props} />
         </Link>
-    );
-}
-
-function InteractiveAnalysisUrl(props) {
-    const { t } = useTranslation(["common"]);
-    return (
-        <span>
-            {". "}
-            <ExternalLink href={props.notification.payload.access_url}>
-                {t("interactiveAnalysisUrl")}
-            </ExternalLink>
-        </span>
     );
 }
 
@@ -285,21 +271,14 @@ function NotificationsMenu(props) {
                     >
                         <ListItemText
                             primary={
-                                <Typography
-                                    id={build(
+                                <Message
+                                    baseId={build(
                                         ids.BASE_DEBUG_ID,
                                         ids.NOTIFICATIONS_MENU,
                                         n?.message.id
                                     )}
-                                    variant="subtitle2"
-                                >
-                                    {getDisplayMessage(n)}
-                                    {n.payload.access_url && (
-                                        <InteractiveAnalysisUrl
-                                            notification={n}
-                                        />
-                                    )}
-                                </Typography>
+                                    notification={n}
+                                />
                             }
                             secondary={
                                 <Typography

@@ -45,7 +45,13 @@ export const EditFormMember = () => {
 
     mockAxios
         .onGet(`/api/teams/${encodeURIComponent(teamName)}/privileges`)
-        .reply(200, privilegeList(false));
+        .reply(
+            200,
+            privilegeList({
+                isPublic: false,
+                selfPermissionValue: Privilege.READ.value,
+            })
+        );
     mockAxios
         .onGet(`/api/teams/${encodeURIComponent(teamName)}/members`)
         .reply(200, memberList);
@@ -67,8 +73,41 @@ export const EditFormMember = () => {
     );
 };
 
-export const EditFormAdmin = ({ newTeam }) => {
+export const EditFormNonMember = () => {
     const teamName = "ipcdev:team2";
+
+    mockAxios
+        .onGet(`/api/teams/${encodeURIComponent(teamName)}/privileges`)
+        .reply(
+            200,
+            privilegeList({
+                isPublic: false,
+                selfPermissionValue: null,
+            })
+        );
+    mockAxios
+        .onGet(`/api/teams/${encodeURIComponent(teamName)}/members`)
+        .reply(200, memberList);
+    mockAxios
+        .onPost(`/api/teams/${encodeURIComponent(teamName)}/join-request`)
+        .replyOnce(400, { error_code: "ERR_NO_GOOD", reason: "Never conform" })
+        .onPost(`/api/teams/${encodeURIComponent(teamName)}/join-request`)
+        .reply(200);
+    mockAxios
+        .onGet(`/api/teams/${encodeURIComponent(teamName)}`)
+        .reply(200, teamMock(teamName));
+
+    return (
+        <TeamForm
+            parentId="form"
+            teamName={teamName}
+            goBackToTeamView={() => console.log("Redirect back to /teams")}
+        />
+    );
+};
+
+export const EditFormAdmin = ({ newTeam }) => {
+    const teamName = "ipcdev:team3";
     const updatedTeamName = "ipcdev:UpdatedTeam";
 
     mockAxios.onGet(/\/api\/subjects.*/).reply(200, {
@@ -79,7 +118,13 @@ export const EditFormAdmin = ({ newTeam }) => {
     });
     mockAxios
         .onGet(`/api/teams/${encodeURIComponent(teamName)}/privileges`)
-        .reply(200, privilegeList(false, Privilege.ADMIN.value));
+        .reply(
+            200,
+            privilegeList({
+                isPublic: false,
+                selfPermissionValue: Privilege.ADMIN.value,
+            })
+        );
     mockAxios
         .onGet(`/api/teams/${encodeURIComponent(teamName)}/members`)
         .reply(200, memberList);

@@ -61,6 +61,7 @@ import {
 } from "@material-ui/icons";
 import { TeamIcon } from "../teams/Icons";
 import { useUserProfile } from "../../contexts/userProfile";
+import { getTeamLinkRefs } from "../teams/util";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -363,8 +364,7 @@ function TeamSearchOption(props) {
         );
     }
 
-    const href = `/${NavigationConstants.TEAMS}/${selectedOption.name}`;
-    const as = `/${NavigationConstants.TEAMS}/${selectedOption.name}`;
+    const [href, as] = getTeamLinkRefs(selectedOption.name);
     return (
         <Link href={href} as={as} passHref>
             <SearchOption

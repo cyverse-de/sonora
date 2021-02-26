@@ -29,6 +29,8 @@
     "moveSectionDown": "Move Section Down",
     "moveSectionUp": "Move Section Up",
     "newApp": "New App",
+    "newParamLabel": "New Parameter {{count}}",
+    "newSectionLabel": "New Section {{count}}",
     "outputCategoryTitle": "Output",
     "parameterLabel": "Parameter Label",
     "referenceGenomeCategoryTitle": "Reference Genome",

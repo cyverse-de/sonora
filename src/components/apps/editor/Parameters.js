@@ -13,6 +13,7 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 import styles from "./styles";
 
+import ParamPropertyForm from "./ParamPropertyForm";
 import ParamSelectionPalette from "./ParamSelectionPalette";
 
 import AppParamTypes, { ValidatorTypes } from "components/models/AppParamTypes";
@@ -51,11 +52,13 @@ function ParamCardForm(props) {
         baseId,
         field: { name: fieldName },
         param,
-        onEdit,
         onDelete,
         onMoveUp,
         onMoveDown,
     } = props;
+
+    const [propertyDialogOpen, setPropertyDialogOpen] = React.useState(false);
+    const onPropertyDialogClose = () => setPropertyDialogOpen(false);
 
     const { t } = useTranslation("app_editor");
     const classes = useStyles();
@@ -150,7 +153,7 @@ function ParamCardForm(props) {
                         <Button
                             id={buildID(paramBaseId, ids.BUTTONS.EDIT_BTN)}
                             aria-label={t("editParameterProperties")}
-                            onClick={onEdit}
+                            onClick={() => setPropertyDialogOpen(true)}
                         >
                             <Edit />
                         </Button>
@@ -165,12 +168,19 @@ function ParamCardForm(props) {
                     </ButtonGroup>
                 }
             />
+            <ParamPropertyForm
+                baseId={buildID(baseId, ids.PROPERTY_EDITOR)}
+                open={propertyDialogOpen}
+                onClose={onPropertyDialogClose}
+                fieldName={fieldName}
+                param={param}
+            />
         </Card>
     );
 }
 
 function Parameters(props) {
-    const { baseId, groupFieldName, parameters, setEditingParamMap } = props;
+    const { baseId, groupFieldName, parameters } = props;
 
     const [paramSelectOpen, setParamSelectOpen] = React.useState(false);
     const handleAddParamMenuClose = () => setParamSelectOpen(false);
@@ -204,23 +214,21 @@ function Parameters(props) {
                         };
                     }
 
-                    const param = {
+                    const newParamLabel = t("newParamLabel", {
+                        count: parameters.length + 1,
+                    });
+
+                    arrayHelpers.unshift({
                         type: paramType,
-                        label: "",
+                        label: newParamLabel,
                         name,
                         description: "",
                         defaultValue,
                         required: false,
                         isVisible: true,
                         omit_if_blank: false,
-                    };
-
-                    arrayHelpers.unshift(param);
-                    handleAddParamMenuClose();
-                    setEditingParamMap({
-                        param,
-                        fieldName: `${parametersFieldName}.0`,
                     });
+                    handleAddParamMenuClose();
                 };
 
                 return (
@@ -251,12 +259,6 @@ function Parameters(props) {
                                     component={ParamCardForm}
                                     baseId={baseId}
                                     param={param}
-                                    onEdit={() =>
-                                        setEditingParamMap({
-                                            param,
-                                            fieldName,
-                                        })
-                                    }
                                     onDelete={() =>
                                         setConfirmDeleteIndex(index)
                                     }

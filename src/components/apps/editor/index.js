@@ -13,11 +13,9 @@ import ids from "./ids";
 import styles from "./styles";
 
 import ParamGroups from "./ParamGroups";
-import ParamPropertyForm from "./ParamPropertyForm";
 
 import AppParamTypes from "components/models/AppParamTypes";
 import ApplyButton from "components/utils/ApplyButton";
-import DEDialog from "components/utils/DEDialog";
 
 import {
     build as buildID,
@@ -210,14 +208,6 @@ const formatFlagName = (name) => {
 const AppEditor = (props) => {
     const { baseId, appDescription } = props;
 
-    const [editingGroupIndex, setEditingGroupIndex] = React.useState(-1);
-    const groupDialogOpen = editingGroupIndex >= 0;
-    const onGroupDialogClose = () => setEditingGroupIndex(-1);
-
-    const [editingParamMap, setEditingParamMap] = React.useState({});
-    const paramDialogOpen = !!editingParamMap.param;
-    const onParamDialogClose = () => setEditingParamMap({});
-
     const { t } = useTranslation(["app_editor", "app_editor_help", "common"]);
     const classes = useStyles();
 
@@ -265,6 +255,7 @@ const AppEditor = (props) => {
                                 onApply={handleSubmit}
                             />
                         </Toolbar>
+
                         <FastField
                             id={buildID(baseId, ids.APP_NAME)}
                             name="name"
@@ -288,43 +279,7 @@ const AppEditor = (props) => {
                         />
                         <Divider />
 
-                        <ParamGroups
-                            baseId={baseId}
-                            groups={values.groups}
-                            setEditingParamMap={setEditingParamMap}
-                            setEditingGroupIndex={setEditingGroupIndex}
-                        />
-
-                        <DEDialog
-                            baseId={baseId}
-                            open={groupDialogOpen}
-                            onClose={onGroupDialogClose}
-                        >
-                            {groupDialogOpen && (
-                                <FastField
-                                    id={buildID(
-                                        baseId,
-                                        ids.GROUP,
-                                        ids.PARAM_FIELDS.LABEL
-                                    )}
-                                    name={`groups.${editingGroupIndex}.label`}
-                                    label={t("sectionLabel")}
-                                    component={FormTextField}
-                                    onKeyDown={(event) => {
-                                        if (event.key === "Enter") {
-                                            onGroupDialogClose();
-                                        }
-                                    }}
-                                />
-                            )}
-                        </DEDialog>
-
-                        <ParamPropertyForm
-                            baseId={buildID(baseId, ids.PROPERTY_EDITOR)}
-                            open={paramDialogOpen}
-                            onClose={onParamDialogClose}
-                            {...editingParamMap}
-                        />
+                        <ParamGroups baseId={baseId} groups={values.groups} />
                     </Paper>
                 );
             }}

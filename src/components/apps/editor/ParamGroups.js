@@ -5,7 +5,7 @@
  */
 import React from "react";
 
-import { FieldArray } from "formik";
+import { FastField, FieldArray } from "formik";
 import { Trans } from "react-i18next";
 
 import { useTranslation } from "i18n";
@@ -16,8 +16,9 @@ import styles from "./styles";
 import Parameters from "./Parameters";
 
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
+import DEDialog from "components/utils/DEDialog";
 
-import { build as buildID } from "@cyverse-de/ui-lib";
+import { build as buildID, FormTextField } from "@cyverse-de/ui-lib";
 
 import {
     Accordion,
@@ -44,16 +45,10 @@ import {
 const useStyles = makeStyles(styles);
 
 function ParamGroupForm(props) {
-    const {
-        baseId,
-        fieldName,
-        group,
-        onDelete,
-        onEdit,
-        onMoveDown,
-        onMoveUp,
-        setEditingParamMap,
-    } = props;
+    const { baseId, fieldName, group, onDelete, onMoveDown, onMoveUp } = props;
+
+    const [groupDialogOpen, setGroupDialogOpen] = React.useState(false);
+    const onGroupDialogClose = () => setGroupDialogOpen(false);
 
     const classes = useStyles();
     const { t } = useTranslation("app_editor");
@@ -100,7 +95,7 @@ function ParamGroupForm(props) {
                         onFocus={(event) => event.stopPropagation()}
                         onClick={(event) => {
                             event.stopPropagation();
-                            onEdit();
+                            setGroupDialogOpen(true);
                         }}
                     >
                         <Edit />
@@ -125,15 +120,37 @@ function ParamGroupForm(props) {
                     baseId={baseId}
                     groupFieldName={fieldName}
                     parameters={group.parameters}
-                    setEditingParamMap={setEditingParamMap}
                 />
+                <DEDialog
+                    baseId={baseId}
+                    open={groupDialogOpen}
+                    onClose={onGroupDialogClose}
+                >
+                    {groupDialogOpen && (
+                        <FastField
+                            id={buildID(
+                                baseId,
+                                ids.GROUP,
+                                ids.PARAM_FIELDS.LABEL
+                            )}
+                            name={`${fieldName}.label`}
+                            label={t("sectionLabel")}
+                            component={FormTextField}
+                            onKeyDown={(event) => {
+                                if (event.key === "Enter") {
+                                    onGroupDialogClose();
+                                }
+                            }}
+                        />
+                    )}
+                </DEDialog>
             </AccordionDetails>
         </Accordion>
     );
 }
 
 function ParamGroups(props) {
-    const { baseId, groups, setEditingParamMap, setEditingGroupIndex } = props;
+    const { baseId, groups } = props;
 
     const [confirmDeleteIndex, setConfirmDeleteIndex] = React.useState(-1);
     const onCloseDeleteConfirm = () => setConfirmDeleteIndex(-1);
@@ -166,11 +183,12 @@ function ParamGroups(props) {
                                 startIcon={<Add />}
                                 onClick={() => {
                                     arrayHelpers.unshift({
-                                        label: "",
+                                        label: t("newSectionLabel", {
+                                            count: groups.length + 1,
+                                        }),
                                         isVisible: true,
                                         parameters: [],
                                     });
-                                    setEditingGroupIndex(0);
                                 }}
                             >
                                 {t("addSection")}
@@ -183,8 +201,6 @@ function ParamGroups(props) {
                             baseId={baseId}
                             fieldName={`groups.${index}`}
                             group={group}
-                            setEditingParamMap={setEditingParamMap}
-                            onEdit={() => setEditingGroupIndex(index)}
                             onDelete={() => setConfirmDeleteIndex(index)}
                             onMoveUp={() => {
                                 if (index > 0) {

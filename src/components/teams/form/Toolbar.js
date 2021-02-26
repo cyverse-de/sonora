@@ -51,6 +51,10 @@ function EditTeamToolbar(props) {
     const teamShortName = groupShortName(teamName);
     const isCreatingTeam = !teamName;
 
+    const leaveEnabled = !isAdmin && isMember;
+    const joinEnabled = !isAdmin && !isMember;
+    const deleteEnabled = isAdmin && !isCreatingTeam;
+
     return (
         <Toolbar variant="dense">
             <BackButton />
@@ -69,7 +73,7 @@ function EditTeamToolbar(props) {
             )}
             <div className={classes.divider} />
             <Hidden xsDown>
-                {!isAdmin && isMember && (
+                {leaveEnabled && (
                     <Button
                         color="primary"
                         variant="outlined"
@@ -83,7 +87,7 @@ function EditTeamToolbar(props) {
                         {t("leave")}
                     </Button>
                 )}
-                {!isAdmin && !isMember && (
+                {joinEnabled && (
                     <Button
                         color="primary"
                         variant="outlined"
@@ -97,7 +101,7 @@ function EditTeamToolbar(props) {
                         {t("join")}
                     </Button>
                 )}
-                {isAdmin && !isCreatingTeam && (
+                {deleteEnabled && (
                     <Button
                         classes={{ root: classes.deleteBtn }}
                         variant="outlined"
@@ -116,7 +120,7 @@ function EditTeamToolbar(props) {
                 <DotMenu
                     baseId={baseId}
                     render={(onClose) => [
-                        !isAdmin && isMember && (
+                        leaveEnabled && (
                             <MenuItem
                                 key={build(baseId, ids.BUTTONS.LEAVE_MI)}
                                 onClick={() => {
@@ -130,7 +134,7 @@ function EditTeamToolbar(props) {
                                 <ListItemText primary={t("leave")} />
                             </MenuItem>
                         ),
-                        !isAdmin && !isMember && (
+                        joinEnabled && (
                             <MenuItem
                                 key={build(baseId, ids.BUTTONS.JOIN_MI)}
                                 onClick={() => {
@@ -144,7 +148,7 @@ function EditTeamToolbar(props) {
                                 <ListItemText primary={t("join")} />
                             </MenuItem>
                         ),
-                        isAdmin && !isCreatingTeam && (
+                        deleteEnabled && (
                             <MenuItem
                                 key={build(baseId, ids.BUTTONS.DELETE_MI)}
                                 onClick={() => {

@@ -10,25 +10,20 @@ import { build, FormMultilineTextField } from "@cyverse-de/ui-lib";
 import {
     Button,
     CircularProgress,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    IconButton,
     InputAdornment,
     Typography,
 } from "@material-ui/core";
-import { Close } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/core/styles";
 import { Field, Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "react-query";
 
-import ids from "../ids";
+import DEDialog from "components/utils/DEDialog";
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import isQueryLoading from "components/utils/isQueryLoading";
-import { makeStyles } from "@material-ui/core/styles";
-import styles from "../styles";
+import ids from "../ids";
 import { requestJoinTeam } from "serviceFacades/groups";
-import ErrorTypographyWithDialog from "../../utils/error/ErrorTypographyWithDialog";
+import styles from "../styles";
 import { groupShortName } from "../util";
 
 const useStyles = makeStyles(styles);
@@ -67,86 +62,71 @@ function JoinTeamDialog(props) {
         <Formik initialValues={{ message: "" }} onSubmit={handleSubmit}>
             {({ handleSubmit }) => {
                 return (
-                    <Dialog
+                    <DEDialog
+                        baseId={baseId}
                         open={open}
                         onClose={onClose}
-                        maxWidth="sm"
-                        fullWidth
+                        title={t("joinDlgTitle", { name: teamShortName })}
+                        actions={
+                            <>
+                                <Button
+                                    id={build(baseId, ids.BUTTONS.CANCEL_BTN)}
+                                    onClick={onClose}
+                                >
+                                    {t("common:cancel")}
+                                </Button>
+                                <Button
+                                    id={build(baseId, ids.BUTTONS.JOIN_BTN)}
+                                    color="primary"
+                                    type="submit"
+                                    onClick={handleSubmit}
+                                >
+                                    {t("join")}
+                                </Button>
+                            </>
+                        }
                     >
-                        <DialogTitle>
-                            {t("joinDlgTitle", { name: teamShortName })}
-                            <IconButton
-                                aria-label={t("common:cancel")}
-                                onClick={onClose}
-                                size="small"
-                                edge="end"
-                                classes={{ root: classes.closeButton }}
-                            >
-                                <Close />
-                            </IconButton>
-                        </DialogTitle>
-                        <DialogContent>
-                            <Typography
-                                classes={{ root: classes.bottomPadding }}
-                            >
-                                {t("joinDlgInfo", { name: teamShortName })}
-                            </Typography>
-                            <Field
-                                id={build(baseId, ids.JOIN_MSG)}
-                                name="message"
-                                label={t("joinDlgLabel")}
-                                onKeyDown={(event) => {
-                                    if (event.key === "Enter") {
-                                        handleSubmit();
-                                    }
-                                }}
-                                InputProps={{
-                                    readOnly: isLoading,
-                                    endAdornment: (
-                                        <>
-                                            {isLoading && (
-                                                <InputAdornment position="start">
-                                                    <CircularProgress
-                                                        id={build(
-                                                            baseId,
-                                                            ids.JOIN_MSG,
-                                                            ids.LOADING_SKELETON
-                                                        )}
-                                                        color="inherit"
-                                                        size={20}
-                                                    />
-                                                </InputAdornment>
-                                            )}
-                                        </>
-                                    ),
-                                }}
-                                component={FormMultilineTextField}
+                        <Typography classes={{ root: classes.bottomPadding }}>
+                            {t("joinDlgInfo", { name: teamShortName })}
+                        </Typography>
+                        <Field
+                            id={build(baseId, ids.JOIN_MSG)}
+                            name="message"
+                            label={t("joinDlgLabel")}
+                            onKeyDown={(event) => {
+                                if (event.key === "Enter") {
+                                    handleSubmit();
+                                }
+                            }}
+                            InputProps={{
+                                readOnly: isLoading,
+                                endAdornment: (
+                                    <>
+                                        {isLoading && (
+                                            <InputAdornment position="start">
+                                                <CircularProgress
+                                                    id={build(
+                                                        baseId,
+                                                        ids.JOIN_MSG,
+                                                        ids.LOADING_SKELETON
+                                                    )}
+                                                    color="inherit"
+                                                    size={20}
+                                                />
+                                            </InputAdornment>
+                                        )}
+                                    </>
+                                ),
+                            }}
+                            component={FormMultilineTextField}
+                        />
+                        {joinError && (
+                            <ErrorTypographyWithDialog
+                                errorMessage={joinError?.message}
+                                errorObject={joinError?.object}
                             />
-                            {joinError && (
-                                <ErrorTypographyWithDialog
-                                    errorMessage={joinError?.message}
-                                    errorObject={joinError?.object}
-                                />
-                            )}
-                        </DialogContent>
-
-                        <DialogActions>
-                            <Button
-                                id={build(baseId, ids.BUTTONS.CANCEL_BTN)}
-                                onClick={onClose}
-                            >
-                                {t("common:cancel")}
-                            </Button>
-                            <Button
-                                id={build(baseId, ids.BUTTONS.JOIN_BTN)}
-                                color="primary"
-                                type="submit"
-                                onClick={handleSubmit}
-                            >
-                                {t("join")}
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
+                        )}
+                    </DEDialog>
                 );
             }}
         </Formik>

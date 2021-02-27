@@ -4,16 +4,16 @@
  * Form fields for displaying app parameters and parameter groups.
  */
 import React from "react";
-import { useTranslation } from "i18n";
+
 import { Trans } from "react-i18next";
-import sanitizeHtml from "sanitize-html";
 import { FastField, Field, getIn } from "formik";
 
 import GlobalConstants from "../../../constants";
+import { useTranslation } from "i18n";
+
 import { intercomShow } from "common/intercom";
 
-import AppParamTypes, { ValidatorTypes } from "components/models/AppParamTypes";
-import ResourceTypes from "components/models/ResourceTypes";
+import AppParamTypes from "components/models/AppParamTypes";
 import ExternalLink from "components/utils/ExternalLink";
 
 import ids from "./ids";
@@ -21,18 +21,21 @@ import styles from "./styles";
 
 import { isEmptyParamValue } from "./validate";
 
-import InputSelector from "./InputSelector";
-import MultiInputSelector from "./MultiInputSelector";
 import ReferenceGenomeSelect from "./ReferenceGenomeSelect";
 
-import {
-    build as buildDebugId,
-    FormCheckbox,
-    FormMultilineTextField,
-    FormIntegerField,
-    FormNumberField,
-    FormTextField,
-} from "@cyverse-de/ui-lib";
+import Checkbox from "./params/Checkbox";
+import Double from "./params/Double";
+import FileFolderInput from "./params/FileFolderInput";
+import FileInput from "./params/FileInput";
+import FolderInput from "./params/FolderInput";
+import Info from "./params/Info";
+import Integer from "./params/Integer";
+import MultiFileSelector from "./params/MultiFileSelector";
+import MultilineText from "./params/MultilineText";
+import Selection from "./params/Selection";
+import Text from "./params/Text";
+
+import { build as buildDebugId } from "@cyverse-de/ui-lib";
 
 import {
     Accordion,
@@ -43,7 +46,6 @@ import {
     FormHelperText,
     Link,
     makeStyles,
-    MenuItem,
     Paper,
     Switch,
     Table,
@@ -169,112 +171,66 @@ function ParamGroupForm(props) {
                         param.type
                     );
 
-                    let fieldProps = {
-                        id: paramFormId,
-                        name,
-                        label: param.label,
-                        helperText: param.description,
-                        required: param.required,
-                        margin: "normal",
-                    };
+                    let fieldComponent;
 
                     switch (param.type) {
                         case AppParamTypes.INFO:
-                            fieldProps = {
-                                id: paramFormId,
-                                name,
-                                component: Typography,
-                                variant: "body1",
-                                gutterBottom: true,
-                                dangerouslySetInnerHTML: {
-                                    __html: sanitizeHtml(param.label),
-                                },
-                            };
-
+                            fieldComponent = Info;
                             break;
 
                         case AppParamTypes.TEXT:
-                            fieldProps.component = FormTextField;
-                            fieldProps.size = "small";
-                            if (param.validators?.length > 0) {
-                                const charLimitValidator = param.validators.find(
-                                    (validator) =>
-                                        validator.type ===
-                                        ValidatorTypes.CHARACTER_LIMIT
-                                );
-                                if (charLimitValidator) {
-                                    fieldProps.inputProps = {
-                                        maxLength: charLimitValidator.params[0],
-                                    };
-                                }
-                            }
+                            fieldComponent = Text;
                             break;
 
                         case AppParamTypes.INTEGER:
-                            fieldProps.component = FormIntegerField;
-                            fieldProps.size = "small";
+                            fieldComponent = Integer;
                             break;
 
                         case AppParamTypes.DOUBLE:
-                            fieldProps.component = FormNumberField;
-                            fieldProps.size = "small";
+                            fieldComponent = Double;
                             break;
 
                         case AppParamTypes.MULTILINE_TEXT:
-                            fieldProps.component = FormMultilineTextField;
-                            fieldProps.size = "small";
+                            fieldComponent = MultilineText;
                             break;
 
                         case AppParamTypes.FLAG:
-                            fieldProps.component = FormCheckbox;
+                            fieldComponent = Checkbox;
                             break;
 
                         case AppParamTypes.TEXT_SELECTION:
                         case AppParamTypes.INTEGER_SELECTION:
                         case AppParamTypes.DOUBLE_SELECTION:
-                            fieldProps.component = FormTextField;
-                            fieldProps.select = true;
-                            fieldProps.variant = "outlined";
-                            fieldProps.size = "small";
-                            fieldProps.children = param.arguments?.map(
-                                (arg) => (
-                                    <MenuItem key={arg.value} value={arg}>
-                                        {arg.display}
-                                    </MenuItem>
-                                )
-                            );
+                            fieldComponent = Selection;
                             break;
 
                         case AppParamTypes.FILE_INPUT:
-                            fieldProps.component = InputSelector;
-                            fieldProps.acceptedType = ResourceTypes.FILE;
+                            fieldComponent = FileInput;
                             break;
 
                         case AppParamTypes.FOLDER_INPUT:
-                            fieldProps.component = InputSelector;
-                            fieldProps.acceptedType = ResourceTypes.FOLDER;
+                            fieldComponent = FolderInput;
                             break;
 
                         case AppParamTypes.FILE_FOLDER_INPUT:
-                            fieldProps.component = InputSelector;
-                            fieldProps.acceptedType = ResourceTypes.ANY;
+                            fieldComponent = FileFolderInput;
                             break;
 
                         case AppParamTypes.MULTIFILE_SELECTOR:
-                            fieldProps.component = MultiInputSelector;
-                            fieldProps.acceptedType = ResourceTypes.FILE;
+                            fieldComponent = MultiFileSelector;
                             break;
 
                         case AppParamTypes.REFERENCE_GENOME:
                         case AppParamTypes.REFERENCE_SEQUENCE:
                         case AppParamTypes.REFERENCE_ANNOTATION:
-                            fieldProps.component = ReferenceGenomeSelect;
-
                             // Can't be a FastField since it renders with custom props.
                             return (
                                 <Field
                                     key={param.id}
-                                    {...fieldProps}
+                                    id={paramFormId}
+                                    name={name}
+                                    component={ReferenceGenomeSelect}
+                                    param={param}
                                     referenceGenomes={referenceGenomes}
                                     referenceGenomesLoading={
                                         referenceGenomesLoading
@@ -283,11 +239,19 @@ function ParamGroupForm(props) {
                             );
 
                         default:
-                            fieldProps.component = FormTextField;
+                            fieldComponent = Text;
                             break;
                     }
 
-                    return <FastField key={param.id} {...fieldProps} />;
+                    return (
+                        <FastField
+                            key={param.id}
+                            id={paramFormId}
+                            name={name}
+                            component={fieldComponent}
+                            param={param}
+                        />
+                    );
                 })}
             </AccordionDetails>
         </Accordion>

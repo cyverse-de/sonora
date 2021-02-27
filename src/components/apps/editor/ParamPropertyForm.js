@@ -20,6 +20,7 @@ import LabelField from "./params/LabelField";
 import RequiredField from "./params/RequiredField";
 import VisibleField from "./params/VisibleField";
 
+import { getTextFieldInputProps } from "components/apps/launch/params/Text";
 import AppParamTypes from "components/models/AppParamTypes";
 import DEDialog from "components/utils/DEDialog";
 
@@ -39,10 +40,15 @@ function PropertyFormFields(props) {
     const baseParamId = buildID(baseId, fieldName);
 
     let DefaultValueFormComponent = FormTextField;
+    let inputProps = {};
 
     switch (param?.type) {
         case AppParamTypes.INFO:
             return <InfoTextField baseId={baseParamId} fieldName={fieldName} />;
+
+        case AppParamTypes.TEXT:
+            inputProps = getTextFieldInputProps(param);
+            break;
 
         case AppParamTypes.MULTILINE_TEXT:
             DefaultValueFormComponent = FormMultilineTextField;
@@ -84,6 +90,7 @@ function PropertyFormFields(props) {
                 baseId={baseParamId}
                 fieldName={fieldName}
                 component={DefaultValueFormComponent}
+                inputProps={inputProps}
             />
             <DescriptionField baseId={baseParamId} fieldName={fieldName} />
             <RequiredField baseId={baseParamId} fieldName={fieldName} />

@@ -6,7 +6,6 @@
 import React from "react";
 
 import { FastField, Field, FieldArray } from "formik";
-import sanitizeHtml from "sanitize-html";
 
 import { useTranslation } from "i18n";
 
@@ -16,24 +15,27 @@ import styles from "./styles";
 import ParamPropertyForm from "./ParamPropertyForm";
 import ParamSelectionPalette from "./ParamSelectionPalette";
 
-import AppParamTypes, { ValidatorTypes } from "components/models/AppParamTypes";
+import Checkbox from "components/apps/launch/params/Checkbox";
+import Double from "components/apps/launch/params/Double";
+import FileFolderInput from "components/apps/launch/params/FileFolderInput";
+import FileInput from "components/apps/launch/params/FileInput";
+import FolderInput from "components/apps/launch/params/FolderInput";
+import Info from "components/apps/launch/params/Info";
+import Integer from "components/apps/launch/params/Integer";
+import MultiFileSelector from "components/apps/launch/params/MultiFileSelector";
+import MultilineText from "components/apps/launch/params/MultilineText";
+import Selection from "components/apps/launch/params/Selection";
+import Text from "components/apps/launch/params/Text";
+import AppParamTypes from "components/models/AppParamTypes";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
-import {
-    build as buildID,
-    FormCheckbox,
-    FormIntegerField,
-    FormMultilineTextField,
-    FormNumberField,
-    FormTextField,
-} from "@cyverse-de/ui-lib";
+import { build as buildID } from "@cyverse-de/ui-lib";
 
 import {
     Button,
     ButtonGroup,
     Card,
     CardHeader,
-    Typography,
     makeStyles,
 } from "@material-ui/core";
 
@@ -66,74 +68,72 @@ function ParamCardForm(props) {
     const paramBaseId = buildID(baseId, fieldName);
     const defaultValueFieldName = `${fieldName}.defaultValue`;
 
-    let fieldProps = {
-        id: buildID(baseId, defaultValueFieldName),
-        name: defaultValueFieldName,
-        label: param.label,
-        helperText: param.description,
-        required: param.required,
-        margin: "normal",
-    };
+    let fieldComponent;
 
     switch (param.type) {
         case AppParamTypes.INFO:
-            fieldProps = {
-                id: fieldProps.id,
-                name: fieldProps.name,
-                component: Typography,
-                variant: "body1",
-                gutterBottom: true,
-                dangerouslySetInnerHTML: {
-                    __html: sanitizeHtml(param.label),
-                },
-            };
+            fieldComponent = Info;
 
             break;
 
         case AppParamTypes.TEXT:
-            fieldProps.component = FormTextField;
-            fieldProps.size = "small";
-            if (param.validators?.length > 0) {
-                const charLimitValidator = param.validators.find(
-                    (validator) =>
-                        validator.type === ValidatorTypes.CHARACTER_LIMIT
-                );
-                if (charLimitValidator) {
-                    fieldProps.inputProps = {
-                        maxLength: charLimitValidator.params[0],
-                    };
-                }
-            }
+            fieldComponent = Text;
             break;
 
         case AppParamTypes.MULTILINE_TEXT:
-            fieldProps.component = FormMultilineTextField;
-            fieldProps.size = "small";
+            fieldComponent = MultilineText;
             break;
 
         case AppParamTypes.INTEGER:
-            fieldProps.component = FormIntegerField;
-            fieldProps.size = "small";
+            fieldComponent = Integer;
             break;
 
         case AppParamTypes.DOUBLE:
-            fieldProps.component = FormNumberField;
-            fieldProps.size = "small";
+            fieldComponent = Double;
             break;
 
         case AppParamTypes.FLAG:
-            fieldProps.component = FormCheckbox;
+            fieldComponent = Checkbox;
+            break;
+
+        case AppParamTypes.TEXT_SELECTION:
+        case AppParamTypes.INTEGER_SELECTION:
+        case AppParamTypes.DOUBLE_SELECTION:
+            fieldComponent = Selection;
+            break;
+
+        case AppParamTypes.FILE_INPUT:
+            fieldComponent = FileInput;
+            break;
+
+        case AppParamTypes.FOLDER_INPUT:
+            fieldComponent = FolderInput;
+            break;
+
+        case AppParamTypes.FILE_FOLDER_INPUT:
+            fieldComponent = FileFolderInput;
+            break;
+
+        case AppParamTypes.MULTIFILE_SELECTOR:
+            fieldComponent = MultiFileSelector;
             break;
 
         default:
-            fieldProps.component = FormTextField;
+            fieldComponent = Text;
             break;
     }
 
     return (
         <Card className={classes.paramCard}>
             <CardHeader
-                title={<Field {...fieldProps} />}
+                title={
+                    <Field
+                        id={buildID(baseId, defaultValueFieldName)}
+                        name={defaultValueFieldName}
+                        param={param}
+                        component={fieldComponent}
+                    />
+                }
                 action={
                     <ButtonGroup color="primary" variant="text">
                         <Button

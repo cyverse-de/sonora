@@ -14,10 +14,16 @@ import { MenuItem } from "@material-ui/core";
 const ReferenceGenomeSelect = ({
     referenceGenomes,
     referenceGenomesLoading,
+    param,
     ...props
 }) => {
     const { t } = useTranslation("launch");
-    const selectProps = { ...props };
+    const selectProps = {
+        label: param?.label,
+        helperText: param?.description,
+        required: param?.required,
+        ...props,
+    };
 
     if (referenceGenomesLoading) {
         return <FormFieldLoading {...selectProps} />;
@@ -35,7 +41,12 @@ const ReferenceGenomeSelect = ({
     }
 
     return (
-        <FormTextField select variant="outlined" {...selectProps}>
+        <FormTextField
+            select
+            variant="outlined"
+            margin="normal"
+            {...selectProps}
+        >
             {referenceGenomes.map((refGenome) => (
                 <MenuItem key={refGenome.id} value={refGenome}>
                     {refGenome.name}

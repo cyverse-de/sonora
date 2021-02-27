@@ -14,7 +14,7 @@ import ids from "../ids";
 import { build as buildID, FormTextField } from "@cyverse-de/ui-lib";
 
 export default function DefaultValueField(props) {
-    const { baseId, fieldName, component } = props;
+    const { baseId, fieldName, component, ...custom } = props;
 
     const { t } = useTranslation(["app_editor", "app_editor_help"]);
 
@@ -25,6 +25,7 @@ export default function DefaultValueField(props) {
             label={t("defaultValue")}
             helperText={t("app_editor_help:DefaultValue")}
             component={component || FormTextField}
+            {...custom}
         />
     );
 }

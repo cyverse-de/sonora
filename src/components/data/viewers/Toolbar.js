@@ -138,8 +138,7 @@ function ViewerToolbar(props) {
     const onViewMetadata = () =>
         handlePathChange(path, { view: NavigationParams.VIEW.METADATA });
 
-    const ToolbarButton = (props) => {
-        const { idExtension, onClick, startIcon, text } = props;
+    const ToolbarButton = ({ idExtension, text, ...props }) => {
         return (
             <Button
                 id={build(baseId, idExtension)}
@@ -148,8 +147,6 @@ function ViewerToolbar(props) {
                 variant="outlined"
                 disableElevation
                 color="primary"
-                onClick={onClick}
-                startIcon={startIcon}
                 {...props}
             >
                 <Hidden xsDown>{text}</Hidden>

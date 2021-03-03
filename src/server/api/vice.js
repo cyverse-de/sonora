@@ -148,7 +148,7 @@ export default function viceRouter() {
         })
     );
 
-    logger.info("adding the GET /vice/listing handler");
+    logger.info("adding the GET /vice/resources handler");
     api.get(
         "/vice/resources",
         auth.authnTokenMiddleware,

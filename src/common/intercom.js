@@ -57,6 +57,14 @@ const IntercomEvents = {
     VIEWED_HELP: "viewed help",
     URL_IMPORT_SUBMITTED: "url import submitted",
     FILE_UPLOADED: "file uploaded",
+    SEARCHED_DATA: "searched data",
+    SEARCHED_APPS: "searched apps",
+    SEARCHED_ANALYSES: "searched analyses",
+    SEARCHED_TEAMS: "searched teams",
+    SEARCHING_DATA: "searching data",
+    SEARCHING_APPS: "searching apps",
+    SEARCHING_ANALYSES: "searching analyses",
+    SEARCHING_TEAMS: "searching teams",
 };
 
 export {

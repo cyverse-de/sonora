@@ -31,6 +31,7 @@ import DELink from "../utils/DELink";
 import { useTeamsSearch } from "../search/searchQueries";
 import WrappedErrorHandler from "../utils/error/WrappedErrorHandler";
 import ErrorTypographyWithDialog from "../utils/error/ErrorTypographyWithDialog";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 function Columns(t) {
     return {
@@ -131,7 +132,10 @@ function Listing(props) {
         queryFn: getMyTeams,
         config: {
             enabled: TEAM_FILTER.MY_TEAMS === teamFilter && !searchTerm,
-            onSuccess: (results) => setData(results.groups),
+            onSuccess: (results) => {
+                trackIntercomEvent(IntercomEvents.VIEWED_MY_TEAMS);
+                setData(results.groups);
+            },
         },
     });
 
@@ -140,7 +144,10 @@ function Listing(props) {
         queryFn: getAllTeams,
         config: {
             enabled: TEAM_FILTER.ALL_TEAMS === teamFilter && !searchTerm,
-            onSuccess: (results) => setData(results.groups),
+            onSuccess: (results) => {
+                trackIntercomEvent(IntercomEvents.VIEWED_ALL_TEAMS);
+                setData(results.groups);
+            },
         },
     });
 

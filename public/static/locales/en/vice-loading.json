@@ -34,5 +34,6 @@
     "showMoreBtn": "Show More",
     "statusEndpointError": "Error while fetching status for VICE instance. Please try again. If the error persists, please contact support.",
     "username": "Username",
-    "waitingForResponse": "Waiting for {{appName}} to respond"
+    "waitingForResponse": "Waiting for {{appName}} to respond",
+    "waitingForResponseError": "Encountered error while waiting for {{appName}} to respond.  If this error persists, please contact support."
 }

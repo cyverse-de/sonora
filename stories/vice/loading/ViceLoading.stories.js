@@ -2,7 +2,7 @@ import React from "react";
 import { mockAxios } from "../../axiosMock";
 
 import ViceLoading from "components/vice/loading";
-import { POD_STATUS, statusMock } from "./ViceLoadingMocks";
+import { POD_STATUS, statusMock, urlReadyMock } from "./ViceLoadingMocks";
 
 export const ViceLoadingTest = ({
     statusEndpointError,
@@ -14,6 +14,7 @@ export const ViceLoadingTest = ({
     viceProxyPodComplete,
     inputFilesPodComplete,
     analysisPodStatus,
+    urlReadyEndpointError,
 }) => {
     const accessUrl = "https://a2a4db420.cyverse.run:4343";
 
@@ -36,6 +37,18 @@ export const ViceLoadingTest = ({
                       analysisPodStatus
                   ),
               ];
+    });
+
+    mockAxios.onGet("/api/vice/a2a4db420/url-ready").reply(() => {
+        return urlReadyEndpointError
+            ? [
+                  500,
+                  {
+                      error_code: "ERR_READY_FAILED",
+                      reason: "Failure to launch",
+                  },
+              ]
+            : [200, urlReadyMock];
     });
 
     return <ViceLoading accessUrl={accessUrl} />;
@@ -94,6 +107,12 @@ ViceLoadingTest.argTypes = {
         control: {
             type: "select",
             options: Object.values(POD_STATUS),
+        },
+    },
+    urlReadyEndpointError: {
+        defaultValue: false,
+        control: {
+            type: "boolean",
         },
     },
 };

@@ -1,5 +1,5 @@
 export const urlReadyMock = {
-    ready: false,
+    ready: true,
 };
 
 export const POD_STATUS = {

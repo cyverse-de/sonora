@@ -20,7 +20,9 @@ import DetailsContent from "./DetailsContent";
 import ids from "./ids";
 import {
     getLoadingStatus,
+    getUrlReady,
     VICE_LOADING_STATUS_QUERY,
+    VICE_LOADING_URL_READY,
 } from "serviceFacades/vice/loading";
 import { DEContainerStatus, getContainerDetails } from "./util";
 import styles from "./styles";
@@ -36,6 +38,7 @@ function ViceLoading(props) {
 
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [data, setData] = useState({});
+    const [ready, setReady] = useState(false);
     const [progress, setProgress] = useState({
         percent: 0,
         message: null,
@@ -51,8 +54,18 @@ function ViceLoading(props) {
         queryKey: [VICE_LOADING_STATUS_QUERY, { accessUrl }],
         queryFn: getLoadingStatus,
         config: {
-            enabled: !!accessUrl,
+            enabled: !!accessUrl && !ready,
             onSuccess: setData,
+            refetchInterval: 5000,
+        },
+    });
+
+    const { error: urlReadyError } = useQuery({
+        queryKey: [VICE_LOADING_URL_READY, { accessUrl }],
+        queryFn: getUrlReady,
+        config: {
+            enabled: progress.percent === 100 && !ready,
+            onSuccess: (resp) => setReady(resp.ready),
             refetchInterval: 5000,
         },
     });
@@ -106,12 +119,14 @@ function ViceLoading(props) {
                         servicesDone +
                         ingressesDone) *
                     5,
+                hasError: false,
                 message: t("initializingVice"),
             });
         } else if (fileTransferStatus !== DEContainerStatus.DONE) {
             const hasError = fileTransferStatus === DEContainerStatus.ERROR;
             setProgress({
                 percent: 20,
+                hasError,
                 message: (
                     <Trans
                         t={t}
@@ -127,7 +142,6 @@ function ViceLoading(props) {
                         }}
                     />
                 ),
-                hasError,
             });
         } else if (
             inputFilesPodStatus !== DEContainerStatus.DONE &&
@@ -140,6 +154,7 @@ function ViceLoading(props) {
                 inputFilesPodRestartCount || viceProxyPodRestartCount;
             setProgress({
                 percent: 60,
+                hasError,
                 message: (
                     <Trans
                         t={t}
@@ -155,13 +170,13 @@ function ViceLoading(props) {
                         }}
                     />
                 ),
-                hasError,
             });
         } else if (analysisPodStatus !== DEContainerStatus.DONE) {
             const hasError = analysisPodStatus === DEContainerStatus.ERROR;
 
             setProgress({
                 percent: 75,
+                hasError,
                 message: (
                     <Trans
                         t={t}
@@ -181,12 +196,29 @@ function ViceLoading(props) {
                         }}
                     />
                 ),
-                hasError,
             });
         } else {
+            const hasError = !!urlReadyError;
             setProgress({
                 percent: 100,
-                message: t("waitingForResponse", { appName }),
+                hasError,
+                message: (
+                    <Trans
+                        t={t}
+                        i18nKey={
+                            hasError
+                                ? "waitingForResponseError"
+                                : "waitingForResponse"
+                        }
+                        values={{
+                            appName,
+                        }}
+                        components={{
+                            bold: <b />,
+                            break: <br />,
+                        }}
+                    />
+                ),
             });
         }
     }, [
@@ -198,6 +230,7 @@ function ViceLoading(props) {
         services,
         statusError,
         t,
+        urlReadyError,
     ]);
 
     if (isFetching && Object.keys(data).length === 0) {

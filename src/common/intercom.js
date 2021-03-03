@@ -65,6 +65,12 @@ const IntercomEvents = {
     SEARCHING_APPS: "searching apps",
     SEARCHING_ANALYSES: "searching analyses",
     SEARCHING_TEAMS: "searching teams",
+    VIEWED_ALL_TEAMS: "view all teams",
+    VIEWED_MY_TEAMS: "view my teams",
+    CREATED_NEW_TEAM: "created new team",
+    DELETED_TEAM: "deleted team",
+    REQUESTED_JOIN_TEAM: "request to join team",
+    ENCOUNTERED_ERROR: "encountered error",
 };
 
 export {

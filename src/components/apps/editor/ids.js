@@ -13,6 +13,7 @@ export default {
     BUTTONS: {
         ADD_GROUP: "addGroupBtn",
         ADD_PARAM: "addParamBtn",
+        ADD_PARAM_ARG: "addParamArgBtn",
         CLOSE_BTN: "closeBtn",
         DELETE_BTN: "delete",
         EDIT_BTN: "editBtn",
@@ -23,6 +24,7 @@ export default {
 
     PARAM_FIELDS: {
         ARGUMENT_OPTION: "argumentOption",
+        ARGUMENT_VALUE: "argumentValue",
         CHECKED_OPTION: "checkedOption",
         CHECKED_VALUE: "checkedValue",
         DEFAULT_VALUE: "defaultValue",

@@ -18,6 +18,7 @@ import EnvironmentVariablePropertyFields from "./params/EnvironmentVariablePrope
 import InfoTextField from "./params/InfoTextField";
 import LabelField from "./params/LabelField";
 import RequiredField from "./params/RequiredField";
+import SelectionPropertyFields from "./params/SelectionPropertyFields";
 import VisibleField from "./params/VisibleField";
 
 import { getTextFieldInputProps } from "components/apps/launch/params/Text";
@@ -75,6 +76,17 @@ function PropertyFormFields(props) {
                 <EnvironmentVariablePropertyFields
                     baseId={baseParamId}
                     fieldName={fieldName}
+                />
+            );
+
+        case AppParamTypes.TEXT_SELECTION:
+        case AppParamTypes.INTEGER_SELECTION:
+        case AppParamTypes.DOUBLE_SELECTION:
+            return (
+                <SelectionPropertyFields
+                    baseId={baseId}
+                    fieldName={fieldName}
+                    paramArguments={param.arguments}
                 />
             );
 

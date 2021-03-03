@@ -197,37 +197,52 @@ function Parameters(props) {
             name={parametersFieldName}
             render={(arrayHelpers) => {
                 const handleAddParam = (paramType) => {
-                    let name = "";
-                    let defaultValue = "";
-
-                    if (paramType === AppParamTypes.FLAG) {
-                        defaultValue = false;
-                        name = {
-                            checked: {
-                                option: "",
-                                value: "",
-                            },
-                            unchecked: {
-                                option: "",
-                                value: "",
-                            },
-                        };
-                    }
-
                     const newParamLabel = t("newParamLabel", {
                         count: parameters.length + 1,
                     });
 
-                    arrayHelpers.unshift({
+                    const newParam = {
                         type: paramType,
                         label: newParamLabel,
-                        name,
                         description: "",
-                        defaultValue,
-                        required: false,
                         isVisible: true,
-                        omit_if_blank: false,
-                    });
+                    };
+
+                    switch (paramType) {
+                        case AppParamTypes.INFO:
+                            // Info params don't need any other properties.
+                            break;
+
+                        case AppParamTypes.FLAG:
+                            newParam.defaultValue = false;
+                            newParam.name = {
+                                checked: {
+                                    option: "",
+                                    value: "",
+                                },
+                                unchecked: {
+                                    option: "",
+                                    value: "",
+                                },
+                            };
+                            break;
+
+                        case AppParamTypes.TEXT_SELECTION:
+                            newParam.arguments = [];
+                            newParam.defaultValue = "";
+                            newParam.required = false;
+                            newParam.omit_if_blank = false;
+                            break;
+
+                        default:
+                            newParam.name = "";
+                            newParam.defaultValue = "";
+                            newParam.required = false;
+                            newParam.omit_if_blank = false;
+                            break;
+                    }
+
+                    arrayHelpers.unshift(newParam);
                     handleAddParamMenuClose();
                 };
 

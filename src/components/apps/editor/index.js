@@ -52,16 +52,14 @@ const initValues = (appDescription) => {
     const initializedGroups = groups?.map(({ name, ...group }) => ({
         ...group,
         parameters: group.parameters?.map((param) => {
-            const { name, defaultValue, type: paramType } = param;
+            const {
+                name,
+                defaultValue,
+                type: paramType,
+                arguments: paramArgs,
+            } = param;
 
             switch (paramType) {
-                case AppParamTypes.TEXT:
-                case AppParamTypes.MULTILINE_TEXT:
-                    return {
-                        ...param,
-                        defaultValue: defaultValue || "",
-                    };
-
                 case AppParamTypes.INTEGER:
                     return {
                         ...param,
@@ -88,7 +86,18 @@ const initValues = (appDescription) => {
                     };
 
                 default:
-                    return param;
+                    let defaultArg;
+                    if (paramArgs?.length > 0) {
+                        defaultArg =
+                            paramArgs.find(
+                                (arg) => defaultValue?.id === arg.id
+                            ) || paramArgs.find((arg) => arg.isDefault);
+                    }
+
+                    return {
+                        ...param,
+                        defaultValue: defaultArg || defaultValue || "",
+                    };
             }
         }),
     }));
@@ -148,7 +157,12 @@ const formatSubmission = (appDescription) => {
     const formattedGroups = groups?.map((group) => ({
         ...group,
         parameters: group.parameters?.map((param) => {
-            const { name, defaultValue, type: paramType } = param;
+            const {
+                name,
+                defaultValue,
+                type: paramType,
+                arguments: paramArgs,
+            } = param;
 
             switch (paramType) {
                 case AppParamTypes.TEXT:
@@ -173,6 +187,17 @@ const formatSubmission = (appDescription) => {
                         ...param,
                         name: formatFlagName(name),
                         defaultValue: defaultValue && defaultValue !== "false",
+                    };
+
+                case AppParamTypes.TEXT_SELECTION:
+                case AppParamTypes.INTEGER_SELECTION:
+                case AppParamTypes.DOUBLE_SELECTION:
+                    return {
+                        ...param,
+                        arguments: formatSelectionArgs(paramArgs, defaultValue),
+                        defaultValue: defaultValue
+                            ? { ...defaultValue, isDefault: true }
+                            : null,
                     };
 
                 default:
@@ -203,6 +228,17 @@ const formatFlagName = (name) => {
         [checkedOpt, checkedVal].join(" ").trim(),
         [uncheckedOpt, uncheckedVal].join(" ").trim(),
     ].join(", ");
+};
+
+const formatSelectionArgs = (paramArgs, defaultValue) => {
+    return paramArgs?.map((paramArg) => ({
+        ...paramArg,
+        isDefault:
+            paramArg.id === defaultValue?.id ||
+            (paramArg.display === defaultValue?.display &&
+                paramArg.name === defaultValue?.name &&
+                paramArg.value === defaultValue?.value),
+    }));
 };
 
 const AppEditor = (props) => {

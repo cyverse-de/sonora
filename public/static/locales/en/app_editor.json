@@ -1,5 +1,6 @@
 {
     "addParameter": "Add Parameter",
+    "addParameterArg": "Add List Item",
     "addSection": "Add Section",
     "appIntegrationPageHeader": "App Integration: {{name}}",
     "appDescription": "App description",
@@ -33,6 +34,9 @@
     "newSectionLabel": "New Section {{count}}",
     "outputCategoryTitle": "Output",
     "parameterLabel": "Parameter Label",
+    "paramArgDisplay": "Display",
+    "paramArgName": "Argument",
+    "paramArgValue": "Value",
     "referenceGenomeCategoryTitle": "Reference Genome",
     "removeParameter": "Remove Parameter",
     "removeSection": "Remove Section",

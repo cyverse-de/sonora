@@ -4,13 +4,19 @@
 import React, { useEffect, useState } from "react";
 
 import { build } from "@cyverse-de/ui-lib";
-import { Button, Container, makeStyles, Typography } from "@material-ui/core";
+import {
+    Button,
+    Container,
+    Drawer,
+    makeStyles,
+    Typography,
+} from "@material-ui/core";
 import { BugReport, Info } from "@material-ui/icons";
 import { Trans, useTranslation } from "i18n";
 import { useQuery } from "react-query";
 
 import LinearProgressWithLabel from "components/utils/LinearProgressWithLabel";
-import DetailsDrawer from "./DetailsDrawer";
+import DetailsContent from "./DetailsContent";
 import ids from "./ids";
 import {
     getLoadingStatus,
@@ -213,13 +219,10 @@ function ViceLoading(props) {
                 alt={t("loadingImgAltText")}
                 className={classes.centeredImage}
             />
-
             <Typography variant="h5" gutterBottom={true}>
                 {t("launchVICE", { appName: deployment?.appName })}
             </Typography>
-
             <LinearProgressWithLabel value={progress.percent} />
-
             <Typography
                 id={build(baseId, ids.STATUS_MSG)}
                 gutterBottom={true}
@@ -228,7 +231,6 @@ function ViceLoading(props) {
             >
                 {progress.message}
             </Typography>
-
             <Button
                 id={build(baseId, ids.SHOW_MORE_BTN)}
                 variant="contained"
@@ -246,16 +248,25 @@ function ViceLoading(props) {
             >
                 {t("reportProblemBtn")}
             </Button>
-
-            <DetailsDrawer
-                drawerId={build(baseId, ids.DETAILS_DRAWER)}
+            <Drawer
+                id={build(baseId, ids.DETAILS_DRAWER)}
+                anchor="bottom"
                 open={drawerOpen}
                 onClose={handleClose}
-                deployments={deployments}
-                configMaps={configMaps}
-                services={services}
-                ingresses={ingresses}
-                pods={pods}
+            >
+                <DetailsContent
+                    deployments={deployments}
+                    configMaps={configMaps}
+                    services={services}
+                    ingresses={ingresses}
+                    pods={pods}
+                />
+            </Drawer>
+            deployments={deployments}
+            configMaps={configMaps}
+            services={services}
+            ingresses={ingresses}
+            pods={pods}
             />
         </Container>
     );

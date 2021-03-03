@@ -8,7 +8,7 @@
  */
 import React from "react";
 
-import { Drawer, Grid, makeStyles, Typography } from "@material-ui/core";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
 
 import { useTranslation } from "i18n";
 import GridLabelValue from "components/utils/GridLabelValue";
@@ -64,7 +64,7 @@ function PodInfo(props) {
     const { t } = useTranslation("vice-loading");
     const pod = pods?.[0];
     const containerStatuses = pod?.containerStatuses;
-    const podsPending = containerStatuses.find((status) => !status.ready);
+    const podsPending = containerStatuses?.find((status) => !status.ready);
     return (
         <Grid container>
             <Grid item xs={12}>
@@ -72,7 +72,7 @@ function PodInfo(props) {
                     {podsPending ? t("podsPending") : t("podsComplete")}
                 </Typography>
             </Grid>
-            {containerStatuses.map((status, index) => (
+            {containerStatuses?.map((status, index) => (
                 <GridLabelValue label={status.name} key={index}>
                     <Typography>{JSON.stringify(status.state)}</Typography>
                 </GridLabelValue>
@@ -95,55 +95,44 @@ function InitContainerInfo(props) {
             </Grid>
             <GridLabelValue label={t("inputFilesLabel")}>
                 <Typography>
-                    {JSON.stringify(initContainerStatus.state)}
+                    {JSON.stringify(initContainerStatus?.state)}
                 </Typography>
             </GridLabelValue>
         </Grid>
     );
 }
 
-function DetailsDrawer(props) {
-    const {
-        drawerId,
-        open,
-        onClose,
-        deployments,
-        configMaps,
-        services,
-        ingresses,
-        pods,
-    } = props;
+function DetailsContent(props) {
+    const { deployments, configMaps, services, ingresses, pods } = props;
     const { t } = useTranslation("vice-loading");
     const classes = useStyles();
 
     return (
-        <Drawer id={drawerId} anchor="bottom" open={open} onClose={onClose}>
-            <div className={classes.drawerContent}>
-                <DeploymentInfo deployments={deployments} />
+        <div className={classes.drawerContent}>
+            <DeploymentInfo deployments={deployments} />
 
-                <Typography variant="h6">
-                    {services?.length > 0
-                        ? t("serviceComplete")
-                        : t("servicePending")}
-                </Typography>
-                <Typography variant="h6">
-                    {ingresses?.length > 0
-                        ? t("ingressComplete")
-                        : t("ingressPending")}
-                </Typography>
-                <Typography variant="h6">
-                    {configMaps?.length > 1
-                        ? t("configMapsComplete")
-                        : t("configMapsPending")}
-                </Typography>
+            <Typography variant="h6">
+                {services?.length > 0
+                    ? t("serviceComplete")
+                    : t("servicePending")}
+            </Typography>
+            <Typography variant="h6">
+                {ingresses?.length > 0
+                    ? t("ingressComplete")
+                    : t("ingressPending")}
+            </Typography>
+            <Typography variant="h6">
+                {configMaps?.length > 1
+                    ? t("configMapsComplete")
+                    : t("configMapsPending")}
+            </Typography>
 
-                <InitContainerInfo
-                    initContainerStatus={pods?.[0]?.initContainerStatuses?.[0]}
-                />
-                <PodInfo pods={pods} />
-            </div>
-        </Drawer>
+            <InitContainerInfo
+                initContainerStatus={pods?.[0]?.initContainerStatuses?.[0]}
+            />
+            <PodInfo pods={pods} />
+        </div>
     );
 }
 
-export default DetailsDrawer;
+export default DetailsContent;

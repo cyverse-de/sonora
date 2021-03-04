@@ -71,6 +71,8 @@ const IntercomEvents = {
     DELETED_TEAM: "deleted team",
     REQUESTED_JOIN_TEAM: "request to join team",
     ENCOUNTERED_ERROR: "encountered error",
+    VIEWED_METADATA: "viewed metadata",
+    SUBMITTED_DOI_REQUEST: "submitted doi request",
 };
 
 export {

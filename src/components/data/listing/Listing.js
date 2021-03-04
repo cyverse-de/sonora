@@ -213,8 +213,10 @@ function Listing(props) {
     const [requestDOI, { status: requestDOIStatus }] = useMutation(
         createDOIRequest,
         {
-            onSuccess: () => {
-                //do nothing. Users will get notifications.
+            onSuccess: (resp) => {
+                trackIntercomEvent(IntercomEvents.SUBMITTED_DOI_REQUEST, {
+                    folder: selected[0],
+                });
             },
             onError: (e) => {
                 showErrorAnnouncer(t("doiRequestFailed"), e);

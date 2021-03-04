@@ -15,8 +15,10 @@ import { BugReport, Info } from "@material-ui/icons";
 import { Trans, useTranslation } from "i18n";
 import { useQuery } from "react-query";
 
+import ErrorHandler from "components/utils/error/ErrorHandler";
 import LinearProgressWithLabel from "components/utils/LinearProgressWithLabel";
 import ContactSupportDialog from "./ContactSupportDialog";
+import { useUserProfile } from "contexts/userProfile";
 import DetailsContent from "./DetailsContent";
 import ids from "./ids";
 import {
@@ -34,6 +36,8 @@ function ViceLoading(props) {
     const { accessUrl } = props;
     const { t } = useTranslation("vice-loading");
     const classes = useStyles();
+
+    const [userProfile] = useUserProfile();
 
     const baseId = ids.VIEW;
 
@@ -58,7 +62,7 @@ function ViceLoading(props) {
         queryKey: [VICE_LOADING_STATUS_QUERY, { accessUrl }],
         queryFn: getLoadingStatus,
         config: {
-            enabled: !!accessUrl && !ready,
+            enabled: userProfile?.id && !!accessUrl && !ready,
             onSuccess: setData,
             refetchInterval: 5000,
         },
@@ -68,7 +72,7 @@ function ViceLoading(props) {
         queryKey: [VICE_LOADING_URL_READY, { accessUrl }],
         queryFn: getUrlReady,
         config: {
-            enabled: progress.percent === 100 && !ready,
+            enabled: userProfile?.id && progress.percent === 100 && !ready,
             onSuccess: (resp) => setReady(resp.ready),
             refetchInterval: 5000,
         },
@@ -236,6 +240,10 @@ function ViceLoading(props) {
         t,
         urlReadyError,
     ]);
+
+    if (!userProfile?.id) {
+        return <ErrorHandler errorObject={{ response: { status: 401 } }} />;
+    }
 
     if (isFetching && Object.keys(data).length === 0) {
         return (

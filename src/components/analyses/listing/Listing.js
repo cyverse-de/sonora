@@ -200,6 +200,7 @@ function Listing(props) {
         cancelAnalyses,
         {
             onSuccess: (analyses, { job_status }) => {
+                trackIntercomEvent(IntercomEvents.ANALYSIS_CANCELLED, analyses);
                 announce({
                     text: t("analysisCancelSuccess", {
                         count: analyses?.length,

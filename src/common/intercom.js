@@ -73,6 +73,7 @@ const IntercomEvents = {
     ENCOUNTERED_ERROR: "encountered error",
     VIEWED_METADATA: "viewed metadata",
     SUBMITTED_DOI_REQUEST: "submitted doi request",
+    ANALYSIS_CANCELLED: "analysis cancelled",
 };
 
 export {

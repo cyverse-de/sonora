@@ -49,9 +49,10 @@ function AnalysisLink(props) {
     const isJobStatusChange = action === "job_status_change";
     const isShare = action === "share";
     if (isShare || isJobStatusChange) {
-        if (notification.payload.access_url) {
+        const accessUrl = notification.payload.access_url;
+        if (accessUrl) {
             return (
-                <ExternalLink href={props.notification.payload.access_url}>
+                <ExternalLink href={`/vice/${encodeURIComponent(accessUrl)}`}>
                     {t("interactiveAnalysisUrl", { message })}
                 </ExternalLink>
             );

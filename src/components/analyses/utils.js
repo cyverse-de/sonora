@@ -180,7 +180,7 @@ const getListingPath = (
  * @param {*} url
  */
 const openInteractiveUrl = (url) => {
-    window.open(url, "_blank");
+    window.open(`/vice/${encodeURIComponent(url)}`, "_blank");
 };
 
 /**

@@ -1,5 +1,5 @@
 /**
- * A form component for editing the App parameter `required` property.
+ * A form component for editing the App parameter `isVisible` property.
  *
  * @author psarando
  */
@@ -9,20 +9,20 @@ import { FastField } from "formik";
 
 import { useTranslation } from "i18n";
 
-import ids from "../ids";
+import ids from "../../ids";
 
 import { build as buildID, FormCheckbox } from "@cyverse-de/ui-lib";
 
-export default function RequiredField(props) {
+export default function VisibleField(props) {
     const { baseId, fieldName } = props;
 
     const { t } = useTranslation("app_editor");
 
     return (
         <FastField
-            id={buildID(baseId, ids.PARAM_FIELDS.REQUIRED)}
-            name={`${fieldName}.required`}
-            label={t("isRequired")}
+            id={buildID(baseId, ids.PARAM_FIELDS.VISIBLE)}
+            name={`${fieldName}.isVisible`}
+            label={t("isVisible")}
             component={FormCheckbox}
         />
     );

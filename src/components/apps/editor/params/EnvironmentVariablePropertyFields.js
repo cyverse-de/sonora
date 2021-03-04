@@ -11,10 +11,10 @@ import { useTranslation } from "i18n";
 
 import ids from "../ids";
 
-import DescriptionField from "./DescriptionField";
-import LabelField from "./LabelField";
-import RequiredField from "./RequiredField";
-import VisibleField from "./VisibleField";
+import DescriptionField from "./common/DescriptionField";
+import LabelField from "./common/LabelField";
+import RequiredField from "./common/RequiredField";
+import VisibleField from "./common/VisibleField";
 
 import { build as buildID, FormTextField } from "@cyverse-de/ui-lib";
 

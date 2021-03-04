@@ -11,9 +11,9 @@ import { useTranslation } from "i18n";
 
 import ids from "../ids";
 
-import DescriptionField from "./DescriptionField";
-import LabelField from "./LabelField";
-import VisibleField from "./VisibleField";
+import DescriptionField from "./common/DescriptionField";
+import LabelField from "./common/LabelField";
+import VisibleField from "./common/VisibleField";
 
 import {
     build as buildID,

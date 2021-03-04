@@ -11,11 +11,11 @@ import { Trans } from "react-i18next";
 
 import { useTranslation } from "i18n";
 
-import DefaultValueField from "./DefaultValueField";
-import DescriptionField from "./DescriptionField";
-import ExcludeArgumentField from "./ExcludeArgumentField";
-import LabelField from "./LabelField";
-import RequiredField from "./RequiredField";
+import DefaultValueField from "./common/DefaultValueField";
+import DescriptionField from "./common/DescriptionField";
+import ExcludeArgumentField from "./common/ExcludeArgumentField";
+import LabelField from "./common/LabelField";
+import RequiredField from "./common/RequiredField";
 
 import ids from "../ids";
 import styles from "../styles";

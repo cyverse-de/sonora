@@ -9,7 +9,7 @@ import { FastField } from "formik";
 
 import { useTranslation } from "i18n";
 
-import ids from "../ids";
+import ids from "../../ids";
 
 import { build as buildID, FormCheckbox } from "@cyverse-de/ui-lib";
 

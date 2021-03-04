@@ -148,5 +148,35 @@ export default function viceRouter() {
         })
     );
 
+    logger.info("adding the GET /vice/resources handler");
+    api.get(
+        "/vice/resources",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/vice/resources",
+        })
+    );
+
+    logger.info("adding the GET /vice/:host/description handler");
+    api.get(
+        "/vice/:host/description",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/vice/:host/description",
+        })
+    );
+
+    logger.info("adding the GET /vice/:host/url-ready handler");
+    api.get(
+        "/vice/:host/url-ready",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/vice/:host/url-ready",
+        })
+    );
+
     return api;
 }

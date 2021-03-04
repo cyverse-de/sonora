@@ -4,22 +4,13 @@
 import React, { useEffect, useState } from "react";
 
 import { build } from "@cyverse-de/ui-lib";
-import {
-    Button,
-    Container,
-    Drawer,
-    makeStyles,
-    Typography,
-} from "@material-ui/core";
-import { BugReport, Info } from "@material-ui/icons";
+import { Container, makeStyles, Typography } from "@material-ui/core";
 import { Trans, useTranslation } from "i18n";
 import { useQuery } from "react-query";
 
 import ErrorHandler from "components/utils/error/ErrorHandler";
 import LinearProgressWithLabel from "components/utils/LinearProgressWithLabel";
-import ContactSupportDialog from "./ContactSupportDialog";
 import { useUserProfile } from "contexts/userProfile";
-import DetailsContent from "./DetailsContent";
 import ids from "./ids";
 import {
     getLoadingStatus,
@@ -29,6 +20,7 @@ import {
 } from "serviceFacades/vice/loading";
 import { DEContainerStatus, getContainerDetails } from "./util";
 import styles from "./styles";
+import ViceLoadingToolbar from "./Toolbar";
 
 const useStyles = makeStyles(styles);
 
@@ -41,8 +33,6 @@ function ViceLoading(props) {
 
     const baseId = ids.VIEW;
 
-    const [drawerOpen, setDrawerOpen] = useState(false);
-    const [contactSupportDlgOpen, setContactSupportDlgOpen] = useState(false);
     const [data, setData] = useState({});
     const [ready, setReady] = useState(false);
     const [progress, setProgress] = useState({
@@ -50,10 +40,6 @@ function ViceLoading(props) {
         message: null,
         hasError: false,
     });
-    const handleClose = () => setDrawerOpen(false);
-    const handleClick = () => setDrawerOpen(!drawerOpen);
-    const onContactSupport = () => setContactSupportDlgOpen(true);
-    const onCloseContactSupport = () => setContactSupportDlgOpen(false);
 
     const { deployments, configMaps, services, ingresses, pods } = data;
     const deployment = deployments?.[0];
@@ -257,70 +243,35 @@ function ViceLoading(props) {
     }
 
     return (
-        <Container maxWidth="md">
-            <img
-                id={build(baseId, ids.LOADING_IMG)}
-                src="/vice_loading.png"
-                alt={t("loadingImgAltText")}
-                className={classes.centeredImage}
-            />
-            <Typography variant="h5" gutterBottom={true}>
-                {t("launchVICE", { appName: deployment?.appName })}
-            </Typography>
-            <LinearProgressWithLabel value={progress.percent} />
-            <Typography
-                id={build(baseId, ids.STATUS_MSG)}
-                gutterBottom={true}
-                color={progress.hasError ? "error" : "inherit"}
-                classes={{ root: classes.typographyMessage }}
-            >
-                {progress.message}
-            </Typography>
-            <Button
-                id={build(baseId, ids.SHOW_MORE_BTN)}
-                variant="contained"
-                color="primary"
-                startIcon={<Info />}
-                onClick={handleClick}
-                classes={{ root: classes.button }}
-            >
-                {t("showMoreBtn")}
-            </Button>
-            <Button
-                id={build(baseId, ids.REPORT_PROBLEM_BTN)}
-                variant="contained"
-                startIcon={<BugReport />}
-                onClick={onContactSupport}
-            >
-                {t("reportProblemBtn")}
-            </Button>
-
-            <Drawer
-                id={build(baseId, ids.DETAILS_DRAWER)}
-                anchor="bottom"
-                open={drawerOpen}
-                onClose={handleClose}
-            >
-                <DetailsContent
-                    deployments={deployments}
-                    configMaps={configMaps}
-                    services={services}
-                    ingresses={ingresses}
-                    pods={pods}
-                />
-            </Drawer>
-
-            <ContactSupportDialog
-                baseId={ids.CONTACT_SUPPORT_DLG}
-                open={contactSupportDlgOpen}
-                onClose={onCloseContactSupport}
+        <>
+            <ViceLoadingToolbar
+                parentId={baseId}
                 deployments={deployments}
                 configMaps={configMaps}
                 services={services}
                 ingresses={ingresses}
                 pods={pods}
             />
-        </Container>
+            <Container maxWidth="md" classes={{ root: classes.scrollable }}>
+                <img
+                    id={build(baseId, ids.LOADING_IMG)}
+                    src="/vice_loading.png"
+                    alt={t("loadingImgAltText")}
+                    className={classes.centeredImage}
+                />
+                <Typography variant="h5" gutterBottom={true}>
+                    {t("launchVICE", { appName: deployment?.appName })}
+                </Typography>
+                <LinearProgressWithLabel value={progress.percent} />
+                <Typography
+                    id={build(baseId, ids.STATUS_MSG)}
+                    gutterBottom={true}
+                    color={progress.hasError ? "error" : "inherit"}
+                >
+                    {progress.message}
+                </Typography>
+            </Container>
+        </>
     );
 }
 

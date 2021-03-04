@@ -9,15 +9,32 @@ export default (theme) => ({
         marginRight: "auto",
     },
 
+    divider: {
+        flexGrow: 1,
+    },
+
     drawerContent: {
         padding: theme.spacing(3),
     },
 
-    typographyMessage: {
-        marginBottom: theme.spacing(4), // gutterBottom wasn't enough space
+    drawerPaper: {
+        [theme.breakpoints.up("lg")]: {
+            maxWidth: "25%",
+        },
+        [theme.breakpoints.down("lg")]: {
+            maxWidth: "50%",
+        },
+        [theme.breakpoints.down("sm")]: {
+            maxWidth: "90%",
+        },
     },
 
     error: {
         color: theme.palette.error.main,
+    },
+
+    scrollable: {
+        maxHeight: "inherit",
+        overflow: "auto",
     },
 });

@@ -16,6 +16,7 @@ import { Trans, useTranslation } from "i18n";
 import { useQuery } from "react-query";
 
 import LinearProgressWithLabel from "components/utils/LinearProgressWithLabel";
+import ContactSupportDialog from "./ContactSupportDialog";
 import DetailsContent from "./DetailsContent";
 import ids from "./ids";
 import {
@@ -37,6 +38,7 @@ function ViceLoading(props) {
     const baseId = ids.VIEW;
 
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [contactSupportDlgOpen, setContactSupportDlgOpen] = useState(false);
     const [data, setData] = useState({});
     const [ready, setReady] = useState(false);
     const [progress, setProgress] = useState({
@@ -46,6 +48,8 @@ function ViceLoading(props) {
     });
     const handleClose = () => setDrawerOpen(false);
     const handleClick = () => setDrawerOpen(!drawerOpen);
+    const onContactSupport = () => setContactSupportDlgOpen(true);
+    const onCloseContactSupport = () => setContactSupportDlgOpen(false);
 
     const { deployments, configMaps, services, ingresses, pods } = data;
     const deployment = deployments?.[0];
@@ -278,9 +282,11 @@ function ViceLoading(props) {
                 id={build(baseId, ids.REPORT_PROBLEM_BTN)}
                 variant="contained"
                 startIcon={<BugReport />}
+                onClick={onContactSupport}
             >
                 {t("reportProblemBtn")}
             </Button>
+
             <Drawer
                 id={build(baseId, ids.DETAILS_DRAWER)}
                 anchor="bottom"
@@ -295,11 +301,16 @@ function ViceLoading(props) {
                     pods={pods}
                 />
             </Drawer>
-            deployments={deployments}
-            configMaps={configMaps}
-            services={services}
-            ingresses={ingresses}
-            pods={pods}
+
+            <ContactSupportDialog
+                baseId={ids.CONTACT_SUPPORT_DLG}
+                open={contactSupportDlgOpen}
+                onClose={onCloseContactSupport}
+                deployments={deployments}
+                configMaps={configMaps}
+                services={services}
+                ingresses={ingresses}
+                pods={pods}
             />
         </Container>
     );

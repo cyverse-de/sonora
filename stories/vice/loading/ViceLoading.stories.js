@@ -51,6 +51,15 @@ export const ViceLoadingTest = ({
             : [200, urlReadyMock];
     });
 
+    mockAxios
+        .onPost("/api/support-email")
+        .replyOnce(500, {
+            error_code: "ERR_NO_SUPPORT",
+            reason: "Devs too tired",
+        })
+        .onPost("/api/support-email")
+        .reply(200);
+
     return <ViceLoading accessUrl={accessUrl} />;
 };
 

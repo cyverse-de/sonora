@@ -68,7 +68,7 @@ export const DEContainerStatus = {
  * @param {string} containerName
  * @return {[ContainerStatus, boolean]}
  */
-const findContainerStatus = (pod, containerName) => {
+export const findContainerStatus = (pod, containerName) => {
     const podContainerStatus = pod?.containerStatuses?.find(
         (pod) => pod.name === containerName
     );

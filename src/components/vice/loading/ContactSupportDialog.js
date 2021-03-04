@@ -1,0 +1,157 @@
+import React, { useState } from "react";
+
+import { build } from "@cyverse-de/ui-lib";
+import { Button, TextField, Typography } from "@material-ui/core";
+import { useMutation } from "react-query";
+
+import DEDialog from "components/utils/DEDialog";
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import GridLoading from "components/utils/GridLoading";
+import { useUserProfile } from "contexts/userProfile";
+import DetailsContent from "./DetailsContent";
+import { useTranslation } from "i18n";
+import ids from "./ids";
+import { sendSupportEmail } from "serviceFacades/support";
+import { findContainerStatus } from "./util";
+
+function ContactSupportDialog(props) {
+    const {
+        baseId,
+        open,
+        onClose,
+        deployments,
+        configMaps,
+        services,
+        ingresses,
+        pods,
+        ready,
+    } = props;
+    const { t } = useTranslation(["vice-loading", "common"]);
+
+    const [comment, setComment] = useState("");
+    const [supportEmailError, setSupportEmailError] = useState(null);
+    const [userProfile] = useUserProfile();
+    const deployment = deployments?.[0];
+    const appName = deployment?.appName;
+
+    const onCommentChange = (event) => {
+        setComment(event.target.value);
+    };
+
+    const [sendSupportEmailMutation, { isLoading }] = useMutation(
+        sendSupportEmail,
+        {
+            onSuccess: onClose,
+            onError: (error) => {
+                setSupportEmailError({
+                    error: error,
+                    message: t("sendSupportEmailError"),
+                });
+            },
+        }
+    );
+
+    const onContactSupport = () => {
+        setSupportEmailError(null);
+
+        const pod = pods?.[0];
+        const [initContainerStatus] = findContainerStatus(
+            pod,
+            "input-files-init"
+        );
+        const [viceProxyStatus] = findContainerStatus(pod, "vice-proxy");
+        const [inputFilesStatus] = findContainerStatus(pod, "input-files");
+        const [analysisStatus] = findContainerStatus(pod, "analysis");
+
+        const supportRequest = {
+            email: userProfile?.attributes.email,
+            subject: t("viceSupportEmailSubject", {
+                userId: userProfile?.id,
+                appName,
+            }),
+            fields: {
+                comment,
+                ...deployment,
+                initContainer: initContainerStatus?.state,
+                podViceProxy: viceProxyStatus?.state,
+                podInputFiles: inputFilesStatus?.state,
+                podAnalysis: analysisStatus?.state,
+                urlReady: ready,
+            },
+        };
+
+        sendSupportEmailMutation({ supportRequest });
+    };
+
+    return (
+        <DEDialog
+            baseId={baseId}
+            open={open}
+            onClose={onClose}
+            title={t("viceContactSupportTitle")}
+            actions={
+                <>
+                    <Button
+                        id={build(baseId, ids.CANCEL_BTN)}
+                        onClick={onClose}
+                    >
+                        {t("common:cancel")}
+                    </Button>
+                    <Button
+                        color="primary"
+                        id={build(baseId, ids.CONTACT_SUPPORT_BTN)}
+                        onClick={onContactSupport}
+                    >
+                        {t("common:submit")}
+                    </Button>
+                </>
+            }
+        >
+            {isLoading && (
+                <GridLoading
+                    rows={10}
+                    baseId={build(baseId, ids.LOADING_SKELETON)}
+                />
+            )}
+            {!isLoading && (
+                <>
+                    {supportEmailError && (
+                        <ErrorTypographyWithDialog
+                            baseId={build(baseId, ids.SUPPORT_EMAIL_ERROR)}
+                            errorObject={supportEmailError.error}
+                            errorMessage={supportEmailError.message}
+                        />
+                    )}
+                    <Typography gutterBottom>
+                        {t("optionalCommentHelpText", { appName })}
+                    </Typography>
+                    <TextField
+                        multiline
+                        rows={3}
+                        variant="outlined"
+                        value={comment}
+                        onChange={onCommentChange}
+                        label={t("optionalComment")}
+                        fullWidth
+                    />
+                    <DetailsContent
+                        deployments={deployments}
+                        configMaps={configMaps}
+                        services={services}
+                        ingresses={ingresses}
+                        pods={pods}
+                    />
+                    {supportEmailError && (
+                        <ErrorTypographyWithDialog
+                            baseId={build(baseId, ids.SUPPORT_EMAIL_ERROR)}
+                            errorObject={supportEmailError.error}
+                            errorMessage={supportEmailError.message}
+                        />
+                    )}
+                </>
+            )}
+        </DEDialog>
+    );
+}
+
+export default ContactSupportDialog;

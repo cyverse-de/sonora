@@ -43,5 +43,9 @@
     "sectionLabel": "Section Label",
     "selectParameter": "Select Parameter",
     "textNumericalInputCategoryTitle": "Text/Numerical Input",
-    "toolUsed": "Tool used"
+    "toolUsed": "Tool used",
+    "validatorParams": "Rule parameters",
+    "validationRules": "Validation rules",
+    "validationRuleCharacterLimit": "Value must contain, at most, a maximum number of characters",
+    "validationRuleRegex": "Matches a reqular expression"
 }

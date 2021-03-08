@@ -25,7 +25,7 @@ import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 import RunError from "components/apps/RunError";
 import AppLaunchWizard from "./AppLaunchWizard";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
-import { getErrorCode, ERROR_CODES } from "components/utils/error/errorCode";
+import { ERROR_CODES } from "components/utils/error/errorCode";
 import AccessRequestDialog from "components/vice/AccessRequestDialog";
 
 import { Button, Typography } from "@material-ui/core";

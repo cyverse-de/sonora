@@ -119,7 +119,9 @@ function ViceLoading(props) {
                 message: t("initializingVice"),
             });
         } else if (fileTransferStatus !== DEContainerStatus.DONE) {
-            const hasError = fileTransferStatus === DEContainerStatus.ERROR;
+            const hasError =
+                fileTransferStatus === DEContainerStatus.ERROR &&
+                fileTransferRestartCount > 2;
             setProgress({
                 percent: 20,
                 hasError,
@@ -143,11 +145,13 @@ function ViceLoading(props) {
             inputFilesPodStatus !== DEContainerStatus.DONE &&
             viceProxyPodStatus !== DEContainerStatus.DONE
         ) {
-            const hasError =
-                inputFilesPodStatus === DEContainerStatus.ERROR ||
-                viceProxyPodStatus === DEContainerStatus.ERROR;
             const restartCount =
                 inputFilesPodRestartCount || viceProxyPodRestartCount;
+            const hasError =
+                (inputFilesPodStatus === DEContainerStatus.ERROR ||
+                    viceProxyPodStatus === DEContainerStatus.ERROR) &&
+                (inputFilesPodRestartCount > 2 || viceProxyPodRestartCount > 2);
+
             setProgress({
                 percent: 60,
                 hasError,
@@ -168,7 +172,9 @@ function ViceLoading(props) {
                 ),
             });
         } else if (analysisPodStatus !== DEContainerStatus.DONE) {
-            const hasError = analysisPodStatus === DEContainerStatus.ERROR;
+            const hasError =
+                analysisPodStatus === DEContainerStatus.ERROR &&
+                analysisPodRestartCount > 2;
 
             setProgress({
                 percent: 75,

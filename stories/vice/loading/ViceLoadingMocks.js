@@ -97,7 +97,7 @@ export const statusMock = (
                         ready:
                             analysisPodStatus === POD_STATUS.RUNNING ||
                             analysisPodStatus === POD_STATUS.DONE, // it's possible for this to be false while running
-                        restartCount: 0,
+                        restartCount: 3,
                         image: "gims.cyverse.org:5000/fastqe-cyverse-vice:1.0",
                         imageID: "",
                         started: false,
@@ -113,7 +113,7 @@ export const statusMock = (
                             : { waiting: { reason: "PodInitializing" } },
                         lastState: {},
                         ready: inputFilesPodComplete,
-                        restartCount: 0,
+                        restartCount: 3,
                         image: "discoenv/vice-file-transfers:qa",
                         imageID: "",
                         started: false,
@@ -129,7 +129,7 @@ export const statusMock = (
                             : { waiting: { reason: "PodInitializing" } },
                         lastState: {},
                         ready: viceProxyPodComplete,
-                        restartCount: 0,
+                        restartCount: 3,
                         image: "discoenv/vice-proxy:qa",
                         imageID: "",
                         started: false,
@@ -183,7 +183,7 @@ export const statusMock = (
 
                         lastState: {},
                         ready: uploadStatus === POD_STATUS.DONE,
-                        restartCount: 0,
+                        restartCount: 3,
                         image: "discoenv/vice-file-transfers:qa",
                         imageID:
                             "docker-pullable://discoenv/vice-file-transfers@sha256:142ebbace0327df6d68f1af42a7edd78482c9f1f1db3f85f678aece044b00a38",

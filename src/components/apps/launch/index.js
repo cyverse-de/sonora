@@ -10,7 +10,6 @@ import { useRouter } from "next/router";
 import { useMutation } from "react-query";
 import { useTranslation } from "i18n";
 
-import { ERROR_CODES } from "components/utils/error/errorCode";
 import NavigationConstants from "common/NavigationConstants";
 
 import { useHomePath } from "components/data/utils";

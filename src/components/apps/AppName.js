@@ -67,7 +67,7 @@ function AppName(props) {
 
     useEffect(() => {
         if (!limitChecks?.canRun) {
-            setRunErrorCodes(limitChecks?.reasonCodes);
+            setRunErrorCodes(limitChecks?.results[0].reasonCodes);
         }
     }, [limitChecks]);
 

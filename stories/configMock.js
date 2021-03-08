@@ -17,4 +17,10 @@ export default {
         home_path: "/iplant/home",
         trash_path: "/iplant/trash/home/de-irods",
     },
+    vice: {
+        initContainerName: "input-files-init",
+        inputFilesContainerName: "input-files",
+        viceProxyContainerName: "vice-proxy",
+        analysisContainerName: "analysis",
+    },
 };

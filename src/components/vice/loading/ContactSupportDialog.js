@@ -7,6 +7,7 @@ import { useMutation } from "react-query";
 import DEDialog from "components/utils/DEDialog";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import GridLoading from "components/utils/GridLoading";
+import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import DetailsContent from "./DetailsContent";
 import { useTranslation } from "i18n";
@@ -27,6 +28,7 @@ function ContactSupportDialog(props) {
         ready,
     } = props;
     const { t } = useTranslation(["vice-loading", "common"]);
+    const [config] = useConfig();
 
     const [comment, setComment] = useState("");
     const [supportEmailError, setSupportEmailError] = useState(null);
@@ -57,11 +59,20 @@ function ContactSupportDialog(props) {
         const pod = pods?.[0];
         const [initContainerStatus] = findContainerStatus(
             pod,
-            "input-files-init"
+            config?.vice?.initContainerName
         );
-        const [viceProxyStatus] = findContainerStatus(pod, "vice-proxy");
-        const [inputFilesStatus] = findContainerStatus(pod, "input-files");
-        const [analysisStatus] = findContainerStatus(pod, "analysis");
+        const [viceProxyStatus] = findContainerStatus(
+            pod,
+            config?.vice?.viceProxyContainerName
+        );
+        const [inputFilesStatus] = findContainerStatus(
+            pod,
+            config?.vice?.inputFilesContainerName
+        );
+        const [analysisStatus] = findContainerStatus(
+            pod,
+            config?.vice?.analysisContainerName
+        );
 
         const supportRequest = {
             email: userProfile?.attributes.email,
@@ -76,6 +87,9 @@ function ContactSupportDialog(props) {
                 podViceProxy: viceProxyStatus?.state,
                 podInputFiles: inputFilesStatus?.state,
                 podAnalysis: analysisStatus?.state,
+                configMapsDone: configMaps?.length > 1,
+                ingressDone: ingresses?.length > 0,
+                serviceDone: services?.length > 0,
                 urlReady: ready,
             },
         };

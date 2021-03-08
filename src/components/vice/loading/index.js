@@ -10,6 +10,7 @@ import { useQuery } from "react-query";
 
 import ErrorHandler from "components/utils/error/ErrorHandler";
 import LinearProgressWithLabel from "components/utils/LinearProgressWithLabel";
+import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import ids from "./ids";
 import {
@@ -30,6 +31,7 @@ function ViceLoading(props) {
     const classes = useStyles();
 
     const [userProfile] = useUserProfile();
+    const [config] = useConfig();
 
     const baseId = ids.VIEW;
 
@@ -83,20 +85,20 @@ function ViceLoading(props) {
         const {
             status: fileTransferStatus,
             restartCount: fileTransferRestartCount,
-        } = getContainerDetails(pods, "input-files-init");
+        } = getContainerDetails(pods, config?.vice?.initContainerName);
         const {
             status: inputFilesPodStatus,
             restartCount: inputFilesPodRestartCount,
-        } = getContainerDetails(pods, "input-files");
+        } = getContainerDetails(pods, config?.vice?.inputFilesContainerName);
         const {
             status: viceProxyPodStatus,
             restartCount: viceProxyPodRestartCount,
-        } = getContainerDetails(pods, "vice-proxy");
+        } = getContainerDetails(pods, config?.vice?.viceProxyContainerName);
         const {
             status: analysisPodStatus,
             restartCount: analysisPodRestartCount,
             image: analysisPodImage,
-        } = getContainerDetails(pods, "analysis");
+        } = getContainerDetails(pods, config?.vice?.analysisContainerName);
 
         if (
             !(
@@ -216,6 +218,7 @@ function ViceLoading(props) {
             });
         }
     }, [
+        config,
         configMaps,
         data,
         deployments,

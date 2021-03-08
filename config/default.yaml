@@ -59,6 +59,10 @@ vice:
     defaultCasValidate: validate
     concurrentJobs: 2
     useCaseCharsMin: 60
+    initContainerName: input-files-init
+    inputFilesContainerName: input-files
+    viceProxyContainerName: vice-proxy
+    analysisContainerName: analysis
 
 services:
     ontology_lookup_service:

@@ -175,6 +175,13 @@ function MyApp({ Component, pageProps }) {
             defaultCasValidate: publicRuntimeConfig.VICE_DEFAULT_CAS_VALIDATE,
             concurrentJobs: publicRuntimeConfig.VICE_CONCURRENT_JOBS,
             useCaseMinChars: publicRuntimeConfig.VICE_USE_CASE_MIN_CHARS,
+            initContainerName: publicRuntimeConfig.VICE_INIT_CONTAINER_NAME,
+            inputFilesContainerName:
+                publicRuntimeConfig.VICE_INPUT_FILES_CONTAINER_NAME,
+            viceProxyContainerName:
+                publicRuntimeConfig.VICE_VICE_PROXY_CONTAINER_NAME,
+            analysisContainerName:
+                publicRuntimeConfig.VICE_ANALYSIS_CONTAINER_NAME,
         };
 
         const grouper = {

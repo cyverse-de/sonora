@@ -36,6 +36,7 @@ import {
     privilegeIsAdmin,
     userIsMember,
 } from "../util";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 const useStyles = makeStyles(styles);
 
@@ -130,6 +131,7 @@ function TeamForm(props) {
         createTeam,
         {
             onSuccess: (resp, { newPrivileges }) => {
+                trackIntercomEvent(IntercomEvents.CREATED_NEW_TEAM, resp);
                 setTeamNameSaved(true);
                 updateTeamMemberStatsMutation({
                     name: resp?.name,
@@ -184,7 +186,10 @@ function TeamForm(props) {
     const [deleteTeamMutation, { status: deleteTeamStatus }] = useMutation(
         deleteTeam,
         {
-            onSuccess: goBackToTeamView,
+            onSuccess: (resp) => {
+                trackIntercomEvent(IntercomEvents.DELETED_TEAM, resp);
+                goBackToTeamView();
+            },
             onError: (error) => {
                 setSaveError({
                     message: t("deleteTeamFail"),

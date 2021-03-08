@@ -29,6 +29,7 @@ import {
 } from "serviceFacades/notifications";
 
 import { build as buildId } from "@cyverse-de/ui-lib";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 const NotificationView = (props) => {
     const { baseDebugId, showErrorAnnouncer } = props;
@@ -57,7 +58,13 @@ const NotificationView = (props) => {
         queryFn: getNotifications,
         config: {
             enabled: notificationsMessagesQueryEnabled,
-            onSuccess: setNotifications,
+            onSuccess: (resp) => {
+                trackIntercomEvent(
+                    IntercomEvents.VIEWED_NOTIFICATIONS,
+                    notificationsKey[1]
+                );
+                setNotifications(resp);
+            },
         },
     });
 

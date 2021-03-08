@@ -15,6 +15,7 @@ import { Button, Typography, useTheme } from "@material-ui/core";
 
 import DEErrorDialog from "./DEErrorDialog";
 import ids from "../ids";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 const withErrorAnnouncer = (WrappedComponent) => {
     const WithErrorAnnouncerComponent = (props) => {
@@ -43,6 +44,7 @@ const withErrorAnnouncer = (WrappedComponent) => {
 
         const showErrorAnnouncer = useCallback(
             (text, error) => {
+                trackIntercomEvent(IntercomEvents.ENCOUNTERED_ERROR, error);
                 setErrorObject(error);
                 announce({
                     text,

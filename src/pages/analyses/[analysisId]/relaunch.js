@@ -62,3 +62,6 @@ const Relaunch = () => {
 };
 
 export default Relaunch;
+Relaunch.getInitialProps = async () => ({
+    namespacesRequired: ["launch"],
+});

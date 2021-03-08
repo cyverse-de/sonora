@@ -11,10 +11,11 @@ import ErrorTypography from "./ErrorTypography";
 import DEErrorDialog from "./DEErrorDialog";
 
 import { build } from "@cyverse-de/ui-lib";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 const ErrorTypographyWithDialog = ({ baseId, errorMessage, errorObject }) => {
     const [errorDialogOpen, setErrorDialogOpen] = React.useState(false);
-
+    trackIntercomEvent(IntercomEvents.ENCOUNTERED_ERROR, errorObject);
     return (
         <>
             <ErrorTypography

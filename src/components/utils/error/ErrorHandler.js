@@ -31,6 +31,7 @@ import {
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import ErrorIcon from "@material-ui/icons/Error";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 const useStyles = makeStyles((theme) => ({
     cardContent: {
@@ -128,6 +129,9 @@ function ErrorHandler(props) {
     const router = useRouter();
     const classes = useStyles();
     const errBaseId = build(baseId, ids.ERROR_HANDLER);
+
+    trackIntercomEvent(IntercomEvents.ENCOUNTERED_ERROR, errorObject);
+
     let title, subHeader, contents, avatar;
 
     if (!errorObject?.response && !errorObject?.config) {

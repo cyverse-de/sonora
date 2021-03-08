@@ -25,6 +25,7 @@ import ids from "../ids";
 import { requestJoinTeam } from "serviceFacades/groups";
 import styles from "../styles";
 import { groupShortName } from "../util";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 const useStyles = makeStyles(styles);
 
@@ -42,6 +43,7 @@ function JoinTeamDialog(props) {
         requestJoinTeam,
         {
             onSuccess: (data, { resetForm }) => {
+                trackIntercomEvent(IntercomEvents.REQUESTED_JOIN_TEAM, data);
                 resetForm();
                 onClose();
             },

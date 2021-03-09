@@ -1,3 +1,13 @@
+/**
+ * @author aramsey
+ *
+ * A dialog that contains a form users can fill out to send an email to support
+ * regarding their VICE instance if it encountered an error while launching
+ * or is taking too long to launch.
+ *
+ * Users can add a comment and k8s details will automatically be included
+ * in the email.
+ */
 import React, { useState } from "react";
 
 import { build } from "@cyverse-de/ui-lib";
@@ -140,6 +150,7 @@ function ContactSupportDialog(props) {
                         {t("optionalCommentHelpText", { appName })}
                     </Typography>
                     <TextField
+                        id={build(baseId, ids.SUPPORT_EMAIL_COMMENT)}
                         multiline
                         rows={3}
                         variant="outlined"

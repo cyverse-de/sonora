@@ -8,6 +8,7 @@ export default {
     LOADING_IMG: "loadingImg",
     REPORT_PROBLEM_BTN: "reportProblemBtn",
     STATUS_MSG: "statusMsg",
+    SUPPORT_EMAIL_COMMENT: "supportCommentField",
     SUPPORT_EMAIL_ERROR: "supportEmailError",
     TOOLBAR: "toolbar",
     VIEW: "viceLoading",

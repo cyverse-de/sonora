@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 
 import { build } from "@cyverse-de/ui-lib";
 import { Container, makeStyles, Typography } from "@material-ui/core";
+import { differenceInMinutes } from "date-fns";
 import { Trans, useTranslation } from "i18n";
 import { useQuery } from "react-query";
 
@@ -35,6 +36,8 @@ function ViceLoading(props) {
 
     const baseId = ids.VIEW;
 
+    const [startTime] = useState(new Date());
+    const [elapsedMinutes, setElapsedMinutes] = useState(0);
     const [data, setData] = useState({});
     const [ready, setReady] = useState(false);
     const [progress, setProgress] = useState({
@@ -51,7 +54,10 @@ function ViceLoading(props) {
         queryFn: getLoadingStatus,
         config: {
             enabled: userProfile?.id && !!accessUrl && !ready,
-            onSuccess: setData,
+            onSuccess: (resp) => {
+                setData(resp);
+                setElapsedMinutes(differenceInMinutes(new Date(), startTime));
+            },
             refetchInterval: 5000,
         },
     });
@@ -112,6 +118,7 @@ function ViceLoading(props) {
                 ingressesDone
             )
         ) {
+            const hasError = elapsedMinutes > 2;
             setProgress({
                 percent:
                     (deploymentsDone +
@@ -119,8 +126,22 @@ function ViceLoading(props) {
                         servicesDone +
                         ingressesDone) *
                     5,
-                hasError: false,
-                message: t("initializingVice"),
+                hasError,
+                message: (
+                    <Trans
+                        t={t}
+                        i18nKey={
+                            hasError
+                                ? "initializingViceLong"
+                                : "initializingVice"
+                        }
+                        values={{ restartCount: fileTransferRestartCount }}
+                        components={{
+                            bold: <b />,
+                            break: <br />,
+                        }}
+                    />
+                ),
             });
             return;
         }
@@ -230,9 +251,11 @@ function ViceLoading(props) {
         configMaps,
         data,
         deployments,
+        elapsedMinutes,
         ingresses,
         pods,
         services,
+        startTime,
         statusError,
         t,
         urlReadyError,

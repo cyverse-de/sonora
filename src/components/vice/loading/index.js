@@ -276,6 +276,10 @@ function ViceLoading(props) {
         );
     }
 
+    if (ready) {
+        window.location.href = decodeURIComponent(accessUrl);
+    }
+
     return (
         <>
             <ViceLoadingToolbar

@@ -136,10 +136,6 @@ function ViceLoading(props) {
                                 : "initializingVice"
                         }
                         values={{ restartCount: fileTransferRestartCount }}
-                        components={{
-                            bold: <b />,
-                            break: <br />,
-                        }}
                     />
                 ),
             });
@@ -155,7 +151,7 @@ function ViceLoading(props) {
                         t={t}
                         i18nKey={
                             fileTransferError
-                                ? "downloadInputsError"
+                                ? "downloadingInputsError"
                                 : "downloadingInputs"
                         }
                         values={{ restartCount: fileTransferRestartCount }}
@@ -182,12 +178,11 @@ function ViceLoading(props) {
                         t={t}
                         i18nKey={
                             hasError
-                                ? "downloadingDEImages"
+                                ? "downloadingDEImagesError"
                                 : "downloadingDEImages"
                         }
                         values={{ restartCount }}
                         components={{
-                            bold: <b />,
                             break: <br />,
                         }}
                     />
@@ -207,7 +202,7 @@ function ViceLoading(props) {
                         t={t}
                         i18nKey={
                             hasError
-                                ? "downloadVICEImageError"
+                                ? "downloadingVICEImageError"
                                 : "downloadingVICEImage"
                         }
                         values={{
@@ -216,7 +211,6 @@ function ViceLoading(props) {
                             appName,
                         }}
                         components={{
-                            bold: <b />,
                             break: <br />,
                         }}
                     />
@@ -238,10 +232,6 @@ function ViceLoading(props) {
                     }
                     values={{
                         appName,
-                    }}
-                    components={{
-                        bold: <b />,
-                        break: <br />,
                     }}
                 />
             ),

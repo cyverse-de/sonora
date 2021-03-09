@@ -2,11 +2,6 @@ import callApi from "../common/callApi";
 
 import { shareAnalyses } from "serviceFacades/sharing";
 
-/**
- *
- * @param supportRequest
- * @return {Promise<*>}
- */
 export const sendSupportEmail = ({ supportRequest }) => {
     return callApi({
         endpoint: "/api/support-email",

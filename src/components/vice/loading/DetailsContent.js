@@ -1,9 +1,10 @@
 /**
  * @author aramsey
  *
- * A Drawer component that displays on the VICE app loading page.
+ * The details that show within a Dialog component in the VICE app loading page,
+ * and also in the Contact Support form on that page.
  *
- * The drawer contains more advanced information about the deployment of the
+ * The details contain more advanced information about the deployment of the
  * kubernetes resources for the VICE app.
  */
 import React from "react";

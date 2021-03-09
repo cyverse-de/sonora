@@ -1,6 +1,9 @@
 {
     "CharacterLimit": "Character Limit",
     "Double": "Decimal",
+    "DoubleAbove": "Lower Limit",
+    "DoubleBelow": "Upper Limit",
+    "DoubleRange": "Allowed Range",
     "DoubleSelection": "Decimal List",
     "EnvironmentVariable": "Environment Variable",
     "FileInput": "Input File",

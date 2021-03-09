@@ -56,6 +56,7 @@ function PropertyFormFields(props) {
                 <DoublePropertyFields
                     baseId={baseParamId}
                     fieldName={fieldName}
+                    param={param}
                 />
             );
 

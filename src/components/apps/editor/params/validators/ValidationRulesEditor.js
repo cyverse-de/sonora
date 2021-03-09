@@ -14,6 +14,9 @@ import ids from "../../ids";
 import styles from "../../styles";
 
 import CharacterLimitField from "./CharacterLimitField";
+import DoubleAboveField from "./DoubleAboveField";
+import DoubleBelowField from "./DoubleBelowField";
+import DoubleRangeField from "./DoubleRangeField";
 import IntAboveField from "./IntAboveField";
 import IntBelowField from "./IntBelowField";
 import IntRangeField from "./IntRangeField";
@@ -55,6 +58,21 @@ function ValidationRulesEditorRow(props) {
         case ValidatorTypes.CHARACTER_LIMIT:
             ruleDisplay = t("validationRuleCharacterLimit");
             RuleParamComponent = CharacterLimitField;
+            break;
+
+        case ValidatorTypes.DOUBLE_ABOVE:
+            ruleDisplay = t("validationRuleValueAbove");
+            RuleParamComponent = DoubleAboveField;
+            break;
+
+        case ValidatorTypes.DOUBLE_BELOW:
+            ruleDisplay = t("validationRuleValueBelow");
+            RuleParamComponent = DoubleBelowField;
+            break;
+
+        case ValidatorTypes.DOUBLE_RANGE:
+            ruleDisplay = t("validationRuleValueRange");
+            RuleParamComponent = DoubleRangeField;
             break;
 
         case ValidatorTypes.INT_ABOVE:

@@ -1,24 +1,12 @@
-import callApi from "../../common/callApi";
+import callApi from "common/callApi";
 
 const VICE_LOADING_STATUS_QUERY = "fetchViceLoadingStatus";
 const VICE_LOADING_URL_READY = "fetchViceUrlReady";
 
+// sample URL: https://a12345678.cyverse.run:4343
 export function extractSubdomain(urlWithSubdomain) {
-    const u = decodeURIComponent(urlWithSubdomain);
-    const fields = u.split("/").pop().split(".");
-
-    // debug(`hostname split; url: ${urlWithSubdomain}; fields: ${fields}`);
-
-    if (fields.length < 2) {
-        throw new Error(`no subdomain found in ${urlWithSubdomain}`);
-    }
-    if (fields.length === 2 && fields[0] === "www") {
-        // debug(`extractSubdomain; URL: ${urlWithSubdomain}; return ''`);
-        return "";
-    }
-
-    // debug(`extractSubdomain; URL: ${urlWithSubdomain}; return ${fields[0]}`);
-    return fields[0];
+    const url = decodeURIComponent(urlWithSubdomain);
+    return url?.split("/")?.pop()?.split(".")?.shift();
 }
 
 function getLoadingStatus(key, { accessUrl }) {

@@ -55,7 +55,7 @@ const ContainerErrorReasons = ["CrashLoopBackOff", "Error"];
  * distinguish the current state
  * @type {{DONE: string, ERROR: string, PENDING: string}}
  */
-export const DEContainerStatus = {
+const DEContainerStatus = {
     PENDING: "pending",
     DONE: "done",
     ERROR: "error",
@@ -92,7 +92,7 @@ export const findContainerStatus = (pod, containerName) => {
  *
  * @param {Pod[]} pods
  * @param {string} containerName - the name of a pod or init container
- * @return {{restartCount, status: (string) DEContainerStatus, image: (string)}}
+ * @return {{image: string, restartCount: int, hasError: boolean, done: boolean}}
  */
 export function getContainerDetails(pods, containerName) {
     const pod = pods?.[0];
@@ -135,9 +135,13 @@ export function getContainerDetails(pods, containerName) {
         }
     }
 
+    const restartCount = containerStatus?.restartCount;
+
     return {
-        status: deContainerStatus,
-        restartCount: containerStatus?.restartCount,
+        done: deContainerStatus === DEContainerStatus.DONE,
+        restartCount,
+        hasError:
+            deContainerStatus === DEContainerStatus.ERROR && restartCount > 2,
         image: containerStatus?.image,
     };
 }

@@ -19,7 +19,7 @@ import {
     VICE_LOADING_STATUS_QUERY,
     VICE_LOADING_URL_READY,
 } from "serviceFacades/vice/loading";
-import { DEContainerStatus, getContainerDetails } from "./util";
+import { getContainerDetails } from "./util";
 import styles from "./styles";
 import ViceLoadingToolbar from "./Toolbar";
 
@@ -83,19 +83,23 @@ function ViceLoading(props) {
         const ingressesDone = ingresses?.length > 0;
 
         const {
-            status: fileTransferStatus,
+            done: fileTransferDone,
+            hasError: fileTransferError,
             restartCount: fileTransferRestartCount,
         } = getContainerDetails(pods, config?.vice?.initContainerName);
         const {
-            status: inputFilesPodStatus,
+            done: inputFilesPodDone,
+            hasError: inputFilesPodError,
             restartCount: inputFilesPodRestartCount,
         } = getContainerDetails(pods, config?.vice?.inputFilesContainerName);
         const {
-            status: viceProxyPodStatus,
+            done: viceProxyPodDone,
+            hasError: viceProxyPodError,
             restartCount: viceProxyPodRestartCount,
         } = getContainerDetails(pods, config?.vice?.viceProxyContainerName);
         const {
-            status: analysisPodStatus,
+            done: analysisPodDone,
+            hasError: analysisPodError,
             restartCount: analysisPodRestartCount,
             image: analysisPodImage,
         } = getContainerDetails(pods, config?.vice?.analysisContainerName);
@@ -118,18 +122,18 @@ function ViceLoading(props) {
                 hasError: false,
                 message: t("initializingVice"),
             });
-        } else if (fileTransferStatus !== DEContainerStatus.DONE) {
-            const hasError =
-                fileTransferStatus === DEContainerStatus.ERROR &&
-                fileTransferRestartCount > 2;
+            return;
+        }
+
+        if (!fileTransferDone) {
             setProgress({
                 percent: 20,
-                hasError,
+                hasError: fileTransferError,
                 message: (
                     <Trans
                         t={t}
                         i18nKey={
-                            hasError
+                            fileTransferError
                                 ? "downloadInputsError"
                                 : "downloadingInputs"
                         }
@@ -141,16 +145,13 @@ function ViceLoading(props) {
                     />
                 ),
             });
-        } else if (
-            inputFilesPodStatus !== DEContainerStatus.DONE &&
-            viceProxyPodStatus !== DEContainerStatus.DONE
-        ) {
+            return;
+        }
+
+        if (!inputFilesPodDone && !viceProxyPodDone) {
             const restartCount =
-                inputFilesPodRestartCount || viceProxyPodRestartCount;
-            const hasError =
-                (inputFilesPodStatus === DEContainerStatus.ERROR ||
-                    viceProxyPodStatus === DEContainerStatus.ERROR) &&
-                (inputFilesPodRestartCount > 2 || viceProxyPodRestartCount > 2);
+                inputFilesPodRestartCount + viceProxyPodRestartCount;
+            const hasError = inputFilesPodError || viceProxyPodError;
 
             setProgress({
                 percent: 60,
@@ -171,10 +172,11 @@ function ViceLoading(props) {
                     />
                 ),
             });
-        } else if (analysisPodStatus !== DEContainerStatus.DONE) {
-            const hasError =
-                analysisPodStatus === DEContainerStatus.ERROR &&
-                analysisPodRestartCount > 2;
+            return;
+        }
+
+        if (!analysisPodDone) {
+            const hasError = analysisPodError;
 
             setProgress({
                 percent: 75,
@@ -199,30 +201,30 @@ function ViceLoading(props) {
                     />
                 ),
             });
-        } else {
-            const hasError = !!urlReadyError;
-            setProgress({
-                percent: 100,
-                hasError,
-                message: (
-                    <Trans
-                        t={t}
-                        i18nKey={
-                            hasError
-                                ? "waitingForResponseError"
-                                : "waitingForResponse"
-                        }
-                        values={{
-                            appName,
-                        }}
-                        components={{
-                            bold: <b />,
-                            break: <br />,
-                        }}
-                    />
-                ),
-            });
+            return;
         }
+        const hasError = !!urlReadyError;
+        setProgress({
+            percent: 100,
+            hasError,
+            message: (
+                <Trans
+                    t={t}
+                    i18nKey={
+                        hasError
+                            ? "waitingForResponseError"
+                            : "waitingForResponse"
+                    }
+                    values={{
+                        appName,
+                    }}
+                    components={{
+                        bold: <b />,
+                        break: <br />,
+                    }}
+                />
+            ),
+        });
     }, [
         config,
         configMaps,
@@ -240,7 +242,7 @@ function ViceLoading(props) {
         return <ErrorHandler errorObject={{ response: { status: 401 } }} />;
     }
 
-    if (isFetching && Object.keys(data).length === 0) {
+    if (isFetching && Object.keys(data).length === 0 && !statusError) {
         return (
             <img
                 id={build(baseId, ids.LOADING_GIF)}

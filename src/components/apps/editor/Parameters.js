@@ -26,7 +26,9 @@ import MultiFileSelector from "components/apps/launch/params/MultiFileSelector";
 import MultilineText from "components/apps/launch/params/MultilineText";
 import Selection from "components/apps/launch/params/Selection";
 import Text from "components/apps/launch/params/Text";
+
 import AppParamTypes from "components/models/AppParamTypes";
+import FileInfoTypes from "components/models/FileInfoTypes";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
@@ -68,58 +70,58 @@ function ParamCardForm(props) {
     const paramBaseId = buildID(baseId, fieldName);
     const defaultValueFieldName = `${fieldName}.defaultValue`;
 
-    let fieldComponent;
+    let FieldComponent;
 
     switch (param.type) {
         case AppParamTypes.INFO:
-            fieldComponent = Info;
+            FieldComponent = Info;
 
             break;
 
         case AppParamTypes.TEXT:
-            fieldComponent = Text;
+            FieldComponent = Text;
             break;
 
         case AppParamTypes.MULTILINE_TEXT:
-            fieldComponent = MultilineText;
+            FieldComponent = MultilineText;
             break;
 
         case AppParamTypes.INTEGER:
-            fieldComponent = Integer;
+            FieldComponent = Integer;
             break;
 
         case AppParamTypes.DOUBLE:
-            fieldComponent = Double;
+            FieldComponent = Double;
             break;
 
         case AppParamTypes.FLAG:
-            fieldComponent = Checkbox;
+            FieldComponent = Checkbox;
             break;
 
         case AppParamTypes.TEXT_SELECTION:
         case AppParamTypes.INTEGER_SELECTION:
         case AppParamTypes.DOUBLE_SELECTION:
-            fieldComponent = Selection;
+            FieldComponent = Selection;
             break;
 
         case AppParamTypes.FILE_INPUT:
-            fieldComponent = FileInput;
+            FieldComponent = FileInput;
             break;
 
         case AppParamTypes.FOLDER_INPUT:
-            fieldComponent = FolderInput;
+            FieldComponent = FolderInput;
             break;
 
         case AppParamTypes.FILE_FOLDER_INPUT:
-            fieldComponent = FileFolderInput;
+            FieldComponent = FileFolderInput;
             break;
 
         case AppParamTypes.MULTIFILE_SELECTOR:
-            fieldComponent = MultiFileSelector;
+            FieldComponent = MultiFileSelector;
             break;
 
         default:
-            fieldComponent = Text;
+            FieldComponent = Text;
             break;
     }
 
@@ -131,7 +133,7 @@ function ParamCardForm(props) {
                         id={buildID(baseId, defaultValueFieldName)}
                         name={defaultValueFieldName}
                         param={param}
-                        component={fieldComponent}
+                        component={FieldComponent}
                     />
                 }
                 action={
@@ -232,6 +234,17 @@ function Parameters(props) {
                             newParam.defaultValue = "";
                             newParam.required = false;
                             newParam.omit_if_blank = false;
+                            break;
+
+                        case AppParamTypes.FILE_INPUT:
+                            newParam.name = "";
+                            newParam.defaultValue = "";
+                            newParam.required = false;
+                            newParam.omit_if_blank = false;
+                            newParam.file_parameters = {
+                                format: FileInfoTypes.UNSPECIFIED,
+                                is_implicit: false,
+                            };
                             break;
 
                         default:

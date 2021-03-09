@@ -29,6 +29,8 @@ export default {
         CHECKED_VALUE: "checkedValue",
         DEFAULT_VALUE: "defaultValue",
         DESCRIPTION: "description",
+        FILE_INFO_TYPE: "fileInfoType",
+        IMPLICIT: "isImplicit",
         LABEL: "label",
         OMIT_IF_BLANK: "omitIfBlank",
         REQUIRED: "required",

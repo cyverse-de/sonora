@@ -23,6 +23,7 @@
     "IntBelow": "Allows you to set an upper limit (non-inclusive) to the value the user may enter.",
     "IntRange": "Allows you to restrict the value that the user may enter to a range of values (inclusive).",
     "IntegerSelection": "Inserts a list of integers you define from which the user can select one item.",
+    "IsImplicit": "Selecting this option allows the app user to select input files without those files being included in the command line.",
     "MultiFileOutput": "Allow the user to name the file containing the results the app generates. You may also set a default output name.",
     "MultiFileSelector": "Adds an input file field that allows users to browse their data and select <i>one or many</i> input files to use. As the integrator, you can specify the type of files that the user may use.",
     "MultiLineText": "Similar to Single-line Text, except the user may enter more than one line of text.",

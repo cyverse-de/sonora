@@ -12,6 +12,7 @@ import ids from "./ids";
 import CheckboxPropertyFields from "./params/CheckboxPropertyFields";
 import DoublePropertyFields from "./params/DoublePropertyFields";
 import EnvironmentVariablePropertyFields from "./params/EnvironmentVariablePropertyFields";
+import FileInputPropertyFields from "./params/FileInputPropertyFields";
 import InfoTextField from "./params/InfoTextField";
 import IntegerPropertyFields from "./params/IntegerPropertyFields";
 import MultiLineTextPropertyFields from "./params/MultiLineTextPropertyFields";
@@ -84,6 +85,14 @@ function PropertyFormFields(props) {
                     baseId={baseId}
                     fieldName={fieldName}
                     paramArguments={param.arguments}
+                />
+            );
+
+        case AppParamTypes.FILE_INPUT:
+            return (
+                <FileInputPropertyFields
+                    baseId={baseParamId}
+                    fieldName={fieldName}
                 />
             );
 

@@ -85,6 +85,12 @@ const initValues = (appDescription) => {
                         defaultValue: defaultValue && defaultValue !== "false",
                     };
 
+                case AppParamTypes.FILE_INPUT:
+                    return {
+                        ...param,
+                        defaultValue: defaultValue?.path || "",
+                    };
+
                 default:
                     let defaultArg;
                     if (paramArgs?.length > 0) {
@@ -197,6 +203,14 @@ const formatSubmission = (appDescription) => {
                         arguments: formatSelectionArgs(paramArgs, defaultValue),
                         defaultValue: defaultValue
                             ? { ...defaultValue, isDefault: true }
+                            : null,
+                    };
+
+                case AppParamTypes.FILE_INPUT:
+                    return {
+                        ...param,
+                        defaultValue: defaultValue
+                            ? { path: defaultValue }
                             : null,
                     };
 

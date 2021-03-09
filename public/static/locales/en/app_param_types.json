@@ -1,4 +1,5 @@
 {
+    "CharacterLimit": "Character Limit",
     "Double": "Decimal",
     "DoubleSelection": "Decimal List",
     "EnvironmentVariable": "Environment Variable",
@@ -8,14 +9,18 @@
     "FolderInput": "Input Folder",
     "FolderOutput": "Output Folder Name",
     "Info": "Info Text",
+    "IntAbove": "Lower Limit",
+    "IntBelow": "Upper Limit",
     "Integer": "Integer",
     "IntegerSelection": "Integer List",
+    "IntRange": "Allowed Range",
     "MultiFileOutput": "Multi-File Output Name",
     "MultiFileSelector": "Multiple Input Files",
     "MultiLineText": "Multi-line Text",
     "ReferenceAnnotation": "Reference Annotation",
     "ReferenceGenome": "Reference Genome",
     "ReferenceSequence": "Reference Sequence",
+    "Regex": "Match Regex",
     "Text": "Single-line Text",
     "TextSelection": "List"
 }

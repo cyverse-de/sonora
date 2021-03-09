@@ -47,5 +47,8 @@
     "validatorParams": "Rule parameters",
     "validationRules": "Validation rules",
     "validationRuleCharacterLimit": "Value must contain, at most, a maximum number of characters",
-    "validationRuleRegex": "Matches a reqular expression"
+    "validationRuleRegex": "Matches a reqular expression",
+    "validationRuleValueAbove": "Has a lower limit",
+    "validationRuleValueBelow": "Has an upper limit",
+    "validationRuleValueRange": "Has a range of allowed values"
 }

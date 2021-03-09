@@ -47,6 +47,7 @@ function PropertyFormFields(props) {
                 <IntegerPropertyFields
                     baseId={baseParamId}
                     fieldName={fieldName}
+                    param={param}
                 />
             );
 

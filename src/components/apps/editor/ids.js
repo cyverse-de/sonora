@@ -34,6 +34,7 @@ export default {
         REQUIRED: "required",
         UNCHECKED_OPTION: "unCheckedOption",
         UNCHECKED_VALUE: "unCheckedValue",
+        VALIDATOR_RULES_MENU: "validatorRulesMenu",
         VISIBLE: "isVisible",
     },
 };

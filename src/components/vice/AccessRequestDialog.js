@@ -7,33 +7,42 @@ import React from "react";
 import { useTranslation } from "i18n";
 import { useMutation } from "react-query";
 import ids from "./ids";
-import { build, FormMultilineTextField } from "@cyverse-de/ui-lib";
+import { build, announce, FormMultilineTextField } from "@cyverse-de/ui-lib";
 import { Field, Form, Formik } from "formik";
 
 import requestAccess from "serviceFacades/vice/accessRequest";
 import constants from "../../constants";
 
 import DEDialog from "components/utils/DEDialog";
+import { useConfig } from "contexts/config";
 import { Button, CircularProgress, Typography } from "@material-ui/core";
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
 const MIN_USE_CASE_LENGTH = 60;
 
 export default function AccessRequestDialog(props) {
     const { open, baseId, onClose } = props;
+    const [error, setError] = React.useState();
+    const [config] = useConfig();
     const { t } = useTranslation("vice");
     const { t: i18nCommon } = useTranslation("common");
 
     const [submitRequest, { status }] = useMutation(requestAccess, {
         onSuccess: (data) => {
-            console.log("request submitted");
+            announce({
+                text: t("requestSubmitted"),
+            });
             onClose();
         },
-        onError: (err) => console.log("Unable to submit request" + err),
+        onError: setError,
     });
 
-    const handleSubmit = (values) => {
-        console.log("submitting values=>" + values);
-        submitRequest(values);
+    const handleSubmit = ({ intended_use }) => {
+        const submission = {
+            intended_use,
+            concurrent_jobs: config?.vice.concurrentJobs,
+        };
+        submitRequest(submission);
     };
     const validate = (value) => {
         if (!value) {
@@ -89,6 +98,13 @@ export default function AccessRequestDialog(props) {
                             <Typography style={{ margin: 8 }}>
                                 {t("accessRequestPrompt")}
                             </Typography>
+                            {error && (
+                                <ErrorTypographyWithDialog
+                                    baseId={baseId}
+                                    errorObject={error}
+                                    errorMessage={t("requestError")}
+                                />
+                            )}
                             {status === constants.LOADING && (
                                 <CircularProgress
                                     size={30}

@@ -182,6 +182,7 @@ function MyApp({ Component, pageProps }) {
                 publicRuntimeConfig.VICE_VICE_PROXY_CONTAINER_NAME,
             analysisContainerName:
                 publicRuntimeConfig.VICE_ANALYSIS_CONTAINER_NAME,
+            deploymentTimeoutMs: publicRuntimeConfig.VICE_DEPLOYMENT_TIMEOUT_MS,
         };
 
         const grouper = {

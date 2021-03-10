@@ -22,5 +22,6 @@ export default {
         inputFilesContainerName: "input-files",
         viceProxyContainerName: "vice-proxy",
         analysisContainerName: "analysis",
+        deploymentTimeoutMs: 15000,
     },
 };

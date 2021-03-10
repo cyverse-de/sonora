@@ -71,14 +71,14 @@ function ViceLoading(props) {
         setTimeoutError(null);
 
         let timeout = null;
+        const timeoutMilliseconds = config?.vice?.deploymentTimeoutMs || 180000;
         if (timerName) {
-            const timeoutSeconds = 60 * 3;
             timeout = setTimeout(() => {
                 setTimeoutError(true);
-            }, timeoutSeconds * 1000);
+            }, timeoutMilliseconds);
         }
         return () => clearTimeout(timeout);
-    }, [timerName]);
+    }, [config, timerName]);
 
     useEffect(() => {
         const deploymentsDone = deployments?.length > 0;

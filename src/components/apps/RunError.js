@@ -12,15 +12,17 @@ import { ERROR_CODES } from "components/utils/error/errorCode";
 import { Link } from "@material-ui/core";
 
 export default function RunError(props) {
-    const { code } = props;
+    const { code, runningJobs, viceQuota } = props;
     const { t } = useTranslation("launch");
     if (code === ERROR_CODES.ERR_LIMIT_REACHED) {
         return (
             <Trans
                 t={t}
                 i18nKey="jobLimitReachedPrompt"
+                values={{ current: runningJobs, quota: viceQuota }}
                 components={{
                     b: <b />,
+                    br: <br />,
                     support: (
                         <Link
                             href="#"

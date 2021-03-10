@@ -27,6 +27,8 @@ const Relaunch = () => {
 
     const [app, setApp] = React.useState(null);
     const [relaunchError, setRelaunchError] = React.useState(null);
+    const [viceQuota, setViceQuota] = React.useState();
+    const [runningJobs, setRunningJobs] = React.useState();
 
     const router = useRouter();
     const { analysisId } = router.query;
@@ -53,7 +55,16 @@ const Relaunch = () => {
                 if (resp?.limitChecks?.canRun) {
                     setApp(resp);
                 } else {
-                    setRelaunchError(resp?.limitChecks?.reasonCodes[0]);
+                    setRelaunchError(
+                        resp?.limitChecks?.results[0]?.reasonCodes[0]
+                    );
+                    setViceQuota(
+                        resp?.limitChecks?.results[0]?.additionalInfo?.maxJobs
+                    );
+                    setRunningJobs(
+                        resp?.limitChecks?.results[0]?.additionalInfo
+                            ?.runningJobs
+                    );
                 }
             },
             onError: setRelaunchError,
@@ -63,7 +74,13 @@ const Relaunch = () => {
     const loading = relaunchStatus === constants.LOADING;
 
     return (
-        <AppLaunch app={app} launchError={relaunchError} loading={loading} />
+        <AppLaunch
+            app={app}
+            launchError={relaunchError}
+            loading={loading}
+            viceQuota={viceQuota}
+            runningJobs={runningJobs}
+        />
     );
 };
 

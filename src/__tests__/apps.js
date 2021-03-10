@@ -7,6 +7,7 @@ import { mockAxios } from "../../stories/axiosMock";
 import { AppsListingTest } from "../../stories/apps/Listing.stories";
 import { I18nProviderWrapper } from "../i18n";
 import { UserProfileProvider } from "contexts/userProfile";
+import { ConfigProvider } from "contexts/config";
 
 beforeEach(() => {
     mockAxios.reset();
@@ -29,7 +30,9 @@ test("App Table view renders", () => {
     const component = TestRenderer.create(
         <I18nProviderWrapper>
             <UserProfileProvider>
-                <AppsTableViewTest />
+                <ConfigProvider>
+                    <AppsTableViewTest />
+                </ConfigProvider>
             </UserProfileProvider>
         </I18nProviderWrapper>
     );

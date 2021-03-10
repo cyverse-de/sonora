@@ -30,7 +30,7 @@ import AccessRequestDialog from "components/vice/AccessRequestDialog";
 
 import { Button, Typography } from "@material-ui/core";
 
-const Launch = ({ app, launchError, loading }) => {
+const Launch = ({ app, launchError, viceQuota, runningJobs, loading }) => {
     const [submissionError, setSubmissionError] = React.useState(null);
     const [
         accessRequestDialogOpen,
@@ -95,7 +95,11 @@ const Launch = ({ app, launchError, loading }) => {
         ) {
             return (
                 <Typography style={{ margin: 8 }}>
-                    <RunError code={launchError} />
+                    <RunError
+                        code={launchError}
+                        viceQuota={viceQuota}
+                        runningJobs={runningJobs}
+                    />
                 </Typography>
             );
         }
@@ -110,7 +114,7 @@ const Launch = ({ app, launchError, loading }) => {
                         color="primary"
                         variant="contained"
                     >
-                        Request Access
+                        {t("requestAccess")}
                     </Button>
                     <AccessRequestDialog
                         open={accessRequestDialogOpen}

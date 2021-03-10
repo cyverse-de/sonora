@@ -19,7 +19,7 @@ import DEDialog from "components/utils/DEDialog";
 import RunError from "./RunError";
 
 function RunErrorDialog(props) {
-    const { baseId, code, open, onClose } = props;
+    const { baseId, code, open, viceQuota, runningJobs, onClose } = props;
     const { t } = useTranslation("launch");
     const { t: i18Common } = useTranslation("common");
     let title;
@@ -41,7 +41,11 @@ function RunErrorDialog(props) {
             onClose={onClose}
         >
             <Typography>
-                <RunError code={code} />
+                <RunError
+                    code={code}
+                    viceQuota={viceQuota}
+                    runningJobs={runningJobs}
+                />
             </Typography>
         </DEDialog>
     );
@@ -58,6 +62,8 @@ function AppName(props) {
         limitChecks,
     } = props;
     const [runErrorCodes, setRunErrorCodes] = useState(null);
+    const [viceQuota, setViceQuota] = useState();
+    const [runningJobs, setRunningJobs] = useState();
     const [accessRequestDialogOpen, setAccessRequestDialogOpen] = useState(
         false
     );
@@ -67,7 +73,11 @@ function AppName(props) {
 
     useEffect(() => {
         if (!limitChecks?.canRun) {
-            setRunErrorCodes(limitChecks?.results[0].reasonCodes);
+            setRunErrorCodes(limitChecks?.results[0]?.reasonCodes);
+            setViceQuota(limitChecks?.results[0]?.additionalInfo?.maxJobs);
+            setRunningJobs(
+                limitChecks?.results[0]?.additionalInfo?.runningJobs
+            );
         }
     }, [limitChecks]);
 
@@ -127,6 +137,8 @@ function AppName(props) {
                         code={runErrorCodes[0]}
                         onClose={() => setErrorDialogOpen(false)}
                         baseId={baseDebugId}
+                        viceQuota={viceQuota}
+                        runningJobs={runningJobs}
                     />
                 </>
             );

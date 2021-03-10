@@ -45,6 +45,7 @@ function ViceLoading(props) {
 
     const { deployments, configMaps, services, ingresses, pods } = data;
     const deployment = deployments?.[0];
+    const appName = deployment?.appName;
 
     const { isFetching, error: statusError } = useQuery({
         queryKey: [VICE_LOADING_STATUS_QUERY, { accessUrl }],
@@ -80,7 +81,6 @@ function ViceLoading(props) {
     }, [timerName]);
 
     useEffect(() => {
-        const appName = deployments?.[0]?.appName;
         const deploymentsDone = deployments?.length > 0;
         const configMapsDone = configMaps?.length > 1;
         const servicesDone = services?.length > 0;
@@ -271,6 +271,7 @@ function ViceLoading(props) {
         t,
         urlReadyError,
         timeoutError,
+        appName,
     ]);
 
     if (statusError) {
@@ -311,9 +312,11 @@ function ViceLoading(props) {
                     alt={t("loadingImgAltText")}
                     className={classes.centeredImage}
                 />
-                <Typography variant="h5" gutterBottom={true}>
-                    {t("launchVICE", { appName: deployment?.appName })}
-                </Typography>
+                {appName && (
+                    <Typography variant="h5" gutterBottom={true}>
+                        {t("launchVICE", { appName: deployment?.appName })}
+                    </Typography>
+                )}
                 <LinearProgressWithLabel value={progress.percent} />
                 <Typography
                     id={build(baseId, ids.STATUS_MSG)}

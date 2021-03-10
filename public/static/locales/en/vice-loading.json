@@ -25,7 +25,7 @@
     "initContainerComplete": "Init Container - Complete",
     "initContainerPending": "Init Container - Pending",
     "initializingVice": "Initializing VICE",
-    "initializingViceLong": "Initializing VICE is taking longer than usual. The instance will continue to try to initialize.  If this error persists, please contact support.",
+    "initializingViceLong": "Initializing VICE is taking longer than usual. This could be due to this VICE instance being cancelled or marked as complete. If this is not the case and this error persists, please contact support.",
     "inputFilesLabel": "Input File Transfer State",
     "launchVICE": "Launching VICE app: {{appName}}",
     "loadingGifAltText": "Loading rocket gif for an in-progress job",

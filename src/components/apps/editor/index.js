@@ -92,6 +92,12 @@ const initValues = (appDescription) => {
                         defaultValue: defaultValue?.path || "",
                     };
 
+                case AppParamTypes.MULTIFILE_SELECTOR:
+                    return {
+                        ...param,
+                        defaultValue: defaultValue?.path || [],
+                    };
+
                 default:
                     let defaultArg;
                     if (paramArgs?.length > 0) {
@@ -214,6 +220,13 @@ const formatSubmission = (appDescription) => {
                         defaultValue: defaultValue
                             ? { path: defaultValue }
                             : null,
+                    };
+
+                case AppParamTypes.MULTIFILE_SELECTOR:
+                    // default values not yet supported
+                    return {
+                        ...param,
+                        defaultValue: null,
                     };
 
                 default:

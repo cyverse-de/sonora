@@ -41,6 +41,7 @@ const useStyles = makeStyles(styles);
 const BrowseButton = (props) => {
     const {
         baseId,
+        disabled,
         startingPath,
         acceptedType,
         multiSelect,
@@ -55,6 +56,7 @@ const BrowseButton = (props) => {
         <>
             <Button
                 id={buildDebugId(baseId, ids.BUTTONS.BROWSE)}
+                disabled={disabled}
                 color="primary"
                 size="small"
                 variant="outlined"

@@ -77,6 +77,7 @@ const getSortedPaths = (order, paths) => {
 const MultiInputSelector = (props) => {
     const {
         id,
+        disabled,
         label,
         helperText,
         required,
@@ -132,6 +133,7 @@ const MultiInputSelector = (props) => {
                             </FormControl>
                             <BrowseButton
                                 baseId={id}
+                                disabled={disabled}
                                 startingPath={startingPath}
                                 acceptedType={acceptedType}
                                 multiSelect={true}
@@ -177,6 +179,7 @@ const MultiInputSelector = (props) => {
                                         <EmptyTable
                                             message={
                                                 <Typography
+                                                    component="span"
                                                     variant="body2"
                                                     style={{
                                                         padding: theme.spacing(

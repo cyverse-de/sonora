@@ -33,6 +33,7 @@ export default {
         IMPLICIT: "isImplicit",
         LABEL: "label",
         OMIT_IF_BLANK: "omitIfBlank",
+        REPEAT_OPTION_FLAG: "repeatOptionFlag",
         REQUIRED: "required",
         UNCHECKED_OPTION: "unCheckedOption",
         UNCHECKED_VALUE: "unCheckedValue",

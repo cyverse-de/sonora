@@ -1,5 +1,5 @@
 /**
- * A form component for editing App `FolderInput` parameter properties.
+ * A form component for editing App `MultiFileSelector` parameter properties.
  *
  * @author psarando
  */
@@ -14,20 +14,16 @@ import ids from "../ids";
 import FileInfoTypesSelector from "./FileInfoTypesSelector";
 
 import ArgumentOptionField from "./common/ArgumentOptionField";
-import DefaultValueField from "./common/DefaultValueField";
 import DescriptionField from "./common/DescriptionField";
 import ExcludeArgumentField from "./common/ExcludeArgumentField";
 import LabelField from "./common/LabelField";
 import RequiredField from "./common/RequiredField";
-import VisibleField from "./common/VisibleField";
-
-import FolderInput from "components/apps/launch/params/FolderInput";
 
 import { build as buildID, FormCheckbox } from "@cyverse-de/ui-lib";
 
 import { Grid } from "@material-ui/core";
 
-export default function FolderInputPropertyFields(props) {
+export default function MultiFileSelectorPropertyFields(props) {
     const { baseId, fieldName } = props;
 
     const { t } = useTranslation(["app_editor", "app_editor_help"]);
@@ -38,27 +34,29 @@ export default function FolderInputPropertyFields(props) {
         <Grid container direction="column">
             <LabelField baseId={baseId} fieldName={fieldName} />
             <ArgumentOptionField baseId={baseId} fieldName={fieldName} />
-            <DefaultValueField
-                baseId={baseId}
-                fieldName={fieldName}
-                component={FolderInput}
-            />
             <DescriptionField baseId={baseId} fieldName={fieldName} />
             <RequiredField baseId={baseId} fieldName={fieldName} />
-            <VisibleField baseId={baseId} fieldName={fieldName} />
             <ExcludeArgumentField baseId={baseId} fieldName={fieldName} />
 
             <FileInfoTypesSelector
                 baseId={baseId}
                 fieldName={fileParamsFieldName}
-                label={t("folderInfoTypeLabel")}
+                label={t("multiFileInfoTypeLabel")}
             />
 
             <FastField
                 id={buildID(baseId, ids.PARAM_FIELDS.IMPLICIT)}
                 name={`${fileParamsFieldName}.is_implicit`}
                 label={t("doNotPass")}
-                helperText={t("app_editor_help:IsImplicitFolderInput")}
+                helperText={t("app_editor_help:IsImplicitFileInput")}
+                component={FormCheckbox}
+            />
+
+            <FastField
+                id={buildID(baseId, ids.PARAM_FIELDS.REPEAT_OPTION_FLAG)}
+                name={`${fileParamsFieldName}.repeat_option_flag`}
+                label={t("repeatOptionFlag")}
+                helperText={t("app_editor_help:RepeatOptionFlag")}
                 component={FormCheckbox}
             />
         </Grid>

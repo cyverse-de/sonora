@@ -71,6 +71,7 @@ function ParamCardForm(props) {
     const defaultValueFieldName = `${fieldName}.defaultValue`;
 
     let FieldComponent;
+    const fieldProps = {};
 
     switch (param.type) {
         case AppParamTypes.INFO:
@@ -118,6 +119,7 @@ function ParamCardForm(props) {
 
         case AppParamTypes.MULTIFILE_SELECTOR:
             FieldComponent = MultiFileSelector;
+            fieldProps.disabled = true;
             break;
 
         default:
@@ -134,6 +136,7 @@ function ParamCardForm(props) {
                         name={defaultValueFieldName}
                         param={param}
                         component={FieldComponent}
+                        {...fieldProps}
                     />
                 }
                 action={
@@ -245,6 +248,18 @@ function Parameters(props) {
                             newParam.file_parameters = {
                                 format: FileInfoTypes.UNSPECIFIED,
                                 is_implicit: false,
+                            };
+                            break;
+
+                        case AppParamTypes.MULTIFILE_SELECTOR:
+                            newParam.name = "";
+                            newParam.defaultValue = [];
+                            newParam.required = false;
+                            newParam.omit_if_blank = false;
+                            newParam.file_parameters = {
+                                format: FileInfoTypes.UNSPECIFIED,
+                                is_implicit: false,
+                                repeat_option_flag: false,
                             };
                             break;
 

@@ -16,6 +16,7 @@ import FileInputPropertyFields from "./params/FileInputPropertyFields";
 import FolderInputPropertyFields from "./params/FolderInputPropertyFields";
 import InfoTextField from "./params/InfoTextField";
 import IntegerPropertyFields from "./params/IntegerPropertyFields";
+import MultiFileSelectorPropertyFields from "./params/MultiFileSelectorPropertyFields";
 import MultiLineTextPropertyFields from "./params/MultiLineTextPropertyFields";
 import SelectionPropertyFields from "./params/SelectionPropertyFields";
 import TextPropertyFields from "./params/TextPropertyFields";
@@ -100,6 +101,14 @@ function PropertyFormFields(props) {
         case AppParamTypes.FOLDER_INPUT:
             return (
                 <FolderInputPropertyFields
+                    baseId={baseParamId}
+                    fieldName={fieldName}
+                />
+            );
+
+        case AppParamTypes.MULTIFILE_SELECTOR:
+            return (
+                <MultiFileSelectorPropertyFields
                     baseId={baseParamId}
                     fieldName={fieldName}
                 />

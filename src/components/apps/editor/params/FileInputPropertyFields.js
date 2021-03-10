@@ -11,6 +11,8 @@ import { useTranslation } from "i18n";
 
 import ids from "../ids";
 
+import FileInfoTypesSelector from "./FileInfoTypesSelector";
+
 import ArgumentOptionField from "./common/ArgumentOptionField";
 import DefaultValueField from "./common/DefaultValueField";
 import DescriptionField from "./common/DescriptionField";
@@ -21,15 +23,9 @@ import VisibleField from "./common/VisibleField";
 
 import FileInput from "components/apps/launch/params/FileInput";
 
-import FileInfoTypes from "components/models/FileInfoTypes";
+import { build as buildID, FormCheckbox } from "@cyverse-de/ui-lib";
 
-import {
-    build as buildID,
-    FormCheckbox,
-    FormTextField,
-} from "@cyverse-de/ui-lib";
-
-import { Grid, MenuItem } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 export default function FileInputPropertyFields(props) {
     const { baseId, fieldName } = props;
@@ -52,22 +48,11 @@ export default function FileInputPropertyFields(props) {
             <VisibleField baseId={baseId} fieldName={fieldName} />
             <ExcludeArgumentField baseId={baseId} fieldName={fieldName} />
 
-            <FastField
-                id={buildID(baseId, ids.PARAM_FIELDS.FILE_INFO_TYPE)}
-                name={`${fileParamsFieldName}.format`}
+            <FileInfoTypesSelector
+                baseId={baseId}
+                fieldName={fileParamsFieldName}
                 label={t("fileInfoTypeLabel")}
-                component={FormTextField}
-                select
-                variant="outlined"
-                margin="normal"
-                size="small"
-            >
-                {Object.values(FileInfoTypes).map((infoType) => (
-                    <MenuItem key={infoType} value={infoType}>
-                        {infoType}
-                    </MenuItem>
-                ))}
-            </FastField>
+            />
 
             <FastField
                 id={buildID(baseId, ids.PARAM_FIELDS.IMPLICIT)}

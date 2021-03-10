@@ -66,7 +66,6 @@ const DEContainerStatus = {
  * Returns an array with the ContainerStatus and whether it is an init container
  * @param {Pod} pod
  * @param {string} containerName
- * @return {[ContainerStatus, boolean]}
  */
 export const findContainerStatus = (pod, containerName) => {
     const podContainerStatus = pod?.containerStatuses?.find(

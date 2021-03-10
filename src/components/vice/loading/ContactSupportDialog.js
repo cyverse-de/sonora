@@ -94,10 +94,22 @@ function ContactSupportDialog(props) {
             fields: {
                 comment,
                 ...deployment,
-                initContainer: initContainerStatus?.state,
-                podViceProxy: viceProxyStatus?.state,
-                podInputFiles: inputFilesStatus?.state,
-                podAnalysis: analysisStatus?.state,
+                initContainer: {
+                    ...initContainerStatus?.state,
+                    restartCount: initContainerStatus?.restartCount,
+                },
+                podViceProxy: {
+                    ...viceProxyStatus?.state,
+                    restartCount: viceProxyStatus?.restartCount,
+                },
+                podInputFiles: {
+                    ...inputFilesStatus?.state,
+                    restartCount: inputFilesStatus?.restartCount,
+                },
+                podAnalysis: {
+                    ...analysisStatus?.state,
+                    restartCount: analysisStatus?.restartCount,
+                },
                 configMapsDone: configMaps?.length > 1,
                 ingressDone: ingresses?.length > 0,
                 serviceDone: services?.length > 0,

@@ -11,7 +11,6 @@ import { useQuery } from "react-query";
 import ErrorHandler from "components/utils/error/ErrorHandler";
 import LinearProgressWithLabel from "components/utils/LinearProgressWithLabel";
 import { useConfig } from "contexts/config";
-import { useUserProfile } from "contexts/userProfile";
 import ids from "./ids";
 import {
     getLoadingStatus,
@@ -30,7 +29,6 @@ function ViceLoading(props) {
     const { t } = useTranslation("vice-loading");
     const classes = useStyles();
 
-    const [userProfile] = useUserProfile();
     const [config] = useConfig();
 
     const baseId = ids.VIEW;
@@ -52,7 +50,7 @@ function ViceLoading(props) {
         queryKey: [VICE_LOADING_STATUS_QUERY, { accessUrl }],
         queryFn: getLoadingStatus,
         config: {
-            enabled: userProfile?.id && !!accessUrl && !ready,
+            enabled: !!accessUrl && !ready,
             onSuccess: setData,
             refetchInterval: 5000,
         },
@@ -62,7 +60,7 @@ function ViceLoading(props) {
         queryKey: [VICE_LOADING_URL_READY, { accessUrl }],
         queryFn: getUrlReady,
         config: {
-            enabled: userProfile?.id && progress.percent === 100 && !ready,
+            enabled: progress.percent === 100 && !ready,
             onSuccess: (resp) => setReady(resp.ready),
             refetchInterval: 5000,
         },
@@ -82,15 +80,6 @@ function ViceLoading(props) {
     }, [timerName]);
 
     useEffect(() => {
-        if (statusError) {
-            setProgress({
-                hasError: true,
-                percent: 0,
-                message: t("statusEndpointError"),
-            });
-            return;
-        }
-
         const appName = deployments?.[0]?.appName;
         const deploymentsDone = deployments?.length > 0;
         const configMapsDone = configMaps?.length > 1;
@@ -284,8 +273,8 @@ function ViceLoading(props) {
         timeoutError,
     ]);
 
-    if (!userProfile?.id) {
-        return <ErrorHandler errorObject={{ response: { status: 401 } }} />;
+    if (statusError) {
+        return <ErrorHandler errorObject={statusError} />;
     }
 
     if (isFetching && Object.keys(data).length === 0 && !statusError) {

@@ -173,6 +173,7 @@ function MyApp({ Component, pageProps }) {
             defaultName: publicRuntimeConfig.VICE_DEFAULT_NAME,
             defaultCasUrl: publicRuntimeConfig.VICE_DEFAULT_CAS_URL,
             defaultCasValidate: publicRuntimeConfig.VICE_DEFAULT_CAS_VALIDATE,
+            concurrentJobs: publicRuntimeConfig.VICE_CONCURRENT_JOBS,
         };
 
         const grouper = {

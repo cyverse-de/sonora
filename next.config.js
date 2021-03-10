@@ -42,6 +42,7 @@ module.exports = withBundleAnalyzer({
         VICE_DEFAULT_NAME: config.get("vice.defaultName"),
         VICE_DEFAULT_CAS_URL: config.get("vice.defaultCasUrl"),
         VICE_DEFAULT_CAS_VALIDATE: config.get("vice.defaultCasValidate"),
+        VICE_CONCURRENT_JOBS: config.has("vice.concourrentJobs")? config.get("vice.concourrentJobs") : 2,
         GROUPER_ALL_USERS: config.get("grouper.allUsers"),
         GROUPER_ADMIN: config.get("grouper.admin"),
     },

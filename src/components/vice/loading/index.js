@@ -312,6 +312,8 @@ function ViceLoading(props) {
                 services={services}
                 ingresses={ingresses}
                 pods={pods}
+                ready={ready}
+                progressMessage={progress.message}
             />
             <Container maxWidth="md" classes={{ root: classes.scrollable }}>
                 <img

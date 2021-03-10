@@ -28,6 +28,8 @@ function ViceLoadingToolbar(props) {
         services,
         ingresses,
         pods,
+        ready,
+        progressMessage,
     } = props;
     const { t } = useTranslation("vice-loading");
     const classes = useStyles();
@@ -76,6 +78,8 @@ function ViceLoadingToolbar(props) {
                 services={services}
                 ingresses={ingresses}
                 pods={pods}
+                ready={ready}
+                progressMessage={progressMessage}
             />
 
             <Drawer

@@ -36,6 +36,7 @@ function ContactSupportDialog(props) {
         ingresses,
         pods,
         ready,
+        progressMessage,
     } = props;
     const { t } = useTranslation(["vice-loading", "common"]);
     const [config] = useConfig();
@@ -101,6 +102,7 @@ function ContactSupportDialog(props) {
                 ingressDone: ingresses?.length > 0,
                 serviceDone: services?.length > 0,
                 urlReady: ready,
+                displayMessage: progressMessage,
             },
         };
 

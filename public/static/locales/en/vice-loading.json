@@ -17,6 +17,8 @@
     "downloadingVICEImage": "Downloading container image '{{image}}' for {{appName}}",
     "downloadingVICEImageError": "Downloading VICE image '{{image}}' for {{appName}} has encountered an error.  The container may try to restart to fix itself.  If the error continues, please check if the image has been verified as working by the app integrator or contact support.<break/>Restart Count: {{restartCount}}",
     "externalId": "External ID",
+    "findingHost": "Finding a host for {{ appName }}",
+    "findingHostLong": "Finding a host for {{ appName}} is taking longer than expected.  This can occur because there is no host available that meets the resource requirements set for the app, or due to high volume.  If the error persists, please try lowering the resource requirements within the app launch page prior to launching the app or please contact support.",
     "image": "Container Image",
     "ingressComplete": "Ingress - Complete",
     "ingressPending": "Ingress - Pending",

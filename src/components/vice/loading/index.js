@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 
 import { build } from "@cyverse-de/ui-lib";
 import { Container, makeStyles, Typography } from "@material-ui/core";
-import { differenceInMinutes } from "date-fns";
 import { Trans, useTranslation } from "i18n";
 import { useQuery } from "react-query";
 
@@ -36,8 +35,8 @@ function ViceLoading(props) {
 
     const baseId = ids.VIEW;
 
-    const [startTime] = useState(new Date());
-    const [elapsedMinutes, setElapsedMinutes] = useState(0);
+    const [timerName, setTimerName] = useState(null);
+    const [timeoutError, setTimeoutError] = useState(false);
     const [data, setData] = useState({});
     const [ready, setReady] = useState(false);
     const [progress, setProgress] = useState({
@@ -54,10 +53,7 @@ function ViceLoading(props) {
         queryFn: getLoadingStatus,
         config: {
             enabled: userProfile?.id && !!accessUrl && !ready,
-            onSuccess: (resp) => {
-                setData(resp);
-                setElapsedMinutes(differenceInMinutes(new Date(), startTime));
-            },
+            onSuccess: setData,
             refetchInterval: 5000,
         },
     });
@@ -71,6 +67,19 @@ function ViceLoading(props) {
             refetchInterval: 5000,
         },
     });
+
+    useEffect(() => {
+        setTimeoutError(null);
+
+        let timeout = null;
+        if (timerName) {
+            const timeoutSeconds = 60 * 3;
+            timeout = setTimeout(() => {
+                setTimeoutError(true);
+            }, timeoutSeconds * 1000);
+        }
+        return () => clearTimeout(timeout);
+    }, [timerName]);
 
     useEffect(() => {
         if (statusError) {
@@ -87,6 +96,10 @@ function ViceLoading(props) {
         const configMapsDone = configMaps?.length > 1;
         const servicesDone = services?.length > 0;
         const ingressesDone = ingresses?.length > 0;
+        const pod = pods?.[0];
+        const hasPods =
+            pod?.containerStatuses?.length > 0 &&
+            pod?.initContainerStatuses?.length > 0;
 
         const {
             done: fileTransferDone,
@@ -118,7 +131,8 @@ function ViceLoading(props) {
                 ingressesDone
             )
         ) {
-            const hasError = elapsedMinutes > 2;
+            setTimerName("deployments");
+            const hasError = timeoutError;
             setProgress({
                 percent:
                     (deploymentsDone +
@@ -142,9 +156,29 @@ function ViceLoading(props) {
             return;
         }
 
-        if (!fileTransferDone) {
+        if (!hasPods) {
+            setTimerName("pods");
+            const hasError = timeoutError;
+
             setProgress({
                 percent: 20,
+                hasError,
+                message: (
+                    <Trans
+                        t={t}
+                        i18nKey={hasError ? "findingHostLong" : "findingHost"}
+                        values={{ appName }}
+                    />
+                ),
+            });
+            return;
+        }
+
+        if (!fileTransferDone) {
+            setTimerName(null);
+
+            setProgress({
+                percent: 25,
                 hasError: fileTransferError,
                 message: (
                     <Trans
@@ -241,14 +275,13 @@ function ViceLoading(props) {
         configMaps,
         data,
         deployments,
-        elapsedMinutes,
         ingresses,
         pods,
         services,
-        startTime,
         statusError,
         t,
         urlReadyError,
+        timeoutError,
     ]);
 
     if (!userProfile?.id) {

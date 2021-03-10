@@ -65,7 +65,8 @@ function PodInfo(props) {
     const { t } = useTranslation("vice-loading");
     const pod = pods?.[0];
     const containerStatuses = pod?.containerStatuses;
-    const podsPending = containerStatuses?.find((status) => !status.ready);
+    const podsPending =
+        containerStatuses?.find((status) => !status.ready) || true;
     return (
         <Grid container>
             <Grid item xs={12}>

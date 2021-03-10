@@ -10,6 +10,7 @@ export const ViceLoadingTest = ({
     serviceComplete,
     ingressComplete,
     configMapsComplete,
+    foundHostForPods,
     uploadStatus,
     viceProxyPodComplete,
     inputFilesPodComplete,
@@ -31,6 +32,7 @@ export const ViceLoadingTest = ({
                       serviceComplete,
                       ingressComplete,
                       configMapsComplete,
+                      foundHostForPods,
                       uploadStatus,
                       viceProxyPodComplete,
                       inputFilesPodComplete,
@@ -71,7 +73,7 @@ ViceLoadingTest.argTypes = {
         },
     },
     deploymentComplete: {
-        defaultValue: true,
+        defaultValue: false,
         control: {
             type: "boolean",
         },
@@ -90,6 +92,12 @@ ViceLoadingTest.argTypes = {
     },
     configMapsComplete: {
         defaultValue: true,
+        control: {
+            type: "boolean",
+        },
+    },
+    foundHostForPods: {
+        defaultValue: false,
         control: {
             type: "boolean",
         },
@@ -119,7 +127,7 @@ ViceLoadingTest.argTypes = {
         },
     },
     urlReadyEndpointError: {
-        defaultValue: false,
+        defaultValue: true,
         control: {
             type: "boolean",
         },

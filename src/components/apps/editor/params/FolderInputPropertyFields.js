@@ -1,5 +1,5 @@
 /**
- * A form component for editing App `FileInput` parameter properties.
+ * A form component for editing App `FolderInput` parameter properties.
  *
  * @author psarando
  */
@@ -19,7 +19,7 @@ import LabelField from "./common/LabelField";
 import RequiredField from "./common/RequiredField";
 import VisibleField from "./common/VisibleField";
 
-import FileInput from "components/apps/launch/params/FileInput";
+import FolderInput from "components/apps/launch/params/FolderInput";
 
 import FileInfoTypes from "components/models/FileInfoTypes";
 
@@ -31,7 +31,7 @@ import {
 
 import { Grid, MenuItem } from "@material-ui/core";
 
-export default function FileInputPropertyFields(props) {
+export default function FolderInputPropertyFields(props) {
     const { baseId, fieldName } = props;
 
     const { t } = useTranslation(["app_editor", "app_editor_help"]);
@@ -45,7 +45,7 @@ export default function FileInputPropertyFields(props) {
             <DefaultValueField
                 baseId={baseId}
                 fieldName={fieldName}
-                component={FileInput}
+                component={FolderInput}
             />
             <DescriptionField baseId={baseId} fieldName={fieldName} />
             <RequiredField baseId={baseId} fieldName={fieldName} />
@@ -55,7 +55,7 @@ export default function FileInputPropertyFields(props) {
             <FastField
                 id={buildID(baseId, ids.PARAM_FIELDS.FILE_INFO_TYPE)}
                 name={`${fileParamsFieldName}.format`}
-                label={t("fileInfoTypeLabel")}
+                label={t("folderInfoTypeLabel")}
                 component={FormTextField}
                 select
                 variant="outlined"
@@ -73,7 +73,7 @@ export default function FileInputPropertyFields(props) {
                 id={buildID(baseId, ids.PARAM_FIELDS.IMPLICIT)}
                 name={`${fileParamsFieldName}.is_implicit`}
                 label={t("doNotPass")}
-                helperText={t("app_editor_help:IsImplicitFileInput")}
+                helperText={t("app_editor_help:IsImplicitFolderInput")}
                 component={FormCheckbox}
             />
         </Grid>

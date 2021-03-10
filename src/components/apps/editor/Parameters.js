@@ -237,6 +237,7 @@ function Parameters(props) {
                             break;
 
                         case AppParamTypes.FILE_INPUT:
+                        case AppParamTypes.FOLDER_INPUT:
                             newParam.name = "";
                             newParam.defaultValue = "";
                             newParam.required = false;

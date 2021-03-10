@@ -86,6 +86,7 @@ const initValues = (appDescription) => {
                     };
 
                 case AppParamTypes.FILE_INPUT:
+                case AppParamTypes.FOLDER_INPUT:
                     return {
                         ...param,
                         defaultValue: defaultValue?.path || "",
@@ -207,6 +208,7 @@ const formatSubmission = (appDescription) => {
                     };
 
                 case AppParamTypes.FILE_INPUT:
+                case AppParamTypes.FOLDER_INPUT:
                     return {
                         ...param,
                         defaultValue: defaultValue

@@ -27,6 +27,7 @@ export default {
         ARGUMENT_VALUE: "argumentValue",
         CHECKED_OPTION: "checkedOption",
         CHECKED_VALUE: "checkedValue",
+        DATA_SOURCE: "dataSource",
         DEFAULT_VALUE: "defaultValue",
         DESCRIPTION: "description",
         FILE_INFO_TYPE: "fileInfoType",

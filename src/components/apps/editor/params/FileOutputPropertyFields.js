@@ -1,11 +1,15 @@
 /**
- * A form component for editing App `FileInput` parameter properties.
+ * A form component for editing App `FileOutput` parameter properties.
  *
  * @author psarando
  */
 import React from "react";
 
+import { FastField } from "formik";
+
 import { useTranslation } from "i18n";
+
+import ids from "../ids";
 
 import FileInfoTypesSelector from "./FileInfoTypesSelector";
 
@@ -18,14 +22,24 @@ import LabelField from "./common/LabelField";
 import RequiredField from "./common/RequiredField";
 import VisibleField from "./common/VisibleField";
 
-import FileInput from "components/apps/launch/params/FileInput";
+import { build as buildID, FormTextField } from "@cyverse-de/ui-lib";
 
-import { Grid } from "@material-ui/core";
+import { Grid, MenuItem } from "@material-ui/core";
 
-export default function FileInputPropertyFields(props) {
+export const DataSources = {
+    FILE: "file",
+    STDOUT: "stdout",
+    STDERR: "stderr",
+};
+
+export default function FileOutputPropertyFields(props) {
     const { baseId, fieldName } = props;
 
-    const { t } = useTranslation(["app_editor", "app_editor_help"]);
+    const { t } = useTranslation([
+        "app_editor",
+        "app_editor_help",
+        "app_param_types",
+    ]);
 
     const fileParamsFieldName = `${fieldName}.file_parameters`;
 
@@ -36,12 +50,34 @@ export default function FileInputPropertyFields(props) {
             <DefaultValueField
                 baseId={baseId}
                 fieldName={fieldName}
-                component={FileInput}
+                label={t("fileOutputDefaultLabel")}
+                component={FormTextField}
             />
             <DescriptionField baseId={baseId} fieldName={fieldName} />
             <RequiredField baseId={baseId} fieldName={fieldName} />
             <VisibleField baseId={baseId} fieldName={fieldName} />
             <ExcludeArgumentField baseId={baseId} fieldName={fieldName} />
+
+            <FastField
+                id={buildID(baseId, ids.PARAM_FIELDS.DATA_SOURCE)}
+                name={`${fileParamsFieldName}.data_source`}
+                label={t("dataSourceLabel")}
+                component={FormTextField}
+                select
+                variant="outlined"
+                margin="normal"
+                size="small"
+            >
+                <MenuItem value={DataSources.FILE}>
+                    {t("app_param_types:DataSrcFile")}
+                </MenuItem>
+                <MenuItem value={DataSources.STDOUT}>
+                    {t("app_param_types:DataSrcStdout")}
+                </MenuItem>
+                <MenuItem value={DataSources.STDERR}>
+                    {t("app_param_types:DataSrcStderr")}
+                </MenuItem>
+            </FastField>
 
             <FileInfoTypesSelector
                 baseId={baseId}
@@ -52,7 +88,7 @@ export default function FileInputPropertyFields(props) {
             <ImplicitField
                 baseId={baseId}
                 fieldName={fileParamsFieldName}
-                helperText={t("app_editor_help:IsImplicitFileInput")}
+                helperText={t("app_editor_help:IsImplicitFileOutput")}
             />
         </Grid>
     );

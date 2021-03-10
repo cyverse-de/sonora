@@ -16,6 +16,7 @@ import FileInfoTypesSelector from "./FileInfoTypesSelector";
 import ArgumentOptionField from "./common/ArgumentOptionField";
 import DescriptionField from "./common/DescriptionField";
 import ExcludeArgumentField from "./common/ExcludeArgumentField";
+import ImplicitField from "./common/ImplicitField";
 import LabelField from "./common/LabelField";
 import RequiredField from "./common/RequiredField";
 
@@ -44,12 +45,10 @@ export default function MultiFileSelectorPropertyFields(props) {
                 label={t("multiFileInfoTypeLabel")}
             />
 
-            <FastField
-                id={buildID(baseId, ids.PARAM_FIELDS.IMPLICIT)}
-                name={`${fileParamsFieldName}.is_implicit`}
-                label={t("doNotPass")}
+            <ImplicitField
+                baseId={baseId}
+                fieldName={fileParamsFieldName}
                 helperText={t("app_editor_help:IsImplicitFileInput")}
-                component={FormCheckbox}
             />
 
             <FastField

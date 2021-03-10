@@ -15,6 +15,8 @@ import styles from "./styles";
 import ParamPropertyForm from "./ParamPropertyForm";
 import ParamSelectionPalette from "./ParamSelectionPalette";
 
+import { DataSources } from "./params/FileOutputPropertyFields";
+
 import Checkbox from "components/apps/launch/params/Checkbox";
 import Double from "components/apps/launch/params/Double";
 import FileFolderInput from "components/apps/launch/params/FileFolderInput";
@@ -260,6 +262,18 @@ function Parameters(props) {
                                 format: FileInfoTypes.UNSPECIFIED,
                                 is_implicit: false,
                                 repeat_option_flag: false,
+                            };
+                            break;
+
+                        case AppParamTypes.FILE_OUTPUT:
+                            newParam.name = "";
+                            newParam.defaultValue = "";
+                            newParam.required = false;
+                            newParam.omit_if_blank = false;
+                            newParam.file_parameters = {
+                                data_source: DataSources.FILE,
+                                format: FileInfoTypes.UNSPECIFIED,
+                                is_implicit: false,
                             };
                             break;
 

@@ -13,6 +13,7 @@ import CheckboxPropertyFields from "./params/CheckboxPropertyFields";
 import DoublePropertyFields from "./params/DoublePropertyFields";
 import EnvironmentVariablePropertyFields from "./params/EnvironmentVariablePropertyFields";
 import FileInputPropertyFields from "./params/FileInputPropertyFields";
+import FileOutputPropertyFields from "./params/FileOutputPropertyFields";
 import FolderInputPropertyFields from "./params/FolderInputPropertyFields";
 import InfoTextField from "./params/InfoTextField";
 import IntegerPropertyFields from "./params/IntegerPropertyFields";
@@ -109,6 +110,14 @@ function PropertyFormFields(props) {
         case AppParamTypes.MULTIFILE_SELECTOR:
             return (
                 <MultiFileSelectorPropertyFields
+                    baseId={baseParamId}
+                    fieldName={fieldName}
+                />
+            );
+
+        case AppParamTypes.FILE_OUTPUT:
+            return (
+                <FileOutputPropertyFields
                     baseId={baseParamId}
                     fieldName={fieldName}
                 />

@@ -5,11 +5,7 @@
  */
 import React from "react";
 
-import { FastField } from "formik";
-
 import { useTranslation } from "i18n";
-
-import ids from "../ids";
 
 import FileInfoTypesSelector from "./FileInfoTypesSelector";
 
@@ -17,13 +13,12 @@ import ArgumentOptionField from "./common/ArgumentOptionField";
 import DefaultValueField from "./common/DefaultValueField";
 import DescriptionField from "./common/DescriptionField";
 import ExcludeArgumentField from "./common/ExcludeArgumentField";
+import ImplicitField from "./common/ImplicitField";
 import LabelField from "./common/LabelField";
 import RequiredField from "./common/RequiredField";
 import VisibleField from "./common/VisibleField";
 
 import FolderInput from "components/apps/launch/params/FolderInput";
-
-import { build as buildID, FormCheckbox } from "@cyverse-de/ui-lib";
 
 import { Grid } from "@material-ui/core";
 
@@ -54,12 +49,10 @@ export default function FolderInputPropertyFields(props) {
                 label={t("folderInfoTypeLabel")}
             />
 
-            <FastField
-                id={buildID(baseId, ids.PARAM_FIELDS.IMPLICIT)}
-                name={`${fileParamsFieldName}.is_implicit`}
-                label={t("doNotPass")}
+            <ImplicitField
+                baseId={baseId}
+                fieldName={fileParamsFieldName}
                 helperText={t("app_editor_help:IsImplicitFolderInput")}
-                component={FormCheckbox}
             />
         </Grid>
     );

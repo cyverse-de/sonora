@@ -36,6 +36,7 @@
     "moveSectionDown": "Move Section Down",
     "moveSectionUp": "Move Section Up",
     "multiFileInfoTypeLabel": "Type of information contained in these files",
+    "multiFileOutputDefaultLabel": "Default Multi-file output name pattern",
     "newApp": "New App",
     "newParamLabel": "New Parameter {{count}}",
     "newSectionLabel": "New Section {{count}}",

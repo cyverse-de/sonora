@@ -15,6 +15,7 @@ import EnvironmentVariablePropertyFields from "./params/EnvironmentVariablePrope
 import FileInputPropertyFields from "./params/FileInputPropertyFields";
 import FileOutputPropertyFields from "./params/FileOutputPropertyFields";
 import FolderInputPropertyFields from "./params/FolderInputPropertyFields";
+import FolderOutputPropertyFields from "./params/FolderOutputPropertyFields";
 import InfoTextField from "./params/InfoTextField";
 import IntegerPropertyFields from "./params/IntegerPropertyFields";
 import MultiFileSelectorPropertyFields from "./params/MultiFileSelectorPropertyFields";
@@ -118,6 +119,14 @@ function PropertyFormFields(props) {
         case AppParamTypes.FILE_OUTPUT:
             return (
                 <FileOutputPropertyFields
+                    baseId={baseParamId}
+                    fieldName={fieldName}
+                />
+            );
+
+        case AppParamTypes.FOLDER_OUTPUT:
+            return (
+                <FolderOutputPropertyFields
                     baseId={baseParamId}
                     fieldName={fieldName}
                 />

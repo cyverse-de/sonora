@@ -1,15 +1,11 @@
 /**
- * A form component for editing App `FileOutput` parameter properties.
+ * A form component for editing App `FolderOutput` parameter properties.
  *
  * @author psarando
  */
 import React from "react";
 
-import { FastField } from "formik";
-
 import { useTranslation } from "i18n";
-
-import ids from "../ids";
 
 import FileInfoTypesSelector from "./FileInfoTypesSelector";
 
@@ -22,17 +18,11 @@ import LabelField from "./common/LabelField";
 import RequiredField from "./common/RequiredField";
 import VisibleField from "./common/VisibleField";
 
-import { build as buildID, FormTextField } from "@cyverse-de/ui-lib";
+import { FormTextField } from "@cyverse-de/ui-lib";
 
-import { Grid, MenuItem } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
-export const DataSources = {
-    FILE: "file",
-    STDOUT: "stdout",
-    STDERR: "stderr",
-};
-
-export default function FileOutputPropertyFields(props) {
+export default function FolderOutputPropertyFields(props) {
     const { baseId, fieldName } = props;
 
     const { t } = useTranslation([
@@ -50,7 +40,7 @@ export default function FileOutputPropertyFields(props) {
             <DefaultValueField
                 baseId={baseId}
                 fieldName={fieldName}
-                label={t("fileOutputDefaultLabel")}
+                label={t("folderOutputDefaultLabel")}
                 component={FormTextField}
             />
             <DescriptionField baseId={baseId} fieldName={fieldName} />
@@ -58,31 +48,10 @@ export default function FileOutputPropertyFields(props) {
             <VisibleField baseId={baseId} fieldName={fieldName} />
             <ExcludeArgumentField baseId={baseId} fieldName={fieldName} />
 
-            <FastField
-                id={buildID(baseId, ids.PARAM_FIELDS.DATA_SOURCE)}
-                name={`${fileParamsFieldName}.data_source`}
-                label={t("dataSourceLabel")}
-                component={FormTextField}
-                select
-                variant="outlined"
-                margin="normal"
-                size="small"
-            >
-                <MenuItem value={DataSources.FILE}>
-                    {t("app_param_types:DataSrcFile")}
-                </MenuItem>
-                <MenuItem value={DataSources.STDOUT}>
-                    {t("app_param_types:DataSrcStdout")}
-                </MenuItem>
-                <MenuItem value={DataSources.STDERR}>
-                    {t("app_param_types:DataSrcStderr")}
-                </MenuItem>
-            </FastField>
-
             <FileInfoTypesSelector
                 baseId={baseId}
                 fieldName={fileParamsFieldName}
-                label={t("fileInfoTypeLabel")}
+                label={t("folderInfoTypeLabel")}
             />
 
             <ImplicitField

@@ -27,6 +27,7 @@
     "fileInfoTypeLabel": "Type of information contained in this file",
     "fileOutputDefaultLabel": "Default output file name",
     "folderInfoTypeLabel": "Type of information contained in this folder",
+    "folderOutputDefaultLabel": "Default output folder name",
     "helpText": "Help Text",
     "isRequired": "Make this field required.",
     "isVisible": "Display this item in the app.",

@@ -180,6 +180,9 @@ const formatSubmission = (appDescription) => {
             switch (paramType) {
                 case AppParamTypes.TEXT:
                 case AppParamTypes.MULTILINE_TEXT:
+                case AppParamTypes.REFERENCE_ANNOTATION:
+                case AppParamTypes.REFERENCE_GENOME:
+                case AppParamTypes.REFERENCE_SEQUENCE:
                     return {
                         ...param,
                         defaultValue: defaultValue || null,

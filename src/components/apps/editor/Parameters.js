@@ -17,6 +17,8 @@ import ParamSelectionPalette from "./ParamSelectionPalette";
 
 import { DataSources } from "./params/FileOutputPropertyFields";
 
+import ReferenceGenomeSelect from "components/apps/launch/ReferenceGenomeSelect";
+
 import Checkbox from "components/apps/launch/params/Checkbox";
 import Double from "components/apps/launch/params/Double";
 import FileFolderInput from "components/apps/launch/params/FileFolderInput";
@@ -122,6 +124,12 @@ function ParamCardForm(props) {
         case AppParamTypes.MULTIFILE_SELECTOR:
             FieldComponent = MultiFileSelector;
             fieldProps.disabled = true;
+            break;
+
+        case AppParamTypes.REFERENCE_GENOME:
+        case AppParamTypes.REFERENCE_SEQUENCE:
+        case AppParamTypes.REFERENCE_ANNOTATION:
+            FieldComponent = ReferenceGenomeSelect;
             break;
 
         default:

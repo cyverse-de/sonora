@@ -21,6 +21,7 @@ import IntegerPropertyFields from "./params/IntegerPropertyFields";
 import MultiFileOutputPropertyFields from "./params/MultiFileOutputPropertyFields";
 import MultiFileSelectorPropertyFields from "./params/MultiFileSelectorPropertyFields";
 import MultiLineTextPropertyFields from "./params/MultiLineTextPropertyFields";
+import ReferenceGenomePropertyFields from "./params/ReferenceGenomePropertyFields";
 import SelectionPropertyFields from "./params/SelectionPropertyFields";
 import TextPropertyFields from "./params/TextPropertyFields";
 
@@ -138,6 +139,17 @@ function PropertyFormFields(props) {
                 <MultiFileOutputPropertyFields
                     baseId={baseParamId}
                     fieldName={fieldName}
+                />
+            );
+
+        case AppParamTypes.REFERENCE_ANNOTATION:
+        case AppParamTypes.REFERENCE_GENOME:
+        case AppParamTypes.REFERENCE_SEQUENCE:
+            return (
+                <ReferenceGenomePropertyFields
+                    baseId={baseParamId}
+                    fieldName={fieldName}
+                    param={param}
                 />
             );
 

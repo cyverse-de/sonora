@@ -1,4 +1,6 @@
-export default {
+import { mockAxios } from "../../../axiosMock";
+
+const ReferenceGenomeListing = {
     genomes: [
         {
             id: "756adb31-72f4-487f-ba95-c5bcca7b13b5",
@@ -3627,3 +3629,11 @@ export default {
         },
     ],
 };
+
+export const initMockAxiosReferenceGenomeListing = () => {
+    mockAxios
+        .onGet(/\/api\/reference-genomes/)
+        .reply(200, ReferenceGenomeListing);
+};
+
+export default ReferenceGenomeListing;

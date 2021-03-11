@@ -9,7 +9,6 @@ import React from "react";
 
 import { Formik, Form } from "formik";
 import { useTranslation } from "i18n";
-import { useQuery } from "react-query";
 
 import AppParamTypes from "components/models/AppParamTypes";
 import PageWrapper from "components/layout/PageWrapper";
@@ -34,16 +33,7 @@ import {
     ResourceRequirementsReview,
 } from "./ResourceRequirements";
 
-import {
-    getReferenceGenomes,
-    REFERENCE_GENOMES_QUERY_KEY,
-} from "serviceFacades/referenceGenomes";
-
-import {
-    build as buildDebugId,
-    stableSort,
-    getFormError,
-} from "@cyverse-de/ui-lib";
+import { build as buildDebugId, getFormError } from "@cyverse-de/ui-lib";
 
 import {
     Box,
@@ -78,12 +68,6 @@ const NAVIGATION_BAR_HEIGHT = 105;
 
 //include mobile stepper navigation height
 const MOBILE_NAVIGATION_BAR_HEIGHT = 155;
-
-const ReferenceGenomeParamTypes = [
-    AppParamTypes.REFERENCE_GENOME,
-    AppParamTypes.REFERENCE_SEQUENCE,
-    AppParamTypes.REFERENCE_ANNOTATION,
-];
 
 const StepContent = ({ id, hidden, step, label, children, offsetHeight }) => {
     const theme = useTheme();
@@ -547,7 +531,6 @@ const AppLaunchForm = (props) => {
     const { t } = useTranslation(["launch", "data"]);
     const [activeStep, setActiveStep] = React.useState(0);
 
-    const [referenceGenomes, setReferenceGenomes] = React.useState([]);
     const [reviewShowAll, setReviewShowAll] = React.useState(true);
 
     const [quickLaunchDialogOpen, setQuickLaunchDialogOpen] = React.useState(
@@ -556,11 +539,6 @@ const AppLaunchForm = (props) => {
     const [quickLaunchSubmission, setQuickLaunchSubmission] = React.useState(
         null
     );
-
-    const [
-        referenceGenomesQueryEnabled,
-        setReferenceGenomesQueryEnabled,
-    ] = React.useState(false);
 
     const classes = useStyles();
     const theme = useTheme();
@@ -588,14 +566,6 @@ const AppLaunchForm = (props) => {
 
     const hasParams = groups?.find((group) => group.parameters?.length > 0);
 
-    const hasReferenceGenomes =
-        hasParams &&
-        groups?.find((group) =>
-            group.parameters?.find((param) =>
-                ReferenceGenomeParamTypes.includes(param.type)
-            )
-        );
-
     const stepperRef = React.useRef(null);
     const [stepperHeight, setStepperRef] = useComponentHeight();
 
@@ -615,30 +585,6 @@ const AppLaunchForm = (props) => {
     React.useEffect(() => {
         setBottomNavRef(bottomNavRef);
     }, [bottomNavRef, setBottomNavRef]);
-
-    React.useEffect(() => {
-        if (hasReferenceGenomes) {
-            setReferenceGenomesQueryEnabled(true);
-        }
-    }, [props.app, hasReferenceGenomes]);
-
-    const { isFetching: referenceGenomesLoading } = useQuery({
-        queryKey: [REFERENCE_GENOMES_QUERY_KEY, { deleted: false }],
-        queryFn: getReferenceGenomes,
-        config: {
-            enabled: referenceGenomesQueryEnabled,
-            onSuccess: (resp) => {
-                const genomes = resp?.genomes || [];
-                setReferenceGenomes(
-                    stableSort(genomes, (a, b) => a.name.localeCompare(b.name))
-                );
-                setReferenceGenomesQueryEnabled(false);
-            },
-            onError: (e) => {
-                console.error(e);
-            },
-        },
-    });
 
     const hasAdvancedStep = requirements?.length > 0;
 
@@ -778,10 +724,6 @@ const AppLaunchForm = (props) => {
                                         )}
                                         fieldName={`groups.${index}`}
                                         group={group}
-                                        referenceGenomes={referenceGenomes}
-                                        referenceGenomesLoading={
-                                            referenceGenomesLoading
-                                        }
                                     />
                                 ))}
                             </StepContent>

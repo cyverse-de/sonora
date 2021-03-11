@@ -126,15 +126,7 @@ const buildParamId = (baseId, paramIndex, type) => {
  * Form fields and info display for an app parameter group.
  */
 function ParamGroupForm(props) {
-    const {
-        baseId,
-        fieldName,
-        group,
-        referenceGenomes,
-        referenceGenomesLoading,
-        index,
-        noOfGroups,
-    } = props;
+    const { baseId, fieldName, group, index, noOfGroups } = props;
     const classes = useStyles();
     const { t } = useTranslation("launch");
     return (
@@ -231,10 +223,6 @@ function ParamGroupForm(props) {
                                     name={name}
                                     component={ReferenceGenomeSelect}
                                     param={param}
-                                    referenceGenomes={referenceGenomes}
-                                    referenceGenomesLoading={
-                                        referenceGenomesLoading
-                                    }
                                 />
                             );
 

@@ -7,17 +7,23 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
+
+import { useReferenceGenomes } from "../queries";
+
 import { FormFieldLoading, FormTextField } from "@cyverse-de/ui-lib";
 
 import { MenuItem } from "@material-ui/core";
 
-const ReferenceGenomeSelect = ({
-    referenceGenomes,
-    referenceGenomesLoading,
-    param,
-    ...props
-}) => {
+const ReferenceGenomeSelect = ({ param, ...props }) => {
+    const [referenceGenomes, setReferenceGenomes] = React.useState([]);
+
+    const { isFetching: referenceGenomesLoading } = useReferenceGenomes(
+        true,
+        setReferenceGenomes
+    );
+
     const { t } = useTranslation("launch");
+
     const selectProps = {
         label: param?.label,
         helperText: param?.description,

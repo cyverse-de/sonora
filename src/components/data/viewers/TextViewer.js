@@ -22,7 +22,7 @@ import { CircularProgress, TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 function ModeSelect(props) {
-    const { baseId, mode, handleModeSelect } = props;
+    const { baseId, mode, handleModeSelect, style } = props;
     const languages = SyntaxHighlighter.supportedLanguages;
     const { t } = useTranslation("data");
 
@@ -32,6 +32,7 @@ function ModeSelect(props) {
             value={mode}
             options={languages}
             size="small"
+            style={style}
             onChange={handleModeSelect}
             renderInput={(params) => (
                 <TextField
@@ -81,6 +82,7 @@ export default function TextViewer(props) {
                             ids.VIEWER_PLAIN,
                             ids.SELECT_MODE_INPUT
                         )}
+                        style={{ width: 200 }}
                         mode={mode}
                         handleModeSelect={handleModeSelect}
                     />

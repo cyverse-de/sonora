@@ -114,7 +114,9 @@ const JobLimits = ({ showErrorAnnouncer }) => {
 
     return (
         <Card id={id(ids.CARD)} className={classes.root}>
-            <CardHeader title={t("jobLimits")} />
+            <CardHeader
+                title={<Typography variant="h6">{t("jobLimits")}</Typography>}
+            />
 
             <CardContent>
                 <FormControl>

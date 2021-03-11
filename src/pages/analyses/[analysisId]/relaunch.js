@@ -16,8 +16,10 @@ import {
 } from "serviceFacades/analyses";
 
 import AppLaunch from "components/apps/launch";
+import { useUserProfile } from "contexts/userProfile";
 
 const Relaunch = () => {
+    const [userProfile] = useUserProfile();
     const [relaunchKey, setRelaunchKey] = React.useState(
         ANALYSIS_RELAUNCH_QUERY_KEY
     );
@@ -52,7 +54,7 @@ const Relaunch = () => {
         config: {
             enabled: relaunchQueryEnabled,
             onSuccess: (resp) => {
-                if (resp?.limitChecks?.canRun) {
+                if (resp?.limitChecks?.canRun || !userProfile?.id) {
                     setApp(resp);
                 } else {
                     setRelaunchError(

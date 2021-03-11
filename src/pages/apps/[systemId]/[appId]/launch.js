@@ -20,8 +20,10 @@ import {
 } from "serviceFacades/quickLaunches";
 
 import AppLaunch from "components/apps/launch";
+import { useUserProfile } from "contexts/userProfile";
 
 export default function Launch() {
+    const [userProfile] = useUserProfile();
     const [appKey, setAppKey] = React.useState(APP_DESCRIPTION_QUERY_KEY);
     const [
         appDescriptionQueryEnabled,
@@ -67,7 +69,7 @@ export default function Launch() {
         config: {
             enabled: appDescriptionQueryEnabled,
             onSuccess: (resp) => {
-                if (resp?.limitChecks?.canRun) {
+                if (resp?.limitChecks?.canRun || !userProfile?.id) {
                     setApp(resp);
                 } else {
                     setLaunchError(

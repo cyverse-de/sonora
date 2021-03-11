@@ -12,11 +12,13 @@ import DELink from "components/utils/DELink";
 import { ERROR_CODES } from "components/utils/error/errorCode";
 import AccessRequestDialog from "components/vice/AccessRequestDialog";
 
-import { Highlighter } from "@cyverse-de/ui-lib";
-import { useAppLaunchLink } from "./utils";
-import { Button, Link as MuiLink, Typography } from "@material-ui/core";
+import { useUserProfile } from "contexts/userProfile";
 import DEDialog from "components/utils/DEDialog";
 import RunError from "./RunError";
+import { useAppLaunchLink } from "./utils";
+
+import { Highlighter } from "@cyverse-de/ui-lib";
+import { Button, Link as MuiLink, Typography } from "@material-ui/core";
 
 function RunErrorDialog(props) {
     const { baseId, code, open, viceQuota, runningJobs, onClose } = props;
@@ -62,6 +64,7 @@ function AppName(props) {
         limitChecks,
     } = props;
     const [runErrorCodes, setRunErrorCodes] = useState(null);
+    const [userProfile] = useUserProfile();
     const [viceQuota, setViceQuota] = useState();
     const [runningJobs, setRunningJobs] = useState();
     const [accessRequestDialogOpen, setAccessRequestDialogOpen] = useState(
@@ -72,12 +75,10 @@ function AppName(props) {
     const { t } = useTranslation("apps");
 
     useEffect(() => {
-        if (!limitChecks?.canRun) {
-            setRunErrorCodes(limitChecks?.results[0]?.reasonCodes);
-            setViceQuota(limitChecks?.results[0]?.additionalInfo?.maxJobs);
-            setRunningJobs(
-                limitChecks?.results[0]?.additionalInfo?.runningJobs
-            );
+        if (limitChecks && !limitChecks.canRun) {
+            setRunErrorCodes(limitChecks.results[0]?.reasonCodes);
+            setViceQuota(limitChecks.results[0]?.additionalInfo?.maxJobs);
+            setRunningJobs(limitChecks.results[0]?.additionalInfo?.runningJobs);
         }
     }, [limitChecks]);
 
@@ -88,7 +89,7 @@ function AppName(props) {
         title = t("useAppTooltip");
     }
 
-    if (!isDisabled && limitChecks?.canRun) {
+    if ((!isDisabled && limitChecks?.canRun) || !userProfile?.id) {
         return (
             <Link href={href} as={as} passHref>
                 <DELink

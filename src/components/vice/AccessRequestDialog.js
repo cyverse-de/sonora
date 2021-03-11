@@ -10,7 +10,7 @@ import ids from "./ids";
 import { build, announce, FormMultilineTextField } from "@cyverse-de/ui-lib";
 import { Field, Form, Formik } from "formik";
 
-import requestAccess from "serviceFacades/vice/accessRequest";
+import { requestAccess } from "serviceFacades/vice/accessRequest";
 import constants from "../../constants";
 
 import DEDialog from "components/utils/DEDialog";

@@ -16,6 +16,7 @@ import getData, {
     exit,
     VICE_ADMIN_QUERY_KEY,
 } from "../../../serviceFacades/vice/admin";
+import DETabPanel from "components/utils/DETabPanel";
 
 import RowFilter from "./filter";
 import CollapsibleTable, { defineColumn, ExpanderColumn } from "./table";
@@ -33,9 +34,14 @@ import { Skeleton, TabList, TabContext, TabPanel } from "@material-ui/lab";
 
 import { JSONPath } from "jsonpath-plus";
 import efcs from "./filter/efcs";
-import { AppBar, Tab } from "@material-ui/core";
+import { AppBar, Tab, Tabs } from "@material-ui/core";
+import Listing from "./accessRequests/Listing";
 
 const id = (...values) => buildID(ids.ROOT, ...values);
+const TABS = {
+    quotaRequests: "QUOTA REQUESTS",
+    analyses: "ANALYSES",
+};
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -346,6 +352,11 @@ const VICEAdminTabs = ({ data = {} }) => {
 
 const VICEAdmin = () => {
     const classes = useStyles();
+    const [selectedTab, setSelectedTab] = useState(TABS.quotaRequests);
+
+    const onTabSelectionChange = (event, selectedTab) => {
+        setSelectedTab(selectedTab);
+    };
 
     const { isError: hasErrored, isLoading, data, error } = useQuery(
         VICE_ADMIN_QUERY_KEY,
@@ -382,24 +393,53 @@ const VICEAdmin = () => {
 
     return (
         <div id={id(ids.ROOT)} className={classes.root}>
-            <JobLimits />
+            <Tabs
+                value={selectedTab}
+                onChange={onTabSelectionChange}
+                classes={{ indicator: classes.tabIndicator }}
+            >
+                <Tab
+                    value={TABS.quotaRequests}
+                    label="Quota"
+                    id="quotaId"
+                    classes={{ selected: classes.tabSelected }}
+                />
+                <Tab
+                    value={TABS.analyses}
+                    label="Analyses"
+                    id="analysesId"
+                    classes={{ selected: classes.tabSelected }}
+                />
+            </Tabs>
+            <DETabPanel
+                tabId="quotaId"
+                value={TABS.quotaRequests}
+                selectedTab={selectedTab}
+            >
+                <JobLimits />
+                <Listing />
+            </DETabPanel>
+            <DETabPanel
+                tabId="analysesId"
+                value={TABS.analyses}
+                selectedTab={selectedTab}
+            >
+                {isLoading ? (
+                    <VICEAdminSkeleton />
+                ) : hasErrored ? (
+                    <WrappedErrorHandler errorObject={error} baseId={BASE_ID} />
+                ) : (
+                    <>
+                        <RowFilter
+                            filters={filters}
+                            addToFilters={addToFilters}
+                            deleteFromFilters={deleteFromFilters}
+                        />
 
-            {isLoading ? (
-                <VICEAdminSkeleton />
-            ) : hasErrored ? (
-                <WrappedErrorHandler errorObject={error} baseId={BASE_ID} />
-            ) : (
-                <>
-                    <RowFilter
-                        filters={filters}
-                        addToFilters={addToFilters}
-                        deleteFromFilters={deleteFromFilters}
-                    />
-
-                    <VICEAdminTabs data={filteredData} />
-                </>
-            )}
-            <div className={classes.footer} />
+                        <VICEAdminTabs data={filteredData} />
+                    </>
+                )}
+            </DETabPanel>
         </div>
     );
 };

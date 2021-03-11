@@ -26,7 +26,7 @@
     "help": "Help",
     "home": "Home",
     "intercomAriaLabel": "Chat with CyVerse support",
-    "interactiveAnalysisUrl": "Access your running analysis here.",
+    "interactiveAnalysisUrl": "{{message}}. Access your running analysis here.",
     "searching": "Searching...",
     "login": "Login",
     "logout": "Logout",

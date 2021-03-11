@@ -61,6 +61,8 @@ import {
 } from "@material-ui/icons";
 import { TeamIcon } from "../teams/Icons";
 import { useUserProfile } from "../../contexts/userProfile";
+import { getTeamLinkRefs } from "../teams/util";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -363,8 +365,7 @@ function TeamSearchOption(props) {
         );
     }
 
-    const href = `/${NavigationConstants.TEAMS}/${selectedOption.name}`;
-    const as = `/${NavigationConstants.TEAMS}/${selectedOption.name}`;
+    const [href, as] = getTeamLinkRefs(selectedOption.name);
     return (
         <Link href={href} as={as} passHref>
             <SearchOption
@@ -458,6 +459,10 @@ function GlobalSearchField(props) {
         analysesSearchKey,
         analysesSearchQueryEnabled,
         (results) => {
+            trackIntercomEvent(IntercomEvents.SEARCHED_ANALYSES, {
+                search: analysesSearchKey[1]?.filter,
+                total: results?.analyses?.length,
+            });
             if (results && results.analyses?.length > 0) {
                 const analyses = results.analyses;
                 analyses.forEach((analysis) => {
@@ -491,6 +496,10 @@ function GlobalSearchField(props) {
         appsSearchKey,
         appsSearchQueryEnabled,
         (results) => {
+            trackIntercomEvent(IntercomEvents.SEARCHED_APPS, {
+                search: appsSearchKey[1]?.search,
+                total: results?.apps?.length,
+            });
             if (results && results.apps?.length > 0) {
                 const apps = results.apps;
                 apps.forEach((app) => {
@@ -519,6 +528,10 @@ function GlobalSearchField(props) {
         dataSearchKey,
         dataSearchQueryEnabled,
         (results) => {
+            trackIntercomEvent(IntercomEvents.SEARCHED_DATA, {
+                search: dataSearchKey[1]?.query,
+                total: results?.hits?.length,
+            });
             if (results && results.hits?.length > 0) {
                 const data = results.hits;
                 data.forEach((data) => {
@@ -548,6 +561,10 @@ function GlobalSearchField(props) {
         isFetching: searchingTeams,
         error: teamSearchError,
     } = useTeamsSearch(teamSearchKey, teamSearchQueryEnabled, (results) => {
+        trackIntercomEvent(IntercomEvents.SEARCHED_TEAMS, {
+            search: teamSearchKey[1]?.searchTerm,
+            total: results?.groups?.length,
+        });
         if (results && results.groups?.length > 0) {
             const teams = results.groups;
             teams.forEach((team) => {

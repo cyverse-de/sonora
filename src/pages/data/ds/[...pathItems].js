@@ -3,6 +3,7 @@
  *
  */
 import React, { useCallback, useState } from "react";
+import dynamic from "next/dynamic";
 
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
@@ -14,8 +15,6 @@ import { getLocalStorage } from "components/utils/localStorage";
 import viewerConstants from "components/data/viewers/constants";
 import Listing from "components/data/listing/Listing";
 import { getEncodedPath, DEFAULT_PAGE_SETTINGS } from "components/data/utils";
-import FileViewer from "components/data/viewers/FileViewer";
-import MetadataForm from "components/metadata/form";
 import infoTypes from "components/models/InfoTypes";
 import ResourceTypes from "components/models/ResourceTypes";
 
@@ -23,6 +22,9 @@ import {
     getResourceDetails,
     DATA_DETAILS_QUERY_KEY,
 } from "serviceFacades/filesystem";
+
+const FileViewer = dynamic(() => import("components/data/viewers/FileViewer"));
+const MetadataForm = dynamic(() => import("components/metadata/form"));
 
 /**
  * This variable value needs to match the name of this file for the routing to work

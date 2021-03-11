@@ -34,6 +34,7 @@ import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 
 import { useBootstrapInfo } from "contexts/bootstrap";
 import { useUserProfile } from "contexts/userProfile";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import {
     FILESYSTEM_METADATA_QUERY_KEY,
@@ -96,6 +97,10 @@ const MetadataFormListing = (props) => {
         config: {
             enabled: !!dataId,
             onSuccess: (metadata) => {
+                trackIntercomEvent(IntercomEvents.VIEWED_METADATA, {
+                    path: targetResource?.path,
+                    id: targetResource?.id,
+                });
                 setTabIndex(0);
                 setIrodsAVUsSelected([]);
 

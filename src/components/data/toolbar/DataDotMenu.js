@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
-import { isOwner, containsFolders } from "../utils";
+import { isOwner, isWritable, containsFolders } from "../utils";
 import CreateFolderDialog from "../CreateFolderDialog";
 import UploadMenuItems from "./UploadMenuItems";
 
@@ -21,6 +21,7 @@ import MetadataMenuItem from "../menuItems/MetadataMenuItem";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
 import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";
 import DownloadMenuItem from "../menuItems/DownloadMenuItem";
+import RenameMenuItem from "../menuItems/RenameMenuItem";
 import PathListAutomation from "../PathListAutomation";
 import DEDialog from "components/utils/DEDialog";
 import ResourceTypes from "components/models/ResourceTypes";
@@ -81,12 +82,14 @@ function DataDotMenu(props) {
         handleEmptyTrash,
         handleDelete,
         handleRestore,
+        onRenameSelected,
     } = props;
 
     const { t } = useTranslation("data");
 
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
     const [pathListDlgOpen, setPathListDlgOpen] = useState(false);
+
     const [requestedInfoType, setRequestedInfoType] = useState();
 
     const onCreateFolderDlgClose = () => setCreateFolderDlgOpen(false);
@@ -109,6 +112,10 @@ function DataDotMenu(props) {
         !containsFolders(selectedResources);
     const downloadEnabled =
         !inTrash && !isSelectionEmpty && !containsFolders(selectedResources);
+    const renameEnabled =
+        !inTrash &&
+        selected?.length === 1 &&
+        isWritable(selectedResources[0]?.permission);
 
     const router = useRouter();
     const routeToFile = (id, path) => {
@@ -152,6 +159,14 @@ function DataDotMenu(props) {
                                       </ListItemIcon>
                                       <ListItemText primary={t("folder")} />
                                   </MenuItem>
+                              ),
+                              renameEnabled && (
+                                  <RenameMenuItem
+                                      key={build(baseId, ids.RENAME_MI)}
+                                      onRenameSelected={onRenameSelected}
+                                      baseId={baseId}
+                                      onClose={onClose}
+                                  />
                               ),
                               detailsEnabled && (
                                   <DetailsMenuItem
@@ -324,6 +339,14 @@ function DataDotMenu(props) {
                             />
                         </MenuItem>,
                     ],
+                    renameEnabled && (
+                        <RenameMenuItem
+                            key={build(baseId, ids.RENAME_MI)}
+                            onRenameSelected={onRenameSelected}
+                            baseId={baseId}
+                            onClose={onClose}
+                        />
+                    ),
                     linkSharingEnabled && (
                         <PublicLinksMenuItem
                             key={build(baseId, ids.PUBLIC_LINKS_MENU_ITEM)}
@@ -369,6 +392,7 @@ function DataDotMenu(props) {
                     refreshListing();
                 }}
             />
+
             <DEDialog
                 baseId={build(baseId, ids.PATH_LIST_AUTO_DIALOG)}
                 open={pathListDlgOpen}

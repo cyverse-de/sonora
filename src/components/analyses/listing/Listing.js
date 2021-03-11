@@ -53,6 +53,7 @@ import NotificationCategory from "components/models/NotificationCategory";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import { useNotifications } from "contexts/pushNotifications";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 /**
  * Filters
@@ -97,7 +98,7 @@ function Listing(props) {
 
     const [config] = useConfig();
     const [userProfile] = useUserProfile();
-    const [currentNotification] = useNotifications();
+    const { currentNotification } = useNotifications();
 
     const [selectedAnalysis, setSelectedAnalysis] = useState(null);
     const [isSingleSelection, setSingleSelection] = useState(false);
@@ -123,7 +124,13 @@ function Listing(props) {
         queryFn: getAnalyses,
         config: {
             enabled: analysesListingQueryEnabled,
-            onSuccess: setData,
+            onSuccess: (resp) => {
+                trackIntercomEvent(
+                    IntercomEvents.VIEWED_ANALYSES,
+                    analysesKey[1]
+                );
+                setData(resp);
+            },
         },
     });
 
@@ -193,6 +200,7 @@ function Listing(props) {
         cancelAnalyses,
         {
             onSuccess: (analyses, { job_status }) => {
+                trackIntercomEvent(IntercomEvents.ANALYSIS_CANCELLED, analyses);
                 announce({
                     text: t("analysisCancelSuccess", {
                         count: analyses?.length,

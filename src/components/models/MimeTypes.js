@@ -150,7 +150,7 @@ const getViewerMode = (mimeType) => {
     if (identicalModes.includes(mimeType)) {
         mode = mimeType;
     } else if (
-        mimeType.startsWith("x-") &&
+        mimeType?.startsWith("x-") &&
         xModes.includes(mimeType.slice(2))
     ) {
         mode = mimeType.slice(2);

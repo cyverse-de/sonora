@@ -202,6 +202,29 @@ export default function HelpTopics(props) {
                 </Grid>
                 <Grid item>
                     <TopicCard
+                        title={t("glossary_title")}
+                        description={t("glossary_prompt")}
+                        action={
+                            <Button
+                                id={build(baseId, ids.GLOSSARY_BTN)}
+                                color="primary"
+                                className={classes.action}
+                                startIcon={<LaunchIcon />}
+                                size="small"
+                                onClick={() =>
+                                    window.open(
+                                        constants.CYVERSE_GLOSSARY,
+                                        "_blank"
+                                    )
+                                }
+                            >
+                                {t("glossary_button_label")}
+                            </Button>
+                        }
+                    />
+                </Grid>
+                <Grid item>
+                    <TopicCard
                         title={t("learning_center_title")}
                         description={t("learning_center_prompt")}
                         action={

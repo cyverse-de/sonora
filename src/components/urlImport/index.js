@@ -13,6 +13,7 @@ import {
 
 import constants from "../../constants";
 import { uploadByUrl } from "serviceFacades/fileio";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
 
@@ -131,6 +132,7 @@ const URLImportTextField = (props) => {
 
     const [importUrl, { status }] = useMutation(uploadByUrl, {
         onSuccess: (resp) => {
+            trackIntercomEvent(IntercomEvents.URL_IMPORT_SUBMITTED, resp);
             successCallback(t("fileImportSubmitted"));
             errorCallback(null);
             setUploadURL("");

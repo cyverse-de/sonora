@@ -71,9 +71,10 @@ export default {
         "https://docs.oracle.com/javase/9/docs/api/java/util/regex/Pattern.html",
     URL_REGEX: /^(?:ftp|FTP|HTTPS?|https?):\/\/[^/]+\.[^/]+.*/i,
     EMAIL_REGEX: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    DE_FAQ: "https://cyverse.github.io/UserSupport/README.html",
+    DE_FAQ:
+        "https://learning.cyverse.org/projects/faq/en/latest/Discovery-environment-faq.html",
     DE_GUIDE:
-        "https://cyverse-sonora-guide.readthedocs-hosted.com/en/latest/index.html",
+        "https://learning.cyverse.org/projects/cyverse-de2-guide/en/latest/",
     CYVERSE_LC: "https://learning.cyverse.org/en/latest/",
     DEFAULT_EMAIL: "no-reply@cyverse.org",
     SUPPORT_EMAIL: "support@cyverse.org",
@@ -82,4 +83,6 @@ export default {
         "https://learning.cyverse.org/projects/cyverse-doi-request-quickstart/en/latest/",
     DC_USER_AGREEMENT:
         "https://cyverse.org/policies/data-commons-user-agreement",
+    CYVERSE_GLOSSARY:
+        "https://learning.cyverse.org/projects/glossary/en/latest/",
 };

@@ -268,5 +268,15 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
         pageProps = await Component.getInitialProps(ctx);
     }
 
-    return { pageProps, namespacesRequired: ["common"] };
+    // merge the two always-needed namespaces into the pageProps namespacesRequired array
+    return {
+        pageProps: {
+            ...pageProps,
+            namespacesRequired: [
+                ...(pageProps?.namespacesRequired ?? []),
+                "common",
+                "bags",
+            ],
+        },
+    };
 };

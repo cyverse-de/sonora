@@ -160,6 +160,19 @@ export const createFolder = ({ path }) => {
 };
 
 /**
+ * Rename a file or folder
+ * @param {object} param - destination and source.
+ *  @returns {Promise<*>}
+ */
+export const rename = ({ dest, source }) => {
+    return callApi({
+        endpoint: "/api/filesystem/rename",
+        method: "POST",
+        body: { dest, source },
+    });
+};
+
+/**
  * Search data
  *
  * @param {string} key

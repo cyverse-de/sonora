@@ -36,6 +36,7 @@ import StructuredTextViewer from "./StructuredTextViewer";
 import { flattenStructureData } from "./utils";
 import { parseNameFromPath } from "../utils";
 import TextViewer from "./TextViewer";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import { build } from "@cyverse-de/ui-lib";
 import {
@@ -85,6 +86,7 @@ export default function FileViewer(props) {
         manifestKey,
         path !== null && path !== undefined && !createFile,
         (resp) => {
+            trackIntercomEvent(IntercomEvents.VIEWED_FILE, { ...resp, path });
             setManifest(resp);
         }
     );

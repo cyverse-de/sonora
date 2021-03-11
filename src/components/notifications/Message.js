@@ -8,7 +8,12 @@ import React from "react";
 
 import Link from "next/link";
 
-import { getDisplayMessage } from "./utils";
+import {
+    ADDED_TO_TEAM,
+    getDisplayMessage,
+    JOIN_TEAM_DENIED,
+    REQUEST_TO_JOIN,
+} from "./utils";
 
 import NotificationCategory from "components/models/NotificationCategory";
 import SystemId from "components/models/systemId";
@@ -19,6 +24,10 @@ import { getFolderPage, getParentPath } from "components/data/utils";
 import DELink from "components/utils/DELink";
 
 import { Typography } from "@material-ui/core";
+import { getTeamLinkRefs } from "../teams/util";
+import ExternalLink from "../utils/ExternalLink";
+import { useTranslation } from "../../i18n";
+import { useNotifications } from "contexts/pushNotifications";
 
 function MessageLink(props) {
     const { message, href, as } = props;
@@ -32,6 +41,7 @@ function MessageLink(props) {
 
 function AnalysisLink(props) {
     const { notification } = props;
+    const { t } = useTranslation("common");
 
     const message = getDisplayMessage(notification);
     const action = notification.payload?.action;
@@ -39,6 +49,14 @@ function AnalysisLink(props) {
     const isJobStatusChange = action === "job_status_change";
     const isShare = action === "share";
     if (isShare || isJobStatusChange) {
+        if (notification.payload.access_url) {
+            return (
+                <ExternalLink href={props.notification.payload.access_url}>
+                    {t("interactiveAnalysisUrl", { message })}
+                </ExternalLink>
+            );
+        }
+
         const analysisId =
             isShare && notification.payload?.analyses?.length > 0
                 ? notification.payload.analyses[0].analysis_id
@@ -96,6 +114,31 @@ function DataLink(props) {
     return href ? <MessageLink href={href} message={message} /> : message;
 }
 
+function TeamLink(props) {
+    const { notification } = props;
+
+    const message = getDisplayMessage(notification);
+    const teamName = notification.payload?.team_name;
+    const action = notification.payload?.action;
+    const { setSelectedNotification } = useNotifications();
+
+    if (action === ADDED_TO_TEAM) {
+        const [href] = getTeamLinkRefs(teamName);
+        return <MessageLink href={href} message={message} />;
+    }
+
+    if (action === REQUEST_TO_JOIN || action === JOIN_TEAM_DENIED) {
+        return (
+            <DELink
+                text={message}
+                onClick={() => setSelectedNotification(notification)}
+            />
+        );
+    }
+
+    return message;
+}
+
 export default function Message(props) {
     const { baseId, notification } = props;
 
@@ -114,6 +157,11 @@ export default function Message(props) {
 
         case NotificationCategory.DATA.toLowerCase():
             message = <DataLink notification={notification} />;
+
+            break;
+
+        case NotificationCategory.TEAM.toLowerCase():
+            message = <TeamLink notification={notification} />;
 
             break;
 

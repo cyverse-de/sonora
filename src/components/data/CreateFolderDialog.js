@@ -63,12 +63,15 @@ function CreateFolderDialog(props) {
 
     const validate = ({ name }) => {
         const validationError = validateDiskResourceName(name, t);
-        return validationError || createFolderError
-            ? { name: validationError || createFolderError }
-            : {};
+        return validationError ? { name: validationError } : {};
     };
 
     const isLoading = isQueryLoading(createFolderStatus);
+    const textFieldProps = {};
+    if (createFolderError) {
+        textFieldProps.error = true;
+        textFieldProps.helperText = createFolderError;
+    }
 
     return (
         <Formik
@@ -76,11 +79,7 @@ function CreateFolderDialog(props) {
             validate={validate}
             onSubmit={handleCreateFolder}
         >
-            {({ handleSubmit, validateForm }) => {
-                if (createFolderError) {
-                    validateForm();
-                    setCreateFolderError(null);
-                }
+            {({ handleSubmit }) => {
                 return (
                     <Form>
                         <Dialog
@@ -138,6 +137,7 @@ function CreateFolderDialog(props) {
                                         ),
                                     }}
                                     component={FormTextField}
+                                    {...textFieldProps}
                                 />
                             </DialogContent>
 

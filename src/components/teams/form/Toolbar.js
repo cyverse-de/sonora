@@ -18,13 +18,15 @@ import {
     MenuItem,
     Toolbar,
 } from "@material-ui/core";
-import { Delete, ExitToApp, Save } from "@material-ui/icons";
+import { Delete, EmojiPeople, ExitToApp, Save } from "@material-ui/icons";
 
 import BackButton from "components/utils/BackButton";
 import { useTranslation } from "i18n";
 import ids from "../ids";
 import styles from "../styles";
 import ConfirmationDialog from "../../utils/ConfirmationDialog";
+import JoinTeamDialog from "../dialogs/JoinTeamDialog";
+import { groupShortName } from "../util";
 
 const useStyles = makeStyles(styles);
 
@@ -43,9 +45,15 @@ function EditTeamToolbar(props) {
 
     const [leaveTeamDlgOpen, setLeaveTeamDlgOpen] = useState(false);
     const [deleteTeamDlgOpen, setDeleteTeamDlgOpen] = useState(false);
+    const [joinTeamDlgOpen, setJoinTeamDlgOpen] = useState(false);
 
     const baseId = build(parentId, ids.EDIT_TEAM.TOOLBAR);
+    const teamShortName = groupShortName(teamName);
     const isCreatingTeam = !teamName;
+
+    const leaveEnabled = !isAdmin && isMember;
+    const joinEnabled = !isAdmin && !isMember;
+    const deleteEnabled = isAdmin && !isCreatingTeam;
 
     return (
         <Toolbar variant="dense">
@@ -65,7 +73,7 @@ function EditTeamToolbar(props) {
             )}
             <div className={classes.divider} />
             <Hidden xsDown>
-                {!isAdmin && isMember && (
+                {leaveEnabled && (
                     <Button
                         color="primary"
                         variant="outlined"
@@ -79,7 +87,21 @@ function EditTeamToolbar(props) {
                         {t("leave")}
                     </Button>
                 )}
-                {isAdmin && !isCreatingTeam && (
+                {joinEnabled && (
+                    <Button
+                        color="primary"
+                        variant="outlined"
+                        id={build(baseId, ids.BUTTONS.JOIN_BTN)}
+                        className={classes.button}
+                        startIcon={<EmojiPeople />}
+                        onClick={() => {
+                            setJoinTeamDlgOpen(true);
+                        }}
+                    >
+                        {t("join")}
+                    </Button>
+                )}
+                {deleteEnabled && (
                     <Button
                         classes={{ root: classes.deleteBtn }}
                         variant="outlined"
@@ -98,7 +120,7 @@ function EditTeamToolbar(props) {
                 <DotMenu
                     baseId={baseId}
                     render={(onClose) => [
-                        !isAdmin && isMember && (
+                        leaveEnabled && (
                             <MenuItem
                                 key={build(baseId, ids.BUTTONS.LEAVE_MI)}
                                 onClick={() => {
@@ -112,7 +134,21 @@ function EditTeamToolbar(props) {
                                 <ListItemText primary={t("leave")} />
                             </MenuItem>
                         ),
-                        isAdmin && !isCreatingTeam && (
+                        joinEnabled && (
+                            <MenuItem
+                                key={build(baseId, ids.BUTTONS.JOIN_MI)}
+                                onClick={() => {
+                                    onClose();
+                                    setJoinTeamDlgOpen(true);
+                                }}
+                            >
+                                <ListItemIcon>
+                                    <EmojiPeople />
+                                </ListItemIcon>
+                                <ListItemText primary={t("join")} />
+                            </MenuItem>
+                        ),
+                        deleteEnabled && (
                             <MenuItem
                                 key={build(baseId, ids.BUTTONS.DELETE_MI)}
                                 onClick={() => {
@@ -137,7 +173,7 @@ function EditTeamToolbar(props) {
                     setLeaveTeamDlgOpen(false);
                     onLeaveTeamSelected();
                 }}
-                title={t("leaveTeamTitle", { name: teamName })}
+                title={t("leaveTeamTitle", { name: teamShortName })}
                 contentText={t("leaveTeamText")}
                 confirmButtonText={t("leave")}
             />
@@ -149,9 +185,14 @@ function EditTeamToolbar(props) {
                     setDeleteTeamDlgOpen(false);
                     onDeleteTeamSelected();
                 }}
-                title={t("deleteTeamTitle", { name: teamName })}
+                title={t("deleteTeamTitle", { name: teamShortName })}
                 contentText={t("deleteTeamText")}
                 confirmButtonText={t("common:delete")}
+            />
+            <JoinTeamDialog
+                open={joinTeamDlgOpen}
+                onClose={() => setJoinTeamDlgOpen(false)}
+                teamName={teamName}
             />
         </Toolbar>
     );

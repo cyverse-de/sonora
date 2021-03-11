@@ -14,6 +14,7 @@ import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import constants from "../../../constants";
 import ToolsToolbar, { TOOL_FILTER_VALUES } from "../toolbar/Toolbar";
 import { canShare } from "../utils";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 /**
  * The tool listing component.
@@ -110,7 +111,10 @@ function Listing(props) {
         queryFn: getTools,
         config: {
             enabled: toolsListingQueryEnabled,
-            onSuccess: setData,
+            onSuccess: (resp) => {
+                trackIntercomEvent(IntercomEvents.VIEWED_TOOLS, toolsKey[1]);
+                setData(resp);
+            },
         },
     });
 

@@ -35,11 +35,12 @@ import Sharing from "components/sharing";
 import { formatSharedData } from "components/sharing/util";
 import { getPageQueryParams } from "../utils";
 import { getHost } from "components/utils/getHost";
-
+import RenameDialog from "components/data/RenameDialog";
 import {
     useUploadTrackingState,
     useUploadTrackingDispatch,
 } from "contexts/uploadTracking";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import {
     deleteResources,
@@ -119,7 +120,10 @@ function Listing(props) {
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
     const [publicLinksDlgOpen, setPublicLinksDlgOpen] = useState(false);
     const [download, setDownload] = useState(false);
+    const [renameDlgOpen, setRenameDlgOpen] = useState(false);
 
+    const onRenameClicked = () => setRenameDlgOpen(true);
+    const onRenameDlgClose = () => setRenameDlgOpen(false);
     const onCloseImportDialog = () => setImportDialogOpen(false);
 
     const uploadDispatch = useUploadTrackingDispatch();
@@ -157,6 +161,9 @@ function Listing(props) {
         config: {
             enabled: !!path,
             onSuccess: (respData) => {
+                trackIntercomEvent(IntercomEvents.VIEWED_FOLDER, {
+                    path,
+                });
                 setData({
                     total: respData?.total,
                     permission: respData?.permission,
@@ -195,7 +202,7 @@ function Listing(props) {
             onSuccess: () => {
                 announce({
                     text: t("asyncDataDeletePending"),
-                    type: AnnouncerConstants.SUCCESS,
+                    variant: AnnouncerConstants.INFO,
                 });
             },
             onError: (e) => {
@@ -206,8 +213,10 @@ function Listing(props) {
     const [requestDOI, { status: requestDOIStatus }] = useMutation(
         createDOIRequest,
         {
-            onSuccess: () => {
-                //do nothing. Users will get notifications.
+            onSuccess: (resp) => {
+                trackIntercomEvent(IntercomEvents.SUBMITTED_DOI_REQUEST, {
+                    folder: selected[0],
+                });
             },
             onError: (e) => {
                 showErrorAnnouncer(t("doiRequestFailed"), e);
@@ -220,7 +229,7 @@ function Listing(props) {
             onSuccess: () => {
                 announce({
                     text: t("asyncDataEmptyTrashPending"),
-                    type: AnnouncerConstants.SUCCESS,
+                    variant: AnnouncerConstants.INFO,
                 });
             },
             onError: (e) => {
@@ -233,7 +242,7 @@ function Listing(props) {
         onSuccess: () => {
             announce({
                 text: t("asyncDataRestorePending"),
-                type: AnnouncerConstants.SUCCESS,
+                variant: AnnouncerConstants.INFO,
             });
         },
         onError: (e) => {
@@ -565,6 +574,7 @@ function Listing(props) {
                         setConfirmDOIRequestDialogOpen(true)
                     }
                     onRefreshSelected={onRefreshSelected}
+                    onRenameSelected={onRenameClicked}
                 />
                 {!isGridView && (
                     <TableView
@@ -591,6 +601,7 @@ function Listing(props) {
                         }
                         rowDotMenuVisibility={rowDotMenuVisibility}
                         onDownloadSelected={() => setDownload(true)}
+                        onRenameSelected={onRenameClicked}
                     />
                 )}
                 {isGridView && <span>Coming Soon!</span>}
@@ -688,6 +699,12 @@ function Listing(props) {
                     }}
                 />
             </DEDialog>
+            <RenameDialog
+                path={getSelectedResources()[0]?.path}
+                open={renameDlgOpen}
+                onClose={onRenameDlgClose}
+                onRenamed={onRenameDlgClose}
+            />
         </>
     );
 }

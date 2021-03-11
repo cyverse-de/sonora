@@ -11,8 +11,9 @@ import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DeleteMenuItem from "../menuItems/DeleteMenuItem";
 import MetadataMenuItem from "../menuItems/MetadataMenuItem";
 import DownloadMenuItem from "../menuItems/DownloadMenuItem";
+import RenameMenuItem from "../menuItems/RenameMenuItem";
 import SharingMenuItem from "../../sharing/SharingMenuItem";
-import { hasOwn, containsFolders } from "../utils";
+import { hasOwn, containsFolders, isWritable } from "../utils";
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
 import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";
@@ -30,10 +31,15 @@ function RowDotMenu(props) {
         onMetadataSelected,
         onPublicLinksSelected,
         onDownloadSelected,
+        onRenameSelected,
+        inTrash,
     } = props;
 
     const isOwner = hasOwn(resource.permission);
     const isFile = resource.type === ResourceTypes.FILE;
+    const renameEnabled = !inTrash && isWritable(resource.permission);
+    const linkEnabled = !inTrash && isOwner && !containsFolders([resource]);
+    const sharingEnabled = !inTrash && isOwner;
 
     return (
         <DotMenu
@@ -46,14 +52,16 @@ function RowDotMenu(props) {
                     onClose={onClose}
                     onDetailsSelected={onDetailsSelected}
                 />,
-                <MetadataMenuItem
-                    key={ids.METADATA_MI}
-                    baseId={baseId}
-                    resourceId={resource.id}
-                    onClose={onClose}
-                    onMetadataSelected={onMetadataSelected}
-                />,
-                isOwner && (
+                !inTrash && (
+                    <MetadataMenuItem
+                        key={ids.METADATA_MI}
+                        baseId={baseId}
+                        resourceId={resource.id}
+                        onClose={onClose}
+                        onMetadataSelected={onMetadataSelected}
+                    />
+                ),
+                sharingEnabled && (
                     <SharingMenuItem
                         key={build(baseId, shareIds.SHARING_MENU_ITEM)}
                         baseId={baseId}
@@ -61,7 +69,7 @@ function RowDotMenu(props) {
                         setSharingDlgOpen={setSharingDlgOpen}
                     />
                 ),
-                isOwner && !containsFolders([resource]) && (
+                linkEnabled && (
                     <PublicLinksMenuItem
                         key={build(baseId, ids.PUBLIC_LINKS_MENU_ITEM)}
                         baseId={baseId}
@@ -69,7 +77,15 @@ function RowDotMenu(props) {
                         onPublicLinksSelected={onPublicLinksSelected}
                     />
                 ),
-                isOwner && (
+                renameEnabled && (
+                    <RenameMenuItem
+                        key={build(baseId, ids.RENAME_MI)}
+                        baseId={baseId}
+                        onClose={onClose}
+                        onRenameSelected={onRenameSelected}
+                    />
+                ),
+                !inTrash && (
                     <DeleteMenuItem
                         key={build(baseId, ids.DELETE_MENU_ITEM)}
                         baseId={baseId}

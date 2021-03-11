@@ -20,7 +20,11 @@ afterEach(() => {
 test("App Tile renders", () => {
     const component = TestRenderer.create(
         <I18nProviderWrapper>
-            <AppTiles />
+            <UserProfileProvider>
+                <ConfigProvider>
+                    <AppTiles />
+                </ConfigProvider>
+            </UserProfileProvider>
         </I18nProviderWrapper>
     );
     component.unmount();

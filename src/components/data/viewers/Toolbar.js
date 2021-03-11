@@ -524,7 +524,7 @@ function ViewerToolbar(props) {
                     <DialogContent>{modeSelect}</DialogContent>
                     <DialogActions>
                         <Button onClick={() => setOpenModeSelectDialog(false)}>
-                            {t("done")}
+                            {i18nCommon("done")}
                         </Button>
                     </DialogActions>
                 </Dialog>

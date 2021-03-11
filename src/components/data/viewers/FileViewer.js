@@ -292,9 +292,9 @@ export default function FileViewer(props) {
         memoizedData.forEach((page) => {
             flatData = flatData.concat(page.chunk);
         });
-        const handleModeSelect = (event) => {
+        const handleModeSelect = (event, newValue) => {
             setAutoMode(false);
-            setMode(event.target.value);
+            setMode(newValue);
         };
         return (
             <>

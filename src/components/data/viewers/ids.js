@@ -21,6 +21,7 @@ export default {
     SAVE_BTN: "saveButton",
     SAVE_MENU_ITEM: "saveMenuItem",
     SELECT_MODE_INPUT: "selectModeInput",
+    SELECT_MODE_INPUT_MENU_ITEM: "selectModeInputMenuItem",
     TOOLBAR: "toolbar",
     VIEWER_DOC: "doc",
     VIEWER_IMAGE: "image",

@@ -17,13 +17,9 @@ import PageWrapper from "components/layout/PageWrapper";
 import { useTranslation } from "i18n";
 import { build } from "@cyverse-de/ui-lib";
 
-import {
-    CircularProgress,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-} from "@material-ui/core";
+import { CircularProgress, TextField } from "@material-ui/core";
+
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 function ModeSelect(props) {
     const { baseId, mode, handleModeSelect } = props;
@@ -31,27 +27,20 @@ function ModeSelect(props) {
     const { t } = useTranslation("data");
 
     return (
-        <FormControl>
-            <InputLabel id={build(baseId, ids.LABEL)}>
-                {t("syntaxHighlighterMode")}
-            </InputLabel>
-            <Select
-                labelId={build(baseId, ids.LABEL)}
-                id={baseId}
-                value={mode}
-                onChange={handleModeSelect}
-            >
-                {languages.map((language, index) => (
-                    <MenuItem
-                        value={language}
-                        key={index}
-                        id={build(baseId, language)}
-                    >
-                        {language}
-                    </MenuItem>
-                ))}
-            </Select>
-        </FormControl>
+        <Autocomplete
+            id={baseId}
+            value={mode}
+            options={languages}
+            size="small"
+            onChange={handleModeSelect}
+            renderInput={(params) => (
+                <TextField
+                    {...params}
+                    label={t("syntaxHighlighterMode")}
+                    variant="outlined"
+                />
+            )}
+        />
     );
 }
 
@@ -85,6 +74,17 @@ export default function TextViewer(props) {
                 handlePathChange={handlePathChange}
                 onRefresh={onRefresh}
                 fileName={fileName}
+                modeSelect={
+                    <ModeSelect
+                        baseId={build(
+                            baseId,
+                            ids.VIEWER_PLAIN,
+                            ids.SELECT_MODE_INPUT
+                        )}
+                        mode={mode}
+                        handleModeSelect={handleModeSelect}
+                    />
+                }
             />
             {loading && (
                 <CircularProgress
@@ -97,11 +97,6 @@ export default function TextViewer(props) {
                     }}
                 />
             )}
-            <ModeSelect
-                baseId={build(baseId, ids.VIEWER_PLAIN, ids.SELECT_MODE_INPUT)}
-                mode={mode}
-                handleModeSelect={handleModeSelect}
-            />
             <SyntaxHighlighter
                 customStyle={{
                     overflow: "auto",

@@ -34,6 +34,9 @@ import {
     ListItemIcon,
     ListItemText,
     MenuItem,
+    Dialog,
+    DialogActions,
+    DialogContent,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -44,6 +47,7 @@ import {
     List as MetadataIcon,
     Refresh,
     Save,
+    Code,
 } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -83,6 +87,7 @@ function ViewerToolbar(props) {
         handlePathChange,
         fileName,
         createFile,
+        modeSelect,
     } = props;
 
     const { t } = useTranslation("data");
@@ -92,6 +97,7 @@ function ViewerToolbar(props) {
     const [infoTypes, setInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
     const [download, setDownload] = useState(false);
+    const [openModeSelectDialog, setOpenModeSelectDialog] = useState(false);
     const classes = useStyles();
 
     let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
@@ -259,6 +265,7 @@ function ViewerToolbar(props) {
                     )}
                     {!createFile && (
                         <>
+                            {modeSelect}
                             <ToolbarButton
                                 idExtension={ids.DETAILS_BTN}
                                 onClick={onViewDetails}
@@ -417,6 +424,31 @@ function ViewerToolbar(props) {
                                         <ListItemText primary={t("delete")} />
                                     </MenuItem>,
                                 ],
+                                !createFile &&
+                                    modeSelect && [
+                                        <MenuItem
+                                            key={
+                                                ids.SELECT_MODE_INPUT_MENU_ITEM
+                                            }
+                                            id={build(
+                                                baseId,
+                                                ids.SELECT_MODE_INPUT_MENU_ITEM
+                                            )}
+                                            onClick={() => {
+                                                onClose();
+                                                setOpenModeSelectDialog(true);
+                                            }}
+                                        >
+                                            <ListItemIcon>
+                                                <Code fontSize="small" />
+                                            </ListItemIcon>
+                                            <ListItemText
+                                                primary={t(
+                                                    "syntaxHighlighterMode"
+                                                )}
+                                            />
+                                        </MenuItem>,
+                                    ],
                                 !createFile && [
                                     <MenuItem
                                         key={ids.DETAILS_MENU_ITEM}
@@ -487,6 +519,16 @@ function ViewerToolbar(props) {
                     </>
                 </Hidden>
             </Toolbar>
+            {modeSelect && (
+                <Dialog open={openModeSelectDialog}>
+                    <DialogContent>{modeSelect}</DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setOpenModeSelectDialog(false)}>
+                            {t("done")}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            )}
             {detailsResource && (
                 <DetailsDrawer
                     baseId={baseId}

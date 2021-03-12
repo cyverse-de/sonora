@@ -130,7 +130,9 @@ function ErrorHandler(props) {
     const classes = useStyles();
     const errBaseId = build(baseId, ids.ERROR_HANDLER);
 
-    trackIntercomEvent(IntercomEvents.ENCOUNTERED_ERROR, errorObject);
+    useEffect(() => {
+        trackIntercomEvent(IntercomEvents.ENCOUNTERED_ERROR, errorObject);
+    }, [errorObject]);
 
     let title, subHeader, contents, avatar;
 

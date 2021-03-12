@@ -1,4 +1,8 @@
 {
+    "accessRequestApprovedMsg": "Your request to access VICE apps is approved. You can run up to {{limit}} concurrent jobs.",
+    "accessRequestDeniedMsg": "We are unable approve your request to access VICE apps at this moment.",
+    "accessRequestUpdateSuccess": "Request updated successfully.",
+    "accessRequestUpdateFailure": "Unable to update request. Please try again.",
     "nameColumn": "Name",
     "namespaceColumn": "Namespace",
     "analysisNameColumn": "Analysis Name",

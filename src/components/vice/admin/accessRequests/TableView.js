@@ -76,7 +76,9 @@ export default function TableView(props) {
                                 onUpdateRequest(
                                     original.id,
                                     ACCESS_REQUEST_APPROVED,
-                                    t("accessRequestApprovedMsg")
+                                    t("accessRequestApprovedMsg", {
+                                        quota: original.details.concurrent_jobs,
+                                    })
                                 )
                             }
                         >
@@ -112,7 +114,7 @@ export default function TableView(props) {
                 },
             },
         ],
-        []
+        [onUpdateRequest, t]
     );
     return (
         <Paper style={{ marginTop: 16, marginBottom: 16 }}>

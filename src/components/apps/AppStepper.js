@@ -1,0 +1,151 @@
+/**
+ * A component for displaying a stepper in Apps Launch and Editor forms.
+ *
+ * @author psarando, sriram
+ */
+import React from "react";
+
+import { useTranslation } from "i18n";
+
+import ids from "./ids";
+import UtilIds from "../utils/ids";
+
+import { build as buildID } from "@cyverse-de/ui-lib";
+
+import {
+    Button,
+    MobileStepper,
+    Step,
+    StepButton,
+    StepLabel,
+    Stepper,
+    useMediaQuery,
+    useTheme,
+} from "@material-ui/core";
+
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
+
+import { Skeleton } from "@material-ui/lab";
+
+export const StepperSkeleton = React.forwardRef(({ baseId }, ref) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+
+    if (isMobile) {
+        return (
+            <Skeleton
+                id={buildID(baseId, UtilIds.LOADING_SKELETON)}
+                width="100%"
+                ref={ref}
+            >
+                <MobileStepper
+                    activeStep={0}
+                    ref={ref}
+                    steps={4}
+                    position="bottom"
+                    nextButton={<Button size="small">&nbsp;</Button>}
+                    backButton={<Button size="small">&nbps;</Button>}
+                />
+            </Skeleton>
+        );
+    }
+
+    return (
+        <Skeleton
+            id={buildID(baseId, UtilIds.LOADING_SKELETON)}
+            width="100%"
+            ref={ref}
+        >
+            <Stepper alternativeLabel nonLinear>
+                <Step>
+                    <StepButton>&nbsp;</StepButton>
+                </Step>
+            </Stepper>
+        </Skeleton>
+    );
+});
+
+const AppStepper = React.forwardRef((props, ref) => {
+    const {
+        baseId,
+        steps,
+        handleStep,
+        handleNext,
+        handleBack,
+        isLastStep,
+        activeStep,
+        stepError,
+    } = props;
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+
+    const { t } = useTranslation("common");
+
+    if (isMobile) {
+        return (
+            <MobileStepper
+                ref={ref}
+                activeStep={activeStep}
+                steps={steps?.length}
+                position="bottom"
+                nextButton={
+                    <Button
+                        size="small"
+                        variant="contained"
+                        onClick={handleNext}
+                        disabled={isLastStep()}
+                        id={buildID(baseId, ids.APP_STEPPER.STEP_NEXT)}
+                        color="primary"
+                    >
+                        {t("next")}
+                        {theme.direction === "rtl" ? (
+                            <KeyboardArrowLeft />
+                        ) : (
+                            <KeyboardArrowRight />
+                        )}
+                    </Button>
+                }
+                backButton={
+                    <Button
+                        size="small"
+                        variant="contained"
+                        onClick={handleBack}
+                        disabled={activeStep === 0}
+                        id={buildID(baseId, ids.APP_STEPPER.STEP_BACK)}
+                    >
+                        {theme.direction === "rtl" ? (
+                            <KeyboardArrowRight />
+                        ) : (
+                            <KeyboardArrowLeft />
+                        )}
+                        {t("back")}
+                    </Button>
+                }
+            />
+        );
+    }
+
+    return (
+        <Stepper ref={ref} alternativeLabel nonLinear activeStep={activeStep}>
+            {steps.map((step, index) => (
+                <Step key={step.label}>
+                    <StepButton
+                        id={buildID(
+                            baseId,
+                            ids.APP_STEPPER.STEP_BTN,
+                            index + 1
+                        )}
+                        onClick={handleStep(index)}
+                    >
+                        <StepLabel error={stepError(index)}>
+                            {step.label}
+                        </StepLabel>
+                    </StepButton>
+                </Step>
+            ))}
+        </Stepper>
+    );
+});
+
+export default AppStepper;

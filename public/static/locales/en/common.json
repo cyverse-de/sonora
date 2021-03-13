@@ -35,6 +35,7 @@
     "markAsRead": "Mark All as Read",
     "more": "More",
     "newNotificationAriaLabel": "Show New Notifications",
+    "next": "Next",
     "notifications": "Notifications",
     "noNotifications": "No Notifications to display.",
     "notificationError": "Unable to fetch notifications.",

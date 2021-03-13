@@ -79,5 +79,10 @@ export default {
         DOCUMENTATION: "documentation",
         HTCONDOR_EXTRA_REQS: "htcondorExtraReqs",
     },
+    APP_STEPPER: {
+        STEP_BTN: "stepButton",
+        STEP_BACK: "stepBackButton",
+        STEP_NEXT: "stepNextButton",
+    },
     RUN_ERROR_DLG: "runErrorDlg",
 };

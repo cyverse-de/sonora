@@ -27,6 +27,7 @@ import AppLaunchWizard from "./AppLaunchWizard";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import { ERROR_CODES } from "components/utils/error/errorCode";
 import AccessRequestDialog from "components/vice/AccessRequestDialog";
+import ids from "components/apps/ids";
 
 import { Button, Typography } from "@material-ui/core";
 
@@ -118,7 +119,7 @@ const Launch = ({ app, launchError, viceQuota, runningJobs, loading }) => {
                     </Button>
                     <AccessRequestDialog
                         open={accessRequestDialogOpen}
-                        baseId={baseId}
+                        baseId={ids.ACCESS_REQUEST_DLG}
                         onClose={() => setAccessRequestDialogOpen(false)}
                     />
                 </>
@@ -130,27 +131,25 @@ const Launch = ({ app, launchError, viceQuota, runningJobs, loading }) => {
     }
 
     return (
-        <>
-            <AppLaunchWizard
-                baseId={baseId}
-                notify={notify}
-                defaultOutputDir={defaultOutputDir}
-                defaultMaxCPUCores={defaultMaxCPUCores}
-                defaultMaxMemory={defaultMaxMemory}
-                defaultMaxDiskSpace={defaultMaxDiskSpace}
-                app={app}
-                appError={submissionError}
-                loading={loading}
-                submitAnalysis={(submission, onSuccess, onError) => {
-                    setSubmissionError(null);
-                    submitAnalysisMutation({ submission, onSuccess, onError });
-                }}
-                saveQuickLaunch={(quickLaunch, onSuccess, onError) => {
-                    setSubmissionError(null);
-                    addQuickLaunchMutation({ quickLaunch, onSuccess, onError });
-                }}
-            />
-        </>
+        <AppLaunchWizard
+            baseId={baseId}
+            notify={notify}
+            defaultOutputDir={defaultOutputDir}
+            defaultMaxCPUCores={defaultMaxCPUCores}
+            defaultMaxMemory={defaultMaxMemory}
+            defaultMaxDiskSpace={defaultMaxDiskSpace}
+            app={app}
+            appError={submissionError}
+            loading={loading}
+            submitAnalysis={(submission, onSuccess, onError) => {
+                setSubmissionError(null);
+                submitAnalysisMutation({ submission, onSuccess, onError });
+            }}
+            saveQuickLaunch={(quickLaunch, onSuccess, onError) => {
+                setSubmissionError(null);
+                addQuickLaunchMutation({ quickLaunch, onSuccess, onError });
+            }}
+        />
     );
 };
 

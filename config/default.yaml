@@ -57,7 +57,7 @@ vice:
     defaultName: cas-proxy
     defaultCasUrl: https://olson.cyverse.org/cas
     defaultCasValidate: validate
-    concourrentJobs: 2
+    concurrentJobs: 2
 
 services:
     ontology_lookup_service:

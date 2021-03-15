@@ -16,6 +16,7 @@ import { useUserProfile } from "contexts/userProfile";
 import DEDialog from "components/utils/DEDialog";
 import RunError from "./RunError";
 import { useAppLaunchLink } from "./utils";
+import ids from "./ids";
 
 import { Highlighter } from "@cyverse-de/ui-lib";
 import { Button, Link as MuiLink, Typography } from "@material-ui/core";
@@ -101,7 +102,8 @@ function AppName(props) {
             </Link>
         );
     } else if (runErrorCodes?.length > 0) {
-        if (runErrorCodes[0] === ERROR_CODES.ERR_PERMISSION_NEEDED) {
+        const runErrorCode = runErrorCodes[0];
+        if (runErrorCode === ERROR_CODES.ERR_PERMISSION_NEEDED) {
             return (
                 <>
                     <MuiLink
@@ -114,14 +116,14 @@ function AppName(props) {
                     </MuiLink>
                     <AccessRequestDialog
                         open={accessRequestDialogOpen}
-                        baseId={baseDebugId}
+                        baseId={ids.ACCESS_REQUEST_DLG}
                         onClose={() => setAccessRequestDialogOpen(false)}
                     />
                 </>
             );
         } else if (
-            runErrorCodes[0] === ERROR_CODES.ERR_LIMIT_REACHED ||
-            runErrorCodes[0] === ERROR_CODES.ERR_FORBIDDEN
+            runErrorCode === ERROR_CODES.ERR_LIMIT_REACHED ||
+            runErrorCode === ERROR_CODES.ERR_FORBIDDEN
         ) {
             return (
                 <>
@@ -137,7 +139,7 @@ function AppName(props) {
                         open={errorDialogOpen}
                         code={runErrorCodes[0]}
                         onClose={() => setErrorDialogOpen(false)}
-                        baseId={baseDebugId}
+                        baseId={ids.RUN_ERROR_DLG}
                         viceQuota={viceQuota}
                         runningJobs={runningJobs}
                     />

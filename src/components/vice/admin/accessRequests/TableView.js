@@ -7,60 +7,62 @@
  */
 import React, { useMemo } from "react";
 import { useTranslation } from "i18n";
-import { build } from "@cyverse-de/ui-lib";
+import { build, formatDateObject } from "@cyverse-de/ui-lib";
 import {
     ACCESS_REQUEST_REJECTED,
     ACCESS_REQUEST_APPROVED,
     ACCESS_REQUEST_COMPLETED,
 } from "serviceFacades/vice/accessRequest";
 import BasicTable from "components/utils/BasicTable";
-import { IconButton, Paper, Typography } from "@material-ui/core";
+import { IconButton, Typography } from "@material-ui/core";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
 
 export default function TableView(props) {
-    const {
-        baseId,
-        data,
-        onUpdateRequest,
-        showAllRequest,
-        onRequestFilterChange,
-    } = props;
+    const { baseId, loading, data, onUpdateRequest, emptyDataMessage } = props;
     const { t } = useTranslation("vice-admin");
     const columns = useMemo(
         () => [
             {
-                Header: "User",
+                Header: t("user"),
                 accessor: "requesting_user",
                 Cell: ({ row, value }) => {
-                    return <Typography>{value}</Typography>;
+                    const original = row.original;
+                    return (
+                        <>
+                            <Typography>
+                                {t("user")}: {value}
+                            </Typography>
+                            <Typography>
+                                {t("name")}: {original.details.name}
+                            </Typography>
+                            <Typography>
+                                {t("email")}: {original.details.email}
+                            </Typography>
+                        </>
+                    );
                 },
             },
             {
-                Header: "Name",
-                accessor: "details.name",
+                Header: t("requestedDate"),
+                accessor: "created_date",
                 Cell: ({ row, value }) => {
-                    return <Typography>{value}</Typography>;
+                    return (
+                        <Typography>
+                            {formatDateObject(new Date(value))}
+                        </Typography>
+                    );
                 },
             },
             {
-                Header: "Email",
-                accessor: "details.email",
-                Cell: ({ row, value }) => {
-                    return <Typography>{value}</Typography>;
-                },
-            },
-            {
-                Header: "Use Case",
+                Header: t("useCase"),
                 accessor: "details.intended_use",
                 Cell: ({ row, value }) => {
                     return <Typography>{value}</Typography>;
                 },
             },
             {
-                Header: "Approve",
+                Header: t("approve"),
                 id: "approveButton",
                 Cell: ({ row, value }) => {
                     const original = row.original;
@@ -68,7 +70,9 @@ export default function TableView(props) {
                         <IconButton
                             color={
                                 original?.status?.toLowerCase() ===
-                                ACCESS_REQUEST_COMPLETED
+                                    ACCESS_REQUEST_COMPLETED ||
+                                original?.status?.toLowerCase() ===
+                                    ACCESS_REQUEST_APPROVED
                                     ? "primary"
                                     : "default"
                             }
@@ -88,7 +92,7 @@ export default function TableView(props) {
                 },
             },
             {
-                Header: "Reject",
+                Header: t("reject"),
                 id: "rejectButton",
                 Cell: ({ row, value }) => {
                     const original = row.original;
@@ -113,29 +117,27 @@ export default function TableView(props) {
                     );
                 },
             },
+            {
+                Header: t("lastUpdated"),
+                accessor: "updated_date",
+                Cell: ({ row, value }) => {
+                    return (
+                        <Typography>
+                            {formatDateObject(new Date(value))}
+                        </Typography>
+                    );
+                },
+            },
         ],
         [onUpdateRequest, t]
     );
     return (
-        <Paper style={{ marginTop: 16, marginBottom: 16 }}>
-            <div style={{ padding: 16 }}>
-                <Typography variant="h6" component="span">
-                    Access Requests
-                </Typography>
-                <FormControlLabel
-                    style={{ float: "right" }}
-                    control={
-                        <Switch
-                            checked={showAllRequest}
-                            onChange={onRequestFilterChange}
-                            name="requestFilter"
-                            color="primary"
-                        />
-                    }
-                    label="Show All Requests"
-                />
-            </div>
-            <BasicTable columns={columns} data={data} />
-        </Paper>
+        <BasicTable
+            baseId={baseId}
+            loading={loading}
+            columns={columns}
+            data={data}
+            emptyDataMessage={emptyDataMessage}
+        />
     );
 }

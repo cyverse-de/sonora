@@ -1,5 +1,5 @@
 {
-    "accessRequestApprovedMsg": "Your request to access VICE apps is approved. You can run up to {{limit}} concurrent jobs.",
+    "accessRequestApprovedMsg": "Your request to access VICE apps is approved.",
     "accessRequestDeniedMsg": "We are unable approve your request to access VICE apps at this moment.",
     "accessRequestUpdateSuccess": "Request updated successfully.",
     "accessRequestUpdateFailure": "Unable to update request. Please try again.",
@@ -86,5 +86,13 @@
     "activeFilters": "Active Filters",
     "noActiveFilters": "There are no active filters.",
     "filterField": "Filter Field",
-    "showFilterOptions": "Show Filter Options"
+    "showFilterOptions": "Show Filter Options",
+    "noResults": "No rows to display.",
+    "user": "User",
+    "requestedDate": "Request Date",
+    "useCase": "Use Case",
+    "approve": "Approve",
+    "reject": "Reject",
+    "lastUpdated": "Last Updated",
+    "email": "Email"
 }

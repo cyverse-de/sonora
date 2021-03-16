@@ -12,6 +12,7 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 import styles from "./styles";
 
+import CmdLineOrderForm from "./CmdLineOrderForm";
 import ParamGroups from "./ParamGroups";
 
 import AppStepper, { StepperSkeleton } from "../AppStepper";
@@ -347,7 +348,7 @@ const AppEditor = (props) => {
     };
     const stepCmdLineOrder = {
         label: t("commandLineOrder"),
-        contentLabel: t("common:comingSoon"),
+        contentLabel: t("commandLineOrder"),
     };
     const stepPreview = {
         label: t("previewApp"),
@@ -407,6 +408,7 @@ const AppEditor = (props) => {
             {({
                 handleSubmit,
                 isSubmitting,
+                setFieldValue,
                 dirty,
                 touched,
                 errors,
@@ -512,7 +514,11 @@ const AppEditor = (props) => {
                                     groups={values.groups}
                                 />
                             ) : activeStepInfo === stepCmdLineOrder ? (
-                                t("common:comingSoon")
+                                <CmdLineOrderForm
+                                    baseId={baseId}
+                                    groups={values.groups}
+                                    setFieldValue={setFieldValue}
+                                />
                             ) : activeStepInfo === stepPreview ? (
                                 t("common:comingSoon")
                             ) : null}

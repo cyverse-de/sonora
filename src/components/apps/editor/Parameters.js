@@ -220,6 +220,7 @@ function Parameters(props) {
                         type: paramType,
                         label: newParamLabel,
                         description: "",
+                        order: 0,
                         isVisible: true,
                     };
 

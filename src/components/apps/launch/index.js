@@ -8,6 +8,7 @@ import React from "react";
 
 import { useRouter } from "next/router";
 import { useMutation } from "react-query";
+import { useTranslation } from "i18n";
 
 import NavigationConstants from "common/NavigationConstants";
 
@@ -21,16 +22,27 @@ import { addQuickLaunch } from "serviceFacades/quickLaunches";
 
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
+import RunError from "components/apps/RunError";
 import AppLaunchWizard from "./AppLaunchWizard";
-import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
+import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
+import { ERROR_CODES } from "components/utils/error/errorCode";
+import AccessRequestDialog from "components/vice/AccessRequestDialog";
+import ids from "components/apps/ids";
 
-const Launch = ({ app, launchError, loading }) => {
+import { Button, Typography } from "@material-ui/core";
+
+const Launch = ({ app, launchError, viceQuota, runningJobs, loading }) => {
     const [submissionError, setSubmissionError] = React.useState(null);
+    const [
+        accessRequestDialogOpen,
+        setAccessRequestDialogOpen,
+    ] = React.useState(false);
     const [bootstrapInfo] = useBootstrapInfo();
     const [config] = useConfig();
     const homePath = useHomePath();
 
     const router = useRouter();
+    const { t } = useTranslation("vice");
 
     const [submitAnalysisMutation] = useMutation(
         ({ submission }) => submitAnalysis(submission),
@@ -78,6 +90,41 @@ const Launch = ({ app, launchError, loading }) => {
     const baseId = "apps";
 
     if (launchError) {
+        if (
+            launchError === ERROR_CODES.ERR_LIMIT_REACHED ||
+            launchError === ERROR_CODES.ERR_FORBIDDEN
+        ) {
+            return (
+                <Typography style={{ margin: 8 }}>
+                    <RunError
+                        code={launchError}
+                        viceQuota={viceQuota}
+                        runningJobs={runningJobs}
+                    />
+                </Typography>
+            );
+        }
+        if (launchError === ERROR_CODES.ERR_PERMISSION_NEEDED) {
+            return (
+                <>
+                    <Typography style={{ margin: 8 }}>
+                        {t("accessRequestPrompt")}
+                    </Typography>
+                    <Button
+                        onClick={() => setAccessRequestDialogOpen(true)}
+                        color="primary"
+                        variant="contained"
+                    >
+                        {t("requestAccess")}
+                    </Button>
+                    <AccessRequestDialog
+                        open={accessRequestDialogOpen}
+                        baseId={ids.ACCESS_REQUEST_DLG}
+                        onClose={() => setAccessRequestDialogOpen(false)}
+                    />
+                </>
+            );
+        }
         return (
             <WrappedErrorHandler errorObject={launchError} baseId={baseId} />
         );

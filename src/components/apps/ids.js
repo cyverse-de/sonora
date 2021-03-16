@@ -1,5 +1,6 @@
 export default {
     APP_NAME: "appName",
+    ACCESS_REQUEST_DLG: "accessRequestDlg",
     DOT_MENU: "dotMenu",
     DOCUMENTATION_DLG: "appDocDlg",
     DOC_MARKDOWN: "docMarkdown",
@@ -77,4 +78,5 @@ export default {
         DOCUMENTATION: "documentation",
         HTCONDOR_EXTRA_REQS: "htcondorExtraReqs",
     },
+    RUN_ERROR_DLG: "runErrorDlg",
 };

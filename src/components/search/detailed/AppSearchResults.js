@@ -32,6 +32,7 @@ function Name(props) {
             appId={selectedOption?.id}
             isDisabled={selectedOption?.disabled}
             searchTerm={searchTerm}
+            limitChecks={selectedOption.limitChecks}
         />
     );
 }

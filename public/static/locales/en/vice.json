@@ -1,0 +1,10 @@
+{
+    "accessRequestTitle": "Request access to VICE apps (e.g: Jupyter, RStudio etc...)",
+    "accessRequestPrompt": "Please submit this one-time form so that we can ensure fair access among legitimate users. Requests will be processed within 1 - 2 days unless you are requesting large cores, memory, or GPUs, or if we require more details on your science use-case.",
+    "emptyValue": "Empty Value.",
+    "minLengthUseCaseError": "Must be at least {{minLength}} characters.",
+    "requestAccess": "Request Access",
+    "requestError": "Unable to submit your request. Please try again.",
+    "requestSubmitted": "Your request is submitted. You will be notified when there is an update.",
+    "useCase": "Briefly describe your science use-case."
+}

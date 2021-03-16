@@ -16,8 +16,10 @@ import {
 } from "serviceFacades/analyses";
 
 import AppLaunch from "components/apps/launch";
+import { useUserProfile } from "contexts/userProfile";
 
 const Relaunch = () => {
+    const [userProfile] = useUserProfile();
     const [relaunchKey, setRelaunchKey] = React.useState(
         ANALYSIS_RELAUNCH_QUERY_KEY
     );
@@ -27,6 +29,8 @@ const Relaunch = () => {
 
     const [app, setApp] = React.useState(null);
     const [relaunchError, setRelaunchError] = React.useState(null);
+    const [viceQuota, setViceQuota] = React.useState();
+    const [runningJobs, setRunningJobs] = React.useState();
 
     const router = useRouter();
     const { analysisId } = router.query;
@@ -49,7 +53,22 @@ const Relaunch = () => {
         queryFn: getAnalysisRelaunchInfo,
         config: {
             enabled: relaunchQueryEnabled,
-            onSuccess: setApp,
+            onSuccess: (resp) => {
+                if (resp?.limitChecks?.canRun || !userProfile?.id) {
+                    setApp(resp);
+                } else {
+                    setRelaunchError(
+                        resp?.limitChecks?.results[0]?.reasonCodes[0]
+                    );
+                    setViceQuota(
+                        resp?.limitChecks?.results[0]?.additionalInfo?.maxJobs
+                    );
+                    setRunningJobs(
+                        resp?.limitChecks?.results[0]?.additionalInfo
+                            ?.runningJobs
+                    );
+                }
+            },
             onError: setRelaunchError,
         },
     });
@@ -57,7 +76,13 @@ const Relaunch = () => {
     const loading = relaunchStatus === constants.LOADING;
 
     return (
-        <AppLaunch app={app} launchError={relaunchError} loading={loading} />
+        <AppLaunch
+            app={app}
+            launchError={relaunchError}
+            loading={loading}
+            viceQuota={viceQuota}
+            runningJobs={runningJobs}
+        />
     );
 };
 

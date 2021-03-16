@@ -20,8 +20,10 @@ import {
 } from "serviceFacades/quickLaunches";
 
 import AppLaunch from "components/apps/launch";
+import { useUserProfile } from "contexts/userProfile";
 
 export default function Launch() {
+    const [userProfile] = useUserProfile();
     const [appKey, setAppKey] = React.useState(APP_DESCRIPTION_QUERY_KEY);
     const [
         appDescriptionQueryEnabled,
@@ -33,6 +35,8 @@ export default function Launch() {
     ] = React.useState(false);
     const [app, setApp] = React.useState(null);
     const [launchError, setLaunchError] = React.useState(null);
+    const [viceQuota, setViceQuota] = React.useState();
+    const [runningJobs, setRunningJobs] = React.useState();
 
     const router = useRouter();
     const { systemId, appId, "quick-launch-id": qId } = router.query;
@@ -64,12 +68,27 @@ export default function Launch() {
         queryFn: getAppDescription,
         config: {
             enabled: appDescriptionQueryEnabled,
-            onSuccess: setApp,
+            onSuccess: (resp) => {
+                if (resp?.limitChecks?.canRun || !userProfile?.id) {
+                    setApp(resp);
+                } else {
+                    setLaunchError(
+                        resp?.limitChecks?.results[0]?.reasonCodes[0]
+                    );
+                    setViceQuota(
+                        resp?.limitChecks?.results[0]?.additionalInfo?.maxJobs
+                    );
+                    setRunningJobs(
+                        resp?.limitChecks?.results[0]?.additionalInfo
+                            ?.runningJobs
+                    );
+                }
+            },
             onError: setLaunchError,
         },
     });
 
-    const { status: qLuanchStatus } = useQuery({
+    const { status: qLaunchStatus } = useQuery({
         queryKey: appKey,
         queryFn: getAppInfo,
         config: {
@@ -80,9 +99,17 @@ export default function Launch() {
     });
 
     const loading =
-        appStatus === constants.LOADING || qLuanchStatus === constants.LOADING;
+        appStatus === constants.LOADING || qLaunchStatus === constants.LOADING;
 
-    return <AppLaunch app={app} launchError={launchError} loading={loading} />;
+    return (
+        <AppLaunch
+            app={app}
+            launchError={launchError}
+            loading={loading}
+            viceQuota={viceQuota}
+            runningJobs={runningJobs}
+        />
+    );
 }
 
 Launch.getInitialProps = async () => ({

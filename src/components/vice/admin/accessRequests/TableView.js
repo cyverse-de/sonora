@@ -78,11 +78,8 @@ export default function TableView(props) {
                             }
                             onClick={() =>
                                 onUpdateRequest(
-                                    original.id,
-                                    ACCESS_REQUEST_APPROVED,
-                                    t("accessRequestApprovedMsg", {
-                                        quota: original.details.concurrent_jobs,
-                                    })
+                                    original,
+                                    ACCESS_REQUEST_APPROVED
                                 )
                             }
                         >
@@ -106,9 +103,8 @@ export default function TableView(props) {
                             }
                             onClick={() =>
                                 onUpdateRequest(
-                                    original.id,
-                                    ACCESS_REQUEST_REJECTED,
-                                    t("accessRequestDeniedMsg")
+                                    original,
+                                    ACCESS_REQUEST_REJECTED
                                 )
                             }
                         >

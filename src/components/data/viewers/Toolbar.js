@@ -34,6 +34,9 @@ import {
     ListItemIcon,
     ListItemText,
     MenuItem,
+    Dialog,
+    DialogActions,
+    DialogContent,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -44,6 +47,7 @@ import {
     List as MetadataIcon,
     Refresh,
     Save,
+    Code,
 } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -83,6 +87,7 @@ function ViewerToolbar(props) {
         handlePathChange,
         fileName,
         createFile,
+        modeSelect,
     } = props;
 
     const { t } = useTranslation("data");
@@ -92,6 +97,7 @@ function ViewerToolbar(props) {
     const [infoTypes, setInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
     const [download, setDownload] = useState(false);
+    const [openModeSelectDialog, setOpenModeSelectDialog] = useState(false);
     const classes = useStyles();
 
     let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
@@ -138,6 +144,21 @@ function ViewerToolbar(props) {
     const onViewMetadata = () =>
         handlePathChange(path, { view: NavigationParams.VIEW.METADATA });
 
+    const ToolbarButton = ({ idExtension, text, ...props }) => {
+        return (
+            <Button
+                id={build(baseId, idExtension)}
+                size="small"
+                className={classes.toolbarItems}
+                variant="outlined"
+                disableElevation
+                color="primary"
+                {...props}
+            >
+                <Hidden xsDown>{text}</Hidden>
+            </Button>
+        );
+    };
     return (
         <>
             <Toolbar variant="dense" id={baseId}>
@@ -215,44 +236,26 @@ function ViewerToolbar(props) {
                     <div className={classes.divider} />
                     {editing && (
                         <>
-                            <Button
-                                id={build(baseId, ids.ADD_BTN)}
-                                size="small"
-                                className={classes.toolbarItems}
-                                variant="outlined"
-                                disableElevation
-                                color="primary"
+                            <ToolbarButton
+                                idExtension={ids.ADD_BTN}
                                 onClick={onAddRow}
                                 startIcon={<Add fontSize="small" />}
-                            >
-                                <Hidden xsDown>{t("add")}</Hidden>
-                            </Button>
-                            <Button
-                                id={build(baseId, ids.DELETE_BTN)}
-                                size="small"
-                                className={classes.toolbarItems}
-                                variant="outlined"
-                                disableElevation
-                                color="primary"
+                                text={t("add")}
+                            />
+                            <ToolbarButton
+                                idExtension={ids.DELETE_BTN}
                                 onClick={onDeleteRow}
                                 startIcon={<Delete fontSize="small" />}
+                                text={t("delete")}
                                 disabled={selectionCount === 0}
-                            >
-                                <Hidden xsDown>{t("delete")}</Hidden>
-                            </Button>
-                            <Button
-                                id={build(baseId, ids.SAVE_BTN)}
-                                size="small"
-                                className={classes.toolbarItems}
-                                variant="outlined"
-                                disableElevation
-                                color="primary"
+                            />
+                            <ToolbarButton
+                                idExtension={ids.SAVE_BTN}
                                 onClick={onSave}
                                 startIcon={<Save fontSize="small" />}
+                                text={i18nCommon("save")}
                                 disabled={!dirty}
-                            >
-                                <Hidden xsDown>{i18nCommon("save")}</Hidden>
-                            </Button>
+                            />
                             <Divider
                                 orientation="vertical"
                                 flexItem
@@ -262,54 +265,31 @@ function ViewerToolbar(props) {
                     )}
                     {!createFile && (
                         <>
-                            <Button
-                                id={build(baseId, ids.DETAILS_BTN)}
-                                size="small"
-                                className={classes.toolbarItems}
-                                variant="outlined"
-                                disableElevation
-                                color="primary"
+                            {modeSelect}
+                            <ToolbarButton
+                                idExtension={ids.DETAILS_BTN}
                                 onClick={onViewDetails}
                                 startIcon={<Info />}
-                            >
-                                <Hidden xsDown>{t("details")}</Hidden>
-                            </Button>
-                            <Button
-                                id={build(baseId, ids.METADATA_BTN)}
-                                size="small"
-                                className={classes.toolbarItems}
-                                variant="outlined"
-                                disableElevation
-                                color="primary"
+                                text={t("details")}
+                            />
+                            <ToolbarButton
+                                idExtension={ids.METADATA_BTN}
                                 onClick={onViewMetadata}
                                 startIcon={<MetadataIcon />}
-                            >
-                                <Hidden xsDown>{t("metadata")}</Hidden>
-                            </Button>
-                            <Button
-                                id={build(baseId, ids.DOWNLOAD_BTN)}
-                                size="small"
-                                className={classes.toolbarItems}
-                                variant="outlined"
-                                disableElevation
-                                color="primary"
+                                text={t("metadata")}
+                            />
+                            <ToolbarButton
+                                idExtension={ids.DOWNLOAD_BTN}
                                 onClick={() => setDownload(true)}
                                 startIcon={<CloudDownload fontSize="small" />}
-                            >
-                                <Hidden xsDown>{t("download")}</Hidden>
-                            </Button>
-                            <Button
-                                id={build(baseId, ids.REFRESH_BTN)}
-                                size="small"
-                                className={classes.toolbarItems}
-                                variant="outlined"
-                                disableElevation
-                                color="primary"
+                                text={t("download")}
+                            />
+                            <ToolbarButton
+                                idExtension={ids.REFRESH_BTN}
                                 onClick={onRefresh}
                                 startIcon={<Refresh fontSize="small" />}
-                            >
-                                <Hidden xsDown>{i18nCommon("refresh")}</Hidden>
-                            </Button>
+                                text={i18nCommon("refresh")}
+                            />
                         </>
                     )}
                 </Hidden>
@@ -444,6 +424,31 @@ function ViewerToolbar(props) {
                                         <ListItemText primary={t("delete")} />
                                     </MenuItem>,
                                 ],
+                                !createFile &&
+                                    modeSelect && [
+                                        <MenuItem
+                                            key={
+                                                ids.SELECT_MODE_INPUT_MENU_ITEM
+                                            }
+                                            id={build(
+                                                baseId,
+                                                ids.SELECT_MODE_INPUT_MENU_ITEM
+                                            )}
+                                            onClick={() => {
+                                                onClose();
+                                                setOpenModeSelectDialog(true);
+                                            }}
+                                        >
+                                            <ListItemIcon>
+                                                <Code fontSize="small" />
+                                            </ListItemIcon>
+                                            <ListItemText
+                                                primary={t(
+                                                    "syntaxHighlighterMode"
+                                                )}
+                                            />
+                                        </MenuItem>,
+                                    ],
                                 !createFile && [
                                     <MenuItem
                                         key={ids.DETAILS_MENU_ITEM}
@@ -514,6 +519,16 @@ function ViewerToolbar(props) {
                     </>
                 </Hidden>
             </Toolbar>
+            {modeSelect && (
+                <Dialog open={openModeSelectDialog}>
+                    <DialogContent>{modeSelect}</DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setOpenModeSelectDialog(false)}>
+                            {i18nCommon("done")}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            )}
             {detailsResource && (
                 <DetailsDrawer
                     baseId={baseId}

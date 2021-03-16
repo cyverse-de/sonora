@@ -35,6 +35,7 @@ import { refreshViewer, useFileManifest, useReadChunk } from "./queries";
 import StructuredTextViewer from "./StructuredTextViewer";
 import { flattenStructureData } from "./utils";
 import { parseNameFromPath } from "../utils";
+import TextViewer from "./TextViewer";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import { build } from "@cyverse-de/ui-lib";
@@ -45,8 +46,7 @@ import {
     Typography,
 } from "@material-ui/core";
 
-// these are at the bottom so eslint doesn't complain
-const TextViewer = dynamic(() => import("./TextViewer"));
+// at the bottom so eslint doesn't complain
 const VideoViewer = dynamic(() => import("./VideoViewer"));
 
 const VIEWER_TYPE = {
@@ -71,6 +71,7 @@ export default function FileViewer(props) {
     const { t } = useTranslation("data");
     const router = useRouter();
     const [mode, setMode] = useState(null);
+    const [autoMode, setAutoMode] = useState(true);
     const [readChunkKey, setReadChunkKey] = useState(READ_CHUNK_QUERY_KEY);
     const [readChunkQueryEnabled, setReadChunkQueryEnabled] = useState(false);
     const [viewerType, setViewerType] = useState(null);
@@ -150,7 +151,9 @@ export default function FileViewer(props) {
             const infoType = manifest?.infoType;
             const separator = getColumnDelimiter(infoType);
 
-            setMode(getViewerMode(mimeType));
+            if (autoMode) {
+                setMode(getViewerMode(mimeType));
+            }
             setSeparator(separator);
 
             switch (mimeType) {
@@ -230,7 +233,7 @@ export default function FileViewer(props) {
                     }
             }
         }
-    }, [createFile, manifest, path, separator]);
+    }, [autoMode, createFile, manifest, path, separator]);
 
     const memoizedData = useMemo(() => data, [data]);
     const busy = isFetching || status === constants.LOADING;
@@ -289,6 +292,10 @@ export default function FileViewer(props) {
         memoizedData.forEach((page) => {
             flatData = flatData.concat(page.chunk);
         });
+        const handleModeSelect = (event, newValue) => {
+            setAutoMode(false);
+            setMode(newValue);
+        };
         return (
             <>
                 <TextViewer
@@ -300,6 +307,7 @@ export default function FileViewer(props) {
                     mode={mode}
                     loading={isFetchingMore}
                     handlePathChange={handlePathChange}
+                    handleModeSelect={handleModeSelect}
                     onRefresh={() => refreshViewer(manifestKey)}
                 />
                 <LoadMoreButton />

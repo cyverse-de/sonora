@@ -18,8 +18,6 @@ import { useConfig } from "contexts/config";
 import { Button, CircularProgress, Typography } from "@material-ui/core";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
-const MIN_USE_CASE_LENGTH = 60;
-
 export default function AccessRequestDialog(props) {
     const { open, baseId, onClose } = props;
     const [error, setError] = React.useState();
@@ -45,12 +43,13 @@ export default function AccessRequestDialog(props) {
         submitRequest(submission);
     };
     const validate = (value) => {
+        const minChars = parseInt(config?.vice.useCaseMinChars, 10);
         if (!value) {
             return t("emptyValue");
         }
-        if (value.length < MIN_USE_CASE_LENGTH) {
+        if (value.length < minChars) {
             return t("minLengthUseCaseError", {
-                minLength: MIN_USE_CASE_LENGTH,
+                minLength: minChars,
             });
         }
     };

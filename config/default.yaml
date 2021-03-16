@@ -58,6 +58,7 @@ vice:
     defaultCasUrl: https://olson.cyverse.org/cas
     defaultCasValidate: validate
     concurrentJobs: 2
+    useCaseCharsMin: 60
 
 services:
     ontology_lookup_service:

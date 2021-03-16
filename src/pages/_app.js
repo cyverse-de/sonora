@@ -174,6 +174,7 @@ function MyApp({ Component, pageProps }) {
             defaultCasUrl: publicRuntimeConfig.VICE_DEFAULT_CAS_URL,
             defaultCasValidate: publicRuntimeConfig.VICE_DEFAULT_CAS_VALIDATE,
             concurrentJobs: publicRuntimeConfig.VICE_CONCURRENT_JOBS,
+            useCaseMinChars: publicRuntimeConfig.VICE_USE_CASE_MIN_CHARS,
         };
 
         const grouper = {

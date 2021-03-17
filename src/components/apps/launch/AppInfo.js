@@ -148,25 +148,21 @@ const AppInfo = React.forwardRef((props, ref) => {
             >
                 <Hidden xsDown>{t("documentation")}</Hidden>
             </Button>
-            <Typography
-                variant={isMobile ? "subtitle2" : "h6"}
-                className={classes.appInfoTypography}
-            >
-                <>
-                    {loadingError ? (
-                        <LoadingErrorDisplay
-                            baseId={baseId}
-                            loadingError={loadingError}
-                        />
-                    ) : loading ? (
-                        <Skeleton width={250} />
-                    ) : (
-                        <Typography variant={isMobile ? "subtitle2" : "h6"}>
-                            {app?.name}
-                        </Typography>
-                    )}
-                </>
-            </Typography>
+            {loadingError ? (
+                <LoadingErrorDisplay
+                    baseId={baseId}
+                    loadingError={loadingError}
+                />
+            ) : loading ? (
+                <Skeleton width={250} />
+            ) : (
+                <Typography
+                    variant={isMobile ? "subtitle2" : "h6"}
+                    className={classes.appInfoTypography}
+                >
+                    {app?.name}
+                </Typography>
+            )}
             <Hidden xsDown>
                 <Typography
                     className={classes.appInfoTypography}

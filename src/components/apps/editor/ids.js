@@ -5,6 +5,7 @@ export default {
     APP_DESCRIPTION: "appDescription",
     APP_EDITOR_VIEW: "appEditorView",
     APP_NAME: "appName",
+    CMD_LINE_PREVIEW: "cmdLinePreview",
     GROUP: "group",
     PARAM_TYPE_LIST: "paramTypeList",
     PROPERTY_EDITOR: "propertyEditor",

@@ -14,6 +14,8 @@
     "checkboxArgValueUncheckedLabel": "Value when NOT checked",
     "checkboxDefaultLabel": "Check item by default",
     "commandLineOrder": "Command Line Order",
+    "commandLinePreview": "Command Line Preview",
+    "cmdLinePreviewUserInput": "<User Input>",
     "confirmDeleteGroupTitle": "Delete Section?",
     "confirmDeleteGroupText": "Removing this section will also remove all App parameters defined in it. This action cannot be undone.",
     "confirmDeleteParamTitle": "Delete Parameter?",

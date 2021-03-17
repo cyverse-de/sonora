@@ -516,6 +516,7 @@ const AppEditor = (props) => {
                             ) : activeStepInfo === stepCmdLineOrder ? (
                                 <CmdLineOrderForm
                                     baseId={baseId}
+                                    toolName={values.tools[0]?.name}
                                     groups={values.groups}
                                     setFieldValue={setFieldValue}
                                 />

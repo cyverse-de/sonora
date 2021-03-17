@@ -18,8 +18,10 @@ import {
     Button,
     ButtonGroup,
     Card,
+    CardContent,
     CardHeader,
     makeStyles,
+    TextField,
 } from "@material-ui/core";
 
 import { ArrowDownward, ArrowUpward } from "@material-ui/icons";
@@ -45,8 +47,10 @@ const hasCmdLineOrder = (param) => {
     }
 };
 
-function formatCmdLinePreview(param) {
-    let paramOption = param.name || `[${param.label}]`;
+function formatCmdLinePreview(t, param) {
+    const defaultDisplay = `[${param.label}]`;
+
+    let paramOption = param.name;
     let paramValue = param.defaultValue;
 
     switch (param.type) {
@@ -66,22 +70,66 @@ function formatCmdLinePreview(param) {
             if (param.defaultValue) {
                 paramOption = param.defaultValue.name;
                 paramValue = param.defaultValue.value;
+            } else {
+                paramOption = defaultDisplay;
             }
+            break;
+
+        case AppParamTypes.MULTIFILE_SELECTOR:
+            paramOption = paramOption || defaultDisplay;
+            paramValue = t("cmdLinePreviewUserInput");
             break;
 
         case AppParamTypes.REFERENCE_GENOME:
         case AppParamTypes.REFERENCE_ANNOTATION:
         case AppParamTypes.REFERENCE_SEQUENCE:
             if (param.defaultValue) {
-                paramValue = param.defaultValue.name;
+                paramValue = param.defaultValue.path;
+            } else {
+                paramOption = paramOption || defaultDisplay;
+                paramValue = t("cmdLinePreviewUserInput");
             }
             break;
 
         default:
+            if (!(paramOption || paramValue)) {
+                paramOption = defaultDisplay;
+            } else {
+                paramValue = paramValue || t("cmdLinePreviewUserInput");
+            }
             break;
     }
 
     return [paramOption, paramValue].join(" ");
+}
+
+function CmdLinePreview(props) {
+    const { baseId, toolName, params } = props;
+
+    const { t } = useTranslation("app_editor");
+    const classes = useStyles();
+
+    return (
+        <Card className={classes.paramCard}>
+            <CardHeader title={t("commandLinePreview")} />
+            <CardContent>
+                <TextField
+                    id={buildID(baseId, ids.CMD_LINE_PREVIEW)}
+                    fullWidth
+                    variant="outlined"
+                    multiline
+                    rows={3}
+                    inputProps={{ readOnly: true }}
+                    value={[
+                        toolName,
+                        ...params.map(({ param }) =>
+                            formatCmdLinePreview(t, param)
+                        ),
+                    ].join(" ")}
+                />
+            </CardContent>
+        </Card>
+    );
 }
 
 function ParamCmdLineOrderForm(props) {
@@ -123,6 +171,8 @@ function ParamCmdLineOrderForm(props) {
 function CmdLineOrderingGrid(props) {
     const { baseId, params, setFieldValue } = props;
 
+    const { t } = useTranslation("app_editor");
+
     const onMoveUp = (index) => () => {
         if (index > 0) {
             params.forEach(({ param, fieldName }, paramIndex) => {
@@ -155,7 +205,7 @@ function CmdLineOrderingGrid(props) {
             key={fieldName}
             fieldName={fieldName}
             baseId={baseId}
-            cmdLinePreview={formatCmdLinePreview(param)}
+            cmdLinePreview={formatCmdLinePreview(t, param)}
             onMoveUp={onMoveUp(index)}
             onMoveDown={onMoveDown(index)}
         />
@@ -163,7 +213,7 @@ function CmdLineOrderingGrid(props) {
 }
 
 function CmdLineOrderForm(props) {
-    const { baseId, groups, setFieldValue } = props;
+    const { baseId, toolName, groups, setFieldValue } = props;
 
     const [sortedParams, setSortedParams] = React.useState([]);
 
@@ -188,11 +238,18 @@ function CmdLineOrderForm(props) {
     }, [groups]);
 
     return (
-        <CmdLineOrderingGrid
-            baseId={baseId}
-            setFieldValue={setFieldValue}
-            params={sortedParams}
-        />
+        <>
+            <CmdLinePreview
+                baseId={baseId}
+                toolName={toolName}
+                params={sortedParams}
+            />
+            <CmdLineOrderingGrid
+                baseId={baseId}
+                setFieldValue={setFieldValue}
+                params={sortedParams}
+            />
+        </>
     );
 }
 

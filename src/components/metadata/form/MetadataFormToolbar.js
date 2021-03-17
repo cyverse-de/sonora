@@ -7,8 +7,8 @@ import { Trans } from "react-i18next";
 
 import { useTranslation } from "i18n";
 
-import ApplyButton from "components/utils/ApplyButton";
 import BackButton from "components/utils/BackButton";
+import SaveButton from "components/utils/SaveButton";
 import DEDialog from "components/utils/DEDialog";
 
 import ids from "../ids";
@@ -37,9 +37,9 @@ const MetadataFormToolbar = (props) => {
     const {
         baseId,
         title,
-        applyDisabled,
-        showApply,
-        onApply,
+        saveDisabled,
+        showSave,
+        onSave,
         showSaveToFile,
         onSaveToFile,
         showViewInTemplate,
@@ -66,11 +66,11 @@ const MetadataFormToolbar = (props) => {
                 {title}
             </Typography>
 
-            {showApply && (
-                <ApplyButton
+            {showSave && (
+                <SaveButton
                     baseId={baseId}
-                    applyDisabled={applyDisabled}
-                    onApply={onApply}
+                    disabled={saveDisabled}
+                    onSave={onSave}
                 />
             )}
 

@@ -19,7 +19,7 @@ import AppStepper, { StepperSkeleton } from "../AppStepper";
 import AppStepDisplay, { BottomNavigationSkeleton } from "../AppStepDisplay";
 
 import AppParamTypes from "components/models/AppParamTypes";
-import ApplyButton from "components/utils/ApplyButton";
+import SaveButton from "components/utils/SaveButton";
 import useComponentHeight from "components/utils/useComponentHeight";
 
 import {
@@ -414,7 +414,7 @@ const AppEditor = (props) => {
                 errors,
                 values,
             }) => {
-                const applyDisabled = isSubmitting || !dirty || errors.error;
+                const saveDisabled = isSubmitting || !dirty || errors.error;
 
                 return (
                     <Paper>
@@ -424,11 +424,11 @@ const AppEditor = (props) => {
                                     name: values.name || t("newApp"),
                                 })}
                             </Typography>
-                            <ApplyButton
+                            <SaveButton
                                 id={buildID(baseId, ids.BUTTONS.SAVE_BTN)}
                                 type="submit"
-                                applyDisabled={applyDisabled}
-                                onApply={handleSubmit}
+                                disabled={saveDisabled}
+                                onSave={handleSubmit}
                             />
                         </Toolbar>
                         {isSubmitting ? (

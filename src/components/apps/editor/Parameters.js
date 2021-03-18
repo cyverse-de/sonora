@@ -75,7 +75,7 @@ function ParamCardForm(props) {
     const defaultValueFieldName = `${fieldName}.defaultValue`;
 
     let FieldComponent;
-    const fieldProps = {};
+    const fieldProps = { disabled: !param.isVisible };
 
     switch (param.type) {
         case AppParamTypes.INFO:

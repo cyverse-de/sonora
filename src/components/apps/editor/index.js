@@ -142,7 +142,6 @@ const AppEditor = (props) => {
 
     return (
         <Formik
-            enableReinitialize
             initialValues={initAppValues({ ...appDescription })}
             validate={(values) => {
                 const errors = {};
@@ -163,6 +162,8 @@ const AppEditor = (props) => {
             onSubmit={(values, actions) => {
                 // FIXME submit to service
                 console.log(formatSubmission(values));
+                // Note that enableReinitialize should not be used when using
+                // resetForm with new values.
                 actions.resetForm({ values });
             }}
         >

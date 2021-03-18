@@ -49,6 +49,7 @@ export default {
     LISTING_TABLE: "listingTable",
     LOADING_SKELETON: "loadingSkeleton",
     MANUAL_UPLOAD_MI: "manualUploadMenuItem",
+    MD5: "md5",
     MOVE_TO_TRASH_MENU_ITEM: "moveToTrash",
     METADATA_MI: "metadata",
     navLink: "navigationLink",

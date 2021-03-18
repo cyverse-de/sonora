@@ -21,6 +21,7 @@ import {
 import { getContainerDetails } from "./util";
 import styles from "./styles";
 import ViceLoadingToolbar from "./Toolbar";
+import LoadingAnimation from "./LoadingAnimation";
 
 const useStyles = makeStyles(styles);
 
@@ -279,14 +280,7 @@ function ViceLoading(props) {
     }
 
     if (isFetching && Object.keys(data).length === 0 && !statusError) {
-        return (
-            <img
-                id={build(baseId, ids.LOADING_GIF)}
-                src="/vice_loading_rocket.gif"
-                alt={t("loadingGifAltText")}
-                className={classes.centeredImage}
-            />
-        );
+        return <LoadingAnimation />;
     }
 
     if (ready) {
@@ -306,12 +300,7 @@ function ViceLoading(props) {
                 progressMessage={progress.message}
             />
             <Container maxWidth="md" classes={{ root: classes.scrollable }}>
-                <img
-                    id={build(baseId, ids.LOADING_IMG)}
-                    src="/vice_loading.png"
-                    alt={t("loadingImgAltText")}
-                    className={classes.centeredImage}
-                />
+                <LoadingAnimation />
                 {appName && (
                     <Typography variant="h5" gutterBottom={true}>
                         {t("launchVICE", { appName: deployment?.appName })}

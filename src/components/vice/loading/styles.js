@@ -1,12 +1,13 @@
 export default (theme) => ({
-    button: {
-        marginRight: theme.spacing(2),
+    animationBox: {
+        maxWidth: "450px",
+        margin: "0 auto",
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
     },
 
-    centeredImage: {
-        display: "block",
-        marginLeft: "auto",
-        marginRight: "auto",
+    button: {
+        marginRight: theme.spacing(2),
     },
 
     divider: {

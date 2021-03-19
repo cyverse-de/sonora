@@ -7,7 +7,7 @@
  */
 import React, { useMemo } from "react";
 import { useTranslation } from "i18n";
-import { build, formatDateObject } from "@cyverse-de/ui-lib";
+import { formatDateObject } from "@cyverse-de/ui-lib";
 import {
     ACCESS_REQUEST_REJECTED,
     ACCESS_REQUEST_APPROVED,

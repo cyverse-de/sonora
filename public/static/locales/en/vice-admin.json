@@ -1,4 +1,6 @@
 {
+    "accessRequests": "Access Requests",
+    "showAllRequests": "Show All Requests",
     "accessRequestApprovedMsg": "Your request to access VICE apps is approved.",
     "accessRequestDeniedMsg": "We are unable approve your request to access VICE apps at this moment.",
     "accessRequestUpdateSuccess": "Request updated successfully.",
@@ -94,5 +96,11 @@
     "approve": "Approve",
     "reject": "Reject",
     "lastUpdated": "Last Updated",
-    "email": "Email"
+    "email": "Email",
+    "setLimitTitle": "Set concurrent job limit",
+    "setLimitPrompt": "To approve this request, set concurrent job limit for the user: {{username}}",
+    "requestDeniedTitle": "Request Denied",
+    "requestDeniedPrompt": "Leave a message for user: {{username}}",
+    "requestLimitTabLabel": "Limits & Access Requests",
+    "analysesTabLabel": "Analyses Run By Users"
 }

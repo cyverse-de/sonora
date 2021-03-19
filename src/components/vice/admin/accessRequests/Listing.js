@@ -1,7 +1,8 @@
 /**
  * @author sriram
  *
- * A component intended to list all VICE access requests in a table view.
+ * A component intended to list all VICE access requests in a table view
+ * with options to approve / reject requests by admin.
  *
  */
 
@@ -11,6 +12,7 @@ import { useTranslation } from "i18n";
 
 import { build } from "@cyverse-de/ui-lib";
 
+import ids from "./ids";
 import {
     adminRequestListing,
     adminUpdateRequestStatus,
@@ -40,6 +42,7 @@ import {
 function Listing(props) {
     const { baseId, showErrorAnnouncer } = props;
     const { t } = useTranslation("vice-admin");
+    const { t: i18nCommon } = useTranslation("common");
     const [data, setData] = React.useState(null);
     const [showAllRequest, setShowAllRequest] = React.useState(false);
     const [jobLimitDialogOpen, setJobLimitDialogOpen] = React.useState(false);
@@ -144,23 +147,25 @@ function Listing(props) {
             <Paper style={{ marginTop: 16, marginBottom: 16 }}>
                 <div style={{ padding: 16 }}>
                     <Typography variant="h6" component="span">
-                        Access Requests
+                        {t("accessRequests")}
                     </Typography>
                     <FormControlLabel
                         style={{ float: "right" }}
                         control={
                             <Switch
+                                id={build(baseId, ids.SHOW_ALL_REQUESTS_SWITCH)}
                                 checked={showAllRequest}
                                 onChange={handleRequestFilterChange}
                                 name="requestFilter"
                                 color="primary"
                             />
                         }
-                        label="Show All Requests"
+                        label={t("showAllRequests")}
                     />
                 </div>
 
                 <TableView
+                    baseId={build(baseId, ids.REQUESTS_TABLE)}
                     data={data?.requests || []}
                     onUpdateRequest={onUpdateRequest}
                     showAllRequest={showAllRequest}
@@ -170,30 +175,37 @@ function Listing(props) {
                 />
             </Paper>
             <DEDialog
+                baseId={ids.JOB_LIMITS_DLG}
                 open={jobLimitDialogOpen}
                 onClose={() => setJobLimitDialogOpen(false)}
-                title="Job Limit"
+                title={t("setLimitTitle")}
                 actions={
                     <>
                         <Button onClick={() => setJobLimitDialogOpen(false)}>
-                            Cancel
+                            {i18nCommon("cancel")}
                         </Button>
                         <Button color="primary" onClick={onSetJobLimit}>
-                            Done
+                            {i18nCommon("done")}
                         </Button>
                     </>
                 }
                 on
             >
-                <Typography>
-                    Set concurrent job limit for user:{" "}
-                    {selectedRequest?.requesting_user}
+                <Typography
+                    id={build(ids.JOB_LIMITS_DLG, ids.JOB_LIMIT_SLIDER)}
+                >
+                    {t("setLimitPrompt", {
+                        username: selectedRequest?.requesting_user,
+                    })}
                 </Typography>
                 <Slider
                     style={{ marginTop: 32 }}
                     value={jobLimit}
                     onChange={handleSliderChange}
-                    aria-labelledby="input-slider"
+                    aria-labelledby={build(
+                        ids.JOB_LIMITS_DLG,
+                        ids.JOB_LIMIT_SLIDER
+                    )}
                     step={1}
                     marks
                     min={1}
@@ -202,24 +214,28 @@ function Listing(props) {
                 />
             </DEDialog>
             <DEDialog
-                title="Request Denied"
+                baseId={ids.REJECT_REQUEST_DLG}
+                title={t("requestDeniedTitle")}
                 open={deniedMsgDialogOpen}
                 onClose={() => setDeniedMsgDialogOpen(false)}
                 actions={
                     <>
                         <Button onClick={() => setDeniedMsgDialogOpen(false)}>
-                            Cancel
+                            {i18nCommon("cancel")}
                         </Button>
                         <Button color="primary" onClick={onRejectRequest}>
-                            Done
+                            {i18nCommon("done")}
                         </Button>
                     </>
                 }
             >
                 <Typography>
-                    Leave a message for user: {selectedRequest?.requesting_user}
+                    {t("requestDeniedPrompt", {
+                        username: selectedRequest?.requesting_user,
+                    })}
                 </Typography>
                 <TextField
+                    id={build(ids.REJECT_REQUEST_DLG, ids.REJECT_REQUEST_DLG)}
                     variant="outlined"
                     multiline
                     rowsMax={4}

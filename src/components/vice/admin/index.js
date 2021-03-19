@@ -48,6 +48,16 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(3),
         paddingRight: theme.spacing(3),
         paddingTop: theme.spacing(3),
+        [theme.breakpoints.down("sm")]: {
+            paddingLeft: theme.spacing(1),
+            paddingRight: theme.spacing(1),
+            paddingTop: theme.spacing(1),
+        },
+        [theme.breakpoints.down("sm")]: {
+            paddingLeft: theme.spacing(0.5),
+            paddingRight: theme.spacing(0.5),
+            paddingTop: theme.spacing(0.5),
+        },
         paddingBottom: 0,
         overflow: "auto",
         height: "90vh",
@@ -353,6 +363,7 @@ const VICEAdminTabs = ({ data = {} }) => {
 const VICEAdmin = () => {
     const classes = useStyles();
     const [selectedTab, setSelectedTab] = useState(TABS.quotaRequests);
+    const { t } = useTranslation("vice-admin");
 
     const onTabSelectionChange = (event, selectedTab) => {
         setSelectedTab(selectedTab);
@@ -400,19 +411,19 @@ const VICEAdmin = () => {
             >
                 <Tab
                     value={TABS.quotaRequests}
-                    label="Quota"
-                    id="quotaId"
+                    label={t("requestLimitTabLabel")}
+                    id={id(ids.REQUEST_LIMIT_TAB)}
                     classes={{ selected: classes.tabSelected }}
                 />
                 <Tab
                     value={TABS.analyses}
-                    label="Analyses"
-                    id="analysesId"
+                    label={t("analysesTabLabel")}
+                    id={id(ids.USER_ANALYSES_TAB)}
                     classes={{ selected: classes.tabSelected }}
                 />
             </Tabs>
             <DETabPanel
-                tabId="quotaId"
+                tabId={id(ids.REQUEST_LIMIT_TAB)}
                 value={TABS.quotaRequests}
                 selectedTab={selectedTab}
             >
@@ -420,7 +431,7 @@ const VICEAdmin = () => {
                 <Listing />
             </DETabPanel>
             <DETabPanel
-                tabId="analysesId"
+                tabId={id(ids.USER_ANALYSES_TAB)}
                 value={TABS.analyses}
                 selectedTab={selectedTab}
             >

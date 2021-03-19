@@ -58,6 +58,7 @@
     "repeatOptionFlag": "Repeat \"Argument option\" for each filename",
     "sectionLabel": "Section Label",
     "selectParameter": "Select Parameter",
+    "selectTool": "Select Tool",
     "textNumericalInputCategoryTitle": "Text/Numerical Input",
     "toolUsed": "Tool used",
     "validatorParams": "Rule parameters",

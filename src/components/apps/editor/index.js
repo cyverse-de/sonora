@@ -5,7 +5,7 @@
  */
 import React from "react";
 
-import { FastField, Formik } from "formik";
+import { Formik } from "formik";
 
 import { useTranslation } from "i18n";
 
@@ -13,6 +13,7 @@ import { formatSubmission, initAppValues } from "./formatters";
 import ids from "./ids";
 import styles from "./styles";
 
+import AppInfo from "./AppInfo";
 import CmdLineOrderForm from "./CmdLineOrderForm";
 import ParamGroups from "./ParamGroups";
 import ParametersPreview from "./ParametersPreview";
@@ -23,12 +24,7 @@ import AppStepDisplay, { BottomNavigationSkeleton } from "../AppStepDisplay";
 import SaveButton from "components/utils/SaveButton";
 import useComponentHeight from "components/utils/useComponentHeight";
 
-import {
-    build as buildID,
-    FormTextField,
-    FormMultilineTextField,
-    getFormError,
-} from "@cyverse-de/ui-lib";
+import { build as buildID, getFormError } from "@cyverse-de/ui-lib";
 
 import {
     Button,
@@ -244,32 +240,7 @@ const AppEditor = (props) => {
                             }
                         >
                             {activeStepInfo === stepAppInfo ? (
-                                <>
-                                    <FastField
-                                        id={buildID(baseId, ids.APP_NAME)}
-                                        name="name"
-                                        label={t("appName")}
-                                        required
-                                        component={FormTextField}
-                                    />
-                                    <FastField
-                                        id={buildID(
-                                            baseId,
-                                            ids.APP_DESCRIPTION
-                                        )}
-                                        name="description"
-                                        label={t("appDescription")}
-                                        required
-                                        component={FormMultilineTextField}
-                                    />
-                                    <FastField
-                                        id={buildID(baseId, ids.TOOL)}
-                                        // FIXME fetch tool objects from service
-                                        name="tools.0.name"
-                                        label={t("toolUsed")}
-                                        component={FormTextField}
-                                    />
-                                </>
+                                <AppInfo baseId={baseId} />
                             ) : activeStepInfo === stepParameters ? (
                                 <ParamGroups
                                     baseId={baseId}

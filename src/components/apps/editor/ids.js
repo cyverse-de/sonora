@@ -7,6 +7,7 @@ export default {
     APP_NAME: "appName",
     CMD_LINE_PREVIEW: "cmdLinePreview",
     GROUP: "group",
+    INSTALLED_TOOLS_DLG: "installedToolsDlg",
     PARAM_TYPE_LIST: "paramTypeList",
     PROPERTY_EDITOR: "propertyEditor",
     TOOL: "tool",
@@ -21,6 +22,7 @@ export default {
         MOVE_UP_BTN: "moveUpBtn",
         MOVE_DOWN_BTN: "moveDownBtn",
         SAVE_BTN: "save",
+        SELECT_TOOL: "selectTool",
     },
 
     PARAM_FIELDS: {

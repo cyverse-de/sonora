@@ -13,7 +13,6 @@ import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
 import constants from "../../../constants";
 import ToolsToolbar, { TOOL_FILTER_VALUES } from "../toolbar/Toolbar";
-import { canShare } from "../utils";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 /**
@@ -23,7 +22,12 @@ import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 function Listing(props) {
     const {
         baseId,
+        multiSelect = true,
+        disableDelete,
+        disableEdit,
+        disableShare,
         onRouteToListing,
+        onToolSelected,
         page,
         rowsPerPage,
         order,
@@ -51,7 +55,7 @@ function Listing(props) {
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [isSingleSelection, setSingleSelection] = useState(false);
 
-    const [deleteConfirm, setDeleteConfirm] = useState();
+    const [deleteConfirm, setDeleteConfirm] = useState(false);
 
     const [removeTools, { status: deleteStatus }] = useMutation(deleteTools, {
         onSuccess: () => {
@@ -100,6 +104,12 @@ function Listing(props) {
             setSelectedTool(null);
         }
     }, [data, selected]);
+
+    useEffect(() => {
+        if (onToolSelected) {
+            onToolSelected(selectedTool);
+        }
+    }, [selectedTool, onToolSelected]);
 
     useEffect(() => {
         setSingleSelection(selected && selected.length === 1);
@@ -170,7 +180,9 @@ function Listing(props) {
 
     // Adds zero or more tools to the list of selected tools.
     const select = (toolIds) => {
-        setSelected([...new Set([...selected, ...toolIds])]);
+        setSelected(
+            multiSelect ? [...new Set([...selected, ...toolIds])] : toolIds
+        );
     };
 
     // Removes zero or more tools from the list of selected tools.
@@ -207,7 +219,7 @@ function Listing(props) {
 
     // Handles a click on a single tool.
     const handleClick = (event, id, index) => {
-        if (event.shiftKey) {
+        if (multiSelect && event.shiftKey) {
             rangeSelect(lastSelectedIndex, index, id);
         } else {
             toggleSelection(id);
@@ -217,7 +229,6 @@ function Listing(props) {
 
     // Handles a request to select all tools.
     const handleSelectAllClick = (event) => {
-        console.warn("handling a select all event");
         setSelected(
             event.target.checked && !selected.length
                 ? data?.tools?.map((tool) => tool.id) || []
@@ -253,15 +264,15 @@ function Listing(props) {
         setDeleteConfirm(true);
     };
 
-    const sharingEnabled = canShare(getSelectedTools());
-
     return (
         <>
             <ToolsToolbar
                 baseId={baseId}
                 isSingleSelection={isSingleSelection}
                 onDetailsSelected={onDetailsSelected}
-                canShare={sharingEnabled}
+                disableDelete={disableDelete}
+                disableEdit={disableEdit}
+                disableShare={disableShare}
                 selected={selected}
                 getSelectedTools={getSelectedTools}
                 handleOwnershipFilterChange={handleOwnershipFilterChange}
@@ -280,6 +291,7 @@ function Listing(props) {
                 loading={isFetching || deleteStatus === constants.LOADING}
                 order={order}
                 orderBy={orderBy}
+                multiSelect={multiSelect}
                 selected={selected}
                 isAdmin={isAdmin}
             />

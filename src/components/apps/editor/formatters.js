@@ -137,7 +137,7 @@ const initFlagName = (name) => {
  * @returns The App formatted for submission to the service.
  */
 const formatSubmission = (app) => {
-    const { groups } = app;
+    const { groups, tools } = app;
 
     const formattedGroups = groups?.map((group) => ({
         ...group,
@@ -210,7 +210,14 @@ const formatSubmission = (app) => {
         }),
     }));
 
-    return { ...app, groups: formattedGroups };
+    const [tool] = tools;
+    const { id, name, version, type } = tool || {};
+
+    return {
+        ...app,
+        groups: formattedGroups,
+        tools: tool ? [{ id, name, version, type }] : [],
+    };
 };
 
 /**

@@ -5,6 +5,8 @@
  */
 import React from "react";
 
+import { Field, getIn } from "formik";
+
 import { useTranslation } from "i18n";
 
 import ids from "./ids";
@@ -25,12 +27,40 @@ import ReferenceGenomePropertyFields from "./params/ReferenceGenomePropertyField
 import SelectionPropertyFields from "./params/SelectionPropertyFields";
 import TextPropertyFields from "./params/TextPropertyFields";
 
+import { getAppParameterLaunchComponent } from "../utils";
+
+import MultiFileSelector from "components/apps/launch/params/MultiFileSelector";
+
 import AppParamTypes from "components/models/AppParamTypes";
-import DEDialog from "components/utils/DEDialog";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
 
-import { Button } from "@material-ui/core";
+import {
+    Button,
+    Card,
+    CardActions,
+    CardContent,
+    CardHeader,
+} from "@material-ui/core";
+
+function ParamPreview(props) {
+    const { baseId, fieldName, param } = props;
+
+    const defaultValueFieldName = `${fieldName}.defaultValue`;
+
+    const FieldComponent = getAppParameterLaunchComponent(param.type);
+    const fieldProps = { disabled: FieldComponent === MultiFileSelector };
+
+    return (
+        <Field
+            id={buildID(baseId, defaultValueFieldName)}
+            name={defaultValueFieldName}
+            param={param}
+            component={FieldComponent}
+            {...fieldProps}
+        />
+    );
+}
 
 function PropertyFormFields(props) {
     const { baseId, fieldName, param } = props;
@@ -165,39 +195,58 @@ function PropertyFormFields(props) {
 }
 
 function ParamPropertyForm(props) {
-    const { baseId, fieldName, open, onClose, param } = props;
+    const { baseId, values, fieldName, onClose } = props;
 
     const { t } = useTranslation(["app_editor", "app_param_types", "common"]);
 
-    return (
-        <DEDialog
-            baseId={baseId}
-            open={open}
-            title={t("editParameter", {
-                type: t(`app_param_types:${param?.type}`),
-            })}
-            onClose={onClose}
-            disableBackdropClick
-            disableEscapeKeyDown
-            actions={
-                <Button
-                    id={buildID(baseId, ids.BUTTONS.CLOSE_BTN)}
-                    color="primary"
-                    variant="contained"
-                    onClick={onClose}
-                >
-                    {t("common:done")}
-                </Button>
-            }
+    const param = getIn(values, fieldName);
+
+    const doneBtn = (
+        <Button
+            id={buildID(baseId, ids.BUTTONS.CLOSE_BTN)}
+            fullWidth
+            color="primary"
+            variant="contained"
+            onClick={onClose}
         >
-            {open && (
+            {t("common:done")}
+        </Button>
+    );
+
+    return (
+        <Card id={baseId}>
+            <CardHeader title={t("editParameter")} action={doneBtn} />
+            <CardHeader
+                title={t("previewParameter", {
+                    type: t(`app_param_types:${param?.type}`),
+                })}
+                titleTypographyProps={{
+                    variant: "subtitle2",
+                }}
+            />
+            <CardContent>
+                <ParamPreview
+                    baseId={baseId}
+                    fieldName={fieldName}
+                    param={param}
+                />
+            </CardContent>
+
+            <CardHeader
+                title={t("configureProperties")}
+                titleTypographyProps={{
+                    variant: "subtitle2",
+                }}
+            />
+            <CardContent>
                 <PropertyFormFields
                     baseId={baseId}
                     fieldName={fieldName}
                     param={param}
                 />
-            )}
-        </DEDialog>
+            </CardContent>
+            <CardActions>{doneBtn}</CardActions>
+        </Card>
     );
 }
 

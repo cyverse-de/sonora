@@ -5,31 +5,20 @@
  */
 import React from "react";
 
-import { FastField, Field, FieldArray } from "formik";
+import { FastField, FieldArray } from "formik";
 
 import { useTranslation } from "i18n";
 
 import ids from "./ids";
 import styles from "./styles";
 
-import ParamPropertyForm from "./ParamPropertyForm";
 import ParamSelectionPalette from "./ParamSelectionPalette";
 
 import { DataSources } from "./params/FileOutputPropertyFields";
 
-import ReferenceGenomeSelect from "components/apps/launch/ReferenceGenomeSelect";
+import { getAppParameterLaunchComponent } from "../utils";
 
-import Checkbox from "components/apps/launch/params/Checkbox";
-import Double from "components/apps/launch/params/Double";
-import FileFolderInput from "components/apps/launch/params/FileFolderInput";
-import FileInput from "components/apps/launch/params/FileInput";
-import FolderInput from "components/apps/launch/params/FolderInput";
-import Info from "components/apps/launch/params/Info";
-import Integer from "components/apps/launch/params/Integer";
 import MultiFileSelector from "components/apps/launch/params/MultiFileSelector";
-import MultilineText from "components/apps/launch/params/MultilineText";
-import Selection from "components/apps/launch/params/Selection";
-import Text from "components/apps/launch/params/Text";
 
 import AppParamTypes from "components/models/AppParamTypes";
 import FileInfoTypes from "components/models/FileInfoTypes";
@@ -60,13 +49,21 @@ function ParamCardForm(props) {
         baseId,
         field: { name: fieldName },
         param,
+        scrollToField,
+        setScrollToField,
+        onEdit,
         onDelete,
         onMoveUp,
         onMoveDown,
     } = props;
 
-    const [propertyDialogOpen, setPropertyDialogOpen] = React.useState(false);
-    const onPropertyDialogClose = () => setPropertyDialogOpen(false);
+    const paramEl = React.useRef();
+    React.useEffect(() => {
+        if (paramEl && scrollToField === fieldName) {
+            paramEl.current.scrollIntoView();
+            setScrollToField(null);
+        }
+    }, [fieldName, paramEl, scrollToField, setScrollToField]);
 
     const { t } = useTranslation("app_editor");
     const classes = useStyles();
@@ -74,74 +71,16 @@ function ParamCardForm(props) {
     const paramBaseId = buildID(baseId, fieldName);
     const defaultValueFieldName = `${fieldName}.defaultValue`;
 
-    let FieldComponent;
-    const fieldProps = { disabled: !param.isVisible };
-
-    switch (param.type) {
-        case AppParamTypes.INFO:
-            FieldComponent = Info;
-
-            break;
-
-        case AppParamTypes.TEXT:
-            FieldComponent = Text;
-            break;
-
-        case AppParamTypes.MULTILINE_TEXT:
-            FieldComponent = MultilineText;
-            break;
-
-        case AppParamTypes.INTEGER:
-            FieldComponent = Integer;
-            break;
-
-        case AppParamTypes.DOUBLE:
-            FieldComponent = Double;
-            break;
-
-        case AppParamTypes.FLAG:
-            FieldComponent = Checkbox;
-            break;
-
-        case AppParamTypes.TEXT_SELECTION:
-        case AppParamTypes.INTEGER_SELECTION:
-        case AppParamTypes.DOUBLE_SELECTION:
-            FieldComponent = Selection;
-            break;
-
-        case AppParamTypes.FILE_INPUT:
-            FieldComponent = FileInput;
-            break;
-
-        case AppParamTypes.FOLDER_INPUT:
-            FieldComponent = FolderInput;
-            break;
-
-        case AppParamTypes.FILE_FOLDER_INPUT:
-            FieldComponent = FileFolderInput;
-            break;
-
-        case AppParamTypes.MULTIFILE_SELECTOR:
-            FieldComponent = MultiFileSelector;
-            fieldProps.disabled = true;
-            break;
-
-        case AppParamTypes.REFERENCE_GENOME:
-        case AppParamTypes.REFERENCE_SEQUENCE:
-        case AppParamTypes.REFERENCE_ANNOTATION:
-            FieldComponent = ReferenceGenomeSelect;
-            break;
-
-        default:
-            FieldComponent = Text;
-            break;
-    }
+    const FieldComponent = getAppParameterLaunchComponent(param.type);
+    const fieldProps = {
+        disabled: !param.isVisible || FieldComponent === MultiFileSelector,
+    };
 
     return (
-        <Card className={classes.paramCard}>
+        <Card ref={paramEl} className={classes.paramCard}>
             <CardHeader
                 title={
-                    <Field
+                    <FastField
                         id={buildID(baseId, defaultValueFieldName)}
                         name={defaultValueFieldName}
                         param={param}
@@ -168,7 +107,7 @@ function ParamCardForm(props) {
                         <Button
                             id={buildID(paramBaseId, ids.BUTTONS.EDIT_BTN)}
                             aria-label={t("editParameterProperties")}
-                            onClick={() => setPropertyDialogOpen(true)}
+                            onClick={onEdit}
                         >
                             <Edit />
                         </Button>
@@ -183,19 +122,19 @@ function ParamCardForm(props) {
                     </ButtonGroup>
                 }
             />
-            <ParamPropertyForm
-                baseId={buildID(baseId, ids.PROPERTY_EDITOR)}
-                open={propertyDialogOpen}
-                onClose={onPropertyDialogClose}
-                fieldName={fieldName}
-                param={param}
-            />
         </Card>
     );
 }
 
 function Parameters(props) {
-    const { baseId, groupFieldName, parameters } = props;
+    const {
+        baseId,
+        groupFieldName,
+        parameters,
+        onEditParam,
+        scrollToField,
+        setScrollToField,
+    } = props;
 
     const [paramSelectOpen, setParamSelectOpen] = React.useState(false);
     const handleAddParamMenuClose = () => setParamSelectOpen(false);
@@ -328,6 +267,9 @@ function Parameters(props) {
                                     component={ParamCardForm}
                                     baseId={baseId}
                                     param={param}
+                                    scrollToField={scrollToField}
+                                    setScrollToField={setScrollToField}
+                                    onEdit={() => onEditParam(fieldName)}
                                     onDelete={() =>
                                         setConfirmDeleteIndex(index)
                                     }

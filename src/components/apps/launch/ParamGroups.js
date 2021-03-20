@@ -6,7 +6,7 @@
 import React from "react";
 
 import { Trans } from "react-i18next";
-import { FastField, Field, getIn } from "formik";
+import { FastField, getIn } from "formik";
 
 import GlobalConstants from "../../../constants";
 import { useTranslation } from "i18n";
@@ -16,24 +16,12 @@ import { intercomShow } from "common/intercom";
 import AppParamTypes from "components/models/AppParamTypes";
 import ExternalLink from "components/utils/ExternalLink";
 
+import { getAppParameterLaunchComponent } from "../utils";
+
 import ids from "./ids";
 import styles from "./styles";
 
 import { isEmptyParamValue } from "./validate";
-
-import ReferenceGenomeSelect from "./ReferenceGenomeSelect";
-
-import Checkbox from "./params/Checkbox";
-import Double from "./params/Double";
-import FileFolderInput from "./params/FileFolderInput";
-import FileInput from "./params/FileInput";
-import FolderInput from "./params/FolderInput";
-import Info from "./params/Info";
-import Integer from "./params/Integer";
-import MultiFileSelector from "./params/MultiFileSelector";
-import MultilineText from "./params/MultilineText";
-import Selection from "./params/Selection";
-import Text from "./params/Text";
 
 import { build as buildDebugId } from "@cyverse-de/ui-lib";
 
@@ -163,80 +151,16 @@ function ParamGroupForm(props) {
                         param.type
                     );
 
-                    let fieldComponent;
-
-                    switch (param.type) {
-                        case AppParamTypes.INFO:
-                            fieldComponent = Info;
-                            break;
-
-                        case AppParamTypes.TEXT:
-                            fieldComponent = Text;
-                            break;
-
-                        case AppParamTypes.INTEGER:
-                            fieldComponent = Integer;
-                            break;
-
-                        case AppParamTypes.DOUBLE:
-                            fieldComponent = Double;
-                            break;
-
-                        case AppParamTypes.MULTILINE_TEXT:
-                            fieldComponent = MultilineText;
-                            break;
-
-                        case AppParamTypes.FLAG:
-                            fieldComponent = Checkbox;
-                            break;
-
-                        case AppParamTypes.TEXT_SELECTION:
-                        case AppParamTypes.INTEGER_SELECTION:
-                        case AppParamTypes.DOUBLE_SELECTION:
-                            fieldComponent = Selection;
-                            break;
-
-                        case AppParamTypes.FILE_INPUT:
-                            fieldComponent = FileInput;
-                            break;
-
-                        case AppParamTypes.FOLDER_INPUT:
-                            fieldComponent = FolderInput;
-                            break;
-
-                        case AppParamTypes.FILE_FOLDER_INPUT:
-                            fieldComponent = FileFolderInput;
-                            break;
-
-                        case AppParamTypes.MULTIFILE_SELECTOR:
-                            fieldComponent = MultiFileSelector;
-                            break;
-
-                        case AppParamTypes.REFERENCE_GENOME:
-                        case AppParamTypes.REFERENCE_SEQUENCE:
-                        case AppParamTypes.REFERENCE_ANNOTATION:
-                            // Can't be a FastField since it renders with custom props.
-                            return (
-                                <Field
-                                    key={param.id}
-                                    id={paramFormId}
-                                    name={name}
-                                    component={ReferenceGenomeSelect}
-                                    param={param}
-                                />
-                            );
-
-                        default:
-                            fieldComponent = Text;
-                            break;
-                    }
+                    const FieldComponent = getAppParameterLaunchComponent(
+                        param.type
+                    );
 
                     return (
                         <FastField
                             key={param.id}
                             id={paramFormId}
                             name={name}
-                            component={fieldComponent}
+                            component={FieldComponent}
                             param={param}
                         />
                     );

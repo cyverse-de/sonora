@@ -5,7 +5,7 @@
  */
 import React from "react";
 
-import { FastField, FieldArray } from "formik";
+import { FieldArray, getIn } from "formik";
 import { Trans } from "react-i18next";
 
 import { useTranslation } from "i18n";
@@ -13,12 +13,13 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 import styles from "./styles";
 
+import GroupPropertyForm from "./GroupPropertyForm";
 import Parameters from "./Parameters";
+import ParamPropertyForm from "./ParamPropertyForm";
 
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
-import DEDialog from "components/utils/DEDialog";
 
-import { build as buildID, FormTextField } from "@cyverse-de/ui-lib";
+import { build as buildID } from "@cyverse-de/ui-lib";
 
 import {
     Accordion,
@@ -45,10 +46,26 @@ import {
 const useStyles = makeStyles(styles);
 
 function ParamGroupForm(props) {
-    const { baseId, fieldName, group, onDelete, onMoveDown, onMoveUp } = props;
+    const {
+        baseId,
+        fieldName,
+        group,
+        onDelete,
+        onEdit,
+        onMoveDown,
+        onMoveUp,
+        onEditParam,
+        scrollToField,
+        setScrollToField,
+    } = props;
 
-    const [groupDialogOpen, setGroupDialogOpen] = React.useState(false);
-    const onGroupDialogClose = () => setGroupDialogOpen(false);
+    const groupEl = React.useRef();
+    React.useEffect(() => {
+        if (groupEl && scrollToField === fieldName) {
+            groupEl.current.scrollIntoView();
+            setScrollToField(null);
+        }
+    }, [fieldName, groupEl, scrollToField, setScrollToField]);
 
     const classes = useStyles();
     const { t } = useTranslation("app_editor");
@@ -56,7 +73,7 @@ function ParamGroupForm(props) {
     const groupBaseId = buildID(baseId, fieldName);
 
     return (
-        <Accordion defaultExpanded>
+        <Accordion ref={groupEl} defaultExpanded>
             <AccordionSummary
                 className={classes.paramsViewSummary}
                 expandIcon={
@@ -95,7 +112,7 @@ function ParamGroupForm(props) {
                         onFocus={(event) => event.stopPropagation()}
                         onClick={(event) => {
                             event.stopPropagation();
-                            setGroupDialogOpen(true);
+                            onEdit(fieldName);
                         }}
                     >
                         <Edit />
@@ -120,44 +137,49 @@ function ParamGroupForm(props) {
                     baseId={baseId}
                     groupFieldName={fieldName}
                     parameters={group.parameters}
+                    onEditParam={onEditParam}
+                    scrollToField={scrollToField}
+                    setScrollToField={setScrollToField}
                 />
-                <DEDialog
-                    baseId={baseId}
-                    open={groupDialogOpen}
-                    onClose={onGroupDialogClose}
-                >
-                    {groupDialogOpen && (
-                        <FastField
-                            id={buildID(
-                                baseId,
-                                ids.GROUP,
-                                ids.PARAM_FIELDS.LABEL
-                            )}
-                            name={`${fieldName}.label`}
-                            label={t("sectionLabel")}
-                            component={FormTextField}
-                            onKeyDown={(event) => {
-                                if (event.key === "Enter") {
-                                    onGroupDialogClose();
-                                }
-                            }}
-                        />
-                    )}
-                </DEDialog>
             </AccordionDetails>
         </Accordion>
     );
 }
 
 function ParamGroups(props) {
-    const { baseId, groups } = props;
+    const { baseId, values, scrollOnEdit } = props;
 
     const [confirmDeleteIndex, setConfirmDeleteIndex] = React.useState(-1);
     const onCloseDeleteConfirm = () => setConfirmDeleteIndex(-1);
 
+    const [editGroupField, setEditGroupField] = React.useState();
+    const [editParamField, setEditParamField] = React.useState();
+    const [scrollToField, setScrollToField] = React.useState();
+
     const { t } = useTranslation(["app_editor", "app_editor_help"]);
 
-    return (
+    const groups = getIn(values, "groups");
+
+    return editGroupField ? (
+        <GroupPropertyForm
+            baseId={baseId}
+            fieldName={editGroupField}
+            onDone={() => {
+                setScrollToField(editGroupField);
+                setEditGroupField(null);
+            }}
+        />
+    ) : editParamField ? (
+        <ParamPropertyForm
+            baseId={buildID(baseId, ids.PROPERTY_EDITOR)}
+            onClose={() => {
+                setScrollToField(editParamField);
+                setEditParamField(null);
+            }}
+            fieldName={editParamField}
+            values={values}
+        />
+    ) : (
         <FieldArray
             name="groups"
             render={(arrayHelpers) => (
@@ -201,6 +223,16 @@ function ParamGroups(props) {
                             baseId={baseId}
                             fieldName={`groups.${index}`}
                             group={group}
+                            scrollToField={scrollToField}
+                            setScrollToField={setScrollToField}
+                            onEditParam={(fieldName) => {
+                                scrollOnEdit();
+                                setEditParamField(fieldName);
+                            }}
+                            onEdit={(fieldName) => {
+                                scrollOnEdit();
+                                setEditGroupField(fieldName);
+                            }}
                             onDelete={() => setConfirmDeleteIndex(index)}
                             onMoveUp={() => {
                                 if (index > 0) {

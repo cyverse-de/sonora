@@ -89,6 +89,13 @@ const AppEditor = (props) => {
         setStepperRef(stepperRef);
     }, [stepperRef, setStepperRef]);
 
+    const scrollOnEditEl = React.useRef();
+    const scrollOnEdit = React.useCallback(() => {
+        if (scrollOnEditEl) {
+            scrollOnEditEl.current.scrollIntoView();
+        }
+    }, [scrollOnEditEl]);
+
     const { t } = useTranslation(["app_editor", "app_editor_help", "common"]);
     const classes = useStyles();
 
@@ -175,7 +182,7 @@ const AppEditor = (props) => {
                 const saveDisabled = isSubmitting || !dirty || errors.error;
 
                 return (
-                    <Paper>
+                    <Paper ref={scrollOnEditEl}>
                         <Toolbar>
                             <Typography variant="h6" className={classes.flex}>
                                 {t("appIntegrationPageHeader", {
@@ -244,7 +251,8 @@ const AppEditor = (props) => {
                             ) : activeStepInfo === stepParameters ? (
                                 <ParamGroups
                                     baseId={baseId}
-                                    groups={values.groups}
+                                    values={values}
+                                    scrollOnEdit={scrollOnEdit}
                                 />
                             ) : activeStepInfo === stepPreview ? (
                                 <ParametersPreview

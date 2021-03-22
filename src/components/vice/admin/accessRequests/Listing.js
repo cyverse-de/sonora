@@ -32,6 +32,7 @@ import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import {
     Button,
     FormControlLabel,
+    Grid,
     Paper,
     Switch,
     Slider,
@@ -39,6 +40,8 @@ import {
     Typography,
     useTheme,
 } from "@material-ui/core";
+
+const MAX_CONCURRENT_JOB_LIMIT = 10;
 
 function Listing(props) {
     const { baseId, showErrorAnnouncer } = props;
@@ -197,27 +200,33 @@ function Listing(props) {
                 }
                 on
             >
-                <Typography
-                    id={build(ids.JOB_LIMITS_DLG, ids.JOB_LIMIT_SLIDER)}
-                >
-                    {t("setLimitPrompt", {
-                        username: selectedRequest?.requesting_user,
-                    })}
-                </Typography>
-                <Slider
-                    style={{ marginTop: theme.spacing(2) }}
-                    value={jobLimit}
-                    onChange={handleSliderChange}
-                    aria-labelledby={build(
-                        ids.JOB_LIMITS_DLG,
-                        ids.JOB_LIMIT_SLIDER
-                    )}
-                    step={1}
-                    marks
-                    min={1}
-                    max={10}
-                    valueLabelDisplay="on"
-                />
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <Typography
+                            id={build(ids.JOB_LIMITS_DLG, ids.JOB_LIMIT_SLIDER)}
+                        >
+                            {t("setLimitPrompt", {
+                                username: selectedRequest?.requesting_user,
+                            })}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Slider
+                            style={{ marginTop: theme.spacing(2) }}
+                            value={jobLimit}
+                            onChange={handleSliderChange}
+                            aria-labelledby={build(
+                                ids.JOB_LIMITS_DLG,
+                                ids.JOB_LIMIT_SLIDER
+                            )}
+                            step={1}
+                            marks
+                            min={1}
+                            max={MAX_CONCURRENT_JOB_LIMIT}
+                            valueLabelDisplay="on"
+                        />
+                    </Grid>
+                </Grid>
             </DEDialog>
             <DEDialog
                 baseId={ids.REJECT_REQUEST_DLG}
@@ -235,19 +244,29 @@ function Listing(props) {
                     </>
                 }
             >
-                <Typography>
-                    {t("requestDeniedPrompt", {
-                        username: selectedRequest?.requesting_user,
-                    })}
-                </Typography>
-                <TextField
-                    id={build(ids.REJECT_REQUEST_DLG, ids.REJECT_REQUEST_DLG)}
-                    variant="outlined"
-                    multiline
-                    rowsMax={4}
-                    value={deniedMsg}
-                    onChange={handleDeniedMsgChange}
-                />
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <Typography>
+                            {t("requestDeniedPrompt", {
+                                username: selectedRequest?.requesting_user,
+                            })}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            id={build(
+                                ids.REJECT_REQUEST_DLG,
+                                ids.REJECT_REQUEST_DLG
+                            )}
+                            variant="outlined"
+                            multiline
+                            rowsMax={4}
+                            value={deniedMsg}
+                            onChange={handleDeniedMsgChange}
+                            fullWidth
+                        />
+                    </Grid>
+                </Grid>
             </DEDialog>
         </>
     );

@@ -37,10 +37,12 @@ import {
     Slider,
     TextField,
     Typography,
+    useTheme,
 } from "@material-ui/core";
 
 function Listing(props) {
     const { baseId, showErrorAnnouncer } = props;
+    const theme = useTheme();
     const { t } = useTranslation("vice-admin");
     const { t: i18nCommon } = useTranslation("common");
     const [data, setData] = React.useState(null);
@@ -56,7 +58,7 @@ function Listing(props) {
     };
 
     const handleSliderChange = (event, newValue) => {
-        setJobLimit(newValue);
+        setJobLimit(parseInt(newValue, 10));
     };
 
     const handleDeniedMsgChange = (event) => {
@@ -76,7 +78,6 @@ function Listing(props) {
         setUserJobLimit,
         {
             onSuccess: (resp) => {
-                console.log(JSON.stringify(resp));
                 const msg = t("accessRequestApprovedMsg", {
                     quota: jobLimit,
                 });
@@ -144,8 +145,13 @@ function Listing(props) {
 
     return (
         <>
-            <Paper style={{ marginTop: 16, marginBottom: 16 }}>
-                <div style={{ padding: 16 }}>
+            <Paper
+                style={{
+                    marginTop: theme.spacing(1),
+                    marginBottom: theme.spacing(1),
+                }}
+            >
+                <div style={{ padding: theme.spacing(1) }}>
                     <Typography variant="h6" component="span">
                         {t("accessRequests")}
                     </Typography>
@@ -199,7 +205,7 @@ function Listing(props) {
                     })}
                 </Typography>
                 <Slider
-                    style={{ marginTop: 32 }}
+                    style={{ marginTop: theme.spacing(2) }}
                     value={jobLimit}
                     onChange={handleSliderChange}
                     aria-labelledby={build(

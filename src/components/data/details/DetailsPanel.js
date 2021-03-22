@@ -176,7 +176,11 @@ function DetailsTabPanel(props) {
                 </GridLabelValue>
                 {isFile && (
                     <GridLabelValue label={t("md5")}>
-                        {details.md5}
+                        <CopyTextArea
+                            text={details.md5}
+                            margin={"small"}
+                            debugIdPrefix={build(baseId, ids.md5)}
+                        />
                     </GridLabelValue>
                 )}
             </Grid>

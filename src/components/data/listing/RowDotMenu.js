@@ -12,6 +12,7 @@ import DeleteMenuItem from "../menuItems/DeleteMenuItem";
 import MetadataMenuItem from "../menuItems/MetadataMenuItem";
 import DownloadMenuItem from "../menuItems/DownloadMenuItem";
 import RenameMenuItem from "../menuItems/RenameMenuItem";
+import MoveMenuItem from "../menuItems/MoveMenuItem";
 import SharingMenuItem from "../../sharing/SharingMenuItem";
 import { hasOwn, containsFolders, isWritable } from "../utils";
 import ids from "../ids";
@@ -32,6 +33,7 @@ function RowDotMenu(props) {
         onPublicLinksSelected,
         onDownloadSelected,
         onRenameSelected,
+        onMoveSelected,
         inTrash,
     } = props;
 
@@ -40,7 +42,7 @@ function RowDotMenu(props) {
     const renameEnabled = !inTrash && isWritable(resource.permission);
     const linkEnabled = !inTrash && isOwner && !containsFolders([resource]);
     const sharingEnabled = !inTrash && isOwner;
-
+    const moveMiEnabled = !inTrash && isOwner;
     return (
         <DotMenu
             baseId={baseId}
@@ -83,6 +85,14 @@ function RowDotMenu(props) {
                         baseId={baseId}
                         onClose={onClose}
                         onRenameSelected={onRenameSelected}
+                    />
+                ),
+                moveMiEnabled && (
+                    <MoveMenuItem
+                        key={build(baseId, ids.MOVE_MENU_ITEM)}
+                        onMoveSelected={onMoveSelected}
+                        baseId={baseId}
+                        onClose={onClose}
                     />
                 ),
                 !inTrash && (

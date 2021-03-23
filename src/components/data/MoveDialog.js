@@ -16,7 +16,7 @@ import ResourceIcon from "components/data/listing/ResourceIcon";
 import ResourceTypes from "components/models/ResourceTypes";
 import InputSelector from "components/apps/launch/InputSelector";
 import DEDialog from "components/utils/DEDialog";
-
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import { move } from "serviceFacades/filesystem";
 import constants from "../../constants";
 
@@ -34,10 +34,10 @@ import {
     useTheme,
 } from "@material-ui/core";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+
 
 function MoveDialog(props) {
-    const { path, open, selectedResources, onClose } = props;
+    const { path, open, selectedResources, onClose, onRemoveResource } = props;
     const [moveError, setMoveError] = useState(null);
     const theme = useTheme();
     const baseId = ids.MOVE_DLG;
@@ -60,7 +60,7 @@ function MoveDialog(props) {
 
     const handleMove = ({ dest }) => {
         const sources = selectedResources.map((res) => res.path);
-        if (status !== constants.LOADING) {
+        if (status !== constants.LOADING && selectedResources?.length > 0) {
             resourcesMove({ dest, sources });
         }
     };
@@ -124,6 +124,12 @@ function MoveDialog(props) {
                             >
                                 Selected File(s) and Folder(s)
                             </Typography>
+                            {(!!selectedResources ||
+                                selectedResources?.length === 0) && (
+                                <Typography color="error">
+                                    Select a file or a folder to move.
+                                </Typography>
+                            )}
                             <List dense>
                                 {selectedResources?.map((resource) => {
                                     return (
@@ -149,6 +155,11 @@ function MoveDialog(props) {
                                                             1
                                                         ),
                                                     }}
+                                                    onClick={() =>
+                                                        onRemoveResource(
+                                                            resource
+                                                        )
+                                                    }
                                                 >
                                                     <RemoveCircleIcon color="error" />
                                                 </IconButton>

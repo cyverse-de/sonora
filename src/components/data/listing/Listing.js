@@ -718,6 +718,12 @@ function Listing(props) {
                 open={moveDlgOpen}
                 selectedResources={getSelectedResources()}
                 onClose={() => setMoveDlgOpen(false)}
+                onRemoveResource={(resource) => {
+                    const newSelected = selected?.filter(
+                        (sel) => sel !== resource?.id
+                    );
+                    setSelected(newSelected);
+                }}
             />
         </>
     );

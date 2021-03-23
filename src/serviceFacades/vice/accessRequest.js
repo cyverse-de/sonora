@@ -19,12 +19,18 @@ function adminRequestListing(key, { showAllRequest }) {
     });
 }
 
-function adminUpdateRequestStatus({ id, status, message }) {
+function adminUpdateRequestStatus({ id, status, message, concurrent_jobs }) {
+    const endpoint =
+        status === ACCESS_REQUEST_APPROVED
+            ? `/api/admin/requests/${id}/${status}/vice`
+            : `/api/admin/requests/${id}/${status}`;
+
     return callApi({
-        endpoint: `/api/admin/requests/${id}/${status}`,
+        endpoint,
         method: "POST",
         body: {
             message,
+            concurrent_jobs,
         },
     });
 }

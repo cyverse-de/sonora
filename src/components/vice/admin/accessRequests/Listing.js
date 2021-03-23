@@ -81,13 +81,14 @@ function Listing(props) {
         setUserJobLimit,
         {
             onSuccess: (resp) => {
-                const msg = t("accessRequestApprovedMsg", {
+                const message = t("accessRequestApprovedMsg", {
                     quota: jobLimit,
                 });
                 updateRequest({
                     id: selectedRequest.id,
                     status: ACCESS_REQUEST_APPROVED,
-                    message: msg,
+                    message,
+                    concurrent_jobs: jobLimit,
                 });
             },
 
@@ -100,7 +101,7 @@ function Listing(props) {
     const [updateRequest, { isLoading: updateLoading }] = useMutation(
         adminUpdateRequestStatus,
         {
-            onSuccess: (resp, { user }) => {
+            onSuccess: () => {
                 queryCache.invalidateQueries(
                     ADMIN_ACCESS_REQUEST_LISTING_QUERY_KEY
                 );

@@ -214,5 +214,18 @@ export default function viceRouter() {
         })
     );
 
+    logger.info("adding the POST /admin/requests/:id/approved/vice");
+    api.post(
+        "/admin/requests/:id/approved/vice",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/requests/:id/approved/vice",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

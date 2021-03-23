@@ -75,6 +75,7 @@ function DataToolbar(props) {
         onEmptyTrashSelected,
         onRefreshSelected,
         onRenameSelected,
+        onMoveSelected,
     } = props;
 
     const { t } = useTranslation("data");
@@ -232,6 +233,7 @@ function DataToolbar(props) {
                             handleDelete={() => setDeleteConfirmOpen(true)}
                             handleRestore={onRestoreSelected}
                             onRenameSelected={onRenameSelected}
+                            onMoveSelected={onMoveSelected}
                         />
                     )}
 

@@ -78,6 +78,8 @@
     "modified": "Last Modified",
     "modifyTagsError": "Unable to update tags. Please try again.",
     "myData": "My Data",
+    "move": "Move",
+    "moveDestination": "Select destination",
     "moveToTrash": "Move to Trash",
     "name": "Name",
     "needDoi": "I need a DOI",

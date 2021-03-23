@@ -35,7 +35,6 @@ import {
 } from "@material-ui/core";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 
-
 function MoveDialog(props) {
     const { path, open, selectedResources, onClose, onRemoveResource } = props;
     const [moveError, setMoveError] = useState(null);
@@ -59,8 +58,8 @@ function MoveDialog(props) {
     });
 
     const handleMove = ({ dest }) => {
-        const sources = selectedResources.map((res) => res.path);
-        if (status !== constants.LOADING && selectedResources?.length > 0) {
+        const sources = selectedResources?.map((res) => res.path);
+        if (status !== constants.LOADING && sources?.length > 0) {
             resourcesMove({ dest, sources });
         }
     };
@@ -122,12 +121,13 @@ function MoveDialog(props) {
                                     marginBottom: theme.spacing(1),
                                 }}
                             >
-                                Selected File(s) and Folder(s)
+                                {t("selectedFilesFolders")}
                             </Typography>
-                            {(!!selectedResources ||
+                            {(selectedResources === null ||
+                                selectedResources === undefined ||
                                 selectedResources?.length === 0) && (
                                 <Typography color="error">
-                                    Select a file or a folder to move.
+                                    {t("selectFileFolderPrompt")}
                                 </Typography>
                             )}
                             <List dense>

@@ -18,6 +18,7 @@ import {
     Toolbar,
     Typography,
     useTheme,
+    useMediaQuery,
 } from "@material-ui/core";
 import { Directions } from "@material-ui/icons";
 import PropTypes from "prop-types";
@@ -34,6 +35,8 @@ import PageWrapper from "../../components/layout/PageWrapper";
 import useComponentHeight from "../utils/useComponentHeight";
 import { DEFAULT_PAGE_SETTINGS } from "components/data/utils";
 import { getLocalStorage } from "components/utils/localStorage";
+
+import HomeIcon from "@material-ui/icons/Home";
 
 const useStyles = makeStyles(styles);
 
@@ -56,6 +59,7 @@ function SelectionToolbar(props) {
     const classes = useStyles();
     const { t } = useTranslation("data");
     const [displayPath, setDisplayPath] = useState("");
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
     const toolbarRef = useRef(null);
 
@@ -83,6 +87,10 @@ function SelectionToolbar(props) {
         }
     };
 
+    const handleCurrentFolderConfirm = () => {
+        onConfirm(currentPath);
+    };
+
     const invalidTotal =
         ResourceTypes.ANY !== acceptedType
             ? selectedResources.filter(
@@ -92,6 +100,68 @@ function SelectionToolbar(props) {
 
     const hasValidSelection = Boolean(selectedTotal && !invalidTotal);
     const hasInvalidSelection = selectedTotal && invalidTotal;
+
+    const Buttons = () => {
+        return (
+            <>
+                <Button
+                    id={build(baseId, ids.SELECTION_TOOLBAR, ids.CANCEL_BTN)}
+                    onClick={onClose}
+                    variant="outlined"
+                    style={{
+                        margin: isMobile
+                            ? theme.spacing(0.5)
+                            : theme.spacing(1),
+                    }}
+                    size="small"
+                >
+                    {t("cancel")}
+                </Button>
+
+                {!multiSelect &&
+                    acceptedType === ResourceTypes.FOLDER &&
+                    selectedTotal === 0 && (
+                        <>
+                            <Button
+                                startIcon={<HomeIcon />}
+                                id={build(
+                                    baseId,
+                                    ids.SELECTION_TOOLBAR,
+                                    "home"
+                                )}
+                                color={"primary"}
+                                onClick={handleCurrentFolderConfirm}
+                                variant="outlined"
+                                style={{
+                                    margin: isMobile
+                                        ? theme.spacing(0.5)
+                                        : theme.spacing(1),
+                                }}
+                                size="small"
+                            >
+                                {t("selCurrentFolder")}
+                            </Button>
+                        </>
+                    )}
+                {hasValidSelection && (
+                    <Button
+                        id={build(baseId, ids.SELECTION_TOOLBAR, ids.OK_BTN)}
+                        color={"primary"}
+                        onClick={handleConfirm}
+                        variant="contained"
+                        style={{
+                            margin: isMobile
+                                ? theme.spacing(0.5)
+                                : theme.spacing(1),
+                        }}
+                        size="small"
+                    >
+                        {t("ok")}
+                    </Button>
+                )}
+            </>
+        );
+    };
 
     return (
         <>
@@ -119,26 +189,13 @@ function SelectionToolbar(props) {
                     </Typography>
                 )}
                 <div className={classes.divider} />
-                <Button
-                    id={build(baseId, ids.SELECTION_TOOLBAR, ids.CANCEL_BTN)}
-                    onClick={onClose}
-                    variant="outlined"
-                    style={{ margin: theme.spacing(1) }}
-                >
-                    {t("cancel")}
-                </Button>
-                {hasValidSelection && (
-                    <Button
-                        id={build(baseId, ids.SELECTION_TOOLBAR, ids.OK_BTN)}
-                        color={"primary"}
-                        onClick={handleConfirm}
-                        variant="contained"
-                        style={{ margin: theme.spacing(1) }}
-                    >
-                        {t("ok")}
-                    </Button>
-                )}
+                {!isMobile && <Buttons />}
             </Toolbar>
+            {isMobile && (
+                <Toolbar>
+                    <Buttons />
+                </Toolbar>
+            )}
             <Toolbar>
                 <TextField
                     id={build(baseId, ids.DATA_PATH)}

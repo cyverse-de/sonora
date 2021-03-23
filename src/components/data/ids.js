@@ -50,6 +50,7 @@ export default {
     LOADING_SKELETON: "loadingSkeleton",
     MANUAL_UPLOAD_MI: "manualUploadMenuItem",
     MD5: "md5",
+    MOVE_DLG: "moveDialog",
     MOVE_MENU_ITEM: "move",
     MOVE_TO_TRASH_MENU_ITEM: "moveToTrash",
     METADATA_MI: "metadata",

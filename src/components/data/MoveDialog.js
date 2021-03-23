@@ -3,36 +3,72 @@
  *
  * A dialog that allows users to save a file at selected location
  */
-import React from "react";
+import React, { useState } from "react";
 
 import { Field, Form, Formik } from "formik";
 
 import { useTranslation } from "react-i18next";
 
-import { build } from "@cyverse-de/ui-lib";
-
+import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
+import { useMutation } from "react-query";
 import ids from "./ids";
+import ResourceIcon from "components/data/listing/ResourceIcon";
 import ResourceTypes from "components/models/ResourceTypes";
 import InputSelector from "components/apps/launch/InputSelector";
 import DEDialog from "components/utils/DEDialog";
-import { Button, Typography } from "@material-ui/core";
+
+import { move } from "serviceFacades/filesystem";
+import constants from "../../constants";
+
+import {
+    Avatar,
+    Button,
+    CircularProgress,
+    Typography,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemAvatar,
+    ListItemSecondaryAction,
+    IconButton,
+    useTheme,
+} from "@material-ui/core";
+import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
 function MoveDialog(props) {
     const { path, open, selectedResources, onClose } = props;
-
-    const baseId = ids.CREATE_DLG;
+    const [moveError, setMoveError] = useState(null);
+    const theme = useTheme();
+    const baseId = ids.MOVE_DLG;
 
     const { t } = useTranslation("data");
     const { t: i18nCommon } = useTranslation("common");
 
-    const handleMove = ({ dest, name }) => {
-        console.log("handling move");
+    const [resourcesMove, { status }] = useMutation(move, {
+        onSuccess: (data) => {
+            announce({
+                text: t("asyncMovePending"),
+                variant: AnnouncerConstants.INFO,
+            });
+            onClose();
+        },
+        onError: (error) => {
+            setMoveError(error);
+        },
+    });
+
+    const handleMove = ({ dest }) => {
+        const sources = selectedResources.map((res) => res.path);
+        if (status !== constants.LOADING) {
+            resourcesMove({ dest, sources });
+        }
     };
 
     return (
         <Formik
             enableReinitialize
-            initialValues={{ name: "", dest: path }}
+            initialValues={{ dest: path }}
             onSubmit={handleMove}
         >
             {({ handleSubmit }) => {
@@ -42,7 +78,7 @@ function MoveDialog(props) {
                             open={open}
                             onClose={onClose}
                             baseId={baseId}
-                            title={i18nCommon("move")}
+                            title={t("move")}
                             actions={
                                 <>
                                     <Button
@@ -57,29 +93,70 @@ function MoveDialog(props) {
                                         type="submit"
                                         onClick={handleSubmit}
                                     >
-                                        {i18nCommon("move")}
+                                        {t("move")}
                                     </Button>
                                 </>
                             }
                         >
+                            {status === constants.LOADING && (
+                                <CircularProgress
+                                    size={30}
+                                    thickness={5}
+                                    style={{
+                                        position: "absolute",
+                                        top: "50%",
+                                        left: "50%",
+                                    }}
+                                />
+                            )}
+                            {moveError && (
+                                <ErrorTypographyWithDialog
+                                    errorObject={moveError}
+                                    errorMessage={t("moveRequestFailed")}
+                                />
+                            )}
                             <Typography
                                 variant="subtitle2"
-                                style={{ marginTop: 16, marginBottom: 16 }}
+                                style={{
+                                    marginTop: theme.spacing(1),
+                                    marginBottom: theme.spacing(1),
+                                }}
                             >
                                 Selected File(s) and Folder(s)
                             </Typography>
-                            {selectedResources?.map((resource) => {
-                                return (
-                                    <Typography
-                                        style={{
-                                            marginTop: 8,
-                                            marginBottom: 8,
-                                        }}
-                                    >
-                                        {resource?.path}
-                                    </Typography>
-                                );
-                            })}
+                            <List dense>
+                                {selectedResources?.map((resource) => {
+                                    return (
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar>
+                                                    <ResourceIcon
+                                                        type={resource?.type}
+                                                    />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                primary={resource?.label}
+                                                secondary={resource?.path}
+                                            />
+                                            <ListItemSecondaryAction>
+                                                <IconButton
+                                                    edge="end"
+                                                    aria-label="remove"
+                                                    size="small"
+                                                    style={{
+                                                        marginBottom: theme.spacing(
+                                                            1
+                                                        ),
+                                                    }}
+                                                >
+                                                    <RemoveCircleIcon color="error" />
+                                                </IconButton>
+                                            </ListItemSecondaryAction>
+                                        </ListItem>
+                                    );
+                                })}
+                            </List>
                             <Field
                                 startingPath={path}
                                 name="dest"

@@ -250,5 +250,18 @@ export default function dataRouter() {
         })
     );
 
+    logger.info("adding the POST /api/filesystem/move");
+    api.post(
+        "/filesystem/move",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/filesystem/move",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

@@ -198,8 +198,8 @@ const AppEditor = (props) => {
                     <Paper ref={scrollOnEditEl}>
                         <Toolbar>
                             <Typography variant="h6" className={classes.flex}>
-                                {t("appIntegrationPageHeader", {
-                                    name: values.name || t("newApp"),
+                                {t(values.id ? "editApp" : "createApp", {
+                                    name: values.name,
                                 })}
                             </Typography>
                             <SaveButton

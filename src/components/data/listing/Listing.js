@@ -86,7 +86,6 @@ function Listing(props) {
         rowDotMenuVisibility = true,
     } = props;
     const { t } = useTranslation("data");
-    const { t: i18nCommon } = useTranslation("common");
 
     const uploadTracker = useUploadTrackingState();
     const theme = useTheme();

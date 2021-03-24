@@ -130,44 +130,46 @@ function MoveDialog(props) {
                                     {t("selectFileFolderPrompt")}
                                 </Typography>
                             )}
-                            <List dense>
+                            <List>
                                 {selectedResources?.map((resource) => {
                                     return (
-                                        <ListItem
-                                            id={build(baseId, resource?.id)}
-                                            key={resource?.id}
-                                        >
-                                            <ListItemAvatar>
-                                                <Avatar>
-                                                    <ResourceIcon
-                                                        type={resource?.type}
-                                                    />
-                                                </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                primary={resource?.label}
-                                                secondary={resource?.path}
-                                            />
-                                            <ListItemSecondaryAction>
+                                        <>
+                                            <ListItem
+                                                id={build(baseId, resource?.id)}
+                                                key={resource?.id}
+                                            >
                                                 <IconButton
                                                     edge="end"
                                                     aria-label="remove"
                                                     size="small"
-                                                    style={{
-                                                        marginBottom: theme.spacing(
-                                                            1
-                                                        ),
-                                                    }}
                                                     onClick={() =>
                                                         onRemoveResource(
                                                             resource
                                                         )
                                                     }
+                                                    style={{
+                                                        margin: theme.spacing(
+                                                            1
+                                                        ),
+                                                    }}
                                                 >
                                                     <RemoveCircleIcon color="error" />
                                                 </IconButton>
-                                            </ListItemSecondaryAction>
-                                        </ListItem>
+                                                <ListItemAvatar>
+                                                    <Avatar>
+                                                        <ResourceIcon
+                                                            type={
+                                                                resource?.type
+                                                            }
+                                                        />
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    primary={resource?.label}
+                                                    secondary={resource?.path}
+                                                />
+                                            </ListItem>
+                                        </>
                                     );
                                 })}
                             </List>

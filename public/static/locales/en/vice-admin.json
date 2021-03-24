@@ -100,7 +100,7 @@
     "setLimitTitle": "Set concurrent job limit",
     "setLimitPrompt": "To approve this request, set concurrent job limit for the user: {{username}}",
     "requestDeniedTitle": "Request Denied",
-    "requestDeniedPrompt": "Leave a message for user: {{username}}",
+    "requestDeniedPrompt": "Leave a message for the user: {{username}}",
     "requestLimitTabLabel": "Limits & Access Requests",
     "analysesTabLabel": "Analyses Run By Users"
 }

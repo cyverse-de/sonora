@@ -8,12 +8,16 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "i18n";
 import { formatDateObject } from "@cyverse-de/ui-lib";
+
+import ids from "./ids";
+
 import {
     ACCESS_REQUEST_REJECTED,
     ACCESS_REQUEST_APPROVED,
     ACCESS_REQUEST_COMPLETED,
 } from "serviceFacades/vice/accessRequest";
 import BasicTable from "components/utils/BasicTable";
+
 import { IconButton, Typography } from "@material-ui/core";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
@@ -63,7 +67,7 @@ export default function TableView(props) {
             },
             {
                 Header: t("approve"),
-                id: "approveButton",
+                id: ids.APPROVE_BTN,
                 Cell: ({ row, value }) => {
                     const original = row.original;
                     return (
@@ -90,7 +94,7 @@ export default function TableView(props) {
             },
             {
                 Header: t("reject"),
-                id: "rejectButton",
+                id: ids.REJECT_BTN,
                 Cell: ({ row, value }) => {
                     const original = row.original;
                     return (

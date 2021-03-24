@@ -87,7 +87,7 @@ function MoveDialog(props) {
                                         {i18nCommon("cancel")}
                                     </Button>
                                     <Button
-                                        id={build(baseId, ids.CREATE_BTN)}
+                                        id={build(baseId, ids.MOVE_BTN)}
                                         color="primary"
                                         type="submit"
                                         onClick={handleSubmit}
@@ -133,7 +133,10 @@ function MoveDialog(props) {
                             <List dense>
                                 {selectedResources?.map((resource) => {
                                     return (
-                                        <ListItem>
+                                        <ListItem
+                                            id={build(baseId, resource?.id)}
+                                            key={resource?.id}
+                                        >
                                             <ListItemAvatar>
                                                 <Avatar>
                                                     <ResourceIcon

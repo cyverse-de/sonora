@@ -29,7 +29,6 @@ import {
     ListItem,
     ListItemText,
     ListItemAvatar,
-    ListItemSecondaryAction,
     IconButton,
     useTheme,
 } from "@material-ui/core";

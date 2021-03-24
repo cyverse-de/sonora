@@ -14,31 +14,63 @@ import DEDialog from "components/utils/DEDialog";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
 
-import { List, ListItem, ListItemText, ListSubheader } from "@material-ui/core";
+import {
+    Collapse,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemSecondaryAction,
+    ListSubheader,
+    IconButton,
+} from "@material-ui/core";
+
+import HelpIcon from "@material-ui/icons/Help";
 
 function ParamTypeListItem(props) {
     const { id, paramType, onClick } = props;
 
-    const { t } = useTranslation(["app_param_types", "app_editor_help"]);
+    const [helpOpen, setHelpOpen] = React.useState(false);
+
+    const { t } = useTranslation([
+        "app_param_types",
+        "app_editor",
+        "app_editor_help",
+    ]);
 
     return (
-        <ListItem id={id} divider button onClick={onClick}>
-            <ListItemText
-                primary={t(paramType)}
-                secondary={
-                    <Trans
-                        t={t}
-                        i18nKey={`app_editor_help:${paramType}`}
-                        components={{
-                            b: <b />,
-                            i: <i />,
-                            p: <p />,
-                        }}
+        <>
+            <ListItem id={id} divider={!helpOpen} button onClick={onClick}>
+                <ListItemText primary={t(paramType)} />
+                <ListItemSecondaryAction>
+                    <IconButton
+                        id={buildID(id, t("app_editor:helpText"))}
+                        edge="end"
+                        aria-label={t("app_editor:helpText")}
+                        onClick={() => setHelpOpen(!helpOpen)}
+                    >
+                        <HelpIcon color="primary" />
+                    </IconButton>
+                </ListItemSecondaryAction>
+            </ListItem>
+            <Collapse in={helpOpen} timeout="auto" unmountOnExit>
+                <ListItem divider>
+                    <ListItemText
+                        secondary={
+                            <Trans
+                                t={t}
+                                i18nKey={`app_editor_help:${paramType}`}
+                                components={{
+                                    b: <b />,
+                                    i: <i />,
+                                    p: <p />,
+                                }}
+                            />
+                        }
+                        secondaryTypographyProps={{ component: "div" }}
                     />
-                }
-                secondaryTypographyProps={{ component: "div" }}
-            />
-        </ListItem>
+                </ListItem>
+            </Collapse>
+        </>
     );
 }
 

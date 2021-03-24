@@ -1,0 +1,13 @@
+{
+    "invalid_request": "The authorization request sent to the OAuth server by the DE was invalid.",
+    "unauthorized_client": "The DE is not authorized to request access to the API.",
+    "access_denied": "Either the OAuth server or the user denied access.",
+    "unsupported_response_type": "The OAuth server doesn't support the requested response type.",
+    "invalid_scope": "The OAuth server doesn't support the requested scope.",
+    "server_error": "The OAuth server encountered an error.",
+    "temporarily_unavailable": "The OAuth server is temporarily unavailable.",
+    "invalid_oauth_config": "The DE's OAuth configuration is invalid.",
+    "no_auth_code_provided": "No authorization code or error code was sent by the OAuth server.",
+    "no_state_id_provided": "No state information was sent by the OAuth server.",
+    "general_service_error": "The DE service encountered an error."
+}

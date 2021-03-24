@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function ClientInfo(props) {
+export function ClientInfo(props) {
     const [browser, setBrowser] = useState();
     const { t } = useTranslation("util");
     useEffect(() => {

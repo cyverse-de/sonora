@@ -81,6 +81,19 @@ const AppEditor = (props) => {
     const { baseId, appDescription } = props;
 
     const [activeStep, setActiveStep] = React.useState(0);
+    const [keyCount, setKeyCount] = React.useState(0);
+
+    React.useEffect(() => {
+        const groups = appDescription?.groups;
+        if (groups?.length > 0) {
+            setKeyCount(
+                groups.reduce(
+                    (count, group) => count + (group.parameters?.length || 0),
+                    groups.length
+                )
+            );
+        }
+    }, [appDescription]);
 
     const stepperRef = React.useRef(null);
     const [stepperHeight, setStepperRef] = useComponentHeight();
@@ -252,6 +265,8 @@ const AppEditor = (props) => {
                                 <ParamGroups
                                     baseId={baseId}
                                     values={values}
+                                    keyCount={keyCount}
+                                    setKeyCount={setKeyCount}
                                     scrollOnEdit={scrollOnEdit}
                                 />
                             ) : activeStepInfo === stepPreview ? (

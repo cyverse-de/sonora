@@ -3,7 +3,10 @@
  *
  * @author psarando
  */
+import { DataSources } from "./params/FileOutputPropertyFields";
+
 import AppParamTypes from "components/models/AppParamTypes";
+import FileInfoTypes from "components/models/FileInfoTypes";
 
 /**
  * @typedef {object} FlagNameModelOptVal
@@ -33,54 +36,45 @@ import AppParamTypes from "components/models/AppParamTypes";
 const initAppValues = (app) => {
     const { groups } = app;
 
-    const initializedGroups = groups?.map(({ name, ...group }) => ({
+    const initializedGroups = groups?.map(({ name, ...group }, groupIndex) => ({
         ...group,
-        parameters: group.parameters?.map((param) => {
-            const {
-                name,
-                defaultValue,
-                type: paramType,
-                arguments: paramArgs,
-            } = param;
+        key: group.id || `group${groupIndex}`,
+        parameters: group.parameters?.map((param, paramIndex) => {
+            const { type: paramType, arguments: paramArgs } = param;
+
+            const key = param.id || `group${groupIndex}.param${paramIndex}`;
+
+            let defaultValue = param.defaultValue;
+            let name = param.name;
 
             switch (paramType) {
                 case AppParamTypes.INTEGER:
-                    return {
-                        ...param,
-                        defaultValue:
-                            defaultValue || defaultValue === 0
-                                ? Number.parseInt(defaultValue)
-                                : "",
-                    };
+                    defaultValue =
+                        defaultValue || defaultValue === 0
+                            ? Number.parseInt(defaultValue)
+                            : "";
+                    break;
 
                 case AppParamTypes.DOUBLE:
-                    return {
-                        ...param,
-                        defaultValue:
-                            defaultValue || defaultValue === 0
-                                ? Number.parseFloat(defaultValue)
-                                : "",
-                    };
+                    defaultValue =
+                        defaultValue || defaultValue === 0
+                            ? Number.parseFloat(defaultValue)
+                            : "";
+                    break;
 
                 case AppParamTypes.FLAG:
-                    return {
-                        ...param,
-                        name: initFlagName(name),
-                        defaultValue: defaultValue && defaultValue !== "false",
-                    };
+                    name = initFlagName(name);
+                    defaultValue = defaultValue && defaultValue !== "false";
+                    break;
 
                 case AppParamTypes.FILE_INPUT:
                 case AppParamTypes.FOLDER_INPUT:
-                    return {
-                        ...param,
-                        defaultValue: defaultValue?.path || "",
-                    };
+                    defaultValue = defaultValue?.path || "";
+                    break;
 
                 case AppParamTypes.MULTIFILE_SELECTOR:
-                    return {
-                        ...param,
-                        defaultValue: defaultValue?.path || [],
-                    };
+                    defaultValue = defaultValue?.path || [];
+                    break;
 
                 default:
                     let defaultArg;
@@ -91,11 +85,16 @@ const initAppValues = (app) => {
                             ) || paramArgs.find((arg) => arg.isDefault);
                     }
 
-                    return {
-                        ...param,
-                        defaultValue: defaultArg || defaultValue || "",
-                    };
+                    defaultValue = defaultArg || defaultValue || "";
+                    break;
             }
+
+            return {
+                ...param,
+                key,
+                name,
+                defaultValue,
+            };
         }),
     }));
 
@@ -139,76 +138,126 @@ const initFlagName = (name) => {
 const formatSubmission = (app) => {
     const { groups, tools } = app;
 
-    const formattedGroups = groups?.map((group) => ({
-        ...group,
-        parameters: group.parameters?.map((param) => {
-            const {
-                name,
-                defaultValue,
-                type: paramType,
-                arguments: paramArgs,
-            } = param;
+    const formattedGroups = groups?.map(
+        ({ id, label, isVisible, parameters }) => ({
+            id,
+            label,
+            isVisible,
+            parameters: parameters?.map((formParam) => {
+                const {
+                    id,
+                    type: paramType,
+                    arguments: paramArgs,
+                    name,
+                    defaultValue,
+                    label,
+                    description,
+                    order,
+                    isVisible,
+                    required,
+                    omit_if_blank,
+                    file_parameters,
+                } = formParam;
 
-            switch (paramType) {
-                case AppParamTypes.TEXT:
-                case AppParamTypes.MULTILINE_TEXT:
-                case AppParamTypes.REFERENCE_ANNOTATION:
-                case AppParamTypes.REFERENCE_GENOME:
-                case AppParamTypes.REFERENCE_SEQUENCE:
-                    return {
-                        ...param,
-                        defaultValue: defaultValue || null,
-                    };
+                const param = {
+                    id,
+                    type: paramType,
+                    label,
+                    description,
+                    order,
+                    isVisible,
+                };
 
-                case AppParamTypes.INTEGER:
-                case AppParamTypes.DOUBLE:
-                    return {
-                        ...param,
-                        defaultValue:
-                            defaultValue || defaultValue === 0
-                                ? defaultValue
+                switch (paramType) {
+                    case AppParamTypes.INFO:
+                        // Info params don't need any other properties.
+                        return param;
+
+                    case AppParamTypes.INTEGER:
+                    case AppParamTypes.DOUBLE:
+                        return {
+                            ...param,
+                            name,
+                            required,
+                            omit_if_blank,
+                            defaultValue:
+                                defaultValue || defaultValue === 0
+                                    ? defaultValue
+                                    : null,
+                        };
+
+                    case AppParamTypes.FLAG:
+                        return {
+                            ...param,
+                            name: formatFlagName(name),
+                            defaultValue:
+                                defaultValue && defaultValue !== "false",
+                        };
+
+                    case AppParamTypes.TEXT_SELECTION:
+                    case AppParamTypes.INTEGER_SELECTION:
+                    case AppParamTypes.DOUBLE_SELECTION:
+                        return {
+                            ...param,
+                            required,
+                            omit_if_blank,
+                            arguments: formatSelectionArgs(
+                                paramArgs,
+                                defaultValue
+                            ),
+                            defaultValue: defaultValue
+                                ? { ...defaultValue, isDefault: true }
                                 : null,
-                    };
+                        };
 
-                case AppParamTypes.FLAG:
-                    return {
-                        ...param,
-                        name: formatFlagName(name),
-                        defaultValue: defaultValue && defaultValue !== "false",
-                    };
+                    case AppParamTypes.FILE_INPUT:
+                    case AppParamTypes.FOLDER_INPUT:
+                        return {
+                            ...param,
+                            name,
+                            required,
+                            omit_if_blank,
+                            file_parameters,
+                            defaultValue: defaultValue
+                                ? { path: defaultValue }
+                                : null,
+                        };
 
-                case AppParamTypes.TEXT_SELECTION:
-                case AppParamTypes.INTEGER_SELECTION:
-                case AppParamTypes.DOUBLE_SELECTION:
-                    return {
-                        ...param,
-                        arguments: formatSelectionArgs(paramArgs, defaultValue),
-                        defaultValue: defaultValue
-                            ? { ...defaultValue, isDefault: true }
-                            : null,
-                    };
+                    case AppParamTypes.FILE_OUTPUT:
+                    case AppParamTypes.FOLDER_OUTPUT:
+                    case AppParamTypes.MULTIFILE_OUTPUT:
+                        return {
+                            ...param,
+                            name,
+                            required,
+                            omit_if_blank,
+                            file_parameters,
+                            defaultValue: defaultValue || null,
+                        };
 
-                case AppParamTypes.FILE_INPUT:
-                case AppParamTypes.FOLDER_INPUT:
-                    return {
-                        ...param,
-                        defaultValue: defaultValue
-                            ? { path: defaultValue }
-                            : null,
-                    };
+                    case AppParamTypes.MULTIFILE_SELECTOR:
+                        return {
+                            ...param,
+                            name,
+                            required,
+                            omit_if_blank,
+                            file_parameters,
+                            // default values not yet supported
+                            defaultValue: null,
+                        };
 
-                case AppParamTypes.MULTIFILE_SELECTOR:
-                    // default values not yet supported
-                    return {
-                        ...param,
-                        defaultValue: null,
-                    };
-
-                default:
-                    return param;
-            }
-        }),
-    }));
+                    default:
+                        return {
+                            ...param,
+                            name,
+                            required,
+                            omit_if_blank,
+                            defaultValue: defaultValue || null,
+                        };
+                }
+            }),
+        })
+    );
 
     const [tool] = tools;
     const { id, name, version, type } = tool || {};
@@ -252,4 +301,89 @@ const formatSelectionArgs = (paramArgs, defaultValue) => {
     }));
 };
 
-export { formatSubmission, initAppValues };
+const getNewParam = (paramType, label, key) => {
+    const newParam = {
+        key,
+        type: paramType,
+        label,
+        description: "",
+        order: 0,
+        isVisible: true,
+    };
+
+    switch (paramType) {
+        case AppParamTypes.INFO:
+            // Info params don't need any other properties.
+            break;
+
+        case AppParamTypes.FLAG:
+            newParam.defaultValue = false;
+            newParam.name = {
+                checked: {
+                    option: "",
+                    value: "",
+                },
+                unchecked: {
+                    option: "",
+                    value: "",
+                },
+            };
+            break;
+
+        case AppParamTypes.TEXT_SELECTION:
+            newParam.arguments = [];
+            newParam.defaultValue = "";
+            newParam.required = false;
+            newParam.omit_if_blank = false;
+            break;
+
+        case AppParamTypes.FILE_INPUT:
+        case AppParamTypes.FOLDER_INPUT:
+        case AppParamTypes.FOLDER_OUTPUT:
+        case AppParamTypes.MULTIFILE_OUTPUT:
+            newParam.name = "";
+            newParam.defaultValue = "";
+            newParam.required = false;
+            newParam.omit_if_blank = false;
+            newParam.file_parameters = {
+                format: FileInfoTypes.UNSPECIFIED,
+                is_implicit: false,
+            };
+            break;
+
+        case AppParamTypes.MULTIFILE_SELECTOR:
+            newParam.name = "";
+            newParam.defaultValue = [];
+            newParam.required = false;
+            newParam.omit_if_blank = false;
+            newParam.file_parameters = {
+                format: FileInfoTypes.UNSPECIFIED,
+                is_implicit: false,
+                repeat_option_flag: false,
+            };
+            break;
+
+        case AppParamTypes.FILE_OUTPUT:
+            newParam.name = "";
+            newParam.defaultValue = "";
+            newParam.required = false;
+            newParam.omit_if_blank = false;
+            newParam.file_parameters = {
+                data_source: DataSources.FILE,
+                format: FileInfoTypes.UNSPECIFIED,
+                is_implicit: false,
+            };
+            break;
+
+        default:
+            newParam.name = "";
+            newParam.defaultValue = "";
+            newParam.required = false;
+            newParam.omit_if_blank = false;
+            break;
+    }
+
+    return newParam;
+};
+
+export { formatSubmission, getNewParam, initAppValues };

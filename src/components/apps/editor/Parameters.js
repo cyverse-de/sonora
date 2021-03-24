@@ -9,19 +9,15 @@ import { FastField, FieldArray } from "formik";
 
 import { useTranslation } from "i18n";
 
+import { getNewParam } from "./formatters";
 import ids from "./ids";
 import styles from "./styles";
 
 import ParamSelectionPalette from "./ParamSelectionPalette";
 
-import { DataSources } from "./params/FileOutputPropertyFields";
-
 import { getAppParameterLaunchComponent } from "../utils";
 
 import MultiFileSelector from "components/apps/launch/params/MultiFileSelector";
-
-import AppParamTypes from "components/models/AppParamTypes";
-import FileInfoTypes from "components/models/FileInfoTypes";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
@@ -132,6 +128,8 @@ function Parameters(props) {
         groupFieldName,
         parameters,
         onEditParam,
+        keyCount,
+        setKeyCount,
         scrollToField,
         setScrollToField,
     } = props;
@@ -142,7 +140,7 @@ function Parameters(props) {
     const [confirmDeleteIndex, setConfirmDeleteIndex] = React.useState(-1);
     const onCloseDeleteConfirm = () => setConfirmDeleteIndex(-1);
 
-    const { t } = useTranslation(["app_editor", "common"]);
+    const { t } = useTranslation(["app_editor", "app_param_types", "common"]);
 
     const parametersFieldName = `${groupFieldName}.parameters`;
 
@@ -152,90 +150,14 @@ function Parameters(props) {
             render={(arrayHelpers) => {
                 const handleAddParam = (paramType) => {
                     const newParamLabel = t("newParamLabel", {
-                        count: parameters.length + 1,
+                        type: t(`app_param_types:${paramType}`),
                     });
 
-                    const newParam = {
-                        type: paramType,
-                        label: newParamLabel,
-                        description: "",
-                        order: 0,
-                        isVisible: true,
-                    };
+                    arrayHelpers.unshift(
+                        getNewParam(paramType, newParamLabel, keyCount)
+                    );
 
-                    switch (paramType) {
-                        case AppParamTypes.INFO:
-                            // Info params don't need any other properties.
-                            break;
-
-                        case AppParamTypes.FLAG:
-                            newParam.defaultValue = false;
-                            newParam.name = {
-                                checked: {
-                                    option: "",
-                                    value: "",
-                                },
-                                unchecked: {
-                                    option: "",
-                                    value: "",
-                                },
-                            };
-                            break;
-
-                        case AppParamTypes.TEXT_SELECTION:
-                            newParam.arguments = [];
-                            newParam.defaultValue = "";
-                            newParam.required = false;
-                            newParam.omit_if_blank = false;
-                            break;
-
-                        case AppParamTypes.FILE_INPUT:
-                        case AppParamTypes.FOLDER_INPUT:
-                        case AppParamTypes.FOLDER_OUTPUT:
-                        case AppParamTypes.MULTIFILE_OUTPUT:
-                            newParam.name = "";
-                            newParam.defaultValue = "";
-                            newParam.required = false;
-                            newParam.omit_if_blank = false;
-                            newParam.file_parameters = {
-                                format: FileInfoTypes.UNSPECIFIED,
-                                is_implicit: false,
-                            };
-                            break;
-
-                        case AppParamTypes.MULTIFILE_SELECTOR:
-                            newParam.name = "";
-                            newParam.defaultValue = [];
-                            newParam.required = false;
-                            newParam.omit_if_blank = false;
-                            newParam.file_parameters = {
-                                format: FileInfoTypes.UNSPECIFIED,
-                                is_implicit: false,
-                                repeat_option_flag: false,
-                            };
-                            break;
-
-                        case AppParamTypes.FILE_OUTPUT:
-                            newParam.name = "";
-                            newParam.defaultValue = "";
-                            newParam.required = false;
-                            newParam.omit_if_blank = false;
-                            newParam.file_parameters = {
-                                data_source: DataSources.FILE,
-                                format: FileInfoTypes.UNSPECIFIED,
-                                is_implicit: false,
-                            };
-                            break;
-
-                        default:
-                            newParam.name = "";
-                            newParam.defaultValue = "";
-                            newParam.required = false;
-                            newParam.omit_if_blank = false;
-                            break;
-                    }
-
-                    arrayHelpers.unshift(newParam);
+                    setKeyCount(keyCount + 1);
                     handleAddParamMenuClose();
                 };
 
@@ -262,7 +184,7 @@ function Parameters(props) {
                             const fieldName = `${parametersFieldName}.${index}`;
                             return (
                                 <FastField
-                                    key={index}
+                                    key={param.key}
                                     name={fieldName}
                                     component={ParamCardForm}
                                     baseId={baseId}

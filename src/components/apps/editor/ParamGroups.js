@@ -55,6 +55,8 @@ function ParamGroupForm(props) {
         onMoveDown,
         onMoveUp,
         onEditParam,
+        keyCount,
+        setKeyCount,
         scrollToField,
         setScrollToField,
     } = props;
@@ -138,6 +140,8 @@ function ParamGroupForm(props) {
                     groupFieldName={fieldName}
                     parameters={group.parameters}
                     onEditParam={onEditParam}
+                    keyCount={keyCount}
+                    setKeyCount={setKeyCount}
                     scrollToField={scrollToField}
                     setScrollToField={setScrollToField}
                 />
@@ -147,7 +151,7 @@ function ParamGroupForm(props) {
 }
 
 function ParamGroups(props) {
-    const { baseId, values, scrollOnEdit } = props;
+    const { baseId, values, keyCount, setKeyCount, scrollOnEdit } = props;
 
     const [confirmDeleteIndex, setConfirmDeleteIndex] = React.useState(-1);
     const onCloseDeleteConfirm = () => setConfirmDeleteIndex(-1);
@@ -205,12 +209,12 @@ function ParamGroups(props) {
                                 startIcon={<Add />}
                                 onClick={() => {
                                     arrayHelpers.unshift({
-                                        label: t("newSectionLabel", {
-                                            count: groups.length + 1,
-                                        }),
+                                        key: keyCount,
+                                        label: t("newSectionLabel"),
                                         isVisible: true,
                                         parameters: [],
                                     });
+                                    setKeyCount(keyCount + 1);
                                 }}
                             >
                                 {t("addSection")}
@@ -219,10 +223,12 @@ function ParamGroups(props) {
                     </Card>
                     {groups?.map((group, index) => (
                         <ParamGroupForm
-                            key={index}
+                            key={group.key}
                             baseId={baseId}
                             fieldName={`groups.${index}`}
                             group={group}
+                            keyCount={keyCount}
+                            setKeyCount={setKeyCount}
                             scrollToField={scrollToField}
                             setScrollToField={setScrollToField}
                             onEditParam={(fieldName) => {

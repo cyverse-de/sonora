@@ -20,7 +20,14 @@ export default function ParametersPreview(props) {
 
     const { t } = useTranslation(["launch", "data"]);
 
-    const previewGroups = initGroupValues(groups);
+    const previewGroups = initGroupValues(groups)?.map((group) => ({
+        ...group,
+        id: group.id || group.key,
+        parameters: group.parameters?.map((param) => ({
+            ...param,
+            id: param.id || param.key,
+        })),
+    }));
 
     return (
         <Formik

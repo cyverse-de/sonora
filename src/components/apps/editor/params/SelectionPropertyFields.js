@@ -218,7 +218,7 @@ export default function SelectionPropertyFields(props) {
                     const onAdd = () => {
                         arrayHelpers.unshift({
                             display: t("newParamLabel", {
-                                count: paramArguments.length + 1,
+                                type: t("argumentOption"),
                             }),
                             name: "",
                             value: "",

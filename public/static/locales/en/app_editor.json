@@ -6,6 +6,8 @@
     "appDescription": "App description",
     "appName": "App name",
     "appParameters": "App Parameters",
+    "appSaved": "App Saved",
+    "appSaveErr": "Unable to save app. Please try again.",
     "argumentOption": "Argument option",
     "checkboxArgOptionCheckedLabel": "Argument option when checked",
     "checkboxArgValueCheckedLabel": "Value when checked",

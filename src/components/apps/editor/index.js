@@ -6,6 +6,7 @@
 import React from "react";
 
 import { Formik } from "formik";
+import { useMutation } from "react-query";
 
 import { useTranslation } from "i18n";
 
@@ -23,8 +24,16 @@ import AppStepDisplay, { BottomNavigationSkeleton } from "../AppStepDisplay";
 
 import SaveButton from "components/utils/SaveButton";
 import useComponentHeight from "components/utils/useComponentHeight";
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
-import { build as buildID, getFormError } from "@cyverse-de/ui-lib";
+import { addApp, updateApp } from "serviceFacades/apps";
+
+import {
+    AnnouncerConstants,
+    announce,
+    build as buildID,
+    getFormError,
+} from "@cyverse-de/ui-lib";
 
 import {
     Button,
@@ -78,7 +87,7 @@ const StepperNavigation = (props) => {
 };
 
 const AppEditor = (props) => {
-    const { baseId, appDescription } = props;
+    const { baseId, appDescription, showErrorAnnouncer } = props;
 
     const [activeStep, setActiveStep] = React.useState(0);
     const [keyCount, setKeyCount] = React.useState(0);
@@ -114,6 +123,24 @@ const AppEditor = (props) => {
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+
+    const [saveApp] = useMutation(
+        ({ app }) => {
+            const { system_id: systemId, id: appId } = app;
+
+            return appId
+                ? updateApp({ systemId, appId, app })
+                : addApp({ systemId, app });
+        },
+        {
+            onSuccess: (resp, { onSuccess }) => {
+                onSuccess(resp);
+            },
+            onError: (error, { onError }) => {
+                onError(error);
+            },
+        }
+    );
 
     const stepAppInfo = {
         label: t("appInfo"),
@@ -158,7 +185,7 @@ const AppEditor = (props) => {
 
     return (
         <Formik
-            initialValues={initAppValues({ ...appDescription })}
+            initialValues={initAppValues(appDescription)}
             validate={(values) => {
                 const errors = {};
 
@@ -176,11 +203,25 @@ const AppEditor = (props) => {
                 return errors;
             }}
             onSubmit={(values, actions) => {
-                // FIXME submit to service
-                console.log(formatSubmission(values));
-                // Note that enableReinitialize should not be used when using
-                // resetForm with new values.
-                actions.resetForm({ values });
+                const app = formatSubmission(values);
+
+                const onSuccess = (app) => {
+                    // Note that enableReinitialize should not be used when
+                    // using resetForm with new values.
+                    actions.resetForm({ values: initAppValues(app) });
+
+                    announce({
+                        text: t("appSaved"),
+                        variant: AnnouncerConstants.SUCCESS,
+                    });
+                };
+
+                const onError = (errorMessage) => {
+                    showErrorAnnouncer(t("appSaveErr"), errorMessage);
+                    actions.setSubmitting(false);
+                };
+
+                saveApp({ app, onSuccess, onError });
             }}
         >
             {({
@@ -290,4 +331,4 @@ const AppEditor = (props) => {
     );
 };
 
-export default AppEditor;
+export default withErrorAnnouncer(AppEditor);

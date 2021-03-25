@@ -41,7 +41,11 @@ export const NewApp = (props) => {
 };
 
 export const KitchenSinkEditor = (props) => {
-    const { loading, "Loading Error": loadingError } = props;
+    const {
+        loading,
+        "Loading Error": loadingError,
+        "Public App View": cosmeticOnly,
+    } = props;
 
     return (
         <AppEditor
@@ -49,6 +53,7 @@ export const KitchenSinkEditor = (props) => {
             appDescription={!(loading || loadingError) && AppDescriptionMock}
             loading={loading}
             loadingError={loadingError && mockErrorResponse}
+            cosmeticOnly={cosmeticOnly}
         />
     );
 };
@@ -60,6 +65,11 @@ KitchenSinkEditor.argTypes = {
         },
     },
     "Loading Error": {
+        control: {
+            type: "boolean",
+        },
+    },
+    "Public App View": {
         control: {
             type: "boolean",
         },

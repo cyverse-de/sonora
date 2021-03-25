@@ -63,6 +63,7 @@
     "tools": "Tools",
     "username": "Username",
     "userMenuAriaLabel": "user menu",
+    "useOldDEForThisFeature": "Please use the <oldDELink>previous version of the Discovery Environment</oldDELink> for access to this feature, until we can add it to this version.",
     "viewAllNotifications": "View All Notifications & Activities",
     "vice": "VICE",
     "view": "View",

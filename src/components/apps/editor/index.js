@@ -23,6 +23,7 @@ import ParametersPreview from "./ParametersPreview";
 import AppStepper, { StepperSkeleton } from "../AppStepper";
 import AppStepDisplay, { BottomNavigationSkeleton } from "../AppStepDisplay";
 
+import ComingSoonInfo from "components/utils/ComingSoonInfo";
 import SaveButton from "components/utils/SaveButton";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 
@@ -93,6 +94,7 @@ const AppEditor = (props) => {
     const {
         baseId,
         appDescription,
+        cosmeticOnly,
         loading,
         loadingError,
         showErrorAnnouncer,
@@ -196,6 +198,8 @@ const AppEditor = (props) => {
         <AppStepperFormSkeleton baseId={baseId} header />
     ) : loadingError ? (
         <WrappedErrorHandler baseId={baseId} errorObject={loadingError} />
+    ) : cosmeticOnly ? (
+        <ComingSoonInfo>{t("publicAppEditingNotSupported")}</ComingSoonInfo>
     ) : (
         <Formik
             initialValues={initAppValues(appDescription)}

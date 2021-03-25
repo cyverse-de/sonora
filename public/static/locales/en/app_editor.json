@@ -54,6 +54,7 @@
     "paramArgDisplay": "Display",
     "paramArgName": "Argument",
     "paramArgValue": "Value",
+    "publicAppEditingNotSupported": "Editing of Public Apps is not yet supported.",
     "previewApp": "Preview App",
     "previewParameter": "{{type}} Preview",
     "referenceGenomeCategoryTitle": "Reference Genome",

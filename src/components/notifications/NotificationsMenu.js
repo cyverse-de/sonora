@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "react-query";
 import Link from "next/link";
 import { formatDistance, fromUnixTime } from "date-fns";
 import classnames from "classnames";
-
+import { useUserProfile} from "../../contexts/userProfile";
 import {
     getNotifications,
     markAllSeen,
@@ -12,7 +12,6 @@ import {
 import { useTranslation } from "../../i18n";
 import ids from "./ids";
 import NotificationStyles from "./styles";
-
 import NavigationConstants from "common/NavigationConstants";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
@@ -34,6 +33,8 @@ import { Skeleton } from "@material-ui/lab";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import Message from "./Message";
+import ErrorTypography from "../utils/error/ErrorTypography";
+import DEErrorDialog from "../utils/error/DEErrorDialog";
 
 const useStyles = makeStyles(NotificationStyles);
 
@@ -42,6 +43,7 @@ const NOTIFICATION_MENU_SORT_FIELD = "timestamp";
 const NOTIFICATION_MENU_SORT_ORDER = "desc";
 const NOTIFICATION_MENU_LIMIT = 10;
 const NOTIFICATION_MENU_OFFSET = 0;
+
 
 /*
  * Takes in a notification object and returns the time
@@ -114,6 +116,11 @@ function NotificationsMenu(props) {
     } = props;
     const [notifications, setNotifications] = useState([]);
     const [error, setError] = useState();
+    const [userProfile] = useUserProfile();
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+    const [errorObject, setErrorObject] = useState(null);
+
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -156,7 +163,14 @@ function NotificationsMenu(props) {
                 }
                 setError(null);
             },
-            onError: setError,
+            onError: (e) => {
+                setError(e);
+                const status = e?.response?.status;
+                setErrorMessage(status === 401
+                    ? t("notificationSignInError")
+                    : t("notificationError")
+                );
+            },
             retry: 3,
         },
     });
@@ -201,6 +215,24 @@ function NotificationsMenu(props) {
                 >
                     {t("notifications")}
                 </Typography>
+
+                {!userProfile?.id && (
+                    <ListItem>
+                        <ErrorTypography
+                            errorMessage={errorMessage}
+                            onDetailsClick={() => setErrorDialogOpen(true)}
+                        />
+                        <DEErrorDialog
+                            open={errorDialogOpen}
+                            id={build(ids.BASE_DEBUG_ID, ids.SIGN_IN_ERR_DIALOGUE)}
+                            errorObject={errorObject}
+                            handleClose={() => {
+                            setErrorDialogOpen(false);
+                            }}
+                    />
+                    </ListItem>
+                )}
+
                 {isMobile && [
                     <NotificationsListingLink
                         key={ids.VIEW_ALL_NOTIFICATIONS}
@@ -230,7 +262,7 @@ function NotificationsMenu(props) {
             {isFetching && (
                 <Skeleton variant="rect" height={400} animation="wave" />
             )}
-            {!isFetching && error !== null && (
+            {!isFetching && error !== null && userProfile?.id && (
                 <ListItem>
                     <ErrorTypographyWithDialog
                         errorMessage={t("notificationError", error)}

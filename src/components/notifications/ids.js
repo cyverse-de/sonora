@@ -35,6 +35,7 @@ export default {
     REQUEST_HISTORY_DLG: "requestHistoryDlg",
     SET_PRIVILEGE_DLG: "setPrivilegeDlg",
     STATUS: "requestStatusColumn",
+    SIGN_IN_ERR_DIALOGUE: "singInErrorDialogue",
     TIME_STAMP: "time-stamp",
     TOOLBAR: "toolbar",
     VIEW_ALL_NOTIFICATIONS: "view-all-notifications",

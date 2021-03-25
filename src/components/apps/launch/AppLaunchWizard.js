@@ -2,13 +2,13 @@
  * @author psarando
  *
  * An App Launch Wizard for collecting and validating user input of app
- * parameters and resource requirements as an alaysis submission.
+ * parameters and resource requirements as an analysis submission.
  */
 import React from "react";
 
 import AppInfo from "./AppInfo";
 import AppLaunchForm from "./AppLaunchForm";
-import AppLaunchFormSkeleton from "./AppLaunchFormSkeleton";
+import AppStepperFormSkeleton from "../AppStepperFormSkeleton";
 
 import { DeprecatedParamTypes } from "components/models/AppParamTypes";
 
@@ -36,7 +36,7 @@ function AppLaunchWizard(props) {
             />
             <Divider />
             {loading ? (
-                <AppLaunchFormSkeleton baseId={baseId} />
+                <AppStepperFormSkeleton baseId={baseId} />
             ) : (
                 app &&
                 !(app.deleted || app.disabled || hasDeprecatedParams) && (

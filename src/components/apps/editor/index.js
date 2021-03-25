@@ -15,6 +15,7 @@ import ids from "./ids";
 import styles from "./styles";
 
 import AppInfo from "./AppInfo";
+import AppStepperFormSkeleton from "../AppStepperFormSkeleton";
 import CmdLineOrderForm from "./CmdLineOrderForm";
 import ParamGroups from "./ParamGroups";
 import ParametersPreview from "./ParametersPreview";
@@ -23,6 +24,8 @@ import AppStepper, { StepperSkeleton } from "../AppStepper";
 import AppStepDisplay, { BottomNavigationSkeleton } from "../AppStepDisplay";
 
 import SaveButton from "components/utils/SaveButton";
+import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
+
 import useComponentHeight from "components/utils/useComponentHeight";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
@@ -87,7 +90,13 @@ const StepperNavigation = (props) => {
 };
 
 const AppEditor = (props) => {
-    const { baseId, appDescription, showErrorAnnouncer } = props;
+    const {
+        baseId,
+        appDescription,
+        loading,
+        loadingError,
+        showErrorAnnouncer,
+    } = props;
 
     const [activeStep, setActiveStep] = React.useState(0);
     const [keyCount, setKeyCount] = React.useState(0);
@@ -183,7 +192,11 @@ const AppEditor = (props) => {
 
     const activeStepInfo = steps[activeStep];
 
-    return (
+    return loading ? (
+        <AppStepperFormSkeleton baseId={baseId} header />
+    ) : loadingError ? (
+        <WrappedErrorHandler baseId={baseId} errorObject={loadingError} />
+    ) : (
         <Formik
             initialValues={initAppValues(appDescription)}
             validate={(values) => {

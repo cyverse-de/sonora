@@ -3,7 +3,7 @@ import React from "react";
 import MetadataForm from "components/metadata/form";
 import { UserProfileProvider, useUserProfile } from "contexts/userProfile";
 
-import { mockAxios } from "../axiosMock";
+import { mockAxios, mockErrorResponse, errorResponseJSON } from "../axiosMock";
 import userProfileMock from "../userProfileMock";
 import { initMockAxiosFileFolderSelector } from "../data/DataMocks";
 
@@ -11,14 +11,9 @@ import { MockMetadata, DataCiteMetadata } from "./MetadataMocks";
 import { initMockAxiosTemplateEndpoints } from "./TemplateMocks";
 
 initMockAxiosTemplateEndpoints();
+initMockAxiosFileFolderSelector();
 
 const testResourcePath = "/iplant/home/ipcdev/test/metadataResource";
-const errorResponse = {
-    error_code: "ERR_FALSE_ALARM",
-    reason: "Nothing to see here... Please try again!",
-};
-
-initMockAxiosFileFolderSelector();
 
 mockAxios
     .onGet("/api/filesystem/data-cite-resource/metadata")
@@ -53,7 +48,7 @@ mockAxios.onPost(/\/api\/filesystem\/.*\/metadata\/save/).reply((config) => {
 
 mockAxios
     .onPost(/\/api\/filesystem\/.*\/metadata/)
-    .replyOnce(500, errorResponse);
+    .replyOnce(500, errorResponseJSON);
 mockAxios.onPost(/\/api\/filesystem\/.*\/metadata/).reply((config) => {
     console.log("Set Metadata", config.url, config.data);
 
@@ -72,11 +67,7 @@ const MetadataViewStory = (props) => {
     return (
         <MetadataForm
             loading={loading}
-            loadingError={
-                loadingError && {
-                    response: { status: 500, data: errorResponse },
-                }
-            }
+            loadingError={loadingError && mockErrorResponse}
             targetResource={
                 loading
                     ? null

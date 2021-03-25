@@ -1,6 +1,6 @@
 import React from "react";
 
-import { mockAxios } from "../axiosMock";
+import { mockAxios, mockErrorResponse } from "../axiosMock";
 
 import { AppDescriptionMock } from "./AppDescriptionMocks";
 
@@ -41,12 +41,29 @@ export const NewApp = (props) => {
 };
 
 export const KitchenSinkEditor = (props) => {
+    const { loading, "Loading Error": loadingError } = props;
+
     return (
         <AppEditor
             baseId={ids.APP_EDITOR_VIEW}
-            appDescription={AppDescriptionMock}
+            appDescription={!(loading || loadingError) && AppDescriptionMock}
+            loading={loading}
+            loadingError={loadingError && mockErrorResponse}
         />
     );
+};
+
+KitchenSinkEditor.argTypes = {
+    loading: {
+        control: {
+            type: "boolean",
+        },
+    },
+    "Loading Error": {
+        control: {
+            type: "boolean",
+        },
+    },
 };
 
 export default { title: "Apps / Editor" };

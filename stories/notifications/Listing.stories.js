@@ -1,15 +1,10 @@
 import React from "react";
 
-import { mockAxios } from "../axiosMock";
+import { mockAxios, errorResponseJSON } from "../axiosMock";
 
 import { mockNotificationsListing } from "./NotificationMocks";
 
 import NotificationsListing from "components/notifications/listing";
-
-const errorResponse = {
-    error_code: "ERR_FALSE_ALARM",
-    reason: "Nothing to see here... Please try again!",
-};
 
 export const Listing = () => {
     const teamName = "ipcdev:test_team";
@@ -20,14 +15,18 @@ export const Listing = () => {
         return [200, mockNotificationsListing];
     });
 
-    mockAxios.onPost("/api/notifications/seen").replyOnce(500, errorResponse);
+    mockAxios
+        .onPost("/api/notifications/seen")
+        .replyOnce(500, errorResponseJSON);
     mockAxios.onPost("/api/notifications/seen").reply((config) => {
         console.log("Mark as Seen", config.url, config.data);
 
         return [200, {}];
     });
 
-    mockAxios.onPost("/api/notifications/delete").replyOnce(500, errorResponse);
+    mockAxios
+        .onPost("/api/notifications/delete")
+        .replyOnce(500, errorResponseJSON);
     mockAxios.onPost("/api/notifications/delete").reply((config) => {
         console.log("Delete Notifications", config.url, config.data);
 
@@ -40,7 +39,7 @@ export const Listing = () => {
                 teamName
             )}/join-request/batman/deny`
         )
-        .replyOnce(500, errorResponse)
+        .replyOnce(500, errorResponseJSON)
         .onPost(
             `/api/teams/${encodeURIComponent(
                 teamName
@@ -53,7 +52,7 @@ export const Listing = () => {
         .reply(200);
     mockAxios
         .onPost(`/api/teams/${encodeURIComponent(teamName)}/members`)
-        .replyOnce(500, errorResponse)
+        .replyOnce(500, errorResponseJSON)
         .onPost(`/api/teams/${encodeURIComponent(teamName)}/members`)
         .reply(200);
 

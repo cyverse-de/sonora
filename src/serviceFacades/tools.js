@@ -82,9 +82,9 @@ function getToolPermissions({ tools }) {
     });
 }
 
-function getToolDetails(_, { id }) {
+function getToolDetails(_, { id, isAdmin = false }) {
     return callApi({
-        endpoint: `/api/tools/${id}`,
+        endpoint: isAdmin ? `/api/admin/tools/${id}` : `/api/tools/${id}`,
         method: "GET",
     });
 }
@@ -111,9 +111,25 @@ function addTool(tool) {
     });
 }
 
+function adminAddTool(tool) {
+    return callApi({
+        endpoint: `/api/admin/tools`,
+        method: "POST",
+        body: tool,
+    });
+}
+
 function updateTool(tool) {
     return callApi({
         endpoint: `/api/tools/${tool.id}`,
+        method: "PATCH",
+        body: tool,
+    });
+}
+
+function adminUpdateTool(tool) {
+    return callApi({
+        endpoint: `/api/admin/tools/${tool.id}`,
         method: "PATCH",
         body: tool,
     });
@@ -156,4 +172,6 @@ export {
     updateTool,
     toolRequest,
     deleteTools,
+    adminAddTool,
+    adminUpdateTool,
 };

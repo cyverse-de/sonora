@@ -15,6 +15,11 @@ export function EditToolTest({ admin, adminPub, newTool }) {
         .onGet(`/api/tools/5db4e2c7-7a0a-492a-bf79-09cba3801e0d`)
         .reply(200, details);
 
+    mockAxios
+        .onGet(`/api/admin/tools/5db4e2c7-7a0a-492a-bf79-09cba3801e0d`)
+        .reply(200, details);
+
+    mockAxios.onGet(`api/apps/elements/tool-types`).reply(200, toolTypes);
     mockAxios.onGet(`api/apps/elements/tool-types`).reply(200, toolTypes);
 
     const parentId = "editToolDlg";

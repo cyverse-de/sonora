@@ -27,6 +27,8 @@ import {
     getToolTypes,
     addTool,
     updateTool,
+    adminAddTool,
+    adminUpdateTool,
     getToolDetails,
     TOOL_TYPES_QUERY_KEY,
     TOOL_DETAILS_QUERY_KEY,
@@ -92,7 +94,7 @@ function EditToolDialog(props) {
         },
     });
     const { isFetching: isToolFetching, error: toolFetchError } = useQuery({
-        queryKey: [TOOL_DETAILS_QUERY_KEY, { id: tool?.id }],
+        queryKey: [TOOL_DETAILS_QUERY_KEY, { id: tool?.id, isAdmin }],
         queryFn: getToolDetails,
         config: {
             enabled: tool && open,
@@ -101,7 +103,8 @@ function EditToolDialog(props) {
     });
 
     const [addNewTool, { status: newToolStatus }] = useMutation(
-        ({ submission }) => addTool(submission),
+        ({ submission }) =>
+            isAdmin ? adminAddTool(submission) : addTool(submission),
         {
             onSuccess: (data) => {
                 announce({
@@ -116,7 +119,8 @@ function EditToolDialog(props) {
     );
 
     const [updateCurrentTool, { status: updateToolStatus }] = useMutation(
-        ({ submission }) => updateTool(submission),
+        ({ submission }) =>
+            isAdmin ? adminUpdateTool(submission) : updateTool(submission),
         {
             onSuccess: (data) => {
                 announce({

@@ -6,6 +6,7 @@ import Disabled from "@material-ui/icons/Block";
 import Lock from "@material-ui/icons/Lock";
 import VerifiedUser from "@material-ui/icons/VerifiedUser";
 import ToolTip from "@material-ui/core/Tooltip";
+import {useTheme} from "@material-ui/core";
 
 /**
  * @author aramsey
@@ -15,6 +16,7 @@ import ToolTip from "@material-ui/core/Tooltip";
 
 function AppStatusIcon(props) {
     const { isPublic, isDisabled, isBeta, isBlessed, ...custom } = props;
+    const theme = useTheme();
     const isPrivate = !isPublic;
 
     if (isPrivate) {
@@ -27,7 +29,7 @@ function AppStatusIcon(props) {
         return <BetaIcon {...custom} />;
     }
     if (isBlessed) {
-        return <BlessedIcon {...custom} color="primary" />;
+        return <BlessedIcon {...custom} style={{color: theme.palette.gold}} />;
     }
     return null;
 }

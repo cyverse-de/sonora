@@ -52,7 +52,7 @@ export const appListing = {
             integrator_name: "Ken Youensclark",
             beta: false,
             permission: "read",
-            isBlessed: false,
+            isBlessed: true,
             can_favor: true,
             disabled: false,
             can_rate: true,

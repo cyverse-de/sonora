@@ -17,7 +17,7 @@ import {
     Typography,
 } from "@material-ui/core";
 
-import { ClientInfo } from "../utils/error/ErrorHandler";
+import ClientInfo from "../utils/error/ClientInfo";
 import ids from "./ids";
 
 const useStyles = makeStyles((theme) => ({

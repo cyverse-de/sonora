@@ -21,6 +21,8 @@ const ADMIN_APPS_QUERY_KEY = "fetchAllAppsForAdmin";
 const ADMIN_APP_DETAILS_QUERY_KEY = "fetchAppDetailsForAdmin";
 const ADMIN_APP_AVU_QUERY_KEY = "fetchAppAVUs";
 
+const BLESSED_ATTR = "cyverse-blessed";
+
 const getAppTypeFilter = (appTypeFilter) => {
     const typeFilter =
         appTypeFilter && appTypeFilter !== appType.all
@@ -310,6 +312,23 @@ function adminUpdateApp({ app, details, avus, values }) {
                 name,
                 id,
                 system_id,
+            })
+        );
+    }
+
+    if (app.isBlessed !== values.isBlessed) {
+        promises.push(
+            adminAddAVUToApp({
+                appId: app.id,
+                avu: {
+                    avus: [
+                        {
+                            attr: BLESSED_ATTR,
+                            value: values.isBlessed.toString(),
+                            unit: "",
+                        },
+                    ],
+                },
             })
         );
     }

@@ -276,6 +276,12 @@ function AdminAppDetailsForm(props) {
                             id={build(parentId, ids.ADMIN_DETAILS.BETA)}
                             component={FormCheckbox}
                         />
+                        <Field
+                            name={"isBlessed"}
+                            label={t("blessed")}
+                            id={build(parentId, ids.ADMIN_DETAILS.BLESSED)}
+                            component={FormCheckbox}
+                        />
                         <Paper elevation={1}>
                             {t("documentationInstructions")}
                             <Link

@@ -9,6 +9,7 @@ import ErrorIcon from "@material-ui/icons/Error";
 import { build } from "@cyverse-de/ui-lib";
 import {
     Card,
+    CardActions,
     CardContent,
     CardHeader,
     Divider,
@@ -18,6 +19,7 @@ import {
 } from "@material-ui/core";
 
 import ClientInfo from "../utils/error/ClientInfo";
+import ContactSupport from "../utils/error/ContactSupport";
 import ids from "./ids";
 
 const useStyles = makeStyles((theme) => ({
@@ -64,6 +66,10 @@ function OAuthErrorHandler(props) {
                     <ClientInfo baseId={errorBaseId} />
                 </Grid>
             </CardContent>
+            <Divider orientation="horizontal" />
+            <CardActions>
+                <ContactSupport baseId={errorBaseId} />
+            </CardActions>
         </Card>
     );
 }

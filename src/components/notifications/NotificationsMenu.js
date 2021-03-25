@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "react-query";
 import Link from "next/link";
 import { formatDistance, fromUnixTime } from "date-fns";
 import classnames from "classnames";
-import { useUserProfile} from "../../contexts/userProfile";
+import { useUserProfile } from "../../contexts/userProfile";
 import {
     getNotifications,
     markAllSeen,
@@ -43,7 +43,6 @@ const NOTIFICATION_MENU_SORT_FIELD = "timestamp";
 const NOTIFICATION_MENU_SORT_ORDER = "desc";
 const NOTIFICATION_MENU_LIMIT = 10;
 const NOTIFICATION_MENU_OFFSET = 0;
-
 
 /*
  * Takes in a notification object and returns the time
@@ -164,11 +163,12 @@ function NotificationsMenu(props) {
                 setError(null);
             },
             onError: (e) => {
-                setError(e);
+                setErrorObject(e);
                 const status = e?.response?.status;
-                setErrorMessage(status === 401
-                    ? t("notificationSignInError")
-                    : t("notificationError")
+                setErrorMessage(
+                    status === 401
+                        ? t("notificationSignInError")
+                        : t("notificationError")
                 );
             },
             retry: 3,
@@ -224,12 +224,15 @@ function NotificationsMenu(props) {
                         />
                         <DEErrorDialog
                             open={errorDialogOpen}
-                            id={build(ids.BASE_DEBUG_ID, ids.SIGN_IN_ERR_DIALOGUE)}
+                            id={build(
+                                ids.BASE_DEBUG_ID,
+                                ids.SIGN_IN_ERR_DIALOGUE
+                            )}
                             errorObject={errorObject}
                             handleClose={() => {
-                            setErrorDialogOpen(false);
+                                setErrorDialogOpen(false);
                             }}
-                    />
+                        />
                     </ListItem>
                 )}
 

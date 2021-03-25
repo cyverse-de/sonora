@@ -99,6 +99,7 @@ function AppTile(props) {
         isDisabled,
         isExternal,
         isFavorite,
+        isBlessed,
         onRatingChange,
         selected,
         onDeleteRatingClick,
@@ -177,6 +178,7 @@ function AppTile(props) {
                             isPublic={isPublic}
                             isBeta={isBeta}
                             isDisabled={isDisabled}
+                            isBlessed={isBlessed}
                         />
                     </div>
                 </div>

@@ -17,6 +17,8 @@
     "avuFetchError": "Unable to get app metadata. Please try again.",
     "authenticateBtnText": "Authenticate",
     "beta": "Beta Tag Applied",
+    "blessed": "Blessed By CyVerse",
+    "blessedToolTip": "This app is integrated, verified thats it is working and kept up to date by CyVerse staff.",
     "betaAppTooltip": "This app is in beta.",
     "browseAllApps": "Browse All Apps",
     "cancelLabel": "Cancel",

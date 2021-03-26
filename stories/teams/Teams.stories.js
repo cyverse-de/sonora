@@ -6,7 +6,7 @@ import TeamListing from "components/teams/Listing";
 import TeamForm from "components/teams/form/index";
 import { memberList, privilegeList, teamList, teamMock } from "./TeamMocks";
 import Privilege from "../../src/components/models/Privilege";
-import { userInfoResp } from "../data/DataMocks";
+import { userInfoResp } from "../UserInfoMocks";
 
 const errorResp = { error_code: "ERR_NOT_TODAY", reason: "No teams today" };
 

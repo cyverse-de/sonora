@@ -9,9 +9,9 @@ import {
     fileStatResp,
     resourceTagResp,
     resourceUpdatedInfoTypeResp,
-    userInfoResp,
 } from "./DataMocks";
 import { mockAxios } from "../axiosMock";
+import { userInfoResp } from "../UserInfoMocks";
 
 const resType = ["FILE", "FOLDER"];
 

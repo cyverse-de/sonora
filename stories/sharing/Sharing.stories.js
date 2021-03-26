@@ -15,8 +15,8 @@ import {
     toolShareResponse,
     toolUnshareResponse,
 } from "./SharingMocks";
-import { userInfoResp } from "../data/DataMocks";
 import SharingView from "../../src/components/sharing";
+import { userInfoResp } from "../UserInfoMocks";
 
 export const SharingTest = () => {
     mockAxios.onGet(/\/api\/subjects.*/).reply(200, {

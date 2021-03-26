@@ -556,6 +556,297 @@ export const pathListChunk = {
     ],
 };
 
+export const listingSuccessResp = {
+    infoType: null,
+    path: "/iplant/home/aramsey",
+    "date-created": 1444670130000,
+    folders: [
+        {
+            infoType: null,
+            path: "/iplant/home/aramsey/TestData_qa",
+            "date-created": 1565225021000,
+            permission: "own",
+            "date-modified": 1568318834000,
+            "file-size": 0,
+            badName: false,
+            isFavorite: false,
+            label: "TestData_qa",
+            id: "9183e702-b975-11e9-80ce-d8d385e427d4",
+        },
+        {
+            infoType: null,
+            path: "/iplant/home/aramsey/analyses",
+            "date-created": 1572887916000,
+            permission: "own",
+            "date-modified": 1572887916000,
+            "file-size": 0,
+            badName: false,
+            isFavorite: false,
+            label: "analyses",
+            id: "22d2ecfc-ff27-11e9-80e3-d8d385e427d4",
+        },
+        {
+            infoType: null,
+            path: "/iplant/home/aramsey/analyses_qa",
+            "date-created": 1565225575000,
+            permission: "own",
+            "date-modified": 1565225575000,
+            "file-size": 0,
+            badName: false,
+            isFavorite: false,
+            label: "analyses_qa",
+            id: "db968b28-b976-11e9-80ce-d8d385e427d4",
+        },
+        {
+            infoType: null,
+            path: "/iplant/home/aramsey/analyses_qa-3",
+            "date-created": 1473896447000,
+            permission: "own",
+            "date-modified": 1476220776000,
+            "file-size": 0,
+            badName: false,
+            isFavorite: false,
+            label: "analyses_qa-3",
+            id: "a9546754-7ad4-11e6-bf34-d8d385e427d4",
+        },
+        {
+            infoType: null,
+            path: "/iplant/home/aramsey/bad'name",
+            "date-created": 1486506280000,
+            permission: "own",
+            "date-modified": 1486507091000,
+            "file-size": 0,
+            badName: true,
+            isFavorite: false,
+            label: "bad'name",
+            id: "37982538-ed84-11e6-bf47-d8d385e427d4",
+        },
+        {
+            infoType: null,
+            path: "/iplant/home/aramsey/coge_data",
+            "date-created": 1554164907000,
+            permission: "own",
+            "date-modified": 1554164907000,
+            "file-size": 0,
+            badName: false,
+            isFavorite: false,
+            label: "coge_data",
+            id: "3bf32b14-54de-11e9-80be-d8d385e427d4",
+        },
+    ],
+    permission: "own",
+    "date-modified": 1570058506000,
+    hasSubDirs: true,
+    "file-size": 0,
+    badName: true,
+    total: 70,
+    isFavorite: false,
+    label: "aramsey",
+    id: "d6f46cca-7104-11e5-b73c-3c4a92e4a804",
+    totalBad: 0,
+    files: [
+        {
+            infoType: "ht-analysis-path-list",
+            path: "/iplant/home/aramsey/CORE-9077-path.list",
+            "date-created": 1512502386000,
+            permission: "own",
+            "date-modified": 1512502386000,
+            "file-size": 90046,
+            badName: false,
+            isFavorite: false,
+            label: "CORE-9077-path.list",
+            id: "1e7e91d4-d9f3-11e7-bf79-d8d385e427d4",
+        },
+        {
+            infoType: "unknown",
+            path: "/iplant/home/aramsey/CORE-9077_test_file.txt",
+            "date-created": 1512516445000,
+            permission: "own",
+            "date-modified": 1512516445000,
+            "file-size": 10,
+            badName: false,
+            isFavorite: false,
+            label: "CORE-9077_test_file.txt",
+            id: "da63e3c0-da13-11e7-bf79-d8d385e427d4",
+        },
+        {
+            infoType: "unknown",
+            path: "/iplant/home/aramsey/Discovery Environment-CyVerse-blue.svg",
+            "date-created": 1562000527000,
+            permission: "own",
+            "date-modified": 1562000527000,
+            "file-size": 7526,
+            badName: false,
+            isFavorite: false,
+            label: "Discovery Environment-CyVerse-blue.svg",
+            id: "f5469f94-9c21-11e9-80c7-d8d385e427d4",
+        },
+        {
+            infoType: "unknown",
+            path: "/iplant/home/aramsey/example-0-python.py",
+            "date-created": 1562000528000,
+            permission: "own",
+            "date-modified": 1562000528000,
+            "file-size": 7526,
+            badName: false,
+            isFavorite: false,
+            label: "example-0-python.py",
+            id: "7437c9a0-aa2b-49a7-8dba-ea4ebdb37111",
+        },
+        {
+            infoType: "python",
+            path: "/iplant/home/aramsey/example-1-python.py",
+            "date-created": 1562000529000,
+            permission: "own",
+            "date-modified": 1562000529000,
+            "file-size": 7526,
+            badName: false,
+            isFavorite: false,
+            label: "example-1-python.py",
+            id: "08fba388-407b-4d40-a796-53ae1378ae97",
+        },
+    ],
+};
+
+export const instantLaunchMapping = {
+    id: "1d9dc7e8-5b5b-11eb-a110-62d47aced14b",
+    version: "1",
+    mapping: {
+        PythonFilesGlob: {
+            pattern: "*.py",
+            kind: "glob",
+            default: {
+                id: "44ac42d4-5b5a-11eb-a110-62d47aced14b",
+                quick_launch_id: "a4b1f851-80c0-415d-ba3c-6663432e4f7e",
+                added_by: "6be9d7fe-854a-11e4-b1aa-bb594900dd6f",
+                added_on: "2021-01-20T13:01:22.22495Z",
+            },
+            compatible: [],
+        },
+        PythonFilesInfoType: {
+            pattern: "python",
+            kind: "infoType",
+            default: {
+                id: "44ac42d4-5b5a-11eb-a110-62d47aced14b",
+                quick_launch_id: "a4b1f851-80c0-415d-ba3c-6663432e4f7e",
+                added_by: "6be9d7fe-854a-11e4-b1aa-bb594900dd6f",
+                added_on: "2021-01-20T13:01:22.22495Z",
+            },
+            compatible: [],
+        },
+    },
+};
+
+export const instantLaunchAppInfo = {
+    description:
+        "Jupyter Lab based on jupyter/datascience-notebook with updated iJab plugin, jupyterlab_irods and SQL ",
+    requirements: [
+        {
+            step_number: 0,
+            max_cpu_cores: 16,
+            memory_limit: 68719476736,
+        },
+    ],
+    deleted: false,
+    disabled: false,
+    name: "JupyterLab-with-sql-1.0.9",
+    system_id: "de",
+    debug: false,
+    label: "JupyterLab-with-sql-1.0.9",
+    id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
+    app_type: "DE",
+    groups: [
+        {
+            id: "d624ca80-e921-11e9-8fe0-008cfa5ae621",
+            name: "",
+            label: "Parameters",
+            parameters: [
+                {
+                    description: "",
+                    arguments: [],
+                    name: "",
+                    type: "FileInput",
+                    validators: [],
+                    label: "Input File",
+                    id:
+                        "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d625f64e-e921-11e9-8fe0-008cfa5ae621",
+                    isVisible: true,
+                    required: true,
+                },
+                {
+                    description: "Select the files to process.",
+                    arguments: [],
+                    name: "",
+                    value: {
+                        path: [
+                            "/iplant/home/wregglej/logs/script-output.log",
+                            "/iplant/home/wregglej/logs/script-error.log",
+                            "/iplant/home/wregglej/logs/recurisive_avu_queries.txt",
+                            "/iplant/home/wregglej/logs/gitignore_global.txt",
+                        ],
+                    },
+                    type: "MultiFileSelector",
+                    validators: [],
+                    label: "Input files",
+                    id:
+                        "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621",
+                    isVisible: true,
+                    defaultValue: {
+                        path: [
+                            "/iplant/home/wregglej/logs/script-output.log",
+                            "/iplant/home/wregglej/logs/script-error.log",
+                            "/iplant/home/wregglej/logs/recurisive_avu_queries.txt",
+                            "/iplant/home/wregglej/logs/gitignore_global.txt",
+                        ],
+                    },
+                    required: false,
+                },
+            ],
+            step_number: 0,
+        },
+    ],
+};
+
+export const instantLaunchQuickLaunch = {
+    id: "a4b1f851-80c0-415d-ba3c-6663432e4f7e",
+    name: "wregglej-test-2",
+    description: "",
+    creator: "wregglej@iplantcollaborative.org",
+    app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
+    is_public: false,
+    submission: {
+        config: {
+            "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621": [
+                "/iplant/home/wregglej/logs/script-output.log",
+                "/iplant/home/wregglej/logs/script-error.log",
+                "/iplant/home/wregglej/logs/recurisive_avu_queries.txt",
+                "/iplant/home/wregglej/logs/gitignore_global.txt",
+            ],
+        },
+        name: "JupyterLab-with-sql-1.0.9_analysis1",
+        app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
+        system_id: "de",
+        debug: false,
+        output_dir: "/iplant/home/wregglej/analyses_qa",
+        notify: true,
+    },
+};
+
+export const instantLaunchGlobalQuickLaunches = [
+    {
+        id: "9d016298-5150-447b-8bfe-29af368ac3f9",
+        app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
+        quick_launch_id: "a4b1f851-80c0-415d-ba3c-6663432e4f7e",
+    },
+];
+
+export const instantLaunchSubmissionResponse = {
+    id: "lol",
+    name: "more lol",
+    state: "Submitted",
+    "start-date": "now",
+};
+
 export const initMockAxiosFileFolderSelector = () => {
     mockAxios
         .onGet(/\/api\/filesystem\/paged-directory.*/)

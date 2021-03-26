@@ -51,6 +51,11 @@ import {
     INFO_TYPES_QUERY_KEY,
 } from "serviceFacades/filesystem";
 
+import {
+    getDefaultsMapping,
+    DEFAULTS_MAPPING_QUERY_KEY,
+} from "serviceFacades/instantlaunches";
+
 import { announce, build, AnnouncerConstants } from "@cyverse-de/ui-lib";
 
 import { useTranslation } from "i18n";
@@ -103,6 +108,11 @@ function Listing(props) {
         confirmDOIRequestDialogOpen,
         setConfirmDOIRequestDialogOpen,
     ] = useState(false);
+
+    const [
+        instantLaunchDefaultsMapping,
+        setInstantLaunchDefaultsMapping,
+    ] = useState({});
 
     const [navError, setNavError] = useState(null);
 
@@ -179,6 +189,17 @@ function Listing(props) {
                         })),
                     ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
                 });
+            },
+        },
+    });
+
+    const { defaultsMappingError, isFetchingDefaultsMapping } = useQuery({
+        queryKey: [DEFAULTS_MAPPING_QUERY_KEY],
+        queryFn: getDefaultsMapping,
+        config: {
+            enabled: true,
+            onSuccess: (respData) => {
+                setInstantLaunchDefaultsMapping(respData?.mapping || {});
             },
         },
     });
@@ -539,6 +560,7 @@ function Listing(props) {
         requestDOIStatus,
         emptyTrashStatus,
         restoreStatus,
+        isFetchingDefaultsMapping,
     ]);
     const localUploadId = build(baseId, ids.UPLOAD_MI, ids.UPLOAD_INPUT);
     return (
@@ -585,7 +607,7 @@ function Listing(props) {
                 {!isGridView && (
                     <TableView
                         loading={isLoading}
-                        error={error || navError}
+                        error={error || navError || defaultsMappingError}
                         path={path}
                         handlePathChange={onPathChange}
                         listing={data?.listing}
@@ -609,6 +631,9 @@ function Listing(props) {
                         onDownloadSelected={() => setDownload(true)}
                         onRenameSelected={onRenameClicked}
                         onMoveSelected={onMoveSelected}
+                        instantLaunchDefaultsMapping={
+                            instantLaunchDefaultsMapping
+                        }
                     />
                 )}
                 {isGridView && <span>Coming Soon!</span>}

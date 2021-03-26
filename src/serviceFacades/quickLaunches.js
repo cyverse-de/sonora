@@ -38,6 +38,27 @@ function deleteQuickLaunch(qid) {
 }
 
 /**
+ * List global quick launches
+ */
+function listGlobalQuickLaunches() {
+    return callApi({
+        endpoint: "/api/quicklaunches/defaults/global",
+        method: "GET",
+    });
+}
+
+/**
+ * Get description of the quick launch by its UUID.
+ * @param {String} qID
+ */
+function getQuickLaunch(qID) {
+    return callApi({
+        endpoint: `/api/quicklaunches/${qID}`,
+        method: "GET",
+    });
+}
+
+/**
  * Get app launch information for selected quick launch
  *
  * @param {*} key
@@ -56,5 +77,7 @@ export {
     addQuickLaunch,
     listQuickLaunches,
     deleteQuickLaunch,
+    listGlobalQuickLaunches,
+    getQuickLaunch,
     getAppInfo,
 };

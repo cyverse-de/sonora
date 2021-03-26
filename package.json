@@ -78,6 +78,7 @@
         "jsonpath-plus": "^4.0.0",
         "keycloak-connect": "^7.0.1",
         "lottie-web": "^5.7.6",
+        "micromatch": "^4.0.2",
         "next": "^10.1.2",
         "next-i18next": "^7.0.1",
         "numeral": "^2.0.6",

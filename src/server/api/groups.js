@@ -186,5 +186,45 @@ export default function groupsRouter() {
         })
     );
 
+    logger.info("adding the GET /api/collaborator-lists/:name/members handler");
+    api.get(
+        "/collaborator-lists/:name/members",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/collaborator-lists/:name/members",
+        })
+    );
+
+    logger.info(
+        "adding the POST /api/collaborator-lists/:name/members handler"
+    );
+    api.post(
+        "/collaborator-lists/:name/members",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/collaborator-lists/:name/members",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info(
+        "adding the POST /api/collaborator-lists/:name/members/deleter handler"
+    );
+    api.post(
+        "/collaborator-lists/:name/members/deleter",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/collaborator-lists/:name/members/deleter",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

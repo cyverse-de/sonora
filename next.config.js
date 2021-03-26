@@ -56,7 +56,9 @@ module.exports = withBundleAnalyzer({
             "vice.viceProxyContainerName"
         ),
         VICE_ANALYSIS_CONTAINER_NAME: config.get("vice.analysisContainerName"),
-        VICE_DEPLOYMENT_TIMEOUT_MS: config.get("vice.deploymentTimeoutMs"),
+        VICE_DEPLOYMENT_TIMEOUT_MS: config.has("vice.deploymentTimeoutMs")
+            ? config.get("vice.deploymentTimeoutMs")
+            : 180000,
         GROUPER_ALL_USERS: config.get("grouper.allUsers"),
         GROUPER_ADMIN: config.get("grouper.admin"),
     },

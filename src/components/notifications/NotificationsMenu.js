@@ -114,7 +114,6 @@ function NotificationsMenu(props) {
         showErrorAnnouncer,
     } = props;
     const [notifications, setNotifications] = useState([]);
-    const [error, setError] = useState();
     const [userProfile] = useUserProfile();
     const [errorMessage, setErrorMessage] = useState(null);
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
@@ -160,7 +159,7 @@ function NotificationsMenu(props) {
                 if (results?.unseen_total > 0) {
                     setUnSeenCount(results?.unseen_total);
                 }
-                setError(null);
+                setErrorObject(null);
             },
             onError: (e) => {
                 setErrorObject(e);
@@ -179,8 +178,8 @@ function NotificationsMenu(props) {
         onSuccess: () => {
             setAllNotificationsSeen();
         },
-        onError: (error) => {
-            showErrorAnnouncer(t("errorMarkAsSeen"), error);
+        onError: (errorObject) => {
+            showErrorAnnouncer(t("errorMarkAsSeen"), errorObject);
         },
     });
 
@@ -265,16 +264,16 @@ function NotificationsMenu(props) {
             {isFetching && (
                 <Skeleton variant="rect" height={400} animation="wave" />
             )}
-            {!isFetching && error !== null && userProfile?.id && (
+            {!isFetching && errorObject !== null && userProfile?.id && (
                 <ListItem>
                     <ErrorTypographyWithDialog
-                        errorMessage={t("notificationError", error)}
+                        errorMessage={t("notificationError", errorObject)}
                     />
                 </ListItem>
             )}
 
             {!isFetching &&
-                error === null &&
+                errorObject === null &&
                 (notifications === null || notifications.length === 0) && (
                     <ListItem>
                         <Typography variant="body2">

@@ -1,5 +1,19 @@
 /**
  * @author aramsey
+ *
+ * The VICE loading page view that displays when a VICE instance is not
+ * yet ready.  It shows which stage the launch process is currently in and
+ * allows users to see more details or contact support.
+ *
+ * This component will query the /vice/:subdomain/description endpoint every
+ * few seconds to get the latest status to display to the user.
+ *
+ * The completion percentage is arbitrary but 20% is completed once the
+ * deployment, service, ingresses, and config maps are created (5% each), 25%
+ * after the pods have been created, 60% after the init container which deals
+ * with downloading input files is done, 75% after the 2 DE pods (vice-proxy and
+ * input-files) are responding, and 100% after the analysis pod is responding.
+ *
  */
 import React, { useEffect, useState } from "react";
 

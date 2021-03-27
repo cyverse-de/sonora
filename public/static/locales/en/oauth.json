@@ -9,5 +9,6 @@
     "invalid_oauth_config": "The DE's OAuth configuration is invalid. Please contact support.",
     "no_auth_code_provided": "No authorization code or error code was sent by the OAuth server. Please contact support.",
     "no_state_id_provided": "No state information was sent by the OAuth server. Please contact support.",
-    "general_service_error": "The DE service encountered an error. Please contact support."
+    "general_service_error": "The DE service encountered an error. Please contact support.",
+    "oops": "Oops!"
 }

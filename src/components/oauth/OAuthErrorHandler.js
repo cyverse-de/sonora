@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 function OAuthErrorHandler(props) {
     const { errorCode, baseId } = props;
-    const { t } = useTranslation(["oauth", "util"]);
+    const { t } = useTranslation("oauth");
     const errorBaseId = build(baseId, ids.OAUTH_ERROR_HANDLER);
     const classes = useStyles();
 

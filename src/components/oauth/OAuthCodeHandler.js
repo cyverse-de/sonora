@@ -2,7 +2,7 @@
  * @author sarahr
  */
 
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { build } from "@cyverse-de/ui-lib";
@@ -10,7 +10,10 @@ import { build } from "@cyverse-de/ui-lib";
 import { Card, CardHeader, Typography } from "@material-ui/core";
 import InfoIcon from "@material-ui/icons/Info";
 
-import NavigationConstants from "common/NavigationConstants";
+import {
+    APP_CATEGORIES_QUERY_KEY,
+    getPrivateCategories,
+} from "serviceFacades/apps";
 import {
     OAUTH_CALLBACK_QUERY_KEY,
     doOAuthCallback,
@@ -18,6 +21,9 @@ import {
 
 import OAuthErrorHandler from "./OAuthErrorHandler";
 import ids from "./ids";
+import { getListingPath } from "../apps/utils";
+import systemId from "components/models/systemId";
+import { useUserProfile } from "contexts/userProfile";
 
 const ERR_SERVICE = "general_service_error";
 
@@ -25,6 +31,46 @@ function OAuthCodeHandler(props) {
     const { baseId, apiName, code, stateId } = props;
     const handlerId = build(baseId, ids.OAUTH_CODE_HANDLER);
     const router = useRouter();
+    const [userProfile] = useUserProfile();
+    const [categoryQueryKey, setCategoryQueryKey] = useState([
+        APP_CATEGORIES_QUERY_KEY,
+        userProfile?.id,
+    ]);
+    const [listingUrl, setListingUrl] = useState(null);
+
+    const determineListingUrl = useCallback(
+        (data) => {
+            const hpcCategory = data.categories.find(
+                (cat) => cat.system_id === systemId.agave
+            );
+            setListingUrl(
+                getListingPath(
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    JSON.stringify(hpcCategory),
+                    false
+                )
+            );
+        },
+        [setListingUrl]
+    );
+
+    const { isFetching: isFetchingCategories } = useQuery({
+        queryKey: categoryQueryKey,
+        queryFn: getPrivateCategories,
+        config: {
+            onSuccess: determineListingUrl,
+            staleTime: Infinity,
+            cacheTime: Infinity,
+        },
+    });
+
+    useEffect(() => {
+        setCategoryQueryKey([APP_CATEGORIES_QUERY_KEY, userProfile?.id]);
+    }, [userProfile]);
 
     // Call the API's callback endpoint.
     const { isFetching, error } = useQuery({
@@ -39,7 +85,7 @@ function OAuthCodeHandler(props) {
         queryFn: doOAuthCallback,
     });
 
-    if (isFetching) {
+    if (isFetching || isFetchingCategories) {
         const avatar = <InfoIcon fontSize="large" color="primary" />;
         const title = (
             <Typography color="primary" variant="h6">
@@ -64,7 +110,7 @@ function OAuthCodeHandler(props) {
         return <OAuthErrorHandler errorCode={ERR_SERVICE} baseId={handlerId} />;
     }
 
-    router.push(`/${NavigationConstants.APPS}`);
+    router.push(listingUrl);
     return null;
 }
 

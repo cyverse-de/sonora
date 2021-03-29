@@ -13,4 +13,5 @@ export default {
     SECTION_VIDEOS: "section.videos",
     DISMISS_BTN: "dismissButton",
     TOUR_BTN: "tourButton",
+    SECTION_INSTANT_LAUNCHES: "section.instant-launches",
 };

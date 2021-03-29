@@ -96,7 +96,7 @@ const instantlyLaunch = async (instantLaunch, resource) => {
             // resource that was passed in to the function. File resources should
             // go with FileInput params or MultiFileSelectors, while folder resources
             // should go with FolderInput params.
-            if (unsetInputParams.length > 0) {
+            if (resource && unsetInputParams.length > 0) {
                 for (const unsetParam of unsetInputParams) {
                     if (resource.type === "file") {
                         if (

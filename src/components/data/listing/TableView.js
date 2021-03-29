@@ -408,6 +408,7 @@ function TableView(props) {
                                                         instantLaunch={
                                                             instantLaunch
                                                         }
+                                                        resource={resource}
                                                     />
                                                 )}
                                                 <RowDotMenu

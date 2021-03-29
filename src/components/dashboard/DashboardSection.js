@@ -123,29 +123,34 @@ class SectionBase {
         setDetailsApp,
         setDetailsAnalysis,
     }) {
-        const sorted = data[this.kind][this.name].sort((first, second) => {
-            const firstParsed = Date.parse(first.date_added);
-            const secondParsed = Date.parse(second.date_added);
+        let sectionItems;
 
-            let retval;
+        if (data && Array.isArray(data[this.kind])) {
+            sectionItems = data[this.kind];
+        } else
+            sectionItems = data[this.kind][this.name].sort((first, second) => {
+                const firstParsed = Date.parse(first.date_added);
+                const secondParsed = Date.parse(second.date_added);
 
-            // The return values are reversed so we get reverse chronological order.
-            if (firstParsed < secondParsed) {
-                retval = 1;
-            } else if (firstParsed > secondParsed) {
-                retval = -1;
-            } else {
-                retval = 0;
-            }
+                let retval;
 
-            return retval;
-        });
+                // The return values are reversed so we get reverse chronological order.
+                if (firstParsed < secondParsed) {
+                    retval = 1;
+                } else if (firstParsed > secondParsed) {
+                    retval = -1;
+                } else {
+                    retval = 0;
+                }
+
+                return retval;
+            });
         return (
             <DashboardSection
                 id={this.id}
                 kind={this.kind}
                 key={`${this.kind}-${this.name}`}
-                items={sorted}
+                items={sectionItems}
                 name={t(this.label)}
                 section={this.name}
                 showDivider={showDivider}
@@ -212,6 +217,17 @@ export class PublicApps extends SectionBase {
             constants.SECTION_PUBLIC,
             "publicApps",
             ids.SECTION_PUBLIC_APPS
+        );
+    }
+}
+
+export class InstantLaunches extends SectionBase {
+    constructor() {
+        super(
+            constants.KIND_INSTANT_LAUNCHES,
+            constants.SECTION_INSTANT_LAUNCHES,
+            "instantLaunches",
+            ids.SECTION_INSTANT_LAUNCHES
         );
     }
 }

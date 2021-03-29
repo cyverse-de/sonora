@@ -13,6 +13,7 @@ export const KIND_APPS = "apps";
 export const KIND_FEEDS = "feeds";
 export const KIND_EVENTS = "events";
 export const KIND_VIDEOS = "videos";
+export const KIND_INSTANT_LAUNCHES = "instantLaunches";
 
 export const SECTION_RECENT = "recent";
 export const SECTION_RUNNING = "running";
@@ -22,6 +23,7 @@ export const SECTION_PUBLIC = "public";
 export const SECTION_NEWS = "news";
 export const SECTION_EVENTS = "events";
 export const SECTION_VIDEOS = "videos";
+export const SECTION_INSTANT_LAUNCHES = "instantLaunches";
 export const SECTION_ITEM_LIMIT = 8;
 
 export const USER_SUFFIX = `@${meta.IPLANT}.org`;
@@ -30,6 +32,7 @@ export const DESC_MAX_LENGTH = 130;
 export const TITLE_MAX_LENGTH = 31;
 export const TITLE_MAX_LENGTH_SMALL = 25;
 export const SUBHEADER_MAX_LENGTH_SMALL = 39;
+export const DEFAULT_SYSTEM_ID = "de";
 
 export const MAX_PIXELS = 3840;
 export const MAX_COLUMNS = 8;

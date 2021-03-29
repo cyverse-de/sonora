@@ -31,6 +31,7 @@ import {
     RecentAnalyses,
     RunningAnalyses,
     VideosFeed,
+    InstantLaunches,
 } from "./DashboardSection";
 
 import { getDashboard, DASHBOARD_QUERY_KEY } from "serviceFacades/dashboard";
@@ -138,6 +139,7 @@ const Dashboard = (props) => {
         // new EventsFeed(),
         new VideosFeed(),
         new PublicApps(),
+        new InstantLaunches(),
     ];
 
     if (userProfile?.id) {
@@ -145,6 +147,7 @@ const Dashboard = (props) => {
             new RecentAnalyses(),
             new RunningAnalyses(),
             new RecentlyUsedApps(),
+            new InstantLaunches(),
             new PublicApps(),
             // new NewsFeed(),
             // new EventsFeed(),
@@ -154,13 +157,21 @@ const Dashboard = (props) => {
 
     const filteredSections = data
         ? sections
-              .filter(
-                  (section) =>
-                      data.hasOwnProperty(section.kind) &&
-                      data[section.kind].hasOwnProperty(section.name)
-              )
-              .filter((section) => data[section.kind][section.name].length > 0)
-              .map((section, index) =>
+              .filter((section) => data.hasOwnProperty(section.kind))
+              .filter((section) => {
+                  if (Array.isArray(data[section.kind])) {
+                      return data[section.kind].length > 0;
+                  } else if (section.name && section.name !== "") {
+                      return (
+                          data[section.kind].hasOwnProperty(section.name) &&
+                          data[section.kind][section.name].length > 0
+                      );
+                  }
+
+                  // If we get here, assume it's an object. Make sure it has properties.
+                  return Object.keys(data[section.kind]).length > 0;
+              })
+              .map((section) =>
                   section.getComponent({
                       t,
                       data,

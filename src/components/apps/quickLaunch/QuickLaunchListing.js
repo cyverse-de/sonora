@@ -241,14 +241,16 @@ function ListQuickLaunches(props) {
 
     if (!quickLaunches || quickLaunches.length === 0) {
         if (systemId !== constants.AGAVE) {
+            const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch`;
+            const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch`;
             return (
                 <React.Fragment>
                     <Typography variant="subtitle2">
                         {t("noQuickLaunches")}
                     </Typography>
-                    <MuiLink component="button">
-                        {t("createQuickLaunchLabel")}
-                    </MuiLink>
+                    <Link href={href} as={as} passHref>
+                        <MuiLink>{t("createQuickLaunchLabel")}</MuiLink>
+                    </Link>
                 </React.Fragment>
             );
         } else {

@@ -23,4 +23,6 @@ export default function oauthRouter() {
             pathname: "/oauth/access-code/:apiName",
         })
     );
+
+    return api;
 }

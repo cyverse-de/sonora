@@ -65,6 +65,7 @@ function OAuthCodeHandler(props) {
     }
 
     router.push(`/${NavigationConstants.APPS}`);
+    return null;
 }
 
 export default OAuthCodeHandler;

@@ -84,6 +84,7 @@
     "quickLaunchNotSupportedMessage": "Quick Launch not supported for Agave apps!",
     "quickLaunchCreateSuccess": "Quick Launch {{name}} created successfully.",
     "quickLaunchDeleteError": "Unable to delete {{name}}.",
+    "rateApp": "Rate {{appName}}",
     "rating": "Rating",
     "ratingMutationError": "Unable to update rating. Please try again.",
     "references": "References",

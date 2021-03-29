@@ -25,7 +25,7 @@ import DELink from "components/utils/DELink";
 import analysisStatus from "components/models/analysisStatus";
 import systemIds from "components/models/systemId";
 
-import { Typography, useTheme } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { getTeamLinkRefs } from "../teams/util";
 import ExternalLink from "../utils/ExternalLink";
 import { useTranslation } from "../../i18n";

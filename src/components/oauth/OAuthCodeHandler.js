@@ -19,7 +19,7 @@ import {
 import OAuthErrorHandler from "./OAuthErrorHandler";
 import OAuthLinkingMessage from "./OAuthLinkingMessage";
 import ids from "./ids";
-import { getListingPath } from "../apps/utils";
+import { getListingPath } from "components/apps/utils";
 import systemId from "components/models/systemId";
 import { useUserProfile } from "contexts/userProfile";
 
@@ -34,7 +34,9 @@ function OAuthCodeHandler(props) {
         APP_CATEGORIES_QUERY_KEY,
         userProfile?.id,
     ]);
-    const [listingUrl, setListingUrl] = useState(null);
+    const [listingUrl, setListingUrl] = useState(
+        getListingPath(null, null, null, null, null, null, false)
+    );
 
     const determineListingUrl = useCallback(
         (data) => {

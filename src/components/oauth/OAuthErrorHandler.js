@@ -35,12 +35,6 @@ const useStyles = makeStyles((theme) => ({
             margin: theme.spacing(0),
         },
     },
-    signIn: {
-        padding: theme.spacing(1),
-    },
-    link: {
-        cursor: "pointer",
-    },
 }));
 
 function OAuthErrorHandler(props) {

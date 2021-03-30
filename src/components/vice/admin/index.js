@@ -16,6 +16,7 @@ import getData, {
     exit,
     VICE_ADMIN_QUERY_KEY,
 } from "../../../serviceFacades/vice/admin";
+import DETabPanel from "components/utils/DETabPanel";
 
 import RowFilter from "./filter";
 import CollapsibleTable, { defineColumn, ExpanderColumn } from "./table";
@@ -33,15 +34,30 @@ import { Skeleton, TabList, TabContext, TabPanel } from "@material-ui/lab";
 
 import { JSONPath } from "jsonpath-plus";
 import efcs from "./filter/efcs";
-import { AppBar, Tab } from "@material-ui/core";
+import { AppBar, Tab, Tabs } from "@material-ui/core";
+import Listing from "./accessRequests/Listing";
 
 const id = (...values) => buildID(ids.ROOT, ...values);
+const TABS = {
+    quotaRequests: "QUOTA REQUESTS",
+    analyses: "ANALYSES",
+};
 
 const useStyles = makeStyles((theme) => ({
     root: {
         paddingLeft: theme.spacing(3),
         paddingRight: theme.spacing(3),
         paddingTop: theme.spacing(3),
+        [theme.breakpoints.down("sm")]: {
+            paddingLeft: theme.spacing(1),
+            paddingRight: theme.spacing(1),
+            paddingTop: theme.spacing(1),
+        },
+        [theme.breakpoints.down("xs")]: {
+            paddingLeft: theme.spacing(0.5),
+            paddingRight: theme.spacing(0.5),
+            paddingTop: theme.spacing(0.5),
+        },
         paddingBottom: 0,
         overflow: "auto",
         height: "90vh",
@@ -346,6 +362,12 @@ const VICEAdminTabs = ({ data = {} }) => {
 
 const VICEAdmin = () => {
     const classes = useStyles();
+    const [selectedTab, setSelectedTab] = useState(TABS.quotaRequests);
+    const { t } = useTranslation("vice-admin");
+
+    const onTabSelectionChange = (event, selectedTab) => {
+        setSelectedTab(selectedTab);
+    };
 
     const { isError: hasErrored, isLoading, data, error } = useQuery(
         VICE_ADMIN_QUERY_KEY,
@@ -382,24 +404,53 @@ const VICEAdmin = () => {
 
     return (
         <div id={id(ids.ROOT)} className={classes.root}>
-            <JobLimits />
+            <Tabs
+                value={selectedTab}
+                onChange={onTabSelectionChange}
+                classes={{ indicator: classes.tabIndicator }}
+            >
+                <Tab
+                    value={TABS.quotaRequests}
+                    label={t("requestLimitTabLabel")}
+                    id={id(ids.REQUEST_LIMIT_TAB)}
+                    classes={{ selected: classes.tabSelected }}
+                />
+                <Tab
+                    value={TABS.analyses}
+                    label={t("analysesTabLabel")}
+                    id={id(ids.USER_ANALYSES_TAB)}
+                    classes={{ selected: classes.tabSelected }}
+                />
+            </Tabs>
+            <DETabPanel
+                tabId={id(ids.REQUEST_LIMIT_TAB)}
+                value={TABS.quotaRequests}
+                selectedTab={selectedTab}
+            >
+                <JobLimits />
+                <Listing />
+            </DETabPanel>
+            <DETabPanel
+                tabId={id(ids.USER_ANALYSES_TAB)}
+                value={TABS.analyses}
+                selectedTab={selectedTab}
+            >
+                {isLoading ? (
+                    <VICEAdminSkeleton />
+                ) : hasErrored ? (
+                    <WrappedErrorHandler errorObject={error} baseId={BASE_ID} />
+                ) : (
+                    <>
+                        <RowFilter
+                            filters={filters}
+                            addToFilters={addToFilters}
+                            deleteFromFilters={deleteFromFilters}
+                        />
 
-            {isLoading ? (
-                <VICEAdminSkeleton />
-            ) : hasErrored ? (
-                <WrappedErrorHandler errorObject={error} baseId={BASE_ID} />
-            ) : (
-                <>
-                    <RowFilter
-                        filters={filters}
-                        addToFilters={addToFilters}
-                        deleteFromFilters={deleteFromFilters}
-                    />
-
-                    <VICEAdminTabs data={filteredData} />
-                </>
-            )}
-            <div className={classes.footer} />
+                        <VICEAdminTabs data={filteredData} />
+                    </>
+                )}
+            </DETabPanel>
         </div>
     );
 };

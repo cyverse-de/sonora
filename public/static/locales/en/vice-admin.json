@@ -1,4 +1,9 @@
 {
+    "accessRequests": "Access Requests",
+    "showAllRequests": "Show All Requests",
+    "accessRequestApprovedMsg": "Your request to access VICE apps is approved.",
+    "accessRequestUpdateSuccess": "Request updated successfully.",
+    "accessRequestUpdateFailure": "Unable to update request. Please try again.",
     "nameColumn": "Name",
     "namespaceColumn": "Namespace",
     "analysisNameColumn": "Analysis Name",
@@ -82,5 +87,19 @@
     "activeFilters": "Active Filters",
     "noActiveFilters": "There are no active filters.",
     "filterField": "Filter Field",
-    "showFilterOptions": "Show Filter Options"
+    "showFilterOptions": "Show Filter Options",
+    "noResults": "No rows to display.",
+    "user": "User",
+    "requestedDate": "Request Date",
+    "useCase": "Use Case",
+    "approve": "Approve",
+    "reject": "Reject",
+    "lastUpdated": "Last Updated",
+    "email": "Email",
+    "setLimitTitle": "Set concurrent job limit",
+    "setLimitPrompt": "To approve this request, set concurrent job limit for the user: {{username}}",
+    "requestDeniedTitle": "Request Denied",
+    "requestDeniedPrompt": "Leave a message for the user: {{username}}",
+    "requestLimitTabLabel": "Limits & Access Requests",
+    "analysesTabLabel": "Analyses Run By Users"
 }

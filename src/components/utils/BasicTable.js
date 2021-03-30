@@ -7,6 +7,7 @@
 
 import React from "react";
 
+import TableLoading from "components/utils/TableLoading";
 import {
     Table,
     TableBody,
@@ -15,6 +16,8 @@ import {
     TableHead,
     TableRow,
     TableSortLabel,
+    Typography,
+    useTheme,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useSortBy, useTable } from "react-table";
@@ -23,13 +26,16 @@ import constants from "constants.js";
 
 function BasicTable(props) {
     const {
+        baseId,
         columns,
         data,
         tableSize = "small",
         sortable = false,
         bodyCellPadding = "default",
+        loading,
+        emptyDataMessage,
     } = props;
-
+    const theme = useTheme();
     const { getTableProps, headerGroups, rows, prepareRow } = useTable(
         {
             columns,
@@ -73,25 +79,39 @@ function BasicTable(props) {
                         </TableRow>
                     ))}
                 </TableHead>
-                <TableBody>
-                    {rows.map((row) => {
-                        prepareRow(row);
-                        return (
-                            <TableRow {...row.getRowProps()}>
-                                {row.cells.map((cell) => {
-                                    return (
-                                        <TableCell
-                                            padding={bodyCellPadding}
-                                            {...cell.getCellProps()}
-                                        >
-                                            {cell.render("Cell")}
-                                        </TableCell>
-                                    );
-                                })}
-                            </TableRow>
-                        );
-                    })}
-                </TableBody>
+                {loading && (
+                    <TableLoading
+                        numColumns={columns.length}
+                        numRows={100}
+                        baseId={baseId}
+                    />
+                )}
+                {!loading && data?.length === 0 && (
+                    <Typography style={{ marginLeft: theme.spacing(1) }}>
+                        {emptyDataMessage}
+                    </Typography>
+                )}
+                {!loading && data?.length > 0 && (
+                    <TableBody>
+                        {rows.map((row) => {
+                            prepareRow(row);
+                            return (
+                                <TableRow {...row.getRowProps()}>
+                                    {row.cells.map((cell) => {
+                                        return (
+                                            <TableCell
+                                                padding={bodyCellPadding}
+                                                {...cell.getCellProps()}
+                                            >
+                                                {cell.render("Cell")}
+                                            </TableCell>
+                                        );
+                                    })}
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                )}
             </Table>
         </TableContainer>
     );

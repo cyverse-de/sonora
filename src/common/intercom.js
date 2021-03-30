@@ -8,7 +8,7 @@
  * @param {string} companyName - Intercom company name
  */
 function intercomLogin(userId, email, appId, companyId, companyName) {
-    if (window.Intercom) {
+    if (window?.Intercom) {
         window.Intercom("boot", {
             app_id: appId,
             email: email,
@@ -24,20 +24,20 @@ function intercomLogin(userId, email, appId, companyId, companyName) {
 
 function intercomLogout() {
     console.log("logging out");
-    if (window.Intercom) {
+    if (window?.Intercom) {
         window.Intercom("shutdown");
     }
 }
 
 function intercomShow() {
-    if (window.Intercom) {
+    if (window?.Intercom) {
         window.Intercom("show");
     }
 }
 
 function trackIntercomEvent(event, metadata) {
     console.log("track event: " + event + " " + JSON.stringify(metadata));
-    if (window.Intercom) {
+    if (window?.Intercom) {
         if (metadata) {
             window.Intercom("trackEvent", event, metadata);
         } else {

@@ -191,5 +191,41 @@ export default function viceRouter() {
         })
     );
 
+    logger.info("adding the GET /admin/requests");
+    api.get(
+        "/admin/requests",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/requests",
+        })
+    );
+
+    logger.info("adding the POST /admin/requests/:id/:status");
+    api.post(
+        "/admin/requests/:id/:status",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/requests/:id/:status",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the POST /admin/requests/:id/approved/vice");
+    api.post(
+        "/admin/requests/:id/approved/vice",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/requests/:id/approved/vice",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

@@ -113,17 +113,14 @@ function ViceLoading(props) {
         const {
             done: inputFilesPodDone,
             hasError: inputFilesPodError,
-            restartCount: inputFilesPodRestartCount,
         } = getContainerDetails(pods, config?.vice?.inputFilesContainerName);
         const {
             done: viceProxyPodDone,
             hasError: viceProxyPodError,
-            restartCount: viceProxyPodRestartCount,
         } = getContainerDetails(pods, config?.vice?.viceProxyContainerName);
         const {
             done: analysisPodDone,
             hasError: analysisPodError,
-            restartCount: analysisPodRestartCount,
             image: analysisPodImage,
         } = getContainerDetails(pods, config?.vice?.analysisContainerName);
 
@@ -204,8 +201,6 @@ function ViceLoading(props) {
         }
 
         if (!inputFilesPodDone && !viceProxyPodDone) {
-            const restartCount =
-                inputFilesPodRestartCount + viceProxyPodRestartCount;
             const hasError = inputFilesPodError || viceProxyPodError;
 
             setProgress({
@@ -219,10 +214,6 @@ function ViceLoading(props) {
                                 ? "downloadingDEImagesError"
                                 : "downloadingDEImages"
                         }
-                        values={{ restartCount }}
-                        components={{
-                            break: <br />,
-                        }}
                     />
                 ),
             });
@@ -244,12 +235,8 @@ function ViceLoading(props) {
                                 : "downloadingVICEImage"
                         }
                         values={{
-                            restartCount: analysisPodRestartCount,
                             image: analysisPodImage,
                             appName,
-                        }}
-                        components={{
-                            break: <br />,
                         }}
                     />
                 ),

@@ -72,7 +72,7 @@ export default function TableView(props) {
                     const original = row.original;
                     return (
                         <IconButton
-                        id={build(baseId, ids.APPROVE_BTN)}
+                            id={build(baseId, ids.APPROVE_BTN)}
                             color={
                                 original?.status?.toLowerCase() ===
                                     ACCESS_REQUEST_COMPLETED ||

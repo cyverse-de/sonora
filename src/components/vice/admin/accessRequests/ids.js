@@ -1,6 +1,6 @@
 export default {
     APPROVE_BTN: "approveButton",
-    REJECT_BTN:"rejectButton",
+    REJECT_BTN: "rejectButton",
     JOB_LIMITS_DLG: "jobLimitDialog",
     JOB_LIMIT_SLIDER: "jobLimitSlider",
     REJECT_REQUEST_DLG: "rejectRequestDialog",

@@ -1,14 +1,16 @@
 {
-    "invalid_request": "The authorization request sent to the OAuth server by the DE was invalid. Please contact support.",
-    "unauthorized_client": "The DE is not authorized to request access to the API. Please contact support.",
-    "access_denied": "The authorization request was denied. Please try again or contact support.",
-    "unsupported_response_type": "The OAuth server doesn't support the requested response type. Please contact support.",
-    "invalid_scope": "The OAuth server doesn't support the requested scope. Please contact support.",
-    "server_error": "The OAuth server encountered an error. Please contact support.",
-    "temporarily_unavailable": "The OAuth server is temporarily unavailable. Please try again or contact support.",
-    "invalid_oauth_config": "The DE's OAuth configuration is invalid. Please contact support.",
-    "no_auth_code_provided": "No authorization code or error code was sent by the OAuth server. Please contact support.",
-    "no_state_id_provided": "No state information was sent by the OAuth server. Please contact support.",
+    "invalid_request": "The authorization request sent to the remote system by the DE was invalid. Please contact support.",
+    "unauthorized_client": "The DE is not authorized to request access to the remote system. Please contact support.",
+    "access_denied": "The remote system denied the authorization request. Please try again or contact support.",
+    "unsupported_response_type": "The remote system does not support the response requested by the DE. Please contact support.",
+    "invalid_scope": "The remote system does not support the scope requested by the DE. Please contact support.",
+    "server_error": "The remote system system encountered an error. Please try again or contact support.",
+    "temporarily_unavailable": "The remote system is temporarily unavailable. Please try again or contact support.",
+    "invalid_oauth_config": "A DE configuration error was detected. Please contact support.",
+    "no_auth_code_provided": "Invalid authorization attempt. Please contact support.",
+    "no_state_id_provided": "Required information was missing from the authorization attempt. Please contact support.",
     "general_service_error": "The DE service encountered an error. Please contact support.",
-    "oops": "Oops!"
+    "oops": "Oops!",
+    "just_a_moment": "Just a moment...",
+    "processing_request": "Linking the DE to the remote system."
 }

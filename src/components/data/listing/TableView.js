@@ -139,6 +139,7 @@ function TableView(props) {
         rowDotMenuVisibility,
         onDownloadSelected,
         onRenameSelected,
+        onMoveSelected,
     } = props;
     const invalidRowClass = invalidRowStyles();
     const { t } = useTranslation("data");
@@ -420,6 +421,9 @@ function TableView(props) {
                                                     inTrash={inTrash}
                                                     onRenameSelected={
                                                         onRenameSelected
+                                                    }
+                                                    onMoveSelected={
+                                                        onMoveSelected
                                                     }
                                                 />
                                             </TableCell>

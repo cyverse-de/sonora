@@ -22,6 +22,7 @@ import SharingMenuItem from "components/sharing/SharingMenuItem";
 import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";
 import DownloadMenuItem from "../menuItems/DownloadMenuItem";
 import RenameMenuItem from "../menuItems/RenameMenuItem";
+import MoveMenuItem from "../menuItems/MoveMenuItem";
 import PathListAutomation from "../PathListAutomation";
 import DEDialog from "components/utils/DEDialog";
 import ResourceTypes from "components/models/ResourceTypes";
@@ -83,6 +84,7 @@ function DataDotMenu(props) {
         handleDelete,
         handleRestore,
         onRenameSelected,
+        onMoveSelected,
     } = props;
 
     const { t } = useTranslation("data");
@@ -116,7 +118,8 @@ function DataDotMenu(props) {
         !inTrash &&
         selected?.length === 1 &&
         isWritable(selectedResources[0]?.permission);
-
+    const moveMiEnabled =
+        !inTrash && !isSelectionEmpty && isOwner(selectedResources);
     const router = useRouter();
     const routeToFile = (id, path) => {
         router.push(
@@ -145,6 +148,7 @@ function DataDotMenu(props) {
                                   </ListItemIcon>
                                   <ListItemText primary={t("refresh")} />
                               </MenuItem>,
+                              <Divider key={ids.REFRESH_MENU_ITEM_DIVIDER} />,
                               uploadEnabled && (
                                   <MenuItem
                                       key={build(baseId, ids.CREATE_FOLDER_MI)}
@@ -159,14 +163,6 @@ function DataDotMenu(props) {
                                       </ListItemIcon>
                                       <ListItemText primary={t("folder")} />
                                   </MenuItem>
-                              ),
-                              renameEnabled && (
-                                  <RenameMenuItem
-                                      key={build(baseId, ids.RENAME_MI)}
-                                      onRenameSelected={onRenameSelected}
-                                      baseId={baseId}
-                                      onClose={onClose}
-                                  />
                               ),
                               detailsEnabled && (
                                   <DetailsMenuItem
@@ -359,6 +355,14 @@ function DataDotMenu(props) {
                         <DownloadMenuItem
                             key={build(baseId, ids.DOWNLOAD_MENU_ITEM)}
                             onDownloadSelected={onDownloadSelected}
+                            baseId={baseId}
+                            onClose={onClose}
+                        />
+                    ),
+                    moveMiEnabled && (
+                        <MoveMenuItem
+                            key={build(baseId, ids.MOVE_MENU_ITEM)}
+                            onMoveSelected={onMoveSelected}
                             baseId={baseId}
                             onClose={onClose}
                         />

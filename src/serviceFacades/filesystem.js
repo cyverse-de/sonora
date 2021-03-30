@@ -314,3 +314,14 @@ export const emptyTrash = () => {
         method: "DELETE",
     });
 };
+
+export const move = ({ sources, dest }) => {
+    return callApi({
+        endpoint: "/api/filesystem/move",
+        method: "POST",
+        body: {
+            dest,
+            sources,
+        },
+    });
+};

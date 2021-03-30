@@ -8,7 +8,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import { Trans } from "react-i18next";
-
 import TableView from "./TableView";
 
 import ids from "../ids";
@@ -65,6 +64,7 @@ import PublicLinks from "../PublicLinks";
 import constants from "../../../constants";
 import ExternalLink from "components/utils/ExternalLink";
 import { createDOIRequest } from "serviceFacades/doi";
+import MoveDialog from "../MoveDialog";
 
 function Listing(props) {
     const {
@@ -121,6 +121,7 @@ function Listing(props) {
     const [publicLinksDlgOpen, setPublicLinksDlgOpen] = useState(false);
     const [download, setDownload] = useState(false);
     const [renameDlgOpen, setRenameDlgOpen] = useState(false);
+    const [moveDlgOpen, setMoveDlgOpen] = useState(false);
 
     const onRenameClicked = () => setRenameDlgOpen(true);
     const onRenameDlgClose = () => setRenameDlgOpen(false);
@@ -528,6 +529,10 @@ function Listing(props) {
         }
     };
 
+    const onMoveSelected = () => {
+        setMoveDlgOpen(true);
+    };
+
     const isLoading = isQueryLoading([
         isFetching,
         removeResourceStatus,
@@ -575,6 +580,7 @@ function Listing(props) {
                     }
                     onRefreshSelected={onRefreshSelected}
                     onRenameSelected={onRenameClicked}
+                    onMoveSelected={onMoveSelected}
                 />
                 {!isGridView && (
                     <TableView
@@ -602,6 +608,7 @@ function Listing(props) {
                         rowDotMenuVisibility={rowDotMenuVisibility}
                         onDownloadSelected={() => setDownload(true)}
                         onRenameSelected={onRenameClicked}
+                        onMoveSelected={onMoveSelected}
                     />
                 )}
                 {isGridView && <span>Coming Soon!</span>}
@@ -704,6 +711,18 @@ function Listing(props) {
                 open={renameDlgOpen}
                 onClose={onRenameDlgClose}
                 onRenamed={onRenameDlgClose}
+            />
+            <MoveDialog
+                path={path}
+                open={moveDlgOpen}
+                selectedResources={getSelectedResources()}
+                onClose={() => setMoveDlgOpen(false)}
+                onRemoveResource={(resource) => {
+                    const newSelected = selected?.filter(
+                        (sel) => sel !== resource?.id
+                    );
+                    setSelected(newSelected);
+                }}
             />
         </>
     );

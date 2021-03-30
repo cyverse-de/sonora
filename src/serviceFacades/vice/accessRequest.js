@@ -12,9 +12,9 @@ function requestAccess(request) {
     });
 }
 
-function adminRequestListing(key, { showAllRequest }) {
+function adminRequestListing(key, { showAllRequests }) {
     return callApi({
-        endpoint: `/api/admin/requests?include-completed=${showAllRequest}&request-type=vice`,
+        endpoint: `/api/admin/requests?include-completed=${showAllRequests}&request-type=vice`,
         method: "GET",
     });
 }

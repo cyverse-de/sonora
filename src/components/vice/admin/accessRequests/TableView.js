@@ -7,7 +7,7 @@
  */
 import React, { useMemo } from "react";
 import { useTranslation } from "i18n";
-import { formatDateObject } from "@cyverse-de/ui-lib";
+import { build, formatDateObject } from "@cyverse-de/ui-lib";
 
 import ids from "./ids";
 
@@ -72,6 +72,7 @@ export default function TableView(props) {
                     const original = row.original;
                     return (
                         <IconButton
+                        id={build(baseId, ids.APPROVE_BTN)}
                             color={
                                 original?.status?.toLowerCase() ===
                                     ACCESS_REQUEST_COMPLETED ||
@@ -99,6 +100,7 @@ export default function TableView(props) {
                     const original = row.original;
                     return (
                         <IconButton
+                            id={build(baseId, ids.REJECT_BTN)}
                             color={
                                 original?.status?.toLowerCase() ===
                                 ACCESS_REQUEST_REJECTED
@@ -129,7 +131,7 @@ export default function TableView(props) {
                 },
             },
         ],
-        [onUpdateRequest, t]
+        [baseId, onUpdateRequest, t]
     );
     return (
         <BasicTable

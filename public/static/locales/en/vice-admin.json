@@ -2,7 +2,6 @@
     "accessRequests": "Access Requests",
     "showAllRequests": "Show All Requests",
     "accessRequestApprovedMsg": "Your request to access VICE apps is approved.",
-    "accessRequestDeniedMsg": "We are unable approve your request to access VICE apps at this moment.",
     "accessRequestUpdateSuccess": "Request updated successfully.",
     "accessRequestUpdateFailure": "Unable to update request. Please try again.",
     "nameColumn": "Name",

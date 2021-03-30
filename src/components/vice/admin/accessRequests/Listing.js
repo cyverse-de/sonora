@@ -49,7 +49,7 @@ function Listing(props) {
     const { t } = useTranslation("vice-admin");
     const { t: i18nCommon } = useTranslation("common");
     const [data, setData] = React.useState(null);
-    const [showAllRequest, setShowAllRequest] = React.useState(false);
+    const [showAllRequests, setShowAllRequests] = React.useState(false);
     const [jobLimitDialogOpen, setJobLimitDialogOpen] = React.useState(false);
     const [jobLimit, setJobLimit] = React.useState(2);
     const [selectedRequest, setSelectedRequest] = React.useState();
@@ -57,7 +57,7 @@ function Listing(props) {
     const [deniedMsgDialogOpen, setDeniedMsgDialogOpen] = React.useState(false);
 
     const handleRequestFilterChange = (event) => {
-        setShowAllRequest(event.target.checked);
+        setShowAllRequests(event.target.checked);
     };
 
     const handleSliderChange = (event, newValue) => {
@@ -69,7 +69,7 @@ function Listing(props) {
     };
 
     const { isFetching, error: listingError } = useQuery({
-        queryKey: [ADMIN_ACCESS_REQUEST_LISTING_QUERY_KEY, { showAllRequest }],
+        queryKey: [ADMIN_ACCESS_REQUEST_LISTING_QUERY_KEY, { showAllRequests }],
         queryFn: adminRequestListing,
         config: {
             enabled: true,
@@ -164,7 +164,7 @@ function Listing(props) {
                         control={
                             <Switch
                                 id={build(baseId, ids.SHOW_ALL_REQUESTS_SWITCH)}
-                                checked={showAllRequest}
+                                checked={showAllRequests}
                                 onChange={handleRequestFilterChange}
                                 name="requestFilter"
                                 color="primary"
@@ -178,7 +178,7 @@ function Listing(props) {
                     baseId={build(baseId, ids.REQUESTS_TABLE)}
                     data={data?.requests || []}
                     onUpdateRequest={onUpdateRequest}
-                    showAllRequest={showAllRequest}
+                    showAllRequest={showAllRequests}
                     onRequestFilterChange={handleRequestFilterChange}
                     loading={loading}
                     emptyDataMessage={t("noResults")}
@@ -199,7 +199,6 @@ function Listing(props) {
                         </Button>
                     </>
                 }
-                on
             >
                 <Grid container spacing={2}>
                     <Grid item xs={12}>

@@ -6,7 +6,6 @@
     "invalid_scope": "The remote system does not support the scope requested by the DE. Please contact support.",
     "server_error": "The remote system system encountered an error. Please try again or contact support.",
     "temporarily_unavailable": "The remote system is temporarily unavailable. Please try again or contact support.",
-    "invalid_oauth_config": "A DE configuration error was detected. Please contact support.",
     "no_auth_code_provided": "Invalid authorization attempt. Please contact support.",
     "no_state_id_provided": "Required information was missing from the authorization attempt. Please contact support.",
     "general_service_error": "The DE service encountered an error. Please contact support.",

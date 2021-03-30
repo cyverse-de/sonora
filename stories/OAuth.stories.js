@@ -43,12 +43,6 @@ TemporarilyUnavailable.args = {
     errorCode: "temporarily_unavailable",
 };
 
-export const InvalidOAuthConfig = OAuthErrorTemplate.bind({});
-InvalidOAuthConfig.args = {
-    errorCode: "invalid_oauth_config",
-};
-InvalidOAuthConfig.storyName = "Invalid OAuth Config";
-
 export const NoAuthCodeProvided = OAuthErrorTemplate.bind({});
 NoAuthCodeProvided.args = {
     errorCode: "no_auth_code_provided",

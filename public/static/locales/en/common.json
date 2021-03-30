@@ -33,6 +33,8 @@
     "logout": "Logout",
     "manageAccount": "Manage your CyVerse Account",
     "markAsRead": "Mark All as Read",
+    "moveUp": "Move Up",
+    "moveDown": "Move Down",
     "more": "More",
     "newNotificationAriaLabel": "Show New Notifications",
     "next": "Next",

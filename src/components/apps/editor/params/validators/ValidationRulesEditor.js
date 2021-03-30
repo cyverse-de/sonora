@@ -49,7 +49,7 @@ const useStyles = makeStyles(styles);
 function ValidationRulesEditorRow(props) {
     const { baseId, fieldName, ruleType, onDelete } = props;
 
-    const { t } = useTranslation("app_editor");
+    const { t } = useTranslation(["app_editor", "common"]);
     const classes = useStyles();
 
     let RuleParamComponent, ruleDisplay;
@@ -125,7 +125,7 @@ function ValidationRulesEditorRow(props) {
             <TableCell padding="none">
                 <Button
                     id={buildID(baseId, ids.BUTTONS.DELETE_BTN)}
-                    aria-label={t("removeParameter")}
+                    aria-label={t("common:delete")}
                     className={classes.deleteIcon}
                     onClick={onDelete}
                 >

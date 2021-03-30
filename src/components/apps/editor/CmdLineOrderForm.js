@@ -135,7 +135,7 @@ function CmdLinePreview(props) {
 function ParamCmdLineOrderForm(props) {
     const { baseId, fieldName, cmdLinePreview, onMoveUp, onMoveDown } = props;
 
-    const { t } = useTranslation("app_editor");
+    const { t } = useTranslation("common");
     const classes = useStyles();
 
     const paramBaseId = buildID(baseId, fieldName);
@@ -149,14 +149,14 @@ function ParamCmdLineOrderForm(props) {
                     <ButtonGroup color="primary" variant="text">
                         <Button
                             id={buildID(paramBaseId, ids.BUTTONS.MOVE_UP_BTN)}
-                            aria-label={t("moveParameterUp")}
+                            aria-label={t("moveUp")}
                             onClick={onMoveUp}
                         >
                             <ArrowUpward />
                         </Button>
                         <Button
                             id={buildID(paramBaseId, ids.BUTTONS.MOVE_DOWN_BTN)}
-                            aria-label={t("moveParameterDown")}
+                            aria-label={t("moveDown")}
                             onClick={onMoveDown}
                         >
                             <ArrowDownward />

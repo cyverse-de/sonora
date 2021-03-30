@@ -5,6 +5,9 @@ export default (theme) => ({
 
     deleteIcon: {
         color: theme.palette.error.main,
+        backgroundColor: theme.palette.getContrastText(
+            theme.palette.error.main
+        ),
     },
 
     flex: { flex: 1 },

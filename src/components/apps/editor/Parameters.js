@@ -13,6 +13,7 @@ import { getNewParam } from "./formatters";
 import ids from "./ids";
 import styles from "./styles";
 
+import ParamLayoutActions from "./ParamLayoutActions";
 import ParamSelectionPalette from "./ParamSelectionPalette";
 
 import { getAppParameterLaunchComponent } from "../utils";
@@ -24,19 +25,14 @@ import { build as buildID } from "@cyverse-de/ui-lib";
 
 import {
     Button,
-    ButtonGroup,
     Card,
     CardHeader,
     makeStyles,
+    useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
 
-import {
-    Add,
-    Delete,
-    Edit,
-    ArrowDownward,
-    ArrowUpward,
-} from "@material-ui/icons";
+import { Add } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
@@ -61,8 +57,9 @@ function ParamCardForm(props) {
         }
     }, [fieldName, paramEl, scrollToField, setScrollToField]);
 
-    const { t } = useTranslation("app_editor");
     const classes = useStyles();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
     const paramBaseId = buildID(baseId, fieldName);
     const defaultValueFieldName = `${fieldName}.defaultValue`;
@@ -85,37 +82,17 @@ function ParamCardForm(props) {
                     />
                 }
                 action={
-                    <ButtonGroup color="primary" variant="text">
-                        <Button
-                            id={buildID(paramBaseId, ids.BUTTONS.MOVE_UP_BTN)}
-                            aria-label={t("moveParameterUp")}
-                            onClick={onMoveUp}
-                        >
-                            <ArrowUpward />
-                        </Button>
-                        <Button
-                            id={buildID(paramBaseId, ids.BUTTONS.MOVE_DOWN_BTN)}
-                            aria-label={t("moveParameterDown")}
-                            onClick={onMoveDown}
-                        >
-                            <ArrowDownward />
-                        </Button>
-                        <Button
-                            id={buildID(paramBaseId, ids.BUTTONS.EDIT_BTN)}
-                            aria-label={t("editParameterProperties")}
-                            onClick={onEdit}
-                        >
-                            <Edit />
-                        </Button>
-                        <Button
-                            id={buildID(paramBaseId, ids.BUTTONS.DELETE_BTN)}
-                            aria-label={t("removeParameter")}
-                            className={classes.deleteIcon}
-                            onClick={onDelete}
-                        >
-                            <Delete />
-                        </Button>
-                    </ButtonGroup>
+                    <ParamLayoutActions
+                        baseId={paramBaseId}
+                        ButtonProps={{
+                            color: "primary",
+                            variant: isMobile ? undefined : "text",
+                        }}
+                        onMoveUp={onMoveUp}
+                        onMoveDown={onMoveDown}
+                        onEdit={onEdit}
+                        onDelete={onDelete}
+                    />
                 }
             />
         </Card>

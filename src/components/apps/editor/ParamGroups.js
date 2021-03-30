@@ -15,6 +15,7 @@ import styles from "./styles";
 
 import GroupPropertyForm from "./GroupPropertyForm";
 import Parameters from "./Parameters";
+import ParamLayoutActions from "./ParamLayoutActions";
 import ParamPropertyForm from "./ParamPropertyForm";
 
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
@@ -26,22 +27,16 @@ import {
     AccordionSummary,
     AccordionDetails,
     Button,
-    ButtonGroup,
     Card,
     CardActions,
     CardContent,
     Typography,
     makeStyles,
+    useTheme,
+    useMediaQuery,
 } from "@material-ui/core";
 
-import {
-    Add,
-    Delete,
-    Edit,
-    ExpandMore,
-    ArrowDownward,
-    ArrowUpward,
-} from "@material-ui/icons";
+import { Add, ExpandMore } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
@@ -69,8 +64,9 @@ function ParamGroupForm(props) {
         }
     }, [fieldName, groupEl, scrollToField, setScrollToField]);
 
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const classes = useStyles();
-    const { t } = useTranslation("app_editor");
 
     const groupBaseId = buildID(baseId, fieldName);
 
@@ -85,54 +81,20 @@ function ParamGroupForm(props) {
                 <Typography className={classes.flex} variant="subtitle2">
                     {group.label}
                 </Typography>
-                <ButtonGroup color="primary" variant="contained">
-                    <Button
-                        id={buildID(groupBaseId, ids.BUTTONS.MOVE_UP_BTN)}
-                        aria-label={t("moveSectionUp")}
-                        onFocus={(event) => event.stopPropagation()}
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            onMoveUp();
-                        }}
-                    >
-                        <ArrowUpward />
-                    </Button>
-                    <Button
-                        id={buildID(groupBaseId, ids.BUTTONS.MOVE_DOWN_BTN)}
-                        aria-label={t("moveSectionDown")}
-                        onFocus={(event) => event.stopPropagation()}
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            onMoveDown();
-                        }}
-                    >
-                        <ArrowDownward />
-                    </Button>
-                    <Button
-                        id={buildID(groupBaseId, ids.BUTTONS.EDIT_BTN)}
-                        aria-label={t("editSectionProperties")}
-                        onFocus={(event) => event.stopPropagation()}
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            onEdit(fieldName);
-                        }}
-                    >
-                        <Edit />
-                    </Button>
-                    <Button
-                        id={buildID(groupBaseId, ids.BUTTONS.DELETE_BTN)}
-                        aria-label={t("removeSection")}
-                        color="default"
-                        className={classes.deleteIcon}
-                        onFocus={(event) => event.stopPropagation()}
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            onDelete();
-                        }}
-                    >
-                        <Delete />
-                    </Button>
-                </ButtonGroup>
+                <ParamLayoutActions
+                    baseId={groupBaseId}
+                    ButtonProps={{
+                        color: "primary",
+                        variant: isMobile ? undefined : "contained",
+                        onFocus: (event) => event.stopPropagation(),
+                        onClick: (event) => event.stopPropagation(),
+                    }}
+                    DotMenuButtonProps={{ color: "inherit" }}
+                    onMoveUp={onMoveUp}
+                    onMoveDown={onMoveDown}
+                    onEdit={() => onEdit(fieldName)}
+                    onDelete={onDelete}
+                />
             </AccordionSummary>
             <AccordionDetails className={classes.accordionDetails}>
                 <Parameters

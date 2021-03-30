@@ -46,7 +46,7 @@ const useStyles = makeStyles(styles);
 function SelectionItemEditorRow(props) {
     const { baseId, fieldName, onMoveUp, onMoveDown, onDelete } = props;
 
-    const { t } = useTranslation("app_editor");
+    const { t } = useTranslation("common");
     const classes = useStyles();
 
     const baseParamArgId = buildID(baseId, fieldName);
@@ -84,21 +84,21 @@ function SelectionItemEditorRow(props) {
                 <ButtonGroup color="primary" variant="text">
                     <Button
                         id={buildID(baseParamArgId, ids.BUTTONS.MOVE_UP_BTN)}
-                        aria-label={t("moveParameterUp")}
+                        aria-label={t("moveUp")}
                         onClick={onMoveUp}
                     >
                         <ArrowUpward />
                     </Button>
                     <Button
                         id={buildID(baseParamArgId, ids.BUTTONS.MOVE_DOWN_BTN)}
-                        aria-label={t("moveParameterDown")}
+                        aria-label={t("moveDown")}
                         onClick={onMoveDown}
                     >
                         <ArrowDownward />
                     </Button>
                     <Button
                         id={buildID(baseParamArgId, ids.BUTTONS.DELETE_BTN)}
-                        aria-label={t("removeParameter")}
+                        aria-label={t("delete")}
                         className={classes.deleteIcon}
                         onClick={onDelete}
                     >

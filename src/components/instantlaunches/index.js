@@ -64,15 +64,40 @@ export const defaultInstantLaunch = (defaults = {}, resource) => {
  * @param {Object} resource - An array of resources to use as inputs to the instantly launched app.
  */
 const instantlyLaunch = async (instantLaunch, resource) => {
-    const qID = instantLaunch.default["quick_launch_id"];
+    let qID; // The quick launch ID, used to get app information.
+    let qlp; // The promise used to get quick launch information.
 
-    const quickLaunch = getQuickLaunch(qID).catch((e) => console.error(e));
+    // The format of the instantLaunch object passed in by the data window is a bit different
+    // than the format passed in by the dashboard, so a bit of normalization needs to take
+    // place.
+    if (instantLaunch.hasOwnProperty("default")) {
+        // The data window logic.
+        // The quick launch ID is buried in the "default" map of the object passed in
+        // from the data window.
+        qID = instantLaunch.default["quick_launch_id"];
 
-    const appInfo = getAppInfo(null, { qId: qID }).catch((e) =>
-        console.error(e)
-    );
+        // We'll need to get the quick launch info from the API since it contains the
+        // submission, which isn't provided from the data window.
+        qlp = getQuickLaunch(qID).catch((e) => console.log(e));
+    } else {
+        // The dashboard logic.
+        // The quick launch ID is a top-level property of the object passed in.
+        qID = instantLaunch.quick_launch_id;
 
-    return await Promise.all([quickLaunch, appInfo])
+        // Wrap the instant launch object in a promise so we don't have to branch logic
+        // farther down.
+        qlp = new Promise((resolve, reject) => {
+            resolve(instantLaunch);
+        });
+    }
+
+    // Contains the Promises that resolve to the data needed to perform a job submission.
+    const promiseList = [
+        qlp,
+        getAppInfo(null, { qId: qID }).catch((e) => console.log(e)),
+    ];
+
+    return await Promise.all(promiseList)
         .then((values) => {
             const [ql, app] = values;
             const submission = ql.submission;
@@ -143,7 +168,7 @@ const instantlyLaunch = async (instantLaunch, resource) => {
  */
 const InstantLaunchButton = ({
     instantLaunch,
-    resource,
+    resource = {},
     showErrorAnnouncer,
 }) => {
     const { t } = useTranslation(["instantlaunches", "common"]);

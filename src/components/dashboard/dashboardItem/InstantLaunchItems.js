@@ -49,7 +49,7 @@ class InstantLaunchItem extends ItemBase {
                 tooltipKey="launchAction"
             >
                 <InstantLaunchButton
-                    instantLaunch={this.content}
+                    instantLaunch={instantLaunch}
                     showErrorAnnouncer={showErrorAnnouncer}
                 ></InstantLaunchButton>
             </ItemAction>,

@@ -7,9 +7,6 @@ import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { build } from "@cyverse-de/ui-lib";
 
-import { Card, CardHeader, Typography } from "@material-ui/core";
-import InfoIcon from "@material-ui/icons/Info";
-
 import {
     APP_CATEGORIES_QUERY_KEY,
     getPrivateCategories,
@@ -20,6 +17,7 @@ import {
 } from "serviceFacades/oauth";
 
 import OAuthErrorHandler from "./OAuthErrorHandler";
+import OAuthLinkingMessage from "./OAuthLinkingMessage";
 import ids from "./ids";
 import { getListingPath } from "../apps/utils";
 import systemId from "components/models/systemId";
@@ -86,24 +84,7 @@ function OAuthCodeHandler(props) {
     });
 
     if (isFetching || isFetchingCategories) {
-        const avatar = <InfoIcon fontSize="large" color="primary" />;
-        const title = (
-            <Typography color="primary" variant="h6">
-                Just a moment...
-            </Typography>
-        );
-        const subheader = (
-            <Typography color="primary">Linking the DE to the API.</Typography>
-        );
-        return (
-            <Card id={baseId}>
-                <CardHeader
-                    avatar={avatar}
-                    title={title}
-                    subheader={subheader}
-                />
-            </Card>
-        );
+        return <OAuthLinkingMessage baseId={handlerId} />;
     }
 
     if (error) {

@@ -36,7 +36,7 @@ import useComponentHeight from "../utils/useComponentHeight";
 import { DEFAULT_PAGE_SETTINGS } from "components/data/utils";
 import { getLocalStorage } from "components/utils/localStorage";
 
-import HomeIcon from "@material-ui/icons/Home";
+import FolderIcon from "@material-ui/icons/Folder";
 
 const useStyles = makeStyles(styles);
 
@@ -118,31 +118,29 @@ function SelectionToolbar(props) {
                     {t("cancel")}
                 </Button>
 
-                {!multiSelect &&
-                    acceptedType === ResourceTypes.FOLDER &&
-                    selectedTotal === 0 && (
-                        <>
-                            <Button
-                                startIcon={<HomeIcon />}
-                                id={build(
-                                    baseId,
-                                    ids.SELECTION_TOOLBAR,
-                                    "home"
-                                )}
-                                color={"primary"}
-                                onClick={handleCurrentFolderConfirm}
-                                variant="outlined"
-                                style={{
-                                    margin: isMobile
-                                        ? theme.spacing(0.5)
-                                        : theme.spacing(1),
-                                }}
-                                size="small"
-                            >
-                                {t("selCurrentFolder")}
-                            </Button>
-                        </>
-                    )}
+                {acceptedType === ResourceTypes.FOLDER && selectedTotal === 0 && (
+                    <>
+                        <Button
+                            startIcon={<FolderIcon />}
+                            id={build(
+                                baseId,
+                                ids.CURRENT_FOLDER_BTN,
+                                ids.FOLDER
+                            )}
+                            color={"primary"}
+                            onClick={handleCurrentFolderConfirm}
+                            variant="outlined"
+                            style={{
+                                margin: isMobile
+                                    ? theme.spacing(0.5)
+                                    : theme.spacing(1),
+                            }}
+                            size="small"
+                        >
+                            {t("selCurrentFolder")}
+                        </Button>
+                    </>
+                )}
                 {hasValidSelection && (
                     <Button
                         id={build(baseId, ids.SELECTION_TOOLBAR, ids.OK_BTN)}

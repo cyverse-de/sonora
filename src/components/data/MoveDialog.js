@@ -122,9 +122,7 @@ function MoveDialog(props) {
                             >
                                 {t("selectedFilesFolders")}
                             </Typography>
-                            {(selectedResources === null ||
-                                selectedResources === undefined ||
-                                selectedResources?.length === 0) && (
+                            {selectedResources?.length === 0 && (
                                 <Typography color="error">
                                     {t("selectFileFolderPrompt")}
                                 </Typography>
@@ -132,43 +130,37 @@ function MoveDialog(props) {
                             <List>
                                 {selectedResources?.map((resource) => {
                                     return (
-                                        <>
-                                            <ListItem
-                                                id={build(baseId, resource?.id)}
-                                                key={resource?.id}
+                                        <ListItem
+                                            id={build(baseId, resource?.id)}
+                                            key={resource?.id}
+                                        >
+                                            <IconButton
+                                                edge="end"
+                                                aria-label={i18nCommon(
+                                                    "remove"
+                                                )}
+                                                size="small"
+                                                onClick={() =>
+                                                    onRemoveResource(resource)
+                                                }
+                                                style={{
+                                                    margin: theme.spacing(1),
+                                                }}
                                             >
-                                                <IconButton
-                                                    edge="end"
-                                                    aria-label="remove"
-                                                    size="small"
-                                                    onClick={() =>
-                                                        onRemoveResource(
-                                                            resource
-                                                        )
-                                                    }
-                                                    style={{
-                                                        margin: theme.spacing(
-                                                            1
-                                                        ),
-                                                    }}
-                                                >
-                                                    <RemoveCircleIcon color="error" />
-                                                </IconButton>
-                                                <ListItemAvatar>
-                                                    <Avatar>
-                                                        <ResourceIcon
-                                                            type={
-                                                                resource?.type
-                                                            }
-                                                        />
-                                                    </Avatar>
-                                                </ListItemAvatar>
-                                                <ListItemText
-                                                    primary={resource?.label}
-                                                    secondary={resource?.path}
-                                                />
-                                            </ListItem>
-                                        </>
+                                                <RemoveCircleIcon color="error" />
+                                            </IconButton>
+                                            <ListItemAvatar>
+                                                <Avatar>
+                                                    <ResourceIcon
+                                                        type={resource?.type}
+                                                    />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                primary={resource?.label}
+                                                secondary={resource?.path}
+                                            />
+                                        </ListItem>
                                     );
                                 })}
                             </List>

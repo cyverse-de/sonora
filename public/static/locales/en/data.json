@@ -81,7 +81,7 @@
     "myData": "My Data",
     "move": "Move",
     "moveDestination": "Select destination",
-    "moveRequestFailed": "Unable request failed.",
+    "moveRequestFailed": "Move request failed. Please try again.",
     "moveToTrash": "Move to Trash",
     "name": "Name",
     "needDoi": "I need a DOI",

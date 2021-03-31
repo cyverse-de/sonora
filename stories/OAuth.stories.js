@@ -1,5 +1,6 @@
-import OAuthLinkingMessage from "components/oauth/OAuthLinkingMessage";
 import React from "react";
+
+import OAuthLinkingMessage from "components/oauth/OAuthLinkingMessage";
 import OAuthErrorHandler from "../src/components/oauth/OAuthErrorHandler";
 
 export default { title: "OAuth" };

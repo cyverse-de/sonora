@@ -1,17 +1,11 @@
-const BETA_ATTR = "n2t.net/ark:/99152/h1459";
-const BLESSED_ATTR = "cyverse-blessed";
+export const BETA_ATTR = "n2t.net/ark:/99152/h1459";
+export const BLESSED_ATTR = "cyverse-blessed";
 
 export const betaAVU = {
-    avus: [
-        {
-            attr: BETA_ATTR,
-            value: "beta",
-            unit: "",
-            avus: [
-                { attr: "rdfs:label", value: "releaseStatus", unit: "attr" },
-            ],
-        },
-    ],
+    attr: BETA_ATTR,
+    value: "beta",
+    unit: "",
+    avus: [{ attr: "rdfs:label", value: "releaseStatus", unit: "attr" }],
 };
 
 export const removeBetaAVU = (appAVUs) => {
@@ -30,20 +24,21 @@ export const findBlessedAVU = (appAVUs) => {
     return blessedAVU;
 };
 
-export const getBlessedAVU = (id, isBlessed) => {
-    if (id) {
-        return {
-            avus: [{ id, attr: BLESSED_ATTR, value: `${isBlessed}`, unit: "" }],
-        };
-    } else {
-        return {
-            avus: [
-                {
-                    attr: BLESSED_ATTR,
-                    value: `${isBlessed}`,
-                    unit: "",
-                },
-            ],
-        };
+export const blessedAVU = {
+    attr: BLESSED_ATTR,
+    value: "true",
+    unit: "",
+};
+
+export const removeAVUs = (appAVUs, attrsToRemove) => {
+    if (appAVUs?.length > 0 && attrsToRemove?.length > 0) {
+        return appAVUs.filter((avu) => {
+            if (attrsToRemove.indexOf(avu.attr) === -1) {
+                return true;
+            } else {
+                return false;
+            }
+        });
     }
+    return appAVUs;
 };

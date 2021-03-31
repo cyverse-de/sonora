@@ -7,9 +7,10 @@ import appType from "../components/models/AppType";
 import constants from "../constants";
 import {
     betaAVU,
-    getBlessedAVU,
-    findBlessedAVU,
-    removeBetaAVU,
+    blessedAVU,
+    removeAVUs,
+    BETA_ATTR,
+    BLESSED_ATTR,
 } from "components/apps/admin/avuUtils";
 
 const ALL_APPS_QUERY_KEY = "fetchAllApps";
@@ -293,6 +294,29 @@ function adminSetAppAVUs({ appId, avus }) {
     });
 }
 
+function adminUpdateAppMetadata({ app, details, avus, values }) {
+    console.log("current avus=>" + JSON.stringify(avus));
+    let updatedAVUs = [...avus];
+    if (app.isBlessed !== values.isBlessed) {
+        if (values.isBlessed) {
+            updatedAVUs.push(blessedAVU);
+        } else {
+            updatedAVUs = removeAVUs(updatedAVUs, [BLESSED_ATTR]);
+        }
+    }
+
+    if (app.beta !== values.beta) {
+        if (values.beta) {
+            updatedAVUs.push(betaAVU);
+        } else {
+            updatedAVUs = removeAVUs(updatedAVUs, [BETA_ATTR]);
+        }
+    }
+
+    console.log(JSON.stringify("updated avus=>" + JSON.stringify(updatedAVUs)));
+    return adminSetAppAVUs({ avus: updatedAVUs, appId: app.id });
+}
+
 function adminUpdateApp({ app, details, avus, values }) {
     const documentation = details?.documentation;
     const promises = [];
@@ -318,45 +342,6 @@ function adminUpdateApp({ app, details, avus, values }) {
             })
         );
     }
-
-    if (app.isBlessed !== values.isBlessed) {
-        if (values.isBlessed) {
-            promises.push(
-                adminAddAVUToApp({
-                    appId: app.id,
-                    metadata: getBlessedAVU(null, values.isBlessed),
-                })
-            );
-        } else {
-            const blessedAvu = findBlessedAVU(avus);
-            const updatedBlessedAvu = getBlessedAVU(
-                blessedAvu?.id,
-                values.isBlessed
-            );
-            promises.push(
-                adminAddAVUToApp({
-                    appId: app.id,
-                    metadata: updatedBlessedAvu,
-                })
-            );
-        }
-    }
-
-    if (app.beta !== values.beta) {
-        if (values.beta) {
-            promises.push(
-                adminAddAVUToApp({ appId: app.id, metadata: betaAVU })
-            );
-        } else {
-            if (avus) {
-                const updatedAVUs = removeBetaAVU(avus);
-                promises.push(
-                    adminSetAppAVUs({ avus: updatedAVUs, appId: app.id })
-                );
-            }
-        }
-    }
-
     if (!documentation?.documentation && values.documentation?.documentation) {
         promises.push(
             adminAddAppDoc({
@@ -398,6 +383,7 @@ export {
     saveAppDoc,
     adminGetAppAVUs,
     adminUpdateApp,
+    adminUpdateAppMetadata,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,

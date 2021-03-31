@@ -14,6 +14,7 @@ import {
     getAppDetailsForAdmin,
     adminGetAppAVUs,
     adminUpdateApp,
+    adminUpdateAppMetadata,
     ADMIN_APP_DETAILS_QUERY_KEY,
     ADMIN_APP_AVU_QUERY_KEY,
     ADMIN_APPS_QUERY_KEY,
@@ -81,12 +82,24 @@ export default function AdminAppDetailsDialog(props) {
         },
     });
 
+    const [
+        adminMutateAppMetadata,
+        { status: metadataUpdateStatus },
+    ] = useMutation(adminUpdateAppMetadata, {
+        onSuccess: (data) => {
+            queryCache.invalidateQueries(ADMIN_APPS_QUERY_KEY);
+            handleClose();
+        },
+        onError: setUpdateAppError,
+    });
+
     const [adminMutateApp, { status: allUpdatesStatus }] = useMutation(
         adminUpdateApp,
         {
-            onSuccess: (data) => {
-                queryCache.invalidateQueries(ADMIN_APPS_QUERY_KEY);
-                handleClose();
+            onSuccess: (data, { app, details, avus, values }) => {
+                // queryCache.invalidateQueries(ADMIN_APPS_QUERY_KEY);
+                // handleClose();
+                adminMutateAppMetadata({ app, details, avus, values });
             },
             onError: setUpdateAppError,
         }
@@ -119,7 +132,9 @@ export default function AdminAppDetailsDialog(props) {
                         detailsError={detailsError}
                         avusError={avusError}
                         updateAppError={updateAppError}
-                        allUpdatesStatus={allUpdatesStatus}
+                        allUpdatesStatus={
+                            allUpdatesStatus || metadataUpdateStatus
+                        }
                         handleSubmit={handleSubmit}
                     />
                 );

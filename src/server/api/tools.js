@@ -141,5 +141,44 @@ export default function toolsRouter() {
         })
     );
 
+    logger.info("adding the GET /admin/tools/:id handler");
+    api.get(
+        "/admin/tools/:id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/tools/:id",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the PATCH /api/admin/tools/:id handler");
+    api.patch(
+        "/admin/tools/:id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/admin/tools/:id",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the POST /api/admin/tools handler");
+    api.post(
+        "/admin/tools",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/tools",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

@@ -2,6 +2,16 @@ import callApi from "../common/callApi";
 
 const QUICK_LAUNCH_LISTING = "fetchQuickLaunches";
 const QUICK_LAUNCH_APP_INFO = "fetchAppInfoForQuickLaunch";
+const QUICK_LAUNCH_LIST_ALL = "listAllQuickLaunches";
+
+function listAllQuickLaunches(key) {
+    console.log("listAllQuickLaunches");
+    return callApi({
+        endpoint: "/api/quicklaunches",
+        method: "GET",
+    });
+}
+
 /**
  * Add a quick launch
  * @param {object} quickLaunch
@@ -74,6 +84,8 @@ function getAppInfo(key, { qId }) {
 export {
     QUICK_LAUNCH_APP_INFO,
     QUICK_LAUNCH_LISTING,
+    QUICK_LAUNCH_LIST_ALL,
+    listAllQuickLaunches,
     addQuickLaunch,
     listQuickLaunches,
     deleteQuickLaunch,

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { build } from "@cyverse-de/ui-lib";
 import {
     CircularProgress,
-    IconButton,
     ListItemIcon,
     ListItemText,
     TextField,
@@ -28,6 +27,7 @@ import { groupName, isGroup } from "components/sharing/util";
 import PersonIcon from "@material-ui/icons/Person";
 import { TeamIcon } from "../teams/Icons";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
+import DeleteButton from "../utils/DeleteButton";
 
 function recentContactMatches(option, searchTerm) {
     if (option.recentContact) {
@@ -156,17 +156,17 @@ function SubjectSearchField(props) {
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={optionLabel} />
                 {option.recentContact && (
-                    <IconButton
+                    <DeleteButton
+                        baseId={baseId}
                         onClick={(event) => {
                             event.stopPropagation();
                             const userId = option.id;
                             removeRecentContactMutation({ members: [userId] });
                         }}
                         size="small"
-                        aria-label={t("someLabel")}
                     >
                         <Close />
-                    </IconButton>
+                    </DeleteButton>
                 )}
             </>
         );

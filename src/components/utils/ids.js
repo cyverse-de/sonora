@@ -27,4 +27,7 @@ export default {
         CONFIRM: "confirm",
         TITLE: "title",
     },
+    BUTTONS: {
+        DELETE: "deleteBtn",
+    },
 };

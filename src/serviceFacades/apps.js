@@ -5,7 +5,12 @@
 import callApi from "../common/callApi";
 import appType from "../components/models/AppType";
 import constants from "../constants";
-import { betaAVU, removeBetaAVU } from "components/apps/admin/betaAVU";
+import {
+    betaAVU,
+    getBlessedAVU,
+    findBlessedAVU,
+    removeBetaAVU,
+} from "components/apps/admin/avuUtils";
 
 const ALL_APPS_QUERY_KEY = "fetchAllApps";
 const APP_DETAILS_QUERY_KEY = "fetchAppDetails";
@@ -20,8 +25,6 @@ const APP_DOC_QUERY_KEY = "fetchAppDoc";
 const ADMIN_APPS_QUERY_KEY = "fetchAllAppsForAdmin";
 const ADMIN_APP_DETAILS_QUERY_KEY = "fetchAppDetailsForAdmin";
 const ADMIN_APP_AVU_QUERY_KEY = "fetchAppAVUs";
-
-const BLESSED_ATTR = "cyverse-blessed";
 
 const getAppTypeFilter = (appTypeFilter) => {
     const typeFilter =
@@ -274,11 +277,11 @@ function adminGetAppAVUs(key, { appId }) {
     });
 }
 
-function adminAddAVUToApp({ appId, avu }) {
+function adminAddAVUToApp({ appId, metadata }) {
     return callApi({
         endpoint: `/api/admin/apps/${appId}/metadata`,
         method: "POST",
-        body: avu,
+        body: metadata,
     });
 }
 
@@ -317,25 +320,33 @@ function adminUpdateApp({ app, details, avus, values }) {
     }
 
     if (app.isBlessed !== values.isBlessed) {
-        promises.push(
-            adminAddAVUToApp({
-                appId: app.id,
-                avu: {
-                    avus: [
-                        {
-                            attr: BLESSED_ATTR,
-                            value: values.isBlessed.toString(),
-                            unit: "",
-                        },
-                    ],
-                },
-            })
-        );
+        if (values.isBlessed) {
+            promises.push(
+                adminAddAVUToApp({
+                    appId: app.id,
+                    metadata: getBlessedAVU(null, values.isBlessed),
+                })
+            );
+        } else {
+            const blessedAvu = findBlessedAVU(avus);
+            const updatedBlessedAvu = getBlessedAVU(
+                blessedAvu?.id,
+                values.isBlessed
+            );
+            promises.push(
+                adminAddAVUToApp({
+                    appId: app.id,
+                    metadata: updatedBlessedAvu,
+                })
+            );
+        }
     }
 
     if (app.beta !== values.beta) {
         if (values.beta) {
-            promises.push(adminAddAVUToApp({ appId: app.id, avu: betaAVU }));
+            promises.push(
+                adminAddAVUToApp({ appId: app.id, metadata: betaAVU })
+            );
         } else {
             if (avus) {
                 const updatedAVUs = removeBetaAVU(avus);

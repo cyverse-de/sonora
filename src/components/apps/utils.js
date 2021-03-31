@@ -20,7 +20,9 @@ import Text from "components/apps/launch/params/Text";
 import ReferenceGenomeSelect from "components/apps/launch/ReferenceGenomeSelect";
 
 import AppParamTypes from "components/models/AppParamTypes";
-import Permissions from "components/models/Permissions";
+import Permissions, {
+    permissionHierarchy,
+} from "components/models/Permissions";
 
 /**
  * Builds a path to the App Launch Wizard for the app with the given IDs.
@@ -30,6 +32,15 @@ import Permissions from "components/models/Permissions";
  */
 export const getAppLaunchPath = (systemId, appId) =>
     `/${NavigationConstants.APPS}/${systemId}/${appId}/launch`;
+
+/**
+ * Builds a path to the App Editor for the app with the given IDs.
+ *
+ * @param {string} systemId The app's system ID.
+ * @param {string} appId The app's ID.
+ */
+export const getAppEditPath = (systemId, appId) =>
+    `/${NavigationConstants.APPS}/${systemId}/${appId}/edit`;
 
 /**
  *
@@ -98,6 +109,13 @@ export const canShare = (apps) => {
         apps &&
         apps.length > 0 &&
         !apps.find((app) => app?.permission !== Permissions.OWN)
+    );
+};
+
+export const isWritable = (permission) => {
+    return (
+        permissionHierarchy(permission) >=
+        permissionHierarchy(Permissions.WRITE)
     );
 };
 

@@ -15,6 +15,7 @@ export default {
     LOGIN: "login",
     LOGOUT: "logout",
     MORE: "more",
+    NEW_APP: "apps/create",
     NOTIFICATIONS: "notifications",
     NOTIFICATION_WS: "/websocket/notifications",
     REF_GENOMES: "refgenomes",

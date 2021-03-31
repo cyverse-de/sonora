@@ -30,6 +30,7 @@ import {
     Card,
     CardActions,
     CardContent,
+    Grid,
     Typography,
     makeStyles,
 } from "@material-ui/core";
@@ -74,23 +75,23 @@ function ParamGroupForm(props) {
                     <ExpandMore className={classes.paramsViewsExpandIcon} />
                 }
             >
-                <Typography className={classes.flex} variant="subtitle2">
-                    {group.label}
-                </Typography>
-                <ParamLayoutActions
-                    baseId={groupBaseId}
-                    ButtonProps={{
-                        color: "primary",
-                        variant: "contained",
-                        onFocus: (event) => event.stopPropagation(),
-                        onClick: (event) => event.stopPropagation(),
-                    }}
-                    DotMenuButtonProps={{ color: "inherit" }}
-                    onMoveUp={onMoveUp}
-                    onMoveDown={onMoveDown}
-                    onEdit={() => onEdit(fieldName)}
-                    onDelete={onDelete}
-                />
+                <Grid container justify="space-between">
+                    <Typography variant="subtitle2">{group.label}</Typography>
+                    <ParamLayoutActions
+                        baseId={groupBaseId}
+                        ButtonProps={{
+                            color: "primary",
+                            variant: "contained",
+                            onFocus: (event) => event.stopPropagation(),
+                            onClick: (event) => event.stopPropagation(),
+                        }}
+                        DotMenuButtonProps={{ color: "inherit" }}
+                        onMoveUp={onMoveUp}
+                        onMoveDown={onMoveDown}
+                        onEdit={() => onEdit(fieldName)}
+                        onDelete={onDelete}
+                    />
+                </Grid>
             </AccordionSummary>
             <AccordionDetails className={classes.accordionDetails}>
                 <Parameters

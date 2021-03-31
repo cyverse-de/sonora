@@ -37,9 +37,6 @@ function ListingTest(props) {
             <UserProfileProvider>
                 <Listing
                     baseId="tableView"
-                    onRouteToApp={(systemId, appId) =>
-                        console.log("onRouteToApp", systemId, appId)
-                    }
                     onRouteToListing={(
                         order,
                         orderBy,

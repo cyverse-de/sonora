@@ -47,21 +47,22 @@ import { useUserProfile } from "contexts/userProfile";
 import AdminAppDetailsDialog from "../admin/details/AdminAppDetails";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
-function Listing({
-    baseId,
-    onRouteToApp,
-    onRouteToListing,
-    selectedSystemId,
-    selectedAppId,
-    page,
-    rowsPerPage,
-    order,
-    orderBy,
-    filter,
-    category,
-    showErrorAnnouncer,
-    isAdminView,
-}) {
+function Listing(props) {
+    const {
+        baseId,
+        onRouteToListing,
+        selectedSystemId,
+        selectedAppId,
+        page,
+        rowsPerPage,
+        order,
+        orderBy,
+        filter,
+        category,
+        showErrorAnnouncer,
+        isAdminView,
+    } = props;
+
     const { t } = useTranslation(["apps", "common"]);
     const [isGridView, setGridView] = useState(false);
     const [userProfile] = useUserProfile();
@@ -449,7 +450,6 @@ function Listing({
                 handleCheckboxClick={handleCheckboxClick}
                 handleClick={handleClick}
                 handleRequestSort={handleRequestSort}
-                onRouteToApp={onRouteToApp}
                 canShare={shareEnabled}
                 onDetailsSelected={onDetailsSelected}
                 setSharingDlgOpen={setSharingDlgOpen}

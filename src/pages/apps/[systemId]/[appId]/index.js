@@ -12,7 +12,7 @@ import { getLocalStorage } from "components/utils/localStorage";
 
 import constants from "../../../../constants";
 import appFields from "components/apps/appFields";
-import { getAppLaunchPath, getListingPath } from "components/apps/utils";
+import { getListingPath } from "components/apps/utils";
 import Listing from "components/apps/listing/Listing";
 
 /**
@@ -60,9 +60,6 @@ export default function App() {
             baseId="apps"
             selectedSystemId={systemId}
             selectedAppId={appId}
-            onRouteToApp={(systemId, appId) =>
-                router.push(getAppLaunchPath(systemId, appId))
-            }
             onRouteToListing={onRouteToListing}
             page={selectedPage}
             rowsPerPage={selectedRowsPerPage}

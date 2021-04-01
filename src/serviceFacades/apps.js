@@ -278,14 +278,6 @@ function adminGetAppAVUs(key, { appId }) {
     });
 }
 
-function adminAddAVUToApp({ appId, metadata }) {
-    return callApi({
-        endpoint: `/api/admin/apps/${appId}/metadata`,
-        method: "POST",
-        body: metadata,
-    });
-}
-
 function adminSetAppAVUs({ appId, avus }) {
     return callApi({
         endpoint: `/api/admin/apps/${appId}/metadata`,
@@ -294,14 +286,14 @@ function adminSetAppAVUs({ appId, avus }) {
     });
 }
 
-function adminUpdateAppMetadata({ app, details, avus, values }) {
-    console.log("current avus=>" + JSON.stringify(avus));
-    let updatedAVUs = [...avus];
+function adminUpdateAppMetadata({ app, avus, values }) {
+    let updatedAVUs = avus?.length > 0 ? [...avus] : [];
+
     if (app.isBlessed !== values.isBlessed) {
         if (values.isBlessed) {
             updatedAVUs.push(blessedAVU);
         } else {
-            updatedAVUs = removeAVUs(updatedAVUs, [BLESSED_ATTR]);
+            updatedAVUs = removeAVUs(updatedAVUs, BLESSED_ATTR);
         }
     }
 
@@ -309,11 +301,10 @@ function adminUpdateAppMetadata({ app, details, avus, values }) {
         if (values.beta) {
             updatedAVUs.push(betaAVU);
         } else {
-            updatedAVUs = removeAVUs(updatedAVUs, [BETA_ATTR]);
+            updatedAVUs = removeAVUs(updatedAVUs, BETA_ATTR);
         }
     }
 
-    console.log(JSON.stringify("updated avus=>" + JSON.stringify(updatedAVUs)));
     return adminSetAppAVUs({ avus: updatedAVUs, appId: app.id });
 }
 

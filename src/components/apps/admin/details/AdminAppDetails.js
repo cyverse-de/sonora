@@ -96,17 +96,20 @@ export default function AdminAppDetailsDialog(props) {
     const [adminMutateApp, { status: allUpdatesStatus }] = useMutation(
         adminUpdateApp,
         {
-            onSuccess: (data, { app, details, avus, values }) => {
+            onSuccess: (data, { app, avus, values }) => {
                 // queryCache.invalidateQueries(ADMIN_APPS_QUERY_KEY);
                 // handleClose();
-                adminMutateAppMetadata({ app, details, avus, values });
+                adminMutateAppMetadata({ app, avus, values });
             },
             onError: setUpdateAppError,
         }
     );
 
     const handleSubmit = (values) => {
-        if (allUpdatesStatus !== constants.LOADING) {
+        if (
+            allUpdatesStatus !== constants.LOADING ||
+            metadataUpdateStatus !== constants.LOADING
+        ) {
             adminMutateApp({ app, details, avus, values });
         }
     };

@@ -8,37 +8,15 @@ export const betaAVU = {
     avus: [{ attr: "rdfs:label", value: "releaseStatus", unit: "attr" }],
 };
 
-export const removeBetaAVU = (appAVUs) => {
-    if (appAVUs && appAVUs.length > 0) {
-        const updatedAVUs = appAVUs.filter((avu) => avu.attr !== BETA_ATTR);
-        return updatedAVUs;
-    }
-    return appAVUs;
-};
-
-export const findBlessedAVU = (appAVUs) => {
-    let blessedAVU = null;
-    if (appAVUs && appAVUs.length > 0) {
-        blessedAVU = appAVUs.find((avu) => avu.attr === BLESSED_ATTR);
-    }
-    return blessedAVU;
-};
-
 export const blessedAVU = {
     attr: BLESSED_ATTR,
     value: "true",
     unit: "",
 };
 
-export const removeAVUs = (appAVUs, attrsToRemove) => {
-    if (appAVUs?.length > 0 && attrsToRemove?.length > 0) {
-        return appAVUs.filter((avu) => {
-            if (attrsToRemove.indexOf(avu.attr) === -1) {
-                return true;
-            } else {
-                return false;
-            }
-        });
+export const removeAVUs = (appAVUs, attrToRemove) => {
+    if (appAVUs?.length > 0 && attrToRemove) {
+        return appAVUs.filter((avu) => attrToRemove !== avu.attr);
     }
     return appAVUs;
 };

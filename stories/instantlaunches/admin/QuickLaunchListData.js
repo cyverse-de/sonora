@@ -1,4 +1,4 @@
-export default [
+export const testData = [
     {
         id: "2421c19e-ad85-4217-a21f-e0832f824171",
         name: "sample-quicklaunch",
@@ -99,3 +99,32 @@ export default [
         },
     },
 ];
+
+export const testGlobalQLs = [
+    {
+        id: "1c5459f5-42c9-41f9-a8d8-7b328f60b418",
+        quick_launch_id: "2421c19e-ad85-4217-a21f-e0832f824171",
+        app_id: "34f2c392-9a8a-11e8-9c8e-008cfa5ae621",
+    },
+    {
+        id: "6ae67c2a-8153-4575-8425-2cc7526daac5",
+        quick_launch_id: "3f8cd42a-ee04-42de-872d-1bd637a77ddc",
+        app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
+    },
+    {
+        id: "8d1a04c4-4785-4122-b50b-f0ae3fe7fdc3",
+        quick_launch_id: "f0d5c20a-d960-44e3-b9ee-dd1c85e75b69",
+        app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
+    },
+];
+
+export const testInstantLaunches = {
+    instant_launches: [
+        {
+            id: "6ae67c2a-8153-4575-8425-2cc7526daac5",
+            quick_launch_id: "3f8cd42a-ee04-42de-872d-1bd637a77ddc",
+            added_by: "aramsey@iplantcollaborative.org",
+            added_on: "2021-04-01",
+        },
+    ],
+};

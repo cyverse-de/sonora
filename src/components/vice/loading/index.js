@@ -169,6 +169,9 @@ function ViceLoading(props) {
                         t={t}
                         i18nKey={hasError ? "findingHostLong" : "findingHost"}
                         values={{ appName }}
+                        components={{
+                            break: <br />,
+                        }}
                     />
                 ),
             });
@@ -214,6 +217,9 @@ function ViceLoading(props) {
                                 ? "downloadingDEImagesError"
                                 : "downloadingDEImages"
                         }
+                        components={{
+                            break: <br />,
+                        }}
                     />
                 ),
             });
@@ -237,6 +243,9 @@ function ViceLoading(props) {
                         values={{
                             image: analysisPodImage,
                             appName,
+                        }}
+                        components={{
+                            break: <br />,
                         }}
                     />
                 ),

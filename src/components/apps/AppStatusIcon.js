@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 
 import Disabled from "@material-ui/icons/Block";
 import Lock from "@material-ui/icons/Lock";
+import VerifiedUser from "@material-ui/icons/VerifiedUser";
 import ToolTip from "@material-ui/core/Tooltip";
+import { useTheme } from "@material-ui/core";
 
 /**
  * @author aramsey
@@ -13,7 +15,8 @@ import ToolTip from "@material-ui/core/Tooltip";
  */
 
 function AppStatusIcon(props) {
-    const { isPublic, isDisabled, isBeta, ...custom } = props;
+    const { isPublic, isDisabled, isBeta, isBlessed, ...custom } = props;
+    const theme = useTheme();
     const isPrivate = !isPublic;
 
     if (isPrivate) {
@@ -24,6 +27,11 @@ function AppStatusIcon(props) {
     }
     if (isBeta) {
         return <BetaIcon {...custom} />;
+    }
+    if (isBlessed) {
+        return (
+            <BlessedIcon {...custom} style={{ color: theme.palette.gold }} />
+        );
     }
     return null;
 }
@@ -57,6 +65,15 @@ function BetaIcon(props) {
     return (
         <ToolTip title={t("betaAppTooltip")}>
             <img src="/betaSymbol.svg" alt="/betaSymbol.png" />
+        </ToolTip>
+    );
+}
+
+function BlessedIcon(props) {
+    const { t } = useTranslation("apps");
+    return (
+        <ToolTip title={t("blessedToolTip")}>
+            <VerifiedUser {...props} />
         </ToolTip>
     );
 }

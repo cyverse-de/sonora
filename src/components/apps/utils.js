@@ -81,6 +81,6 @@ export const canShare = (apps) => {
     return (
         apps &&
         apps.length > 0 &&
-        !apps.find((app) => app.permission !== Permissions.OWN)
+        !apps.find((app) => app?.permission !== Permissions.OWN)
     );
 };

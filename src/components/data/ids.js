@@ -13,7 +13,7 @@ export default {
     CREATE_MULTI_INPUT_MI: "createMultiInputFileMenuItem",
     CREATE_MENU: "createMenu",
     CREATE_DLG: "createResourceDlg",
-    CURRENT_FOLDER_BTN:"currentFolderButton",
+    CURRENT_FOLDER_BTN: "currentFolderButton",
     CUSTOM_COLS: "customCols",
     DATA_NAVIGATION: "dataNavigation",
     DATA_PATH: "pathField",

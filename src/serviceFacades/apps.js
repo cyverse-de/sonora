@@ -5,7 +5,13 @@
 import callApi from "../common/callApi";
 import appType from "../components/models/AppType";
 import constants from "../constants";
-import { betaAVU, removeBetaAVU } from "components/apps/admin/betaAVU";
+import {
+    betaAVU,
+    blessedAVU,
+    removeAVUs,
+    BETA_ATTR,
+    BLESSED_ATTR,
+} from "components/apps/admin/avuUtils";
 
 const ALL_APPS_QUERY_KEY = "fetchAllApps";
 const APP_DETAILS_QUERY_KEY = "fetchAppDetails";
@@ -272,20 +278,34 @@ function adminGetAppAVUs(key, { appId }) {
     });
 }
 
-function adminAddAVUToApp({ appId, avu }) {
-    return callApi({
-        endpoint: `/api/admin/apps/${appId}/metadata`,
-        method: "POST",
-        body: avu,
-    });
-}
-
 function adminSetAppAVUs({ appId, avus }) {
     return callApi({
         endpoint: `/api/admin/apps/${appId}/metadata`,
         method: "PUT",
         body: { avus },
     });
+}
+
+function adminUpdateAppMetadata({ app, avus, values }) {
+    let updatedAVUs = avus?.length > 0 ? [...avus] : [];
+
+    if (app.isBlessed !== values.isBlessed) {
+        if (values.isBlessed) {
+            updatedAVUs.push(blessedAVU);
+        } else {
+            updatedAVUs = removeAVUs(updatedAVUs, BLESSED_ATTR);
+        }
+    }
+
+    if (app.beta !== values.beta) {
+        if (values.beta) {
+            updatedAVUs.push(betaAVU);
+        } else {
+            updatedAVUs = removeAVUs(updatedAVUs, BETA_ATTR);
+        }
+    }
+
+    return adminSetAppAVUs({ avus: updatedAVUs, appId: app.id });
 }
 
 function adminUpdateApp({ app, details, avus, values }) {
@@ -313,20 +333,6 @@ function adminUpdateApp({ app, details, avus, values }) {
             })
         );
     }
-
-    if (app.beta !== values.beta) {
-        if (values.beta) {
-            promises.push(adminAddAVUToApp({ appId: app.id, avu: betaAVU }));
-        } else {
-            if (avus) {
-                const updatedAVUs = removeBetaAVU(avus);
-                promises.push(
-                    adminSetAppAVUs({ avus: updatedAVUs, appId: app.id })
-                );
-            }
-        }
-    }
-
     if (!documentation?.documentation && values.documentation?.documentation) {
         promises.push(
             adminAddAppDoc({
@@ -368,6 +374,7 @@ export {
     saveAppDoc,
     adminGetAppAVUs,
     adminUpdateApp,
+    adminUpdateAppMetadata,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,

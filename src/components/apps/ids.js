@@ -74,6 +74,7 @@ export default {
         DELETED: "deleted",
         DISABLED: "disabled",
         BETA: "beta",
+        BLESSED: "blessed",
         WIKI_URL: "wikiURL",
         DOCUMENTATION: "documentation",
         HTCONDOR_EXTRA_REQS: "htcondorExtraReqs",

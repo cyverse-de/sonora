@@ -225,6 +225,7 @@ function TableView(props) {
                                                 isPublic={app.is_public}
                                                 isBeta={app.beta}
                                                 isDisabled={app.disabled}
+                                                isBlessed={app.isBlessed}
                                             />
                                         </TableCell>
                                         <TableCell>

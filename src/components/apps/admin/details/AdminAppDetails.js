@@ -14,6 +14,7 @@ import {
     getAppDetailsForAdmin,
     adminGetAppAVUs,
     adminUpdateApp,
+    adminUpdateAppMetadata,
     ADMIN_APP_DETAILS_QUERY_KEY,
     ADMIN_APP_AVU_QUERY_KEY,
     ADMIN_APPS_QUERY_KEY,
@@ -81,19 +82,34 @@ export default function AdminAppDetailsDialog(props) {
         },
     });
 
+    const [
+        adminMutateAppMetadata,
+        { status: metadataUpdateStatus },
+    ] = useMutation(adminUpdateAppMetadata, {
+        onSuccess: (data) => {
+            queryCache.invalidateQueries(ADMIN_APPS_QUERY_KEY);
+            handleClose();
+        },
+        onError: setUpdateAppError,
+    });
+
     const [adminMutateApp, { status: allUpdatesStatus }] = useMutation(
         adminUpdateApp,
         {
-            onSuccess: (data) => {
-                queryCache.invalidateQueries(ADMIN_APPS_QUERY_KEY);
-                handleClose();
+            onSuccess: (data, { app, avus, values }) => {
+                // queryCache.invalidateQueries(ADMIN_APPS_QUERY_KEY);
+                // handleClose();
+                adminMutateAppMetadata({ app, avus, values });
             },
             onError: setUpdateAppError,
         }
     );
 
     const handleSubmit = (values) => {
-        if (allUpdatesStatus !== constants.LOADING) {
+        if (
+            allUpdatesStatus !== constants.LOADING ||
+            metadataUpdateStatus !== constants.LOADING
+        ) {
             adminMutateApp({ app, details, avus, values });
         }
     };
@@ -119,7 +135,9 @@ export default function AdminAppDetailsDialog(props) {
                         detailsError={detailsError}
                         avusError={avusError}
                         updateAppError={updateAppError}
-                        allUpdatesStatus={allUpdatesStatus}
+                        allUpdatesStatus={
+                            allUpdatesStatus || metadataUpdateStatus
+                        }
                         handleSubmit={handleSubmit}
                     />
                 );
@@ -274,6 +292,12 @@ function AdminAppDetailsForm(props) {
                             name={"beta"}
                             label={t("beta")}
                             id={build(parentId, ids.ADMIN_DETAILS.BETA)}
+                            component={FormCheckbox}
+                        />
+                        <Field
+                            name={"isBlessed"}
+                            label={t("blessed")}
+                            id={build(parentId, ids.ADMIN_DETAILS.BLESSED)}
                             component={FormCheckbox}
                         />
                         <Paper elevation={1}>

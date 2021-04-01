@@ -6,7 +6,7 @@ import Disabled from "@material-ui/icons/Block";
 import Lock from "@material-ui/icons/Lock";
 import VerifiedUser from "@material-ui/icons/VerifiedUser";
 import ToolTip from "@material-ui/core/Tooltip";
-import {useTheme} from "@material-ui/core";
+import { useTheme } from "@material-ui/core";
 
 /**
  * @author aramsey
@@ -29,7 +29,9 @@ function AppStatusIcon(props) {
         return <BetaIcon {...custom} />;
     }
     if (isBlessed) {
-        return <BlessedIcon {...custom} style={{color: theme.palette.gold}} />;
+        return (
+            <BlessedIcon {...custom} style={{ color: theme.palette.gold }} />
+        );
     }
     return null;
 }

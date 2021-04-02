@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useQuery, useMutation } from "react-query";
-import sanitizeHtml from "sanitize-html";
+
 import { useTranslation } from "i18n";
 
 import { build as buildDebugId } from "@cyverse-de/ui-lib";
@@ -24,6 +24,8 @@ import {
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import GridLoading from "components/utils/GridLoading";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
+import markdownToHtml from "components/utils/markdownToHtml";
+
 import {
     CircularProgress,
     Dialog,
@@ -81,16 +83,9 @@ function Documentation(props) {
     const { t } = useTranslation("apps");
 
     useEffect(() => {
-        const regenerateMarkdown = async (documentation) => {
-            const showdown = (await import("showdown")).default;
-            const converter = new showdown.Converter();
-            converter.setFlavor("github");
-            setHtmlDocumentation(
-                sanitizeHtml(converter.makeHtml(documentation))
-            );
-        };
-
-        regenerateMarkdown(documentation);
+        markdownToHtml(documentation).then((html) => {
+            setHtmlDocumentation(html);
+        });
     }, [documentation]);
 
     if (loading) {

@@ -96,7 +96,8 @@ export default {
                     name: "",
                     type: "Info",
                     validators: [],
-                    label: "<h4>Info Text!</h4>\nDoes <b>HTML</b> display?",
+                    label:
+                        "<h4>Info Text!</h4>\nDoes <b>HTML</b> display?\n:sparkles: `Markdown` **now** _supported_ :tada:",
                     id:
                         "17794ff6-5a83-11ea-9e38-008cfa5ae621_177d78f6-5a83-11ea-9e38-008cfa5ae621",
                     isVisible: true,

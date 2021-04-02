@@ -17,6 +17,7 @@ import ids from "./ids";
 import {
     addRecentContacts,
     fetchRecentContactsList,
+    RECENT_CONTACTS_LIST_NAME,
     RECENT_CONTACTS_QUERY,
     removeRecentContacts,
 } from "serviceFacades/groups";
@@ -32,7 +33,7 @@ import DeleteButton from "../utils/DeleteButton";
 function recentContactMatches(option, searchTerm) {
     if (option.recentContact) {
         return (
-            option.email.includes(searchTerm) || option.id.includes(searchTerm)
+            option.email?.includes(searchTerm) || option.id.includes(searchTerm)
         );
     }
 
@@ -59,9 +60,16 @@ function SubjectSearchField(props) {
         config: {
             enabled: searchTerm && searchTerm.length > 2,
             onSuccess: (resp) => {
-                const subjects = resp?.subjects.map((subject) => {
-                    return { ...subject, grouping: t("searchResults") };
-                });
+                // Remove recent contacts list (default collab list) from search results
+                // so user doesn't share with everyone they've ever shared with
+                const subjects = resp?.subjects
+                    .filter(
+                        (subject) =>
+                            groupName(subject) !== RECENT_CONTACTS_LIST_NAME
+                    )
+                    .map((subject) => {
+                        return { ...subject, grouping: t("searchResults") };
+                    });
                 setSearchResults(subjects);
             },
         },

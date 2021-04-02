@@ -350,6 +350,7 @@ export {
     SEARCH_TEAMS_QUERY,
     TEAM_DETAILS_QUERY,
     RECENT_CONTACTS_QUERY,
+    RECENT_CONTACTS_LIST_NAME,
     getMyTeams,
     getAllTeams,
     searchTeams,

@@ -1,3 +1,5 @@
 {
-  "instantLaunchError" : "There was a problem launching your analysis."
+  "instantLaunchError" : "There was a problem launching your analysis.",
+  "createdBy" : "Created By",
+  "name" : "Name"
 }

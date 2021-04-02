@@ -4,16 +4,12 @@ import { useMutation, useQuery } from "react-query";
 
 import { Button } from "@material-ui/core";
 
-import {
-    QUICK_LAUNCH_LIST_ALL,
-    listAllQuickLaunches,
-    listGlobalQuickLaunches,
-    addGlobalQuickLaunch,
-} from "serviceFacades/quickLaunches";
+import { listGlobalQuickLaunches } from "serviceFacades/quickLaunches";
 
 import {
-    addInstantLaunch,
     listInstantLaunches,
+    //upsertInstantLaunchMetadata,
+    listInstantLaunchesByMetadata,
 } from "serviceFacades/instantlaunches";
 
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
@@ -30,40 +26,30 @@ import {
 } from "@material-ui/core";
 import { useTranslation } from "i18n";
 
-const promoteQuickLaunch = async ({ quicklaunch, globalQLList }) => {
-    const promises = [];
+const addToDashboard = ({ id, dashboardILs }) => {};
 
-    if (!isGlobal(quicklaunch.id, globalQLList)) {
-        promises.push(addGlobalQuickLaunch(quicklaunch));
-    }
-
-    promises.push(addInstantLaunch(quicklaunch.id));
-
-    return await Promise.all(promises);
+const isInDashboard = (id, dashboardILs) => {
+    const dILIDs = dashboardILs.map((dil) => dil.id);
+    return dILIDs.includes(id);
 };
 
-const isGlobal = (id, globalQLList) => {
-    const ids = globalQLList.map((gl) => gl.quick_launch_id);
-    return ids.includes(id);
-};
+const constructFullIL = (instantLaunch, allQLs) => {};
 
-const isInInstantLaunch = (qlID, instantlaunches) => {
-    const ilIDs = instantlaunches.map((il) => il.quick_launch_id);
-    return ilIDs.includes(qlID);
-};
-
-const QuickLaunchList = (props) => {
-    const baseID = "quickLaunchList";
+const InstantLaunchList = (props) => {
+    const baseID = "instantlaunchlist";
     const { t } = useTranslation("instantlaunches");
 
-    const allQL = useQuery(QUICK_LAUNCH_LIST_ALL, listAllQuickLaunches);
-    const globalQLs = useQuery("global_qls", listGlobalQuickLaunches);
     const allILs = useQuery("all_instant_launches", listInstantLaunches);
-    const [promote] = useMutation(promoteQuickLaunch);
+    const allQLs = useQuery("all_quick_launches", listGlobalQuickLaunches);
+    const dashboardILs = useQuery(
+        ["dashboard_instant_launches", "ui_location", "dashboard"],
+        listInstantLaunchesByMetadata
+    );
 
-    const isLoading =
-        allQL.isLoading || globalQLs.isLoading || allILs.isLoading;
-    const isError = allQL.isError || globalQLs.isError || allILs.isError;
+    const [addToDash] = useMutation(addToDashboard);
+
+    const isLoading = allILs.isLoading;
+    const isError = allILs.isError;
 
     return (
         <div>
@@ -76,7 +62,7 @@ const QuickLaunchList = (props) => {
                 />
             ) : isError ? (
                 <WrappedErrorHandler
-                    errorObject={allQL.error || globalQLs.error || allILs.error}
+                    errorObject={allILs.error}
                     baseId={baseID}
                 />
             ) : (
@@ -90,15 +76,17 @@ const QuickLaunchList = (props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {allQL.data.map((row) => {
-                                const gl = globalQLs.data;
+                            {allILs.data.map((il) => {
+                                const fullIL = constructFullIL(il, allQLs.data);
                                 return (
-                                    <TableRow key={row.id}>
-                                        <TableCell>{row.name}</TableCell>
-                                        <TableCell>{row.creator}</TableCell>
-                                        {isInInstantLaunch(
-                                            row.id,
-                                            allILs.data.instant_launches
+                                    <TableRow key={fullIL.id}>
+                                        <TableCell>{fullIL.name}</TableCell>
+                                        <TableCell>
+                                            {fullIL.createdBy}
+                                        </TableCell>
+                                        {isInDashboard(
+                                            fullIL.id,
+                                            dashboardILs.data
                                         ) ? (
                                             <TableCell />
                                         ) : (
@@ -107,13 +95,14 @@ const QuickLaunchList = (props) => {
                                                     onClick={(event) => {
                                                         event.stopPropagation();
                                                         event.preventDefault();
-                                                        promote({
-                                                            quicklaunch: row,
-                                                            globalQLList: gl,
+                                                        addToDash({
+                                                            id: fullIL.id,
+                                                            dashboardILs:
+                                                                dashboardILs.data,
                                                         });
                                                     }}
                                                 >
-                                                    {t("createInstantLaunch")}
+                                                    {t("addToDashboard")}
                                                 </Button>
                                             </TableCell>
                                         )}
@@ -128,4 +117,4 @@ const QuickLaunchList = (props) => {
     );
 };
 
-export default QuickLaunchList;
+export default InstantLaunchList;

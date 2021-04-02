@@ -39,3 +39,11 @@ export const resetInstantLaunchMetadata = (id, metadata) =>
         method: "PUT",
         body: metadata,
     });
+
+export const listInstantLaunchesByMetadata = (key, queryKey, queryValue) => {
+    callApi({
+        endpoint: `/api/instantlaunches/metadata/full`,
+        method: "GET",
+        params: { [queryKey]: queryValue },
+    });
+};

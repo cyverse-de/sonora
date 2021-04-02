@@ -29,7 +29,7 @@ export default () => {
         })
     );
 
-    logger.info("adding the PUT /instantlaunches");
+    logger.info("adding the PUT /instantlaunches handler");
     api.put(
         "/instantlaunches",
         auth.authnTokenMiddleware,
@@ -49,6 +49,19 @@ export default () => {
         terrainHandler({
             method: "GET",
             pathname: "/instant-launches",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the GET /instantlaunches/metadata/full handler");
+    api.get(
+        "/instantlaunches/metadata/full",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/instant-launches/metadata/full",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -81,7 +94,7 @@ export default () => {
         })
     );
 
-    logger.info("Add the PUT /instantlaunches:id/metadata handler");
+    logger.info("Add the PUT /instantlaunches/:id/metadata handler");
     api.put(
         "/instantlaunches/:id/metadata",
         auth.authnTokenMiddleware,

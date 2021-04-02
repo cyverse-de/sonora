@@ -16,6 +16,7 @@ const {
     useTranslation,
     withTranslation,
     appWithTranslation,
+    Trans,
 } = new NextI18Next({
     defaultLanguage: "en",
     otherLanguages: [],
@@ -47,4 +48,5 @@ export {
     withTranslation,
     appWithTranslation,
     I18nProviderWrapper,
+    Trans,
 };

@@ -59,6 +59,11 @@ vice:
     defaultCasValidate: validate
     concurrentJobs: 2
     useCaseCharsMin: 60
+    initContainerName: input-files-init
+    inputFilesContainerName: input-files
+    viceProxyContainerName: vice-proxy
+    analysisContainerName: analysis
+    deploymentTimeoutMs: 180000
 
 services:
     ontology_lookup_service:

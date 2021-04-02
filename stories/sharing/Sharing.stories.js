@@ -16,7 +16,19 @@ import {
     toolUnshareResponse,
 } from "./SharingMocks";
 import SharingView from "../../src/components/sharing";
-import { userInfoResp } from "../UserInfoMocks";
+import {
+    collabListMemberResp,
+    userInfoMemberResp,
+    userInfoResp,
+} from "../UserInfoMocks";
+
+const groupUpdateSuccess = {
+    results: [
+        {
+            success: true,
+        },
+    ],
+};
 
 export const SharingTest = () => {
     mockAxios.onGet(/\/api\/subjects.*/).reply(200, {
@@ -25,7 +37,9 @@ export const SharingTest = () => {
             { id: "test_user", email: "test@test.com", name: "Testy Test" },
         ],
     });
-    mockAxios.onGet(/\/api\/user-info.*/).reply(200, userInfoResp);
+    mockAxios
+        .onGet(/\/api\/user-info.*username=alfred.*/)
+        .reply(200, userInfoResp);
     mockAxios
         .onPost(/\/api\/filesystem\/user-permission/)
         .reply(200, dataUserPermResp);
@@ -50,6 +64,19 @@ export const SharingTest = () => {
         .reply(200, toolPermissionResponse);
     mockAxios.onPost(/\/api\/tools\/sharing/).reply(200, toolShareResponse);
     mockAxios.onPost(/\/api\/tools\/unsharing/).reply(200, toolUnshareResponse);
+
+    mockAxios
+        .onGet("/api/collaborator-lists/default/members")
+        .reply(200, collabListMemberResp);
+    mockAxios
+        .onGet(/\/api\/user-info.*username=superman.*/)
+        .reply(200, userInfoMemberResp);
+    mockAxios
+        .onPost("/api/collaborator-lists/default/members")
+        .reply(200, groupUpdateSuccess);
+    mockAxios
+        .onPost("/api/collaborator-lists/default/members/deleter")
+        .reply(200, groupUpdateSuccess);
 
     const resources = {
         paths: [

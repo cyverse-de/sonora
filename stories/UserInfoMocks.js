@@ -77,3 +77,53 @@ export const userInfoResp = {
         source_id: "g:gsa",
     },
 };
+
+export const collabListMemberResp = {
+    members: [
+        {
+            source_id: "ldap",
+            id: "superman",
+        },
+        {
+            source_id: "ldap",
+            id: "llane",
+        },
+        {
+            source_id: "ldap",
+            id: "wonderwoman",
+        },
+    ],
+};
+
+export const userInfoMemberResp = {
+    superman: {
+        email: "superman@iplantcollaborative.org",
+        name: "Clark Kent",
+        last_name: "Kent",
+        description: "It's not an S",
+        id: "superman",
+        institution: "Justice League",
+        first_name: "Clark",
+        source_id: "ldap",
+    },
+    llane: {
+        email: "llane@cyverse.org",
+        name: "Lois Lane",
+        last_name: "Lane",
+        description: "A Pulitzer prize winning reporter",
+        id: "llane",
+        institution: "Daily Planet",
+        first_name: "Lois",
+        source_id: "ldap",
+    },
+    wonderwoman: {
+        email: "wonderwoman@cyverse.org",
+        name: "Diana Prince",
+        last_name: "Prince",
+        description: "Amazonian princess",
+        id: "wonderwoman",
+        institution: "Justice League",
+        first_name: "Diana",
+        source_id: "ldap",
+    },
+};

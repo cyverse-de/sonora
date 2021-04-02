@@ -156,12 +156,14 @@ const formatSubmission = (app) => {
                     isVisible,
                     required,
                     omit_if_blank,
+                    validators,
                     file_parameters,
                 } = formParam;
 
                 const param = {
                     id,
                     type: paramType,
+                    name,
                     label,
                     description,
                     order,
@@ -173,13 +175,22 @@ const formatSubmission = (app) => {
                         // Info params don't need any other properties.
                         return param;
 
+                    case AppParamTypes.TEXT:
+                        return {
+                            ...param,
+                            required,
+                            omit_if_blank,
+                            validators,
+                            defaultValue: defaultValue || null,
+                        };
+
                     case AppParamTypes.INTEGER:
                     case AppParamTypes.DOUBLE:
                         return {
                             ...param,
-                            name,
                             required,
                             omit_if_blank,
+                            validators,
                             defaultValue:
                                 defaultValue || defaultValue === 0
                                     ? defaultValue
@@ -214,7 +225,6 @@ const formatSubmission = (app) => {
                     case AppParamTypes.FOLDER_INPUT:
                         return {
                             ...param,
-                            name,
                             required,
                             omit_if_blank,
                             file_parameters,
@@ -228,7 +238,6 @@ const formatSubmission = (app) => {
                     case AppParamTypes.MULTIFILE_OUTPUT:
                         return {
                             ...param,
-                            name,
                             required,
                             omit_if_blank,
                             file_parameters,
@@ -238,7 +247,6 @@ const formatSubmission = (app) => {
                     case AppParamTypes.MULTIFILE_SELECTOR:
                         return {
                             ...param,
-                            name,
                             required,
                             omit_if_blank,
                             file_parameters,
@@ -249,7 +257,6 @@ const formatSubmission = (app) => {
                     default:
                         return {
                             ...param,
-                            name,
                             required,
                             omit_if_blank,
                             defaultValue: defaultValue || null,
@@ -294,7 +301,7 @@ const formatSelectionArgs = (paramArgs, defaultValue) => {
     return paramArgs?.map((paramArg) => ({
         ...paramArg,
         isDefault:
-            paramArg.id === defaultValue?.id ||
+            (paramArg.id && paramArg.id === defaultValue?.id) ||
             (paramArg.display === defaultValue?.display &&
                 paramArg.name === defaultValue?.name &&
                 paramArg.value === defaultValue?.value),
@@ -305,6 +312,7 @@ const getNewParam = (paramType, label, key) => {
     const newParam = {
         key,
         type: paramType,
+        name: "",
         label,
         description: "",
         order: 0,
@@ -338,45 +346,35 @@ const getNewParam = (paramType, label, key) => {
             break;
 
         case AppParamTypes.FILE_INPUT:
+        case AppParamTypes.FILE_OUTPUT:
         case AppParamTypes.FOLDER_INPUT:
         case AppParamTypes.FOLDER_OUTPUT:
         case AppParamTypes.MULTIFILE_OUTPUT:
-            newParam.name = "";
             newParam.defaultValue = "";
             newParam.required = false;
             newParam.omit_if_blank = false;
             newParam.file_parameters = {
+                data_source: DataSources.FILE,
+                file_info_type: FileInfoTypes.FILE,
                 format: FileInfoTypes.UNSPECIFIED,
                 is_implicit: false,
             };
             break;
 
         case AppParamTypes.MULTIFILE_SELECTOR:
-            newParam.name = "";
             newParam.defaultValue = [];
             newParam.required = false;
             newParam.omit_if_blank = false;
             newParam.file_parameters = {
+                data_source: DataSources.FILE,
+                file_info_type: FileInfoTypes.FILE,
                 format: FileInfoTypes.UNSPECIFIED,
                 is_implicit: false,
                 repeat_option_flag: false,
             };
             break;
 
-        case AppParamTypes.FILE_OUTPUT:
-            newParam.name = "";
-            newParam.defaultValue = "";
-            newParam.required = false;
-            newParam.omit_if_blank = false;
-            newParam.file_parameters = {
-                data_source: DataSources.FILE,
-                format: FileInfoTypes.UNSPECIFIED,
-                is_implicit: false,
-            };
-            break;
-
         default:
-            newParam.name = "";
             newParam.defaultValue = "";
             newParam.required = false;
             newParam.omit_if_blank = false;

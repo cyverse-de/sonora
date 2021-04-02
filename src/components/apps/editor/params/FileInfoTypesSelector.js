@@ -21,7 +21,7 @@ export default function FileInfoTypesSelector(props) {
     return (
         <FastField
             id={buildID(baseId, ids.PARAM_FIELDS.FILE_INFO_TYPE)}
-            name={`${fieldName}.format`}
+            name={`${fieldName}.file_info_type`}
             label={label}
             component={FormTextField}
             select

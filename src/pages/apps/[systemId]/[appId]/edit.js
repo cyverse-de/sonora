@@ -11,6 +11,9 @@ import { useQuery } from "react-query";
 import AppEditor from "components/apps/editor";
 import ids from "components/apps/editor/ids";
 
+import { signInErrorResponse } from "components/utils/error/errorCode";
+import { useUserProfile } from "contexts/userProfile";
+
 import {
     getAppUI,
     getAppById,
@@ -23,6 +26,8 @@ export default function AppEdit() {
     const [appListingInfo, setAppListingInfo] = React.useState(null);
     const [loadingError, setLoadingError] = React.useState(null);
 
+    const [userProfile] = useUserProfile();
+
     const router = useRouter();
     const { systemId, appId } = router.query;
 
@@ -30,7 +35,7 @@ export default function AppEdit() {
         queryKey: [APP_BY_ID_QUERY_KEY, { systemId, appId }],
         queryFn: getAppById,
         config: {
-            enabled: systemId && appId,
+            enabled: userProfile?.id && systemId && appId,
             onSuccess: (result) => {
                 setAppListingInfo(result?.apps[0]);
             },
@@ -42,11 +47,19 @@ export default function AppEdit() {
         queryKey: [APP_UI_QUERY_KEY, { systemId, appId }],
         queryFn: getAppUI,
         config: {
-            enabled: systemId && appId,
+            enabled: userProfile?.id && systemId && appId,
             onSuccess: setApp,
             onError: setLoadingError,
         },
     });
+
+    React.useEffect(() => {
+        if (userProfile?.id) {
+            setLoadingError(null);
+        } else {
+            setLoadingError(signInErrorResponse);
+        }
+    }, [userProfile]);
 
     const loading = appInfoLoading || isFetching;
     const isPublic = appListingInfo?.is_public;

@@ -7,11 +7,10 @@
 import React from "react";
 
 import DEErrorDialog from "./error/DEErrorDialog";
+import { signInErrorResponse } from "./error/errorCode";
 
 const SignInDialog = (props) => {
-    return (
-        <DEErrorDialog errorObject={{ response: { status: 401 } }} {...props} />
-    );
+    return <DEErrorDialog errorObject={signInErrorResponse} {...props} />;
 };
 
 export default SignInDialog;

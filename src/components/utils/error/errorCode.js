@@ -13,3 +13,5 @@ export const ERROR_CODES = {
     ERR_LIMIT_REACHED: "ERR_LIMIT_REACHED",
     ERR_PERMISSION_NEEDED: "ERR_PERMISSION_NEEDED",
 };
+
+export const signInErrorResponse = { response: { status: 401 } };

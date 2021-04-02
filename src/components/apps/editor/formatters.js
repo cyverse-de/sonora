@@ -37,7 +37,7 @@ import FileInfoTypes from "components/models/FileInfoTypes";
  * @returns Initial form values.
  */
 const initAppValues = (app) => {
-    const { groups } = app;
+    const groups = app?.groups;
 
     const initializedGroups = groups?.map(({ name, ...group }, groupIndex) => ({
         ...group,

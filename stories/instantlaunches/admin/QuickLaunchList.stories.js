@@ -1,6 +1,6 @@
 import React from "react";
 
-import QuickLaunchList from "components/instantlaunches/admin";
+import QuickLaunchList from "components/instantlaunches/admin/QuickLaunchList";
 
 import { mockAxios } from "../../axiosMock";
 

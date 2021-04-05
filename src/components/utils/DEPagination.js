@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: theme.spacing(1),
         color: theme.palette.info,
     },
+    mainGrid: {
+        justifyContent: "center",
+    },
     buttonPadding: {
         paddingTop: theme.spacing(1.5),
     },
@@ -171,8 +174,7 @@ function DEPagination(props) {
     const matches = useMediaQuery(theme.breakpoints.down("sm"));
     return (
         <Paper className={classes.paper}>
-            <Grid container>
-                <Grid item xs={4} sm={5} md={5} lg={5}></Grid>
+            <Grid container className={classes.mainGrid}>
                 <Grid item>
                     <Pagination
                         id={build(baseId, ids.PAGINATION_TOOLBAR)}

@@ -172,9 +172,9 @@ function DEPagination(props) {
     return (
         <Paper className={classes.paper}>
             <Grid container>
-                <Grid item xs={2} sm={5} md={5} lg={5}></Grid>
-                <Grid>
-                    <Pagination // TAG
+                <Grid item xs={4} sm={5} md={5} lg={5}></Grid>
+                <Grid item>
+                    <Pagination
                         id={build(baseId, ids.PAGINATION_TOOLBAR)}
                         size={matches ? "small" : "medium"}
                         className={classes.paginationItems}

@@ -110,7 +110,7 @@ function Preferences(props) {
                     pref?.system_default_output_dir?.path
             );
             setBootstrapQueryEnabled(false);
-            setBootstrapInfo({ ...bootstrapInfo, preferences: pref });
+            setBootstrapInfo(respData);
             const session = respData?.session;
             const agaveKey = session?.auth_redirect?.agave;
             if (agaveKey) {
@@ -119,7 +119,7 @@ function Preferences(props) {
                 setRequireAgaveAuth(false);
             }
         },
-        [bootstrapInfo, setBootstrapInfo]
+        [setBootstrapInfo]
     );
 
     useEffect(() => {
@@ -340,6 +340,33 @@ function Preferences(props) {
         }
         return errors;
     };
+
+    const mapPropsToValues = (bootstrap) => {
+        if (bootstrap === null || bootstrap === undefined) {
+            return {};
+        }
+        if (bootstrap?.preferences) {
+            if (bootstrap?.apps_info?.webhooks[0]) {
+                console.log(
+                    "pref=>" +
+                        JSON.stringify({
+                            ...bootstrap.preferences,
+                            webhook: { ...bootstrap.apps_info?.webhooks[0] },
+                        })
+                );
+                return {
+                    ...bootstrap.preferences,
+                    webhook: { ...bootstrap.apps_info?.webhooks[0] },
+                };
+            } else {
+                return {
+                    ...bootstrap.preferences,
+                };
+            }
+        } else {
+            return {};
+        }
+    };
     const busy =
         prefMutationStatus === constants.LOADING ||
         resetTokenStatus === constants.LOADING ||
@@ -361,7 +388,7 @@ function Preferences(props) {
             <Container className={classes.root}>
                 <Paper>
                     <Formik
-                        initialValues={bootstrapInfo?.preferences}
+                        initialValues={mapPropsToValues(bootstrapInfo)}
                         onSubmit={handleSubmit}
                         enableReinitialize
                         validate={validateShortCuts}
@@ -374,6 +401,38 @@ function Preferences(props) {
                                     ids.LOADING_PROGRESS
                                 )}
                             >
+                                <Grid container justify="flex-end">
+                                    <Grid item>
+                                        <Button
+                                            id={build(
+                                                baseId,
+                                                ids.RESTORE_DEFAULT_BUTTON
+                                            )}
+                                            className={classes.actionButton}
+                                            color="primary"
+                                            onClick={() =>
+                                                setShowRestoreConfirmation(true)
+                                            }
+                                            variant="outlined"
+                                        >
+                                            {t("restoreDefaultsBtnLbl")}
+                                        </Button>
+                                    </Grid>
+                                    <Grid item>
+                                        <Button
+                                            id={build(
+                                                baseId,
+                                                ids.SAVE_PREFERENCES_BUTTON
+                                            )}
+                                            className={classes.actionButton}
+                                            color="primary"
+                                            type="submit"
+                                            variant="contained"
+                                        >
+                                            {t("saveBtnLbl")}
+                                        </Button>
+                                    </Grid>
+                                </Grid>
                                 <General
                                     baseId={build(baseId, ids.GENERAL)}
                                     defaultOutputFolder={defaultOutputFolder}
@@ -389,6 +448,7 @@ function Preferences(props) {
                                     }
                                     requireAgaveAuth={requireAgaveAuth}
                                     resetHPCToken={resetHPCToken}
+                                    values={props.values}
                                 />
                                 <Divider className={classes.dividers} />
                                 <Shortcuts
@@ -406,6 +466,7 @@ function Preferences(props) {
                                             onClick={() =>
                                                 setShowRestoreConfirmation(true)
                                             }
+                                            variant="outlined"
                                         >
                                             {t("restoreDefaultsBtnLbl")}
                                         </Button>
@@ -419,6 +480,7 @@ function Preferences(props) {
                                             className={classes.actionButton}
                                             color="primary"
                                             type="submit"
+                                            variant="contained"
                                         >
                                             {t("saveBtnLbl")}
                                         </Button>

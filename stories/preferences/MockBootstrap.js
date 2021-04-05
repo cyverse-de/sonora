@@ -67,3 +67,24 @@ export default {
         enableHPCPrompt: true,
     },
 };
+export const webhookTypes = {
+    webhooktypes: [
+        {
+            id: "f4dbf5f4-c3f6-11e7-a333-008cfa5ae621",
+            type: "Slack",
+            template:
+                '\n{\n\t"text": "{{.Msg}}. {{if .Completed}} <{{.Link}}|{{.LinkText}}> {{- end}}"\n}\n',
+        },
+        {
+            id: "c9cd5218-d9e0-11e7-ac79-008cfa5ae621",
+            type: "Zapier",
+            template:
+                '{"id": "{{.ID}}","name": "{{.Name}}","text": "{{.Msg}}. {{if .Completed}} <{{.Link}}|{{.LinkText}}> {{- end}}"}',
+        },
+        {
+            id: "32aaf1c4-91db-11e9-857c-008cfa5ae621",
+            type: "Custom",
+            template: "",
+        },
+    ],
+};

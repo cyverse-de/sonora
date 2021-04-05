@@ -8,7 +8,7 @@ import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
 import mockBootstrap from "./MockBootstrap";
 
 export const PreferencesTest = () => {
-    mockAxios.onGet(/\/api\/bootstrap*/).reply(200, mockBootstrap);
+    mockAxios.onGet(`/api/bootstrap/`).reply(200, mockBootstrap);
 
     return (
         <UploadTrackingProvider>

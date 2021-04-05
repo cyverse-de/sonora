@@ -1,3 +1,33 @@
+/**
+ * @author aramsey
+ *
+ * An autocomplete component that allows users to search for users and groups
+ * (a.k.a subjects).
+ * This field also handles managing the user's recent contact list. The recent
+ * contact list has replaced the Collaborators window feature by managing
+ * the user's `default` collaborator list.
+ *
+ * When searching, the options are shown in two categories:
+ * Recent Contacts and Search Results
+ *
+ * Search Results will display:
+ * - Any group the user has permission to see (i.e. public groups or groups
+ * they are a member of) whose display name contains the search term.
+ *
+ * - Any user whose ID or email exactly matches the search term. This is done
+ * to address privacy concerns and also matches what Google has done with their
+ * sharing interface, so users should hopefully be familiar.
+ *
+ * Recent Contacts will display:
+ * - Any group from their recent contacts list whose display name contains
+ * the search term.
+ *
+ * - Any user from their recent contacts list whose ID or email contains
+ * (i.e. not exact match) the search term.
+ * Since Recent Contacts will only contain contacts that the user has already
+ * found via an exact match, there's no need to force an exact match again
+ *
+ */
 import React, { useEffect, useState } from "react";
 
 import { build } from "@cyverse-de/ui-lib";

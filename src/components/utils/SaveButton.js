@@ -16,7 +16,7 @@ import {
 import SaveIcon from "@material-ui/icons/Save";
 
 const SaveButton = (props) => {
-    const { baseId, disabled, onSave, ...custom } = props;
+    const { baseId, onSave, ...custom } = props;
 
     const { t } = useTranslation("common");
     const theme = useTheme();
@@ -30,7 +30,6 @@ const SaveButton = (props) => {
                 <IconButton
                     id={buttonId}
                     aria-label={t("save")}
-                    disabled={disabled}
                     onClick={onSave}
                     color="primary"
                     {...custom}
@@ -42,7 +41,6 @@ const SaveButton = (props) => {
     ) : (
         <Button
             id={buttonId}
-            disabled={disabled}
             onClick={onSave}
             color="primary"
             variant="contained"

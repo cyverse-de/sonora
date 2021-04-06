@@ -18,7 +18,7 @@ import { Button, Card, CardActions } from "@material-ui/core";
 export default function GroupPropertyForm(props) {
     const { baseId, fieldName, onDone } = props;
 
-    const { t } = useTranslation(["app_editor", "app_editor_help"]);
+    const { t } = useTranslation(["app_editor", "common"]);
 
     return (
         <Card>

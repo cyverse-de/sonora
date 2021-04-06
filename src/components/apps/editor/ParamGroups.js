@@ -32,8 +32,6 @@ import {
     CardContent,
     Typography,
     makeStyles,
-    useTheme,
-    useMediaQuery,
 } from "@material-ui/core";
 
 import { Add, ExpandMore } from "@material-ui/icons";
@@ -64,8 +62,6 @@ function ParamGroupForm(props) {
         }
     }, [fieldName, groupEl, scrollToField, setScrollToField]);
 
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const classes = useStyles();
 
     const groupBaseId = buildID(baseId, fieldName);
@@ -85,7 +81,7 @@ function ParamGroupForm(props) {
                     baseId={groupBaseId}
                     ButtonProps={{
                         color: "primary",
-                        variant: isMobile ? undefined : "contained",
+                        variant: "contained",
                         onFocus: (event) => event.stopPropagation(),
                         onClick: (event) => event.stopPropagation(),
                     }}
@@ -122,7 +118,7 @@ function ParamGroups(props) {
     const [editParamField, setEditParamField] = React.useState();
     const [scrollToField, setScrollToField] = React.useState();
 
-    const { t } = useTranslation(["app_editor", "app_editor_help"]);
+    const { t } = useTranslation(["app_editor", "app_editor_help", "common"]);
 
     const groups = getIn(values, "groups");
 

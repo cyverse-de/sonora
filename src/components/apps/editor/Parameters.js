@@ -23,14 +23,7 @@ import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
 
-import {
-    Button,
-    Card,
-    CardHeader,
-    makeStyles,
-    useMediaQuery,
-    useTheme,
-} from "@material-ui/core";
+import { Button, Card, CardHeader, makeStyles } from "@material-ui/core";
 
 import { Add } from "@material-ui/icons";
 
@@ -58,8 +51,6 @@ function ParamCardForm(props) {
     }, [fieldName, paramEl, scrollToField, setScrollToField]);
 
     const classes = useStyles();
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
     const paramBaseId = buildID(baseId, fieldName);
     const defaultValueFieldName = `${fieldName}.defaultValue`;
@@ -86,7 +77,7 @@ function ParamCardForm(props) {
                         baseId={paramBaseId}
                         ButtonProps={{
                             color: "primary",
-                            variant: isMobile ? undefined : "text",
+                            variant: "text",
                         }}
                         onMoveUp={onMoveUp}
                         onMoveDown={onMoveDown}

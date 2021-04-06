@@ -8,33 +8,20 @@
 
 import React from "react";
 import { useTranslation } from "i18n";
-import { Field, FieldArray } from "formik";
+import { Field } from "formik";
 
-import {
-    build,
-    FormTextField,
-    FormSelectField,
-    FormSwitch,
-} from "@cyverse-de/ui-lib";
+import { build, FormTextField, FormSwitch } from "@cyverse-de/ui-lib";
 
 import ids from "./ids";
 import styles from "./styles";
 
-import {
-    Button,
-    CircularProgress,
-    Divider,
-    Grid,
-    InputAdornment,
-    Typography,
-    MenuItem,
-} from "@material-ui/core";
+import { Button, Grid, Typography, MenuItem } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(styles);
 
 export default function Webhooks(props) {
-    const { baseId, values, hookTopics, hookTypes } = props;
+    const { baseId, hookTopics, hookTypes } = props;
     const { t } = useTranslation("preferences");
     const classes = useStyles();
 
@@ -44,11 +31,8 @@ export default function Webhooks(props) {
                 Webhooks
             </Typography>
             <Grid container spacing={3} className={classes.grid}>
-                <Grid item>
-                    <Typography>
-                        Add incoming webhook integration. The DE will post
-                        notifications to this URL:
-                    </Typography>
+                <Grid item xs={12}>
+                    <Typography>{t("webhooksPrompt")}</Typography>
                 </Grid>
                 <Grid item>
                     <Field
@@ -60,7 +44,8 @@ export default function Webhooks(props) {
                 <Grid item>
                     <Field name="webhook.type.type">
                         {({ field: { onChange, ...field }, ...props }) => (
-                            <FormSelectField
+                            <FormTextField
+                                select
                                 {...props}
                                 label={t("type")}
                                 required
@@ -72,7 +57,7 @@ export default function Webhooks(props) {
                                 variant="outlined"
                                 size="small"
                             >
-                                {hookTypes.map((type, index) => (
+                                {hookTypes?.map((type, index) => (
                                     <MenuItem
                                         key={index}
                                         value={type.type}
@@ -81,30 +66,34 @@ export default function Webhooks(props) {
                                         {type.type}
                                     </MenuItem>
                                 ))}
-                            </FormSelectField>
+                            </FormTextField>
                         )}
                     </Field>
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography variant="subtitle2">Select Topics:</Typography>
+                    <Typography variant="subtitle2">
+                        {t("webhookSelectedTopics")}
+                    </Typography>
                 </Grid>
             </Grid>
             <Grid container spacing={3} className={classes.grid}>
-                <FieldArray
-                    name="webhook.topics"
-                    render={(arrayHelpers) => (
-                        <Grid item>
-                            {topics.map((topic, index) => (
-                                <Field
-                                    component={FormSwitch}
-                                    name={`webhook.topic.${index}`}
-                                    color="primary"
-                                    label={topic.topic}
-                                />
-                            ))}
-                        </Grid>
-                    )}
-                />
+                <Grid item xs={12}>
+                    {hookTopics?.map((topic, index) => (
+                        <Field
+                            id={build(baseId, `${topic.topic}`)}
+                            component={FormSwitch}
+                            name={`webhook.${topic.topic}`}
+                            color="primary"
+                            label={t(`${topic.topic}`)}
+                            key={topic.topic}
+                        />
+                    ))}
+                </Grid>
+            </Grid>
+            <Grid container spacing={3} className={classes.grid}>
+                <Grid item xs={12}>
+                    <Button variant="outlined">{t("test")}</Button>
+                </Grid>
             </Grid>
         </>
     );

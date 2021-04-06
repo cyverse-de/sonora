@@ -98,21 +98,34 @@ export default function userRouter() {
 
     logger.info("adding the GET /webhooks/types handler");
     api.get(
-        " /webhooks/types",
+        "/webhooks/types",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
-            pathname: "/secured/webhooks/types",
+            pathname: "/webhooks/types",
         })
     );
 
     logger.info("adding the GET /webhooks/topics handler");
     api.get(
-        " /webhooks/topics",
+        "/webhooks/topics",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
-            pathname: "/secured/webhooks/topics",
+            pathname: "/webhooks/topics",
+        })
+    );
+
+    logger.info("adding the PUT /webhooks handler");
+    api.put(
+        "/webhooks",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PUT",
+            pathname: "/webhooks",
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
     );
 

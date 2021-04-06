@@ -78,6 +78,14 @@ function getWebhookTopics() {
     });
 }
 
+function updateWebhooks(webhooks) {
+    return callApi({
+        endpoint: `/api/webhooks`,
+        method: "PUT",
+        body: webhooks,
+    });
+}
+
 /**
  * Query to get user bootstrap and preferences
  * @param {boolean} enabled - Enabled / disable this query.
@@ -154,4 +162,5 @@ export {
     feedback,
     getWebhookTypes,
     getWebhookTopics,
+    updateWebhooks,
 };

@@ -7,9 +7,11 @@ import { Button } from "@material-ui/core";
 import { listGlobalQuickLaunches } from "serviceFacades/quickLaunches";
 
 import {
-    listInstantLaunches,
-    //upsertInstantLaunchMetadata,
+    listFullInstantLaunches,
+    upsertInstantLaunchMetadata,
     listInstantLaunchesByMetadata,
+    getInstantLaunchMetadata,
+    resetInstantLaunchMetadata,
 } from "serviceFacades/instantlaunches";
 
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
@@ -26,20 +28,67 @@ import {
 } from "@material-ui/core";
 import { useTranslation } from "i18n";
 
-const addToDashboard = ({ id, dashboardILs }) => {};
+/**
+ * Adds the instant launch to the list of instant launches
+ * in the dashboard if it isn't already there.
+ *
+ * @param {string} id
+ */
+const addToDashboard = async (id) =>
+    await upsertInstantLaunchMetadata(id, {
+        ui_location: "dashboard",
+    });
 
+/**
+ * Removes an instant launch from the dashboard.
+ *
+ * @param {string} id
+ */
+const removeFromDashboard = async (id) => {
+    const ilMeta = await getInstantLaunchMetadata(id);
+    const { ui_location, ...filtered } = ilMeta;
+    if (ui_location === "dashboard") {
+        return await resetInstantLaunchMetadata(id, filtered);
+    }
+    return ilMeta;
+};
+
+/**
+ * Checks if the instant launch associated with 'id' is in
+ * the list of instant launches included in the dashboard.
+ *
+ * @param {string} id - The UUID for the instant launch being checked.
+ * @param {Object[]} dashboardILs - List of instant launches currently in the dashbaord.
+ * @returns {boolean} - Whether the instant launch is included in the list of dashboard instant launches.
+ */
 const isInDashboard = (id, dashboardILs) => {
     const dILIDs = dashboardILs.map((dil) => dil.id);
     return dILIDs.includes(id);
 };
 
-const constructFullIL = (instantLaunch, allQLs) => {};
+/**
+ * Removes a suffix from the username. Everything after the last '@' will be removed.
+ *
+ * @param {string} username - The username that will be shortened
+ * @returns {string} - The shortened username
+ */
+const shortenUsername = (username) => {
+    const atIndex = username.lastIndexOf("@");
+    if (atIndex > -1) {
+        return username.slice(0, atIndex);
+    }
+    return username;
+};
 
+/**
+ * Presents a list of instant launches that can be updated,
+ * deleted, or added to the dashboard.
+ */
 const InstantLaunchList = (props) => {
     const baseID = "instantlaunchlist";
     const { t } = useTranslation("instantlaunches");
 
-    const allILs = useQuery("all_instant_launches", listInstantLaunches);
+    const allILs = useQuery("all_instant_launches", listFullInstantLaunches);
     const allQLs = useQuery("all_quick_launches", listGlobalQuickLaunches);
     const dashboardILs = useQuery(
         ["dashboard_instant_launches", "ui_location", "dashboard"],
@@ -47,9 +96,11 @@ const InstantLaunchList = (props) => {
     );
 
     const [addToDash] = useMutation(addToDashboard);
+    const [removeFromDash] = useMutation(removeFromDashboard);
 
-    const isLoading = allILs.isLoading;
-    const isError = allILs.isError;
+    const isLoading =
+        allILs.isLoading || allQLs.isLoading || dashboardILs.isLoading;
+    const isError = allILs.isError || allQLs.isError || dashboardILs.isError;
 
     return (
         <div>
@@ -62,7 +113,9 @@ const InstantLaunchList = (props) => {
                 />
             ) : isError ? (
                 <WrappedErrorHandler
-                    errorObject={allILs.error}
+                    errorObject={
+                        allILs.error || allQLs.error || dashboardILs.error
+                    }
                     baseId={baseID}
                 />
             ) : (
@@ -76,36 +129,40 @@ const InstantLaunchList = (props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {allILs.data.map((il) => {
-                                const fullIL = constructFullIL(il, allQLs.data);
+                            {allILs.data.instant_launches.map((il) => {
                                 return (
-                                    <TableRow key={fullIL.id}>
-                                        <TableCell>{fullIL.name}</TableCell>
+                                    <TableRow key={il.id}>
+                                        <TableCell>{il.name}</TableCell>
                                         <TableCell>
-                                            {fullIL.createdBy}
+                                            {shortenUsername(il.added_by)}
                                         </TableCell>
-                                        {isInDashboard(
-                                            fullIL.id,
-                                            dashboardILs.data
-                                        ) ? (
-                                            <TableCell />
-                                        ) : (
-                                            <TableCell>
+                                        <TableCell>
+                                            {isInDashboard(
+                                                il.id,
+                                                dashboardILs.data
+                                                    .instant_launches
+                                            ) ? (
                                                 <Button
                                                     onClick={(event) => {
                                                         event.stopPropagation();
                                                         event.preventDefault();
-                                                        addToDash({
-                                                            id: fullIL.id,
-                                                            dashboardILs:
-                                                                dashboardILs.data,
-                                                        });
+                                                        removeFromDash(il.id);
+                                                    }}
+                                                >
+                                                    {t("removeFromDashboard")}
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    onClick={(event) => {
+                                                        event.stopPropagation();
+                                                        event.preventDefault();
+                                                        addToDash(il.id);
                                                     }}
                                                 >
                                                     {t("addToDashboard")}
                                                 </Button>
-                                            </TableCell>
-                                        )}
+                                            )}
+                                        </TableCell>
                                     </TableRow>
                                 );
                             })}

@@ -20,6 +20,12 @@ export const listInstantLaunches = (id) =>
         method: "GET",
     });
 
+export const listFullInstantLaunches = (id) =>
+    callApi({
+        endpoint: `/api/instantlaunches/full`,
+        method: "GET",
+    });
+
 export const getInstantLaunchMetadata = (id) =>
     callApi({
         endpoint: `/api/instantlaunches/${id}/metadata`,
@@ -40,10 +46,9 @@ export const resetInstantLaunchMetadata = (id, metadata) =>
         body: metadata,
     });
 
-export const listInstantLaunchesByMetadata = (key, queryKey, queryValue) => {
+export const listInstantLaunchesByMetadata = (key, queryKey, queryValue) =>
     callApi({
         endpoint: `/api/instantlaunches/metadata/full`,
         method: "GET",
         params: { [queryKey]: queryValue },
     });
-};

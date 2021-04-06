@@ -55,6 +55,19 @@ export default () => {
         })
     );
 
+    logger.info("adding the GET /instantlaunches/full handler");
+    api.get(
+        "/instantlaunches/full",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathanme: "/instant-launches",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the GET /instantlaunches/metadata/full handler");
     api.get(
         "/instantlaunches/metadata/full",

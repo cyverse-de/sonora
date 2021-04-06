@@ -12,6 +12,7 @@ import {
     listInstantLaunchesByMetadata,
     getInstantLaunchMetadata,
     resetInstantLaunchMetadata,
+    deleteInstantLaunch,
 } from "serviceFacades/instantlaunches";
 
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
@@ -34,7 +35,7 @@ import { useTranslation } from "i18n";
  *
  * @param {string} id
  */
-const addToDashboard = async (id) =>
+const addToDashboardHandler = async (id) =>
     await upsertInstantLaunchMetadata(id, {
         ui_location: "dashboard",
     });
@@ -44,13 +45,23 @@ const addToDashboard = async (id) =>
  *
  * @param {string} id
  */
-const removeFromDashboard = async (id) => {
+const removeFromDashboardHandler = async (id) => {
     const ilMeta = await getInstantLaunchMetadata(id);
     const { ui_location, ...filtered } = ilMeta;
     if (ui_location === "dashboard") {
         return await resetInstantLaunchMetadata(id, filtered);
     }
-    return ilMeta;
+    return new Promise((resolve, reject) => resolve(ilMeta));
+};
+
+/**
+ * Deletes an instant launch.
+ * @param {*} id - The UUID of the instant launch to be deleted.
+ */
+const deleteInstantLaunchHandler = async (id) => {
+    return await removeFromDashboardHandler(id).then((_) =>
+        deleteInstantLaunch(id)
+    );
 };
 
 /**
@@ -95,8 +106,9 @@ const InstantLaunchList = (props) => {
         listInstantLaunchesByMetadata
     );
 
-    const [addToDash] = useMutation(addToDashboard);
-    const [removeFromDash] = useMutation(removeFromDashboard);
+    const [addToDash] = useMutation(addToDashboardHandler);
+    const [removeFromDash] = useMutation(removeFromDashboardHandler);
+    const [deleteIL] = useMutation(deleteInstantLaunchHandler);
 
     const isLoading =
         allILs.isLoading || allQLs.isLoading || dashboardILs.isLoading;
@@ -125,6 +137,7 @@ const InstantLaunchList = (props) => {
                             <TableRow>
                                 <TableCell>{t("name")}</TableCell>
                                 <TableCell>{t("createdBy")}</TableCell>
+                                <TableCell></TableCell>
                                 <TableCell></TableCell>
                             </TableRow>
                         </TableHead>
@@ -162,6 +175,17 @@ const InstantLaunchList = (props) => {
                                                     {t("addToDashboard")}
                                                 </Button>
                                             )}
+                                        </TableCell>
+                                        <TableCell>
+                                            <Button
+                                                onClick={(event) => {
+                                                    event.stopPropagation();
+                                                    event.preventDefault();
+                                                    deleteIL(il.id);
+                                                }}
+                                            >
+                                                {t("deleteInstantLaunch")}
+                                            </Button>
                                         </TableCell>
                                     </TableRow>
                                 );

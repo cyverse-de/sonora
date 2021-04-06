@@ -1,5 +1,8 @@
 {
   "instantLaunchError" : "There was a problem launching your analysis.",
   "createdBy" : "Created By",
-  "name" : "Name"
+  "name" : "Name",
+  "deleteInstantLaunch" : "Delete",
+  "addToDashboard" : "Add to Dashboard",
+  "removeFromDashboard" : "Remove from Dashboard"
 }

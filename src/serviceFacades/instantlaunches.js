@@ -20,6 +20,12 @@ export const listInstantLaunches = (id) =>
         method: "GET",
     });
 
+export const deleteInstantLaunch = (id) =>
+    callApi({
+        endpoint: `/api/instantlaunches/${id}`,
+        method: "DELETE",
+    });
+
 export const listFullInstantLaunches = (id) =>
     callApi({
         endpoint: `/api/instantlaunches/full`,

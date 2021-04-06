@@ -88,3 +88,32 @@ export const webhookTypes = {
         },
     ],
 };
+
+export const webhookTopics = {
+    topics: [
+        {
+            id: "f4dcbf16-c3f6-11e7-a333-008cfa5ae621",
+            topic: "data",
+        },
+        {
+            id: "f4dced88-c3f6-11e7-a333-008cfa5ae621",
+            topic: "apps",
+        },
+        {
+            id: "f4dd14f2-c3f6-11e7-a333-008cfa5ae621",
+            topic: "analysis",
+        },
+        {
+            id: "f4dd39fa-c3f6-11e7-a333-008cfa5ae621",
+            topic: "permanent_id_request",
+        },
+        {
+            id: "f4dd6164-c3f6-11e7-a333-008cfa5ae621",
+            topic: "team",
+        },
+        {
+            id: "f4dd834c-c3f6-11e7-a333-008cfa5ae621",
+            topic: "tool_request",
+        },
+    ],
+};

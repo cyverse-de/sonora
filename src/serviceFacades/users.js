@@ -11,6 +11,8 @@ const BOOTSTRAP_KEY = "bootstrap";
 
 const USER_PROFILE_QUERY_KEY = "fetchUserProfile";
 const REDIRECT_URI_QUERY_KEY = "fetchRedirectURI";
+const WEBHOOKS_TYPES_QUERY_KEY = "fetchHookTypes";
+const WEBHOOKS_TOPICS_QUERY_KEY = "fetchHookTopics";
 
 const getUserInfo = (key, { userIds }) => {
     const userQuery = userIds.join("&username=");
@@ -55,6 +57,22 @@ function resetToken({ systemId }) {
 function getRedirectURIs() {
     return callApi({
         endpoint: "/api/redirect-uris",
+        method: "GET",
+        credentials: "include",
+    });
+}
+
+function getWebhookTypes() {
+    return callApi({
+        endpoint: `/api/webhooks/types`,
+        method: "GET",
+        credentials: "include",
+    });
+}
+
+function getWebhookTopics() {
+    return callApi({
+        endpoint: `/api/webhooks/topics`,
         method: "GET",
         credentials: "include",
     });
@@ -123,6 +141,8 @@ export {
     BOOTSTRAP_KEY,
     USER_PROFILE_QUERY_KEY,
     REDIRECT_URI_QUERY_KEY,
+    WEBHOOKS_TOPICS_QUERY_KEY,
+    WEBHOOKS_TYPES_QUERY_KEY,
     getUserInfo,
     getUserProfile,
     bootstrap,
@@ -132,4 +152,6 @@ export {
     useBootStrap,
     useSavePreferences,
     feedback,
+    getWebhookTypes,
+    getWebhookTopics,
 };

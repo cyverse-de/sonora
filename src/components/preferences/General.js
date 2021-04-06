@@ -8,7 +8,7 @@
 
 import React, { useState } from "react";
 
-import { Field, FieldArray } from "formik";
+import { Field } from "formik";
 import { useTranslation } from "i18n";
 
 import prefConstants from "./constants";
@@ -16,18 +16,14 @@ import styles from "./styles";
 
 import ids from "./ids";
 
+import Webhooks from "./Webhooks";
 import SelectionDrawer from "../data/SelectionDrawer";
 import ResourceTypes from "../models/ResourceTypes";
 import GridLabelValue from "../utils/GridLabelValue";
 
 import constants from "../../constants";
 
-import {
-    build,
-    FormTextField,
-    FormSelectField,
-    FormSwitch,
-} from "@cyverse-de/ui-lib";
+import { build, FormTextField, FormSwitch } from "@cyverse-de/ui-lib";
 
 import {
     Button,
@@ -36,8 +32,6 @@ import {
     Grid,
     InputAdornment,
     Typography,
-    MenuItem,
-    Switch,
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -54,56 +48,12 @@ function General(props) {
         requireAgaveAuth,
         resetHPCToken,
         values,
+        hookTopics,
+        hookTypes,
     } = props;
     const { t } = useTranslation("preferences");
     const classes = useStyles();
     const [openFileBrowser, setOpenFileBrowser] = useState(false);
-    const hookTypes = [
-        {
-            id: "f4dbf5f4-c3f6-11e7-a333-008cfa5ae621",
-            type: "Slack",
-            template:
-                '\n{\n\t"text": "{{.Msg}}. {{if .Completed}} <{{.Link}}|{{.LinkText}}> {{- end}}"\n}\n',
-        },
-        {
-            id: "c9cd5218-d9e0-11e7-ac79-008cfa5ae621",
-            type: "Zapier",
-            template:
-                '{"id": "{{.ID}}","name": "{{.Name}}","text": "{{.Msg}}. {{if .Completed}} <{{.Link}}|{{.LinkText}}> {{- end}}"}',
-        },
-        {
-            id: "32aaf1c4-91db-11e9-857c-008cfa5ae621",
-            type: "Custom",
-            template: "",
-        },
-    ];
-
-    const topics = [
-        {
-            id: "f4dcbf16-c3f6-11e7-a333-008cfa5ae621",
-            topic: "data",
-        },
-        {
-            id: "f4dced88-c3f6-11e7-a333-008cfa5ae621",
-            topic: "apps",
-        },
-        {
-            id: "f4dd14f2-c3f6-11e7-a333-008cfa5ae621",
-            topic: "analysis",
-        },
-        {
-            id: "f4dd39fa-c3f6-11e7-a333-008cfa5ae621",
-            topic: "permanent_id_request",
-        },
-        {
-            id: "f4dd6164-c3f6-11e7-a333-008cfa5ae621",
-            topic: "team",
-        },
-        {
-            id: "f4dd834c-c3f6-11e7-a333-008cfa5ae621",
-            topic: "tool_request",
-        },
-    ];
 
     return (
         <>
@@ -245,72 +195,12 @@ function General(props) {
                 </Grid>
             </Grid>
             <Divider className={classes.dividers} />
-            <Typography variant="h6" className={classes.sectionHeader}>
-                Webhooks
-            </Typography>
-            <Grid container spacing={3} className={classes.grid}>
-                <Grid item>
-                    <Typography>
-                        Add incoming webhook integration. The DE will post
-                        notifications to this URL:
-                    </Typography>
-                </Grid>
-                <Grid item>
-                    <Field
-                        id={build(baseId, "hookUrl")}
-                        component={FormTextField}
-                        name="webhook.url"
-                    />
-                </Grid>
-                <Grid item>
-                    <Field name="webhook.type.type">
-                        {({ field: { onChange, ...field }, ...props }) => (
-                            <FormSelectField
-                                {...props}
-                                label={t("type")}
-                                required
-                                field={field}
-                                onChange={(event) => {
-                                    onChange(event);
-                                }}
-                                id={build(baseId, "hookType")}
-                                variant="outlined"
-                                size="small"
-                            >
-                                {hookTypes.map((type, index) => (
-                                    <MenuItem
-                                        key={index}
-                                        value={type.type}
-                                        id={build(baseId, "hookType", type)}
-                                    >
-                                        {type.type}
-                                    </MenuItem>
-                                ))}
-                            </FormSelectField>
-                        )}
-                    </Field>
-                </Grid>
-                <Grid item xs={12}>
-                    <Typography variant="subtitle2">Select Topics:</Typography>
-                </Grid>
-            </Grid>
-            <Grid container spacing={3} className={classes.grid}>
-                <FieldArray
-                    name="webhook.topics"
-                    render={(arrayHelpers) => (
-                        <Grid item>
-                            {topics.map((topic, index) => (
-                                <Field
-                                    component={FormSwitch}
-                                    name={`webhook.topic.${index}`}
-                                    color="primary"
-                                    label={topic.topic}
-                                />
-                            ))}
-                        </Grid>
-                    )}
-                />
-            </Grid>
+            <Webhooks
+                baseId={baseId}
+                values={values}
+                hookTopics={hookTopics}
+                hookTypes={hookTypes}
+            />
             <Divider className={classes.dividers} />
             <Typography variant="h6" className={classes.sectionHeader}>
                 {t("resetHPCTokenLbl")}

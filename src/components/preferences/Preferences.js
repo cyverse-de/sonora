@@ -31,8 +31,12 @@ import {
     getRedirectURIs,
     useSavePreferences,
     resetToken,
+    getWebhookTopics,
+    getWebhookTypes,
     BOOTSTRAP_KEY,
     REDIRECT_URI_QUERY_KEY,
+    WEBHOOKS_TYPES_QUERY_KEY,
+    WEBHOOKS_TOPICS_QUERY_KEY,
 } from "serviceFacades/users";
 import {
     getResourceDetails,
@@ -96,6 +100,8 @@ function Preferences(props) {
         setFetchRedirectURIsQueryEnabled,
     ] = useState(false);
     const [hpcAuthUrl, setHPCAuthUrl] = useState("");
+    const [hookTopics, setHookTopics] = useState();
+    const [hookTypes, setHookTypes] = useState();
 
     const classes = useStyles();
 
@@ -240,6 +246,30 @@ function Preferences(props) {
         },
     });
 
+    const { isFetching: isFetchingHookTypes } = useQuery({
+        queryKey: WEBHOOKS_TYPES_QUERY_KEY,
+        queryFn: getWebhookTypes,
+        config: {
+            enabled: true,
+            onSuccess: setHookTypes,
+            staleTime: Infinity,
+            cacheTime: Infinity,
+            onError: (e) => console.log("Unable to get webhook types=>" + e),
+        },
+    });
+
+    const { isFetching: isFetchingHookTopics } = useQuery({
+        queryKey: WEBHOOKS_TOPICS_QUERY_KEY,
+        queryFn: getWebhookTopics,
+        config: {
+            enabled: true,
+            onSuccess: setHookTopics,
+            staleTime: Infinity,
+            cacheTime: Infinity,
+            onError: (e) => console.log("Unable to get webhook topics=>" + e),
+        },
+    });
+
     const handleSubmit = (values) => {
         //prevent dupe submission
         if (prefMutationStatus !== constants.LOADING) {
@@ -347,13 +377,16 @@ function Preferences(props) {
         }
         if (bootstrap?.preferences) {
             if (bootstrap?.apps_info?.webhooks[0]) {
+                const hook = bootstrap?.apps_info?.webhooks[0];
                 console.log(
                     "pref=>" +
                         JSON.stringify({
                             ...bootstrap.preferences,
-                            webhook: { ...bootstrap.apps_info?.webhooks[0] },
+                            webhook: { ...hook },
                         })
                 );
+                const selectedTopics = hook?.topics;
+
                 return {
                     ...bootstrap.preferences,
                     webhook: { ...bootstrap.apps_info?.webhooks[0] },
@@ -370,7 +403,9 @@ function Preferences(props) {
     const busy =
         prefMutationStatus === constants.LOADING ||
         resetTokenStatus === constants.LOADING ||
-        isFetchingURIs;
+        isFetchingURIs ||
+        isFetchingHookTopics ||
+        isFetchingHookTypes;
     return (
         <>
             {busy && (
@@ -449,6 +484,8 @@ function Preferences(props) {
                                     requireAgaveAuth={requireAgaveAuth}
                                     resetHPCToken={resetHPCToken}
                                     values={props.values}
+                                    hookTopics={hookTopics}
+                                    hookTypes={hookTypes}
                                 />
                                 <Divider className={classes.dividers} />
                                 <Shortcuts

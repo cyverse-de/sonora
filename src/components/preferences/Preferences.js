@@ -474,150 +474,143 @@ function Preferences(props) {
                 />
             )}
             <Container className={classes.root}>
-                <Paper>
-                    <Formik
-                        initialValues={mapPropsToValues(bootstrapInfo)}
-                        onSubmit={handleSubmit}
-                        enableReinitialize
-                        validate={validateShortCuts}
-                    >
-                        {(props) => (
-                            <Form
-                                aria-busy={busy}
-                                aria-describedby={build(
-                                    baseId,
-                                    ids.LOADING_PROGRESS
-                                )}
+                <Formik
+                    initialValues={mapPropsToValues(bootstrapInfo)}
+                    onSubmit={handleSubmit}
+                    enableReinitialize
+                    validate={validateShortCuts}
+                >
+                    {(props) => (
+                        <Form
+                            aria-busy={busy}
+                            aria-describedby={build(
+                                baseId,
+                                ids.LOADING_PROGRESS
+                            )}
+                        >
+                            <Grid container justify="flex-end">
+                                <Grid item>
+                                    <Button
+                                        id={build(
+                                            baseId,
+                                            ids.RESTORE_DEFAULT_BUTTON
+                                        )}
+                                        className={classes.actionButton}
+                                        color="primary"
+                                        onClick={() =>
+                                            setShowRestoreConfirmation(true)
+                                        }
+                                        variant="outlined"
+                                    >
+                                        {t("restoreDefaultsBtnLbl")}
+                                    </Button>
+                                </Grid>
+                                <Grid item>
+                                    <Button
+                                        id={build(
+                                            baseId,
+                                            ids.SAVE_PREFERENCES_BUTTON
+                                        )}
+                                        className={classes.actionButton}
+                                        color="primary"
+                                        type="submit"
+                                        variant="contained"
+                                    >
+                                        {t("saveBtnLbl")}
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                            <General
+                                baseId={build(baseId, ids.GENERAL)}
+                                defaultOutputFolder={defaultOutputFolder}
+                                isValidating={isFetchingStat}
+                                onNewDefaultOutputFolder={(newFolder) => {
+                                    setDefaultFolder(
+                                        props.setFieldValue,
+                                        newFolder
+                                    );
+                                }}
+                                outputFolderValidationError={
+                                    outputFolderValidationError
+                                }
+                                requireAgaveAuth={requireAgaveAuth}
+                                resetHPCToken={resetHPCToken}
+                                webhookTopics={webhookTopics}
+                                webhookTypes={webhookTypes}
+                                values={props.values}
+                            />
+                            <Divider className={classes.dividers} />
+                            <Shortcuts
+                                baseId={build(baseId, ids.KB_SHORTCUTS)}
+                            />
+                            <Grid container justify="flex-end">
+                                <Grid item>
+                                    <Button
+                                        id={build(
+                                            baseId,
+                                            ids.RESTORE_DEFAULT_BUTTON
+                                        )}
+                                        className={classes.actionButton}
+                                        color="primary"
+                                        onClick={() =>
+                                            setShowRestoreConfirmation(true)
+                                        }
+                                        variant="outlined"
+                                    >
+                                        {t("restoreDefaultsBtnLbl")}
+                                    </Button>
+                                </Grid>
+                                <Grid item>
+                                    <Button
+                                        id={build(
+                                            baseId,
+                                            ids.SAVE_PREFERENCES_BUTTON
+                                        )}
+                                        className={classes.actionButton}
+                                        color="primary"
+                                        type="submit"
+                                        variant="contained"
+                                    >
+                                        {t("saveBtnLbl")}
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                            <Dialog
+                                open={showRestoreConfirmation}
+                                onClose={() =>
+                                    setShowRestoreConfirmation(false)
+                                }
                             >
-                                <Grid container justify="flex-end">
-                                    <Grid item>
-                                        <Button
-                                            id={build(
-                                                baseId,
-                                                ids.RESTORE_DEFAULT_BUTTON
-                                            )}
-                                            className={classes.actionButton}
-                                            color="primary"
-                                            onClick={() =>
-                                                setShowRestoreConfirmation(true)
-                                            }
-                                            variant="outlined"
-                                        >
-                                            {t("restoreDefaultsBtnLbl")}
-                                        </Button>
-                                    </Grid>
-                                    <Grid item>
-                                        <Button
-                                            id={build(
-                                                baseId,
-                                                ids.SAVE_PREFERENCES_BUTTON
-                                            )}
-                                            className={classes.actionButton}
-                                            color="primary"
-                                            type="submit"
-                                            variant="contained"
-                                        >
-                                            {t("saveBtnLbl")}
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                                <General
-                                    baseId={build(baseId, ids.GENERAL)}
-                                    defaultOutputFolder={defaultOutputFolder}
-                                    isValidating={isFetchingStat}
-                                    onNewDefaultOutputFolder={(newFolder) => {
-                                        setDefaultFolder(
-                                            props.setFieldValue,
-                                            newFolder
-                                        );
-                                    }}
-                                    outputFolderValidationError={
-                                        outputFolderValidationError
-                                    }
-                                    requireAgaveAuth={requireAgaveAuth}
-                                    resetHPCToken={resetHPCToken}
-                                    webhookTopics={webhookTopics}
-                                    webhookTypes={webhookTypes}
-                                    values={props.values}
-                                />
-                                <Divider className={classes.dividers} />
-                                <Shortcuts
-                                    baseId={build(baseId, ids.KB_SHORTCUTS)}
-                                />
-                                <Grid container justify="flex-end">
-                                    <Grid item>
-                                        <Button
-                                            id={build(
-                                                baseId,
-                                                ids.RESTORE_DEFAULT_BUTTON
-                                            )}
-                                            className={classes.actionButton}
-                                            color="primary"
-                                            onClick={() =>
-                                                setShowRestoreConfirmation(true)
-                                            }
-                                            variant="outlined"
-                                        >
-                                            {t("restoreDefaultsBtnLbl")}
-                                        </Button>
-                                    </Grid>
-                                    <Grid item>
-                                        <Button
-                                            id={build(
-                                                baseId,
-                                                ids.SAVE_PREFERENCES_BUTTON
-                                            )}
-                                            className={classes.actionButton}
-                                            color="primary"
-                                            type="submit"
-                                            variant="contained"
-                                        >
-                                            {t("saveBtnLbl")}
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                                <Dialog
-                                    open={showRestoreConfirmation}
-                                    onClose={() =>
-                                        setShowRestoreConfirmation(false)
-                                    }
-                                >
-                                    <DialogTitle>Restore Defaults</DialogTitle>
-                                    <DialogContent>
-                                        <DialogContentText>
-                                            {t("restoreConfirmation")}
-                                        </DialogContentText>
-                                    </DialogContent>
-                                    <DialogActions>
-                                        <Button
-                                            id={build(baseId, ids.OK_BUTTON)}
-                                            onClick={restoreDefaults(
-                                                props.setFieldValue
-                                            )}
-                                            color="primary"
-                                        >
-                                            {t("okBtnLbl")}
-                                        </Button>
-                                        <Button
-                                            id={build(
-                                                baseId,
-                                                ids.CANCEL_BUTTON
-                                            )}
-                                            onClick={() =>
-                                                setShowRestoreConfirmation(
-                                                    false
-                                                )
-                                            }
-                                            color="primary"
-                                        >
-                                            {t("cancelBtnLbl")}
-                                        </Button>
-                                    </DialogActions>
-                                </Dialog>
-                            </Form>
-                        )}
-                    </Formik>
-                </Paper>
+                                <DialogTitle>Restore Defaults</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText>
+                                        {t("restoreConfirmation")}
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button
+                                        id={build(baseId, ids.OK_BUTTON)}
+                                        onClick={restoreDefaults(
+                                            props.setFieldValue
+                                        )}
+                                        color="primary"
+                                    >
+                                        {t("okBtnLbl")}
+                                    </Button>
+                                    <Button
+                                        id={build(baseId, ids.CANCEL_BUTTON)}
+                                        onClick={() =>
+                                            setShowRestoreConfirmation(false)
+                                        }
+                                        color="primary"
+                                    >
+                                        {t("cancelBtnLbl")}
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+                        </Form>
+                    )}
+                </Formik>
             </Container>
         </>
     );

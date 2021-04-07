@@ -33,7 +33,6 @@ import {
     resetToken,
     getWebhookTopics,
     getWebhookTypes,
-    updateWebhooks,
     BOOTSTRAP_KEY,
     REDIRECT_URI_QUERY_KEY,
     WEBHOOKS_TYPES_QUERY_KEY,
@@ -212,28 +211,10 @@ function Preferences(props) {
                 text: t("prefSaveSuccess"),
                 variant: AnnouncerConstants.SUCCESS,
             });
-            setBootstrapInfo({
-                ...bootstrapInfo,
-                preferences: updatedPref.preferences,
-            });
+            queryCache.invalidateQueries(BOOTSTRAP_KEY);
         },
         (e) => {
             showErrorAnnouncer(t("savePrefError"), e);
-        }
-    );
-
-    const [mutateWebhooks, { status: hookMutationStatus }] = useMutation(
-        updateWebhooks,
-        {
-            onSuccess: () => {
-                announce({
-                    text: t("webhookUpdateSuccess"),
-                    variant: AnnouncerConstants.SUCCESS,
-                });
-            },
-            onError: (e) => {
-                showErrorAnnouncer(t("webhookUpdateError"), e);
-            },
         }
     );
 
@@ -321,18 +302,22 @@ function Preferences(props) {
     const handleSubmit = (values) => {
         //prevent dupe submission
         if (
-            prefMutationStatus !== constants.LOADING ||
-            hookMutationStatus !== constants.LOADING
+            prefMutationStatus !==
+            constants.LOADING 
         ) {
             if (outputFolderValidationError) {
                 announce({
                     text: t("validationMessage"),
                 });
             } else {
-                const updatedPref = values;
+                const updatedPref = { ...values };
                 updatedPref.default_output_folder = defaultOutputFolderDetails;
-                if (updatedPref?.webhook) {
-                    const hook = updatedPref?.webhook;
+                delete updatedPref.webhook;
+
+                let updatedWebhook = {};
+
+                if (values?.webhook) {
+                    const hook = values.webhook;
                     const selTopics = webhookTopics
                         .map((topic) => {
                             if (hook[`${topic.topic}`]) {
@@ -341,7 +326,7 @@ function Preferences(props) {
                             return null;
                         })
                         .filter((topic) => topic !== null);
-                    const updatedWebhook = {
+                    updatedWebhook = {
                         webhooks: [
                             {
                                 url: hook?.url,
@@ -350,9 +335,11 @@ function Preferences(props) {
                             },
                         ],
                     };
-                    mutateWebhooks(updatedWebhook);
                 }
-                mutatePreferences(values);
+                mutatePreferences({
+                    preferences: updatedPref,
+                    webhooks: updatedWebhook,
+                });
             }
         }
     };
@@ -472,7 +459,6 @@ function Preferences(props) {
     const busy =
         prefMutationStatus === constants.LOADING ||
         resetTokenStatus === constants.LOADING ||
-        hookMutationStatus === constants.LOADING ||
         isFetchingURIs ||
         isFetchingHookTopics ||
         isFetchingHookTypes;

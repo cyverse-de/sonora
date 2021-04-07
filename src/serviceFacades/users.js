@@ -39,12 +39,15 @@ function bootstrap(key) {
     });
 }
 
-function savePreferences(preferences) {
-    return callApi({
+function savePreferences({ preferences, webhooks }) {
+    const prefPromise = callApi({
         endpoint: "/api/preferences",
         method: "POST",
         body: preferences,
     });
+    const hookPromise = updateWebhooks(webhooks);
+
+    return Promise.all([prefPromise, hookPromise]);
 }
 
 function resetToken({ systemId }) {
@@ -171,6 +174,5 @@ export {
     feedback,
     getWebhookTypes,
     getWebhookTopics,
-    updateWebhooks,
     testWebhook,
 };

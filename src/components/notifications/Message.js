@@ -22,12 +22,15 @@ import { getAnalysisDetailsLinkRefs } from "components/analyses/utils";
 import { getAppListingLinkRefs } from "components/apps/utils";
 import { getFolderPage, getParentPath } from "components/data/utils";
 import DELink from "components/utils/DELink";
+import analysisStatus from "components/models/analysisStatus";
+import systemIds from "components/models/systemId";
 
 import { Typography } from "@material-ui/core";
 import { getTeamLinkRefs } from "../teams/util";
 import ExternalLink from "../utils/ExternalLink";
 import { useTranslation } from "../../i18n";
 import { useNotifications } from "contexts/pushNotifications";
+import RatingWidget from "components/apps/RatingWidget";
 
 function MessageLink(props) {
     const { message, href, as } = props;
@@ -42,7 +45,6 @@ function MessageLink(props) {
 function AnalysisLink(props) {
     const { notification } = props;
     const { t } = useTranslation("common");
-
     const message = getDisplayMessage(notification);
     const action = notification.payload?.action;
 
@@ -66,7 +68,26 @@ function AnalysisLink(props) {
         if (analysisId) {
             const [href, as] = getAnalysisDetailsLinkRefs(analysisId);
 
-            return <MessageLink message={message} href={href} as={as} />;
+            const allowRating =
+                isJobStatusChange &&
+                notification.payload?.system_id === systemIds.de &&
+                (notification.payload?.status === analysisStatus.COMPLETED ||
+                    notification.payload?.status === analysisStatus.FAILED ||
+                    notification.payload?.status === analysisStatus.CANCELED);
+            const payload = notification?.payload;
+            return (
+                <>
+                    <MessageLink message={message} href={href} as={as} />
+                    <br />
+                    {allowRating && (
+                        <RatingWidget
+                            appId={payload?.app_id}
+                            appName={payload?.app_name}
+                            systemId={payload?.system_id}
+                        />
+                    )}
+                </>
+            );
         }
     }
 

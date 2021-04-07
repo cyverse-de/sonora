@@ -7,5 +7,9 @@
   "removeFromDashboard" : "Remove from Dashboard",
   "create" : "Create",
   "update" : "Update",
-  "updateDataMapping" : "Data Mapping"
+  "updateDataMapping" : "Data Mapping",
+  "fetchDashboardILError" : "Error fetching list of instant launches in the dashboard",
+  "removeDashboardILError" : "Error removing instant launch from the dashboard",
+  "createInstantLaunch" : "Create Instant Launch",
+  "instantLaunchCreationError" : "Error creating instant launch"
 }

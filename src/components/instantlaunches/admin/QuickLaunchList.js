@@ -7,8 +7,6 @@ import { Button } from "@material-ui/core";
 import {
     QUICK_LAUNCH_LIST_ALL,
     listAllQuickLaunches,
-    listGlobalQuickLaunches,
-    addGlobalQuickLaunch,
 } from "serviceFacades/quickLaunches";
 
 import {
@@ -30,22 +28,8 @@ import {
 } from "@material-ui/core";
 import { useTranslation } from "i18n";
 
-const promoteQuickLaunch = async ({ quicklaunch, globalQLList }) => {
-    const promises = [];
-
-    if (!isGlobal(quicklaunch.id, globalQLList)) {
-        promises.push(addGlobalQuickLaunch(quicklaunch));
-    }
-
-    promises.push(addInstantLaunch(quicklaunch.id));
-
-    return await Promise.all(promises);
-};
-
-const isGlobal = (id, globalQLList) => {
-    const ids = globalQLList.map((gl) => gl.quick_launch_id);
-    return ids.includes(id);
-};
+const promoteQuickLaunch = async (quicklaunch) =>
+    await addInstantLaunch(quicklaunch.id);
 
 const isInInstantLaunch = (qlID, instantlaunches) => {
     const ilIDs = instantlaunches.map((il) => il.quick_launch_id);
@@ -57,13 +41,11 @@ const QuickLaunchList = (props) => {
     const { t } = useTranslation("instantlaunches");
 
     const allQL = useQuery(QUICK_LAUNCH_LIST_ALL, listAllQuickLaunches);
-    const globalQLs = useQuery("global_qls", listGlobalQuickLaunches);
     const allILs = useQuery("all_instant_launches", listInstantLaunches);
     const [promote] = useMutation(promoteQuickLaunch);
 
-    const isLoading =
-        allQL.isLoading || globalQLs.isLoading || allILs.isLoading;
-    const isError = allQL.isError || globalQLs.isError || allILs.isError;
+    const isLoading = allQL.isLoading || allILs.isLoading;
+    const isError = allQL.isError || allILs.isError;
 
     return (
         <div>
@@ -76,7 +58,7 @@ const QuickLaunchList = (props) => {
                 />
             ) : isError ? (
                 <WrappedErrorHandler
-                    errorObject={allQL.error || globalQLs.error || allILs.error}
+                    errorObject={allQL.error || allILs.error}
                     baseId={baseID}
                 />
             ) : (
@@ -91,7 +73,6 @@ const QuickLaunchList = (props) => {
                         </TableHead>
                         <TableBody>
                             {allQL.data.map((row) => {
-                                const gl = globalQLs.data;
                                 return (
                                     <TableRow key={row.id}>
                                         <TableCell>{row.name}</TableCell>
@@ -107,10 +88,7 @@ const QuickLaunchList = (props) => {
                                                     onClick={(event) => {
                                                         event.stopPropagation();
                                                         event.preventDefault();
-                                                        promote({
-                                                            quicklaunch: row,
-                                                            globalQLList: gl,
-                                                        });
+                                                        promote(row);
                                                     }}
                                                 >
                                                     {t("createInstantLaunch")}

@@ -34,11 +34,11 @@ export default function InstantLaunchesAdmin() {
                 </Tabs>
 
                 <Paper hidden={tabValue !== 0} style={{ overflow: "auto" }}>
-                    <InstantLaunchList />
+                    <QuickLaunchList />
                 </Paper>
 
                 <Paper hidden={tabValue !== 1} style={{ overflow: "auto" }}>
-                    <QuickLaunchList />
+                    <InstantLaunchList />
                 </Paper>
 
                 <Paper hidden={tabValue !== 2} style={{ overflow: "auto" }}>

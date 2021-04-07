@@ -8,11 +8,17 @@ export const getDefaultsMapping = () =>
         method: "GET",
     });
 
-export const addInstantLaunch = (id) =>
+export const addInstantLaunch = (id) => {
+    const bodyObj = {
+        quick_launch_id: id,
+    };
+
     callApi({
         endpoint: `/api/instantlaunches`,
         method: "PUT",
+        body: bodyObj,
     });
+};
 
 export const listInstantLaunches = (id) =>
     callApi({

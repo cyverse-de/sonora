@@ -145,7 +145,9 @@ const InstantLaunchList = (props) => {
                             {allILs.data.instant_launches.map((il) => {
                                 return (
                                     <TableRow key={il.id}>
-                                        <TableCell>{il.name}</TableCell>
+                                        <TableCell>
+                                            {il.quick_launch_name}
+                                        </TableCell>
                                         <TableCell>
                                             {shortenUsername(il.added_by)}
                                         </TableCell>

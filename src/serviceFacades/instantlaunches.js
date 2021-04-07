@@ -13,7 +13,7 @@ export const addInstantLaunch = (id) => {
         quick_launch_id: id,
     };
 
-    callApi({
+    return callApi({
         endpoint: `/api/instantlaunches`,
         method: "PUT",
         body: bodyObj,
@@ -44,19 +44,34 @@ export const getInstantLaunchMetadata = (id) =>
         method: "GET",
     });
 
-export const upsertInstantLaunchMetadata = (id, metadata) =>
-    callApi({
+/**
+ * Add or modify the AVUs associated with an instant launch.
+ *
+ * @param {string} id - The UUID fo the instant launch.
+ * @param {Object} metadata - Contains the metadata for the instant launch.
+ * @param {Object[]} metadata.avus - The list of AVUS. Each AVU should have an attr, value, and unit property.
+ */
+export const upsertInstantLaunchMetadata = (id, metadata) => {
+    const bodyObj = {
+        avus: [metadata],
+    };
+    return callApi({
         endpoint: `/api/instantlaunches/${id}/metadata`,
         method: "POST",
-        body: metadata,
+        body: bodyObj,
     });
+};
 
-export const resetInstantLaunchMetadata = (id, metadata) =>
-    callApi({
+export const resetInstantLaunchMetadata = (id, avuList) => {
+    const bodyObj = {
+        avus: avuList,
+    };
+    return callApi({
         endpoint: `/api/instantlaunches/${id}/metadata`,
         method: "PUT",
-        body: metadata,
+        body: bodyObj,
     });
+};
 
 export const listInstantLaunchesByMetadata = (key, queryKey, queryValue) =>
     callApi({

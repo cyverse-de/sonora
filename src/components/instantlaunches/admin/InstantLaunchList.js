@@ -37,7 +37,9 @@ import { useTranslation } from "i18n";
  */
 const addToDashboardHandler = async (id) =>
     await upsertInstantLaunchMetadata(id, {
-        ui_location: "dashboard",
+        attr: "ui_location",
+        value: "dashboard",
+        unit: "",
     });
 
 /**
@@ -47,10 +49,22 @@ const addToDashboardHandler = async (id) =>
  */
 const removeFromDashboardHandler = async (id) => {
     const ilMeta = await getInstantLaunchMetadata(id);
-    const { ui_location, ...filtered } = ilMeta;
-    if (ui_location === "dashboard") {
+
+    if (!ilMeta.avus) {
+        throw new Error("no avus in response");
+    }
+
+    const dashCount = ilMeta.avus.filter(
+        ({ attr, value }) => attr === "ui_location" && value === "dashboard"
+    ).length;
+
+    if (dashCount > 0) {
+        const filtered = ilMeta.avus.filter(
+            ({ attr, value }) => attr !== "ui_location" && value !== "dashboard"
+        );
         return await resetInstantLaunchMetadata(id, filtered);
     }
+
     return new Promise((resolve, reject) => resolve(ilMeta));
 };
 

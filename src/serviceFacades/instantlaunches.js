@@ -1,6 +1,8 @@
 import callApi from "../common/callApi";
 
 export const DEFAULTS_MAPPING_QUERY_KEY = "fetchDefaultsMappings";
+export const ALL_INSTANT_LAUNCHES_KEY = "allInstantLaunches";
+export const DASHBOARD_INSTANT_LAUNCHES_KEY = "dashboardInstantLaunches";
 
 export const getDefaultsMapping = () =>
     callApi({

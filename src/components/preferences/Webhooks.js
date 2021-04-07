@@ -9,21 +9,53 @@
 import React from "react";
 import { useTranslation } from "i18n";
 import { Field } from "formik";
-
+import { useQuery } from "react-query";
 import { build, FormTextField, FormSwitch } from "@cyverse-de/ui-lib";
+import { testWebhook, WEBHOOK_TEST_KEY } from "serviceFacades/users";
 
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import ids from "./ids";
 import styles from "./styles";
 
-import { Button, Grid, Typography, MenuItem } from "@material-ui/core";
+import {
+    Button,
+    Grid,
+    Typography,
+    MenuItem,
+    CircularProgress,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import ErrorIcon from "@material-ui/icons/Error";
 
 const useStyles = makeStyles(styles);
 
 export default function Webhooks(props) {
-    const { baseId, hookTopics, hookTypes } = props;
+    const { baseId, webhookTopics, webhookTypes, values } = props;
     const { t } = useTranslation("preferences");
     const classes = useStyles();
+    const [enableTest, setEnableTest] = React.useState();
+    const [testKey, setTestKey] = React.useState(WEBHOOK_TEST_KEY);
+    const [testError, setTestError] = React.useState();
+    const [testSuccess, setTestSuccess] = React.useState(false);
+
+    const { isFetching: isTesting } = useQuery({
+        queryKey: testKey,
+        queryFn: testWebhook,
+        config: {
+            enabled: enableTest,
+            onSuccess: (resp) => {
+                setEnableTest(false);
+                setTestError(null);
+                setTestSuccess(true);
+            },
+            onError: (e) => {
+                setEnableTest(false);
+                setTestError(e);
+                setTestSuccess(false);
+            },
+        },
+    });
 
     return (
         <>
@@ -36,13 +68,16 @@ export default function Webhooks(props) {
                 </Grid>
                 <Grid item>
                     <Field
-                        id={build(baseId, "hookUrl")}
+                        id={build(baseId, ids.WEBHOOK_URL_TEXT)}
                         component={FormTextField}
                         name="webhook.url"
                     />
                 </Grid>
                 <Grid item>
-                    <Field name="webhook.type.type">
+                    <Field
+                        name="webhook.type.type"
+                        id={build(baseId, ids.WEBHOOK_TYPES_SELECT)}
+                    >
                         {({ field: { onChange, ...field }, ...props }) => (
                             <FormTextField
                                 select
@@ -53,15 +88,18 @@ export default function Webhooks(props) {
                                 onChange={(event) => {
                                     onChange(event);
                                 }}
-                                id={build(baseId, "hookType")}
                                 variant="outlined"
                                 size="small"
                             >
-                                {hookTypes?.map((type, index) => (
+                                {webhookTypes?.map((type, index) => (
                                     <MenuItem
                                         key={index}
                                         value={type.type}
-                                        id={build(baseId, "hookType", type)}
+                                        id={build(
+                                            baseId,
+                                            ids.WEBHOOK_TYPES_SELECT,
+                                            type.type
+                                        )}
                                     >
                                         {type.type}
                                     </MenuItem>
@@ -77,23 +115,63 @@ export default function Webhooks(props) {
                 </Grid>
             </Grid>
             <Grid container spacing={3} className={classes.grid}>
-                <Grid item xs={12}>
-                    {hookTopics?.map((topic, index) => (
+                {webhookTopics?.map((topic, index) => (
+                    <Grid item xs={12}>
                         <Field
-                            id={build(baseId, `${topic.topic}`)}
+                            id={build(
+                                baseId,
+                                ids.WEBHOOK_TOPIC_SWITCH,
+                                topic.topic
+                            )}
                             component={FormSwitch}
                             name={`webhook.${topic.topic}`}
                             color="primary"
                             label={t(`${topic.topic}`)}
                             key={topic.topic}
                         />
-                    ))}
-                </Grid>
+                    </Grid>
+                ))}
             </Grid>
             <Grid container spacing={3} className={classes.grid}>
-                <Grid item xs={12}>
-                    <Button variant="outlined">{t("test")}</Button>
+                {isTesting && (
+                    <Grid item>
+                        <CircularProgress size={30} thickness={5} />
+                    </Grid>
+                )}
+                <Grid item>
+                    <Button
+                        id={build(baseId, ids.WEBHOOK_TEST_BTN)}
+                        variant="outlined"
+                        enabled={!isTesting}
+                        onClick={() => {
+                            setTestKey([
+                                WEBHOOK_TEST_KEY,
+                                { url: values?.webhook?.url },
+                            ]);
+                            setTestSuccess(false);
+                            setTestError(null);
+                            setEnableTest(true);
+                        }}
+                        startIcon={
+                            testSuccess ? (
+                                <CheckCircleIcon />
+                            ) : testError ? (
+                                <ErrorIcon />
+                            ) : null
+                        }
+                    >
+                        {t("test")}
+                    </Button>
                 </Grid>
+                {testError && (
+                    <Grid item>
+                        <ErrorTypographyWithDialog
+                            baseId={baseId}
+                            errorMessage={t("webhookTestFailed")}
+                            errorObject={testError}
+                        />
+                    </Grid>
+                )}
             </Grid>
         </>
     );

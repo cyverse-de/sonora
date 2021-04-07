@@ -13,6 +13,7 @@ const USER_PROFILE_QUERY_KEY = "fetchUserProfile";
 const REDIRECT_URI_QUERY_KEY = "fetchRedirectURI";
 const WEBHOOKS_TYPES_QUERY_KEY = "fetchHookTypes";
 const WEBHOOKS_TOPICS_QUERY_KEY = "fetchHookTopics";
+const WEBHOOK_TEST_KEY = "testWebhook";
 
 const getUserInfo = (key, { userIds }) => {
     const userQuery = userIds.join("&username=");
@@ -86,6 +87,13 @@ function updateWebhooks(webhooks) {
     });
 }
 
+function testWebhook(key, { url }) {
+    return callApi({
+        endpoint: `/api/testWebhook?url=${url}`,
+        method: "GET",
+    });
+}
+
 /**
  * Query to get user bootstrap and preferences
  * @param {boolean} enabled - Enabled / disable this query.
@@ -151,6 +159,7 @@ export {
     REDIRECT_URI_QUERY_KEY,
     WEBHOOKS_TOPICS_QUERY_KEY,
     WEBHOOKS_TYPES_QUERY_KEY,
+    WEBHOOK_TEST_KEY,
     getUserInfo,
     getUserProfile,
     bootstrap,
@@ -163,4 +172,5 @@ export {
     getWebhookTypes,
     getWebhookTopics,
     updateWebhooks,
+    testWebhook,
 };

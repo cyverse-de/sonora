@@ -2,7 +2,7 @@ import React from "react";
 
 import { useUserProfile } from "contexts/userProfile";
 
-import { Tabs, Tab } from "@material-ui/core";
+import { Tabs, Tab, Paper } from "@material-ui/core";
 
 import InstantLaunchList from "components/instantlaunches/admin/InstantLaunchList";
 import QuickLaunchList from "components/instantlaunches/admin/QuickLaunchList";
@@ -33,15 +33,17 @@ export default function InstantLaunchesAdmin() {
                     <Tab label={t("updateDataMapping")} />
                 </Tabs>
 
-                <div hidden={tabValue !== 0}>
+                <Paper hidden={tabValue !== 0} style={{ overflow: "auto" }}>
                     <InstantLaunchList />
-                </div>
+                </Paper>
 
-                <div hidden={tabValue !== 1}>
+                <Paper hidden={tabValue !== 1} style={{ overflow: "auto" }}>
                     <QuickLaunchList />
-                </div>
+                </Paper>
 
-                <div hidden={tabValue !== 2}>Coming Soon!</div>
+                <Paper hidden={tabValue !== 2} style={{ overflow: "auto" }}>
+                    Coming Soon!
+                </Paper>
             </>
         );
     }

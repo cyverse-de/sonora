@@ -1,10 +1,8 @@
 import React from "react";
 
-import { useMutation, useQuery } from "react-query";
+import { queryCache, useMutation, useQuery } from "react-query";
 
 import { Button } from "@material-ui/core";
-
-import { listGlobalQuickLaunches } from "serviceFacades/quickLaunches";
 
 import {
     listFullInstantLaunches,
@@ -13,9 +11,13 @@ import {
     getInstantLaunchMetadata,
     resetInstantLaunchMetadata,
     deleteInstantLaunch,
+    ALL_INSTANT_LAUNCHES_KEY,
+    DASHBOARD_INSTANT_LAUNCHES_KEY,
 } from "serviceFacades/instantlaunches";
 
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+
 import { Skeleton } from "@material-ui/lab";
 
 import {
@@ -109,24 +111,42 @@ const shortenUsername = (username) => {
  * Presents a list of instant launches that can be updated,
  * deleted, or added to the dashboard.
  */
-const InstantLaunchList = (props) => {
+const InstantLaunchList = ({ showErrorAnnouner }) => {
     const baseID = "instantlaunchlist";
     const { t } = useTranslation("instantlaunches");
 
-    const allILs = useQuery("all_instant_launches", listFullInstantLaunches);
-    const allQLs = useQuery("all_quick_launches", listGlobalQuickLaunches);
+    const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
     const dashboardILs = useQuery(
-        ["dashboard_instant_launches", "ui_location", "dashboard"],
+        [DASHBOARD_INSTANT_LAUNCHES_KEY, "ui_location", "dashboard"],
         listInstantLaunchesByMetadata
     );
 
-    const [addToDash] = useMutation(addToDashboardHandler);
-    const [removeFromDash] = useMutation(removeFromDashboardHandler);
-    const [deleteIL] = useMutation(deleteInstantLaunchHandler);
+    const [addToDash] = useMutation(addToDashboardHandler, {
+        onSuccess: () =>
+            queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY),
+        onError: (error) =>
+            showErrorAnnouner(t("fetchDashboardILError"), error),
+    });
 
-    const isLoading =
-        allILs.isLoading || allQLs.isLoading || dashboardILs.isLoading;
-    const isError = allILs.isError || allQLs.isError || dashboardILs.isError;
+    const [removeFromDash] = useMutation(removeFromDashboardHandler, {
+        onSuccess: () =>
+            queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY),
+        onError: (error) =>
+            showErrorAnnouner(t("removeDashboardILError"), error),
+    });
+
+    const [deleteIL] = useMutation(deleteInstantLaunchHandler, {
+        onSuccess: () => {
+            queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
+            queryCache.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
+        },
+
+        onError: (error) =>
+            showErrorAnnouner(t("fetchDashboardILError"), error),
+    });
+
+    const isLoading = allILs.isLoading || dashboardILs.isLoading;
+    const isError = allILs.isError || dashboardILs.isError;
 
     return (
         <div>
@@ -139,9 +159,7 @@ const InstantLaunchList = (props) => {
                 />
             ) : isError ? (
                 <WrappedErrorHandler
-                    errorObject={
-                        allILs.error || allQLs.error || dashboardILs.error
-                    }
+                    errorObject={allILs.error || dashboardILs.error}
                     baseId={baseID}
                 />
             ) : (
@@ -157,6 +175,7 @@ const InstantLaunchList = (props) => {
                         </TableHead>
                         <TableBody>
                             {allILs.data.instant_launches.map((il) => {
+                                console.log(JSON.stringify(il, null, 2));
                                 return (
                                     <TableRow key={il.id}>
                                         <TableCell>
@@ -214,4 +233,4 @@ const InstantLaunchList = (props) => {
     );
 };
 
-export default InstantLaunchList;
+export default withErrorAnnouncer(InstantLaunchList);

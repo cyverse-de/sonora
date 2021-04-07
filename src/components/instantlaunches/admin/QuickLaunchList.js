@@ -1,6 +1,8 @@
 import React from "react";
 
-import { useMutation, useQuery } from "react-query";
+import { queryCache, useMutation, useQuery } from "react-query";
+
+import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
 import { Button } from "@material-ui/core";
 
@@ -11,7 +13,8 @@ import {
 
 import {
     addInstantLaunch,
-    listInstantLaunches,
+    ALL_INSTANT_LAUNCHES_KEY,
+    listFullInstantLaunches,
 } from "serviceFacades/instantlaunches";
 
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
@@ -36,13 +39,19 @@ const isInInstantLaunch = (qlID, instantlaunches) => {
     return ilIDs.includes(qlID);
 };
 
-const QuickLaunchList = (props) => {
+const QuickLaunchList = ({ showErrorAnnouncer }) => {
     const baseID = "quickLaunchList";
     const { t } = useTranslation("instantlaunches");
 
     const allQL = useQuery(QUICK_LAUNCH_LIST_ALL, listAllQuickLaunches);
-    const allILs = useQuery("all_instant_launches", listInstantLaunches);
-    const [promote] = useMutation(promoteQuickLaunch);
+
+    const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
+
+    const [promote] = useMutation(promoteQuickLaunch, {
+        onSuccess: () => queryCache.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY),
+        onError: (error) =>
+            showErrorAnnouncer(t("instantLaunchCreationError"), error),
+    });
 
     const isLoading = allQL.isLoading || allILs.isLoading;
     const isError = allQL.isError || allILs.isError;
@@ -106,4 +115,4 @@ const QuickLaunchList = (props) => {
     );
 };
 
-export default QuickLaunchList;
+export default withErrorAnnouncer(QuickLaunchList);

@@ -4,5 +4,8 @@
   "name" : "Name",
   "deleteInstantLaunch" : "Delete",
   "addToDashboard" : "Add to Dashboard",
-  "removeFromDashboard" : "Remove from Dashboard"
+  "removeFromDashboard" : "Remove from Dashboard",
+  "create" : "Create",
+  "update" : "Update",
+  "updateDataMapping" : "Data Mapping"
 }

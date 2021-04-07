@@ -56,5 +56,5 @@ export const listInstantLaunchesByMetadata = (key, queryKey, queryValue) =>
     callApi({
         endpoint: `/api/instantlaunches/metadata/full`,
         method: "GET",
-        params: { [queryKey]: queryValue },
+        params: { attribute: queryKey, value: queryValue, unit: "" },
     });

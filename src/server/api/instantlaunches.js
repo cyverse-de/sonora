@@ -48,7 +48,7 @@ export default () => {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
-            pathname: "/instant-launches",
+            pathname: "/instantlaunches",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -61,7 +61,7 @@ export default () => {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
-            pathanme: "/instant-launches",
+            pathname: "/instantlaunches/full",
             headers: {
                 "Content-Type": "application/json",
             },

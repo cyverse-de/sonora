@@ -301,10 +301,7 @@ function Preferences(props) {
 
     const handleSubmit = (values) => {
         //prevent dupe submission
-        if (
-            prefMutationStatus !==
-            constants.LOADING 
-        ) {
+        if (prefMutationStatus !== constants.LOADING) {
             if (outputFolderValidationError) {
                 announce({
                     text: t("validationMessage"),

@@ -43,7 +43,5 @@
     "type": "Type",
     "hookTypesFetchError": "Unable to fetch webhook types. Please try again.",
     "hookTopicsFetchError": "Unable to fetch webhook topics. Please try again.",
-    "webhookUpdateError:": "Unable to update webhooks. Please try again.",
-    "webhookUpdateSuccess": "Webhooks updated successfully.",
     "webhookTestFailed": "Webhook test failed. Please check your webhook url."
 }

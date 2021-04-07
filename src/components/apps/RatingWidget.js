@@ -27,7 +27,7 @@ export default function RatingWidget(props) {
         user: 0,
     });
 
-    const { isFetching: appByIdStatus, error: appByIdError } = useQuery({
+    const { isFetching: isAppFetching, error: appByIdError } = useQuery({
         queryKey: [APP_BY_ID_QUERY_KEY, { systemId, appId }],
         queryFn: getAppById,
         config: {
@@ -72,7 +72,7 @@ export default function RatingWidget(props) {
         }
     }, [selectedApp]);
 
-    const loading = appByIdStatus || ratingMutationStatus === constants.LOADING;
+    const loading = isAppFetching || ratingMutationStatus === constants.LOADING;
 
     if (appByIdError || ratingMutationError) {
         return (

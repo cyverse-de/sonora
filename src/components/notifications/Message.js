@@ -73,15 +73,16 @@ function AnalysisLink(props) {
                 (notification.payload?.status === analysisStatus.COMPLETED ||
                     notification.payload?.status === analysisStatus.FAILED ||
                     notification.payload?.status === analysisStatus.CANCELED);
+            const payload = notification?.payload;
             return (
                 <>
                     <MessageLink message={message} href={href} as={as} />
                     <br />
                     {allowRating && (
                         <RatingWidget
-                            appId={notification.payload?.app_id}
-                            appName={notification?.payload.app_name}
-                            systemId={notification.payload?.system_id}
+                            appId={payload?.app_id}
+                            appName={payload?.app_name}
+                            systemId={payload?.system_id}
                         />
                     )}
                 </>

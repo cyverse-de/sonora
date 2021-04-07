@@ -21,4 +21,9 @@ export default {
     RESTORE_DEFAULT_BUTTON: "restoreDefaultButton",
     SAVE_PREFERENCES_BUTTON: "savePreferencesButton",
     URL_IMPORT_EMAIL_NOTIFICATION_SWITCH: "urlImportEmailNotificationSwitch",
+    WEBHOOK_PREF: "webhookPreferences",
+    WEBHOOK_URL_TEXT: "webhookURLText",
+    WEBHOOK_TYPES_SELECT: "webhookTypesSelect",
+    WEBHOOK_TEST_BTN: "webhookTestBtn",
+    WEBHOOK_TOPIC_SWITCH: "webhookTopicSwitch",
 };

@@ -48,8 +48,8 @@ function General(props) {
         requireAgaveAuth,
         resetHPCToken,
         values,
-        hookTopics,
-        hookTypes,
+        webhookTopics,
+        webhookTypes,
     } = props;
     const { t } = useTranslation("preferences");
     const classes = useStyles();
@@ -196,10 +196,10 @@ function General(props) {
             </Grid>
             <Divider className={classes.dividers} />
             <Webhooks
-                baseId={baseId}
+                baseId={build(baseId, ids.WEBHOOK_PREF)}
                 values={values}
-                hookTopics={hookTopics}
-                hookTypes={hookTypes}
+                webhookTopics={webhookTopics}
+                webhookTypes={webhookTypes}
             />
             <Divider className={classes.dividers} />
             <Typography variant="h6" className={classes.sectionHeader}>

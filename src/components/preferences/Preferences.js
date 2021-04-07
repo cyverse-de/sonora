@@ -95,23 +95,29 @@ function Preferences(props) {
         setOutputFolderValidationError,
     ] = useState(null);
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
-    const [hookTopicsQueryEnabled, setHookTopicsQueryEnabled] = useState(false);
-    const [hookTypesQueryEnabled, setHookTypesQueryEnabled] = useState(false);
+    const [webhookTopicsQueryEnabled, setWebHookTopicsQueryEnabled] = useState(
+        false
+    );
+    const [webhookTypesQueryEnabled, setWebHookTypesQueryEnabled] = useState(
+        false
+    );
     const [bootstrapError, setBootstrapError] = useState(null);
     const [
         fetchRedirectURIsQueryEnabled,
         setFetchRedirectURIsQueryEnabled,
     ] = useState(false);
     const [hpcAuthUrl, setHPCAuthUrl] = useState("");
-    const [hookTopics, setHookTopics] = useState();
-    const [hookTypes, setHookTypes] = useState();
+    const [webhookTopics, setWebhookTopics] = useState();
+    const [webhookTypes, setWebhookTypes] = useState();
 
     const classes = useStyles();
 
     //get from cache if not fetch now.
     const prefCache = queryCache.getQueryData(BOOTSTRAP_KEY);
-    const hookTypesCache = queryCache.getQueryData(WEBHOOKS_TYPES_QUERY_KEY);
-    const hookTopicsCache = queryCache.getQueryData(WEBHOOKS_TOPICS_QUERY_KEY);
+    const webhookTypesCache = queryCache.getQueryData(WEBHOOKS_TYPES_QUERY_KEY);
+    const webhookTopicsCache = queryCache.getQueryData(
+        WEBHOOKS_TOPICS_QUERY_KEY
+    );
 
     const preProcessData = useCallback(
         (respData) => {
@@ -137,25 +143,31 @@ function Preferences(props) {
         if (prefCache && !defaultOutputFolder) {
             preProcessData(prefCache);
         } else {
-            if (hookTypes && hookTopics) {
+            if (webhookTypes && webhookTopics) {
                 setBootstrapQueryEnabled(true);
             }
         }
-    }, [defaultOutputFolder, preProcessData, prefCache, hookTopics, hookTypes]);
+    }, [
+        defaultOutputFolder,
+        preProcessData,
+        prefCache,
+        webhookTopics,
+        webhookTypes,
+    ]);
 
     useEffect(() => {
-        if (hookTopicsCache) {
-            setHookTopics(hookTopicsCache?.topics);
+        if (webhookTopicsCache) {
+            setWebhookTopics(webhookTopicsCache?.topics);
         } else {
-            setHookTopicsQueryEnabled(true);
+            setWebHookTopicsQueryEnabled(true);
         }
 
-        if (hookTypesCache) {
-            setHookTypes(hookTypesCache?.webhooktypes);
+        if (webhookTypesCache) {
+            setWebhookTypes(webhookTypesCache?.webhooktypes);
         } else {
-            setHookTypesQueryEnabled(true);
+            setWebHookTypesQueryEnabled(true);
         }
-    }, [hookTypesCache, hookTopicsCache]);
+    }, [webhookTypesCache, webhookTopicsCache]);
 
     useEffect(() => {
         if (defaultOutputFolder) {
@@ -286,11 +298,11 @@ function Preferences(props) {
         queryKey: WEBHOOKS_TYPES_QUERY_KEY,
         queryFn: getWebhookTypes,
         config: {
-            enabled: hookTypesQueryEnabled,
-            onSuccess: (data) => setHookTypes(data?.webhooktypes),
+            enabled: webhookTypesQueryEnabled,
+            onSuccess: (data) => setWebhookTypes(data?.webhooktypes),
             staleTime: Infinity,
             cacheTime: Infinity,
-            onError: (e) => showErrorAnnouncer(t("hookTypesFetchYear"), e),
+            onError: (e) => showErrorAnnouncer(t("hookTypesFetchError"), e),
         },
     });
 
@@ -298,11 +310,11 @@ function Preferences(props) {
         queryKey: WEBHOOKS_TOPICS_QUERY_KEY,
         queryFn: getWebhookTopics,
         config: {
-            enabled: hookTopicsQueryEnabled,
-            onSuccess: (data) => setHookTopics(data?.topics),
+            enabled: webhookTopicsQueryEnabled,
+            onSuccess: (data) => setWebhookTopics(data?.topics),
             staleTime: Infinity,
             cacheTime: Infinity,
-            onError: (e) => showErrorAnnouncer(t("hookTopicsFetchYear"), e),
+            onError: (e) => showErrorAnnouncer(t("hookTopicsFetchError"), e),
         },
     });
 
@@ -321,7 +333,7 @@ function Preferences(props) {
                 updatedPref.default_output_folder = defaultOutputFolderDetails;
                 if (updatedPref?.webhook) {
                     const hook = updatedPref?.webhook;
-                    const selTopics = hookTopics
+                    const selTopics = webhookTopics
                         .map((topic) => {
                             if (hook[`${topic.topic}`]) {
                                 return topic.topic;
@@ -541,8 +553,9 @@ function Preferences(props) {
                                     }
                                     requireAgaveAuth={requireAgaveAuth}
                                     resetHPCToken={resetHPCToken}
-                                    hookTopics={hookTopics}
-                                    hookTypes={hookTypes}
+                                    webhookTopics={webhookTopics}
+                                    webhookTypes={webhookTypes}
+                                    values={props.values}
                                 />
                                 <Divider className={classes.dividers} />
                                 <Shortcuts

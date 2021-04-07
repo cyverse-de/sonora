@@ -9,11 +9,28 @@ const ANALYSIS_RELAUNCH_QUERY_KEY = "fetchAnalysisRelaunchKey";
 const ANALYSES_SEARCH_QUERY_KEY = "searchAnalysesKey";
 
 function getAnalyses(key, { rowsPerPage, orderBy, order, page, filter }) {
+    const params = {};
+
+    if (rowsPerPage) {
+        params["limit"] = rowsPerPage;
+    }
+    if (orderBy) {
+        params["sort-field"] = orderBy;
+    }
+    if (order) {
+        params["sort-dir"] = order.toUpperCase();
+    }
+    if (page) {
+        params["offset"] = rowsPerPage * page;
+    }
+    if (filter) {
+        params["filter"] = filter;
+    }
+
     return callApi({
-        endpoint: `/api/analyses?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
-            rowsPerPage * page
-        }&filter=[${filter}]`,
+        endpoint: "/api/analyses",
         method: "GET",
+        params,
     });
 }
 
@@ -91,7 +108,7 @@ function searchAnalysesInfinite(
     return callApi({
         endpoint: `/api/analyses?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
             rowsPerPage * page
-        }&filter=[${filter}]`,
+        }&filter=${filter}`,
         method: "GET",
     });
 }

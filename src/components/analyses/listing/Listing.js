@@ -323,9 +323,7 @@ function Listing(props) {
                 filters.push(viewFilterObj);
             }
         }
-        const filterString = filters
-            .map((filterItem) => JSON.stringify(filterItem))
-            .join(",");
+        const filterString = JSON.stringify(filters);
 
         setAnalysesKey([
             ANALYSES_LISTING_QUERY_KEY,

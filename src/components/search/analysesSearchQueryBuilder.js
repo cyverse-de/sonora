@@ -19,9 +19,5 @@ export const getAnalysesSearchQueryFilter = (searchTerm, t) => {
     appNameFilterObj.value = searchTerm;
     searchFilters.push(appNameFilterObj);
 
-    const filterString = searchFilters
-        .map((filterItem) => JSON.stringify(filterItem))
-        .join(",");
-
-    return filterString;
+    return JSON.stringify(searchFilters);
 };

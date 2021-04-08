@@ -66,13 +66,20 @@ const displayStepError = (stepIndex, errors, touched) => {
 };
 
 const StepperNavigation = (props) => {
-    const { backDisabled, nextDisabled, handleBack, handleNext } = props;
+    const {
+        baseId,
+        backDisabled,
+        nextDisabled,
+        handleBack,
+        handleNext,
+    } = props;
 
     const { t } = useTranslation("common");
 
     return (
         <ButtonGroup fullWidth variant="contained" color="primary">
             <Button
+                id={buildID(baseId, ids.BUTTONS.BACK)}
                 disabled={backDisabled}
                 startIcon={<ArrowBack />}
                 onClick={handleBack}
@@ -80,6 +87,7 @@ const StepperNavigation = (props) => {
                 {t("back")}
             </Button>
             <Button
+                id={buildID(baseId, ids.BUTTONS.NEXT)}
                 disabled={nextDisabled}
                 endIcon={<ArrowForward />}
                 onClick={handleNext}
@@ -295,6 +303,10 @@ const AppEditor = (props) => {
                             actions={
                                 !isMobile && (
                                     <StepperNavigation
+                                        baseId={buildID(
+                                            baseId,
+                                            ids.BUTTONS.NAV_TOP
+                                        )}
                                         backDisabled={!activeStep}
                                         nextDisabled={isLastStep()}
                                         handleBack={handleBack}
@@ -308,6 +320,10 @@ const AppEditor = (props) => {
                                 ) : (
                                     !isMobile && (
                                         <StepperNavigation
+                                            baseId={buildID(
+                                                baseId,
+                                                ids.BUTTONS.NAV_BOTTOM
+                                            )}
                                             backDisabled={!activeStep}
                                             nextDisabled={isLastStep()}
                                             handleBack={handleBack}

@@ -9,6 +9,8 @@ import React from "react";
 import { useTranslation } from "i18n";
 import constants from "../../constants";
 
+import ids from "./ids";
+
 import Listing from "components/tools/listing/Listing";
 import { getLocalStorage } from "components/utils/localStorage";
 import DEDialog from "components/utils/DEDialog";
@@ -16,7 +18,7 @@ import DEDialog from "components/utils/DEDialog";
 import { Button } from "@material-ui/core";
 
 export default function ToolSelectionDialog(props) {
-    const { baseId, open, onClose, onConfirm } = props;
+    const { open, onClose, onConfirm } = props;
 
     const [selectedTool, setSelectedTool] = React.useState();
     const [
@@ -49,6 +51,8 @@ export default function ToolSelectionDialog(props) {
     );
 
     const { t } = useTranslation(["tools", "common"]);
+
+    const baseId = ids.INSTALLED_TOOLS_DLG;
 
     return (
         <DEDialog

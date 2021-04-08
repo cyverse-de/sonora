@@ -7,6 +7,8 @@ import React from "react";
 
 import { Trans } from "react-i18next";
 
+import ids from "./ids";
+
 import { useTranslation } from "i18n";
 
 import ResourceIcon from "components/data/listing/ResourceIcon";
@@ -184,7 +186,7 @@ function ParamSelectionPalette(props) {
 
     return (
         <DEDialog
-            baseId={baseId}
+            baseId={ids.PARAM_SELECTION_PALETTE}
             open={open}
             title={t("selectParameter")}
             onClose={onClose}

@@ -126,54 +126,52 @@ function SelectionItemEditor(props) {
     const baseParamId = buildID(baseId, fieldName);
 
     return (
-        <>
-            <TableContainer>
-                <Table>
-                    <Typography component="caption">
-                        <Trans
-                            t={t}
-                            i18nKey="app_editor_help:TextSelectionEditor"
-                            components={{
-                                p: <p />,
-                            }}
+        <TableContainer>
+            <Table>
+                <Typography component="caption">
+                    <Trans
+                        t={t}
+                        i18nKey="app_editor_help:TextSelectionEditor"
+                        components={{
+                            p: <p />,
+                        }}
+                    />
+                </Typography>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>{t("paramArgDisplay")}</TableCell>
+                        <TableCell>{t("paramArgName")}</TableCell>
+                        <TableCell>{t("paramArgValue")}</TableCell>
+                        <TableCell>
+                            <Button
+                                id={buildID(
+                                    baseParamId,
+                                    ids.BUTTONS.ADD_PARAM_ARG
+                                )}
+                                color="primary"
+                                variant="outlined"
+                                startIcon={<Add />}
+                                onClick={onAdd}
+                            >
+                                {t("common:add")}
+                            </Button>
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {paramArguments?.map((paramArg, index) => (
+                        <SelectionItemEditorRow
+                            key={paramArg.id || index}
+                            baseId={baseId}
+                            fieldName={`${fieldName}.${index}`}
+                            onMoveUp={onMoveUp(index)}
+                            onMoveDown={onMoveDown(index)}
+                            onDelete={onDelete(index)}
                         />
-                    </Typography>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>{t("paramArgDisplay")}</TableCell>
-                            <TableCell>{t("paramArgName")}</TableCell>
-                            <TableCell>{t("paramArgValue")}</TableCell>
-                            <TableCell>
-                                <Button
-                                    id={buildID(
-                                        baseParamId,
-                                        ids.BUTTONS.ADD_PARAM_ARG
-                                    )}
-                                    color="primary"
-                                    variant="outlined"
-                                    startIcon={<Add />}
-                                    onClick={onAdd}
-                                >
-                                    {t("common:add")}
-                                </Button>
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {paramArguments?.map((paramArg, index) => (
-                            <SelectionItemEditorRow
-                                key={paramArg.id || index}
-                                baseId={baseId}
-                                fieldName={`${fieldName}.${index}`}
-                                onMoveUp={onMoveUp(index)}
-                                onMoveDown={onMoveDown(index)}
-                                onDelete={onDelete(index)}
-                            />
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 }
 
@@ -257,7 +255,7 @@ export default function SelectionPropertyFields(props) {
                                 onDelete={onDelete}
                             />
                             <ConfirmationDialog
-                                baseId={baseParamId}
+                                baseId={ids.DELETE_CONFIRM_DIALOG}
                                 open={confirmDeleteIndex >= 0}
                                 onClose={onCloseDeleteConfirm}
                                 onConfirm={() => {

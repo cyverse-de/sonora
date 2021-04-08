@@ -211,7 +211,7 @@ function ParamGroups(props) {
                         />
                     ))}
                     <ConfirmationDialog
-                        baseId={baseId}
+                        baseId={ids.DELETE_CONFIRM_DIALOG}
                         open={confirmDeleteIndex >= 0}
                         onClose={onCloseDeleteConfirm}
                         onConfirm={() => {

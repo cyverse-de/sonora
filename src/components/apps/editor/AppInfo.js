@@ -52,7 +52,6 @@ const ToolSelector = (props) => {
                             <Search />
                         </IconButton>
                         <ToolSelectionDialog
-                            baseId={buildID(id, ids.INSTALLED_TOOLS_DLG)}
                             open={open}
                             onClose={() => setOpen(false)}
                             onConfirm={(tool) => {

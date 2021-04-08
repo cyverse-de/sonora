@@ -4,9 +4,9 @@
  * App Launch Form validation functions.
  */
 
-import { validateDiskResourceName } from "../../data/utils";
+import { validateDiskResourceName } from "components/data/utils";
 
-import constants from "./constants";
+import AppParamTypes, { ValidatorTypes } from "components/models/AppParamTypes";
 
 /**
  * @param {*} value - The app parameter value to check.
@@ -32,7 +32,7 @@ const validateText = ({ value, validators }, t) => {
                 let validatorMsg = null;
 
                 switch (validator.type) {
-                    case constants.VALIDATOR_TYPE.REGEX:
+                    case ValidatorTypes.REGEX:
                         const regexPattern = validator.params[0];
                         try {
                             const regex = new RegExp(regexPattern);
@@ -44,7 +44,7 @@ const validateText = ({ value, validators }, t) => {
                         } catch (invalidRegex) {}
                         break;
 
-                    case constants.VALIDATOR_TYPE.CHARACTER_LIMIT:
+                    case ValidatorTypes.CHARACTER_LIMIT:
                         const limit = validator.params[0];
                         if (value.length > limit) {
                             validatorMsg = t("validationCharLimit", {
@@ -105,7 +105,7 @@ const validateInteger = ({ value, validators }, t) => {
                 let validatorMsg = null;
 
                 switch (validator.type) {
-                    case constants.VALIDATOR_TYPE.INT_ABOVE:
+                    case ValidatorTypes.INT_ABOVE:
                         validatorMsg = validateAbove(
                             value,
                             validator.params[0],
@@ -113,7 +113,7 @@ const validateInteger = ({ value, validators }, t) => {
                         );
                         break;
 
-                    case constants.VALIDATOR_TYPE.INT_BELOW:
+                    case ValidatorTypes.INT_BELOW:
                         validatorMsg = validateBelow(
                             value,
                             validator.params[0],
@@ -121,7 +121,7 @@ const validateInteger = ({ value, validators }, t) => {
                         );
                         break;
 
-                    case constants.VALIDATOR_TYPE.INT_RANGE:
+                    case ValidatorTypes.INT_RANGE:
                         if (validator.params.length >= 2) {
                             validatorMsg = validateRange(
                                 value,
@@ -154,7 +154,7 @@ const validateDouble = ({ value, validators }, t) => {
                 let validatorMsg = null;
 
                 switch (validator.type) {
-                    case constants.VALIDATOR_TYPE.DOUBLE_ABOVE:
+                    case ValidatorTypes.DOUBLE_ABOVE:
                         validatorMsg = validateAbove(
                             value,
                             validator.params[0],
@@ -162,7 +162,7 @@ const validateDouble = ({ value, validators }, t) => {
                         );
                         break;
 
-                    case constants.VALIDATOR_TYPE.DOUBLE_BELOW:
+                    case ValidatorTypes.DOUBLE_BELOW:
                         validatorMsg = validateBelow(
                             value,
                             validator.params[0],
@@ -170,7 +170,7 @@ const validateDouble = ({ value, validators }, t) => {
                         );
                         break;
 
-                    case constants.VALIDATOR_TYPE.DOUBLE_RANGE:
+                    case ValidatorTypes.DOUBLE_RANGE:
                         if (validator.params.length >= 2) {
                             validatorMsg = validateRange(
                                 value,
@@ -239,27 +239,27 @@ const validate = (t) => (values) => {
                         }
                     } else {
                         switch (param.type) {
-                            case constants.PARAM_TYPE.TEXT:
+                            case AppParamTypes.TEXT:
                                 valueError = validateText(param, t);
                                 break;
 
-                            case constants.PARAM_TYPE.INTEGER:
+                            case AppParamTypes.INTEGER:
                                 valueError = validateInteger(param, t);
                                 break;
 
-                            case constants.PARAM_TYPE.DOUBLE:
+                            case AppParamTypes.DOUBLE:
                                 valueError = validateDouble(param, t);
                                 break;
 
-                            case constants.PARAM_TYPE.FILE_OUTPUT:
-                            case constants.PARAM_TYPE.FOLDER_OUTPUT:
+                            case AppParamTypes.FILE_OUTPUT:
+                            case AppParamTypes.FOLDER_OUTPUT:
                                 valueError = validateDiskResourceName(
                                     param.value,
                                     t
                                 );
                                 break;
 
-                            case constants.PARAM_TYPE.MULTIFILE_OUTPUT:
+                            case AppParamTypes.MULTIFILE_OUTPUT:
                                 valueError = validateUnixGlob(param.value, t);
                                 break;
 

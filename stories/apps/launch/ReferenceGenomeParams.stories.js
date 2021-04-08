@@ -1,15 +1,11 @@
 import React from "react";
 
-import { mockAxios } from "../../axiosMock";
-
 import AppLaunchStoryBase from "./AppLaunchStoryBase";
 import ReferenceGenomeApp from "./data/ReferenceGenomeApp";
-import ReferenceGenomeListing from "./data/ReferenceGenomeListing";
+import { initMockAxiosReferenceGenomeListing } from "./data/ReferenceGenomeListing";
 
 export const ReferenceGenomeParams = () => {
-    mockAxios
-        .onGet(/\/api\/reference-genomes/)
-        .reply(200, ReferenceGenomeListing);
+    initMockAxiosReferenceGenomeListing();
 
     return <AppLaunchStoryBase app={ReferenceGenomeApp} />;
 };

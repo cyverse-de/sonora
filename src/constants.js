@@ -6,6 +6,7 @@ export default {
     CYVERSE_POLICY_URL: "https://cyverse.org/policies",
     CYVERSE_ABOUT_URL: "https://cyverse.org/about",
     CYVERSE_USER_PORTAL: "https://user.cyverse.org",
+    OLD_DE_LINK: "https://de.cyverse.org",
     SHARED_WITH_ME: "Shared With Me",
     APPS_SHARED_WITH_ME: "Shared with me",
     COMMUNITY_DATA: "Community Data",
@@ -85,4 +86,5 @@ export default {
         "https://cyverse.org/policies/data-commons-user-agreement",
     CYVERSE_GLOSSARY:
         "https://learning.cyverse.org/projects/glossary/en/latest/",
+    XSEDE_ALLOC_LINK: "https://portal.xsede.org/allocation-request-steps",
 };

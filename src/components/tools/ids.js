@@ -1,6 +1,7 @@
 export default {
     CHECKBOX: "checkbox",
     IMAGE_NAME: "image-name",
+    INSTALLED_TOOLS_DLG: "installedToolsDlg",
     LISTING_TABLE: "listing-table",
     NAME: "name",
     STATUS: "status",

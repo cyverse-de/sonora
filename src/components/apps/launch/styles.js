@@ -1,12 +1,11 @@
 export default (theme) => ({
-    accordionDetails: { flexDirection: "column" },
+    accordionDetails: {
+        flexDirection: "column",
+        [theme.breakpoints.down("xs")]: {
+            padding: theme.spacing(1),
+        },
+    },
 
-    stepper: {
-        padding: theme.spacing(1),
-    },
-    stepContainer: {
-        overflow: "auto",
-    },
     spacer: {
         margin: theme.spacing(1),
         [theme.breakpoints.down("xs")]: {
@@ -19,22 +18,6 @@ export default (theme) => ({
         margin: theme.spacing(0.5),
         [theme.breakpoints.down("xs")]: {
             margin: theme.spacing(0.3),
-        },
-    },
-    bottomNavigation: {
-        [theme.breakpoints.down("xs")]: {
-            margin: theme.spacing(0.3),
-        },
-        backgroundColor: theme.palette.primary.main,
-    },
-    bottomNavigationAction: {
-        [theme.breakpoints.down("xs")]: {
-            width: "100%",
-            margin: theme.spacing(0.5),
-        },
-        [theme.breakpoints.up("sm")]: {
-            flexGrow: 1,
-            color: theme.palette.primary.contrastText,
         },
     },
     paramsReview: {

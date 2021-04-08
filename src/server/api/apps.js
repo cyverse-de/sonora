@@ -1,5 +1,5 @@
 /**
- * @author sriram
+ * @author sriram, psarando
  *
  * Add apps handler
  *
@@ -36,13 +36,16 @@ export default function appsRouter() {
         })
     );
 
-    logger.info("adding the GET /apps/:systemId/:appId handler");
-    api.get(
-        "/apps/:systemId/:appId/listing",
+    logger.info("adding the POST /apps/:systemId handler");
+    api.post(
+        "/apps/:systemId",
         auth.authnTokenMiddleware,
         terrainHandler({
-            method: "GET",
-            pathname: "/apps/:systemId/:appId/listing",
+            method: "POST",
+            pathname: "/apps/:systemId",
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
     );
 
@@ -65,6 +68,29 @@ export default function appsRouter() {
         terrainHandler({
             method: "GET",
             pathname: "/apps/:systemId/:appId",
+        })
+    );
+
+    logger.info("adding the PUT /apps/:systemId/:appId handler");
+    api.put(
+        "/apps/:systemId/:appId",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PUT",
+            pathname: "/apps/:systemId/:appId",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the GET /apps/:systemId/:appId/listing handler");
+    api.get(
+        "/apps/:systemId/:appId/listing",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/:systemId/:appId/listing",
         })
     );
 

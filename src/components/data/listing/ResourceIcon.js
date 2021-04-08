@@ -14,18 +14,16 @@ import ResourceTypes from "../../models/ResourceTypes";
 import { useTheme } from "@material-ui/core";
 
 function ResourceIcon(props) {
-    const { type, ...rest } = props;
+    const { type, ...custom } = props;
     const theme = useTheme();
 
+    const iconStyle = { color: custom.color ? null : theme.palette.info.main };
+
     if (type === ResourceTypes.FOLDER || type === "DIR") {
-        return (
-            <FolderIcon style={{ color: theme.palette.info.main }} {...rest} />
-        );
+        return <FolderIcon style={iconStyle} {...custom} />;
     }
     if (type === ResourceTypes.FILE) {
-        return (
-            <FileIcon style={{ color: theme.palette.info.main }} {...rest} />
-        );
+        return <FileIcon style={iconStyle} {...custom} />;
     }
 
     return null;

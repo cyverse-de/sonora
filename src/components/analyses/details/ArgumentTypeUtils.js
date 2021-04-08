@@ -1,16 +1,18 @@
-import ArgumentTypes from "./ArgumentTypes";
+import AppParamTypes, {
+    DeprecatedParamTypes,
+} from "components/models/AppParamTypes";
 
 const INPUT_TYPES = [
-    ArgumentTypes.PARAM_TYPE.FILE_INPUT,
-    ArgumentTypes.PARAM_TYPE.FOLDER_INPUT,
-    ArgumentTypes.PARAM_TYPE.MULTIFILE_SELECTOR,
-    ArgumentTypes.PARAM_TYPE.FILE_FOLDER_INPUT,
+    AppParamTypes.FILE_INPUT,
+    AppParamTypes.FOLDER_INPUT,
+    AppParamTypes.MULTIFILE_SELECTOR,
+    AppParamTypes.FILE_FOLDER_INPUT,
 ];
 
 const REFERENCE_GENOME_TYPES = [
-    ArgumentTypes.PARAM_TYPE.REFERENCE_ANNOTATION,
-    ArgumentTypes.PARAM_TYPE.REFERENCE_GENOME,
-    ArgumentTypes.PARAM_TYPE.REFERENCE_SEQUENCE,
+    AppParamTypes.REFERENCE_ANNOTATION,
+    AppParamTypes.REFERENCE_GENOME,
+    AppParamTypes.REFERENCE_SEQUENCE,
 ];
 
 /**
@@ -21,7 +23,7 @@ const REFERENCE_GENOME_TYPES = [
 const isSelectionArgumentType = (type) => {
     return (
         isSimpleSelectionArgumentType(type) ||
-        type === ArgumentTypes.PARAM_TYPE.TREE_SELECTION
+        type === DeprecatedParamTypes.TREE_SELECTION
     );
 };
 
@@ -33,9 +35,9 @@ const isSelectionArgumentType = (type) => {
  */
 const isSimpleSelectionArgumentType = (type) => {
     return (
-        type === ArgumentTypes.PARAM_TYPE.TEXT_SELECTION ||
-        type === ArgumentTypes.PARAM_TYPE.INTEGER_SELECTION ||
-        type === ArgumentTypes.PARAM_TYPE.DOUBLE_SELECTION
+        type === AppParamTypes.TEXT_SELECTION ||
+        type === AppParamTypes.INTEGER_SELECTION ||
+        type === AppParamTypes.DOUBLE_SELECTION
     );
 };
 
@@ -47,11 +49,11 @@ const isSimpleSelectionArgumentType = (type) => {
  */
 const isTextType = (type) => {
     return (
-        type === ArgumentTypes.PARAM_TYPE.TEXT ||
-        type === ArgumentTypes.PARAM_TYPE.MULTILINE_TEXT ||
-        type === ArgumentTypes.PARAM_TYPE.ENV_VAR ||
-        type === ArgumentTypes.PARAM_TYPE.INTEGER ||
-        type === ArgumentTypes.PARAM_TYPE.DOUBLE
+        type === AppParamTypes.TEXT ||
+        type === AppParamTypes.MULTILINE_TEXT ||
+        type === AppParamTypes.ENV_VAR ||
+        type === AppParamTypes.INTEGER ||
+        type === AppParamTypes.DOUBLE
     );
 };
 

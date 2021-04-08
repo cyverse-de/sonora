@@ -2,21 +2,19 @@
  * @author psarando
  *
  * An App Launch Wizard for collecting and validating user input of app
- * parameters and resource requirements as an alaysis submission.
+ * parameters and resource requirements as an analysis submission.
  */
 import React from "react";
 
-import constants from "./constants";
-
 import AppInfo from "./AppInfo";
 import AppLaunchForm from "./AppLaunchForm";
-import AppLaunchFormSkeleton from "./AppLaunchFormSkeleton";
+import AppStepperFormSkeleton from "../AppStepperFormSkeleton";
 
-import useComponentHeight from "../../utils/useComponentHeight";
+import { DeprecatedParamTypes } from "components/models/AppParamTypes";
 
 import { Divider, Paper } from "@material-ui/core";
 
-const deprecatedParamTypes = Object.values(constants.DEPRECATED_PARAM_TYPE);
+const deprecatedParamTypes = Object.values(DeprecatedParamTypes);
 
 function AppLaunchWizard(props) {
     const { baseId, app, appError, loading } = props;
@@ -26,12 +24,6 @@ function AppLaunchWizard(props) {
             deprecatedParamTypes.includes(param.type)
         )
     );
-    const appInfoRef = React.useRef(null);
-    const [appInfoHeight, setAppInfoRef] = useComponentHeight();
-
-    React.useEffect(() => {
-        setAppInfoRef(appInfoRef);
-    }, [appInfoRef, setAppInfoRef]);
 
     return (
         <Paper>
@@ -41,15 +33,14 @@ function AppLaunchWizard(props) {
                 loadingError={appError}
                 app={app}
                 hasDeprecatedParams={hasDeprecatedParams}
-                ref={appInfoRef}
             />
             <Divider />
             {loading ? (
-                <AppLaunchFormSkeleton baseId={baseId} />
+                <AppStepperFormSkeleton baseId={baseId} />
             ) : (
                 app &&
                 !(app.deleted || app.disabled || hasDeprecatedParams) && (
-                    <AppLaunchForm {...props} appInfoHeight={appInfoHeight} />
+                    <AppLaunchForm {...props} />
                 )
             )}
         </Paper>

@@ -158,7 +158,7 @@ const MetadataFormListing = (props) => {
 
     const loadingOrSubmitting = loading || isFetching || isSubmitting;
 
-    const applyDisabled = loadingOrSubmitting || !dirty || errors.error;
+    const saveDisabled = loadingOrSubmitting || !dirty || errors.error;
 
     const showSaveToFile = !loadingOrSubmitting && !(dirty && editable);
 
@@ -181,9 +181,9 @@ const MetadataFormListing = (props) => {
                         : "dialogTitleViewMetadataFor",
                     { targetName }
                 )}
-                showApply={editable}
-                applyDisabled={applyDisabled}
-                onApply={handleSubmit}
+                showSave={editable}
+                saveDisabled={saveDisabled}
+                onSave={handleSubmit}
                 showSaveToFile={showSaveToFile}
                 onSaveToFile={onSaveMetadataToFileBtnSelected}
                 showViewInTemplate={showViewInTemplate}

@@ -112,7 +112,7 @@ const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
     );
 };
 
-const AppInfo = React.forwardRef((props, ref) => {
+const AppInfo = (props) => {
     const { app, baseId, hasDeprecatedParams, loading, loadingError } = props;
     const { t } = useTranslation("apps");
     const classes = useStyles();
@@ -122,7 +122,7 @@ const AppInfo = React.forwardRef((props, ref) => {
     const [docDialogOpen, setDocDialogOpen] = React.useState(false);
 
     return (
-        <div ref={ref}>
+        <>
             <BackButton
                 style={{
                     margin: isMobile ? theme.spacing(0) : theme.spacing(0.5),
@@ -148,25 +148,21 @@ const AppInfo = React.forwardRef((props, ref) => {
             >
                 <Hidden xsDown>{t("documentation")}</Hidden>
             </Button>
-            <Typography
-                variant={isMobile ? "subtitle2" : "h6"}
-                className={classes.appInfoTypography}
-            >
-                <>
-                    {loadingError ? (
-                        <LoadingErrorDisplay
-                            baseId={baseId}
-                            loadingError={loadingError}
-                        />
-                    ) : loading ? (
-                        <Skeleton width={250} />
-                    ) : (
-                        <Typography variant={isMobile ? "subtitle2" : "h6"}>
-                            {app?.name}
-                        </Typography>
-                    )}
-                </>
-            </Typography>
+            {loadingError ? (
+                <LoadingErrorDisplay
+                    baseId={baseId}
+                    loadingError={loadingError}
+                />
+            ) : loading ? (
+                <Skeleton width={250} />
+            ) : (
+                <Typography
+                    variant={isMobile ? "subtitle2" : "h6"}
+                    className={classes.appInfoTypography}
+                >
+                    {app?.name}
+                </Typography>
+            )}
             <Hidden xsDown>
                 <Typography
                     className={classes.appInfoTypography}
@@ -199,8 +195,8 @@ const AppInfo = React.forwardRef((props, ref) => {
                 name={app?.name}
                 onClose={() => setDocDialogOpen(false)}
             />
-        </div>
+        </>
     );
-});
+};
 
 export default AppInfo;

@@ -9,6 +9,8 @@ import React, { useState } from "react";
 import { useTranslation } from "i18n";
 
 import ids from "../ids";
+import { canShare } from "../utils";
+
 import ToolsDotMenu from "./ToolsDotMenu";
 
 import SharingButton from "components/sharing/SharingButton";
@@ -117,7 +119,9 @@ export default function ToolsToolbar(props) {
         baseId,
         onDetailsSelected,
         isSingleSelection,
-        canShare,
+        disableDelete,
+        disableEdit,
+        disableShare,
         getSelectedTools,
         ownershipFilter,
         handleOwnershipFilterChange,
@@ -136,10 +140,13 @@ export default function ToolsToolbar(props) {
     const { t } = useTranslation("tools");
     const { t: i18nCommon } = useTranslation("common");
 
-    const hasSelection = getSelectedTools
-        ? getSelectedTools().length > 0
-        : false;
-    const sharingTools = formatSharedTools(getSelectedTools());
+    const hasSelection = getSelectedTools && getSelectedTools().length > 0;
+
+    const sharingEnabled =
+        !disableShare && hasSelection && canShare(getSelectedTools());
+    const sharingTools = formatSharedTools(
+        getSelectedTools && getSelectedTools()
+    );
 
     return (
         <>
@@ -174,7 +181,7 @@ export default function ToolsToolbar(props) {
                             {t("detailsLbl")}
                         </Button>
                     )}
-                    {canShare && (
+                    {sharingEnabled && (
                         <SharingButton
                             baseId={baseId}
                             setSharingDlgOpen={setSharingDlgOpen}
@@ -186,7 +193,9 @@ export default function ToolsToolbar(props) {
                     baseId={baseId}
                     onDetailsSelected={onDetailsSelected}
                     isSingleSelection={isSingleSelection}
-                    canShare={canShare}
+                    canDelete={!disableDelete}
+                    canEdit={!disableEdit}
+                    canShare={sharingEnabled}
                     setSharingDlgOpen={setSharingDlgOpen}
                     getSelectedTools={getSelectedTools}
                     onAddToolSelected={() => setAddDialogOpen(true)}

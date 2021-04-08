@@ -49,7 +49,7 @@ function DotMenuItems(props) {
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
     return [
-        <Hidden mdUp>
+        <Hidden mdUp key="hiddenMdUp">
             {isSingleSelection && (
                 <MenuItem
                     key={build(baseId, ids.MANAGE_TOOLS.TOOL_INFO_MI)}
@@ -157,26 +157,19 @@ function DotMenuItems(props) {
 
 export default function ToolsDotMenu({
     ButtonProps,
-    canShare,
-    setSharingDlgOpen,
-    onEditToolSelected,
+    canDelete,
+    canEdit,
     getSelectedTools,
-    onRequestToolSelected,
-    onDeleteToolSelected,
-    isAdmin,
     ...props
 }) {
-    const {
-        baseId,
-        isSingleSelection,
-        onDetailsSelected,
-        onAddToolSelected,
-    } = props;
+    const { baseId, isSingleSelection, isAdmin } = props;
     const selectedTools = getSelectedTools ? getSelectedTools() : null;
     const allowEditing =
+        canEdit &&
         isSingleSelection &&
         (isWritable(selectedTools[0]?.permission) || isAdmin);
     const allowDeletes =
+        canDelete &&
         selectedTools?.length > 0 &&
         (selectedTools.filter((tool) => !isWritable(tool.permission)).length ===
             0 ||
@@ -189,18 +182,9 @@ export default function ToolsDotMenu({
             render={(onClose) => (
                 <DotMenuItems
                     {...props}
-                    isSingleSelection={isSingleSelection}
                     onClose={onClose}
-                    onDetailsSelected={onDetailsSelected}
-                    canShare={canShare}
-                    setSharingDlgOpen={setSharingDlgOpen}
-                    onAddToolSelected={onAddToolSelected}
-                    onEditToolSelected={onEditToolSelected}
                     allowEditing={allowEditing}
-                    onRequestToolSelected={onRequestToolSelected}
-                    onDeleteToolSelected={onDeleteToolSelected}
                     allowDeletes={allowDeletes}
-                    isAdmin={isAdmin}
                 />
             )}
         />

@@ -8,12 +8,12 @@ import React from "react";
 import { FieldArray, getIn } from "formik";
 import { useTranslation } from "i18n";
 
-import constants from "./constants";
 import ids from "./ids";
 
 import { BrowseButton } from "./InputSelector";
 
 import globalConstants from "../../../constants";
+import AppParamTypes from "components/models/AppParamTypes";
 import DETableHead from "components/utils/DETableHead";
 
 import {
@@ -45,7 +45,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 const multiInputColumnData = (t) => [
     {
         key: "name",
-        id: constants.PARAM_TYPE.MULTIFILE_SELECTOR,
+        id: AppParamTypes.MULTIFILE_SELECTOR,
         name: t("name"),
         numeric: false,
         enableSorting: true,
@@ -77,6 +77,7 @@ const getSortedPaths = (order, paths) => {
 const MultiInputSelector = (props) => {
     const {
         id,
+        disabled,
         label,
         helperText,
         required,
@@ -132,6 +133,7 @@ const MultiInputSelector = (props) => {
                             </FormControl>
                             <BrowseButton
                                 baseId={id}
+                                disabled={disabled}
                                 startingPath={startingPath}
                                 acceptedType={acceptedType}
                                 multiSelect={true}
@@ -177,6 +179,7 @@ const MultiInputSelector = (props) => {
                                         <EmptyTable
                                             message={
                                                 <Typography
+                                                    component="span"
                                                     variant="body2"
                                                     style={{
                                                         padding: theme.spacing(

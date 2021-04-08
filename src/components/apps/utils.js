@@ -4,7 +4,23 @@
  * Apps related utility functions.
  */
 import NavigationConstants from "../../common/NavigationConstants";
-import Permissions from "../models/Permissions";
+
+import Checkbox from "components/apps/launch/params/Checkbox";
+import Double from "components/apps/launch/params/Double";
+import FileFolderInput from "components/apps/launch/params/FileFolderInput";
+import FileInput from "components/apps/launch/params/FileInput";
+import FolderInput from "components/apps/launch/params/FolderInput";
+import Info from "components/apps/launch/params/Info";
+import Integer from "components/apps/launch/params/Integer";
+import MultiFileSelector from "components/apps/launch/params/MultiFileSelector";
+import MultilineText from "components/apps/launch/params/MultilineText";
+import Selection from "components/apps/launch/params/Selection";
+import Text from "components/apps/launch/params/Text";
+
+import ReferenceGenomeSelect from "components/apps/launch/ReferenceGenomeSelect";
+
+import AppParamTypes from "components/models/AppParamTypes";
+import Permissions from "components/models/Permissions";
 
 /**
  * Builds a path to the App Launch Wizard for the app with the given IDs.
@@ -83,4 +99,51 @@ export const canShare = (apps) => {
         apps.length > 0 &&
         !apps.find((app) => app?.permission !== Permissions.OWN)
     );
+};
+
+export const getAppParameterLaunchComponent = (paramType) => {
+    switch (paramType) {
+        case AppParamTypes.INFO:
+            return Info;
+
+        case AppParamTypes.TEXT:
+            return Text;
+
+        case AppParamTypes.MULTILINE_TEXT:
+            return MultilineText;
+
+        case AppParamTypes.INTEGER:
+            return Integer;
+
+        case AppParamTypes.DOUBLE:
+            return Double;
+
+        case AppParamTypes.FLAG:
+            return Checkbox;
+
+        case AppParamTypes.TEXT_SELECTION:
+        case AppParamTypes.INTEGER_SELECTION:
+        case AppParamTypes.DOUBLE_SELECTION:
+            return Selection;
+
+        case AppParamTypes.FILE_INPUT:
+            return FileInput;
+
+        case AppParamTypes.FOLDER_INPUT:
+            return FolderInput;
+
+        case AppParamTypes.FILE_FOLDER_INPUT:
+            return FileFolderInput;
+
+        case AppParamTypes.MULTIFILE_SELECTOR:
+            return MultiFileSelector;
+
+        case AppParamTypes.REFERENCE_GENOME:
+        case AppParamTypes.REFERENCE_SEQUENCE:
+        case AppParamTypes.REFERENCE_ANNOTATION:
+            return ReferenceGenomeSelect;
+
+        default:
+            return Text;
+    }
 };

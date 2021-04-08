@@ -7,17 +7,29 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
+
+import { useReferenceGenomes } from "../queries";
+
 import { FormFieldLoading, FormTextField } from "@cyverse-de/ui-lib";
 
 import { MenuItem } from "@material-ui/core";
 
-const ReferenceGenomeSelect = ({
-    referenceGenomes,
-    referenceGenomesLoading,
-    ...props
-}) => {
+const ReferenceGenomeSelect = ({ param, ...props }) => {
+    const [referenceGenomes, setReferenceGenomes] = React.useState([]);
+
+    const { isFetching: referenceGenomesLoading } = useReferenceGenomes(
+        true,
+        setReferenceGenomes
+    );
+
     const { t } = useTranslation("launch");
-    const selectProps = { ...props };
+
+    const selectProps = {
+        label: param?.label,
+        helperText: param?.description,
+        required: param?.required,
+        ...props,
+    };
 
     if (referenceGenomesLoading) {
         return <FormFieldLoading {...selectProps} />;
@@ -35,7 +47,12 @@ const ReferenceGenomeSelect = ({
     }
 
     return (
-        <FormTextField select variant="outlined" {...selectProps}>
+        <FormTextField
+            select
+            variant="outlined"
+            margin="normal"
+            {...selectProps}
+        >
             {referenceGenomes.map((refGenome) => (
                 <MenuItem key={refGenome.id} value={refGenome}>
                     {refGenome.name}

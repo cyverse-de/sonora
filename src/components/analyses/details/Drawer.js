@@ -10,7 +10,6 @@ import React, { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
-import ArgumentTypes from "./ArgumentTypes";
 import {
     parseStringValue,
     parseSelectionValue,
@@ -19,10 +18,14 @@ import {
     isTextType,
     isSelectionArgumentType,
 } from "./ArgumentTypeUtils";
-import ids from "../../analyses/ids";
-import DETabPanel from "../../utils/DETabPanel";
 import InfoPanel from "./InfoPanel";
 import ParamsPanel from "./ParamsPanel";
+
+import ids from "../ids";
+
+import AppParamTypes from "components/models/AppParamTypes";
+import DETabPanel from "components/utils/DETabPanel";
+
 import {
     getAnalysisHistory,
     getAnalysisParameters,
@@ -108,8 +111,8 @@ function DetailsDrawer(props) {
             if (
                 isTextType(type) ||
                 isInputType(type) ||
-                type === ArgumentTypes.PARAM_TYPE.FLAG ||
-                type === ArgumentTypes.PARAM_TYPE.FILE_OUTPUT
+                type === AppParamTypes.FLAG ||
+                type === AppParamTypes.FILE_OUTPUT
             ) {
                 parsedParam = parseStringValue(parameter);
             } else if (

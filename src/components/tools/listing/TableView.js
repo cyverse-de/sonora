@@ -15,6 +15,7 @@ import {
     TableBody,
     TableCell,
     TableContainer,
+    TableRow,
     Typography,
 } from "@material-ui/core";
 
@@ -120,14 +121,27 @@ function NoTools(props) {
  * @param {Object} props - the component properties
  */
 function ToolListing(props) {
-    const { handleClick, t, selected, tableId, tools, isAdmin } = props;
+    const {
+        handleClick,
+        t,
+        multiSelect,
+        selected,
+        tableId,
+        tools,
+        isAdmin,
+    } = props;
+
     return tools.map((tool, index) => {
         const id = tool.id;
         const rowId = buildId(tableId, id);
         const handleRowClick = (event) => handleClick(event, id, index);
         const isSelected = selected.includes(id);
+
+        // DERow styling will override selected-row highlight styling.
+        const Row = isSelected ? TableRow : DERow;
+
         return (
-            <DERow
+            <Row
                 aria-checked={isSelected}
                 hover
                 id={rowId}
@@ -137,18 +151,20 @@ function ToolListing(props) {
                 selected={isSelected}
                 tabIndex={-1}
             >
-                <TableCell padding="checkbox">
-                    <DECheckbox
-                        checked={isSelected}
-                        id={buildId(rowId, ids.CHECKBOX)}
-                        tabIndex={0}
-                        inputProps={{
-                            "aria-label": t("ariaCheckbox", {
-                                label: tool.name,
-                            }),
-                        }}
-                    />
-                </TableCell>
+                {multiSelect && (
+                    <TableCell padding="checkbox">
+                        <DECheckbox
+                            checked={isSelected}
+                            id={buildId(rowId, ids.CHECKBOX)}
+                            tabIndex={0}
+                            inputProps={{
+                                "aria-label": t("ariaCheckbox", {
+                                    label: tool.name,
+                                }),
+                            }}
+                        />
+                    </TableCell>
+                )}
                 <TableCell>
                     <Typography>{tool.name}</Typography>
                 </TableCell>
@@ -182,7 +198,7 @@ function ToolListing(props) {
                         <Typography>{tool.version}</Typography>
                     </TableCell>,
                 ]}
-            </DERow>
+            </Row>
         );
     });
 }
@@ -196,6 +212,7 @@ function ToolListingTableBody(props) {
         columns,
         handleClick,
         t,
+        multiSelect,
         selected,
         tableId,
         tools,
@@ -209,6 +226,7 @@ function ToolListingTableBody(props) {
                 <ToolListing
                     handleClick={handleClick}
                     t={t}
+                    multiSelect={multiSelect}
                     selected={selected}
                     tableId={tableId}
                     tools={tools}
@@ -234,6 +252,7 @@ function TableView(props) {
         loading,
         order,
         orderBy,
+        multiSelect,
         selected,
         isAdmin,
     } = props;
@@ -264,7 +283,7 @@ function TableView(props) {
                     order={order}
                     orderBy={orderBy}
                     rowsInPage={listing?.tools?.length || 0}
-                    selectable={true}
+                    selectable={multiSelect}
                 />
                 {loading ? (
                     <LoadingMask columns={columns} tableId={tableId} />
@@ -273,6 +292,7 @@ function TableView(props) {
                         columns={columns}
                         handleClick={handleClick}
                         t={t}
+                        multiSelect={multiSelect}
                         selected={selected}
                         tableId={tableId}
                         tools={tools}

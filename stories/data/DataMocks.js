@@ -643,4 +643,7 @@ export const initMockAxiosFileFolderSelector = () => {
         .reply(200, pagedDirectoryResp);
     mockAxios.onGet(/\/api\/filesystem\/root.*/).reply(200, dataRootsResp);
     mockAxios.onGet(/\/api\/filetypes\/type-list/).reply(200, fileTypesResp);
+    mockAxios
+        .onPost("/api/preferences")
+        .reply((config) => [200, { preferences: JSON.parse(config.data) }]);
 };

@@ -1,5 +1,5 @@
 /**
- * @author sriram
+ * @author sriram, psarando
  *
  */
 import callApi from "../common/callApi";
@@ -121,10 +121,26 @@ function getAppsInCategory(
           });
 }
 
+function addApp({ systemId, app }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}`,
+        method: "POST",
+        body: app,
+    });
+}
+
 function getAppDescription(_, { systemId, appId }) {
     return callApi({
         endpoint: `/api/apps/${systemId}/${appId}`,
         method: "GET",
+    });
+}
+
+function updateApp({ systemId, appId, app }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}`,
+        method: "PUT",
+        body: app,
     });
 }
 
@@ -357,6 +373,7 @@ function adminUpdateApp({ app, details, avus, values }) {
 }
 
 export {
+    addApp,
     getApps,
     getAppsForAdmin,
     getAppDetailsForAdmin,
@@ -368,6 +385,7 @@ export {
     getAppPermissions,
     appFavorite,
     rateApp,
+    updateApp,
     searchApps,
     searchAppsInfiniteQuery,
     getAppDoc,

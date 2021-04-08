@@ -23,6 +23,7 @@ import {
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
+    Add as CreateAppIcon,
     Info,
     Build,
     FilterList as FilterListIcon,
@@ -155,7 +156,7 @@ function AppsToolbar(props) {
                     )}
                 </Hidden>
                 <Hidden xsDown>
-                    <Link href={`${NavigationConstants.TOOLS}`}>
+                    <Link href={NavigationConstants.TOOLS}>
                         <Button
                             id={build(appsToolbarId, ids.TOOLS_BTN)}
                             className={classes.toolbarItems}
@@ -166,6 +167,21 @@ function AppsToolbar(props) {
                             size="small"
                         >
                             {t("manageTools")}
+                        </Button>
+                    </Link>
+                </Hidden>
+                <Hidden xsDown>
+                    <Link href={NavigationConstants.NEW_APP}>
+                        <Button
+                            id={build(appsToolbarId, ids.CREATE_APP_BTN)}
+                            className={classes.toolbarItems}
+                            variant="outlined"
+                            disableElevation
+                            color="primary"
+                            startIcon={<CreateAppIcon />}
+                            size="small"
+                        >
+                            {t("create")}
                         </Button>
                     </Link>
                 </Hidden>

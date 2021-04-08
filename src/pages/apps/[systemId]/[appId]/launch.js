@@ -1,7 +1,7 @@
 /**
- * @author psarando
- *
  * A page for displaying the App Launch Wizard for an app with the given IDs.
+ *
+ * @author psarando
  */
 import React from "react";
 

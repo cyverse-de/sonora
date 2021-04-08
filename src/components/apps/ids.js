@@ -10,6 +10,8 @@ export default {
     APP_COMMENTS: "appComments",
     CARD: "card",
     CLOSE_BTN: "closeButton",
+    CREATE_APP_BTN: "createAppButton",
+    CREATE_MENU_ITEM: "createAppMenuItem",
     DIALOG: "dialog",
     APP_QUICK_LAUNCH: "appQuickLaunch",
     LISTING_TABLE: "listingTable",
@@ -53,6 +55,7 @@ export default {
     VIEW_ALL_APPS: "viewAllApps",
     QL_MENU_ITEM: "quickLaunch",
     DOC_MENU_ITEM: "documentation",
+    EDIT_MENU_ITEM: "edit",
     QUICK_LAUNCH: {
         NAME: "name",
         DESCRIPTION: "description",

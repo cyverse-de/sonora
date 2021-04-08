@@ -13,7 +13,11 @@ export default (theme) => ({
         ),
     },
 
-    flex: { flex: 1 },
+    formContainer: {
+        overflow: "auto",
+        height: "100%",
+        padding: theme.spacing(1),
+    },
 
     paramCard: {
         margin: theme.spacing(1, 0),

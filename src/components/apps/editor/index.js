@@ -6,6 +6,7 @@
 import React from "react";
 
 import { Formik } from "formik";
+import { useRouter } from "next/router";
 import { useMutation } from "react-query";
 
 import { useTranslation } from "i18n";
@@ -23,6 +24,9 @@ import ParametersPreview from "./ParametersPreview";
 import AppStepper, { StepperSkeleton } from "../AppStepper";
 import AppStepDisplay, { BottomNavigationSkeleton } from "../AppStepDisplay";
 
+import { getAppEditPath } from "../utils";
+
+import BackButton from "components/utils/BackButton";
 import ComingSoonInfo from "components/utils/ComingSoonInfo";
 import SaveButton from "components/utils/SaveButton";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
@@ -42,9 +46,9 @@ import {
 import {
     Button,
     ButtonGroup,
+    Grid,
     makeStyles,
     Paper,
-    Toolbar,
     Typography,
     useTheme,
     useMediaQuery,
@@ -143,7 +147,7 @@ const AppEditor = (props) => {
 
     const { t } = useTranslation(["app_editor", "app_editor_help", "common"]);
     const classes = useStyles();
-
+    const router = useRouter();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
@@ -235,6 +239,11 @@ const AppEditor = (props) => {
                 const app = formatSubmission(values);
 
                 const onSuccess = (app) => {
+                    if (!values.id) {
+                        // A new app was saved, so update address to new URL
+                        router.replace(getAppEditPath(app.system_id, app.id));
+                    }
+
                     // Note that enableReinitialize should not be used when
                     // using resetForm with new values.
                     actions.resetForm({ values: initAppValues(app) });
@@ -265,9 +274,16 @@ const AppEditor = (props) => {
                 const saveDisabled = isSubmitting || !dirty || errors.error;
 
                 return (
-                    <Paper ref={scrollOnEditEl}>
-                        <Toolbar>
-                            <Typography variant="h6" className={classes.flex}>
+                    <Paper className={classes.formContainer}>
+                        <Grid
+                            ref={scrollOnEditEl}
+                            container
+                            justify="space-between"
+                            alignItems="flex-start"
+                            wrap="nowrap"
+                        >
+                            <BackButton />
+                            <Typography variant="h6">
                                 {t(values.id ? "editApp" : "createApp", {
                                     name: values.name,
                                 })}
@@ -278,7 +294,8 @@ const AppEditor = (props) => {
                                 disabled={saveDisabled}
                                 onSave={handleSubmit}
                             />
-                        </Toolbar>
+                        </Grid>
+
                         {isSubmitting ? (
                             <StepperSkeleton baseId={baseId} ref={stepperRef} />
                         ) : (
@@ -300,6 +317,7 @@ const AppEditor = (props) => {
                                 ref={stepperRef}
                             />
                         )}
+
                         <AppStepDisplay
                             step={activeStep + 1}
                             label={activeStepInfo.contentLabel}

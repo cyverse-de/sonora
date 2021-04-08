@@ -147,6 +147,16 @@ export default function appsRouter() {
         })
     );
 
+    logger.info("adding the GET /apps/:systemId/:appId/ui handler");
+    api.get(
+        "/apps/:systemId/:appId/ui",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/:systemId/:appId/ui",
+        })
+    );
+
     logger.info("adding the POST /apps/permission-lister handler");
     api.post(
         "/apps/permission-lister",

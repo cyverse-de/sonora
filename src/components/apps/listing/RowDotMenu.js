@@ -8,25 +8,32 @@ import React from "react";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 
-import QLMenuItem from "../menuItems/QLMenuItem";
-import DocMenuItem from "../menuItems/DocMenuItem";
 import ids from "../ids";
+import { isWritable } from "../utils";
 
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
+import DocMenuItem from "../menuItems/DocMenuItem";
+import EditMenuItem from "../menuItems/EditMenuItem";
+import QLMenuItem from "../menuItems/QLMenuItem";
+
 import SharingMenuItem from "components/sharing/SharingMenuItem";
 import shareIds from "components/sharing/ids";
 
 function RowDotMenu(props) {
     const {
+        app,
         baseId,
         ButtonProps,
-        onDetailsSelected,
         canShare,
         setSharingDlgOpen,
+        onDetailsSelected,
         onDocSelected,
         onQLSelected,
         isAdminView,
     } = props;
+
+    const canEdit = isWritable(app.permission);
+
     return (
         <DotMenu
             baseId={baseId}
@@ -45,6 +52,14 @@ function RowDotMenu(props) {
                             baseId={baseId}
                             onClose={onClose}
                             setSharingDlgOpen={setSharingDlgOpen}
+                        />
+                    ),
+                    canEdit && (
+                        <EditMenuItem
+                            key={build(baseId, ids.EDIT_MENU_ITEM)}
+                            baseId={baseId}
+                            onClose={onClose}
+                            app={app}
                         />
                     ),
                     <DocMenuItem

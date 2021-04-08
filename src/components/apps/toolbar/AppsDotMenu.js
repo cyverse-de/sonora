@@ -24,6 +24,7 @@ import {
     useTheme,
 } from "@material-ui/core";
 import {
+    Add as CreateAppIcon,
     FilterList,
     Build,
     Info,
@@ -129,15 +130,26 @@ function AppsDotMenu(props) {
                     key={build(baseId, ids.MANAGE_TOOLS_DIVIDER)}
                     id={build(baseId, ids.MANAGE_TOOLS_DIVIDER)}
                 />,
-                <Link href={`${NavigationConstants.TOOLS}`}>
-                    <MenuItem
-                        key={build(baseId, ids.TOOLS_MENU_ITEM)}
-                        id={build(baseId, ids.TOOLS_MENU_ITEM)}
-                    >
+                <Link
+                    key={ids.TOOLS_MENU_ITEM}
+                    href={NavigationConstants.TOOLS}
+                >
+                    <MenuItem id={build(baseId, ids.TOOLS_MENU_ITEM)}>
                         <ListItemIcon>
                             <Build fontSize="small" />
                         </ListItemIcon>
                         <ListItemText primary={t("manageTools")} />
+                    </MenuItem>
+                </Link>,
+                <Link
+                    key={ids.CREATE_MENU_ITEM}
+                    href={NavigationConstants.NEW_APP}
+                >
+                    <MenuItem id={build(baseId, ids.CREATE_MENU_ITEM)}>
+                        <ListItemIcon>
+                            <CreateAppIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText primary={t("create")} />
                     </MenuItem>
                 </Link>,
             ]}

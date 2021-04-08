@@ -21,6 +21,7 @@ const APP_CATEGORIES_QUERY_KEY = "fetchPrivateCategories";
 const APPS_SEARCH_QUERY_KEY = "searchApps";
 const APP_BY_ID_QUERY_KEY = "fetchAppById";
 const APP_DOC_QUERY_KEY = "fetchAppDoc";
+const APP_UI_QUERY_KEY = "fetchAppUI";
 
 //ADMIN KEYS
 const ADMIN_APPS_QUERY_KEY = "fetchAllAppsForAdmin";
@@ -235,6 +236,13 @@ function saveAppDoc({ systemId, appId, documentation }) {
     });
 }
 
+function getAppUI(_, { systemId, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}/ui`,
+        method: "GET",
+    });
+}
+
 // start of admin end-points
 function getAppsForAdmin(
     key,
@@ -383,6 +391,7 @@ export {
     getAppDescription,
     getAppDetails,
     getAppPermissions,
+    getAppUI,
     appFavorite,
     rateApp,
     updateApp,
@@ -401,6 +410,7 @@ export {
     APPS_SEARCH_QUERY_KEY,
     APP_BY_ID_QUERY_KEY,
     APP_DOC_QUERY_KEY,
+    APP_UI_QUERY_KEY,
     ADMIN_APPS_QUERY_KEY,
     ADMIN_APP_DETAILS_QUERY_KEY,
     ADMIN_APP_AVU_QUERY_KEY,

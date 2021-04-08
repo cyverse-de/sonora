@@ -15,9 +15,6 @@ export const AppsTableViewTest = () => {
             baseId="tableView"
             handleSelectAllClick={(event) => logger("Select All Clicked")}
             handleClick={(event, resourceId, index) => logger("Row Clicked")}
-            onRouteToApp={(systemId, appId) =>
-                console.log("onRouteToApp", systemId, appId)
-            }
             selected={[]}
             searchTerm=""
         />

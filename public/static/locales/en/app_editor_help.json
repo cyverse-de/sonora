@@ -7,7 +7,7 @@
     "DoubleBelow": "Allows you to set an upper limit (non-inclusive) to the value the user may enter.",
     "DoubleRange": "Allows you to restrict the value that the user may enter to a range of values (inclusive).",
     "DoubleSelection": "Inserts a list of decimals you define from which the user can select one item.",
-    "EnvironmentVariable": "Allows you to set a dynamic named value that affect the execution environment of the app.",
+    "EnvironmentVariable": "Allows you to set a dynamic named value that affects the execution environment of the app.",
     "EnvironmentVariableDefaultName": "The name you enter here will be the name of the Environment Variable set by the app before the command line tool is run.",
     "EnvironmentVariableDefaultValue": "The text you enter here will be what the user sees in this field when they first open the app; the \"default\" value for the environment variable name you have entered.",
     "ExcludeArgument": "Selecting this option will \"skip\" this app item when the app is used (the argument will not be passed to the command line).",

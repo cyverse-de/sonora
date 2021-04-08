@@ -10,6 +10,8 @@ import { Trans } from "react-i18next";
 import ids from "./ids";
 
 import { useTranslation } from "i18n";
+import { intercomShow } from "common/intercom";
+import UtilIds from "components/utils/ids";
 
 import ResourceIcon from "components/data/listing/ResourceIcon";
 
@@ -22,6 +24,7 @@ import { build as buildID } from "@cyverse-de/ui-lib";
 import {
     Avatar,
     Collapse,
+    Link,
     List,
     ListItem,
     ListItemAvatar,
@@ -155,6 +158,21 @@ function ParamTypeListItem(props) {
                                     b: <b />,
                                     i: <i />,
                                     p: <p />,
+                                    support: (
+                                        <Link
+                                            id={buildID(
+                                                id,
+                                                UtilIds.CONTACT_SUPPORT_BUTTON
+                                            )}
+                                            component="button"
+                                            variant="body2"
+                                            onClick={(event) => {
+                                                // prevent parameter selection
+                                                event.stopPropagation();
+                                                intercomShow();
+                                            }}
+                                        />
+                                    ),
                                 }}
                             />
                         }

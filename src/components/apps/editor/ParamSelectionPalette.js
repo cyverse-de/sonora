@@ -54,12 +54,12 @@ function ParamTypeIcon(props) {
     switch (paramType) {
         case AppParamTypes.FILE_INPUT:
         case AppParamTypes.FILE_OUTPUT:
-            icon = <ResourceIcon type={ResourceTypes.FILE} />;
+            icon = <ResourceIcon color="action" type={ResourceTypes.FILE} />;
             break;
 
         case AppParamTypes.FOLDER_INPUT:
         case AppParamTypes.FOLDER_OUTPUT:
-            icon = <ResourceIcon type={ResourceTypes.FOLDER} />;
+            icon = <ResourceIcon color="action" type={ResourceTypes.FOLDER} />;
             break;
 
         case AppParamTypes.MULTIFILE_SELECTOR:

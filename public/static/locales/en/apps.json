@@ -110,5 +110,10 @@
     "viewAllApps": "View All Apps",
     "wikiURLInstructions": "Creating wiki documentation instructions",
     "wikiUrl": "CyVerse wiki documentation URL",
-    "yourRating": "Your Rating:"
+    "yourRating": "Your Rating:",
+    "publish": "Publish",
+    "noRequests": "No App publication requests to display",
+    "publishApp": "Publish {{appName}}",
+    "listing": "Listing",
+    "pubRequests": "Publication Requests"
 }

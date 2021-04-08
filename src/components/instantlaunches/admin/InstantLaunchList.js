@@ -175,7 +175,6 @@ const InstantLaunchList = ({ showErrorAnnouner }) => {
                         </TableHead>
                         <TableBody>
                             {allILs.data.instant_launches.map((il) => {
-                                console.log(JSON.stringify(il, null, 2));
                                 return (
                                     <TableRow key={il.id}>
                                         <TableCell>

@@ -16,13 +16,30 @@ export default () => {
     logger.info("************ Adding Instant Launch handlers **********");
 
     // Get the default instant launch mapping.
-    logger.info("adding the GET /instantlaunches/mappings/defaults/latest");
+    logger.info(
+        "adding the GET /instantlaunches/mappings/defaults/latest handler"
+    );
     api.get(
         "/instantlaunches/mappings/defaults/latest",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
             pathname: "/instantlaunches/mappings/defaults/latest",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info(
+        "adding the POST /instantlaunches/mappings/defaults/latest handler"
+    );
+    api.post(
+        "/instantlaunches/mappings/defaults/latest",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/instant-launches/mappings/defaults/latest",
             headers: {
                 "Content-Type": "application/json",
             },

@@ -6,6 +6,7 @@ import { Tabs, Tab, Paper } from "@material-ui/core";
 
 import InstantLaunchList from "components/instantlaunches/admin/InstantLaunchList";
 import QuickLaunchList from "components/instantlaunches/admin/QuickLaunchList";
+import InstantLaunchMapping from "components/instantlaunches/admin/InstantLaunchMapping";
 import NotAuthorized from "components/utils/error/NotAuthorized";
 import { useTranslation } from "i18n";
 
@@ -42,7 +43,7 @@ export default function InstantLaunchesAdmin() {
                 </Paper>
 
                 <Paper hidden={tabValue !== 2} style={{ overflow: "auto" }}>
-                    Coming Soon!
+                    <InstantLaunchMapping />
                 </Paper>
             </>
         );

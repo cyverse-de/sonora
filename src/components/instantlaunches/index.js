@@ -7,7 +7,7 @@ import { IconButton } from "@material-ui/core";
 import { Launch as LaunchIcon } from "@material-ui/icons";
 
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
-import launchConstants from "components/apps/launch/constants";
+import launchConstants from "components/models/AppParamTypes";
 
 import { getAppInfo, getQuickLaunch } from "serviceFacades/quickLaunches";
 import { submitAnalysis, getAnalysis } from "serviceFacades/analyses";
@@ -15,9 +15,9 @@ import { submitAnalysis, getAnalysis } from "serviceFacades/analyses";
 import { useTranslation } from "i18n";
 
 const inputParamTypes = [
-    launchConstants.PARAM_TYPE.FILE_INPUT,
-    launchConstants.PARAM_TYPE.FOLDER_INPUT,
-    launchConstants.PARAM_TYPE.MULTIFILE_SELECTOR,
+    launchConstants.FILE_INPUT,
+    launchConstants.FOLDER_INPUT,
+    launchConstants.MULTIFILE_SELECTOR,
 ];
 
 /**

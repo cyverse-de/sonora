@@ -109,7 +109,8 @@ export const AppDescriptionMock = {
                     type: "Info",
                     omit_if_blank: false,
                     validators: [],
-                    label: "<h4>Info Text!</h4>\nDoes <b>HTML</b> display?",
+                    label:
+                        "<h4>Info Text!</h4>\nDoes <b>HTML</b> display?\n:sparkles: `Markdown` **now** _supported_ :tada:",
                     id: "177d78f6-5a83-11ea-9e38-008cfa5ae621",
                     order: 0,
                     isVisible: true,

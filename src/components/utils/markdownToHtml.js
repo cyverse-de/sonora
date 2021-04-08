@@ -1,0 +1,24 @@
+/**
+ * @author ianmcorvidae, psarando
+ */
+import sanitizeHtml from "sanitize-html";
+
+/**
+ * This promise will take raw markdown as a string,
+ * sanitize any HTML tags already included in the raw string,
+ * then resolve the final HTML rendered from the sanitized markdown.
+ *
+ * @param {string} rawMarkdown The raw markdown to sanitize and render as HTML.
+ * @returns {Promise} A Promise whose fulfillment value is the sanitized,
+ *                    raw HTML string.
+ */
+const markdownToHtml = async (rawMarkdown) => {
+    const showdown = (await import("showdown")).default;
+
+    const converter = new showdown.Converter();
+    converter.setFlavor("github");
+
+    return converter.makeHtml(sanitizeHtml(rawMarkdown));
+};
+
+export default markdownToHtml;

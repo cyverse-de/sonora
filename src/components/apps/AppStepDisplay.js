@@ -19,14 +19,17 @@ import {
 
 import { Skeleton } from "@material-ui/lab";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     cardContent: {
         overflow: "auto",
+        [theme.breakpoints.down("xs")]: {
+            padding: theme.spacing(1),
+        },
     },
     cardActions: {
         justifyContent: "flex-end",
     },
-});
+}));
 
 export const BottomNavigationSkeleton = React.forwardRef((props, ref) => (
     <Skeleton variant="rect" width="100%" ref={ref}>

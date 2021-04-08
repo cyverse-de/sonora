@@ -1,6 +1,9 @@
 export default (theme) => ({
     accordionDetails: {
         flexDirection: "column",
+        [theme.breakpoints.down("xs")]: {
+            padding: theme.spacing(1),
+        },
     },
 
     deleteIcon: {

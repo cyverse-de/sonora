@@ -12,7 +12,7 @@ import {
 
 import { stableSort } from "@cyverse-de/ui-lib";
 
-export function useReferenceGenomes(enabled, onSuccess) {
+export function useReferenceGenomes(enabled, onSuccess, onError) {
     return useQuery({
         queryKey: [REFERENCE_GENOMES_QUERY_KEY, { deleted: false }],
         queryFn: getReferenceGenomes,
@@ -25,7 +25,12 @@ export function useReferenceGenomes(enabled, onSuccess) {
                 );
             },
             onError: (e) => {
-                console.error(e);
+                if (onError) {
+                    onError(e);
+                } else {
+                    // App params will show an inline error message.
+                    console.error(e);
+                }
             },
         },
     });

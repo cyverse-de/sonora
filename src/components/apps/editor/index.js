@@ -109,6 +109,10 @@ const AppEditor = (props) => {
     } = props;
 
     const [activeStep, setActiveStep] = React.useState(0);
+
+    // Keeps track of the next available globally unique
+    // `key` count for groups and parameters.
+    // Required so React doesn't mix up elements when groups are rearranged.
     const [keyCount, setKeyCount] = React.useState(0);
 
     React.useEffect(() => {

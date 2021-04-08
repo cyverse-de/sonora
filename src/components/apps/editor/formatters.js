@@ -27,6 +27,9 @@ import FileInfoTypes from "components/models/FileInfoTypes";
  * initializes each text parameter's `defaultValue` to an empty string,
  * and each flag's `name` field to a custom object for this form.
  *
+ * Also adds globally unique `key` fields to each group and parameter,
+ * so React does not mix up DOM elements when groups are rearranged in the form.
+ *
  * @param {Object} app
  * @param {Object[]} app.groups
  * @param {Object[]} app.groups.parameters

@@ -1,6 +1,9 @@
 import callApi from "../common/callApi";
 
 import AnalysisStatus from "components/models/analysisStatus";
+import { useQuery } from "react-query";
+import analysisStatus from "components/models/analysisStatus";
+import appType from "../components/models/AppType";
 
 const ANALYSES_LISTING_QUERY_KEY = "fetchAnalysesListingKey";
 const ANALYSIS_HISTORY_QUERY_KEY = "fetchAnalysisHistoryKey";
@@ -31,6 +34,27 @@ function getAnalyses(key, { rowsPerPage, orderBy, order, page, filter }) {
         endpoint: "/api/analyses",
         method: "GET",
         params,
+    });
+}
+
+const runningViceJobsFilter = [
+    { field: "status", value: analysisStatus.RUNNING },
+    { field: "type", value: appType.interactive.value },
+    { field: "ownership", value: "mine" },
+];
+
+function useRunningViceJobs({ enabled, onSuccess, onError }) {
+    return useQuery({
+        queryKey: [
+            ANALYSES_LISTING_QUERY_KEY,
+            { filter: runningViceJobsFilter },
+        ],
+        queryFn: getAnalyses,
+        config: {
+            enabled,
+            onSuccess,
+            onError,
+        },
     });
 }
 
@@ -162,6 +186,7 @@ export {
     submitAnalysis,
     updateAnalysisComment,
     searchAnalysesInfinite,
+    useRunningViceJobs,
     ANALYSES_LISTING_QUERY_KEY,
     ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSIS_PARAMS_QUERY_KEY,

@@ -5,7 +5,6 @@
  *
  **/
 import React, { useState } from "react";
-import { useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
 import DrawerItem from "./DrawerItem";
@@ -24,19 +23,8 @@ import ToolIcon from "@material-ui/icons/LabelImportant";
 import SearchIcon from "@material-ui/icons/Search";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { Link } from "@material-ui/icons";
-import analysisStatus from "../models/analysisStatus";
-import appType from "../models/AppType";
-import {
-    ANALYSES_LISTING_QUERY_KEY,
-    getAnalyses,
-} from "../../serviceFacades/analyses";
+import { useRunningViceJobs } from "serviceFacades/analyses";
 import { openInteractiveUrl } from "../analyses/utils";
-
-const runningViceJobsFilter = [
-    { field: "status", value: analysisStatus.RUNNING },
-    { field: "type", value: appType.interactive.value },
-    { field: "ownership", value: "mine" },
-];
 
 function DrawerItems(props) {
     const { open, activeView, toggleDrawer, isXsDown, adminUser } = props;
@@ -44,17 +32,10 @@ function DrawerItems(props) {
     const [userProfile] = useUserProfile();
     const [analyses, setAnalyses] = useState([]);
 
-    useQuery({
-        queryKey: [
-            ANALYSES_LISTING_QUERY_KEY,
-            { filter: runningViceJobsFilter },
-        ],
-        queryFn: getAnalyses,
-        config: {
-            enabled: userProfile?.id,
-            onSuccess: (resp) => {
-                setAnalyses(resp?.analyses);
-            },
+    useRunningViceJobs({
+        enabled: userProfile?.id,
+        onSuccess: (resp) => {
+            setAnalyses(resp?.analyses);
         },
     });
 

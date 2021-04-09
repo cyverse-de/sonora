@@ -5,8 +5,10 @@ import { queryCache, useMutation, useQuery } from "react-query";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
 import {
+    ALL_INSTANT_LAUNCHES_KEY,
     DEFAULTS_MAPPING_QUERY_KEY,
     getDefaultsMapping,
+    listFullInstantLaunches,
     updateDefaultsMapping,
 } from "serviceFacades/instantlaunches";
 
@@ -25,8 +27,102 @@ import {
     TableCell,
     TableRow,
     TableBody,
+    TextField,
+    makeStyles,
+    MenuItem,
 } from "@material-ui/core";
 import { useTranslation } from "i18n";
+import { useFormik } from "formik";
+
+const useStyles = makeStyles((theme) => ({
+    flexContainer: {
+        margin: `0 -10x`,
+        display: "flex",
+
+        "& .MuiTextField-root": {
+            margin: theme.spacing(1),
+            minWidth: "25ch",
+        },
+    },
+    flexItem: {
+        margin: `0 10px`,
+    },
+}));
+
+const AddMappingForm = ({ t, mapping, instantlaunches }) => {
+    const classes = useStyles();
+
+    const formik = useFormik({
+        initialValues: {
+            mappingName: "",
+            patternKind: "",
+            pattern: "",
+            quicklaunch: "",
+        },
+        onSubmit: (values) => {
+            console.log(JSON.stringify(values, null, 2));
+        },
+    });
+
+    return (
+        <form onSubmit={formik.handleSubmit} className={classes.flexContainer}>
+            <TextField
+                id="mappingName"
+                name="mappingName"
+                label={t("name")}
+                className={classes.flexItem}
+                value={formik.values.mappingName}
+                onChange={formik.handleChange}
+                error={formik.touched.mappingName && formik.errors.mappingName}
+                helperText={
+                    formik.touched.mappingName && formik.errors.mappingName
+                }
+            />
+
+            <TextField
+                value={formik.values.patternKind}
+                onChange={formik.handleChange}
+                id="patternKind"
+                name="patternKind"
+                label={t("patternKind")}
+                className={classes.flexItem}
+                select
+            >
+                <MenuItem value="glob">{t("glob")}</MenuItem>
+                <MenuItem value="infoType">{t("infoType")}</MenuItem>
+            </TextField>
+
+            <TextField
+                id="pattern"
+                name="pattern"
+                label={t("pattern")}
+                value={formik.values.pattern}
+                onChange={formik.handleChange}
+                className={classes.flexItem}
+                error={formik.touched.pattern && formik.errors.pattern}
+                helperText={formik.touched.pattern && formik.errors.pattern}
+            />
+
+            <TextField
+                value={formik.values.quicklaunch}
+                onChange={formik.handleChange}
+                id="quicklaunch"
+                name="quicklaunch"
+                label={t("quickLaunch")}
+                className={classes.flexItem}
+                select
+            >
+                {instantlaunches.map((il, index) => {
+                    return (
+                        <MenuItem value={index}>
+                            {il.quick_launch_name}
+                        </MenuItem>
+                    );
+                })}
+            </TextField>
+        </form>
+    );
+};
 
 const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
     const baseID = "instantLaunchMappingEditor";
@@ -38,8 +134,13 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
         getDefaultsMapping
     );
 
-    const isLoading = defaultsMapping.isLoading;
-    const isError = defaultsMapping.isError;
+    const instantlaunches = useQuery(
+        ALL_INSTANT_LAUNCHES_KEY,
+        listFullInstantLaunches
+    );
+
+    const isLoading = defaultsMapping.isLoading || instantlaunches.isLoading;
+    const isError = defaultsMapping.isError || instantlaunches.isLoading;
 
     const handleDelete = async (index) => {
         const newEntries = Object.entries(defaultsMapping.data.mapping);
@@ -67,59 +168,66 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                 />
             ) : isError ? (
                 <WrappedErrorHandler
-                    errorObject={defaultsMapping.error}
+                    errorObject={defaultsMapping.error || instantlaunches.error}
                     baseId={baseID}
                 />
             ) : (
-                <TableContainer component={Paper}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>{t("name")}</TableCell>
-                                <TableCell>{t("patternKind")}</TableCell>
-                                <TableCell>{t("pattern")}</TableCell>
-                                <TableCell>{t("quicklaunch")}</TableCell>
-                                <TableCell></TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {defaultsMapping?.data?.mapping &&
-                                Object.entries(
-                                    defaultsMapping.data.mapping
-                                ).map(([name, patternObj], index) => {
-                                    return (
-                                        <TableRow key={uuid.v4()}>
-                                            <TableCell>{name}</TableCell>
-                                            <TableCell>
-                                                {patternObj.kind}
-                                            </TableCell>
-                                            <TableCell>
-                                                {patternObj.pattern}
-                                            </TableCell>
-                                            <TableCell>
-                                                {
-                                                    patternObj.default
-                                                        .quick_launch_id
-                                                }
-                                            </TableCell>
-                                            <TableCell>
-                                                <Button
-                                                    onClick={(event) => {
-                                                        event.stopPropagation();
-                                                        event.preventDefault();
+                <div>
+                    <AddMappingForm
+                        mapping={defaultsMapping}
+                        instantlaunches={instantlaunches.data.instant_launches}
+                        t={t}
+                    />
+                    <TableContainer component={Paper}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>{t("name")}</TableCell>
+                                    <TableCell>{t("patternKind")}</TableCell>
+                                    <TableCell>{t("pattern")}</TableCell>
+                                    <TableCell>{t("quicklaunch")}</TableCell>
+                                    <TableCell></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {defaultsMapping?.data?.mapping &&
+                                    Object.entries(
+                                        defaultsMapping.data.mapping
+                                    ).map(([name, patternObj], index) => {
+                                        return (
+                                            <TableRow key={uuid.v4()}>
+                                                <TableCell>{name}</TableCell>
+                                                <TableCell>
+                                                    {patternObj.kind}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {patternObj.pattern}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {
+                                                        patternObj.default
+                                                            .quick_launch_id
+                                                    }
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Button
+                                                        onClick={(event) => {
+                                                            event.stopPropagation();
+                                                            event.preventDefault();
 
-                                                        deleteEntry(index);
-                                                    }}
-                                                >
-                                                    {t("delete")}
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                                                            deleteEntry(index);
+                                                        }}
+                                                    >
+                                                        {t("delete")}
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
             )}
         </div>
     );

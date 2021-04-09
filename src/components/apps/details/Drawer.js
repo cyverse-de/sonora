@@ -14,7 +14,7 @@ import ToolsUsedPanel from "./ToolUsedPanel";
 import AppFavorite from "../AppFavorite";
 
 import ids from "../../apps/ids";
-import DETabPanel from "../../utils/DETabPanel";
+import { DETab, DETabPanel, DETabs } from "../../utils/DETabs";
 
 import DetailsPanel from "./DetailsPanel";
 import constants from "../../../constants";
@@ -22,12 +22,12 @@ import constants from "../../../constants";
 import NavigationConstants from "common/NavigationConstants";
 
 import {
-    appFavorite,
-    getAppDetails,
-    getAppById,
-    rateApp,
     APP_BY_ID_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
+    appFavorite,
+    getAppById,
+    getAppDetails,
+    rateApp,
 } from "serviceFacades/apps";
 
 import { build, CopyTextArea, Rate } from "@cyverse-de/ui-lib";
@@ -38,8 +38,6 @@ import {
     DialogTitle,
     Drawer,
     IconButton,
-    Tab,
-    Tabs,
     Tooltip,
     Typography,
 } from "@material-ui/core";
@@ -78,14 +76,6 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: "100%",
     },
 
-    tabIndicator: {
-        backgroundColor: theme.palette.secondary.main,
-        color: theme.palette.secondary.contrastText,
-    },
-    tabSelected: {
-        color: theme.palette.primary.contrastText,
-        backgroundColor: theme.palette.primary.main,
-    },
     headerOperations: {
         marginLeft: theme.spacing(1),
     },
@@ -330,26 +320,20 @@ function DetailsDrawer(props) {
                     totalRating={totalRating}
                 />
             </div>
-            <Tabs
-                value={selectedTab}
-                onChange={onTabSelectionChange}
-                classes={{ indicator: classes.tabIndicator }}
-            >
-                <Tab
+            <DETabs value={selectedTab} onChange={onTabSelectionChange}>
+                <DETab
                     value={TABS.appInfo}
                     label={t("details")}
                     id={detailsTabId}
-                    classes={{ selected: classes.tabSelected }}
                     aria-controls={build(detailsTabId, ids.PANEL)}
                 />
-                <Tab
+                <DETab
                     value={TABS.toolInfo}
                     label={t("toolsUsedByApp")}
                     id={toolInfoTabId}
-                    classes={{ selected: classes.tabSelected }}
                     aria-controls={build(toolInfoTabId, ids.PANEL)}
                 />
-            </Tabs>
+            </DETabs>
             <DETabPanel
                 tabId={detailsTabId}
                 value={TABS.appInfo}

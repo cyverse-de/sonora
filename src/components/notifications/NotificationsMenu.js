@@ -8,17 +8,14 @@ import {
 } from "../../serviceFacades/notifications";
 import { useTranslation } from "../../i18n";
 import ids from "./ids";
-import NotificationStyles from "./styles";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 
 import { build } from "@cyverse-de/ui-lib";
-import { ListItem, makeStyles, Menu, Tab, Tabs } from "@material-ui/core";
+import { ListItem, Menu } from "@material-ui/core";
 import NotLoggedIn from "../utils/error/NotLoggedIn";
-import DETabPanel from "../utils/DETabPanel";
+import { DETab, DETabPanel, DETabs } from "../utils/DETabs";
 import NotificationsTab from "./NotificationsTab";
 import RunningViceTab from "./RunningViceTab";
-
-const useStyles = makeStyles(NotificationStyles);
 
 const TABS = {
     NOTIFICATIONS: "notifications",
@@ -43,7 +40,6 @@ function NotificationsMenu(props) {
     const [selectedTab, setSelectedTab] = useState(TABS.NOTIFICATIONS);
     const [userProfile] = useUserProfile();
     const [errorObject, setErrorObject] = useState(null);
-    const classes = useStyles();
     const { t } = useTranslation("common");
 
     const handleClose = () => {
@@ -138,26 +134,20 @@ function NotificationsMenu(props) {
             )}
             {userProfile?.id && (
                 <>
-                    <Tabs
-                        value={selectedTab}
-                        onChange={onTabSelectionChange}
-                        classes={{ indicator: classes.tabIndicator }}
-                    >
-                        <Tab
+                    <DETabs value={selectedTab} onChange={onTabSelectionChange}>
+                        <DETab
                             value={TABS.NOTIFICATIONS}
                             label={t("notifications")}
                             id={notificationTabId}
-                            classes={{ selected: classes.tabSelected }}
                             aria-controls={build(notificationTabId, ids.PANEL)}
                         />
-                        <Tab
+                        <DETab
                             value={TABS.VICE}
                             label={t("vice")}
                             id={viceTabId}
-                            classes={{ selected: classes.tabSelected }}
                             aria-controls={build(viceTabId, ids.PANEL)}
                         />
-                    </Tabs>
+                    </DETabs>
                     <DETabPanel
                         tabId={notificationTabId}
                         value={TABS.NOTIFICATIONS}

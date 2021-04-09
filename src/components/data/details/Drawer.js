@@ -7,7 +7,7 @@
 import React, { useState } from "react";
 
 import { build } from "@cyverse-de/ui-lib";
-import { Drawer, makeStyles, Tab, Tabs, Typography } from "@material-ui/core";
+import { Drawer, makeStyles, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 
 import DetailsTabPanel from "./DetailsPanel";
@@ -15,7 +15,7 @@ import ids from "../ids";
 import ResourceIcon from "../listing/ResourceIcon";
 import styles from "../styles";
 import PermissionsTabPanel from "./PermissionsPanel";
-import DETabPanel from "../../utils/DETabPanel";
+import { DETab, DETabPanel, DETabs } from "../../utils/DETabs";
 
 const TABS = {
     details: "DETAILS",
@@ -58,26 +58,20 @@ function DetailsDrawer(props) {
                 </Typography>
             </div>
 
-            <Tabs
-                value={selectedTab}
-                onChange={onTabSelectionChange}
-                classes={{ indicator: classes.tabIndicator }}
-            >
-                <Tab
+            <DETabs value={selectedTab} onChange={onTabSelectionChange}>
+                <DETab
                     value={TABS.details}
                     label={t("details")}
                     id={detailsTabId}
-                    classes={{ selected: classes.tabSelected }}
                     aria-controls={build(detailsTabId, ids.PANEL)}
                 />
-                <Tab
+                <DETab
                     value={TABS.permissions}
                     label={t("permissions")}
                     id={permissionsTabId}
-                    classes={{ selected: classes.tabSelected }}
                     aria-controls={build(permissionsTabId, ids.PANEL)}
                 />
-            </Tabs>
+            </DETabs>
             <DETabPanel
                 tabId={detailsTabId}
                 value={TABS.details}

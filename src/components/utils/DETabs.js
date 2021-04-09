@@ -6,13 +6,43 @@
  */
 
 import React from "react";
-import { Box, Divider, Typography } from "@material-ui/core";
+import {
+    Box,
+    Divider,
+    makeStyles,
+    Tab,
+    Tabs,
+    Typography,
+} from "@material-ui/core";
 import { build } from "@cyverse-de/ui-lib";
 import ids from "../data/ids";
 
 import { useMediaQuery, useTheme } from "@material-ui/core";
 
-export default function DETabPanel(props) {
+const useStyles = makeStyles((theme) => ({
+    tabIndicator: {
+        backgroundColor: theme.palette.secondary.main,
+        color: theme.palette.secondary.contrastText,
+    },
+    tabSelected: {
+        color: theme.palette.primary.contrastText,
+        backgroundColor: theme.palette.primary.main,
+    },
+}));
+
+function DETabs(props) {
+    const classes = useStyles();
+
+    return <Tabs classes={{ indicator: classes.tabIndicator }} {...props} />;
+}
+
+function DETab(props) {
+    const classes = useStyles();
+
+    return <Tab classes={{ selected: classes.tabSelected }} {...props} />;
+}
+
+function DETabPanel(props) {
     const { children, value, selectedTab, tabId } = props;
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -31,3 +61,5 @@ export default function DETabPanel(props) {
         </>
     );
 }
+
+export { DETab, DETabs, DETabPanel };

@@ -5,18 +5,18 @@
  *
  */
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
 import {
-    parseStringValue,
-    parseSelectionValue,
-    isReferenceGenomeType,
     isInputType,
-    isTextType,
+    isReferenceGenomeType,
     isSelectionArgumentType,
+    isTextType,
+    parseSelectionValue,
+    parseStringValue,
 } from "./ArgumentTypeUtils";
 import InfoPanel from "./InfoPanel";
 import ParamsPanel from "./ParamsPanel";
@@ -24,18 +24,18 @@ import ParamsPanel from "./ParamsPanel";
 import ids from "../ids";
 
 import AppParamTypes from "components/models/AppParamTypes";
-import DETabPanel from "components/utils/DETabPanel";
+import { DETab, DETabPanel, DETabs } from "components/utils/DETabs";
 
 import {
-    getAnalysisHistory,
-    getAnalysisParameters,
     ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSIS_PARAMS_QUERY_KEY,
+    getAnalysisHistory,
+    getAnalysisParameters,
 } from "serviceFacades/analyses";
 
 import { build } from "@cyverse-de/ui-lib";
 
-import { Drawer, Tab, Tabs, Typography } from "@material-ui/core";
+import { Drawer, Typography } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -70,14 +70,6 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: "100%",
     },
 
-    tabIndicator: {
-        backgroundColor: theme.palette.secondary.main,
-        color: theme.palette.secondary.contrastText,
-    },
-    tabSelected: {
-        color: theme.palette.primary.contrastText,
-        backgroundColor: theme.palette.primary.main,
-    },
     headerOperations: {
         marginLeft: theme.spacing(1),
     },
@@ -193,26 +185,20 @@ function DetailsDrawer(props) {
             <div className={classes.drawerHeader}>
                 <Typography variant="h6">{analysisName}</Typography>
             </div>
-            <Tabs
-                value={selectedTab}
-                onChange={onTabSelectionChange}
-                classes={{ indicator: classes.tabIndicator }}
-            >
-                <Tab
+            <DETabs value={selectedTab} onChange={onTabSelectionChange}>
+                <DETab
                     value={TABS.analysisInfo}
                     label={t("info")}
                     id={infoTabId}
-                    classes={{ selected: classes.tabSelected }}
                     aria-controls={build(infoTabId, ids.PANEL)}
                 />
-                <Tab
+                <DETab
                     value={TABS.analysisParams}
                     label={t("analysisParams")}
                     id={paramsTabId}
-                    classes={{ selected: classes.tabSelected }}
                     aria-controls={build(paramsTabId, ids.PANEL)}
                 />
-            </Tabs>
+            </DETabs>
             <DETabPanel
                 tabId={infoTabId}
                 value={TABS.analysisInfo}
@@ -240,4 +226,5 @@ function DetailsDrawer(props) {
         </Drawer>
     );
 }
+
 export default DetailsDrawer;

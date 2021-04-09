@@ -14,18 +14,18 @@ import { build } from "@cyverse-de/ui-lib";
 
 import ids from "../ids";
 import constants from "../../../constants";
-import DETabPanel from "../../utils/DETabPanel";
+import { DETab, DETabPanel, DETabs } from "../../utils/DETabs";
 import ToolDetails from "./ToolDetails";
 import TableView from "components/apps/listing/TableView";
 
 import {
-    getToolDetails,
-    getAppsUsed,
-    TOOL_DETAILS_QUERY_KEY,
     APPS_USING_QUERY_KEY,
+    getAppsUsed,
+    getToolDetails,
+    TOOL_DETAILS_QUERY_KEY,
 } from "serviceFacades/tools";
 
-import { Drawer, Tab, Tabs, Typography } from "@material-ui/core";
+import { Drawer, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const TABS = {
@@ -59,14 +59,6 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: "100%",
     },
 
-    tabIndicator: {
-        backgroundColor: theme.palette.secondary.main,
-        color: theme.palette.secondary.contrastText,
-    },
-    tabSelected: {
-        color: theme.palette.primary.contrastText,
-        backgroundColor: theme.palette.primary.main,
-    },
     headerOperations: {
         marginLeft: theme.spacing(1),
     },
@@ -126,26 +118,20 @@ function DetailsDrawer(props) {
             <div className={classes.drawerHeader}>
                 <Typography variant="h6">{toolName}</Typography>
             </div>
-            <Tabs
-                value={selectedTab}
-                onChange={onTabSelectionChange}
-                classes={{ indicator: classes.tabIndicator }}
-            >
-                <Tab
+            <DETabs value={selectedTab} onChange={onTabSelectionChange}>
+                <DETab
                     value={TABS.toolDetails}
                     label={t("toolInformationLbl")}
                     id={infoTabId}
-                    classes={{ selected: classes.tabSelected }}
                     aria-controls={build(infoTabId, ids.PANEL)}
                 />
-                <Tab
+                <DETab
                     value={TABS.appsUsingTool}
                     label={t("appsUsingToolLbl")}
                     id={appsTabId}
-                    classes={{ selected: classes.tabSelected }}
                     aria-controls={build(appsTabId, ids.PANEL)}
                 />
-            </Tabs>
+            </DETabs>
             <DETabPanel
                 tabId={infoTabId}
                 value={TABS.toolDetails}
@@ -180,4 +166,5 @@ function DetailsDrawer(props) {
         </Drawer>
     );
 }
+
 export default DetailsDrawer;

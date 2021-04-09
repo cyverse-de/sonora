@@ -11,6 +11,7 @@ import {
     ANALYSIS_TYPE,
     APP_TYPE,
 } from "../src/components/Bag";
+import { runningViceJobs } from "./analyses/AnalysesMocks";
 
 const mockUser = {
     id: "mockUser",
@@ -132,6 +133,7 @@ export function AppBarTest() {
         .onGet("/api/notifications/last-ten-messages")
         .reply(200, notificationsData);
     mockAxios.onGet("/api/bags/default").reply(200, bag_data);
+    mockAxios.onGet("/api/analyses").reply(200, runningViceJobs);
     return (
         <UserProfileProvider>
             <NotificationsProvider>

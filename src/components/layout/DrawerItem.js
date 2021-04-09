@@ -30,6 +30,8 @@ const DrawerItem = (props) => {
         toggleDrawer,
         clsxBase,
         open,
+        onClick,
+        nested = false,
     } = props;
 
     return (
@@ -38,11 +40,13 @@ const DrawerItem = (props) => {
                 id={build(ids.DRAWER_MENU, id)}
                 onClick={() => {
                     toggleDrawer(false);
-                    router.push("/" + thisView);
+                    onClick ? onClick() : router.push("/" + thisView);
                 }}
                 className={
                     activeView === thisView
                         ? classes.listItemActive
+                        : nested
+                        ? clsx(classes.nested, classes.listItem)
                         : classes.listItem
                 }
             >
@@ -54,7 +58,8 @@ const DrawerItem = (props) => {
                                     ? clsx(clsxBase, classes.icon)
                                     : classes.icon
                             }
-                            style={{ fontSize: "2.1875rem" }}
+                            style={{ fontSize: !nested ? "2.1875rem" : null }}
+                            fontSize={!nested ? "large" : "default"}
                         />
                     </ListItemIcon>
                 )}

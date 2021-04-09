@@ -1099,3 +1099,79 @@ export const info = {
     timestamp: "1553818603053",
     total: 1,
 };
+
+export const runningViceJobs = {
+    analyses: [
+        {
+            description: "",
+            name: "My_Interactive_Analysis1",
+            can_share: true,
+            username: "ipcdev@iplantcollaborative.org",
+            app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae625",
+            system_id: "de",
+            app_disabled: false,
+            batch: false,
+            enddate: "0",
+            status: "Running",
+            id: "e53766e6-97bb-11eb-9145-62d47aced14b",
+            startdate: "1617811879421",
+            app_description:
+                "Jupyter Lab based on jupyter/datascience-notebook with updated iJab plugin and jupyterlab_irods",
+            interactive_urls: ["https://a07c9b2ca.cyverse.run:4343"],
+            notify: false,
+            resultfolderid:
+                "/iplant/home/ipcdev/analyses_qa/analysis-2021-04-07-16-11-19.4",
+            app_name: "VICE",
+        },
+        {
+            description: "",
+            name: "RStudio",
+            can_share: true,
+            username: "ipcdev@iplantcollaborative.org",
+            app_id: "e54bfc1a-f811-11e8-8a14-008cfa5be625",
+            system_id: "de",
+            app_disabled: false,
+            batch: false,
+            enddate: "0",
+            status: "Running",
+            id: "e53766e6-97bb-11eb-9145-6bd47aced14b",
+            startdate: "1617811879421",
+            app_description:
+                "Jupyter Lab based on jupyter/datascience-notebook with updated iJab plugin and jupyterlab_irods",
+            interactive_urls: ["https://a07c9b2ca.cyverse.run:4343"],
+            notify: false,
+            resultfolderid:
+                "/iplant/home/ipcdev/analyses_qa/analysis-2021-04-07-16-11-19.4",
+            app_name: "R_Studio",
+        },
+        {
+            description: "",
+            name: "Kitchen_Sink",
+            can_share: true,
+            username: "ipcdev@iplantcollaborative.org",
+            app_id: "e54bfc1g-f811-11e8-8a14-008cfa5ae625",
+            system_id: "de",
+            app_disabled: false,
+            batch: false,
+            enddate: "0",
+            status: "Running",
+            id: "e5376656-97bb-11eb-9145-62d47aced14b",
+            startdate: "1617811879421",
+            app_description:
+                "Jupyter Lab based on jupyter/datascience-notebook with updated iJab plugin and jupyterlab_irods",
+            interactive_urls: ["https://a07c9b2ca.cyverse.run:4343"],
+            notify: false,
+            resultfolderid:
+                "/iplant/home/ipcdev/analyses_qa/analysis-2021-04-07-16-11-19.4",
+            app_name: "Kitchen_Sink",
+        },
+    ],
+    timestamp: "1617811911079",
+    total: 1,
+    "status-count": [
+        {
+            count: 3,
+            status: "Running",
+        },
+    ],
+};

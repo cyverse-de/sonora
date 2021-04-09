@@ -4,7 +4,8 @@
  * Drawer Menu items.
  *
  **/
-import React from "react";
+import React, { useState } from "react";
+import { useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
 import DrawerItem from "./DrawerItem";
@@ -22,11 +23,41 @@ import HomeIcon from "@material-ui/icons/Home";
 import ToolIcon from "@material-ui/icons/LabelImportant";
 import SearchIcon from "@material-ui/icons/Search";
 import SettingsIcon from "@material-ui/icons/Settings";
+import { Link } from "@material-ui/icons";
+import analysisStatus from "../models/analysisStatus";
+import appType from "../models/AppType";
+import {
+    ANALYSES_LISTING_QUERY_KEY,
+    getAnalyses,
+} from "../../serviceFacades/analyses";
+import { openInteractiveUrl } from "../analyses/utils";
 
-export default function DrawerItems(props) {
+const runningViceJobsFilter = [
+    { field: "status", value: analysisStatus.RUNNING },
+    { field: "type", value: appType.interactive.value },
+    { field: "ownership", value: "mine" },
+];
+
+function DrawerItems(props) {
+    const { open, activeView, toggleDrawer, isXsDown, adminUser } = props;
     const { t } = useTranslation(["common"]);
     const [userProfile] = useUserProfile();
-    const { open, activeView, toggleDrawer, isXsDown, adminUser } = props;
+    const [analyses, setAnalyses] = useState([]);
+
+    useQuery({
+        queryKey: [
+            ANALYSES_LISTING_QUERY_KEY,
+            { filter: runningViceJobsFilter },
+        ],
+        queryFn: getAnalyses,
+        config: {
+            enabled: userProfile?.id,
+            onSuccess: (resp) => {
+                setAnalyses(resp?.analyses);
+            },
+        },
+    });
+
     return (
         <List style={{ overflowY: "auto", overflowX: "hidden" }}>
             <DrawerItem
@@ -61,6 +92,7 @@ export default function DrawerItems(props) {
             />
             {open && (
                 <DrawerItem
+                    nested
                     title={t("tools")}
                     id={ids.TOOLS_MI}
                     thisView={NavigationConstants.TOOLS}
@@ -80,6 +112,22 @@ export default function DrawerItems(props) {
                 toggleDrawer={toggleDrawer}
                 open={open}
             />
+            {open &&
+                analyses?.map((analysis) => (
+                    <DrawerItem
+                        nested
+                        title={analysis.name}
+                        id={analysis.id}
+                        icon={Link}
+                        activeView={activeView}
+                        toggleDrawer={toggleDrawer}
+                        open={open}
+                        onClick={() => {
+                            const accessUrl = analysis.interactive_urls[0];
+                            openInteractiveUrl(accessUrl);
+                        }}
+                    />
+                ))}
             <DrawerItem
                 title={t("teams")}
                 id={ids.TEAMS_MI}
@@ -133,3 +181,5 @@ export default function DrawerItems(props) {
         </List>
     );
 }
+
+export default DrawerItems;

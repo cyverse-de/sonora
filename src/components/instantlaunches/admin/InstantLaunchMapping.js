@@ -36,7 +36,7 @@ import { useFormik } from "formik";
 
 const useStyles = makeStyles((theme) => ({
     flexContainer: {
-        margin: `0 -10x`,
+        margin: `0 -10px`,
         display: "flex",
 
         "& .MuiTextField-root": {

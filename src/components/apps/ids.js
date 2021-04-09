@@ -88,4 +88,10 @@ export default {
         STEP_NEXT: "stepNextButton",
     },
     RUN_ERROR_DLG: "runErrorDlg",
+    PUBLICATION_REQUESTS: {
+        BASE_ID: "publicationRequests",
+        TOOLS_USED_DIALOG: "toolsUsedDialog",
+        TOOLS_USED_LISTING: "toolsUsedListing",
+        REQUEST_LISTING: "requestListing",
+    },
 };

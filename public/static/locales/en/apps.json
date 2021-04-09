@@ -115,5 +115,7 @@
     "noRequests": "No App publication requests to display",
     "publishApp": "Publish {{appName}}",
     "listing": "Listing",
-    "pubRequests": "Publication Requests"
+    "pubRequests": "Publication Requests",
+    "appPubRequestsFetchError": "Unable to fetch publication requests. Please try again.",
+    "appPublicationError": "Unable to publish {{appName}}. Please check the details."
 }

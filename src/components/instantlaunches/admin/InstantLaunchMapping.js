@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     title: {
         marginTop: theme.spacing(5),
         marginBottom: theme.spacing(1),
-        marginLeft: theme.spacing(2),
+        marginLeft: theme.spacing(1),
     },
     flexContainer: {
         margin: `0 5px 20px 5px`,
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const AddMappingForm = ({ t, mapping, instantlaunches }) => {
+const AddMappingForm = ({ t, handleSubmit, instantlaunches }) => {
     const classes = useStyles();
 
     const formik = useFormik({
@@ -63,11 +63,9 @@ const AddMappingForm = ({ t, mapping, instantlaunches }) => {
             mappingName: "",
             patternKind: "",
             pattern: "",
-            quicklaunch: "",
+            instantLaunch: "",
         },
-        onSubmit: (values) => {
-            console.log(JSON.stringify(values, null, 2));
-        },
+        onSubmit: handleSubmit,
     });
 
     return (
@@ -94,8 +92,12 @@ const AddMappingForm = ({ t, mapping, instantlaunches }) => {
                 className={classes.flexItem}
                 select
             >
-                <MenuItem value="glob">{t("glob")}</MenuItem>
-                <MenuItem value="infoType">{t("infoType")}</MenuItem>
+                <MenuItem value="glob" key="glob">
+                    {t("glob")}
+                </MenuItem>
+                <MenuItem value="infoType" key="infoType">
+                    {t("infoType")}
+                </MenuItem>
             </TextField>
 
             <TextField
@@ -110,17 +112,17 @@ const AddMappingForm = ({ t, mapping, instantlaunches }) => {
             />
 
             <TextField
-                value={formik.values.quicklaunch}
+                value={formik.values.instantLaunch}
                 onChange={formik.handleChange}
-                id="quicklaunch"
-                name="quicklaunch"
-                label={t("quickLaunch")}
+                id="instantLaunch"
+                name="instantLaunch"
+                label={t("instantLaunch")}
                 className={classes.flexItem}
                 select
             >
                 {instantlaunches.map((il, index) => {
                     return (
-                        <MenuItem value={index}>
+                        <MenuItem value={index} key={il.id}>
                             {il.quick_launch_name}
                         </MenuItem>
                     );
@@ -169,6 +171,33 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
             showErrorAnnouncer(t("deleteMappingEntryError"), error),
     });
 
+    const [updateMapping] = useMutation(updateDefaultsMapping, {
+        onSuccess: () =>
+            queryCache.invalidateQueries(DEFAULTS_MAPPING_QUERY_KEY),
+        onError: (error) => showErrorAnnouncer(t("updateMappingError"), error),
+    });
+
+    const handleSubmit = (values) => {
+        const selectedIL =
+            instantlaunches.data.instant_launches[values.instantLaunch];
+        const filteredIL = {
+            id: selectedIL.id,
+            quick_launch_id: selectedIL.quick_launch_id,
+            added_on: selectedIL.added_on,
+            added_by: selectedIL.added_by,
+        };
+        const m = {
+            ...defaultsMapping.data.mapping,
+            [values.mappingName]: {
+                pattern: values.pattern,
+                kind: values.patternKind,
+                default: filteredIL,
+                compatible: [],
+            },
+        };
+        return updateMapping(m);
+    };
+
     return (
         <div>
             {isLoading ? (
@@ -189,6 +218,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                         {t("addToMapping")}
                     </Typography>
                     <AddMappingForm
+                        handleSubmit={handleSubmit}
                         mapping={defaultsMapping}
                         instantlaunches={instantlaunches.data.instant_launches}
                         t={t}
@@ -204,7 +234,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                                     <TableCell>{t("name")}</TableCell>
                                     <TableCell>{t("patternKind")}</TableCell>
                                     <TableCell>{t("pattern")}</TableCell>
-                                    <TableCell>{t("quicklaunch")}</TableCell>
+                                    <TableCell>{t("quickLaunch")}</TableCell>
                                     <TableCell></TableCell>
                                 </TableRow>
                             </TableHead>
@@ -216,18 +246,22 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                                         return (
                                             <TableRow key={uuid.v4()}>
                                                 <TableCell>{name}</TableCell>
+
                                                 <TableCell>
                                                     {patternObj.kind}
                                                 </TableCell>
+
                                                 <TableCell>
                                                     {patternObj.pattern}
                                                 </TableCell>
+
                                                 <TableCell>
                                                     {
                                                         patternObj.default
                                                             .quick_launch_id
                                                     }
                                                 </TableCell>
+
                                                 <TableCell>
                                                     <Button
                                                         variant="contained"

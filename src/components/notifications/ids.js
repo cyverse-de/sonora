@@ -28,9 +28,10 @@ export default {
     MESSAGE: "messageColumn",
     NOTIFICATION_FILTER: "notificationFilter",
     NOTIFICATION_VIEW: "notificationView",
-    NOTIFICATIONS_HEADER: "header",
+    NOTIFICATIONS_HEADER: "notificationsTab",
     NOTIFICATIONS_MENU: "notification-menu",
     OK_BTN: "okBtn",
+    PANEL: "panel",
     REFRESH_BTN: "refreshBtn",
     REQUEST_HISTORY_DLG: "requestHistoryDlg",
     SET_PRIVILEGE_DLG: "setPrivilegeDlg",
@@ -38,5 +39,6 @@ export default {
     SIGN_IN_ERR_DIALOG: "signInErrorDialog",
     TIME_STAMP: "time-stamp",
     TOOLBAR: "toolbar",
+    VICE_HEADER: "runningViceTab",
     VIEW_ALL_NOTIFICATIONS: "view-all-notifications",
 };

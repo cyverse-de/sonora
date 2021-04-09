@@ -8,6 +8,7 @@ import NotificationsMenu from "../../src/components/notifications/NotificationsM
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import notificationsData from "./notificationsData";
 import { mockAxios } from "../axiosMock";
+import { runningViceJobs } from "../analyses/AnalysesMocks";
 
 export default {
     title: "Notifications / Top 10",
@@ -17,6 +18,7 @@ export const NotificationsPreviewTest = () => {
     mockAxios
         .onGet("/api/notifications/last-ten-messages")
         .reply(200, notificationsData);
+    mockAxios.onGet("/api/analyses").reply(200, runningViceJobs);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 

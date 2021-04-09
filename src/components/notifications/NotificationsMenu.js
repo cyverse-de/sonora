@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
-import Link from "next/link";
-import { formatDistance, fromUnixTime } from "date-fns";
-import classnames from "classnames";
 import { useUserProfile } from "../../contexts/userProfile";
 import {
     getNotifications,
@@ -12,97 +9,27 @@ import {
 import { useTranslation } from "../../i18n";
 import ids from "./ids";
 import NotificationStyles from "./styles";
-import NavigationConstants from "common/NavigationConstants";
-import ErrorTypographyWithDialog from "../utils/error/ErrorTypographyWithDialog";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 
 import { build } from "@cyverse-de/ui-lib";
-import {
-    Button,
-    Divider,
-    IconButton,
-    ListItem,
-    ListItemText,
-    makeStyles,
-    Menu,
-    Typography,
-    useMediaQuery,
-    useTheme,
-} from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
-import OpenInNewIcon from "@material-ui/icons/OpenInNew";
-import Message from "./Message";
+import { ListItem, makeStyles, Menu, Tab, Tabs } from "@material-ui/core";
 import NotLoggedIn from "../utils/error/NotLoggedIn";
+import DETabPanel from "../utils/DETabPanel";
+import NotificationsTab from "./NotificationsTab";
+import RunningViceTab from "./RunningViceTab";
 
 const useStyles = makeStyles(NotificationStyles);
+
+const TABS = {
+    NOTIFICATIONS: "notifications",
+    VICE: "vice",
+};
 
 // Listing constants for the notification menu.
 const NOTIFICATION_MENU_SORT_FIELD = "timestamp";
 const NOTIFICATION_MENU_SORT_ORDER = "desc";
 const NOTIFICATION_MENU_LIMIT = 10;
 const NOTIFICATION_MENU_OFFSET = 0;
-
-/*
- * Takes in a notification object and returns the time
- * stamp of the notification in 'pretty format'
- */
-function getTimeStamp(timestamp) {
-    if (timestamp) {
-        // slicing because time has extra zeroes in the unix string
-        const d = fromUnixTime(timestamp.slice(0, -3));
-        return formatDistance(d, new Date());
-    }
-}
-
-const NotificationsListingButton = React.forwardRef((props, ref) => {
-    const { isMobile, handleClose, href, onClick } = props;
-    const { t } = useTranslation("common");
-    const buttonId = build(
-        ids.BASE_DEBUG_ID,
-        ids.NOTIFICATIONS_MENU,
-        ids.VIEW_ALL_NOTIFICATIONS
-    );
-
-    return isMobile ? (
-        <IconButton
-            className={useStyles().viewAll}
-            id={buttonId}
-            ref={ref}
-            href={href}
-            onClick={(event) => {
-                onClick(event);
-                handleClose();
-            }}
-        >
-            <OpenInNewIcon size="small" />
-        </IconButton>
-    ) : (
-        <Button
-            id={buttonId}
-            color="primary"
-            startIcon={<OpenInNewIcon size="small" />}
-            ref={ref}
-            href={href}
-            onClick={(event) => {
-                onClick(event);
-                handleClose();
-            }}
-        >
-            {t("viewAllNotifications")}
-        </Button>
-    );
-});
-
-function NotificationsListingLink(props) {
-    const href = `/${NavigationConstants.NOTIFICATIONS}`;
-
-    return (
-        <Link href={href} as={href} passHref>
-            <NotificationsListingButton {...props} />
-        </Link>
-    );
-}
 
 function NotificationsMenu(props) {
     const {
@@ -113,11 +40,10 @@ function NotificationsMenu(props) {
         showErrorAnnouncer,
     } = props;
     const [notifications, setNotifications] = useState([]);
+    const [selectedTab, setSelectedTab] = useState(TABS.NOTIFICATIONS);
     const [userProfile] = useUserProfile();
     const [errorObject, setErrorObject] = useState(null);
     const classes = useStyles();
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const { t } = useTranslation("common");
 
     const handleClose = () => {
@@ -184,6 +110,20 @@ function NotificationsMenu(props) {
         setUnSeenCount(0);
     };
 
+    const onTabSelectionChange = (event, selectedTab) =>
+        setSelectedTab(selectedTab);
+
+    const notificationTabId = build(
+        ids.BASE_DEBUG_ID,
+        ids.NOTIFICATIONS_MENU,
+        ids.NOTIFICATIONS_HEADER
+    );
+    const viceTabId = build(
+        ids.BASE_DEBUG_ID,
+        ids.NOTIFICATIONS_MENU,
+        ids.VICE_HEADER
+    );
+
     return (
         <Menu
             anchorEl={anchorEl}
@@ -191,154 +131,59 @@ function NotificationsMenu(props) {
             open={Boolean(anchorEl)}
             onClose={handleClose}
         >
-            <div>
-                <Typography
-                    className={classes.header}
-                    component="span"
-                    id={build(
-                        ids.BASE_DEBUG_ID,
-                        ids.NOTIFICATIONS_MENU,
-                        ids.NOTIFICATIONS_HEADER
-                    )}
-                    variant="h6"
-                >
-                    {t("notifications")}
-                </Typography>
-
-                {!userProfile?.id && (
-                    <ListItem>
-                        <NotLoggedIn />
-                    </ListItem>
-                )}
-
-                {userProfile?.id &&
-                    isMobile && [
-                        <NotificationsListingLink
-                            key={ids.VIEW_ALL_NOTIFICATIONS}
-                            id={build(
-                                ids.BASE_DEBUG_ID,
-                                ids.NOTIFICATIONS_MENU,
-                                ids.VIEW_ALL_NOTIFICATIONS
-                            )}
-                            handleClose={handleClose}
-                            isMobile={isMobile}
-                        />,
-                        <IconButton
-                            key={ids.MARK_ALL_READ}
-                            className={classes.markSeen}
-                            onClick={handleMarkAllAsSeenClick}
-                            id={build(
-                                ids.BASE_DEBUG_ID,
-                                ids.NOTIFICATIONS_MENU,
-                                ids.MARK_ALL_READ
-                            )}
-                        >
-                            <DoneAllIcon size="small" />
-                        </IconButton>,
-                    ]}
-                <Divider />
-            </div>
-            {isFetching && (
-                <Skeleton variant="rect" height={400} animation="wave" />
-            )}
-            {!isFetching && errorObject !== null && userProfile?.id && (
+            {!userProfile?.id && (
                 <ListItem>
-                    <ErrorTypographyWithDialog
-                        errorMessage={t("notificationError", errorObject)}
-                    />
+                    <NotLoggedIn />
                 </ListItem>
             )}
-
-            {!isFetching &&
-                errorObject === null &&
-                (notifications === null || notifications.length === 0) && (
-                    <ListItem>
-                        <Typography variant="body2">
-                            {t("noNotifications")}
-                        </Typography>
-                    </ListItem>
-                )}
-
-            {!isFetching &&
-                notifications.length > 0 &&
-                notifications.map((n, index) => (
-                    <ListItem
-                        onClick={handleClose}
-                        id={build(
-                            ids.BASE_DEBUG_ID,
-                            ids.NOTIFICATIONS_MENU,
-                            index
-                        )}
-                        key={n.message.id}
-                        className={
-                            !n.seen
-                                ? classnames(
-                                      classes.notification,
-                                      classes.unSeenNotificationBackground
-                                  )
-                                : classes.notification
-                        }
-                        dense={true}
-                        divider={true}
+            {userProfile?.id && (
+                <>
+                    <Tabs
+                        value={selectedTab}
+                        onChange={onTabSelectionChange}
+                        classes={{ indicator: classes.tabIndicator }}
                     >
-                        <ListItemText
-                            primary={
-                                <Message
-                                    baseId={build(
-                                        ids.BASE_DEBUG_ID,
-                                        ids.NOTIFICATIONS_MENU,
-                                        n?.message.id
-                                    )}
-                                    notification={n}
-                                />
-                            }
-                            secondary={
-                                <Typography
-                                    id={build(
-                                        ids.BASE_DEBUG_ID,
-                                        ids.NOTIFICATIONS_MENU,
-                                        ids.TIME_STAMP
-                                    )}
-                                    variant="caption"
-                                >
-                                    {t("timestamp", {
-                                        timestamp: getTimeStamp(
-                                            n.message?.timestamp
-                                        ),
-                                    })}
-                                </Typography>
-                            }
+                        <Tab
+                            value={TABS.NOTIFICATIONS}
+                            label={t("notifications")}
+                            id={notificationTabId}
+                            classes={{ selected: classes.tabSelected }}
+                            aria-controls={build(notificationTabId, ids.PANEL)}
                         />
-                    </ListItem>
-                ))}
-
-            {userProfile?.id &&
-                !isMobile && [
-                    <Divider light key="divider" />,
-                    <NotificationsListingLink
-                        key={ids.VIEW_ALL_NOTIFICATIONS}
-                        id={build(
-                            ids.BASE_DEBUG_ID,
-                            ids.NOTIFICATIONS_MENU,
-                            ids.VIEW_ALL_NOTIFICATIONS
-                        )}
-                        handleClose={handleClose}
-                        isMobile={isMobile}
-                    />,
-                    <Button
-                        key={ids.MARK_ALL_READ}
-                        id={build(
-                            ids.BASE_DEBUG_ID,
-                            ids.NOTIFICATIONS_MENU,
-                            ids.MARK_ALL_READ
-                        )}
-                        color="primary"
-                        onClick={handleMarkAllAsSeenClick}
-                        startIcon={<DoneAllIcon size="small" />}
+                        <Tab
+                            value={TABS.VICE}
+                            label={t("vice")}
+                            id={viceTabId}
+                            classes={{ selected: classes.tabSelected }}
+                            aria-controls={build(viceTabId, ids.PANEL)}
+                        />
+                    </Tabs>
+                    <DETabPanel
+                        tabId={notificationTabId}
+                        value={TABS.NOTIFICATIONS}
+                        selectedTab={selectedTab}
+                        dense
                     >
-                        {t("markAsRead")}
-                    </Button>,
-                ]}
+                        <NotificationsTab
+                            isFetching={isFetching}
+                            notifications={notifications}
+                            handleMarkAllAsSeenClick={handleMarkAllAsSeenClick}
+                            handleClose={handleClose}
+                            errorObject={errorObject}
+                        />
+                    </DETabPanel>
+                    <DETabPanel
+                        tabId={viceTabId}
+                        value={TABS.VICE}
+                        selectedTab={selectedTab}
+                    >
+                        <RunningViceTab
+                            baseId={build(viceTabId, ids.PANEL)}
+                            handleClose={handleClose}
+                        />
+                    </DETabPanel>
+                </>
+            )}
         </Menu>
     );
 }

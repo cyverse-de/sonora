@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "react-query";
 import Link from "next/link";
 import { formatDistance, fromUnixTime } from "date-fns";
 import classnames from "classnames";
-
+import { useUserProfile } from "../../contexts/userProfile";
 import {
     getNotifications,
     markAllSeen,
@@ -12,9 +12,8 @@ import {
 import { useTranslation } from "../../i18n";
 import ids from "./ids";
 import NotificationStyles from "./styles";
-
 import NavigationConstants from "common/NavigationConstants";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "../utils/error/ErrorTypographyWithDialog";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 
 import { build } from "@cyverse-de/ui-lib";
@@ -34,6 +33,7 @@ import { Skeleton } from "@material-ui/lab";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import Message from "./Message";
+import NotLoggedIn from "../utils/error/NotLoggedIn";
 
 const useStyles = makeStyles(NotificationStyles);
 
@@ -113,7 +113,8 @@ function NotificationsMenu(props) {
         showErrorAnnouncer,
     } = props;
     const [notifications, setNotifications] = useState([]);
-    const [error, setError] = useState();
+    const [userProfile] = useUserProfile();
+    const [errorObject, setErrorObject] = useState(null);
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -154,9 +155,11 @@ function NotificationsMenu(props) {
                 if (results?.unseen_total > 0) {
                     setUnSeenCount(results?.unseen_total);
                 }
-                setError(null);
+                setErrorObject(null);
             },
-            onError: setError,
+            onError: (e) => {
+                setErrorObject(e);
+            },
             retry: 3,
         },
     });
@@ -165,8 +168,8 @@ function NotificationsMenu(props) {
         onSuccess: () => {
             setAllNotificationsSeen();
         },
-        onError: (error) => {
-            showErrorAnnouncer(t("errorMarkAsSeen"), error);
+        onError: (errorObject) => {
+            showErrorAnnouncer(t("errorMarkAsSeen"), errorObject);
         },
     });
 
@@ -201,45 +204,53 @@ function NotificationsMenu(props) {
                 >
                     {t("notifications")}
                 </Typography>
-                {isMobile && [
-                    <NotificationsListingLink
-                        key={ids.VIEW_ALL_NOTIFICATIONS}
-                        id={build(
-                            ids.BASE_DEBUG_ID,
-                            ids.NOTIFICATIONS_MENU,
-                            ids.VIEW_ALL_NOTIFICATIONS
-                        )}
-                        handleClose={handleClose}
-                        isMobile={isMobile}
-                    />,
-                    <IconButton
-                        key={ids.MARK_ALL_READ}
-                        className={classes.markSeen}
-                        onClick={handleMarkAllAsSeenClick}
-                        id={build(
-                            ids.BASE_DEBUG_ID,
-                            ids.NOTIFICATIONS_MENU,
-                            ids.MARK_ALL_READ
-                        )}
-                    >
-                        <DoneAllIcon size="small" />
-                    </IconButton>,
-                ]}
+
+                {!userProfile?.id && (
+                    <ListItem>
+                        <NotLoggedIn />
+                    </ListItem>
+                )}
+
+                {userProfile?.id &&
+                    isMobile && [
+                        <NotificationsListingLink
+                            key={ids.VIEW_ALL_NOTIFICATIONS}
+                            id={build(
+                                ids.BASE_DEBUG_ID,
+                                ids.NOTIFICATIONS_MENU,
+                                ids.VIEW_ALL_NOTIFICATIONS
+                            )}
+                            handleClose={handleClose}
+                            isMobile={isMobile}
+                        />,
+                        <IconButton
+                            key={ids.MARK_ALL_READ}
+                            className={classes.markSeen}
+                            onClick={handleMarkAllAsSeenClick}
+                            id={build(
+                                ids.BASE_DEBUG_ID,
+                                ids.NOTIFICATIONS_MENU,
+                                ids.MARK_ALL_READ
+                            )}
+                        >
+                            <DoneAllIcon size="small" />
+                        </IconButton>,
+                    ]}
                 <Divider />
             </div>
             {isFetching && (
                 <Skeleton variant="rect" height={400} animation="wave" />
             )}
-            {!isFetching && error !== null && (
+            {!isFetching && errorObject !== null && userProfile?.id && (
                 <ListItem>
                     <ErrorTypographyWithDialog
-                        errorMessage={t("notificationError", error)}
+                        errorMessage={t("notificationError", errorObject)}
                     />
                 </ListItem>
             )}
 
             {!isFetching &&
-                error === null &&
+                errorObject === null &&
                 (notifications === null || notifications.length === 0) && (
                     <ListItem>
                         <Typography variant="body2">
@@ -247,6 +258,7 @@ function NotificationsMenu(props) {
                         </Typography>
                     </ListItem>
                 )}
+
             {!isFetching &&
                 notifications.length > 0 &&
                 notifications.map((n, index) => (
@@ -299,32 +311,34 @@ function NotificationsMenu(props) {
                         />
                     </ListItem>
                 ))}
-            {!isMobile && [
-                <Divider light key="divider" />,
-                <NotificationsListingLink
-                    key={ids.VIEW_ALL_NOTIFICATIONS}
-                    id={build(
-                        ids.BASE_DEBUG_ID,
-                        ids.NOTIFICATIONS_MENU,
-                        ids.VIEW_ALL_NOTIFICATIONS
-                    )}
-                    handleClose={handleClose}
-                    isMobile={isMobile}
-                />,
-                <Button
-                    key={ids.MARK_ALL_READ}
-                    id={build(
-                        ids.BASE_DEBUG_ID,
-                        ids.NOTIFICATIONS_MENU,
-                        ids.MARK_ALL_READ
-                    )}
-                    color="primary"
-                    onClick={handleMarkAllAsSeenClick}
-                    startIcon={<DoneAllIcon size="small" />}
-                >
-                    {t("markAsRead")}
-                </Button>,
-            ]}
+
+            {userProfile?.id &&
+                !isMobile && [
+                    <Divider light key="divider" />,
+                    <NotificationsListingLink
+                        key={ids.VIEW_ALL_NOTIFICATIONS}
+                        id={build(
+                            ids.BASE_DEBUG_ID,
+                            ids.NOTIFICATIONS_MENU,
+                            ids.VIEW_ALL_NOTIFICATIONS
+                        )}
+                        handleClose={handleClose}
+                        isMobile={isMobile}
+                    />,
+                    <Button
+                        key={ids.MARK_ALL_READ}
+                        id={build(
+                            ids.BASE_DEBUG_ID,
+                            ids.NOTIFICATIONS_MENU,
+                            ids.MARK_ALL_READ
+                        )}
+                        color="primary"
+                        onClick={handleMarkAllAsSeenClick}
+                        startIcon={<DoneAllIcon size="small" />}
+                    >
+                        {t("markAsRead")}
+                    </Button>,
+                ]}
         </Menu>
     );
 }

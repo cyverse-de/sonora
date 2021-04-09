@@ -13,10 +13,8 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 import styles from "./styles";
 
-import GroupPropertyForm from "./GroupPropertyForm";
 import Parameters from "./Parameters";
 import ParamLayoutActions from "./ParamLayoutActions";
-import ParamPropertyForm from "./ParamPropertyForm";
 
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
@@ -110,39 +108,26 @@ function ParamGroupForm(props) {
 }
 
 function ParamGroups(props) {
-    const { baseId, values, keyCount, setKeyCount, scrollOnEdit } = props;
+    const {
+        baseId,
+        values,
+        keyCount,
+        setKeyCount,
+        scrollOnEdit,
+        scrollToField,
+        setScrollToField,
+        setEditGroupField,
+        setEditParamField,
+    } = props;
 
     const [confirmDeleteIndex, setConfirmDeleteIndex] = React.useState(-1);
     const onCloseDeleteConfirm = () => setConfirmDeleteIndex(-1);
-
-    const [editGroupField, setEditGroupField] = React.useState();
-    const [editParamField, setEditParamField] = React.useState();
-    const [scrollToField, setScrollToField] = React.useState();
 
     const { t } = useTranslation(["app_editor", "app_editor_help", "common"]);
 
     const groups = getIn(values, "groups");
 
-    return editGroupField ? (
-        <GroupPropertyForm
-            baseId={baseId}
-            fieldName={editGroupField}
-            onDone={() => {
-                setScrollToField(editGroupField);
-                setEditGroupField(null);
-            }}
-        />
-    ) : editParamField ? (
-        <ParamPropertyForm
-            baseId={buildID(baseId, ids.PROPERTY_EDITOR)}
-            onClose={() => {
-                setScrollToField(editParamField);
-                setEditParamField(null);
-            }}
-            fieldName={editParamField}
-            values={values}
-        />
-    ) : (
+    return (
         <FieldArray
             name="groups"
             render={(arrayHelpers) => (

@@ -18,8 +18,10 @@ import styles from "./styles";
 import AppInfo from "./AppInfo";
 import AppStepperFormSkeleton from "../AppStepperFormSkeleton";
 import CmdLineOrderForm from "./CmdLineOrderForm";
+import GroupPropertyForm from "./GroupPropertyForm";
 import ParamGroups from "./ParamGroups";
 import ParametersPreview from "./ParametersPreview";
+import ParamPropertyForm from "./ParamPropertyForm";
 
 import AppStepper, { StepperSkeleton } from "../AppStepper";
 import AppStepDisplay, { BottomNavigationSkeleton } from "../AppStepDisplay";
@@ -113,6 +115,9 @@ const AppEditor = (props) => {
     } = props;
 
     const [activeStep, setActiveStep] = React.useState(0);
+    const [editGroupField, setEditGroupField] = React.useState();
+    const [editParamField, setEditParamField] = React.useState();
+    const [scrollToField, setScrollToField] = React.useState();
 
     // Keeps track of the next available globally unique
     // `key` count for groups and parameters.
@@ -323,7 +328,9 @@ const AppEditor = (props) => {
                             label={activeStepInfo.contentLabel}
                             bottomOffset={isMobile && stepperHeight}
                             actions={
-                                !isMobile && (
+                                !isMobile &&
+                                !editGroupField &&
+                                !editParamField && (
                                     <StepperNavigation
                                         baseId={buildID(
                                             baseId,
@@ -340,7 +347,9 @@ const AppEditor = (props) => {
                                 isSubmitting ? (
                                     <BottomNavigationSkeleton />
                                 ) : (
-                                    !isMobile && (
+                                    !isMobile &&
+                                    !editGroupField &&
+                                    !editParamField && (
                                         <StepperNavigation
                                             baseId={buildID(
                                                 baseId,
@@ -355,7 +364,29 @@ const AppEditor = (props) => {
                                 )
                             }
                         >
-                            {activeStepInfo === stepAppInfo ? (
+                            {editGroupField ? (
+                                <GroupPropertyForm
+                                    baseId={baseId}
+                                    fieldName={editGroupField}
+                                    onDone={() => {
+                                        setScrollToField(editGroupField);
+                                        setEditGroupField(null);
+                                    }}
+                                />
+                            ) : editParamField ? (
+                                <ParamPropertyForm
+                                    baseId={buildID(
+                                        baseId,
+                                        ids.PROPERTY_EDITOR
+                                    )}
+                                    onClose={() => {
+                                        setScrollToField(editParamField);
+                                        setEditParamField(null);
+                                    }}
+                                    fieldName={editParamField}
+                                    values={values}
+                                />
+                            ) : activeStepInfo === stepAppInfo ? (
                                 <AppInfo baseId={baseId} />
                             ) : activeStepInfo === stepParameters ? (
                                 <ParamGroups
@@ -364,6 +395,10 @@ const AppEditor = (props) => {
                                     keyCount={keyCount}
                                     setKeyCount={setKeyCount}
                                     scrollOnEdit={scrollOnEdit}
+                                    scrollToField={scrollToField}
+                                    setScrollToField={setScrollToField}
+                                    setEditGroupField={setEditGroupField}
+                                    setEditParamField={setEditParamField}
                                 />
                             ) : activeStepInfo === stepPreview ? (
                                 <ParametersPreview

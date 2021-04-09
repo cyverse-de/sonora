@@ -30,13 +30,19 @@ import {
     TextField,
     makeStyles,
     MenuItem,
+    Typography,
 } from "@material-ui/core";
 import { useTranslation } from "i18n";
 import { useFormik } from "formik";
 
 const useStyles = makeStyles((theme) => ({
+    title: {
+        marginTop: theme.spacing(5),
+        marginBottom: theme.spacing(1),
+        marginLeft: theme.spacing(2),
+    },
     flexContainer: {
-        margin: `0 -10px`,
+        margin: `0 5px 20px 5px`,
         display: "flex",
 
         "& .MuiTextField-root": {
@@ -120,12 +126,18 @@ const AddMappingForm = ({ t, mapping, instantlaunches }) => {
                     );
                 })}
             </TextField>
+
+            <Button type="submit" variant="contained" color="primary">
+                {t("addMapping")}
+            </Button>
         </form>
     );
 };
 
 const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
     const baseID = "instantLaunchMappingEditor";
+
+    const classes = useStyles();
 
     const { t } = useTranslation("instantlaunches");
 
@@ -173,11 +185,18 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                 />
             ) : (
                 <div>
+                    <Typography variant="h4" className={classes.title}>
+                        {t("addToMapping")}
+                    </Typography>
                     <AddMappingForm
                         mapping={defaultsMapping}
                         instantlaunches={instantlaunches.data.instant_launches}
                         t={t}
                     />
+
+                    <Typography variant="h4" className={classes.title}>
+                        {t("displayMapping")}
+                    </Typography>
                     <TableContainer component={Paper}>
                         <Table>
                             <TableHead>
@@ -211,6 +230,8 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                                                 </TableCell>
                                                 <TableCell>
                                                     <Button
+                                                        variant="contained"
+                                                        color="primary"
                                                         onClick={(event) => {
                                                             event.stopPropagation();
                                                             event.preventDefault();

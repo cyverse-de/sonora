@@ -52,6 +52,7 @@
     "refresh": "Refresh",
     "remove": "Remove",
     "required": "Required",
+    "runningVice": "Currently Running VICE Analyses:",
     "save": "Save",
     "saveAs": "Save As",
     "search": "Search...",

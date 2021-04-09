@@ -14,7 +14,6 @@ import ids from "./ids";
 import NotificationStyles from "./styles";
 import NavigationConstants from "common/NavigationConstants";
 import ErrorTypographyWithDialog from "../utils/error/ErrorTypographyWithDialog";
-import NotAuthorized from "../utils/error/NotAuthorized";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
 
 import { build } from "@cyverse-de/ui-lib";
@@ -34,6 +33,7 @@ import { Skeleton } from "@material-ui/lab";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import Message from "./Message";
+import NotLoggedIn from "../utils/error/NotLoggedIn";
 
 const useStyles = makeStyles(NotificationStyles);
 
@@ -207,7 +207,7 @@ function NotificationsMenu(props) {
 
                 {!userProfile?.id && (
                     <ListItem>
-                        <NotAuthorized errorObject={errorObject} />
+                        <NotLoggedIn />
                     </ListItem>
                 )}
 

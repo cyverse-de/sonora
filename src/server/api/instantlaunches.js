@@ -46,6 +46,21 @@ export default () => {
         })
     );
 
+    logger.info(
+        "adding the PUT /instantlaunches/mappings/defaults/latest handler"
+    );
+    api.put(
+        "/instantlaunches/mappings/defaults/latest",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PUT",
+            pathname: "/admin/instant-launches/mappings/defaults/latest",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the PUT /instantlaunches handler");
     api.put(
         "/instantlaunches",

@@ -17,6 +17,13 @@ export const updateDefaultsMapping = (newMapping) =>
         body: newMapping,
     });
 
+export const createDefaultsMapping = (newMapping) =>
+    callApi({
+        endpoint: "/api/instantlaunches/mappings/defaults/latest",
+        method: "PUT",
+        body: newMapping,
+    });
+
 export const addInstantLaunch = (id) => {
     const bodyObj = {
         quick_launch_id: id,

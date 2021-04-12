@@ -5,6 +5,7 @@ import { queryCache, useMutation, useQuery } from "react-query";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
 import {
+    createDefaultsMapping,
     ALL_INSTANT_LAUNCHES_KEY,
     DEFAULTS_MAPPING_QUERY_KEY,
     getDefaultsMapping,
@@ -153,14 +154,10 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
         listFullInstantLaunches
     );
 
-    const isLoading = defaultsMapping.isLoading || instantlaunches.isLoading;
-    const isError = defaultsMapping.isError || instantlaunches.isLoading;
-
     const handleDelete = async (index) => {
         const newEntries = Object.entries(defaultsMapping.data.mapping);
         newEntries.splice(index, 1);
         const newObj = Object.fromEntries(newEntries);
-        console.log(JSON.stringify(newObj, null, 2));
         return await updateDefaultsMapping(newObj);
     };
 
@@ -177,15 +174,41 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
         onError: (error) => showErrorAnnouncer(t("updateMappingError"), error),
     });
 
+    const [createMapping] = useMutation(createDefaultsMapping, {
+        onSuccess: () =>
+            queryCache.invalidateQueries(DEFAULTS_MAPPING_QUERY_KEY),
+        onError: (error) => showErrorAnnouncer(t("createMappingError"), error),
+    });
+
+    const [doCreate, setDoCreate] = React.useState(false);
+
+    React.useEffect(() => {
+        if (defaultsMapping.isError) {
+            if (defaultsMapping.error.response.status === 404) {
+                defaultsMapping.data = {};
+                defaultsMapping.isError = false;
+                setDoCreate(true);
+            }
+        }
+        return () => {};
+    }, [defaultsMapping]);
+
     const handleSubmit = (values) => {
+        // We're storing the index into the instantlaunches Array in the formik Values,
+        // so we have to get it from the list.
         const selectedIL =
             instantlaunches.data.instant_launches[values.instantLaunch];
+
+        // The selected instant launch may have extra fields depending on where it came
+        // from, so filter out the unnecessary stuff.
         const filteredIL = {
             id: selectedIL.id,
             quick_launch_id: selectedIL.quick_launch_id,
             added_on: selectedIL.added_on,
             added_by: selectedIL.added_by,
         };
+
+        // The full mapping.
         const m = {
             ...defaultsMapping.data.mapping,
             [values.mappingName]: {
@@ -195,8 +218,16 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                 compatible: [],
             },
         };
+
+        // Create the mapping if we got a 404 when grabbing the values.
+        if (doCreate) {
+            return createMapping(m);
+        }
         return updateMapping(m);
     };
+
+    const isLoading = defaultsMapping.isLoading || instantlaunches.isLoading;
+    const isError = defaultsMapping.isError || instantlaunches.isError;
 
     return (
         <div>

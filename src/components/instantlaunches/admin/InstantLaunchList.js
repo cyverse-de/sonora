@@ -30,6 +30,7 @@ import {
     TableBody,
 } from "@material-ui/core";
 import { useTranslation } from "i18n";
+import { validateForDashboard } from "components/instantlaunches";
 
 /**
  * Adds the instant launch to the list of instant launches
@@ -37,12 +38,21 @@ import { useTranslation } from "i18n";
  *
  * @param {string} id
  */
-const addToDashboardHandler = async (id) =>
-    await upsertInstantLaunchMetadata(id, {
-        attr: "ui_location",
-        value: "dashboard",
-        unit: "",
-    });
+const addToDashboardHandler = async (il, t) =>
+    await validateForDashboard(il)
+        .then((isValid) => {
+            if (!isValid) {
+                console.log("not valid");
+                throw new Error(t("cannotAddILToDashboard"));
+            }
+        })
+        .then(() =>
+            upsertInstantLaunchMetadata(il.id, {
+                attr: "ui_location",
+                value: "dashboard",
+                unit: "",
+            })
+        );
 
 /**
  * Removes an instant launch from the dashboard.
@@ -111,7 +121,7 @@ const shortenUsername = (username) => {
  * Presents a list of instant launches that can be updated,
  * deleted, or added to the dashboard.
  */
-const InstantLaunchList = ({ showErrorAnnouner }) => {
+const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const baseID = "instantlaunchlist";
     const { t } = useTranslation("instantlaunches");
 
@@ -122,17 +132,21 @@ const InstantLaunchList = ({ showErrorAnnouner }) => {
     );
 
     const [addToDash] = useMutation(addToDashboardHandler, {
-        onSuccess: () =>
-            queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY),
-        onError: (error) =>
-            showErrorAnnouner(t("fetchDashboardILError"), error),
+        onSuccess: () => {
+            queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
+        },
+        onError: (error) => {
+            showErrorAnnouncer(error.message, error);
+        },
     });
 
     const [removeFromDash] = useMutation(removeFromDashboardHandler, {
-        onSuccess: () =>
-            queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY),
-        onError: (error) =>
-            showErrorAnnouner(t("removeDashboardILError"), error),
+        onSuccess: () => {
+            queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
+        },
+        onError: (error) => {
+            showErrorAnnouncer(t("removeDashboardILError"), error);
+        },
     });
 
     const [deleteIL] = useMutation(deleteInstantLaunchHandler, {
@@ -141,8 +155,9 @@ const InstantLaunchList = ({ showErrorAnnouner }) => {
             queryCache.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
         },
 
-        onError: (error) =>
-            showErrorAnnouner(t("fetchDashboardILError"), error),
+        onError: (error) => {
+            showErrorAnnouncer(t("fetchDashboardILError"), error);
+        },
     });
 
     const isLoading = allILs.isLoading || dashboardILs.isLoading;
@@ -203,7 +218,7 @@ const InstantLaunchList = ({ showErrorAnnouner }) => {
                                                     onClick={(event) => {
                                                         event.stopPropagation();
                                                         event.preventDefault();
-                                                        addToDash(il.id);
+                                                        addToDash(il, t);
                                                     }}
                                                 >
                                                     {t("addToDashboard")}

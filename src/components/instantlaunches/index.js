@@ -21,6 +21,41 @@ const inputParamTypes = [
 ];
 
 /**
+ * Determine whether an instant launch can be included in the dashboard. Basically
+ * means that the default quick launch for it can't include any unset required inputs.
+ *
+ * @param {Object} instantlaunch - An instant launch, as returned by the full instant launches listing.
+ * @param {String} instantlaunch.quick_launch_id - The UUID for the default quick launch.
+ * @returns {Boolean} - True if can be included, false otherwise.
+ */
+export const validateForDashboard = async ({ quick_launch_id, submission }) => {
+    console.log("in validateForDashboardr ");
+    return await getAppInfo(null, { qId: quick_launch_id }).then((app) => {
+        // Get all of the input parmeters in the app that are required.
+        const requiredAppInputs = app.groups
+            .map((group) => group.parameters || [])
+            .filter(
+                (param) =>
+                    inputParamTypes.includes(param.type) && param.required
+            );
+
+        // Get listing of the input parameters from the app info that
+        // aren't set in the QL submission
+        const unsetInputParams = requiredAppInputs.filter((appParam) => {
+            return (
+                !submission.config.hasOwnProperty(appParam.id) ||
+                (Array.isArray(submission.config[appParam.id]) &&
+                    submission.config[appParam.id].length === 0)
+            );
+        });
+
+        // Only allow the instant launch in the dashboard if it has no required
+        // inputs unset.
+        return unsetInputParams.length === 0;
+    });
+};
+
+/**
  * Returns an Array tuple containing the instant launch object and the name of the
  * first pattern that the resource matched.
  *

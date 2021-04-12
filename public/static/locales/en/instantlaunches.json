@@ -2,6 +2,7 @@
   "addToDashboard" : "Add to Dashboard",
   "addMapping" : "Add Mapping",
   "addToMapping" : "Add Pattern Mapping",
+  "cannotAddILToDashboard" : "Cannot add IL to the dashboard, a required input parameter is present.",
   "create" : "Create",
   "createInstantLaunch" : "Create Instant Launch",
   "createdBy" : "Created By",

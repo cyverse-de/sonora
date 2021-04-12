@@ -37,9 +37,13 @@ function RunningViceTab(props) {
         );
     }
 
+    if (analyses?.length === 0) {
+        return <Typography>{t("noRunningVice")}</Typography>;
+    }
+
     return (
         <>
-            <Typography variant="h5">{t("runningVice")}</Typography>
+            <Typography>{t("runningVice")}</Typography>
             <List component="div">
                 {analyses?.map((analysis) => (
                     <ListItem>

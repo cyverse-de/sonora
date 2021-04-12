@@ -24,6 +24,7 @@ function PageWrapper(props) {
             className={classes.wrapper}
             style={{
                 maxHeight: `calc(100vh - ${appBarHeight + theme.spacing(1)}px)`,
+                overflow: "auto",
             }}
         >
             {props.children}

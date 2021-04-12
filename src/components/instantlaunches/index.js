@@ -12,8 +12,6 @@ import launchConstants from "components/models/AppParamTypes";
 import { getAppInfo, getQuickLaunch } from "serviceFacades/quickLaunches";
 import { submitAnalysis, getAnalysis } from "serviceFacades/analyses";
 
-import { useTranslation } from "i18n";
-
 const inputParamTypes = [
     launchConstants.FILE_INPUT,
     launchConstants.FOLDER_INPUT,
@@ -29,11 +27,11 @@ const inputParamTypes = [
  * @returns {Boolean} - True if can be included, false otherwise.
  */
 export const validateForDashboard = async ({ quick_launch_id, submission }) => {
-    console.log("in validateForDashboardr ");
     return await getAppInfo(null, { qId: quick_launch_id }).then((app) => {
         // Get all of the input parmeters in the app that are required.
         const requiredAppInputs = app.groups
             .map((group) => group.parameters || [])
+            .flat()
             .filter(
                 (param) =>
                     inputParamTypes.includes(param.type) && param.required
@@ -136,11 +134,11 @@ const instantlyLaunch = async (instantLaunch, resource) => {
         .then((values) => {
             const [ql, app] = values;
             const submission = ql.submission;
-            const appParams = app.groups.find((g) => g.label === "Parameters")
-                .parameters;
-            const appInputs = appParams.filter((param) =>
-                inputParamTypes.includes(param.type)
-            );
+
+            const appInputs = app.groups
+                .map((group) => group.parameters || [])
+                .flat()
+                .filter((param) => inputParamTypes.includes(param.type));
 
             // Get listing of the input parameters from the app info that
             // aren't set in the QL submission
@@ -159,17 +157,14 @@ const instantlyLaunch = async (instantLaunch, resource) => {
             if (resource && unsetInputParams.length > 0) {
                 for (const unsetParam of unsetInputParams) {
                     if (resource.type === "file") {
-                        if (
-                            unsetParam.type ===
-                            launchConstants.PARAM_TYPE.FILE_INPUT
-                        ) {
+                        if (unsetParam.type === launchConstants.FILE_INPUT) {
                             submission.config[unsetParam.id] = resource.path;
                             break;
                         }
 
                         if (
                             unsetParam.type ===
-                            launchConstants.PARAM_TYPE.MULTIFILE_SELECTOR
+                            launchConstants.MULTIFILE_SELECTOR
                         ) {
                             submission.config[unsetParam.id] = [resource.path];
                             break;
@@ -177,16 +172,14 @@ const instantlyLaunch = async (instantLaunch, resource) => {
                     }
 
                     if (resource.type === "folder") {
-                        if (
-                            unsetParam.type ===
-                            launchConstants.PARAM_TYPE.FOLDER_INPUT
-                        ) {
+                        if (unsetParam.type === launchConstants.FOLDER_INPUT) {
                             submission.config[unsetParam.id] = resource.path;
                             break;
                         }
                     }
                 }
             }
+
             return submission;
         })
         .then((submission) => submitAnalysis(submission)) // submit the analysis
@@ -206,7 +199,6 @@ const InstantLaunchButton = ({
     resource = {},
     showErrorAnnouncer,
 }) => {
-    const { t } = useTranslation(["instantlaunches", "common"]);
     return (
         <IconButton
             variant="contained"
@@ -223,9 +215,7 @@ const InstantLaunchButton = ({
                             }
                         }
                     })
-                    .catch((error) =>
-                        showErrorAnnouncer(t("instantLaunchError"), error)
-                    );
+                    .catch((error) => showErrorAnnouncer(error.message, error));
             }}
         >
             <LaunchIcon />

@@ -603,15 +603,21 @@ function Listing(props) {
         setCommentDialogOpen(true);
     };
 
-    const handleCancel = () => {
-        analysesCancelMutation({ ids: selected });
+    const handleCancel = (analyses) => {
+        if (analyses?.length > 0) {
+            const ids = analyses.map((analysis) => analysis.id);
+            analysesCancelMutation({ ids });
+        }
     };
 
-    const handleSaveAndComplete = () => {
-        analysesCancelMutation({
-            ids: selected,
-            job_status: analysisStatus.COMPLETED,
-        });
+    const handleSaveAndComplete = (analyses) => {
+        if (analyses?.length > 0) {
+            const ids = analyses.map((analysis) => analysis.id);
+            analysesCancelMutation({
+                ids,
+                job_status: analysisStatus.COMPLETED,
+            });
+        }
     };
 
     const handleStatusClick = (analysis) => {

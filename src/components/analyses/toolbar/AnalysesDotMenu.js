@@ -13,15 +13,15 @@ import ids from "../ids";
 import shareIds from "components/sharing/ids";
 
 import {
-    isInteractive,
-    allowAnalysisTimeExtn,
-    isBatchAnalysis,
     allowAnalysesCancel,
     allowAnalysesDelete,
     allowAnalysesRelaunch,
     allowAnalysisEdit,
-    useRelaunchLink,
+    allowAnalysisTimeExtn,
+    isBatchAnalysis,
+    isInteractive,
     useGotoOutputFolderLink,
+    useRelaunchLink,
 } from "../utils";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
@@ -35,19 +35,18 @@ import {
 } from "@material-ui/core";
 
 import {
-    Info,
-    FilterList,
-    HourglassEmptyRounded as HourGlassIcon,
-    Launch as LaunchIcon,
-    PermMedia as OutputFolderIcon,
-    Repeat as RelaunchIcon,
-    Edit as RenameIcon,
     Cancel as CancelIcon,
     Comment as CommentIcon,
     Delete as DeleteIcon,
-    Save as SaveIcon,
-    UnfoldMore as UnfoldMoreIcon,
+    Edit as RenameIcon,
+    FilterList,
+    HourglassEmptyRounded as HourGlassIcon,
+    Info,
+    Launch as LaunchIcon,
+    PermMedia as OutputFolderIcon,
     Queue as AddToBagIcon,
+    Repeat as RelaunchIcon,
+    UnfoldMore as UnfoldMoreIcon,
 } from "@material-ui/icons";
 import SharingMenuItem from "../../sharing/SharingMenuItem";
 
@@ -96,11 +95,10 @@ function DotMenuItems(props) {
         onAddToBagSelected,
         handleComments,
         handleInteractiveUrlClick,
-        handleCancel,
         handleDelete,
         handleRelaunch,
         handleRename,
-        handleSaveAndComplete,
+        handleTerminateSelected,
         handleBatchIconClick,
         hasSelection,
         isBatch,
@@ -252,32 +250,17 @@ function DotMenuItems(props) {
         ),
         allowCancel && (
             <MenuItem
-                key={build(baseId, ids.MENUITEM_COMPLETE)}
-                id={build(baseId, ids.MENUITEM_COMPLETE)}
-                onClick={() => {
-                    onClose();
-                    handleSaveAndComplete(selectedAnalyses);
-                }}
-            >
-                <ListItemIcon>
-                    <SaveIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText primary={t("completeAndSave")} />
-            </MenuItem>
-        ),
-        allowCancel && (
-            <MenuItem
                 key={build(baseId, ids.MENUITEM_CANCEL)}
                 id={build(baseId, ids.MENUITEM_CANCEL)}
                 onClick={() => {
                     onClose();
-                    handleCancel(selectedAnalyses);
+                    handleTerminateSelected();
                 }}
             >
                 <ListItemIcon>
                     <CancelIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText primary={t("cancel")} />
+                <ListItemText primary={t("terminate")} />
             </MenuItem>
         ),
         allowDelete && (
@@ -387,4 +370,5 @@ function AnalysesDotMenu({
         />
     );
 }
+
 export default AnalysesDotMenu;

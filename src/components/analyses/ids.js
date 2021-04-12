@@ -34,7 +34,6 @@ export default {
     MENUITEM_RELAUNCH: "relaunch",
     MENUITEM_DELETE: "delete",
     MENUITEM_CANCEL: "cancel",
-    MENUITEM_COMPLETE: "complete",
     MENUITEM_EDIT: "edit",
     MENUITEM_RENAME: "rename",
     MENUITEM_UPDATE_COMMENTS: "updateComments",
@@ -113,4 +112,7 @@ export default {
         FOLLOW_LOGS: "followLogs",
         REFRESH: "refresh",
     },
+
+    TERMINATE_ANALYSIS_DLG: "terminateAnalysisDlg",
+    TERMINATE_BTN: "terminateBtn",
 };

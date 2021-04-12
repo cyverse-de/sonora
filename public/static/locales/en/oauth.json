@@ -4,7 +4,7 @@
     "access_denied": "The remote system denied the authorization request. Please try again or contact support.",
     "unsupported_response_type": "The remote system does not support the response requested by the DE. Please contact support.",
     "invalid_scope": "The remote system does not support the scope requested by the DE. Please contact support.",
-    "server_error": "The remote system system encountered an error. Please try again or contact support.",
+    "server_error": "The remote system encountered an error. Please try again or contact support.",
     "temporarily_unavailable": "The remote system is temporarily unavailable. Please try again or contact support.",
     "no_auth_code_provided": "Invalid authorization attempt. Please contact support.",
     "no_state_id_provided": "Required information was missing from the authorization attempt. Please contact support.",

@@ -43,7 +43,7 @@ function DETab(props) {
 }
 
 function DETabPanel(props) {
-    const { children, value, selectedTab, tabId } = props;
+    const { children, value, selectedTab, tabId, dense = false } = props;
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     return (
@@ -56,7 +56,7 @@ function DETabPanel(props) {
                 id={build(tabId, ids.PANEL)}
                 aria-labelledby={tabId}
             >
-                <Box p={isMobile ? 1 : 3}>{children}</Box>
+                <Box p={isMobile || dense ? 1 : 3}>{children}</Box>
             </Typography>
         </>
     );

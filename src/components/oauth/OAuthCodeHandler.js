@@ -2,7 +2,7 @@
  * @author sarahr
  */
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { build } from "@cyverse-de/ui-lib";
@@ -30,10 +30,6 @@ function OAuthCodeHandler(props) {
     const handlerId = build(baseId, ids.OAUTH_CODE_HANDLER);
     const router = useRouter();
     const [userProfile] = useUserProfile();
-    const [categoryQueryKey, setCategoryQueryKey] = useState([
-        APP_CATEGORIES_QUERY_KEY,
-        userProfile?.id,
-    ]);
     const [listingUrl, setListingUrl] = useState(
         getListingPath(null, null, null, null, null, null, false)
     );
@@ -59,18 +55,15 @@ function OAuthCodeHandler(props) {
     );
 
     const { isFetching: isFetchingCategories } = useQuery({
-        queryKey: categoryQueryKey,
+        queryKey: [APP_CATEGORIES_QUERY_KEY, userProfile?.id],
         queryFn: getPrivateCategories,
         config: {
+            enabled: userProfile?.id,
             onSuccess: determineListingUrl,
             staleTime: Infinity,
             cacheTime: Infinity,
         },
     });
-
-    useEffect(() => {
-        setCategoryQueryKey([APP_CATEGORIES_QUERY_KEY, userProfile?.id]);
-    }, [userProfile]);
 
     // Call the API's callback endpoint.
     const { isFetching, error } = useQuery({
@@ -93,7 +86,7 @@ function OAuthCodeHandler(props) {
         return <OAuthErrorHandler errorCode={ERR_SERVICE} baseId={handlerId} />;
     }
 
-    router.push(listingUrl);
+    router.replace(listingUrl);
     return null;
 }
 

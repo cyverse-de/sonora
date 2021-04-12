@@ -49,11 +49,15 @@ function OAuthErrorHandler(props) {
             {t("oops")}
         </Typography>
     );
-    const subheader = <Typography color="error">{t(errorCode)}</Typography>;
 
     return (
         <Card id={errorBaseId}>
-            <CardHeader avatar={avatar} title={title} subheader={subheader} />
+            <CardHeader
+                avatar={avatar}
+                title={title}
+                subheader={t(errorCode)}
+                subheaderTypographyProps={{ color: "primary" }}
+            />
             <Divider orientation="horizontal" />
             <CardContent className={classes.cardContent}>
                 <Grid container spacing={2} className={classes.container}>

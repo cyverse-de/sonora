@@ -76,7 +76,6 @@ function DEAppBar(props) {
     const ref = useRef();
     const [config, setConfig] = useConfig();
     const { t } = useTranslation(["common"]);
-    const { t: i18nTour } = useTranslation("intro");
 
     const searchTerm = router?.query?.searchTerm || "";
     let filter = searchConstants.ALL;
@@ -98,10 +97,6 @@ function DEAppBar(props) {
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
     const [profileRefetchInterval, setProfileRefetchInterval] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
-    const [newUser, setNewUser] = useState(false);
-    const [runTour, setRunTour] = useState(false);
-
-    const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
 
     if (activeView === NavigationConstants.APPS) {
         filter = searchConstants.APPS;
@@ -159,12 +154,7 @@ function DEAppBar(props) {
         }
     }, [userProfile]);
 
-    useBootStrap(bootstrapQueryEnabled, setBootstrapInfo, setBootstrapError);
-
-    useEffect(() => {
-        const workspace = bootstrapInfo?.apps_info.workspace;
-        setNewUser(workspace?.new_workspace);
-    }, [bootstrapInfo]);
+    useBootStrap(bootstrapQueryEnabled, null, setBootstrapError);
 
     React.useEffect(() => {
         if (userProfile?.id) {
@@ -387,9 +377,6 @@ function DEAppBar(props) {
                     toggleDrawer={toggleDrawer}
                     isXsDown={isXsDown}
                     adminUser={adminUser}
-                    setRunTour={setRunTour}
-                    runTour={runTour}
-                    setNewUser={setNewUser}
                 />
             </Drawer>
             <CyVerseAnnouncer />
@@ -422,25 +409,6 @@ function DEAppBar(props) {
             >
                 {children}
             </main>
-            {/* SS: In mobile view, joy ride throws exception after refactoring it
-                to a separate component. Disable product tour for mobile. */}
-            {!isXsDown && newUser && (
-                <>
-                    <ConfirmationDialog
-                        baseId={ids.USER_TOUR_DLG}
-                        open={newUser}
-                        onClose={() => {
-                            setRunTour(false);
-                            setNewUser(false);
-                        }}
-                        onConfirm={() => {
-                            setRunTour(true);
-                        }}
-                        title={i18nTour("tourPromptTitle")}
-                        contentText={i18nTour("tourPrompt")}
-                    />
-                </>
-            )}
         </>
     );
 }

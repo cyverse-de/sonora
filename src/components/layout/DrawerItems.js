@@ -17,6 +17,7 @@ import NavigationConstants from "common/NavigationConstants";
 import AnalysesIcon from "components/icons/AnalysesIcon";
 import DataIcon from "components/icons/DataIcon";
 import { TeamIcon } from "components/teams/Icons";
+import AdminDrawerItems from "./AdminDrawerItems";
 import {
     Divider,
     Hidden,
@@ -43,9 +44,9 @@ export default function DrawerItems(props) {
     const classes = useStyles();
     const [userProfile] = useUserProfile();
     const router = useRouter();
-    const { open, activeView, toggleDrawer } = props;
+    const { open, activeView, toggleDrawer, isXsDown, adminUser } = props;
     return (
-        <List component="div">
+        <List style={{ overflowY: "auto", overflowX: "hidden" }}>
             <DrawerItem
                 title={t("home")}
                 id={ids.DASHBOARD_MI}
@@ -147,6 +148,12 @@ export default function DrawerItems(props) {
                 title={t("help")}
                 icon={HelpIcon}
             />
+            {(isXsDown || open) && adminUser && (
+                <>
+                    <Divider />
+                    <AdminDrawerItems open={open} activeView={activeView} />
+                </>
+            )}
         </List>
     );
 }

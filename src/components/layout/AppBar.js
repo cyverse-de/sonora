@@ -14,7 +14,6 @@ import clsx from "clsx";
 
 import NavigationConstants from "common/NavigationConstants";
 import Bag from "components/Bag";
-import ProductTour from "components/help/ProductTour";
 import searchConstants from "components/search/constants";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import { useBootstrapInfo } from "contexts/bootstrap";
@@ -28,7 +27,6 @@ import {
 } from "serviceFacades/users";
 import constants from "../../constants";
 import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
-import AdminDrawerItems from "./AdminDrawerItems";
 import CustomIntercom from "./CustomIntercom";
 import DrawerItems from "./DrawerItems";
 import ids from "./ids";
@@ -266,194 +264,183 @@ function DEAppBar(props) {
 
     return (
         <>
-            <div className={classes.root}>
-                <AppBar
-                    id={ids.APP_BAR_BASE}
-                    position="static"
-                    variant="outlined"
-                    ref={ref}
-                    className={clsx(classes.appBar, {
-                        [classes.appBarShift]: open,
-                    })}
-                >
-                    <Toolbar>
-                        <Hidden smUp>
-                            <IconButton
-                                aria-label={t("openDrawer")}
-                                onClick={handleDrawerOpen}
-                                edge="start"
-                                className={classes.menuIcon}
-                            >
-                                <MenuIcon className={"menu-intro"} />
-                            </IconButton>
-                            <Typography>{t("deTitle")}</Typography>
-                        </Hidden>
-                        <Hidden xsDown>
-                            <a
-                                href={constants.CYVERSE_URL}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <img
-                                    width={190}
-                                    height={39}
-                                    src="/de_white.png"
-                                    alt={t("cyverse")}
-                                ></img>
-                            </a>
-                            <GlobalSearchField
-                                search={searchTerm}
-                                selectedFilter={filter}
-                            />
-                        </Hidden>
-                        <div className={classes.root} />
-                        <div style={{ display: "flex" }}>
-                            <CustomIntercom
-                                intercomUnreadCount={intercomUnreadCount}
-                            />
-                            <BagMenu />
-                            <Notifications />
+            <AppBar
+                id={ids.APP_BAR_BASE}
+                position="static"
+                variant="outlined"
+                ref={ref}
+                className={clsx(classes.appBar, {
+                    [classes.appBarShift]: open,
+                })}
+            >
+                <Toolbar>
+                    <Hidden smUp>
+                        <IconButton
+                            aria-label={t("openDrawer")}
+                            onClick={handleDrawerOpen}
+                            edge="start"
+                            className={classes.menuIcon}
+                        >
+                            <MenuIcon className={"menu-intro"} />
+                        </IconButton>
+                        <Typography>{t("deTitle")}</Typography>
+                    </Hidden>
+                    <Hidden xsDown>
+                        <a
+                            href={constants.CYVERSE_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <img
+                                width={190}
+                                height={39}
+                                src="/de_white.png"
+                                alt={t("cyverse")}
+                            ></img>
+                        </a>
+                        <GlobalSearchField
+                            search={searchTerm}
+                            selectedFilter={filter}
+                        />
+                    </Hidden>
+                    <div className={classes.root} />
+                    <div style={{ display: "flex" }}>
+                        <CustomIntercom
+                            intercomUnreadCount={intercomUnreadCount}
+                        />
+                        <BagMenu />
+                        <Notifications />
+                    </div>
+                    <Hidden xsDown>
+                        <div id={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}>
+                            {accountAvatar}
                         </div>
-                        <Hidden xsDown>
-                            <div id={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}>
-                                {accountAvatar}
-                            </div>
-                        </Hidden>
-                    </Toolbar>
-                </AppBar>
-                <Drawer
-                    variant={isXsDown ? "temporary" : "permanent"}
-                    className={clsx(classes.drawer, {
+                    </Hidden>
+                </Toolbar>
+            </AppBar>
+            <Drawer
+                variant={isXsDown ? "temporary" : "permanent"}
+                className={clsx(classes.drawer, {
+                    [classes.drawerOpen]: open,
+                    [classes.drawerClose]: !open,
+                })}
+                classes={{
+                    paper: clsx({
                         [classes.drawerOpen]: open,
                         [classes.drawerClose]: !open,
-                    })}
-                    classes={{
-                        paper: clsx({
-                            [classes.drawerOpen]: open,
-                            [classes.drawerClose]: !open,
-                        }),
-                    }}
-                    open={isXsDown ? open : false}
-                    onClose={isXsDown ? toggleDrawer(false) : undefined}
-                >
-                    <Hidden xsDown>
-                        <div className={classes.toolbar}>
-                            <IconButton
-                                className={classes.menuIcon}
-                                onClick={
-                                    open ? handleDrawerClose : handleDrawerOpen
-                                }
-                                aria-label={
-                                    open ? t("closeMenu") : t("openMenu")
-                                }
-                                edge={open ? false : "start"}
-                            >
-                                {open ? (
-                                    theme.direction === "rtl" ? (
-                                        <ChevronRightIcon fontSize="large" />
-                                    ) : (
-                                        <ChevronLeftIcon fontSize="large" />
-                                    )
-                                ) : (
-                                    <MenuIcon
-                                        fontSize="large"
-                                        className="menu-intro"
-                                    />
-                                )}
-                            </IconButton>
-                        </div>
-                    </Hidden>
-                    <Hidden smUp>
-                        <div
-                            id={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
-                            style={{ margin: 8 }}
+                    }),
+                }}
+                open={isXsDown ? open : false}
+                onClose={isXsDown ? toggleDrawer(false) : undefined}
+            >
+                <Hidden xsDown>
+                    <div>
+                        <IconButton
+                            className={classes.menuIcon}
+                            onClick={
+                                open ? handleDrawerClose : handleDrawerOpen
+                            }
+                            aria-label={open ? t("closeMenu") : t("openMenu")}
+                            edge={open ? false : "start"}
                         >
-                            {userProfile ? (
-                                <UserMenu
-                                    baseId={build(
-                                        ids.DRAWER_MENU,
-                                        ids.ACCOUNT_MI
-                                    )}
-                                    profile={userProfile}
-                                    onLogoutClick={onLogoutClick}
-                                    onManageAccountClick={() =>
-                                        window.open(
-                                            constants.CYVERSE_USER_PORTAL,
-                                            "_blank"
-                                        )
-                                    }
-                                />
+                            {open ? (
+                                theme.direction === "rtl" ? (
+                                    <ChevronRightIcon fontSize="large" />
+                                ) : (
+                                    <ChevronLeftIcon fontSize="large" />
+                                )
                             ) : (
-                                accountAvatar
+                                <MenuIcon
+                                    fontSize="large"
+                                    className="menu-intro"
+                                />
                             )}
-                        </div>
-                    </Hidden>
-                    <Divider />
-                    <DrawerItems
-                        open={open}
-                        activeView={activeView}
-                        toggleDrawer={toggleDrawer}
-                    />
-                    {(isXsDown || open) && adminUser && (
-                        <>
-                            <Divider />
-                            <AdminDrawerItems
-                                open={open}
-                                activeView={activeView}
+                        </IconButton>
+                    </div>
+                </Hidden>
+                <Hidden smUp>
+                    <div
+                        id={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
+                        style={{ margin: 8 }}
+                    >
+                        {userProfile ? (
+                            <UserMenu
+                                baseId={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
+                                profile={userProfile}
+                                onLogoutClick={onLogoutClick}
+                                onManageAccountClick={() =>
+                                    window.open(
+                                        constants.CYVERSE_USER_PORTAL,
+                                        "_blank"
+                                    )
+                                }
                             />
-                        </>
-                    )}
-                </Drawer>
-                <CyVerseAnnouncer />
-                <Popover
-                    open={Boolean(anchorEl)}
-                    anchorEl={anchorEl}
-                    onClose={onUserMenuClose}
-                    anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "center",
-                    }}
-                    transformOrigin={{
-                        vertical: "top",
-                        horizontal: "left",
-                    }}
-                >
-                    <UserMenu
-                        baseId={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}
-                        profile={userProfile}
-                        onLogoutClick={onLogoutClick}
-                        onManageAccountClick={() =>
-                            window.open(constants.CYVERSE_USER_PORTAL, "_blank")
-                        }
-                    />
-                </Popover>
-                <main
-                    className={clsx(classes.content, {
-                        [classes.contentShift]: open,
-                    })}
-                >
-                    {children}
-                </main>
-                {/* SS: In mobile view, joy ride throws exception after refactoring it
+                        ) : (
+                            accountAvatar
+                        )}
+                    </div>
+                </Hidden>
+                <Divider />
+                <DrawerItems
+                    open={open}
+                    activeView={activeView}
+                    toggleDrawer={toggleDrawer}
+                    isXsDown={isXsDown}
+                    adminUser={adminUser}
+                    setRunTour={setRunTour}
+                    runTour={runTour}
+                    setNewUser={setNewUser}
+                />
+            </Drawer>
+            <CyVerseAnnouncer />
+            <Popover
+                open={Boolean(anchorEl)}
+                anchorEl={anchorEl}
+                onClose={onUserMenuClose}
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                }}
+                transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                }}
+            >
+                <UserMenu
+                    baseId={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}
+                    profile={userProfile}
+                    onLogoutClick={onLogoutClick}
+                    onManageAccountClick={() =>
+                        window.open(constants.CYVERSE_USER_PORTAL, "_blank")
+                    }
+                />
+            </Popover>
+            <main
+                className={clsx(classes.content, {
+                    [classes.contentShift]: open,
+                })}
+            >
+                {children}
+            </main>
+            {/* SS: In mobile view, joy ride throws exception after refactoring it
                 to a separate component. Disable product tour for mobile. */}
-                {!isXsDown && newUser && (
+            {!isXsDown && newUser && (
+                <>
                     <ConfirmationDialog
                         baseId={ids.USER_TOUR_DLG}
                         open={newUser}
-                        onClose={() => setNewUser(false)}
-                        onConfirm={() => {
+                        onClose={() => {
+                            setRunTour(false);
                             setNewUser(false);
+                        }}
+                        onConfirm={() => {
                             setRunTour(true);
                         }}
                         title={i18nTour("tourPromptTitle")}
                         contentText={i18nTour("tourPrompt")}
                     />
-                )}
-            </div>
-            <ProductTour
-                onTourExit={() => setRunTour(false)}
-                runTour={runTour}
-            />
+                </>
+            )}
         </>
     );
 }

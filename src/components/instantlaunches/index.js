@@ -11,6 +11,9 @@ import launchConstants from "components/models/AppParamTypes";
 
 import { getAppInfo, getQuickLaunch } from "serviceFacades/quickLaunches";
 import { submitAnalysis, getAnalysis } from "serviceFacades/analyses";
+import { useRouter } from "next/router";
+
+import constants from "../../constants";
 
 const inputParamTypes = [
     launchConstants.FILE_INPUT,
@@ -199,6 +202,7 @@ const InstantLaunchButton = ({
     resource = {},
     showErrorAnnouncer,
 }) => {
+    const router = useRouter();
     return (
         <IconButton
             variant="contained"
@@ -211,7 +215,13 @@ const InstantLaunchButton = ({
                         if (listing.analyses.length > 0) {
                             const analysis = listing.analyses[0];
                             if (analysis.interactive_urls.length > 0) {
-                                window.open(analysis.interactive_urls[0]);
+                                router.push(
+                                    `${
+                                        constants.VICE_LOADING_PAGE
+                                    }/${encodeURIComponent(
+                                        analysis.interactive_urls[0]
+                                    )}`
+                                );
                             }
                         }
                     })

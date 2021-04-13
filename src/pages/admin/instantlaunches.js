@@ -11,6 +11,15 @@ import NotAuthorized from "components/utils/error/NotAuthorized";
 import { useTranslation } from "i18n";
 
 const useStyles = makeStyles((theme) => ({
+    mainDescription: {
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+    },
+    tabDescription: {
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+    },
+
     instantLaunches: {
         overflow: "auto",
         width: "100%",
@@ -58,6 +67,13 @@ export default function InstantLaunchesAdmin() {
         return (
             <div className={classes.instantLaunches}>
                 <Typography variant="h5">Instant Launches</Typography>
+
+                <Typography variant="body1" className={classes.mainDescription}>
+                    This page allows you to create new instant launches, add
+                    them to the dashboard, delete them, and set them as a
+                    default for files in the data listing.
+                </Typography>
+
                 <Tabs
                     value={tabValue}
                     indicatorColor="primary"
@@ -91,17 +107,44 @@ export default function InstantLaunchesAdmin() {
                     />
                 </Tabs>
 
-                <Paper hidden={tabValue !== 0}>
-                    <QuickLaunchList />
-                </Paper>
+                <div hidden={tabValue !== 0}>
+                    <Typography
+                        variant="body2"
+                        className={classes.tabDescription}
+                    >
+                        Create new instant launches from a quick launch in the
+                        listing below.
+                    </Typography>
+                    <Paper>
+                        <QuickLaunchList />
+                    </Paper>
+                </div>
 
-                <Paper hidden={tabValue !== 1}>
-                    <InstantLaunchList />
-                </Paper>
+                <div hidden={tabValue !== 1}>
+                    <Typography
+                        variant="body2"
+                        className={classes.tabDescription}
+                    >
+                        Add existing instant launches to the dashboard or delete
+                        them from existence.
+                    </Typography>
+                    <Paper>
+                        <InstantLaunchList />
+                    </Paper>
+                </div>
 
-                <Paper hidden={tabValue !== 2}>
-                    <InstantLaunchMapping />
-                </Paper>
+                <div hidden={tabValue !== 2}>
+                    <Typography
+                        variant="body2"
+                        className={classes.tabDescription}
+                    >
+                        Use globs or infoTypes along with instant launches to
+                        match filenames in the data listing with a quick launch.
+                    </Typography>
+                    <Paper>
+                        <InstantLaunchMapping />
+                    </Paper>
+                </div>
             </div>
         );
     }

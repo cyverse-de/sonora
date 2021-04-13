@@ -252,6 +252,7 @@ function Sharing(props) {
             onClose={handleClose}
             maxWidth="lg"
             fullWidth
+            fullScreen={isMobile}
             id={baseId}
         >
             <DialogTitle id={build(baseId, ids.TITLE_BAR)}>

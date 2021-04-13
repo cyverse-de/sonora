@@ -14,7 +14,6 @@ export default (theme) => ({
     },
     appInfoTypography: {
         color: theme.palette.info.main,
-        width: "100%",
         margin: theme.spacing(0.5),
         [theme.breakpoints.down("xs")]: {
             margin: theme.spacing(0.3),

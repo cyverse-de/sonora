@@ -14,8 +14,6 @@ export default (theme) => ({
     },
 
     formContainer: {
-        overflow: "auto",
-        height: "100%",
         padding: theme.spacing(1),
     },
 

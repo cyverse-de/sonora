@@ -15,8 +15,6 @@ import clsx from "clsx";
 import NavigationConstants from "common/NavigationConstants";
 import Bag from "components/Bag";
 import searchConstants from "components/search/constants";
-import ConfirmationDialog from "components/utils/ConfirmationDialog";
-import { useBootstrapInfo } from "contexts/bootstrap";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 

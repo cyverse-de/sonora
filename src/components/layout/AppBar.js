@@ -20,6 +20,7 @@ import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import { useBootstrapInfo } from "contexts/bootstrap";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
+import { intercomLogout } from "common/intercom";
 
 import {
     getUserProfile,
@@ -218,6 +219,7 @@ function DEAppBar(props) {
     };
 
     const onLogoutClick = () => {
+        intercomLogout();
         router.push(`/${NavigationConstants.LOGOUT}`);
     };
 

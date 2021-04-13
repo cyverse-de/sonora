@@ -120,9 +120,6 @@ function SubjectSearchField(props) {
                 });
                 setRecentContacts(contacts);
             },
-            onError: (err) => {
-                showErrorAnnouncer(t("fetchRecentContactsError"), err);
-            },
         },
     });
 
@@ -189,23 +186,31 @@ function SubjectSearchField(props) {
                 />
             );
         }
+        const DeleteBtn = () => (
+            <DeleteButton
+                component="IconButton"
+                baseId={baseId}
+                onClick={(event) => {
+                    event.stopPropagation();
+                    const userId = option.id;
+                    removeRecentContactMutation({ members: [userId] });
+                }}
+                size="small"
+            >
+                <Close />
+            </DeleteButton>
+        );
+
         return (
             <>
+                {option.recentContact && isMobile && (
+                    <ListItemIcon>
+                        <DeleteBtn />
+                    </ListItemIcon>
+                )}
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={optionLabel} />
-                {option.recentContact && (
-                    <DeleteButton
-                        baseId={baseId}
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            const userId = option.id;
-                            removeRecentContactMutation({ members: [userId] });
-                        }}
-                        size="small"
-                    >
-                        <Close />
-                    </DeleteButton>
-                )}
+                {option.recentContact && !isMobile && <DeleteBtn />}
             </>
         );
     };

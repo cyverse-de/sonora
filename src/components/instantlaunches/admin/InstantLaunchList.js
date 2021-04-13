@@ -2,7 +2,7 @@ import React from "react";
 
 import { queryCache, useMutation, useQuery } from "react-query";
 
-import { Button } from "@material-ui/core";
+import { Button, makeStyles } from "@material-ui/core";
 
 import {
     listFullInstantLaunches,
@@ -21,7 +21,6 @@ import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import { Skeleton } from "@material-ui/lab";
 
 import {
-    Paper,
     Table,
     TableContainer,
     TableHead,
@@ -117,6 +116,12 @@ const shortenUsername = (username) => {
     return username;
 };
 
+const useStyles = makeStyles((theme) => ({
+    table: {
+        minWidth: "100%",
+    },
+}));
+
 /**
  * Presents a list of instant launches that can be updated,
  * deleted, or added to the dashboard.
@@ -124,6 +129,7 @@ const shortenUsername = (username) => {
 const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const baseID = "instantlaunchlist";
     const { t } = useTranslation("instantlaunches");
+    const classes = useStyles();
 
     const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
     const dashboardILs = useQuery(
@@ -164,7 +170,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const isError = allILs.isError || dashboardILs.isError;
 
     return (
-        <div>
+        <div width="100%">
             {isLoading ? (
                 <Skeleton
                     variant="rect"
@@ -178,7 +184,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                     baseId={baseID}
                 />
             ) : (
-                <TableContainer component={Paper}>
+                <TableContainer className={classes.table}>
                     <Table>
                         <TableHead>
                             <TableRow>

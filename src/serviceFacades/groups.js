@@ -6,6 +6,8 @@ import {
     getPrivilegeUpdates,
     PUBLIC_TEAM_PRIVILEGE,
 } from "../components/teams/util";
+import { getUserInfo } from "./users";
+import { USER_INFO_QUERY_KEY } from "./filesystem";
 
 const MY_TEAMS_QUERY = "fetchMyTeams";
 const ALL_TEAMS_QUERY = "fetchAllTeams";
@@ -14,6 +16,9 @@ const TEAM_PRIVILEGES_QUERY = "fetchTeamPrivileges";
 const TEAM_MEMBERS_QUERY = "fetchTeamMembers";
 const TEAM_DETAILS_QUERY = "fetchTeamDetails";
 const LIST_SINGLE_TEAM_QUERY = "fetchSingleTeam";
+
+const RECENT_CONTACTS_QUERY = "fetchRecentContactsList";
+const RECENT_CONTACTS_LIST_NAME = "default"; // `default` collaborator list
 
 // Checks if a grouper member update response returned 200, but with `success`
 // set to false on any of the updates
@@ -287,11 +292,65 @@ function approveRequestJoinTeam({ teamName, requesterId, privilege }) {
     });
 }
 
+function fetchRecentContactsList() {
+    /**
+     * The members endpoint only returns the user ID and source_id.  We'll take
+     * this response and ask the user-info endpoint to give us more detailed
+     * info
+     */
+    return callApi({
+        endpoint: `/api/collaborator-lists/${RECENT_CONTACTS_LIST_NAME}/members`,
+    }).then((resp) => {
+        const userIds = resp?.members?.map((member) => member.id);
+        return getUserInfo(USER_INFO_QUERY_KEY, { userIds });
+    });
+}
+
+function addRecentContacts({ members }) {
+    return callApi({
+        endpoint: `/api/collaborator-lists/${encodeURIComponent(
+            RECENT_CONTACTS_LIST_NAME
+        )}/members`,
+        method: "POST",
+        body: {
+            members,
+        },
+    }).then((resp) => {
+        const hasFailures = responseHasFailures(resp);
+        if (hasFailures) {
+            throw new Error("Failed to add a recent contact");
+        } else {
+            return resp;
+        }
+    });
+}
+
+function removeRecentContacts({ members }) {
+    return callApi({
+        endpoint: `/api/collaborator-lists/${encodeURIComponent(
+            RECENT_CONTACTS_LIST_NAME
+        )}/members/deleter`,
+        method: "POST",
+        body: {
+            members,
+        },
+    }).then((resp) => {
+        const hasFailures = responseHasFailures(resp);
+        if (hasFailures) {
+            throw new Error("Failed to remove a recent contact");
+        } else {
+            return resp;
+        }
+    });
+}
+
 export {
     MY_TEAMS_QUERY,
     ALL_TEAMS_QUERY,
     SEARCH_TEAMS_QUERY,
     TEAM_DETAILS_QUERY,
+    RECENT_CONTACTS_QUERY,
+    RECENT_CONTACTS_LIST_NAME,
     getMyTeams,
     getAllTeams,
     searchTeams,
@@ -304,4 +363,7 @@ export {
     requestJoinTeam,
     denyRequestJoinTeam,
     approveRequestJoinTeam,
+    fetchRecentContactsList,
+    addRecentContacts,
+    removeRecentContacts,
 };

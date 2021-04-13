@@ -10,7 +10,7 @@ import {
     allPermissionListerResponses,
     dataUserPermResp,
 } from "../../stories/sharing/SharingMocks";
-import { GROUP_ID, userInfoResp } from "../../stories/data/DataMocks";
+import { GROUP_ID, userInfoResp } from "../../stories/UserInfoMocks";
 
 const alfredUser = userInfoResp["alfred"];
 

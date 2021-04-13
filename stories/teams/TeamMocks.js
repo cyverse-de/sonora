@@ -1,5 +1,5 @@
-import { userInfoResp } from "../data/DataMocks";
 import userProfileMock from "../userProfileMock";
+import { userInfoResp } from "../UserInfoMocks";
 
 export const teamMock = (name) => {
     return {

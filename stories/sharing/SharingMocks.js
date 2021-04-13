@@ -1,4 +1,4 @@
-import { GROUP_ID } from "../data/DataMocks";
+import { GROUP_ID } from "../UserInfoMocks";
 
 export const dataUserPermRequest = {
     paths: [

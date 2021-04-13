@@ -11,6 +11,14 @@ import NotAuthorized from "components/utils/error/NotAuthorized";
 import { useTranslation } from "i18n";
 
 const useStyles = makeStyles((theme) => ({
+    instantLaunches: {
+        overflow: "auto",
+        width: "100%",
+        paddingLeft: theme.spacing(3),
+        paddingRight: theme.spacing(3),
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+    },
     tabAppBar: {
         backgroundColor: theme.palette.white,
     },
@@ -48,7 +56,7 @@ export default function InstantLaunchesAdmin() {
             setTabValue(newValue);
         };
         return (
-            <>
+            <div className={classes.instantLaunches}>
                 <Typography variant="h5">Instant Launches</Typography>
                 <Tabs
                     value={tabValue}
@@ -83,18 +91,18 @@ export default function InstantLaunchesAdmin() {
                     />
                 </Tabs>
 
-                <Paper hidden={tabValue !== 0} style={{ overflow: "auto" }}>
+                <Paper hidden={tabValue !== 0}>
                     <QuickLaunchList />
                 </Paper>
 
-                <Paper hidden={tabValue !== 1} style={{ overflow: "auto" }}>
+                <Paper hidden={tabValue !== 1}>
                     <InstantLaunchList />
                 </Paper>
 
-                <Paper hidden={tabValue !== 2} style={{ overflow: "auto" }}>
+                <Paper hidden={tabValue !== 2}>
                     <InstantLaunchMapping />
                 </Paper>
-            </>
+            </div>
         );
     }
 }

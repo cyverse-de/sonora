@@ -19,9 +19,9 @@
     "dashboard": "<p>From the Dashboard, get information about: <ul><li>Your recently launched analyses</li><li>Your recently used apps</li><li>New apps available in the DE</li><li>CyVerse News and Events</li></ul></p>",
     "search": "<p>Use Search to: <ul><li>Quickly find analyses, apps, and data</li><li>Filter search results by type</li><li>View detailed search results (hit the `Enter` key after the search term or select the `View All` option from the results)</li></ul></p>",
     "support": "<p>Use this in-app chat to: <ul><li>Contact CyVerse Support for issue(s) with the DE or any CyVerse services</li><li>Ask a question about CyVerse services</li><li>Get notified about CyVerse planned maintenance, unplanned downtime, and events such as webinars</li></ul></p>",
-    "tourPrompt": "Welcome to CyVerse! Would you like a quick tour of the Discovery Environment?",
+    "tourPrompt": "Welcome {{user}} to CyVerse! Would you like a quick tour of the Discovery Environment?",
     "tourPromptTitle": "Take a Tour",
     "startTour": "Start tour",
     "dismiss": "Dismiss",
-    "dismissPrompt": "You can access the Discovery Environment tour from the help page."
+    "dismissPrompt": "If you need, you can access the Discovery Environment tour from the help page."
 }

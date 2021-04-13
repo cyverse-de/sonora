@@ -133,7 +133,7 @@ const Dashboard = (props) => {
     const [mutatePreferences] = useSavePreferences(
         (updatedPref) => {
             announce({
-                text: i18nPref("prefSaveSuccess"),
+                text: i18nPref("dismissPrompt"),
                 variant: AnnouncerConstants.SUCCESS,
             });
             setBootstrapInfo({
@@ -227,6 +227,7 @@ const Dashboard = (props) => {
             {!bootstrapError && userProfile?.id && (
                 <Tour
                     showTourPrompt={bootstrapInfo?.preferences?.showTourPrompt}
+                    user={userProfile.id}
                     onDismiss={() => {
                         mutatePreferences({
                             ...bootstrapInfo.preferences,

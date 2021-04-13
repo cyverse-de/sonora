@@ -9,7 +9,6 @@ import ProductTour from "components/help/ProductTour";
 
 import ExploreIcon from "@material-ui/icons/Explore";
 import {
-    Avatar,
     Card,
     CardHeader,
     CardActions,
@@ -20,7 +19,7 @@ import {
 } from "@material-ui/core";
 
 export default function Tour(props) {
-    const { showTourPrompt, onDismiss } = props;
+    const { showTourPrompt, user, onDismiss } = props;
     const theme = useTheme();
     const { t } = useTranslation("intro");
     const [runTour, setRunTour] = React.useState(false);
@@ -35,9 +34,10 @@ export default function Tour(props) {
                 <Card>
                     <CardHeader
                         avatar={
-                            <Avatar>
-                                <ExploreIcon />
-                            </Avatar>
+                            <ExploreIcon
+                                style={{ color: theme.palette.gold }}
+                                fontSize="large"
+                            />
                         }
                         title={
                             <Typography variant="subtitle2">
@@ -48,7 +48,7 @@ export default function Tour(props) {
                     />
                     <CardContent>
                         <Typography variant="body2" gutterBottom>
-                            {t("tourPrompt")}
+                            {t("tourPrompt", { user })}
                         </Typography>
                     </CardContent>
                     <CardActions>
@@ -65,7 +65,10 @@ export default function Tour(props) {
                     </CardActions>
                 </Card>
                 <ProductTour
-                    onTourExit={() => setRunTour(false)}
+                    onTourExit={() => {
+                        setRunTour(false);
+                        onDismiss();
+                    }}
                     runTour={runTour}
                 />
             </>

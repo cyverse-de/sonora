@@ -6,7 +6,6 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import { DotMenu } from "@cyverse-de/ui-lib";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DeleteMenuItem from "../menuItems/DeleteMenuItem";
 import MetadataMenuItem from "../menuItems/MetadataMenuItem";
@@ -23,7 +22,12 @@ import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
 import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";
-import { AnnouncerConstants, announce, build } from "@cyverse-de/ui-lib";
+import {
+    AnnouncerConstants,
+    announce,
+    build,
+    DotMenu,
+} from "@cyverse-de/ui-lib";
 import ResourceTypes from "components/models/ResourceTypes";
 
 function RowDotMenu(props) {

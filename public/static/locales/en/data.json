@@ -104,7 +104,7 @@
     "pathListPatternMatchEmptyText": "e.g.: \\.csv$",
     "permissions": "Permissions",
     "publicLinks": "Public Link(s)",
-    "publicLinkWarning": "Note: Anyone with access to a file's URL can access that file.",
+    "publicLinkWarning": "Note: Anyone with access to a file's public link can access that file.",
     "publicLinkError": "Unable to get public link(s)",
     "read": "Read",
     "requestDOI": "Request DOI",

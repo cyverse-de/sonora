@@ -108,7 +108,7 @@ function DataDotMenu(props) {
     const moveToTrashEnabled =
         !inTrash && !isSelectionEmpty && isOwner(selectedResources);
 
-    const linkSharingEnabled =
+    const publicLinkEnabled =
         !inTrash &&
         isOwner(selectedResources) &&
         !containsFolders(selectedResources);
@@ -343,7 +343,7 @@ function DataDotMenu(props) {
                             onClose={onClose}
                         />
                     ),
-                    linkSharingEnabled && (
+                    publicLinkEnabled && (
                         <PublicLinksMenuItem
                             key={build(baseId, ids.PUBLIC_LINKS_MENU_ITEM)}
                             onPublicLinksSelected={onPublicLinksSelected}

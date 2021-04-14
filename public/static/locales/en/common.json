@@ -29,6 +29,8 @@
     "home": "Home",
     "interactiveAnalysisUrl": "{{message}}. Access your running analysis here.",
     "intercomAriaLabel": "Chat with CyVerse support",
+    "linkCopied": "Link Copied.",
+    "linkCopyFailed": "Unable to copy link.",
     "login": "Login",
     "logout": "Logout",
     "manageAccount": "Manage your CyVerse Account",

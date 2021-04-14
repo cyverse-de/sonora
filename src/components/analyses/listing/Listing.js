@@ -344,14 +344,7 @@ function Listing(props) {
 
     const updateAnalyses = useCallback(
         (notifiMessage) => {
-            let pushMsg = null;
-            try {
-                pushMsg = JSON.parse(notifiMessage);
-            } catch (e) {
-                return;
-            }
-
-            const message = pushMsg?.message;
+            const message = notifiMessage?.message;
             if (message) {
                 const category = message.type;
                 if (

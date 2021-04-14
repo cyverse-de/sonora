@@ -130,16 +130,10 @@ function Notifications(props) {
 
     const handleMessage = useCallback(
         (notifiMessage) => {
-            let push_msg = null;
-            try {
-                push_msg = JSON.parse(notifiMessage);
-            } catch (e) {
-                return;
+            if (notifiMessage?.total) {
+                setUnSeenCount(notifiMessage.total);
             }
-            if (push_msg?.total) {
-                setUnSeenCount(push_msg.total);
-            }
-            const message = push_msg?.message;
+            const message = notifiMessage?.message;
             if (message) {
                 const category = message.type;
                 displayNotification(message, category);

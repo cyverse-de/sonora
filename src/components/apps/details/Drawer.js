@@ -20,6 +20,7 @@ import DetailsPanel from "./DetailsPanel";
 import constants from "../../../constants";
 
 import NavigationConstants from "common/NavigationConstants";
+import { getHost } from "components/utils/getHost";
 
 import {
     APP_BY_ID_QUERY_KEY,
@@ -98,11 +99,8 @@ function DetailsHeader({
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        const protocol = window.location.protocol.concat("//");
-        const host = protocol.concat(window.location.host);
-        setLink(
-            host.concat(`/${NavigationConstants.APPS}/${systemId}/${appId}`)
-        );
+        const host = getHost();
+        setLink(`${host}/${NavigationConstants.APPS}/${systemId}/${appId}`);
     }, [appId, systemId]);
 
     return (

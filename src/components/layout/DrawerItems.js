@@ -23,8 +23,7 @@ import ToolIcon from "@material-ui/icons/LabelImportant";
 import SearchIcon from "@material-ui/icons/Search";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { Link } from "@material-ui/icons";
-import { useRunningViceJobs } from "serviceFacades/analyses";
-import { openInteractiveUrl } from "../analyses/utils";
+import { openInteractiveUrl, useRunningViceJobs } from "../analyses/utils";
 
 function DrawerItems(props) {
     const { open, activeView, toggleDrawer, isXsDown, adminUser } = props;

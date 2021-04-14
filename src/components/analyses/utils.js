@@ -2,6 +2,15 @@ import analysisStatus from "../models/analysisStatus";
 import constants from "../../constants";
 import NavigationConstants from "common/NavigationConstants";
 import { getUserName } from "components/utils/getUserName";
+import { queryCache, useQuery } from "react-query";
+import {
+    ANALYSES_LISTING_QUERY_KEY,
+    getAnalyses,
+} from "serviceFacades/analyses";
+import appType from "../models/AppType";
+import { useEffect } from "react";
+import { useNotifications } from "contexts/pushNotifications";
+import NotificationCategory from "../models/NotificationCategory";
 
 /**
  * Get the user who ran this analysis
@@ -210,6 +219,41 @@ const canShare = (selectedAnalyses) => {
     );
 };
 
+const runningViceJobsFilter = [
+    { field: "status", value: analysisStatus.RUNNING },
+    { field: "type", value: appType.interactive.value },
+    { field: "ownership", value: "mine" },
+];
+
+function useRunningViceJobs({ enabled, onSuccess, onError }) {
+    const { currentNotification } = useNotifications();
+    const runningViceQueryKey = [
+        ANALYSES_LISTING_QUERY_KEY,
+        { filter: JSON.stringify(runningViceJobsFilter) },
+    ];
+
+    useEffect(() => {
+        if (
+            NotificationCategory.ANALYSIS.toLowerCase() ===
+            currentNotification?.message?.type
+        ) {
+            queryCache.invalidateQueries(runningViceQueryKey);
+        }
+    }, [currentNotification, runningViceQueryKey]);
+
+    return useQuery({
+        queryKey: runningViceQueryKey,
+        queryFn: getAnalyses,
+        config: {
+            enabled,
+            onSuccess,
+            onError,
+            staleTime: Infinity,
+            cacheTime: Infinity,
+        },
+    });
+}
+
 export {
     getAnalysisUser,
     isInteractive,
@@ -227,3 +271,5 @@ export {
     useRelaunchLink,
     useGotoOutputFolderLink,
 };
+
+export { useRunningViceJobs };

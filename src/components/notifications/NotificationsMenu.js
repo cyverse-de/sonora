@@ -16,6 +16,7 @@ import NotLoggedIn from "../utils/error/NotLoggedIn";
 import { DETab, DETabPanel, DETabs } from "../utils/DETabs";
 import NotificationsTab from "./NotificationsTab";
 import RunningViceTab from "./RunningViceTab";
+import { useRunningViceJobs } from "../analyses/utils";
 
 const TABS = {
     NOTIFICATIONS: "notifications",
@@ -37,6 +38,7 @@ function NotificationsMenu(props) {
         showErrorAnnouncer,
     } = props;
     const [notifications, setNotifications] = useState([]);
+    const [analyses, setAnalyses] = useState([]);
     const [selectedTab, setSelectedTab] = useState(TABS.NOTIFICATIONS);
     const [userProfile] = useUserProfile();
     const [errorObject, setErrorObject] = useState(null);
@@ -86,6 +88,13 @@ function NotificationsMenu(props) {
         },
     });
 
+    const { isFetching: isFetchingRunningVice } = useRunningViceJobs({
+        enabled: userProfile?.id,
+        onSuccess: (resp) => {
+            setAnalyses(resp?.analyses);
+        },
+    });
+
     const [markAllSeenMutation] = useMutation(markAllSeen, {
         onSuccess: () => {
             setAllNotificationsSeen();
@@ -132,48 +141,48 @@ function NotificationsMenu(props) {
                     <NotLoggedIn />
                 </ListItem>
             )}
-            {userProfile?.id && (
-                <>
-                    <DETabs value={selectedTab} onChange={onTabSelectionChange}>
-                        <DETab
-                            value={TABS.NOTIFICATIONS}
-                            label={t("notifications")}
-                            id={notificationTabId}
-                            aria-controls={build(notificationTabId, ids.PANEL)}
-                        />
-                        <DETab
-                            value={TABS.VICE}
-                            label={t("vice")}
-                            id={viceTabId}
-                            aria-controls={build(viceTabId, ids.PANEL)}
-                        />
-                    </DETabs>
-                    <DETabPanel
-                        tabId={notificationTabId}
+            {userProfile?.id && [
+                <DETabs value={selectedTab} onChange={onTabSelectionChange}>
+                    <DETab
                         value={TABS.NOTIFICATIONS}
-                        selectedTab={selectedTab}
-                        dense
-                    >
-                        <NotificationsTab
-                            isFetching={isFetching}
-                            notifications={notifications}
-                            handleMarkAllAsSeenClick={handleMarkAllAsSeenClick}
-                            handleClose={handleClose}
-                            errorObject={errorObject}
-                        />
-                    </DETabPanel>
-                    <DETabPanel
-                        tabId={viceTabId}
+                        label={t("notifications")}
+                        id={notificationTabId}
+                        aria-controls={build(notificationTabId, ids.PANEL)}
+                    />
+                    <DETab
                         value={TABS.VICE}
-                        selectedTab={selectedTab}
-                    >
-                        <RunningViceTab
-                            baseId={build(viceTabId, ids.PANEL)}
-                            handleClose={handleClose}
-                        />
-                    </DETabPanel>
-                </>
-            )}
+                        label={t("vice")}
+                        id={viceTabId}
+                        aria-controls={build(viceTabId, ids.PANEL)}
+                    />
+                </DETabs>,
+                <DETabPanel
+                    tabId={notificationTabId}
+                    value={TABS.NOTIFICATIONS}
+                    selectedTab={selectedTab}
+                    dense
+                >
+                    <NotificationsTab
+                        isFetching={isFetching}
+                        notifications={notifications}
+                        handleMarkAllAsSeenClick={handleMarkAllAsSeenClick}
+                        handleClose={handleClose}
+                        errorObject={errorObject}
+                    />
+                </DETabPanel>,
+                <DETabPanel
+                    tabId={viceTabId}
+                    value={TABS.VICE}
+                    selectedTab={selectedTab}
+                >
+                    <RunningViceTab
+                        baseId={build(viceTabId, ids.PANEL)}
+                        analyses={analyses}
+                        handleClose={handleClose}
+                        isFetching={isFetchingRunningVice}
+                    />
+                </DETabPanel>,
+            ]}
         </Menu>
     );
 }

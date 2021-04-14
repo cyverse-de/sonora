@@ -434,9 +434,9 @@ function Preferences(props) {
                 const selectedTopics = hook?.topics;
                 const reducer = (acc, currVal) => ({
                     ...acc,
-                    [currVal]: selectedTopics?.includes(currVal),
+                    [currVal?.topic]: selectedTopics?.includes(currVal?.topic),
                 });
-                const topics = selectedTopics.reduce(reducer, {});
+                const topics = webhookTopics?.reduce(reducer, {});
                 return {
                     ...bootstrap.preferences,
                     webhook: {

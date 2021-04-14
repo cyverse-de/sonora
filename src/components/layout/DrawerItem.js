@@ -63,7 +63,11 @@ const DrawerItem = (props) => {
                         />
                     </ListItemIcon>
                 )}
-                {open && <ListItemText>{title}</ListItemText>}
+                {open && (
+                    <ListItemText primaryTypographyProps={{ noWrap: true }}>
+                        {title}
+                    </ListItemText>
+                )}
             </ListItem>
         </Tooltip>
     );

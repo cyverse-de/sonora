@@ -23,6 +23,7 @@ import {
     Typography,
     MenuItem,
     CircularProgress,
+    useTheme,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
@@ -34,6 +35,7 @@ export default function Webhooks(props) {
     const { baseId, webhookTopics, webhookTypes, values } = props;
     const { t } = useTranslation("preferences");
     const classes = useStyles();
+    const theme = useTheme();
     const [enableTest, setEnableTest] = React.useState();
     const [testKey, setTestKey] = React.useState(WEBHOOK_TEST_KEY);
     const [testError, setTestError] = React.useState();
@@ -60,13 +62,13 @@ export default function Webhooks(props) {
     return (
         <>
             <Typography variant="h6" className={classes.sectionHeader}>
-                Webhooks
+                {t("webhooks")}
             </Typography>
             <Grid container spacing={3} className={classes.grid}>
                 <Grid item xs={12}>
                     <Typography>{t("webhooksPrompt")}</Typography>
                 </Grid>
-                <Grid item>
+                <Grid item xs={6}>
                     <Field
                         id={build(baseId, ids.WEBHOOK_URL_TEXT)}
                         component={FormTextField}
@@ -77,35 +79,26 @@ export default function Webhooks(props) {
                     <Field
                         name="webhook.type.type"
                         id={build(baseId, ids.WEBHOOK_TYPES_SELECT)}
+                        label={t("type")}
+                        required
+                        select
+                        variant="outlined"
+                        size="small"
+                        component={FormTextField}
                     >
-                        {({ field: { onChange, ...field }, ...props }) => (
-                            <FormTextField
-                                select
-                                {...props}
-                                label={t("type")}
-                                required
-                                field={field}
-                                onChange={(event) => {
-                                    onChange(event);
-                                }}
-                                variant="outlined"
-                                size="small"
+                        {webhookTypes?.map((type, index) => (
+                            <MenuItem
+                                key={index}
+                                value={type.type}
+                                id={build(
+                                    baseId,
+                                    ids.WEBHOOK_TYPES_SELECT,
+                                    type.type
+                                )}
                             >
-                                {webhookTypes?.map((type, index) => (
-                                    <MenuItem
-                                        key={index}
-                                        value={type.type}
-                                        id={build(
-                                            baseId,
-                                            ids.WEBHOOK_TYPES_SELECT,
-                                            type.type
-                                        )}
-                                    >
-                                        {type.type}
-                                    </MenuItem>
-                                ))}
-                            </FormTextField>
-                        )}
+                                {type.type}
+                            </MenuItem>
+                        ))}
                     </Field>
                 </Grid>
                 <Grid item xs={12}>
@@ -159,6 +152,7 @@ export default function Webhooks(props) {
                                 <ErrorIcon />
                             ) : null
                         }
+                        style={{ color: theme.palette.info.main }}
                     >
                         {t("test")}
                     </Button>

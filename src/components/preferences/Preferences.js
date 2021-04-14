@@ -67,9 +67,9 @@ function Preferences(props) {
     const { baseId, showErrorAnnouncer } = props;
 
     const { t } = useTranslation("preferences");
-    const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
-
     const router = useRouter();
+
+    const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
 
     const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(
         false
@@ -80,13 +80,11 @@ function Preferences(props) {
     const [fetchDetailsQueryEnabled, setFetchDetailsQueryEnabled] = useState(
         false
     );
-
     const [defaultOutputFolder, setDefaultOutputFolder] = useState(null);
     const [
         defaultOutputFolderDetails,
         setDefaultOutputFolderDetails,
     ] = useState(null);
-
     const [requireAgaveAuth, setRequireAgaveAuth] = useState(true);
     const [
         outputFolderValidationError,
@@ -434,8 +432,11 @@ function Preferences(props) {
             if (bootstrap?.apps_info?.webhooks[0]) {
                 let hook = bootstrap?.apps_info?.webhooks[0];
                 const selectedTopics = hook?.topics;
-                const reducer = (acc, currVal) => ({ ...acc, [currVal]: true });
-                const topics = selectedTopics?.reduce(reducer, {}, 0, {});
+                const reducer = (acc, currVal) => ({
+                    ...acc,
+                    [currVal]: selectedTopics?.includes(currVal),
+                });
+                const topics = selectedTopics.reduce(reducer, {});
                 return {
                     ...bootstrap.preferences,
                     webhook: {

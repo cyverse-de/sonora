@@ -33,6 +33,8 @@ import {
     ListSubheader,
     IconButton,
     Typography,
+    useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
 
 import {
@@ -120,8 +122,50 @@ function ParamTypeIcon(props) {
     );
 }
 
+function ParamTypeListItemHelpText(props) {
+    const { baseId, paramType, primaryText } = props;
+
+    const { t } = useTranslation("app_editor_help");
+
+    return (
+        <ListItemText
+            primary={primaryText}
+            secondary={
+                <Trans
+                    t={t}
+                    i18nKey={paramType}
+                    components={{
+                        b: <b />,
+                        i: <i />,
+                        p: <p />,
+                        support: (
+                            <Link
+                                id={buildID(
+                                    baseId,
+                                    UtilIds.CONTACT_SUPPORT_BUTTON
+                                )}
+                                component="button"
+                                variant="body2"
+                                onClick={(event) => {
+                                    // prevent parameter selection
+                                    event.stopPropagation();
+                                    intercomShow();
+                                }}
+                            />
+                        ),
+                    }}
+                />
+            }
+            secondaryTypographyProps={{ component: "div" }}
+        />
+    );
+}
+
 function ParamTypeListItem(props) {
     const { id, paramType, onClick } = props;
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
     const [helpOpen, setHelpOpen] = React.useState(false);
 
@@ -131,7 +175,7 @@ function ParamTypeListItem(props) {
         "app_editor_help",
     ]);
 
-    return (
+    return isMobile ? (
         <>
             <ListItem id={id} divider={!helpOpen} button onClick={onClick}>
                 <ParamTypeIcon paramType={paramType} />
@@ -149,38 +193,22 @@ function ParamTypeListItem(props) {
             </ListItem>
             <Collapse in={helpOpen} timeout="auto" unmountOnExit>
                 <ListItem divider>
-                    <ListItemText
-                        secondary={
-                            <Trans
-                                t={t}
-                                i18nKey={`app_editor_help:${paramType}`}
-                                components={{
-                                    b: <b />,
-                                    i: <i />,
-                                    p: <p />,
-                                    support: (
-                                        <Link
-                                            id={buildID(
-                                                id,
-                                                UtilIds.CONTACT_SUPPORT_BUTTON
-                                            )}
-                                            component="button"
-                                            variant="body2"
-                                            onClick={(event) => {
-                                                // prevent parameter selection
-                                                event.stopPropagation();
-                                                intercomShow();
-                                            }}
-                                        />
-                                    ),
-                                }}
-                            />
-                        }
-                        secondaryTypographyProps={{ component: "div" }}
+                    <ParamTypeListItemHelpText
+                        baseId={id}
+                        paramType={paramType}
                     />
                 </ListItem>
             </Collapse>
         </>
+    ) : (
+        <ListItem id={id} divider button onClick={onClick}>
+            <ParamTypeIcon paramType={paramType} />
+            <ParamTypeListItemHelpText
+                baseId={id}
+                paramType={paramType}
+                primaryText={t(paramType)}
+            />
+        </ListItem>
     );
 }
 
@@ -208,6 +236,7 @@ function ParamSelectionPalette(props) {
             open={open}
             title={t("selectParameter")}
             onClose={onClose}
+            maxWidth="md"
         >
             <List>
                 <ListSubheader disableSticky>

@@ -110,21 +110,22 @@ function DetailsHeader({
             <Typography variant="h6" component="span">
                 {appName}
             </Typography>
-            {!isExternal && isPublic && (
-                <div className={classes.headerOperations}>
+
+            <div className={classes.headerOperations}>
+                {!isExternal && isPublic && (
                     <AppFavorite
                         baseId={baseId}
                         isFavorite={isFavorite}
                         isExternal={isExternal}
                         onFavoriteClick={onFavoriteClick}
                     />
-                    <Tooltip title={t("linkToThisApp", { name: appName })}>
-                        <IconButton size="small" onClick={() => setOpen(true)}>
-                            <LinkIcon color="primary" fontSize="small" />
-                        </IconButton>
-                    </Tooltip>
-                </div>
-            )}
+                )}
+                <Tooltip title={t("linkToThisApp", { name: appName })}>
+                    <IconButton size="small" onClick={() => setOpen(true)}>
+                        <LinkIcon color="primary" fontSize="small" />
+                    </IconButton>
+                </Tooltip>
+            </div>
             <Dialog open={open} onClose={() => setOpen(false)} fullWidth>
                 <DialogTitle>
                     {t("linkToThisApp", { name: appName })}

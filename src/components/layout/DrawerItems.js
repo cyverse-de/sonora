@@ -22,7 +22,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import ToolIcon from "@material-ui/icons/LabelImportant";
 import SearchIcon from "@material-ui/icons/Search";
 import SettingsIcon from "@material-ui/icons/Settings";
-import { Link } from "@material-ui/icons";
+import { Web } from "@material-ui/icons";
 import { openInteractiveUrl, useRunningViceJobs } from "../analyses/utils";
 
 function DrawerItems(props) {
@@ -98,7 +98,7 @@ function DrawerItems(props) {
                         nested
                         title={analysis.name}
                         id={analysis.id}
-                        icon={Link}
+                        icon={Web}
                         activeView={activeView}
                         toggleDrawer={toggleDrawer}
                         open={open}

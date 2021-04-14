@@ -1,7 +1,8 @@
 import React from "react";
 
 import { build } from "@cyverse-de/ui-lib";
-import { List, ListItem, Typography } from "@material-ui/core";
+import { List, ListItem, ListItemIcon, Typography } from "@material-ui/core";
+import { Web } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 
 import { openInteractiveUrl } from "components/analyses/utils";
@@ -33,6 +34,9 @@ function RunningViceTab(props) {
             <List component="div">
                 {analyses?.map((analysis) => (
                     <ListItem>
+                        <ListItemIcon>
+                            <Web />
+                        </ListItemIcon>
                         <DELink
                             onClick={() => {
                                 const accessUrl = analysis.interactive_urls[0];

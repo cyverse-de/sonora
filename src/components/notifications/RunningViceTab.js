@@ -11,7 +11,7 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 
 function RunningViceTab(props) {
-    const { baseId, handleClose, analyses, isFetching } = props;
+    const { baseId, handleClose, runningViceJobs, isFetching } = props;
     const { t } = useTranslation("common");
 
     if (isFetching) {
@@ -24,15 +24,15 @@ function RunningViceTab(props) {
         );
     }
 
-    if (analyses?.length === 0) {
+    if (runningViceJobs?.length === 0) {
         return <Typography>{t("noRunningVice")}</Typography>;
     }
 
     return (
         <>
             <Typography>{t("runningVice")}</Typography>
-            <List component="div">
-                {analyses?.map((analysis) => (
+            <List component="div" style={{ overflow: "auto" }}>
+                {runningViceJobs?.map((analysis) => (
                     <ListItem>
                         <ListItemIcon>
                             <Web />

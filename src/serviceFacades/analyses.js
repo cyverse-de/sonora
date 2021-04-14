@@ -1,6 +1,8 @@
 import callApi from "../common/callApi";
 
 import AnalysisStatus from "components/models/analysisStatus";
+import AppType from "components/models/AppType";
+import { useQuery } from "react-query";
 
 const ANALYSES_LISTING_QUERY_KEY = "fetchAnalysesListingKey";
 const ANALYSIS_HISTORY_QUERY_KEY = "fetchAnalysisHistoryKey";
@@ -149,6 +151,31 @@ function getAnalysisPermissions({ analyses }) {
     });
 }
 
+const runningViceJobsFilter = [
+    { field: "status", value: AnalysisStatus.RUNNING },
+    { field: "type", value: AppType.interactive.value },
+    { field: "ownership", value: "mine" },
+];
+
+const RUNNING_VICE_JOBS_QUERY_KEY = [
+    ANALYSES_LISTING_QUERY_KEY,
+    { filter: JSON.stringify(runningViceJobsFilter) },
+];
+
+function useRunningViceJobs({ enabled, onSuccess, onError }) {
+    return useQuery({
+        queryKey: RUNNING_VICE_JOBS_QUERY_KEY,
+        queryFn: getAnalyses,
+        config: {
+            enabled,
+            onSuccess,
+            onError,
+            staleTime: Infinity,
+            cacheTime: Infinity,
+        },
+    });
+}
+
 export {
     cancelAnalyses,
     cancelAnalysis,
@@ -163,9 +190,11 @@ export {
     submitAnalysis,
     updateAnalysisComment,
     searchAnalysesInfinite,
+    useRunningViceJobs,
     ANALYSES_LISTING_QUERY_KEY,
     ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSIS_PARAMS_QUERY_KEY,
     ANALYSIS_RELAUNCH_QUERY_KEY,
     ANALYSES_SEARCH_QUERY_KEY,
+    RUNNING_VICE_JOBS_QUERY_KEY,
 };

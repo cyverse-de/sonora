@@ -16,7 +16,6 @@ import NotLoggedIn from "../utils/error/NotLoggedIn";
 import { DETab, DETabPanel, DETabs } from "../utils/DETabs";
 import NotificationsTab from "./NotificationsTab";
 import RunningViceTab from "./RunningViceTab";
-import { useRunningViceJobs } from "../analyses/utils";
 
 const TABS = {
     NOTIFICATIONS: "notifications",
@@ -35,10 +34,11 @@ function NotificationsMenu(props) {
         notificationMssg,
         setAnchorEl,
         anchorEl,
+        runningViceJobs,
+        isFetchingRunningVice,
         showErrorAnnouncer,
     } = props;
     const [notifications, setNotifications] = useState([]);
-    const [analyses, setAnalyses] = useState([]);
     const [selectedTab, setSelectedTab] = useState(TABS.NOTIFICATIONS);
     const [userProfile] = useUserProfile();
     const [errorObject, setErrorObject] = useState(null);
@@ -85,13 +85,6 @@ function NotificationsMenu(props) {
                 setErrorObject(e);
             },
             retry: 3,
-        },
-    });
-
-    const { isFetching: isFetchingRunningVice } = useRunningViceJobs({
-        enabled: userProfile?.id,
-        onSuccess: (resp) => {
-            setAnalyses(resp?.analyses);
         },
     });
 
@@ -177,7 +170,7 @@ function NotificationsMenu(props) {
                 >
                     <RunningViceTab
                         baseId={build(viceTabId, ids.PANEL)}
-                        analyses={analyses}
+                        runningViceJobs={runningViceJobs}
                         handleClose={handleClose}
                         isFetching={isFetchingRunningVice}
                     />

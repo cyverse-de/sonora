@@ -9,7 +9,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "i18n";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
+import { queryCache, useQuery } from "react-query";
 import clsx from "clsx";
 
 import NavigationConstants from "common/NavigationConstants";
@@ -53,6 +53,12 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import MenuIcon from "@material-ui/icons/Menu";
+import { useNotifications } from "contexts/pushNotifications";
+import {
+    RUNNING_VICE_JOBS_QUERY_KEY,
+    useRunningViceJobs,
+} from "serviceFacades/analyses";
+import NotificationCategory from "../models/NotificationCategory";
 
 // hidden in xsDown
 const GlobalSearchField = dynamic(() => import("../search/GlobalSearchField"));
@@ -88,6 +94,7 @@ function DEAppBar(props) {
         showErrorAnnouncer,
     } = props;
     const [userProfile, setUserProfile] = useUserProfile();
+    const { currentNotification } = useNotifications();
     const isXsDown = useMediaQuery(theme.breakpoints.down("xs"));
     const [avatarLetter, setAvatarLetter] = useState("");
     const [open, setOpen] = useState(false);
@@ -96,6 +103,7 @@ function DEAppBar(props) {
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
     const [profileRefetchInterval, setProfileRefetchInterval] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [runningViceJobs, setRunningViceJobs] = useState([]);
 
     if (activeView === NavigationConstants.APPS) {
         filter = searchConstants.APPS;
@@ -194,6 +202,20 @@ function DEAppBar(props) {
             setUserProfile(adminProfile);
         }
     }, [adminUser, setUserProfile, userProfile]);
+
+    useEffect(() => {
+        if (
+            NotificationCategory.ANALYSIS.toLowerCase() ===
+            currentNotification?.message?.type
+        ) {
+            queryCache.invalidateQueries(RUNNING_VICE_JOBS_QUERY_KEY);
+        }
+    }, [currentNotification]);
+
+    const { isFetching: isFetchingRunningVice } = useRunningViceJobs({
+        enabled: userProfile?.id,
+        onSuccess: (resp) => setRunningViceJobs(resp?.analyses),
+    });
 
     const handleUserButtonClick = (event) => {
         toggleDrawer(false);
@@ -299,7 +321,10 @@ function DEAppBar(props) {
                             intercomUnreadCount={intercomUnreadCount}
                         />
                         <BagMenu />
-                        <Notifications />
+                        <Notifications
+                            runningViceJobs={runningViceJobs}
+                            isFetchingRunningVice={isFetchingRunningVice}
+                        />
                     </div>
                     <Hidden xsDown>
                         <div id={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}>
@@ -377,6 +402,7 @@ function DEAppBar(props) {
                     toggleDrawer={toggleDrawer}
                     isXsDown={isXsDown}
                     adminUser={adminUser}
+                    runningViceJobs={runningViceJobs}
                 />
             </Drawer>
             <CyVerseAnnouncer />
@@ -412,4 +438,5 @@ function DEAppBar(props) {
         </>
     );
 }
+
 export default withErrorAnnouncer(DEAppBar);

@@ -73,6 +73,7 @@ function AnalysisCustomAction(props) {
 }
 
 function Notifications(props) {
+    const { runningViceJobs, isFetchingRunningVice } = props;
     const { t } = useTranslation("common");
     const { currentNotification } = useNotifications();
     const theme = useTheme();
@@ -178,6 +179,8 @@ function Notifications(props) {
                     notificationMssg={notificationMssg}
                     anchorEl={anchorEl}
                     setAnchorEl={setAnchorEl}
+                    runningViceJobs={runningViceJobs}
+                    isFetchingRunningVice={isFetchingRunningVice}
                 />
             </>
         </>

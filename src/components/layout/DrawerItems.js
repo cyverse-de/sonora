@@ -4,7 +4,7 @@
  * Drawer Menu items.
  *
  **/
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "i18n";
 
 import DrawerItem from "./DrawerItem";
@@ -23,20 +23,12 @@ import ToolIcon from "@material-ui/icons/LabelImportant";
 import SearchIcon from "@material-ui/icons/Search";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { Web } from "@material-ui/icons";
-import { openInteractiveUrl, useRunningViceJobs } from "../analyses/utils";
+import { openInteractiveUrl } from "../analyses/utils";
 
 function DrawerItems(props) {
-    const { open, activeView, toggleDrawer, isXsDown, adminUser } = props;
+    const { open, activeView, toggleDrawer, isXsDown, adminUser, runningViceJobs } = props;
     const { t } = useTranslation(["common"]);
     const [userProfile] = useUserProfile();
-    const [analyses, setAnalyses] = useState([]);
-
-    useRunningViceJobs({
-        enabled: userProfile?.id,
-        onSuccess: (resp) => {
-            setAnalyses(resp?.analyses);
-        },
-    });
 
     return (
         <List style={{ overflowY: "auto", overflowX: "hidden" }}>
@@ -93,7 +85,7 @@ function DrawerItems(props) {
                 open={open}
             />
             {open &&
-                analyses?.map((analysis) => (
+                runningViceJobs?.map((analysis) => (
                     <DrawerItem
                         nested
                         title={analysis.name}

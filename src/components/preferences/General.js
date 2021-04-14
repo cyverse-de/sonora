@@ -16,6 +16,7 @@ import styles from "./styles";
 
 import ids from "./ids";
 
+import Webhooks from "./Webhooks";
 import SelectionDrawer from "../data/SelectionDrawer";
 import ResourceTypes from "../models/ResourceTypes";
 import GridLabelValue from "../utils/GridLabelValue";
@@ -46,6 +47,9 @@ function General(props) {
         outputFolderValidationError,
         requireAgaveAuth,
         resetHPCToken,
+        values,
+        webhookTopics,
+        webhookTypes,
     } = props;
     const { t } = useTranslation("preferences");
     const classes = useStyles();
@@ -190,6 +194,13 @@ function General(props) {
                     />
                 </Grid>
             </Grid>
+            <Divider className={classes.dividers} />
+            <Webhooks
+                baseId={build(baseId, ids.WEBHOOK_PREF)}
+                values={values}
+                webhookTopics={webhookTopics}
+                webhookTypes={webhookTypes}
+            />
             <Divider className={classes.dividers} />
             <Typography variant="h6" className={classes.sectionHeader}>
                 {t("resetHPCTokenLbl")}

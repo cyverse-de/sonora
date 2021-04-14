@@ -30,5 +30,19 @@
     "savePrefError": "Unable to save preferences. Please try again.",
     "urlImportEmailLbl": "Email me when my URL import status changes",
     "validationMessage": "Please fix all the errors before saving your preferences.",
-    "waitTimesWarning": "Display Warning about wait times for submitting HPC apps"
+    "waitTimesWarning": "Display Warning about wait times for submitting HPC apps",
+    "webhooksPrompt": " Add incoming webhook integration. The DE will post  notifications to this URL:",
+    "webhookSelectedTopics": "Select Topics:",
+    "data": "Data (e.g: When someone shares a file with you.)",
+    "apps": "Apps (e.g: When someone shares an app with you.) ",
+    "analysis": "Analyses (e.g: When your analysis status changes.)",
+    "permanent_id_request": "Permanent Identifiers (e.g: When your permanent identifier request is completed.)",
+    "team": "Teams (e.g: When you are added to a team.)",
+    "tool_request": "Tools (e.g: When your tool request is completed.)",
+    "test": "Test",
+    "type": "Type",
+    "hookTypesFetchError": "Unable to fetch webhook types. Please try again.",
+    "hookTopicsFetchError": "Unable to fetch webhook topics. Please try again.",
+    "webhookTestFailed": "Webhook test failed. Please check your webhook url.",
+    "webhooks": "Webhooks"
 }

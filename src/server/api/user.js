@@ -10,7 +10,10 @@ import express from "express";
 import * as auth from "../auth";
 import logger from "../logging";
 
+import axiosInstance from "../../common/getAxios";
 import { handler as terrainHandler } from "./terrain";
+
+const WEBHOOK_TEST_BODY = { text: "This is a test message from DE." };
 
 export default function userRouter() {
     const api = express.Router();
@@ -95,6 +98,60 @@ export default function userRouter() {
             },
         })
     );
+
+    logger.info("adding the GET /webhooks/types handler");
+    api.get(
+        "/webhooks/types",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/webhooks/types",
+        })
+    );
+
+    logger.info("adding the GET /webhooks/topics handler");
+    api.get(
+        "/webhooks/topics",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/webhooks/topics",
+        })
+    );
+
+    logger.info("adding the PUT /webhooks handler");
+    api.put(
+        "/webhooks",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PUT",
+            pathname: "/webhooks",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    api.get("/testWebhook", function (req, res) {
+        axiosInstance
+            .request({
+                method: "POST",
+                url: req.query.url,
+                data: WEBHOOK_TEST_BODY,
+            })
+            .then((apiResponse) => {
+                res.set(apiResponse.headers);
+                res.status(apiResponse.status);
+                res.send(apiResponse.data);
+            })
+            .catch(async (err) => {
+                logger.error(err);
+                const e = await err;
+
+                res.status(e.response?.status || 500);
+                res.send(e.response?.data);
+            });
+    });
 
     return api;
 }

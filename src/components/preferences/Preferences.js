@@ -31,8 +31,12 @@ import {
     getRedirectURIs,
     useSavePreferences,
     resetToken,
+    getWebhookTopics,
+    getWebhookTypes,
     BOOTSTRAP_KEY,
     REDIRECT_URI_QUERY_KEY,
+    WEBHOOKS_TYPES_QUERY_KEY,
+    WEBHOOKS_TOPICS_QUERY_KEY,
 } from "serviceFacades/users";
 import {
     getResourceDetails,
@@ -54,7 +58,6 @@ import {
     DialogTitle,
     Divider,
     Grid,
-    Paper,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -64,9 +67,9 @@ function Preferences(props) {
     const { baseId, showErrorAnnouncer } = props;
 
     const { t } = useTranslation("preferences");
-    const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
-
     const router = useRouter();
+
+    const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
 
     const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(
         false
@@ -77,30 +80,40 @@ function Preferences(props) {
     const [fetchDetailsQueryEnabled, setFetchDetailsQueryEnabled] = useState(
         false
     );
-
     const [defaultOutputFolder, setDefaultOutputFolder] = useState(null);
     const [
         defaultOutputFolderDetails,
         setDefaultOutputFolderDetails,
     ] = useState(null);
-
     const [requireAgaveAuth, setRequireAgaveAuth] = useState(true);
     const [
         outputFolderValidationError,
         setOutputFolderValidationError,
     ] = useState(null);
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
+    const [webhookTopicsQueryEnabled, setWebHookTopicsQueryEnabled] = useState(
+        false
+    );
+    const [webhookTypesQueryEnabled, setWebHookTypesQueryEnabled] = useState(
+        false
+    );
     const [bootstrapError, setBootstrapError] = useState(null);
     const [
         fetchRedirectURIsQueryEnabled,
         setFetchRedirectURIsQueryEnabled,
     ] = useState(false);
     const [hpcAuthUrl, setHPCAuthUrl] = useState("");
+    const [webhookTopics, setWebhookTopics] = useState();
+    const [webhookTypes, setWebhookTypes] = useState();
 
     const classes = useStyles();
 
     //get from cache if not fetch now.
     const prefCache = queryCache.getQueryData(BOOTSTRAP_KEY);
+    const webhookTypesCache = queryCache.getQueryData(WEBHOOKS_TYPES_QUERY_KEY);
+    const webhookTopicsCache = queryCache.getQueryData(
+        WEBHOOKS_TOPICS_QUERY_KEY
+    );
 
     const preProcessData = useCallback(
         (respData) => {
@@ -110,7 +123,7 @@ function Preferences(props) {
                     pref?.system_default_output_dir?.path
             );
             setBootstrapQueryEnabled(false);
-            setBootstrapInfo({ ...bootstrapInfo, preferences: pref });
+            setBootstrapInfo(respData);
             const session = respData?.session;
             const agaveKey = session?.auth_redirect?.agave;
             if (agaveKey) {
@@ -119,16 +132,38 @@ function Preferences(props) {
                 setRequireAgaveAuth(false);
             }
         },
-        [bootstrapInfo, setBootstrapInfo]
+        [setBootstrapInfo]
     );
 
     useEffect(() => {
         if (prefCache && !defaultOutputFolder) {
             preProcessData(prefCache);
         } else {
-            setBootstrapQueryEnabled(true);
+            if (webhookTypes && webhookTopics) {
+                setBootstrapQueryEnabled(true);
+            }
         }
-    }, [defaultOutputFolder, preProcessData, prefCache]);
+    }, [
+        defaultOutputFolder,
+        preProcessData,
+        prefCache,
+        webhookTopics,
+        webhookTypes,
+    ]);
+
+    useEffect(() => {
+        if (webhookTopicsCache) {
+            setWebhookTopics(webhookTopicsCache?.topics);
+        } else {
+            setWebHookTopicsQueryEnabled(true);
+        }
+
+        if (webhookTypesCache) {
+            setWebhookTypes(webhookTypesCache?.webhooktypes);
+        } else {
+            setWebHookTypesQueryEnabled(true);
+        }
+    }, [webhookTypesCache, webhookTopicsCache]);
 
     useEffect(() => {
         if (defaultOutputFolder) {
@@ -173,10 +208,7 @@ function Preferences(props) {
                 text: t("prefSaveSuccess"),
                 variant: AnnouncerConstants.SUCCESS,
             });
-            setBootstrapInfo({
-                ...bootstrapInfo,
-                preferences: updatedPref.preferences,
-            });
+            queryCache.invalidateQueries(BOOTSTRAP_KEY);
         },
         (e) => {
             showErrorAnnouncer(t("savePrefError"), e);
@@ -240,6 +272,30 @@ function Preferences(props) {
         },
     });
 
+    const { isFetching: isFetchingHookTypes } = useQuery({
+        queryKey: WEBHOOKS_TYPES_QUERY_KEY,
+        queryFn: getWebhookTypes,
+        config: {
+            enabled: webhookTypesQueryEnabled,
+            onSuccess: (data) => setWebhookTypes(data?.webhooktypes),
+            staleTime: Infinity,
+            cacheTime: Infinity,
+            onError: (e) => showErrorAnnouncer(t("hookTypesFetchError"), e),
+        },
+    });
+
+    const { isFetching: isFetchingHookTopics } = useQuery({
+        queryKey: WEBHOOKS_TOPICS_QUERY_KEY,
+        queryFn: getWebhookTopics,
+        config: {
+            enabled: webhookTopicsQueryEnabled,
+            onSuccess: (data) => setWebhookTopics(data?.topics),
+            staleTime: Infinity,
+            cacheTime: Infinity,
+            onError: (e) => showErrorAnnouncer(t("hookTopicsFetchError"), e),
+        },
+    });
+
     const handleSubmit = (values) => {
         //prevent dupe submission
         if (prefMutationStatus !== constants.LOADING) {
@@ -248,9 +304,36 @@ function Preferences(props) {
                     text: t("validationMessage"),
                 });
             } else {
-                const updatedPref = values;
+                const updatedPref = { ...values };
                 updatedPref.default_output_folder = defaultOutputFolderDetails;
-                mutatePreferences(values);
+                delete updatedPref.webhook;
+
+                let updatedWebhook = {};
+
+                if (values?.webhook) {
+                    const hook = values.webhook;
+                    const selTopics = webhookTopics
+                        .map((topic) => {
+                            if (hook[`${topic.topic}`]) {
+                                return topic.topic;
+                            }
+                            return null;
+                        })
+                        .filter((topic) => topic !== null);
+                    updatedWebhook = {
+                        webhooks: [
+                            {
+                                url: hook?.url,
+                                type: { type: hook?.type?.type },
+                                topics: selTopics,
+                            },
+                        ],
+                    };
+                }
+                mutatePreferences({
+                    preferences: updatedPref,
+                    webhooks: updatedWebhook,
+                });
             }
         }
     };
@@ -340,10 +423,42 @@ function Preferences(props) {
         }
         return errors;
     };
+
+    const mapPropsToValues = (bootstrap) => {
+        if (bootstrap === null || bootstrap === undefined) {
+            return {};
+        }
+        if (bootstrap?.preferences) {
+            if (bootstrap?.apps_info?.webhooks[0]) {
+                let hook = bootstrap?.apps_info?.webhooks[0];
+                const selectedTopics = hook?.topics;
+                const reducer = (acc, currVal) => ({
+                    ...acc,
+                    [currVal]: selectedTopics?.includes(currVal),
+                });
+                const topics = selectedTopics.reduce(reducer, {});
+                return {
+                    ...bootstrap.preferences,
+                    webhook: {
+                        ...hook,
+                        ...topics,
+                    },
+                };
+            } else {
+                return {
+                    ...bootstrap.preferences,
+                };
+            }
+        } else {
+            return {};
+        }
+    };
     const busy =
         prefMutationStatus === constants.LOADING ||
         resetTokenStatus === constants.LOADING ||
-        isFetchingURIs;
+        isFetchingURIs ||
+        isFetchingHookTopics ||
+        isFetchingHookTypes;
     return (
         <>
             {busy && (
@@ -359,113 +474,143 @@ function Preferences(props) {
                 />
             )}
             <Container className={classes.root}>
-                <Paper>
-                    <Formik
-                        initialValues={bootstrapInfo?.preferences}
-                        onSubmit={handleSubmit}
-                        enableReinitialize
-                        validate={validateShortCuts}
-                    >
-                        {(props) => (
-                            <Form
-                                aria-busy={busy}
-                                aria-describedby={build(
-                                    baseId,
-                                    ids.LOADING_PROGRESS
-                                )}
-                            >
-                                <General
-                                    baseId={build(baseId, ids.GENERAL)}
-                                    defaultOutputFolder={defaultOutputFolder}
-                                    isValidating={isFetchingStat}
-                                    onNewDefaultOutputFolder={(newFolder) => {
-                                        setDefaultFolder(
-                                            props.setFieldValue,
-                                            newFolder
-                                        );
-                                    }}
-                                    outputFolderValidationError={
-                                        outputFolderValidationError
-                                    }
-                                    requireAgaveAuth={requireAgaveAuth}
-                                    resetHPCToken={resetHPCToken}
-                                />
-                                <Divider className={classes.dividers} />
-                                <Shortcuts
-                                    baseId={build(baseId, ids.KB_SHORTCUTS)}
-                                />
-                                <Grid container justify="flex-end">
-                                    <Grid item>
-                                        <Button
-                                            id={build(
-                                                baseId,
-                                                ids.RESTORE_DEFAULT_BUTTON
-                                            )}
-                                            className={classes.actionButton}
-                                            color="primary"
-                                            onClick={() =>
-                                                setShowRestoreConfirmation(true)
-                                            }
-                                        >
-                                            {t("restoreDefaultsBtnLbl")}
-                                        </Button>
-                                    </Grid>
-                                    <Grid item>
-                                        <Button
-                                            id={build(
-                                                baseId,
-                                                ids.SAVE_PREFERENCES_BUTTON
-                                            )}
-                                            className={classes.actionButton}
-                                            color="primary"
-                                            type="submit"
-                                        >
-                                            {t("saveBtnLbl")}
-                                        </Button>
-                                    </Grid>
+                <Formik
+                    initialValues={mapPropsToValues(bootstrapInfo)}
+                    onSubmit={handleSubmit}
+                    enableReinitialize
+                    validate={validateShortCuts}
+                >
+                    {(props) => (
+                        <Form
+                            aria-busy={busy}
+                            aria-describedby={build(
+                                baseId,
+                                ids.LOADING_PROGRESS
+                            )}
+                        >
+                            <Grid container justify="flex-end">
+                                <Grid item>
+                                    <Button
+                                        id={build(
+                                            baseId,
+                                            ids.RESTORE_DEFAULT_BUTTON
+                                        )}
+                                        className={classes.actionButton}
+                                        color="primary"
+                                        onClick={() =>
+                                            setShowRestoreConfirmation(true)
+                                        }
+                                        variant="outlined"
+                                    >
+                                        {t("restoreDefaultsBtnLbl")}
+                                    </Button>
                                 </Grid>
-                                <Dialog
-                                    open={showRestoreConfirmation}
-                                    onClose={() =>
-                                        setShowRestoreConfirmation(false)
-                                    }
-                                >
-                                    <DialogTitle>Restore Defaults</DialogTitle>
-                                    <DialogContent>
-                                        <DialogContentText>
-                                            {t("restoreConfirmation")}
-                                        </DialogContentText>
-                                    </DialogContent>
-                                    <DialogActions>
-                                        <Button
-                                            id={build(baseId, ids.OK_BUTTON)}
-                                            onClick={restoreDefaults(
-                                                props.setFieldValue
-                                            )}
-                                            color="primary"
-                                        >
-                                            {t("okBtnLbl")}
-                                        </Button>
-                                        <Button
-                                            id={build(
-                                                baseId,
-                                                ids.CANCEL_BUTTON
-                                            )}
-                                            onClick={() =>
-                                                setShowRestoreConfirmation(
-                                                    false
-                                                )
-                                            }
-                                            color="primary"
-                                        >
-                                            {t("cancelBtnLbl")}
-                                        </Button>
-                                    </DialogActions>
-                                </Dialog>
-                            </Form>
-                        )}
-                    </Formik>
-                </Paper>
+                                <Grid item>
+                                    <Button
+                                        id={build(
+                                            baseId,
+                                            ids.SAVE_PREFERENCES_BUTTON
+                                        )}
+                                        className={classes.actionButton}
+                                        color="primary"
+                                        type="submit"
+                                        variant="contained"
+                                    >
+                                        {t("saveBtnLbl")}
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                            <General
+                                baseId={build(baseId, ids.GENERAL)}
+                                defaultOutputFolder={defaultOutputFolder}
+                                isValidating={isFetchingStat}
+                                onNewDefaultOutputFolder={(newFolder) => {
+                                    setDefaultFolder(
+                                        props.setFieldValue,
+                                        newFolder
+                                    );
+                                }}
+                                outputFolderValidationError={
+                                    outputFolderValidationError
+                                }
+                                requireAgaveAuth={requireAgaveAuth}
+                                resetHPCToken={resetHPCToken}
+                                webhookTopics={webhookTopics}
+                                webhookTypes={webhookTypes}
+                                values={props.values}
+                            />
+                            <Divider className={classes.dividers} />
+                            <Shortcuts
+                                baseId={build(baseId, ids.KB_SHORTCUTS)}
+                            />
+                            <Grid container justify="flex-end">
+                                <Grid item>
+                                    <Button
+                                        id={build(
+                                            baseId,
+                                            ids.RESTORE_DEFAULT_BUTTON
+                                        )}
+                                        className={classes.actionButton}
+                                        color="primary"
+                                        onClick={() =>
+                                            setShowRestoreConfirmation(true)
+                                        }
+                                        variant="outlined"
+                                    >
+                                        {t("restoreDefaultsBtnLbl")}
+                                    </Button>
+                                </Grid>
+                                <Grid item>
+                                    <Button
+                                        id={build(
+                                            baseId,
+                                            ids.SAVE_PREFERENCES_BUTTON
+                                        )}
+                                        className={classes.actionButton}
+                                        color="primary"
+                                        type="submit"
+                                        variant="contained"
+                                    >
+                                        {t("saveBtnLbl")}
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                            <Dialog
+                                open={showRestoreConfirmation}
+                                onClose={() =>
+                                    setShowRestoreConfirmation(false)
+                                }
+                            >
+                                <DialogTitle>Restore Defaults</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText>
+                                        {t("restoreConfirmation")}
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button
+                                        id={build(baseId, ids.OK_BUTTON)}
+                                        onClick={restoreDefaults(
+                                            props.setFieldValue
+                                        )}
+                                        color="primary"
+                                    >
+                                        {t("okBtnLbl")}
+                                    </Button>
+                                    <Button
+                                        id={build(baseId, ids.CANCEL_BUTTON)}
+                                        onClick={() =>
+                                            setShowRestoreConfirmation(false)
+                                        }
+                                        color="primary"
+                                    >
+                                        {t("cancelBtnLbl")}
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+                        </Form>
+                    )}
+                </Formik>
             </Container>
         </>
     );

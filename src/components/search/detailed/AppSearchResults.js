@@ -19,8 +19,13 @@ import AppName from "components/apps/AppName";
 import { APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
 import appFields from "components/apps/appFields";
 import Drawer from "components/apps/details/Drawer";
+import NavigationConstants from "common/NavigationConstants";
+import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
+import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
+import CopyLinkButton from "components/utils/CopyLinkButton";
+import { getHost } from "components/utils/getHost";
 
-import { IconButton, Typography } from "@material-ui/core";
+import { IconButton, Typography, Grid } from "@material-ui/core";
 import { Info } from "@material-ui/icons";
 
 function Name(props) {
@@ -117,14 +122,38 @@ export default function AppSearchResults(props) {
                 accessor: "actions",
                 Cell: ({ row }) => {
                     const original = row?.original;
+                    const { t } = useTranslation("common");
                     return (
-                        <IconButton
-                            onClick={() => setDetailsApp(original)}
-                            size="small"
-                            color="primary"
-                        >
-                            <Info fontSize="small" />
-                        </IconButton>
+                        <Grid spacing={1}>
+                            <Grid item>
+                                <IconButton
+                                    onClick={() => setDetailsApp(original)}
+                                    size="small"
+                                    color="primary"
+                                >
+                                    <Info fontSize="small" />
+                                </IconButton>
+                            </Grid>
+                            <Grid item>
+                                <CopyLinkButton
+                                    onCopyLinkSelected={() => {
+                                        const link = `${getHost()}/${
+                                            NavigationConstants.APPS
+                                        }/${original?.system_id}/${
+                                            original?.id
+                                        }`;
+
+                                        const copyPromise = copyStringToClipboard(
+                                            link
+                                        );
+                                        copyLinkToClipboardHandler(
+                                            t,
+                                            copyPromise
+                                        );
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
                     );
                 },
                 disableSortBy: true,

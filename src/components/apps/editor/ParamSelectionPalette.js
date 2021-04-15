@@ -10,8 +10,6 @@ import { Trans } from "react-i18next";
 import ids from "./ids";
 
 import { useTranslation } from "i18n";
-import { intercomShow } from "common/intercom";
-import UtilIds from "components/utils/ids";
 
 import ResourceIcon from "components/data/listing/ResourceIcon";
 
@@ -24,7 +22,6 @@ import { build as buildID } from "@cyverse-de/ui-lib";
 import {
     Avatar,
     Collapse,
-    Link,
     List,
     ListItem,
     ListItemAvatar,
@@ -41,7 +38,7 @@ import {
     CheckBox,
     Code,
     FileCopy as MultiFileIcon,
-    Help as HelpIcon,
+    Info as HelpIcon,
     Info as InfoIcon,
     List as ListIcon,
     Subject as MultiLineTextIcon,
@@ -123,7 +120,7 @@ function ParamTypeIcon(props) {
 }
 
 function ParamTypeListItemHelpText(props) {
-    const { baseId, paramType, primaryText } = props;
+    const { paramType, primaryText } = props;
 
     const { t } = useTranslation("app_editor_help");
 
@@ -138,21 +135,6 @@ function ParamTypeListItemHelpText(props) {
                         b: <b />,
                         i: <i />,
                         p: <p />,
-                        support: (
-                            <Link
-                                id={buildID(
-                                    baseId,
-                                    UtilIds.CONTACT_SUPPORT_BUTTON
-                                )}
-                                component="button"
-                                variant="body2"
-                                onClick={(event) => {
-                                    // prevent parameter selection
-                                    event.stopPropagation();
-                                    intercomShow();
-                                }}
-                            />
-                        ),
                     }}
                 />
             }
@@ -193,10 +175,7 @@ function ParamTypeListItem(props) {
             </ListItem>
             <Collapse in={helpOpen} timeout="auto" unmountOnExit>
                 <ListItem divider>
-                    <ParamTypeListItemHelpText
-                        baseId={id}
-                        paramType={paramType}
-                    />
+                    <ParamTypeListItemHelpText paramType={paramType} />
                 </ListItem>
             </Collapse>
         </>
@@ -204,7 +183,6 @@ function ParamTypeListItem(props) {
         <ListItem id={id} divider button onClick={onClick}>
             <ParamTypeIcon paramType={paramType} />
             <ParamTypeListItemHelpText
-                baseId={id}
                 paramType={paramType}
                 primaryText={t(paramType)}
             />
@@ -228,13 +206,25 @@ function ParamTypeSubList(props) {
 function ParamSelectionPalette(props) {
     const { baseId, open, onClose, handleAddParam } = props;
 
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+
     const { t } = useTranslation("app_editor");
 
     return (
         <DEDialog
             baseId={ids.PARAM_SELECTION_PALETTE}
             open={open}
-            title={t("selectParameter")}
+            title={
+                <>
+                    {t("selectParameter")}
+                    {isMobile && (
+                        <Typography component="div" variant="subtitle2">
+                            {t("selectParameterDialogSubtitle")}
+                        </Typography>
+                    )}
+                </>
+            }
             onClose={onClose}
             maxWidth="md"
         >
@@ -246,9 +236,9 @@ function ParamSelectionPalette(props) {
                     baseId={baseId}
                     handleAddParam={handleAddParam}
                     paramTypes={[
-                        AppParamTypes.MULTIFILE_SELECTOR,
                         AppParamTypes.FILE_INPUT,
                         AppParamTypes.FOLDER_INPUT,
+                        AppParamTypes.MULTIFILE_SELECTOR,
                     ]}
                 />
 
@@ -259,14 +249,14 @@ function ParamSelectionPalette(props) {
                     baseId={baseId}
                     handleAddParam={handleAddParam}
                     paramTypes={[
-                        AppParamTypes.INFO,
-                        AppParamTypes.TEXT,
-                        AppParamTypes.MULTILINE_TEXT,
                         AppParamTypes.FLAG,
-                        AppParamTypes.INTEGER,
                         AppParamTypes.DOUBLE,
-                        AppParamTypes.TEXT_SELECTION,
                         AppParamTypes.ENV_VAR,
+                        AppParamTypes.INFO,
+                        AppParamTypes.INTEGER,
+                        AppParamTypes.TEXT_SELECTION,
+                        AppParamTypes.MULTILINE_TEXT,
+                        AppParamTypes.TEXT,
                     ]}
                 />
 
@@ -290,9 +280,9 @@ function ParamSelectionPalette(props) {
                     baseId={baseId}
                     handleAddParam={handleAddParam}
                     paramTypes={[
+                        AppParamTypes.REFERENCE_ANNOTATION,
                         AppParamTypes.REFERENCE_GENOME,
                         AppParamTypes.REFERENCE_SEQUENCE,
-                        AppParamTypes.REFERENCE_ANNOTATION,
                     ]}
                 />
             </List>

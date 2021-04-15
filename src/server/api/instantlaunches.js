@@ -165,5 +165,18 @@ export default () => {
         })
     );
 
+    logger.info("Add the GET /instantlaunches/quicklaunches/public handler");
+    api.get(
+        "/instantlaunches/quicklaunches/public",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/instantlaunches/quicklaunches/public",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 };

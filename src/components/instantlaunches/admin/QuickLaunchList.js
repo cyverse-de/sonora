@@ -7,13 +7,10 @@ import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import { Button } from "@material-ui/core";
 
 import {
-    QUICK_LAUNCH_LIST_ALL,
-    listAllQuickLaunches,
-} from "serviceFacades/quickLaunches";
-
-import {
     addInstantLaunch,
     ALL_INSTANT_LAUNCHES_KEY,
+    LIST_PUBLIC_QUICK_LAUNCHES_KEY,
+    getPublicQuicklaunches,
     listFullInstantLaunches,
 } from "serviceFacades/instantlaunches";
 
@@ -43,7 +40,10 @@ const QuickLaunchList = ({ showErrorAnnouncer }) => {
     const baseID = "quickLaunchList";
     const { t } = useTranslation("instantlaunches");
 
-    const allQL = useQuery(QUICK_LAUNCH_LIST_ALL, listAllQuickLaunches);
+    const allQL = useQuery(
+        LIST_PUBLIC_QUICK_LAUNCHES_KEY,
+        getPublicQuicklaunches
+    );
 
     const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
 

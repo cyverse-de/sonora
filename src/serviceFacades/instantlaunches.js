@@ -3,6 +3,7 @@ import callApi from "../common/callApi";
 export const DEFAULTS_MAPPING_QUERY_KEY = "fetchDefaultsMappings";
 export const ALL_INSTANT_LAUNCHES_KEY = "allInstantLaunches";
 export const DASHBOARD_INSTANT_LAUNCHES_KEY = "dashboardInstantLaunches";
+export const LIST_PUBLIC_QUICK_LAUNCHES_KEY = "listPublicQuickLaunches";
 
 export const getDefaultsMapping = () =>
     callApi({
@@ -94,4 +95,10 @@ export const listInstantLaunchesByMetadata = (key, queryKey, queryValue) =>
         endpoint: `/api/instantlaunches/metadata/full`,
         method: "GET",
         params: { attribute: queryKey, value: queryValue, unit: "" },
+    });
+
+export const getPublicQuicklaunches = (key) =>
+    callApi({
+        endpoint: "/api/instantlaunches/quicklaunches/public",
+        method: "GET",
     });

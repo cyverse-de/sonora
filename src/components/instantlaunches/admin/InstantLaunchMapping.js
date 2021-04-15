@@ -8,6 +8,8 @@ import {
     createDefaultsMapping,
     ALL_INSTANT_LAUNCHES_KEY,
     DEFAULTS_MAPPING_QUERY_KEY,
+    LIST_PUBLIC_QUICK_LAUNCHES_KEY,
+    getPublicQuicklaunches,
     getDefaultsMapping,
     listFullInstantLaunches,
     updateDefaultsMapping,
@@ -179,6 +181,11 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
         listFullInstantLaunches
     );
 
+    const allQL = useQuery(
+        LIST_PUBLIC_QUICK_LAUNCHES_KEY,
+        getPublicQuicklaunches
+    );
+
     const handleDelete = async (index) => {
         const newEntries = Object.entries(defaultsMapping.data.mapping);
         newEntries.splice(index, 1);
@@ -251,8 +258,12 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
         return updateMapping(m);
     };
 
-    const isLoading = defaultsMapping.isLoading || instantlaunches.isLoading;
-    const isError = defaultsMapping.isError || instantlaunches.isError;
+    const isLoading =
+        defaultsMapping.isLoading ||
+        instantlaunches.isLoading ||
+        allQL.isLoading;
+    const isError =
+        defaultsMapping.isError || instantlaunches.isError || allQL.isError;
 
     return (
         <div>
@@ -265,7 +276,11 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                 />
             ) : isError ? (
                 <WrappedErrorHandler
-                    errorObject={defaultsMapping.error || instantlaunches.error}
+                    errorObject={
+                        defaultsMapping.error ||
+                        instantlaunches.error ||
+                        allQL.isError
+                    }
                     baseId={baseID}
                 />
             ) : (
@@ -318,6 +333,15 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                                     Object.entries(
                                         defaultsMapping.data.mapping
                                     ).map(([name, patternObj], index) => {
+                                        const foundQL = allQL.data.find(
+                                            (ql) =>
+                                                ql.id ===
+                                                patternObj.default
+                                                    .quick_launch_id
+                                        );
+                                        const qlLabel =
+                                            foundQL?.name ||
+                                            patternObj.default.quick_launch_id;
                                         return (
                                             <TableRow key={uuid.v4()}>
                                                 <TableCell>{name}</TableCell>
@@ -330,12 +354,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                                                     {patternObj.pattern}
                                                 </TableCell>
 
-                                                <TableCell>
-                                                    {
-                                                        patternObj.default
-                                                            .quick_launch_id
-                                                    }
-                                                </TableCell>
+                                                <TableCell>{qlLabel}</TableCell>
 
                                                 <TableCell>
                                                     <IconButton

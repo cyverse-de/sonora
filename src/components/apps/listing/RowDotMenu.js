@@ -18,6 +18,7 @@ import { isWritable } from "../utils";
 import NavigationConstants from "common/NavigationConstants";
 import { getHost } from "components/utils/getHost";
 import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
+import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DocMenuItem from "../menuItems/DocMenuItem";
 import EditMenuItem from "../menuItems/EditMenuItem";
@@ -92,20 +93,7 @@ function RowDotMenu(props) {
                             }/${app?.system_id}/${app?.id}`;
 
                             const copyPromise = copyStringToClipboard(link);
-                            copyPromise.then(
-                                () => {
-                                    announce({
-                                        text: t("linkCopied"),
-                                        variant: AnnouncerConstants.SUCCESS,
-                                    });
-                                },
-                                () => {
-                                    announce({
-                                        text: t("linkCopyFailed"),
-                                        variant: AnnouncerConstants.ERROR,
-                                    });
-                                }
-                            );
+                            copyLinkToClipboardHandler(t, copyPromise);
                         }}
                     />,
                 ],

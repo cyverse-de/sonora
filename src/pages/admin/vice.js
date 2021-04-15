@@ -43,11 +43,15 @@ import { JSONPath } from "jsonpath-plus";
 import efcs from "components/vice/admin/filter/efcs";
 import { AppBar, Tab, Tabs } from "@material-ui/core";
 import Listing from "components/vice/admin/accessRequests/Listing";
+import InstantLaunchList from "components/instantlaunches/admin/InstantLaunchList";
+import InstantLaunchMapping from "components/instantlaunches/admin/InstantLaunchMapping";
 
 const id = (...values) => buildID(ids.ROOT, ...values);
 const TABS = {
     quotaRequests: "QUOTA REQUESTS",
     analyses: "ANALYSES",
+    instantLaunches: "INSTANT LAUNCHES",
+    dataMapping: "DATA MAPPING",
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -422,13 +426,29 @@ const VICEAdmin = () => {
                     id={id(ids.REQUEST_LIMIT_TAB)}
                     classes={{ selected: classes.tabSelected }}
                 />
+
                 <Tab
                     value={TABS.analyses}
                     label={t("analysesTabLabel")}
                     id={id(ids.USER_ANALYSES_TAB)}
                     classes={{ selected: classes.tabSelected }}
                 />
+
+                <Tab
+                    value={TABS.instantLaunches}
+                    label={t("instantLaunchesTabLabel")}
+                    id={id(ids.INSTANT_LAUNCHES_TAB)}
+                    classes={{ selected: classes.tabSelected }}
+                />
+
+                <Tab
+                    value={TABS.dataMapping}
+                    label={t("dataMappingTabLabel")}
+                    id={id(ids.DATA_MAPPING_TAB)}
+                    classes={{ selected: classes.tabSelected }}
+                />
             </Tabs>
+
             <DETabPanel
                 tabId={id(ids.REQUEST_LIMIT_TAB)}
                 value={TABS.quotaRequests}
@@ -437,6 +457,7 @@ const VICEAdmin = () => {
                 <JobLimits />
                 <Listing />
             </DETabPanel>
+
             <DETabPanel
                 tabId={id(ids.USER_ANALYSES_TAB)}
                 value={TABS.analyses}
@@ -457,6 +478,22 @@ const VICEAdmin = () => {
                         <VICEAdminTabs data={filteredData} />
                     </>
                 )}
+            </DETabPanel>
+
+            <DETabPanel
+                tabID={id(ids.INSTANT_LAUNCHES_TAB)}
+                value={TABS.instantLaunches}
+                selectedTab={selectedTab}
+            >
+                <InstantLaunchList />
+            </DETabPanel>
+
+            <DETabPanel
+                tabId={id(ids.DATA_MAPPING_TAB)}
+                value={TABS.dataMapping}
+                selectedTab={selectedTab}
+            >
+                <InstantLaunchMapping />
             </DETabPanel>
         </div>
     );

@@ -9,7 +9,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "i18n";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { queryCache, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import clsx from "clsx";
 
 import NavigationConstants from "common/NavigationConstants";
@@ -54,11 +54,9 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useNotifications } from "contexts/pushNotifications";
-import {
-    RUNNING_VICE_JOBS_QUERY_KEY,
-    useRunningViceJobs,
-} from "serviceFacades/analyses";
-import NotificationCategory from "../models/NotificationCategory";
+import { useRunningViceJobs } from "serviceFacades/analyses";
+import { isViceNotification } from "components/notifications/utils";
+import analysisStatus from "components/models/analysisStatus";
 
 // hidden in xsDown
 const GlobalSearchField = dynamic(() => import("../search/GlobalSearchField"));
@@ -204,13 +202,27 @@ function DEAppBar(props) {
     }, [adminUser, setUserProfile, userProfile]);
 
     useEffect(() => {
-        if (
-            NotificationCategory.ANALYSIS.toLowerCase() ===
-            currentNotification?.message?.type
-        ) {
-            queryCache.invalidateQueries(RUNNING_VICE_JOBS_QUERY_KEY);
+        if (isViceNotification(currentNotification)) {
+            const analysis = currentNotification?.message?.payload;
+            const status = analysis.analysisstatus;
+
+            if (analysisStatus.RUNNING === status) {
+                setRunningViceJobs([analysis, ...runningViceJobs]);
+            }
+
+            if (
+                [analysisStatus.CANCELED, analysisStatus.COMPLETED].includes(
+                    status
+                )
+            ) {
+                setRunningViceJobs(
+                    runningViceJobs.filter(
+                        (running) => running.id !== analysis.id
+                    )
+                );
+            }
         }
-    }, [currentNotification]);
+    }, [currentNotification, runningViceJobs]);
 
     const { isFetching: isFetchingRunningVice } = useRunningViceJobs({
         enabled: userProfile?.id,

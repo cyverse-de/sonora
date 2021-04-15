@@ -24,3 +24,12 @@ export function getDisplayMessage(notification) {
             return notification.message.text;
     }
 }
+
+export function isViceNotification(notification) {
+    const message = notification?.message;
+
+    return (
+        NotificationCategory.ANALYSIS.toLowerCase() === message?.type &&
+        message?.payload?.interactive_urls?.length > 0
+    );
+}

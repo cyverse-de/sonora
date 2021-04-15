@@ -2,8 +2,6 @@ import React from "react";
 
 import { queryCache, useMutation, useQuery } from "react-query";
 
-import { Button, makeStyles } from "@material-ui/core";
-
 import {
     listFullInstantLaunches,
     upsertInstantLaunchMetadata,
@@ -20,16 +18,38 @@ import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
 import { Skeleton } from "@material-ui/lab";
 
+import { format as formatDate } from "date-fns";
+
 import {
+    Button,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    DialogActions,
+    makeStyles,
     Table,
     TableContainer,
     TableHead,
     TableCell,
     TableRow,
     TableBody,
+    Typography,
+    Paper,
+    IconButton,
 } from "@material-ui/core";
+
+import {
+    Add as AddIcon,
+    Close as CloseIcon,
+    Delete as DeleteIcon,
+} from "@material-ui/icons";
+
 import { useTranslation } from "i18n";
 import { validateForDashboard } from "components/instantlaunches";
+
+import { shortenUsername } from "./functions";
+
+import QuickLaunchList from "./QuickLaunchList";
 
 /**
  * Adds the instant launch to the list of instant launches
@@ -102,25 +122,50 @@ const isInDashboard = (id, dashboardILs) => {
     return dILIDs.includes(id);
 };
 
-/**
- * Removes a suffix from the username. Everything after the last '@' will be removed.
- *
- * @param {string} username - The username that will be shortened
- * @returns {string} - The shortened username
- */
-const shortenUsername = (username) => {
-    const atIndex = username.lastIndexOf("@");
-    if (atIndex > -1) {
-        return username.slice(0, atIndex);
-    }
-    return username;
-};
-
 const useStyles = makeStyles((theme) => ({
+    addButton: {
+        // marginTop: theme.spacing(2),
+        // marginBottom: theme.spacing(4),
+        marginRight: theme.spacing(2),
+        float: "right",
+    },
     table: {
         minWidth: "100%",
     },
+    tableDescription: {
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+        paddingLeft: theme.spacing(2),
+    },
+    tableTitle: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+        marginLeft: theme.spacing(2),
+    },
 }));
+
+const CreationDialog = ({ t, open, onClose }) => {
+    return (
+        <Dialog open={open} onClose={onClose}>
+            <DialogTitle>{t("createInstantLaunch")}</DialogTitle>
+
+            <DialogContent>
+                <QuickLaunchList />
+            </DialogContent>
+
+            <DialogActions>
+                <Button
+                    variant="contained"
+                    startIcon={<CloseIcon />}
+                    color="primary"
+                    onClick={onClose}
+                >
+                    {t("common:close")}
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
 
 /**
  * Presents a list of instant launches that can be updated,
@@ -130,6 +175,8 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const baseID = "instantlaunchlist";
     const { t } = useTranslation("instantlaunches");
     const classes = useStyles();
+
+    const [dlgOpen, setDlgOpen] = React.useState(false);
 
     const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
     const dashboardILs = useQuery(
@@ -184,70 +231,125 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                     baseId={baseID}
                 />
             ) : (
-                <TableContainer className={classes.table}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>{t("name")}</TableCell>
-                                <TableCell>{t("createdBy")}</TableCell>
-                                <TableCell></TableCell>
-                                <TableCell></TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {allILs.data.instant_launches.map((il) => {
-                                return (
-                                    <TableRow key={il.id}>
-                                        <TableCell>
-                                            {il.quick_launch_name}
-                                        </TableCell>
-                                        <TableCell>
-                                            {shortenUsername(il.added_by)}
-                                        </TableCell>
-                                        <TableCell>
-                                            {isInDashboard(
-                                                il.id,
-                                                dashboardILs.data
-                                                    .instant_launches
-                                            ) ? (
-                                                <Button
+                <>
+                    <CreationDialog
+                        t={t}
+                        open={dlgOpen}
+                        onClose={(event) => {
+                            event.stopPropagation();
+                            event.preventDefault();
+
+                            setDlgOpen(false);
+                        }}
+                    />
+
+                    <TableContainer className={classes.table} component={Paper}>
+                        <div className={classes.tableTitle}>
+                            <Typography variant="h5" component="span">
+                                {t("currentInstantLaunches")}
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                startIcon={<AddIcon />}
+                                className={classes.addButton}
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    event.preventDefault();
+
+                                    setDlgOpen(true);
+                                }}
+                            >
+                                {t("common:new")}
+                            </Button>
+                        </div>
+
+                        <Typography
+                            variant="body2"
+                            className={classes.tableDescription}
+                        >
+                            {t("listDescription")}
+                        </Typography>
+
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>{t("common:name")}</TableCell>
+                                    <TableCell>{t("createdBy")}</TableCell>
+                                    <TableCell>{t("addedOn")}</TableCell>
+                                    <TableCell></TableCell>
+                                    <TableCell></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {allILs.data.instant_launches.map((il) => {
+                                    const addedOn = Date.parse(il.added_on);
+                                    return (
+                                        <TableRow key={il.id}>
+                                            <TableCell>
+                                                {il.quick_launch_name}
+                                            </TableCell>
+
+                                            <TableCell>
+                                                {shortenUsername(il.added_by)}
+                                            </TableCell>
+
+                                            <TableCell>
+                                                {formatDate(
+                                                    addedOn,
+                                                    "yyyy-MM-dd pppp"
+                                                )}
+                                            </TableCell>
+
+                                            <TableCell>
+                                                {isInDashboard(
+                                                    il.id,
+                                                    dashboardILs.data
+                                                        .instant_launches
+                                                ) ? (
+                                                    <Button
+                                                        onClick={(event) => {
+                                                            event.stopPropagation();
+                                                            event.preventDefault();
+                                                            removeFromDash(
+                                                                il.id
+                                                            );
+                                                        }}
+                                                    >
+                                                        {t(
+                                                            "removeFromDashboard"
+                                                        )}
+                                                    </Button>
+                                                ) : (
+                                                    <Button
+                                                        onClick={(event) => {
+                                                            event.stopPropagation();
+                                                            event.preventDefault();
+                                                            addToDash(il, t);
+                                                        }}
+                                                    >
+                                                        {t("addToDashboard")}
+                                                    </Button>
+                                                )}
+                                            </TableCell>
+                                            <TableCell>
+                                                <IconButton
                                                     onClick={(event) => {
                                                         event.stopPropagation();
                                                         event.preventDefault();
-                                                        removeFromDash(il.id);
+                                                        deleteIL(il.id);
                                                     }}
                                                 >
-                                                    {t("removeFromDashboard")}
-                                                </Button>
-                                            ) : (
-                                                <Button
-                                                    onClick={(event) => {
-                                                        event.stopPropagation();
-                                                        event.preventDefault();
-                                                        addToDash(il, t);
-                                                    }}
-                                                >
-                                                    {t("addToDashboard")}
-                                                </Button>
-                                            )}
-                                        </TableCell>
-                                        <TableCell>
-                                            <Button
-                                                onClick={(event) => {
-                                                    event.stopPropagation();
-                                                    event.preventDefault();
-                                                    deleteIL(il.id);
-                                                }}
-                                            >
-                                                {t("deleteInstantLaunch")}
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </>
             )}
         </div>
     );

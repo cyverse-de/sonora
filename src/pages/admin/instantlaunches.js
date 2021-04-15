@@ -2,10 +2,9 @@ import React from "react";
 
 import { useUserProfile } from "contexts/userProfile";
 
-import { Tabs, Tab, Paper, Typography, makeStyles } from "@material-ui/core";
+import { Tabs, Tab, Typography, makeStyles } from "@material-ui/core";
 
 import InstantLaunchList from "components/instantlaunches/admin/InstantLaunchList";
-import QuickLaunchList from "components/instantlaunches/admin/QuickLaunchList";
 import InstantLaunchMapping from "components/instantlaunches/admin/InstantLaunchMapping";
 import NotAuthorized from "components/utils/error/NotAuthorized";
 import { useTranslation } from "i18n";
@@ -15,11 +14,6 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(2),
     },
-    tabDescription: {
-        paddingTop: theme.spacing(2),
-        paddingBottom: theme.spacing(2),
-    },
-
     instantLaunches: {
         overflow: "auto",
         width: "100%",
@@ -55,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 export default function InstantLaunchesAdmin() {
     const classes = useStyles();
     const profile = useUserProfile()[0];
-    const { t } = useTranslation("instantlaunches");
+    const { t } = useTranslation(["instantlaunches", "common"]);
     const [tabValue, setTabValue] = React.useState(0);
 
     if (!profile?.admin) {
@@ -66,12 +60,10 @@ export default function InstantLaunchesAdmin() {
         };
         return (
             <div className={classes.instantLaunches}>
-                <Typography variant="h5">Instant Launches</Typography>
+                <Typography variant="h4">{t("pageTitle")}</Typography>
 
                 <Typography variant="body1" className={classes.mainDescription}>
-                    This page allows you to create new instant launches, add
-                    them to the dashboard, delete them, and set them as a
-                    default for files in the data listing.
+                    {t("pageDescription")}
                 </Typography>
 
                 <Tabs
@@ -82,7 +74,7 @@ export default function InstantLaunchesAdmin() {
                     centered
                 >
                     <Tab
-                        label={t("create")}
+                        label={t("common:list")}
                         classes={{
                             root: classes.tabRoot,
                             selected: classes.tabSelected,
@@ -90,60 +82,21 @@ export default function InstantLaunchesAdmin() {
                         value={0}
                     />
                     <Tab
-                        label={t("update")}
+                        label={t("updateDataMapping")}
                         classes={{
                             root: classes.tabRoot,
                             selected: classes.tabSelected,
                         }}
                         value={1}
                     />
-                    <Tab
-                        label={t("updateDataMapping")}
-                        classes={{
-                            root: classes.tabRoot,
-                            selected: classes.tabSelected,
-                        }}
-                        value={2}
-                    />
                 </Tabs>
 
                 <div hidden={tabValue !== 0}>
-                    <Typography
-                        variant="body2"
-                        className={classes.tabDescription}
-                    >
-                        Create new instant launches from a quick launch in the
-                        listing below.
-                    </Typography>
-                    <Paper>
-                        <QuickLaunchList />
-                    </Paper>
+                    <InstantLaunchList />
                 </div>
 
                 <div hidden={tabValue !== 1}>
-                    <Typography
-                        variant="body2"
-                        className={classes.tabDescription}
-                    >
-                        Add existing instant launches to the dashboard or delete
-                        them from existence.
-                    </Typography>
-                    <Paper>
-                        <InstantLaunchList />
-                    </Paper>
-                </div>
-
-                <div hidden={tabValue !== 2}>
-                    <Typography
-                        variant="body2"
-                        className={classes.tabDescription}
-                    >
-                        Use globs or infoTypes along with instant launches to
-                        match filenames in the data listing with a quick launch.
-                    </Typography>
-                    <Paper>
-                        <InstantLaunchMapping />
-                    </Paper>
+                    <InstantLaunchMapping />
                 </div>
             </div>
         );
@@ -151,5 +104,5 @@ export default function InstantLaunchesAdmin() {
 }
 
 InstantLaunchesAdmin.getInitialProps = async () => ({
-    namespacesRequired: ["instantlaunches"],
+    namespacesRequired: ["instantlaunches", "common"],
 });

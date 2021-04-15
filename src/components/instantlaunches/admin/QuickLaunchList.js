@@ -26,7 +26,12 @@ import {
     TableRow,
     TableBody,
 } from "@material-ui/core";
+
+import { Add as AddIcon } from "@material-ui/icons";
+
 import { useTranslation } from "i18n";
+
+import { shortenUsername } from "./functions";
 
 const promoteQuickLaunch = async (quicklaunch) =>
     await addInstantLaunch(quicklaunch.id);
@@ -38,7 +43,7 @@ const isInInstantLaunch = (qlID, instantlaunches) => {
 
 const QuickLaunchList = ({ showErrorAnnouncer }) => {
     const baseID = "quickLaunchList";
-    const { t } = useTranslation("instantlaunches");
+    const { t } = useTranslation(["instantlaunches", "common"]);
 
     const allQL = useQuery(
         LIST_PUBLIC_QUICK_LAUNCHES_KEY,
@@ -75,7 +80,7 @@ const QuickLaunchList = ({ showErrorAnnouncer }) => {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>{t("name")}</TableCell>
+                                <TableCell>{t("common:name")}</TableCell>
                                 <TableCell>{t("createdBy")}</TableCell>
                                 <TableCell></TableCell>
                             </TableRow>
@@ -85,7 +90,9 @@ const QuickLaunchList = ({ showErrorAnnouncer }) => {
                                 return (
                                     <TableRow key={row.id}>
                                         <TableCell>{row.name}</TableCell>
-                                        <TableCell>{row.creator}</TableCell>
+                                        <TableCell>
+                                            {shortenUsername(row.creator)}
+                                        </TableCell>
                                         {isInInstantLaunch(
                                             row.id,
                                             allILs.data.instant_launches
@@ -94,13 +101,15 @@ const QuickLaunchList = ({ showErrorAnnouncer }) => {
                                         ) : (
                                             <TableCell>
                                                 <Button
+                                                    variant="contained"
+                                                    startIcon={<AddIcon />}
                                                     onClick={(event) => {
                                                         event.stopPropagation();
                                                         event.preventDefault();
                                                         promote(row);
                                                     }}
                                                 >
-                                                    {t("createInstantLaunch")}
+                                                    {t("common:create")}
                                                 </Button>
                                             </TableCell>
                                         )}

@@ -32,18 +32,31 @@ import {
     makeStyles,
     MenuItem,
     Typography,
+    IconButton,
 } from "@material-ui/core";
+
+import { Add as AddIcon, Delete as DeleteIcon } from "@material-ui/icons";
+
 import { useTranslation } from "i18n";
 import { useFormik } from "formik";
 
 const useStyles = makeStyles((theme) => ({
     title: {
+        paddingTop: theme.spacing(2),
+    },
+    text: {
+        marginLeft: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+    },
+    sectionTitle: {
         marginTop: theme.spacing(5),
-        marginBottom: theme.spacing(1),
-        marginLeft: theme.spacing(1),
+        marginBottom: theme.spacing(2),
     },
     flexContainer: {
-        margin: `0 5px 20px 5px`,
+        marginTop: 0,
+        marginLeft: theme.spacing(1),
+        marginBottom: theme.spacing(4),
+        marginRight: theme.spacing(2),
         display: "flex",
 
         "& .MuiTextField-root": {
@@ -52,7 +65,13 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     flexItem: {
-        margin: `0 10px`,
+        marginTop: 0,
+        marginBottom: 0,
+        marginRight: theme.spacing(2),
+        marginLeft: theme.spacing(2),
+    },
+    submitButton: {
+        height: theme.spacing(5),
     },
 }));
 
@@ -74,7 +93,7 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches }) => {
             <TextField
                 id="mappingName"
                 name="mappingName"
-                label={t("name")}
+                label={t("common:name")}
                 className={classes.flexItem}
                 value={formik.values.mappingName}
                 onChange={formik.handleChange}
@@ -130,8 +149,14 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches }) => {
                 })}
             </TextField>
 
-            <Button type="submit" variant="contained" color="primary">
-                {t("addMapping")}
+            <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                startIcon={<AddIcon />}
+                className={`${classes.submitButton} ${classes.flexItem}`}
+            >
+                {t("common:add")}
             </Button>
         </form>
     );
@@ -142,7 +167,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
 
     const classes = useStyles();
 
-    const { t } = useTranslation("instantlaunches");
+    const { t } = useTranslation(["instantlaunches", "common"]);
 
     const defaultsMapping = useQuery(
         DEFAULTS_MAPPING_QUERY_KEY,
@@ -244,10 +269,25 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                     baseId={baseID}
                 />
             ) : (
-                <div>
-                    <Typography variant="h4" className={classes.title}>
+                <Paper>
+                    <Typography
+                        variant="h5"
+                        className={`${classes.title} ${classes.text}`}
+                    >
+                        {t("dataMapping")}
+                    </Typography>
+
+                    <Typography variant="body2" className={classes.text}>
+                        {t("mappingDescription")}
+                    </Typography>
+
+                    <Typography
+                        variant="h6"
+                        className={`${classes.sectionTitle} ${classes.text}`}
+                    >
                         {t("addToMapping")}
                     </Typography>
+
                     <AddMappingForm
                         handleSubmit={handleSubmit}
                         mapping={defaultsMapping}
@@ -255,14 +295,18 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                         t={t}
                     />
 
-                    <Typography variant="h4" className={classes.title}>
+                    <Typography
+                        variant="h6"
+                        className={`${classes.sectionTitle} ${classes.text}`}
+                    >
                         {t("displayMapping")}
                     </Typography>
-                    <TableContainer component={Paper}>
+
+                    <TableContainer>
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>{t("name")}</TableCell>
+                                    <TableCell>{t("common:name")}</TableCell>
                                     <TableCell>{t("patternKind")}</TableCell>
                                     <TableCell>{t("pattern")}</TableCell>
                                     <TableCell>{t("quickLaunch")}</TableCell>
@@ -294,9 +338,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                                                 </TableCell>
 
                                                 <TableCell>
-                                                    <Button
-                                                        variant="contained"
-                                                        color="primary"
+                                                    <IconButton
                                                         onClick={(event) => {
                                                             event.stopPropagation();
                                                             event.preventDefault();
@@ -304,8 +346,8 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                                                             deleteEntry(index);
                                                         }}
                                                     >
-                                                        {t("delete")}
-                                                    </Button>
+                                                        <DeleteIcon />
+                                                    </IconButton>
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -313,7 +355,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </div>
+                </Paper>
             )}
         </div>
     );

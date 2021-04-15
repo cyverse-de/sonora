@@ -11,6 +11,11 @@ import { useQuery, queryCache } from "react-query";
 import Link from "next/link";
 import { useTranslation } from "i18n";
 
+import {
+    AnnouncerConstants,
+    announce,
+} from "@cyverse-de/ui-lib";
+
 import DELink from "components/utils/DELink";
 
 import constants from "../../../constants";
@@ -25,6 +30,8 @@ import {
 } from "serviceFacades/filesystem";
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
 
+import NavigationConstants from "common/NavigationConstants";
+
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import dataFields from "components/data/dataFields";
 import ResourceIcon from "components/data/listing/ResourceIcon";
@@ -32,6 +39,9 @@ import { useDataNavigationLink } from "components/data/utils";
 
 import DetailsDrawer from "components/data/details/Drawer";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import { getHost } from "components/utils/getHost";
+import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
+import CopyLinkButton from "components/utils/CopyLinkButton";
 
 import { IconButton, Typography } from "@material-ui/core";
 import { Info } from "@material-ui/icons";
@@ -168,13 +178,45 @@ function DataSearchResults(props) {
                 Cell: ({ row }) => {
                     const original = row?.original;
                     return (
-                        <IconButton
-                            onClick={() => setDetailsResource(original)}
-                            size="small"
-                            color="primary"
-                        >
-                            <Info fontSize="small" />
-                        </IconButton>
+                        <>
+                            <IconButton
+                                onClick={() => setDetailsResource(original)}
+                                size="small"
+                                color="primary"
+                            >
+                                <Info fontSize="small" />
+                            </IconButton>
+                            <CopyLinkButton
+                                onCopyLinkSelected={() => {
+                                    const link = `${getHost()}/${
+                                        NavigationConstants.DATA
+                                    }/${constants.DATA_STORE_STORAGE_ID}${
+                                        original?._source.path
+                                    }?type=${original?._type}&resourceId=${
+                                        original?._id
+                                    }`;
+                                    const copyPromise = copyStringToClipboard(
+                                        link
+                                    );
+                                    copyPromise.then(
+                                        () => {
+                                            announce({
+                                                text: t("linkCopied"),
+                                                variant:
+                                                    AnnouncerConstants.SUCCESS,
+                                            });
+                                        },
+                                        () => {
+                                            announce({
+                                                text: t("linkCopyFailed"),
+                                                variant:
+                                                    AnnouncerConstants.ERROR,
+                                            });
+                                        }
+                                    );
+                                }}
+                            />
+                        </>
                     );
                 },
                 disableSortBy: true,

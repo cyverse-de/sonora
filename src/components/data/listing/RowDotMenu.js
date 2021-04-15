@@ -14,16 +14,12 @@ import RenameMenuItem from "../menuItems/RenameMenuItem";
 import MoveMenuItem from "../menuItems/MoveMenuItem";
 import CopyLinkMenuItem from "components/utils/CopyLinkMenuItem";
 import SharingMenuItem from "../../sharing/SharingMenuItem";
-import {
-    hasOwn,
-    containsFolders,
-    isWritable,
- } from "../utils";
+import { hasOwn, containsFolders, isWritable } from "../utils";
 import NavigationConstants from "common/NavigationConstants";
 import constants from "../../../constants";
 import { getHost } from "components/utils/getHost";
 import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
-import {copyLinkToClipboardHandler} from "components/utils/copyLinkToClipboardHandler";
+import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
 import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";

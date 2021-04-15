@@ -6,12 +6,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import {
-    AnnouncerConstants,
-    announce,
-    build,
-    DotMenu,
-} from "@cyverse-de/ui-lib";
+import { build, DotMenu } from "@cyverse-de/ui-lib";
 
 import ids from "../ids";
 import { isWritable } from "../utils";

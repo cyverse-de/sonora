@@ -1,3 +1,5 @@
+import { formatDistance, fromUnixTime } from "date-fns";
+
 import NotificationCategory from "../models/NotificationCategory";
 import { groupShortName } from "../teams/util";
 
@@ -32,4 +34,16 @@ export function isViceNotification(notification) {
         NotificationCategory.ANALYSIS.toLowerCase() === message?.type &&
         message?.payload?.interactive_urls?.length > 0
     );
+}
+
+/*
+ * Takes in a notification object and returns the time
+ * stamp of the notification in 'pretty format'
+ */
+export function getTimeStamp(timestamp) {
+    if (timestamp) {
+        // slicing because time has extra zeroes in the unix string
+        const d = fromUnixTime(timestamp.slice(0, -3));
+        return formatDistance(d, new Date());
+    }
 }

@@ -16,7 +16,6 @@ import DoneAllIcon from "@material-ui/icons/DoneAll";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import { Skeleton } from "@material-ui/lab";
 import classnames from "classnames";
-import { formatDistance, fromUnixTime } from "date-fns";
 import Link from "next/link";
 
 import NavigationConstants from "common/NavigationConstants";
@@ -25,20 +24,9 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 import Message from "./Message";
 import styles from "./styles";
+import { getTimeStamp } from "./utils";
 
 const useStyles = makeStyles(styles);
-
-/*
- * Takes in a notification object and returns the time
- * stamp of the notification in 'pretty format'
- */
-function getTimeStamp(timestamp) {
-    if (timestamp) {
-        // slicing because time has extra zeroes in the unix string
-        const d = fromUnixTime(timestamp.slice(0, -3));
-        return formatDistance(d, new Date());
-    }
-}
 
 const NotificationsListingButton = React.forwardRef((props, ref) => {
     const { isMobile, handleClose, href, onClick } = props;

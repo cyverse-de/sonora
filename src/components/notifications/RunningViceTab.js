@@ -1,7 +1,13 @@
 import React from "react";
 
 import { build } from "@cyverse-de/ui-lib";
-import { List, ListItem, ListItemIcon, Typography } from "@material-ui/core";
+import {
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Typography,
+} from "@material-ui/core";
 import { Web } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 
@@ -9,6 +15,7 @@ import { openInteractiveUrl } from "components/analyses/utils";
 import DELink from "components/utils/DELink";
 import { useTranslation } from "i18n";
 import ids from "./ids";
+import { getTimeStamp } from "./utils";
 
 function RunningViceTab(props) {
     const { baseId, handleClose, runningViceJobs, isFetching } = props;
@@ -37,15 +44,21 @@ function RunningViceTab(props) {
                         <ListItemIcon>
                             <Web />
                         </ListItemIcon>
-                        <DELink
-                            onClick={() => {
-                                const accessUrl = analysis.interactive_urls[0];
-                                openInteractiveUrl(accessUrl);
-                                handleClose();
-                            }}
-                            id={build(baseId, analysis.id)}
-                            key={analysis.id}
-                            text={analysis.name}
+                        <ListItemText
+                            primary={
+                                <DELink
+                                    onClick={() => {
+                                        const accessUrl =
+                                            analysis.interactive_urls[0];
+                                        openInteractiveUrl(accessUrl);
+                                        handleClose();
+                                    }}
+                                    id={build(baseId, analysis.id)}
+                                    key={analysis.id}
+                                    text={analysis.name}
+                                />
+                            }
+                            secondary={getTimeStamp(analysis.startdate)}
                         />
                     </ListItem>
                 ))}

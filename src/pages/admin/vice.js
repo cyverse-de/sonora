@@ -462,6 +462,7 @@ const VICEAdmin = () => {
                 tabId={id(ids.USER_ANALYSES_TAB)}
                 value={TABS.analyses}
                 selectedTab={selectedTab}
+                showDivider={false}
             >
                 {isLoading ? (
                     <VICEAdminSkeleton />
@@ -484,6 +485,7 @@ const VICEAdmin = () => {
                 tabID={id(ids.INSTANT_LAUNCHES_TAB)}
                 value={TABS.instantLaunches}
                 selectedTab={selectedTab}
+                showDivider={false}
             >
                 <InstantLaunchList />
             </DETabPanel>
@@ -492,6 +494,7 @@ const VICEAdmin = () => {
                 tabId={id(ids.DATA_MAPPING_TAB)}
                 value={TABS.dataMapping}
                 selectedTab={selectedTab}
+                showDivider={false}
             >
                 <InstantLaunchMapping />
             </DETabPanel>

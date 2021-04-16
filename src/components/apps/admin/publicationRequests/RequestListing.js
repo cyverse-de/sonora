@@ -15,7 +15,7 @@ import DEDialog from "components/utils/DEDialog";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
 import ids from "../../ids";
-import constants from "../../constants";
+import constants from "../../../../constants";
 
 import {
     Button,
@@ -73,7 +73,7 @@ const toolColumnData = (t) => [
     { name: t("tag"), align: "left", enableSorting: false, id: "tag" },
 ];
 function ToolsUsed(props) {
-    const { tools, appName, parentId } = props;
+    const { tools, appName } = props;
     const [toolsDialogOpen, setToolsDialogOpen] = useState(false);
     const { t } = useTranslation("tools");
     return (
@@ -223,10 +223,6 @@ function AppPublicationRequests(props) {
                                         <ToolsUsed
                                             tools={request.app.tools}
                                             appName={request.app.name}
-                                            parentId={build(
-                                                parentId,
-                                                request.id
-                                            )}
                                         />
                                     </TableCell>
                                     <TableCell>

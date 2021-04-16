@@ -55,6 +55,7 @@
     "repeatOptionFlag": "Repeat \"Argument option\" for each filename",
     "sectionLabel": "Section Label",
     "selectParameter": "Select Parameter",
+    "selectParameterDialogSubtitle": "Tap the blue icon to the right of each item to display more information about that parameter type.",
     "selectTool": "Select Tool",
     "textNumericalInputCategoryTitle": "Text/Numerical Input",
     "toolUsed": "Tool used",

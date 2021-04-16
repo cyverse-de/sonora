@@ -17,7 +17,6 @@ export default function CopyLinkMenuItem(props) {
 
     return (
         <MenuItem
-            key={build(baseId, ids.COPY_LINK_MENU_ITEM)}
             id={build(baseId, ids.COPY_LINK_MENU_ITEM)}
             onClick={() => {
                 onClose();

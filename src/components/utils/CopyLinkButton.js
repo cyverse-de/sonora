@@ -11,7 +11,7 @@ import { IconButton, Tooltip } from "@material-ui/core";
 import { FileCopy } from "@material-ui/icons";
 import ids from "./ids";
 
-export default function CopyLinkMenuItem(props) {
+export default function CopyLinkButton(props) {
     const { baseId, onCopyLinkSelected } = props;
     const { t } = useTranslation("util");
 

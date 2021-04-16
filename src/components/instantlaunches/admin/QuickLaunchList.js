@@ -30,8 +30,10 @@ import {
 import { Add as AddIcon } from "@material-ui/icons";
 
 import { useTranslation } from "i18n";
+import { build as buildID } from "@cyverse-de/ui-lib";
+import ids from "components/instantlaunches/ids";
 
-import { shortenUsername } from "./functions";
+import { shortenUsername } from "../functions";
 
 const promoteQuickLaunch = async (quicklaunch) =>
     await addInstantLaunch(quicklaunch.id);
@@ -42,7 +44,7 @@ const isInInstantLaunch = (qlID, instantlaunches) => {
 };
 
 const QuickLaunchList = ({ showErrorAnnouncer }) => {
-    const baseID = "quickLaunchList";
+    const baseID = buildID(ids.BASE, ids.QL, ids.LIST);
     const { t } = useTranslation(["instantlaunches", "common"]);
 
     const allQL = useQuery(
@@ -69,6 +71,7 @@ const QuickLaunchList = ({ showErrorAnnouncer }) => {
                     animation="wave"
                     height={300}
                     width="100%"
+                    ids={buildID(baseID, ids.SKELETON)}
                 />
             ) : isError ? (
                 <WrappedErrorHandler
@@ -77,7 +80,7 @@ const QuickLaunchList = ({ showErrorAnnouncer }) => {
                 />
             ) : (
                 <TableContainer component={Paper}>
-                    <Table>
+                    <Table id={buildID(baseID, ids.TABLE)}>
                         <TableHead>
                             <TableRow>
                                 <TableCell>{t("common:name")}</TableCell>
@@ -86,21 +89,44 @@ const QuickLaunchList = ({ showErrorAnnouncer }) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {allQL.data.map((row) => {
+                            {allQL.data.map((row, index) => {
+                                const rowID = buildID(
+                                    baseID,
+                                    ids.TABLE,
+                                    ids.ROW,
+                                    index
+                                );
                                 return (
-                                    <TableRow key={row.id}>
-                                        <TableCell>{row.name}</TableCell>
-                                        <TableCell>
+                                    <TableRow key={row.id} id={rowID}>
+                                        <TableCell
+                                            id={buildID(rowID, ids.NAME)}
+                                        >
+                                            {row.name}
+                                        </TableCell>
+
+                                        <TableCell
+                                            id={buildID(rowID, ids.CREATOR)}
+                                        >
                                             {shortenUsername(row.creator)}
                                         </TableCell>
+
                                         {isInInstantLaunch(
                                             row.id,
                                             allILs.data.instant_launches
                                         ) ? (
-                                            <TableCell />
+                                            <TableCell
+                                                id={buildID(rowID, ids.ADD)}
+                                            />
                                         ) : (
-                                            <TableCell>
+                                            <TableCell
+                                                id={buildID(rowID, ids.ADD)}
+                                            >
                                                 <Button
+                                                    id={buildID(
+                                                        rowID,
+                                                        ids.ADD,
+                                                        ids.BUTTON
+                                                    )}
                                                     variant="contained"
                                                     startIcon={<AddIcon />}
                                                     onClick={(event) => {

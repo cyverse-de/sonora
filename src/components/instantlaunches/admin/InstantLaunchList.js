@@ -20,6 +20,9 @@ import { Skeleton } from "@material-ui/lab";
 
 import { format as formatDate } from "date-fns";
 
+import { build as buildID } from "@cyverse-de/ui-lib";
+import ids from "components/instantlaunches/ids";
+
 import {
     Button,
     Dialog,
@@ -47,7 +50,7 @@ import {
 import { useTranslation } from "i18n";
 import { validateForDashboard } from "components/instantlaunches";
 
-import { shortenUsername } from "./functions";
+import { shortenUsername } from "../functions";
 
 import QuickLaunchList from "./QuickLaunchList";
 
@@ -145,9 +148,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CreationDialog = ({ t, open, onClose }) => {
+    const createID = buildID(ids.BASE, ids.CREATE, ids.DIALOG);
+    const titleID = buildID(createID, ids.TITLE);
+    const closeID = buildID(createID, ids.CLOSE, ids.BUTTON);
+
     return (
-        <Dialog open={open} onClose={onClose}>
-            <DialogTitle>{t("createInstantLaunch")}</DialogTitle>
+        <Dialog open={open} onClose={onClose} id={createID}>
+            <DialogTitle id={titleID}>{t("createInstantLaunch")}</DialogTitle>
 
             <DialogContent>
                 <QuickLaunchList />
@@ -159,6 +166,7 @@ const CreationDialog = ({ t, open, onClose }) => {
                     startIcon={<CloseIcon />}
                     color="primary"
                     onClick={onClose}
+                    id={closeID}
                 >
                     {t("common:close")}
                 </Button>
@@ -172,7 +180,9 @@ const CreationDialog = ({ t, open, onClose }) => {
  * deleted, or added to the dashboard.
  */
 const InstantLaunchList = ({ showErrorAnnouncer }) => {
-    const baseID = "instantlaunchlist";
+    const baseID = buildID(ids.BASE, ids.LIST);
+    const skeletonID = buildID(baseID, ids.SKELETON);
+
     const { t } = useTranslation("instantlaunches");
     const classes = useStyles();
 
@@ -224,6 +234,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                     animation="wave"
                     height={300}
                     width="100%"
+                    id={skeletonID}
                 />
             ) : isError ? (
                 <WrappedErrorHandler
@@ -248,6 +259,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                             <Typography variant="h5" component="span">
                                 {t("currentInstantLaunches")}
                             </Typography>
+
                             <Button
                                 variant="contained"
                                 color="primary"
@@ -259,6 +271,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
 
                                     setDlgOpen(true);
                                 }}
+                                id={buildID(baseID, ids.ADD, ids.BUTTON)}
                             >
                                 {t("common:new")}
                             </Button>
@@ -282,70 +295,131 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {allILs.data.instant_launches.map((il) => {
-                                    const addedOn = Date.parse(il.added_on);
-                                    return (
-                                        <TableRow key={il.id}>
-                                            <TableCell>
-                                                {il.quick_launch_name}
-                                            </TableCell>
-
-                                            <TableCell>
-                                                {shortenUsername(il.added_by)}
-                                            </TableCell>
-
-                                            <TableCell>
-                                                {formatDate(
-                                                    addedOn,
-                                                    "yyyy-MM-dd pppp"
-                                                )}
-                                            </TableCell>
-
-                                            <TableCell>
-                                                {isInDashboard(
-                                                    il.id,
-                                                    dashboardILs.data
-                                                        .instant_launches
-                                                ) ? (
-                                                    <Button
-                                                        onClick={(event) => {
-                                                            event.stopPropagation();
-                                                            event.preventDefault();
-                                                            removeFromDash(
-                                                                il.id
-                                                            );
-                                                        }}
-                                                    >
-                                                        {t(
-                                                            "removeFromDashboard"
-                                                        )}
-                                                    </Button>
-                                                ) : (
-                                                    <Button
-                                                        onClick={(event) => {
-                                                            event.stopPropagation();
-                                                            event.preventDefault();
-                                                            addToDash(il, t);
-                                                        }}
-                                                    >
-                                                        {t("addToDashboard")}
-                                                    </Button>
-                                                )}
-                                            </TableCell>
-                                            <TableCell>
-                                                <IconButton
-                                                    onClick={(event) => {
-                                                        event.stopPropagation();
-                                                        event.preventDefault();
-                                                        deleteIL(il.id);
-                                                    }}
+                                {allILs.data.instant_launches.map(
+                                    (il, index) => {
+                                        const addedOn = Date.parse(il.added_on);
+                                        const rowID = buildID(
+                                            baseID,
+                                            ids.TABLE,
+                                            ids.ROW,
+                                            index
+                                        );
+                                        return (
+                                            <TableRow key={il.id} id={rowID}>
+                                                <TableCell
+                                                    id={buildID(
+                                                        rowID,
+                                                        ids.NAME
+                                                    )}
                                                 >
-                                                    <DeleteIcon />
-                                                </IconButton>
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
+                                                    {il.quick_launch_name}
+                                                </TableCell>
+
+                                                <TableCell
+                                                    id={buildID(
+                                                        rowID,
+                                                        ids.ADDED_BY
+                                                    )}
+                                                >
+                                                    {shortenUsername(
+                                                        il.added_by
+                                                    )}
+                                                </TableCell>
+
+                                                <TableCell
+                                                    id={buildID(
+                                                        rowID,
+                                                        ids.ADDED_BY
+                                                    )}
+                                                >
+                                                    {formatDate(
+                                                        addedOn,
+                                                        "yyyy-MM-dd pppp"
+                                                    )}
+                                                </TableCell>
+
+                                                <TableCell
+                                                    id={buildID(
+                                                        rowID,
+                                                        ids.DASH
+                                                    )}
+                                                >
+                                                    {isInDashboard(
+                                                        il.id,
+                                                        dashboardILs.data
+                                                            .instant_launches
+                                                    ) ? (
+                                                        <Button
+                                                            onClick={(
+                                                                event
+                                                            ) => {
+                                                                event.stopPropagation();
+                                                                event.preventDefault();
+                                                                removeFromDash(
+                                                                    il.id
+                                                                );
+                                                            }}
+                                                            id={buildID(
+                                                                rowID,
+                                                                ids.DASH,
+                                                                ids.RM_DASH,
+                                                                ids.BUTTON
+                                                            )}
+                                                        >
+                                                            {t(
+                                                                "removeFromDashboard"
+                                                            )}
+                                                        </Button>
+                                                    ) : (
+                                                        <Button
+                                                            onClick={(
+                                                                event
+                                                            ) => {
+                                                                event.stopPropagation();
+                                                                event.preventDefault();
+                                                                addToDash(
+                                                                    il,
+                                                                    t
+                                                                );
+                                                            }}
+                                                            id={buildID(
+                                                                rowID,
+                                                                ids.DASH,
+                                                                ids.ADD_DASH,
+                                                                ids.BUTTON
+                                                            )}
+                                                        >
+                                                            {t(
+                                                                "addToDashboard"
+                                                            )}
+                                                        </Button>
+                                                    )}
+                                                </TableCell>
+                                                <TableCell
+                                                    id={buildID(
+                                                        rowID,
+                                                        ids.DELETE
+                                                    )}
+                                                >
+                                                    <IconButton
+                                                        onClick={(event) => {
+                                                            event.stopPropagation();
+                                                            event.preventDefault();
+                                                            deleteIL(il.id);
+                                                        }}
+                                                        id={buildID(
+                                                            rowID,
+                                                            ids.DELETE,
+                                                            ids.BUTTON
+                                                        )}
+                                                    >
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    }
+                                )}
                             </TableBody>
                         </Table>
                     </TableContainer>

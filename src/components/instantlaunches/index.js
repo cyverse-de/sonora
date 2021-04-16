@@ -24,6 +24,9 @@ import { useRouter } from "next/router";
 import constants from "../../constants";
 import { useTranslation } from "i18n";
 
+import { build as buildID } from "@cyverse-de/ui-lib";
+import ids from "components/instantlaunches/ids";
+
 const inputParamTypes = [
     launchConstants.FILE_INPUT,
     launchConstants.FOLDER_INPUT,
@@ -218,6 +221,7 @@ const useStyles = makeStyles((theme) => ({
  * @param {boolean} props.open - Whether or not the dialog is open.
  */
 export const InstantLaunchSubmissionDialog = ({ open }) => {
+    const baseID = buildID(ids.BASE, ids.SUBMISSION, ids.DIALOG);
     const { t } = useTranslation("instantlaunches");
     const classes = useStyles();
 
@@ -228,11 +232,17 @@ export const InstantLaunchSubmissionDialog = ({ open }) => {
                 event.stopPropagation();
                 event.preventDefault();
             }}
+            id={baseID}
         >
-            <DialogTitle>{t("submittingInstantLaunch")}</DialogTitle>
+            <DialogTitle id={buildID(baseID, ids.TITLE)}>
+                {t("submittingInstantLaunch")}
+            </DialogTitle>
 
             <DialogContent>
-                <div className={classes.progress}>
+                <div
+                    className={classes.progress}
+                    id={buildID(baseID, ids.PROGRESS)}
+                >
                     <LinearProgress />
                 </div>
 
@@ -261,11 +271,13 @@ const InstantLaunchButton = ({
     resource = {},
     showErrorAnnouncer,
 }) => {
+    const baseID = buildID(ids.BASE, ids.LAUNCH, ids.BUTTON);
     const router = useRouter();
     const [open, setOpen] = React.useState(false);
 
     return (
         <IconButton
+            id={baseID}
             variant="contained"
             onClick={async (event) => {
                 event.stopPropagation();

@@ -19,7 +19,9 @@ import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 
 import { Skeleton } from "@material-ui/lab";
 
-import uuid from "uuid";
+import ids from "components/instantlaunches/ids";
+
+import { build as buildID } from "@cyverse-de/ui-lib";
 
 import {
     Button,
@@ -78,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddMappingForm = ({ t, handleSubmit, instantlaunches }) => {
+    const baseID = buildID(ids.BASE, ids.MAPPING, ids.ADD, ids.FORM);
     const classes = useStyles();
 
     const formik = useFormik({
@@ -91,9 +94,13 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches }) => {
     });
 
     return (
-        <form onSubmit={formik.handleSubmit} className={classes.flexContainer}>
+        <form
+            onSubmit={formik.handleSubmit}
+            className={classes.flexContainer}
+            id={baseID}
+        >
             <TextField
-                id="mappingName"
+                id={buildID(baseID, ids.NAME)}
                 name="mappingName"
                 label={t("common:name")}
                 className={classes.flexItem}
@@ -108,22 +115,43 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches }) => {
             <TextField
                 value={formik.values.patternKind}
                 onChange={formik.handleChange}
-                id="patternKind"
+                id={buildID(baseID, ids.PATTERN, ids.KIND, ids.MENU)}
                 name="patternKind"
                 label={t("patternKind")}
                 className={classes.flexItem}
                 select
             >
-                <MenuItem value="glob" key="glob">
+                <MenuItem
+                    value="glob"
+                    key="glob"
+                    id={buildID(
+                        baseID,
+                        ids.PATTERN,
+                        ids.KIND,
+                        ids.MENU,
+                        ids.GLOB
+                    )}
+                >
                     {t("glob")}
                 </MenuItem>
-                <MenuItem value="infoType" key="infoType">
+
+                <MenuItem
+                    value="infoType"
+                    key="infoType"
+                    id={buildID(
+                        baseID,
+                        ids.PATTERN,
+                        ids.KIND,
+                        ids.MENU,
+                        ids.INFO_TYPE
+                    )}
+                >
                     {t("infoType")}
                 </MenuItem>
             </TextField>
 
             <TextField
-                id="pattern"
+                id={buildID(baseID, ids.PATTERN)}
                 name="pattern"
                 label={t("pattern")}
                 value={formik.values.pattern}
@@ -134,9 +162,9 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches }) => {
             />
 
             <TextField
+                id={buildID(baseID, ids.BASE, ids.MENU)}
                 value={formik.values.instantLaunch}
                 onChange={formik.handleChange}
-                id="instantLaunch"
                 name="instantLaunch"
                 label={t("instantLaunch")}
                 className={classes.flexItem}
@@ -144,7 +172,11 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches }) => {
             >
                 {instantlaunches.map((il, index) => {
                     return (
-                        <MenuItem value={index} key={il.id}>
+                        <MenuItem
+                            value={index}
+                            key={il.id}
+                            id={buildID(baseID, ids.BASE, ids.MENU, index)}
+                        >
                             {il.quick_launch_name}
                         </MenuItem>
                     );
@@ -157,6 +189,7 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches }) => {
                 color="primary"
                 startIcon={<AddIcon />}
                 className={`${classes.submitButton} ${classes.flexItem}`}
+                id={buildID(baseID, ids.ADD, ids.BUTTON)}
             >
                 {t("common:add")}
             </Button>
@@ -165,7 +198,7 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches }) => {
 };
 
 const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
-    const baseID = "instantLaunchMappingEditor";
+    const baseID = buildID(ids.BASE, ids.MAPPING, ids.EDITOR);
 
     const classes = useStyles();
 
@@ -273,6 +306,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                     animation="wave"
                     height={300}
                     width="100%"
+                    id={buildID(baseID, ids.SKELETON)}
                 />
             ) : isError ? (
                 <WrappedErrorHandler
@@ -318,7 +352,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                     </Typography>
 
                     <TableContainer>
-                        <Table>
+                        <Table id={buildID(baseID, ids.TABLE)}>
                             <TableHead>
                                 <TableRow>
                                     <TableCell>{t("common:name")}</TableCell>
@@ -333,6 +367,12 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                                     Object.entries(
                                         defaultsMapping.data.mapping
                                     ).map(([name, patternObj], index) => {
+                                        const rowID = buildID(
+                                            baseID,
+                                            ids.TABLE,
+                                            ids.ROW,
+                                            index
+                                        );
                                         const foundQL = allQL.data.find(
                                             (ql) =>
                                                 ql.id ===
@@ -343,21 +383,50 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                                             foundQL?.name ||
                                             patternObj.default.quick_launch_id;
                                         return (
-                                            <TableRow key={uuid.v4()}>
+                                            <TableRow key={index} id={rowID}>
                                                 <TableCell>{name}</TableCell>
 
-                                                <TableCell>
+                                                <TableCell
+                                                    id={buildID(
+                                                        rowID,
+                                                        ids.PATTERN,
+                                                        ids.KIND
+                                                    )}
+                                                >
                                                     {patternObj.kind}
                                                 </TableCell>
 
-                                                <TableCell>
+                                                <TableCell
+                                                    id={buildID(
+                                                        rowID,
+                                                        ids.PATTERN
+                                                    )}
+                                                >
                                                     {patternObj.pattern}
                                                 </TableCell>
 
-                                                <TableCell>{qlLabel}</TableCell>
+                                                <TableCell
+                                                    id={buildID(
+                                                        rowID,
+                                                        ids.PATTERN,
+                                                        ids.NAME
+                                                    )}
+                                                >
+                                                    {qlLabel}
+                                                </TableCell>
 
-                                                <TableCell>
+                                                <TableCell
+                                                    id={buildID(
+                                                        rowID,
+                                                        ids.DELETE
+                                                    )}
+                                                >
                                                     <IconButton
+                                                        id={buildID(
+                                                            rowID,
+                                                            ids.DELETE,
+                                                            ids.BUTTON
+                                                        )}
                                                         onClick={(event) => {
                                                             event.stopPropagation();
                                                             event.preventDefault();

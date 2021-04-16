@@ -20,4 +20,5 @@ export default {
     SEARCH_INPUT_FILED: "searchInput",
     TABLE_VIEW: "tableView",
     VIEW_ALL: "viewAll",
+    COPY_PATH_BUTTON: "copyPathButton",
 };

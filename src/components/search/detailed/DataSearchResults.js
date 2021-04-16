@@ -11,12 +11,15 @@ import { useQuery, queryCache } from "react-query";
 import Link from "next/link";
 import { useTranslation } from "i18n";
 
+import { AnnouncerConstants, announce, build } from "@cyverse-de/ui-lib";
+
 import DELink from "components/utils/DELink";
 
 import constants from "../../../constants";
 import SearchResultsTable from "./SearchResultsTable";
 import { useDataSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
+import ids from "../ids";
 
 import {
     DATA_SEARCH_QUERY_KEY,
@@ -39,8 +42,8 @@ import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
 import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
 import CopyLinkButton from "components/utils/CopyLinkButton";
 
-import { IconButton, Typography, Grid } from "@material-ui/core";
-import { Info } from "@material-ui/icons";
+import { IconButton, Tooltip, Typography, Grid } from "@material-ui/core";
+import { Info, Label } from "@material-ui/icons";
 
 function Name(props) {
     const { resource, searchTerm } = props;
@@ -53,6 +56,25 @@ function Name(props) {
         <Link href={href} as={as} passHref>
             <DELink text={resource._source?.label} searchTerm={searchTerm} />
         </Link>
+    );
+}
+
+function CopyPathButton(props) {
+    const { baseId, onCopyPathSelected } = props;
+    const { t } = useTranslation("data");
+
+    return (
+        <Tooltip title={t("copyPath")} aria-label={t("copyPath")}>
+            <IconButton
+                id={build(baseId, ids.COPY_PATH_BUTTON)}
+                onClick={() => {
+                    onCopyPathSelected();
+                }}
+                size="small"
+            >
+                <Label fontSize="small" />
+            </IconButton>
+        </Tooltip>
     );
 }
 
@@ -173,7 +195,7 @@ function DataSearchResults(props) {
                 accessor: "actions",
                 Cell: ({ row }) => {
                     const original = row?.original;
-                    const { t } = useTranslation("common");
+                    const { t: i18nCommon } = useTranslation("common");
                     return (
                         <Grid spacing={1}>
                             <Grid item>
@@ -199,8 +221,37 @@ function DataSearchResults(props) {
                                             link
                                         );
                                         copyLinkToClipboardHandler(
-                                            t,
+                                            i18nCommon,
                                             copyPromise
+                                        );
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <CopyPathButton
+                                    onCopyPathSelected={() => {
+                                        const copyPromise = copyStringToClipboard(
+                                            original?._source.path
+                                        );
+                                        copyPromise.then(
+                                            () => {
+                                                announce({
+                                                    text: dataI18n(
+                                                        "pathCopied"
+                                                    ),
+                                                    variant:
+                                                        AnnouncerConstants.SUCCESS,
+                                                });
+                                            },
+                                            () => {
+                                                announce({
+                                                    text: dataI18n(
+                                                        "pathCopiedFailed"
+                                                    ),
+                                                    variant:
+                                                        AnnouncerConstants.ERROR,
+                                                });
+                                            }
                                         );
                                     }}
                                 />
@@ -211,7 +262,7 @@ function DataSearchResults(props) {
                 disableSortBy: true,
             },
         ],
-        [dataRecordFields, searchTerm]
+        [dataRecordFields, dataI18n, searchTerm]
     );
 
     if (error) {

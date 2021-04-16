@@ -16,7 +16,7 @@ import getData, {
     exit,
     VICE_ADMIN_QUERY_KEY,
 } from "../../../serviceFacades/vice/admin";
-import DETabPanel from "components/utils/DETabPanel";
+import { DETabPanel } from "components/utils/DETabs";
 
 import RowFilter from "./filter";
 import CollapsibleTable, { defineColumn, ExpanderColumn } from "./table";

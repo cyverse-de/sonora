@@ -5,11 +5,7 @@
  *
  **/
 import React from "react";
-import clsx from "clsx";
 import { useTranslation } from "i18n";
-import { useRouter } from "next/router";
-
-import { build } from "@cyverse-de/ui-lib";
 
 import DrawerItem from "./DrawerItem";
 import ids from "./ids";
@@ -18,33 +14,22 @@ import AnalysesIcon from "components/icons/AnalysesIcon";
 import DataIcon from "components/icons/DataIcon";
 import { TeamIcon } from "components/teams/Icons";
 import AdminDrawerItems from "./AdminDrawerItems";
-import {
-    Divider,
-    Hidden,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
-    Tooltip,
-} from "@material-ui/core";
+import { Divider, Hidden, List } from "@material-ui/core";
 import { useUserProfile } from "contexts/userProfile";
-import { makeStyles } from "@material-ui/core/styles";
 import AppsIcon from "@material-ui/icons/Apps";
 import HelpIcon from "@material-ui/icons/Help";
 import HomeIcon from "@material-ui/icons/Home";
-import LabelImportantIcon from "@material-ui/icons/LabelImportant";
+import ToolIcon from "@material-ui/icons/LabelImportant";
 import SearchIcon from "@material-ui/icons/Search";
 import SettingsIcon from "@material-ui/icons/Settings";
-import styles from "./styles";
+import { Web } from "@material-ui/icons";
+import { openInteractiveUrl } from "../analyses/utils";
 
-const useStyles = makeStyles(styles);
-
-export default function DrawerItems(props) {
+function DrawerItems(props) {
+    const { open, activeView, toggleDrawer, isXsDown, adminUser, runningViceJobs } = props;
     const { t } = useTranslation(["common"]);
-    const classes = useStyles();
     const [userProfile] = useUserProfile();
-    const router = useRouter();
-    const { open, activeView, toggleDrawer, isXsDown, adminUser } = props;
+
     return (
         <List style={{ overflowY: "auto", overflowX: "hidden" }}>
             <DrawerItem
@@ -78,21 +63,16 @@ export default function DrawerItems(props) {
                 icon={AppsIcon}
             />
             {open && (
-                <Tooltip title={t("tools")} placement="right" arrow>
-                    <ListItem
-                        button
-                        id={build(ids.DRAWER_MENU, ids.TOOLS_MI)}
-                        className={clsx(classes.nested, classes.listItem)}
-                        onClick={() =>
-                            router.push("/" + NavigationConstants.TOOLS)
-                        }
-                    >
-                        <ListItemIcon>
-                            <LabelImportantIcon className={classes.icon} />
-                        </ListItemIcon>
-                        <ListItemText>{t("tools")}</ListItemText>
-                    </ListItem>
-                </Tooltip>
+                <DrawerItem
+                    nested
+                    title={t("tools")}
+                    id={ids.TOOLS_MI}
+                    thisView={NavigationConstants.TOOLS}
+                    activeView={activeView}
+                    toggleDrawer={toggleDrawer}
+                    open={open}
+                    icon={ToolIcon}
+                />
             )}
             <DrawerItem
                 title={t("analyses")}
@@ -104,6 +84,22 @@ export default function DrawerItems(props) {
                 toggleDrawer={toggleDrawer}
                 open={open}
             />
+            {open &&
+                runningViceJobs?.map((analysis) => (
+                    <DrawerItem
+                        nested
+                        title={analysis.name}
+                        id={analysis.id}
+                        icon={Web}
+                        activeView={activeView}
+                        toggleDrawer={toggleDrawer}
+                        open={open}
+                        onClick={() => {
+                            const accessUrl = analysis.interactive_urls[0];
+                            openInteractiveUrl(accessUrl);
+                        }}
+                    />
+                ))}
             <DrawerItem
                 title={t("teams")}
                 id={ids.TEAMS_MI}
@@ -157,3 +153,5 @@ export default function DrawerItems(props) {
         </List>
     );
 }
+
+export default DrawerItems;

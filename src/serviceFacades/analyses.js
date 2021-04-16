@@ -1,6 +1,8 @@
 import callApi from "../common/callApi";
 
 import AnalysisStatus from "components/models/analysisStatus";
+import AppType from "components/models/AppType";
+import { useQuery } from "react-query";
 
 const ANALYSES_LISTING_QUERY_KEY = "fetchAnalysesListingKey";
 const ANALYSIS_HISTORY_QUERY_KEY = "fetchAnalysisHistoryKey";
@@ -9,11 +11,28 @@ const ANALYSIS_RELAUNCH_QUERY_KEY = "fetchAnalysisRelaunchKey";
 const ANALYSES_SEARCH_QUERY_KEY = "searchAnalysesKey";
 
 function getAnalyses(key, { rowsPerPage, orderBy, order, page, filter }) {
+    const params = {};
+
+    if (rowsPerPage) {
+        params["limit"] = rowsPerPage;
+    }
+    if (orderBy) {
+        params["sort-field"] = orderBy;
+    }
+    if (order) {
+        params["sort-dir"] = order.toUpperCase();
+    }
+    if (page) {
+        params["offset"] = rowsPerPage * page;
+    }
+    if (filter) {
+        params["filter"] = filter;
+    }
+
     return callApi({
-        endpoint: `/api/analyses?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
-            rowsPerPage * page
-        }&filter=[${filter}]`,
+        endpoint: "/api/analyses",
         method: "GET",
+        params,
     });
 }
 
@@ -77,6 +96,7 @@ function getAnalysisRelaunchInfo(key, { id }) {
         method: "GET",
     });
 }
+
 /**
  * Search Analyses
  * @param {string} key - react-query key
@@ -91,7 +111,7 @@ function searchAnalysesInfinite(
     return callApi({
         endpoint: `/api/analyses?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
             rowsPerPage * page
-        }&filter=[${filter}]`,
+        }&filter=${filter}`,
         method: "GET",
     });
 }
@@ -131,6 +151,30 @@ function getAnalysisPermissions({ analyses }) {
     });
 }
 
+const runningViceJobsFilter = [
+    { field: "status", value: AnalysisStatus.RUNNING },
+    { field: "type", value: AppType.interactive.value },
+    { field: "ownership", value: "mine" },
+];
+
+const RUNNING_VICE_JOBS_QUERY_KEY = [
+    ANALYSES_LISTING_QUERY_KEY,
+    { filter: JSON.stringify(runningViceJobsFilter) },
+];
+
+function useRunningViceJobs({ enabled, onSuccess, onError, ...rest }) {
+    return useQuery({
+        queryKey: RUNNING_VICE_JOBS_QUERY_KEY,
+        queryFn: getAnalyses,
+        config: {
+            enabled,
+            onSuccess,
+            onError,
+            ...rest,
+        },
+    });
+}
+
 export {
     cancelAnalyses,
     cancelAnalysis,
@@ -145,9 +189,11 @@ export {
     submitAnalysis,
     updateAnalysisComment,
     searchAnalysesInfinite,
+    useRunningViceJobs,
     ANALYSES_LISTING_QUERY_KEY,
     ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSIS_PARAMS_QUERY_KEY,
     ANALYSIS_RELAUNCH_QUERY_KEY,
     ANALYSES_SEARCH_QUERY_KEY,
+    RUNNING_VICE_JOBS_QUERY_KEY,
 };

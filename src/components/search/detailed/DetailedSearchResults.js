@@ -17,7 +17,7 @@ import { build } from "@cyverse-de/ui-lib";
 import AppSearchResults from "./AppSearchResults";
 import DataSearchResults from "./DataSearchResults";
 import AnalysesSearchResults from "./AnalysesSearchResults";
-import DETabPanel from "components/utils/DETabPanel";
+import { DETab, DETabPanel } from "components/utils/DETabs";
 
 import SEARCH_RESULTS_TABS from "components/search/detailed/tabs";
 import { TeamIcon } from "components/teams/Icons";
@@ -27,14 +27,14 @@ import DataIcon from "components/icons/DataIcon";
 
 import {
     Divider,
-    Paper,
     IconButton,
     makeStyles,
-    useMediaQuery,
-    useTheme,
+    Paper,
     Tab,
     Tabs,
     Typography,
+    useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
 import AppsIcon from "@material-ui/icons/Apps";
 import SearchIcon from "@material-ui/icons/Search";
@@ -55,10 +55,6 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down("xs")]: {
             height: 68,
         },
-    },
-    tabSelected: {
-        color: theme.palette.primary.contrastText,
-        backgroundColor: theme.palette.primary.main,
     },
     selectedTabIcon: {
         fontSize: "1.5rem",
@@ -149,7 +145,7 @@ function DetailedSearchResults(props) {
                 centered={!isMobile}
                 variant={isMobile ? "fullWidth" : "standard"}
             >
-                <Tab
+                <DETab
                     value={SEARCH_RESULTS_TABS.data}
                     key={dataTabId}
                     id={dataTabId}
@@ -158,10 +154,9 @@ function DetailedSearchResults(props) {
                             ? `(${dataCount})`
                             : t("search:dataSearchTab", { count: dataCount })
                     }
-                    classes={{ selected: classes.tabSelected }}
                     icon={dataTabIcon}
                 />
-                <Tab
+                <DETab
                     value={SEARCH_RESULTS_TABS.apps}
                     key={appsTabId}
                     id={appsTabId}
@@ -170,7 +165,6 @@ function DetailedSearchResults(props) {
                             ? `(${appsCount})`
                             : t("search:appsSearchTab", { count: appsCount })
                     }
-                    classes={{ selected: classes.tabSelected }}
                     icon={appsTabIcon}
                 />
                 <Tab
@@ -248,4 +242,5 @@ function DetailedSearchResults(props) {
         </Paper>
     );
 }
+
 export default DetailedSearchResults;

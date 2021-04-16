@@ -323,9 +323,7 @@ function Listing(props) {
                 filters.push(viewFilterObj);
             }
         }
-        const filterString = filters
-            .map((filterItem) => JSON.stringify(filterItem))
-            .join(",");
+        const filterString = JSON.stringify(filters);
 
         setAnalysesKey([
             ANALYSES_LISTING_QUERY_KEY,
@@ -346,14 +344,7 @@ function Listing(props) {
 
     const updateAnalyses = useCallback(
         (notifiMessage) => {
-            let pushMsg = null;
-            try {
-                pushMsg = JSON.parse(notifiMessage);
-            } catch (e) {
-                return;
-            }
-
-            const message = pushMsg?.message;
+            const message = notifiMessage?.message;
             if (message) {
                 const category = message.type;
                 if (

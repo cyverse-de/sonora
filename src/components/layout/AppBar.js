@@ -53,6 +53,10 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import MenuIcon from "@material-ui/icons/Menu";
+import { useNotifications } from "contexts/pushNotifications";
+import { useRunningViceJobs } from "serviceFacades/analyses";
+import { isViceNotification } from "components/notifications/utils";
+import analysisStatus from "components/models/analysisStatus";
 
 // hidden in xsDown
 const GlobalSearchField = dynamic(() => import("../search/GlobalSearchField"));
@@ -88,6 +92,7 @@ function DEAppBar(props) {
         showErrorAnnouncer,
     } = props;
     const [userProfile, setUserProfile] = useUserProfile();
+    const { currentNotification } = useNotifications();
     const isXsDown = useMediaQuery(theme.breakpoints.down("xs"));
     const [avatarLetter, setAvatarLetter] = useState("");
     const [open, setOpen] = useState(false);
@@ -96,6 +101,7 @@ function DEAppBar(props) {
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
     const [profileRefetchInterval, setProfileRefetchInterval] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [runningViceJobs, setRunningViceJobs] = useState([]);
 
     if (activeView === NavigationConstants.APPS) {
         filter = searchConstants.APPS;
@@ -194,6 +200,38 @@ function DEAppBar(props) {
             setUserProfile(adminProfile);
         }
     }, [adminUser, setUserProfile, userProfile]);
+
+    useEffect(() => {
+        if (isViceNotification(currentNotification)) {
+            const analysis = currentNotification?.message?.payload;
+            const status = analysis.analysisstatus;
+
+            if (analysisStatus.RUNNING === status) {
+                setRunningViceJobs([analysis, ...runningViceJobs]);
+            }
+
+            if (
+                [analysisStatus.CANCELED, analysisStatus.COMPLETED].includes(
+                    status
+                )
+            ) {
+                setRunningViceJobs(
+                    runningViceJobs.filter(
+                        (running) => running.id !== analysis.id
+                    )
+                );
+            }
+        }
+    }, [currentNotification, runningViceJobs]);
+
+    // This query is cached because after logging in we'll update the list based on the
+    // incoming notifications instead of re-running this query
+    const { isFetching: isFetchingRunningVice } = useRunningViceJobs({
+        enabled: userProfile?.id,
+        onSuccess: (resp) => setRunningViceJobs(resp?.analyses),
+        staleTime: Infinity,
+        cacheTime: Infinity,
+    });
 
     const handleUserButtonClick = (event) => {
         toggleDrawer(false);
@@ -299,7 +337,10 @@ function DEAppBar(props) {
                             intercomUnreadCount={intercomUnreadCount}
                         />
                         <BagMenu />
-                        <Notifications />
+                        <Notifications
+                            runningViceJobs={runningViceJobs}
+                            isFetchingRunningVice={isFetchingRunningVice}
+                        />
                     </div>
                     <Hidden xsDown>
                         <div id={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}>
@@ -377,6 +418,7 @@ function DEAppBar(props) {
                     toggleDrawer={toggleDrawer}
                     isXsDown={isXsDown}
                     adminUser={adminUser}
+                    runningViceJobs={runningViceJobs}
                 />
             </Drawer>
             <CyVerseAnnouncer />
@@ -412,4 +454,5 @@ function DEAppBar(props) {
         </>
     );
 }
+
 export default withErrorAnnouncer(DEAppBar);

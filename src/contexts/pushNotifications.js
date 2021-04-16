@@ -67,8 +67,16 @@ function NotificationsProvider(props) {
 
     const onMessage = useCallback(
         (event) => {
-            console.log(event.data);
-            setCurrentNotification(event.data);
+            const data = event.data;
+            console.log(data);
+
+            let pushMsg = null;
+            try {
+                pushMsg = JSON.parse(data);
+            } catch (e) {
+                return;
+            }
+            setCurrentNotification(pushMsg);
         },
         [setCurrentNotification]
     );

@@ -19,7 +19,7 @@ import { getListingPath } from "components/apps/utils";
 import Listing from "components/apps/listing/Listing";
 import { useUserProfile } from "contexts/userProfile";
 import NotAuthorized from "components/utils/error/NotAuthorized";
-import DETabPanel from "components/utils/DETabPanel";
+import { DETabPanel } from "components/utils/DETabs";
 import AppPublicationRequests from "components/apps/admin/publicationRequests/RequestListing";
 
 import { Tab, Tabs, makeStyles } from "@material-ui/core";

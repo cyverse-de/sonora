@@ -12,6 +12,7 @@ import MetadataMenuItem from "../menuItems/MetadataMenuItem";
 import DownloadMenuItem from "../menuItems/DownloadMenuItem";
 import RenameMenuItem from "../menuItems/RenameMenuItem";
 import MoveMenuItem from "../menuItems/MoveMenuItem";
+import CopyPathMenuItem from "../menuItems/CopyPathMenuItem";
 import CopyLinkMenuItem from "components/utils/CopyLinkMenuItem";
 import SharingMenuItem from "../../sharing/SharingMenuItem";
 import { hasOwn, containsFolders, isWritable } from "../utils";
@@ -23,7 +24,12 @@ import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboard
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
 import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";
-import { build, DotMenu } from "@cyverse-de/ui-lib";
+import {
+    AnnouncerConstants,
+    announce,
+    build,
+    DotMenu,
+} from "@cyverse-de/ui-lib";
 import ResourceTypes from "components/models/ResourceTypes";
 
 function RowDotMenu(props) {
@@ -101,14 +107,6 @@ function RowDotMenu(props) {
                         onClose={onClose}
                     />
                 ),
-                !inTrash && (
-                    <DeleteMenuItem
-                        key={build(baseId, ids.DELETE_MENU_ITEM)}
-                        baseId={baseId}
-                        onClose={onClose}
-                        onDeleteSelected={onDeleteSelected}
-                    />
-                ),
                 isFile && (
                     <DownloadMenuItem
                         key={build(baseId, ids.DOWNLOAD_MENU_ITEM)}
@@ -117,7 +115,7 @@ function RowDotMenu(props) {
                         onClose={onClose}
                     />
                 ),
-                !inTrash && (
+                !inTrash && [
                     <CopyLinkMenuItem
                         key={build(baseId, ids.COPY_LINK_MENU_ITEM)}
                         baseId={baseId}
@@ -133,8 +131,38 @@ function RowDotMenu(props) {
                             const copyPromise = copyStringToClipboard(link);
                             copyLinkToClipboardHandler(t, copyPromise);
                         }}
-                    />
-                ),
+                    />,
+                    <CopyPathMenuItem
+                        key={build(baseId, ids.COPY_PATH_MENU_ITEM)}
+                        baseId={baseId}
+                        onClose={onClose}
+                        onCopyPathSelected={() => {
+                            const copyPromise = copyStringToClipboard(
+                                resource?.path
+                            );
+                            copyPromise.then(
+                                () => {
+                                    announce({
+                                        text: t("pathCopied"),
+                                        variant: AnnouncerConstants.SUCCESS,
+                                    });
+                                },
+                                () => {
+                                    announce({
+                                        text: t("pathCopiedFailed"),
+                                        variant: AnnouncerConstants.ERROR,
+                                    });
+                                }
+                            );
+                        }}
+                    />,
+                    <DeleteMenuItem
+                        key={build(baseId, ids.DELETE_MENU_ITEM)}
+                        baseId={baseId}
+                        onClose={onClose}
+                        onDeleteSelected={onDeleteSelected}
+                    />,
+                ],
             ]}
         />
     );

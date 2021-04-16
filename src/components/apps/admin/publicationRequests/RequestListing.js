@@ -41,17 +41,17 @@ import PublicIcon from "@material-ui/icons/Public";
 const appColumnData = (t) => [
     { name: t("name"), enableSorting: false, key: "name" },
     {
-        name: t("integratorName").split(":")[0],
+        name: t("intName"),
         enableSorting: false,
         key: "integrator_name",
     },
     {
-        name: t("integratorEmail").split(":")[0],
+        name: t("intEmail"),
         enableSorting: false,
         key: "integrator_email",
     },
     {
-        name: "Tools Used",
+        name: t("toolsUsed"),
         enableSorting: false,
         key: "tools",
     },
@@ -82,7 +82,7 @@ function ToolsUsed(props) {
                 {t("viewTools")}
             </Button>
             <DEDialog
-                id={build(parentId, ids.PUBLICATION_REQUESTS.TOOLS_USED_DIALOG)}
+                id={build(ids.PUBLICATION_REQUESTS.TOOLS_USED_DIALOG)}
                 open={toolsDialogOpen}
                 title={t("toolsUsed", {
                     appName: appName,
@@ -97,7 +97,6 @@ function ToolsUsed(props) {
                             appName: appName,
                         })}
                         id={build(
-                            parentId,
                             ids.PUBLICATION_REQUESTS.TOOLS_USED_DIALOG,
                             ids.PUBLICATION_REQUESTS.TOOLS_USED_LISTING
                         )}
@@ -122,7 +121,6 @@ function ToolsUsed(props) {
                             numSelected={0}
                             rowCount={tools ? tools.length : 0}
                             baseId={build(
-                                parentId,
                                 ids.PUBLICATION_REQUESTS.TOOLS_USED_DIALOG,
                                 ids.PUBLICATION_REQUESTS.TOOLS_USED_LISTING
                             )}

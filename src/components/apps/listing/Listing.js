@@ -81,9 +81,9 @@ function Listing(props) {
     const [categoryStatus, setCategoryStatus] = useState(false);
     const [navError, setNavError] = useState(null);
 
-    const getSelectedApps = () => {
+    const getSelectedApps = useCallback(() => {
         return selected.map((id) => data?.apps.find((app) => app.id === id));
-    };
+    }, [data, selected]);
 
     const shareEnabled = canShare(getSelectedApps());
 

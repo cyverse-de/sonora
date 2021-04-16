@@ -133,5 +133,7 @@
     "volumeFrom": "Volume From",
     "volumesWarning": "WARNING: Do not add Container Volumes or Container Volumes From settings to tools unless it is certain that tool is authorized to access that data.",
     "workingDirectory": "Working Directory",
-    "workingDirLbl": "Working Directory"
+    "workingDirLbl": "Working Directory",
+    "viewTools": "View Tools",
+    "toolsUsed": "Tools used by {{appName}}"
 }

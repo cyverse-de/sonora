@@ -22,6 +22,7 @@ const APPS_SEARCH_QUERY_KEY = "searchApps";
 const APP_BY_ID_QUERY_KEY = "fetchAppById";
 const APP_DOC_QUERY_KEY = "fetchAppDoc";
 const APP_UI_QUERY_KEY = "fetchAppUI";
+const APP_PUBLICATION_REQUESTS_QUERY_KEY = "fetchPublicationRequests";
 
 //ADMIN KEYS
 const ADMIN_APPS_QUERY_KEY = "fetchAllAppsForAdmin";
@@ -380,6 +381,21 @@ function adminUpdateApp({ app, details, avus, values }) {
     return Promise.all(promises);
 }
 
+function getAppPublicationRequests(key) {
+    return callApi({
+        endpoint: `/api/admin/apps/publication-requests`,
+        method: "GET",
+    });
+}
+
+function adminPublishApp({ appId, systemId }) {
+    return callApi({
+        endpoint: `/api/admin/apps/${systemId}/${appId}/publish`,
+        method: "POST",
+        body: {},
+    });
+}
+
 export {
     addApp,
     getApps,
@@ -402,6 +418,8 @@ export {
     adminGetAppAVUs,
     adminUpdateApp,
     adminUpdateAppMetadata,
+    getAppPublicationRequests,
+    adminPublishApp,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,
@@ -414,4 +432,5 @@ export {
     ADMIN_APPS_QUERY_KEY,
     ADMIN_APP_DETAILS_QUERY_KEY,
     ADMIN_APP_AVU_QUERY_KEY,
+    APP_PUBLICATION_REQUESTS_QUERY_KEY,
 };

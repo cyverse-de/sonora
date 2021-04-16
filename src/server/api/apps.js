@@ -298,5 +298,28 @@ export default function appsRouter() {
         })
     );
 
+    logger.info("adding the GET /admin/apps/publication-requests handler");
+    api.get(
+        "/admin/apps/publication-requests",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/apps/publication-requests",
+        })
+    );
+
+    logger.info("adding the POST /admin/apps/:systemId/:appId/publish handler");
+    api.post(
+        "/admin/apps/:systemId/:appId/publish",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/apps/:systemId/:appId//publish",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

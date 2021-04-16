@@ -1001,3 +1001,686 @@ export const adminDetails = {
         },
     },
 };
+export const appPublicationRequests = {
+    publication_requests: [
+        {
+            id: "0b79eae9-4057-4d79-b9a7-b1cd0ce30c66",
+            app: {
+                description: "Xpra remote desktop",
+                deleted: false,
+                integrator_name: "Tyson Swetnam",
+                disabled: false,
+                suggested_categories: [],
+                hierarchies: [
+                    {
+                        iri: "http://edamontology.org/topic_0003",
+                        label: "Topic",
+                        subclasses: [
+                            {
+                                iri: "http://edamontology.org/topic_0605",
+                                label: "Informatics",
+                            },
+                        ],
+                    },
+                ],
+                name: "Xpra Remote Desktop",
+                tools: [
+                    {
+                        name: "Xpra",
+                        type: "interactive",
+                        description:
+                            "Xpra HTML5 Desktop -- for testing using NVIDIA GPU",
+                        id: "d0d102b4-fe7b-11e9-884a-008cfa5ae621",
+                        container: {
+                            image: {
+                                name: "tswetnam/xpra",
+                                tag: "bionic",
+                                url: "https://hub.docker.com/r/tswetnam/xpra",
+                                deprecated: false,
+                            },
+                        },
+                        version: "bionic",
+                    },
+                ],
+                system_id: "de",
+                references: [],
+                categories: [],
+                id: "e5582f78-fe7b-11e9-884a-008cfa5ae621",
+                edited_date: "2020-03-18T21:54:11.000Z",
+                job_stats: {
+                    job_count_completed: 11,
+                    job_last_completed: "2020-08-24T19:08:38.000Z",
+                },
+                integrator_email: "tswetnam@arizona.edu",
+            },
+            requestor: "tswetnam",
+        },
+        {
+            id: "2081cc32-f682-40ec-a29b-adc214f6cfa3",
+            app: {
+                description: "Fastq-sample app",
+                deleted: true,
+                integrator_name: "Upendra Kumar Devisetty",
+                disabled: false,
+                suggested_categories: [],
+                hierarchies: [
+                    {
+                        iri: "http://edamontology.org/operation_0004",
+                        label: "Operation",
+                        subclasses: [
+                            {
+                                iri: "http://edamontology.org/operation_2945",
+                                label: "Analysis",
+                                subclasses: [
+                                    {
+                                        iri:
+                                            "http://edamontology.org/operation_2403",
+                                        label: "Sequence analysis",
+                                        subclasses: [
+                                            {
+                                                iri:
+                                                    "http://edamontology.org/operation_2478",
+                                                label:
+                                                    "Nucleic acid sequence analysis",
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        iri:
+                                            "http://edamontology.org/operation_2501",
+                                        label: "Nucleic acid analysis",
+                                        subclasses: [
+                                            {
+                                                iri:
+                                                    "http://edamontology.org/operation_2478",
+                                                label:
+                                                    "Nucleic acid sequence analysis",
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        iri: "http://edamontology.org/topic_0003",
+                        label: "Topic",
+                        subclasses: [
+                            {
+                                iri: "http://edamontology.org/topic_3391",
+                                label: "Omics",
+                                subclasses: [
+                                    {
+                                        iri:
+                                            "http://edamontology.org/topic_0622",
+                                        label: "Genomics",
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+                name: "Fastq-sample-0.8",
+                tools: [
+                    {
+                        name: "fastq_sample",
+                        type: "executable",
+                        id: "4fd695d6-178d-11ea-960b-008cfa5ae621",
+                        container: {
+                            image: {
+                                name: "upendradevisetty/fastq-sample",
+                                tag: "0.8",
+                                deprecated: false,
+                            },
+                        },
+                        version: "0.8",
+                    },
+                ],
+                system_id: "de",
+                references: [
+                    "https://homes.cs.washington.edu/~dcjones/fastq-tools/fastq-sample.html",
+                    "https://wiki.cyverse.org/wiki/display/DEapps/Fastq-Sample-0.8",
+                ],
+                categories: [],
+                id: "762549c2-1791-11ea-8ca6-008cfa5ae621",
+                edited_date: "2019-12-20T19:21:44.000Z",
+                job_stats: {
+                    job_count_completed: 3,
+                    job_last_completed: "2019-12-20T19:10:50.000Z",
+                },
+                integrator_email: "upendra@cyverse.org",
+            },
+            requestor: "upendra_35",
+        },
+        {
+            id: "5ffde8eb-e727-4eb6-89ec-3ca4200a3312",
+            app: {
+                description: "Aligning the transcripts to the genome",
+                deleted: true,
+                integrator_name: "Upendra Kumar Devisetty",
+                disabled: false,
+                suggested_categories: [],
+                hierarchies: [
+                    {
+                        iri: "http://edamontology.org/operation_0004",
+                        label: "Operation",
+                        subclasses: [
+                            {
+                                iri: "http://edamontology.org/operation_2424",
+                                label: "Comparison",
+                                subclasses: [
+                                    {
+                                        iri:
+                                            "http://edamontology.org/operation_2451",
+                                        label: "Sequence comparison",
+                                        subclasses: [
+                                            {
+                                                iri:
+                                                    "http://edamontology.org/operation_0292",
+                                                label: "Sequence alignment",
+                                                subclasses: [
+                                                    {
+                                                        iri:
+                                                            "http://edamontology.org/operation_3182",
+                                                        label:
+                                                            "Genome alignment",
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                            {
+                                iri: "http://edamontology.org/operation_2928",
+                                label: "Alignment",
+                                subclasses: [
+                                    {
+                                        iri:
+                                            "http://edamontology.org/operation_0292",
+                                        label: "Sequence alignment",
+                                        subclasses: [
+                                            {
+                                                iri:
+                                                    "http://edamontology.org/operation_3182",
+                                                label: "Genome alignment",
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                            {
+                                iri: "http://edamontology.org/operation_2945",
+                                label: "Analysis",
+                                subclasses: [
+                                    {
+                                        iri:
+                                            "http://edamontology.org/operation_2403",
+                                        label: "Sequence analysis",
+                                        subclasses: [
+                                            {
+                                                iri:
+                                                    "http://edamontology.org/operation_0292",
+                                                label: "Sequence alignment",
+                                                subclasses: [
+                                                    {
+                                                        iri:
+                                                            "http://edamontology.org/operation_3182",
+                                                        label:
+                                                            "Genome alignment",
+                                                    },
+                                                ],
+                                            },
+                                            {
+                                                iri:
+                                                    "http://edamontology.org/operation_2451",
+                                                label: "Sequence comparison",
+                                                subclasses: [
+                                                    {
+                                                        iri:
+                                                            "http://edamontology.org/operation_0292",
+                                                        label:
+                                                            "Sequence alignment",
+                                                        subclasses: [
+                                                            {
+                                                                iri:
+                                                                    "http://edamontology.org/operation_3182",
+                                                                label:
+                                                                    "Genome alignment",
+                                                            },
+                                                        ],
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                            {
+                                iri: "http://edamontology.org/operation_3429",
+                                label: "Generation",
+                                subclasses: [
+                                    {
+                                        iri:
+                                            "http://edamontology.org/operation_2928",
+                                        label: "Alignment",
+                                        subclasses: [
+                                            {
+                                                iri:
+                                                    "http://edamontology.org/operation_0292",
+                                                label: "Sequence alignment",
+                                                subclasses: [
+                                                    {
+                                                        iri:
+                                                            "http://edamontology.org/operation_3182",
+                                                        label:
+                                                            "Genome alignment",
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        iri: "http://edamontology.org/topic_0003",
+                        label: "Topic",
+                        subclasses: [
+                            {
+                                iri: "http://edamontology.org/topic_3391",
+                                label: "Omics",
+                                subclasses: [
+                                    {
+                                        iri:
+                                            "http://edamontology.org/topic_0622",
+                                        label: "Genomics",
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+                name: "gmap-2018.03.25",
+                tools: [
+                    {
+                        name: "gmap",
+                        type: "executable",
+                        description:
+                            "A Genomic Mapping and Alignment Program for mRNA and EST Sequences",
+                        id: "5457cf60-6039-11e8-8667-008cfa5ae621",
+                        container: {
+                            image: {
+                                name: "quay.io/biocontainers/gmap",
+                                tag: "2018.03.25--pl5.22.0_0",
+                                url:
+                                    "https://quay.io/repository/biocontainers/gmap",
+                                deprecated: false,
+                            },
+                        },
+                        version: "2018.03.25--pl5.22.0_0",
+                    },
+                ],
+                system_id: "de",
+                references: [
+                    "https://wiki.cyverse.org/wiki/display/DEapps/gmap-2018-03-25",
+                ],
+                categories: [],
+                id: "343c1518-7a35-11e8-9ddb-008cfa5ae621",
+                edited_date: "2019-12-20T21:29:06.000Z",
+                job_stats: {
+                    job_count_completed: 2,
+                    job_last_completed: "2018-06-27T22:40:27.000Z",
+                },
+                integrator_email: "upendra@cyverse.org",
+            },
+            requestor: "upendra_35",
+        },
+        {
+            id: "1b7e4bf3-ba00-413d-962a-f2de6a6943b8",
+            app: {
+                description: "Aligning the transcripts to the genome",
+                deleted: false,
+                integrator_name: "Upendra Kumar Devisetty",
+                disabled: false,
+                suggested_categories: [],
+                hierarchies: [
+                    {
+                        iri: "http://edamontology.org/operation_0004",
+                        label: "Operation",
+                        subclasses: [
+                            {
+                                iri: "http://edamontology.org/operation_2424",
+                                label: "Comparison",
+                                subclasses: [
+                                    {
+                                        iri:
+                                            "http://edamontology.org/operation_2451",
+                                        label: "Sequence comparison",
+                                        subclasses: [
+                                            {
+                                                iri:
+                                                    "http://edamontology.org/operation_0292",
+                                                label: "Sequence alignment",
+                                                subclasses: [
+                                                    {
+                                                        iri:
+                                                            "http://edamontology.org/operation_3182",
+                                                        label:
+                                                            "Genome alignment",
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                            {
+                                iri: "http://edamontology.org/operation_2928",
+                                label: "Alignment",
+                                subclasses: [
+                                    {
+                                        iri:
+                                            "http://edamontology.org/operation_0292",
+                                        label: "Sequence alignment",
+                                        subclasses: [
+                                            {
+                                                iri:
+                                                    "http://edamontology.org/operation_3182",
+                                                label: "Genome alignment",
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                            {
+                                iri: "http://edamontology.org/operation_2945",
+                                label: "Analysis",
+                                subclasses: [
+                                    {
+                                        iri:
+                                            "http://edamontology.org/operation_2403",
+                                        label: "Sequence analysis",
+                                        subclasses: [
+                                            {
+                                                iri:
+                                                    "http://edamontology.org/operation_0292",
+                                                label: "Sequence alignment",
+                                                subclasses: [
+                                                    {
+                                                        iri:
+                                                            "http://edamontology.org/operation_3182",
+                                                        label:
+                                                            "Genome alignment",
+                                                    },
+                                                ],
+                                            },
+                                            {
+                                                iri:
+                                                    "http://edamontology.org/operation_2451",
+                                                label: "Sequence comparison",
+                                                subclasses: [
+                                                    {
+                                                        iri:
+                                                            "http://edamontology.org/operation_0292",
+                                                        label:
+                                                            "Sequence alignment",
+                                                        subclasses: [
+                                                            {
+                                                                iri:
+                                                                    "http://edamontology.org/operation_3182",
+                                                                label:
+                                                                    "Genome alignment",
+                                                            },
+                                                        ],
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                            {
+                                iri: "http://edamontology.org/operation_3429",
+                                label: "Generation",
+                                subclasses: [
+                                    {
+                                        iri:
+                                            "http://edamontology.org/operation_2928",
+                                        label: "Alignment",
+                                        subclasses: [
+                                            {
+                                                iri:
+                                                    "http://edamontology.org/operation_0292",
+                                                label: "Sequence alignment",
+                                                subclasses: [
+                                                    {
+                                                        iri:
+                                                            "http://edamontology.org/operation_3182",
+                                                        label:
+                                                            "Genome alignment",
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        iri: "http://edamontology.org/topic_0003",
+                        label: "Topic",
+                        subclasses: [
+                            {
+                                iri: "http://edamontology.org/topic_3391",
+                                label: "Omics",
+                                subclasses: [
+                                    {
+                                        iri:
+                                            "http://edamontology.org/topic_0622",
+                                        label: "Genomics",
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+                name: "gmap-2018.03.25",
+                tools: [
+                    {
+                        name: "gmap",
+                        type: "executable",
+                        description:
+                            "A Genomic Mapping and Alignment Program for mRNA and EST Sequences",
+                        id: "5457cf60-6039-11e8-8667-008cfa5ae621",
+                        container: {
+                            image: {
+                                name: "quay.io/biocontainers/gmap",
+                                tag: "2018.03.25--pl5.22.0_0",
+                                url:
+                                    "https://quay.io/repository/biocontainers/gmap",
+                                deprecated: false,
+                            },
+                        },
+                        version: "2018.03.25--pl5.22.0_0",
+                    },
+                ],
+                system_id: "de",
+                references: [
+                    "https://wiki.cyverse.org/wiki/display/DEapps/gmap-2018-03-25",
+                ],
+                categories: [],
+                id: "3e7ea95a-2371-11ea-86f6-008cfa5ae621",
+                edited_date: "2019-12-20T21:42:20.000Z",
+                job_stats: { job_count_completed: 0 },
+                integrator_email: "upendra@cyverse.org",
+            },
+            requestor: "upendra_35",
+        },
+        {
+            id: "1c9082fd-dfbc-4354-aec9-49fdf2ab8411",
+            app: {
+                description:
+                    "Jupyter lab derived from 1.0.9 branch of Jupyterlab-base-1 which includes bash, terminal, and R capabilities. Image tied to notebooks bionic branch. ",
+                deleted: true,
+                integrator_name: "Kayla Bieser",
+                disabled: false,
+                suggested_categories: [],
+                hierarchies: [
+                    {
+                        iri: "http://edamontology.org/operation_0004",
+                        label: "Operation",
+                        subclasses: [
+                            {
+                                iri: "http://edamontology.org/operation_2945",
+                                label: "Analysis",
+                            },
+                        ],
+                    },
+                    {
+                        iri: "http://edamontology.org/topic_0003",
+                        label: "Topic",
+                        subclasses: [
+                            {
+                                iri: "http://edamontology.org/topic_3070",
+                                label: "Biology",
+                            },
+                        ],
+                    },
+                ],
+                name: "Jupyterlabbase_KB",
+                tools: [
+                    {
+                        name: "Jupyterlab-KB",
+                        type: "interactive",
+                        id: "9fb3dd20-bbbb-11ea-8884-008cfa5ae621",
+                        container: {
+                            image: {
+                                name:
+                                    "kbieser/jupyterlab-base-1   https://github.com/kbieser/jupyterlab-base-1.git",
+                                tag: "jupyterlabkb",
+                                deprecated: false,
+                            },
+                        },
+                        version: "1.0.9",
+                    },
+                ],
+                system_id: "de",
+                references: [
+                    "https://cyverse-visual-interactive-computing-environment.readthedocs-hosted.com/en/latest/user_guide/quick-jupyter.html",
+                ],
+                categories: [],
+                id: "df6023c4-bbbc-11ea-96cb-008cfa5ae621",
+                edited_date: "2020-07-01T17:15:04.000Z",
+                job_stats: { job_count_completed: 0 },
+                integrator_email: "kayla.bieser@nsc.edu",
+            },
+            requestor: "kbieser",
+        },
+        {
+            id: "c0c35e2b-7592-4d02-a499-73ad399151a8",
+            app: {
+                description: "My word count",
+                deleted: false,
+                integrator_name: "Sarah Roberts",
+                disabled: false,
+                suggested_categories: [],
+                hierarchies: [
+                    {
+                        iri: "http://edamontology.org/topic_0003",
+                        label: "Topic",
+                        subclasses: [
+                            {
+                                iri: "http://edamontology.org/topic_3316",
+                                label: "Computer science",
+                            },
+                        ],
+                    },
+                ],
+                name: "my-wc",
+                tools: [
+                    {
+                        name: "my-wc",
+                        type: "executable",
+                        description: "My word count.",
+                        id: "6245ed16-113e-11ea-bad8-008cfa5ae621",
+                        container: {
+                            image: {
+                                name: "busybox",
+                                tag: "latest",
+                                deprecated: false,
+                            },
+                        },
+                        version: "1.0.0",
+                    },
+                ],
+                system_id: "de",
+                references: [],
+                categories: [],
+                id: "998b9244-113e-11ea-bad8-008cfa5ae621",
+                edited_date: "2020-09-23T23:00:02.000Z",
+                job_stats: {
+                    job_count_completed: 2,
+                    job_last_completed: "2020-10-30T22:25:04.000Z",
+                },
+                integrator_email: "sarah.cyverse@gmail.com",
+            },
+            requestor: "sarahr",
+        },
+        {
+            id: "75d84545-7ad1-4c6b-b93b-9e27fe164816",
+            app: {
+                description:
+                    "Jupyter Lab Datascience image built from the Datascience Notebook for CyVerse VICE. Project Jupyteru0027s base image requires a couple additional configuration files for it be compatible with CyVerse Kubernetes orchestration and iRODS data store.",
+                deleted: false,
+                integrator_name: "Tyson Swetnam",
+                disabled: false,
+                suggested_categories: [],
+                hierarchies: [
+                    {
+                        iri: "http://edamontology.org/topic_0003",
+                        label: "Topic",
+                        subclasses: [
+                            {
+                                iri: "http://edamontology.org/topic_0605",
+                                label: "Informatics",
+                            },
+                        ],
+                    },
+                ],
+                name: "Jupyter Lab Data Science 2.2.9",
+                tools: [
+                    {
+                        name: "Jupyter Lab Data Science ",
+                        type: "interactive",
+                        id: "11a2a9d6-6fc4-11eb-82aa-008cfa5ae621",
+                        container: {
+                            image: {
+                                name:
+                                    "gims.cyverse.org:5000/jupyterlab-datascience",
+                                tag: "2.2.9",
+                                url:
+                                    "https://hub.docker.com/r/cyversevice/jupyterlab-datascience",
+                                deprecated: false,
+                            },
+                        },
+                        version: "2.2.9",
+                    },
+                ],
+                system_id: "de",
+                references: [],
+                categories: [],
+                id: "2a28c7b0-6fc4-11eb-bd2d-008cfa5ae621",
+                edited_date: "2021-02-24T20:48:42.000Z",
+                job_stats: {
+                    job_count_completed: 1,
+                    job_last_completed: "2021-02-18T00:46:25.000Z",
+                },
+                integrator_email: "tswetnam@arizona.edu",
+            },
+            requestor: "tswetnam",
+        },
+    ],
+};

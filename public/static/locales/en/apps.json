@@ -60,6 +60,8 @@
     "hpc": "High-Performance Computing",
     "htcondorExtraRequirements": "HTCondor Extra Requirements",
     "imageLabel": "Image",
+    "intName": "Integrator name",
+    "intEmail": "Integrator email",
     "integratedBy": "Integrated By",
     "integratorEmail": "Integrator email:",
     "integratorName": "Integrator name:",
@@ -102,6 +104,7 @@
     "toolInformationLbl": "Tool Information",
     "toolNameLabel": "Name",
     "toolVersionLabel": "Version",
+    "toolsUsed": "Tool(s) Used",
     "toolsUsedError": "Unable to get the list of tool(s) used by this app.",
     "toolsUsedByApp": "Tool(s) used by this App",
     "updateAppError": "Unable to update this App. Please try again.",
@@ -110,5 +113,12 @@
     "viewAllApps": "View All Apps",
     "wikiURLInstructions": "Creating wiki documentation instructions",
     "wikiUrl": "CyVerse wiki documentation URL",
-    "yourRating": "Your Rating:"
+    "yourRating": "Your Rating:",
+    "publish": "Publish",
+    "noRequests": "No App publication requests to display",
+    "publishApp": "Publish {{appName}}",
+    "listing": "Listing",
+    "pubRequests": "Publication Requests",
+    "appPubRequestsFetchError": "Unable to fetch publication requests. Please try again.",
+    "appPublicationError": "Unable to publish {{appName}}. Please check the details."
 }

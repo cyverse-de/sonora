@@ -196,8 +196,13 @@ function Listing(props) {
     }, [selected]);
 
     useEffect(() => {
-        setAddToBagEnabled(selected && selected.length > 0);
-    }, [selected]);
+        const selApps = getSelectedApps();
+        setAddToBagEnabled(
+            selApps &&
+                selected.length > 0 &&
+                selApps?.filter((app) => app.is_public === true).length === 0
+        );
+    }, [getSelectedApps, selected, selectedApp]);
 
     useEffect(() => {
         if (data?.apps) {

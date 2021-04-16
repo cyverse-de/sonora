@@ -224,9 +224,13 @@ function DEAppBar(props) {
         }
     }, [currentNotification, runningViceJobs]);
 
+    // This query is cached because after logging in we'll update the list based on the
+    // incoming notifications instead of re-running this query
     const { isFetching: isFetchingRunningVice } = useRunningViceJobs({
         enabled: userProfile?.id,
         onSuccess: (resp) => setRunningViceJobs(resp?.analyses),
+        staleTime: Infinity,
+        cacheTime: Infinity,
     });
 
     const handleUserButtonClick = (event) => {

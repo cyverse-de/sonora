@@ -162,7 +162,7 @@ const RUNNING_VICE_JOBS_QUERY_KEY = [
     { filter: JSON.stringify(runningViceJobsFilter) },
 ];
 
-function useRunningViceJobs({ enabled, onSuccess, onError }) {
+function useRunningViceJobs({ enabled, onSuccess, onError, ...rest }) {
     return useQuery({
         queryKey: RUNNING_VICE_JOBS_QUERY_KEY,
         queryFn: getAnalyses,
@@ -170,8 +170,7 @@ function useRunningViceJobs({ enabled, onSuccess, onError }) {
             enabled,
             onSuccess,
             onError,
-            staleTime: Infinity,
-            cacheTime: Infinity,
+            ...rest,
         },
     });
 }

@@ -21,6 +21,7 @@ const APP_CATEGORIES_QUERY_KEY = "fetchPrivateCategories";
 const APPS_SEARCH_QUERY_KEY = "searchApps";
 const APP_BY_ID_QUERY_KEY = "fetchAppById";
 const APP_DOC_QUERY_KEY = "fetchAppDoc";
+const APP_ELEMENT_INFO_TYPES_QUERY_KEY = "fetchAppElementInfoTypes";
 const APP_UI_QUERY_KEY = "fetchAppUI";
 const APP_PUBLICATION_REQUESTS_QUERY_KEY = "fetchPublicationRequests";
 
@@ -121,6 +122,13 @@ function getAppsInCategory(
                   status: 401,
               },
           });
+}
+
+function getAppElementInfoTypes(_) {
+    return callApi({
+        endpoint: "/api/apps/elements/info-types",
+        method: "GET",
+    });
 }
 
 function addApp({ systemId, app }) {
@@ -406,6 +414,7 @@ export {
     getAppsInCategory,
     getAppDescription,
     getAppDetails,
+    getAppElementInfoTypes,
     getAppPermissions,
     getAppUI,
     appFavorite,
@@ -428,6 +437,7 @@ export {
     APPS_SEARCH_QUERY_KEY,
     APP_BY_ID_QUERY_KEY,
     APP_DOC_QUERY_KEY,
+    APP_ELEMENT_INFO_TYPES_QUERY_KEY,
     APP_UI_QUERY_KEY,
     ADMIN_APPS_QUERY_KEY,
     ADMIN_APP_DETAILS_QUERY_KEY,

@@ -29,6 +29,7 @@
     "editApp": "Edit App: {{name}}",
     "editParameter": "Edit Parameter",
     "envVarNameLabel": "Environment Variable name",
+    "errorLoadingInfoTypes": "Error loading File Info Types",
     "excludeWhenEmpty": "Exclude this item if nothing is entered.",
     "fileFolderCategoryTitle": "Files/Folders",
     "fileInfoTypeLabel": "Type of information contained in this file",

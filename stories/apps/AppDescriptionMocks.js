@@ -1,3 +1,123 @@
+export const FileInfoTypesMock = {
+    info_types: [
+        {
+            id: "0900e992-3bbd-4f4b-8d2d-ed289ca4e4f1",
+            name: "File",
+            label: "Unspecified",
+        },
+        {
+            id: "0e3343e3-c59a-44c4-b5ee-d4501ec3a898",
+            name: "ReferenceGenome",
+            label: "Reference Sequence and Annotations",
+        },
+        {
+            id: "57eb7fb6-bdc0-42aa-b494-0483f9347815",
+            name: "ReferenceSequence",
+            label: "Reference Sequence Only",
+        },
+        {
+            id: "68246ddf-8b1b-44c0-827f-88945cad8227",
+            name: "ReferenceAnnotation",
+            label: "Reference Annotation Only",
+        },
+        {
+            id: "762e5a0a-afb2-420e-8456-f79c78a29051",
+            name: "SequenceAlignment",
+            label: "Sequence Alignment",
+        },
+        {
+            id: "f65a8f23-3e46-4df4-80f9-387641c013a6",
+            name: "MultipleSequenceAlignment",
+            label: "Multiple Sequence Alignment",
+        },
+        {
+            id: "4a56f043-c62f-4fe9-a11f-a9a7d18e370f",
+            name: "BarcodeFile",
+            label: "Barcode File",
+        },
+        {
+            id: "dd178256-ce77-41b0-a785-7e955799a20d",
+            name: "ExpressionData",
+            label: "Expression Data",
+        },
+        {
+            id: "13313a72-ea0a-49df-9105-af798165a482",
+            name: "GenomicAnnotation",
+            label: "Genomic Annotation",
+        },
+        {
+            id: "d4089473-139e-4345-9ca9-addcfc4b887e",
+            name: "BiologicalModel",
+            label: "Biological Model",
+        },
+        {
+            id: "1c59c759-9cd3-4036-b7b4-82e8da40d0c2",
+            name: "NucleotideOrPeptideSequence",
+            label: "Nucleotide or Peptide Sequence",
+        },
+        {
+            id: "3b4fc426-290a-4f63-adb4-75a60a43b420",
+            name: "Structure",
+            label: "Structure",
+        },
+        {
+            id: "a378ca30-28c9-4179-8381-ec098a89d12b",
+            name: "TraitFile",
+            label: "Trait File",
+        },
+        {
+            id: "7bda7ef9-7b25-43da-93d3-a6c483fd24e4",
+            name: "TreeFile",
+            label: "Tree File",
+        },
+        {
+            id: "f1a9ce39-b83d-4820-909e-583f76bc5ebe",
+            name: "VariantData",
+            label: "Variant Data",
+        },
+        {
+            id: "f51baae3-4368-4814-bca0-78bad9906445",
+            name: "Archive",
+            label: "Archive",
+        },
+        {
+            id: "57bd5ba7-c899-4d50-8676-a3cd56e68f8a",
+            name: "Binary",
+            label: "Binary",
+        },
+        {
+            id: "3b07f544-86a6-459e-b46a-ba53e6a37f33",
+            name: "TabularData",
+            label: "Tabular Data",
+        },
+        {
+            id: "d433bee7-bfde-4696-a2b8-eb2b92ac0e13",
+            name: "GraphFile",
+            label: "Graph File",
+        },
+        {
+            id: "6270ab49-d6b6-4d8c-b15a-89657b4227a4",
+            name: "PlainText",
+            label: "Plain Text",
+        },
+        {
+            id: "15696bc7-f712-43f3-9910-150b53272841",
+            name: "StructuredText",
+            label: "Structured Text",
+        },
+        {
+            id: "212907c0-736e-4dbe-b6e7-5dc0431c275f",
+            name: "ReconcileTaxa",
+            label: "Reconciled Taxonomy Information",
+        },
+        {
+            id: "d106c3f9-93b5-4146-aaf0-727a0e8d8a50",
+            name: "Image",
+            label: "Image",
+        },
+    ],
+};
+
 export const AppDescriptionMock = {
     id: "1778b1d6-5a83-11ea-9e38-008cfa5ae621",
     system_id: "de",

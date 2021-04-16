@@ -6,7 +6,9 @@
 import { DataSources } from "./params/FileOutputPropertyFields";
 
 import AppParamTypes from "components/models/AppParamTypes";
-import FileInfoTypes from "components/models/FileInfoTypes";
+
+const FILE_INFO_TYPE_DEFAULT = "File";
+const FILE_PARAMETER_FORMAT_DEFAULT = "Unspecified";
 
 /**
  * @typedef {object} FlagNameModelOptVal
@@ -358,8 +360,8 @@ const getNewParam = (paramType, label, key) => {
             newParam.omit_if_blank = false;
             newParam.file_parameters = {
                 data_source: DataSources.FILE,
-                file_info_type: FileInfoTypes.FILE,
-                format: FileInfoTypes.UNSPECIFIED,
+                file_info_type: FILE_INFO_TYPE_DEFAULT,
+                format: FILE_PARAMETER_FORMAT_DEFAULT,
                 is_implicit: false,
             };
             break;
@@ -370,8 +372,8 @@ const getNewParam = (paramType, label, key) => {
             newParam.omit_if_blank = false;
             newParam.file_parameters = {
                 data_source: DataSources.FILE,
-                file_info_type: FileInfoTypes.FILE,
-                format: FileInfoTypes.UNSPECIFIED,
+                file_info_type: FILE_INFO_TYPE_DEFAULT,
+                format: FILE_PARAMETER_FORMAT_DEFAULT,
                 is_implicit: false,
                 repeat_option_flag: false,
             };

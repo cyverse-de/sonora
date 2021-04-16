@@ -1,9 +1,6 @@
-const drawerWidth = 235;
-const miniDrawerWidth = 65;
-export default (theme) => ({
-    root: {
-        flex: 1,
-    },
+const drawerWidth = 250;
+const miniDrawerWidth = 70;
+const LayoutStyles = (theme) => ({
     appBar: {
         backgroundColor: theme.palette.primary,
         zIndex: theme.zIndex.drawer + 1,
@@ -140,3 +137,4 @@ export default (theme) => ({
         paddingLeft: theme.spacing(4),
     },
 });
+export default LayoutStyles;

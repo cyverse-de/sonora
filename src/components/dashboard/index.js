@@ -5,17 +5,19 @@
  *
  * @module dashboard
  */
-import React, { useRef, useState } from "react";
+import React, { useRef, useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import clsx from "clsx";
 
-import { useQuery } from "react-query";
+import { useQuery, queryCache } from "react-query";
 
 import { useTranslation } from "i18n";
 
 import { Typography } from "@material-ui/core";
 
 import { Skeleton } from "@material-ui/lab";
+
+import { announce, AnnouncerConstants } from "@cyverse-de/ui-lib";
 
 import ids from "./ids";
 import * as constants from "./constants";
@@ -31,14 +33,19 @@ import {
     VideosFeed,
 } from "./DashboardSection";
 
+import { getDashboard, DASHBOARD_QUERY_KEY } from "serviceFacades/dashboard";
+import { useBootstrapInfo } from "contexts/bootstrap";
+
 import {
-    getDashboard,
-    DASHBOARD_QUERY_KEY,
-} from "../../serviceFacades/dashboard";
+    useBootStrap,
+    useSavePreferences,
+    BOOTSTRAP_KEY,
+} from "serviceFacades/users";
 
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import { useUserProfile } from "contexts/userProfile";
 import Banner from "./dashboardItem/Banner";
+import Tour from "./dashboardItem/Tour";
 
 const AppDetailsDrawer = dynamic(() =>
     import("components/apps/details/Drawer")
@@ -52,6 +59,7 @@ const DashboardSkeleton = () => {
     const [userProfile] = useUserProfile();
 
     let skellyTypes = [classes.sectionNews, classes.sectionEvents, "", ""];
+
     if (userProfile?.id) {
         skellyTypes = [
             "",
@@ -90,7 +98,53 @@ const Dashboard = (props) => {
     const { showErrorAnnouncer } = props;
     const classes = useStyles();
     const { t } = useTranslation("dashboard");
+    const { t: i18nPref } = useTranslation("preferences");
     const [userProfile] = useUserProfile();
+
+    const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
+    const [bootstrapError, setBootstrapError] = useState(null);
+    const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
+
+    //get from cache if not fetch now.
+    const bootstrapCache = queryCache.getQueryData(BOOTSTRAP_KEY);
+
+    const preProcessData = useCallback(
+        (respData) => {
+            let pref = respData.preferences;
+            setBootstrapInfo({ ...bootstrapInfo, preferences: pref });
+        },
+        [bootstrapInfo, setBootstrapInfo]
+    );
+
+    useEffect(() => {
+        if (bootstrapCache && !bootstrapInfo) {
+            preProcessData(bootstrapCache);
+        } else {
+            setBootstrapQueryEnabled(true);
+        }
+    }, [preProcessData, bootstrapInfo, bootstrapCache]);
+
+    useBootStrap(
+        bootstrapQueryEnabled,
+        (respData) => preProcessData(respData),
+        setBootstrapError
+    );
+
+    const [mutatePreferences] = useSavePreferences(
+        (updatedPref) => {
+            announce({
+                text: i18nPref("dismissPrompt"),
+                variant: AnnouncerConstants.SUCCESS,
+            });
+            setBootstrapInfo({
+                ...bootstrapInfo,
+                preferences: updatedPref.preferences,
+            });
+        },
+        (e) => {
+            showErrorAnnouncer(i18nPref("savePrefError"), e);
+        }
+    );
 
     const dashboardEl = useRef();
     const [cardWidth, cardHeight, numColumns] = fns.useDashboardSettings({
@@ -170,6 +224,19 @@ const Dashboard = (props) => {
     return (
         <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
             {!userProfile?.id && <Banner />}
+            {!bootstrapError && userProfile?.id && bootstrapInfo && (
+                <Tour
+                    baseId={baseId} 
+                    showTourPrompt={bootstrapInfo?.preferences?.showTourPrompt}
+                    user={userProfile.id}
+                    onDismiss={() => {
+                        mutatePreferences({
+                            ...bootstrapInfo.preferences,
+                            showTourPrompt: false,
+                        });
+                    }}
+                />
+            )}
             {isLoading ? <DashboardSkeleton /> : componentContent}
 
             {detailsApp && (

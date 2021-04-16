@@ -24,7 +24,6 @@ const DrawerItem = (props) => {
     const {
         title,
         id,
-        image,
         icon: Icon,
         activeView,
         thisView,
@@ -47,17 +46,6 @@ const DrawerItem = (props) => {
                         : classes.listItem
                 }
             >
-                {image && (
-                    <img
-                        className={
-                            clsxBase
-                                ? clsx(clsxBase, classes.drawerIcon)
-                                : classes.drawerIcon
-                        }
-                        src={image}
-                        alt={title}
-                    />
-                )}
                 {Icon && (
                     <ListItemIcon>
                         <Icon
@@ -67,7 +55,6 @@ const DrawerItem = (props) => {
                                     : classes.icon
                             }
                             style={{ fontSize: "2.1875rem" }}
-                            fontSize="large"
                         />
                     </ListItemIcon>
                 )}

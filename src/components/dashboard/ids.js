@@ -11,4 +11,6 @@ export default {
     SECTION_NEWS: "section.news",
     SECTION_EVENTS: "section.events",
     SECTION_VIDEOS: "section.videos",
+    DISMISS_BTN: "dismissButton",
+    TOUR_BTN: "tourButton"
 };

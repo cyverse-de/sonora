@@ -2,7 +2,7 @@ import React from "react";
 
 import { mockAxios, mockErrorResponse } from "../axiosMock";
 
-import { AppDescriptionMock } from "./AppDescriptionMocks";
+import { AppDescriptionMock, FileInfoTypesMock } from "./AppDescriptionMocks";
 
 import { initMockAxiosFileFolderSelector } from "../data/DataMocks";
 import { initMockAxiosReferenceGenomeListing } from "../apps/launch/data/ReferenceGenomeListing";
@@ -14,6 +14,8 @@ import NewAppDefaults from "components/apps/editor/NewAppDefaults";
 
 initMockAxiosFileFolderSelector();
 initMockAxiosReferenceGenomeListing();
+
+mockAxios.onGet("/api/apps/elements/info-types").reply(200, FileInfoTypesMock);
 
 mockAxios.onGet(/\/api\/tools.*/).reply(200, ToolListing);
 

@@ -36,6 +36,16 @@ export default function appsRouter() {
         })
     );
 
+    logger.info("adding the GET /apps/elements/info-types handler");
+    api.get(
+        "/apps/elements/info-types",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/elements/info-types",
+        })
+    );
+
     logger.info("adding the POST /apps/:systemId handler");
     api.post(
         "/apps/:systemId",

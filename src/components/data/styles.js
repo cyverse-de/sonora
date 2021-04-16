@@ -1,4 +1,4 @@
-export default (theme) => ({
+const dataStyles = (theme) => ({
     avatarRead: {
         color: theme.palette.success.contrastText,
         backgroundColor: theme.palette.success.main,
@@ -130,8 +130,8 @@ export default (theme) => ({
     list: {
         [theme.breakpoints.down("sm")]: {
             maxWidth: 130,
-            padding: 0,
         },
+        padding: 0,
     },
     listItem: {
         outline: "none",
@@ -158,3 +158,4 @@ export default (theme) => ({
         color: theme.palette.info.main,
     },
 });
+export default dataStyles;

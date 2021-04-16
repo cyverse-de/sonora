@@ -101,7 +101,7 @@ function DataToolbar(props) {
 
     let toolbarId = build(baseId, ids.TOOLBAR);
     return (
-        <Toolbar variant="dense">
+        <Toolbar style={{padding: 0}}>
             <Navigation
                 path={path}
                 handleDataNavError={handleDataNavError}

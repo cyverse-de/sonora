@@ -10,6 +10,7 @@
   "dataMapping" : "Data Mapping",
   "deleteInstantLaunch" : "Delete",
   "deleteMappingEntryError" : "Error deleting mapping entry",
+  "dialogWillCloseAutomatically" : "This dialog will close automatically.",
   "displayMapping" : "Current Pattern Mappings",
   "fetchDashboardILError" : "Error fetching list of instant launches in the dashboard",
   "glob" : "Glob",
@@ -26,5 +27,7 @@
   "quickLaunch" : "Quick Launch",
   "removeDashboardILError" : "Error removing instant launch from the dashboard",
   "removeFromDashboard" : "Remove from Dashboard",
+  "submittingInstantLaunch" : "Sending Launch Request",
+  "submissionInProgress" : "Please wait, this should only take a few seconds...",
   "updateDataMapping" : "Data Mapping"
 }

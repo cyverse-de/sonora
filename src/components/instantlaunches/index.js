@@ -2,7 +2,15 @@ import React from "react";
 
 import micromatch from "micromatch";
 
-import { IconButton } from "@material-ui/core";
+import {
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    IconButton,
+    LinearProgress,
+    makeStyles,
+    Typography,
+} from "@material-ui/core";
 
 import { Launch as LaunchIcon } from "@material-ui/icons";
 
@@ -14,6 +22,7 @@ import { submitAnalysis, getAnalysis } from "serviceFacades/analyses";
 import { useRouter } from "next/router";
 
 import constants from "../../constants";
+import { useTranslation } from "i18n";
 
 const inputParamTypes = [
     launchConstants.FILE_INPUT,
@@ -189,6 +198,56 @@ const instantlyLaunch = async (instantLaunch, resource) => {
         .then((analysisResp) => getAnalysis(analysisResp.id));
 };
 
+const useStyles = makeStyles((theme) => ({
+    progress: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(5),
+    },
+    inProgress: {
+        marginBottom: theme.spacing(3),
+    },
+    closeAuto: {
+        marginBottom: theme.spacing(3),
+    },
+}));
+
+/**
+ * The loading dialog that displays while the acutal submission call is in progress.
+ *
+ * @param {Object} props - The component props.
+ * @param {boolean} props.open - Whether or not the dialog is open.
+ */
+export const InstantLaunchSubmissionDialog = ({ open }) => {
+    const { t } = useTranslation("instantlaunches");
+    const classes = useStyles();
+
+    return (
+        <Dialog
+            open={open}
+            onClose={(event) => {
+                event.stopPropagation();
+                event.preventDefault();
+            }}
+        >
+            <DialogTitle>{t("submittingInstantLaunch")}</DialogTitle>
+
+            <DialogContent>
+                <div className={classes.progress}>
+                    <LinearProgress />
+                </div>
+
+                <Typography variant="h6" className={classes.inProgress}>
+                    {t("submissionInProgress")}
+                </Typography>
+
+                <Typography variant="body2" className={classes.closeAuto}>
+                    {t("dialogWillCloseAutomatically")}
+                </Typography>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
 /**
  * An IconButton with a handler that launches the app in the instant launch with
  * the resource as an input.
@@ -203,6 +262,8 @@ const InstantLaunchButton = ({
     showErrorAnnouncer,
 }) => {
     const router = useRouter();
+    const [open, setOpen] = React.useState(false);
+
     return (
         <IconButton
             variant="contained"
@@ -210,24 +271,36 @@ const InstantLaunchButton = ({
                 event.stopPropagation();
                 event.preventDefault();
 
+                setOpen(true);
+
                 await instantlyLaunch(instantLaunch, resource)
                     .then((listing) => {
                         if (listing.analyses.length > 0) {
                             const analysis = listing.analyses[0];
                             if (analysis.interactive_urls.length > 0) {
-                                router.push(
-                                    `${
-                                        constants.VICE_LOADING_PAGE
-                                    }/${encodeURIComponent(
-                                        analysis.interactive_urls[0]
-                                    )}`
-                                );
+                                router
+                                    .push(
+                                        `${
+                                            constants.VICE_LOADING_PAGE
+                                        }/${encodeURIComponent(
+                                            analysis.interactive_urls[0]
+                                        )}`
+                                    )
+                                    .then(() => setOpen(false));
+                            } else {
+                                setOpen(false);
                             }
+                        } else {
+                            setOpen(false);
                         }
                     })
-                    .catch((error) => showErrorAnnouncer(error.message, error));
+                    .catch((error) => {
+                        setOpen(false);
+                        showErrorAnnouncer(error.message, error);
+                    });
             }}
         >
+            <InstantLaunchSubmissionDialog open={open} />
             <LaunchIcon />
         </IconButton>
     );

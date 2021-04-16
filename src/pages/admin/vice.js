@@ -371,7 +371,7 @@ const VICEAdminTabs = ({ data = {} }) => {
     );
 };
 
-const VICEAdmin = () => {
+export const VICEAdmin = () => {
     const classes = useStyles();
     const [selectedTab, setSelectedTab] = useState(TABS.quotaRequests);
     const { t } = useTranslation("vice-admin");

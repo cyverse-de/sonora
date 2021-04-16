@@ -224,7 +224,7 @@ const Dashboard = (props) => {
     return (
         <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
             {!userProfile?.id && <Banner />}
-            {!bootstrapError && userProfile?.id && (
+            {!bootstrapError && userProfile?.id && bootstrapInfo && (
                 <Tour
                     baseId={baseId} 
                     showTourPrompt={bootstrapInfo?.preferences?.showTourPrompt}

@@ -106,7 +106,7 @@ const Dashboard = (props) => {
     const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
 
     //get from cache if not fetch now.
-    const prefCache = queryCache.getQueryData(BOOTSTRAP_KEY);
+    const bootstrapCache = queryCache.getQueryData(BOOTSTRAP_KEY);
 
     const preProcessData = useCallback(
         (respData) => {
@@ -117,12 +117,12 @@ const Dashboard = (props) => {
     );
 
     useEffect(() => {
-        if (prefCache && !bootstrapInfo) {
-            preProcessData(prefCache);
+        if (bootstrapCache && !bootstrapInfo) {
+            preProcessData(bootstrapCache);
         } else {
             setBootstrapQueryEnabled(true);
         }
-    }, [preProcessData, bootstrapInfo, prefCache]);
+    }, [preProcessData, bootstrapInfo, bootstrapCache]);
 
     useBootStrap(
         bootstrapQueryEnabled,
@@ -226,6 +226,7 @@ const Dashboard = (props) => {
             {!userProfile?.id && <Banner />}
             {!bootstrapError && userProfile?.id && (
                 <Tour
+                    baseId={baseId} 
                     showTourPrompt={bootstrapInfo?.preferences?.showTourPrompt}
                     user={userProfile.id}
                     onDismiss={() => {

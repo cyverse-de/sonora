@@ -4,7 +4,9 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
+import { build } from "@cyverse-de/ui-lib";
 
+import ids from "../ids";
 import ProductTour from "components/help/ProductTour";
 
 import ExploreIcon from "@material-ui/icons/Explore";
@@ -19,7 +21,7 @@ import {
 } from "@material-ui/core";
 
 export default function Tour(props) {
-    const { showTourPrompt, user, onDismiss } = props;
+    const { baseId, showTourPrompt, user, onDismiss } = props;
     const theme = useTheme();
     const { t } = useTranslation("intro");
     const [runTour, setRunTour] = React.useState(false);
@@ -52,10 +54,11 @@ export default function Tour(props) {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="small" onClick={onDismiss}>
+                        <Button id={build(baseId, ids.DISMISS_BTN)} size="small" onClick={onDismiss}>
                             {t("dismiss")}
                         </Button>
                         <Button
+                            id={build(baseId, ids.TOUR_BTN)}
                             size="small"
                             color="primary"
                             onClick={() => setRunTour(true)}

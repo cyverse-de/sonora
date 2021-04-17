@@ -118,6 +118,26 @@ export const FileInfoTypesMock = {
     ],
 };
 
+export const fileStatResp = {
+    paths: {
+        "/iplant/home/shared/iplantcollaborative/example_data/wordcount/SampleText.txt": {
+            infoType: "unknown",
+            path:
+                "/iplant/home/shared/iplantcollaborative/example_data/wordcount/SampleText.txt",
+            "date-created": 1606848065000,
+            md5: "20bcf40f32ca8dfe7740cb4e98b69206",
+            permission: "read",
+            "date-modified": 1606848065000,
+            type: "file",
+            "file-size": 2312,
+            label: "SampleText.txt",
+            id: "c5b77bfa-3404-11eb-bcd5-fa163ea323a7",
+            "content-type": "text/plain",
+        },
+    },
+    ids: {},
+};
+
 export const AppDescriptionMock = {
     id: "1778b1d6-5a83-11ea-9e38-008cfa5ae621",
     system_id: "de",

@@ -1,8 +1,12 @@
 import React from "react";
 
-import { mockAxios, mockErrorResponse } from "../axiosMock";
+import { mockAxios, mockErrorResponse, errorResponseJSON } from "../axiosMock";
 
-import { AppDescriptionMock, FileInfoTypesMock } from "./AppDescriptionMocks";
+import {
+    AppDescriptionMock,
+    FileInfoTypesMock,
+    fileStatResp,
+} from "./AppDescriptionMocks";
 
 import { initMockAxiosFileFolderSelector } from "../data/DataMocks";
 import { initMockAxiosReferenceGenomeListing } from "../apps/launch/data/ReferenceGenomeListing";
@@ -16,6 +20,24 @@ initMockAxiosFileFolderSelector();
 initMockAxiosReferenceGenomeListing();
 
 mockAxios.onGet("/api/apps/elements/info-types").reply(200, FileInfoTypesMock);
+
+mockAxios.onPost("/api/filesystem/stat").replyOnce(404, {
+    error_code: "ERR_DOES_NOT_EXIST",
+    reason: "Not Found!",
+});
+mockAxios.onPost("/api/filesystem/stat").replyOnce(500, errorResponseJSON);
+mockAxios.onPost("/api/filesystem/stat").reply((config) => {
+    const req = JSON.parse(config.data);
+    const { paths } = fileStatResp;
+
+    return [
+        200,
+        {
+            ...fileStatResp,
+            paths: { ...paths, [req.paths[0]]: Object.values(paths)[0] },
+        },
+    ];
+});
 
 mockAxios.onGet(/\/api\/tools.*/).reply(200, ToolListing);
 

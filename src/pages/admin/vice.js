@@ -1,50 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { useUserProfile } from "contexts/userProfile";
 import NotAuthorized from "components/utils/error/NotAuthorized";
 
 import { useTranslation } from "i18n";
 
-import { useQuery, useMutation, queryCache } from "react-query";
+import { useQuery } from "react-query";
 
 import { makeStyles } from "@material-ui/styles";
+
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
 
-import getData, {
-    saveOutputFiles,
-    downloadInputFiles,
-    extendTimeLimit,
-    saveAndExit,
-    exit,
-    VICE_ADMIN_QUERY_KEY,
-} from "serviceFacades/vice/admin";
-import DETabPanel from "components/utils/DETabPanel";
+import getData, { VICE_ADMIN_QUERY_KEY } from "serviceFacades/vice/admin";
+import { DETabPanel, DETabs, DETab } from "components/utils/DETabs";
 
 import RowFilter from "components/vice/admin/filter";
-import CollapsibleTable, {
-    defineColumn,
-    ExpanderColumn,
-} from "components/vice/admin/table";
 import JobLimits from "components/vice/admin/joblimits";
+import efcs from "components/vice/admin/filter/efcs";
 
 import ids from "components/vice/admin/ids";
-import {
-    DEPLOYMENT_COLUMNS,
-    COMMON_COLUMNS,
-    SERVICE_COLUMNS,
-    POD_COLUMNS,
-    BASE_ID,
-} from "components/vice/admin/constants";
-import { Skeleton, TabList, TabContext, TabPanel } from "@material-ui/lab";
+import { BASE_ID } from "components/vice/admin/constants";
+
+import { Skeleton } from "@material-ui/lab";
 
 import { JSONPath } from "jsonpath-plus";
-import efcs from "components/vice/admin/filter/efcs";
-import { AppBar, Tab, Tabs } from "@material-ui/core";
+
 import Listing from "components/vice/admin/accessRequests/Listing";
 import InstantLaunchList from "components/instantlaunches/admin/InstantLaunchList";
 import InstantLaunchMapping from "components/instantlaunches/admin/InstantLaunchMapping";
+import VICEAdminTabs from "components/vice/admin/tabs";
 
 const id = (...values) => buildID(ids.ROOT, ...values);
 const TABS = {
@@ -52,170 +38,6 @@ const TABS = {
     analyses: "ANALYSES",
     instantLaunches: "INSTANT LAUNCHES",
     dataMapping: "DATA MAPPING",
-};
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        paddingLeft: theme.spacing(3),
-        paddingRight: theme.spacing(3),
-        paddingTop: theme.spacing(3),
-        [theme.breakpoints.down("sm")]: {
-            paddingLeft: theme.spacing(1),
-            paddingRight: theme.spacing(1),
-            paddingTop: theme.spacing(1),
-        },
-        [theme.breakpoints.down("xs")]: {
-            paddingLeft: theme.spacing(0.5),
-            paddingRight: theme.spacing(0.5),
-            paddingTop: theme.spacing(0.5),
-        },
-        paddingBottom: 0,
-        overflow: "auto",
-        height: "90vh",
-    },
-    filterSkeleton: {
-        marginBottom: theme.spacing(5),
-    },
-    footer: {
-        width: "100%",
-        height: theme.spacing(5),
-
-        [theme.breakpoints.down("sm")]: {
-            height: 32,
-        },
-    },
-    refresh: {
-        marginBottom: theme.spacing(1),
-        marginTop: theme.spacing(1),
-    },
-    tabAppBarColorPrimary: {
-        backgroundColor: theme.palette.white,
-    },
-    tabRoot: {
-        color: theme.palette.darkGray,
-        "&:hover": {
-            color: theme.palette.black,
-        },
-    },
-    tabSelected: {
-        backgroundColor: theme.palette.primary.main,
-        color: theme.palette.primary.contrastText,
-    },
-    tabPanelRoot: {
-        paddingLeft: 0,
-        paddingRight: 0,
-        paddingTop: theme.spacing(2),
-        paddingBottom: theme.spacing(2),
-    },
-}));
-
-// The column definitions for the table.
-const commonColumns = [
-    ExpanderColumn,
-    defineColumn("Username", COMMON_COLUMNS.USERNAME, "username"),
-    defineColumn(
-        "Date Created",
-        COMMON_COLUMNS.CREATION_TIMESTAMP,
-        "creationTimestamp"
-    ),
-    defineColumn("Analysis Name", COMMON_COLUMNS.ANALYSIS_NAME, "analysisName"),
-    defineColumn("App Name", COMMON_COLUMNS.APP_NAME, "appName"),
-    defineColumn("Namespace", COMMON_COLUMNS.NAMESPACE, "namespace"),
-    defineColumn("External ID", COMMON_COLUMNS.EXTERNAL_ID, "externalID"),
-    defineColumn("App ID", COMMON_COLUMNS.APP_ID, "appID"),
-    defineColumn("User ID", COMMON_COLUMNS.USER_ID, "userID"),
-];
-
-const columns = {
-    analyses: commonColumns,
-
-    deployments: [
-        ...commonColumns,
-        defineColumn("Image", DEPLOYMENT_COLUMNS.IMAGE, "image"),
-        defineColumn("Port", DEPLOYMENT_COLUMNS.PORT, "port"),
-        defineColumn("UID", DEPLOYMENT_COLUMNS.UID, "uid"),
-        defineColumn("GID", DEPLOYMENT_COLUMNS.GID, "gid"),
-    ],
-
-    services: [
-        ...commonColumns,
-        defineColumn("Port Name", SERVICE_COLUMNS.PORT_NAME, "portName"),
-        defineColumn("Node Port", SERVICE_COLUMNS.NODE_PORT, "nodePort"),
-        defineColumn("Target Port", SERVICE_COLUMNS.TARGET_PORT, "targetPort"),
-        defineColumn(
-            "Target Port Name",
-            SERVICE_COLUMNS.TARGET_PORT_NAME,
-            "targetPortName"
-        ),
-        defineColumn("Protocol", SERVICE_COLUMNS.PROTOCOL, "protocol"),
-    ],
-
-    pods: [
-        ...commonColumns,
-        defineColumn("Phase", POD_COLUMNS.PHASE, "phase"),
-        defineColumn("Message", POD_COLUMNS.MESSAGE, "message"),
-        defineColumn("Reason", POD_COLUMNS.REASON, "reason"),
-        defineColumn(
-            "Status - Name",
-            POD_COLUMNS.CONTAINER_STATUS_NAME,
-            "containerStatusName"
-        ),
-        defineColumn(
-            "Status - Ready",
-            POD_COLUMNS.CONTAINER_STATUS_READY,
-            "containerStatusReady"
-        ),
-        defineColumn(
-            "Status - Restart Count",
-            POD_COLUMNS.CONTAINER_STATUS_RESTART_COUNT,
-            "containerStatusRestartCount"
-        ),
-        defineColumn(
-            "Status - Image",
-            POD_COLUMNS.CONTAINER_STATUS_IMAGE,
-            "containerStatusImage"
-        ),
-        defineColumn(
-            "Status - Image ID",
-            POD_COLUMNS.CONTAINER_STATUS_IMAGE_ID,
-            "containerStatusImageID"
-        ),
-        defineColumn(
-            "Status - Container ID",
-            POD_COLUMNS.CONTAINER_STATUS_CONTAINER_ID,
-            "containerStatusContainerID"
-        ),
-        defineColumn(
-            "Status - Started",
-            POD_COLUMNS.CONTAINER_STATUS_STARTED,
-            "containerStatusStarted"
-        ),
-    ],
-    configMaps: commonColumns,
-    ingresses: commonColumns,
-};
-
-const getAnalyses = ({ deployments = [] }) => {
-    let analyses = {};
-
-    // Should only need to interate through the deployments to find the
-    // list of analyses in the data.
-    deployments.forEach((element) => {
-        if (!analyses.hasOwnProperty(element.externalID)) {
-            analyses[element.externalID] = {
-                externalID: element.externalID,
-                username: element.username,
-                analysisName: element.analysisName,
-                appName: element.appName,
-                creationTimestamp: element.creationTimestamp,
-                appID: element.appID,
-                userID: element.userID,
-                namespace: element.namespace,
-            };
-        }
-    });
-
-    return Object.values(analyses);
 };
 
 const VICEAdminSkeleton = () => {
@@ -239,137 +61,26 @@ const VICEAdminSkeleton = () => {
     );
 };
 
-const VICEAdminTabs = ({ data = {} }) => {
-    const classes = useStyles();
-    const { t } = useTranslation("vice-admin");
-
-    const [value, setValue] = useState("0");
-
-    const tabID = (name) => id(ids.ROOT, "admin", "tabs", name);
-    const tabPanelID = (name) => id(ids.ROOT, "admin", "tab-panels", name);
-
-    const [mutantExit] = useMutation(exit, {
-        onSuccess: () => queryCache.invalidateQueries(VICE_ADMIN_QUERY_KEY),
-    });
-    const [mutantSaveAndExit] = useMutation(saveAndExit, {
-        onSuccess: () => queryCache.invalidateQueries(VICE_ADMIN_QUERY_KEY),
-    });
-    const [mutantExtendTimeLimit] = useMutation(extendTimeLimit, {
-        onSuccess: () => queryCache.invalidateQueries(VICE_ADMIN_QUERY_KEY),
-    });
-    const [mutantUploadOutputs] = useMutation(saveOutputFiles, {
-        onSuccess: () => queryCache.invalidateQueries(VICE_ADMIN_QUERY_KEY),
-    });
-    const [mutantDownloadInputs] = useMutation(downloadInputFiles, {
-        onSuccess: () => queryCache.invalidateQueries(VICE_ADMIN_QUERY_KEY),
-    });
-
-    const [analysisRows, setAnalysisRows] = useState([]);
-
-    useEffect(() => {
-        setAnalysisRows(getAnalyses(data));
-    }, [data]);
-
-    const orderOfTabs = [
-        "analyses",
-        "deployments",
-        "services",
-        "pods",
-        "configMaps",
-        "ingresses",
-    ];
-
-    return (
-        <TabContext value={value}>
-            <AppBar
-                position="static"
-                color="primary"
-                classes={{ colorPrimary: classes.tabAppBarColorPrimary }}
-            >
-                <TabList
-                    onChange={(_, newValue) => setValue(newValue)}
-                    variant="scrollable"
-                    scrollButtons="auto"
-                    indicatorColor="secondary"
-                >
-                    {orderOfTabs.map((tabName, index) => (
-                        <Tab
-                            label={t(tabName)}
-                            id={tabID(tabName)}
-                            key={tabID(tabName)}
-                            value={`${index}`}
-                            aria-controls={tabPanelID(tabName)}
-                            classes={{
-                                root: classes.tabRoot,
-                                selected: classes.tabSelected,
-                            }}
-                        />
-                    ))}
-                </TabList>
-            </AppBar>
-
-            {orderOfTabs.map((tabName, index) => (
-                <TabPanel
-                    value={`${index}`}
-                    id={tabPanelID(tabName)}
-                    key={tabPanelID(tabName)}
-                    classes={{ root: classes.tabPanelRoot }}
-                >
-                    <CollapsibleTable
-                        data={analysisRows}
-                        columns={columns[tabName]}
-                        title={t(tabName)}
-                        showActions={tabName === "analyses"}
-                        handleExit={async (analysisID, externalID) => {
-                            const data = await mutantExit({ analysisID });
-                            setAnalysisRows(
-                                analysisRows.filter(
-                                    (obj) => obj.externalID !== externalID
-                                )
-                            );
-                            return data;
-                        }}
-                        handleSaveAndExit={async (analysisID, externalID) => {
-                            const data = await mutantSaveAndExit({
-                                analysisID,
-                            });
-                            setAnalysisRows(
-                                analysisRows.filter(
-                                    (obj) => obj.externalID !== externalID
-                                )
-                            );
-                            return data;
-                        }}
-                        handleExtendTimeLimit={async (
-                            analysisID,
-                            externalID
-                        ) => {
-                            const data = await mutantExtendTimeLimit({
-                                analysisID,
-                            });
-                            return data;
-                        }}
-                        handleUploadOutputs={async (analysisID, externalID) => {
-                            const data = await mutantUploadOutputs({
-                                analysisID,
-                            });
-                            return data;
-                        }}
-                        handleDownloadInputs={async (
-                            analysisID,
-                            externalID
-                        ) => {
-                            const data = await mutantDownloadInputs({
-                                analysisID,
-                            });
-                            return data;
-                        }}
-                    />
-                </TabPanel>
-            ))}
-        </TabContext>
-    );
-};
+const useStyles = makeStyles((theme) => ({
+    root: {
+        paddingLeft: theme.spacing(3),
+        paddingRight: theme.spacing(3),
+        paddingTop: theme.spacing(3),
+        [theme.breakpoints.down("sm")]: {
+            paddingLeft: theme.spacing(1),
+            paddingRight: theme.spacing(1),
+            paddingTop: theme.spacing(1),
+        },
+        [theme.breakpoints.down("xs")]: {
+            paddingLeft: theme.spacing(0.5),
+            paddingRight: theme.spacing(0.5),
+            paddingTop: theme.spacing(0.5),
+        },
+        paddingBottom: 0,
+        overflow: "auto",
+        height: "90vh",
+    },
+}));
 
 export const VICEAdmin = () => {
     const classes = useStyles();
@@ -415,39 +126,31 @@ export const VICEAdmin = () => {
 
     return (
         <div id={id(ids.ROOT)} className={classes.root}>
-            <Tabs
-                value={selectedTab}
-                onChange={onTabSelectionChange}
-                classes={{ indicator: classes.tabIndicator }}
-            >
-                <Tab
+            <DETabs value={selectedTab} onChange={onTabSelectionChange}>
+                <DETab
                     value={TABS.quotaRequests}
                     label={t("requestLimitTabLabel")}
                     id={id(ids.REQUEST_LIMIT_TAB)}
-                    classes={{ selected: classes.tabSelected }}
                 />
 
-                <Tab
+                <DETab
                     value={TABS.analyses}
                     label={t("analysesTabLabel")}
                     id={id(ids.USER_ANALYSES_TAB)}
-                    classes={{ selected: classes.tabSelected }}
                 />
 
-                <Tab
+                <DETab
                     value={TABS.instantLaunches}
                     label={t("instantLaunchesTabLabel")}
                     id={id(ids.INSTANT_LAUNCHES_TAB)}
-                    classes={{ selected: classes.tabSelected }}
                 />
 
-                <Tab
+                <DETab
                     value={TABS.dataMapping}
                     label={t("dataMappingTabLabel")}
                     id={id(ids.DATA_MAPPING_TAB)}
-                    classes={{ selected: classes.tabSelected }}
                 />
-            </Tabs>
+            </DETabs>
 
             <DETabPanel
                 tabId={id(ids.REQUEST_LIMIT_TAB)}

@@ -11,5 +11,5 @@
     "general_service_error": "Please contact support. The Discovery Environment token service encountered an error.",
     "oops": "Oops!",
     "just_a_moment": "Just a moment...",
-    "processing_request": "Linking the DE to the remote system."
+    "processing_request": "Linking the DE to the HPC system."
 }

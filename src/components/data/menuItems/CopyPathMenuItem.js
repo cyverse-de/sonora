@@ -8,7 +8,7 @@ import React from "react";
 import { useTranslation } from "i18n";
 import { build } from "@cyverse-de/ui-lib";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
-import { FileCopy } from "@material-ui/icons";
+import { Label } from "@material-ui/icons";
 import ids from "../ids";
 
 export default function CopyPathMenuItem(props) {
@@ -25,7 +25,7 @@ export default function CopyPathMenuItem(props) {
             }}
         >
             <ListItemIcon>
-                <FileCopy fontSize="small" />
+                <Label fontSize="small" />
             </ListItemIcon>
             <ListItemText primary={t("copyPath")} />
         </MenuItem>

@@ -48,6 +48,7 @@ function RowDotMenu(props) {
         inTrash,
     } = props;
     const { t } = useTranslation("common");
+    const { t: i18nData } = useTranslation("data");
     const isOwner = hasOwn(resource.permission);
     const isFile = resource.type === ResourceTypes.FILE;
     const renameEnabled = !inTrash && isWritable(resource.permission);
@@ -143,13 +144,13 @@ function RowDotMenu(props) {
                             copyPromise.then(
                                 () => {
                                     announce({
-                                        text: t("pathCopied"),
+                                        text: i18nData("pathCopied"),
                                         variant: AnnouncerConstants.SUCCESS,
                                     });
                                 },
                                 () => {
                                     announce({
-                                        text: t("pathCopiedFailed"),
+                                        text: i18nData("pathCopiedFailed"),
                                         variant: AnnouncerConstants.ERROR,
                                     });
                                 }

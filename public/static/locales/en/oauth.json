@@ -1,0 +1,15 @@
+{
+    "invalid_request": "Please contact support. The authorization request was rejected by the HPC system.",
+    "unauthorized_client": "Please contact support. The Discovery Environment is not authorized to request access on your behalf to the HPC system.",
+    "access_denied": "Please try again or contact support. The HPC system denied the authorization request.",
+    "unsupported_response_type": "Please contact support. The HPC system does not support the response requested by the Discovery Environment.",
+    "invalid_scope": "Please contact support. Authorization scope not supported or authorized by the HPC system.",
+    "server_error": "Please try again or contact support. The HPC system encountered an error.",
+    "temporarily_unavailable": "Please try again or contact support. The HPC system is temporarily unavailable.",
+    "no_auth_code_provided": "Please contact support. Invalid authorization attempt. ",
+    "no_state_id_provided": "Please contact support. Required information was missing from the authorization attempt.",
+    "general_service_error": "Please contact support. The Discovery Environment token service encountered an error.",
+    "oops": "Oops!",
+    "just_a_moment": "Just a moment...",
+    "processing_request": "Linking the DE to the HPC system."
+}

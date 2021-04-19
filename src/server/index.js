@@ -13,6 +13,7 @@ import fileIORouter from "./api/fileio";
 import groupsRouter from "./api/groups";
 import metadataRouter from "./api/metadata";
 import notificationsRouter from "./api/notifications";
+import oauthRouter from "./api/oauth";
 import quickLaunchRouter from "./api/quickLaunch";
 import refGenomeRouter from "./api/referenceGenomes";
 import sharingRouter from "./api/sharing";
@@ -123,6 +124,7 @@ app.prepare()
         server.use("/api", groupsRouter());
         server.use("/api", metadataRouter());
         server.use("/api", notificationsRouter());
+        server.use("/api", oauthRouter());
         server.use("/api", quickLaunchRouter());
         server.use("/api", sharingRouter());
         server.use("/api", supportRouter());

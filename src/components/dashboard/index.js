@@ -145,9 +145,9 @@ const Dashboard = (props) => {
     if (userProfile?.id) {
         sections = [
             new RecentAnalyses(),
+            new InstantLaunches(),
             new RunningAnalyses(),
             new RecentlyUsedApps(),
-            new InstantLaunches(),
             new PublicApps(),
             // new NewsFeed(),
             // new EventsFeed(),

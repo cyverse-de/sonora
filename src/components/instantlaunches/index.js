@@ -10,9 +10,10 @@ import {
     LinearProgress,
     makeStyles,
     Typography,
+    useTheme,
 } from "@material-ui/core";
 
-import { Launch as LaunchIcon } from "@material-ui/icons";
+import { PlayCircleOutlineOutlined } from "@material-ui/icons";
 
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import launchConstants from "components/models/AppParamTypes";
@@ -270,15 +271,22 @@ const InstantLaunchButton = ({
     instantLaunch,
     resource = {},
     showErrorAnnouncer,
+    size = "medium",
+    themeSpacing = 0,
+    color = "primary",
 }) => {
     const baseID = buildID(ids.BASE, ids.LAUNCH, ids.BUTTON);
     const router = useRouter();
     const [open, setOpen] = React.useState(false);
+    const theme = useTheme();
 
     return (
         <IconButton
             id={baseID}
             variant="contained"
+            size={size}
+            style={{ marginLeft: theme.spacing(themeSpacing) }}
+            color={color}
             onClick={async (event) => {
                 event.stopPropagation();
                 event.preventDefault();
@@ -313,7 +321,7 @@ const InstantLaunchButton = ({
             }}
         >
             <InstantLaunchSubmissionDialog open={open} />
-            <LaunchIcon />
+            <PlayCircleOutlineOutlined />
         </IconButton>
     );
 };

@@ -388,6 +388,18 @@ function TableView(props) {
                                             >
                                                 {resource.label}
                                             </SpanLink>
+
+                                            {instantLaunch && (
+                                                <InstantLaunchButton
+                                                    instantLaunch={
+                                                        instantLaunch
+                                                    }
+                                                    resource={resource}
+                                                    size="small"
+                                                    color="default"
+                                                    themeSpacing={3}
+                                                />
+                                            )}
                                         </TableCell>
                                         {getColumnDetails(displayColumns).map(
                                             (column, index) => (
@@ -403,14 +415,6 @@ function TableView(props) {
 
                                         {rowDotMenuVisibility && (
                                             <TableCell align="right">
-                                                {instantLaunch && (
-                                                    <InstantLaunchButton
-                                                        instantLaunch={
-                                                            instantLaunch
-                                                        }
-                                                        resource={resource}
-                                                    />
-                                                )}
                                                 <RowDotMenu
                                                     baseId={build(
                                                         tableId,

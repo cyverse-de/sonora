@@ -54,7 +54,11 @@ export default function Tour(props) {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button id={build(baseId, ids.DISMISS_BTN)} size="small" onClick={onDismiss}>
+                        <Button
+                            id={build(baseId, ids.DISMISS_BTN)}
+                            size="small"
+                            onClick={onDismiss}
+                        >
                             {t("dismiss")}
                         </Button>
                         <Button

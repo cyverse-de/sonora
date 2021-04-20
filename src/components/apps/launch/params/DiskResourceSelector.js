@@ -11,7 +11,6 @@ import { useTranslation } from "i18n";
 
 import InputSelector from "../InputSelector";
 
-import { isReadable } from "components/data/utils";
 import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
 
 import {
@@ -41,24 +40,15 @@ export default function DiskResourceSelector({ param, ...props }) {
         queryFn: getResourceDetails,
         config: {
             enabled: value,
-            onSuccess: (resp) => {
-                const details = resp?.paths[value];
-
-                if (!isReadable(details?.permission)) {
+            onSuccess: () => {
+                setStatError(null);
+            },
+            onError: (error) => {
+                if (ERROR_CODES.ERR_DOES_NOT_EXIST === getErrorCode(error)) {
                     setStatError(t("errorResourceDoesNotExist"));
                 } else {
                     setStatError(null);
                 }
-            },
-            onError: (error) => {
-                const errorMsg = [
-                    ERROR_CODES.ERR_DOES_NOT_EXIST,
-                    ERROR_CODES.ERR_NOT_READABLE,
-                ].includes(getErrorCode(error))
-                    ? t("errorResourceDoesNotExist")
-                    : t("errorLoadingResourceStat");
-
-                setStatError(errorMsg);
             },
         },
     });

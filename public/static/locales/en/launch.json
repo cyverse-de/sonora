@@ -15,7 +15,6 @@
     "comments": "Comments",
     "delete": "Delete",
     "errorLoadingReferenceGenomes": "Error loading Reference Genomes",
-    "errorLoadingResourceStat": "Error loading file/folder details. If this path does not exist, the app may not run successfully.",
     "errorResourceDoesNotExist": "The selected file/folder does not exist.",
     "helpMsgResourceRequirements": "Resource Requirements may be adjusted so that the analysis is submitted with requests for larger minimum resources. Note that this may cause the analysis to wait longer in the submission queue until a node that matches those minimum requirements becomes available. So generally it is advisable to leave the resource requests set to the defaults that the tool or app integrator has set.",
     "hpcAppWaitTimes": "<p>This application runs on XSEDE, the U.S. National Supercomputing Network. Analyses run on this system enter a queue that includes many non-CyVerse users. Wait times for your analyses (jobs) to submit and run may be up to several days for large-memory applications. Please do not resubmit your analysis. If the status of your analysis has not changed from Submitted to Running after several days, <support>contact support</support>. To learn more about HPC apps, see <hpcLink>Using HPC Apps in the DE</hpcLink>.</p><p>Apply for your own XSEDE allocation to gain access to additional resources at <xsede>XRAS - Submit Allocation Request</xsede>. Access to this powerful system is made available to CyVerse users at no cost through a grant from the National Science Foundation.</p>",

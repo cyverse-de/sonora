@@ -29,7 +29,7 @@ import {
     RecentlyUsedApps,
     PublicApps,
     RecentAnalyses,
-    RunningAnalyses,
+    //RunningAnalyses,
     VideosFeed,
     InstantLaunches,
 } from "./DashboardSection";
@@ -146,7 +146,7 @@ const Dashboard = (props) => {
         sections = [
             new RecentAnalyses(),
             new InstantLaunches(),
-            new RunningAnalyses(),
+            //new RunningAnalyses(),
             new RecentlyUsedApps(),
             new PublicApps(),
             // new NewsFeed(),

@@ -97,17 +97,12 @@ const InputSelector = ({
     const { t } = useTranslation("launch");
     const { t: prefI18n } = useTranslation("preferences");
     const { setFieldValue } = form;
-    const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
+    const bootstrapInfo = useBootstrapInfo()[0];
 
     //update last folder used.
-    const [mutatePreferences] = useSavePreferences(
-        ({ preferences }) => {
-            setBootstrapInfo({ ...bootstrapInfo, preferences });
-        },
-        (e) => {
-            showErrorAnnouncer(prefI18n("savePrefError"), e);
-        }
-    );
+    const [mutatePreferences] = useSavePreferences(null, (e) => {
+        showErrorAnnouncer(prefI18n("savePrefError"), e);
+    });
 
     const inputProps = {
         readOnly: true,
@@ -125,7 +120,7 @@ const InputSelector = ({
                             ...bootstrapInfo.preferences,
                             lastFolder: getParentPath(selection),
                         };
-                        mutatePreferences(updatedPref);
+                        mutatePreferences({ preferences: updatedPref });
                     }}
                 />
             </InputAdornment>

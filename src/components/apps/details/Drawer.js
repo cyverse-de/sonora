@@ -19,8 +19,8 @@ import { DETab, DETabPanel, DETabs } from "../../utils/DETabs";
 import DetailsPanel from "./DetailsPanel";
 import constants from "../../../constants";
 
-import NavigationConstants from "common/NavigationConstants";
 import { getHost } from "components/utils/getHost";
+import { getAppListingLinkRefs } from "components/apps/utils";
 
 import {
     APP_BY_ID_QUERY_KEY,
@@ -100,7 +100,8 @@ function DetailsHeader({
 
     useEffect(() => {
         const host = getHost();
-        setLink(`${host}/${NavigationConstants.APPS}/${systemId}/${appId}`);
+        const partialLink = getAppListingLinkRefs(systemId, appId)[1];
+        setLink(`${host}${partialLink}`);
     }, [appId, systemId]);
 
     return (

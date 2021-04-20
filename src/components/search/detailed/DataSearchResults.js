@@ -28,8 +28,6 @@ import {
 } from "serviceFacades/filesystem";
 import { BOOTSTRAP_KEY } from "serviceFacades/users";
 
-import NavigationConstants from "common/NavigationConstants";
-
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import dataFields from "components/data/dataFields";
 import ResourceIcon from "components/data/listing/ResourceIcon";
@@ -196,6 +194,11 @@ function DataSearchResults(props) {
                 Cell: ({ row }) => {
                     const original = row?.original;
                     const { t: i18nCommon } = useTranslation("common");
+                    const partialLink = useDataNavigationLink(
+                        original?._source.path,
+                        original?._id,
+                        original?._type
+                    )[1];
                     return (
                         <Grid spacing={1}>
                             <Grid item>
@@ -210,13 +213,7 @@ function DataSearchResults(props) {
                             <Grid item>
                                 <CopyLinkButton
                                     onCopyLinkSelected={() => {
-                                        const link = `${getHost()}/${
-                                            NavigationConstants.DATA
-                                        }/${constants.DATA_STORE_STORAGE_ID}${
-                                            original?._source.path
-                                        }?type=${original?._type}&resourceId=${
-                                            original?._id
-                                        }`;
+                                        const link = `${getHost()}${partialLink}`;
                                         const copyPromise = copyStringToClipboard(
                                             link
                                         );

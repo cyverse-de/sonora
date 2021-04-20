@@ -16,13 +16,12 @@ import CopyPathMenuItem from "../menuItems/CopyPathMenuItem";
 import CopyLinkMenuItem from "components/utils/CopyLinkMenuItem";
 import SharingMenuItem from "../../sharing/SharingMenuItem";
 import { hasOwn, containsFolders, isWritable } from "../utils";
-import NavigationConstants from "common/NavigationConstants";
-import constants from "../../../constants";
 import { getHost } from "components/utils/getHost";
 import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
 import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
+import { useDataNavigationLink } from "components/data/utils";
 import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";
 import {
     AnnouncerConstants,
@@ -56,6 +55,11 @@ function RowDotMenu(props) {
         !inTrash && isOwner && !containsFolders([resource]);
     const sharingEnabled = !inTrash && isOwner;
     const moveMiEnabled = !inTrash && isOwner;
+    const partialLink = useDataNavigationLink(
+        resource?.path,
+        resource?.id,
+        resource?.type
+    )[1];
     return (
         <DotMenu
             baseId={baseId}
@@ -122,13 +126,7 @@ function RowDotMenu(props) {
                         baseId={baseId}
                         onClose={onClose}
                         onCopyLinkSelected={() => {
-                            const link = `${getHost()}/${
-                                NavigationConstants.DATA
-                            }/${constants.DATA_STORE_STORAGE_ID}${
-                                resource?.path
-                            }?type=${resource?.type}&resourceId=${
-                                resource?.id
-                            }`;
+                            const link = `${getHost()}${partialLink}`;
                             const copyPromise = copyStringToClipboard(link);
                             copyLinkToClipboardHandler(t, copyPromise);
                         }}
@@ -138,10 +136,7 @@ function RowDotMenu(props) {
                         baseId={baseId}
                         onClose={onClose}
                         onCopyPathSelected={() => {
-                            const copyPromise = copyStringToClipboard(
-                                resource?.path
-                            );
-                            copyPromise.then(
+                            copyStringToClipboard(resource?.path).then(
                                 () => {
                                     announce({
                                         text: i18nData("pathCopied"),

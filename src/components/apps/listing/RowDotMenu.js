@@ -10,7 +10,6 @@ import { build, DotMenu } from "@cyverse-de/ui-lib";
 
 import ids from "../ids";
 import { isWritable } from "../utils";
-import NavigationConstants from "common/NavigationConstants";
 import { getHost } from "components/utils/getHost";
 import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
 import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
@@ -21,6 +20,7 @@ import QLMenuItem from "../menuItems/QLMenuItem";
 import CopyLinkMenuItem from "components/utils/CopyLinkMenuItem";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
 import shareIds from "components/sharing/ids";
+import { getAppListingLinkRefs } from "components/apps/utils";
 
 function RowDotMenu(props) {
     const {
@@ -83,10 +83,11 @@ function RowDotMenu(props) {
                         baseId={baseId}
                         onClose={onClose}
                         onCopyLinkSelected={() => {
-                            const link = `${getHost()}/${
-                                NavigationConstants.APPS
-                            }/${app?.system_id}/${app?.id}`;
-
+                            const partialLink = getAppListingLinkRefs(
+                                app.system_id,
+                                app.id
+                            )[1];
+                            const link = `${getHost()}/${partialLink}`;
                             const copyPromise = copyStringToClipboard(link);
                             copyLinkToClipboardHandler(t, copyPromise);
                         }}

@@ -200,7 +200,7 @@ function Listing(props) {
         setAddToBagEnabled(
             selApps &&
                 selected.length > 0 &&
-                selApps?.filter((app) => app.is_public === true).length === 0
+                selApps?.filter((app) => app.is_public).length === 0
         );
     }, [getSelectedApps, selected, selectedApp]);
 

@@ -83,7 +83,7 @@ function AppsToolbar(props) {
 
     return (
         <>
-            <Toolbar variant="dense">
+            <Toolbar>
                 <AppNavigation
                     baseId={appsToolbarId}
                     handleCategoryChange={handleCategoryChange}

@@ -11,12 +11,15 @@ import { useQuery, queryCache } from "react-query";
 import Link from "next/link";
 import { useTranslation } from "i18n";
 
+import { AnnouncerConstants, announce, build } from "@cyverse-de/ui-lib";
+
 import DELink from "components/utils/DELink";
 
 import constants from "../../../constants";
 import SearchResultsTable from "./SearchResultsTable";
 import { useDataSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
+import ids from "../ids";
 
 import {
     DATA_SEARCH_QUERY_KEY,
@@ -32,9 +35,13 @@ import { useDataNavigationLink } from "components/data/utils";
 
 import DetailsDrawer from "components/data/details/Drawer";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import { getHost } from "components/utils/getHost";
+import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
+import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
+import CopyLinkButton from "components/utils/CopyLinkButton";
 
-import { IconButton, Typography } from "@material-ui/core";
-import { Info } from "@material-ui/icons";
+import { IconButton, Tooltip, Typography, Grid } from "@material-ui/core";
+import { Info, Label } from "@material-ui/icons";
 
 function Name(props) {
     const { resource, searchTerm } = props;
@@ -47,6 +54,25 @@ function Name(props) {
         <Link href={href} as={as} passHref>
             <DELink text={resource._source?.label} searchTerm={searchTerm} />
         </Link>
+    );
+}
+
+function CopyPathButton(props) {
+    const { baseId, onCopyPathSelected } = props;
+    const { t } = useTranslation("data");
+
+    return (
+        <Tooltip title={t("copyPath")} aria-label={t("copyPath")}>
+            <IconButton
+                id={build(baseId, ids.COPY_PATH_BUTTON)}
+                onClick={() => {
+                    onCopyPathSelected();
+                }}
+                size="small"
+            >
+                <Label fontSize="small" />
+            </IconButton>
+        </Tooltip>
     );
 }
 
@@ -167,20 +193,82 @@ function DataSearchResults(props) {
                 accessor: "actions",
                 Cell: ({ row }) => {
                     const original = row?.original;
+                    const { t: i18nCommon } = useTranslation("common");
+                    const partialLink = useDataNavigationLink(
+                        original?._source.path,
+                        original?._id,
+                        original?._type
+                    )[1];
                     return (
-                        <IconButton
-                            onClick={() => setDetailsResource(original)}
-                            size="small"
-                            color="primary"
-                        >
-                            <Info fontSize="small" />
-                        </IconButton>
+                        <Grid spacing={1}>
+                            <Grid item>
+                                <IconButton
+                                    id={build(baseId, ids.DETAILS_BUTTON)}
+                                    onClick={() => setDetailsResource(original)}
+                                    size="small"
+                                    color="primary"
+                                >
+                                    <Info fontSize="small" />
+                                </IconButton>
+                            </Grid>
+                            <Grid item>
+                                <CopyLinkButton
+                                    baseId={baseId}
+                                    onCopyLinkSelected={() => {
+                                        const link = `${getHost()}${partialLink}`;
+                                        const copyPromise = copyStringToClipboard(
+                                            link
+                                        );
+                                        copyLinkToClipboardHandler(
+                                            i18nCommon,
+                                            copyPromise
+                                        );
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <CopyPathButton
+                                    baseId={baseId}
+                                    onCopyPathSelected={() => {
+                                        const copyPromise = copyStringToClipboard(
+                                            original?._source.path
+                                        );
+                                        copyPromise.then(
+                                            () => {
+                                                announce({
+                                                    text: dataI18n(
+                                                        "pathCopied"
+                                                    ),
+                                                    variant:
+                                                        AnnouncerConstants.SUCCESS,
+                                                });
+                                            },
+                                            () => {
+                                                announce({
+                                                    text: dataI18n(
+                                                        "pathCopiedFailed"
+                                                    ),
+                                                    variant:
+                                                        AnnouncerConstants.ERROR,
+                                                });
+                                            }
+                                        );
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
                     );
                 },
                 disableSortBy: true,
             },
         ],
-        [dataRecordFields, searchTerm]
+        [
+            dataRecordFields.NAME.fieldName,
+            dataRecordFields.PATH.fieldName,
+            searchTerm,
+            baseId,
+            dataI18n,
+        ]
     );
 
     if (error) {

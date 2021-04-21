@@ -9,18 +9,26 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 
+import { build } from "@cyverse-de/ui-lib";
+
 import SearchResultsTable from "./SearchResultsTable";
 import { useAppsSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
 import constants from "../../../constants";
+import ids from "../ids";
 
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import AppName from "components/apps/AppName";
 import { APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
 import appFields from "components/apps/appFields";
 import Drawer from "components/apps/details/Drawer";
+import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
+import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
+import CopyLinkButton from "components/utils/CopyLinkButton";
+import { getHost } from "components/utils/getHost";
+import { getAppListingLinkRefs } from "components/apps/utils";
 
-import { IconButton, Typography } from "@material-ui/core";
+import { IconButton, Typography, Grid } from "@material-ui/core";
 import { Info } from "@material-ui/icons";
 
 function Name(props) {
@@ -117,20 +125,54 @@ export default function AppSearchResults(props) {
                 accessor: "actions",
                 Cell: ({ row }) => {
                     const original = row?.original;
+                    const partialLink = getAppListingLinkRefs(
+                        original?.system_id,
+                        original?.id
+                    )[1];
+                    const { t } = useTranslation("common");
                     return (
-                        <IconButton
-                            onClick={() => setDetailsApp(original)}
-                            size="small"
-                            color="primary"
-                        >
-                            <Info fontSize="small" />
-                        </IconButton>
+                        <Grid spacing={1}>
+                            <Grid item>
+                                <IconButton
+                                    id={build(baseId, ids.DETAILS_BUTTON)}
+                                    onClick={() => setDetailsApp(original)}
+                                    size="small"
+                                    color="primary"
+                                >
+                                    <Info fontSize="small" />
+                                </IconButton>
+                            </Grid>
+                            <Grid item>
+                                <CopyLinkButton
+                                    baseId={baseId}
+                                    onCopyLinkSelected={() => {
+                                        const link = `${getHost()}${partialLink}`;
+                                        const copyPromise = copyStringToClipboard(
+                                            link
+                                        );
+                                        copyLinkToClipboardHandler(
+                                            t,
+                                            copyPromise
+                                        );
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
                     );
                 },
                 disableSortBy: true,
             },
         ],
-        [appRecordFields, searchTerm]
+        [
+            appRecordFields.INTEGRATOR.fieldName,
+            appRecordFields.INTEGRATOR.key,
+            appRecordFields.NAME.fieldName,
+            appRecordFields.NAME.key,
+            appRecordFields.SYSTEM.fieldName,
+            appRecordFields.SYSTEM.key,
+            baseId,
+            searchTerm,
+        ]
     );
     if (error) {
         return (

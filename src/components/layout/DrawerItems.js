@@ -26,7 +26,14 @@ import { Web } from "@material-ui/icons";
 import { openInteractiveUrl } from "../analyses/utils";
 
 function DrawerItems(props) {
-    const { open, activeView, toggleDrawer, isXsDown, adminUser, runningViceJobs } = props;
+    const {
+        open,
+        activeView,
+        toggleDrawer,
+        isXsDown,
+        adminUser,
+        runningViceJobs,
+    } = props;
     const { t } = useTranslation(["common"]);
     const [userProfile] = useUserProfile();
 

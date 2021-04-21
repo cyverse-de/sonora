@@ -19,7 +19,8 @@ import { DETab, DETabPanel, DETabs } from "../../utils/DETabs";
 import DetailsPanel from "./DetailsPanel";
 import constants from "../../../constants";
 
-import NavigationConstants from "common/NavigationConstants";
+import { getHost } from "components/utils/getHost";
+import { getAppListingLinkRefs } from "components/apps/utils";
 
 import {
     APP_BY_ID_QUERY_KEY,
@@ -98,11 +99,9 @@ function DetailsHeader({
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        const protocol = window.location.protocol.concat("//");
-        const host = protocol.concat(window.location.host);
-        setLink(
-            host.concat(`/${NavigationConstants.APPS}/${systemId}/${appId}`)
-        );
+        const host = getHost();
+        const partialLink = getAppListingLinkRefs(systemId, appId)[1];
+        setLink(`${host}${partialLink}`);
     }, [appId, systemId]);
 
     return (
@@ -110,21 +109,22 @@ function DetailsHeader({
             <Typography variant="h6" component="span">
                 {appName}
             </Typography>
-            {!isExternal && isPublic && (
-                <div className={classes.headerOperations}>
+
+            <div className={classes.headerOperations}>
+                {!isExternal && isPublic && (
                     <AppFavorite
                         baseId={baseId}
                         isFavorite={isFavorite}
                         isExternal={isExternal}
                         onFavoriteClick={onFavoriteClick}
                     />
-                    <Tooltip title={t("linkToThisApp", { name: appName })}>
-                        <IconButton size="small" onClick={() => setOpen(true)}>
-                            <LinkIcon color="primary" fontSize="small" />
-                        </IconButton>
-                    </Tooltip>
-                </div>
-            )}
+                )}
+                <Tooltip title={t("linkToThisApp", { name: appName })}>
+                    <IconButton size="small" onClick={() => setOpen(true)}>
+                        <LinkIcon color="primary" fontSize="small" />
+                    </IconButton>
+                </Tooltip>
+            </div>
             <Dialog open={open} onClose={() => setOpen(false)} fullWidth>
                 <DialogTitle>
                     {t("linkToThisApp", { name: appName })}

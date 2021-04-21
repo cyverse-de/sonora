@@ -5,6 +5,8 @@ export default {
     BREADCRUMBS: "breadcrumbs",
     CANCEL_BTN: "cancelBtn",
     checkbox: "checkbox",
+    COPY_LINK_MENU_ITEM: "copyLinkMenuItem",
+    COPY_PATH_MENU_ITEM: "copyPathMenuItem",
     COGE_MI: "cogeMenuItem",
     CREATE_BTN: "createBtn",
     CREATE_FILE_MI: "createFileMenuItem",

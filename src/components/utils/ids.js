@@ -21,7 +21,8 @@ export default {
     DATE_SUBMITTED: "dateSubmitted",
     COMMENTS: "comments",
     SAVE_BTN: "saveBtn",
-
+    COPY_LINK_MENU_ITEM: "copyLinkMenuItem",
+    COPY_LINK_BUTTON: "copyLinkButton",
     DIALOG: {
         CANCEL: "cancel",
         CONFIRM: "confirm",

@@ -81,9 +81,9 @@ function Listing(props) {
     const [categoryStatus, setCategoryStatus] = useState(false);
     const [navError, setNavError] = useState(null);
 
-    const getSelectedApps = () => {
+    const getSelectedApps = useCallback(() => {
         return selected.map((id) => data?.apps.find((app) => app.id === id));
-    };
+    }, [data, selected]);
 
     const shareEnabled = canShare(getSelectedApps());
 
@@ -196,8 +196,13 @@ function Listing(props) {
     }, [selected]);
 
     useEffect(() => {
-        setAddToBagEnabled(selected && selected.length > 0);
-    }, [selected]);
+        const selApps = getSelectedApps();
+        setAddToBagEnabled(
+            selApps &&
+                selected.length > 0 &&
+                selApps?.filter((app) => app.is_public).length === 0
+        );
+    }, [getSelectedApps, selected, selectedApp]);
 
     useEffect(() => {
         if (data?.apps) {

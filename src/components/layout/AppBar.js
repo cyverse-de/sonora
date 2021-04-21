@@ -17,6 +17,7 @@ import Bag from "components/Bag";
 import searchConstants from "components/search/constants";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
+import { useBootstrapInfo } from "contexts/bootstrap";
 import { intercomLogout } from "common/intercom";
 
 import {
@@ -98,6 +99,7 @@ function DEAppBar(props) {
     const [open, setOpen] = useState(false);
     const [adminUser, setAdminUser] = useState(false);
     const [bootstrapError, setBootstrapError] = useState(null);
+    const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
     const [profileRefetchInterval, setProfileRefetchInterval] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -154,12 +156,12 @@ function DEAppBar(props) {
     }, [ref, setAppBarRef]);
 
     useEffect(() => {
-        if (userProfile) {
+        if (userProfile && !bootstrapInfo) {
             setBootstrapQueryEnabled(true);
         }
-    }, [userProfile]);
+    }, [userProfile, bootstrapInfo]);
 
-    useBootStrap(bootstrapQueryEnabled, null, setBootstrapError);
+    useBootStrap(bootstrapQueryEnabled, setBootstrapInfo, setBootstrapError);
 
     React.useEffect(() => {
         if (userProfile?.id) {

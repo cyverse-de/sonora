@@ -5,11 +5,11 @@
  *
  * @module dashboard
  */
-import React, { useRef, useCallback, useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import clsx from "clsx";
 
-import { useQuery, queryCache } from "react-query";
+import { useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
@@ -36,11 +36,7 @@ import {
 import { getDashboard, DASHBOARD_QUERY_KEY } from "serviceFacades/dashboard";
 import { useBootstrapInfo } from "contexts/bootstrap";
 
-import {
-    useBootStrap,
-    useSavePreferences,
-    BOOTSTRAP_KEY,
-} from "serviceFacades/users";
+import { useSavePreferences } from "serviceFacades/users";
 
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import { useUserProfile } from "contexts/userProfile";
@@ -99,46 +95,16 @@ const Dashboard = (props) => {
     const classes = useStyles();
     const { t } = useTranslation("dashboard");
     const { t: i18nPref } = useTranslation("preferences");
+    const { t: i18nIntro } = useTranslation("intro");
     const [userProfile] = useUserProfile();
 
-    const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
-    const [bootstrapError, setBootstrapError] = useState(null);
-    const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
-
-    //get from cache if not fetch now.
-    const bootstrapCache = queryCache.getQueryData(BOOTSTRAP_KEY);
-
-    const preProcessData = useCallback(
-        (respData) => {
-            let pref = respData.preferences;
-            setBootstrapInfo({ ...bootstrapInfo, preferences: pref });
-        },
-        [bootstrapInfo, setBootstrapInfo]
-    );
-
-    useEffect(() => {
-        if (bootstrapCache && !bootstrapInfo) {
-            preProcessData(bootstrapCache);
-        } else {
-            setBootstrapQueryEnabled(true);
-        }
-    }, [preProcessData, bootstrapInfo, bootstrapCache]);
-
-    useBootStrap(
-        bootstrapQueryEnabled,
-        (respData) => preProcessData(respData),
-        setBootstrapError
-    );
+    const bootstrapInfo = useBootstrapInfo()[0];
 
     const [mutatePreferences] = useSavePreferences(
-        (updatedPref) => {
+        (resp) => {
             announce({
-                text: i18nPref("dismissPrompt"),
+                text: i18nIntro("dismissPrompt"),
                 variant: AnnouncerConstants.SUCCESS,
-            });
-            setBootstrapInfo({
-                ...bootstrapInfo,
-                preferences: updatedPref.preferences,
             });
         },
         (e) => {
@@ -224,16 +190,17 @@ const Dashboard = (props) => {
     return (
         <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
             {!userProfile?.id && <Banner />}
-            {!bootstrapError && userProfile?.id && bootstrapInfo && (
+            {userProfile?.id && bootstrapInfo && (
                 <Tour
-                    baseId={baseId} 
+                    baseId={baseId}
                     showTourPrompt={bootstrapInfo?.preferences?.showTourPrompt}
                     user={userProfile.id}
                     onDismiss={() => {
-                        mutatePreferences({
+                        const updatedPref = {
                             ...bootstrapInfo.preferences,
                             showTourPrompt: false,
-                        });
+                        };
+                        mutatePreferences({ preferences: updatedPref });
                     }}
                 />
             )}

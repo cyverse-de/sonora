@@ -40,14 +40,21 @@ function bootstrap(key) {
 }
 
 function savePreferences({ preferences, webhooks }) {
+    let promises = [];
+
     const prefPromise = callApi({
         endpoint: "/api/preferences",
         method: "POST",
         body: preferences,
     });
-    const hookPromise = updateWebhooks(webhooks);
+    promises.push(prefPromise);
 
-    return Promise.all([prefPromise, hookPromise]);
+    if (webhooks) {
+        const hookPromise = updateWebhooks(webhooks);
+        promises.push(hookPromise);
+    }
+
+    return Promise.all(promises);
 }
 
 function resetToken({ systemId }) {
@@ -130,10 +137,15 @@ function useSavePreferences(onSuccessCallback, onError) {
         onSuccess: (updatedPref) => {
             //update preference in cache
             queryCache.setQueryData(BOOTSTRAP_KEY, (bootstrapData) => {
-                if (bootstrapData && updatedPref) {
+                if (
+                    bootstrapData &&
+                    updatedPref &&
+                    updatedPref[0].preferences
+                ) {
+                    const updatePref = updatedPref[0].preferences;
                     const updatedBootstrap = {
                         ...bootstrapData,
-                        preferences: { ...updatedPref.preferences },
+                        preferences: { ...updatePref },
                     };
                     return updatedBootstrap;
                 } else {

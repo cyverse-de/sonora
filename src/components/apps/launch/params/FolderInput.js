@@ -1,23 +1,15 @@
 /**
- * Form field for displaying FileFolderInput parameters.
+ * Form field for displaying FolderInput parameters.
  *
  * @author psarando
  */
 import React from "react";
 
-import InputSelector from "../InputSelector";
-
+import DiskResourceSelector from "./DiskResourceSelector";
 import ResourceTypes from "components/models/ResourceTypes";
 
-export default function FileFolderInput({ param, ...props }) {
+export default function FolderInput(props) {
     return (
-        <InputSelector
-            margin="normal"
-            acceptedType={ResourceTypes.FOLDER}
-            label={param?.label}
-            helperText={param?.description}
-            required={param?.required}
-            {...props}
-        />
+        <DiskResourceSelector acceptedType={ResourceTypes.FOLDER} {...props} />
     );
 }

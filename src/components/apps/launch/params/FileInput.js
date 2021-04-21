@@ -5,19 +5,11 @@
  */
 import React from "react";
 
-import InputSelector from "../InputSelector";
-
+import DiskResourceSelector from "./DiskResourceSelector";
 import ResourceTypes from "components/models/ResourceTypes";
 
-export default function FileInput({ param, ...props }) {
+export default function FileInput(props) {
     return (
-        <InputSelector
-            margin="normal"
-            acceptedType={ResourceTypes.FILE}
-            label={param?.label}
-            helperText={param?.description}
-            required={param?.required}
-            {...props}
-        />
+        <DiskResourceSelector acceptedType={ResourceTypes.FILE} {...props} />
     );
 }

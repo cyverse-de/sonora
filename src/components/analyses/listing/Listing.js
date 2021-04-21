@@ -713,7 +713,9 @@ function Listing(props) {
                 onClose={() => setDeleteDialogOpen(false)}
                 onConfirm={confirmDelete}
                 title={t("delete")}
-                contentText={t("analysesExecDeleteWarning")}
+                contentText={t("analysesExecDeleteWarning", {
+                    count: selected?.length,
+                })}
             />
 
             <ConfirmationDialog

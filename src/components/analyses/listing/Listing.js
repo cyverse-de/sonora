@@ -137,8 +137,10 @@ function Listing(props) {
     const [deleteAnalysesMutation, { isLoading: deleteLoading }] = useMutation(
         deleteAnalyses,
         {
-            onSuccess: () =>
-                queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY),
+            onSuccess: () => {
+                setSelected([]);
+                queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
+            },
             onError: (error) => {
                 showErrorAnnouncer(t("analysesDeleteError"), error);
             },

@@ -203,6 +203,7 @@ function DataSearchResults(props) {
                         <Grid spacing={1}>
                             <Grid item>
                                 <IconButton
+                                    id={build(baseId, ids.DETAILS_BUTTON)}
                                     onClick={() => setDetailsResource(original)}
                                     size="small"
                                     color="primary"
@@ -212,6 +213,7 @@ function DataSearchResults(props) {
                             </Grid>
                             <Grid item>
                                 <CopyLinkButton
+                                    baseId={baseId}
                                     onCopyLinkSelected={() => {
                                         const link = `${getHost()}${partialLink}`;
                                         const copyPromise = copyStringToClipboard(
@@ -226,6 +228,7 @@ function DataSearchResults(props) {
                             </Grid>
                             <Grid item>
                                 <CopyPathButton
+                                    baseId={baseId}
                                     onCopyPathSelected={() => {
                                         const copyPromise = copyStringToClipboard(
                                             original?._source.path
@@ -259,7 +262,13 @@ function DataSearchResults(props) {
                 disableSortBy: true,
             },
         ],
-        [dataRecordFields, dataI18n, searchTerm]
+        [
+            dataRecordFields.NAME.fieldName,
+            dataRecordFields.PATH.fieldName,
+            searchTerm,
+            baseId,
+            dataI18n,
+        ]
     );
 
     if (error) {

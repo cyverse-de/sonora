@@ -9,10 +9,13 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 
+import { build } from "@cyverse-de/ui-lib";
+
 import SearchResultsTable from "./SearchResultsTable";
 import { useAppsSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
 import constants from "../../../constants";
+import ids from "../ids";
 
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import AppName from "components/apps/AppName";
@@ -131,6 +134,7 @@ export default function AppSearchResults(props) {
                         <Grid spacing={1}>
                             <Grid item>
                                 <IconButton
+                                    id={build(baseId, ids.DETAILS_BUTTON)}
                                     onClick={() => setDetailsApp(original)}
                                     size="small"
                                     color="primary"
@@ -140,6 +144,7 @@ export default function AppSearchResults(props) {
                             </Grid>
                             <Grid item>
                                 <CopyLinkButton
+                                    baseId={baseId}
                                     onCopyLinkSelected={() => {
                                         const link = `${getHost()}${partialLink}`;
                                         const copyPromise = copyStringToClipboard(
@@ -158,7 +163,16 @@ export default function AppSearchResults(props) {
                 disableSortBy: true,
             },
         ],
-        [appRecordFields, searchTerm]
+        [
+            appRecordFields.INTEGRATOR.fieldName,
+            appRecordFields.INTEGRATOR.key,
+            appRecordFields.NAME.fieldName,
+            appRecordFields.NAME.key,
+            appRecordFields.SYSTEM.fieldName,
+            appRecordFields.SYSTEM.key,
+            baseId,
+            searchTerm,
+        ]
     );
     if (error) {
         return (

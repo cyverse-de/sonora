@@ -17,8 +17,8 @@ export default function CopyPathMenuItem(props) {
 
     return (
         <MenuItem
-            key={build(baseId, ids.COPY_MD5_MENU_ITEM)}
-            id={build(baseId, ids.COPY_MD5_MENU_ITEM)}
+            key={build(baseId, ids.COPY_PATH_MENU_ITEM)}
+            id={build(baseId, ids.COPY_PATH_MENU_ITEM)}
             onClick={() => {
                 onClose();
                 onCopyPathSelected();

@@ -51,7 +51,7 @@ class InstantLaunchItem extends ItemBase {
                 <InstantLaunchButton
                     instantLaunch={instantLaunch}
                     showErrorAnnouncer={showErrorAnnouncer}
-                ></InstantLaunchButton>
+                />
             </ItemAction>,
 
             <ItemAction

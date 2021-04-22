@@ -24,7 +24,6 @@ import DownloadMenuItem from "../menuItems/DownloadMenuItem";
 import RenameMenuItem from "../menuItems/RenameMenuItem";
 import MoveMenuItem from "../menuItems/MoveMenuItem";
 import PathListAutomation from "../PathListAutomation";
-import DEDialog from "components/utils/DEDialog";
 import ResourceTypes from "components/models/ResourceTypes";
 
 import constants from "../../../constants";
@@ -397,23 +396,20 @@ function DataDotMenu(props) {
                 }}
             />
 
-            <DEDialog
-                baseId={build(baseId, ids.PATH_LIST_AUTO_DIALOG)}
+            <PathListAutomation
                 open={pathListDlgOpen}
-                onClose={() => setPathListDlgOpen(false)}
                 title={t("createPathList")}
-            >
-                <PathListAutomation
-                    requestedInfoType={requestedInfoType}
-                    baseId={build(baseId, ids.PATH_LIST_AUTO_DIALOG)}
-                    onCreatePathList={(id, path) => {
-                        setPathListDlgOpen(false);
-                        routeToFile(id, path);
-                    }}
-                    onCancel={() => setPathListDlgOpen(false)}
-                    startingPath={path}
-                />
-            </DEDialog>
+                maxWidth={"sm"}
+                requestedInfoType={requestedInfoType}
+                baseId={build(baseId, ids.PATH_LIST_AUTO_DIALOG)}
+                onClose={() => setPathListDlgOpen(false)}
+                onCreatePathList={(id, path) => {
+                    setPathListDlgOpen(false);
+                    routeToFile(id, path);
+                }}
+                onCancel={() => setPathListDlgOpen(false)}
+                startingPath={path}
+            />
         </>
     );
 }

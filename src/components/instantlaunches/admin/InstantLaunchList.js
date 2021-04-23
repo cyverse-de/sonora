@@ -7,6 +7,9 @@ import {
     listInstantLaunchesByMetadata,
     ALL_INSTANT_LAUNCHES_KEY,
     DASHBOARD_INSTANT_LAUNCHES_KEY,
+    addToDashboardHandler,
+    removeFromDashboardHandler,
+    deleteInstantLaunchHandler,
 } from "serviceFacades/instantlaunches";
 
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
@@ -18,11 +21,6 @@ import { format as formatDate } from "date-fns";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
 import ids from "components/instantlaunches/ids";
-import {
-    addToDashboardHandler,
-    removeFromDashboardHandler,
-    deleteInstantLaunchHandler,
-} from "components/instantlaunches/handlers";
 
 import {
     Button,

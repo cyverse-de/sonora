@@ -22,7 +22,7 @@ import { useTranslation } from "i18n";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
 import ids from "components/instantlaunches/ids";
-import { instantlyLaunch } from "components/instantlaunches/handlers";
+import { instantlyLaunch } from "serviceFacades/instantlaunches";
 
 const useStyles = makeStyles((theme) => ({
     progress: {

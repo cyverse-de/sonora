@@ -29,6 +29,7 @@ import {
 
 import DEDialog from "components/utils/DEDialog";
 import { getHost } from "components/utils/getHost";
+import {validateAppName} from "components/apps/utils";
 import { Skeleton } from "@material-ui/lab";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
@@ -332,31 +333,3 @@ function AdminAppDetailsForm(props) {
     );
 }
 
-function validateAppName(restrictedStartingChars, restrictedChars, value, t) {
-    if (!value) {
-        return t("emptyValue");
-    }
-
-    let startingCharsRegex = new RegExp("^[" + restrictedStartingChars + "]");
-    let invalid = value.match(startingCharsRegex);
-    if (invalid) {
-        return t("nameBeginsWithInvalidChars", {
-            restrictedStartingChars,
-            inValid: invalid.join(""),
-        });
-    }
-
-    // Escape each non-alphanumeric char since some are used as special chars in regex
-    let escapedRestrictedChars = restrictedChars.replace(/\W/g, "\\$&");
-    let restrictedCharsRegex = new RegExp(
-        "[" + escapedRestrictedChars + "]",
-        "g"
-    );
-    invalid = value.match(restrictedCharsRegex);
-    if (invalid) {
-        return t("nameContainsInvalidChars", {
-            restrictedChars,
-            inValid: invalid.join(""),
-        });
-    }
-}

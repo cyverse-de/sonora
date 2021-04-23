@@ -399,7 +399,6 @@ function DataDotMenu(props) {
             <PathListAutomation
                 open={pathListDlgOpen}
                 title={t("createPathList")}
-                maxWidth={"sm"}
                 requestedInfoType={requestedInfoType}
                 baseId={build(baseId, ids.PATH_LIST_AUTO_DIALOG)}
                 onClose={() => setPathListDlgOpen(false)}

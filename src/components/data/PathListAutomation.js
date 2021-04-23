@@ -12,7 +12,6 @@ import { Field, Form, Formik } from "formik";
 import { useTranslation } from "i18n";
 import { Trans } from "react-i18next";
 import { useMutation } from "react-query";
-
 import {
     build as buildId,
     FormTextField,
@@ -51,9 +50,10 @@ import {
 } from "@material-ui/core";
 
 import Skeleton from "@material-ui/lab/Skeleton";
-import DEDialog from "../utils/DEDialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 export default function PathListAutomation(props) {
     const {
@@ -66,7 +66,6 @@ export default function PathListAutomation(props) {
         open,
         onClose,
         title,
-        maxWidth,
     } = props;
 
     const theme = useTheme();
@@ -153,16 +152,10 @@ export default function PathListAutomation(props) {
     };
 
     const handlePathListCreation = (values, actions) => {
-        const {
-            selectedResources,
-            pattern,
-            dest,
-            fileName,
-            foldersOnly,
-        } = values;
+        const { selectedPaths, pattern, dest, fileName, foldersOnly } = values;
 
         const submission = {
-            paths: selectedResources?.map((resource) => resource?.path),
+            paths: selectedPaths,
             dest: `${dest}/${fileName}`,
             pattern,
             foldersOnly: foldersOnly || false,
@@ -185,10 +178,10 @@ export default function PathListAutomation(props) {
     };
 
     const validate = (values) => {
-        const { selectedResources, dest, fileName } = values;
+        const { selectedPaths, dest, fileName } = values;
         const errors = {};
-        if (!selectedResources || selectedResources.length === 0) {
-            errors.selectedResources = i18nCommon("required");
+        if (!selectedPaths || selectedPaths.length === 0) {
+            errors.selectedPaths = i18nCommon("required");
         }
 
         if (!fileName) {
@@ -207,76 +200,40 @@ export default function PathListAutomation(props) {
     };
 
     return (
-        <Formik
-            onSubmit={handlePathListCreation}
-            validate={validate}
-            initialValues={{
-                selectedResources: [],
-                dest: startingPath,
-                fileName: "",
-                pattern: "",
-                foldersOnly: false,
-            }}
-        >
-            {({ handleSubmit }) => {
-                return (
-                    <Form>
-                        {status === constants.LOADING && (
-                            <CircularProgress
-                                size={30}
-                                thickness={5}
-                                style={{
-                                    position: "absolute",
-                                    top: "50%",
-                                    left: "50%",
-                                }}
-                            />
-                        )}
-
-                        <Grid
-                            container
-                            direction="column"
-                            justify="center"
-                            alignItems="stretch"
-                            spacing={1}
-                        >
-                            {createPathListError && (
-                                <Grid item xs>
-                                    <ErrorTypographyWithDialog
-                                        baseId={baseId}
-                                        errorMessage={errorMsg}
-                                        errorObject={createPathListError}
-                                    />
-                                </Grid>
-                            )}
-                            <Grid item xs>
-                                <Typography variant="body2">
-                                    {t("pathListInputLbl")}
-                                </Typography>
-                                {infoTypeError && (
-                                    <ErrorTypographyWithDialog
-                                        baseId={baseId}
-                                        errorMessage={t("infoTypeFetchError")}
-                                        errorObject={infoTypeError}
-                                    />
-                                )}
-                                <Field
-                                    id={buildId(
-                                        baseId,
-                                        ids.PATH_LIST_AUTO_INPUTS
-                                    )}
-                                    name="selectedResources"
-                                    required={true}
-                                    component={MultiInputSelector}
-                                    height="25vh"
-                                    label={t("suggestionSelection_any_plural")}
-                                />
-                            </Grid>
-                            <Grid item xs>
-                                <Field
-                                    id={buildId(
-                                        baseId,
-                                        ids.PATH_LIST_AUTO_FOLDERS_ONLY_SWITCH
+        <>
+            <Formik
+                onSubmit={handlePathListCreation}
+                validate={validate}
+                initialValues={{
+                    selectedPaths: [],
+                    dest: startingPath,
+                    fileName: "",
+                    pattern: "",
+                    foldersOnly: false,
+                }}
+            >
+                {({ handleSubmit }) => {
+                    return (
+                        <>
+                            <Form>
+                                <Dialog
+                                    open={open}
+                                    baseId={baseId}
+                                    onClose={onClose}
+                                    maxWidth="sm"
+                                    fullWidth
+                                >
+                                    <DialogTitle>{title}</DialogTitle>
+                                    {status === constants.LOADING && (
+                                        <CircularProgress
+                                            size={30}
+                                            thickness={5}
+                                            style={{
+                                                position: "absolute",
+                                                top: "50%",
+                                                left: "50%",
+                                            }}
+                                        />
                                     )}
 
                                     <DialogContent
@@ -524,12 +481,12 @@ export default function PathListAutomation(props) {
                                             {i18nCommon("done")}
                                         </Button>
                                     </DialogActions>
-                                </Form>
-                            </>
-                        );
-                    }}
-                </Formik>
-            </DEDialog>
+                                </Dialog>
+                            </Form>
+                        </>
+                    );
+                }}
+            </Formik>
         </>
     );
 }
